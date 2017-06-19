@@ -4,7 +4,7 @@ This is a library for Angular, implementing the
 [Angular Package Format v4.0](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/edit#heading=h.k0mh3o8u5hx).
 
 Features:
-- the IIIF viewer library
+- the Mime IIIF viewer library
 - unit test for the library
 - a demo application that consumes the library in JIT mode and runs in watch mode
 - an integration app that consumes the library in JIT and AOT mode and runs e2e tests
