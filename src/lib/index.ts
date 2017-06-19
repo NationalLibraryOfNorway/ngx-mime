@@ -1,3 +1,2 @@
-export { LibComponent } from './src/component/lib.component';
-export { LibService } from './src/service/lib.service';
-export { LibModule } from './src/module';
+export { ViewerComponent } from './src/viewer/viewer.component';
+export { MimeModule } from './src/module';

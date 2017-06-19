@@ -2,22 +2,22 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { LibComponent } from './lib.component';
+import { ViewerComponent } from './viewer.component';
 
 describe('LibComponent', function () {
   let de: DebugElement;
-  let comp: LibComponent;
-  let fixture: ComponentFixture<LibComponent>;
+  let comp: ViewerComponent;
+  let fixture: ComponentFixture<ViewerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LibComponent]
+      declarations: [ViewerComponent]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LibComponent);
+    fixture = TestBed.createComponent(ViewerComponent);
     comp = fixture.componentInstance;
     de = fixture.debugElement.query(By.css('h2'));
   });

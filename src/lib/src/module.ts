@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { LibComponent } from './component/lib.component';
-import { LibService } from './service/lib.service';
+import { ViewerComponent } from './viewer/viewer.component';
 
 @NgModule({
-  declarations: [LibComponent],
-  providers: [LibService],
-  exports: [LibComponent]
+  declarations: [ViewerComponent],
+  exports: [ViewerComponent]
 })
-export class LibModule { }
+export class MimeModule { }
