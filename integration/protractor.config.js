@@ -1,4 +1,4 @@
-exports.config = {
+const config = {
   allScriptsTimeout: 11000,
   specs: [
     './e2e/**/*.e2e-spec.js'
@@ -6,7 +6,12 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
-  directConnect: true,
   baseUrl: 'http://localhost:8080/',
-  framework: 'jasmine'
+  framework: 'jasmine',
+  sauceUser: process.env.SAUCE_USERNAME,
+  sauceKey: process.env.SAUCE_ACCESS_KEY  
 };
+
+
+
+exports.config = config;
