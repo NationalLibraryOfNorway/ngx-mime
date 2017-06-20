@@ -27,7 +27,7 @@ describe('LibComponent', function () {
   it('should have expected <h2> text', () => {
     fixture.detectChanges();
     const h2 = de.nativeElement;
-    expect(h2.innerText).toMatch(/angular/i,
-      '<h2> should say something about "Angular"');
+    expect(h2.innerText).toMatch(/mime/i,
+      '<h2> should say something about "Mime"');
   });
 });
