@@ -18,7 +18,7 @@ if (process.env.TRAVIS) {
     'version': 'latest',
     'chromedriverVersion': '2.28',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_JOB_ID,
+    'build': process.env.TRAVIS_JOB_NUMBER,
     'name': 'Mime E2E Tests',
   };
 }
