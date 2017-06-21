@@ -10,7 +10,7 @@ echo ""
 cd $(dirname $0)/../..
 
 # Include sources.
-source scripts/ci/sources/tunnel.sh
+source ./scripts/ci/sources/tunnel.sh
 
 start_tunnel
 wait_for_tunnel
