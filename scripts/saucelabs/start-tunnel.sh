@@ -39,4 +39,4 @@ fi
 echo "Starting Sauce Connect in the background, logging into: ${TUNNEL_LOG}"
 
 #sauce-connect/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} ${ARGS} 2>&1 >> ${TUNNEL_LOG} &
-sauce-connect/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} ${ARGS} &
+sauce-connect/bin/sc  -u ronnymikalsen -k fa5b212d-466a-4e29-b593-957164bfc10b ${ARGS} &
