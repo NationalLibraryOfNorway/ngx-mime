@@ -14,7 +14,7 @@ addons:
 
 env:
   global:
-  - LOGS_DIR=/tmp/angular-material2-build/logs
+  - LOGS_DIR=/tmp/ngx-mime-build/logs
 
 before_install:
   # Use a virtual display.
@@ -30,7 +30,8 @@ before_install:
 install:
   - npm install
 
-before_install:
+before_script:
+ - mkdir -p $LOGS_DIR
  - chmod +x ./scripts/ci/build-and-test.sh
  - chmod +x ./scripts/saucelabs/start-tunnel.sh
  - chmod +x ./scripts/saucelabs/wait-tunnel.sh
