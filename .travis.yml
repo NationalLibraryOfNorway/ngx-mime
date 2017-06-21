@@ -15,7 +15,7 @@ addons:
 env:
   global:
   - LOGS_DIR=/tmp/ngx-mime-build/logs
-
+  - BROWSER_PROVIDER_READY_FILE=/tmp/ngx-mime-build/readyfile
 before_install:
   # Use a virtual display.
   - export DISPLAY=:99.0
