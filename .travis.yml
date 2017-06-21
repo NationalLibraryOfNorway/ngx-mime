@@ -28,6 +28,9 @@ install:
 
 before_install:
  - chmod +x ./scripts/ci/build-and-test.sh
+ - chmod +x ./scripts/saucelabs/start-tunnel.sh
+ - chmod +x ./scripts/saucelabs/wait-tunnel.sh
+ - chmod +x ./scripts/saucelabs/stop-tunnel.sh
 
 script:
   - ./scripts/ci/build-and-test.sh
