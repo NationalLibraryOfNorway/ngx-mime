@@ -15,10 +15,7 @@ addons:
 env:
   global:
   - LOGS_DIR=/tmp/ngx-mime-build/logs
-  - SAUCE_USERNAME=ronnymikalsen
-  - SAUCE_ACCESS_KEY=fa5b212d-466a-4e29-b593-957164bfc10b
   - BROWSER_PROVIDER_READY_FILE=/tmp/ngx-mime-build/readyfile
-  - BROWSER_PROVIDER_ERROR_FILE=/tmp/angular-material2-build/errorfile
 
 before_install:
   - source ./scripts/ci/env.sh

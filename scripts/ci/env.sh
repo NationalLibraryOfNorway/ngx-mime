@@ -5,4 +5,4 @@ if [[ -z "${TRAVIS}" ]]; then
   exit 0
 fi
 
-export SAUCE_ACCESS_KEY=fa5b212d-466a-4e29-b593-957164bfc10b
+#export SAUCE_ACCESS_KEY=fa5b212d-466a-4e29-b593-957164bfc10b
