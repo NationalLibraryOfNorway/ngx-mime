@@ -1,6 +1,6 @@
 {
   "name": "ngx-mime",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Mime IIIF viewer",
   "main": "./bundles/ngx-mime.umd.js",
   "module": "./ngx-mime.es5.js",
