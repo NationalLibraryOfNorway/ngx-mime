@@ -15,7 +15,10 @@ addons:
 env:
   global:
   - LOGS_DIR=/tmp/ngx-mime-build/logs
+  - SAUCE_USERNAME=ronnymikalsen
   - BROWSER_PROVIDER_READY_FILE=/tmp/ngx-mime-build/readyfile
+  - BROWSER_PROVIDER_ERROR_FILE=/tmp/angular-material2-build/errorfile
+
 before_install:
   # Use a virtual display.
   - export DISPLAY=:99.0
