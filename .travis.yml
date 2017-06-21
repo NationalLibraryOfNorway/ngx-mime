@@ -40,3 +40,15 @@ before_script:
 
 script:
   - ./scripts/ci/build-and-test.sh
+
+before_deploy:
+  - cd dist
+
+deploy:
+  provider: npm
+  api_key:
+    secure: "LVwEY2LWJq02Iglvg6ZAUAENjIWX/OJPE6Z7OH30LFeH8l+Fmhl9JzMB3KPhMRcykv1H6LI60IC8ds/nd+wGny895xT0QW0y0mbp9edh3C9DzOYZIxPs5aUpjBRFevQUk3ADlr17KlJoNYL2OL7cNPKiJi5NIK+JRd1PZeey6NZJxJNaobdUQTZLOlMjkec2e3CDPpnp6VtU/XyzAUSp8Hb4fDRpdfHDszzXmQXNEAik3cEIzMDQeXLP0sWRaEdFjAWK8W3Ad+u1sYIUYF+bQLE3mh+JAc8GyOJrDZXRspFLwSHuLExMuHkZvCdoW5ass/FGAxeQZpaj7GtSNXXxOtmP/1QO/Xe0amTrwEoYRvp5gWcqaSqMF4hgLYvriBXYk1IOh1dtrBj+hGapFxLImM9UAqT0ifTLXqT+F+tWB89oVH/i3nH+cwdmtAi1OqOBmgi/D0sMvTrZ0gInSK9lUwGWOF2gzJvm8AjX+iyuiOqMpFU8kYvHhMoWvFvlZdGPWoMW0bvqyRVK8jf1D/E2t+nh7DRNQZpZMBtE0MEc+3Ne26O+W9+koIySD56RKNYsQb59SX3/bhx8LLViVMPNDI6G3JzTf+jS3F3GAo7XTV/leA06/xm3gKTLb5wEctvtDZyFvy5E4KhTmQgQL0QUVmvvsiFKd4r4cJ9UodA2V28="
+  skip_cleanup: true
+  on:
+    branch: master
+    tags: true
