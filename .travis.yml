@@ -26,5 +26,8 @@ before_install:
 install:
   - npm install
 
+before_install:
+ - chmod +x ./scripts/ci/build-and-test.sh
+
 script:
   - ./scripts/ci/build-and-test.sh
