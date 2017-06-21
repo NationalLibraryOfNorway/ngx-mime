@@ -34,9 +34,23 @@ install:
 before_script:
  - mkdir -p $LOGS_DIR
  - chmod +x ./scripts/ci/build-and-test.sh
+ - chmod +x ./scripts/ci/publish-artifacts.sh
+ - chmod +x ./scripts/deploy/publish-build-artifacts.sh
  - chmod +x ./scripts/saucelabs/start-tunnel.sh
  - chmod +x ./scripts/saucelabs/wait-tunnel.sh
  - chmod +x ./scripts/saucelabs/stop-tunnel.sh
 
 script:
   - ./scripts/ci/build-and-test.sh
+
+before_deploy:
+  - cd dist
+
+deploy:
+  provider: npm
+  api_key:
+    secure: "LT3SjCFTj73BhRDWbkZltyrSN+HJ25nkNpgpg0MNUARiWZP9EKp96Xn8sciyQVsVCauZR5Msjb6CSH4icLeYq9wC96M5z3isI/svfs1YiMR1PZOLHY/AjDp4pNP8dur0dybY0NLINumhgGQPq9MBGbdracSt5amQaL9m+rBq1DQvOeiuSKsPrH5JfnXarDQKH2b2Ctvv4YqrsN+8+PlLskaY5Q1E5lY8E/4zVIVHF2OlM5UFmuST+7UvGycaKDHXmv05Ru7hsYZVExZ6LZaWILtBEOBAg/PcCxa0HmbQFnLEmkY4eLnH/TaWKzaL65T+WKRz+K9AVyESPyEU1NMVNqKqU1Z01KOpwMrqm5r7fQ66u6men6zStfy50wAYeyipKyeLXEZZ+6u7pI/QCPwj/S+XMTXnxqmn8+GRTBoZ5rJvJy+ss3N0UL1eN7KvxS/5gp6I39L5uv1vD0I3ZPIo7GvvtmKd1WRSrCc7KhMJfSGmy9BkBaPZ1LWXEK/0kqnhIB613dgbi8tv/JTLuOPx380GByQCwluJtcBWUsHhMOmrndN7+t0aPb1L69FYiHyX5Mdx2eFqKy4gzu5roU2UoINAM09PoDMGzdTFxGTMW2Bvq5wvWOFr3uLswC1iYTiJeslInl+xn7Xmv0csXPNgnerka5kLMO1qUulPJ9h67rE="
+  skip_cleanup: true
+  on:
+    branch: master
+    tags: true
