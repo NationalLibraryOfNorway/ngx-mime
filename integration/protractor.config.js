@@ -10,15 +10,15 @@ const config = {
   framework: 'jasmine'
 };
 
-if (process.env['TRAVIS']) {
-  config.sauceUser = 'ronnymikalsen',
-  config.sauceKey = 'fa5b212d-466a-4e29-b593-957164bfc10b'
+if (process.env.TRAVIS) {
+  config.sauceUser = process.env.SAUCE_USERNAME;
+  config.sauceKey = process.env.SAUCE_ACCESS_KEY;
   config.capabilities = {
     'browserName': 'chrome',
     'version': 'latest',
     'chromedriverVersion': '2.28',
-    'tunnel-identifier': process.env['TRAVIS_JOB_ID'],
-    'build': process.env['TRAVIS_JOB_ID'],
+    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+    'build': process.env.TRAVIS_JOB_ID,
     'name': 'Mime E2E Tests',
   };
 }
