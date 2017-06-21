@@ -30,7 +30,7 @@ ARGS="--no-proxy-caching"
 
 # Set tunnel-id only on Travis, to make local testing easier.
 if [ ! -z "${TRAVIS_JOB_ID}" ]; then
-  ARGS="${ARGS} --tunnel-identifier ${TRAVIS_JOB_ID}"
+  ARGS="${ARGS} --tunnel-identifier ${TRAVIS_JOB_NUMBER}"
 fi
 if [ ! -z "${BROWSER_PROVIDER_READY_FILE}" ]; then
   ARGS="${ARGS} --readyfile ${BROWSER_PROVIDER_READY_FILE}"
