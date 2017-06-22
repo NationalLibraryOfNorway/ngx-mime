@@ -2,13 +2,18 @@
   "name": "@nationallibraryofnorway/ngx-mime",
   "version": "0.1.0",
   "description": "Mime IIIF viewer",
+  "homepage": "https://github.com/NationalLibraryOfNorway/ngx-mime",
+  "bugs": "https://github.com/NationalLibraryOfNorway/ngx-mime/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NationalLibraryOfNorway/ngx-mime.git"
+  },  
   "main": "./bundles/ngx-mime.umd.js",
   "module": "./ngx-mime.es5.js",
   "es2015": "./ngx-mime.js",
   "typings": "./ngx-mime.d.ts",
   "author": "",
   "license": "MIT",
-  "repository": {},
   "engines": {
     "node": ">= 6.9.0",
     "npm": ">= 3.0.0"
