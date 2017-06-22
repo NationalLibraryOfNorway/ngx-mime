@@ -44,8 +44,5 @@ before_script:
 script:
   - ./scripts/ci/build-and-test.sh
 
-before_deploy:
-  - cd dist
-
 after_success:
  - ./scripts/ci/after-success.sh
