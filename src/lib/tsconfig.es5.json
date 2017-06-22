@@ -15,7 +15,7 @@
     "strictMetadataEmit": true,
     "skipTemplateCodegen": true,
     "flatModuleOutFile": "ngx-mime.js",
-    "flatModuleId": "ngx-mime",
+    "flatModuleId": "@nationallibraryofnorway/ngx-mime",
     "genDir": "../../out-tsc/lib-gen-dir/"
   }
 }
