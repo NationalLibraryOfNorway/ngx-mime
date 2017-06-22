@@ -20,20 +20,20 @@ npm install --save @angular/animations
 ```
 
 ```ts
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   ...
   imports: [BrowserAnimationsModule],
   ...
 })
-export class PizzaPartyAppModule { }
+export class LibraryAppModule { }
 ```
 
 If you don't want to add another dependency to your project, you can use the `NoopAnimationsModule`.
 
 ```ts
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   ...
@@ -45,10 +45,10 @@ export class LibraryAppModule { }
 
 ## Step 3: Import the component modules
 
-Import the NgModule for each component you want to use: 
+Import the NgModule for the component: 
 
 ```ts
-import {MimeModule} from '@nationallibraryofnorway/ngx-mime';
+import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 
 @NgModule({
   ...
@@ -81,12 +81,18 @@ After installing, import it on your app's root module.
 import 'hammerjs';
 ```
 
-## Step 6: Add Material Icons
+## Step 5: Add Material Icons
 
 load the icon font [Material Design Icons](https://material.io/icons/) in your `index.html`.
 
 ```html
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+```
+
+## Step 6: Add Mime Viewer to the component
+
+```html
+<mime-viewer></mime-viewer>
 ```
 
 ## Appendix: Configuring SystemJS
