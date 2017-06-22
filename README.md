@@ -10,7 +10,7 @@ The latest release of Mime can be installed from npm
 
 ### Getting started
 
-See our [Getting Started Guide][getting-started]
+See our [Getting Started Guide](getting-started.md)
 if you're using Mime in your first project.
 
 ### Project status
