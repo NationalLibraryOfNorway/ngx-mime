@@ -33,13 +33,13 @@ install:
 
 before_script:
  - mkdir -p $LOGS_DIR
- - chmod +x ./tools/scripts/ci/build-and-test.sh
- - chmod +x ./tools/scripts/saucelabs/start-tunnel.sh
- - chmod +x ./tools/scripts/saucelabs/wait-tunnel.sh
- - chmod +x ./tools/scripts/saucelabs/stop-tunnel.sh
+ - chmod +x ./scripts/ci/build-and-test.sh
+ - chmod +x ./scripts/saucelabs/start-tunnel.sh
+ - chmod +x ./scripts/saucelabs/wait-tunnel.sh
+ - chmod +x ./scripts/saucelabs/stop-tunnel.sh
 
 script:
-  - ./tools/scripts/ci/build-and-test.sh
+  - ./scripts/ci/build-and-test.sh
 
 before_deploy:
   - cd dist
