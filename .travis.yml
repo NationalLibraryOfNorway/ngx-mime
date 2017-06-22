@@ -16,6 +16,7 @@ env:
   global:
   - LOGS_DIR=/tmp/ngx-mime-build/logs
   - SAUCE_USERNAME=ronnymikalsen
+  - SAUCE_ACCESS_KEY=fa5b212d-466a-4e29-b593-957164bfc10b
   - BROWSER_PROVIDER_READY_FILE=/tmp/ngx-mime-build/readyfile
 
 before_install:
