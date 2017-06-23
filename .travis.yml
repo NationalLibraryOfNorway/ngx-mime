@@ -40,10 +40,6 @@ before_script:
  - chmod +x ./scripts/saucelabs/start-tunnel.sh
  - chmod +x ./scripts/saucelabs/wait-tunnel.sh
  - chmod +x ./scripts/saucelabs/stop-tunnel.sh
- - chmod +x ./scripts/ci/after-success.sh
 
 script:
   - ./scripts/ci/build-and-test.sh
-
-after_success:
- - ./scripts/ci/after-success.sh
