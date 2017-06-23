@@ -34,3 +34,12 @@ cd ngx-mime
 npm install
 npm start
 ```
+
+### Release
+1. when you land commits on your `master` branch, select the _Squash and Merge_ option.
+2. add a title and body that follows the [Conventional Commits Specification](https://conventionalcommits.org).
+3. when you're ready to release to npm:
+  1. `git checkout master; git pull origin master`
+  2. run `npm run release -- --prerelease alpha`
+  2. `cp package.json dist/package.json`
+  3. `git push --follow-tags origin master; npm publish dist`
