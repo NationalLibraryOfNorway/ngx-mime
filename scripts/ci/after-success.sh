@@ -1,5 +1,6 @@
 #!/bin/bash
 # Script which always runs when the current Travis mode succeeds.
+set -e
 
 # Go to the project root directory
 cd $(dirname $0)/../..
