@@ -1,12 +1,18 @@
-import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 
-import { AppComponent }  from './app.component';
+import { AppComponent } from './app.component';
 
 @NgModule({
-  imports:      [ BrowserModule, MimeModule],
-  declarations: [ AppComponent ],
-  bootstrap:    [ AppComponent ]
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    MimeModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
