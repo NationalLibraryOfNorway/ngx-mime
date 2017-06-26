@@ -2,28 +2,40 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const { SpecReporter } = require('jasmine-spec-reporter');
+const argv = require('yargs').argv;
+const path = require('path');
+const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 
 const config = {
   allScriptsTimeout: 11000,
-  specs: [
-    './e2e/**/*.e2e-spec.ts'
-  ],
+  specs: getFeatureFiles(),
   capabilities: {
     'browserName': 'chrome'
   },
   baseUrl: 'http://localhost:4200/',
-  framework: 'jasmine',
-  jasmineNodeOpts: {
-    showColors: true,
-    defaultTimeoutInterval: 30000,
-    print: function() {}
+  framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  cucumberOpts: {
+    compiler: "ts:ts-node/register",
+    require: [
+      path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/reporter.ts'),
+      path.resolve(process.cwd(), './e2e/**/*.steps.ts')
+    ],
+    format: 'pretty',
+    tags: ''
   },
-  onPrepare() {
-    require('ts-node').register({
-      project: 'e2e/tsconfig.e2e.json'
+  onPrepare() { },
+  afterLaunch: function () {
+    multiCucumberHTLMReporter.generate({
+      openReportInBrowser: true,
+      jsonDir: '.tmp/json-output',
+      reportPath: './.tmp/report/'
     });
-    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-  }
+  },
+  disableChecks: true,
+  ignoreUncaughtExceptions: true
 };
 
 if (process.env.TRAVIS) {
@@ -37,6 +49,14 @@ if (process.env.TRAVIS) {
     'build': process.env.TRAVIS_JOB_NUMBER,
     'name': 'Mime E2E Tests',
   };
+}
+
+function getFeatureFiles() {
+  if (argv.feature) {
+    return argv.feature.split(',').map(feature => `${process.cwd()}/e2e-tests/**/${feature}.feature`);
+  }
+
+  return [`${process.cwd()}/e2e/**/*.feature`];
 }
 
 exports.config = config;
