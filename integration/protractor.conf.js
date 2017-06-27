@@ -1,42 +1,81 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
-const { SpecReporter } = require('jasmine-spec-reporter');
+const argv = require('yargs').argv;
+const path = require('path');
+const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
+const remoteBrowsers = require('./remote-browsers');
 
 const config = {
-  allScriptsTimeout: 11000,
-  specs: [
-    './e2e/**/*.e2e-spec.ts'
-  ],
+  allScriptsTimeout: 60000,
+  SELENIUM_PROMISE_MANAGER: false,
+  specs: getFeatureFiles(),
   capabilities: {
     'browserName': 'chrome'
   },
-  baseUrl: 'http://localhost:4200/',
-  framework: 'jasmine',
-  jasmineNodeOpts: {
-    showColors: true,
-    defaultTimeoutInterval: 30000,
-    print: function() {}
+  baseUrl: 'http://localhost:8080/',
+  framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  cucumberOpts: {
+    compiler: "ts:ts-node/register",
+    require: [
+      path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/reporter.ts'),
+      path.resolve(process.cwd(), './e2e/**/*.steps.ts')
+    ],
+    format: 'pretty',
+    tags: ''
   },
   onPrepare() {
-    require('ts-node').register({
-      project: 'e2e/tsconfig.e2e.json'
+    browser.manage().window().maximize();
+  },
+  afterLaunch: function () {
+    multiCucumberHTLMReporter.generate({
+      openReportInBrowser: true,
+      jsonDir: '.tmp/json-output',
+      reportPath: './.tmp/report/'
     });
-    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-  }
+  },
+  disableChecks: true,
+  ignoreUncaughtExceptions: true
 };
 
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-  config.capabilities = {
-    'browserName': 'chrome',
-    'version': 'latest',
-    'chromedriverVersion': '2.28',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_JOB_NUMBER,
-    'name': 'Mime E2E Tests',
-  };
+
+  config.capabilities = null,
+  config.multiCapabilities = getCapabilities(),
+  config.afterLaunch = function () {}
+}
+
+function getCapabilities() {
+  const capabilities = [];
+  for (const cap of remoteBrowsers.customLaunchers) {
+    capabilities.push({
+      browserName: cap.browserName,
+      version: cap.version,
+      platformName: cap.platformName,
+      platformVersion: cap.platformVersion,
+      deviceName: cap.deviceName,
+      name: 'Mime E2E Tests',
+      tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+      build: process.env.TRAVIS_JOB_NUMBER,
+      seleniumVersion: '3.3.1',
+      shardTestFiles: true,
+      maxInstances: 5,
+    });
+  }
+  return capabilities;
+}
+
+function getFeatureFiles() {
+  if (argv.feature) {
+    return argv.feature.split(',').map(feature => `${process.cwd()}/e2e/**/${feature}.feature`);
+  }
+
+  return [`${process.cwd()}/e2e/**/*.feature`];
 }
 
 exports.config = config;
