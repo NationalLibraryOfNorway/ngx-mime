@@ -6,8 +6,8 @@ defineSupportCode(function ({ Given }) {
   const viewerPage = new ViewerPage();
 
   Given(/^I am on viewer page$/, async () => {
-    await viewerPage.open()
-      .then(() => expect(viewerPage.getTitle()).to.eventually.equal('IntegrationTest'));;
+    await viewerPage.open();
+    await expect(viewerPage.getTitle()).to.eventually.equal('IntegrationTest');
   });
 
 });
