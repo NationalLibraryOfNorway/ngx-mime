@@ -4,9 +4,7 @@
 const argv = require('yargs').argv;
 const path = require('path');
 const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
-const customLaunchers = require('./remote-browsers');
-
-console.log(customLaunchers);
+const remoteBrowsers = require('./remote-browsers');
 
 const config = {
   allScriptsTimeout: 11000,
@@ -44,13 +42,14 @@ if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 
+  config.capabilities = null,
   config.multiCapabilities = getCapabilities(),
   config.afterLaunch = function () {}
 }
 
 function getCapabilities() {
   const capabilities = [];
-  for (const cap in customLaunchers) {
+  for (const cap of remoteBrowsers.customLaunchers) {
     capabilities.push({
       browserName: cap.browserName,
       version: cap.version,
