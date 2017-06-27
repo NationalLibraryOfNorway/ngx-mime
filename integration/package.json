@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "rimraf aot/ dist/ node_modules/mime/",
     "ng": "ng",
-    "start": "ng s",
-    "start:aot": "ng s --aot --prod",
+    "start": "ng s --port 8080",
+    "start:aot": "ng s --aot --prod --port 8080",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

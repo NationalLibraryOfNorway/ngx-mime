@@ -13,7 +13,7 @@ const config = {
   capabilities: {
     'browserName': 'chrome'
   },
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://localhost:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
