@@ -1,7 +1,7 @@
-Feature: Display Mime
+Feature: Example Feature
 
-  Background: Open viewer page
-    Given I open the viewer page
+  Background: Open viewer
+    Given I am on viewer page
 
   Scenario: As a developer I want to be greeted
     Then it should display "mime works!"

@@ -3,10 +3,14 @@ import { browser, element, by } from 'protractor';
 export class ViewerPage {
 
   open() {
-    browser.get('/');
+    return browser.get('/');
   }
 
   getTitle() {
+    return browser.getTitle();
+  }
+
+  getContent() {
     return element(by.css('h2'));
   }
 
