@@ -23,7 +23,7 @@ exports.customLaunchers = [
     version: "10.0"
   },
   {
-    browserName: "iphone",
+    browserName: "Safari",
     deviceName: "iPhone Simulator",
     platformVersion: "10.3",
     platformName: "iOS"
