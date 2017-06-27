@@ -4,6 +4,9 @@
 const argv = require('yargs').argv;
 const path = require('path');
 const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
+const customLaunchers = require('./remote-browsers');
+
+console.log(customLaunchers);
 
 const config = {
   allScriptsTimeout: 11000,
@@ -41,33 +44,27 @@ if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 
-  config.multiCapabilities = [
-    {
-      browserName: 'chrome',
-      'name': 'Mime E2E Tests',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_JOB_NUMBER,
-      shardTestFiles: true,
-      maxInstances: 5,
-    },
-    {
-      browserName: 'firefox',
-      'name': 'Mime E2E Tests',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_JOB_NUMBER,
-      shardTestFiles: true,
-      maxInstances: 5,
-    },
-    {
-      browserName: 'internet explorer',
-      'name': 'Mime E2E Tests',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_JOB_NUMBER,
-      shardTestFiles: true,
-      maxInstances: 5,
-    }
-  ],
+  config.multiCapabilities = getCapabilities(),
   config.afterLaunch = function () {}
+}
+
+function getCapabilities() {
+  const capabilities = [];
+  for (const cap in customLaunchers) {
+    capabilities.push({
+      browserName: cap.browserName,
+      version: cap.version,
+      platformName: cap.platformName,
+      platformVersion: cap.platformVersion,
+      deviceName: cap.deviceName,
+      'name': 'Mime E2E Tests',
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_JOB_NUMBER,
+      shardTestFiles: true,
+      maxInstances: 5,
+    });
+  }
+  return capabilities;
 }
 
 function getFeatureFiles() {
