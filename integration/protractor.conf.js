@@ -27,7 +27,9 @@ const config = {
     format: 'pretty',
     tags: ''
   },
-  onPrepare() { },
+  onPrepare() {
+    browser.manage().window().maximize();
+  },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
       openReportInBrowser: true,
