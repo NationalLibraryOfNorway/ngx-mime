@@ -32,7 +32,7 @@ defineSupportCode(({ registerListener }) => {
     const featureName = jsonReport[0].name.replace(/\s+/g, '_').replace(/\W/g, '').toLowerCase() || 'noName';
     const snapshotPath = path.join(projectRoot, '.tmp/json-output');
     const filePath = path.join(snapshotPath, `${featureName}.${capabilities.get('browserName')}.${(new Date).getTime()}.json`);
-console.log(capabilities);
+
     jsonReport[0].metadata = {
       'browser': {
         'name': browserName,

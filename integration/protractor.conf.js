@@ -1,7 +1,6 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
-const { SpecReporter } = require('jasmine-spec-reporter');
 const argv = require('yargs').argv;
 const path = require('path');
 const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
@@ -41,19 +40,39 @@ const config = {
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-  config.capabilities = {
-    'browserName': 'chrome',
-    'version': 'latest',
-    'chromedriverVersion': '2.28',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_JOB_NUMBER,
-    'name': 'Mime E2E Tests',
-  };
+
+  config.multiCapabilities = [
+    {
+      browserName: 'chrome',
+      'name': 'Mime E2E Tests',
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_JOB_NUMBER,
+      shardTestFiles: true,
+      maxInstances: 5,
+    },
+    {
+      browserName: 'firefox',
+      'name': 'Mime E2E Tests',
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_JOB_NUMBER,
+      shardTestFiles: true,
+      maxInstances: 5,
+    },
+    {
+      browserName: 'internet explorer',
+      'name': 'Mime E2E Tests',
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_JOB_NUMBER,
+      shardTestFiles: true,
+      maxInstances: 5,
+    }
+  ],
+  config.afterLaunch = function () {}
 }
 
 function getFeatureFiles() {
   if (argv.feature) {
-    return argv.feature.split(',').map(feature => `${process.cwd()}/e2e-tests/**/${feature}.feature`);
+    return argv.feature.split(',').map(feature => `${process.cwd()}/e2e/**/${feature}.feature`);
   }
 
   return [`${process.cwd()}/e2e/**/*.feature`];
