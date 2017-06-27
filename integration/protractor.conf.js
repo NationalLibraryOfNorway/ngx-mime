@@ -56,9 +56,9 @@ function getCapabilities() {
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
       deviceName: cap.deviceName,
-      'name': 'Mime E2E Tests',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_JOB_NUMBER,
+      name: 'Mime E2E Tests',
+      tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+      build: process.env.TRAVIS_JOB_NUMBER,
       shardTestFiles: true,
       maxInstances: 5,
     });
