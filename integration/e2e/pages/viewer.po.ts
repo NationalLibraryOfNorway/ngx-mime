@@ -2,11 +2,11 @@ import { browser, element, by } from 'protractor';
 
 export class ViewerPage {
 
-  open() {
-    return browser.get('/');
+  open(manifestUri: string) {
+    return browser.get(`?manifestUri=${manifestUri}`);
   }
 
-  getTitle() {
+  getHeadTitle() {
     return browser.getTitle();
   }
 
