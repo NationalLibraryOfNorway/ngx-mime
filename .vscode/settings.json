@@ -1,0 +1,10 @@
+// Workspace settings
+{
+    "files.exclude": {
+      "integration/node_modules/": true,
+      "**/out-tsc/": true,
+      "**/mb.pid": true,
+      "src/lib/**/*.css": true,
+      "**/.tmp/": true
+    }
+}

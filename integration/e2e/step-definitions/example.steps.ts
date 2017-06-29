@@ -7,7 +7,7 @@ defineSupportCode(function ({ Then }) {
   const viewerPage = new ViewerPage();
 
   Then(/^it should display "(.*?)"$/, async (text) => {
-    await expect(viewerPage.getContent().getText()).to.eventually.equal(text);
+    await expect(viewerPage.getTitle().getText()).to.eventually.equal(text);
   })
 
 });
