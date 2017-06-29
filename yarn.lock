@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@angular/animations@~4.2.4":
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.2.4.tgz#552d361fff163c56d0dfda4f963a16bfe4e44e98"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/common@~4.2.4":
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/@angular/common/-/common-4.2.4.tgz#9b7ee0e692ab03191a7cd9af331d0f492d3cefeb"
@@ -25,6 +31,12 @@
 "@angular/core@~4.2.4":
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-4.2.4.tgz#e8df7a8dd5de5a327784dfc35b5da6344281cf1b"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/material@2.0.0-beta.7":
+  version "2.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-2.0.0-beta.7.tgz#2584aaf1ffbe24779916345f1ac82921ccbc2577"
   dependencies:
     tslib "^1.7.1"
 

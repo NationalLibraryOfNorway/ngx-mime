@@ -10,8 +10,8 @@ export class ViewerPage {
     return browser.getTitle();
   }
 
-  getContent() {
-    return element(by.css('h2'));
+  getTitle() {
+    return element(by.css('h1'));
   }
 
 }
