@@ -11,22 +11,28 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent implements OnInit {
+  @Input() id: string;
   @Input() options: Options;
+  private viewerService: ViewerService;
+
   constructor(
-    private iiifService: IiifService,
-    private viewerService: ViewerService
+    private iiifService: IiifService
   ) { }
 
   ngOnInit(): void {
     if (!this.options) {
       this.options = new Options();
     }
-    const sesamId = '02810a70549a53e15b317842601ba37c';
-    this.iiifService.getManifest(UrlBuilder.getManifestUrl(sesamId))
-      .subscribe((manifest: Manifest) => {
-      this.options.tileSources = manifest.tileSource;
-      this.viewerService.setOptions(this.options);
-      this.viewerService.open();
-      });
+
+    this.id = '02810a70549a53e15b317842601ba37c';
+    if (this.id) {
+      this.iiifService.getManifest(UrlBuilder.getManifestUrl(this.id))
+        .subscribe((manifest: Manifest) => {
+          this.viewerService = new ViewerService()
+            .withOptions(this.options)
+            .withTiles(manifest.tileSource)
+            .createViewer();
+        });
+    }
   }
 }

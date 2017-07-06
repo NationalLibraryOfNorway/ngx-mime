@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Options } from '../models/options';
+import { TileSource } from '../models/manifest';
 
 declare var OpenSeadragon: any;
 @Injectable()
 export class ViewerService {
-  constructor(private options: Options) { }
+  private options: Options;
 
-  open() {
+  createViewer() {
+    console.log(Object.assign({}, this.options));
     OpenSeadragon(Object.assign({}, this.options));
   }
 
-  close() {
-
-  }
-
-  setOptions(options: Options) {
+  withOptions(options: Options): ViewerService {
     this.options = options;
+    return this;
   }
 
-  setTileSources(tileSources: any[]) {
+  withTiles(tileSources: TileSource[]): ViewerService {
     this.options.tileSources = tileSources;
-  }
-
-  addTileSources(tileSources: any[]) {
-    this.options.tileSources.concat(tileSources);
+    return this;
   }
 }

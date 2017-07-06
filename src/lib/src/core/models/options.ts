@@ -89,7 +89,7 @@ export class Options {
   rotateRightButton: string;
   previousButton: string;
   nextButton: string;
-  sequenceMode = false;
+  sequenceMode = true;
   initialPage = 0;
   preserveViewport = false;
   preserveOverlays = false;
