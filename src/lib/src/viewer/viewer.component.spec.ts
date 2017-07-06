@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ViewerComponent } from './viewer.component';
+import { BaseRequestOptions, ConnectionBackend, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 describe('ViewerComponent', function () {
   let de: DebugElement;
@@ -13,7 +15,7 @@ describe('ViewerComponent', function () {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ViewerComponent]
+      declarations: [ViewerComponent],
     })
     .compileComponents();
   }));
