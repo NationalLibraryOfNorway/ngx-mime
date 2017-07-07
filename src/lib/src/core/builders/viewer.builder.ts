@@ -4,20 +4,19 @@ import { TileSource } from '../models/manifest';
 
 declare var OpenSeadragon: any;
 @Injectable()
-export class ViewerService {
+export class ViewerBuilder {
   private options: Options;
 
-  createViewer() {
-    console.log(Object.assign({}, this.options));
+  create() {
     OpenSeadragon(Object.assign({}, this.options));
   }
 
-  withOptions(options: Options): ViewerService {
+  withOptions(options: Options): ViewerBuilder {
     this.options = options;
     return this;
   }
 
-  withTiles(tileSources: TileSource[]): ViewerService {
+  withTiles(tileSources: TileSource[]): ViewerBuilder {
     this.options.tileSources = tileSources;
     return this;
   }

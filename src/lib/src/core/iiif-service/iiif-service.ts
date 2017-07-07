@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response } from '@angular/http';
 import { Manifest } from '../models/manifest';
-import { ManifestBuilder } from '../builders/manifest-builder';
+import { ManifestBuilder } from '../builders/manifest.builder';
 
 @Injectable()
 export class IiifService {

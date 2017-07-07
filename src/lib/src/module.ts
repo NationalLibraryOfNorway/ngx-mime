@@ -6,8 +6,8 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { CustomHttp } from './core/custom-http';
 import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { IiifService } from './core/iiif-service/iiif-service';
-import { ViewerService } from './core/viewer-service/viewer.service';
 import { Options } from './core/models/options';
+import { ViewerBuilder } from './core/builders/viewer.builder';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   return new CustomHttp(backend, options);
@@ -29,7 +29,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   ],
   providers: [
     IiifService,
-    ViewerService,
+    ViewerBuilder,
     Options,
     { provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions] }
   ]
