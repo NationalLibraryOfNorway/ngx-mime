@@ -44,7 +44,8 @@
   },
   "peerDependencies": {
     "@angular/core": ">=4.0.0 <5.0.0 || >=4.0.0-beta <5.0.0",
-    "@angular/material": ">=2.0.0 <3.0.0 || >=2.0.0-beta.7 <3.0.0",
+    "@angular/material": ">=2.0.0 <3.0.0 || >=2.0.0-beta.8 <3.0.0",
+    "@angular/cdk": ">=2.0.0 <3.0.0 || >=2.0.0-beta.8 <3.0.0",
     "@angular/flex-layout": ">=2.0.0 <3.0.0 || >=2.0.0-beta.8 <3.0.0"
   },
   "devDependencies": {
@@ -54,10 +55,11 @@
     "@angular/core": "~4.2.4",
     "@angular/platform-browser": "~4.2.4",
     "@angular/platform-browser-dynamic": "~4.2.4",
+    "@angular/animations": "~4.2.4",
+    "@angular/material": "2.0.0-beta.8",
+    "@angular/cdk": "2.0.0-beta.8",
     "@angular/forms": "~4.2.4",
     "@angular/http": "~4.2.4",
-    "@angular/animations": "~4.2.4",
-    "@angular/material": "2.0.0-beta.7",
     "@angular/flex-layout": "^2.0.0-beta.8",
     "@types/jasmine": "2.5.36",
     "@types/node": "^6.0.46",
