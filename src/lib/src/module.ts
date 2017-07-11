@@ -3,15 +3,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MimeMaterialModule } from './mime-material.module';
 import { ViewerComponent } from './viewer/viewer.component';
-import { CustomHttp } from './core/custom-http';
-import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { IiifService } from './core/iiif-service/iiif-service';
 import { Options } from './core/models/options';
 import { ViewerBuilder } from './core/builders/viewer.builder';
-
-export function httpFactory(backend: XHRBackend, options: RequestOptions) {
-  return new CustomHttp(backend, options);
-}
+import './rxjs-extension';
 
 @NgModule({
   declarations: [
@@ -30,8 +26,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   providers: [
     IiifService,
     ViewerBuilder,
-    Options,
-    { provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions] }
+    Options
   ]
 })
 export class MimeModule {

@@ -14,21 +14,17 @@ export class ViewerComponent implements OnInit {
   @Input() id: string;
   @Input() options: Options;
 
-  constructor(
-    private iiifService: IiifService,
-    private viewerBuilder: ViewerBuilder
-  ) { }
+  constructor(private iiifService: IiifService) { }
 
   ngOnInit(): void {
     if (!this.options) {
       this.options = new Options();
     }
 
-    this.id = '02810a70549a53e15b317842601ba37c';
     if (this.id) {
       this.iiifService.getManifest(UrlBuilder.getManifestUrl(this.id))
         .subscribe((manifest: Manifest) => {
-          this.viewerBuilder
+          new ViewerBuilder()
             .withOptions(this.options)
             .withTiles(manifest.tileSource)
             .create();

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Options } from '../models/options';
-import { TileSource } from '../models/manifest';
+import { Service, TileSource } from '../models/manifest';
 
-declare var OpenSeadragon: any;
+declare const OpenSeadragon: any;
 @Injectable()
 export class ViewerBuilder {
   private options: Options;
@@ -16,7 +16,7 @@ export class ViewerBuilder {
     return this;
   }
 
-  withTiles(tileSources: TileSource[]): ViewerBuilder {
+  withTiles(tileSources: Service[]): ViewerBuilder {
     this.options.tileSources = tileSources;
     return this;
   }
