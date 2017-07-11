@@ -1,9 +1,8 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, inject, TestBed } from '@angular/core/testing';
 import { IiifService } from './iiif-service';
 import { BaseRequestOptions, ConnectionBackend, Http, ResponseOptions, Response } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Manifest } from '../models/manifest';
-import { UrlBuilder } from '../builders/url.builder';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { testManifest } from '../../test/testManifest';
 
@@ -30,14 +29,13 @@ describe('IiifService', () => {
 
   it('should return a Manifest', inject([IiifService, MockBackend], fakeAsync((service: IiifService, backend: MockBackend) => {
     let result: Manifest = null;
-    const url = UrlBuilder.getManifestUrl('id1');
 
     backend.connections.subscribe((c: any) => {
       const response = new ResponseOptions({body: new ManifestBuilder(testManifest).build()});
       c.mockRespond(new Response(response));
     });
 
-    service.getManifest(url).subscribe((manifest: Manifest) => {
+    service.getManifest('dummyUrl').subscribe((manifest: Manifest) => {
       result = manifest;
     });
 

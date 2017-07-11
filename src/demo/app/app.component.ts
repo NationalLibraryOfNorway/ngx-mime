@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  id = '02810a70549a53e15b317842601ba37c';
+  manifestUrl = 'https://api.nb.no/catalog/v1/iiif/02810a70549a53e15b317842601ba37c/manifest';
   options: any = null;
 
   constructor() { }
