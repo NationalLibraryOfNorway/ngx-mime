@@ -1,36 +1,6 @@
 ## Contributing to Mime
 Mime is in very early stages and we are not ready to accept major contributions ahead of the full release
 
-## Developer Setup
-This is a library for Angular, implementing the
-[Angular Package Format v4.0](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/edit#heading=h.k0mh3o8u5hx).
-
-Features:
-- the Mime IIIF viewer library
-- unit test for the library
-- a demo application that consumes the library in JIT mode and runs in watch mode
-- an integration app that consumes the library in JIT and AOT mode and runs e2e tests
-
-Common tasks are present as npm scripts:
-
-- `npm start` to run a live-reload server with the demo app
-- `npm run test` to test in watch mode, or `npm run test:once` to only run once
-- `npm run build` to build the library
-- `npm run lint` to lint 
-- `npm run clean` to clean
-- `npm run integration` to run the integration e2e tests
-- `npm install ./relative/path/to/lib` after `npm run build` to test locally in another app
-
-If you need to debug the integration app, please check `./integration/README.md`.
-
-## Getting your environment set up
-1. Make sure you have node installed with a version at least 7.0.0.
-2. Run ```npm install -g yarn``` to install Yarn.
-3. Run ```npm install -g @angular/cli``` to install Angular Cli
-4. Fork the NationalLibraryOfNorway/ngx-mime repo.
-5. Clone your fork. Recommendation: name your git remotes ```upstream``` for ```NationalLibraryOfNorway/ngx-mime``` and ```<your-username>``` for your fork.
-6. From the root of the project, ```run yarn install```.
-
 ### Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
