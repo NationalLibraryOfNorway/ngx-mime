@@ -8,9 +8,9 @@ export class ManifestBuilder {
 
   build(): Manifest {
     return new Manifest({
-      context: this.data['@context'],
-      type: this.data['@type'],
-      id: this.data['@id'],
+      id: BuilderUtils.extractId(this.data),
+      type: BuilderUtils.extracType(this.data),
+      context: BuilderUtils.extractContext(this.data),
       label: this.data.label,
       attribution: this.data.attribution,
       metadata: new MetadataBuilder(this.data.metadata).build(),
@@ -44,8 +44,8 @@ export class SequenceBuilder {
       for (let i = 0; i < this.sequences.length; i++) {
         const seq = this.sequences[i];
         sequences.push(new Sequence({
-          id: seq['@id'],
-          type: seq['@type'],
+          id: BuilderUtils.extractId(seq),
+          type: BuilderUtils.extracType(seq),
           label: seq.label,
           viewingHint: seq.viewingHint,
           canvases: new CanvasBuilder(seq.canvases).build()
@@ -65,8 +65,8 @@ export class CanvasBuilder {
       for (let i = 0; i < this.canvases.length; i++) {
         const canvas = this.canvases[i];
         canvases.push(new Canvas({
-          id: canvas['@id'],
-          type: canvas['@type'],
+          id: BuilderUtils.extractId(canvas),
+          type: BuilderUtils.extracType(canvas),
           label: canvas.label,
           thumbnail: canvas.thumbnail,
           height: canvas.height,
@@ -88,8 +88,8 @@ export class ImagesBuilder {
       for (let i = 0; i < this.images.length; i++) {
         const image = this.images[i];
         images.push(new Images({
-          id: image['@id'],
-          type: image['@type'],
+          id: BuilderUtils.extractId(image),
+          type: BuilderUtils.extracType(image),
           motivation: image.motivation,
           resource: new ResourceBuilder(image.resource).build(),
           on: image.on
@@ -106,8 +106,8 @@ export class ResourceBuilder {
   build(): Resource {
     if (this.resource) {
       return new Resource({
-        id: this.resource['@id'],
-        type: this.resource['@id'],
+        id: BuilderUtils.extractId(this.resource),
+        type: BuilderUtils.extracType(this.resource),
         format: this.resource.format,
         service: new ServiceBuilder(this.resource.service).build()
       });
@@ -122,8 +122,8 @@ export class ServiceBuilder {
   build(): Service {
     if (this.service) {
       return new Service({
-        context: this.service['@context'],
-        id: this.service['@id'],
+        id: BuilderUtils.extractId(this.service),
+        context: BuilderUtils.extractContext(this.service),
         protocol: this.service.protocol,
         width: this.service.width,
         height: this.service.height,
@@ -187,5 +187,19 @@ export class TileSourceBuilder {
       }
     }
     return tilesources;
+  }
+}
+
+export class BuilderUtils {
+  static extractId(value: any): any {
+    return value['@id'];
+  }
+
+  static extracType(value: any): any {
+    return value['@type'];
+  }
+
+  static extractContext(value: any): any {
+    return value['@context'];
   }
 }
