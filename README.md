@@ -5,6 +5,8 @@
 ### Project status
 This viewer is under active development and hasn't yet reached its final form.
 
+If you'd like to contribute, you must follow our [contributing guidelines](https://github.com/NationalLibraryOfNorway/ngx-mime/blob/master/CONTRIBUTING.md).
+
 ### Installation
 
 The latest release of Mime can be installed from npm

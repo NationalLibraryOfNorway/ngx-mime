@@ -1,3 +1,4 @@
+.DS_STORE
 dist/
 node_modules/
 out-tsc/
@@ -12,3 +13,4 @@ src/**/*.css
 +*.css.map
 e2e/**/*.js
 e2e/**/*.js.map
+coverage
