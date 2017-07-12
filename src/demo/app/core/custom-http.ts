@@ -9,7 +9,7 @@ export class CustomHttp extends Http {
   }
 
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
-    return super.get(url, this.addWithCredentialsOption(options));
+    return super.get(url, this.addWithCredentialsOption(options)).retry(2).delay(100);
   }
 
   private addWithCredentialsOption(options: RequestOptionsArgs): RequestOptionsArgs {
