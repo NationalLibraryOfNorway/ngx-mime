@@ -1,0 +1,51 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@type": "sc:Manifest",
+  "@id": "https://api.nb.no/catalog/v1/iiif/0df79c75c72e7320e3350170b6743e51/manifest",
+  "label": "Nora : a play in three acts",
+  "sequences": [
+    {
+      "@id": "https://api.nb.no/catalog/v1/iiif/0df79c75c72e7320e3350170b6743e51/sequence/normal",
+      "@type": "sc:Sequence",
+      "canvases": [
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/0df79c75c72e7320e3350170b6743e51/canvas/URN:NBN:no-nb_digibok_2010032212003_C1",
+          "@type": "sc:Canvas",
+          "label": "95",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2010032212003_C1/full/72,0/0/native.jpg",
+          "height": 2312,
+          "width": 1544,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/0df79c75c72e7320e3350170b6743e51/annotation/URN:NBN:no-nb_digibok_2010032212003_C1",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2010032212003_C1",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2010032212003_C1",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 1544,
+                  "height": 2312,
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2312,
+                "width": 1544
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/0df79c75c72e7320e3350170b6743e51/canvas/URN:NBN:no-nb_digibok_2010032212003_C1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
