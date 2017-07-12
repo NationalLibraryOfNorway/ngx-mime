@@ -17,7 +17,8 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    MimeModule],
+    MimeModule
+  ],
   declarations: [AppComponent],
   providers: [
     { provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions] }
