@@ -1,14 +1,15 @@
 import { defineSupportCode } from 'cucumber';
-import { expect } from '../helpers/chai-imports'
+import { expect } from '../helpers/chai-imports';
 import { ViewerPage } from '../pages/viewer.po';
 
-defineSupportCode(function ({ Given }) {
-  const aLtrBook = 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest';
-  const viewerPage = new ViewerPage();
+defineSupportCode(function ({ Given, Then }) {
+  const page = new ViewerPage();
 
-  Given(/^I am opening a book which are written from left to right$/, async () => {
-    await viewerPage.open(aLtrBook);
-    await expect(viewerPage.getHeadTitle()).to.eventually.equal('IntegrationTest');
+  Given(/^I am opening a default book$/, async () => {
+    await page.open();
   });
 
+  Then(/^Viewer should be displayed$/, async () => {
+    await expect(page.getOpenSeadragon()).exist;
+  });
 });
