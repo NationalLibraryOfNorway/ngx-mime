@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf aot/ dist/ node_modules/mime/ .tmp/",
+    "clean": "rimraf aot/ dist/ node_modules/@nationallibraryofnorway .tmp/",
     "ng": "ng",
     "start": "ng s --port 8080",
     "start:aot": "ng s --aot --prod --port 8080",

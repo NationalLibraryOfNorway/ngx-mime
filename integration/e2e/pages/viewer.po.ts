@@ -4,11 +4,11 @@ import { Utils } from '../helpers/utils';
 const utils = new Utils();
 export class ViewerPage {
 
-  static open() {
+  open() {
     return browser.get('');
   }
 
-  static getOpenSeadragon() {
+  getOpenSeadragon() {
     const el = element(by.css('.openseadragon-container'));
     utils.waitForElement(el);
     return el;
