@@ -9,8 +9,8 @@ import './../../rxjs-extension';
 export class IiifService {
   constructor(private http: Http) { }
 
-  getManifest(url: string): Observable<Manifest> {
-    return this.http.get(url)
+  getManifest(manifestUri: string): Observable<Manifest> {
+    return this.http.get(manifestUri)
       .map(this.extractData)
       .catch(this.handleError);
   }

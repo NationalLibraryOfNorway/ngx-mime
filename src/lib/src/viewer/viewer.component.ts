@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  @Input() url: string;
+  @Input() manifestUri: string;
   @Input() options: Options;
   private subscriptions: Array<Subscription> = [];
 
@@ -22,9 +22,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.options = new Options();
     }
 
-    if (this.url) {
+    if (this.manifestUri) {
       this.subscriptions.push(
-        this.iiifService.getManifest(this.url)
+        this.iiifService.getManifest(this.manifestUri)
           .subscribe((manifest: Manifest) => {
             new ViewerBuilder()
               .withOptions(this.options)
