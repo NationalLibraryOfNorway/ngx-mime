@@ -34,7 +34,9 @@ export let testManifest = {
     },
     {
       'label': 'Varig lenke',
-      'value': '<a href=\'http://urn.nb.no/URN:NBN:no-nb_digibok_2008020404020\' target=\'_blank\'>http://urn.nb.no/URN:NBN:no-nb_digibok_2008020404020</a>'
+      'value':  '<a href=\'http://urn.nb.no/URN:NBN:no-nb_digibok_2008020404020\' target=\'_blank\'>' +
+                'http://urn.nb.no/URN:NBN:no-nb_digibok_2008020404020' +
+                '</a>'
     },
     {
       'label': 'Medietype',
@@ -46,7 +48,8 @@ export let testManifest = {
     }
   ],
   'license': 'https://beta.nb.no/lisens/copyright',
-  'attribution': 'Dette verket kan ikke kopieres, spres, vises eller fremføres for allmennheten i noen form uten samtykke fra den enkelte rettighetshaver.',
+  'attribution':  'Dette verket kan ikke kopieres, spres, vises eller fremføres for ' +
+                  'allmennheten i noen form uten samtykke fra den enkelte rettighetshaver.',
   'service': {
     '@context': 'http://iiif.io/api/search/0/context.json',
     '@id': 'https://api.nb.no:443/catalog/v1/contentsearch/0266d0da8f0d064a7725048aacf19872/search',
@@ -202,7 +205,8 @@ export let testManifest = {
           'width': 2368,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0001',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0001',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -274,7 +278,8 @@ export let testManifest = {
           'width': 2368,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0002',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0002',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -346,7 +351,8 @@ export let testManifest = {
           'width': 2368,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0003',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0003',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -418,7 +424,8 @@ export let testManifest = {
           'width': 2368,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0004',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0004',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -490,7 +497,8 @@ export let testManifest = {
           'width': 2360,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0005',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0005',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -562,7 +570,8 @@ export let testManifest = {
           'width': 2360,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0006',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0006',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -634,7 +643,8 @@ export let testManifest = {
           'width': 2360,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0007',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0007',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -706,7 +716,8 @@ export let testManifest = {
           'width': 2360,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0008',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0008',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -778,7 +789,8 @@ export let testManifest = {
           'width': 2360,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0009',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0009',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -850,7 +862,8 @@ export let testManifest = {
           'width': 2360,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0010',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0010',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -922,7 +935,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0011',
+              '@id':  'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0011',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -994,7 +1008,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0012',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0012',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1066,7 +1081,8 @@ export let testManifest = {
           'width': 2360,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0013',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0013',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1138,7 +1154,8 @@ export let testManifest = {
           'width': 2360,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0014',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0014',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1210,7 +1227,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0015',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0015',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1282,7 +1300,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0016',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                    'annotation/URN:NBN:no-nb_digibok_2008020404020_0016',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1354,7 +1373,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0017',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0017',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1426,7 +1446,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0018',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0018',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1498,7 +1519,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0019',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0019',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1570,7 +1592,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0020',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0020',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1642,7 +1665,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0021',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0021',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1714,7 +1738,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0022',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0022',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1786,7 +1811,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0023',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0023',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1858,7 +1884,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0024',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0024',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -1930,7 +1957,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0025',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0025',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2002,7 +2030,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0026',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0026',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2074,7 +2103,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0027',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0027',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2146,7 +2176,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0028',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0028',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2218,7 +2249,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0029',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0029',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2290,7 +2322,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0030',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0030',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2362,7 +2395,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0031',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0031',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2434,7 +2468,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0032',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0032',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2506,7 +2541,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0033',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0033',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2578,7 +2614,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0034',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0034',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2650,7 +2687,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0035',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0035',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2722,7 +2760,8 @@ export let testManifest = {
           'width': 2352,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0036',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0036',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2794,7 +2833,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0037',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0037',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2866,7 +2906,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0038',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0038',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -2938,7 +2979,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0039',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0039',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3010,7 +3052,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0040',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0040',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3082,7 +3125,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0041',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0041',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3154,7 +3198,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0042',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0042',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3226,7 +3271,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0043',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0043',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3298,7 +3344,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0044',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0044',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3370,7 +3417,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0045',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0045',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3442,7 +3490,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0046',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0046',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3514,7 +3563,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0047',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0047',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3586,7 +3636,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0048',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0048',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3658,7 +3709,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0049',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0049',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3730,7 +3782,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0050',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0050',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3802,7 +3855,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0051',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0051',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3874,7 +3928,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0052',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0052',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -3946,7 +4001,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0053',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0053',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4018,7 +4074,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0054',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0054',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4090,7 +4147,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0055',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0055',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4162,7 +4220,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0056',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0056',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4234,7 +4293,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0057',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0057',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4306,7 +4366,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0058',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0058',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4378,7 +4439,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0059',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0059',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4450,7 +4512,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0060',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0060',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4522,7 +4585,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0061',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0061',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4594,7 +4658,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0062',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0062',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4666,7 +4731,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0063',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0063',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4738,7 +4804,8 @@ export let testManifest = {
           'width': 2320,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0064',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0064',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4810,7 +4877,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0065',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0065',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4882,7 +4950,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0066',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0066',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -4954,7 +5023,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0067',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0067',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5026,7 +5096,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0068',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0068',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5098,7 +5169,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0069',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0069',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5170,7 +5242,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0070',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0070',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5242,7 +5315,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0071',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0071',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5314,7 +5388,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0072',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0072',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5386,7 +5461,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0073',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0073',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5458,7 +5534,8 @@ export let testManifest = {
           'width': 2344,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0074',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0074',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5530,7 +5607,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0075',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0075',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5602,7 +5680,8 @@ export let testManifest = {
           'width': 2336,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0076',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0076',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5674,7 +5753,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0077',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0077',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5746,7 +5826,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0078',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0078',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5818,7 +5899,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0079',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0079',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5890,7 +5972,8 @@ export let testManifest = {
           'width': 2328,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_0080',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_0080',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -5962,7 +6045,8 @@ export let testManifest = {
           'width': 1859,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_I3',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_I3',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -6029,7 +6113,8 @@ export let testManifest = {
           'width': 1845,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_C3',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_C3',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
@@ -6096,7 +6181,8 @@ export let testManifest = {
           'width': 163,
           'images': [
             {
-              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/annotation/URN:NBN:no-nb_digibok_2008020404020_C2',
+              '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/' +
+                      'annotation/URN:NBN:no-nb_digibok_2008020404020_C2',
               '@type': 'oa:Annotation',
               'motivation': 'sc:painting',
               'resource': {
