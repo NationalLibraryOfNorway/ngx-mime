@@ -5,6 +5,7 @@
       "**/out-tsc/": true,
       "**/mb.pid": true,
       "src/lib/**/*.css": true,
-      "**/.tmp/": true
+      "**/.tmp/": true,
+      "**/demo/**/*.js": true
     }
 }
