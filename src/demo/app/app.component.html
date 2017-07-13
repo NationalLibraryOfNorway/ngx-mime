@@ -1,9 +1,9 @@
 <md-sidenav-container class="demo-root" fullscreen>
   <md-sidenav [mode]="sidenavMode" [opened]="sidenavIsOpen" #start>
-    <demo-sidenav></demo-sidenav>
+    <demo-sidenav [sidenav]="start"></demo-sidenav>
   </md-sidenav>
   <div fxFlexFill>
-    <demo-navbar (toggleSidenav)="start.toggle()"></demo-navbar>
+    <demo-navbar [sidenav]="start"></demo-navbar>
     <div class="demo-content">
       <router-outlet></router-outlet>
     </div>

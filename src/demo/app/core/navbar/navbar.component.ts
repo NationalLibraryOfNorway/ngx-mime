@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { MdSidenav } from '@angular/material';
 
 @Component({
   selector: 'demo-navbar',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 
 export class NavbarComponent implements OnInit {
-  @Output() toggleSidenav = new EventEmitter<boolean>();
+  @Input() sidenav: MdSidenav;
   public manifestUri: string;
 
   constructor(private router: Router) { }
@@ -16,11 +17,10 @@ export class NavbarComponent implements OnInit {
   ngOnInit() { }
 
   toggle() {
-    this.toggleSidenav.emit();
+    this.sidenav.toggle();
   }
 
   onSubmit() {
-    console.log(this.manifestUri);
     this.router.navigate(['demo'], {queryParams: {
       manifestUri: this.manifestUri
     }
