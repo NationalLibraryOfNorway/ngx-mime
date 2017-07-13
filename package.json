@@ -39,7 +39,7 @@
     "integration": "npm run integration:aot && npm run integration:jit",
     "integration:jit": "cd integration && npm run e2e",
     "integration:aot": "cd integration && npm run e2e:aot",
-    "lint": "tslint ./src/**/*.ts -t verbose",
+    "lint": "tslint \"src/**/*.ts\" -t verbose",
     "release": "standard-version"
   },
   "peerDependencies": {
@@ -47,6 +47,9 @@
     "@angular/material": ">=2.0.0 <3.0.0 || >=2.0.0-beta.8 <3.0.0",
     "@angular/cdk": ">=2.0.0 <3.0.0 || >=2.0.0-beta.8 <3.0.0",
     "@angular/flex-layout": ">=2.0.0 <3.0.0 || >=2.0.0-beta.8 <3.0.0"
+  },
+  "dependencies": {
+    "openseadragon": "^2.2.1"
   },
   "devDependencies": {
     "@angular/common": "~4.2.6",
@@ -91,6 +94,7 @@
     "tslint": "^4.4.2",
     "typescript": "^2.2.1",
     "uglify-es": "^3.0.18",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "codelyzer": "^3.1.1"
   }
 }

@@ -83,7 +83,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 * We follow [Google's JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html), but wrap all code at
   **140 characters**.
 
-## <a name="rules"></a> Commit Message Guidelines
+## <a name="commit"></a> Commit Message Guidelines
 
 We have very precise rules over how our git commit messages can be formatted.  This leads to **more
 readable messages** that are easy to follow when looking through the **project history**.  But also,

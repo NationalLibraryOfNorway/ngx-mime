@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf aot/ dist/ node_modules/mime/ .tmp/",
+    "clean": "rimraf aot/ dist/ node_modules/@nationallibraryofnorway .tmp/",
     "ng": "ng",
     "start": "ng s --port 8080",
     "start:aot": "ng s --aot --prod --port 8080",
@@ -35,7 +35,8 @@
     "core-js": "^2.4.1",
     "rxjs": "^5.1.0",
     "web-animations-js": "^2.2.5",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "openseadragon": "^2.2.1"
   },
   "devDependencies": {
     "@angular/cli": "1.2.0",
@@ -70,6 +71,7 @@
     "rimraf": "^2.5.4",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "~2.3.3",
+    "chromedriver": "^2.30.1"
   }
 }
