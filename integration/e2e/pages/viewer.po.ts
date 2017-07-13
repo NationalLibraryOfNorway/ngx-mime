@@ -1,17 +1,16 @@
 import { browser, element, by } from 'protractor';
+import { Utils } from '../helpers/utils';
 
+const utils = new Utils();
 export class ViewerPage {
 
-  open(manifestUri: string) {
-    return browser.get(`?manifestUri=${manifestUri}`);
+  static open() {
+    return browser.get('');
   }
 
-  getHeadTitle() {
-    return browser.getTitle();
+  static getOpenSeadragon() {
+    const el = element(by.css('.openseadragon-container'));
+    utils.waitForElement(el);
+    return el;
   }
-
-  getTitle() {
-    return element(by.css('h1'));
-  }
-
 }
