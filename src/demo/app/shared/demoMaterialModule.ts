@@ -1,67 +1,28 @@
 import { NgModule } from '@angular/core';
 import {
   MdButtonModule,
-  MdButtonToggleModule,
-  MdCardModule,
-  MdDialogModule,
   MdIconModule,
-  MdInputModule,
   MdListModule,
-  MdMenuModule,
-  MdProgressSpinnerModule,
-  MdSelectModule,
   MdSidenavModule,
-  MdSnackBarModule,
-  MdTabsModule,
   MdToolbarModule,
-  MdTooltipModule,
-  MdCheckboxModule,
-  MdSliderModule,
-  MdSlideToggleModule,
-  MdChipsModule
+  MdTooltipModule
 } from '@angular/material';
 @NgModule({
   imports: [
     MdButtonModule,
-    MdButtonToggleModule,
-    MdCardModule,
-    MdDialogModule,
     MdIconModule,
-    MdInputModule,
     MdListModule,
-    MdMenuModule,
-    MdProgressSpinnerModule,
-    MdSelectModule,
     MdSidenavModule,
-    MdSnackBarModule,
-    MdTabsModule,
     MdToolbarModule,
-    MdTooltipModule,
-    MdCheckboxModule,
-    MdSliderModule,
-    MdSlideToggleModule,
-    MdChipsModule
+    MdTooltipModule
   ],
   exports: [
     MdButtonModule,
-    MdButtonToggleModule,
-    MdCardModule,
-    MdDialogModule,
     MdIconModule,
-    MdInputModule,
     MdListModule,
-    MdMenuModule,
-    MdProgressSpinnerModule,
-    MdSelectModule,
     MdSidenavModule,
-    MdSnackBarModule,
-    MdTabsModule,
     MdToolbarModule,
-    MdTooltipModule,
-    MdCheckboxModule,
-    MdSliderModule,
-    MdSlideToggleModule,
-    MdChipsModule
+    MdTooltipModule
   ],
 })
 export class DemoMaterialModule { }
