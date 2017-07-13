@@ -1,15 +1,9 @@
 <h3>Manifest</h3>
 <md-nav-list>
-  <a md-list-item 
+  <a *ngFor="let manifest of manifests" md-list-item 
     [routerLink]="['demo']"
-    [queryParams]="{ manifestUri: '/assets/presentation/2/simple-ltr-manifest.json' }"
+    [queryParams]="{ manifestUri: manifest.uri }"
     routerLinkActive="active">
-    Simple LTR
-  </a>
-  <a md-list-item
-    [routerLink]="['demo']"
-    [queryParams]="{ manifestUri: '/assets/presentation/2/minimum.json' }"
-    routerLinkActive="active">
-    Minimum
+    {{manifest.label}}
   </a>
 </md-nav-list>

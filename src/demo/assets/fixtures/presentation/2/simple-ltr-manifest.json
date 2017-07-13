@@ -35,11 +35,6 @@
   ],
   "license": "https://beta.nb.no/lisens/copyright",
   "attribution": "Dette verket kan ikke kopieres, spres, vises eller fremføres for allmennheten i noen form uten samtykke fra den enkelte rettighetshaver.",
-  "service": {
-    "@context": "http://iiif.io/api/search/0/context.json",
-    "@id": "https://api.nb.no:443/catalog/v1/contentsearch/0df79c75c72e7320e3350170b6743e51/search",
-    "profile": "http://iiif.io/api/search/0/search"
-  },
   "sequences": [
     {
       "@id": "https://api.nb.no/catalog/v1/iiif/0df79c75c72e7320e3350170b6743e51/sequence/normal",

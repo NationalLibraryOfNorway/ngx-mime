@@ -1,4 +1,7 @@
+import { ManifestService } from './../manifest-service/manifest.service';
 import { Component, OnInit } from '@angular/core';
+
+import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
 
 @Component({
   selector: 'demo-sidenav',
@@ -7,7 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class SidenavComponent implements OnInit {
-  constructor() { }
 
-  ngOnInit() { }
+  manifests: ManifestMenuItem[];
+
+  constructor(private manifestService: ManifestService) { }
+
+  ngOnInit() {
+    this.manifests = this.manifestService.getManifests();
+  }
 }

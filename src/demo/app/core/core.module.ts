@@ -2,8 +2,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { SidenavComponent } from './sidenav/sidenav.component';
 import { SharedModule } from './../shared/shared.module';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { ManifestService } from './manifest-service/manifest.service';
+
 @NgModule({
     imports: [
         SharedModule,
@@ -18,6 +20,7 @@ import { SharedModule } from './../shared/shared.module';
       NavbarComponent
     ],
     providers: [
+        ManifestService
     ]
 })
 export class CoreModule {
