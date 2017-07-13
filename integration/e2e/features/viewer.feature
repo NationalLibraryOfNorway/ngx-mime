@@ -5,3 +5,4 @@ Feature: Open viewer
 
   Scenario: Open a book in the viewer
     Given I am opening a default book
+    Then Viewer should be displayed
