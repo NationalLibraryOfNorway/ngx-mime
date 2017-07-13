@@ -20,7 +20,7 @@ export class ManifestService {
     },
     {
       label: 'Downloadable',
-      uri: 'http://localhost:3000/assets/fixtures/presentation/2/downloadable-manifest.json'
+      uri: 'http://localhost:3000/assets/fixtures/presentation/2/downloadble-manifest.json'
     },
     {
       label: 'Searchable',

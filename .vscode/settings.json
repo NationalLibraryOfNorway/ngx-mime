@@ -5,7 +5,10 @@
       "**/out-tsc/": true,
       "**/mb.pid": true,
       "src/lib/**/*.css": true,
-      "**/.tmp/": true,
-      "**/demo/**/*.js": true
+      "src/.tmp/": true,
+      "src/demo/**/*.js": true,
+      "src/demo/**/*.map": true,
+      "src/lib/**/*.js": true,
+      "src/lib/**/*.map": true
     }
 }
