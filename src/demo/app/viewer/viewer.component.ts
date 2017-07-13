@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'viewer',
-  templateUrl: './viewer.component.html'
+  templateUrl: './viewer.component.html',
+  styleUrls: ['./viewer.component.css']
 })
 
 export class ViewerComponent implements OnInit, OnDestroy {
