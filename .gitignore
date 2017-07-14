@@ -5,7 +5,7 @@ out-tsc/
 debug.log
 npm-debug.log
 src/**/*.js
-src/**/*.css
+src/lib/*.css
 !src/demo/systemjs.config.js
 !src/demo/systemjs.config.lib.js
 !**/*systemjs-angular-loader.js
