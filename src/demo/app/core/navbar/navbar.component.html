@@ -1,0 +1,21 @@
+<md-toolbar color="primary" fxLayout="row">
+  <div>
+    <button md-icon-button (click)="toggle()">
+      <md-icon class="md-24">menu</md-icon>
+    </button>
+  </div>
+  <div fxFlex.gt-sm="500px">
+    <form (ngSubmit)="onSubmit()" #form="ngForm">
+      <input 
+        class="manifest-uri"
+        placeholder="Paste the URL of a IIIF manifest here"
+        autocomplete="off"
+        [(ngModel)]="manifestUri"
+        name="manifestUri">
+      <button type="submit" md-raised-button
+        color="accent">
+        VIEW
+      </button>
+    </form>
+  </div>
+</md-toolbar>

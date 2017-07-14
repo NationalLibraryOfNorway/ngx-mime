@@ -1,0 +1,14 @@
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+md-sidenav {
+  width: 240px;
+}
+
+.demo-content {
+  width: 100%;
+  height: calc(100% - 64px);
+  padding: 16px;
+  box-sizing: border-box;  
+}

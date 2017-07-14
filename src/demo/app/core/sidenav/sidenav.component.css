@@ -1,0 +1,26 @@
+a {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-color: rgba(0,0,0,.06);
+}
+
+h3 {
+  font-size: 14px;
+  letter-spacing: 1px;
+  line-height: 28px;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin: 0;
+  padding: 0 16px;
+  background: rgba(0,0,0,.32);
+  color: hsla(0,0%,100%,.87);  
+}
+
+:host /deep/ .mat-list-item {
+  color: rgba(0,0,0,.54);
+}
+
+.active {
+  color: #795548;
+  font-weight: 600;
+}
