@@ -1,6 +1,6 @@
 import { CoreModule } from './core/core.module';
 import { NgModule } from '@angular/core';
-import { Http, RequestOptions, XHRBackend } from '@angular/http';
+import { Http, RequestOptions, XHRBackend, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -21,6 +21,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpModule,
     AppRoutingModule,
     CoreModule,
     SharedModule
