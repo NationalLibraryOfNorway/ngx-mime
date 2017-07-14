@@ -67,7 +67,10 @@ module.exports = function (config) {
 
       // Paths for debugging with source maps in dev tools
       { pattern: libBase + '**/*.ts', included: false, watched: false },
-      { pattern: libBase + '**/*.js.map', included: false, watched: false }
+      { pattern: libBase + '**/*.js.map', included: false, watched: false },
+
+      // OpenSeadragon
+      'node_modules/openseadragon/build/openseadragon/openseadragon.js'
     ],
 
     // Proxied base paths for loading assets
