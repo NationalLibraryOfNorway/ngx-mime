@@ -13,6 +13,7 @@ cd $(dirname $0)/../..
 source ./scripts/ci/sources/tunnel.sh
 
 npm run lint
+npm run test:once
 npm run coverage
 
 start_tunnel
