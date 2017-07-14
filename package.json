@@ -52,23 +52,25 @@
     "openseadragon": "^2.2.1"
   },
   "devDependencies": {
+    "@angular/animations": "~4.2.4",
+    "@angular/cdk": "2.0.0-beta.8",
     "@angular/common": "~4.2.4",
     "@angular/compiler": "~4.2.4",
     "@angular/compiler-cli": "~4.2.4",
     "@angular/core": "~4.2.4",
-    "@angular/platform-browser": "~4.2.4",
-    "@angular/platform-browser-dynamic": "~4.2.4",
-    "@angular/animations": "~4.2.4",
-    "@angular/material": "2.0.0-beta.8",
-    "@angular/cdk": "2.0.0-beta.8",
+    "@angular/flex-layout": "^2.0.0-beta.8",
     "@angular/forms": "~4.2.4",
     "@angular/http": "~4.2.4",
-    "@angular/flex-layout": "^2.0.0-beta.8",
+    "@angular/material": "2.0.0-beta.8",
+    "@angular/platform-browser": "~4.2.4",
+    "@angular/platform-browser-dynamic": "~4.2.4",
     "@types/jasmine": "2.5.36",
     "@types/node": "^6.0.46",
     "camelcase": "^4.0.0",
+    "codelyzer": "^3.1.1",
     "concurrently": "3.4.0",
     "core-js": "^2.4.1",
+    "electron": "^1.6.11",
     "execa": "^0.6.3",
     "glob": "^7.1.1",
     "jasmine-core": "^2.5.2",
@@ -92,7 +94,6 @@
     "tslint": "^4.4.2",
     "typescript": "^2.2.1",
     "uglify-es": "^3.0.18",
-    "zone.js": "^0.8.4",
-    "codelyzer": "^3.1.1"
+    "zone.js": "^0.8.4"
   }
 }
