@@ -17,6 +17,7 @@ wait_for_tunnel
 
 npm run lint
 npm run test:once
+npm run coverage
 npm run integration
 
 teardown_tunnel
