@@ -41,7 +41,7 @@ module.exports = function (wallaby) {
     },
 
     env: {
-      kind: 'electron'
+      kind: 'chrome'
     },
 
     testFramework: 'jasmine',
