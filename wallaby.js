@@ -1,5 +1,9 @@
 module.exports = function (wallaby) {
 
+  var compilerOptions = Object.assign(
+    require('./tsconfig.json').compilerOptions,
+    require('./src/lib/tsconfig.spec.json').compilerOptions);
+
   return {
     files: [
       {pattern: 'node_modules/systemjs/dist/system.src.js', instrument: false},
@@ -16,17 +20,28 @@ module.exports = function (wallaby) {
       {pattern: 'node_modules/zone.js/dist/fake-async-test.js', instrument: false},
 
       {pattern: 'src/demo/systemjs.config.js', instrument: false},
+      {pattern: 'src/demo/systemjs-angular-loader.js', instrument: false, load: false},
 
       {pattern: 'src/**/*.spec.ts', ignore: true},
-      {pattern: 'src/**/*.ts', load: false}
+      {pattern: 'src/**/*.ts', load: false},
+      {pattern: 'src/**/*.html', load: false},
+      {pattern: 'src/**/*.scss', load: false}
     ],
 
     tests: [
       {pattern: 'src/**/*.spec.ts', load: false}
     ],
 
+    compilers: {
+      '**/*.ts?(x)': wallaby.compilers.typeScript(compilerOptions)
+    },
+
     middleware: (app, express) => {
       app.use('/node_modules', express.static(require('path').join(__dirname, 'node_modules')));
+    },
+
+    env: {
+      kind: 'electron'
     },
 
     testFramework: 'jasmine',
@@ -39,8 +54,17 @@ module.exports = function (wallaby) {
       System.config({
         transpiler: false,
 
-        // Extend usual application package list with test folder
-        packages: {'testing': {main: 'index.js', defaultExtension: 'js'}},
+        packages: {
+          'src/lib': {
+            defaultExtension: 'js',
+            meta: {
+              './*.js': {
+                loader: 'src/demo/systemjs-angular-loader.js'
+              }
+            }
+          }
+        },
+
 
         // Assume npm: is set in `paths` in systemjs.config
         // Map the angular testing umd bundles
