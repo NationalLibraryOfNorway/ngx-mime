@@ -17,9 +17,12 @@ export class Manifest {
       type?: string,
       id?: string,
       label?: string,
-      attribution?: string,
       metadata?: Metadata[],
-      sequences?: Sequence[]
+      license?: string,
+      attribution?: string,
+      service?: Service,
+      sequences?: Sequence[],
+      structures?: Structure[],
       tileSource?: Service[]
     }
   ) {
@@ -28,9 +31,12 @@ export class Manifest {
       this.type = fields.type || this.type;
       this.id = fields.id || this.id;
       this.label = fields.label || this.label;
-      this.attribution = fields.attribution || this.attribution;
       this.metadata = fields.metadata || this.metadata;
+      this.license = fields.license || this.license;
+      this.attribution = fields.attribution || this.attribution;
+      this.service = fields.service || this.service;
       this.sequences = fields.sequences || this.sequences;
+      this.structures = fields.structures || this.structures;
       this.tileSource = fields.tileSource || this.tileSource;
     }
   }
@@ -132,13 +138,17 @@ export class Resource {
   public type: string;
   public format: string;
   public service: Service;
+  public height: number;
+  public width: number;
 
   constructor(
     fields?: {
       id?: string,
       type?: string,
       format?: string,
-      service?: Service
+      service?: Service,
+      height?: number,
+      width?: number
     }
   ) {
     if (fields) {
@@ -146,6 +156,8 @@ export class Resource {
       this.type = fields.type || this.type;
       this.format = fields.format || this.format;
       this.service = fields.service || this.service;
+      this.height = fields.height || this.height;
+      this.width = fields.width || this.width;
     }
   }
 }
