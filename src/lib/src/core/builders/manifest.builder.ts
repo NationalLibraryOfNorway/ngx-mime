@@ -1,6 +1,6 @@
 import {
   Canvas, Images, Manifest, Metadata, Resource,
-  Sequence, Service, Size, Tile
+  Sequence, Service, Size, Structure, Tile
 } from '../models/manifest';
 
 export class ManifestBuilder {
@@ -8,13 +8,16 @@ export class ManifestBuilder {
 
   build(): Manifest {
     return new Manifest({
-      id: BuilderUtils.extractId(this.data),
-      type: BuilderUtils.extracType(this.data),
       context: BuilderUtils.extractContext(this.data),
+      type: BuilderUtils.extracType(this.data),
+      id: BuilderUtils.extractId(this.data),
       label: this.data.label,
-      attribution: this.data.attribution,
       metadata: new MetadataBuilder(this.data.metadata).build(),
+      license: this.data.license,
+      attribution: this.data.attribution,
+      service: new ServiceBuilder(this.data.service).build(),
       sequences: new SequenceBuilder(this.data.sequences).build(),
+      structures: new StructureBuilder(this.data.structure).build(),
       tileSource: new TileSourceBuilder(this.data.sequences).build()
     });
   }
@@ -109,7 +112,9 @@ export class ResourceBuilder {
         id: BuilderUtils.extractId(this.resource),
         type: BuilderUtils.extracType(this.resource),
         format: this.resource.format,
-        service: new ServiceBuilder(this.resource.service).build()
+        service: new ServiceBuilder(this.resource.service).build(),
+        height: this.resource.height,
+        width: this.resource.width
       });
     }
     return null;
@@ -169,6 +174,26 @@ export class TilesBuilder {
       }
     }
     return tiles;
+  }
+}
+
+export class StructureBuilder {
+  constructor(private structures: any[]) { }
+
+  build(): Structure[] {
+    let structures: Structure[] = [];
+    if (this.structures) {
+      for (let i = 0; i < this.structures.length; i++) {
+        const structure = this.structures[i];
+        structures.push(new Structure({
+          id: BuilderUtils.extractId(structure),
+          type: BuilderUtils.extracType(structure),
+          label: structure.label,
+          canvases: null // TODO Find a way to handle canvases as both Canvas object and string array.
+        }));
+      }
+    }
+    return structures;
   }
 }
 

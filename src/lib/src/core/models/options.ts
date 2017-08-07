@@ -1,6 +1,7 @@
 import { GestureSettings } from './gestureSettings';
 import { NavImages } from './navImages';
 import { ControlAnchor } from './controlAnchor';
+import { Service } from './manifest';
 export class Options {
   id = 'openseadragon';
   element: Element;
@@ -108,4 +109,10 @@ export class Options {
   collectionTileMargin = 80;
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
+
+  constructor(tileSources?: Service[]) {
+    if (tileSources) {
+      this.tileSources = tileSources;
+    }
+  }
 }
