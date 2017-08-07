@@ -39,7 +39,7 @@
     "openseadragon": "^2.2.1"
   },
   "devDependencies": {
-    "@angular/cli": "1.2.0",
+    "@angular/cli": "1.2.7",
     "@angular/compiler-cli": "^4.0.0",
     "@angular/language-service": "^4.0.0",
     "@types/chai": "3.5.2",
