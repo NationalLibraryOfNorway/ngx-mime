@@ -70,6 +70,7 @@
     "@types/jasmine": "2.5.36",
     "@types/node": "^6.0.46",
     "camelcase": "^4.0.0",
+    "codelyzer": "^3.1.1",
     "concurrently": "3.4.0",
     "core-js": "^2.4.1",
     "execa": "^0.6.3",
@@ -95,7 +96,6 @@
     "tslint": "^4.4.2",
     "typescript": "^2.2.1",
     "uglify-es": "^3.0.18",
-    "zone.js": "^0.8.4",
-    "codelyzer": "^3.1.1"
+    "zone.js": "^0.8.4"
   }
 }
