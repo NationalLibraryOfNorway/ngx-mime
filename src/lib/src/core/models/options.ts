@@ -9,7 +9,7 @@ export class Options {
   tabIndex = 0;
   overlays: any[];
   xmlPath: string = null;
-  prefixUrl = '/assets/images/';
+  prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
   navImages: NavImages;
   debugMode = false;
   debugGridColor = '#437AB2';
