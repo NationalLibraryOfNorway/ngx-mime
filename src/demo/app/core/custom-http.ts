@@ -9,13 +9,15 @@ export class CustomHttp extends Http {
   }
 
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
-    return super.get(url, this.addWithCredentialsOption(options)).retry(2).delay(100);
+    return super.get(url, this.addWithCredentialsOption(url, options)).retry(2).delay(100);
   }
 
-  private addWithCredentialsOption(options: RequestOptionsArgs): RequestOptionsArgs {
+  private addWithCredentialsOption(url: string, options: RequestOptionsArgs): RequestOptionsArgs {
     const currentOptions: RequestOptionsArgs = options ? options : {};
 
-    currentOptions.withCredentials = true;
+    if (url.indexOf('.nb.no') !== -1) {
+      currentOptions.withCredentials = true;
+    }
     return currentOptions;
   }
 
