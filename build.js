@@ -62,14 +62,16 @@ return Promise.resolve()
         // See https://github.com/rollup/rollup/wiki/JavaScript-API#globals for more.
         '@angular/core': 'ng.core',
         '@angular/material': 'ng.material',
-        '@angular/flex-layout': 'ng.flex-layout'
+        '@angular/flex-layout': 'ng.flex-layout',
+        'openseadragon': 'ng.opensedragon'
       },
       external: [
         // List of dependencies
         // See https://github.com/rollup/rollup/wiki/JavaScript-API#external for more.
         '@angular/core',
         '@angular/material',
-        '@angular/flex-layout'
+        '@angular/flex-layout',
+        'openseadragon'
       ],
       plugins: [
         sourcemaps()

@@ -3,6 +3,6 @@
   "protocol": "http",
   "stubs": [{
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-ltr-book/manifest", "method": "GET" }}]}],
-    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json" }, "body": "<%- stringify(filename, 'a-ltr-book.ejs') %>" }}]
+    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-ltr-book.ejs') %>" }}]
   }]
 }
