@@ -32,8 +32,8 @@
 npm-debug.log
 testem.log
 /typings
-/.tmp
-/.pid
+/*.tmp
+/*.pid
 
 # e2e
 /e2e/*.js
