@@ -31,6 +31,7 @@ before_install:
   - sudo dpkg -i google-chrome*.deb
 
 install:
+  - travis_wait mvn install
   - npm install
 
 before_script:
