@@ -32,7 +32,6 @@ before_install:
 
 install:
   - travis_wait mvn install
-  - npm install
 
 before_script:
  - npm prune
