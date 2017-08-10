@@ -31,7 +31,7 @@ before_install:
   - sudo dpkg -i google-chrome*.deb
 
 install:
-  - travis_wait mvn install
+  - npm install
 
 before_script:
  - npm prune
@@ -42,4 +42,4 @@ before_script:
  - chmod +x ./scripts/saucelabs/stop-tunnel.sh
 
 script:
-  - ./scripts/ci/build-and-test.sh
+  - travis_wait ./scripts/ci/build-and-test.sh
