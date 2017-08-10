@@ -42,4 +42,4 @@ before_script:
  - chmod +x ./scripts/saucelabs/stop-tunnel.sh
 
 script:
-  - travis_wait ./scripts/ci/build-and-test.sh
+  - travis_wait 40 ./scripts/ci/build-and-test.sh
