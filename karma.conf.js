@@ -41,6 +41,8 @@ module.exports = function (config) {
       'node_modules/zone.js/dist/jasmine-patch.js',
       'node_modules/zone.js/dist/async-test.js',
       'node_modules/zone.js/dist/fake-async-test.js',
+      'node_modules/tslib/tslib.js',
+      'node_modules/openseadragon/build/openseadragon/openseadragon.min.js',
 
       // RxJs
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
@@ -66,9 +68,6 @@ module.exports = function (config) {
       // Paths for debugging with source maps in dev tools
       { pattern: libBase + '**/*.ts', included: false, watched: false },
       { pattern: libBase + '**/*.js.map', included: false, watched: false },
-
-      // OpenSeadragon
-      'node_modules/openseadragon/build/openseadragon/openseadragon.js'
     ],
 
     // Proxied base paths for loading assets
