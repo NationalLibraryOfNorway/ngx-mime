@@ -10,6 +10,8 @@ import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { testManifest } from '../test/testManifest';
 import { Observable } from 'rxjs/Observable';
 
+import 'openseadragon';
+
 describe('ViewerComponent', function () {
   let de: DebugElement;
   let comp: ViewerComponent;

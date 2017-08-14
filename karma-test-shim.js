@@ -66,9 +66,9 @@ System.config({
     '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
     '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
     // Testing bundles
-    '@angular/common/http/testing': 'npm:@angular/common/bundles/common-testing.umd.js',
     '@angular/core/testing': 'npm:@angular/core/bundles/core-testing.umd.js',
     '@angular/common/testing': 'npm:@angular/common/bundles/common-testing.umd.js',
+    '@angular/common/http/testing': 'npm:@angular/common/bundles/common-http-testing.umd.js',
     '@angular/compiler/testing': 'npm:@angular/compiler/bundles/compiler-testing.umd.js',
     '@angular/platform-browser/testing': 'npm:@angular/platform-browser/bundles/platform-browser-testing.umd.js',
     '@angular/platform-browser-dynamic/testing': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
@@ -76,6 +76,7 @@ System.config({
     '@angular/router/testing': 'npm:@angular/router/bundles/router-testing.umd.js',
     '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js',
     'tslib': 'npm:tslib/tslib.js',
+    'openseadragon': 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
     'rxjs': 'npm:rxjs',
     'src': 'src'
   }
