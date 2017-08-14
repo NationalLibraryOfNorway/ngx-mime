@@ -1,7 +1,8 @@
-import { fakeAsync, inject, TestBed } from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
 import { IiifService } from './iiif-service';
-import { BaseRequestOptions, ConnectionBackend, Http, ResponseOptions, Response } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { testManifest } from '../../test/testManifest';
@@ -9,36 +10,33 @@ import { testManifest } from '../../test/testManifest';
 describe('IiifService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ],
       providers: [
-        IiifService,
-        BaseRequestOptions,
-        MockBackend,
-        {
-          provide: Http,
-          useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backend, defaultOptions);
-          }, deps: [MockBackend, BaseRequestOptions]
-        }
+        IiifService
       ]
     });
   });
 
-  it('should be created', inject([IiifService], (service: IiifService) => {
-    expect(service).toBeTruthy();
+  it('should be created', inject([IiifService],
+      (svc: IiifService) => {
+    expect(svc).toBeTruthy();
   }));
 
-  it('should return a Manifest', inject([IiifService, MockBackend], fakeAsync((service: IiifService, backend: MockBackend) => {
+  it('should return a Manifest', inject([IiifService, HttpClient, HttpTestingController],
+    fakeAsync((svc: IiifService, http: HttpClient, httpMock: HttpTestingController) => {
     let result: Manifest = null;
 
-    backend.connections.subscribe((c: any) => {
-      const response = new ResponseOptions({body: new ManifestBuilder(testManifest).build()});
-      c.mockRespond(new Response(response));
-    });
-
-    service.getManifest('dummyUrl').subscribe((manifest: Manifest) => {
+    svc.getManifest('dummyUrl').subscribe((manifest: Manifest) => {
       result = manifest;
     });
 
+    httpMock.expectOne(`dummyUrl`)
+      .flush(new ManifestBuilder(testManifest).build());
+    tick();
     expect(result.label).toBe('Fjellkongen Ludvig \"Ludden\"');
+
   })));
+
 });

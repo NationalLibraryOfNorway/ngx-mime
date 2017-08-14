@@ -1,6 +1,7 @@
-import { ManifestService } from './../core/manifest-service/manifest.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { ManifestService } from './../core/manifest-service/manifest.service';
 
 @Component({
   selector: 'viewer',

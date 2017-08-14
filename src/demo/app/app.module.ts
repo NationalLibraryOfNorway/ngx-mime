@@ -1,6 +1,6 @@
 import { CoreModule } from './core/core.module';
 import { NgModule } from '@angular/core';
-import { Http, RequestOptions, XHRBackend, HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -9,19 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { SidenavComponent } from './core/sidenav/sidenav.component';
 import { AppComponent } from './app.component';
 import { ViewerComponent } from './viewer/viewer.component';
-import { CustomHttp } from './core/custom-http';
 
 import 'hammerjs';
-
-export function httpFactory(backend: XHRBackend, options: RequestOptions) {
-  return new CustomHttp(backend, options);
-}
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     AppRoutingModule,
     CoreModule,
     SharedModule
@@ -29,9 +24,6 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   declarations: [
     AppComponent,
     ViewerComponent
-  ],
-  providers: [
-    { provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions] }
   ],
   bootstrap: [AppComponent]
 })

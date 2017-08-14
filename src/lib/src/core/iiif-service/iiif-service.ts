@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import './../../rxjs-extension';
 
 @Injectable()
 export class IiifService {
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   getManifest(manifestUri: string): Observable<Manifest> {
     return this.http.get(manifestUri)
@@ -16,19 +17,17 @@ export class IiifService {
   }
 
   private extractData(response: Response) {
-    return new ManifestBuilder(response.json()).build();
+    return new ManifestBuilder(response).build();
   }
 
-  private handleError(error: Response | any) {
+  private handleError(err: HttpErrorResponse | any) {
     let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    if (err.error instanceof Error) {
+      errMsg = err.error.message;
     } else {
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = err.error;
     }
-    console.error(errMsg);
     return Observable.throw(errMsg);
   }
+
 }
