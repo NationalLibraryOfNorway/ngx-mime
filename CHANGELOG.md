@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.1.5...v0.1.6) (2017-08-14)
+
+
+### Bug Fixes
+
+* withCredentials for nb.no ([cfe1cdf](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/cfe1cdf))
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.1.4...v0.1.5) (2017-08-08)
 
