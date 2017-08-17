@@ -23,8 +23,9 @@ declare const OpenSeadragon: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() manifestUri: string;
+  @Input() public manifestUri: string;
   public viewer: any;
+  public manifest: Manifest;
   private subscriptions: Array<Subscription> = [];
 
   constructor(private iiifService: IiifService) { }
@@ -54,6 +55,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.subscriptions.push(
         this.iiifService.getManifest(this.manifestUri)
           .subscribe((manifest: Manifest) => {
+            this.manifest = manifest;
             if (this.viewer != null && this.viewer.isOpen()) {
               this.viewer.destroy();
             }

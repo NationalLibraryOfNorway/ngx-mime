@@ -3,7 +3,10 @@ import {
   MdToolbarModule,
   MdButtonModule,
   MdIconModule,
-  MdTooltipModule
+  MdTooltipModule,
+  MdDialogModule,
+  MdTabsModule,
+  MdListModule
 } from '@angular/material';
 
 @NgModule({
@@ -11,7 +14,10 @@ import {
     MdToolbarModule,
     MdButtonModule,
     MdIconModule,
-    MdTooltipModule
+    MdTooltipModule,
+    MdDialogModule,
+    MdTabsModule,
+    MdListModule
   ],
 })
 export class MimeMaterialModule { }

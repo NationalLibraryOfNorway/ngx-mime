@@ -1,0 +1,13 @@
+<div class="contents-container">
+  <md-toolbar>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+      <h2>Contents</h2>
+      <button md-icon-button mdTooltip="Lukk" aria-label="Lukk" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+    </div>
+  </md-toolbar>
+  <md-tab-group>
+    <md-tab label="Metadata">
+      <mime-metadata [manifest]="manifest"></mime-metadata>
+    </md-tab>
+  </md-tab-group>
+</div>
