@@ -102,7 +102,7 @@ export class Options {
   referenceStripPosition = 'BOTTOM_LEFT';
   referenceStripSizeRatio = 0.2;
   collectionMode = false;
-  collectionRows = 3;
+  collectionRows = 1;
   collectionColumns = 0;
   collectionLayout = 'horizontal';
   collectionTileSize = 800;
@@ -110,9 +110,20 @@ export class Options {
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
 
-  constructor(tileSources?: Service[]) {
+  constructor(mode: string, tileSources?: Service[], ) {
     if (tileSources) {
       this.tileSources = tileSources;
+    }
+
+    if(mode === 'scroll') {
+      this.collectionMode = true;
+      this.sequenceMode = false;
+      this.defaultZoomLevel = 0.0004;
+    }
+    if(mode === 'page') {
+      this.collectionMode = false;
+      this.sequenceMode = true;
+      this.defaultZoomLevel = 0;
     }
   }
 }
