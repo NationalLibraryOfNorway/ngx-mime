@@ -50,4 +50,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       );
     }
   }
+
+  addEvents(): void {
+
+  }
+
+  addPinchEvent(): void {
+
+  }
 }

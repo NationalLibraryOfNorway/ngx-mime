@@ -13,4 +13,16 @@ export class ViewerPage {
     utils.waitForElement(el);
     return el;
   }
+
+  zoomOut() {
+    browser.touchActions()
+      .tapAndHold({x: 10, y: 10})
+      .tapAndHold({x: 50, y: 50})
+      .move({x: 100, y: 75})
+      .perform();
+  }
+
+  getZoomLevel() {
+    return browser.executeScript('return window.OpenSeadragon.Viewport.getZoom(true);');
+  }
 }
