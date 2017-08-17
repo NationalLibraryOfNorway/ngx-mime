@@ -2,13 +2,14 @@ import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Observable } from 'rxjs/Observable';
 
+import { MimeMaterialModule } from './../mime-material.module';
 import { ViewerComponent } from './viewer.component';
 import { IiifService } from '../core/iiif-service/iiif-service';
 import { Manifest } from './../core/models/manifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { testManifest } from '../test/testManifest';
-import { Observable } from 'rxjs/Observable';
 
 import 'openseadragon';
 
@@ -21,9 +22,12 @@ describe('ViewerComponent', function () {
     TestBed.configureTestingModule({
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MimeMaterialModule
       ],
-      declarations: [ViewerComponent],
+      declarations: [
+        ViewerComponent
+      ],
       providers: [
         IiifService
       ]

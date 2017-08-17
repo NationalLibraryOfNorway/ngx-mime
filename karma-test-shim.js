@@ -65,6 +65,13 @@ System.config({
     '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
     '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
     '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
+    '@angular/material': 'npm:@angular/material/bundles/material.umd.js',
+    '@angular/cdk': 'npm:@angular/cdk/bundles/cdk.umd.js',
+    '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.js',
+    '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
+    '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
+    '@angular/flex-layout' : 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
+    
     // Testing bundles
     '@angular/core/testing': 'npm:@angular/core/bundles/core-testing.umd.js',
     '@angular/common/testing': 'npm:@angular/common/bundles/common-testing.umd.js',
