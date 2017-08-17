@@ -3,8 +3,7 @@ Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" pla
 <button (click)="prevPage()">Previous</button>
 <button (click)="nextPage()">Next</button>
 
-
-
 <div class="openSeadragonContainer" [ngClass]="mode == 'page' ? 'view-page' : 'view-dashboard'">
+  <viewer-header></viewer-header>
   <div id="openseadragon"></div>
 </div>

@@ -1,4 +1,16 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges, Renderer2 } from '@angular/core';
+import { MimeViewerIntl } from './viewer-intl';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+  Renderer2,
+  ChangeDetectorRef
+} from '@angular/core';
 import { IiifService } from '../core/iiif-service/iiif-service';
 import { Manifest } from '../core/models/manifest';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,7 +24,8 @@ declare const d3: any;
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss']
+  styleUrls: ['./viewer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 

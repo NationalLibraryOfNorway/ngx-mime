@@ -43,7 +43,8 @@ module.exports = function (config) {
       'node_modules/zone.js/dist/fake-async-test.js',
       'node_modules/tslib/tslib.js',
       'node_modules/openseadragon/build/openseadragon/openseadragon.min.js',
-
+      { pattern: 'node_modules/@angular/material/prebuilt-themes/indigo-pink.css', included: true, watched: true },
+     
       // RxJs
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },

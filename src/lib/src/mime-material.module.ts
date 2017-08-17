@@ -1,8 +1,17 @@
 import { NgModule } from '@angular/core';
-import { MdToolbarModule } from '@angular/material';
+import {
+  MdToolbarModule,
+  MdButtonModule,
+  MdIconModule,
+  MdTooltipModule
+} from '@angular/material';
 
 @NgModule({
-  imports: [MdToolbarModule],
-  exports: [MdToolbarModule],
+  exports: [
+    MdToolbarModule,
+    MdButtonModule,
+    MdIconModule,
+    MdTooltipModule
+  ],
 })
 export class MimeMaterialModule { }
