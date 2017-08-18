@@ -6,4 +6,5 @@ Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" pla
 <div class="openSeadragonContainer" [ngClass]="mode == 'page' ? 'view-page' : 'view-dashboard'">
   <viewer-header></viewer-header>
   <div id="openseadragon"></div>
+  <viewer-footer [pageIndex]="pageIndex" [length]="length" [rtl]="true"></viewer-footer>
 </div>

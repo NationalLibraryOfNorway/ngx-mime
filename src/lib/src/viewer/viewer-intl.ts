@@ -6,5 +6,6 @@ export class MimeViewerIntl {
   changes: Subject<void> = new Subject<void>();
 
   metadataLabel = 'Info';
-
+  previousPageLabel = 'Previous';
+  nextPageLabel = 'Next'
 }

@@ -1,0 +1,24 @@
+<md-slider min="1" [max]="length" step="1" [value]="pageIndex" (input)="sliderChange($event)" [invert]="rtl"></md-slider>
+<div class="page-number"><span class="mat-body-2">{{ pageIndex }}</span> / <span class="mat-body-1">{{ length }}</span></div>
+
+<button md-icon-button
+class="mat-paginator-navigation-previous"
+(click)="goLeft()"
+[attr.aria-label]="intl.previousPageLabel"
+[mdTooltip]="intl.previousPageLabel"
+[mdTooltipPosition]="'above'"
+[disabled]="!hasLeft()">
+<md-icon class="material-icons">keyboard_arrow_left</md-icon>
+</button>
+
+<button md-icon-button
+class="mat-paginator-navigation-next"
+(click)="goRight()"
+[attr.aria-label]="intl.nextPageLabel"
+[mdTooltip]="intl.nextPageLabel"
+[mdTooltipPosition]="'above'"
+[disabled]="!hasRight()">
+<md-icon class="material-icons">keyboard_arrow_right</md-icon>
+</button>
+<div *ngIf="rtl">RTL!</div>
+<!-- button md-icon-button mdTooltip="Lukk" aria-label="Previous"></button -->

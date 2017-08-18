@@ -36,6 +36,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private mode: string;
   private options: Options;
   private tileSources: any[];
+  private length: number = 10;
+  public pageIndex: number = 4;
 
   // References to clickable overlays
   private overlays: any[];

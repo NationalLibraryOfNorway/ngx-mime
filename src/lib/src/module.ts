@@ -1,4 +1,5 @@
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
+import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -8,18 +9,22 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { MimeViewerIntl } from './viewer/viewer-intl';
 import { IiifService } from './core/iiif-service/iiif-service';
 
+
+import { CommonModule } from '@angular/common';
+
 import './rxjs-extension';
 import 'openseadragon';
 
 @NgModule({
   declarations: [
     ViewerComponent,
-    ViewerHeaderComponent
+    ViewerHeaderComponent,
+    ViewerFooterComponent
   ],
   imports: [
     FlexLayoutModule,
-    MimeMaterialModule,
-    CommonModule
+    CommonModule,
+    MimeMaterialModule
   ],
   exports: [
     FlexLayoutModule,
