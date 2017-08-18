@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../viewer-intl';
@@ -21,7 +22,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private renderer: Renderer2,
     private el: ElementRef,
-    private changeDetectorRef: ChangeDetectorRef) { }
+    private changeDetectorRef: ChangeDetectorRef,
+    private media: ObservableMedia) { }
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
@@ -34,10 +36,29 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public openContents() {
+    let config: MdDialogConfig;
+    if (this.media.isActive('xs')) {
+      config = this.getMobileContensConfig();
+    } else {
+      config = this.getDesktopContensConfig();
+    }
+
+    this.dialog.open(ContentsComponent, config);
+  }
+
+  private getMobileContensConfig(): MdDialogConfig {
+    return {
+      width: '100%',
+      height: '100%',
+      data: this.manifest
+    };
+  }
+
+  private getDesktopContensConfig(): MdDialogConfig {
     const rect = this.el.nativeElement.getBoundingClientRect();
     let left = rect.right - 370;
     let top = rect.top + 64;
-    const config: MdDialogConfig = {
+    return {
       hasBackdrop: false,
       disableClose: true,
       width: '350px',
@@ -47,8 +68,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
       },
       data: this.manifest
     };
-
-    this.dialog.open(ContentsComponent, config);
   }
 
 }
