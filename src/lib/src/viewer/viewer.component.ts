@@ -1,4 +1,3 @@
-import { MimeViewerIntl } from './viewer-intl';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -10,9 +9,12 @@ import {
   SimpleChanges,
   ChangeDetectorRef
 } from '@angular/core';
+import { MdDialog } from '@angular/material';
+import { Subscription } from 'rxjs/Subscription';
+
+import { MimeViewerIntl } from './viewer-intl';
 import { IiifService } from '../core/iiif-service/iiif-service';
 import { Manifest } from '../core/models/manifest';
-import { Subscription } from 'rxjs/Subscription';
 import { Options } from '../core/models/options';
 
 declare const OpenSeadragon: any;
@@ -28,7 +30,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   public manifest: Manifest;
   private subscriptions: Array<Subscription> = [];
 
-  constructor(private iiifService: IiifService) { }
+  constructor(private iiifService: IiifService, private dialog: MdDialog) { }
 
   ngOnInit(): void {
     this.createViewer();
@@ -51,6 +53,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   createViewer() {
+    this.dialog.closeAll();
     if (this.manifestUri) {
       this.subscriptions.push(
         this.iiifService.getManifest(this.manifestUri)
