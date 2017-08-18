@@ -30,7 +30,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   public manifest: Manifest;
   private subscriptions: Array<Subscription> = [];
 
-  constructor(private iiifService: IiifService, private dialog: MdDialog) { }
+  constructor(private iiifService: IiifService, public dialog: MdDialog) { }
 
   ngOnInit(): void {
     this.createViewer();
@@ -41,6 +41,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
         this.manifestUri = manifestUriChanges.currentValue;
+        this.closeAllDialogs();
         this.createViewer();
       }
     }
@@ -52,8 +53,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  createViewer() {
-    this.closeAllDialogs();
+  private createViewer() {
     if (this.manifestUri) {
       this.subscriptions.push(
         this.iiifService.getManifest(this.manifestUri)
@@ -68,7 +68,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private closeAllDialogs() {
+  public closeAllDialogs() {
     this.dialog.closeAll();
   }
 }
