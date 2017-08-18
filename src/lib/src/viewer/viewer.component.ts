@@ -53,7 +53,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   createViewer() {
-    this.dialog.closeAll();
+    this.closeAllDialogs();
     if (this.manifestUri) {
       this.subscriptions.push(
         this.iiifService.getManifest(this.manifestUri)
@@ -66,5 +66,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           })
       );
     }
+  }
+
+  private closeAllDialogs() {
+    this.dialog.closeAll();
   }
 }
