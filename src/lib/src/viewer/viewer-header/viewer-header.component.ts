@@ -16,6 +16,7 @@ import { ContentsComponent } from './../contents/contents.component';
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   @Input() manifest: Manifest;
   private subscriptions: Array<Subscription> = [];
+  public isContentsDialogOpen = false;
 
   constructor(
     public dialog: MdDialog,
@@ -37,13 +38,19 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public openContents() {
     let config: MdDialogConfig;
-    if (this.media.isActive('xs')) {
-      config = this.getMobileContensConfig();
-    } else {
-      config = this.getDesktopContensConfig();
-    }
+    if (!this.isContentsDialogOpen) {
+      if (this.media.isActive('xs')) {
+        config = this.getMobileContensConfig();
+      } else {
+        config = this.getDesktopContensConfig();
+      }
 
-    this.dialog.open(ContentsComponent, config);
+      const dialogRef = this.dialog.open(ContentsComponent, config);
+      this.subscriptions.push(dialogRef.afterClosed().subscribe(result => {
+        this.isContentsDialogOpen = false;
+      }));
+      this.isContentsDialogOpen = true;
+    }
   }
 
   private getMobileContensConfig(): MdDialogConfig {
