@@ -1,17 +1,23 @@
-import { Component, OnInit, Optional, Inject } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit, Optional, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MD_DIALOG_DATA } from '@angular/material';
+import { ObservableMedia } from '@angular/flex-layout';
 
 import { Manifest } from './../../core/models/manifest';
 
 @Component({
   selector: 'mime-contents',
   templateUrl: './contents.component.html',
-  styleUrls: ['./contents.component.scss']
+  styleUrls: ['./contents.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentsComponent implements OnInit {
   public manifest: Manifest;
+  private subscriptions: Array<Subscription> = [];
 
-  constructor( @Optional() @Inject(MD_DIALOG_DATA) public data: Manifest) {
+  constructor(
+    public media: ObservableMedia,
+    @Optional() @Inject(MD_DIALOG_DATA) public data: Manifest) {
     if (this.data) {
       this.manifest = data;
     }

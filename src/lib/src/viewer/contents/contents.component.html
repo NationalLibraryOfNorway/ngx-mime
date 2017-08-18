@@ -1,10 +1,22 @@
 <div class="contents-container">
-  <md-toolbar>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-      <div class="heading">Contents</div>
-      <button md-icon-button mdTooltip="Lukk" aria-label="Lukk" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+  <div [ngSwitch]="media.isActive('xs')">
+    <div *ngSwitchCase="true">
+      <md-toolbar color="primary">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <button md-icon-button mdTooltip="Lukk" aria-label="Lukk" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+          <div class="heading">Contents</div>
+        </div>
+      </md-toolbar>
     </div>
-  </md-toolbar>
+    <div *ngSwitchDefault>
+      <md-toolbar>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+          <div class="heading">Contents</div>
+          <button md-icon-button mdTooltip="Lukk" aria-label="Lukk" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+        </div>
+      </md-toolbar>
+    </div>
+  </div>
   <md-tab-group>
     <md-tab label="Metadata">
       <mime-metadata [manifest]="manifest"></mime-metadata>
