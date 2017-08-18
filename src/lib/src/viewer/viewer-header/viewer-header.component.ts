@@ -69,6 +69,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
       hasBackdrop: false,
       disableClose: true,
       width: '350px',
+      height: '600px',
       position: {
         top: top + 'px',
         left: left + 'px',

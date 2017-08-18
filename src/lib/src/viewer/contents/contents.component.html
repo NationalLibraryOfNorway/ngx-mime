@@ -19,7 +19,9 @@
   </div>
   <md-tab-group>
     <md-tab label="Metadata">
-      <mime-metadata [manifest]="manifest"></mime-metadata>
+      <div class="tab-container" class.gt-xs="tab-container-desktop">
+        <mime-metadata [manifest]="manifest"></mime-metadata>
+      </div>
     </md-tab>
   </md-tab-group>
 </div>

@@ -1,6 +1,6 @@
-<md-list dense>
-  <md-list-item *ngFor="let metadata of manifest?.metadata">
-    <h3 md-line class="title">{{metadata.label}}</h3>
-    <span md-line class="content" [innerHTML]="metadata.value"></span>
-  </md-list-item>
-</md-list>
+<div role="list" class="metadata-container">
+  <div *ngFor="let metadata of manifest?.metadata">
+    <div class="title">{{metadata.label}}</div>
+    <span class="content" [innerHTML]="metadata.value"></span>
+  </div>
+</div>
