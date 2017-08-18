@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -17,9 +17,11 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
     public dialog: MdDialog,
-    public intl: MimeViewerIntl) { }
+    public intl: MimeViewerIntl,
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
@@ -32,13 +34,16 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public openContents() {
+    const rect = this.el.nativeElement.getBoundingClientRect();
+    let left = rect.right - 370;
+    let top = rect.top + 64;
     const config: MdDialogConfig = {
       hasBackdrop: false,
       disableClose: true,
-      panelClass: 'contents',
+      width: '350px',
       position: {
-        top: '20px',
-        right: '20px'
+        top: top + 'px',
+        left: left + 'px',
       },
       data: this.manifest
     };

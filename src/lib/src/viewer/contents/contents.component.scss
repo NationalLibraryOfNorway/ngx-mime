@@ -1,18 +1,18 @@
-::ng-deep .mat-dialog-container {
-  padding: 0px !important;
-}
-
 .contents-container {
   min-width: 350px;
   padding-bottom: 10px;
 }
 
-h2 {
+.heading {
   font-size: 17px;
 }
 
 .label {
   text-decoration: underline;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0px !important;
 }
 
 ::ng-deep .mat-list-item-content {
