@@ -102,7 +102,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         return;
       }
       let box = tiledImage.getBounds(true);
-
       overlay.append('rect')
         .style('fill', '#ffcc00')
         .style('opacity', 0.5)
