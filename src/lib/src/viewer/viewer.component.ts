@@ -29,7 +29,6 @@ declare const OpenSeadragon: any;
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
   public viewer: any;
-  public manifest: Manifest;
   private subscriptions: Array<Subscription> = [];
 
   constructor(
@@ -37,8 +36,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
     private dialog: MdDialog) {
-      contentsDialogService.elementRef = el;
-    }
+    contentsDialogService.elementRef = el;
+  }
 
   ngOnInit(): void {
     this.loadManifest();
@@ -46,9 +45,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
-          this.manifest = manifest;
           this.cleanUp();
-          this.setUpViewer();
+          this.setUpViewer(manifest);
         })
     );
 
@@ -59,7 +57,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
         this.manifestUri = manifestUriChanges.currentValue;
-        this.closeAllDialogs();
+        this.cleanUp();
         this.loadManifest();
       }
     }
@@ -76,14 +74,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private cleanUp() {
+    this.closeAllDialogs();
     if (this.viewer != null && this.viewer.isOpen()) {
       this.viewer.destroy();
     }
   }
 
-  private setUpViewer() {
-    if (this.manifest) {
-      this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(this.manifest.tileSource)));
+  private setUpViewer(manifest: Manifest) {
+    if (manifest) {
+      this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
     }
   }
 
