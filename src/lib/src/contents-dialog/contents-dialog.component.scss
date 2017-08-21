@@ -20,6 +20,10 @@
   height: 40px !important;
 }
 
+::ng-deep .mat-toolbar {
+  padding: 0px 0px;
+}
+
 .tab-container-desktop {
   overflow: auto;
   max-height: calc(600px - 140px);
