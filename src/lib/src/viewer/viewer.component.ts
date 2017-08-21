@@ -153,6 +153,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   nextPage(): void {
+    if (this.currentPage + 1 > this.overlays.length - 1) {
+      return;
+    }
     this.currentPage++;
     let box = this.overlays[this.currentPage];
     let pageBounds = this.createRectangel(box);
@@ -160,6 +163,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   prevPage(): void {
+    if (this.currentPage === 0) {
+      return;
+    }
     this.currentPage--;
     let box = this.overlays[this.currentPage];
     let pageBounds = this.createRectangel(box);
