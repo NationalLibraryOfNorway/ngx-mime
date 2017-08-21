@@ -23,6 +23,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private mode: string;
   private options: Options;
   private tileSources: any[];
+  private overlays: any[];
+  private currentPage: number;
 
 
   constructor(
@@ -74,8 +76,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   toggleView(): void {
     this.mode = this.mode === 'dashboard' ? 'page' : 'dashboard';
-    console.log('viewer is in mode: ' + this.mode);
-
     //this.createViewer();
   }
 
@@ -93,6 +93,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   // Create SVG-overlays for each page
   createOverlays(): void {
+    this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();
     let overlay = d3.select(svgOverlay.node());
 
@@ -107,7 +108,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
       overlay.append('rect')
         .style('fill', '#ffcc00')
-        // .style('fill-opacity', 0)
+        .style('fill-opacity', 0)
         .style('opacity', 0.5)
         .style('cursor', 'pointer')
         .attrs({
@@ -119,9 +120,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
       // Fit bounds on click and toggle view-change
       let currentOverlay = overlay._groups[0][0].children[i];
+      this.overlays.push(currentOverlay);
       this.renderer.listen(currentOverlay, 'click', (evt) => {
         this.fitBounds(currentOverlay);
         this.toggleView();
+        this.currentPage = i;
       });
     });
   }
@@ -130,12 +133,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   fitBounds(currentOverlay: any): void {
     let bounds;
     let dashboardBounds = this.viewer.viewport.getBounds();
-    let pageBounds = new OpenSeadragon.Rect(
-      currentOverlay.x.baseVal.value,
-      currentOverlay.y.baseVal.value,
-      currentOverlay.width.baseVal.value,
-      currentOverlay.height.baseVal.value
-    );
+    let pageBounds = this.createRectangel(currentOverlay);
     // If we currently are in page-mode, then switch to dashboard-bounds
     if (this.mode === 'page') {
       console.log('switching to dashboard-bounds')
@@ -155,7 +153,26 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   nextPage(): void {
+    this.currentPage++;
+    let box = this.overlays[this.currentPage];
+    let pageBounds = this.createRectangel(box);
+    this.viewer.viewport.fitBounds(pageBounds);
+  }
 
+  prevPage(): void {
+    this.currentPage--;
+    let box = this.overlays[this.currentPage];
+    let pageBounds = this.createRectangel(box);
+    this.viewer.viewport.fitBounds(pageBounds);
+  }
+
+  createRectangel(overlay: any): any {
+    return new OpenSeadragon.Rect(
+      overlay.x.baseVal.value,
+      overlay.y.baseVal.value,
+      overlay.width.baseVal.value,
+      overlay.height.baseVal.value
+    );
   }
 
 }
