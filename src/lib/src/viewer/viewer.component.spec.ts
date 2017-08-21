@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../shared/shared.module';
+import { ContentsDialogModule } from './../contents-dialog/contents-dialog.module';
 import { ViewerComponent } from './viewer.component';
 import { IiifService } from '../core/iiif-service/iiif-service';
 import { Manifest } from './../core/models/manifest';
@@ -26,7 +27,8 @@ describe('ViewerComponent', function () {
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports: [
         HttpClientTestingModule,
-        SharedModule
+        SharedModule,
+        ContentsDialogModule
       ],
       declarations: [
         ViewerComponent,

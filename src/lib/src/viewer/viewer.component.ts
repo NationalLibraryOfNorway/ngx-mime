@@ -7,13 +7,15 @@ import {
   OnInit,
   SimpleChange,
   SimpleChanges,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ElementRef
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './viewer-intl';
 import { IiifService } from '../core/iiif-service/iiif-service';
+import { ContentsDialogService } from './../contents-dialog/contents-dialog.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
 
@@ -30,7 +32,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   public manifest: Manifest;
   private subscriptions: Array<Subscription> = [];
 
-  constructor(private iiifService: IiifService, public dialog: MdDialog) { }
+  constructor(
+    private el: ElementRef,
+    private iiifService: IiifService,
+    private contentsDialogService: ContentsDialogService,
+    private dialog: MdDialog) {
+      contentsDialogService.elementRef = el;
+    }
 
   ngOnInit(): void {
     this.createViewer();
@@ -59,6 +67,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.iiifService.getManifest(this.manifestUri)
           .subscribe((manifest: Manifest) => {
             this.manifest = manifest;
+            this.contentsDialogService.manifest = manifest;
             if (this.viewer != null && this.viewer.isOpen()) {
               this.viewer.destroy();
             }

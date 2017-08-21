@@ -25,8 +25,7 @@ describe('ViewerHeaderComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        ViewerHeaderTestModule,
-        SharedModule
+        ViewerHeaderTestModule
       ],
       providers: [
         MimeViewerIntl,
@@ -59,8 +58,6 @@ describe('ViewerHeaderComponent', () => {
 
   it('should open contents dialog', () => {
     component.openContents();
-
-    expect(component.isContentsDialogOpen).toBeTruthy();
   });
 
 });

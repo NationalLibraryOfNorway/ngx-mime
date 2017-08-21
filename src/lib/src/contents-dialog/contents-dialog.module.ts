@@ -1,6 +1,7 @@
 import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 
+import { ContentsDialogService } from './contents-dialog.service';
 import { ContentsComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 
@@ -16,7 +17,9 @@ import { MetadataComponent } from './metadata/metadata.component';
     ContentsComponent,
     MetadataComponent
   ],
-  providers: [],
+  providers: [
+    ContentsDialogService
+  ],
   entryComponents: [
     ContentsComponent
   ],
