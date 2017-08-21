@@ -13,7 +13,7 @@ import {
 import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './viewer-intl';
+import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from './../contents-dialog/contents-dialog.service';
 import { Manifest } from '../core/models/manifest';

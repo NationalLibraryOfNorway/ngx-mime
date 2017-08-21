@@ -3,7 +3,7 @@ import { MD_DIALOG_DATA } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../viewer/viewer-intl';
+import { MimeViewerIntl } from './../core/viewer-intl';
 import { Manifest } from './../core/models/manifest';
 
 @Component({

@@ -6,6 +6,10 @@
   font-size: 17px;
 }
 
+.heading-desktop {
+  padding-left: 16px;
+}
+
 .label {
   text-decoration: underline;
 }

@@ -3,7 +3,7 @@ import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../viewer-intl';
+import { MimeViewerIntl } from './../../core/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
 import { ContentsComponent } from './../../contents-dialog/contents-dialog.component';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
