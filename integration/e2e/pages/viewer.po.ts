@@ -8,6 +8,10 @@ export class ViewerPage {
     return browser.get('');
   }
 
+  contentsDialogButton() {
+    return element(by.css('#contentsDialogButton'));
+  }
+
   getOpenSeadragon() {
     const el = element(by.css('.openseadragon-container'));
     utils.waitForElement(el);

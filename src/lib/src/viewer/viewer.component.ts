@@ -8,7 +8,8 @@ import {
   SimpleChange,
   SimpleChanges,
   ChangeDetectorRef,
-  ElementRef
+  ElementRef,
+  NgZone
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
@@ -32,6 +33,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
+    private zone: NgZone,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
@@ -82,7 +84,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   private setUpViewer(manifest: Manifest) {
     if (manifest) {
-      this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
+      this.zone.runOutsideAngular(() => {
+        this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
+      });
     }
   }
 
