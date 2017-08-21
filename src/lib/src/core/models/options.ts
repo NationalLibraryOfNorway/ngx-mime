@@ -2,6 +2,7 @@ import { GestureSettings } from './gestureSettings';
 import { NavImages } from './navImages';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
+
 export class Options {
   id = 'openseadragon';
   element: Element;
@@ -110,17 +111,17 @@ export class Options {
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
 
-  constructor(mode: string, tileSources?: Service[], ) {
+  constructor(mode: string, tileSources?: Service[]) {
     if (tileSources) {
       this.tileSources = tileSources;
     }
 
-    if(mode === 'scroll') {
+    if (mode === 'dashboard') {
       this.collectionMode = true;
       this.sequenceMode = false;
       this.defaultZoomLevel = 0.0004;
     }
-    if(mode === 'page') {
+    if (mode === 'page') {
       this.collectionMode = false;
       this.sequenceMode = true;
       this.defaultZoomLevel = 0;
