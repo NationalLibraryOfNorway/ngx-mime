@@ -22,9 +22,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private subscriptions: Array<Subscription> = [];
   private mode: string;
   private options: Options;
-  private tileSources: any[];
-  private overlays: any[];
-  private currentPage: number;
+  private tileSources: any[] = [];
+
+  // References to clickable overlays
+  private overlays: any[] = [];
+  private currentPage = 0;
 
 
   constructor(
@@ -93,7 +95,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   // Create SVG-overlays for each page
   createOverlays(): void {
-    this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();
     let overlay = d3.select(svgOverlay.node());
 
@@ -118,9 +119,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           height: box.height
         });
 
-      // Fit bounds on click and toggle view-change
+
       let currentOverlay = overlay._groups[0][0].children[i];
       this.overlays.push(currentOverlay);
+
+      // Fit bounds on click and toggle view-change
       this.renderer.listen(currentOverlay, 'click', (evt) => {
         this.fitBounds(currentOverlay);
         this.toggleView();
@@ -131,24 +134,21 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   // Toggle viewport-bounds between page and dashboard
   fitBounds(currentOverlay: any): void {
-    let bounds;
-    let dashboardBounds = this.viewer.viewport.getBounds();
-    let pageBounds = this.createRectangel(currentOverlay);
+
     // If we currently are in page-mode, then switch to dashboard-bounds
     if (this.mode === 'page') {
       console.log('switching to dashboard-bounds')
-      bounds = dashboardBounds;
+      let dashboardBounds = this.viewer.viewport.getBounds();
+      this.viewer.viewport.fitBounds(dashboardBounds);
+      // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
+      this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
     }
+
     // If we currently are in dashboard-mode, then switch to page-bounds
     if (this.mode === 'dashboard') {
       console.log('switching to page-bounds');
-      bounds = pageBounds;
-    }
-    this.viewer.viewport.fitBounds(bounds);
-
-    // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
-    if (this.mode === 'page') {
-      this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
+      let pageBounds = this.createRectangel(currentOverlay);
+      this.viewer.viewport.fitBounds(pageBounds);
     }
   }
 
