@@ -1,11 +1,25 @@
-.openSeadragonContainer {
-  min-width: 800px;
+.viewer__container {
   width: 100%;
-  min-height: 600px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  &--pageView {
+
+  }
 }
 
 #openseadragon {
   width: 100%;
-  height: 100%;
+  flex-grow: 1;
+  height: calc(100% - 64px - 48px); // subtract header and footer
+}
+
+.viewer__container--pageView {
+  & #openseadragon {
+    height: 100%;
+  }
+}
+
+viewer-header {
+
 }

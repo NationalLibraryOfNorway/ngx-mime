@@ -3,8 +3,8 @@ Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" pla
 <button (click)="prevPage()">Previous</button>
 <button (click)="nextPage()">Next</button>
 
-<div class="openSeadragonContainer" [ngClass]="mode == 'page' ? 'view-page' : 'view-dashboard'">
-  <viewer-header></viewer-header>
+<div class="viewer__container" [class.viewer__container--pageView]="isPageView" [ngClass]="mode == 'page' ? 'view-page' : 'view-dashboard'">
+  <viewer-header *ngIf="!isPageView"></viewer-header>
   <div id="openseadragon"></div>
-  <viewer-footer [pageIndex]="pageIndex" [length]="length" [rtl]="true"></viewer-footer>
+  <viewer-footer *ngIf="!isPageView"></viewer-footer>
 </div>

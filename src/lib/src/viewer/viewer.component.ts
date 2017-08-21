@@ -20,7 +20,6 @@ import '../core/ext/svg-overlay';
 //declare const OpenSeadragon: any;
 declare const d3: any;
 
-
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
@@ -38,6 +37,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private tileSources: any[];
   private length: number = 10;
   public pageIndex: number = 4;
+  public isPageView: boolean = true;
+
+  // Used to calculate single or double click
+  private clicks: number = 0;
+  private dblClickTimeOut: number;
 
   // References to clickable overlays
   private overlays: any[];
@@ -46,7 +50,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private iiifService: IiifService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -82,13 +87,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.options = new Options(this.mode, this.tileSources);
             this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
             this.addEvents();
+            this.addClickHandler();
           },
           () => { },
           () => { })
       );
     }
   }
-
 
   toggleView(): void {
     this.mode = this.mode === 'dashboard' ? 'page' : 'dashboard';
@@ -228,6 +233,25 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     let firstpageDashboardBounds = this.viewer.viewport.getBounds();
     firstpageDashboardBounds.x = 0;
     this.viewer.viewport.fitBounds(firstpageDashboardBounds);
+  }
+
+  addClickHandler() {
+    this.viewer.addHandler('canvas-click', (event: any) => {
+      if (event.quick) {
+        this.clicks++;
+        event.preventDefaultAction = true;
+        if (this.clicks === 1) {
+          this.dblClickTimeOut = setTimeout(() => {
+            this.clicks = 0;
+            this.isPageView = !this.isPageView;
+            this.changeDetectorRef.markForCheck()
+          }, event.tracker.dblClickTimeThreshold);
+        } else if (this.clicks === 2) {
+          clearTimeout(this.dblClickTimeOut);
+          this.clicks = 0;
+        }
+      }
+    });
   }
 
 }

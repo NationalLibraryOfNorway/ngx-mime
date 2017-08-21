@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import {
   MdToolbarModule,
   MdSliderModule,
-  MdPaginatorModule,
   MdButtonModule,
   MdIconModule,
   MdTooltipModule
@@ -12,7 +11,6 @@ import {
   exports: [
     MdToolbarModule,
     MdSliderModule,
-    MdPaginatorModule,
     MdButtonModule,
     MdIconModule,
     MdTooltipModule
