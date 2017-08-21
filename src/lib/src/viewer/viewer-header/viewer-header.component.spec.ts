@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FlexLayoutModule, ObservableMedia } from '@angular/flex-layout';
+import { ObservableMedia } from '@angular/flex-layout';
 
+import { SharedModule } from './../../shared/shared.module';
+import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
-import { ContentsComponent } from './../contents/contents.component';
-import { MetadataComponent } from './../contents/metadata/metadata.component';
 import { MimeViewerIntl } from './../viewer-intl';
-import { MimeMaterialModule } from './../../mime-material.module';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -26,7 +25,8 @@ describe('ViewerHeaderComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        ViewerHeaderTestModule
+        ViewerHeaderTestModule,
+        SharedModule
       ],
       providers: [
         MimeViewerIntl,
@@ -61,23 +61,19 @@ describe('ViewerHeaderComponent', () => {
     component.openContents();
 
     expect(component.isContentsDialogOpen).toBeTruthy();
-    ;
+  });
 
 });
 
 @NgModule({
   imports: [
     NoopAnimationsModule,
-    CommonModule,
-    FlexLayoutModule,
-    MimeMaterialModule,
+    SharedModule,
+    ContentsDialogModule
   ],
   declarations: [
     ViewerHeaderComponent,
-    ContentsComponent,
-    MetadataComponent
   ],
-  exports: [ViewerHeaderComponent],
-  entryComponents: [ContentsComponent],
+  exports: [ViewerHeaderComponent]
 })
 class ViewerHeaderTestModule { }

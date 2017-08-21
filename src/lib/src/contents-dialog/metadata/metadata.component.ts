@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { Manifest } from './../../../core/models/manifest';
+import { Manifest } from './../../core/models/manifest';
 
 @Component({
   selector: 'mime-metadata',

@@ -1,13 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { CommonModule } from '@angular/common';
 
-import { MimeMaterialModule } from './mime-material.module';
+import { SharedModule } from './shared/shared.module';
+import { ContentsDialogModule } from './contents-dialog/contents-dialog.module';
 import { MimeViewerIntl } from './viewer/viewer-intl';
 import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
-import { MetadataComponent } from './viewer/contents/metadata/metadata.component';
-import { ContentsComponent } from './viewer/contents/contents.component';
 import { IiifService } from './core/iiif-service/iiif-service';
 
 import './rxjs-extension';
@@ -17,26 +15,18 @@ import 'openseadragon';
   declarations: [
     ViewerComponent,
     ViewerHeaderComponent,
-    ContentsComponent,
-    MetadataComponent
   ],
   imports: [
-    FlexLayoutModule,
-    MimeMaterialModule,
-    CommonModule
+    SharedModule,
+    ContentsDialogModule
   ],
   exports: [
-    FlexLayoutModule,
-    MimeMaterialModule,
     ViewerComponent
   ],
   providers: [
     MimeViewerIntl,
     IiifService,
-  ],
-  entryComponents: [
-    ContentsComponent
-  ],
+  ]
 })
 export class MimeModule {
   constructor(

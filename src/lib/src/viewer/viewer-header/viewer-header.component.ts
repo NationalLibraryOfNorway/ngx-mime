@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../viewer-intl';
 import { Manifest } from './../../core/models/manifest';
-import { ContentsComponent } from './../contents/contents.component';
+import { ContentsComponent } from './../../contents-dialog/contents-dialog.component';
 
 @Component({
   selector: 'mime-viewer-header',

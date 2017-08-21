@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable } from 'rxjs/Observable';
 
-import { MimeMaterialModule } from './../mime-material.module';
+import { SharedModule } from './../shared/shared.module';
 import { ViewerComponent } from './viewer.component';
 import { IiifService } from '../core/iiif-service/iiif-service';
 import { Manifest } from './../core/models/manifest';
@@ -26,7 +26,7 @@ describe('ViewerComponent', function () {
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports: [
         HttpClientTestingModule,
-        MimeMaterialModule
+        SharedModule
       ],
       declarations: [
         ViewerComponent,

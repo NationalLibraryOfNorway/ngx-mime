@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SharedModule } from './../../shared/shared.module';
 import { MetadataComponent } from './metadata.component';
-import { MimeMaterialModule } from './../../../mime-material.module';
 
 describe('MetadataComponent', () => {
   let component: MetadataComponent;
@@ -10,7 +10,7 @@ describe('MetadataComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MimeMaterialModule
+        SharedModule
       ],
       declarations: [ MetadataComponent ]
     })

@@ -3,13 +3,13 @@ import { MD_DIALOG_DATA } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../viewer-intl';
-import { Manifest } from './../../core/models/manifest';
+import { MimeViewerIntl } from './../viewer/viewer-intl';
+import { Manifest } from './../core/models/manifest';
 
 @Component({
   selector: 'mime-contents',
-  templateUrl: './contents.component.html',
-  styleUrls: ['./contents.component.scss'],
+  templateUrl: './contents-dialog.component.html',
+  styleUrls: ['./contents-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentsComponent implements OnInit {
