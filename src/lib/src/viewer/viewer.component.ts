@@ -18,9 +18,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() manifestUri: string;
   public viewer: any;
+
   private subscriptions: Array<Subscription> = [];
   private mode: string;
-  public tileSources: any[];
+  private options: Options;
+  private tileSources: any[];
 
 
   constructor(
@@ -30,7 +32,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.mode = 'dashboard';
-
     this.createViewer();
   }
 
@@ -59,7 +60,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
               this.viewer.destroy();
             }
             this.tileSources = manifest.tileSource;
-            this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(this.mode, this.tileSources)));
+            this.options = new Options(this.mode, this.tileSources);
+            this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
 
             this.addEvents();
           },
@@ -74,7 +76,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.mode = this.mode === 'dashboard' ? 'page' : 'dashboard';
     console.log('viewer is in mode: ' + this.mode);
 
-    this.createViewer();
+    //this.createViewer();
   }
 
 
@@ -103,8 +105,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       }
       let box = tiledImage.getBounds(true);
 
-
-
       overlay.append('rect')
         .style('fill', '#ffcc00')
         // .style('fill-opacity', 0)
@@ -117,23 +117,45 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           height: box.height
         });
 
-      // Fit bounds on click
+      // Fit bounds on click and toggle view-change
       let currentOverlay = overlay._groups[0][0].children[i];
       this.renderer.listen(currentOverlay, 'click', (evt) => {
-        // if (this.mode === 'dashboard') {
-        //   this.mode = 'scroll';
-        // }
-
-
-        this.viewer.viewport.fitBounds(new OpenSeadragon.Rect(
-          currentOverlay.x.baseVal.value,
-          currentOverlay.y.baseVal.value,
-          currentOverlay.width.baseVal.value,
-          currentOverlay.height.baseVal.value
-        ));
-
-      })
+        this.fitBounds(currentOverlay);
+        this.toggleView();
+      });
     });
+  }
+
+  // Toggle viewport-bounds between page and dashboard
+  fitBounds(currentOverlay: any): void {
+    let bounds;
+    let dashboardBounds = this.viewer.viewport.getBounds();
+    let pageBounds = new OpenSeadragon.Rect(
+      currentOverlay.x.baseVal.value,
+      currentOverlay.y.baseVal.value,
+      currentOverlay.width.baseVal.value,
+      currentOverlay.height.baseVal.value
+    );
+    // If we currently are in page-mode, then switch to dashboard-bounds
+    if (this.mode === 'page') {
+      console.log('switching to dashboard-bounds')
+      bounds = dashboardBounds;
+    }
+    // If we currently are in dashboard-mode, then switch to page-bounds
+    if (this.mode === 'dashboard') {
+      console.log('switching to page-bounds');
+      bounds = pageBounds;
+    }
+    this.viewer.viewport.fitBounds(bounds);
+
+    // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
+    if (this.mode === 'page') {
+      this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
+    }
+  }
+
+  nextPage(): void {
+
   }
 
 }
