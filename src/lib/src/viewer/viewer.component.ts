@@ -14,7 +14,7 @@ import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './viewer-intl';
-import { IiifService } from '../core/iiif-service/iiif-service';
+import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from './../contents-dialog/contents-dialog.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
@@ -34,14 +34,24 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private el: ElementRef,
-    private iiifService: IiifService,
+    private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
     private dialog: MdDialog) {
       contentsDialogService.elementRef = el;
     }
 
   ngOnInit(): void {
-    this.createViewer();
+    this.loadManifest();
+
+    this.subscriptions.push(
+      this.iiifManifestService.currentManifest
+        .subscribe((manifest: Manifest) => {
+          this.manifest = manifest;
+          this.cleanUp();
+          this.setUpViewer();
+        })
+    );
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,7 +60,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
         this.manifestUri = manifestUriChanges.currentValue;
         this.closeAllDialogs();
-        this.createViewer();
+        this.loadManifest();
       }
     }
   }
@@ -61,19 +71,19 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  private createViewer() {
-    if (this.manifestUri) {
-      this.subscriptions.push(
-        this.iiifService.getManifest(this.manifestUri)
-          .subscribe((manifest: Manifest) => {
-            this.manifest = manifest;
-            this.contentsDialogService.manifest = manifest;
-            if (this.viewer != null && this.viewer.isOpen()) {
-              this.viewer.destroy();
-            }
-            this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
-          })
-      );
+  private loadManifest() {
+    this.iiifManifestService.load(this.manifestUri);
+  }
+
+  private cleanUp() {
+    if (this.viewer != null && this.viewer.isOpen()) {
+      this.viewer.destroy();
+    }
+  }
+
+  private setUpViewer() {
+    if (this.manifest) {
+      this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(this.manifest.tileSource)));
     }
   }
 

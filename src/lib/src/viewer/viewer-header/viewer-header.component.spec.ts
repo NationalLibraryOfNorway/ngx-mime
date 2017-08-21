@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,27 +10,18 @@ import { SharedModule } from './../../shared/shared.module';
 import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../viewer-intl';
+import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
   let spy: any;
 
-  class MockMedia {
-    isActive(): boolean {
-      return true;
-    }
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         ViewerHeaderTestModule
-      ],
-      providers: [
-        MimeViewerIntl,
-        { provide: ObservableMedia, useClass: MockMedia }
       ]
     })
       .compileComponents();
@@ -66,11 +58,16 @@ describe('ViewerHeaderComponent', () => {
   imports: [
     NoopAnimationsModule,
     SharedModule,
-    ContentsDialogModule
+    ContentsDialogModule,
+    HttpClientModule
   ],
   declarations: [
     ViewerHeaderComponent,
   ],
-  exports: [ViewerHeaderComponent]
+  exports: [ViewerHeaderComponent],
+  providers: [
+    MimeViewerIntl,
+    IiifManifestService
+  ]
 })
 class ViewerHeaderTestModule { }

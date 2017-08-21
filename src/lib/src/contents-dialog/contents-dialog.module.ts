@@ -9,10 +9,6 @@ import { MetadataComponent } from './metadata/metadata.component';
   imports: [
     SharedModule
   ],
-  exports: [
-    ContentsComponent,
-    MetadataComponent
-  ],
   declarations: [
     ContentsComponent,
     MetadataComponent

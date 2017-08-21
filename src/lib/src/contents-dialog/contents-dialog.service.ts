@@ -4,21 +4,24 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
 import { ContentsComponent } from './contents-dialog.component';
+import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from './../core/models/manifest';
 
 @Injectable()
 export class ContentsDialogService {
-  private _manifest: Manifest;
+  private manifest: Manifest;
   private _el: ElementRef;
   private isContentsDialogOpen = false;
   private dialogRef: MdDialogRef<ContentsComponent>;
 
   constructor(
-    public dialog: MdDialog,
-    private media: ObservableMedia) { }
-
-  set manifest(manifest: Manifest) {
-    this._manifest = manifest;
+    private dialog: MdDialog,
+    private media: ObservableMedia,
+    private iiifManifestService: IiifManifestService) {
+    iiifManifestService.currentManifest
+      .subscribe((manifest: Manifest) => {
+        this.manifest = manifest;
+      });
   }
 
   set elementRef(el: ElementRef) {
@@ -55,24 +58,36 @@ export class ContentsDialogService {
     return {
       width: '100%',
       height: '100%',
-      data: this._manifest
+      data: this.manifest
     };
   }
 
   private getDesktopContensConfig(): MdDialogConfig {
-    const rect = this._el.nativeElement.getBoundingClientRect();
-    let left = rect.right - 370;
-    let top = rect.top + 64;
+    const rect = this.getPosition();
     return {
       hasBackdrop: false,
       disableClose: true,
       width: '350px',
       height: '600px',
       position: {
-        top: top + 'px',
-        left: left + 'px',
+        top: rect.top + 'px',
+        left: rect.left + 'px',
       },
-      data: this._manifest
+      data: this.manifest
+    };
+  }
+
+  private getPosition() {
+    if (!this._el) {
+      return {
+        top: 0,
+        left: 0
+      };
+    }
+    const rect = this._el.nativeElement.getBoundingClientRect();
+    return {
+      top: rect.top + 64,
+      left: rect.right - 370
     };
   }
 
