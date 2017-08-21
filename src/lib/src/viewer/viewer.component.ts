@@ -102,8 +102,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         return;
       }
       let box = tiledImage.getBounds(true);
+
+
+
       overlay.append('rect')
         .style('fill', '#ffcc00')
+        // .style('fill-opacity', 0)
         .style('opacity', 0.5)
         .style('cursor', 'pointer')
         .attrs({
@@ -116,9 +120,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       // Fit bounds on click
       let currentOverlay = overlay._groups[0][0].children[i];
       this.renderer.listen(currentOverlay, 'click', (evt) => {
-        if(this.mode === 'dashboard') {
-          this.mode = 'scroll';
-        }
+        // if (this.mode === 'dashboard') {
+        //   this.mode = 'scroll';
+        // }
+
+
         this.viewer.viewport.fitBounds(new OpenSeadragon.Rect(
           currentOverlay.x.baseVal.value,
           currentOverlay.y.baseVal.value,
