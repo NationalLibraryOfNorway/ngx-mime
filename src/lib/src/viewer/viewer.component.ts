@@ -69,13 +69,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy() : void {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
   }
 
-  createViewer() {
+  createViewer() : void {
     if (this.manifestUri) {
       this.subscriptions.push(
         this.iiifService.getManifest(this.manifestUri)
@@ -235,7 +235,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewer.viewport.fitBounds(firstpageDashboardBounds);
   }
 
-  addClickHandler() {
+  addClickHandler() : void {
     this.viewer.addHandler('canvas-click', (event: any) => {
       if (event.quick) {
         this.clicks++;
@@ -250,6 +250,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           clearTimeout(this.dblClickTimeOut);
           this.clicks = 0;
         }
+      }
+    });
+    this.viewer.addHandler('canvas-double-click', (event: any) => {
+      if(!this.isPageView) {
+        event.preventDefaultAction = true;
       }
     });
   }
