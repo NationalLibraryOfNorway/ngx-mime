@@ -22,11 +22,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private subscriptions: Array<Subscription> = [];
   private mode: string;
   private options: Options;
-  private tileSources: any[] = [];
+  private tileSources: any[];
 
   // References to clickable overlays
   private overlays: any[] = [];
-  private currentPage = 0;
+  private currentPage: number;
 
 
   constructor(
@@ -66,7 +66,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.tileSources = manifest.tileSource;
             this.options = new Options(this.mode, this.tileSources);
             this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
-
             this.addEvents();
           },
           () => { },
@@ -89,6 +88,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
 
     this.viewer.addHandler('open', (data: any) => {
+      this.currentPage = 0;
       this.createOverlays();
     });
   }
