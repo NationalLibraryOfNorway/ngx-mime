@@ -88,10 +88,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.viewer.addHandler('open', (data: any) => {
       this.currentPage = 0;
-      this.createOverlays().then((overlays) => {
-        this.overlays = overlays;
-        console.log('made overlays')
-      });
+      this.createOverlays();
 
       // Start at first page
       this.fitBoundsToStart();
@@ -99,7 +96,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   // Create SVG-overlays for each page
-  createOverlays(): Promise<any> {
+  createOverlays(): void {
     this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();
     let svgNode = d3.select(svgOverlay.node());
@@ -134,12 +131,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.currentPage = i;
       });
 
-      this.renderer.listen(currentOverlay, 'mouseover', (evt) => {
-      });
-
     });
-
-    return Promise.all(this.overlays);
   }
 
   // Toggle viewport-bounds between page and dashboard
