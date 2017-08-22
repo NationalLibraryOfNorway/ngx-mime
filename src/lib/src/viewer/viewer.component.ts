@@ -42,16 +42,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    this.loadManifest();
-
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
-        .subscribe((manifest: Manifest) => {
-          this.cleanUp();
-          this.setUpViewer(manifest);
-        })
+      .subscribe((manifest: Manifest) => {
+        this.cleanUp();
+        this.setUpViewer(manifest);
+      })
     );
-
+    this.loadManifest();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -83,7 +81,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setUpViewer(manifest: Manifest) {
-    if (manifest) {
+    if (manifest.tileSource) {
       this.zone.runOutsideAngular(() => {
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
       });
