@@ -10,10 +10,7 @@ import { Manifest } from './../core/models/manifest';
 
 @Injectable()
 export class ContentsDialogService {
-<<<<<<< HEAD
   public static readonly maxHeight = 600;
-=======
->>>>>>> master
   private _el: ElementRef;
   private isContentsDialogOpen = false;
   private dialogRef: MdDialogRef<ContentsDialogComponent>;
@@ -70,19 +67,12 @@ export class ContentsDialogService {
 
   private getDesktopContensConfig(): MdDialogConfig {
     const rect = this.getPosition();
-<<<<<<< HEAD
     const height = this.getHeight(rect);
-=======
->>>>>>> master
     return {
       hasBackdrop: false,
       disableClose: true,
       width: '350px',
-<<<<<<< HEAD
       height: height + 'px',
-=======
-      height: '600px',
->>>>>>> master
       position: {
         top: rect.top + 'px',
         left: rect.left + 'px',
@@ -104,11 +94,8 @@ export class ContentsDialogService {
     };
   }
 
-<<<<<<< HEAD
   private getHeight(rect: any): number {
     const height = document.body.scrollHeight - rect.top - 40;
     return height > ContentsDialogService.maxHeight ? ContentsDialogService.maxHeight : height;
   }
-=======
->>>>>>> master
 }
