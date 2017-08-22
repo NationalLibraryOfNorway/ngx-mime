@@ -1,15 +1,15 @@
 export class Manifest {
-  public context: string;
-  public type: string;
-  public id: string;
-  public label: string;
-  public metadata: Metadata[];
-  public license: string;
-  public attribution: string;
-  public service: Service;
-  public sequences: Sequence[];
-  public structures: Structure[];
-  public tileSource: Service[];
+  public context?: string;
+  public type?: string;
+  public id?: string;
+  public label?: string;
+  public metadata?: Metadata[];
+  public license?: string;
+  public attribution?: string;
+  public service?: Service;
+  public sequences?: Sequence[];
+  public structures?: Structure[];
+  public tileSource?: Service[];
 
   constructor(
     fields?: {

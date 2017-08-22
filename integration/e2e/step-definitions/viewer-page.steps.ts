@@ -9,6 +9,10 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
+  Given(/^the viewer is opened with a publication$/, async () => {
+    await page.open();
+  });
+
   Then(/^Viewer should be displayed$/, async () => {
     await expect(page.getOpenSeadragon()).exist;
   });
