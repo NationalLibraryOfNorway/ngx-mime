@@ -1,8 +1,8 @@
 import { DebugElement } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
 import { MetadataComponent } from './metadata.component';
@@ -41,7 +41,6 @@ describe('MetadataComponent', () => {
   });
 
   it('should display metadata', () => {
-
     fixture.detectChanges();
 
     const metadatas: DebugElement[] = fixture.debugElement.queryAll(By.css('.metadata'));

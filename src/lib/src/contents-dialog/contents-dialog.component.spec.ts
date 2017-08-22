@@ -1,9 +1,9 @@
-import { MdDialogRef } from '@angular/material';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { MdDialogRef } from '@angular/material';
 import { ObservableMedia, MatchMedia } from '@angular/flex-layout';
 
 import { SharedModule } from './../shared/shared.module';
