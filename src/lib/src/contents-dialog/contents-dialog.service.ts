@@ -20,11 +20,11 @@ export class ContentsDialogService {
     private resizeService: ResizeService) {
       resizeService.onResize.subscribe(r => {
         if (this.isContentsDialogOpen) {
-          const rect = this.getPosition();
-          this.dialogRef.updatePosition({
-            top: rect.top + 'px',
-            left: rect.left + 'px',
-          });
+          const config = this.getDialogConfig();
+          this.dialogRef.updatePosition(
+            config.position
+          );
+          this.dialogRef.updateSize(config.width, config.height);
         }
       });
   }
@@ -34,14 +34,8 @@ export class ContentsDialogService {
   }
 
   public open() {
-    let config: MdDialogConfig;
     if (!this.isContentsDialogOpen) {
-      if (this.media.isActive('xs')) {
-        config = this.getMobileContensConfig();
-      } else {
-        config = this.getDesktopContensConfig();
-      }
-
+      const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
       this.dialogRef.afterClosed().subscribe(result => {
         this.isContentsDialogOpen = false;
@@ -57,6 +51,10 @@ export class ContentsDialogService {
 
   public toggle() {
     this.isContentsDialogOpen ? this.close() : this.open();
+  }
+
+  private getDialogConfig(): MdDialogConfig {
+    return this.media.isActive('xs') ? this.getMobileContensConfig() : this.getDesktopContensConfig();
   }
 
   private getMobileContensConfig(): MdDialogConfig {

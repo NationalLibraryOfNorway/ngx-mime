@@ -9,8 +9,7 @@ import { Manifest } from './../core/models/manifest';
 @Component({
   selector: 'mime-contents',
   templateUrl: './contents-dialog.component.html',
-  styleUrls: ['./contents-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./contents-dialog.component.scss']
 })
 export class ContentsDialogComponent implements OnInit {
 
