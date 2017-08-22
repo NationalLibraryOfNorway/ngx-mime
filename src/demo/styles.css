@@ -3,3 +3,8 @@ html, body, demo-app, md-sidenav-container, .demo-root {
   width: 100%;
   height: 100%;
 }
+
+.view-dashboard .tile:hover {
+  stroke: #08f;
+  stroke-width: 10;
+}

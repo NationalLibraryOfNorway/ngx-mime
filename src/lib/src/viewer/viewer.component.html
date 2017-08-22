@@ -5,6 +5,6 @@ Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" pla
 
 
 
-<div class="openSeadragonContainer">
+<div class="openSeadragonContainer" [ngClass]="mode == 'page' ? 'view-page' : 'view-dashboard'">
   <div id="openseadragon"></div>
 </div>

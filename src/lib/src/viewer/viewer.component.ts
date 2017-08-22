@@ -77,7 +77,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   toggleView(): void {
     this.mode = this.mode === 'dashboard' ? 'page' : 'dashboard';
-    //this.createViewer();
   }
 
 
@@ -89,7 +88,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.viewer.addHandler('open', (data: any) => {
       this.currentPage = 0;
-      this.createOverlays();
+      this.createOverlays().then((overlays) => {
+        this.overlays = overlays;
+        console.log('made overlays')
+      });
 
       // Start at first page
       this.fitBoundsToStart();
@@ -97,10 +99,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   // Create SVG-overlays for each page
-  createOverlays(): void {
+  createOverlays(): Promise<any> {
     this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();
-    let overlay = d3.select(svgOverlay.node());
+    let svgNode = d3.select(svgOverlay.node());
 
     this.tileSources.forEach((tile, i) => {
       let tiledImage = this.viewer.world.getItemAt(i);
@@ -111,20 +113,18 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       }
       let box = tiledImage.getBounds(true);
 
-      overlay.append('rect')
-        .style('fill', '#ffcc00')
+      svgNode.append('rect')
         .style('fill-opacity', 0)
-        .style('opacity', 0.5)
         .style('cursor', 'pointer')
         .attrs({
           x: box.x,
           y: box.y,
           width: box.width,
-          height: box.height
-        });
+          height: box.height,
+          class: 'tile'
+        })
 
-
-      let currentOverlay = overlay._groups[0][0].children[i];
+      let currentOverlay = svgNode._groups[0][0].children[i];
       this.overlays.push(currentOverlay);
 
       // Fit bounds on click and toggle view-change
@@ -133,7 +133,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.toggleView();
         this.currentPage = i;
       });
+
+      this.renderer.listen(currentOverlay, 'mouseover', (evt) => {
+      });
+
     });
+
+    return Promise.all(this.overlays);
   }
 
   // Toggle viewport-bounds between page and dashboard
