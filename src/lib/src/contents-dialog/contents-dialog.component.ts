@@ -13,7 +13,7 @@ import { Manifest } from './../core/models/manifest';
 })
 export class ContentsDialogComponent implements OnInit {
   public static readonly maxHeight = 460;
-  public tabStyleDesktop = {};
+  public tabHeight = {};
 
   constructor(
     public intl: MimeViewerIntl,
@@ -32,9 +32,15 @@ export class ContentsDialogComponent implements OnInit {
 
   private resizeTabHeight(): void {
     const rect = this.el.nativeElement.getBoundingClientRect();
-    let height = document.body.scrollHeight - rect.top - 170;
+    let height = document.body.scrollHeight - rect.top;
+
+    if (this.media.isActive('xs')) {
+      height -= 110;
+    } else {
+      height -= 170;
+    }
     height = height > ContentsDialogComponent.maxHeight ? ContentsDialogComponent.maxHeight : height;
-    this.tabStyleDesktop = {
+    this.tabHeight = {
       'maxHeight': height + 'px'
     };
   }
