@@ -3,7 +3,7 @@ import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
-import { ContentsComponent } from './contents-dialog.component';
+import { ContentsDialogComponent } from './contents-dialog.component';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from './../core/models/manifest';
 
@@ -11,7 +11,7 @@ import { Manifest } from './../core/models/manifest';
 export class ContentsDialogService {
   private _el: ElementRef;
   private isContentsDialogOpen = false;
-  private dialogRef: MdDialogRef<ContentsComponent>;
+  private dialogRef: MdDialogRef<ContentsDialogComponent>;
 
   constructor(
     private dialog: MdDialog,
@@ -31,7 +31,7 @@ export class ContentsDialogService {
         config = this.getDesktopContensConfig();
       }
 
-      this.dialogRef = this.dialog.open(ContentsComponent, config);
+      this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
       this.dialogRef.afterClosed().subscribe(result => {
         this.isContentsDialogOpen = false;
       });

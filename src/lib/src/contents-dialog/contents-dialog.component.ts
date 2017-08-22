@@ -12,18 +12,11 @@ import { Manifest } from './../core/models/manifest';
   styleUrls: ['./contents-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContentsComponent implements OnInit {
-  public manifest: Manifest;
-  private subscriptions: Array<Subscription> = [];
+export class ContentsDialogComponent implements OnInit {
 
   constructor(
     public intl: MimeViewerIntl,
-    public media: ObservableMedia,
-    @Optional() @Inject(MD_DIALOG_DATA) public data: Manifest) {
-    if (this.data) {
-      this.manifest = data;
-    }
-  }
+    public media: ObservableMedia) { }
 
   ngOnInit() {
   }

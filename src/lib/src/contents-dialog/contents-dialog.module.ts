@@ -2,7 +2,7 @@ import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 
 import { ContentsDialogService } from './contents-dialog.service';
-import { ContentsComponent } from './contents-dialog.component';
+import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 
 @NgModule({
@@ -10,14 +10,14 @@ import { MetadataComponent } from './metadata/metadata.component';
     SharedModule
   ],
   declarations: [
-    ContentsComponent,
+    ContentsDialogComponent,
     MetadataComponent
   ],
   providers: [
     ContentsDialogService
   ],
   entryComponents: [
-    ContentsComponent
+    ContentsDialogComponent
   ],
 })
 export class ContentsDialogModule { }
