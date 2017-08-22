@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef } from '@angular/core';
+=======
+import { Component, OnInit, Optional, Inject, ChangeDetectionStrategy } from '@angular/core';
+>>>>>>> master
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,6 +16,7 @@ import { Manifest } from './../core/models/manifest';
   styleUrls: ['./contents-dialog.component.scss']
 })
 export class ContentsDialogComponent implements OnInit {
+<<<<<<< HEAD
   public static readonly maxHeight = 460;
   public tabStyleDesktop = {};
 
@@ -38,4 +43,14 @@ export class ContentsDialogComponent implements OnInit {
       'maxHeight': height + 'px'
     };
   }
+=======
+
+  constructor(
+    public intl: MimeViewerIntl,
+    public media: ObservableMedia) { }
+
+  ngOnInit() {
+  }
+
+>>>>>>> master
 }
