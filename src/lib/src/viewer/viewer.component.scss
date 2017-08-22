@@ -14,7 +14,7 @@
   height: calc(100% - 64px - 48px); // subtract header and footer
 }
 
-.viewer__container--pageView {
+.viewer__container.page {
   & #openseadragon {
     height: 100%;
   }

@@ -15,6 +15,7 @@ import { IiifService } from '../core/iiif-service/iiif-service';
 import { Manifest } from '../core/models/manifest';
 import { Subscription } from 'rxjs/Subscription';
 import { Options } from '../core/models/options';
+import { ClickService } from '../core/click/click.service';
 import '../core/ext/svg-overlay';
 
 //declare const OpenSeadragon: any;
@@ -37,11 +38,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private tileSources: any[];
   private length: number = 10;
   public pageIndex: number = 4;
-  public isPageView: boolean = true;
-
-  // Used to calculate single or double click
-  private clicks: number = 0;
-  private dblClickTimeOut: number;
 
   // References to clickable overlays
   private overlays: any[];
@@ -51,7 +47,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private iiifService: IiifService,
     private renderer: Renderer2,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private clickService: ClickService
   ) { }
 
   ngOnInit(): void {
@@ -86,32 +83,65 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.tileSources = manifest.tileSource;
             this.options = new Options(this.mode, this.tileSources);
             this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
-            this.addEvents();
-            this.addClickHandler();
-          },
-          () => { },
-          () => { })
+            this.setDashboardConstraints();
+            this.addEventHandlers();
+          })
       );
     }
   }
 
   toggleView(): void {
-    this.mode = this.mode === 'dashboard' ? 'page' : 'dashboard';
+    if(this.mode === 'dashboard') {
+      this.mode = 'page';
+      this.setPageConstraints();
+    }
+    else if(this.mode === 'page') {
+      this.mode = 'dashboard';
+      this.setDashboardConstraints();
+    }
   }
 
+  setDashboardConstraints() {
+    this.viewer.panVertical = false;
+  }
+  setPageConstraints() {
+    this.viewer.panVertical = true;
+  }
 
-  addEvents(): void {
-    this.viewer.addHandler('canvas-click', (data: any) => {
-      data.preventDefaultAction = true;
-    });
-
-
+  addEventHandlers(): void {
     this.viewer.addHandler('open', (data: any) => {
       this.currentPage = 0;
       this.createOverlays();
 
       // Start at first page
       this.fitBoundsToStart();
+    });
+
+    this.clickService.addSingleClickHandler((event: any) => {
+      let target: HTMLElement = event.originalEvent.target;
+      if (target.nodeName === 'rect') {
+        let requestedPage = this.overlays.indexOf(target);
+        if(requestedPage >= 0) {
+          this.toggleView();
+          this.changeDetectorRef.markForCheck();
+          setTimeout(() => {
+            this.fitBounds(target);
+          }, 250);
+          this.currentPage = requestedPage;
+          this.changeDetectorRef.markForCheck();
+        }
+      }
+    });
+
+    this.clickService.addDoubleClickHandler((event) => {
+    });
+
+    this.viewer.addHandler('canvas-click', this.clickService.click);
+
+    this.viewer.addHandler('canvas-double-click', (event: any) => {
+      if(this.mode === 'dashboard') {
+        event.preventDefaultAction = true;
+      }
     });
   }
 
@@ -123,11 +153,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.tileSources.forEach((tile, i) => {
       let tiledImage = this.viewer.world.getItemAt(i);
-      //console.log('checking ' + i)
-
       if (!tiledImage) {
         return;
       }
+
       let box = tiledImage.getBounds(true);
 
       svgNode.append('rect')
@@ -142,24 +171,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         })
 
       let currentOverlay = svgNode._groups[0][0].children[i];
+
       this.overlays.push(currentOverlay);
-
-      // Fit bounds on click and toggle view-change
-      this.renderer.listen(currentOverlay, 'click', (evt) => {
-        this.fitBounds(currentOverlay);
-        this.toggleView();
-        this.currentPage = i;
-      });
-
     });
   }
 
   // Toggle viewport-bounds between page and dashboard
+  // Make sure to update this.mode to the new mode before calling this method
   fitBounds(currentOverlay: any): void {
-
-    // If we currently are in page-mode, then switch to dashboard-bounds
-    if (this.mode === 'page') {
-      console.log('switching to dashboard-bounds')
+    if (this.mode === 'dashboard') {
       let dashboardBounds = this.viewer.viewport.getBounds();
       this.viewer.viewport.fitBounds(dashboardBounds);
       // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
@@ -167,8 +187,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     // If we currently are in dashboard-mode, then switch to page-bounds
-    if (this.mode === 'dashboard') {
-      console.log('switching to page-bounds');
+    if (this.mode === 'page') {
       let pageBounds = this.createRectangel(currentOverlay);
       this.viewer.viewport.fitBounds(pageBounds);
     }
@@ -205,7 +224,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.isInt(page)) {
       return;
     }
-    this.goToPage(page);
+    this.goToPage(+page);
   }
 
   // Check if value is an integer
@@ -233,30 +252,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     let firstpageDashboardBounds = this.viewer.viewport.getBounds();
     firstpageDashboardBounds.x = 0;
     this.viewer.viewport.fitBounds(firstpageDashboardBounds);
-  }
-
-  addClickHandler() : void {
-    this.viewer.addHandler('canvas-click', (event: any) => {
-      if (event.quick) {
-        this.clicks++;
-        event.preventDefaultAction = true;
-        if (this.clicks === 1) {
-          this.dblClickTimeOut = setTimeout(() => {
-            this.clicks = 0;
-            this.isPageView = !this.isPageView;
-            this.changeDetectorRef.markForCheck()
-          }, event.tracker.dblClickTimeThreshold);
-        } else if (this.clicks === 2) {
-          clearTimeout(this.dblClickTimeOut);
-          this.clicks = 0;
-        }
-      }
-    });
-    this.viewer.addHandler('canvas-double-click', (event: any) => {
-      if(!this.isPageView) {
-        event.preventDefaultAction = true;
-      }
-    });
   }
 
 }

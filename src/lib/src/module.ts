@@ -8,9 +8,7 @@ import { MimeMaterialModule } from './mime-material.module';
 import { ViewerComponent } from './viewer/viewer.component';
 import { MimeViewerIntl } from './viewer/viewer-intl';
 import { IiifService } from './core/iiif-service/iiif-service';
-
-
-import { CommonModule } from '@angular/common';
+import { ClickService } from './core/click/click.service';
 
 import './rxjs-extension';
 import 'openseadragon';
@@ -34,6 +32,7 @@ import 'openseadragon';
   providers: [
     MimeViewerIntl,
     IiifService,
+    ClickService
   ]
 })
 export class MimeModule {

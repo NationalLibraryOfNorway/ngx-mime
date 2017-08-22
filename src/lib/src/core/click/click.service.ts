@@ -1,0 +1,52 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class ClickService {
+  private singleClickHandlers: Array<(event: any) => void>;
+  private doubleClickHandlers: Array<(event: any) => void>;
+  private clickCount: number = 0;
+  private dblClickTimeOut: number;
+
+  constructor() {
+    this.singleClickHandlers = [];
+    this.doubleClickHandlers = [];
+  }
+
+  addSingleClickHandler(singleClickHandler: (event: any) => void) {
+    this.singleClickHandlers.push(singleClickHandler);
+    console.log(this.singleClickHandlers);
+  }
+
+  addDoubleClickHandler(doubleClickHandler: (event: any) => void) {
+    this.doubleClickHandlers.push(doubleClickHandler);
+  }
+
+  triggerSingleClick(event: any) {
+    this.singleClickHandlers.forEach((handler: any) => {
+      handler(event);
+    });
+  }
+
+  triggerDoubleClick(event: any) {
+    this.doubleClickHandlers.forEach((handler: any) => {
+      handler(event);
+    });
+  }
+
+  click = (event: any) => {
+    event.preventDefaultAction = true;
+    if (event.quick) {
+      this.clickCount++;
+      if (this.clickCount === 1) {
+        this.dblClickTimeOut = setTimeout(() => {
+          this.clickCount = 0;
+          this.triggerSingleClick(event);
+        }, event.tracker.dblClickTimeThreshold);
+      } else if (this.clickCount === 2) {
+        clearTimeout(this.dblClickTimeOut);
+        this.clickCount = 0;
+        this.triggerDoubleClick(event);
+      }
+    }
+  }
+}

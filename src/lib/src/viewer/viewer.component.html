@@ -1,10 +1,5 @@
-<p><strong>Viewmode:</strong> {{mode}}, <strong>Page:</strong> {{currentPage}}</p>
-Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" placeholder="Page + Enter">
-<button (click)="prevPage()">Previous</button>
-<button (click)="nextPage()">Next</button>
-
-<div class="viewer__container" [class.viewer__container--pageView]="isPageView" [ngClass]="mode == 'page' ? 'view-page' : 'view-dashboard'">
-  <viewer-header *ngIf="!isPageView"></viewer-header>
+<div class="viewer__container" [ngClass]="mode">
+  <viewer-header *ngIf="mode == 'dashboard'"></viewer-header>
   <div id="openseadragon"></div>
-  <viewer-footer *ngIf="!isPageView"></viewer-footer>
+  <viewer-footer *ngIf="mode == 'dashboard'"></viewer-footer>
 </div>

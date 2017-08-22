@@ -11,6 +11,6 @@
   height: calc(100% - 64px - 48px);
 }
 
-.viewer__container--pageView #openseadragon {
+.viewer__container.page #openseadragon {
   height: 100%;
 }
