@@ -11,6 +11,7 @@ import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.mo
 import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
+import { ResizeService } from './../../core/resize-service/resize.service';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -67,7 +68,8 @@ describe('ViewerHeaderComponent', () => {
   exports: [ViewerHeaderComponent],
   providers: [
     MimeViewerIntl,
-    IiifManifestService
+    IiifManifestService,
+    ResizeService
   ]
 })
 class ViewerHeaderTestModule { }

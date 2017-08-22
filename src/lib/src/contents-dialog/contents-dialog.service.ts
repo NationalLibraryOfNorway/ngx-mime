@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
+import { ResizeService } from './../core/resize-service/resize.service';
 import { Manifest } from './../core/models/manifest';
 
 @Injectable()
@@ -15,7 +16,17 @@ export class ContentsDialogService {
 
   constructor(
     private dialog: MdDialog,
-    private media: ObservableMedia) {
+    private media: ObservableMedia,
+    private resizeService: ResizeService) {
+      resizeService.onResize.subscribe(r => {
+        if (this.isContentsDialogOpen) {
+          const rect = this.getPosition();
+          this.dialogRef.updatePosition({
+            top: rect.top + 'px',
+            left: rect.left + 'px',
+          });
+        }
+      });
   }
 
   set elementRef(el: ElementRef) {
