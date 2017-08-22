@@ -1,4 +1,5 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MimeMaterialModule } from './mime-material.module';
@@ -14,7 +15,8 @@ import 'openseadragon';
   ],
   imports: [
     FlexLayoutModule,
-    MimeMaterialModule
+    MimeMaterialModule,
+    CommonModule
   ],
   exports: [
     FlexLayoutModule,

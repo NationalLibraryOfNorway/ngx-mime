@@ -1,7 +1,9 @@
 <p><strong>Viewmode:</strong> {{mode}}, <strong>Page:</strong> {{currentPage}}</p>
-
+Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" placeholder="Page + Enter">
 <button (click)="prevPage()">Previous</button>
 <button (click)="nextPage()">Next</button>
+
+
 
 <div class="openSeadragonContainer">
   <div id="openseadragon"></div>

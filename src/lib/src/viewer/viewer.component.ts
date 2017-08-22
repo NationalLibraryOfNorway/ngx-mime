@@ -160,20 +160,41 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (this.currentPage + 1 > this.overlays.length - 1) {
       return;
     }
-    this.currentPage++;
-    let box = this.overlays[this.currentPage];
-    let pageBounds = this.createRectangel(box);
-    this.viewer.viewport.fitBounds(pageBounds);
+    this.goToPage(this.currentPage + 1);
   }
 
   prevPage(): void {
     if (this.currentPage === 0) {
       return;
     }
-    this.currentPage--;
-    let box = this.overlays[this.currentPage];
+    this.goToPage(this.currentPage - 1);
+  }
+
+  goToPage(page: number): void {
+    // Check bounds
+    if ((page < 0) || (page > this.overlays.length - 1)) {
+      return;
+    }
+    let box = this.overlays[page];
     let pageBounds = this.createRectangel(box);
     this.viewer.viewport.fitBounds(pageBounds);
+    this.currentPage = page;
+  }
+
+  goToPageFromUserInput(event: any) {
+    let page = event.target.value;
+    // Check if input is integer
+    if (!this.isInt(page)) {
+      return;
+    }
+    this.goToPage(page);
+  }
+
+  // Check if value is an integer
+  private isInt(value: any): boolean {
+    return !isNaN(value) &&
+      parseInt(value, 10) == value &&
+      !isNaN(parseInt(value, 10));
   }
 
 
@@ -187,6 +208,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   fitBoundsToStart(): void {
+    // Don't need to fit bounds if pages < 3
     if (this.overlays.length < 3) {
       return;
     }
