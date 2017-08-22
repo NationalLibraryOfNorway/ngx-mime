@@ -9,7 +9,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { SharedModule } from './../../shared/shared.module';
 import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
-import { MimeViewerIntl } from './../viewer-intl';
+import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 
 describe('ViewerHeaderComponent', () => {
@@ -39,7 +39,7 @@ describe('ViewerHeaderComponent', () => {
 
   it('should re-render when the i18n labels have changed',
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
-      const button = fixture.debugElement.query(By.css('#metadataButton'));
+      const button = fixture.debugElement.query(By.css('#contentsDialogButton'));
 
       intl.metadataLabel = 'Metadata of the publication';
       intl.changes.next();

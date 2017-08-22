@@ -10,9 +10,13 @@ import './../../rxjs-extension';
 
 @Injectable()
 export class IiifManifestService {
-  currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(null);
+  protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
 
   constructor(private http: HttpClient) { }
+
+  get currentManifest(): Observable<Manifest> {
+    return this._currentManifest.asObservable();
+  }
 
   load(manifestUri: string): void {
     if (manifestUri === null) {
@@ -20,7 +24,7 @@ export class IiifManifestService {
     }
     this.http.get(manifestUri)
       .subscribe(
-      (res: Response) => this.currentManifest.next(this.extractData(res)),
+      (res: Response) => this._currentManifest.next(this.extractData(res)),
       (err: HttpErrorResponse) => this.handleError
     );
 

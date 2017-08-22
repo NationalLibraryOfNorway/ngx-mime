@@ -9,19 +9,13 @@ import { Manifest } from './../core/models/manifest';
 
 @Injectable()
 export class ContentsDialogService {
-  private manifest: Manifest;
   private _el: ElementRef;
   private isContentsDialogOpen = false;
   private dialogRef: MdDialogRef<ContentsComponent>;
 
   constructor(
     private dialog: MdDialog,
-    private media: ObservableMedia,
-    private iiifManifestService: IiifManifestService) {
-    iiifManifestService.currentManifest
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-      });
+    private media: ObservableMedia) {
   }
 
   set elementRef(el: ElementRef) {
@@ -57,8 +51,7 @@ export class ContentsDialogService {
   private getMobileContensConfig(): MdDialogConfig {
     return {
       width: '100%',
-      height: '100%',
-      data: this.manifest
+      height: '100%'
     };
   }
 
@@ -72,8 +65,7 @@ export class ContentsDialogService {
       position: {
         top: rect.top + 'px',
         left: rect.left + 'px',
-      },
-      data: this.manifest
+      }
     };
   }
 
