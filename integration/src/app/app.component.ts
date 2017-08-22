@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  manifestUri = 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest';
+  manifestUri = 'http://nbr-raymondk1.nb.no:4040/catalog/v1/iiif/a-ltr-book/manifest';
 
   constructor() { }
 }

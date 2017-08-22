@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { IiifService } from '../core/iiif-service/iiif-service';
 import { Manifest } from '../core/models/manifest';
 import { Subscription } from 'rxjs/Subscription';
@@ -15,7 +15,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   public viewer: any;
   private subscriptions: Array<Subscription> = [];
 
-  constructor(private iiifService: IiifService) { }
+  constructor(
+    private zone: NgZone,
+    private iiifService: IiifService
+  ) { }
 
   ngOnInit(): void {
     this.createViewer();
@@ -45,17 +48,33 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             if (this.viewer != null && this.viewer.isOpen()) {
               this.viewer.destroy();
             }
-            this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
+            this.zone.runOutsideAngular(() => {
+              this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
+            });
+            window.openSeadragonViewer = this.viewer;
+            this.addEvents();
           })
       );
     }
   }
 
   addEvents(): void {
-
+    this.addPinchEvents();
   }
 
-  addPinchEvent(): void {
+  addPinchEvents(): void {
+    let previousDistance = 0;
+    this.viewer.addHandler('canvas-pinch', (data: any) => {
+      if (data.lastDistance > previousDistance) {
+        this.viewer.viewport.zoomTo((this.viewer.viewport.getZoom() + 0.02));
+      } else {
+        this.viewer.viewport.zoomTo((this.viewer.viewport.getZoom() - 0.02));
+      }
+      previousDistance = data.lastDistance;
+    });
 
+    this.viewer.addHandler('canvas-release', (data: any) => {
+      previousDistance = 0;
+    });
   }
 }
