@@ -25,7 +25,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private tileSources: any[];
 
   // References to clickable overlays
-  private overlays: any[] = [];
+  private overlays: any[];
   private currentPage: number;
 
 
@@ -90,11 +90,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewer.addHandler('open', (data: any) => {
       this.currentPage = 0;
       this.createOverlays();
+
+      // Start at first page
+      this.fitBoundsToStart();
     });
   }
 
   // Create SVG-overlays for each page
   createOverlays(): void {
+    this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();
     let overlay = d3.select(svgOverlay.node());
 
@@ -172,6 +176,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewer.viewport.fitBounds(pageBounds);
   }
 
+
   createRectangel(overlay: any): any {
     return new OpenSeadragon.Rect(
       overlay.x.baseVal.value,
@@ -179,6 +184,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       overlay.width.baseVal.value,
       overlay.height.baseVal.value
     );
+  }
+
+  fitBoundsToStart(): void {
+    if (this.overlays.length < 3) {
+      return;
+    }
+    let firstpageDashboardBounds = this.viewer.viewport.getBounds();
+    firstpageDashboardBounds.x = 0;
+    this.viewer.viewport.fitBounds(firstpageDashboardBounds);
   }
 
 }
