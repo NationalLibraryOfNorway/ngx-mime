@@ -1,3 +1,0 @@
-interface OpenSeadragon {
-  svgOverlay() : void;
-}
