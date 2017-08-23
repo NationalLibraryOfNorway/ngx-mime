@@ -34,7 +34,7 @@ export class ContentsDialogComponent implements OnInit {
     const rect = this.el.nativeElement.getBoundingClientRect();
     let height = document.body.scrollHeight - rect.top;
 
-    if (this.media.isActive('xs')) {
+    if (this.media.isActive('lt-md')) {
       height -= 120;
     } else {
       height -= 170;

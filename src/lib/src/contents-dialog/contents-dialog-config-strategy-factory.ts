@@ -13,6 +13,6 @@ export class ContentsDialogConfigStrategyFactory {
   constructor(private media: ObservableMedia) { }
 
   public create(): ContentsDialogConfigStrategy {
-    return this.media.isActive('xs') ? new MobileContentsDialogConfigStrategy() : new DesktopContentsDialogConfigStrategy();
+    return this.media.isActive('lt-md') ? new MobileContentsDialogConfigStrategy() : new DesktopContentsDialogConfigStrategy();
   }
 }

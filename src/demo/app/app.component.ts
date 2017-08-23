@@ -16,20 +16,18 @@ export class AppComponent implements OnDestroy {
 
   ngOnInit(): void {
     this.watcher = this.media.subscribe((change: MediaChange) => {
-      this.layout(change.mqAlias);
+      this.layout();
     });
 
-    if (this.media.isActive('xs')) {
-      this.layout('xs');
-    }
+      this.layout();
   }
 
   ngOnDestroy() {
     this.watcher.unsubscribe();
   }
 
-  private layout(mqAlias: string) {
-    if (mqAlias === 'xs' && this.media.isActive('xs')) {
+  private layout() {
+    if (this.media.isActive('lt-md')) {
       this.sidenavMode = 'over';
       this.sidenavIsOpen = false;
     } else {
