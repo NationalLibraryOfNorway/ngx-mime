@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef } from '@angular/core';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,12 +12,36 @@ import { Manifest } from './../core/models/manifest';
   styleUrls: ['./contents-dialog.component.scss']
 })
 export class ContentsDialogComponent implements OnInit {
+  public static readonly maxHeight = 460;
+  public tabHeight = {};
 
   constructor(
     public intl: MimeViewerIntl,
-    public media: ObservableMedia) { }
+    public media: ObservableMedia,
+    private el: ElementRef) {
+    }
 
   ngOnInit() {
+    this.resizeTabHeight();
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.resizeTabHeight();
+  }
+
+  private resizeTabHeight(): void {
+    const rect = this.el.nativeElement.getBoundingClientRect();
+    let height = document.body.scrollHeight - rect.top;
+
+    if (this.media.isActive('lt-md')) {
+      height -= 120;
+    } else {
+      height -= 170;
+    }
+    height = height > ContentsDialogComponent.maxHeight ? ContentsDialogComponent.maxHeight : height;
+    this.tabHeight = {
+      'maxHeight': height + 'px'
+    };
+  }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from './../shared/shared.module';
 import { ContentsDialogService } from './contents-dialog.service';
+import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 
@@ -14,7 +15,8 @@ import { MetadataComponent } from './metadata/metadata.component';
     MetadataComponent
   ],
   providers: [
-    ContentsDialogService
+    ContentsDialogService,
+    ContentsDialogConfigStrategyFactory
   ],
   entryComponents: [
     ContentsDialogComponent
