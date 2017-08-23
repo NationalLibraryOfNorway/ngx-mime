@@ -13,6 +13,14 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
+  Given(/^the viewer is opened with a publication with attribution labels$/, async () => {
+    await page.open();
+  });
+
+  Given(/^the viewer is opened with a publication with licenses associated with it$/, async () => {
+    await page.open();
+  });
+
   Then(/^Viewer should be displayed$/, async () => {
     await expect(page.getOpenSeadragon()).exist;
   });

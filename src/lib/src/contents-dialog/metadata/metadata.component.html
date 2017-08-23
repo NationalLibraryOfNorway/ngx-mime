@@ -5,10 +5,10 @@
   </div>
   <div *ngIf="manifest?.attribution">
     <div class="title">{{intl.attribution}}</div>
-    <span class="content attribution" [innerHTML]="manifest?.attribution"></span>
+    <span id="metadata-attribution" class="content attribution" [innerHTML]="manifest?.attribution"></span>
   </div>
   <div *ngIf="manifest?.license">
     <div class="title">{{intl.license}}</div>
-    <span class="content license"><a [href]="manifest?.license" target="_blank">{{manifest?.license}}</a></span>
+    <span id="metadata-license" class="content license"><a [href]="manifest?.license" target="_blank">{{manifest?.license}}</a></span>
   </div>
 </div>
