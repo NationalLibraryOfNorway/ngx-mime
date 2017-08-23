@@ -10,4 +10,5 @@ export class MimeViewerIntl {
   attribution = 'Attribution';
   contents = 'Contents';
   metadata = 'Metadata';
+  license = 'License';
 }
