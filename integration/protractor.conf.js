@@ -7,7 +7,6 @@ const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
-  // seleniumAddress: 'http://nbr-selenium1.nb.local:4444/wd/hub',
   getPageTimeout: 60000,
   allScriptsTimeout: 500000,
   SELENIUM_PROMISE_MANAGER: false,
@@ -15,7 +14,7 @@ const config = {
   capabilities: {
     'browserName': 'chrome'
   },
-  baseUrl: 'http://nbr-raymondk1.nb.no:8080/',
+  baseUrl: 'http://localhost:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
@@ -32,13 +31,13 @@ const config = {
   onPrepare: function() {
     browser.manage().window().maximize();
   },
-  // afterLaunch: function () {
-  //   multiCucumberHTLMReporter.generate({
-  //     openReportInBrowser: true,
-  //     jsonDir: '.tmp/json-output',
-  //     reportPath: './.tmp/report/'
-  //   });
-  // },
+  afterLaunch: function () {
+    multiCucumberHTLMReporter.generate({
+      openReportInBrowser: true,
+      jsonDir: '.tmp/json-output',
+      reportPath: './.tmp/report/'
+    });
+  },
   disableChecks: true,
   ignoreUncaughtExceptions: true
 };
@@ -66,7 +65,7 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       seleniumVersion: '3.3.1',
       shardTestFiles: true,
-      maxInstances: 5,
+      maxInstances: 5
     });
   }
   return capabilities;

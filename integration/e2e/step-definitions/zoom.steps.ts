@@ -6,62 +6,62 @@ import { browser } from 'protractor';
 defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   let previousZoomLevel = 0;
-
-  Given(/^the viewer is in page view$/, async () => {
-    expect((await page.getOpenSeadragon().isDisplayed())).to.be.true;
-  });
+  const sleepTime = 1000;
 
   Given(/^default zoom level is set$/, async () => {
-    await page.setHomeZoomLevel();
+    await page.setDefaultZoom();
+  });
+
+  Given(/^the view is all zoomed out$/, async () => {
+    await browser.sleep(sleepTime);
+    await page.getMinZoom().then((minZoom: number) => {
+      page.setZoomLevel(minZoom);
+    });
+  });
+
+  Given(/^the view is zoomed in$/, async () => {
+    await page.zoomIn();
   });
 
   When(/^the user pinch out$/, async () => {
+    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
+    // await page.pinchOut(); //TODO Use pinchOut() when we get Protractor.touchActions to work
     await page.zoomIn();
-    await page.getZoomLevel().then((zoomlevel: number) => {
-      console.log('Zoomlevel is now ' + zoomlevel);
-      previousZoomLevel = zoomlevel;
-    });
-    await page.pinchOut();
   });
 
   When(/^the user pinch in$/, async () => {
+    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
+    // await page.pinchIn(); //TODO Use pinchIn() when we get Protractor.touchActions to work
     await page.zoomOut();
-    await page.getZoomLevel().then((zoomlevel: number) => {
-      console.log('Zoomlevel is now ' + zoomlevel);
-      previousZoomLevel = zoomlevel;
-    });
-    await page.pinchIn();
   });
 
   When(/^the user click zoom in button$/, async () => {
+    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
     await page.clickZoomInButton();
   });
 
   When(/^the user click zoom out button$/, async () => {
+    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
     await page.clickZoomOutButton();
   });
 
+  When(/^the user double click$/, async () => {
+    await browser.sleep(sleepTime);
+    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
+    await page.dblClick();
+  });
+
   Then(/^the current zoom level has increased$/, async () => {
-    await page.getZoomLevel().then((zoomLevel: number) => {
-      console.log(zoomLevel + ' > ' + previousZoomLevel);
-      expect(zoomLevel).to.be.greaterThan(previousZoomLevel);
-    });
+    await browser.sleep(sleepTime);
+    expect((await page.getZoomLevel())).to.be.greaterThan(previousZoomLevel);
   });
 
   Then(/^the current zoom level has decreased$/, async () => {
-    await page.getZoomLevel().then((zoomLevel: number) => {
-      console.log(zoomLevel + ' < ' + previousZoomLevel);
-      expect(zoomLevel).to.be.lessThan(previousZoomLevel);
-    });
+    await browser.sleep(sleepTime);
+    expect((await page.getZoomLevel())).to.be.lessThan(previousZoomLevel);
   });
 
-
-  //
-  // Given(/^the view is all zoomed out$/, async () => {
-  //   return 'pending';
-  // });
-  //
-  // When(/^the user double click$/, async () => {
-  //   return 'pending';
-  // });
+  Then(/^the view should be all zoomed out$/, async () => {
+    expect((await page.getZoomLevel())).to.equal((await page.getMinZoom()));
+  });
 });
