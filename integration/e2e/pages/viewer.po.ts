@@ -25,17 +25,20 @@ export class ViewerPage {
   /*
   Getters & Setters
    */
+  getAnimationTime(): promise.Promise<number> {
+    return browser.executeScript('return window.openSeadragonViewer.animationTime;');
+  }
+
   setDefaultZoom(): promise.Promise<any> {
-    return browser.executeScript('return window.openSeadragonViewer.viewport.goHome(true);');
+    return browser.executeScript('window.openSeadragonViewer.viewport.goHome(true);');
   }
 
   getZoomLevel(): promise.Promise<number> {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getZoom(true);');
   }
 
-  setZoomLevel(level: number): promise.Promise<void> {
-    return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + level + ');')
-      .then(() => browser.sleep(1000));
+  setZoomLevel(level: number): promise.Promise<any> {
+    return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + level + ');');
   }
 
   getMinZoom(): promise.Promise<number> {
@@ -67,14 +70,14 @@ export class ViewerPage {
 
   zoomIn(): promise.Promise<boolean> {
     return this.getZoomLevel().then((currentZoomLevel: number) => {
-      const newZoomLevel = currentZoomLevel + 0.2;
+      const newZoomLevel = currentZoomLevel + 2;
       return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
     });
   }
 
   zoomOut(): promise.Promise<boolean> {
     return this.getZoomLevel().then((currentZoomLevel: number) => {
-      const newZoomLevel = currentZoomLevel - 0.2;
+      const newZoomLevel = currentZoomLevel - 2;
       return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
     });
   }
@@ -88,23 +91,29 @@ export class ViewerPage {
     });
   }
 
-  clickZoomInButton() {
+  clickZoomInButton(): Promise<boolean> {
     return this.clickActionButton('Zoom in');
   }
 
-  clickZoomOutButton() {
+  clickZoomOutButton(): Promise<boolean> {
     return this.clickActionButton('Zoom out');
   }
 
-  clickActionButton(actionButtonTitle: string) {
-    const divs = element.all(by.css('.openseadragon-container div'));
-    utils.waitForElement(divs.first());
-    divs.each((div: ElementFinder, index: number) => {
-      div.getAttribute('title').then((title: string) => {
-        if (title === actionButtonTitle) {
-          return divs.get(index).click();
-        }
+  clickActionButton(actionButtonTitle: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const divs = element.all(by.css('.openseadragon-container div'));
+      utils.waitForElement(divs.first());
+      divs.each((div: ElementFinder, index: number) => {
+        div.getAttribute('title').then((title: string) => {
+          if (title === actionButtonTitle) {
+            return divs.get(index).click().then(() => resolve(true));
+          }
+        });
       });
     });
+  }
+
+  waitForAnimation(): promise.Promise<void> {
+    return this.getAnimationTime().then(browser.sleep);
   }
 }

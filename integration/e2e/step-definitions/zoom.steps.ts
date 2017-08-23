@@ -6,58 +6,59 @@ import { browser } from 'protractor';
 defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   let previousZoomLevel = 0;
-  const sleepTime = 1000;
 
   Given(/^default zoom level is set$/, async () => {
     await page.setDefaultZoom();
+    await page.waitForAnimation();
   });
 
   Given(/^the view is all zoomed out$/, async () => {
-    await browser.sleep(sleepTime);
-    await page.getMinZoom().then((minZoom: number) => {
-      page.setZoomLevel(minZoom);
-    });
+    await page.getMinZoom().then((zoomLevel: number) => page.setZoomLevel(zoomLevel));
+    await page.waitForAnimation();
   });
 
   Given(/^the view is zoomed in$/, async () => {
     await page.zoomIn();
+    await page.waitForAnimation();
   });
 
   When(/^the user pinch out$/, async () => {
     await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
     // await page.pinchOut(); //TODO Use pinchOut() when we get Protractor.touchActions to work
     await page.zoomIn();
+    await page.waitForAnimation();
   });
 
   When(/^the user pinch in$/, async () => {
     await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
     // await page.pinchIn(); //TODO Use pinchIn() when we get Protractor.touchActions to work
     await page.zoomOut();
+    await page.waitForAnimation();
   });
 
   When(/^the user click zoom in button$/, async () => {
     await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
     await page.clickZoomInButton();
+    await page.waitForAnimation();
   });
 
   When(/^the user click zoom out button$/, async () => {
     await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
     await page.clickZoomOutButton();
+    await page.waitForAnimation();
   });
 
   When(/^the user double click$/, async () => {
-    await browser.sleep(sleepTime);
     await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
     await page.dblClick();
+    await page.waitForAnimation();
   });
 
   Then(/^the current zoom level has increased$/, async () => {
-    await browser.sleep(sleepTime);
     expect((await page.getZoomLevel())).to.be.greaterThan(previousZoomLevel);
   });
 
   Then(/^the current zoom level has decreased$/, async () => {
-    await browser.sleep(sleepTime);
     expect((await page.getZoomLevel())).to.be.lessThan(previousZoomLevel);
   });
 
