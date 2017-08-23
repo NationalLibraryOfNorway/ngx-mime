@@ -1,5 +1,5 @@
 <div class="contents-container">
-  <div [ngSwitch]="media.isActive('xs')">
+  <div [ngSwitch]="media.isActive('lt-md')">
     <div *ngSwitchCase="true">
       <md-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
@@ -19,7 +19,7 @@
   </div>
   <md-tab-group>
     <md-tab label="Metadata">
-      <div class="tab-container" class.gt-xs="tab-container-desktop">
+      <div class="tab-container" [ngStyle]="tabHeight">
         <mime-metadata></mime-metadata>
       </div>
     </md-tab>
