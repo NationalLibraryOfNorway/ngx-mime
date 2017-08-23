@@ -3,9 +3,9 @@ import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
 export class ViewerPage {
-  private thumbStartPosition = {x: 200, y: 450};
-  private pointerPosition1 = {x: 220, y: 400};
-  private pointerPosition2 = {x: 500, y: 150};
+  private thumbStartPosition = {x: 600, y: 300};
+  private pointerPosition1 = {x: 650, y: 275};
+  private pointerPosition2 = {x: 750, y: 200};
   open() {
     return browser.get('');
   }
@@ -28,17 +28,17 @@ export class ViewerPage {
   }
 
   pinchOut() {
-    return browser.touchActions()
+    browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
-      .tapAndHold(this.pointerPosition1)
+      // .tapAndHold(this.pointerPosition1)
       .move(this.pointerPosition2)
       .perform();
   }
 
   pinchIn() {
-    return browser.touchActions()
+    browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
-      .tapAndHold(this.pointerPosition2)
+      // .tapAndHold(this.pointerPosition2)
       .move(this.pointerPosition1)
       .perform();
   }

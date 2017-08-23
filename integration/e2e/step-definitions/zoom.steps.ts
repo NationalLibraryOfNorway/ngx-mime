@@ -7,32 +7,29 @@ defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   let previousZoomLevel = 0;
 
-  Given(/^the viewer is opened with a publication$/, async () => {
-    await page.open();
-  });
-
   Given(/^the viewer is in page view$/, async () => {
     expect((await page.getOpenSeadragon().isDisplayed())).to.be.true;
   });
 
   Given(/^default zoom level is set$/, async () => {
     await page.setHomeZoomLevel();
+  });
+
+  When(/^the user pinch out$/, async () => {
+    await page.zoomIn();
     await page.getZoomLevel().then((zoomlevel: number) => {
       console.log('Zoomlevel is now ' + zoomlevel);
       previousZoomLevel = zoomlevel;
     });
-  });
-
-  // Given(/^the view is zoomed in$/, async () => {
-  //   await page.zoomIn();
-  // });
-
-  When(/^the user pinch out$/, async () => {
-    await browser.sleep(5000);
     await page.pinchOut();
   });
 
   When(/^the user pinch in$/, async () => {
+    await page.zoomOut();
+    await page.getZoomLevel().then((zoomlevel: number) => {
+      console.log('Zoomlevel is now ' + zoomlevel);
+      previousZoomLevel = zoomlevel;
+    });
     await page.pinchIn();
   });
 
@@ -45,7 +42,6 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the current zoom level has increased$/, async () => {
-    await browser.sleep(5000);
     await page.getZoomLevel().then((zoomLevel: number) => {
       console.log(zoomLevel + ' > ' + previousZoomLevel);
       expect(zoomLevel).to.be.greaterThan(previousZoomLevel);

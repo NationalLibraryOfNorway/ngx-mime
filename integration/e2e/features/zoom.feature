@@ -14,7 +14,6 @@ Feature: Zoom
 
 #  @Mobile
   Scenario: Zooming out on mobile
-#    And the view is zoomed in
     When the user pinch in
     Then the current zoom level has decreased
 
@@ -25,7 +24,6 @@ Feature: Zoom
 #
 #  @Desktop
 #  Scenario: Zooming out on desktop
-#    And the view is zoomed in
 #    When the user click zoom out button
 #    Then the current zoom level has decreased
 #
@@ -37,6 +35,5 @@ Feature: Zoom
 #
 #  @Mobile @Desktop
 #  Scenario: Auto zooming out on desktop
-#    And the view is zoomed in
 #    When the user double click
 #    Then the view is all zoomed out

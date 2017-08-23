@@ -1,13 +1,11 @@
-import { Component,ChangeDetectionStrategy, Input,NgZone, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges ,
-  ChangeDetectorRef,
-  ElementRef,
-  NgZone} from '@angular/core';
+import {
+  Component, ChangeDetectionStrategy, Input, OnChanges, OnDestroy, OnInit, SimpleChange, ElementRef, NgZone,
+  SimpleChanges
+} from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
-
-import { MimeViewerIntl } from './../core/viewer-intl';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { ContentsDialogService } from './../contents-dialog/contents-dialog.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
 
@@ -23,7 +21,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   public viewer: any;
   private subscriptions: Array<Subscription> = [];
 
-  constructor(private zone: NgZone,private zone: NgZone,
+  constructor(
+    private zone: NgZone,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
