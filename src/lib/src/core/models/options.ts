@@ -12,7 +12,7 @@ export class Options {
   xmlPath: string = null;
   prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
   navImages: NavImages;
-  debugMode = true;
+  debugMode = false;
   debugGridColor = '#437AB2';
   blendTime = 0;
   alwaysBlend = false;

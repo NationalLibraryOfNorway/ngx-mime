@@ -1,6 +1,4 @@
 {
-  "host": "nbr-raymondk1.nb.no",
-  "port": "4200",
   "server": {
     "baseDir": "src/demo",
     "routes": {
