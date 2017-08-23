@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
+import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from './../../core/models/manifest';
 
@@ -15,6 +16,7 @@ export class MetadataComponent implements OnInit {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
+    public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService) { }
 

@@ -1,3 +1,4 @@
+import { MimeViewerIntl } from './../../core/viewer-intl';
 import { DebugElement } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
@@ -24,6 +25,7 @@ describe('MetadataComponent', () => {
         MetadataComponent
       ],
       providers: [
+        MimeViewerIntl,
         {provide: IiifManifestService, useClass: IiifManifestServiceStub}
       ]
     })
@@ -47,6 +49,13 @@ describe('MetadataComponent', () => {
     expect(metadatas.length).toEqual(2);
   });
 
+  it('should display attribution', () => {
+    fixture.detectChanges();
+
+    const attribution: DebugElement = fixture.debugElement.query(By.css('.attribution'));
+    expect(attribution.nativeElement.innerText).toBe('This is a test attribution');
+  });
+
 });
 
 class IiifManifestServiceStub {
@@ -56,7 +65,8 @@ class IiifManifestServiceStub {
       metadata: [
         new Metadata('label1', 'value1'),
         new Metadata('label2', 'value2')
-      ]
+      ],
+      attribution: 'This is a test attribution'
     }));
   }
 

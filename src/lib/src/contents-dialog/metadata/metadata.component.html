@@ -3,4 +3,8 @@
     <div class="title">{{metadata.label}}</div>
     <span class="content" [innerHTML]="metadata.value"></span>
   </div>
+  <div *ngIf="manifest?.attribution">
+    <div class="title">{{intl.attribution}}</div>
+    <span class="content attribution" [innerHTML]="manifest?.attribution"></span>
+  </div>
 </div>
