@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from './../contents-dialog/contents-dialog.service';
+import { AttributionDialogService } from './../attribution-dialog/attribution-dialog.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
 
@@ -37,8 +38,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
+    private attributionDialogService: AttributionDialogService,
     private dialog: MdDialog) {
     contentsDialogService.elementRef = el;
+    attributionDialogService.elementRef = el;
   }
 
   ngOnInit(): void {
@@ -85,6 +88,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.zone.runOutsideAngular(() => {
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
       });
+    }
+    if (manifest.attribution) {
+      this.attributionDialogService.open();
     }
   }
 

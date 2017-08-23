@@ -7,5 +7,7 @@ export class MimeViewerIntl {
 
   metadataLabel = 'Info';
   close = 'Close';
-
+  attribution = 'Attribution';
+  contents = 'Contents';
+  metadata = 'Metadata';
 }

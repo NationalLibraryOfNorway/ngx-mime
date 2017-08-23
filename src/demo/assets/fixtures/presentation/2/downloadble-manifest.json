@@ -41,8 +41,6 @@
       "value": "Bøker"
     }
   ],
-  "license": "https://beta.nb.no/lisens/cc0",
-  "attribution": "Du kan kopiere, endre, spre, vise og fremføre dette verket, selv for kommersielle formål, uten å spørre om tillatelse.",
   "sequences": [
     {
       "@id": "https://api.nb.no/catalog/v1/iiif/d0b9242eddabe9ef3bd31716278e0bbc/sequence/normal",

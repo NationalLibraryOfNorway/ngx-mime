@@ -1,3 +1,4 @@
+import { AttributionDialogModule } from './../attribution-dialog/attribution-dialog.module';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, fakeAsync, tick, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -29,7 +30,8 @@ describe('ViewerComponent', function () {
       imports: [
         HttpClientTestingModule,
         SharedModule,
-        ContentsDialogModule
+        ContentsDialogModule,
+        AttributionDialogModule
       ],
       declarations: [
         ViewerComponent,

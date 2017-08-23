@@ -3,8 +3,6 @@
   "@type": "sc:Manifest",
   "@id": "https://api.nb.no/catalog/v1/iiif/eb7d1d9c4b553001549d32573658c844/manifest",
   "label": "Fridtjof Nansen : scientist and humanitarian",
-  "license": "https://beta.nb.no/lisens/cc0",
-  "attribution": "Du kan kopiere, endre, spre, vise og fremføre dette verket, selv for kommersielle formål, uten å spørre om tillatelse.",
   "sequences": [
     {
       "@id": "https://api.nb.no/catalog/v1/iiif/eb7d1d9c4b553001549d32573658c844/sequence/normal",
