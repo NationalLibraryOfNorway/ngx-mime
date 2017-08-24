@@ -21,11 +21,11 @@
 .viewer__container.dashboard>>>.tile:hover {
   stroke: #08f;
   stroke-width: 10;
+  cursor: pointer;
 }
 
 .viewer__container>>>.tile {
   fill-opacity: 0; // Svg-tile filled black if this is not set?
-  cursor: pointer;
 }
 
 viewer-header {}

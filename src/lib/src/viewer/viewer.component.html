@@ -1,3 +1,9 @@
+<!-- <p><strong>Page:</strong> {{pageService.currentPage}}</p>
+Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" placeholder="Page + Enter">
+ <button (click)="prevPage()">Previous</button>
+ <button (click)="nextPage()">Next</button>
+-->
+
 <div class="viewer__container" [ngClass]="mode == ViewerMode.DASHBOARD ? 'dashboard' : 'page'">
   <viewer-header></viewer-header>
   <div id="openseadragon"></div>

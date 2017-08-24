@@ -18,6 +18,7 @@ import { Manifest } from '../core/models/manifest';
 import { Subscription } from 'rxjs/Subscription';
 import { Options } from '../core/models/options';
 import { ClickService } from '../core/click/click.service';
+import { PageService } from '../core/page-service/page-service';
 import { ViewerMode } from './viewer-mode';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
@@ -38,23 +39,25 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   public viewer: any;
   private options: Options;
   private subscriptions: Array<Subscription> = [];
+
   public mode: ViewerMode;
   ViewerMode: typeof ViewerMode = ViewerMode;
 
+  // Viewchilds
   @ViewChild(ViewerHeaderComponent) header: ViewerHeaderComponent;
   @ViewChild(ViewerFooterComponent) footer: ViewerFooterComponent;
 
   // References to clickable overlays
   private overlays: Array<HTMLElement>;
   private tileSources: any[];
-  private currentPage: number;
 
 
   constructor(
     private iiifService: IiifService,
     private renderer: Renderer2,
     private changeDetectorRef: ChangeDetectorRef,
-    private clickService: ClickService
+    private clickService: ClickService,
+    private pageService: PageService
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +67,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['manifestUri']) {
+      // Allways set to dashboard-mode when manifest changes
+      this.mode = ViewerMode.DASHBOARD;
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
         this.manifestUri = manifestUriChanges.currentValue;
@@ -89,6 +94,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.tileSources = manifest.tileSource;
             this.options = new Options(this.mode, this.tileSources);
             this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+            this.pageService = new PageService();
+
+            this.pageService.numberOfPages = this.tileSources.length;
+
             this.setDashboardConstraints();
             this.addEventHandlers();
           })
@@ -116,25 +125,27 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   addEventHandlers(): void {
-    // Reset currentpage, create new overlays and fit bounds to start
+    this.clickService.reset();
     this.viewer.addHandler('open', (data: any) => {
-      this.currentPage = 0;
+
+      this.pageService.currentPage = 0;
       this.createOverlays();
       this.fitBoundsToStart();
     });
 
     this.clickService.addSingleClickHandler((event: any) => {
       let target: HTMLElement = event.originalEvent.target;
+
       if (target.nodeName === 'rect') {
         let requestedPage = this.overlays.indexOf(target);
-        console.log("found requested page: " + requestedPage)
         if (requestedPage >= 0) {
           this.toggleView();
           this.changeDetectorRef.markForCheck();
           setTimeout(() => {
             this.fitBounds(target);
           }, 250);
-          this.currentPage = requestedPage;
+          this.fitBounds(target);
+          this.pageService.currentPage = requestedPage;
           this.changeDetectorRef.markForCheck();
         }
       }
@@ -170,6 +181,46 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+
+
+  nextPage(): void {
+    let nextPage = this.pageService.getNextPage();
+    this.fitBoundsToPage(nextPage);
+  }
+
+  prevPage(): void {
+    let prevPage = this.pageService.getPrevPage();
+    this.fitBoundsToPage(prevPage);
+  }
+
+  goToPageFromUserInput(event: any) {
+    let page = event.target.value;
+
+    if (!this.isInt(page)) {
+      return;
+    }
+    this.fitBoundsToPage(+page);
+  }
+
+  fitBoundsToStart(): void {
+    // Don't need to fit bounds if pages < 3
+    if (this.overlays.length < 3) {
+      return;
+    }
+    let firstpageDashboardBounds = this.viewer.viewport.getBounds();
+    firstpageDashboardBounds.x = 0;
+    this.viewer.viewport.fitBounds(firstpageDashboardBounds);
+  }
+
+  fitBoundsToPage(page: number): void {
+    if (page < 0) {
+      return;
+    }
+    let box = this.overlays[page];
+    let pageBounds = this.createRectangel(box);
+    this.viewer.viewport.fitBounds(pageBounds);
+  }
+
   // Toggle viewport-bounds between page and dashboard
   // Make sure to update this.mode to the new mode before calling this method
   fitBounds(currentOverlay: any): void {
@@ -185,46 +236,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  nextPage(): void {
-    if (this.currentPage + 1 > this.overlays.length - 1) {
-      return;
-    }
-    this.goToPage(this.currentPage + 1);
-  }
-
-  prevPage(): void {
-    if (this.currentPage === 0) {
-      return;
-    }
-    this.goToPage(this.currentPage - 1);
-  }
-
-  goToPage(page: number): void {
-    if ((page < 0) || (page > this.overlays.length - 1)) {
-      return;
-    }
-    let box = this.overlays[page];
-    let pageBounds = this.createRectangel(box);
-    this.viewer.viewport.fitBounds(pageBounds);
-    this.currentPage = page;
-  }
-
-  goToPageFromUserInput(event: any) {
-    let page = event.target.value;
-
-    if (!this.isInt(page)) {
-      return;
-    }
-    this.goToPage(+page);
-  }
-
-  private isInt(value: any): boolean {
-    return !isNaN(value) &&
-      parseInt(value, 10) == value &&
-      !isNaN(parseInt(value, 10));
-  }
-
-
   createRectangel(overlay: any): any {
     return new OpenSeadragon.Rect(
       overlay.x.baseVal.value,
@@ -234,14 +245,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     );
   }
 
-  fitBoundsToStart(): void {
-    // Don't need to fit bounds if pages < 3
-    if (this.overlays.length < 3) {
-      return;
-    }
-    let firstpageDashboardBounds = this.viewer.viewport.getBounds();
-    firstpageDashboardBounds.x = 0;
-    this.viewer.viewport.fitBounds(firstpageDashboardBounds);
+  private isInt(value: any): boolean {
+    return !isNaN(value) &&
+      parseInt(value, 10) == value &&
+      !isNaN(parseInt(value, 10));
   }
 
 }

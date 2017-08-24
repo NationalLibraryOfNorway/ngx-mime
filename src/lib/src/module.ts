@@ -3,12 +3,14 @@ import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.comp
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MimeMaterialModule } from './mime-material.module';
 import { ViewerComponent } from './viewer/viewer.component';
 import { MimeViewerIntl } from './viewer/viewer-intl';
 import { IiifService } from './core/iiif-service/iiif-service';
 import { ClickService } from './core/click/click.service';
+import { PageService } from './core/page-service/page-service';
 
 import './rxjs-extension';
 import 'openseadragon';
@@ -17,12 +19,13 @@ import 'openseadragon';
   declarations: [
     ViewerComponent,
     ViewerHeaderComponent,
-    ViewerFooterComponent
+    ViewerFooterComponent,
   ],
   imports: [
     FlexLayoutModule,
     CommonModule,
-    MimeMaterialModule
+    MimeMaterialModule,
+    BrowserAnimationsModule
   ],
   exports: [
     FlexLayoutModule,
@@ -32,7 +35,8 @@ import 'openseadragon';
   providers: [
     MimeViewerIntl,
     IiifService,
-    ClickService
+    ClickService,
+    PageService
   ]
 })
 export class MimeModule {

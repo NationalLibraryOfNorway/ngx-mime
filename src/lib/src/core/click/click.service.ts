@@ -8,6 +8,10 @@ export class ClickService {
   private dblClickTimeOut: number;
 
   constructor() {
+    this.reset();
+  }
+
+  reset(): void {
     this.singleClickHandlers = [];
     this.doubleClickHandlers = [];
   }
