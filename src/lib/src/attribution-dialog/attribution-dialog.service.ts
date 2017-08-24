@@ -5,13 +5,14 @@ import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 import { AttributionDialogComponent } from './attribution-dialog.component';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import { Rect } from './../core/models/rect';
+import { MimeDomHelper } from './../core/mime-dom-renderer';
+import { Dimensions } from './../core/models/dimensions';
 
 @Injectable()
 export class AttributionDialogService {
   private isAttributionDialogOpen = false;
   private dialogRef: MdDialogRef<AttributionDialogComponent>;
-  private _elementRef: ElementRef;
+  private _el: ElementRef;
   private attributionDialogHeight = 0;
 
   constructor(
@@ -19,15 +20,15 @@ export class AttributionDialogService {
     private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
   ) {
-    mimeResizeService.onResize.subscribe((r: Rect) => {
+    mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       if (this.isAttributionDialogOpen) {
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);
       }
     });
-    attributionDialogResizeService.onResize.subscribe((r: Rect) => {
+    attributionDialogResizeService.onResize.subscribe((dimensions: Dimensions) => {
       if (this.isAttributionDialogOpen) {
-        this.attributionDialogHeight = r.height;
+        this.attributionDialogHeight = dimensions.height;
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);
       }
@@ -35,8 +36,8 @@ export class AttributionDialogService {
 
   }
 
-  set elementRef(elementRef: ElementRef) {
-    this._elementRef = elementRef;
+  set el(el: ElementRef) {
+    this._el = el;
   }
 
   public open(timeout?: number): void {
@@ -70,31 +71,25 @@ export class AttributionDialogService {
   }
 
   private getDialogConfig(): MdDialogConfig {
-    const rect = this.getPosition(this._elementRef);
+    const dimensions = this.getPosition(this._el);
     return {
       hasBackdrop: false,
       disableClose: true,
       width: '170px',
       panelClass: 'attribution-panel',
       position: {
-        top: rect.top + 'px',
-        left: rect.left + 'px',
+        top: dimensions.top + 'px',
+        left: dimensions.left + 'px',
       }
     };
   }
 
-  private getPosition(elementRef: ElementRef) {
+  private getPosition(el: ElementRef) {
     const padding = 20;
-    if (!elementRef) {
-      return {
-        top: 0,
-        left: 0
-      };
-    }
-    const rect = elementRef.nativeElement.getBoundingClientRect();
+    const dimensions = new MimeDomHelper().getBoundingClientRect(el);
     return {
-      top: rect.top + (rect.bottom - rect.top) - this.attributionDialogHeight - padding,
-      left: rect.left + padding
+      top: dimensions.top + dimensions.height - this.attributionDialogHeight - padding,
+      left: dimensions.left + padding
     };
   }
 

@@ -44,8 +44,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private attributionDialogService: AttributionDialogService,
     private mimeService: MimeResizeService,
     private dialog: MdDialog) {
-    contentsDialogService.elementRef = el;
-    attributionDialogService.elementRef = el;
+    contentsDialogService.el = el;
+    attributionDialogService.el = el;
     mimeService.el = el;
   }
 

@@ -2,20 +2,14 @@ import { Injectable, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { Rect } from './../core/models/rect';
+import { MimeDomHelper } from './../core/mime-dom-renderer';
+import { Dimensions } from './../core/models/dimensions';
 
 @Injectable()
 export class AttributionDialogResizeService {
   private _el: ElementRef;
-  private resizeSubject: ReplaySubject<Rect> = new ReplaySubject();
-  private rect: Rect = {
-    bottom: 0,
-    height: 0,
-    left: 0,
-    right: 0,
-    top: 0,
-    width: 0
-  };
+  private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
+  private dimensions = new Dimensions();
 
   constructor() { }
 
@@ -27,27 +21,20 @@ export class AttributionDialogResizeService {
     return this._el;
   }
 
-  get onResize(): Observable<Rect> {
+  get onResize(): Observable<Dimensions> {
     return this.resizeSubject.asObservable();
   }
 
   markForCheck() {
-    const rect = this.el.nativeElement.getBoundingClientRect();
-    if (this.rect.bottom !== rect.bottom ||
-      this.rect.height !== rect.height ||
-      this.rect.left !== rect.left ||
-      this.rect.right !== rect.right ||
-      this.rect.top !== rect.top ||
-      this.rect.width !== rect.width) {
-      this.rect = {
-        bottom: rect.bottom,
-        height: rect.height,
-        left: rect.left,
-        right: rect.right,
-        top: rect.top,
-        width: rect.width
-      };
-      this.resizeSubject.next({...this.rect});
+    const dimensions = new MimeDomHelper().getBoundingClientRect(this.el);
+    if (this.dimensions.bottom !== dimensions.bottom ||
+      this.dimensions.height !== dimensions.height ||
+      this.dimensions.left !== dimensions.left ||
+      this.dimensions.right !== dimensions.right ||
+      this.dimensions.top !== dimensions.top ||
+      this.dimensions.width !== dimensions.width) {
+      this.dimensions = dimensions;
+      this.resizeSubject.next({...this.dimensions});
     }
   }
 }

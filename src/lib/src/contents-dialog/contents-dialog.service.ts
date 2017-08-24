@@ -11,7 +11,7 @@ import { Manifest } from './../core/models/manifest';
 
 @Injectable()
 export class ContentsDialogService {
-  private _elementRef: ElementRef;
+  private _el: ElementRef;
   private isContentsDialogOpen = false;
   private dialogRef: MdDialogRef<ContentsDialogComponent>;
 
@@ -28,8 +28,8 @@ export class ContentsDialogService {
       });
   }
 
-  set elementRef(elementRef: ElementRef) {
-    this._elementRef = elementRef;
+  set el(el: ElementRef) {
+    this._el = el;
   }
 
   public open() {
@@ -52,7 +52,7 @@ export class ContentsDialogService {
   }
 
   private getDialogConfig(): MdDialogConfig {
-    return this.contentsDialogConfigStrategyFactory.create().getConfig(this._elementRef);
+    return this.contentsDialogConfigStrategyFactory.create().getConfig(this._el);
   }
 
 }

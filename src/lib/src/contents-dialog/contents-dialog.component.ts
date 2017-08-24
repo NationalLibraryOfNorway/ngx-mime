@@ -6,7 +6,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { Manifest } from './../core/models/manifest';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { Rect } from './../core/models/rect';
+import { MimeDomHelper } from './../core/mime-dom-renderer';
+import { Dimensions } from './../core/models/dimensions';
 
 @Component({
   selector: 'mime-contents',
@@ -23,8 +24,8 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,
     private el: ElementRef) {
-    mimeResizeService.onResize.subscribe((rect: Rect) => {
-      this.mimeHeight = rect.height;
+    mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+      this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
     });
 
@@ -46,8 +47,8 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   }
 
   private resizeTabHeight(): void {
-    const rect = this.el.nativeElement.getBoundingClientRect();
-    let height = this.mimeHeight - rect.top;
+    const dimensions = new MimeDomHelper().getBoundingClientRect(this.el);
+    let height = this.mimeHeight - dimensions.top;
 
     if (this.media.isActive('lt-md')) {
       height -= 20;

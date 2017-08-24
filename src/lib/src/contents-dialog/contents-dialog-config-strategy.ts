@@ -1,7 +1,8 @@
+import { MimeDomHelper } from './../core/mime-dom-renderer';
 import { ElementRef } from '@angular/core';
 import { MdDialogConfig } from '@angular/material';
 
-import { Rect } from './../core/models/rect';
+import { Dimensions } from './../core/models/dimensions';
 
 export interface ContentsDialogConfigStrategy {
   getConfig(elementRef?: ElementRef): MdDialogConfig;
@@ -23,30 +24,24 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
 
-  public getConfig(elementRef: ElementRef): MdDialogConfig {
-    const rect = this.getPosition(elementRef);
+  public getConfig(el: ElementRef): MdDialogConfig {
+    const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
       disableClose: true,
       width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
       position: {
-        top: rect.top + 'px',
-        left: rect.left + 'px',
+        top: dimensions.top + 'px',
+        left: dimensions.left + 'px',
       }
     };
   }
 
-  private getPosition(elementRef: ElementRef): Rect {
-    if (!elementRef) {
-      return {
-        top: 0,
-        left: 0
-      };
-    }
-    const rect = elementRef.nativeElement.getBoundingClientRect();
+  private getPosition(el: ElementRef): Dimensions {
+    const dimensions = new MimeDomHelper().getBoundingClientRect(el);
     return {
-      top: rect.top + 64,
-      left: rect.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight
+      top: dimensions.top + 64,
+      left: dimensions.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight
     };
   }
 
