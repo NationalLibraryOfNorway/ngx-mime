@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { SharedModule } from './../shared/shared.module';
 import { ContentsDialogService } from './contents-dialog.service';
-import { ResizeService } from './../core/resize-service/resize.service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
 
 describe('ContentsDialogService', () => {
@@ -13,7 +13,7 @@ describe('ContentsDialogService', () => {
       ],
       providers: [
         ContentsDialogService,
-        ResizeService,
+        MimeResizeService,
         ContentsDialogConfigStrategyFactory
       ]
     });

@@ -2,7 +2,7 @@ import { Injectable, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 
 import { AttributionDialogComponent } from './attribution-dialog.component';
-import { ResizeService } from './../core/resize-service/resize.service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 
 @Injectable()
 export class AttributionDialogService {
@@ -12,7 +12,7 @@ export class AttributionDialogService {
 
   constructor(
     private dialog: MdDialog,
-    private resizeService: ResizeService,
+    private resizeService: MimeResizeService,
   ) {
     resizeService.onResize.subscribe(r => {
       if (this.isAttributionDialogOpen) {

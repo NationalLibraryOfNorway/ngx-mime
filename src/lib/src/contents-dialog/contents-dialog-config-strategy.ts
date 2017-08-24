@@ -9,6 +9,8 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
 
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     return {
+      hasBackdrop: false,
+      disableClose: true,
       width: '100%',
       height: '100%'
     };
@@ -16,7 +18,7 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
 }
 
 export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfigStrategy {
-  public static readonly maxHeight = 600;
+  public static readonly maxHeight = 1600;
 
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     const rect = this.getPosition(elementRef);

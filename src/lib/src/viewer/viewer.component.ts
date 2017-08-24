@@ -18,6 +18,7 @@ import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from './../contents-dialog/contents-dialog.service';
 import { AttributionDialogService } from './../attribution-dialog/attribution-dialog.service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
 
@@ -39,9 +40,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
+    private mimeService: MimeResizeService,
     private dialog: MdDialog) {
     contentsDialogService.elementRef = el;
     attributionDialogService.elementRef = el;
+    mimeService.el = el;
   }
 
   ngOnInit(): void {
@@ -96,5 +99,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   public closeAllDialogs() {
     this.dialog.closeAll();
+  }
+
+  ngAfterViewChecked() {
+    this.mimeService.markForCheck();
   }
 }

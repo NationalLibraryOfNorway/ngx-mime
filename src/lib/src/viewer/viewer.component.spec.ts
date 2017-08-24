@@ -9,7 +9,7 @@ import { SharedModule } from './../shared/shared.module';
 import { ContentsDialogModule } from './../contents-dialog/contents-dialog.module';
 import { ViewerComponent } from './viewer.component';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { ResizeService } from './../core/resize-service/resize.service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Manifest } from './../core/models/manifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { testManifest } from '../test/testManifest';
@@ -39,7 +39,7 @@ describe('ViewerComponent', function () {
       ],
       providers: [
         IiifManifestService,
-        ResizeService
+        MimeResizeService
       ]
     }).compileComponents();
   }));

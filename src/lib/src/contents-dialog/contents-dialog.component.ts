@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { Manifest } from './../core/models/manifest';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { Rect } from './../core/mime-resize-service/mime-resize.service';
 
 @Component({
   selector: 'mime-contents',
@@ -12,14 +14,20 @@ import { Manifest } from './../core/models/manifest';
   styleUrls: ['./contents-dialog.component.scss']
 })
 export class ContentsDialogComponent implements OnInit {
-  public static readonly maxHeight = 460;
   public tabHeight = {};
+  private maxHeight = 460;
 
   constructor(
     public intl: MimeViewerIntl,
     public media: ObservableMedia,
+    private resizeService: MimeResizeService,
     private el: ElementRef) {
-    }
+    resizeService.onResize.subscribe((r: Rect) => {
+      this.maxHeight = r.height;
+      this.resizeTabHeight();
+    });
+
+  }
 
   ngOnInit() {
     this.resizeTabHeight();
@@ -35,11 +43,11 @@ export class ContentsDialogComponent implements OnInit {
     let height = document.body.scrollHeight - rect.top;
 
     if (this.media.isActive('lt-md')) {
-      height -= 120;
+      height -= 130;
     } else {
       height -= 170;
     }
-    height = height > ContentsDialogComponent.maxHeight ? ContentsDialogComponent.maxHeight : height;
+    height = height > this.maxHeight ? this.maxHeight : height;
     this.tabHeight = {
       'maxHeight': height + 'px'
     };

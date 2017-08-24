@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { ResizeService } from './../core/resize-service/resize.service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Manifest } from './../core/models/manifest';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class ContentsDialogService {
   constructor(
     private dialog: MdDialog,
     private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
-    private resizeService: ResizeService) {
+    private resizeService: MimeResizeService) {
       resizeService.onResize.subscribe(r => {
         if (this.isContentsDialogOpen) {
           const config = this.getDialogConfig();

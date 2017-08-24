@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { SharedModule } from './../shared/shared.module';
 import { AttributionDialogService } from './attribution-dialog.service';
-import { ResizeService } from './../core/resize-service/resize.service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 
 describe('AttributionDialogService', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe('AttributionDialogService', () => {
       ],
       providers: [
         AttributionDialogService,
-        ResizeService
+        MimeResizeService
       ]
     });
   });
