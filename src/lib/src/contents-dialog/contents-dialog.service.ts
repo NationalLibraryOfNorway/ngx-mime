@@ -18,8 +18,8 @@ export class ContentsDialogService {
   constructor(
     private dialog: MdDialog,
     private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
-    private resizeService: MimeResizeService) {
-      resizeService.onResize.subscribe(r => {
+    private mimeResizeService: MimeResizeService) {
+      mimeResizeService.onResize.subscribe(rect => {
         if (this.isContentsDialogOpen) {
           const config = this.getDialogConfig();
           this.dialogRef.updatePosition(config.position);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../../core/viewer-intl';
@@ -11,7 +11,7 @@ import { Manifest } from './../../core/models/manifest';
   styleUrls: ['./metadata.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MetadataComponent implements OnInit {
+export class MetadataComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
   private subscriptions: Array<Subscription> = [];
 

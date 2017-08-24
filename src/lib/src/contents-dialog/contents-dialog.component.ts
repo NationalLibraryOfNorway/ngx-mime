@@ -23,8 +23,8 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,
     private el: ElementRef) {
-    mimeResizeService.onResize.subscribe((r: Rect) => {
-      this.mimeHeight = r.height;
+    mimeResizeService.onResize.subscribe((rect: Rect) => {
+      this.mimeHeight = rect.height;
       this.resizeTabHeight();
     });
 

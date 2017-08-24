@@ -1,6 +1,8 @@
 import { ElementRef } from '@angular/core';
 import { MdDialogConfig } from '@angular/material';
 
+import { Rect } from './../core/models/rect';
+
 export interface ContentsDialogConfigStrategy {
   getConfig(elementRef?: ElementRef): MdDialogConfig;
 }
@@ -34,7 +36,7 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
     };
   }
 
-  private getPosition(elementRef: ElementRef) {
+  private getPosition(elementRef: ElementRef): Rect {
     if (!elementRef) {
       return {
         top: 0,
