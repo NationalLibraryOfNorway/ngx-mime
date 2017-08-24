@@ -44,7 +44,7 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
     const rect = elementRef.nativeElement.getBoundingClientRect();
     return {
       top: rect.top + 64,
-      left: rect.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight;
+      left: rect.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight
     };
   }
 
