@@ -23,10 +23,14 @@ export class MetadataPage {
   }
 
   getAttribution() {
-    return element(by.css('#metadata-attribution'));
+    const el = element(by.css('#metadata-attribution'));
+    utils.waitForElement(el);
+    return el;
   }
   getLicense() {
-    return element(by.css('#metadata-license'));
+    const el = element(by.css('#metadata-license'));
+    utils.waitForElement(el);
+    return el;
   }
 }
 
