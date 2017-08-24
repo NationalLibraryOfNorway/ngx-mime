@@ -28,7 +28,7 @@ const config = {
     format: 'pretty',
     tags: ''
   },
-  onPrepare() {
+  onPrepare: function() {
     browser.manage().window().maximize();
   },
   afterLaunch: function () {
@@ -65,7 +65,7 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       seleniumVersion: '3.3.1',
       shardTestFiles: true,
-      maxInstances: 5,
+      maxInstances: 5
     });
   }
   return capabilities;

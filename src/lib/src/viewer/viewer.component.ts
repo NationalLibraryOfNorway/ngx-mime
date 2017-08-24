@@ -1,4 +1,3 @@
-import { MimeViewerIntl } from './viewer-intl';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -8,14 +7,19 @@ import {
   OnInit,
   SimpleChange,
   SimpleChanges,
+  ElementRef,
   Renderer2,
+  NgZone,
   ChangeDetectorRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
-
-import { IiifService } from '../core/iiif-service/iiif-service';
-import { Manifest } from '../core/models/manifest';
+import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
+
+import { MimeViewerIntl } from './../core/viewer-intl';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
+import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
 import { ClickService } from '../core/click/click.service';
 import { PageService } from '../core/page-service/page-service';
@@ -24,7 +28,7 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import '../core/ext/svg-overlay';
 
-//declare const OpenSeadragon: any;
+declare const OpenSeadragon: any;
 declare const d3: any;
 
 @Component({
@@ -34,8 +38,7 @@ declare const d3: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
-
-  @Input() manifestUri: string;
+  @Input() public manifestUri: string;
   public viewer: any;
   private options: Options;
   private subscriptions: Array<Subscription> = [];
@@ -53,16 +56,29 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
 
   constructor(
-    private iiifService: IiifService,
+    private zone: NgZone,
+    private el: ElementRef,
+    private iiifManifestService: IiifManifestService,
+    private contentsDialogService: ContentsDialogService,
+    private dialog: MdDialog,
     private renderer: Renderer2,
     private changeDetectorRef: ChangeDetectorRef,
     private clickService: ClickService,
     private pageService: PageService
-  ) { }
+  ) { 
+    contentsDialogService.elementRef = el; 
+  }
 
   ngOnInit(): void {
     this.mode = ViewerMode.DASHBOARD;
-    this.createViewer();
+    this.subscriptions.push(
+      this.iiifManifestService.currentManifest
+      .subscribe((manifest: Manifest) => {
+        this.cleanUp();
+        this.setUpViewer(manifest);
+      })
+    );
+    this.loadManifest();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -72,7 +88,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         // Always set to dashboard-mode when manifest changes
         this.mode = ViewerMode.DASHBOARD;
         this.manifestUri = manifestUriChanges.currentValue;
-        this.createViewer();
+        this.cleanUp();
+        this.loadManifest();
       }
     }
   }
@@ -81,28 +98,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
-  }
-
-  createViewer(): void {
-    if (this.manifestUri) {
-      this.subscriptions.push(
-        this.iiifService.getManifest(this.manifestUri)
-          .subscribe((manifest: Manifest) => {
-            if (this.viewer != null && this.viewer.isOpen()) {
-              this.viewer.destroy();
-            }
-            this.tileSources = manifest.tileSource;
-            this.options = new Options(this.mode, this.tileSources);
-            this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
-            this.pageService = new PageService();
-
-            this.pageService.numberOfPages = this.tileSources.length;
-
-            this.setDashboardConstraints();
-            this.addEventHandlers();
-          })
-      );
-    }
   }
 
   toggleView(): void {
@@ -124,45 +119,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewer.panVertical = true;
   }
 
-  addEventHandlers(): void {
-    this.clickService.reset();
-    this.viewer.addHandler('open', (data: any) => {
-
-      this.pageService.currentPage = 0;
-      this.createOverlays();
-      this.fitBoundsToStart();
-    });
-
-    this.clickService.addSingleClickHandler((event: any) => {
-      let target: HTMLElement = event.originalEvent.target;
-
-      if (target.nodeName === 'rect') {
-        let requestedPage = this.overlays.indexOf(target);
-        if (requestedPage >= 0) {
-          this.toggleView();
-          this.changeDetectorRef.markForCheck();
-          setTimeout(() => {
-            this.fitBounds(target);
-          }, 250);
-         // this.fitBounds(target);
-          this.pageService.currentPage = requestedPage;
-          this.changeDetectorRef.markForCheck();
-        }
-      }
-    });
-
-    this.clickService.addDoubleClickHandler((event) => {
-    });
-
-    this.viewer.addHandler('canvas-click', this.clickService.click);
-
-    this.viewer.addHandler('canvas-double-click', (event: any) => {
-      if (this.mode === ViewerMode.DASHBOARD) {
-        event.preventDefaultAction = true;
-      }
-    });
-  }
-
   // Create SVG-overlays for each page
   createOverlays(): void {
     this.overlays = [];
@@ -180,8 +136,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.overlays.push(currentOverlay);
     });
   }
-
-
 
   nextPage(): void {
     let nextPage = this.pageService.getNextPage();
@@ -251,4 +205,92 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       !isNaN(parseInt(value, 10));
   }
 
+  private loadManifest() {
+    this.iiifManifestService.load(this.manifestUri);
+  }
+
+  private cleanUp() {
+    this.closeAllDialogs();
+    if (this.viewer != null && this.viewer.isOpen()) {
+      this.viewer.destroy();
+    }
+  }
+
+  private setUpViewer(manifest: Manifest) {
+    if (manifest.tileSource) {
+      this.tileSources = manifest.tileSource;
+      this.options = new Options(this.mode, this.tileSources);
+
+      this.zone.runOutsideAngular(() => {
+        this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+      });
+      window.openSeadragonViewer = this.viewer;
+
+      this.pageService = new PageService();
+      this.pageService.numberOfPages = this.tileSources.length;
+      this.setDashboardConstraints();
+      this.addEvents();
+    }
+  }
+
+  public closeAllDialogs() {
+    this.dialog.closeAll();
+  }
+
+  addEvents(): void {
+    this.addPinchEvents();
+
+    this.clickService.reset();
+    this.viewer.addHandler('open', (data: any) => {
+      this.pageService.currentPage = 0;
+      this.createOverlays();
+      this.fitBoundsToStart();
+    });
+
+    this.clickService.addSingleClickHandler((event: any) => {
+      let target: HTMLElement = event.originalEvent.target;
+
+      if (target.nodeName === 'rect') {
+        let requestedPage = this.overlays.indexOf(target);
+        if (requestedPage >= 0) {
+          this.toggleView();
+          this.changeDetectorRef.markForCheck();
+          setTimeout(() => {
+            this.fitBounds(target);
+          }, 250);
+         // this.fitBounds(target);
+          this.pageService.currentPage = requestedPage;
+          this.changeDetectorRef.markForCheck();
+        }
+      }
+    });
+
+    this.clickService.addDoubleClickHandler((event) => {
+    });
+
+    this.viewer.addHandler('canvas-click', this.clickService.click);
+
+    this.viewer.addHandler('canvas-double-click', (event: any) => {
+      if (this.mode === ViewerMode.DASHBOARD) {
+        event.preventDefaultAction = true;
+      }
+    });
+
+  }
+
+  addPinchEvents(): void {
+    let previousDistance = 0;
+    this.viewer.addHandler('canvas-pinch', (data: any) => {
+      if (data.lastDistance > previousDistance) {
+        this.viewer.viewport.zoomTo((this.viewer.viewport.getZoom() + 0.02));
+      } else {
+        this.viewer.viewport.zoomTo((this.viewer.viewport.getZoom() - 0.02));
+      }
+      previousDistance = data.lastDistance;
+    });
+
+    this.viewer.addHandler('canvas-release', (data: any) => {
+      previousDistance = 0;
+    });
+  }
 }

@@ -1,0 +1,6 @@
+<div role="list" id="metadata-container" class="metadata-container">
+  <div *ngFor="let metadata of manifest?.metadata" class="metadata">
+    <div class="title">{{metadata.label}}</div>
+    <span class="content" [innerHTML]="metadata.value"></span>
+  </div>
+</div>

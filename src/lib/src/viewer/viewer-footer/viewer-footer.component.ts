@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MdSliderChange } from '@angular/material';
-import { MimeViewerIntl } from './../viewer-intl';
+import { MimeViewerIntl } from './../../core/viewer-intl';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({

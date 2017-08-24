@@ -1,10 +1,16 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { MimeViewerIntl } from './../viewer-intl';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
+import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { Subscription } from 'rxjs/Subscription';
+
+import { MimeViewerIntl } from './../../core/viewer-intl';
+import { Manifest } from './../../core/models/manifest';
+import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
+import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 
 @Component({
-  selector: 'viewer-header',
+  selector: 'mime-viewer-header',
   templateUrl: './viewer-header.component.html',
   styleUrls: ['./viewer-header.component.scss'],
   animations: [
@@ -23,7 +29,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       transition('hide => show', animate('300ms ease-in')),
       transition('show => hide', animate('300ms ease-out'))
     ])
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
@@ -31,7 +38,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef) { }
+    private changeDetectorRef: ChangeDetectorRef,
+    private contentsDialogService: ContentsDialogService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
@@ -41,6 +49,10 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  public openContents() {
+    this.contentsDialogService.toggle();
   }
 
 }

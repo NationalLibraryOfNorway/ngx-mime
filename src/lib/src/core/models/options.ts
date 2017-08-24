@@ -1,8 +1,9 @@
-import { GestureSettings } from './gestureSettings';
+import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { NavImages } from './navImages';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
 import { ViewerMode } from './../../viewer/viewer-mode';
+
 export class Options {
   id = 'openseadragon';
   element: Element;
@@ -48,10 +49,10 @@ export class Options {
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
   animationTime = 1.2;
-  gestureSettingsMouse: GestureSettings;
-  gestureSettingsTouch: GestureSettings;
-  gestureSettingsPen: GestureSettings;
-  gestureSettingsUnknown: GestureSettings;
+  gestureSettingsMouse: GestureSettingsMouse;
+  gestureSettingsTouch: GestureSettingsTouch;
+  gestureSettingsPen: GestureSettingsPen;
+  gestureSettingsUnknown: GestureSettingsUnknown;
   zoomPerClick = 2.0;
   zoomPerScroll = 1.2;
   zoomPerSecond = 1.0;
