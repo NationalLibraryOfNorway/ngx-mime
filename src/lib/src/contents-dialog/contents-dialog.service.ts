@@ -41,7 +41,6 @@ export class ContentsDialogService {
       });
       this.isContentsDialogOpen = true;
     }
-
   }
 
   public close() {

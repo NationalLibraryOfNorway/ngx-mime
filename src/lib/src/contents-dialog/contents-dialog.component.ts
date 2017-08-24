@@ -43,9 +43,9 @@ export class ContentsDialogComponent implements OnInit {
     let height = document.body.scrollHeight - rect.top;
 
     if (this.media.isActive('lt-md')) {
-      height -= 130;
+      height -= 120;
     } else {
-      height -= 170;
+      height -= 180;
     }
     height = height > this.maxHeight ? this.maxHeight : height;
     this.tabHeight = {

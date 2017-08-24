@@ -18,16 +18,13 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
 }
 
 export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfigStrategy {
-  public static readonly maxHeight = 1600;
 
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     const rect = this.getPosition(elementRef);
-    const height = this.getHeight(rect);
     return {
       hasBackdrop: false,
       disableClose: true,
       width: '350px',
-      height: height + 'px',
       position: {
         top: rect.top + 'px',
         left: rect.left + 'px',
@@ -47,11 +44,6 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
       top: rect.top + 64,
       left: rect.right - 370
     };
-  }
-
-  private getHeight(rect: any): number {
-    const height = document.body.scrollHeight - rect.top - 40;
-    return height > DesktopContentsDialogConfigStrategy.maxHeight ? DesktopContentsDialogConfigStrategy.maxHeight : height;
   }
 
 }
