@@ -42,7 +42,7 @@ describe('ViewerHeaderComponent', () => {
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
       const button = fixture.debugElement.query(By.css('#contentsDialogButton'));
 
-      intl.metadataLabel = 'Metadata of the publication';
+      intl.contents = 'Metadata of the publication';
       intl.changes.next();
       fixture.detectChanges();
 
