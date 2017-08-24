@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class ClickService {
   private singleClickHandlers: Array<(event: any) => void>;
   private doubleClickHandlers: Array<(event: any) => void>;
-  private clickCount: number = 0;
+  private clickCount = 0;
   private dblClickTimeOut: number;
 
   constructor() {

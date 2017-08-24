@@ -9,13 +9,18 @@ import {
   SimpleChange,
   SimpleChanges,
   Renderer2,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewChild
 } from '@angular/core';
+
 import { IiifService } from '../core/iiif-service/iiif-service';
 import { Manifest } from '../core/models/manifest';
 import { Subscription } from 'rxjs/Subscription';
 import { Options } from '../core/models/options';
 import { ClickService } from '../core/click/click.service';
+import { ViewerMode } from './viewer-mode';
+import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
+import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import '../core/ext/svg-overlay';
 
 //declare const OpenSeadragon: any;
@@ -31,16 +36,17 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() manifestUri: string;
   public viewer: any;
-
-  private subscriptions: Array<Subscription> = [];
-  private mode: string;
   private options: Options;
-  private tileSources: any[];
-  private length: number = 10;
-  public pageIndex: number = 4;
+  private subscriptions: Array<Subscription> = [];
+  public mode: ViewerMode;
+  ViewerMode: typeof ViewerMode = ViewerMode;
+
+  @ViewChild(ViewerHeaderComponent) header: ViewerHeaderComponent;
+  @ViewChild(ViewerFooterComponent) footer: ViewerFooterComponent;
 
   // References to clickable overlays
-  private overlays: any[];
+  private overlays: Array<HTMLElement>;
+  private tileSources: any[];
   private currentPage: number;
 
 
@@ -52,7 +58,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ) { }
 
   ngOnInit(): void {
-    this.mode = 'dashboard';
+    this.mode = ViewerMode.DASHBOARD;
     this.createViewer();
   }
 
@@ -66,13 +72,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  ngOnDestroy() : void {
+  ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
   }
 
-  createViewer() : void {
+  createViewer(): void {
     if (this.manifestUri) {
       this.subscriptions.push(
         this.iiifService.getManifest(this.manifestUri)
@@ -91,29 +97,29 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   toggleView(): void {
-    if(this.mode === 'dashboard') {
-      this.mode = 'page';
+    if (this.mode === ViewerMode.DASHBOARD) {
+      this.mode = ViewerMode.PAGE;
+      this.header.state = this.footer.state = 'show';
       this.setPageConstraints();
-    }
-    else if(this.mode === 'page') {
-      this.mode = 'dashboard';
+    } else if (this.mode === ViewerMode.PAGE) {
+      this.header.state = this.footer.state = 'hide';
+      this.mode = ViewerMode.DASHBOARD;
       this.setDashboardConstraints();
     }
   }
 
-  setDashboardConstraints() {
+  setDashboardConstraints(): void {
     this.viewer.panVertical = false;
   }
-  setPageConstraints() {
+  setPageConstraints(): void {
     this.viewer.panVertical = true;
   }
 
   addEventHandlers(): void {
+    // Reset currentpage, create new overlays and fit bounds to start
     this.viewer.addHandler('open', (data: any) => {
       this.currentPage = 0;
       this.createOverlays();
-
-      // Start at first page
       this.fitBoundsToStart();
     });
 
@@ -121,7 +127,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       let target: HTMLElement = event.originalEvent.target;
       if (target.nodeName === 'rect') {
         let requestedPage = this.overlays.indexOf(target);
-        if(requestedPage >= 0) {
+        console.log("found requested page: " + requestedPage)
+        if (requestedPage >= 0) {
           this.toggleView();
           this.changeDetectorRef.markForCheck();
           setTimeout(() => {
@@ -139,7 +146,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewer.addHandler('canvas-click', this.clickService.click);
 
     this.viewer.addHandler('canvas-double-click', (event: any) => {
-      if(this.mode === 'dashboard') {
+      if (this.mode === ViewerMode.DASHBOARD) {
         event.preventDefaultAction = true;
       }
     });
@@ -153,25 +160,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.tileSources.forEach((tile, i) => {
       let tiledImage = this.viewer.world.getItemAt(i);
-      if (!tiledImage) {
-        return;
-      }
+      if (!tiledImage) { return; }
 
       let box = tiledImage.getBounds(true);
+      svgNode.append('rect').attrs({ x: box.x, y: box.y, width: box.width, height: box.height, class: 'tile' });
 
-      svgNode.append('rect')
-        .style('fill-opacity', 0)
-        .style('cursor', 'pointer')
-        .attrs({
-          x: box.x,
-          y: box.y,
-          width: box.width,
-          height: box.height,
-          class: 'tile'
-        })
-
-      let currentOverlay = svgNode._groups[0][0].children[i];
-
+      let currentOverlay: HTMLElement = svgNode._groups[0][0].children[i];
       this.overlays.push(currentOverlay);
     });
   }
@@ -179,15 +173,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   // Toggle viewport-bounds between page and dashboard
   // Make sure to update this.mode to the new mode before calling this method
   fitBounds(currentOverlay: any): void {
-    if (this.mode === 'dashboard') {
+    if (this.mode === ViewerMode.DASHBOARD) {
       let dashboardBounds = this.viewer.viewport.getBounds();
       this.viewer.viewport.fitBounds(dashboardBounds);
       // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
       this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
     }
-
-    // If we currently are in dashboard-mode, then switch to page-bounds
-    if (this.mode === 'page') {
+    if (this.mode === ViewerMode.PAGE) {
       let pageBounds = this.createRectangel(currentOverlay);
       this.viewer.viewport.fitBounds(pageBounds);
     }
@@ -208,7 +200,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   goToPage(page: number): void {
-    // Check bounds
     if ((page < 0) || (page > this.overlays.length - 1)) {
       return;
     }
@@ -220,14 +211,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   goToPageFromUserInput(event: any) {
     let page = event.target.value;
-    // Check if input is integer
+
     if (!this.isInt(page)) {
       return;
     }
     this.goToPage(+page);
   }
 
-  // Check if value is an integer
   private isInt(value: any): boolean {
     return !isNaN(value) &&
       parseInt(value, 10) == value &&

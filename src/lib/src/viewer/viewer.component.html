@@ -1,5 +1,5 @@
-<div class="viewer__container" [ngClass]="mode">
-  <viewer-header *ngIf="mode == 'dashboard'"></viewer-header>
+<div class="viewer__container" [ngClass]="mode == ViewerMode.DASHBOARD ? 'dashboard' : 'page'">
+  <viewer-header></viewer-header>
   <div id="openseadragon"></div>
-  <viewer-footer *ngIf="mode == 'dashboard'"></viewer-footer>
+  <viewer-footer></viewer-footer>
 </div>

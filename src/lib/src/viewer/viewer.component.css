@@ -14,3 +14,13 @@
 .viewer__container.page #openseadragon {
   height: 100%;
 }
+
+.viewer__container.dashboard > > > .tile:hover {
+  stroke: #08f;
+  stroke-width: 10;
+}
+
+.viewer__container > > > .tile {
+  fill-opacity: 0;
+  cursor: pointer;
+}

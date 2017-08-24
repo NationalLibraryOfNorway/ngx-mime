@@ -1,4 +1,4 @@
-<md-toolbar>
+<md-toolbar [@headerState]="state">
   <div fxLayout='column' fxLayoutAlign="center end" fxFlex>
     <button id="metadataButton" md-icon-button [attr.aria-label]="intl.metadataLabel" [mdTooltip]="intl.metadataLabel">
         <md-icon>list</md-icon>

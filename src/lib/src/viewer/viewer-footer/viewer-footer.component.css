@@ -1,10 +1,10 @@
 :host {
   display: block;
   width: 100%;
-  background-color: #B4B8B8;
   max-height: 48px;
 }
 
 md-slider {
   width: 100%;
+  background-color: #B4B8B8;
 }

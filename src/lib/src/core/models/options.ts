@@ -2,7 +2,7 @@ import { GestureSettings } from './gestureSettings';
 import { NavImages } from './navImages';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
-
+import { ViewerMode } from './../../viewer/viewer-mode';
 export class Options {
   id = 'openseadragon';
   element: Element;
@@ -28,7 +28,7 @@ export class Options {
   homeFillsViewer = false;
   panHorizontal = true;
   panVertical = true;
-  constrainDuringPan = false;
+  constrainDuringPan = true;
   wrapHorizontal = false;
   wrapVertical = false;
   minZoomImageRatio = 0.9;
@@ -39,7 +39,7 @@ export class Options {
   preserveImageSizeOnResize = false;
   minScrollDeltaTime = 50;
   pixelsPerWheelLine = 40;
-  visibilityRatio = 0.5;
+  visibilityRatio = 1;
   viewportMargins: Object = {};
   imageLoaderLimit = 0;
   clickTimeThreshold = 300;
@@ -111,17 +111,17 @@ export class Options {
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
 
-  constructor(mode: string, tileSources?: Service[]) {
+  constructor(mode: ViewerMode, tileSources?: Service[]) {
     if (tileSources) {
       this.tileSources = tileSources;
     }
 
-    if (mode === 'dashboard') {
+    if (mode === ViewerMode.DASHBOARD) {
       this.collectionMode = true;
       this.sequenceMode = false;
       this.defaultZoomLevel = 0.0004;
     }
-    if (mode === 'page') {
+    if (mode === ViewerMode.PAGE) {
       this.collectionMode = false;
       this.sequenceMode = true;
       this.defaultZoomLevel = 0;

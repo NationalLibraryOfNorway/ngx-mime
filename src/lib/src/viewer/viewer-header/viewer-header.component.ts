@@ -1,15 +1,30 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-
 import { MimeViewerIntl } from './../viewer-intl';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'viewer-header',
   templateUrl: './viewer-header.component.html',
-  styleUrls: ['./viewer-header.component.scss']
+  styleUrls: ['./viewer-header.component.scss'],
+  animations: [
+    trigger('headerState', [
+      state('hide', style({
+        transform: 'translateY(-100%)',
+        opacity: 0,
+      })),
+      state('show',   style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('hide => show', animate('200ms ease-in')),
+      transition('show => hide', animate('200ms ease-out'))
+    ])
+  ]
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
+  public state = 'hide';
 
   constructor(
     public intl: MimeViewerIntl,
