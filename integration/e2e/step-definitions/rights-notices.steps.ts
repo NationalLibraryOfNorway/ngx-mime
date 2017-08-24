@@ -9,15 +9,19 @@ defineSupportCode(function ({ Given, Then }) {
   const metadata = new MetadataPage();
 
   Then(/the attribution must be shown$/, async () => {
-    const pageAttribution = await viewer.getAttribution();
-    const metadataAttribution = await metadata.getAttribution();
-    expect(pageAttribution).to.equal('This is a test attribution');
-    expect(metadataAttribution).to.equal('This is a test attribution');
+    const pageAttribution = viewer.getAttribution();
+    await viewer.contentsDialogButton().click();
+    const metadataAttribution = metadata.getAttribution();
+
+    expect(await pageAttribution.getText()).to.equal('This is a test attribution');
+    expect(await metadataAttribution.getText()).to.equal('This is a test attribution');
   });
 
   Then(/the license must be shown as hyperlinks$/, async () => {
-    const license = await metadata.getLicense();
-    expect(license).to.equal('https://beta.nb.no/lisens/copyright');
+    await viewer.contentsDialogButton().click();
+    const license = metadata.getLicense();
+
+    expect(await license.getText()).to.equal('https://beta.nb.no/lisens/copyright');
   });
 
 });
