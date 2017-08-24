@@ -41,9 +41,9 @@ export class ViewerService implements OnInit {
     let previousDistance = 0;
     this.viewer.addHandler('canvas-pinch', (data: any) => {
       if (data.lastDistance > previousDistance) {
-        this.viewer.viewport.zoomTo((this.viewer.viewport.getZoom() + 0.02));
+        this.zoomTo(this.getZoom() + 0.02);
       } else {
-        this.viewer.viewport.zoomTo((this.viewer.viewport.getZoom() - 0.02));
+        this.zoomTo(this.getZoom() - 0.02);
       }
       previousDistance = data.lastDistance;
     });
@@ -51,5 +51,29 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-release', (data: any) => {
       previousDistance = 0;
     });
+  }
+
+  private getZoom(): number {
+    return this.viewer.viewport.getZoom();
+  }
+
+  private getHomeZoom(): number {
+    return this.viewer.viewport.getHomeZoom();
+  }
+
+  private getMinZoom(): number {
+    return this.viewer.viewport.getMinZoom();
+  }
+
+  private getMaxZoom(): number {
+    return this.viewer.viewport.getMaxZoom();
+  }
+
+  private zoomHome(): void {
+    this.zoomTo(this.getHomeZoom());
+  }
+
+  private zoomTo(level: number): void {
+    this.viewer.viewport.zoomTo(level);
   }
 }
