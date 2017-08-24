@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Injectable, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 
@@ -38,7 +39,7 @@ export class AttributionDialogService {
     this._elementRef = elementRef;
   }
 
-  public open(): void {
+  public open(timeout?: number): void {
     if (!this.isAttributionDialogOpen) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
@@ -46,6 +47,7 @@ export class AttributionDialogService {
         this.isAttributionDialogOpen = false;
       });
       this.isAttributionDialogOpen = true;
+      this.closeDialogAfter(timeout);
     }
   }
 
@@ -55,6 +57,16 @@ export class AttributionDialogService {
 
   public toggle(): void {
     this.isAttributionDialogOpen ? this.close() : this.open();
+  }
+
+  private closeDialogAfter(seconds: number) {
+    if (seconds > 0) {
+      Observable
+        .interval(seconds * 1000)
+        .subscribe(() => {
+          this.close();
+        });
+    }
   }
 
   private getDialogConfig(): MdDialogConfig {

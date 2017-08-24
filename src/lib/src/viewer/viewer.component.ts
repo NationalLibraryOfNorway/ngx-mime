@@ -99,7 +99,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       });
     }
     if (this.config.attributionDialogEnabled && manifest.attribution) {
-      this.attributionDialogService.open();
+      this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
     }
   }
 
