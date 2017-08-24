@@ -52,10 +52,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
-      .subscribe((manifest: Manifest) => {
-        this.cleanUp();
-        this.setUpViewer(manifest);
-      })
+        .subscribe((manifest: Manifest) => {
+          this.cleanUp();
+          this.setUpViewer(manifest);
+        })
     );
     this.loadManifest();
   }
@@ -74,13 +74,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
   }
-  
+
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
   }
-  
+
   ngAfterViewChecked() {
     this.mimeService.markForCheck();
   }
