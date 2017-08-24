@@ -21,6 +21,7 @@ import { AttributionDialogService } from './../attribution-dialog/attribution-di
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
+import { MimeViewerConfig } from './../core/mime-viewer-config';
 
 declare const OpenSeadragon: any;
 @Component({
@@ -31,6 +32,7 @@ declare const OpenSeadragon: any;
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
+  @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   public viewer: any;
   private subscriptions: Array<Subscription> = [];
 
@@ -59,6 +61,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['config']) {
+      const configChanges: SimpleChange = changes['config'];
+      console.log('config changed', configChanges);
+    }
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
@@ -68,11 +74,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
   }
-
+  
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+  }
+  
+  ngAfterViewChecked() {
+    this.mimeService.markForCheck();
   }
 
   private loadManifest() {
@@ -92,16 +102,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
       });
     }
-    if (manifest.attribution) {
+    if (this.config.attributionDialogEnabled && manifest.attribution) {
       this.attributionDialogService.open();
     }
   }
 
-  public closeAllDialogs() {
+  private closeAllDialogs() {
     this.dialog.closeAll();
   }
 
-  ngAfterViewChecked() {
-    this.mimeService.markForCheck();
-  }
 }
