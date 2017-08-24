@@ -13,7 +13,8 @@ import { ManifestService } from './../core/manifest-service/manifest.service';
 export class ViewerComponent implements OnInit, OnDestroy {
   public manifestUri: string;
   public config = new MimeViewerConfig({
-    attributionDialogEnabled: true
+    attributionDialogEnabled: true,
+    attributionDialogHideTimeout: -1
   });
   private sub: any;
 
