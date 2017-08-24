@@ -5,7 +5,7 @@ export class MimeViewerConfig {
     attributionDialogEnabled?: boolean;
   }) {
     if (fields) {
-      this.attributionDialogEnabled = fields.attributionDialogEnabled || true;
+      this.attributionDialogEnabled = fields.attributionDialogEnabled;
     }
   }
 }
