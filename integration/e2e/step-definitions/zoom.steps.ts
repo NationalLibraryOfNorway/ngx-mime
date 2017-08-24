@@ -1,14 +1,13 @@
 import { ViewerPage } from '../pages/viewer.po';
 import { defineSupportCode } from 'cucumber';
 import { expect } from '../helpers/chai-imports';
-import { browser } from 'protractor';
 
 defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   let previousZoomLevel = 0;
 
-  Given(/^default zoom level is set$/, async () => {
-    await page.setDefaultZoom();
+  Given(/^zoom level is home$/, async () => {
+    await page.setHomeZoom();
     await page.waitForAnimation();
   });
 
@@ -64,5 +63,9 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^the view should be all zoomed out$/, async () => {
     expect((await page.getZoomLevel())).to.equal((await page.getMinZoom()));
+  });
+
+  Then(/^the current zoom level is home$/, async () => {
+    expect((await page.getZoomLevel())).to.equal((await page.getHomeZoom()));
   });
 });

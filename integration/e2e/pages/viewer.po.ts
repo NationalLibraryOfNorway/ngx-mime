@@ -29,7 +29,11 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.animationTime;');
   }
 
-  setDefaultZoom(): promise.Promise<any> {
+  getHomeZoom(): promise.Promise<number> {
+    return browser.executeScript('return window.openSeadragonViewer.viewport.getHomeZoom();');
+  }
+
+  setHomeZoom(): promise.Promise<any> {
     return browser.executeScript('window.openSeadragonViewer.viewport.goHome(true);');
   }
 
