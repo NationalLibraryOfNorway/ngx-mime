@@ -61,10 +61,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['config']) {
-      const configChanges: SimpleChange = changes['config'];
-      console.log('config changed', configChanges);
-    }
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
