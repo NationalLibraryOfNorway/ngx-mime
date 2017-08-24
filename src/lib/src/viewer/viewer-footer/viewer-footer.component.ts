@@ -11,14 +11,14 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   animations: [
     trigger('footerState', [
       state('hide', style({
-        transform: 'translateY(+100%)',
         opacity: 0,
-        display: 'none'
+        display: 'none',
+        transform: 'translate3d(0, -100%, 0)'
       })),
-      state('show',   style({
+      state('show', style({
         opacity: 1,
-        transform: 'translateY(0)',
-        display: 'block'
+        display: 'block',
+        transform: 'translate3d(0, 0, 0)'
       })),
       transition('hide => show', animate('300ms ease-in')),
       transition('show => hide', animate('300ms ease-out'))

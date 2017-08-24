@@ -1,14 +1,23 @@
 .viewer__container {
+  box-sizing: border-box;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: calc(100%);
   display: flex;
   flex-direction: column;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+:host > > > .openseadragon-container {
+  flex-grow: 1;
 }
 
 #openseadragon {
+  display: flex;
   width: 100%;
   flex-grow: 1;
-  height: calc(100% - 64px - 48px);
+  flex-direction: column;
 }
 
 .viewer__container.page #openseadragon {
@@ -23,4 +32,20 @@
 
 .viewer__container > > > .tile {
   fill-opacity: 0;
+}
+
+viewer-header {
+  height: 64px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+viewer-footer {
+  height: 64px;
+  max-height: 64px;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
 }

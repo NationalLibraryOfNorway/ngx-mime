@@ -10,14 +10,15 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   animations: [
     trigger('headerState', [
       state('hide', style({
-        display: 'none',
-        transform: 'translateY(-100%)',
         opacity: 0,
+        display: 'none',
+        transform: 'translate3d(0, -100%, 0)'
+
       })),
       state('show',   style({
-        display: 'block',
         opacity: 1,
-        transform: 'translateY(0)'
+        display: 'block',
+        transform: 'translate3d(0, 0, 0)'
       })),
       transition('hide => show', animate('300ms ease-in')),
       transition('show => hide', animate('300ms ease-out'))

@@ -69,7 +69,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
-        // Allways set to dashboard-mode when manifest changes
+        // Always set to dashboard-mode when manifest changes
         this.mode = ViewerMode.DASHBOARD;
         this.manifestUri = manifestUriChanges.currentValue;
         this.createViewer();
@@ -144,7 +144,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           setTimeout(() => {
             this.fitBounds(target);
           }, 250);
-          this.fitBounds(target);
+         // this.fitBounds(target);
           this.pageService.currentPage = requestedPage;
           this.changeDetectorRef.markForCheck();
         }
