@@ -18,13 +18,15 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
 }
 
 export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfigStrategy {
+  public static readonly dialogWidth = 350;
+  public static readonly paddingRight = 20;
 
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     const rect = this.getPosition(elementRef);
     return {
       hasBackdrop: false,
       disableClose: true,
-      width: '350px',
+      width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: rect.top + 'px',
         left: rect.left + 'px',
@@ -42,7 +44,7 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
     const rect = elementRef.nativeElement.getBoundingClientRect();
     return {
       top: rect.top + 64,
-      left: rect.right - 370
+      left: rect.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight;
     };
   }
 

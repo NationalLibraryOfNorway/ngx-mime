@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
+import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 import { Manifest } from './../core/models/manifest';
 
 @Component({
@@ -16,9 +17,13 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
     public intl: MimeViewerIntl,
-    private iiifManifestService: IiifManifestService) { }
+    private el: ElementRef,
+    private changeDetectorRef: ChangeDetectorRef,
+    private iiifManifestService: IiifManifestService,
+    private resizeService: AttributionDialogResizeService) {
+    resizeService.el = el;
+  }
 
   ngOnInit() {
     this.subscriptions.push(this.iiifManifestService.currentManifest
@@ -32,5 +37,9 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  ngAfterViewChecked() {
+    this.resizeService.markForCheck();
   }
 }

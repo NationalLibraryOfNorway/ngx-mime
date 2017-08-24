@@ -3,19 +3,30 @@ import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 
 import { AttributionDialogComponent } from './attribution-dialog.component';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import { Rect } from './../core/models/rect';
 
 @Injectable()
 export class AttributionDialogService {
   private isAttributionDialogOpen = false;
   private dialogRef: MdDialogRef<AttributionDialogComponent>;
   private _elementRef: ElementRef;
+  private attributionDialogHeight = 0;
 
   constructor(
     private dialog: MdDialog,
     private resizeService: MimeResizeService,
+    private attributionDialogResizeService: AttributionDialogResizeService,
   ) {
-    resizeService.onResize.subscribe(r => {
+    resizeService.onResize.subscribe((r: Rect) => {
       if (this.isAttributionDialogOpen) {
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
+      }
+    });
+    attributionDialogResizeService.onResize.subscribe((r: Rect) => {
+      if (this.isAttributionDialogOpen) {
+        this.attributionDialogHeight = r.height;
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);
       }
@@ -61,6 +72,7 @@ export class AttributionDialogService {
   }
 
   private getPosition(elementRef: ElementRef) {
+    const padding = 20;
     if (!elementRef) {
       return {
         top: 0,
@@ -69,8 +81,8 @@ export class AttributionDialogService {
     }
     const rect = elementRef.nativeElement.getBoundingClientRect();
     return {
-      top: rect.top + (rect.bottom - rect.top) - 150,
-      left: rect.left + 20
+      top: rect.top + (rect.bottom - rect.top) - this.attributionDialogHeight - padding,
+      left: rect.left + padding
     };
   }
 

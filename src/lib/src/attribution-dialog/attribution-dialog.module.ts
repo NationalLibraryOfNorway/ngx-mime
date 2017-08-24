@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from './../shared/shared.module';
 import { AttributionDialogComponent } from './attribution-dialog.component';
 import { AttributionDialogService } from './attribution-dialog.service';
+import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { AttributionDialogService } from './attribution-dialog.service';
     AttributionDialogComponent
   ],
   providers: [
-    AttributionDialogService
+    AttributionDialogService,
+    AttributionDialogResizeService
   ],
   entryComponents: [
     AttributionDialogComponent

@@ -1,11 +1,11 @@
-import { Injectable, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Injectable, ElementRef } from '@angular/core';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { Rect } from './../models/rect';
+import { Rect } from './../core/models/rect';
 
 @Injectable()
-export class MimeResizeService {
+export class AttributionDialogResizeService {
   private _el: ElementRef;
   private resizeSubject: ReplaySubject<Rect> = new ReplaySubject();
   private rect: Rect = {
@@ -33,7 +33,6 @@ export class MimeResizeService {
 
   markForCheck() {
     const rect = this.el.nativeElement.getBoundingClientRect();
-
     if (this.rect.bottom !== rect.bottom ||
       this.rect.height !== rect.height ||
       this.rect.left !== rect.left ||

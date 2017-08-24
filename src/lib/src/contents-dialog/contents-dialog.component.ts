@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { Manifest } from './../core/models/manifest';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { Rect } from './../core/mime-resize-service/mime-resize.service';
+import { Rect } from './../core/models/rect';
 
 @Component({
   selector: 'mime-contents',
