@@ -4,7 +4,7 @@ Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" pla
  <button (click)="nextPage()">Next</button>
 -->
 
-<div class="viewer__container" [ngClass]="mode == ViewerMode.DASHBOARD ? 'dashboard' : 'page'">
+<div class="viewer__container" [ngClass]="mode == ViewerMode.PAGE ? 'page' : 'dashboard'">
   <viewer-header></viewer-header>
   <div id="openseadragon"></div>
   <viewer-footer></viewer-footer>

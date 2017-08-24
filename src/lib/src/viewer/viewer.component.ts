@@ -67,10 +67,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['manifestUri']) {
-      // Allways set to dashboard-mode when manifest changes
-      this.mode = ViewerMode.DASHBOARD;
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
+        // Allways set to dashboard-mode when manifest changes
+        this.mode = ViewerMode.DASHBOARD;
         this.manifestUri = manifestUriChanges.currentValue;
         this.createViewer();
       }

@@ -20,8 +20,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         transform: 'translateY(0)',
         display: 'block'
       })),
-      transition('hide => show', animate('200ms ease-in')),
-      transition('show => hide', animate('200ms ease-out'))
+      transition('hide => show', animate('300ms ease-in')),
+      transition('show => hide', animate('300ms ease-out'))
     ])
   ]
 })
