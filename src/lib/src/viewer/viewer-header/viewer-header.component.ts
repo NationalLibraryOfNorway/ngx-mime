@@ -12,13 +12,13 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       state('hide', style({
         opacity: 0,
         display: 'none',
-        transform: 'translate3d(0, -100%, 0)'
+        transform: 'translate(0, -100%)'
 
       })),
       state('show',   style({
         opacity: 1,
         display: 'block',
-        transform: 'translate3d(0, 0, 0)'
+        transform: 'translate(0, 0)'
       })),
       transition('hide => show', animate('300ms ease-in')),
       transition('show => hide', animate('300ms ease-out'))
