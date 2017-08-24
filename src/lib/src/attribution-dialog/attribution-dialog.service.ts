@@ -15,10 +15,10 @@ export class AttributionDialogService {
 
   constructor(
     private dialog: MdDialog,
-    private resizeService: MimeResizeService,
+    private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
   ) {
-    resizeService.onResize.subscribe((r: Rect) => {
+    mimeResizeService.onResize.subscribe((r: Rect) => {
       if (this.isAttributionDialogOpen) {
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);

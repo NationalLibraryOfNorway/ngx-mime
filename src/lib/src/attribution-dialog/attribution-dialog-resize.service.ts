@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Observable';
 import { Injectable, ElementRef } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Rect } from './../core/models/rect';

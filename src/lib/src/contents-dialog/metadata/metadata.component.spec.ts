@@ -1,4 +1,3 @@
-import { MimeViewerIntl } from './../../core/viewer-intl';
 import { DebugElement } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
@@ -6,6 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
+import { MimeViewerIntl } from './../../core/viewer-intl';
 import { MetadataComponent } from './metadata.component';
 import { Manifest, Metadata } from './../../core/models/manifest';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';

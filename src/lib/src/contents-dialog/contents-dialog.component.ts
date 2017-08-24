@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef } from '@angular/core';
+import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef, OnDestroy } from '@angular/core';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
@@ -13,17 +13,18 @@ import { Rect } from './../core/models/rect';
   templateUrl: './contents-dialog.component.html',
   styleUrls: ['./contents-dialog.component.scss']
 })
-export class ContentsDialogComponent implements OnInit {
+export class ContentsDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
-  private maxHeight = 460;
+  private mimeHeight = 0;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
     public intl: MimeViewerIntl,
     public media: ObservableMedia,
-    private resizeService: MimeResizeService,
+    private mimeResizeService: MimeResizeService,
     private el: ElementRef) {
-    resizeService.onResize.subscribe((r: Rect) => {
-      this.maxHeight = r.height;
+    mimeResizeService.onResize.subscribe((r: Rect) => {
+      this.mimeHeight = r.height;
       this.resizeTabHeight();
     });
 
@@ -33,6 +34,12 @@ export class ContentsDialogComponent implements OnInit {
     this.resizeTabHeight();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.resizeTabHeight();
@@ -40,14 +47,13 @@ export class ContentsDialogComponent implements OnInit {
 
   private resizeTabHeight(): void {
     const rect = this.el.nativeElement.getBoundingClientRect();
-    let height = document.body.scrollHeight - rect.top;
+    let height = this.mimeHeight - rect.top;
 
     if (this.media.isActive('lt-md')) {
-      height -= 120;
+      height -= 20;
     } else {
-      height -= 180;
+      height -= 60;
     }
-    height = height > this.maxHeight ? this.maxHeight : height;
     this.tabHeight = {
       'maxHeight': height + 'px'
     };

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ElementRef, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../core/viewer-intl';
@@ -21,8 +21,8 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    private resizeService: AttributionDialogResizeService) {
-    resizeService.el = el;
+    private attributionDialogResizeService: AttributionDialogResizeService) {
+    attributionDialogResizeService.el = el;
   }
 
   ngOnInit() {
@@ -39,7 +39,12 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
     });
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.attributionDialogResizeService.markForCheck();
+  }
+
   ngAfterViewChecked() {
-    this.resizeService.markForCheck();
+    this.attributionDialogResizeService.markForCheck();
   }
 }
