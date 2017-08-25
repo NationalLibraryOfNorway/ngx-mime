@@ -1,21 +1,22 @@
-import { AttributionDialogModule } from './../attribution-dialog/attribution-dialog.module';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from '../shared/shared.module';
 import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
 import { ViewerComponent } from './viewer.component';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-
-import 'openseadragon';
-import { Observable } from 'rxjs/Observable';
+import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
 import { testManifest } from '../test/testManifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
+import { MimeViewerIntl } from '../core/viewer-intl';
+import 'openseadragon';
 
 describe('ViewerComponent', function () {
   let de: DebugElement;
@@ -30,6 +31,7 @@ describe('ViewerComponent', function () {
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports: [
         HttpClientTestingModule,
+        NoopAnimationsModule,
         SharedModule,
         ContentsDialogModule,
         AttributionDialogModule
@@ -41,7 +43,8 @@ describe('ViewerComponent', function () {
       providers: [
         ViewerService,
         {provide: IiifManifestService, useClass: IiifManifestServiceStub},
-        MimeResizeService
+        MimeResizeService,
+        MimeViewerIntl
       ]
     }).compileComponents();
   }));

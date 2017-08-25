@@ -6,11 +6,11 @@ import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
-import { AttributionDialogService } from './../attribution-dialog/attribution-dialog.service';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { MimeViewerConfig } from './../core/mime-viewer-config';
+import { MimeViewerConfig } from '../core/mime-viewer-config';
 
 @Component({
   selector: 'mime-viewer',
@@ -27,13 +27,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
-    private viewerService: ViewerService,
     private attributionDialogService: AttributionDialogService,
+    private viewerService: ViewerService,
     private mimeService: MimeResizeService,
     private dialog: MdDialog) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
-    mimeService.el = el; }
+    mimeService.el = el;
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -41,6 +42,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         .subscribe((manifest: Manifest) => {
           this.cleanUp();
           this.viewerService.setUpViewer(manifest);
+
+          if (this.config.attributionDialogEnabled && manifest.attribution) {
+            this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
+          }
         })
     );
     this.loadManifest();
