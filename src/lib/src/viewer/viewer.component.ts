@@ -65,18 +65,18 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private changeDetectorRef: ChangeDetectorRef,
     private clickService: ClickService,
     private pageService: PageService
-  ) { 
-    contentsDialogService.elementRef = el; 
+  ) {
+    contentsDialogService.elementRef = el;
   }
 
   ngOnInit(): void {
     this.mode = ViewerMode.DASHBOARD;
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
-      .subscribe((manifest: Manifest) => {
-        this.cleanUp();
-        this.setUpViewer(manifest);
-      })
+        .subscribe((manifest: Manifest) => {
+          this.cleanUp();
+          this.setUpViewer(manifest);
+        })
     );
     this.loadManifest();
   }
@@ -101,15 +101,17 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   toggleView(): void {
+
     if (this.mode === ViewerMode.DASHBOARD) {
       this.mode = ViewerMode.PAGE;
-      this.header.state = this.footer.state = 'show';
+      this.header.state = this.footer.state = 'hide';
       this.setPageConstraints();
     } else if (this.mode === ViewerMode.PAGE) {
-      this.header.state = this.footer.state = 'hide';
       this.mode = ViewerMode.DASHBOARD;
+      this.header.state = this.footer.state = 'show';
       this.setDashboardConstraints();
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   setDashboardConstraints(): void {
@@ -153,6 +155,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.isInt(page)) {
       return;
     }
+    this.pageService.currentPage = page;
     this.fitBoundsToPage(+page);
   }
 
@@ -253,14 +256,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       if (target.nodeName === 'rect') {
         let requestedPage = this.overlays.indexOf(target);
         if (requestedPage >= 0) {
-          this.toggleView();
-          this.changeDetectorRef.markForCheck();
+
           setTimeout(() => {
+            this.toggleView();
             this.fitBounds(target);
           }, 250);
-         // this.fitBounds(target);
-          this.pageService.currentPage = requestedPage;
           this.changeDetectorRef.markForCheck();
+
         }
       }
     });

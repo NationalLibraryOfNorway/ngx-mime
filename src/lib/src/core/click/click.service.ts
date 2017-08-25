@@ -18,7 +18,6 @@ export class ClickService {
 
   addSingleClickHandler(singleClickHandler: (event: any) => void) {
     this.singleClickHandlers.push(singleClickHandler);
-    console.log(this.singleClickHandlers);
   }
 
   addDoubleClickHandler(doubleClickHandler: (event: any) => void) {

@@ -5,7 +5,7 @@ import { MimeViewerIntl } from './../../core/viewer-intl';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
-  selector: 'viewer-footer',
+  selector: 'mime-viewer-footer',
   templateUrl: './viewer-footer.component.html',
   styleUrls: ['./viewer-footer.component.scss'],
   animations: [
@@ -27,7 +27,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
-  public state = 'hide';
+  public state = 'show';
 
   constructor(
     public intl: MimeViewerIntl,
