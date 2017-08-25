@@ -17,7 +17,7 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
-  Then(/^Viewer should be displayed$/, async () => {
+  Then(/^the viewer should be displayed$/, async () => {
     expect((await page.openSeadragonElement().isDisplayed())).to.be.true;
   });
 });
