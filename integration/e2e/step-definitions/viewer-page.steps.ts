@@ -18,6 +18,6 @@ defineSupportCode(function ({ Given, Then }) {
   });
 
   Then(/^the viewer should be displayed$/, async () => {
-    expect((await page.openSeadragonElement().isDisplayed())).to.be.true;
+    expect((await page.openSeadragonElement().isPresent())).to.be.true;
   });
 });
