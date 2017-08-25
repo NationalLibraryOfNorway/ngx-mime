@@ -9,6 +9,8 @@ import { ContentsDialogModule } from './../contents-dialog/contents-dialog.modul
 import { ViewerComponent } from './viewer.component';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ResizeService } from './../core/resize-service/resize.service';
+import { ClickService } from '../core/click/click.service';
+import { PageService } from '../core/page-service/page-service';
 import { Manifest } from './../core/models/manifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { testManifest } from '../test/testManifest';
@@ -37,7 +39,9 @@ describe('ViewerComponent', function () {
       ],
       providers: [
         IiifManifestService,
-        ResizeService
+        ResizeService,
+        ClickService,
+        PageService
       ]
     }).compileComponents();
   }));
@@ -73,8 +77,6 @@ describe('ViewerComponent', function () {
 
     expect(testHostComponent.viewerComponent.dialog.closeAll).toHaveBeenCalled();
   }));
-
-
 });
 
 @Component({
