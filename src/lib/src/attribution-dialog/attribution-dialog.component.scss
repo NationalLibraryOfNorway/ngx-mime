@@ -1,0 +1,26 @@
+.attribution-toolbar {
+  font-size: 14px;
+  background: transparent;
+  min-height: 20px !important;
+  padding: 8px;
+}
+
+.contents {
+  padding: 8px;
+}
+
+::ng-deep .attribution-panel {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+::ng-deep .attribution-panel > .mat-dialog-container {
+  background: transparent !important;
+  font-size: 11px;
+  padding: 0px;
+}
+
+::ng-deep .attribution-toolbar > .mat-toolbar-layout > .mat-toolbar-row {
+  height: 20px;
+}

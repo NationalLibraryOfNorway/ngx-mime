@@ -21,6 +21,17 @@ export class MetadataPage {
     }
     return metadatas;
   }
+
+  getAttribution() {
+    const el = element(by.css('#metadata-attribution'));
+    utils.waitForElement(el);
+    return el;
+  }
+  getLicense() {
+    const el = element(by.css('#metadata-license'));
+    utils.waitForElement(el);
+    return el;
+  }
 }
 
 export class Metadata {

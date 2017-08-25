@@ -1,5 +1,8 @@
+import { MimeDomHelper } from './../core/mime-dom-renderer';
 import { ElementRef } from '@angular/core';
 import { MdDialogConfig } from '@angular/material';
+
+import { Dimensions } from './../core/models/dimensions';
 
 export interface ContentsDialogConfigStrategy {
   getConfig(elementRef?: ElementRef): MdDialogConfig;
@@ -9,6 +12,8 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
 
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     return {
+      hasBackdrop: false,
+      disableClose: true,
       width: '100%',
       height: '100%'
     };
@@ -16,40 +21,28 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
 }
 
 export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfigStrategy {
-  public static readonly maxHeight = 600;
+  public static readonly dialogWidth = 350;
+  public static readonly paddingRight = 20;
 
-  public getConfig(elementRef: ElementRef): MdDialogConfig {
-    const rect = this.getPosition(elementRef);
-    const height = this.getHeight(rect);
+  public getConfig(el: ElementRef): MdDialogConfig {
+    const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
       disableClose: true,
-      width: '350px',
-      height: height + 'px',
+      width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
       position: {
-        top: rect.top + 'px',
-        left: rect.left + 'px',
+        top: dimensions.top + 'px',
+        left: dimensions.left + 'px',
       }
     };
   }
 
-  private getPosition(elementRef: ElementRef) {
-    if (!elementRef) {
-      return {
-        top: 0,
-        left: 0
-      };
-    }
-    const rect = elementRef.nativeElement.getBoundingClientRect();
+  private getPosition(el: ElementRef): Dimensions {
+    const dimensions = new MimeDomHelper().getBoundingClientRect(el);
     return {
-      top: rect.top + 64,
-      left: rect.right - 370
+      top: dimensions.top + 64,
+      left: dimensions.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight
     };
-  }
-
-  private getHeight(rect: any): number {
-    const height = document.body.scrollHeight - rect.top - 40;
-    return height > DesktopContentsDialogConfigStrategy.maxHeight ? DesktopContentsDialogConfigStrategy.maxHeight : height;
   }
 
 }

@@ -1,0 +1,41 @@
+import { Injectable, ElementRef } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+
+import { MimeDomHelper } from './../mime-dom-renderer';
+import { Dimensions } from './../models/dimensions';
+
+@Injectable()
+export class MimeResizeService {
+  private _el: ElementRef;
+  private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
+  private dimensions = new Dimensions();
+
+  constructor() { }
+
+  set el(el: ElementRef) {
+    this._el = el;
+  }
+
+  get el() {
+    return this._el;
+  }
+
+  get onResize(): Observable<Dimensions> {
+    return this.resizeSubject.asObservable();
+  }
+
+  markForCheck() {
+    const dimensions = new MimeDomHelper().getBoundingClientRect(this.el);
+
+    if (this.dimensions.bottom !== dimensions.bottom ||
+      this.dimensions.height !== dimensions.height ||
+      this.dimensions.left !== dimensions.left ||
+      this.dimensions.right !== dimensions.right ||
+      this.dimensions.top !== dimensions.top ||
+      this.dimensions.width !== dimensions.width) {
+      this.dimensions = dimensions;
+      this.resizeSubject.next({...this.dimensions});
+    }
+  }
+}

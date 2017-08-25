@@ -1,25 +1,25 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { SharedModule } from './../shared/shared.module';
-import { ContentsDialogService } from './contents-dialog.service';
+import { AttributionDialogService } from './attribution-dialog.service';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
+import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 
-describe('ContentsDialogService', () => {
+describe('AttributionDialogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule
       ],
       providers: [
-        ContentsDialogService,
+        AttributionDialogService,
         MimeResizeService,
-        ContentsDialogConfigStrategyFactory
+        AttributionDialogResizeService
       ]
     });
   });
 
-  it('should be created', inject([ContentsDialogService], (service: ContentsDialogService) => {
+  it('should be created', inject([AttributionDialogService], (service: AttributionDialogService) => {
     expect(service).toBeTruthy();
   }));
 });

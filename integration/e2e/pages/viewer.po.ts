@@ -17,4 +17,10 @@ export class ViewerPage {
     utils.waitForElement(el);
     return el;
   }
+
+  getAttribution() {
+    const el = element(by.css('#attribution-container > .contents'));
+    utils.waitForElement(el);
+    return el;
+  }
 }
