@@ -5,15 +5,14 @@ import { Options } from '../models/options';
 declare const OpenSeadragon: any;
 @Injectable()
 export class ViewerService implements OnInit {
+  private readonly ZOOMFACTOR = 0.02;
   private viewer: any;
 
-  constructor(private zone: NgZone) {
-  }
+  constructor(private zone: NgZone) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  setup(manifest: Manifest) {
+  setUpViewer(manifest: Manifest) {
     if (manifest.tileSource) {
       this.zone.runOutsideAngular(() => {
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, new Options(manifest.tileSource)));
@@ -21,6 +20,10 @@ export class ViewerService implements OnInit {
       this.addToWindow();
       this.addEvents();
     }
+  }
+
+  getViewer() {
+    return this.viewer;
   }
 
   addToWindow() {
@@ -39,12 +42,17 @@ export class ViewerService implements OnInit {
 
   addPinchEvents(): void {
     let previousDistance = 0;
+    let zoomTo = this.getZoom();
     this.viewer.addHandler('canvas-pinch', (data: any) => {
-      if (data.lastDistance > previousDistance) {
-        this.zoomTo(this.getZoom() + 0.02);
-      } else {
-        this.zoomTo(this.getZoom() - 0.02);
+      if (data.lastDistance > previousDistance) { // Pinch Out
+        zoomTo = this.getZoom() + this.ZOOMFACTOR;
+      } else { // Pinch In
+        zoomTo = this.getZoom() - this.ZOOMFACTOR;
+        if (zoomTo < this.getHomeZoom()) {
+          zoomTo = this.getHomeZoom();
+        }
       }
+      this.zoomTo(zoomTo);
       previousDistance = data.lastDistance;
     });
 
@@ -53,27 +61,27 @@ export class ViewerService implements OnInit {
     });
   }
 
-  private getZoom(): number {
+  public getZoom(): number {
     return this.viewer.viewport.getZoom();
   }
 
-  private getHomeZoom(): number {
+  public getHomeZoom(): number {
     return this.viewer.viewport.getHomeZoom();
   }
 
-  private getMinZoom(): number {
+  public getMinZoom(): number {
     return this.viewer.viewport.getMinZoom();
   }
 
-  private getMaxZoom(): number {
+  public getMaxZoom(): number {
     return this.viewer.viewport.getMaxZoom();
   }
 
-  private zoomHome(): void {
+  public zoomHome(): void {
     this.zoomTo(this.getHomeZoom());
   }
 
-  private zoomTo(level: number): void {
+  public zoomTo(level: number): void {
     this.viewer.viewport.zoomTo(level);
   }
 }

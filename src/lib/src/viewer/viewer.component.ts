@@ -9,7 +9,6 @@ import { ContentsDialogService } from '../contents-dialog/contents-dialog.servic
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 
-declare const OpenSeadragon: any;
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
@@ -18,7 +17,6 @@ declare const OpenSeadragon: any;
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
-  public viewer: any;
   private subscriptions: Array<Subscription> = [];
 
   constructor(
@@ -34,7 +32,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.iiifManifestService.currentManifest
       .subscribe((manifest: Manifest) => {
         this.cleanUp();
-        this.viewerService.setup(manifest);
+        this.viewerService.setUpViewer(manifest);
       })
     );
     this.loadManifest();

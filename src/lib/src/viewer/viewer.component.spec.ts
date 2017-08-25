@@ -14,6 +14,7 @@ import { Observable } from 'rxjs/Observable';
 import { testManifest } from '../test/testManifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
+import { ViewerService } from '../core/viewer-service/viewer.service';
 
 describe('ViewerComponent', function () {
   let de: DebugElement;
@@ -36,6 +37,7 @@ describe('ViewerComponent', function () {
         TestHostComponent
       ],
       providers: [
+        ViewerService,
         {provide: IiifManifestService, useClass: IiifManifestServiceStub},
         ResizeService
       ]
@@ -55,11 +57,6 @@ describe('ViewerComponent', function () {
 
   it('should create component', () => expect(comp).toBeDefined());
 
-  it('should create viewer on init', () => {
-    comp.ngOnInit();
-    expect(comp.viewer).toBeDefined();
-  });
-
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
 
@@ -69,13 +66,36 @@ describe('ViewerComponent', function () {
     expect(testHostComponent.viewerComponent.dialog.closeAll).toHaveBeenCalled();
   });
 
-  it('should increase zoom level when pinching out', fakeAsync(() => {
+  it('should create viewer', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
 
-    let previousZoom = comp.viewer.viewport.getZoom(true);
-    comp.viewer.viewport.zoomTo(comp.viewer.viewport.getZoom(true) + 0.01);
+    expect(viewerService.getViewer()).toBeDefined();
+  }));
 
-    expect(comp.viewer.viewport.getZoom(true)).toBeGreaterThan(previousZoom);
+  it('should increase zoom level when pinching out', inject([ViewerService], (viewerService: ViewerService) => {
+    comp.ngOnInit();
+    const previousZoom = viewerService.getZoom();
+
+    viewerService.zoomTo(viewerService.getZoom() + 0.2);
+
+    expect(viewerService.getZoom()).toBeGreaterThan(previousZoom);
+  }));
+
+  it('should decrease zoom level when pinching in and is zoomed in', inject([ViewerService], (viewerService: ViewerService) => {
+    comp.ngOnInit();
+    const previousZoom = 1;
+    viewerService.zoomTo(previousZoom);
+
+    viewerService.zoomTo(viewerService.getZoom() - 0.2);
+
+    expect(viewerService.getZoom()).toBeLessThan(previousZoom);
+  }));
+
+  it('should not decrease zoom level when pinching out and zoom level is home', inject([ViewerService], (viewerService: ViewerService) => {
+    comp.ngOnInit();
+    viewerService.zoomTo(viewerService.getHomeZoom() - 0.3);
+
+    expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
   }));
 });
 
