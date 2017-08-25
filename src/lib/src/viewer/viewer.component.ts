@@ -126,7 +126,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();
     let svgNode = d3.select(svgOverlay.node());
-
+    console.log(this.tileSources);
     this.tileSources.forEach((tile, i) => {
       let tiledImage = this.viewer.world.getItemAt(i);
       if (!tiledImage) { return; }

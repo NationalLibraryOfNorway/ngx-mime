@@ -11,6 +11,7 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { ResizeService } from './../core/resize-service/resize.service';
 import { ClickService } from '../core/click/click.service';
 import { PageService } from '../core/page-service/page-service';
+import { ViewerMode } from './viewer-mode';
 import { Manifest } from './../core/models/manifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { testManifest } from '../test/testManifest';
@@ -49,7 +50,6 @@ describe('ViewerComponent', function () {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerComponent);
     comp = fixture.componentInstance;
-    de = fixture.debugElement.query(By.css('h1'));
 
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
@@ -63,9 +63,7 @@ describe('ViewerComponent', function () {
     comp.manifestUri = 'dummyURI';
     const manifest = new ManifestBuilder(testManifest).build();
     spy = spyOn(iiifManifestService, 'load').and.returnValue(Observable.of(manifest));
-
     comp.ngOnInit();
-
     expect(comp.viewer).not.toBeNull();
   }));
 
@@ -77,6 +75,14 @@ describe('ViewerComponent', function () {
 
     expect(testHostComponent.viewerComponent.dialog.closeAll).toHaveBeenCalled();
   }));
+
+  it('should initially open in dashboardview', () => {
+    fixture.detectChanges();
+    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+    let debugHeader = fixture.debugElement.query(By.css('mime-viewer-header'));
+    let header = debugHeader.nativeElement;
+  });
+
 });
 
 @Component({
