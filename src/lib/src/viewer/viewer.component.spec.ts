@@ -1,3 +1,4 @@
+import { AttributionDialogModule } from './../attribution-dialog/attribution-dialog.module';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -7,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
 import { ViewerComponent } from './viewer.component';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { ResizeService } from '../core/resize-service/resize.service';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 
 import 'openseadragon';
 import { Observable } from 'rxjs/Observable';
@@ -30,7 +31,8 @@ describe('ViewerComponent', function () {
       imports: [
         HttpClientTestingModule,
         SharedModule,
-        ContentsDialogModule
+        ContentsDialogModule,
+        AttributionDialogModule
       ],
       declarations: [
         ViewerComponent,
@@ -39,7 +41,7 @@ describe('ViewerComponent', function () {
       providers: [
         ViewerService,
         {provide: IiifManifestService, useClass: IiifManifestServiceStub},
-        ResizeService
+        MimeResizeService
       ]
     }).compileComponents();
   }));

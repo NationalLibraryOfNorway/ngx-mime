@@ -12,6 +12,7 @@ import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -31,6 +32,7 @@ describe('ContentsDialogComponent', () => {
       providers: [
         MimeViewerIntl,
         IiifManifestService,
+        MimeResizeService,
         { provide: MdDialogRef, useClass: MdDialogRefMock },
         { provide: ObservableMedia, useClass: MediaMock }
       ]

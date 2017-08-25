@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
+import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from './../../core/models/manifest';
 
@@ -9,20 +11,27 @@ import { Manifest } from './../../core/models/manifest';
   styleUrls: ['./metadata.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MetadataComponent implements OnInit {
+export class MetadataComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
+    public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService) { }
 
   ngOnInit() {
-    this.iiifManifestService.currentManifest
+    this.subscriptions.push(this.iiifManifestService.currentManifest
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
         this.changeDetectorRef.markForCheck();
-      });
+      }));
+  }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MimeViewerConfig } from 'ngx-mime';
 
 import { ManifestService } from './../core/manifest-service/manifest.service';
 
@@ -11,6 +12,10 @@ import { ManifestService } from './../core/manifest-service/manifest.service';
 
 export class ViewerComponent implements OnInit, OnDestroy {
   public manifestUri: string;
+  public config = new MimeViewerConfig({
+    attributionDialogEnabled: true,
+    attributionDialogHideTimeout: -1
+  });
   private sub: any;
 
   constructor(

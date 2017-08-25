@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MimeViewerIntl } from './viewer-intl';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
-import { ResizeService } from './resize-service/resize.service';
+import { MimeResizeService } from './mime-resize-service/mime-resize.service';
 import { ViewerService } from './viewer-service/viewer.service';
 
 @NgModule({
@@ -12,7 +12,7 @@ import { ViewerService } from './viewer-service/viewer.service';
   providers: [
     MimeViewerIntl,
     IiifManifestService,
-    ResizeService,
+    MimeResizeService,
     ViewerService
   ]
 })

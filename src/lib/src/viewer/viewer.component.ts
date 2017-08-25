@@ -6,8 +6,11 @@ import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
+import { AttributionDialogService } from './../attribution-dialog/attribution-dialog.service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
+import { MimeViewerConfig } from './../core/mime-viewer-config';
 
 @Component({
   selector: 'mime-viewer',
@@ -17,6 +20,7 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
+  @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private subscriptions: Array<Subscription> = [];
 
   constructor(
@@ -24,16 +28,20 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
     private viewerService: ViewerService,
+    private attributionDialogService: AttributionDialogService,
+    private mimeService: MimeResizeService,
     private dialog: MdDialog) {
-    contentsDialogService.elementRef = el; }
+    contentsDialogService.el = el;
+    attributionDialogService.el = el;
+    mimeService.el = el; }
 
   ngOnInit(): void {
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
-      .subscribe((manifest: Manifest) => {
-        this.cleanUp();
-        this.viewerService.setUpViewer(manifest);
-      })
+        .subscribe((manifest: Manifest) => {
+          this.cleanUp();
+          this.viewerService.setUpViewer(manifest);
+        })
     );
     this.loadManifest();
   }
@@ -55,6 +63,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  ngAfterViewChecked() {
+    this.mimeService.markForCheck();
+  }
+
   private loadManifest() {
     this.iiifManifestService.load(this.manifestUri);
   }
@@ -64,7 +76,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewerService.destroy();
   }
 
-  public closeAllDialogs() {
+  private closeAllDialogs() {
     this.dialog.closeAll();
   }
+
 }

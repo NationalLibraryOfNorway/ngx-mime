@@ -33,8 +33,6 @@
       "value": "Bøker"
     }
   ],
-  "license": "https://beta.nb.no/lisens/copyright",
-  "attribution": "Dette verket kan ikke kopieres, spres, vises eller fremføres for allmennheten i noen form uten samtykke fra den enkelte rettighetshaver.",
   "sequences": [
     {
       "@id": "https://api.nb.no/catalog/v1/iiif/0df79c75c72e7320e3350170b6743e51/sequence/normal",

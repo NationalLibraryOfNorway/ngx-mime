@@ -4,21 +4,21 @@
       <md-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
           <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
-          <div class="heading">Contents</div>
+          <div class="heading">{{intl.contents}}</div>
         </div>
       </md-toolbar>
     </div>
     <div *ngSwitchDefault>
       <md-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <div class="heading heading-desktop">Contents</div>
+          <div class="heading heading-desktop">{{intl.contents}}</div>
           <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
         </div>
       </md-toolbar>
     </div>
   </div>
   <md-tab-group>
-    <md-tab label="Metadata">
+    <md-tab [label]="intl.metadata">
       <div class="tab-container" [ngStyle]="tabHeight">
         <mime-metadata></mime-metadata>
       </div>
