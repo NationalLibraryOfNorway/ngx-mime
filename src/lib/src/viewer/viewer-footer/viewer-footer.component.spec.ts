@@ -1,43 +1,33 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ObservableMedia } from '@angular/flex-layout';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  inject
+} from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { ObservableMedia } from "@angular/flex-layout";
 
-import { SharedModule } from './../../shared/shared.module';
-import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
-import { ViewerFooterComponent } from './viewer-footer.component';
-import { MimeViewerIntl } from './../../core/viewer-intl';
-import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { ResizeService } from './../../core/resize-service/resize.service';
+import { SharedModule } from "./../../shared/shared.module";
+import { ViewerFooterComponent } from "./viewer-footer.component";
+import { MimeViewerIntl } from "./../../core/viewer-intl";
 
-describe('ViewerFooterComponent', () => {
+describe("ViewerFooterComponent", () => {
   let cmp: ViewerFooterComponent;
   let fixture: ComponentFixture<ViewerFooterComponent>;
-  let spy: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        ContentsDialogModule,
-        HttpClientModule
-      ],
-      declarations: [
-        ViewerFooterComponent,
-      ],
-      providers: [
-        MimeViewerIntl,
-        IiifManifestService,
-        ResizeService
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [NoopAnimationsModule, SharedModule],
+        declarations: [ViewerFooterComponent],
+        providers: [MimeViewerIntl]
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
@@ -46,31 +36,69 @@ describe('ViewerFooterComponent', () => {
   });
 
   it('should be created', () => {
-    console.log(cmp);
     expect(cmp).toBeTruthy();
   });
 
-  it('should re-render when the i18n labels have changed', (async) => {
+  it("should re-render when the i18n labels have changed",
+    inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
+      const text = fixture.debugElement.query(By.css(".text"));
+
+      expect(text.nativeElement.textContent).toContain(`I'm a footer`);
+
+      intl.footerTestString = "New test string";
+      intl.changes.next();
+      fixture.detectChanges();
+      expect(text.nativeElement.textContent).toContain("New test string");
+    })
+  );
+
+  it("should start in visible mode", async(() => {
+    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
+    expect(cmp.state).toBe('show');
+    expectFooterToShow(toolbar.nativeElement);
+  }));
+
+  it("should not be visible when state is changed to 'hide'", async(() => {
+    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
+    // Check initial style to make sure we later see an actual change
+    expectFooterToShow(toolbar.nativeElement);
+
+    cmp.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectFooterToBeHidden(toolbar.nativeElement);
+    });
+  }));
+
+  it("should be visible when state is changed to 'show'", async(() => {
+    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
+
+    cmp.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
+      expectFooterToBeHidden(toolbar.nativeElement);
+
+      cmp.state = 'show';
+      fixture.detectChanges();
       fixture.whenStable().then(() => {
-        console.log(cmp);
-        /*
-        expect(cmp.startEvent.triggerName).toEqual('myAnimation');
-        expect(cmp.startEvent.phaseName).toEqual('start');
-        expect(cmp.startEvent.toState).toEqual('void');
-        expect(cmp.doneEvent.triggerName).toEqual('myAnimation');
-        expect(cmp.doneEvent.phaseName).toEqual('done');
-        expect(cmp.doneEvent.toState).toEqual('void');*/
-        async();
+          expectFooterToShow(toolbar.nativeElement);
       });
+
     });
 
-  });
-
-  it('should open contents dialog', () => {
-    component.openContents();
-  });
-
+  }));
+  
 });
+
+function expectFooterToShow(toolbarElement: any) {
+  expect(toolbarElement.style.display).toBe('block');
+  expect(toolbarElement.style.opacity).toBe('1');
+  expect(toolbarElement.style.transform).toBe('translate(0px, 0px)');
+}
+
+function expectFooterToBeHidden(toolbarElement: any) {
+  expect(toolbarElement.style.display).toBe('none');
+  expect(toolbarElement.style.opacity).toBe('0');
+  expect(toolbarElement.style.transform).toBe('translate(0px, 100%)');
+}

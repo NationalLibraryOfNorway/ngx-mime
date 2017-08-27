@@ -7,5 +7,6 @@ export class MimeViewerIntl {
 
   metadataLabel = 'Info';
   close = 'Close';
+  footerTestString = `I'm a footer`;
 
 }
