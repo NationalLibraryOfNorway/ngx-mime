@@ -1,3 +1,4 @@
+
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -53,6 +54,42 @@ describe('ViewerHeaderComponent', () => {
     component.openContents();
   });
 
+  it("should start in visible mode", async(() => {
+    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
+    expect(component.state).toBe('show');
+    expectHeaderToShow(toolbar.nativeElement);
+  }));
+
+  it("should not be visible when state is changed to 'hide'", async(() => {
+    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
+    // Check initial style to make sure we later see an actual change
+    expectHeaderToShow(toolbar.nativeElement);
+
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectHeaderToBeHidden(toolbar.nativeElement);
+    });
+  }));
+
+  it("should be visible when state is changed to 'show'", async(() => {
+    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
+
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectHeaderToBeHidden(toolbar.nativeElement);
+
+      component.state = 'show';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expectHeaderToShow(toolbar.nativeElement);
+      });
+
+    });
+
+  }));
+
 });
 
 @NgModule({
@@ -73,3 +110,15 @@ describe('ViewerHeaderComponent', () => {
   ]
 })
 class ViewerHeaderTestModule { }
+
+function expectHeaderToShow(toolbarElement: any) {
+  expect(toolbarElement.style.display).toBe('block');
+  expect(toolbarElement.style.opacity).toBe('1');
+  expect(toolbarElement.style.transform).toBe('translate(0px, 0px)');
+}
+
+function expectHeaderToBeHidden(toolbarElement: any) {
+  expect(toolbarElement.style.display).toBe('none');
+  expect(toolbarElement.style.opacity).toBe('0');
+  expect(toolbarElement.style.transform).toBe('translate(0px, -100%)');
+}
