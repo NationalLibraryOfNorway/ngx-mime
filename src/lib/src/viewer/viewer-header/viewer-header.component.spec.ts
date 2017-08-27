@@ -12,7 +12,7 @@ import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.mo
 import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { ResizeService } from './../../core/resize-service/resize.service';
+import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -43,7 +43,7 @@ describe('ViewerHeaderComponent', () => {
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
       const button = fixture.debugElement.query(By.css('#contentsDialogButton'));
 
-      intl.metadataLabel = 'Metadata of the publication';
+      intl.contents = 'Metadata of the publication';
       intl.changes.next();
       fixture.detectChanges();
 
@@ -106,7 +106,7 @@ describe('ViewerHeaderComponent', () => {
   providers: [
     MimeViewerIntl,
     IiifManifestService,
-    ResizeService
+    MimeResizeService
   ]
 })
 class ViewerHeaderTestModule { }

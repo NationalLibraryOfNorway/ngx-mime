@@ -3,9 +3,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MimeViewerIntl } from './viewer-intl';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
-import { ResizeService } from './resize-service/resize.service';
 import { ClickService } from '../core/click/click.service';
 import { PageService } from '../core/page-service/page-service';
+import { MimeResizeService } from './mime-resize-service/mime-resize.service';
+import { ViewerService } from './viewer-service/viewer.service';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -13,9 +14,10 @@ import { PageService } from '../core/page-service/page-service';
   providers: [
     MimeViewerIntl,
     IiifManifestService,
-    ResizeService,
     ClickService,
     PageService,
+    MimeResizeService,
+    ViewerService
   ]
 })
 export class CoreModule {

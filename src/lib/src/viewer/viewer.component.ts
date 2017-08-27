@@ -9,7 +9,6 @@ import {
   SimpleChanges,
   ElementRef,
   Renderer2,
-  NgZone,
   ChangeDetectorRef,
   ViewChild,
 } from '@angular/core';
@@ -19,10 +18,14 @@ import { Subscription } from 'rxjs/Subscription';
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
+import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
 import { ClickService } from '../core/click/click.service';
 import { PageService } from '../core/page-service/page-service';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ViewerMode } from './viewer-mode';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
@@ -39,7 +42,7 @@ declare const d3: any;
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
-  public viewer: any;
+  @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private options: Options;
   private subscriptions: Array<Subscription> = [];
 
@@ -56,17 +59,20 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
 
   constructor(
-    private zone: NgZone,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
+    private attributionDialogService: AttributionDialogService,
+    private viewerService: ViewerService,
+    private mimeService: MimeResizeService,
     private dialog: MdDialog,
     private renderer: Renderer2,
     private changeDetectorRef: ChangeDetectorRef,
     private clickService: ClickService,
-    private pageService: PageService
-  ) {
-    contentsDialogService.elementRef = el;
+    private pageService: PageService) {
+    contentsDialogService.el = el;
+    attributionDialogService.el = el;
+    mimeService.el = el;
   }
 
   ngOnInit(): void {
@@ -75,7 +81,19 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
           this.cleanUp();
-          this.setUpViewer(manifest);
+          this.viewerService.setUpViewer(this.mode, manifest);
+
+          // Nex five lines should probably be moved to viewService.setUpViwer() 
+          this.addEvents();
+          this.tileSources = manifest.tileSource;
+          this.options = new Options(this.mode, this.tileSources);
+          this.pageService = new PageService();
+          this.pageService.numberOfPages = this.tileSources.length;
+          this.setDashboardConstraints();
+
+          if (this.config.attributionDialogEnabled && manifest.attribution) {
+            this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
+          }
         })
     );
     this.loadManifest();
@@ -115,20 +133,21 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setDashboardConstraints(): void {
-    this.viewer.panVertical = false;
+    this.viewerService.getViewer().panVertical = false;
   }
   setPageConstraints(): void {
-    this.viewer.panVertical = true;
+    this.viewerService.getViewer().panVertical = true;
   }
 
   // Create SVG-overlays for each page
   createOverlays(): void {
+    let viewer = this.viewerService.getViewer();
     this.overlays = [];
-    let svgOverlay = this.viewer.svgOverlay();
+    let svgOverlay = viewer.svgOverlay();
     let svgNode = d3.select(svgOverlay.node());
     console.log(this.tileSources);
     this.tileSources.forEach((tile, i) => {
-      let tiledImage = this.viewer.world.getItemAt(i);
+      let tiledImage = viewer.world.getItemAt(i);
       if (!tiledImage) { return; }
 
       let box = tiledImage.getBounds(true);
@@ -164,9 +183,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (this.overlays.length < 3) {
       return;
     }
-    let firstpageDashboardBounds = this.viewer.viewport.getBounds();
+    let viewer = this.viewerService.getViewer();
+    let firstpageDashboardBounds = viewer.viewport.getBounds();
     firstpageDashboardBounds.x = 0;
-    this.viewer.viewport.fitBounds(firstpageDashboardBounds);
+    viewer.viewport.fitBounds(firstpageDashboardBounds);
   }
 
   fitBoundsToPage(page: number): void {
@@ -175,21 +195,22 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
     let box = this.overlays[page];
     let pageBounds = this.createRectangel(box);
-    this.viewer.viewport.fitBounds(pageBounds);
+    this.viewerService.getViewer().viewport.fitBounds(pageBounds);
   }
 
   // Toggle viewport-bounds between page and dashboard
   // Make sure to update this.mode to the new mode before calling this method
   fitBounds(currentOverlay: any): void {
+    let viewer = this.viewerService.getViewer();
     if (this.mode === ViewerMode.DASHBOARD) {
-      let dashboardBounds = this.viewer.viewport.getBounds();
-      this.viewer.viewport.fitBounds(dashboardBounds);
+      let dashboardBounds = viewer.viewport.getBounds();
+      viewer.viewport.fitBounds(dashboardBounds);
       // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
-      this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
+      viewer.viewport.zoomTo(this.options.defaultZoomLevel);
     }
     if (this.mode === ViewerMode.PAGE) {
       let pageBounds = this.createRectangel(currentOverlay);
-      this.viewer.viewport.fitBounds(pageBounds);
+      viewer.viewport.fitBounds(pageBounds);
     }
   }
 
@@ -208,43 +229,29 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       !isNaN(parseInt(value, 10));
   }
 
+  ngAfterViewChecked() {
+    this.mimeService.markForCheck();
+  }
+
   private loadManifest() {
     this.iiifManifestService.load(this.manifestUri);
   }
 
   private cleanUp() {
     this.closeAllDialogs();
-    if (this.viewer != null && this.viewer.isOpen()) {
-      this.viewer.destroy();
-    }
+    this.viewerService.destroy();
   }
 
-  private setUpViewer(manifest: Manifest) {
-    if (manifest.tileSource) {
-      this.tileSources = manifest.tileSource;
-      this.options = new Options(this.mode, this.tileSources);
 
-      this.zone.runOutsideAngular(() => {
-        this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
-      });
-      window.openSeadragonViewer = this.viewer;
-
-      this.pageService = new PageService();
-      this.pageService.numberOfPages = this.tileSources.length;
-      this.setDashboardConstraints();
-      this.addEvents();
-    }
-  }
-
-  public closeAllDialogs() {
+  private closeAllDialogs() {
     this.dialog.closeAll();
   }
 
   addEvents(): void {
-    this.addPinchEvents();
+    let viewer = this.viewerService.getViewer();
 
     this.clickService.reset();
-    this.viewer.addHandler('open', (data: any) => {
+    viewer.addHandler('open', (data: any) => {
       this.pageService.currentPage = 0;
       this.createOverlays();
       this.fitBoundsToStart();
@@ -270,29 +277,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.clickService.addDoubleClickHandler((event) => {
     });
 
-    this.viewer.addHandler('canvas-click', this.clickService.click);
+    viewer.addHandler('canvas-click', this.clickService.click);
 
-    this.viewer.addHandler('canvas-double-click', (event: any) => {
+    viewer.addHandler('canvas-double-click', (event: any) => {
       if (this.mode === ViewerMode.DASHBOARD) {
         event.preventDefaultAction = true;
       }
     });
 
-  }
-
-  addPinchEvents(): void {
-    let previousDistance = 0;
-    this.viewer.addHandler('canvas-pinch', (data: any) => {
-      if (data.lastDistance > previousDistance) {
-        this.viewer.viewport.zoomTo((this.viewer.viewport.getZoom() + 0.02));
-      } else {
-        this.viewer.viewport.zoomTo((this.viewer.viewport.getZoom() - 0.02));
-      }
-      previousDistance = data.lastDistance;
-    });
-
-    this.viewer.addHandler('canvas-release', (data: any) => {
-      previousDistance = 0;
-    });
   }
 }

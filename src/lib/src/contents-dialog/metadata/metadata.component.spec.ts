@@ -5,6 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
+import { MimeViewerIntl } from './../../core/viewer-intl';
 import { MetadataComponent } from './metadata.component';
 import { Manifest, Metadata } from './../../core/models/manifest';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
@@ -24,6 +25,7 @@ describe('MetadataComponent', () => {
         MetadataComponent
       ],
       providers: [
+        MimeViewerIntl,
         {provide: IiifManifestService, useClass: IiifManifestServiceStub}
       ]
     })
@@ -47,6 +49,20 @@ describe('MetadataComponent', () => {
     expect(metadatas.length).toEqual(2);
   });
 
+  it('should display attribution', () => {
+    fixture.detectChanges();
+
+    const attribution: DebugElement = fixture.debugElement.query(By.css('.attribution'));
+    expect(attribution.nativeElement.innerText).toBe('This is a test attribution');
+  });
+
+  it('should display license', () => {
+    fixture.detectChanges();
+
+    const attribution: DebugElement = fixture.debugElement.query(By.css('.license'));
+    expect(attribution.nativeElement.innerText).toBe('https://wiki.creativecommons.org/wiki/CC0');
+  });
+
 });
 
 class IiifManifestServiceStub {
@@ -56,7 +72,9 @@ class IiifManifestServiceStub {
       metadata: [
         new Metadata('label1', 'value1'),
         new Metadata('label2', 'value2')
-      ]
+      ],
+      attribution: 'This is a test attribution',
+      license: 'https://wiki.creativecommons.org/wiki/CC0'
     }));
   }
 

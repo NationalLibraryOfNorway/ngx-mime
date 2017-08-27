@@ -26,7 +26,7 @@ const config = {
       path.resolve(process.cwd(), './e2e/**/*.steps.ts')
     ],
     format: 'pretty',
-    tags: ''
+    tags: ['~@Ignore']
   },
   onPrepare: function() {
     browser.manage().window().maximize();

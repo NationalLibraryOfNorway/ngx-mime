@@ -9,7 +9,15 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
+  Given(/^the viewer is opened with a publication with attribution labels$/, async () => {
+    await page.open();
+  });
+
+  Given(/^the viewer is opened with a publication with licenses associated with it$/, async () => {
+    await page.open();
+  });
+
   Then(/^the viewer should be displayed$/, async () => {
-    expect((await page.openSeadragonElement().isDisplayed())).to.be.true;
+    expect((await page.openSeadragonElement().isPresent())).to.be.true;
   });
 });

@@ -5,8 +5,10 @@ import { Subject } from 'rxjs/Subject';
 export class MimeViewerIntl {
   changes: Subject<void> = new Subject<void>();
 
-  metadataLabel = 'Info';
   close = 'Close';
+  attribution = 'Attribution';
+  contents = 'Contents';
+  metadata = 'Metadata';
+  license = 'License';
   footerTestString = `I'm a footer`;
-
 }

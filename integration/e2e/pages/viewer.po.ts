@@ -22,6 +22,12 @@ export class ViewerPage {
     return el;
   }
 
+  getAttribution() {
+    const el = element(by.css('#attribution-container > .contents'));
+    utils.waitForElement(el);
+    return el;
+  }
+
   /*
   Getters & Setters
    */

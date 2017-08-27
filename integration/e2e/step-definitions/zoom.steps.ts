@@ -23,15 +23,13 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^the user pinch out$/, async () => {
     await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
-    // await page.pinchOut(); //TODO Use pinchOut() when we get Protractor.touchActions to work
-    await page.zoomIn();
+    await page.pinchOut();
     await page.waitForAnimation();
   });
 
   When(/^the user pinch in$/, async () => {
     await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
-    // await page.pinchIn(); //TODO Use pinchIn() when we get Protractor.touchActions to work
-    await page.zoomOut();
+    await page.pinchIn();
     await page.waitForAnimation();
   });
 

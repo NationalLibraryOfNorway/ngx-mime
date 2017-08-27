@@ -6,20 +6,20 @@ import { Subscription } from 'rxjs/Subscription';
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { ResizeService } from './../core/resize-service/resize.service';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Manifest } from './../core/models/manifest';
 
 @Injectable()
 export class ContentsDialogService {
-  private _elementRef: ElementRef;
+  private _el: ElementRef;
   private isContentsDialogOpen = false;
   private dialogRef: MdDialogRef<ContentsDialogComponent>;
 
   constructor(
     private dialog: MdDialog,
     private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
-    private resizeService: ResizeService) {
-      resizeService.onResize.subscribe(r => {
+    private mimeResizeService: MimeResizeService) {
+      mimeResizeService.onResize.subscribe(rect => {
         if (this.isContentsDialogOpen) {
           const config = this.getDialogConfig();
           this.dialogRef.updatePosition(config.position);
@@ -28,8 +28,8 @@ export class ContentsDialogService {
       });
   }
 
-  set elementRef(elementRef: ElementRef) {
-    this._elementRef = elementRef;
+  set el(el: ElementRef) {
+    this._el = el;
   }
 
   public open() {
@@ -41,7 +41,6 @@ export class ContentsDialogService {
       });
       this.isContentsDialogOpen = true;
     }
-
   }
 
   public close() {
@@ -53,7 +52,7 @@ export class ContentsDialogService {
   }
 
   private getDialogConfig(): MdDialogConfig {
-    return this.contentsDialogConfigStrategyFactory.create().getConfig(this._elementRef);
+    return this.contentsDialogConfigStrategyFactory.create().getConfig(this._el);
   }
 
 }
