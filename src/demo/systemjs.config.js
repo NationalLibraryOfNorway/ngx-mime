@@ -35,6 +35,7 @@
       'rxjs': 'npm:rxjs',
       'hammerjs': 'npm:hammerjs/hammer.js',
       'openseadragon': 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
+      'd3': 'npm:d3/build/d3.min.js',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {

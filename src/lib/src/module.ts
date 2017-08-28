@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import './rxjs-extension';
 import 'openseadragon';
+import 'd3';
 
 @NgModule({
   declarations: [

@@ -63,7 +63,8 @@ return Promise.resolve()
         '@angular/core': 'ng.core',
         '@angular/material': 'ng.material',
         '@angular/flex-layout': 'ng.flex-layout',
-        'openseadragon': 'ng.opensedragon'
+        'openseadragon': 'ng.opensedragon',
+        'd3': 'ng.d3'
       },
       external: [
         // List of dependencies
@@ -71,7 +72,8 @@ return Promise.resolve()
         '@angular/core',
         '@angular/material',
         '@angular/flex-layout',
-        'openseadragon'
+        'openseadragon',
+        'd3'
       ],
       plugins: [
         sourcemaps()
