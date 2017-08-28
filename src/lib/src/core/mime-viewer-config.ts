@@ -9,9 +9,14 @@ export class MimeViewerConfig {
     navigationControlEnabled?: boolean;
   }) {
     if (fields) {
-      this.attributionDialogEnabled = fields.attributionDialogEnabled !== undefined ? fields.attributionDialogEnabled : this.attributionDialogEnabled;
-      this.attributionDialogHideTimeout = fields.attributionDialogHideTimeout || this.attributionDialogHideTimeout;
-      this.navigationControlEnabled = fields.navigationControlEnabled !== undefined ? fields.navigationControlEnabled : this.navigationControlEnabled;
+      this.attributionDialogEnabled =
+        fields.attributionDialogEnabled !== undefined ? fields.attributionDialogEnabled : this.attributionDialogEnabled;
+
+      this.attributionDialogHideTimeout =
+        fields.attributionDialogHideTimeout || this.attributionDialogHideTimeout;
+
+      this.navigationControlEnabled =
+        fields.navigationControlEnabled !== undefined ? fields.navigationControlEnabled : this.navigationControlEnabled;
     }
   }
 }
