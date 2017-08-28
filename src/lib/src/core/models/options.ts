@@ -2,7 +2,7 @@ import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, Gesture
 import { NavImages } from './navImages';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
-import { ViewerMode } from './../../viewer/viewer-mode';
+import { ViewerMode } from './viewer-mode';
 
 export class Options {
   id = 'openseadragon';

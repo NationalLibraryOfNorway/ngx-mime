@@ -18,7 +18,8 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
 import { ClickService } from '../core/click/click.service';
 import { PageService } from '../core/page-service/page-service';
-import { ViewerMode } from './viewer-mode';
+import { ModeService } from '../core/mode-service/mode.service';
+import { ViewerMode } from '../core/models/viewer-mode';
 import 'openseadragon';
 
 describe('ViewerComponent', function () {
@@ -49,7 +50,8 @@ describe('ViewerComponent', function () {
         MimeResizeService,
         MimeViewerIntl,
         ClickService,
-        PageService
+        PageService,
+        ModeService
       ]
     }).compileComponents();
   }));
@@ -61,6 +63,7 @@ describe('ViewerComponent', function () {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
     testHostComponent.manifestUri = 'dummyURI1';
+    testHostFixture.detectChanges();
     testHostFixture.detectChanges();
   });
 
@@ -92,11 +95,11 @@ describe('ViewerComponent', function () {
 
   it('should initially open in dashboardview', () => {
     fixture.detectChanges();
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+    expect(comp.mode()).toBe(ViewerMode.DASHBOARD);
     let debugHeader = fixture.debugElement.query(By.css('mime-viewer-header'));
     let header = debugHeader.nativeElement;
   });
-  
+
   it('should decrease zoom level when pinching in and is zoomed in', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
     const previousZoom = 1;

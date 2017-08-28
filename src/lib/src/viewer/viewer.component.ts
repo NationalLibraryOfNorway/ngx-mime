@@ -22,18 +22,14 @@ import { AttributionDialogService } from '../attribution-dialog/attribution-dial
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
-import { ClickService } from '../core/click/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
+import { ModeService } from '../core/mode-service/mode.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
-import { ViewerMode } from './viewer-mode';
+import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import '../core/ext/svg-overlay';
-
-declare const OpenSeadragon: any;
-declare const d3: any;
-
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
@@ -43,20 +39,13 @@ declare const d3: any;
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
-  private options: Options;
   private subscriptions: Array<Subscription> = [];
 
-  public mode: ViewerMode;
   ViewerMode: typeof ViewerMode = ViewerMode;
 
   // Viewchilds
   @ViewChild(ViewerHeaderComponent) header: ViewerHeaderComponent;
   @ViewChild(ViewerFooterComponent) footer: ViewerFooterComponent;
-
-  // References to clickable overlays
-  private overlays: Array<HTMLElement>;
-  private tileSources: any[];
-
 
   constructor(
     private el: ElementRef,
@@ -68,34 +57,34 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private dialog: MdDialog,
     private renderer: Renderer2,
     private changeDetectorRef: ChangeDetectorRef,
-    private clickService: ClickService,
-    private pageService: PageService) {
+    private pageService: PageService,
+    private modeService: ModeService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     mimeService.el = el;
   }
 
   ngOnInit(): void {
-    this.mode = ViewerMode.DASHBOARD;
+    this.modeService.mode = ViewerMode.DASHBOARD;
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
           this.cleanUp();
-          this.viewerService.setUpViewer(this.mode, manifest);
+          this.viewerService.setUpViewer(manifest);
 
-          // Nex five lines should probably be moved to viewService.setUpViwer() 
-          this.addEvents();
-          this.tileSources = manifest.tileSource;
-          this.options = new Options(this.mode, this.tileSources);
           this.pageService = new PageService();
-          this.pageService.numberOfPages = this.tileSources.length;
-          this.setDashboardConstraints();
+          this.pageService.numberOfPages = this.viewerService.getPageCount();
 
           if (this.config.attributionDialogEnabled && manifest.attribution) {
             this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
           }
         })
     );
+
+    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+      this.toggleMode(mode);
+    }));
+
     this.loadManifest();
   }
 
@@ -104,7 +93,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
         // Always set to dashboard-mode when manifest changes
-        this.mode = ViewerMode.DASHBOARD;
+        this.modeService.mode = ViewerMode.DASHBOARD;
         this.manifestUri = manifestUriChanges.currentValue;
         this.cleanUp();
         this.loadManifest();
@@ -118,54 +107,27 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  toggleView(): void {
+  mode(): ViewerMode {
+    return this.modeService.mode;
+  }
 
-    if (this.mode === ViewerMode.DASHBOARD) {
-      this.mode = ViewerMode.PAGE;
-      this.header.state = this.footer.state = 'hide';
-      this.setPageConstraints();
-    } else if (this.mode === ViewerMode.PAGE) {
-      this.mode = ViewerMode.DASHBOARD;
+  toggleMode(mode: ViewerMode): void {
+    if (mode === ViewerMode.DASHBOARD) {
       this.header.state = this.footer.state = 'show';
-      this.setDashboardConstraints();
+    } else if (mode === ViewerMode.PAGE) {
+      this.header.state = this.footer.state = 'hide';
     }
     this.changeDetectorRef.detectChanges();
   }
 
-  setDashboardConstraints(): void {
-    this.viewerService.getViewer().panVertical = false;
-  }
-  setPageConstraints(): void {
-    this.viewerService.getViewer().panVertical = true;
-  }
-
-  // Create SVG-overlays for each page
-  createOverlays(): void {
-    let viewer = this.viewerService.getViewer();
-    this.overlays = [];
-    let svgOverlay = viewer.svgOverlay();
-    let svgNode = d3.select(svgOverlay.node());
-    console.log(this.tileSources);
-    this.tileSources.forEach((tile, i) => {
-      let tiledImage = viewer.world.getItemAt(i);
-      if (!tiledImage) { return; }
-
-      let box = tiledImage.getBounds(true);
-      svgNode.append('rect').attrs({ x: box.x, y: box.y, width: box.width, height: box.height, class: 'tile' });
-
-      let currentOverlay: HTMLElement = svgNode._groups[0][0].children[i];
-      this.overlays.push(currentOverlay);
-    });
-  }
-
   nextPage(): void {
     let nextPage = this.pageService.getNextPage();
-    this.fitBoundsToPage(nextPage);
+    this.viewerService.fitBoundsToPage(nextPage);
   }
 
   prevPage(): void {
     let prevPage = this.pageService.getPrevPage();
-    this.fitBoundsToPage(prevPage);
+    this.viewerService.fitBoundsToPage(prevPage);
   }
 
   goToPageFromUserInput(event: any) {
@@ -175,52 +137,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
     this.pageService.currentPage = page;
-    this.fitBoundsToPage(+page);
-  }
-
-  fitBoundsToStart(): void {
-    // Don't need to fit bounds if pages < 3
-    if (this.overlays.length < 3) {
-      return;
-    }
-    let viewer = this.viewerService.getViewer();
-    let firstpageDashboardBounds = viewer.viewport.getBounds();
-    firstpageDashboardBounds.x = 0;
-    viewer.viewport.fitBounds(firstpageDashboardBounds);
-  }
-
-  fitBoundsToPage(page: number): void {
-    if (page < 0) {
-      return;
-    }
-    let box = this.overlays[page];
-    let pageBounds = this.createRectangel(box);
-    this.viewerService.getViewer().viewport.fitBounds(pageBounds);
-  }
-
-  // Toggle viewport-bounds between page and dashboard
-  // Make sure to update this.mode to the new mode before calling this method
-  fitBounds(currentOverlay: any): void {
-    let viewer = this.viewerService.getViewer();
-    if (this.mode === ViewerMode.DASHBOARD) {
-      let dashboardBounds = viewer.viewport.getBounds();
-      viewer.viewport.fitBounds(dashboardBounds);
-      // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
-      viewer.viewport.zoomTo(this.options.defaultZoomLevel);
-    }
-    if (this.mode === ViewerMode.PAGE) {
-      let pageBounds = this.createRectangel(currentOverlay);
-      viewer.viewport.fitBounds(pageBounds);
-    }
-  }
-
-  createRectangel(overlay: any): any {
-    return new OpenSeadragon.Rect(
-      overlay.x.baseVal.value,
-      overlay.y.baseVal.value,
-      overlay.width.baseVal.value,
-      overlay.height.baseVal.value
-    );
+    this.viewerService.fitBoundsToPage(+page);
   }
 
   private isInt(value: any): boolean {
@@ -242,48 +159,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewerService.destroy();
   }
 
-
   private closeAllDialogs() {
     this.dialog.closeAll();
-  }
-
-  addEvents(): void {
-    let viewer = this.viewerService.getViewer();
-
-    this.clickService.reset();
-    viewer.addHandler('open', (data: any) => {
-      this.pageService.currentPage = 0;
-      this.createOverlays();
-      this.fitBoundsToStart();
-    });
-
-    this.clickService.addSingleClickHandler((event: any) => {
-      let target: HTMLElement = event.originalEvent.target;
-
-      if (target.nodeName === 'rect') {
-        let requestedPage = this.overlays.indexOf(target);
-        if (requestedPage >= 0) {
-
-          setTimeout(() => {
-            this.toggleView();
-            this.fitBounds(target);
-          }, 250);
-          this.changeDetectorRef.markForCheck();
-
-        }
-      }
-    });
-
-    this.clickService.addDoubleClickHandler((event) => {
-    });
-
-    viewer.addHandler('canvas-click', this.clickService.click);
-
-    viewer.addHandler('canvas-double-click', (event: any) => {
-      if (this.mode === ViewerMode.DASHBOARD) {
-        event.preventDefaultAction = true;
-      }
-    });
-
   }
 }

@@ -7,6 +7,7 @@ import { ClickService } from '../core/click/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { MimeResizeService } from './mime-resize-service/mime-resize.service';
 import { ViewerService } from './viewer-service/viewer.service';
+import { ModeService } from './mode-service/mode.service';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -17,7 +18,8 @@ import { ViewerService } from './viewer-service/viewer.service';
     ClickService,
     PageService,
     MimeResizeService,
-    ViewerService
+    ViewerService,
+    ModeService
   ]
 })
 export class CoreModule {
