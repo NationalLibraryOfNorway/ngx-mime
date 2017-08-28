@@ -99,26 +99,18 @@ export class ViewerPage {
     });
   }
 
-  clickZoomInButton(): Promise<boolean> {
-    return this.clickActionButton('Zoom in');
+  clickZoomInButton(): promise.Promise<void> {
+    return this.clickNavigationButton('zoomInButton');
   }
 
-  clickZoomOutButton(): Promise<boolean> {
-    return this.clickActionButton('Zoom out');
+  clickZoomOutButton(): promise.Promise<void> {
+    return this.clickNavigationButton('zoomOutButton');
   }
 
-  clickActionButton(actionButtonTitle: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      const divs = element.all(by.css('.openseadragon-container div'));
-      utils.waitForElement(divs.first());
-      divs.each((div: ElementFinder, index: number) => {
-        div.getAttribute('title').then((title: string) => {
-          if (title === actionButtonTitle) {
-            return divs.get(index).click().then(() => resolve(true));
-          }
-        });
-      });
-    });
+  clickNavigationButton(buttonId: string): promise.Promise<void> {
+    const button = element(by.id(buttonId));
+    utils.waitForElement(button);
+    return button.click();
   }
 
   waitForAnimation(): promise.Promise<void> {

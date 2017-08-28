@@ -16,6 +16,7 @@ import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
+import { ClickService } from '../core/click/click.service';
 import 'openseadragon';
 
 describe('ViewerComponent', function () {
@@ -44,7 +45,8 @@ describe('ViewerComponent', function () {
         ViewerService,
         {provide: IiifManifestService, useClass: IiifManifestServiceStub},
         MimeResizeService,
-        MimeViewerIntl
+        MimeViewerIntl,
+        ClickService
       ]
     }).compileComponents();
   }));
