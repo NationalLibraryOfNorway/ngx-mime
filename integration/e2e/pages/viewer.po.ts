@@ -82,7 +82,7 @@ export class ViewerPage {
       .perform();
   }
 
-  pan(point) {
+  pan(point: Point) {
     return browser.executeScript(`window.openSeadragonViewer.viewport.panTo({x: ${point.x}, y: ${point.y}});`);
   }
 
