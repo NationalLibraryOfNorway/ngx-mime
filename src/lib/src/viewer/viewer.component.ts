@@ -29,7 +29,6 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
-import '../core/ext/svg-overlay';
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
@@ -44,8 +43,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ViewerMode: typeof ViewerMode = ViewerMode;
 
   // Viewchilds
-  @ViewChild(ViewerHeaderComponent) header: ViewerHeaderComponent;
-  @ViewChild(ViewerFooterComponent) footer: ViewerFooterComponent;
+  @ViewChild('header') header: ViewerHeaderComponent;
+  @ViewChild('footer') footer: ViewerFooterComponent;
 
   constructor(
     private el: ElementRef,
@@ -66,6 +65,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.modeService.mode = ViewerMode.DASHBOARD;
+    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+      this.toggleMode(mode);
+    }));
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
@@ -80,10 +82,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           }
         })
     );
-
-    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-      this.toggleMode(mode);
-    }));
 
     this.loadManifest();
   }

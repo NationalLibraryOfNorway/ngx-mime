@@ -4,11 +4,13 @@ import { ClickService } from '../../core/click/click.service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest } from '../models/manifest';
 import { Options } from '../models/options';
-import { PageService } from './../page-service/page-service';
+import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
+import '../ext/svg-overlay';
+import * as d3 from 'd3';
 
 declare const OpenSeadragon: any;
-declare const d3: any;
+
 @Injectable()
 export class ViewerService {
   private readonly ZOOMFACTOR = 0.02;
@@ -154,7 +156,6 @@ export class ViewerService {
   }
 
   toggleMode(mode: ViewerMode) {
-    console.log("asdf");
     if (mode === ViewerMode.DASHBOARD) {
       this.setDashboardConstraints();
     } else if (mode === ViewerMode.PAGE) {
@@ -172,9 +173,14 @@ export class ViewerService {
       if (!tiledImage) { return; }
 
       let box = tiledImage.getBounds(true);
-      svgNode.append('rect').attrs({ x: box.x, y: box.y, width: box.width, height: box.height, class: 'tile' });
+      svgNode.append('rect')
+        .attr('x', box.x)
+        .attr('y', box.y)
+        .attr('width', box.width)
+        .attr('height', box.heigh)
+        .attr('class', 'tile');
 
-      let currentOverlay: HTMLElement = svgNode._groups[0][0].children[i];
+      let currentOverlay: HTMLElement = svgNode.node().children[i];
       this.overlays.push(currentOverlay);
     });
   }

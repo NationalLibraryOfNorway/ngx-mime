@@ -64,7 +64,6 @@ describe('ViewerComponent', function () {
     testHostComponent = testHostFixture.componentInstance;
     testHostComponent.manifestUri = 'dummyURI1';
     testHostFixture.detectChanges();
-    testHostFixture.detectChanges();
   });
 
   it('should create component', () => expect(comp).toBeDefined());
@@ -93,13 +92,6 @@ describe('ViewerComponent', function () {
     expect(viewerService.getZoom()).toBeGreaterThan(previousZoom);
   }));
 
-  it('should initially open in dashboardview', () => {
-    fixture.detectChanges();
-    expect(comp.mode()).toBe(ViewerMode.DASHBOARD);
-    let debugHeader = fixture.debugElement.query(By.css('mime-viewer-header'));
-    let header = debugHeader.nativeElement;
-  });
-
   it('should decrease zoom level when pinching in and is zoomed in', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
     const previousZoom = 1;
@@ -122,6 +114,14 @@ describe('ViewerComponent', function () {
 
     expect(viewerService.getZoom()).toBeGreaterThanOrEqual(viewerService.getHomeZoom());
   }));
+
+  it('should initially open in dashboardview', () => {
+    fixture.detectChanges();
+    expect(comp.mode()).toBe(ViewerMode.DASHBOARD);
+    let debugHeader = fixture.debugElement.query(By.css('mime-viewer-header'));
+    let header = debugHeader.nativeElement;
+  });
+
 });
 
 @Component({
