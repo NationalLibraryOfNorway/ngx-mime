@@ -70,7 +70,6 @@ export class ViewerService implements OnInit {
 
   addDblClickEvents(): void {
     this.clickService.addDoubleClickHandler((event) => {
-      console.log(this.getZoom() + ' > ' + this.getHomeZoom());
       if (this.getZoom() > this.getHomeZoom()) {
         this.zoomTo(this.getHomeZoom());
       } else {

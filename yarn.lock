@@ -2167,12 +2167,6 @@ karma-remap-coverage@^0.1.4:
   dependencies:
     remap-istanbul "0.8.4"
 
-karma-spec-reporter@^0.0.31:
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/karma-spec-reporter/-/karma-spec-reporter-0.0.31.tgz#4830dc7148a155c7d7a186e632339a0d80fadec3"
-  dependencies:
-    colors "^1.1.2"
-
 karma@^1.5.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/karma/-/karma-1.7.0.tgz#6f7a1a406446fa2e187ec95398698f4cee476269"
@@ -2749,8 +2743,8 @@ once@1.x, once@^1.3.0, once@^1.3.3:
     wrappy "1"
 
 openseadragon@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/openseadragon/-/openseadragon-2.2.1.tgz#5f8ef0fdb7e0aa79e0fb0d927701466cf816bb2f"
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/openseadragon/-/openseadragon-2.3.0.tgz#899fe3de543ff51d7e16dbbb83fffa0720a3b211"
 
 openurl@1.1.0:
   version "1.1.0"
