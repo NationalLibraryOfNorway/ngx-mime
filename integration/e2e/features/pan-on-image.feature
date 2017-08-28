@@ -6,8 +6,6 @@ Feature: Pan on image
   Background: 
     Given the viewer is opened with a publication 
 
-  # TODO Ignoring this until we find out how to use TouchActions
-  @Ignore
   @mobile @desktop 
   Scenario: Panning on image 
     Given the viewer is in page view 
