@@ -78,18 +78,16 @@ export class ViewerPage {
       .perform();
   }
 
-  zoomIn(): promise.Promise<boolean> {
-    return this.getZoomLevel().then((currentZoomLevel: number) => {
-      const newZoomLevel = currentZoomLevel + 2;
-      return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
-    });
+  async zoomIn(): Promise<any> {
+    const currentZoomLevel = await this.getZoomLevel();
+    const newZoomLevel = currentZoomLevel + 2;
+    return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
   }
 
-  zoomOut(): promise.Promise<boolean> {
-    return this.getZoomLevel().then((currentZoomLevel: number) => {
-      const newZoomLevel = currentZoomLevel - 2;
-      return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
-    });
+  async zoomOut(): Promise<any> {
+    const currentZoomLevel = await this.getZoomLevel();
+    const newZoomLevel = currentZoomLevel - 2;
+    return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
   }
 
   dblClick(): promise.Promise<void> {
