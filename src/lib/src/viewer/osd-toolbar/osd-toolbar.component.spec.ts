@@ -4,6 +4,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OsdToolbarComponent } from './osd-toolbar.component';
 import { SharedModule } from './../../shared/shared.module';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
+import { MimeViewerIntl } from '../../core/viewer-intl';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
@@ -17,7 +18,8 @@ describe('OsdToolbarComponent', () => {
       ],
       declarations: [OsdToolbarComponent],
       providers: [
-        MimeResizeService
+        MimeResizeService,
+        MimeViewerIntl
       ]
     })
       .compileComponents();
