@@ -109,7 +109,7 @@ export class ViewerPage {
 
   clickNavigationButton(buttonId: string): promise.Promise<void> {
     const button = element(by.id(buttonId));
-    utils.waitForElement(button);
+    utils.waitForElementToBeClickable(button);
     return button.click();
   }
 

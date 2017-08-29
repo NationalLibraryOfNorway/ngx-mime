@@ -11,4 +11,13 @@ export class Utils {
       });
     return el;
   }
+
+  public waitForElementToBeClickable(el) {
+    browser.wait(EC.elementToBeClickable(el), TIMEOUT)
+      .catch(function (err) {
+        console.log(err);
+        return false;
+      });
+    return true;
+  }
 }
