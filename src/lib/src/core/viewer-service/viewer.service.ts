@@ -173,11 +173,12 @@ export class ViewerService {
       if (!tiledImage) { return; }
 
       let box = tiledImage.getBounds(true);
+
       svgNode.append('rect')
         .attr('x', box.x)
         .attr('y', box.y)
         .attr('width', box.width)
-        .attr('height', box.heigh)
+        .attr('height', box.height)
         .attr('class', 'tile');
 
       let currentOverlay: HTMLElement = svgNode.node().children[i];
