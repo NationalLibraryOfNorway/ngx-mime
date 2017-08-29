@@ -28,6 +28,15 @@ export class ViewerPage {
     return el;
   }
 
+  getHeader() {
+    const el = element(by.css('.mime-viewer-header'));
+    utils.waitForElement(el);
+    return el;
+  }
+
+  getFooter() {
+
+  }
   /*
   Getters & Setters
    */
