@@ -20,6 +20,7 @@ export class ViewerService implements OnInit {
   setUpViewer(manifest: Manifest) {
     if (manifest.tileSource) {
       this.zone.runOutsideAngular(() => {
+        this.clearOpenSeadragonTooltips();
         this.options = new Options(manifest.tileSource);
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
       });
@@ -103,5 +104,14 @@ export class ViewerService implements OnInit {
 
   public zoomTo(level: number): void {
     this.viewer.viewport.zoomTo(level);
+  }
+
+  private clearOpenSeadragonTooltips() {
+    OpenSeadragon.setString('Tooltips.Home', '');
+    OpenSeadragon.setString('Tooltips.ZoomOut', '');
+    OpenSeadragon.setString('Tooltips.ZoomIn', '');
+    OpenSeadragon.setString('Tooltips.NextPage', '');
+    OpenSeadragon.setString('Tooltips.ZoomIn', '');
+    OpenSeadragon.setString('Tooltips.FullPage', '');
   }
 }

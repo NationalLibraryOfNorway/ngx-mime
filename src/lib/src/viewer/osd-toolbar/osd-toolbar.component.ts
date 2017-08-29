@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Dimensions } from './../../core/models/dimensions';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
+import { MimeViewerIntl } from './../../core/viewer-intl';
 
 @Component({
   selector: 'mime-osd-toolbar',
@@ -15,6 +16,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
+    public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private mimeService: MimeResizeService) { }
 
