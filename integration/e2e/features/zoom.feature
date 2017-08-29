@@ -12,7 +12,7 @@ Feature: Zoom
   #
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @Mobile
+  @mobile
   Scenario: Zooming in on mobile
     And zoom level is home
     When the user pinch out
@@ -20,7 +20,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @Mobile
+  @mobile
   Scenario: Zooming out on mobile
     And the view is zoomed in
     When the user pinch out
@@ -28,7 +28,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @Mobile
+  @mobile
   Scenario: Zooming out on mobile
     And the view is zoomed in
     When the user pinch in
@@ -40,7 +40,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @Mobile
+  @mobile
   Scenario: Zooming in on mobile
     And zoom level is home
     When the user double click
@@ -48,7 +48,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @Mobile
+  @mobile
   Scenario: Zooming out on mobile
     And the view is zoomed in
     When the user double click
@@ -56,7 +56,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @Mobile @Desktop
+  @mobile @desktop
   Scenario: Auto zooming in on desktop
     And the view is all zoomed out
     When the user double click
@@ -64,7 +64,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @Mobile @Desktop
+  @mobile @desktop
   Scenario: Auto zooming out on desktop
     And the view is zoomed in
     When the user double click
@@ -74,13 +74,13 @@ Feature: Zoom
   # Button actions
   #
 
-  @Desktop
+  @desktop
   Scenario: Zooming in on desktop
     And zoom level is home
     When the user click zoom in button
     Then the current zoom level has increased
 
-  @Desktop
+  @desktop
   Scenario: Zooming out on desktop
     And zoom level is home
     When the user click zoom out button
