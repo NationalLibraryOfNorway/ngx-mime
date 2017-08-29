@@ -116,4 +116,8 @@ export class ViewerPage {
   waitForAnimation(): promise.Promise<void> {
     return this.getAnimationTime().then(browser.sleep);
   }
+
+  async scaleBrowser(zoom: number): Promise<any> {
+    return browser.executeScript('document.body.style.zoom = "' + zoom + '%"');
+  }
 }
