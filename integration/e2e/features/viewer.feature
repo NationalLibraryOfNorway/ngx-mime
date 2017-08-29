@@ -5,5 +5,5 @@ Feature: Open viewer
   I want to see the viewer open a book correctly.
 
   Scenario: Open a book in the viewer
-    Given I am opening a default book
-    Then Viewer should be displayed
+    Given the viewer is opened with a publication
+    Then the viewer should be displayed

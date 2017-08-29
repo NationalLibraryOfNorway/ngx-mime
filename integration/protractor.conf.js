@@ -30,9 +30,9 @@ const config = {
       path.resolve(process.cwd(), './e2e/**/*.steps.ts')
     ],
     format: 'pretty',
-    tags: '~@Ignore'
+    tags: ['~@Ignore']
   },
-  onPrepare() {
+  onPrepare: function() {
     browser.manage().window().maximize();
   },
   afterLaunch: function () {
@@ -70,7 +70,7 @@ function getCapabilities() {
   } else if (argv.device === 'mobile') {
     browsers = remoteBrowsers.customMobileLaunchers;
   }
-    
+
   for (const cap of browsers) {
     capabilities.push({
       browserName: cap.browserName,
@@ -83,7 +83,7 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       seleniumVersion: '3.3.1',
       shardTestFiles: true,
-      maxInstances: 5,
+      maxInstances: 5
     });
   }
   return capabilities;

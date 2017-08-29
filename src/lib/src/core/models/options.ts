@@ -1,7 +1,8 @@
-import { GestureSettings } from './gestureSettings';
+import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { NavImages } from './navImages';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
+
 export class Options {
   id = 'openseadragon';
   element: Element;
@@ -47,10 +48,10 @@ export class Options {
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
   animationTime = 1.2;
-  gestureSettingsMouse: GestureSettings;
-  gestureSettingsTouch: GestureSettings;
-  gestureSettingsPen: GestureSettings;
-  gestureSettingsUnknown: GestureSettings;
+  gestureSettingsMouse: GestureSettingsMouse;
+  gestureSettingsTouch: GestureSettingsTouch;
+  gestureSettingsPen: GestureSettingsPen;
+  gestureSettingsUnknown: GestureSettingsUnknown;
   zoomPerClick = 2.0;
   zoomPerScroll = 1.2;
   zoomPerSecond = 1.0;
@@ -82,14 +83,14 @@ export class Options {
   showSequenceControl = true;
   sequenceControlAnchor: ControlAnchor = 'TOP_LEFT';
   navPrevNextWrap = false;
-  zoomInButton: string;
-  zoomOutButton: string;
-  homeButton: string;
+  zoomInButton = 'zoomInButton';
+  zoomOutButton = 'zoomOutButton';
+  homeButton = 'homeButton';
   fullPageButton: string;
   rotateLeftButton: string;
   rotateRightButton: string;
-  previousButton: string;
-  nextButton: string;
+  previousButton = 'navigateBeforeButton';
+  nextButton = 'navigateNextButton';
   sequenceMode = true;
   initialPage = 0;
   preserveViewport = false;
