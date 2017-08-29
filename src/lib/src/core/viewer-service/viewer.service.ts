@@ -78,7 +78,9 @@ export class ViewerService implements OnInit {
     });
 
     this.viewer.addHandler('canvas-click', this.clickService.click);
-    this.viewer.addHandler('canvas-double-click', this.clickService.click);
+    this.viewer.addHandler('canvas-double-click', (event: any) => {
+        event.preventDefaultAction = true;
+    });
   }
 
   public getZoom(): number {
