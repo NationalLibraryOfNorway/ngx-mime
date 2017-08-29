@@ -36,14 +36,12 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^the user click zoom in button$/, async () => {
     previousZoomLevel = await page.getZoomLevel();
-    await page.scaleBrowser(100);
     await page.clickZoomInButton();
     await page.waitForAnimation();
   });
 
   When(/^the user click zoom out button$/, async () => {
     previousZoomLevel = await page.getZoomLevel();
-    await page.scaleBrowser(100);
     await page.clickZoomOutButton();
     await page.waitForAnimation();
   });

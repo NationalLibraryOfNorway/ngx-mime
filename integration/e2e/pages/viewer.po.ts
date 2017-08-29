@@ -110,14 +110,10 @@ export class ViewerPage {
   clickNavigationButton(buttonId: string): promise.Promise<void> {
     const button = element(by.id(buttonId));
     utils.waitForElementToBeClickable(button);
-    return button.click();
+    return button.sendKeys('\n');
   }
 
   waitForAnimation(): promise.Promise<void> {
     return this.getAnimationTime().then(browser.sleep);
-  }
-
-  async scaleBrowser(zoom: number): Promise<any> {
-    return browser.executeScript('document.body.style.zoom = "' + zoom + '%"');
   }
 }
