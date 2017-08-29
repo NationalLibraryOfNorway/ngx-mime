@@ -99,18 +99,18 @@ export class ViewerPage {
     });
   }
 
-  clickZoomInButton(): promise.Promise<void> {
+  clickZoomInButton(): Promise<void> {
     return this.clickNavigationButton('zoomInButton');
   }
 
-  clickZoomOutButton(): promise.Promise<void> {
+  clickZoomOutButton(): Promise<void> {
     return this.clickNavigationButton('zoomOutButton');
   }
 
-  clickNavigationButton(buttonId: string): promise.Promise<void> {
+  clickNavigationButton(buttonId: string): Promise<void> {
     const button = element(by.id(buttonId));
-    utils.waitForElementToBeClickable(button);
-    return button.sendKeys('\n');
+    utils.waitForElement(button);
+    return utils.clickElement(button);
   }
 
   waitForAnimation(): promise.Promise<void> {
