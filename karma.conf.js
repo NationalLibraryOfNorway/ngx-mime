@@ -43,6 +43,7 @@ module.exports = function (config) {
       'node_modules/zone.js/dist/fake-async-test.js',
       'node_modules/tslib/tslib.js',
       'node_modules/openseadragon/build/openseadragon/openseadragon.min.js',
+      'node_modules/screenfull/dist/screenfull.js',
       { pattern: 'node_modules/@angular/material/prebuilt-themes/indigo-pink.css', included: true, watched: true },
      
       // RxJs

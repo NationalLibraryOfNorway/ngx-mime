@@ -84,6 +84,7 @@ System.config({
     '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js',
     'tslib': 'npm:tslib/tslib.js',
     'openseadragon': 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
+    'screenfull': 'npm:screenfull/dist/screenfull.js',
     'rxjs': 'npm:rxjs',
     'src': 'src'
   }
