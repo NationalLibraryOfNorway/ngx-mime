@@ -1,7 +1,13 @@
 <md-toolbar>
-  <div fxLayout='column' fxLayoutAlign="center end" fxFlex>
+  <div fxLayout='row' fxLayoutAlign="end center" fxFlex>
     <button id="contentsDialogButton" md-icon-button [attr.aria-label]="intl.contents" [mdTooltip]="intl.contents" (click)="openContents()">
-        <md-icon>list</md-icon>
-      </button>
+      <md-icon>list</md-icon>
+    </button>
+    <button id="fullscreenButton" *ngIf="!isFullscreen()" md-icon-button [attr.aria-label]="intl.fullScreen" [mdTooltip]="intl.fullScreen" (click)="toggleFullscreen()">
+      <md-icon>fullscreen</md-icon>
+    </button>
+    <button id="exitFullscreenButton" *ngIf="isFullscreen()" md-icon-button [attr.aria-label]="intl.exitFullScreen" [mdTooltip]="intl.exitFullScreen" (click)="toggleFullscreen()">
+      <md-icon >fullscreen_exit</md-icon>
+    </button>
   </div>
 </md-toolbar>

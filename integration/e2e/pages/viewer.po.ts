@@ -12,6 +12,10 @@ export class ViewerPage {
     return element(by.css('#contentsDialogButton'));
   }
 
+  fullscreenButton() {
+    return element(by.css('#fullscreenButton'));
+  }
+
   getOpenSeadragon() {
     const el = element(by.css('.openseadragon-container'));
     utils.waitForElement(el);
@@ -22,5 +26,10 @@ export class ViewerPage {
     const el = element(by.css('#attribution-container > .contents'));
     utils.waitForElement(el);
     return el;
+  }
+
+  isFullscreen(): boolean {
+    const element = document.fullscreenElement;
+    return document.fullscreenElement !== null;
   }
 }

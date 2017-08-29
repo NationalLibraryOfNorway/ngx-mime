@@ -10,4 +10,6 @@ export class MimeViewerIntl {
   contents = 'Contents';
   metadata = 'Metadata';
   license = 'License';
+  fullScreen = 'Full screen';
+  exitFullScreen = 'Exit full screen';
 }
