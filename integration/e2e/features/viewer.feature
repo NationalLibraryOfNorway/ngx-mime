@@ -1,3 +1,4 @@
+@mobile @desktop
 Feature: Open viewer
   In order to browse through a book
   As a user

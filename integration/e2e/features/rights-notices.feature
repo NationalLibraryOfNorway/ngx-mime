@@ -1,3 +1,4 @@
+@mobile @desktop
 Feature: Rights Notices 
   In order to ensure that the interests of the owning or publishing institutions are conveyed 
   As a copyright owner 
