@@ -1,20 +1,20 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
   async,
   ComponentFixture,
   TestBed,
   inject
-} from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { ObservableMedia } from "@angular/flex-layout";
+} from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ObservableMedia } from '@angular/flex-layout';
 
-import { SharedModule } from "./../../shared/shared.module";
-import { ViewerFooterComponent } from "./viewer-footer.component";
-import { MimeViewerIntl } from "./../../core/viewer-intl";
+import { SharedModule } from './../../shared/shared.module';
+import { ViewerFooterComponent } from './viewer-footer.component';
+import { MimeViewerIntl } from './../../core/viewer-intl';
 
-describe("ViewerFooterComponent", () => {
+describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
   let fixture: ComponentFixture<ViewerFooterComponent>;
 
@@ -39,24 +39,24 @@ describe("ViewerFooterComponent", () => {
     expect(cmp).toBeTruthy();
   });
 
-  it("should re-render when the i18n labels have changed",
+  it('should re-render when the i18n labels have changed',
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
-      const text = fixture.debugElement.query(By.css(".text"));
+      const text = fixture.debugElement.query(By.css('.text'));
       expect(text.nativeElement.textContent).toContain(`I'm a footer`);
 
-      intl.footerTestString = "New test string";
+      intl.footerTestString = 'New test string';
       intl.changes.next();
       fixture.detectChanges();
-      expect(text.nativeElement.textContent).toContain("New test string");
+      expect(text.nativeElement.textContent).toContain('New test string');
     })
   );
 
-  it("should start in visible mode", async(() => {
+  it('should start in visible mode', async(() => {
     expect(cmp.state).toBe('show');
     expectFooterToShow(fixture.debugElement.nativeElement);
   }));
 
-  it("should not be visible when state is changed to 'hide'", async(() => {
+  it('should not be visible when state is changed to \'hide\'', async(() => {
     // Check initial style to make sure we later see an actual change
     expectFooterToShow(fixture.debugElement.nativeElement);
 
@@ -67,7 +67,7 @@ describe("ViewerFooterComponent", () => {
     });
   }));
 
-  it("should be visible when state is changed to 'show'", async(() => {
+  it('should be visible when state is changed to \'show\'', async(() => {
     cmp.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
