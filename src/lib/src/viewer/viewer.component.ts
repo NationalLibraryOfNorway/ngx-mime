@@ -8,7 +8,6 @@ import {
   SimpleChange,
   SimpleChanges,
   ElementRef,
-  Renderer2,
   ChangeDetectorRef,
   ViewChild,
 } from '@angular/core';
@@ -54,7 +53,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private viewerService: ViewerService,
     private mimeService: MimeResizeService,
     private dialog: MdDialog,
-    private renderer: Renderer2,
     private changeDetectorRef: ChangeDetectorRef,
     private pageService: PageService,
     private modeService: ModeService) {
