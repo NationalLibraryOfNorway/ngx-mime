@@ -9,6 +9,7 @@ import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.comp
 
 import './rxjs-extension';
 import 'openseadragon';
+import 'screenfull';
 
 @NgModule({
   declarations: [

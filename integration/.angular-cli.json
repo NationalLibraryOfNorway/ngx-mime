@@ -22,7 +22,8 @@
         "styles.scss"
       ],
       "scripts": [
-        "../node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+        "../node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
+        "../node_modules/screenfull/dist/screenfull.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
