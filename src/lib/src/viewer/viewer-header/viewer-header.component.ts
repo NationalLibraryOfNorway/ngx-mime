@@ -9,6 +9,8 @@ import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { MimeDomHelper } from '../../core/mime-dom-renderer';
 
+import * as screenfull from 'screenfull';
+
 @Component({
   selector: 'mime-viewer-header',
   templateUrl: './viewer-header.component.html',
@@ -25,6 +27,12 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
+
+    if (screenfull.enabled) {
+      screenfull.onchange(() => {
+        this.changeDetectorRef.detectChanges();
+      });
+    }
   }
 
   ngOnDestroy() {
