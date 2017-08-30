@@ -87,10 +87,10 @@ export class AttributionDialogService {
   private getPosition(el: ElementRef) {
     const padding = 20;
     const dimensions = new MimeDomHelper().getBoundingClientRect(el);
-    return {
+    return new Dimensions({
       top: dimensions.top + dimensions.height - this.attributionDialogHeight - padding,
       left: dimensions.left + padding
-    };
+    });
   }
 
 }

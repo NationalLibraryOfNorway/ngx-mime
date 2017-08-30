@@ -39,10 +39,10 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
 
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = new MimeDomHelper().getBoundingClientRect(el);
-    return {
+    return new Dimensions({
       top: dimensions.top + 64,
       left: dimensions.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight
-    };
+    });
   }
 
 }
