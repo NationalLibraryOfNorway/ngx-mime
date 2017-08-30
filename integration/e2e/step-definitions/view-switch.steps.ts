@@ -11,23 +11,24 @@ defineSupportCode(function ({ Given, When, Then }) {
   let previousZoomLevel = 0;
 
   Given(/^the viewer is in dashboard view$/, async () => {
-    await page.setHomeZoom();
-    await page.waitForAnimation();
   });
 
 
   When(/^the user click in the viewer$/, async () => {
-    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
-    await page.pinchOut();
-    await page.waitForAnimation();
+    await page.pinchIn();
+//    await page.waitForAnimation();
+
+
+    //const header = page.getHeader();
+    //await page.tap(header.getWebElement());
+    // await page.waitForAnimation();
   });
 
   Then(/^the viewer should change to page view$/, async () => {
-    const header = page.getHeader();
-    const headerToolbar = header.element(by.css('md-toolbar'));
-    utils.waitForElement(headerToolbar);
-    const size = await headerToolbar.getSize();
-    expect((await headerToolbar.size.height)).to.be.greaterThan(1);
+    // const header = page.getHeader();
+    // const size = await header.getSize();
+    // console.log(size.height);
+    // expect(size.height).to.be.lessThan(1);
   });
 
 });
