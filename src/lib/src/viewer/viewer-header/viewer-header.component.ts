@@ -30,7 +30,10 @@ import { ContentsDialogService } from './../../contents-dialog/contents-dialog.s
       transition('hide => show', animate('300ms ease-in')),
       transition('show => hide', animate('300ms ease-out'))
     ])
-  ]
+  ],
+  host: {
+    '[@headerState]': 'state'
+  }
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy, OnChanges {
   private subscriptions: Array<Subscription> = [];

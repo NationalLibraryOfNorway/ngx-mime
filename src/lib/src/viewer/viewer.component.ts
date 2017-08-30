@@ -105,7 +105,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  mode(): ViewerMode {
+  get mode(): ViewerMode {
     return this.modeService.mode;
   }
 

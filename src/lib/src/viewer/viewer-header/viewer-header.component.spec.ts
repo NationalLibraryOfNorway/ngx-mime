@@ -55,20 +55,19 @@ describe('ViewerHeaderComponent', () => {
   });
 
   it("should start in visible mode", async(() => {
-    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
     expect(component.state).toBe('show');
-    expectHeaderToShow(toolbar.nativeElement);
+    expectHeaderToShow(fixture.debugElement.nativeElement);
   }));
 
   it("should not be visible when state is changed to 'hide'", async(() => {
     let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
     // Check initial style to make sure we later see an actual change
-    expectHeaderToShow(toolbar.nativeElement);
+    expectHeaderToShow(fixture.debugElement.nativeElement);
 
     component.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expectHeaderToBeHidden(toolbar.nativeElement);
+      expectHeaderToBeHidden(fixture.debugElement.nativeElement);
     });
   }));
 
@@ -78,12 +77,12 @@ describe('ViewerHeaderComponent', () => {
     component.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expectHeaderToBeHidden(toolbar.nativeElement);
+      expectHeaderToBeHidden(fixture.debugElement.nativeElement);
 
       component.state = 'show';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expectHeaderToShow(toolbar.nativeElement);
+        expectHeaderToShow(fixture.debugElement.nativeElement);
       });
 
     });
@@ -111,14 +110,14 @@ describe('ViewerHeaderComponent', () => {
 })
 class ViewerHeaderTestModule { }
 
-function expectHeaderToShow(toolbarElement: any) {
-  expect(toolbarElement.style.display).toBe('block');
-  expect(toolbarElement.style.opacity).toBe('1');
-  expect(toolbarElement.style.transform).toBe('translate(0px, 0px)');
+function expectHeaderToShow(element: any) {
+  expect(element.style.display).toBe('block');
+  expect(element.style.opacity).toBe('1');
+  expect(element.style.transform).toBe('translate(0px, 0px)');
 }
 
-function expectHeaderToBeHidden(toolbarElement: any) {
-  expect(toolbarElement.style.display).toBe('none');
-  expect(toolbarElement.style.opacity).toBe('0');
-  expect(toolbarElement.style.transform).toBe('translate(0px, -100%)');
+function expectHeaderToBeHidden(element: any) {
+  expect(element.style.display).toBe('none');
+  expect(element.style.opacity).toBe('0');
+  expect(element.style.transform).toBe('translate(0px, -100%)');
 }

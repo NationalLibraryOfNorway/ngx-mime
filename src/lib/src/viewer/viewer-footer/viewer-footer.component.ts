@@ -23,7 +23,10 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       transition('hide => show', animate('300ms ease-in')),
       transition('show => hide', animate('300ms ease-out'))
     ])
-  ]
+  ],
+  host: {
+    '[@footerState]': 'state'
+  }
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];

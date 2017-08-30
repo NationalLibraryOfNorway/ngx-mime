@@ -117,7 +117,7 @@ describe('ViewerComponent', function () {
 
   it('should initially open in dashboardview', () => {
     fixture.detectChanges();
-    expect(comp.mode()).toBe(ViewerMode.DASHBOARD);
+    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
     let debugHeader = fixture.debugElement.query(By.css('mime-viewer-header'));
     let header = debugHeader.nativeElement;
   });

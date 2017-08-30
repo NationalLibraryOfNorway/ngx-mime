@@ -1,4 +1,5 @@
 .viewer__container {
+  overflow: hidden;
   box-sizing: border-box;
   position: relative;
   width: 100%;

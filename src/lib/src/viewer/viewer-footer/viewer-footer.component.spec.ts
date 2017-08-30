@@ -42,7 +42,6 @@ describe("ViewerFooterComponent", () => {
   it("should re-render when the i18n labels have changed",
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
       const text = fixture.debugElement.query(By.css(".text"));
-
       expect(text.nativeElement.textContent).toContain(`I'm a footer`);
 
       intl.footerTestString = "New test string";
@@ -53,52 +52,48 @@ describe("ViewerFooterComponent", () => {
   );
 
   it("should start in visible mode", async(() => {
-    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
     expect(cmp.state).toBe('show');
-    expectFooterToShow(toolbar.nativeElement);
+    expectFooterToShow(fixture.debugElement.nativeElement);
   }));
 
   it("should not be visible when state is changed to 'hide'", async(() => {
-    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
     // Check initial style to make sure we later see an actual change
-    expectFooterToShow(toolbar.nativeElement);
+    expectFooterToShow(fixture.debugElement.nativeElement);
 
     cmp.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expectFooterToBeHidden(toolbar.nativeElement);
+      expectFooterToBeHidden(fixture.debugElement.nativeElement);
     });
   }));
 
   it("should be visible when state is changed to 'show'", async(() => {
-    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
-
     cmp.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expectFooterToBeHidden(toolbar.nativeElement);
+      expectFooterToBeHidden(fixture.debugElement.nativeElement);
 
       cmp.state = 'show';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-          expectFooterToShow(toolbar.nativeElement);
+          expectFooterToShow(fixture.debugElement.nativeElement);
       });
 
     });
 
   }));
-  
+
 });
 
-function expectFooterToShow(toolbarElement: any) {
-  expect(toolbarElement.style.display).toBe('block');
-  expect(toolbarElement.style.opacity).toBe('1');
-  expect(toolbarElement.style.transform).toBe('translate(0px, 0px)');
+function expectFooterToShow(element: any) {
+  expect(element.style.display).toBe('block');
+  expect(element.style.opacity).toBe('1');
+  expect(element.style.transform).toBe('translate(0px, 0px)');
 }
 
-function expectFooterToBeHidden(toolbarElement: any) {
-  expect(toolbarElement.style.display).toBe('none');
-  expect(toolbarElement.style.opacity).toBe('0');
-  expect(toolbarElement.style.transform).toBe('translate(0px, 100%)');
+function expectFooterToBeHidden(element: any) {
+  expect(element.style.display).toBe('none');
+  expect(element.style.opacity).toBe('0');
+  expect(element.style.transform).toBe('translate(0px, 100%)');
 }
