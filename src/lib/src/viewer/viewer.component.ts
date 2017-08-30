@@ -131,7 +131,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   goToPageFromUserInput(event: any) {
     let page = event.target.value;
 
-    if (!this.isInt(page)) {
+    if (!this.isInt(page) || !this.pageService.isWithinBounds(page)) {
       return;
     }
     this.pageService.currentPage = page;

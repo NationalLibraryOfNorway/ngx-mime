@@ -7,9 +7,13 @@ export class PageService {
   private _numberOfPages: number;
 
   constructor() {
+    this._currentPage = 0;
   }
 
   set currentPage(currentPage: number) {
+    if (!this.isWithinBounds(currentPage)) {
+      return;
+    }
     this._currentPage = currentPage;
   }
 
@@ -25,9 +29,13 @@ export class PageService {
     return this._numberOfPages;
   }
 
+  isWithinBounds(page: number): boolean {
+    return (page > -1) && (page <= this.numberOfPages - 1);
+  }
+
   // Returns -1 if next page is out of bounds
   getNextPage(): number {
-    if (this.currentPage + 1 > this.numberOfPages - 1) {
+    if (!this.isWithinBounds(this.currentPage + 1)) {
       return -1;
     }
     this.currentPage++;
@@ -36,7 +44,7 @@ export class PageService {
 
   // Returns -1 if previous page is out of bounds
   getPrevPage(): number {
-    if (this.currentPage === 0) {
+    if (!this.isWithinBounds(this.currentPage - 1)) {
       return -1;
     }
     this.currentPage--;

@@ -3,7 +3,6 @@ Go to page: <input type="text" (keyup.enter)="goToPageFromUserInput($event)" pla
  <button (click)="prevPage()">Previous</button>
  <button (click)="nextPage()">Next</button> -->
 
-
 <div class="viewer__container" [ngClass]="mode === ViewerMode.PAGE ? 'page' : 'dashboard'">
   <mime-viewer-header #header></mime-viewer-header>
   <mime-osd-toolbar *ngIf="config?.navigationControlEnabled"></mime-osd-toolbar>
