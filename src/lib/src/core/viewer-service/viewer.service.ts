@@ -6,7 +6,6 @@ import { ClickService } from '../click/click.service';
 declare const OpenSeadragon: any;
 @Injectable()
 export class ViewerService implements OnInit {
-  private readonly ZOOMFACTOR = 0.02;
   private viewer: any;
   private options: Options;
 
