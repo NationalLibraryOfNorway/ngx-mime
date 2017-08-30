@@ -25,7 +25,7 @@ export class ViewerService {
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService) {}
+    private modeService: ModeService) { }
 
   setUpViewer(manifest: Manifest) {
     if (manifest.tileSource) {
@@ -46,6 +46,14 @@ export class ViewerService {
 
   getViewer() {
     return this.viewer;
+  }
+
+  getTilesources() {
+    return this.tileSources;
+  }
+
+  getOverlays() {
+    return this.overlays;
   }
 
   addToWindow() {
@@ -150,7 +158,7 @@ export class ViewerService {
   }
 
   public getPageCount() {
-    if(this.tileSources) {
+    if (this.tileSources) {
       return this.tileSources.length;
     }
   }

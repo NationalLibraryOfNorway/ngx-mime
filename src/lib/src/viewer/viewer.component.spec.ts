@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,7 +32,7 @@ describe('ViewerComponent', function () {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         HttpClientTestingModule,
         NoopAnimationsModule,
@@ -46,7 +46,7 @@ describe('ViewerComponent', function () {
       ],
       providers: [
         ViewerService,
-        {provide: IiifManifestService, useClass: IiifManifestServiceStub},
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         MimeResizeService,
         MimeViewerIntl,
         ClickService,
@@ -79,9 +79,27 @@ describe('ViewerComponent', function () {
 
   it('should create viewer', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
-
     expect(viewerService.getViewer()).toBeDefined();
   }));
+
+  it('svgOverlay-plugin should be defined', inject([ViewerService], (viewerService: ViewerService) => {
+    comp.ngOnInit();
+    expect(viewerService.getViewer().svgOverlay()).toBeDefined();
+  }));
+
+  it('should create overlays', inject([ViewerService], (viewerService: ViewerService) => {
+    comp.ngOnInit();
+    viewerService.createOverlays();
+    expect(viewerService.getOverlays()).toBeDefined();
+  }));
+
+  it('should create overlays-array with same size as tilesources-array',
+    fakeAsync(inject([ViewerService], (viewerService: ViewerService) => {
+      comp.ngOnInit();
+      tick();
+      viewerService.createOverlays();
+      expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
+    })));
 
   it('should increase zoom level when pinching out', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
@@ -105,12 +123,12 @@ describe('ViewerComponent', function () {
   it('should not decrease zoom level when pinching out and zoom level is home', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
 
-    viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 100});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 90});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 70});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 60});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 50});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 40});
+    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 100 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 90 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 70 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 60 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 50 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 40 });
 
     expect(viewerService.getZoom()).toBeGreaterThanOrEqual(viewerService.getHomeZoom());
   }));
@@ -125,8 +143,8 @@ describe('ViewerComponent', function () {
 });
 
 @Component({
-  selector : `test-component`,
-  template : `<mime-viewer [manifestUri]="manifestUri"></mime-viewer>`
+  selector: `test-component`,
+  template: `<mime-viewer [manifestUri]="manifestUri"></mime-viewer>`
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent)
