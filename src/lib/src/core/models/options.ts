@@ -31,7 +31,7 @@ export class Options {
   constrainDuringPan = false;
   wrapHorizontal = false;
   wrapVertical = false;
-  minZoomImageRatio = 0.9;
+  minZoomImageRatio = 1;
   maxZoomPixelRatio = 1.1;
   smoothTileEdgesMinZoom = 1.1;
   iOSDevice = true;
@@ -48,10 +48,10 @@ export class Options {
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
   animationTime = 1.2;
-  gestureSettingsMouse: GestureSettingsMouse;
-  gestureSettingsTouch: GestureSettingsTouch;
-  gestureSettingsPen: GestureSettingsPen;
-  gestureSettingsUnknown: GestureSettingsUnknown;
+  gestureSettingsMouse = new GestureSettingsMouse();
+  gestureSettingsTouch = new GestureSettingsTouch();
+  gestureSettingsPen = new GestureSettingsPen();
+  gestureSettingsUnknown = new GestureSettingsUnknown();
   zoomPerClick = 2.0;
   zoomPerScroll = 1.2;
   zoomPerSecond = 1.0;

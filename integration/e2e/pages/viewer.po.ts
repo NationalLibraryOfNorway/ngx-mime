@@ -62,36 +62,34 @@ export class ViewerPage {
   /*
   Actions
    */
-  pinchOut(): promise.Promise<void> {
-    return browser.touchActions()
+  async pinchOut(): Promise<void> {
+    await browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
       .tapAndHold(this.pointerPosition1)
       .move(this.pointerPosition2)
       .perform();
   }
 
-  pinchIn(): promise.Promise<void> {
-    return browser.touchActions()
+  async pinchIn(): Promise<void> {
+    await browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
       .tapAndHold(this.pointerPosition2)
       .move(this.pointerPosition1)
       .perform();
   }
 
-  async zoomIn(): Promise<any> {
-    const currentZoomLevel = await this.getZoomLevel();
-    const newZoomLevel = currentZoomLevel + 2;
-    return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
+  async zoomIn(): Promise<void> {
+    const newZoomLevel = (await this.getZoomLevel()) * 2;
+    await browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
   }
 
-  async zoomOut(): Promise<any> {
-    const currentZoomLevel = await this.getZoomLevel();
-    const newZoomLevel = currentZoomLevel - 2;
-    return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
+  async zoomOut(): Promise<void> {
+    const newZoomLevel = (await this.getZoomLevel()) / 2;
+    await browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
   }
 
-  dblClick(): promise.Promise<void> {
-    return browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
+  async dblClick(): Promise<void> {
+    await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
       return browser.actions()
         .mouseMove(canvas)
         .doubleClick()
@@ -99,21 +97,21 @@ export class ViewerPage {
     });
   }
 
-  clickZoomInButton(): Promise<void> {
-    return this.clickNavigationButton('zoomInButton');
+  async clickZoomInButton(): Promise<void> {
+    await this.clickNavigationButton('zoomInButton');
   }
 
-  clickZoomOutButton(): Promise<void> {
-    return this.clickNavigationButton('zoomOutButton');
+  async clickZoomOutButton(): Promise<void> {
+    await this.clickNavigationButton('zoomOutButton');
   }
 
-  clickNavigationButton(buttonId: string): Promise<void> {
+  async clickNavigationButton(buttonId: string): Promise<void> {
     const button = element(by.id(buttonId));
     utils.waitForElement(button);
-    return utils.clickElement(button);
+    await utils.clickElement(button);
   }
 
-  waitForAnimation(): promise.Promise<void> {
-    return this.getAnimationTime().then(browser.sleep);
+  async waitForAnimation(): Promise<void> {
+    await browser.sleep((await this.getAnimationTime()) * 100);
   }
 }

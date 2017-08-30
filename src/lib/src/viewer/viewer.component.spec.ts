@@ -100,6 +100,7 @@ describe('ViewerComponent', function () {
 
   it('should not decrease zoom level when pinching out and zoom level is home', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
+    viewerService.zoomHome();
 
     viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 100});
     viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 90});
@@ -108,7 +109,7 @@ describe('ViewerComponent', function () {
     viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 50});
     viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 40});
 
-    expect(viewerService.getZoom()).toBeGreaterThanOrEqual(viewerService.getHomeZoom());
+    expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
   }));
 });
 

@@ -44,29 +44,7 @@ export class ViewerService implements OnInit {
   }
 
   addEvents(): void {
-    this.addPinchEvents();
     this.addDblClickEvents();
-  }
-
-  addPinchEvents(): void {
-    let previousDistance = 0;
-    let zoomTo = this.getZoom();
-    this.viewer.addHandler('canvas-pinch', (data: any) => {
-      if (data.lastDistance > previousDistance) { // Pinch Out
-        zoomTo = this.getZoom() + this.ZOOMFACTOR;
-      } else { // Pinch In
-        zoomTo = this.getZoom() - this.ZOOMFACTOR;
-        if (zoomTo < this.getHomeZoom()) {
-          zoomTo = this.getHomeZoom();
-        }
-      }
-      this.zoomTo(zoomTo);
-      previousDistance = data.lastDistance;
-    });
-
-    this.viewer.addHandler('canvas-release', (data: any) => {
-      previousDistance = 0;
-    });
   }
 
   addDblClickEvents(): void {

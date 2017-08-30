@@ -65,6 +65,6 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the current zoom level is home$/, async () => {
-    expect((await page.getZoomLevel())).to.equal((await page.getHomeZoom()));
+    expect((await page.getZoomLevel()).toPrecision(5)).to.equal((await page.getHomeZoom()).toPrecision(5));
   });
 });

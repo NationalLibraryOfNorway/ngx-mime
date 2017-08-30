@@ -84,4 +84,10 @@ Feature: Zoom
   Scenario: Zooming out on desktop
     And zoom level is home
     When the user click zoom out button
+    Then the current zoom level is home
+
+  @desktop
+  Scenario: Zooming out on desktop
+    And the view is zoomed in
+    When the user click zoom out button
     Then the current zoom level has decreased
