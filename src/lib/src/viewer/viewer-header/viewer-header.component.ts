@@ -8,8 +8,7 @@ import { Manifest } from './../../core/models/manifest';
 import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { MimeDomHelper } from '../../core/mime-dom-renderer';
-
-import * as screenfull from 'screenfull';
+import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -23,16 +22,16 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private contentsDialogService: ContentsDialogService) { }
+    private contentsDialogService: ContentsDialogService,
+    private fullscreenService: FullscreenService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
 
-    if (screenfull.enabled) {
-      screenfull.onchange(() => {
-        this.changeDetectorRef.detectChanges();
-      });
-    }
+    this.subscriptions.push(this.fullscreenService.onChange.subscribe(() => {
+      this.changeDetectorRef.detectChanges();
+    }));
+
   }
 
   ngOnDestroy() {

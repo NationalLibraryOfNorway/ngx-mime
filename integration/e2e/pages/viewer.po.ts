@@ -16,6 +16,10 @@ export class ViewerPage {
     return element(by.css('#fullscreenButton'));
   }
 
+  exitFullscreenButton() {
+    return element(by.css('#exitFullscreenButton'));
+  }
+
   getOpenSeadragon() {
     const el = element(by.css('.openseadragon-container'));
     utils.waitForElement(el);
@@ -28,8 +32,8 @@ export class ViewerPage {
     return el;
   }
 
-  isFullscreen(): boolean {
-    const element = document.fullscreenElement;
-    return document.fullscreenElement !== null;
+  async isFullscreen() {
+    return  browser.executeScript('return !window.screenTop && !window.screenY');
   }
+
 }

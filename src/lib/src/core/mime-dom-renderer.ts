@@ -1,9 +1,9 @@
+import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { Dimensions } from './models/dimensions';
 import { ElementRef } from '@angular/core';
 
-import * as screenfull from 'screenfull';
-
 export class MimeDomHelper {
+  private fullscreen = new FullscreenService();
 
   public getBoundingClientRect(el: ElementRef): Dimensions {
     try {
@@ -36,13 +36,13 @@ export class MimeDomHelper {
   }
 
   public isDocumentInFullScreenMode(): boolean {
-    return screenfull.isFullscreen;
+    return this.fullscreen.isFullscreen();
   }
 
   public toggleFullscreen(): void {
     const el = <any>document.getElementById('mimeViewer');
-    if (screenfull.enabled) {
-      screenfull.toggle(el);
+    if (this.fullscreen.isEnabled()) {
+      this.fullscreen.toggle(el);
     }
   }
 

@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MimeViewerIntl } from './viewer-intl';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './mime-resize-service/mime-resize.service';
+import { FullscreenService } from './fullscreen-service/fullscreen.service';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -11,7 +12,8 @@ import { MimeResizeService } from './mime-resize-service/mime-resize.service';
   providers: [
     MimeViewerIntl,
     IiifManifestService,
-    MimeResizeService
+    MimeResizeService,
+    FullscreenService
   ]
 })
 export class CoreModule {
