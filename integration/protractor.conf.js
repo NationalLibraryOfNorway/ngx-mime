@@ -11,6 +11,10 @@ const config = {
   allScriptsTimeout: 500000,
   SELENIUM_PROMISE_MANAGER: false,
   specs: getFeatureFiles(),
+  unknownFlags: [
+    'cucumberOpts',
+    'device'
+  ],
   capabilities: {
     'browserName': 'chrome'
   },
@@ -42,6 +46,12 @@ const config = {
   ignoreUncaughtExceptions: true
 };
 
+if (argv.device === 'desktop') {
+  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@desktop');
+} else if (argv.device === 'mobile') {
+  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@mobile');
+}
+
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
@@ -53,7 +63,15 @@ if (process.env.TRAVIS) {
 
 function getCapabilities() {
   const capabilities = [];
-  for (const cap of remoteBrowsers.customLaunchers) {
+  let browsers = remoteBrowsers.customDesktopLaunchers
+    .concat(remoteBrowsers.customMobileLaunchers);
+  if (argv.device === 'desktop') {
+    browsers = remoteBrowsers.customDesktopLaunchers;
+  } else if (argv.device === 'mobile') {
+    browsers = remoteBrowsers.customMobileLaunchers;
+  }
+
+  for (const cap of browsers) {
     capabilities.push({
       browserName: cap.browserName,
       version: cap.version,

@@ -16,6 +16,7 @@ import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
+import { ClickService } from '../core/click/click.service';
 import 'openseadragon';
 
 describe('ViewerComponent', function () {
@@ -44,7 +45,8 @@ describe('ViewerComponent', function () {
         ViewerService,
         {provide: IiifManifestService, useClass: IiifManifestServiceStub},
         MimeResizeService,
-        MimeViewerIntl
+        MimeViewerIntl,
+        ClickService
       ]
     }).compileComponents();
   }));
@@ -98,6 +100,7 @@ describe('ViewerComponent', function () {
 
   it('should not decrease zoom level when pinching out and zoom level is home', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
+    viewerService.zoomHome();
 
     viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 100});
     viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 90});
@@ -106,7 +109,7 @@ describe('ViewerComponent', function () {
     viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 50});
     viewerService.getViewer().raiseEvent('canvas-pinch', {lastDistance: 40});
 
-    expect(viewerService.getZoom()).toBeGreaterThanOrEqual(viewerService.getHomeZoom());
+    expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
   }));
 });
 

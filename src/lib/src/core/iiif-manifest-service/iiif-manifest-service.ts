@@ -6,7 +6,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
-import './../../rxjs-extension';
 
 @Injectable()
 export class IiifManifestService {

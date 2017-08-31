@@ -5,6 +5,7 @@ import { MimeViewerIntl } from './viewer-intl';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './mime-resize-service/mime-resize.service';
 import { ViewerService } from './viewer-service/viewer.service';
+import { ClickService } from './click/click.service';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -13,7 +14,8 @@ import { ViewerService } from './viewer-service/viewer.service';
     MimeViewerIntl,
     IiifManifestService,
     MimeResizeService,
-    ViewerService
+    ViewerService,
+    ClickService
   ]
 })
 export class CoreModule {
