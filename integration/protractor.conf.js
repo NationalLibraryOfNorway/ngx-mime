@@ -7,8 +7,7 @@ const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
-  getPageTimeout: 60000,
-  allScriptsTimeout: 500000,
+  allScriptsTimeout: 11000,
   SELENIUM_PROMISE_MANAGER: false,
   specs: getFeatureFiles(),
   unknownFlags: [
@@ -18,21 +17,24 @@ const config = {
   capabilities: {
     'browserName': 'chrome',
     shardTestFiles: true,
-    maxInstances: 1
+    maxInstances: 1,
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+    }    
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
     compiler: "ts:ts-node/register",
-    format: 'json:./.tmp/json-output/report.json',
+    format: ['progress', 'json:./.tmp/json-output/report.json'],
     require: [
       path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
       path.resolve(process.cwd(), './e2e/helpers/reporter.ts'),
       path.resolve(process.cwd(), './e2e/**/*.steps.ts')
     ],
-    tags: '~@Ignore'
+    tags: ['~@Ignore']
   },
   onPrepare() {
     browser.manage().window().maximize();
@@ -85,7 +87,7 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       seleniumVersion: '3.3.1',
       shardTestFiles: true,
-      maxInstances: 5,
+      maxInstances: 1,
     });
   }
   return capabilities;
