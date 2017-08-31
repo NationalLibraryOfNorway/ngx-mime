@@ -1,5 +1,4 @@
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
-import { NavImages } from './navImages';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
 
