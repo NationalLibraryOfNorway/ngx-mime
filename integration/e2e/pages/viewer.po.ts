@@ -28,9 +28,6 @@ export class ViewerPage {
     return el;
   }
 
-  /*
-  Getters & Setters
-   */
   getAnimationTime(): promise.Promise<number> {
     return browser.executeScript('return window.openSeadragonViewer.animationTime;');
   }
@@ -59,9 +56,6 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getMaxZoom();');
   }
 
-  /*
-  Actions
-   */
   async pinchOut(): Promise<void> {
     await browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
