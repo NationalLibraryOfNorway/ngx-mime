@@ -7,7 +7,8 @@ const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
-  allScriptsTimeout: 11000,
+  getPageTimeout: 60000,
+  allScriptsTimeout: 500000,
   SELENIUM_PROMISE_MANAGER: false,
   specs: getFeatureFiles(),
   unknownFlags: [
@@ -27,7 +28,7 @@ const config = {
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
     compiler: "ts:ts-node/register",
-    format: ['progress', 'json:./.tmp/json-output/report.json'],
+    format: ['json:./.tmp/json-output/report.json'],
     require: [
       path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
@@ -85,7 +86,9 @@ function getCapabilities() {
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
-      seleniumVersion: '3.3.1'
+      seleniumVersion: '3.3.1',
+      shardTestFiles: true,		
+      maxInstances: 5
     });
   }
   return capabilities;
