@@ -11,4 +11,9 @@ export class MimeViewerIntl {
   metadata = 'Metadata';
   license = 'License';
   footerTestString = `I'm a footer`;
+  zoomIn = 'Zoom in';
+  zoomOut = 'Zoom out';
+  previousPage = 'Previous Page';
+  nextPage = 'Next Page';
+  home = 'Go Home';
 }

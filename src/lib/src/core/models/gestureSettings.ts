@@ -1,6 +1,6 @@
 export class GestureSettings {
   scrollToZoom = true;
-  clickToZoom = true;
+  clickToZoom = false;
   dblClickToZoom = false;
   pinchToZoom = false;
   flickEnabled = false;
@@ -9,21 +9,12 @@ export class GestureSettings {
   pinchRotate = false;
 }
 
-export class GestureSettingsMouse extends GestureSettings {
-  clickToZoom = false;
-  dblClickToZoom = true;
-}
+export class GestureSettingsMouse extends GestureSettings {}
 
 export class GestureSettingsTouch extends GestureSettings {
-  clickToZoom = false;
-  dblClickToZoom = true;
   pinchToZoom = true;
 }
 
-export class GestureSettingsPen extends GestureSettings {
+export class GestureSettingsPen extends GestureSettings {}
 
-}
-
-export class GestureSettingsUnknown extends GestureSettings {
-
-}
+export class GestureSettingsUnknown extends GestureSettings {}

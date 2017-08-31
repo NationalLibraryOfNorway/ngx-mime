@@ -103,34 +103,28 @@ describe('ViewerComponent', function () {
 
   it('should increase zoom level when pinching out', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
-    const previousZoom = viewerService.getZoom();
 
-    viewerService.zoomTo(viewerService.getZoom() + 0.2);
+    pinchOut(viewerService);
 
-    expect(viewerService.getZoom()).toBeGreaterThan(previousZoom);
+    expect(viewerService.getZoom()).toBeGreaterThan(viewerService.getHomeZoom());
   }));
 
-  it('should decrease zoom level when pinching in and is zoomed in', inject([ViewerService], (viewerService: ViewerService) => {
+  it('should decrease zoom level when is zoomed in and pinching in', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
     const previousZoom = 1;
     viewerService.zoomTo(previousZoom);
 
-    viewerService.zoomTo(viewerService.getZoom() - 0.2);
+    pinchIn(viewerService);
 
     expect(viewerService.getZoom()).toBeLessThan(previousZoom);
   }));
 
-  it('should not decrease zoom level when pinching out and zoom level is home', inject([ViewerService], (viewerService: ViewerService) => {
+  it('should not decrease zoom level when zoom level is home and pinching in', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
 
-    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 100 });
-    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 90 });
-    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 70 });
-    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 60 });
-    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 50 });
-    viewerService.getViewer().raiseEvent('canvas-pinch', { lastDistance: 40 });
+    pinchIn(viewerService);
 
-    expect(viewerService.getZoom()).toBeGreaterThanOrEqual(viewerService.getHomeZoom());
+    expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
   }));
 
   it('should initially open in dashboardview', () => {
@@ -140,6 +134,23 @@ describe('ViewerComponent', function () {
     let header = debugHeader.nativeElement;
   });
 
+  function pinchOut(viewerService: ViewerService) {
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 40, lastDistance: 40});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 50, lastDistance: 40});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 60, lastDistance: 50});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 70, lastDistance: 60});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 80, lastDistance: 70});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 90, lastDistance: 80});
+  }
+
+  function pinchIn(viewerService: ViewerService) {
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 90, lastDistance: 90});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 80, lastDistance: 90});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 70, lastDistance: 80});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 60, lastDistance: 70});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 50, lastDistance: 60});
+    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 40, lastDistance: 50});
+  }
 });
 
 @Component({

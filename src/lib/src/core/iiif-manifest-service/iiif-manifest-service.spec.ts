@@ -1,11 +1,12 @@
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { IiifManifestService } from './iiif-manifest-service';
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { testManifest } from '../../test/testManifest';
+import '../../rxjs-extension';
 
 describe('IiifManifestService', () => {
   beforeEach(() => {

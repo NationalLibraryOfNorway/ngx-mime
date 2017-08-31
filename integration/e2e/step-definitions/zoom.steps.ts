@@ -12,7 +12,8 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Given(/^the view is all zoomed out$/, async () => {
-    await page.getMinZoom().then((zoomLevel: number) => page.setZoomLevel(zoomLevel));
+    const zoomLevel = await page.getMinZoom();
+    await page.setZoomLevel(zoomLevel);
     await page.waitForAnimation();
   });
 
@@ -22,32 +23,38 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When(/^the user pinch out$/, async () => {
-    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
+    previousZoomLevel = await page.getZoomLevel();
     await page.pinchOut();
     await page.waitForAnimation();
   });
 
   When(/^the user pinch in$/, async () => {
-    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
+    previousZoomLevel = await page.getZoomLevel();
     await page.pinchIn();
     await page.waitForAnimation();
   });
 
   When(/^the user click zoom in button$/, async () => {
-    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
+    previousZoomLevel = await page.getZoomLevel();
     await page.clickZoomInButton();
     await page.waitForAnimation();
   });
 
   When(/^the user click zoom out button$/, async () => {
-    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
+    previousZoomLevel = await page.getZoomLevel();
     await page.clickZoomOutButton();
     await page.waitForAnimation();
   });
 
   When(/^the user double click$/, async () => {
-    await page.getZoomLevel().then((zoomlevel: number) => previousZoomLevel = zoomlevel);
+    previousZoomLevel = await page.getZoomLevel();
     await page.dblClick();
+    await page.waitForAnimation();
+  });
+
+  When(/^the user double taps$/, async () => {
+    previousZoomLevel = await page.getZoomLevel();
+    await page.dblTap();
     await page.waitForAnimation();
   });
 
@@ -64,6 +71,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the current zoom level is home$/, async () => {
-    expect((await page.getZoomLevel())).to.equal((await page.getHomeZoom()));
+    expect((await page.getZoomLevel()).toPrecision(5)).to.equal((await page.getHomeZoom()).toPrecision(5));
+  });
+
+  Then(/^the view should be vertically centered$/, async () => {
+    const bounds = await page.getBounds();
+    expect(bounds.y).to.equal(0);
   });
 });

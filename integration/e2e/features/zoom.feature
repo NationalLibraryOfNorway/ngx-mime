@@ -5,32 +5,31 @@ Feature: Zoom
 
   Background:
     Given the viewer is opened with a publication
-    And the viewer should be displayed
 
   #
   # Pinch actions
   #
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @Mobile
+  @mobile
   Scenario: Zooming in on mobile
-    And zoom level is home
+    Given zoom level is home
     When the user pinch out
     Then the current zoom level has increased
 
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @Mobile
+  @mobile
   Scenario: Zooming out on mobile
-    And the view is zoomed in
+    Given the view is zoomed in
     When the user pinch out
     Then the current zoom level has increased
 
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @Mobile
+  @mobile
   Scenario: Zooming out on mobile
-    And the view is zoomed in
+    Given the view is zoomed in
     When the user pinch in
     Then the current zoom level has decreased
 
@@ -40,48 +39,56 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @Mobile
-  Scenario: Zooming in on mobile
-    And zoom level is home
+  @mobile
+  Scenario: Auto zooming in on mobile
+    Given zoom level is home
+    When the user double taps
+    Then the current zoom level has increased
+
+  # TODO Ignoring this until we find out how to use Actions
+  @Ignore
+  @mobile
+  Scenario: Auto zooming out on mobile
+    Given the view is zoomed in
+    When the user double taps
+    Then the current zoom level is home
+    And the view should be vertically centered
+
+  # TODO Ignoring this until we find out how to use Actions
+  @Ignore
+  @desktop
+  Scenario: Auto zooming in on desktop
+    Given zoom level is home
     When the user double click
     Then the current zoom level has increased
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @Mobile
-  Scenario: Zooming out on mobile
-    And the view is zoomed in
+  @desktop
+  Scenario: Auto zooming out on desktop
+    Given the view is zoomed in
     When the user double click
     Then the current zoom level is home
-
-  # TODO Ignoring this until we find out how to use Actions
-  @Ignore
-  @Mobile @Desktop
-  Scenario: Auto zooming in on desktop
-    And the view is all zoomed out
-    When the user double click
-    Then the current zoom level has increased
-
-  # TODO Ignoring this until we find out how to use Actions
-  @Ignore
-  @Mobile @Desktop
-  Scenario: Auto zooming out on desktop
-    And the view is zoomed in
-    When the user double click
-    Then the view should be all zoomed out
+    And the view should be vertically centered
 
   #
   # Button actions
   #
 
-  @Desktop
+  @desktop
   Scenario: Zooming in on desktop
-    And zoom level is home
+    Given zoom level is home
     When the user click zoom in button
     Then the current zoom level has increased
 
-  @Desktop
+  @desktop
+  Scenario: Zooming out on desktop from home
+    Given zoom level is home
+    When the user click zoom out button
+    Then the current zoom level is home
+
+  @desktop
   Scenario: Zooming out on desktop
-    And zoom level is home
+    Given the view is zoomed in
     When the user click zoom out button
     Then the current zoom level has decreased

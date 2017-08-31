@@ -47,9 +47,7 @@ export class ViewerPage {
     utils.waitForElement(el);
     return el;
   }
-  /*
-  Getters & Setters
-   */
+
   getAnimationTime(): promise.Promise<number> {
     return browser.executeScript('return window.openSeadragonViewer.animationTime;');
   }
@@ -78,41 +76,38 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getMaxZoom();');
   }
 
-  /*
-  Actions
-   */
-  pinchOut(): promise.Promise<void> {
-    return browser.touchActions()
+  getBounds(): promise.Promise<any> {
+    return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
+  }
+
+  async pinchOut(): Promise<void> {
+    await browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
       .tapAndHold(this.pointerPosition1)
       .move(this.pointerPosition2)
       .perform();
   }
 
-  pinchIn(): promise.Promise<void> {
-    return browser.touchActions()
+  async pinchIn(): Promise<void> {
+    await browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
       .tapAndHold(this.pointerPosition2)
       .move(this.pointerPosition1)
       .perform();
   }
 
-  zoomIn(): promise.Promise<boolean> {
-    return this.getZoomLevel().then((currentZoomLevel: number) => {
-      const newZoomLevel = currentZoomLevel + 2;
-      return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
-    });
+  async zoomIn(): Promise<void> {
+    const newZoomLevel = (await this.getZoomLevel()) * 2;
+    await browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
   }
 
-  zoomOut(): promise.Promise<boolean> {
-    return this.getZoomLevel().then((currentZoomLevel: number) => {
-      const newZoomLevel = currentZoomLevel - 2;
-      return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
-    });
+  async zoomOut(): Promise<void> {
+    const newZoomLevel = (await this.getZoomLevel()) / 2;
+    await browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');');
   }
 
-  dblClick(): promise.Promise<void> {
-    return browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
+  async dblClick(): Promise<void> {
+    await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
       return browser.actions()
         .mouseMove(canvas)
         .doubleClick()
@@ -120,29 +115,29 @@ export class ViewerPage {
     });
   }
 
-  clickZoomInButton(): Promise<boolean> {
-    return this.clickActionButton('Zoom in');
-  }
-
-  clickZoomOutButton(): Promise<boolean> {
-    return this.clickActionButton('Zoom out');
-  }
-
-  clickActionButton(actionButtonTitle: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      const divs = element.all(by.css('.openseadragon-container div'));
-      utils.waitForElement(divs.first());
-      divs.each((div: ElementFinder, index: number) => {
-        div.getAttribute('title').then((title: string) => {
-          if (title === actionButtonTitle) {
-            return divs.get(index).click().then(() => resolve(true));
-          }
-        });
-      });
+  async dblTap(): Promise<void> {
+    await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
+      return browser.touchActions()
+        .doubleTap(canvas)
+        .perform();
     });
   }
 
-  waitForAnimation(): promise.Promise<void> {
-    return this.getAnimationTime().then(browser.sleep);
+  async clickZoomInButton(): Promise<void> {
+    await this.clickNavigationButton('zoomInButton');
+  }
+
+  async clickZoomOutButton(): Promise<void> {
+    await this.clickNavigationButton('zoomOutButton');
+  }
+
+  async clickNavigationButton(buttonId: string): Promise<void> {
+    const button = element(by.id(buttonId));
+    utils.waitForElement(button);
+    await utils.clickElement(button);
+  }
+
+  async waitForAnimation(): Promise<void> {
+    await browser.sleep((await this.getAnimationTime()) * 100);
   }
 }

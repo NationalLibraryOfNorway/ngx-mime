@@ -14,7 +14,9 @@
     "e2e": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor\" --kill-others --success first",
     "e2e:aot": "concurrently \"npm run mountebank\" \"npm run start:aot\" \"npm run protractor\" --kill-others --success first",
     "preprotractor": "webdriver-manager update --versions.standalone=3.3.1",
-    "protractor": "protractor protractor.conf.js"
+    "protractor": "npm run protractor:desktop && npm run protractor:mobile",
+    "protractor:desktop": "protractor protractor.conf.js --device=desktop",
+    "protractor:mobile": "protractor protractor.conf.js --device=mobile"
   },
   "private": true,
   "dependencies": {

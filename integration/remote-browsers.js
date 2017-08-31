@@ -1,4 +1,4 @@
-exports.customLaunchers = [
+exports.customDesktopLaunchers = [
   {
     browserName: "chrome",
     version: "latest"
@@ -21,7 +21,9 @@ exports.customLaunchers = [
     browserName: "safari",
     platform: "macOS 10.12",
     version: "10.0"
-  },
+  }
+]
+exports.customMobileLaunchers = [
   {
     browserName: "Safari",
     deviceName: "iPhone Simulator",

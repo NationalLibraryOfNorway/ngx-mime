@@ -3,11 +3,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MimeViewerIntl } from './viewer-intl';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
-import { ClickService } from '../core/click/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { MimeResizeService } from './mime-resize-service/mime-resize.service';
 import { ViewerService } from './viewer-service/viewer.service';
 import { ModeService } from './mode-service/mode.service';
+import { ClickService } from './click/click.service';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -19,7 +19,8 @@ import { ModeService } from './mode-service/mode.service';
     PageService,
     MimeResizeService,
     ViewerService,
-    ModeService
+    ModeService,
+    ClickService
   ]
 })
 export class CoreModule {
