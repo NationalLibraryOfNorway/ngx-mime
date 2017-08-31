@@ -16,7 +16,9 @@ const config = {
     'device'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    shardTestFiles: true,
+    maxInstances: 1
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
