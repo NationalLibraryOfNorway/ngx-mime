@@ -40,34 +40,36 @@ Feature: Zoom
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
   @mobile
-  Scenario: Zooming in on mobile
+  Scenario: Auto zooming in on mobile
+    Given zoom level is home
+    When the user double taps
+    Then the current zoom level has increased
+
+  # TODO Ignoring this until we find out how to use Actions
+  @Ignore
+  @mobile
+  Scenario: Auto zooming out on mobile
+    Given the view is zoomed in
+    When the user double taps
+    Then the current zoom level is home
+    And the view should be vertically centered
+
+  # TODO Ignoring this until we find out how to use Actions
+  @Ignore
+  @desktop
+  Scenario: Auto zooming in on desktop
     Given zoom level is home
     When the user double click
     Then the current zoom level has increased
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @mobile
-  Scenario: Zooming out on mobile
-    Given the view is zoomed in
-    When the user double click
-    Then the current zoom level is home
-
-  # TODO Ignoring this until we find out how to use Actions
-  @Ignore
-  @mobile @desktop
-  Scenario: Auto zooming in on desktop
-    Given the view is all zoomed out
-    When the user double click
-    Then the current zoom level has increased
-
-  # TODO Ignoring this until we find out how to use Actions
-  @Ignore
-  @mobile @desktop
+  @desktop
   Scenario: Auto zooming out on desktop
     Given the view is zoomed in
     When the user double click
-    Then the view should be all zoomed out
+    Then the current zoom level is home
+    And the view should be vertically centered
 
   #
   # Button actions
