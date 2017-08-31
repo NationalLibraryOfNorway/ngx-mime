@@ -7,28 +7,10 @@ export class MimeDomHelper {
 
   public getBoundingClientRect(el: ElementRef): Dimensions {
     try {
-      const dimensions = el.nativeElement.getBoundingClientRect();
       if (this.isDocumentInFullScreenMode() && el.nativeElement.nodeName === 'MIME-VIEWER') {
-        const width = this.getFullscreenWidth();
-        const height = this.getFullscreenHeight();
-        return new Dimensions({
-          ...dimensions,
-          top: 0,
-          bottom: height,
-          width: width,
-          height: height,
-          left: 0,
-          right: width
-        });
+        return this.createFullscreenDimensions(el);
       } else {
-        return new Dimensions({
-          top: dimensions.top,
-          bottom: dimensions.bottom,
-          width: dimensions.width,
-          height: dimensions.height,
-          left: dimensions.left,
-          right: dimensions.right
-        });
+        return this.createDimensions(el);
       }
     } catch (e) {
       return new Dimensions();
@@ -44,6 +26,33 @@ export class MimeDomHelper {
     if (this.fullscreen.isEnabled()) {
       this.fullscreen.toggle(el);
     }
+  }
+
+  private createFullscreenDimensions(el: ElementRef): Dimensions {
+    const dimensions = el.nativeElement.getBoundingClientRect();
+    const width = this.getFullscreenWidth();
+    const height = this.getFullscreenHeight();
+    return new Dimensions({
+      ...dimensions,
+      top: 0,
+      bottom: height,
+      width: width,
+      height: height,
+      left: 0,
+      right: width
+    });
+  }
+
+  private createDimensions(el: ElementRef): Dimensions {
+    const dimensions = el.nativeElement.getBoundingClientRect();
+    return new Dimensions({
+      top: dimensions.top,
+      bottom: dimensions.bottom,
+      width: dimensions.width,
+      height: dimensions.height,
+      left: dimensions.left,
+      right: dimensions.right
+    });
   }
 
   private getFullscreenWidth(): number {
