@@ -8,7 +8,9 @@ export class ViewerPage {
   private pointerPosition1 = {x: 650, y: 275};
   private pointerPosition2 = {x: 750, y: 200};
 
-  open() {
+  async open() {
+    await browser.restart();
+    await browser.manage().window().maximize();
     return browser.get('');
   }
 
@@ -29,13 +31,21 @@ export class ViewerPage {
   }
 
   getHeader() {
-    const el = element(by.css('.mime-viewer-header'));
+    const el = element(by.css('mime-viewer-header'));
     utils.waitForElement(el);
     return el;
   }
 
   getFooter() {
+    const el = element(by.css('mime-viewer-footer'));
+    utils.waitForElement(el);
+    return el;
+  }
 
+  getFirstPageOverlay() {
+    const el = element.all(by.css('svg rect')).first();
+    utils.waitForElement(el);
+    return el;
   }
   /*
   Getters & Setters
