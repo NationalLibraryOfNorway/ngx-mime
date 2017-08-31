@@ -75,13 +75,13 @@ export class Options {
   minPixelRatio = 0.5;
   mouseNavEnabled = true;
   showNavigationControl = true;
-  navigationControlAnchor: ControlAnchor = 'TOP_LEFT';
+  navigationControlAnchor = ControlAnchor.TOP_LEFT;
   showZoomControl = true;
   showHomeControl = true;
   showFullPageControl = true;
   showRotationControl = false;
   showSequenceControl = true;
-  sequenceControlAnchor: ControlAnchor = 'TOP_LEFT';
+  sequenceControlAnchor = ControlAnchor.TOP_LEFT;
   navPrevNextWrap = false;
   zoomInButton = 'zoomInButton';
   zoomOutButton = 'zoomOutButton';
