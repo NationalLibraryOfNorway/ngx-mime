@@ -18,10 +18,6 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
-  Then(/^the viewer should be displayed$/, async () => {
-    expect((await page.openSeadragonElement().isPresent())).to.be.true;
-  });
-
   Given(/^the viewer is in page view$/, async () => {
     expect(true).to.be.true;
   });
