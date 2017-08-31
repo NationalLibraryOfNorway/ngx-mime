@@ -5,9 +5,7 @@ import { Utils } from '../helpers/utils';
 const utils = new Utils();
 export class ViewerPage {
 
-  async open() {
-    await browser.restart();
-    await browser.manage().window().maximize();
+  open() {
     return browser.get('');
   }
 
@@ -36,7 +34,10 @@ export class ViewerPage {
   }
 
   isFullscreen(): promise.Promise<boolean> {
-    return browser.executeScript('return !window.screenTop && !window.screenY');
+    return browser.executeScript('return (document.fullscreenElement'
+      + ' || document.mozFullScreenElement'
+      + ' || document.webkitFullscreenElement'
+      + ' || document.msFullscreenElement) != null');
   }
 
 }
