@@ -1,4 +1,5 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, ElementFinder, by } from 'protractor';
+import { promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
@@ -14,11 +15,11 @@ export class ViewerPage {
     return element(by.css('#contentsDialogButton'));
   }
 
-  fullscreenButton() {
+  fullscreenButton(): ElementFinder {
     return element(by.css('#fullscreenButton'));
   }
 
-  exitFullscreenButton() {
+  exitFullscreenButton(): ElementFinder {
     return element(by.css('#exitFullscreenButton'));
   }
 
@@ -28,14 +29,14 @@ export class ViewerPage {
     return el;
   }
 
-  getAttribution() {
+  getAttribution(): ElementFinder {
     const el = element(by.css('#attribution-container > .contents'));
     utils.waitForElement(el);
     return el;
   }
 
-  async isFullscreen() {
-    return  browser.executeScript('return !window.screenTop && !window.screenY');
+  isFullscreen(): promise.Promise<boolean> {
+    return browser.executeScript('return !window.screenTop && !window.screenY');
   }
 
 }
