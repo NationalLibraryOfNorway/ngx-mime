@@ -25,7 +25,7 @@ defineSupportCode(function ({ Given, Then }) {
     await expect(page.getOpenSeadragon()).exist;
   });
 
-  Given(/^the viewer is in page view$/, async () => {
+  Given(/^the viewer is in dashboard view$/, async () => {
     expect(true).to.be.true;
   });
 

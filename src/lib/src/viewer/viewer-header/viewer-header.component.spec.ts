@@ -12,6 +12,7 @@ import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
+import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -23,6 +24,9 @@ describe('ViewerHeaderComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         ViewerHeaderTestModule
+      ],
+      providers: [
+        FullscreenService
       ]
     })
       .compileComponents();
