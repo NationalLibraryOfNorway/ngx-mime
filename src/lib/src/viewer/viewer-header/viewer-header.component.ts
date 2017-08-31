@@ -7,7 +7,7 @@ import { MimeViewerIntl } from './../../core/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
 import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
-import { MimeDomHelper } from '../../core/mime-dom-renderer';
+import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 
 @Component({

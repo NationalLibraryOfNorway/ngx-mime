@@ -1,4 +1,4 @@
-import { MimeDomHelper } from './../core/mime-dom-renderer';
+import { MimeDomHelper } from './../core/mime-dom-helper';
 import { ElementRef } from '@angular/core';
 import { MdDialogConfig } from '@angular/material';
 

@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { Manifest } from './../core/models/manifest';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { MimeDomHelper } from './../core/mime-dom-renderer';
+import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
 @Component({

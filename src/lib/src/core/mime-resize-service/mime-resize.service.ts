@@ -2,7 +2,7 @@ import { Injectable, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { MimeDomHelper } from './../mime-dom-renderer';
+import { MimeDomHelper } from './../mime-dom-helper';
 import { Dimensions } from './../models/dimensions';
 
 @Injectable()

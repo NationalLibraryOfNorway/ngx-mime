@@ -5,7 +5,7 @@ import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 import { AttributionDialogComponent } from './attribution-dialog.component';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import { MimeDomHelper } from './../core/mime-dom-renderer';
+import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
 @Injectable()
