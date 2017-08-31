@@ -46,7 +46,7 @@
     "@angular/language-service": "^4.3.4",
     "@types/chai": "3.5.2",
     "@types/chai-as-promised": "0.0.30",
-    "@types/cucumber": "2.0.1",
+    "@types/cucumber": "2.0.3",
     "@types/fs-extra": "3.0.2",
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
@@ -55,7 +55,7 @@
     "chai-as-promised": "^6.0.0",
     "codelyzer": "~3.0.1",
     "concurrently": "^3.4.0",
-    "cucumber": "2.2.0",
+    "cucumber": "3.0.1",
     "fs-extra": "3.0.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
@@ -67,13 +67,13 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "mountebank": "^1.11.0",
-    "multiple-cucumber-html-reporter": "0.1.0",
+    "multiple-cucumber-html-reporter": "0.2.1",
     "protractor": "~5.1.2",
-    "protractor-cucumber-framework": "3.1.0",
+    "protractor-cucumber-framework": "4.0.3",
     "rimraf": "^2.5.4",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3",
-    "chromedriver": "^2.30.1"
+    "chromedriver": "^2.31.0"
   }
 }

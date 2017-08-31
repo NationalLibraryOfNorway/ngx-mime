@@ -23,13 +23,13 @@ const config = {
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
     compiler: "ts:ts-node/register",
+    format: 'json:./.tmp/json-output/report.json',
     require: [
       path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
       path.resolve(process.cwd(), './e2e/helpers/reporter.ts'),
       path.resolve(process.cwd(), './e2e/**/*.steps.ts')
     ],
-    format: 'pretty',
     tags: '~@Ignore'
   },
   onPrepare() {
