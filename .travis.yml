@@ -38,3 +38,4 @@ before_script:
 
 script:
   - ./scripts/ci/build-and-test.sh
+  
