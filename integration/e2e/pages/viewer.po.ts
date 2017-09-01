@@ -4,7 +4,8 @@ import { Utils } from '../helpers/utils';
 const utils = new Utils();
 export class ViewerPage {
 
-  open() {
+  async open() {
+    await browser.restart();
     return browser.get('');
   }
 
@@ -12,15 +13,15 @@ export class ViewerPage {
     return element(by.css('#contentsDialogButton'));
   }
 
-  getOpenSeadragon() {
+  async getOpenSeadragon() {
     const el = element(by.css('.openseadragon-container'));
-    utils.waitForElement(el);
+    await utils.waitForElement(el);
     return el;
   }
 
-  getAttribution() {
+  async getAttribution() {
     const el = element(by.css('#attribution-container > .contents'));
-    utils.waitForElement(el);
-    return el;
+    await utils.waitForElement(el);
+    return el.getText();
   }
 }
