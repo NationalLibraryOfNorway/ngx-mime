@@ -1,0 +1,21 @@
+<md-toolbar fxHide fxShow.gt-sm="true" class="osd-toolbar" [ngStyle]="osdToolbarStyle">
+  <div class="osd-toolbar-container" fxLayout="column" fxLayoutAlign="center center">
+    <div class="osd-toolbar-row">
+      <md-toolbar-row>
+        <button id="zoomInButton" md-icon-button [attr.aria-label]="intl.zoomIn" [mdTooltip]="intl.zoomIn"><md-icon>zoom_in</md-icon></button>
+      </md-toolbar-row>
+    </div>
+    <div class="osd-toolbar-row">
+      <md-toolbar-row>
+        <button id="navigateBeforeButton" md-icon-button [attr.aria-label]="intl.previousPage" [mdTooltip]="intl.previousPage"><md-icon>navigate_before</md-icon></button>
+        <button id="homeButton" md-icon-button [attr.aria-label]="intl.home" [mdTooltip]="intl.home"><md-icon>home</md-icon></button>
+        <button id="navigateNextButton" md-icon-button [attr.aria-label]="intl.nextPage" [mdTooltip]="intl.nextPage"><md-icon>navigate_next</md-icon></button>
+      </md-toolbar-row>
+    </div>
+    <div class="osd-toolbar-row">
+      <md-toolbar-row>
+        <button id="zoomOutButton" md-icon-button [attr.aria-label]="intl.zoomOut" [mdTooltip]="intl.zoomOut"><md-icon>zoom_out</md-icon></button>
+      </md-toolbar-row>
+    </div>
+  </div>
+</md-toolbar>
