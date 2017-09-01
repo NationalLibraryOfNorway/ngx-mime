@@ -60,7 +60,7 @@ export class ViewerService implements OnInit {
   }
 
   public getZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
+    return this.shortenDecimals(this.viewer.viewport.getZoom(), 5);
   }
 
   public getHomeZoom(): number {
@@ -76,7 +76,7 @@ export class ViewerService implements OnInit {
   }
 
   public zoomHome(): void {
-    this.viewer.viewport.goHome(false);
+    this.zoomTo(this.getHomeZoom());
   }
 
   public zoomTo(level: number): void {
