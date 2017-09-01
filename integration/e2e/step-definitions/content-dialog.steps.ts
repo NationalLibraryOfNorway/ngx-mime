@@ -9,7 +9,7 @@ defineSupportCode(function ({ Given, Then }) {
   const metadata = new MetadataPage();
 
   Given(/^the viewer is in metadata view$/, async () => {
-    await page.contentsDialogButton().click();
+    await page.openContentsDialog();
   });
 
   Then(/^descriptive metadata are displayed to the user$/, async () => {

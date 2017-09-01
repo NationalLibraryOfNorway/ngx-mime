@@ -25,13 +25,13 @@ export class MetadataPage {
   async getAttribution() {
     const el = element(by.css('#metadata-attribution'));
     await utils.waitForElement(el);
-    return el.getText();
+    return el;
   }
 
   async getLicense() {
     const el = element(by.css('#metadata-license'));
     await utils.waitForElement(el);
-    return el.getText();
+    return el;
   }
 }
 

@@ -1,3 +1,4 @@
+import { ElementFinder } from 'protractor/built';
 import { browser, element, by } from 'protractor';
 import { Utils } from '../helpers/utils';
 
@@ -9,8 +10,9 @@ export class ViewerPage {
     return browser.get('');
   }
 
-  contentsDialogButton() {
-    return element(by.css('#contentsDialogButton'));
+  async openContentsDialog() {
+    await element(by.css('#contentsDialogButton')).click();
+    await utils.waitForElement(element(by.css('.contents-container')));
   }
 
   async getOpenSeadragon() {
@@ -22,6 +24,6 @@ export class ViewerPage {
   async getAttribution() {
     const el = element(by.css('#attribution-container > .contents'));
     await utils.waitForElement(el);
-    return el.getText();
+    return el;
   }
 }
