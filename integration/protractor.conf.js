@@ -16,7 +16,12 @@ const config = {
     'device'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    shardTestFiles: true,
+    maxInstances: 1,
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+    }    
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
