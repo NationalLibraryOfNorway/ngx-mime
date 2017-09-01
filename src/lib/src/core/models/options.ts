@@ -1,7 +1,7 @@
-import { GestureSettings } from './gestureSettings';
-import { NavImages } from './navImages';
+import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
+
 export class Options {
   id = 'openseadragon';
   element: Element;
@@ -10,7 +10,7 @@ export class Options {
   overlays: any[];
   xmlPath: string = null;
   prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
-  navImages: NavImages;
+  navImages: null;
   debugMode = false;
   debugGridColor = '#437AB2';
   blendTime = 0;
@@ -30,7 +30,7 @@ export class Options {
   constrainDuringPan = false;
   wrapHorizontal = false;
   wrapVertical = false;
-  minZoomImageRatio = 0.9;
+  minZoomImageRatio = 1;
   maxZoomPixelRatio = 1.1;
   smoothTileEdgesMinZoom = 1.1;
   iOSDevice = true;
@@ -47,10 +47,10 @@ export class Options {
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
   animationTime = 1.2;
-  gestureSettingsMouse: GestureSettings;
-  gestureSettingsTouch: GestureSettings;
-  gestureSettingsPen: GestureSettings;
-  gestureSettingsUnknown: GestureSettings;
+  gestureSettingsMouse = new GestureSettingsMouse();
+  gestureSettingsTouch = new GestureSettingsTouch();
+  gestureSettingsPen = new GestureSettingsPen();
+  gestureSettingsUnknown = new GestureSettingsUnknown();
   zoomPerClick = 2.0;
   zoomPerScroll = 1.2;
   zoomPerSecond = 1.0;
@@ -74,22 +74,22 @@ export class Options {
   minPixelRatio = 0.5;
   mouseNavEnabled = true;
   showNavigationControl = true;
-  navigationControlAnchor: ControlAnchor = 'TOP_LEFT';
+  navigationControlAnchor = ControlAnchor.TOP_LEFT;
   showZoomControl = true;
   showHomeControl = true;
   showFullPageControl = true;
   showRotationControl = false;
   showSequenceControl = true;
-  sequenceControlAnchor: ControlAnchor = 'TOP_LEFT';
+  sequenceControlAnchor = ControlAnchor.TOP_LEFT;
   navPrevNextWrap = false;
-  zoomInButton: string;
-  zoomOutButton: string;
-  homeButton: string;
+  zoomInButton = 'zoomInButton';
+  zoomOutButton = 'zoomOutButton';
+  homeButton = 'homeButton';
   fullPageButton: string;
   rotateLeftButton: string;
   rotateRightButton: string;
-  previousButton: string;
-  nextButton: string;
+  previousButton = 'navigateBeforeButton';
+  nextButton = 'navigateNextButton';
   sequenceMode = true;
   initialPage = 0;
   preserveViewport = false;

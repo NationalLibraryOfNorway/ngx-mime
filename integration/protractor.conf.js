@@ -35,9 +35,9 @@ const config = {
       path.resolve(process.cwd(), './e2e/**/*.steps.ts')
     ],
     format: 'pretty',
-    tags: '~@Ignore'
+    tags: ['~@Ignore']
   },
-  onPrepare() {
+  onPrepare: function() {
     browser.manage().window().maximize();
   },
   afterLaunch: function () {
@@ -75,7 +75,7 @@ function getCapabilities() {
   } else if (argv.device === 'mobile') {
     browsers = remoteBrowsers.customMobileLaunchers;
   }
-    
+
   for (const cap of browsers) {
     capabilities.push({
       browserName: cap.browserName,
