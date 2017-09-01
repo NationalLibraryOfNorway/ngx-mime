@@ -1,3 +1,4 @@
+@mobile @desktop
 Feature: Switch between page and dashboard view
   Scenario: Navigate to page view
     Given the viewer is in dashboard view

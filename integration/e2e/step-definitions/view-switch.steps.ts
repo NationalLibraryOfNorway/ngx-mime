@@ -11,27 +11,8 @@ defineSupportCode(function ({ Given, When, Then }) {
   // 300ms is the time the animation is set up to use but we need some extra time
   const switchAnimationTime = 700;
 
-
-  async function isDashboardMode(): Promise<boolean> {
-    const header = page.getHeader();
-    const headerIsDisplayed = await header.isDisplayed();
-    const footer = page.getFooter();
-    const footerIsDisplayed = await footer.isDisplayed();
-    return headerIsDisplayed && headerIsDisplayed;
-  }
-
-  async function isPageMode(): Promise<boolean> {
-    const header = page.getHeader();
-    const headerIsDisplayed = await header.isDisplayed();
-    const footer = page.getFooter();
-    const footerIsDisplayed = await footer.isDisplayed();
-    return (!headerIsDisplayed && !headerIsDisplayed);
-  }
-
   Given(/^the viewer is in dashboard view$/, async () => {
     await page.open();
-    const header = page.getHeader();
-    const headerIsDisplayed = await header.isDisplayed();
     expect(await isDashboardMode()).to.be.true;
   });
 
@@ -40,25 +21,12 @@ defineSupportCode(function ({ Given, When, Then }) {
     const firstOverlay = page.getFirstPageOverlay();
     firstOverlay.click();
     await browser.sleep(switchAnimationTime);
-
-    const header = page.getHeader();
-    const headerIsDisplayed = await header.isDisplayed();
-    expect(headerIsDisplayed).to.be.false;
+    expect(await isPageMode()).to.be.true;
   });
 
   When(/^the user click in the viewer$/, async () => {
     const firstOverlay = page.getFirstPageOverlay();
     firstOverlay.click();
-    await browser.sleep(switchAnimationTime);
-  });
-
-  When(/^the user pinch out$/, async () => {
-    page.pinchOut();
-    await browser.sleep(switchAnimationTime);
-  });
-
-  When(/^the user pinch in$/, async () => {
-    page.pinchIn();
     await browser.sleep(switchAnimationTime);
   });
 
@@ -69,5 +37,21 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^the viewer should change to dashboard view$/, async () => {
     expect(await isDashboardMode()).to.be.true;
   });
+
+  async function isDashboardMode(): Promise<boolean> {
+    const header = page.getHeader();
+    const footer = page.getFooter();
+    const headerIsDisplayed = await header.isDisplayed();
+    const footerIsDisplayed = await footer.isDisplayed();
+    return headerIsDisplayed && headerIsDisplayed;
+  }
+
+  async function isPageMode(): Promise<boolean> {
+    const header = page.getHeader();
+    const footer = page.getFooter();
+    const headerIsDisplayed = await header.isDisplayed();
+    const footerIsDisplayed = await footer.isDisplayed();
+    return (!headerIsDisplayed && !headerIsDisplayed);
+  }
 
 });

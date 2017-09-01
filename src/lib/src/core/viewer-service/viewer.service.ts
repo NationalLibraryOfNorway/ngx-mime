@@ -74,7 +74,6 @@ export class ViewerService implements OnInit {
   addEvents(): void {
     this.addOpenEvents();
     this.addClickEvents();
-    this.addDblClickEvents();
   }
 
   addOpenEvents(): void {
@@ -85,45 +84,40 @@ export class ViewerService implements OnInit {
   }
 
   addClickEvents(): void {
-    this.clickService.reset();
+    this.addSingleClickEvents();
+    this.addDblClickEvents();
+    this.viewer.addHandler('canvas-click', this.clickService.click);
+    this.viewer.addHandler('canvas-double-click', (event: any) => {
+        event.preventDefaultAction = true;
+    });
+  }
 
+  addSingleClickEvents(): void {
+    this.clickService.reset();
     this.clickService.addSingleClickHandler((event: any) => {
       let target: HTMLElement = event.originalEvent.target;
-
       if (target.nodeName === 'rect') {
         let requestedPage = this.overlays.indexOf(target);
         if (requestedPage >= 0) {
-
           this.pageService.currentPage = requestedPage;
           this.modeService.toggleMode();
           this.fitBounds(target);
         }
       }
     });
-
-    this.clickService.addDoubleClickHandler((event) => {
-    });
-
-    this.viewer.addHandler('canvas-click', this.clickService.click);
-
-    this.viewer.addHandler('canvas-double-click', (event: any) => {
-      if (this.modeService.mode === ViewerMode.DASHBOARD) {
-        event.preventDefaultAction = true;
-      }
-    });
   }
 
   addDblClickEvents(): void {
     this.clickService.addDoubleClickHandler((event) => {
-      if (this.getZoom() > this.getHomeZoom()) {
-        this.fitVertically();
-      } else {
-        this.zoomTo(this.getZoom() * this.options.zoomPerClick);
+      if (this.modeService.mode === ViewerMode.PAGE) {
+        if (this.getZoom() > this.getHomeZoom()) {
+          this.fitVertically();
+        } else {
+          this.zoomTo(this.getZoom() * this.options.zoomPerClick);
+        }
       }
     });
 
-    this.viewer.addHandler('canvas-click', this.clickService.click);
-    this.viewer.addHandler('canvas-double-click', this.clickService.click);
   }
 
   public getZoom(): number {

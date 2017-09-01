@@ -71,8 +71,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         .subscribe((manifest: Manifest) => {
           this.cleanUp();
           this.viewerService.setUpViewer(manifest);
-
-          this.pageService = new PageService();
           this.pageService.numberOfPages = this.viewerService.getPageCount();
 
           if (this.config.attributionDialogEnabled && manifest.attribution) {
