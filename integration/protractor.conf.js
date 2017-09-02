@@ -17,6 +17,9 @@ const config = {
   ],
   capabilities: {
     'browserName': 'chrome',
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu", "--window-size=1024,600" ]
+    }    
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
@@ -83,6 +86,7 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       shardTestFiles: true,
       maxInstances: 1,
+      seleniumVersion: '3.5.0',
     });
   }
   return capabilities;

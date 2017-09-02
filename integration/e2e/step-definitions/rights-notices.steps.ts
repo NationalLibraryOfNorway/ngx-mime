@@ -13,15 +13,15 @@ defineSupportCode(function ({ Given, Then }) {
     await viewer.openContentsDialog();
     const metadataAttribution = await metadata.getAttribution();
 
-    expect(await pageAttribution.getText()).to.equal('This is a test attribution');
-    expect(await metadataAttribution.getText()).to.equal('This is a test attribution');
+    expect(pageAttribution.getText()).to.eventually.equal('This is a test attribution');
+    expect(metadataAttribution.getText()).to.eventually.equal('This is a test attribution');
   });
 
   Then(/the license must be shown as hyperlinks$/, async () => {
     await viewer.openContentsDialog();
     const license = await metadata.getLicense();
 
-    expect(await license.getText()).to.equal('https://beta.nb.no/lisens/copyright');
+    expect(license.getText()).to.eventually.equal('https://beta.nb.no/lisens/copyright');
   });
 
 });
