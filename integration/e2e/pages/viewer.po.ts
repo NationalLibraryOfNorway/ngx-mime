@@ -9,7 +9,6 @@ export class ViewerPage {
   private pointerPosition2 = {x: 750, y: 200};
 
   async open() {
-    await browser.restart();
     return browser.get('');
   }
 
