@@ -36,7 +36,9 @@ const config = {
     tags: ['~@Ignore']
   },
   onPrepare: function() {
-    browser.manage().window().maximize();
+    const width = 1600;
+    const height = 1200;
+    browser.driver.manage().window().setSize(width, height);
   },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
