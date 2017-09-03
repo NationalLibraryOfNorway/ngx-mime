@@ -86,7 +86,7 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       shardTestFiles: true,
       maxInstances: 5,
-      seleniumVersion: '3.5.0',
+      seleniumVersion: '3.1.1',
     });
   }
   return capabilities;
