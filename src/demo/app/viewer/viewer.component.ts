@@ -14,7 +14,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public manifestUri: string;
   public config = new MimeViewerConfig({
     attributionDialogEnabled: true,
-    attributionDialogHideTimeout: -1
+    attributionDialogHideTimeout: -1,
+    navigationControlEnabled: true
   });
   private sub: any;
 

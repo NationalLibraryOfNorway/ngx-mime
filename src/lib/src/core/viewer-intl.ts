@@ -12,4 +12,9 @@ export class MimeViewerIntl {
   license = 'License';
   fullScreen = 'Full screen';
   exitFullScreen = 'Exit full screen';
+  zoomIn = 'Zoom in';
+  zoomOut = 'Zoom out';
+  previousPage = 'Previous Page';
+  nextPage = 'Next Page';
+  home = 'Go Home';
 }

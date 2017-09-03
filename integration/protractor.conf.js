@@ -35,9 +35,9 @@ const config = {
       path.resolve(process.cwd(), './e2e/**/*.steps.ts')
     ],
     format: 'pretty',
-    tags: '~@Ignore'
+    tags: ['~@Ignore']
   },
-  onPrepare() {
+  onPrepare: function() {
     browser.manage().window().maximize();
   },
   afterLaunch: function () {
@@ -75,7 +75,7 @@ function getCapabilities() {
   } else if (argv.device === 'mobile') {
     browsers = remoteBrowsers.customMobileLaunchers;
   }
-    
+
   for (const cap of browsers) {
     capabilities.push({
       browserName: cap.browserName,
@@ -86,9 +86,9 @@ function getCapabilities() {
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
-      seleniumVersion: '3.5.0',
       shardTestFiles: true,
-      maxInstances: 1,
+      maxInstances: 5,
+      seleniumVersion: '3.3.1'
     });
   }
   return capabilities;
