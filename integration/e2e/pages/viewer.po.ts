@@ -60,6 +60,10 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getCenter(false);');
   }
 
+  getBounds(): promise.Promise<any> {
+    return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
+  }
+
   async pinchOut(): Promise<void> {
     await browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
@@ -76,7 +80,7 @@ export class ViewerPage {
       .perform();
   }
 
-  pan(point: Point) {
+  pan(point: Point): promise.Promise<any> {
     return browser.executeScript(`window.openSeadragonViewer.viewport.panTo({x: ${point.x}, y: ${point.y}});`);
   }
 
@@ -95,6 +99,14 @@ export class ViewerPage {
       return browser.actions()
         .mouseMove(canvas)
         .doubleClick()
+        .perform();
+    });
+  }
+
+  async dblTap(): Promise<void> {
+    await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
+      return browser.touchActions()
+        .doubleTap(canvas)
         .perform();
     });
   }

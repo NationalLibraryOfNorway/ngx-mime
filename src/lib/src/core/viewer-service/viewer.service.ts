@@ -49,7 +49,7 @@ export class ViewerService implements OnInit {
   addDblClickEvents(): void {
     this.clickService.addDoubleClickHandler((event) => {
       if (this.getZoom() > this.getHomeZoom()) {
-        this.zoomTo(this.getHomeZoom());
+        this.fitVertically();
       } else {
         this.zoomTo(this.getZoom() * this.options.zoomPerClick);
       }
@@ -60,19 +60,19 @@ export class ViewerService implements OnInit {
   }
 
   public getZoom(): number {
-    return this.viewer.viewport.getZoom();
+    return this.shortenDecimals(this.viewer.viewport.getZoom(), 5);
   }
 
   public getHomeZoom(): number {
-    return this.viewer.viewport.getHomeZoom();
+    return this.shortenDecimals(this.viewer.viewport.getHomeZoom(), 5);
   }
 
   public getMinZoom(): number {
-    return this.viewer.viewport.getMinZoom();
+    return this.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
   }
 
   public getMaxZoom(): number {
-    return this.viewer.viewport.getMaxZoom();
+    return this.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
   }
 
   public zoomHome(): void {
@@ -83,6 +83,10 @@ export class ViewerService implements OnInit {
     this.viewer.viewport.zoomTo(level);
   }
 
+  public fitVertically(): void {
+    this.viewer.viewport.fitVertically(false);
+  }
+
   private clearOpenSeadragonTooltips() {
     OpenSeadragon.setString('Tooltips.Home', '');
     OpenSeadragon.setString('Tooltips.ZoomOut', '');
@@ -90,5 +94,10 @@ export class ViewerService implements OnInit {
     OpenSeadragon.setString('Tooltips.NextPage', '');
     OpenSeadragon.setString('Tooltips.ZoomIn', '');
     OpenSeadragon.setString('Tooltips.FullPage', '');
+  }
+
+  private shortenDecimals(zoom: string, precision: number): number {
+    const short = Number(zoom).toPrecision(precision);
+    return Number(short);
   }
 }

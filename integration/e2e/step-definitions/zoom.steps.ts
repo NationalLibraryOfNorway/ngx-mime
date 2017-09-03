@@ -52,6 +52,12 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.waitForAnimation();
   });
 
+  When(/^the user double taps$/, async () => {
+    previousZoomLevel = await page.getZoomLevel();
+    await page.dblTap();
+    await page.waitForAnimation();
+  });
+
   Then(/^the current zoom level has increased$/, async () => {
     expect((await page.getZoomLevel())).to.be.greaterThan(previousZoomLevel);
   });
@@ -66,5 +72,10 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^the current zoom level is home$/, async () => {
     expect((await page.getZoomLevel()).toPrecision(5)).to.equal((await page.getHomeZoom()).toPrecision(5));
+  });
+
+  Then(/^the view should be vertically centered$/, async () => {
+    const bounds = await page.getBounds();
+    expect(bounds.y).to.equal(0);
   });
 });
