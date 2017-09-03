@@ -18,6 +18,7 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
 import { ClickService } from '../core/click/click.service';
 import 'openseadragon';
+import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   let de: DebugElement;
@@ -107,6 +108,18 @@ describe('ViewerComponent', function () {
     //
     // expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
     pending('Set to pending until we find a way to perform pinch event');
+  }));
+
+  it('should move image inside the view when user is panning', inject([ViewerService], (viewerService: ViewerService) => {
+    //comp.ngOnInit();
+    //viewerService.zoomTo(2);
+    //const viewer = viewerService.getViewer();
+    //const previousCenter = viewer.viewport.getCenter(false);
+    //
+    // viewer.raiseEvent('pan', {x: 150, y: 150});
+    //
+    // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
+    pending('Set to pending until we find a way to perform pan event');
   }));
 
   function pinchOut(viewerService: ViewerService) {
