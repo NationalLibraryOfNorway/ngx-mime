@@ -85,7 +85,7 @@ function getCapabilities() {
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
       shardTestFiles: true,
-      maxInstances: 1,
+      maxInstances: 5,
       seleniumVersion: '3.5.0',
     });
   }
