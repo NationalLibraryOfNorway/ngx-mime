@@ -8,7 +8,7 @@ export class MetadataPage {
   async getAll() {
     const metadatas = [];
     const el = element.all(by.css('.metadata'));
-    utils.waitForElement(el.first());
+    await utils.waitForElement(el.first());
     const count = await el.count();
     for (let i = 0; i < count; i++) {
       const metadata = el.get(i);
@@ -22,14 +22,15 @@ export class MetadataPage {
     return metadatas;
   }
 
-  getAttribution(): ElementFinder {
+  async getAttribution() {
     const el = element(by.css('#metadata-attribution'));
-    utils.waitForElement(el);
+    await utils.waitForElement(el);
     return el;
   }
-  getLicense(): ElementFinder {
+
+  async getLicense() {
     const el = element(by.css('#metadata-license'));
-    utils.waitForElement(el);
+    await utils.waitForElement(el);
     return el;
   }
 }
