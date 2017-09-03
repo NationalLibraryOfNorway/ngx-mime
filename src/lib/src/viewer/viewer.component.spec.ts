@@ -111,10 +111,10 @@ describe('ViewerComponent', function () {
   }));
 
   it('should move image inside the view when user is panning', inject([ViewerService], (viewerService: ViewerService) => {
-    //comp.ngOnInit();
-    //viewerService.zoomTo(2);
-    //const viewer = viewerService.getViewer();
-    //const previousCenter = viewer.viewport.getCenter(false);
+    // comp.ngOnInit();
+    // viewerService.zoomTo(2);
+    // const viewer = viewerService.getViewer();
+    // const previousCenter = viewer.viewport.getCenter(false);
     //
     // viewer.raiseEvent('pan', {x: 150, y: 150});
     //
