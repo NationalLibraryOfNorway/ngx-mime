@@ -20,8 +20,8 @@ const config = {
     shardTestFiles: true,
     maxInstances: 1,
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu" ]
-    }    
+      args: ["--headless", "--disable-gpu"]
+    }
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
@@ -37,8 +37,10 @@ const config = {
     format: 'pretty',
     tags: ['~@Ignore']
   },
-  onPrepare: function() {
-    browser.manage().window().maximize();
+  onPrepare: function () {
+    const width = 1600;
+    const height = 1200;
+    browser.driver.manage().window().setSize(width, height);
   },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
@@ -62,8 +64,8 @@ if (process.env.TRAVIS) {
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 
   config.capabilities = null,
-  config.multiCapabilities = getCapabilities(),
-  config.afterLaunch = function () {}
+    config.multiCapabilities = getCapabilities(),
+    config.afterLaunch = function () { }
 }
 
 function getCapabilities() {
