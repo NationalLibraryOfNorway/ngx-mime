@@ -17,11 +17,9 @@ const config = {
   ],
   capabilities: {
     'browserName': 'chrome',
-    shardTestFiles: true,
-    maxInstances: 1,
     chromeOptions: {
-      args: ["--headless", "--disable-gpu"]
-    }
+      args: [ "--headless", "--disable-gpu" ]
+    }    
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
@@ -37,7 +35,7 @@ const config = {
     format: 'pretty',
     tags: ['~@Ignore']
   },
-  onPrepare: function () {
+  onPrepare: function() {
     const width = 1600;
     const height = 1200;
     browser.driver.manage().window().setSize(width, height);
@@ -90,7 +88,7 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       shardTestFiles: true,
       maxInstances: 5,
-      seleniumVersion: '3.3.1'
+      seleniumVersion: '3.3.1',
     });
   }
   return capabilities;
