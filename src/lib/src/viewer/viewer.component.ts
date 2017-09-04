@@ -63,9 +63,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.modeService.mode = ViewerMode.DASHBOARD;
-    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-      this.toggleMode(mode);
-    }));
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
@@ -80,6 +77,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     );
 
     this.loadManifest();
+    this.modeService.onChange.subscribe((mode: ViewerMode) => {
+      this.toggleToolbarsState(mode);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -105,7 +105,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     return this.modeService.mode;
   }
 
-  toggleMode(mode: ViewerMode): void {
+  toggleToolbarsState(mode: ViewerMode): void {
     if (mode === ViewerMode.DASHBOARD) {
       this.header.state = this.footer.state = 'show';
     } else if (mode === ViewerMode.PAGE) {

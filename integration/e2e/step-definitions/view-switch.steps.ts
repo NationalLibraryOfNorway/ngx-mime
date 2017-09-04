@@ -9,7 +9,7 @@ const utils = new Utils();
 defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   // 300ms is the time the animation is set up to use but we need some extra time
-  const switchAnimationTime = 700;
+  const switchAnimationTime = 1200;
 
   Given(/^the viewer is in dashboard view$/, async () => {
     await page.open();

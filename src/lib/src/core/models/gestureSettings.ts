@@ -12,7 +12,7 @@ export class GestureSettings {
 export class GestureSettingsMouse extends GestureSettings {}
 
 export class GestureSettingsTouch extends GestureSettings {
-  pinchToZoom = true;
+  pinchToZoom = false;
 }
 
 export class GestureSettingsPen extends GestureSettings {}

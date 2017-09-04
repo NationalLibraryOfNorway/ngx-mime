@@ -13,12 +13,16 @@ declare const OpenSeadragon: any;
 
 @Injectable()
 export class ViewerService implements OnInit {
+  private readonly ZOOMFACTOR = 0.0002;
   private viewer: any;
   private options: Options;
   // References to clickable overlays
   private overlays: Array<HTMLElement>;
   private tileSources: any[];
   private subscriptions: Array<Subscription> = [];
+
+  private previousTogglePinchDistance = 0;
+  private zoomLevel = 0;
 
   constructor(
     private zone: NgZone,
@@ -43,6 +47,7 @@ export class ViewerService implements OnInit {
 
       this.addToWindow();
       this.addEvents();
+      this.zoomLevel = this.getZoom();
     }
   }
 
@@ -74,6 +79,7 @@ export class ViewerService implements OnInit {
   addEvents(): void {
     this.addOpenEvents();
     this.addClickEvents();
+    this.addPinchEvents();
   }
 
   addOpenEvents(): void {
@@ -81,6 +87,22 @@ export class ViewerService implements OnInit {
       this.createOverlays();
       this.fitBoundsToStart();
     });
+  }
+
+  toggleMode(mode: ViewerMode) {
+    if (mode === ViewerMode.DASHBOARD) {
+      this.setDashboardSettings();
+    } else if (mode === ViewerMode.PAGE) {
+      this.setPageSettings();
+    }
+  }
+
+  setDashboardSettings(): void {
+    this.viewer.panVertical = false;
+  }
+
+  setPageSettings(): void {
+    this.viewer.panVertical = true;
   }
 
   addClickEvents(): void {
@@ -97,7 +119,7 @@ export class ViewerService implements OnInit {
     this.clickService.addSingleClickHandler((event: any) => {
       let target: HTMLElement = event.originalEvent.target;
       if (target.nodeName === 'rect') {
-        let requestedPage = this.overlays.indexOf(target);
+        let requestedPage = this.getOverlayIndexFromClickEvent(target);
         if (requestedPage >= 0) {
           this.pageService.currentPage = requestedPage;
           this.modeService.toggleMode();
@@ -117,7 +139,30 @@ export class ViewerService implements OnInit {
         }
       }
     });
+  }
 
+  addPinchEvents(): void {
+    this.viewer.addHandler('canvas-pinch', this.pinchHandlerToggleMode);
+    this.viewer.addHandler('canvas-release', (data: any) => {
+      this.previousTogglePinchDistance = 0;
+    });
+  }
+
+  pinchHandlerToggleMode = (event: any) => {
+    // Pinch Out
+    if (event.lastDistance > this.previousTogglePinchDistance) {
+      if (this.modeService.mode === ViewerMode.DASHBOARD) {
+          this.modeService.toggleMode();
+          this.fitBounds(this.overlays[this.pageService.currentPage]);
+      }
+    // Pinch In
+    } else {
+      if (this.modeService.mode === ViewerMode.PAGE) {
+        this.modeService.toggleMode();
+        this.zoomTo(this.getHomeZoom())
+      }
+    }
+    this.previousTogglePinchDistance = event.lastDistance;
   }
 
   public getZoom(): number {
@@ -150,13 +195,7 @@ export class ViewerService implements OnInit {
     }
   }
 
-  toggleMode(mode: ViewerMode) {
-    if (mode === ViewerMode.DASHBOARD) {
-      this.setDashboardConstraints();
-    } else if (mode === ViewerMode.PAGE) {
-      this.setPageConstraints();
-    }
-  }
+
 
   // Create SVG-overlays for each page
   createOverlays(): void {
@@ -198,6 +237,7 @@ export class ViewerService implements OnInit {
     let box = this.overlays[page];
     let pageBounds = this.createRectangel(box);
     this.viewer.viewport.fitBounds(pageBounds);
+
   }
 
   // Toggle viewport-bounds between page and dashboard
@@ -222,12 +262,15 @@ export class ViewerService implements OnInit {
     );
   }
 
-  setDashboardConstraints(): void {
-    this.viewer.panVertical = false;
-  }
 
-  setPageConstraints(): void {
-    this.viewer.panVertical = true;
+  getOverlayIndexFromClickEvent(target: HTMLElement) {
+    if (target.nodeName === 'rect') {
+      let requestedPage = this.overlays.indexOf(target);
+      if (requestedPage >= 0) {
+        return requestedPage;
+      }
+    }
+    return -1;
   }
 
   public fitVertically(): void {
