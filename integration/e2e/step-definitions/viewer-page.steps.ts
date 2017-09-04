@@ -17,4 +17,9 @@ defineSupportCode(function ({ Given, Then }) {
   Given(/^the viewer is opened with a publication with licenses associated with it$/, async () => {
     await page.open();
   });
+
+  Given(/^the viewer is in page view$/, async () => {
+    expect(true).to.be.true;
+  });
+
 });

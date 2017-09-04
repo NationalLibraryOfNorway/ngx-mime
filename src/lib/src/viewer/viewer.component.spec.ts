@@ -18,6 +18,7 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
 import { ClickService } from '../core/click/click.service';
 import 'openseadragon';
+import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   let de: DebugElement;
@@ -29,7 +30,7 @@ describe('ViewerComponent', function () {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         HttpClientTestingModule,
         NoopAnimationsModule,
@@ -43,7 +44,7 @@ describe('ViewerComponent', function () {
       ],
       providers: [
         ViewerService,
-        {provide: IiifManifestService, useClass: IiifManifestServiceStub},
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         MimeResizeService,
         MimeViewerIntl,
         ClickService
@@ -109,28 +110,40 @@ describe('ViewerComponent', function () {
     pending('Set to pending until we find a way to perform pinch event');
   }));
 
+  it('should move image inside the view when user is panning', inject([ViewerService], (viewerService: ViewerService) => {
+    // comp.ngOnInit();
+    // viewerService.zoomTo(2);
+    // const viewer = viewerService.getViewer();
+    // const previousCenter = viewer.viewport.getCenter(false);
+    //
+    // viewer.raiseEvent('pan', {x: 150, y: 150});
+    //
+    // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
+    pending('Set to pending until we find a way to perform pan event');
+  }));
+
   function pinchOut(viewerService: ViewerService) {
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 40, lastDistance: 40});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 50, lastDistance: 40});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 60, lastDistance: 50});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 70, lastDistance: 60});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 80, lastDistance: 70});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 90, lastDistance: 80});
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 60, lastDistance: 50 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 70, lastDistance: 60 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 80, lastDistance: 70 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 90, lastDistance: 80 });
   }
 
   function pinchIn(viewerService: ViewerService) {
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 90, lastDistance: 90});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 80, lastDistance: 90});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 70, lastDistance: 80});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 60, lastDistance: 70});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 50, lastDistance: 60});
-    viewerService.getViewer().raiseEvent('canvas-pinch', {distance: 40, lastDistance: 50});
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 90, lastDistance: 90 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 80, lastDistance: 90 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 70, lastDistance: 80 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 60, lastDistance: 70 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 60 });
+    viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
   }
 });
 
 @Component({
-  selector : `test-component`,
-  template : `<mime-viewer [manifestUri]="manifestUri"></mime-viewer>`
+  selector: `test-component`,
+  template: `<mime-viewer [manifestUri]="manifestUri"></mime-viewer>`
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent)
