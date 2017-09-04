@@ -7,7 +7,7 @@ const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
-  getPageTimeout: 60000,
+  getPageTimeout: 240000,
   allScriptsTimeout: 500000,
   SELENIUM_PROMISE_MANAGER: false,
   specs: getFeatureFiles(),
@@ -26,13 +26,13 @@ const config = {
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
     compiler: "ts:ts-node/register",
+    format: ['json:./.tmp/json-output/report.json'],
     require: [
       path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
       path.resolve(process.cwd(), './e2e/helpers/reporter.ts'),
       path.resolve(process.cwd(), './e2e/**/*.steps.ts')
     ],
-    format: 'pretty',
     tags: ['~@Ignore']
   },
   onPrepare: function() {
@@ -88,7 +88,7 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       shardTestFiles: true,
       maxInstances: 5,
-      seleniumVersion: '3.3.1',
+      seleniumVersion: '3.5.0',
     });
   }
   return capabilities;

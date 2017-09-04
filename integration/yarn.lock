@@ -11,8 +11,13 @@
     typescript "^2.3.3"
 
 "@angular/animations@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.3.6.tgz#bf9283ec7c8c98b32f569d84dcda10890fdc0262"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.3.4.tgz#02c726b3b70ae3d2e155704c8c60e9baf01547ef"
+>>>>>>> headless-chrome
   dependencies:
     tslib "^1.7.1"
 
@@ -92,26 +97,59 @@
     node-sass "^4.3.0"
 
 "@angular/common@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-4.3.6.tgz#ed37e9307c7506dd834797c1a6cf675e52b5b6ee"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/common/-/common-4.3.4.tgz#98fb7d6e8da633ba56844d5c00986ca407aea950"
+>>>>>>> headless-chrome
   dependencies:
     tslib "^1.7.1"
 
 "@angular/compiler-cli@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-4.3.6.tgz#6afa6aef68dd681e61b398be4d6270e5c8680b12"
+  dependencies:
+    "@angular/tsc-wrapped" "4.3.6"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-4.3.4.tgz#3d16ec869c39f4aca18cac71dcf118a80f6208e6"
   dependencies:
     "@angular/tsc-wrapped" "4.3.4"
+>>>>>>> headless-chrome
     minimist "^1.2.0"
     reflect-metadata "^0.1.2"
 
 "@angular/compiler@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-4.3.6.tgz#be170df098b71e835ccedf168d5fb7b23e5045b8"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-4.3.4.tgz#9b16ae785f22b918aa168db0555c05304baf9d77"
+>>>>>>> headless-chrome
   dependencies:
     tslib "^1.7.1"
 
 "@angular/core@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-4.3.6.tgz#bbac63d68d0f7bcb389d12b34208652be3287e96"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/flex-layout@2.0.0-beta.9":
+  version "2.0.0-beta.9"
+  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-2.0.0-beta.9.tgz#3e54f898e805d0b1426d15e6139db415d04ee75f"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/forms@^4.3.4":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-4.3.6.tgz#0f20c4597c16a152745d7cd95559855a0a5c6687"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-4.3.4.tgz#42dd8046600f5a080a4e1212116b12fe97bcfcb4"
   dependencies:
@@ -126,18 +164,29 @@
 "@angular/forms@^4.3.4":
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-4.3.4.tgz#57fa07b7bf9103f1b948fbfe4cfed314092c9e96"
+>>>>>>> headless-chrome
   dependencies:
     tslib "^1.7.1"
 
 "@angular/http@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.3.6.tgz#563827d1a7d5e89e3b7d86b77fbbd367b2c08591"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.3.4.tgz#762cb7c032059f41dfd0553f574e9ce0d5ecc0a9"
+>>>>>>> headless-chrome
   dependencies:
     tslib "^1.7.1"
 
 "@angular/language-service@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-4.3.6.tgz#71cf2dbb4661568f3d12a9c0e4b9e043ef93bd3a"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-4.3.4.tgz#3a44a227a2256941eb328057e3c1372868a8516f"
+>>>>>>> headless-chrome
 
 "@angular/material@^2.0.0-beta.8":
   version "2.0.0-beta.8"
@@ -146,18 +195,38 @@
     tslib "^1.7.1"
 
 "@angular/platform-browser-dynamic@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.3.6.tgz#9eabf826f119c98f85c2a96edcb18ab00b4efb1c"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.3.4.tgz#bf7b841f2fc8d20efe756fe1e50aa028c95eb57c"
+>>>>>>> headless-chrome
   dependencies:
     tslib "^1.7.1"
 
 "@angular/platform-browser@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-4.3.6.tgz#6152b1f3b78d0246fc5e150e2f7b9ed4337e3ba6"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-4.3.4.tgz#dede8ff31441a2452f202ed798a0822ebc5a9153"
+>>>>>>> headless-chrome
   dependencies:
     tslib "^1.7.1"
 
 "@angular/router@^4.3.4":
+<<<<<<< HEAD
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-4.3.6.tgz#64033edb4fcda08a323e7533b4a1820c0f28d130"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/tsc-wrapped@4.3.6":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/tsc-wrapped/-/tsc-wrapped-4.3.6.tgz#1aa66e0ab2c4799a4ad14b675e13953aa5fcd436"
+=======
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-4.3.4.tgz#206588fec466f83a2768bd756c5664651091e477"
   dependencies:
@@ -166,6 +235,7 @@
 "@angular/tsc-wrapped@4.3.4":
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@angular/tsc-wrapped/-/tsc-wrapped-4.3.4.tgz#86c14cec0ee7f25bb7a7f80270bffe19fe7acd63"
+>>>>>>> headless-chrome
   dependencies:
     tsickle "^0.21.0"
 
@@ -194,9 +264,9 @@
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-3.5.2.tgz#c11cd2817d3a401b7ba0f5a420f35c56139b1c1e"
 
-"@types/cucumber@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@types/cucumber/-/cucumber-2.0.1.tgz#a94c9c61cff45a7e932d8298d252f86c87b48ad4"
+"@types/cucumber@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/cucumber/-/cucumber-2.0.3.tgz#d0162abd2c130e344377143159c4455a85a58127"
 
 "@types/fs-extra@3.0.2":
   version "3.0.2"
@@ -624,6 +694,10 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+becke-ch--regex--s0-0-v1--base--pl--lib@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/becke-ch--regex--s0-0-v1--base--pl--lib/-/becke-ch--regex--s0-0-v1--base--pl--lib-1.2.0.tgz#2e73e9d21f2c2e6f5a5454045636f0ab93e46130"
+
 better-assert@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/better-assert/-/better-assert-1.0.2.tgz#40866b9e1b9e0b55b481894311e68faffaebc522"
@@ -782,8 +856,13 @@ browserslist@^1.3.6, browserslist@^1.5.2, browserslist@^1.7.6:
     electron-to-chromium "^1.2.7"
 
 buffer-indexof@^1.0.0:
+<<<<<<< HEAD
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/buffer-indexof/-/buffer-indexof-1.1.1.tgz#52fabcc6a606d1a00302802648ef68f639da268c"
+=======
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/buffer-indexof/-/buffer-indexof-1.1.0.tgz#f54f647c4f4e25228baa656a2e57e43d5f270982"
+>>>>>>> headless-chrome
 
 buffer-xor@^1.0.2:
   version "1.0.3"
@@ -932,9 +1011,21 @@ chokidar@^1.4.1, chokidar@^1.6.0, chokidar@^1.7.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+chromedriver@^2.31.0:
+  version "2.31.0"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-2.31.0.tgz#82c758ee4015aa880f45008bba346433cf9db14a"
+=======
 chromedriver@^2.32.0:
   version "2.32.0"
   resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-2.32.0.tgz#ecad18d7e27adff552c60183a068e3fe9626ae97"
+>>>>>>> headless-chrome
+=======
+chromedriver@^2.32.0:
+  version "2.32.0"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-2.32.0.tgz#ecad18d7e27adff552c60183a068e3fe9626ae97"
+>>>>>>> master
   dependencies:
     extract-zip "^1.6.5"
     kew "^0.7.0"
@@ -1423,17 +1514,19 @@ csv-parse@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-1.2.0.tgz#047b73868ab9a85746e885f637f9ed0fb645a425"
 
-cucumber-expressions@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/cucumber-expressions/-/cucumber-expressions-3.0.0.tgz#4cf424813dae396cc9dab714b8104b459befc32c"
+cucumber-expressions@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/cucumber-expressions/-/cucumber-expressions-4.0.3.tgz#fc70d1a94e1959c9fd555a41b7e2200e57ac33a7"
+  dependencies:
+    becke-ch--regex--s0-0-v1--base--pl--lib "^1.2.0"
 
 cucumber-tag-expressions@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cucumber-tag-expressions/-/cucumber-tag-expressions-1.0.1.tgz#d6d3c43180a03f5fb4fc957fe1382ddce5cb9ac8"
 
-cucumber@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/cucumber/-/cucumber-2.2.0.tgz#8709358d55481d0937f96bfc15b31eb5abc4ff6b"
+cucumber@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/cucumber/-/cucumber-3.0.1.tgz#2e4f49ee9d5949cb6249ae0cd1626444457be71e"
   dependencies:
     assertion-error-formatter "^2.0.0"
     babel-runtime "^6.11.6"
@@ -1441,9 +1534,10 @@ cucumber@2.2.0:
     cli-table "^0.3.1"
     colors "^1.1.2"
     commander "^2.9.0"
-    cucumber-expressions "^3.0.0"
+    cucumber-expressions "^4.0.3"
     cucumber-tag-expressions "^1.0.0"
     duration "^0.2.0"
+    escape-string-regexp "^1.0.5"
     figures "2.0.0"
     gherkin "^4.1.0"
     glob "^7.0.0"
@@ -1457,7 +1551,7 @@ cucumber@2.2.0:
     stack-chain "^1.3.5"
     stacktrace-js "^2.0.0"
     string-argv "0.0.2"
-    upper-case-first "^1.1.2"
+    title-case "^2.1.1"
     util-arity "^1.0.2"
     verror "^1.9.0"
 
@@ -1522,6 +1616,12 @@ debug@2.3.3:
 debug@2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.7.tgz#92bad1f6d05bbb6bba22cca88bcd0ec894c2861e"
+  dependencies:
+    ms "2.0.0"
+
+debug@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-3.0.1.tgz#0564c612b521dc92d9f2988f0549e34f9c98db64"
   dependencies:
     ms "2.0.0"
 
@@ -3639,9 +3739,15 @@ multicast-dns@^6.0.1:
     dns-packet "^1.0.1"
     thunky "^0.1.0"
 
+<<<<<<< HEAD
+multiple-cucumber-html-reporter@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/multiple-cucumber-html-reporter/-/multiple-cucumber-html-reporter-0.2.1.tgz#7b79ac236baa8ee76061e9d412a1acc48b7fad8b"
+=======
 multiple-cucumber-html-reporter@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/multiple-cucumber-html-reporter/-/multiple-cucumber-html-reporter-0.1.0.tgz#c111e90fc11ef8b9c638adb6a18426188344547a"
+>>>>>>> headless-chrome
   dependencies:
     assert "1.4.1"
     chalk "1.1.3"
@@ -4474,13 +4580,14 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-protractor-cucumber-framework@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/protractor-cucumber-framework/-/protractor-cucumber-framework-3.1.0.tgz#c4215011d5c0a1d451ff21772c7048217f3c1afa"
+protractor-cucumber-framework@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/protractor-cucumber-framework/-/protractor-cucumber-framework-4.0.3.tgz#0c3e818b316af12c34c7792faa0520994810d233"
   dependencies:
-    debug "^2.2.0"
+    debug "^3.0.0"
     glob "^7.0.3"
     q "^1.4.1"
+    relative "^3.0.2"
 
 protractor@~5.1.2:
   version "5.1.2"
@@ -4737,6 +4844,12 @@ regjsparser@^0.1.4:
 relateurl@0.2.x:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
+
+relative@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/relative/-/relative-3.0.2.tgz#0dcd8ec54a5d35a3c15e104503d65375b5a5367f"
+  dependencies:
+    isobject "^2.0.0"
 
 remove-trailing-separator@^1.0.1:
   version "1.0.2"
@@ -5189,6 +5302,12 @@ source-map-support@^0.4.0, source-map-support@^0.4.1, source-map-support@^0.4.2,
   dependencies:
     source-map "^0.5.6"
 
+source-map-support@^0.4.1:
+  version "0.4.16"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.16.tgz#16fecf98212467d017d586a2af68d628b9421cd8"
+  dependencies:
+    source-map "^0.5.6"
+
 source-map@0.1.x, source-map@~0.1.33, source-map@~0.1.7:
   version "0.1.43"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.1.43.tgz#c24bc146ca517c1471f5dacbe2571b2b7f9e3346"
@@ -5460,8 +5579,13 @@ supports-color@^4.0.0, supports-color@^4.1.0:
     has-flag "^2.0.0"
 
 supports-color@^4.2.1:
+<<<<<<< HEAD
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.4.0.tgz#883f7ddabc165142b2a61427f3352ded195d1a3e"
+=======
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.2.1.tgz#65a4bb2631e90e02420dba5554c375a4754bb836"
+>>>>>>> headless-chrome
   dependencies:
     has-flag "^2.0.0"
 
@@ -5542,6 +5666,13 @@ timers-browserify@^2.0.2:
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.2.tgz#ab4883cf597dcd50af211349a00fbca56ac86b86"
   dependencies:
     setimmediate "^1.0.4"
+
+title-case@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/title-case/-/title-case-2.1.1.tgz#3e127216da58d2bc5becf137ab91dae3a7cd8faa"
+  dependencies:
+    no-case "^2.2.0"
+    upper-case "^1.0.3"
 
 tmp@0.0.24:
   version "0.0.24"
@@ -5685,10 +5816,21 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
+<<<<<<< HEAD
+"typescript@>=2.0.0 <2.5.0":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"
+
+typescript@^2.3.3:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.5.1.tgz#ce7cc93ada3de19475cc9d17e3adea7aee1832aa"
+
+=======
 "typescript@>=2.0.0 <2.5.0", typescript@^2.3.3:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"
 
+>>>>>>> headless-chrome
 typescript@~2.3.3:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.4.tgz#3d38321828231e434f287514959c37a82b629f42"
@@ -5759,13 +5901,7 @@ unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
 
-upper-case-first@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/upper-case-first/-/upper-case-first-1.1.2.tgz#5d79bedcff14419518fd2edb0a0507c9b6859115"
-  dependencies:
-    upper-case "^1.1.1"
-
-upper-case@^1.1.1:
+upper-case@^1.0.3, upper-case@^1.1.1:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/upper-case/-/upper-case-1.1.3.tgz#f6b4501c2ec4cdd26ba78be7222961de77621598"
 
@@ -6252,8 +6388,13 @@ yn@^2.0.0:
   resolved "https://registry.yarnpkg.com/yn/-/yn-2.0.0.tgz#e5adabc8acf408f6385fc76495684c88e6af689a"
 
 zone.js@^0.8.14:
+<<<<<<< HEAD
+  version "0.8.17"
+  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.17.tgz#4c5e5185a857da8da793daf3919371c5a36b2a0b"
+=======
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.16.tgz#ac31b6c418f88c0f918ad6acd8a402aca9313abb"
+>>>>>>> headless-chrome
 
 zone.js@^0.8.4:
   version "0.8.13"

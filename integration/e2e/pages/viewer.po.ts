@@ -23,10 +23,8 @@ export class ViewerPage {
     return el;
   }
 
-  async getAttribution() {
-    const el = element(by.css('#attribution-container > .contents'));
-    await utils.waitForElement(el);
-    return el;
+  getAttribution() {
+    return utils.waitForElement(element(by.css('#attribution-container > .contents')));
   }
 
   getAnimationTime(): promise.Promise<number> {

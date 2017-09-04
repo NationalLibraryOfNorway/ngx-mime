@@ -22,16 +22,12 @@ export class MetadataPage {
     return metadatas;
   }
 
-  async getAttribution() {
-    const el = element(by.css('#metadata-attribution'));
-    await utils.waitForElement(el);
-    return el;
+  getAttribution() {
+    return utils.waitForElement(element(by.css('#metadata-attribution')));
   }
 
-  async getLicense() {
-    const el = element(by.css('#metadata-license'));
-    await utils.waitForElement(el);
-    return el;
+  getLicense() {
+    return utils.waitForElement(element(by.css('#metadata-license')));
   }
 }
 
