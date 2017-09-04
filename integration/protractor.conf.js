@@ -89,6 +89,7 @@ function getCapabilities() {
       shardTestFiles: true,
       maxInstances: 2,
       seleniumVersion: '3.3.1',
+      screenResolution: "1600x1024"
     });
   }
   return capabilities;
