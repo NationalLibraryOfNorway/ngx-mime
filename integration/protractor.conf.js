@@ -36,8 +36,8 @@ const config = {
     tags: ['~@Ignore']
   },
   onPrepare: function() {
-    const width = 1600;
-    const height = 1200;
+    const width = 1280;
+    const height = 1024;
     browser.driver.manage().window().setSize(width, height);
   },
   afterLaunch: function () {
