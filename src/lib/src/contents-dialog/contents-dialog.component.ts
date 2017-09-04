@@ -48,15 +48,18 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
 
   private resizeTabHeight(): void {
     const dimensions = new MimeDomHelper().getBoundingClientRect(this.el);
-    let height = this.mimeHeight - dimensions.top;
+    let height = this.mimeHeight;
 
     if (this.media.isActive('lt-md')) {
-      height -= 20;
+      height -= 104;
+      this.tabHeight = {
+        'maxHeight': window.innerHeight - 128 + 'px'
+      };
     } else {
-      height -= 60;
+      height -= 208;
+      this.tabHeight = {
+        'maxHeight': height + 'px'
+      };
     }
-    this.tabHeight = {
-      'maxHeight': height + 'px'
-    };
   }
 }
