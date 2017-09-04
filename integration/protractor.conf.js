@@ -16,7 +16,10 @@ const config = {
     'device'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu" ]
+    }
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
@@ -33,7 +36,9 @@ const config = {
     tags: ['~@Ignore']
   },
   onPrepare: function() {
-    browser.manage().window().maximize();
+    const width = 1600;
+    const height = 1200;
+    browser.driver.manage().window().setSize(width, height);
   },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
@@ -81,9 +86,9 @@ function getCapabilities() {
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
-      seleniumVersion: '3.3.1',
       shardTestFiles: true,
-      maxInstances: 5
+      maxInstances: 5,
+      seleniumVersion: '3.3.1',
     });
   }
   return capabilities;

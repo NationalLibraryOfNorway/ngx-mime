@@ -14,19 +14,20 @@ export class ViewerPage {
     return browser.get('');
   }
 
-  contentsDialogButton() {
-    return element(by.css('#contentsDialogButton'));
+  async openContentsDialog() {
+    await element(by.css('#contentsDialogButton')).click();
+    await utils.waitForElement(element(by.css('.contents-container')));
   }
 
-  openSeadragonElement(): ElementFinder {
+  async openSeadragonElement() {
     const el = element(by.css('.openseadragon-container'));
-    utils.waitForElement(el);
+    await utils.waitForElement(el);
     return el;
   }
 
-  getAttribution() {
+  async getAttribution() {
     const el = element(by.css('#attribution-container > .contents'));
-    utils.waitForElement(el);
+    await utils.waitForElement(el);
     return el;
   }
 
@@ -76,6 +77,10 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getMaxZoom();');
   }
 
+  getCenter(): promise.Promise<Point> {
+    return browser.executeScript('return window.openSeadragonViewer.viewport.getCenter(false);');
+  }
+
   getBounds(): promise.Promise<any> {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
   }
@@ -94,6 +99,10 @@ export class ViewerPage {
       .tapAndHold(this.pointerPosition2)
       .move(this.pointerPosition1)
       .perform();
+  }
+
+  pan(point: Point): promise.Promise<any> {
+    return browser.executeScript(`window.openSeadragonViewer.viewport.panTo({x: ${point.x}, y: ${point.y}});`);
   }
 
   async zoomIn(): Promise<void> {
@@ -140,4 +149,9 @@ export class ViewerPage {
   async waitForAnimation(): Promise<void> {
     await browser.sleep((await this.getAnimationTime()) * 100);
   }
+}
+
+export interface Point {
+  x: number;
+  y: number;
 }

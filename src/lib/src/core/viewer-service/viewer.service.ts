@@ -30,20 +30,20 @@ export class ViewerService implements OnInit {
     private pageService: PageService,
     private modeService: ModeService) { }
 
-    ngOnInit(): void {}
+  ngOnInit(): void {}
 
   setUpViewer(manifest: Manifest) {
     if (manifest.tileSource) {
-      this.options = new Options(this.modeService.mode, manifest.tileSource)
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
         this.clearOpenSeadragonTooltips();
+        this.options = new Options(this.modeService.mode, manifest.tileSource)
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
       });
 
-      this.modeService.onChange.subscribe((mode: ViewerMode) => {
+      this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
         this.toggleMode(mode);
-      });
+      }));
 
       this.addToWindow();
       this.addEvents();
@@ -182,7 +182,7 @@ export class ViewerService implements OnInit {
   }
 
   public zoomHome(): void {
-    this.viewer.viewport.goHome(false);
+    this.zoomTo(this.getHomeZoom());
   }
 
   public zoomTo(level: number): void {
@@ -194,8 +194,6 @@ export class ViewerService implements OnInit {
       return this.tileSources.length;
     }
   }
-
-
 
   // Create SVG-overlays for each page
   createOverlays(): void {

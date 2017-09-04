@@ -15,12 +15,11 @@ import { ClickService } from './click/click.service';
   providers: [
     MimeViewerIntl,
     IiifManifestService,
-    ClickService,
-    PageService,
     MimeResizeService,
     ViewerService,
-    ModeService,
-    ClickService
+    ClickService,
+    PageService,
+    ModeService
   ]
 })
 export class CoreModule {

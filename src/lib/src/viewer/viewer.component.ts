@@ -13,8 +13,6 @@ import {
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
-
-import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
@@ -22,12 +20,13 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
 import { PageService } from '../core/page-service/page-service';
-import { ViewerService } from '../core/viewer-service/viewer.service';
 import { ModeService } from '../core/mode-service/mode.service';
-import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { MimeViewerConfig } from '../core/mime-viewer-config';
+
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
