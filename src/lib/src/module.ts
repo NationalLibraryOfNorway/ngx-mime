@@ -6,6 +6,7 @@ import { ContentsDialogModule } from './contents-dialog/contents-dialog.module';
 import { AttributionDialogModule } from './attribution-dialog/attribution-dialog.module';
 import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
+import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
 import './rxjs-extension';
 import 'openseadragon';
@@ -14,6 +15,7 @@ import 'openseadragon';
   declarations: [
     ViewerComponent,
     ViewerHeaderComponent,
+    OsdToolbarComponent
   ],
   imports: [
     CoreModule,

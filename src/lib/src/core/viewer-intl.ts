@@ -10,4 +10,9 @@ export class MimeViewerIntl {
   contents = 'Contents';
   metadata = 'Metadata';
   license = 'License';
+  zoomIn = 'Zoom in';
+  zoomOut = 'Zoom out';
+  previousPage = 'Previous Page';
+  nextPage = 'Next Page';
+  home = 'Go Home';
 }

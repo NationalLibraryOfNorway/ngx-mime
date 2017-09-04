@@ -17,10 +17,8 @@ const config = {
   ],
   capabilities: {
     'browserName': 'chrome',
-    shardTestFiles: true,
-    maxInstances: 1,
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+      args: [ "--headless", "--disable-gpu" ]
     }    
   },
   baseUrl: 'http://localhost:8080/',
@@ -37,8 +35,10 @@ const config = {
     ],
     tags: ['~@Ignore']
   },
-  onPrepare() {
-    browser.manage().window().maximize();
+  onPrepare: function() {
+    const width = 1600;
+    const height = 1200;
+    browser.driver.manage().window().setSize(width, height);
   },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
@@ -75,7 +75,7 @@ function getCapabilities() {
   } else if (argv.device === 'mobile') {
     browsers = remoteBrowsers.customMobileLaunchers;
   }
-    
+
   for (const cap of browsers) {
     capabilities.push({
       browserName: cap.browserName,
@@ -86,9 +86,9 @@ function getCapabilities() {
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
-      seleniumVersion: '3.3.1',
       shardTestFiles: true,
-      maxInstances: 1
+      maxInstances: 5,
+      seleniumVersion: '3.3.1',
     });
   }
   return capabilities;
