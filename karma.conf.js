@@ -21,7 +21,7 @@ module.exports = function (config) {
       // From the CLI. Not used here but interesting
       // chrome setup for travis CI using chromium
       Chrome_travis_ci: {
-        base: 'Chrome',
+        base: 'ChromeHeadless',
         flags: ['--no-sandbox']
       }
     },
@@ -86,7 +86,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     singleRun: false
   })
 }

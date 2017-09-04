@@ -16,7 +16,10 @@ const config = {
     'device'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu" ]
+    }    
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
@@ -81,9 +84,9 @@ function getCapabilities() {
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
-      seleniumVersion: '3.3.1',
       shardTestFiles: true,
-      maxInstances: 5
+      maxInstances: 5,
+      seleniumVersion: '3.3.1',
     });
   }
   return capabilities;
