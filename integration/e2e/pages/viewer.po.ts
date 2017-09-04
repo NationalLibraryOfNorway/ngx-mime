@@ -55,6 +55,10 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getMaxZoom();');
   }
 
+  getCenter(): promise.Promise<Point> {
+    return browser.executeScript('return window.openSeadragonViewer.viewport.getCenter(false);');
+  }
+
   getBounds(): promise.Promise<any> {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
   }
@@ -73,6 +77,10 @@ export class ViewerPage {
       .tapAndHold(this.pointerPosition2)
       .move(this.pointerPosition1)
       .perform();
+  }
+
+  pan(point: Point): promise.Promise<any> {
+    return browser.executeScript(`window.openSeadragonViewer.viewport.panTo({x: ${point.x}, y: ${point.y}});`);
   }
 
   async zoomIn(): Promise<void> {
@@ -119,4 +127,9 @@ export class ViewerPage {
   async waitForAnimation(): Promise<void> {
     await browser.sleep((await this.getAnimationTime()) * 100);
   }
+}
+
+export interface Point {
+  x: number;
+  y: number;
 }
