@@ -104,7 +104,7 @@ export class ViewerService implements OnInit {
       this.setPageSettings();
       setTimeout(() => {
         this.viewer.gestureSettingsTouch.pinchToZoom = true;
-      }, 300);
+      }, OptionsTransitions.TIME_IN_MILLIS);
     }
   }
 

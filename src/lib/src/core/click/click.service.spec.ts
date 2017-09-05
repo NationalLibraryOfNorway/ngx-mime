@@ -23,7 +23,7 @@ describe("ClickService", () => {
     });
   });
 
-  it("clickcounters should start on 0", () => {
+  it("clickcounters should start on 0 after setup", () => {
     expect(singleClickCounter).toBe(0);
     expect(doubleClickCounter).toBe(0);
   });

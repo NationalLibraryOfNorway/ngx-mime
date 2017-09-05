@@ -60,6 +60,7 @@ describe('ViewerComponent', function () {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerComponent);
     comp = fixture.componentInstance;
+    fixture.detectChanges();
 
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
@@ -90,24 +91,57 @@ describe('ViewerComponent', function () {
 
   it('should create overlays', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
-    viewerService.createOverlays();
     expect(viewerService.getOverlays()).toBeDefined();
   }));
 
   it('should create overlays-array with same size as tilesources-array', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
-    viewerService.createOverlays();
     expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
   }));
-
 
   it('should initially open in dashboardview', () => {
     fixture.detectChanges();
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-    let debugHeader = fixture.debugElement.query(By.css('mime-viewer-header'));
-    let header = debugHeader.nativeElement;
   });
 
+  it('should change to pageView on first double click',
+    inject([ViewerService, ClickService], (viewerService: ViewerService, clickService: ClickService) => {
+      comp.ngOnInit();
+      let firstOverlay = viewerService.getOverlays()[0];
+      let clickEvent = {
+        quick: true,
+        tracker: { dblClickTimeThreshold: 0 },
+        preventDefaultAction: false,
+        originalEvent: { target: firstOverlay }
+      };
+      clickService.click(clickEvent);
+      clickService.click(clickEvent);
+      expect(comp.mode).toBe(ViewerMode.PAGE);
+  }));
+
+  it('should change to pageView on first click',
+    //async(
+    inject([ViewerService, ClickService], (viewerService: ViewerService, clickService: ClickService) => {
+      // comp.ngOnInit();
+      // fixture.detectChanges();
+
+      // let firstOverlay = viewerService.getOverlays()[0];
+      // let clickEvent = {
+      //   quick: true,
+      //   tracker: { dblClickTimeThreshold: 0 },
+      //   preventDefaultAction: false,
+      //   originalEvent: { target: firstOverlay }
+      // };
+      // clickService.click(clickEvent);
+      // fixture.detectChanges();
+
+      // fixture.whenStable().then(() => {
+      //   fixture.detectChanges();
+      //   expect(comp.mode).toBe(ViewerMode.PAGE);
+      //   expect(false).toBe(true); // This proves that the whenStable.then is never run
+      // });
+      pending('Set to pending until we findout why whenStable.then is not run');
+  }));
 
   it('should increase zoom level when pinching out', inject([ViewerService], (viewerService: ViewerService) => {
     // comp.ngOnInit();
@@ -168,6 +202,7 @@ describe('ViewerComponent', function () {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 60 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
   }
+
 });
 
 @Component({
