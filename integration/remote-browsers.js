@@ -22,7 +22,6 @@ exports.customDesktopLaunchers = [
   {
     browserName: "safari",
     platformName: "macOS 10.12",
-    version: "latest"
   }
 ]
 exports.customMobileLaunchers = [
