@@ -8,11 +8,7 @@ export class ViewerPage {
   private pointerPosition1 = {x: 650, y: 275};
   private pointerPosition2 = {x: 750, y: 200};
 
-  async open() {
-    await browser.restart();
-    const width = 1024;
-    const height = 768;
-    await browser.driver.manage().window().setSize(width, height);
+  open() {
     return browser.get('/');
   }
 
