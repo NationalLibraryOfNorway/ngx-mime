@@ -85,8 +85,6 @@ function getCapabilities() {
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
-      shardTestFiles: true,
-      maxInstances: 5,
       seleniumVersion: '3.3.1',
       screenResolution: "1024x768"
     });
