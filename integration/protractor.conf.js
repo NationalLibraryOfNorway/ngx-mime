@@ -34,7 +34,11 @@ const config = {
     format: 'pretty',
     tags: ['~@Ignore']
   },
-  onPrepare: function() { },
+  onPrepare: function() {
+    const width = 1600;
+    const height = 1200;
+    browser.driver.manage().window().setSize(width, height);
+  },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
       openReportInBrowser: true,
