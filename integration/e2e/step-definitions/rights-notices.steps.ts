@@ -21,7 +21,7 @@ defineSupportCode(function ({ Given, Then }) {
     await viewer.openContentsDialog();
     const license = await metadata.getLicense();
 
-    expect(await license.getText()).to.eql('https://beta.nb.no/lisens/cc0');
+    expect(await license.getText()).to.eql('https://creativecommons.org/publicdomain/mark/1.0/');
   });
 
 });
