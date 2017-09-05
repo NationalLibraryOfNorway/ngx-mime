@@ -75,8 +75,8 @@ function getCapabilities() {
     capabilities.push({
       browserName: cap.browserName,
       version: cap.version,
-      platformName: cap.platformName,
-      platformVersion: cap.platformVersion,
+      platformName: cap.platform,
+      platformVersion: cap.version,
       deviceName: cap.deviceName,
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
