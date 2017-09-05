@@ -47,7 +47,7 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = 1.2;
+  animationTime = 0.6;
   gestureSettingsMouse = new GestureSettingsMouse();
   gestureSettingsTouch = new GestureSettingsTouch();
   gestureSettingsPen = new GestureSettingsPen();

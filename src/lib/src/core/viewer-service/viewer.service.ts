@@ -135,7 +135,7 @@ export class ViewerService implements OnInit {
     });
   }
 
-  isPageHit(target: HTMLElement) {
+  isPageHit(target: HTMLElement): boolean {
     return target.nodeName === 'rect';
   }
 
@@ -162,8 +162,8 @@ export class ViewerService implements OnInit {
   }
 
   setisCurrentPageFittedVertically(): void {
-    let svgNodeHeight = this.svgNode.node().parentNode.getBoundingClientRect().height;
-    let currentOverlayHeight = this.overlays[this.pageService.currentPage].getBoundingClientRect().height;
+    let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
+    let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
     this.isCurrentPageFittedVertically = svgNodeHeight === currentOverlayHeight;
   }
 
@@ -218,7 +218,7 @@ export class ViewerService implements OnInit {
     this.viewer.viewport.zoomTo(level);
   }
 
-  public getPageCount() {
+  public getPageCount(): number {
     if (this.tileSources) {
       return this.tileSources.length;
     }
