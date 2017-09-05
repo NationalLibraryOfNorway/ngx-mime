@@ -89,6 +89,11 @@ export class ViewerService implements OnInit {
   }
 
   addOpenEvents(): void {
+    // Overrides default goHome
+    this.viewer.viewport.goHome = () => {
+      this.viewer.raiseEvent('home');
+      this.zoomHome();
+    };
     this.viewer.addHandler('open', (data: any) => {
     });
   }
