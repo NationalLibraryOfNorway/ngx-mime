@@ -14,7 +14,7 @@ defineSupportCode(function ({ Given, Then }) {
 
   Then(/^descriptive metadata are displayed to the user$/, async () => {
     const metadatas = await metadata.getAll();
-    expect(metadatas.length).to.equal(10);
+    expect(metadatas.length).to.equal(7);
   });
 
 });
