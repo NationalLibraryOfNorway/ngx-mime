@@ -1,4 +1,4 @@
-@mobile @desktop
+@desktop
 Feature: Viewing publications in fullscreen mode 
   In order to view high quality images in great detail 
   As a user 
