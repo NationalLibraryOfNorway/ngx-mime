@@ -94,13 +94,13 @@ describe('ViewerComponent', function () {
     expect(viewerService.getOverlays()).toBeDefined();
   }));
 
-  it('should create overlays-array with same size as tilesources-array',
-    fakeAsync(inject([ViewerService], (viewerService: ViewerService) => {
-      comp.ngOnInit();
-      tick();
-      viewerService.createOverlays();
-      expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
-    })));
+  it('should create overlays-array with same size as tilesources-array', inject([ViewerService], (viewerService: ViewerService) => {
+    comp.ngOnInit();
+    viewerService.createOverlays();
+    console.log('overlays length', viewerService.getOverlays().length)
+    console.log('tilesources length', viewerService.getTilesources().length)
+    expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
+  }));
 
 
   it('should initially open in dashboardview', () => {

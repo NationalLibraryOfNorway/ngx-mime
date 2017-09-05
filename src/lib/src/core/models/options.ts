@@ -112,23 +112,9 @@ export class Options {
   ajaxWithCredentials = false;
 
   constructor(mode: ViewerMode, tileSources?: Service[]) {
-    if (tileSources) {
-      this.tileSources = tileSources;
-    }
-
-    if (mode === ViewerMode.DASHBOARD) {
-      console.log("options dashboardmode")
-      this.collectionMode = true;
-      this.sequenceMode = false;
-      this.defaultZoomLevel = 0.0004;
-      this.gestureSettingsMouse.scrollToZoom = false;
-    }
-    if (mode === ViewerMode.PAGE) {
-      console.log("options page-mode")
-      this.collectionMode = false;
-      this.sequenceMode = true;
-      this.defaultZoomLevel = 0;
-      this.gestureSettingsMouse.scrollToZoom = true;
-    }
+    // if (tileSources) {
+    //   this.tileSources = tileSources;
+    // }
+    this.defaultZoomLevel = 0.0002;
   }
 }

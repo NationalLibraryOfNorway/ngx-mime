@@ -1,16 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 
 import { ViewerService } from './viewer.service';
-<<<<<<< HEAD
+import { ClickService } from '../click/click.service';
 import { PageService } from './../page-service/page-service';
 import { ModeService } from './../mode-service/mode.service';
-import { ClickService } from '../../core/click/click.service';
-
-import 'openseadragon';
-import 'd3';
-=======
-import { ClickService } from '../click/click.service';
->>>>>>> master
 
 describe('ViewerService', () => {
   beforeEach(() => {
@@ -18,12 +11,9 @@ describe('ViewerService', () => {
       imports: [],
       providers: [
         ViewerService,
-<<<<<<< HEAD
+        ClickService,
         PageService,
-        ModeService,
-=======
->>>>>>> master
-        ClickService
+        ModeService
       ]
     });
   });

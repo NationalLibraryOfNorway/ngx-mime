@@ -16,13 +16,15 @@ export class ViewerService implements OnInit {
   private readonly ZOOMFACTOR = 0.0002;
   private viewer: any;
   private options: Options;
-  // References to clickable overlays
+
   private overlays: Array<HTMLElement>;
+  private svgNode: any;
   private tileSources: any[];
+
   private subscriptions: Array<Subscription> = [];
 
   private previousTogglePinchDistance = 0;
-  private zoomLevel = 0;
+  private isCurrentPageFittedVertically = false;
 
   constructor(
     private zone: NgZone,
@@ -30,7 +32,7 @@ export class ViewerService implements OnInit {
     private pageService: PageService,
     private modeService: ModeService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   setUpViewer(manifest: Manifest) {
     if (manifest.tileSource) {
@@ -47,7 +49,8 @@ export class ViewerService implements OnInit {
 
       this.addToWindow();
       this.addEvents();
-      this.zoomLevel = this.getZoom();
+      this.createOverlays();
+      this.fitBoundsToStart();
     }
   }
 
@@ -80,16 +83,21 @@ export class ViewerService implements OnInit {
     this.addOpenEvents();
     this.addClickEvents();
     this.addPinchEvents();
+    this.addAnimationEvents();
   }
 
   addOpenEvents(): void {
     this.viewer.addHandler('open', (data: any) => {
-      this.createOverlays();
-      this.fitBoundsToStart();
     });
   }
 
+  addAnimationEvents(): void {
+    this.viewer.addHandler('animation-finish', this.animationsEndCallback);
+  }
+
   toggleMode(mode: ViewerMode) {
+
+    this.previousTogglePinchDistance = 0;
     if (mode === ViewerMode.DASHBOARD) {
       this.setDashboardSettings();
     } else if (mode === ViewerMode.PAGE) {
@@ -110,7 +118,7 @@ export class ViewerService implements OnInit {
     this.addDblClickEvents();
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (event: any) => {
-        event.preventDefaultAction = true;
+      event.preventDefaultAction = true;
     });
   }
 
@@ -118,44 +126,63 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler((event: any) => {
       let target: HTMLElement = event.originalEvent.target;
-      if (target.nodeName === 'rect') {
+      let requestedPage = this.getOverlayIndexFromClickEvent(target);
+      if (this.isPageHit(target)) {
+        this.pageService.currentPage = requestedPage;
+        this.modeService.toggleMode();
+        this.fitBounds(target);
+      }
+    });
+  }
+
+  isPageHit(target: HTMLElement) {
+    return target.nodeName === 'rect';
+  }
+
+
+  addDblClickEvents(): void {
+    this.clickService.addDoubleClickHandler((event) => {
+      let target: HTMLElement = event.originalEvent.target;
+      // Page is fitted vertically, so dbl-click zooms in
+      if (this.isCurrentPageFittedVertically) {
+        this.zoomTo(this.getZoom() * this.options.zoomPerClick);
+      } else {
         let requestedPage = this.getOverlayIndexFromClickEvent(target);
-        if (requestedPage >= 0) {
+        if (this.isPageHit) {
+          this.modeService.mode = ViewerMode.PAGE;
           this.pageService.currentPage = requestedPage;
-          this.modeService.toggleMode();
           this.fitBounds(target);
         }
       }
     });
   }
 
-  addDblClickEvents(): void {
-    this.clickService.addDoubleClickHandler((event) => {
-      if (this.modeService.mode === ViewerMode.PAGE) {
-        if (this.getZoom() > this.getHomeZoom()) {
-          this.fitVertically();
-        } else {
-          this.zoomTo(this.getZoom() * this.options.zoomPerClick);
-        }
-      }
-    });
+  animationsEndCallback = () => {
+    this.setisCurrentPageFittedVertically();
   }
 
+  setisCurrentPageFittedVertically(): void {
+    let svgNodeHeight = this.svgNode.node().parentNode.getBoundingClientRect().height;
+    let currentOverlayHeight = this.overlays[this.pageService.currentPage].getBoundingClientRect().height;
+    this.isCurrentPageFittedVertically = svgNodeHeight === currentOverlayHeight;
+  }
+
+
   addPinchEvents(): void {
-    this.viewer.addHandler('canvas-pinch', this.pinchHandlerToggleMode);
+    this.viewer.addHandler('canvas-pinch', this.pinchHandlerDashboard);
     this.viewer.addHandler('canvas-release', (data: any) => {
       this.previousTogglePinchDistance = 0;
     });
   }
 
-  pinchHandlerToggleMode = (event: any) => {
+  pinchHandlerDashboard = (event: any) => {
     // Pinch Out
     if (event.lastDistance > this.previousTogglePinchDistance) {
       if (this.modeService.mode === ViewerMode.DASHBOARD) {
-          this.modeService.toggleMode();
-          this.fitBounds(this.overlays[this.pageService.currentPage]);
+        this.modeService.toggleMode();
+        this.fitBounds(this.overlays[this.pageService.currentPage]);
       }
-    // Pinch In
+      // Pinch In
     } else {
       if (this.modeService.mode === ViewerMode.PAGE) {
         this.modeService.toggleMode();
@@ -164,6 +191,8 @@ export class ViewerService implements OnInit {
     }
     this.previousTogglePinchDistance = event.lastDistance;
   }
+
+
 
   public getZoom(): number {
     return this.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
@@ -195,28 +224,41 @@ export class ViewerService implements OnInit {
     }
   }
 
-  // Create SVG-overlays for each page
+  // TODO move padding and calculations to config
   createOverlays(): void {
     this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();
-    let svgNode = d3.select(svgOverlay.node());
+    this.svgNode = d3.select(svgOverlay.node());
+
+    let center = new OpenSeadragon.Point(0, 0);
+    let currentX = center.x - (this.tileSources[0].width / 2);
+
+
     this.tileSources.forEach((tile, i) => {
-      let tiledImage = this.viewer.world.getItemAt(i);
-      if (!tiledImage) { return; }
+      let currentY = center.y - tile.height / 2;
+      this.viewer.addTiledImage({
+        index: i,
+        tileSource: tile,
+        height: tile.height,
+        x: currentX,
+        y: currentY
+      });
 
-      let box = tiledImage.getBounds(true);
-
-      svgNode.append('rect')
-        .attr('x', box.x)
-        .attr('y', box.y)
-        .attr('width', box.width)
-        .attr('height', box.height)
+      this.svgNode.append('rect')
+        .attr('x', currentX)
+        .attr('y', currentY)
+        .attr('width', tile.width)
+        .attr('height', tile.height)
         .attr('class', 'tile');
 
-      let currentOverlay: HTMLElement = svgNode.node().children[i];
+
+      let currentOverlay: HTMLElement = this.svgNode.node().children[i];
       this.overlays.push(currentOverlay);
+
+      currentX = currentX + tile.width + 100;
     });
   }
+
 
   fitBoundsToStart(): void {
     // Don't need to fit bounds if pages < 3
@@ -238,7 +280,11 @@ export class ViewerService implements OnInit {
 
   }
 
-  // Toggle viewport-bounds between page and dashboard
+  /**
+   * Toggle viewport-bounds between page and dashboard
+   * This function assumes ViewerMode is set before being called
+   * @param currentOverlay
+   */
   fitBounds(currentOverlay: any): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       let dashboardBounds = this.viewer.viewport.getBounds();
