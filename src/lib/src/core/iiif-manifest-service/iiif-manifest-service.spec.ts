@@ -1,34 +1,36 @@
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
-import { IiifService } from './iiif-service';
+import { IiifManifestService } from './iiif-manifest-service';
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { testManifest } from '../../test/testManifest';
+import '../../rxjs-extension';
 
-describe('IiifService', () => {
+describe('IiifManifestService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule
       ],
       providers: [
-        IiifService
+        IiifManifestService
       ]
     });
   });
 
-  it('should be created', inject([IiifService],
-      (svc: IiifService) => {
+  it('should be created', inject([IiifManifestService],
+      (svc: IiifManifestService) => {
     expect(svc).toBeTruthy();
   }));
 
-  it('should return a Manifest', inject([IiifService, HttpClient, HttpTestingController],
-    fakeAsync((svc: IiifService, http: HttpClient, httpMock: HttpTestingController) => {
+  it('should return a Manifest', inject([IiifManifestService, HttpClient, HttpTestingController],
+    fakeAsync((svc: IiifManifestService, http: HttpClient, httpMock: HttpTestingController) => {
     let result: Manifest = null;
 
-    svc.getManifest('dummyUrl').subscribe((manifest: Manifest) => {
+    svc.load('dummyUrl');
+    svc.currentManifest.subscribe((manifest: Manifest) => {
       result = manifest;
     });
 

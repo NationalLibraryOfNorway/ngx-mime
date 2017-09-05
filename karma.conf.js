@@ -21,7 +21,7 @@ module.exports = function (config) {
       // From the CLI. Not used here but interesting
       // chrome setup for travis CI using chromium
       Chrome_travis_ci: {
-        base: 'Chrome',
+        base: 'ChromeHeadless',
         flags: ['--no-sandbox']
       }
     },
@@ -43,6 +43,8 @@ module.exports = function (config) {
       'node_modules/zone.js/dist/fake-async-test.js',
       'node_modules/tslib/tslib.js',
       'node_modules/openseadragon/build/openseadragon/openseadragon.min.js',
+      'node_modules/d3/build/d3.min.js',
+      { pattern: 'node_modules/@angular/material/prebuilt-themes/indigo-pink.css', included: true, watched: true },
 
       // RxJs
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
@@ -85,7 +87,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     singleRun: false
   })
 }

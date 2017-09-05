@@ -1,7 +1,8 @@
-import { GestureSettings } from './gestureSettings';
-import { NavImages } from './navImages';
+import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
+import { ViewerMode } from './viewer-mode';
+
 export class Options {
   id = 'openseadragon';
   element: Element;
@@ -10,14 +11,14 @@ export class Options {
   overlays: any[];
   xmlPath: string = null;
   prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
-  navImages: NavImages;
+  navImages: null;
   debugMode = false;
   debugGridColor = '#437AB2';
   blendTime = 0;
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 0;
+  defaultZoomLevel = 0.00015;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
@@ -27,10 +28,10 @@ export class Options {
   homeFillsViewer = false;
   panHorizontal = true;
   panVertical = true;
-  constrainDuringPan = false;
+  constrainDuringPan = true;
   wrapHorizontal = false;
   wrapVertical = false;
-  minZoomImageRatio = 0.9;
+  minZoomImageRatio = 1;
   maxZoomPixelRatio = 1.1;
   smoothTileEdgesMinZoom = 1.1;
   iOSDevice = true;
@@ -38,7 +39,7 @@ export class Options {
   preserveImageSizeOnResize = false;
   minScrollDeltaTime = 50;
   pixelsPerWheelLine = 40;
-  visibilityRatio = 0.5;
+  visibilityRatio = 1;
   viewportMargins: Object = {};
   imageLoaderLimit = 0;
   clickTimeThreshold = 300;
@@ -46,11 +47,11 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = 1.2;
-  gestureSettingsMouse: GestureSettings;
-  gestureSettingsTouch: GestureSettings;
-  gestureSettingsPen: GestureSettings;
-  gestureSettingsUnknown: GestureSettings;
+  animationTime = 0.6;
+  gestureSettingsMouse = new GestureSettingsMouse();
+  gestureSettingsTouch = new GestureSettingsTouch();
+  gestureSettingsPen = new GestureSettingsPen();
+  gestureSettingsUnknown = new GestureSettingsUnknown();
   zoomPerClick = 2.0;
   zoomPerScroll = 1.2;
   zoomPerSecond = 1.0;
@@ -74,22 +75,22 @@ export class Options {
   minPixelRatio = 0.5;
   mouseNavEnabled = true;
   showNavigationControl = true;
-  navigationControlAnchor: ControlAnchor = 'TOP_LEFT';
+  navigationControlAnchor = ControlAnchor.TOP_LEFT;
   showZoomControl = true;
   showHomeControl = true;
   showFullPageControl = true;
   showRotationControl = false;
   showSequenceControl = true;
-  sequenceControlAnchor: ControlAnchor = 'TOP_LEFT';
+  sequenceControlAnchor = ControlAnchor.TOP_LEFT;
   navPrevNextWrap = false;
-  zoomInButton: string;
-  zoomOutButton: string;
-  homeButton: string;
+  zoomInButton = 'zoomInButton';
+  zoomOutButton = 'zoomOutButton';
+  homeButton = 'homeButton';
   fullPageButton: string;
   rotateLeftButton: string;
   rotateRightButton: string;
-  previousButton: string;
-  nextButton: string;
+  previousButton = 'navigateBeforeButton';
+  nextButton = 'navigateNextButton';
   sequenceMode = true;
   initialPage = 0;
   preserveViewport = false;
@@ -102,7 +103,7 @@ export class Options {
   referenceStripPosition = 'BOTTOM_LEFT';
   referenceStripSizeRatio = 0.2;
   collectionMode = false;
-  collectionRows = 3;
+  collectionRows = 1;
   collectionColumns = 0;
   collectionLayout = 'horizontal';
   collectionTileSize = 800;
@@ -110,9 +111,5 @@ export class Options {
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
 
-  constructor(tileSources?: Service[]) {
-    if (tileSources) {
-      this.tileSources = tileSources;
-    }
-  }
+  constructor(mode: ViewerMode, tileSources?: Service[]) {}
 }

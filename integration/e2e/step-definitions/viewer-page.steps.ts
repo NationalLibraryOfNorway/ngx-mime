@@ -5,11 +5,17 @@ import { ViewerPage } from '../pages/viewer.po';
 defineSupportCode(function ({ Given, Then }) {
   const page = new ViewerPage();
 
-  Given(/^I am opening a default book$/, async () => {
+  Given(/^the viewer is opened with a publication$/, async () => {
+    await page.open();
+    expect(await(await page.openSeadragonElement()).isPresent()).to.be.true;
+  });
+
+  Given(/^the viewer is opened with a publication with attribution labels$/, async () => {
     await page.open();
   });
 
-  Then(/^Viewer should be displayed$/, async () => {
-    await expect(page.getOpenSeadragon()).exist;
+  Given(/^the viewer is opened with a publication with licenses associated with it$/, async () => {
+    await page.open();
   });
+
 });

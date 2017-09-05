@@ -1,36 +1,35 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgModule} from '@angular/core';
 
-import { MimeMaterialModule } from './mime-material.module';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { ContentsDialogModule } from './contents-dialog/contents-dialog.module';
+import { AttributionDialogModule } from './attribution-dialog/attribution-dialog.module';
 import { ViewerComponent } from './viewer/viewer.component';
-import { IiifService } from './core/iiif-service/iiif-service';
+import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
+import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
 import './rxjs-extension';
 import 'openseadragon';
+import 'd3';
 
 @NgModule({
   declarations: [
-    ViewerComponent
+    ViewerComponent,
+    ViewerHeaderComponent,
+    ViewerFooterComponent,
+    OsdToolbarComponent
   ],
   imports: [
-    FlexLayoutModule,
-    MimeMaterialModule
+    CoreModule,
+    SharedModule,
+    ContentsDialogModule,
+    BrowserAnimationsModule,
+    AttributionDialogModule
   ],
   exports: [
-    FlexLayoutModule,
-    MimeMaterialModule,
     ViewerComponent
-  ],
-  providers: [
-    IiifService,
   ]
 })
-export class MimeModule {
-  constructor(
-    @Optional() @SkipSelf() parentModule: MimeModule) {
-    if (parentModule) {
-      throw new Error(
-        'CoreModule is already loaded. Import it in the AppModule only');
-    }
-  }
-}
+export class MimeModule { }

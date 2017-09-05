@@ -9,6 +9,5 @@ md-sidenav {
 .demo-content {
   width: 100%;
   height: calc(100% - 64px);
-  padding: 16px;
-  box-sizing: border-box;  
+  box-sizing: border-box;
 }
