@@ -1,3 +1,4 @@
+import { OptionsTransitions } from '../../core/models/options-transitions';
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, OnChanges, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
@@ -27,8 +28,8 @@ import { ContentsDialogService } from './../../contents-dialog/contents-dialog.s
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate('300ms ease-in')),
-      transition('show => hide', animate('300ms ease-out'))
+      transition('hide => show', animate(OptionsTransitions.TIME_IN_MILLIS + 'ms ease-in')),
+      transition('show => hide', animate(OptionsTransitions.TIME_IN_MILLIS + 'ms ease-out'))
     ])
   ],
   host: {

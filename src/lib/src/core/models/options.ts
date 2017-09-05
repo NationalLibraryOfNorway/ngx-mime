@@ -18,7 +18,7 @@ export class Options {
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 0;
+  defaultZoomLevel = 0.00015;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
@@ -111,10 +111,5 @@ export class Options {
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
 
-  constructor(mode: ViewerMode, tileSources?: Service[]) {
-    // if (tileSources) {
-    //   this.tileSources = tileSources;
-    // }
-    this.defaultZoomLevel = 0.0002;
-  }
+  constructor(mode: ViewerMode, tileSources?: Service[]) {}
 }

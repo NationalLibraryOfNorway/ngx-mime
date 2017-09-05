@@ -97,8 +97,6 @@ describe('ViewerComponent', function () {
   it('should create overlays-array with same size as tilesources-array', inject([ViewerService], (viewerService: ViewerService) => {
     comp.ngOnInit();
     viewerService.createOverlays();
-    console.log('overlays length', viewerService.getOverlays().length)
-    console.log('tilesources length', viewerService.getTilesources().length)
     expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
   }));
 

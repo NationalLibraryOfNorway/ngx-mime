@@ -1,3 +1,4 @@
+import { OptionsTransitions } from '../../core/models/options-transitions';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MdSliderChange } from '@angular/material';
@@ -20,8 +21,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate('300ms ease-in')),
-      transition('show => hide', animate('300ms ease-out'))
+      transition('hide => show', animate(OptionsTransitions.TIME_IN_MILLIS + 'ms ease-in')),
+      transition('show => hide', animate(OptionsTransitions.TIME_IN_MILLIS + 'ms ease-out'))
     ])
   ],
   host: {
@@ -29,6 +30,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   }
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
+
   private subscriptions: Array<Subscription> = [];
   public state = 'show';
 
