@@ -35,8 +35,8 @@ const config = {
     tags: ['~@Ignore']
   },
   onPrepare: function() {
-    const width = 1600;
-    const height = 1200;
+    const width = 1024;
+    const height = 768;
     browser.driver.manage().window().setSize(width, height);
   },
   afterLaunch: function () {
@@ -85,8 +85,10 @@ function getCapabilities() {
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
+      shardTestFiles: true,
+      maxInstances: 5,
       seleniumVersion: '3.3.1',
-      screenResolution: "1600x1200"
+      screenResolution: "1024x768"
     });
   }
   return capabilities;
