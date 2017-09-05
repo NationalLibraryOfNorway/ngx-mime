@@ -7,8 +7,7 @@ const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
-  getPageTimeout: 60000,
-  allScriptsTimeout: 500000,
+  allScriptsTimeout: 11000,
   SELENIUM_PROMISE_MANAGER: false,
   specs: getFeatureFiles(),
   unknownFlags: [
