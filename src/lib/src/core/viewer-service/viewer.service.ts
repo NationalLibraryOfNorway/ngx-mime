@@ -23,7 +23,6 @@ export class ViewerService implements OnInit {
 
   private subscriptions: Array<Subscription> = [];
 
-  private previousTogglePinchDistance = 0;
   private isCurrentPageFittedVertically = false;
 
   constructor(
@@ -96,12 +95,14 @@ export class ViewerService implements OnInit {
   }
 
   toggleMode(mode: ViewerMode) {
-
-    this.previousTogglePinchDistance = 0;
     if (mode === ViewerMode.DASHBOARD) {
       this.setDashboardSettings();
+      this.viewer.gestureSettingsTouch.pinchToZoom = false;
     } else if (mode === ViewerMode.PAGE) {
       this.setPageSettings();
+      setTimeout(() => {
+        this.viewer.gestureSettingsTouch.pinchToZoom = true;
+      }, 300);
     }
   }
 
@@ -167,29 +168,28 @@ export class ViewerService implements OnInit {
     this.isCurrentPageFittedVertically = svgNodeHeight === currentOverlayHeight;
   }
 
+  pageIsAtMinZoom(): boolean {
+    let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
+    let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
+    return svgNodeHeight >= currentOverlayHeight;
+  }
 
   addPinchEvents(): void {
     this.viewer.addHandler('canvas-pinch', this.pinchHandlerDashboard);
-    this.viewer.addHandler('canvas-release', (data: any) => {
-      this.previousTogglePinchDistance = 0;
-    });
   }
 
   pinchHandlerDashboard = (event: any) => {
     // Pinch Out
-    if (event.lastDistance > this.previousTogglePinchDistance) {
+    if (event.distance > event.lastDistance) {
       if (this.modeService.mode === ViewerMode.DASHBOARD) {
         this.modeService.toggleMode();
         this.fitBounds(this.overlays[this.pageService.currentPage]);
       }
-      // Pinch In
-    } else {
-      if (this.modeService.mode === ViewerMode.PAGE) {
+    // Pinch In
+    } else if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
         this.modeService.toggleMode();
-        this.zoomTo(this.getHomeZoom())
-      }
+        this.zoomTo(this.getHomeZoom());
     }
-    this.previousTogglePinchDistance = event.lastDistance;
   }
 
 
