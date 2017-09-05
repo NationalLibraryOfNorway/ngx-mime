@@ -29,13 +29,13 @@ exports.customMobileLaunchers = [
   {
     browserName: "Safari",
     deviceName: "iPhone Simulator",
-    version: "10.3",
-    platform: "iOS"
+    platformVersion: "10.3",
+    platformName: "iOS"
   },
   {
     browserName: "Chrome",
     deviceName: "Android Emulator",
-    version: "6.0",
-    platform: "Android"
+    platformVersion: "6.0",
+    platformName: "Android"
   }
 ]
