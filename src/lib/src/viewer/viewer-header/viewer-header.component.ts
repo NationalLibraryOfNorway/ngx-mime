@@ -1,5 +1,5 @@
 import { OptionsTransitions } from '../../core/models/options-transitions';
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, OnChanges, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -36,7 +36,7 @@ import { ContentsDialogService } from './../../contents-dialog/contents-dialog.s
     '[@headerState]': 'state'
   }
 })
-export class ViewerHeaderComponent implements OnInit, OnDestroy, OnChanges {
+export class ViewerHeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
   public state = 'show';
 
@@ -47,16 +47,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
-  }
-
-  ngOnChanges() {
-    console.log('changes!', this.state);
-  }
-
-  toggleState() {
-    this.state = this.state === 'hide' ? 'show' : 'hide';
-    console.log('toggled state', this.state);
-
   }
 
   ngOnDestroy() {

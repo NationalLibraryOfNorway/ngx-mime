@@ -1,6 +1,6 @@
-<div class="viewer__container" [ngClass]="mode === ViewerMode.PAGE ? 'page' : 'dashboard'">
-  <mime-viewer-header #header></mime-viewer-header>
-  <mime-osd-toolbar *ngIf="config?.navigationControlEnabled"></mime-osd-toolbar>
+<div class="viewer__container" [ngClass]="setClasses()">
+  <mime-viewer-header class="mime-toolbar" #header></mime-viewer-header>
+  <mime-osd-toolbar class="mime-toolbar" *ngIf="config?.navigationControlEnabled"></mime-osd-toolbar>
   <div id="openseadragon"></div>
   <mime-viewer-footer #footer></mime-viewer-footer>
 </div>

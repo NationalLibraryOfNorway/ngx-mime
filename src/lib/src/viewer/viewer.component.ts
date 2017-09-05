@@ -31,7 +31,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
@@ -154,5 +154,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   private closeAllDialogs() {
     this.dialog.closeAll();
+  }
+
+  setClasses() {
+    return {
+      page: this.mode === ViewerMode.PAGE,
+      dashboard: this.mode === ViewerMode.DASHBOARD,
+      canvaspressed: this.viewerService.getIsCanvasPressed()
+    };
   }
 }

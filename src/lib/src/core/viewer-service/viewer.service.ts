@@ -26,6 +26,7 @@ export class ViewerService implements OnInit {
   private subscriptions: Array<Subscription> = [];
 
   private isCurrentPageFittedVertically = false;
+  private isCanvasPressed = false;
 
   constructor(
     private zone: NgZone,
@@ -120,9 +121,9 @@ export class ViewerService implements OnInit {
     this.addSingleClickEvents();
     this.addDblClickEvents();
     this.viewer.addHandler('canvas-click', this.clickService.click);
-    this.viewer.addHandler('canvas-double-click', (event: any) => {
-      event.preventDefaultAction = true;
-    });
+    this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
+    this.viewer.addHandler('canvas-press', () => this.isCanvasPressed = true);
+    this.viewer.addHandler('canvas-release', () => this.isCanvasPressed = false);
   }
 
   addSingleClickEvents(): void {
@@ -187,10 +188,10 @@ export class ViewerService implements OnInit {
         this.modeService.toggleMode();
         this.fitBounds(this.overlays[this.pageService.currentPage]);
       }
-    // Pinch In
+      // Pinch In
     } else if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
-        this.modeService.toggleMode();
-        this.zoomTo(this.getHomeZoom());
+      this.modeService.toggleMode();
+      this.zoomTo(this.getHomeZoom());
     }
   }
 
@@ -224,7 +225,10 @@ export class ViewerService implements OnInit {
     }
   }
 
-  // TODO move padding and calculations to config
+  getIsCanvasPressed(): boolean {
+    return this.isCanvasPressed;
+  }
+
   createOverlays(): void {
     this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();

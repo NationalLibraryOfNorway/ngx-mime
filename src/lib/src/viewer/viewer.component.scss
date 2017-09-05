@@ -31,9 +31,15 @@
   cursor: pointer;
 }
 
+.viewer__container.canvaspressed,.viewer__container.canvaspressed>>>.tile:hover  {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
 .viewer__container>>>.tile {
   fill-opacity: 0; // Svg-tile filled black if this is not set?
 }
+
 
 mime-viewer-header {
   height: 64px;
