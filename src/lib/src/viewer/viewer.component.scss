@@ -25,13 +25,17 @@
   }
 }
 
-.viewer__container.dashboard>>>.tile:hover {
+.viewer__container >>>.tile:hover {
   stroke: #08f;
   stroke-width: 10;
   cursor: pointer;
 }
 
-.viewer__container.canvaspressed,.viewer__container.canvaspressed>>>.tile:hover  {
+.viewer__container.page >>>.tile:hover {
+  stroke: none;
+}
+
+.viewer__container.canvas-pressed,.viewer__container.canvas-pressed>>>.tile:hover  {
   cursor: grabbing;
   cursor: -webkit-grabbing;
 }
