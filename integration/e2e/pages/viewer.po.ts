@@ -135,8 +135,7 @@ export class ViewerPage {
   }
 
   async clickNavigationButton(buttonId: string): Promise<void> {
-    const button = element(by.id(buttonId));
-    utils.waitForElement(button);
+    const button = await utils.waitForElement(element(by.id(buttonId)));
     await utils.clickElement(button);
   }
 
