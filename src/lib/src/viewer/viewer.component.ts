@@ -31,12 +31,13 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private subscriptions: Array<Subscription> = [];
+  private isCanvasPressed = false;
 
   ViewerMode: typeof ViewerMode = ViewerMode;
 
@@ -74,6 +75,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           }
         })
     );
+
+    this.viewerService.isCanvasPressed
+      .subscribe((value: boolean) => {
+        this.isCanvasPressed = value;
+        this.changeDetectorRef.detectChanges()
+      })
 
     this.loadManifest();
     this.modeService.onChange.subscribe((mode: ViewerMode) => {
@@ -160,7 +167,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     return {
       'page': this.mode === ViewerMode.PAGE,
       'dashboard': this.mode === ViewerMode.DASHBOARD,
-      'canvas-pressed': this.viewerService.getIsCanvasPressed()
+      'canvas-pressed': this.isCanvasPressed
     };
   }
 }

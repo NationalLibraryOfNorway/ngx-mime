@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
 import { Injectable, NgZone, OnInit } from '@angular/core';
@@ -26,7 +27,9 @@ export class ViewerService implements OnInit {
   private subscriptions: Array<Subscription> = [];
 
   private isCurrentPageFittedVertically = false;
-  private isCanvasPressed = false;
+
+  isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+
 
   constructor(
     private zone: NgZone,
@@ -68,10 +71,6 @@ export class ViewerService implements OnInit {
     return this.overlays;
   }
 
-  getIsCanvasPressed(): boolean {
-    return this.isCanvasPressed;
-  }
-
   addToWindow() {
     window.openSeadragonViewer = this.viewer;
   }
@@ -93,8 +92,8 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
-    this.viewer.addHandler('canvas-press', () => this.isCanvasPressed = true);
-    this.viewer.addHandler('canvas-release', () => this.isCanvasPressed = false);
+    this.viewer.addHandler('canvas-press', () => this.isCanvasPressed.next(true));
+    this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
   }
