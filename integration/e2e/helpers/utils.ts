@@ -8,7 +8,7 @@ export class Utils {
   public async waitForElement(el: ElementFinder) {
     let found = false;
     for (let i = 0; i < RETRY; i++) {
-      await browser.sleep(1);
+      await browser.sleep(10);
       const isElementPresent = await browser.isElementPresent(el);
       if (isElementPresent) {
         found = true;
