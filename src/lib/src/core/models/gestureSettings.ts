@@ -9,7 +9,9 @@ export class GestureSettings {
   pinchRotate = false;
 }
 
-export class GestureSettingsMouse extends GestureSettings {}
+export class GestureSettingsMouse extends GestureSettings {
+  scrollToZoom = false;
+}
 
 export class GestureSettingsTouch extends GestureSettings {
   pinchToZoom = false;

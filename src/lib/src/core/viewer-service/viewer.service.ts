@@ -68,6 +68,10 @@ export class ViewerService implements OnInit {
     return this.overlays;
   }
 
+  getIsCanvasPressed(): boolean {
+    return this.isCanvasPressed;
+  }
+
   addToWindow() {
     window.openSeadragonViewer = this.viewer;
   }
@@ -82,56 +86,109 @@ export class ViewerService implements OnInit {
   }
 
   addEvents(): void {
-    this.addOpenEvents();
-    this.addClickEvents();
-    this.addPinchEvents();
-    this.addAnimationEvents();
-  }
-
-  addOpenEvents(): void {
-    // Overrides default goHome
-    this.viewer.viewport.goHome = () => {
-      this.viewer.raiseEvent('home');
-      this.zoomHome();
-    };
-    this.viewer.addHandler('open', (data: any) => {
-    });
-  }
-
-  addAnimationEvents(): void {
-    this.viewer.addHandler('animation-finish', this.animationsEndCallback);
-  }
-
-  toggleMode(mode: ViewerMode) {
-    if (mode === ViewerMode.DASHBOARD) {
-      this.setDashboardSettings();
-      this.viewer.gestureSettingsTouch.pinchToZoom = false;
-    } else if (mode === ViewerMode.PAGE) {
-      this.setPageSettings();
-      setTimeout(() => {
-        this.viewer.gestureSettingsTouch.pinchToZoom = true;
-      }, OptionsTransitions.TIME_IN_MILLIS);
-    }
-  }
-
-  setDashboardSettings(): void {
-    this.viewer.panVertical = false;
-  }
-
-  setPageSettings(): void {
-    this.viewer.panVertical = true;
-  }
-
-  addClickEvents(): void {
+    this.addOverrides();
     this.clickService.reset();
     this.addSingleClickEvents();
-    this.addDblClickEvents();
+    this.clickService.addDoubleClickHandler(this.dblClickHandler);
+    this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
     this.viewer.addHandler('canvas-press', () => this.isCanvasPressed = true);
     this.viewer.addHandler('canvas-release', () => this.isCanvasPressed = false);
+    this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
+    this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
   }
 
+  /**
+   * Overrides for default OSD-functions
+   */
+  addOverrides(): void {
+    // Overrides default goHome, raised when clicking home-button
+    this.viewer.viewport.goHome = () => {
+      this.viewer.raiseEvent('home');
+      this.zoomHome();
+    };
+  }
+
+  /**
+   * Toggles between page/dashboard-mode
+   * @param mode ViewerMode
+   */
+  toggleMode(mode: ViewerMode) {
+    if (mode === ViewerMode.DASHBOARD) {
+      this.setDashboardSettings();
+    } else if (mode === ViewerMode.PAGE) {
+      this.setPageSettings();
+    }
+  }
+
+  /**
+   * Set settings for dashboard-mode
+   */
+  setDashboardSettings(): void {
+    this.viewer.panVertical = false;
+    this.viewer.gestureSettingsTouch.pinchToZoom = false;
+    this.viewer.gestureSettingsMouse.scrollToZoom = false;
+  }
+
+  /**
+   * Set settings for page-mode
+   */
+  setPageSettings(): void {
+    this.viewer.panVertical = true;
+
+    setTimeout(() => {
+      this.viewer.gestureSettingsTouch.pinchToZoom = true;
+      this.viewer.gestureSettingsMouse.scrollToZoom = true;
+    }, OptionsTransitions.TIME_IN_MILLIS);
+  }
+
+  /**
+   * Scroll-toggle-handler
+   * Scroll-up dashboard-mode: Toggle page-mode
+   * Scroll-down page-mode: Toggle dashboard-mode if page is at min-zoom
+   */
+  scrollToggleMode = (e: any) => {
+    let event = e.originalEvent;
+    let delta = (event.wheelDelta) ? event.wheelDelta : -event.deltaY;
+    // Scrolling down
+    if (delta < 0) {
+      if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
+        this.modeService.toggleMode();
+        this.zoomTo(this.getHomeZoom());
+      }
+      // Scrolling up
+    } else if (delta > 0) {
+      if (this.modeService.mode === ViewerMode.DASHBOARD) {
+        this.modeService.toggleMode();
+        this.fitBounds(this.overlays[this.pageService.currentPage]);
+      }
+    }
+  }
+
+  /**
+   * Pinch-toggle-handler
+   * Pinch-out dashboard-mode: Toggles page-mode
+   * Pinch-in page-mode: Toggles dashboard-mode if page is at min-zoom
+   */
+  pinchToggleMode = (event: any) => {
+    // Pinch Out
+    if (event.distance > event.lastDistance) {
+      if (this.modeService.mode === ViewerMode.DASHBOARD) {
+        this.modeService.toggleMode();
+        this.fitBounds(this.overlays[this.pageService.currentPage]);
+      }
+      // Pinch In
+    } else if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
+      this.modeService.toggleMode();
+      this.zoomTo(this.getHomeZoom());
+    }
+  }
+
+  /**
+   * Adds single-click-handler
+   * Single-click toggles between page/dashboard-mode if a page is hit
+   */
   addSingleClickEvents(): void {
     this.clickService.addSingleClickHandler((event: any) => {
       let target: HTMLElement = event.originalEvent.target;
@@ -144,32 +201,46 @@ export class ViewerService implements OnInit {
     });
   }
 
+  /**
+   * Checks if hit element is a <rect>-element
+   * @param target
+   */
   isPageHit(target: HTMLElement): boolean {
     return target.nodeName === 'rect';
   }
 
 
-  addDblClickEvents(): void {
-    this.clickService.addDoubleClickHandler((event) => {
-      let target: HTMLElement = event.originalEvent.target;
-      // Page is fitted vertically, so dbl-click zooms in
-      if (this.isCurrentPageFittedVertically) {
-        this.zoomTo(this.getZoom() * this.options.zoomPerClick);
-      } else {
-        let requestedPage = this.getOverlayIndexFromClickEvent(target);
-        if (this.isPageHit) {
-          this.modeService.mode = ViewerMode.PAGE;
-          this.pageService.currentPage = requestedPage;
-          this.fitBounds(target);
-        }
+  /**
+   * Double-click-handler
+   * Double-click dashboard-mode should go to page-mode
+   * Double-click page-mode should
+   *    - Zoom in if page is fitted vertically
+   *    - Fit vertically if page is already zoomed in
+   */
+  dblClickHandler = (event: any) => {
+    let target: HTMLElement = event.originalEvent.target;
+    // Page is fitted vertically, so dbl-click zooms in
+    if (this.isCurrentPageFittedVertically) {
+      this.zoomTo(this.getZoom() * this.options.zoomPerClick);
+    } else {
+      let requestedPage = this.getOverlayIndexFromClickEvent(target);
+      if (this.isPageHit) {
+        this.modeService.mode = ViewerMode.PAGE;
+        this.pageService.currentPage = requestedPage;
+        this.fitBounds(target);
       }
-    });
+    }
   }
 
   animationsEndCallback = () => {
     this.setisCurrentPageFittedVertically();
   }
 
+  /**
+   * Checks whether current page's overlay has a larger height than the SVG parent-node
+   * If the heights are equal, then this page is fitted vertically in the viewer
+   * (Note that this function is called after animation is ended for correct calculation)
+   */
   setisCurrentPageFittedVertically(): void {
     let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
     let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
@@ -180,24 +251,6 @@ export class ViewerService implements OnInit {
     let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
     let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
     return svgNodeHeight >= currentOverlayHeight;
-  }
-
-  addPinchEvents(): void {
-    this.viewer.addHandler('canvas-pinch', this.pinchHandlerDashboard);
-  }
-
-  pinchHandlerDashboard = (event: any) => {
-    // Pinch Out
-    if (event.distance > event.lastDistance) {
-      if (this.modeService.mode === ViewerMode.DASHBOARD) {
-        this.modeService.toggleMode();
-        this.fitBounds(this.overlays[this.pageService.currentPage]);
-      }
-      // Pinch In
-    } else if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
-      this.modeService.toggleMode();
-      this.zoomTo(this.getHomeZoom());
-    }
   }
 
   public getZoom(): number {
@@ -224,16 +277,17 @@ export class ViewerService implements OnInit {
     this.viewer.viewport.zoomTo(level);
   }
 
+  // TODO: This should return items in world, not tilesources-array
   public getPageCount(): number {
     if (this.tileSources) {
       return this.tileSources.length;
     }
   }
 
-  getIsCanvasPressed(): boolean {
-    return this.isCanvasPressed;
-  }
-
+  /**
+   * Iterates tilesources and adds them to viewer
+   * Creates svg clickable overlays for each tile
+   */
   createOverlays(): void {
     this.overlays = [];
     let svgOverlay = this.viewer.svgOverlay();
@@ -252,6 +306,7 @@ export class ViewerService implements OnInit {
         y: currentY
       });
 
+      // Style overlay to match tile
       this.svgNode.append('rect')
         .attr('x', currentX)
         .attr('y', currentY)
@@ -266,7 +321,9 @@ export class ViewerService implements OnInit {
     });
   }
 
-
+  /**
+   * Fit bounds to first page
+   */
   fitBoundsToStart(): void {
     // Don't need to fit bounds if pages < 3
     if (this.overlays.length < 3) {
@@ -277,6 +334,10 @@ export class ViewerService implements OnInit {
     this.viewer.viewport.fitBounds(firstpageDashboardBounds);
   }
 
+  /**
+   * Fits viewport bounds to page
+   * @param page index of page
+   */
   fitBoundsToPage(page: number): void {
     if (page < 0) {
       return;
@@ -304,6 +365,10 @@ export class ViewerService implements OnInit {
     }
   }
 
+  /**
+   * Returns an OpenSeadragon.Rectangle instance of this overlay
+   * @param overlay
+   */
   createRectangel(overlay: any): any {
     return new OpenSeadragon.Rect(
       overlay.x.baseVal.value,
@@ -313,7 +378,10 @@ export class ViewerService implements OnInit {
     );
   }
 
-
+  /**
+   * Returns overlay-index for click-event if hit
+   * @param target hit <rect>
+   */
   getOverlayIndexFromClickEvent(target: HTMLElement) {
     if (this.isPageHit(target)) {
       let requestedPage = this.overlays.indexOf(target);
