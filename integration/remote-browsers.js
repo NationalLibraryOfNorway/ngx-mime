@@ -6,8 +6,8 @@ exports.customDesktopLaunchers = [
   },
   {
     browserName: "firefox",
-    version: "54.0",
-    platform: "Windows 7",
+    version: "latest",
+    platform: "Windows 10",
   },
   {
     browserName: "internet explorer",
