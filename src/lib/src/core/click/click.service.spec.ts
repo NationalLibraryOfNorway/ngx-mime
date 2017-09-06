@@ -1,7 +1,7 @@
-import { ClickService } from "./click.service";
-import { fakeAsync, tick } from "@angular/core/testing";
+import { ClickService } from './click.service';
+import { fakeAsync, tick } from '@angular/core/testing';
 
-describe("ClickService", () => {
+describe('ClickService', () => {
   let service: ClickService;
   let singleClickCounter: number;
   let doubleClickCounter: number;
@@ -15,20 +15,20 @@ describe("ClickService", () => {
     singleClickCounter = 0;
     doubleClickCounter = 0;
     service = new ClickService();
-    service.addSingleClickHandler(event => {
+    service.addSingleClickHandler(e => {
       singleClickCounter++;
     });
-    service.addDoubleClickHandler(event => {
+    service.addDoubleClickHandler(e => {
       doubleClickCounter++;
     });
   });
 
-  it("clickcounters should start on 0 after setup", () => {
+  it('clickcounters should start on 0 after setup', () => {
     expect(singleClickCounter).toBe(0);
     expect(doubleClickCounter).toBe(0);
   });
 
-  it("only singleClickCounter should increase to 1 aftere one click", fakeAsync(() => {
+  it('only singleClickCounter should increase to 1 aftere one click', fakeAsync(() => {
       service.click(event);
       tick(event.tracker.dblClickTimeThreshold);
       expect(singleClickCounter).toBe(1);
@@ -36,7 +36,7 @@ describe("ClickService", () => {
     })
   );
 
-  it("only doubleClickCounter should increase to 1 aftere double click", fakeAsync(() => {
+  it('only doubleClickCounter should increase to 1 aftere double click', fakeAsync(() => {
     service.click(event);
     service.click(event);
     // We don'nt need to tick/wait for timer to end. A double click will clear the timeout
@@ -45,7 +45,7 @@ describe("ClickService", () => {
   })
 );
 
-  it("only singleClickCounter should increase to 2 aftere two clicks", fakeAsync(() => {
+  it('only singleClickCounter should increase to 2 aftere two clicks', fakeAsync(() => {
       service.click(event);
       tick(event.tracker.dblClickTimeThreshold);
       service.click(event);
@@ -54,8 +54,8 @@ describe("ClickService", () => {
       expect(doubleClickCounter).toBe(0);
     })
   );
-  
-  it("both clickCounters should not increase on 'slow' clicks", fakeAsync(() => {
+
+  it('both clickCounters should not increase on \'slow\' clicks', fakeAsync(() => {
     event.quick = false;
     service.click(event);
     tick(event.tracker.dblClickTimeThreshold);

@@ -46,7 +46,7 @@ export class ViewerService implements OnInit {
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.toggleMode(mode);
+        this.setSettings(mode);
       }));
 
       this.addToWindow();
@@ -112,10 +112,10 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Toggles between page/dashboard-mode
+   * Set settings for page/dashboard-mode
    * @param mode ViewerMode
    */
-  toggleMode(mode: ViewerMode) {
+  setSettings(mode: ViewerMode) {
     if (mode === ViewerMode.DASHBOARD) {
       this.setDashboardSettings();
     } else if (mode === ViewerMode.PAGE) {
@@ -344,7 +344,7 @@ export class ViewerService implements OnInit {
       return;
     }
     let box = this.overlays[page];
-    let pageBounds = this.createRectangel(box);
+    let pageBounds = this.createRectangle(box);
     this.viewer.viewport.fitBounds(pageBounds);
 
   }
@@ -361,7 +361,7 @@ export class ViewerService implements OnInit {
       // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
       this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
-      let pageBounds = this.createRectangel(currentOverlay);
+      let pageBounds = this.createRectangle(currentOverlay);
       this.viewer.viewport.fitBounds(pageBounds);
     }
   }
@@ -370,7 +370,7 @@ export class ViewerService implements OnInit {
    * Returns an OpenSeadragon.Rectangle instance of this overlay
    * @param overlay
    */
-  createRectangel(overlay: any): any {
+  createRectangle(overlay: any): any {
     return new OpenSeadragon.Rect(
       overlay.x.baseVal.value,
       overlay.y.baseVal.value,
