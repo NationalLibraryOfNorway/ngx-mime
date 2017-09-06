@@ -27,8 +27,7 @@ export class ViewerService implements OnInit {
   private subscriptions: Array<Subscription> = [];
 
   private isCurrentPageFittedVertically = false;
-
-  isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+  public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
 
   constructor(
@@ -87,7 +86,7 @@ export class ViewerService implements OnInit {
   addEvents(): void {
     this.addOverrides();
     this.clickService.reset();
-    this.addSingleClickEvents();
+    this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
@@ -189,26 +188,15 @@ export class ViewerService implements OnInit {
    * Adds single-click-handler
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
-  addSingleClickEvents(): void {
-    this.clickService.addSingleClickHandler((event: any) => {
-      let target: HTMLElement = event.originalEvent.target;
-      let requestedPage = this.getOverlayIndexFromClickEvent(target);
-      if (this.isPageHit(target)) {
-        this.pageService.currentPage = requestedPage;
-        this.modeService.toggleMode();
-        this.fitBounds(target);
-      }
-    });
+  singleClickHandler = (event: any) => {
+    let target: HTMLElement = event.originalEvent.target;
+    let requestedPage = this.getOverlayIndexFromClickEvent(target);
+    if (this.isPageHit(target)) {
+      this.pageService.currentPage = requestedPage;
+      this.modeService.toggleMode();
+      this.fitBounds(target);
+    }
   }
-
-  /**
-   * Checks if hit element is a <rect>-element
-   * @param target
-   */
-  isPageHit(target: HTMLElement): boolean {
-    return target.nodeName === 'rect';
-  }
-
 
   /**
    * Double-click-handler
@@ -251,6 +239,14 @@ export class ViewerService implements OnInit {
     let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
     let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
     return svgNodeHeight >= currentOverlayHeight;
+  }
+
+  /**
+   * Checks if hit element is a <rect>-element
+   * @param target
+   */
+  isPageHit(target: HTMLElement): boolean {
+    return target.nodeName === 'rect';
   }
 
   public getZoom(): number {
