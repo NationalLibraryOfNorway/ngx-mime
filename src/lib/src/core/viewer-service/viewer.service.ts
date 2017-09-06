@@ -248,8 +248,18 @@ export class ViewerService implements OnInit {
 
     let center = new OpenSeadragon.Point(0, 0);
     let currentX = center.x - (this.tileSources[0].width / 2);
+    let height = this.tileSources[0].height;
+
 
     this.tileSources.forEach((tile, i) => {
+
+      //TODO: Logic for tiles wider and shorter than the viewport
+      if (tile.height != height) {
+        let heightChangeRatio = height / tile.height;
+        tile.height = height;
+        tile.width = heightChangeRatio * tile.width;
+      }
+
       let currentY = center.y - tile.height / 2;
       this.viewer.addTiledImage({
         index: i,
@@ -304,7 +314,7 @@ export class ViewerService implements OnInit {
       let dashboardBounds = this.viewer.viewport.getBounds();
       this.viewer.viewport.fitBounds(dashboardBounds);
       // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
-      this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
+      //this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
       let pageBounds = this.createRectangel(currentOverlay);
       //this.viewer.viewport.fitBounds(pageBounds);
@@ -352,37 +362,45 @@ export class ViewerService implements OnInit {
   private positionTilesInSinglePageView(requestedPageIndex: number): void {
     //First centre the page
     this.panToPage(requestedPageIndex);
-    
+
     let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
     if (!requestedPage) {
       return;
     }
 
-    //Add left/right padding to OpenSeadragon to hide previous/next pages
-    let requestedPageBounds = requestedPage.getBounds(true);
-    let viewportBounds = this.viewer.viewport.getBounds(true);
-
-    //TODO: Add logic for pages wider and shorter than the viewport
-    //TODO: Refactor to own function
-    //TODO: Adjust padding on page change
-    //TODO: Adjust padding on window resize
-    //TODO: Adjust padding on zoom
-    //TODO: Add animation to padding/positioning for smoother transition
-    let heightChangeRatio = viewportBounds.height / requestedPageBounds.height;
-    let newPageWidth = heightChangeRatio * requestedPageBounds.width;
-    let newPageLeft =  (viewportBounds.x + (viewportBounds.width / 2)) - (newPageWidth / 2);
-    let requestedPageCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(newPageLeft, 0));
-    let viewerCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, 0));
-    let paddingInPixels = requestedPageCoordinates.x - viewerCoordinates.x;
-
     let rootNode = d3.select(this.viewer.container.parentNode);
-    rootNode.style('transition', 'padding 250ms linear');
-    rootNode.style('padding', '0 ' + paddingInPixels + 'px');
-    this.viewer.viewport.fitBounds(requestedPageBounds, false);
+    rootNode.style('padding', '0');
 
-    //Update position of previous/next tiles
-    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 10);
-    this.positionNextTiles(requestedPageIndex, requestedPageBounds, 10);
+    //HACK ALERT!!! And terribly clunky. TODO: Find a better way to wait for viewport resize
+    setTimeout(() => {
+
+      //Add left/right padding to OpenSeadragon to hide previous/next pages
+      let requestedPageBounds = requestedPage.getBounds(true);
+      let viewportBounds = this.viewer.viewport.getBounds(true);
+
+      //TODO: Add logic for pages wider and shorter than the viewport
+      //TODO: Refactor to own function
+      //TODO: Adjust padding on page change
+      //TODO: Adjust padding on window resize
+      //TODO: Adjust padding on zoom
+      //TODO: Add animation to padding/positioning for smoother transition
+      //TODO: Configurable padding for header/footer
+      let heightChangeRatio = viewportBounds.height / requestedPageBounds.height;
+      let newPageWidth = heightChangeRatio * requestedPageBounds.width;
+      let newPageLeft =  (viewportBounds.x + (viewportBounds.width / 2)) - (newPageWidth / 2);
+      let requestedPageCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(newPageLeft, 0));
+      let viewerCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, 0));
+      let paddingInPixels = requestedPageCoordinates.x - viewerCoordinates.x;
+
+      //let rootNode = d3.select(this.viewer.container.parentNode);
+      rootNode.style('padding', '0 ' + paddingInPixels + 'px');
+      this.viewer.viewport.fitBounds(requestedPageBounds, false);
+
+      //Update position of previous/next tiles
+      this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 10);
+      this.positionNextTiles(requestedPageIndex, requestedPageBounds, 10);
+
+    }, 100);
   }
 
   private positionTilesInDashboardView(requestedPageIndex: number): void{
@@ -393,12 +411,19 @@ export class ViewerService implements OnInit {
 
     let requestedPageBounds = requestedPage.getBounds(true);
 
-    //TODO: Add padding for header/footer
+    //TODO: Configurable padding for header/footer
     let rootNode = d3.select(this.viewer.container.parentNode);
-    rootNode.style('padding', '0px');
+    rootNode.style('padding', '80px 0');
 
-    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 100);
-    this.positionNextTiles(requestedPageIndex, requestedPageBounds, 100);
+    //HACK ALERT!!! And terribly clunky. TODO: Find a better way to wait for viewport resize
+    setTimeout(() => {
+      this.viewer.viewport.fitBounds(requestedPageBounds, false);
+
+      //TODO: Configurable margin
+      this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 100);
+      this.positionNextTiles(requestedPageIndex, requestedPageBounds, 100);
+
+    }, 100);
   }
 
   //Recursive function to iterate through previous pages and position them to the left of the current page
@@ -408,8 +433,9 @@ export class ViewerService implements OnInit {
       return;
     }
 
-    //Position tiled image
     let previousTileBounds = previousTiledImage.getBounds(true);
+
+    //Position tiled image
     previousTileBounds.x = currentTileBounds.x - previousTileBounds.width - margin;
     previousTileBounds.y = currentTileBounds.y;
     previousTiledImage.setPosition(new OpenSeadragon.Point(previousTileBounds.x, previousTileBounds.y), true);
@@ -433,8 +459,9 @@ export class ViewerService implements OnInit {
       return;
     }
 
-    //Position tiled image
     let nextTileBounds = nextTiledImage.getBounds(true);
+
+    //Position tiled image
     nextTileBounds.x = currentTileBounds.x + currentTileBounds.width + margin;
     nextTileBounds.y = currentTileBounds.y;
     nextTiledImage.setPosition(new OpenSeadragon.Point(nextTileBounds.x, nextTileBounds.y), true);
