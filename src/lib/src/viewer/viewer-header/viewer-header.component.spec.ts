@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,6 +13,7 @@ import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
+import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -23,6 +25,9 @@ describe('ViewerHeaderComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         ViewerHeaderTestModule
+      ],
+      providers: [
+        { provide: FullscreenService, useClass: FullscreenServiceMock }
       ]
     })
       .compileComponents();
@@ -53,6 +58,26 @@ describe('ViewerHeaderComponent', () => {
     component.openContents();
   });
 
+  it('should show fullscreen button if fullscreen mode is supported',
+    inject([FullscreenService], (fullscreenService: FullscreenService) => {
+      spyOn(fullscreenService, 'isEnabled').and.returnValue(true);
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('#fullscreenButton'));
+      expect(button).not.toBeNull();
+    }));
+
+  it('should hide fullscreen button if fullscreen mode is unsupported',
+    inject([FullscreenService], (fullscreenService: FullscreenService) => {
+      spyOn(fullscreenService, 'isEnabled').and.returnValue(false);
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('#fullscreenButton'));
+      expect(button).not.toBeNull();
+    }));
+
 });
 
 @NgModule({
@@ -73,3 +98,18 @@ describe('ViewerHeaderComponent', () => {
   ]
 })
 class ViewerHeaderTestModule { }
+
+class FullscreenServiceMock {
+
+  public isEnabled(): boolean {
+    return true;
+  }
+
+  get onChange(): Observable<boolean> {
+    return Observable.of(true);
+  }
+
+  public isFullscreen(): boolean {
+    return false;
+  }
+}

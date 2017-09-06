@@ -1,4 +1,4 @@
-@mobile @desktop
+@android @iphone @desktop
 Feature: Displaying Metadata
   In order to understand more about the publication
   As a user

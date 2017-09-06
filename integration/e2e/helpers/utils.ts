@@ -2,15 +2,24 @@ import { browser, ElementFinder, protractor } from 'protractor/built';
 import { Capabilities } from 'selenium-webdriver';
 
 const EC = protractor.ExpectedConditions;
-const TIMEOUT = 15000;
+const RETRY = 100;
 export class Utils {
-  public async waitForElement(el) {
-    await browser.wait(EC.presenceOf(el), TIMEOUT)
-      .catch(function (err) {
-        console.log(err);
-        return null;
-      });
-    return el;
+
+  public async waitForElement(el: ElementFinder) {
+    let found = false;
+    for (let i = 0; i < RETRY; i++) {
+      await browser.sleep(10);
+      const isElementPresent = await browser.isElementPresent(el);
+      if (isElementPresent) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      throw Error(el.locator());
+    } else {
+      return el;
+    }
   }
 
   async clickElement(el: ElementFinder) {
