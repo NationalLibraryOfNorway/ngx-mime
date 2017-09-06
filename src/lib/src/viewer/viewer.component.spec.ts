@@ -104,7 +104,7 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   });
 
-  it('should change to pageView on first double click',
+  it('should change to page-mode on when doubleclicking in dashboard-mode',
     inject([ViewerService, ClickService], (viewerService: ViewerService, clickService: ClickService) => {
       comp.ngOnInit();
       let firstOverlay = viewerService.getOverlays()[0];
@@ -118,6 +118,28 @@ describe('ViewerComponent', function () {
       clickService.click(clickEvent);
       expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
+
+  it('should fit page vertically when changing to page-mode', () => {
+    pending('');
+  });
+
+  it('should change to page-mode when doubleclick in zoomed-in page-mode', () => {
+    pending('');
+  });
+
+  it('should change to dashboard-mode when single-click in page-mode', () => {
+    pending('');
+  });
+
+  it('should change to dashboard-mode when single-click in zoomed-in page-mode', () => {
+    pending('');
+  });
+
+  it('should change to page-mode when doubleclicking in dashboard-mode', () => {
+    pending('');
+  });
+
+
 
   it('should change to pageView on first click',
     //async(
@@ -142,6 +164,9 @@ describe('ViewerComponent', function () {
       // });
       pending('Set to pending until we findout why whenStable.then is not run');
   }));
+
+
+
 
   it('should increase zoom level when pinching out', inject([ViewerService], (viewerService: ViewerService) => {
     // comp.ngOnInit();
@@ -184,6 +209,11 @@ describe('ViewerComponent', function () {
     // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
     pending('Set to pending until we find a way to perform pan event');
   }));
+
+
+  it('should increase zoom-level when doubleclicking in page-mode', () => {
+    pending('');
+  });
 
   function pinchOut(viewerService: ViewerService) {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
