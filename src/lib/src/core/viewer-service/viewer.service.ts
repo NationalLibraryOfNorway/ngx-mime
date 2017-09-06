@@ -106,6 +106,7 @@ export class ViewerService implements OnInit {
     // Overrides default goHome, raised when clicking home-button
     this.viewer.viewport.goHome = () => {
       this.viewer.raiseEvent('home');
+      this.modeService.mode = ViewerMode.DASHBOARD;
       this.zoomHome();
     };
   }
