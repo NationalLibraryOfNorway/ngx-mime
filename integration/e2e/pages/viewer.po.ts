@@ -10,7 +10,7 @@ export class ViewerPage {
 
   async open() {
     await browser.get('/');
-    await browser.sleep(2000);
+    await browser.sleep(5000);
   }
 
   async openContentsDialog() {

@@ -3,12 +3,12 @@ exports.customDesktopLaunchers = [
     browserName: "chrome",
     version: "latest",
     platform: "Windows 10",
-  },
+  },/*
   {
     browserName: "firefox",
     version: "latest",
     platform: "Windows 10",
-  },
+  },*/
   {
     browserName: "internet explorer",
     platform: "Windows 10",
