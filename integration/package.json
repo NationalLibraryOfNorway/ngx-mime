@@ -13,7 +13,7 @@
     "mountebank": "mb --port 2020 --configfile ./e2e/templates/imposters.ejs --allowInjection --nologfile",
     "e2e": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor\" --kill-others --success first",
     "e2e:aot": "concurrently \"npm run mountebank\" \"npm run start:aot\" \"npm run protractor\" --kill-others --success first",
-    "preprotractor": "webdriver-manager update --versions.standalone=3.3.1 && sh ./scripts/wait-on.sh",
+    "preprotractor": "webdriver-manager update --versions.standalone=3.5.0 && sh ./scripts/wait-on.sh",
     "protractor": "npm run protractor:desktop && npm run protractor:mobile",
     "protractor:desktop": "protractor protractor.conf.js --device=desktop",
     "protractor:mobile": "npm run protractor:android && npm run protractor:iphone",
