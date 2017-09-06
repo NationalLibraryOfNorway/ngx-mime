@@ -83,6 +83,7 @@ function getCapabilities() {
     capabilities.push({
       browserName: cap.browserName,
       version: cap.version,
+      platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
       deviceName: cap.deviceName,
