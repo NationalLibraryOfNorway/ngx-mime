@@ -41,7 +41,7 @@ export class ViewerService implements OnInit {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
         this.clearOpenSeadragonTooltips();
-        this.options = new Options(this.modeService.mode, manifest.tileSource)
+        this.options = new Options(this.modeService.mode, manifest.tileSource);
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
       });
 
@@ -123,6 +123,7 @@ export class ViewerService implements OnInit {
   }
 
   addClickEvents(): void {
+    this.clickService.reset();
     this.addSingleClickEvents();
     this.addDblClickEvents();
     this.viewer.addHandler('canvas-click', this.clickService.click);
@@ -132,7 +133,6 @@ export class ViewerService implements OnInit {
   }
 
   addSingleClickEvents(): void {
-    this.clickService.reset();
     this.clickService.addSingleClickHandler((event: any) => {
       let target: HTMLElement = event.originalEvent.target;
       let requestedPage = this.getOverlayIndexFromClickEvent(target);

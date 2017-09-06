@@ -31,19 +31,19 @@ export class ViewerPage {
     return el;
   }
 
-  getHeader() {
+  getHeader(): ElementFinder {
     const el = element(by.css('mime-viewer-header'));
     utils.waitForElement(el);
     return el;
   }
 
-  getFooter() {
+  getFooter(): ElementFinder {
     const el = element(by.css('mime-viewer-footer'));
     utils.waitForElement(el);
     return el;
   }
 
-  getFirstPageOverlay() {
+  getFirstPageOverlay(): ElementFinder {
     const el = element.all(by.css('svg rect')).first();
     utils.waitForElement(el);
     return el;

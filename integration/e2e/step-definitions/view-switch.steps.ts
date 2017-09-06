@@ -30,6 +30,13 @@ defineSupportCode(function ({ Given, When, Then }) {
     await browser.sleep(switchAnimationTime);
   });
 
+  When(/^the user double click in the viewer$/, async () => {
+    const firstOverlay = page.getFirstPageOverlay();
+    firstOverlay.click();
+    firstOverlay.click();
+    await browser.sleep(switchAnimationTime);
+  });
+
   Then(/^the viewer should change to page view$/, async () => {
     expect(await isPageMode()).to.be.true;
   });
@@ -41,17 +48,23 @@ defineSupportCode(function ({ Given, When, Then }) {
   async function isDashboardMode(): Promise<boolean> {
     const header = page.getHeader();
     const footer = page.getFooter();
-    const headerIsDisplayed = await header.isDisplayed();
-    const footerIsDisplayed = await footer.isDisplayed();
-    return headerIsDisplayed && headerIsDisplayed;
+    const headerDisplay = header.getCssValue('display');
+    const footerDisplay = footer.getCssValue('display');
+
+    const headerisPresent = (await headerDisplay) === 'block';
+    const footerisPresent = (await footerDisplay) === 'block';
+    return (headerisPresent && headerisPresent);
   }
 
   async function isPageMode(): Promise<boolean> {
     const header = page.getHeader();
     const footer = page.getFooter();
-    const headerIsDisplayed = await header.isDisplayed();
-    const footerIsDisplayed = await footer.isDisplayed();
-    return (!headerIsDisplayed && !headerIsDisplayed);
+    const headerDisplay = header.getCssValue('display');
+    const footerDisplay = footer.getCssValue('display');
+
+    const headerisHidden = (await headerDisplay) === 'none';
+    const footerisHidden = (await footerDisplay) === 'none';
+    return (headerisHidden && footerisHidden);
   }
 
 });
