@@ -1,3 +1,4 @@
+@android @iphone @desktop
 Feature: Pan on image 
   In order to view high quality images of digitised items in great detail 
   As a user 
@@ -6,7 +7,6 @@ Feature: Pan on image
   Background: 
     Given the viewer is opened with a publication 
 
-  @mobile @desktop 
   Scenario: Panning on image 
     Given the viewer is in page view 
       And the view is zoomed in 

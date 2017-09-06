@@ -5,5 +5,5 @@
       <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
     </div>
   </md-toolbar>
-  <div class="contents">{{manifest.attribution}}</div>
+  <div class="contents" [innerHTML]="manifest?.attribution"></div>
 </div>

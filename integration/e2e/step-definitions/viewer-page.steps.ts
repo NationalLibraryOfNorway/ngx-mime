@@ -22,4 +22,8 @@ defineSupportCode(function ({ Given, Then }) {
     expect(true).to.be.true;
   });
 
+  Given(/^the viewer is in dashboard view$/, async () => {
+    expect(true).to.be.true;
+  });
+
 });
