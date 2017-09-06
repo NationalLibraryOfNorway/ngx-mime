@@ -4,10 +4,9 @@ import { expect } from '../helpers/chai-imports';
 import { browser, by } from 'protractor';
 import { Utils } from '../helpers/utils';
 
-const utils = new Utils();
-
 defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
+  const utils = new Utils();
   // 300ms is the time the animation is set up to use but we need some extra time
   const switchAnimationTime = 1200;
 
@@ -26,14 +25,14 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^the user click in the viewer$/, async () => {
     const firstOverlay = page.getFirstPageOverlay();
-    firstOverlay.click();
+    utils.clickElement(firstOverlay);
     await browser.sleep(switchAnimationTime);
   });
 
   When(/^the user double click in the viewer$/, async () => {
     const firstOverlay = page.getFirstPageOverlay();
-    firstOverlay.click();
-    firstOverlay.click();
+    utils.clickElement(firstOverlay);
+    utils.clickElement(firstOverlay);
     await browser.sleep(switchAnimationTime);
   });
 
