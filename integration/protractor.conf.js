@@ -52,8 +52,10 @@ const config = {
 
 if (argv.device === 'desktop') {
   config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@desktop');
-} else if (argv.device === 'mobile') {
-  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@mobile');
+} else if (argv.device === 'android') {
+  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@android');
+} else if (argv.device === 'iphone') {
+  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@iphone');
 }
 
 if (process.env.TRAVIS) {
