@@ -71,8 +71,10 @@ function getCapabilities() {
     .concat(remoteBrowsers.customMobileLaunchers);
   if (argv.device === 'desktop') {
     browsers = remoteBrowsers.customDesktopLaunchers;
-  } else if (argv.device === 'mobile') {
-    browsers = remoteBrowsers.customMobileLaunchers;
+  } else if (argv.device === 'android') {
+    browsers = remoteBrowsers.androidLaunchers;
+  } else if (argv.device === 'iphone') {
+    browsers = remoteBrowsers.iphoneLaunchers;
   }
 
   for (const cap of browsers) {

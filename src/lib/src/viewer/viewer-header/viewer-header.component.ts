@@ -18,6 +18,7 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
+  isFullscreenEnabled = false;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -26,6 +27,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private fullscreenService: FullscreenService) { }
 
   ngOnInit() {
+    this.isFullscreenEnabled = this.fullscreenService.isEnabled();
+
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
 
     this.subscriptions.push(this.fullscreenService.onChange.subscribe(() => {
@@ -48,8 +51,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     return new MimeDomHelper().toggleFullscreen();
   }
 
-  public isFullscreen(): boolean {
-    return new MimeDomHelper().isDocumentInFullScreenMode();
+  public isInFullScreen(): boolean {
+    return this.fullscreenService.isFullscreen();
   }
 
 }

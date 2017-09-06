@@ -3,10 +3,10 @@
     <button id="contentsDialogButton" md-icon-button [attr.aria-label]="intl.contents" [mdTooltip]="intl.contents" (click)="openContents()">
       <md-icon>list</md-icon>
     </button>
-    <button id="fullscreenButton" *ngIf="!isFullscreen()" md-icon-button [attr.aria-label]="intl.fullScreen" [mdTooltip]="intl.fullScreen" (click)="toggleFullscreen()">
+    <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" md-icon-button [attr.aria-label]="intl.fullScreen" [mdTooltip]="intl.fullScreen" (click)="toggleFullscreen()">
       <md-icon>fullscreen</md-icon>
     </button>
-    <button id="exitFullscreenButton" *ngIf="isFullscreen()" md-icon-button [attr.aria-label]="intl.exitFullScreen" [mdTooltip]="intl.exitFullScreen" (click)="toggleFullscreen()">
+    <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" md-icon-button [attr.aria-label]="intl.exitFullScreen" [mdTooltip]="intl.exitFullScreen" (click)="toggleFullscreen()">
       <md-icon >fullscreen_exit</md-icon>
     </button>
   </div>
