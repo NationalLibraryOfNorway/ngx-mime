@@ -8,8 +8,9 @@ export class ViewerPage {
   private pointerPosition1 = {x: 650, y: 275};
   private pointerPosition2 = {x: 750, y: 200};
 
-  open() {
-    return browser.get('/');
+  async open() {
+    await browser.get('/');
+    await browser.sleep(2000);
   }
 
   async openContentsDialog() {
