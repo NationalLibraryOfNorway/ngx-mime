@@ -27,7 +27,7 @@ export class ModeService {
     } else if (this.mode === ViewerMode.PAGE) {
       this.mode = ViewerMode.DASHBOARD;
     }
-    this.change();
+    //this.change();
   }
 
   private change() {

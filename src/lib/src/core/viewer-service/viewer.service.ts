@@ -128,7 +128,8 @@ export class ViewerService implements OnInit {
   }
 
   setPageSettings(): void {
-    this.viewer.panVertical = true;
+    // TODO: Allow panning when zoomed in on Page View
+    //this.viewer.panVertical = true;
   }
 
   addClickEvents(): void {
@@ -306,7 +307,7 @@ export class ViewerService implements OnInit {
       this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
       let pageBounds = this.createRectangel(currentOverlay);
-      this.viewer.viewport.fitBounds(pageBounds);
+      //this.viewer.viewport.fitBounds(pageBounds);
     }
   }
 
@@ -349,35 +350,39 @@ export class ViewerService implements OnInit {
   }
 
   private positionTilesInSinglePageView(requestedPageIndex: number): void {
+    //First centre the page
+    this.panToPage(requestedPageIndex);
+    
     let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
     if (!requestedPage) {
       return;
     }
 
-    let requestedPageBounds = requestedPage.getBounds(true);
-
-    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 10);
-    this.positionNextTiles(requestedPageIndex, requestedPageBounds, 10);
-
-
     //Add left/right padding to OpenSeadragon to hide previous/next pages
+    let requestedPageBounds = requestedPage.getBounds(true);
     let viewportBounds = this.viewer.viewport.getBounds(true);
 
-    //Almost there - calculates required padding pre-zoom. TODO: Calculate value after zoom before zoom happens
-    let requestedPageCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(requestedPageBounds.x, requestedPageBounds.y));
-    let viewerCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, viewportBounds.y));
+    //TODO: Add logic for pages wider and shorter than the viewport
+    //TODO: Refactor to own function
+    //TODO: Adjust padding on page change
+    //TODO: Adjust padding on window resize
+    //TODO: Adjust padding on zoom
+    //TODO: Add animation to padding/positioning for smoother transition
+    let heightChangeRatio = viewportBounds.height / requestedPageBounds.height;
+    let newPageWidth = heightChangeRatio * requestedPageBounds.width;
+    let newPageLeft =  (viewportBounds.x + (viewportBounds.width / 2)) - (newPageWidth / 2);
+    let requestedPageCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(newPageLeft, 0));
+    let viewerCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, 0));
     let paddingInPixels = requestedPageCoordinates.x - viewerCoordinates.x;
 
-    //let rootNode = d3.select(this.viewer.container.parentNode);
-    //rootNode.style('padding', '0 ' + paddingInPixels + 'px');
+    let rootNode = d3.select(this.viewer.container.parentNode);
+    rootNode.style('transition', 'padding 250ms linear');
+    rootNode.style('padding', '0 ' + paddingInPixels + 'px');
+    this.viewer.viewport.fitBounds(requestedPageBounds, false);
 
-
-    //TODO: Add event handler to adjust padding on resize window
-
-    //TODO: Add animation to padding/positioning for smoother transition from dashboard view
-
-    //TODO: error handling
-
+    //Update position of previous/next tiles
+    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 10);
+    this.positionNextTiles(requestedPageIndex, requestedPageBounds, 10);
   }
 
   private positionTilesInDashboardView(requestedPageIndex: number): void{
@@ -388,10 +393,12 @@ export class ViewerService implements OnInit {
 
     let requestedPageBounds = requestedPage.getBounds(true);
 
+    //TODO: Add padding for header/footer
+    let rootNode = d3.select(this.viewer.container.parentNode);
+    rootNode.style('padding', '0px');
+
     this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 100);
     this.positionNextTiles(requestedPageIndex, requestedPageBounds, 100);
-
-    //TODO: Remove padding on container
   }
 
   //Recursive function to iterate through previous pages and position them to the left of the current page

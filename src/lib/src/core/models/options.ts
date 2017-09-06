@@ -36,7 +36,7 @@ export class Options {
   smoothTileEdgesMinZoom = 1.1;
   iOSDevice = true;
   autoResize = true;
-  preserveImageSizeOnResize = false;
+  preserveImageSizeOnResize = true;
   minScrollDeltaTime = 50;
   pixelsPerWheelLine = 40;
   visibilityRatio = 1;
