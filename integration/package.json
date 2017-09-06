@@ -13,12 +13,12 @@
     "mountebank": "mb --port 2020 --configfile ./e2e/templates/imposters.ejs --allowInjection --nologfile",
     "e2e": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor\" --kill-others --success first",
     "e2e:aot": "concurrently \"npm run mountebank\" \"npm run start:aot\" \"npm run protractor\" --kill-others --success first",
-    "preprotractor": "webdriver-manager update --versions.standalone=3.3.1",
+    "preprotractor": "webdriver-manager update --versions.standalone=3.3.1 && sh ./scripts/wait-on.sh",
     "protractor": "npm run protractor:desktop && npm run protractor:mobile",
-    "protractor:desktop": "sh ./scripts/wait-on.sh && protractor protractor.conf.js --device=desktop",
+    "protractor:desktop": "protractor protractor.conf.js --device=desktop",
     "protractor:mobile": "npm run protractor:android && npm run protractor:iphone",
-    "protractor:android": "sh ./scripts/wait-on.sh && protractor protractor.conf.js --device=android",
-    "protractor:iphone": "sh ./scripts/wait-on.sh && protractor protractor.conf.js --device=iphone"
+    "protractor:android": "protractor protractor.conf.js --device=android",
+    "protractor:iphone": "protractor protractor.conf.js --device=iphone"
   },
   "private": true,
   "dependencies": {
