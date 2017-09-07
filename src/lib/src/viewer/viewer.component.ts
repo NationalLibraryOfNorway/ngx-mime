@@ -134,22 +134,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewerService.fitBoundsToPage(prevPage);
   }
 
-  goToPageFromUserInput(event: any) {
-    let page = event.target.value;
-
-    if (!this.isInt(page) || !this.pageService.isWithinBounds(page)) {
-      return;
-    }
-    this.pageService.currentPage = page;
-    this.viewerService.fitBoundsToPage(+page);
-  }
-
-  private isInt(value: any): boolean {
-    return !isNaN(value) &&
-      parseInt(value, 10) == value &&
-      !isNaN(parseInt(value, 10));
-  }
-
   ngAfterViewChecked() {
     this.mimeService.markForCheck();
   }
