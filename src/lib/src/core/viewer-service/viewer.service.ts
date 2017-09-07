@@ -20,7 +20,7 @@ export class ViewerService implements OnInit {
   private viewer: any;
   private options: Options;
 
-  private overlays: Array<HTMLElement>;
+  private overlays: Array<SVGRectElement>;
   private svgNode: any;
   private tileSources: any[];
 
@@ -189,7 +189,7 @@ export class ViewerService implements OnInit {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
-    let target: HTMLElement = event.originalEvent.target;
+    let target = event.originalEvent.target;
     let requestedPage = this.getOverlayIndexFromClickEvent(target);
     if (this.isPageHit(target)) {
       this.pageService.currentPage = requestedPage;
@@ -202,11 +202,11 @@ export class ViewerService implements OnInit {
    * Double-click-handler
    * Double-click dashboard-mode should go to page-mode
    * Double-click page-mode should
-   *    - Zoom in if page is fitted vertically
-   *    - Fit vertically if page is already zoomed in
+   *    a) Zoom in if page is fitted vertically, or
+   *    b) Fit vertically if page is already zoomed in
    */
   dblClickHandler = (event: any) => {
-    let target: HTMLElement = event.originalEvent.target;
+    let target = event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
     if (this.isCurrentPageFittedVertically) {
       this.zoomTo(this.getZoom() * this.options.zoomPerClick);
@@ -225,7 +225,7 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Checks whether current page's overlay has a larger height than the SVG parent-node
+   * Checks whether current page's overlay has a larger height than the SVG parentnode
    * If the heights are equal, then this page is fitted vertically in the viewer
    * (Note that this function is called after animation is ended for correct calculation)
    */
@@ -310,7 +310,7 @@ export class ViewerService implements OnInit {
         .attr('height', tile.height)
         .attr('class', 'tile');
 
-      let currentOverlay: HTMLElement = this.svgNode.node().children[i];
+      let currentOverlay: SVGRectElement = this.svgNode.node().children[i];
       this.overlays.push(currentOverlay);
 
       currentX = currentX + tile.width + OptionsOverlays.TILES_MARGIN;
@@ -349,7 +349,7 @@ export class ViewerService implements OnInit {
    * This function assumes ViewerMode is set before being called
    * @param currentOverlay
    */
-  fitBounds(currentOverlay: any): void {
+  fitBounds(currentOverlay: SVGRectElement): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       let dashboardBounds = this.viewer.viewport.getBounds();
       this.viewer.viewport.fitBounds(dashboardBounds);
@@ -362,10 +362,10 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Returns an OpenSeadragon.Rectangle instance of this overlay
+   * Returns an OpenSeadragon.Rectangle instance of an overlay
    * @param overlay
    */
-  createRectangle(overlay: any): any {
+  createRectangle(overlay: SVGRectElement): any {
     return new OpenSeadragon.Rect(
       overlay.x.baseVal.value,
       overlay.y.baseVal.value,
@@ -378,7 +378,7 @@ export class ViewerService implements OnInit {
    * Returns overlay-index for click-event if hit
    * @param target hit <rect>
    */
-  getOverlayIndexFromClickEvent(target: HTMLElement) {
+  getOverlayIndexFromClickEvent(target: any) {
     if (this.isPageHit(target)) {
       let requestedPage = this.overlays.indexOf(target);
       if (requestedPage >= 0) {

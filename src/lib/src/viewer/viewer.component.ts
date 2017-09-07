@@ -76,16 +76,20 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         })
     );
 
-    this.viewerService.isCanvasPressed.subscribe((value: boolean) => {
-      this.isCanvasPressed = value;
-      this.changeDetectorRef.detectChanges();
-    });
+    this.subscriptions.push(
+      this.viewerService.isCanvasPressed.subscribe((value: boolean) => {
+        this.isCanvasPressed = value;
+        this.changeDetectorRef.detectChanges();
+      })
+    );
+
+    this.subscriptions.push(
+      this.modeService.onChange.subscribe((mode: ViewerMode) => {
+        this.toggleToolbarsState(mode);
+      })
+    );
 
     this.loadManifest();
-    this.modeService.onChange.subscribe((mode: ViewerMode) => {
-      this.toggleToolbarsState(mode);
-      this.changeDetectorRef.detectChanges();
-    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
