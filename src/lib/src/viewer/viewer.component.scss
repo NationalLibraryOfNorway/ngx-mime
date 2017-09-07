@@ -7,3 +7,7 @@
   width: 100%;
   height: calc(100% - 80px);
 }
+
+::ng-deep .cdk-overlay-container {
+  z-index: 2147483647;
+}

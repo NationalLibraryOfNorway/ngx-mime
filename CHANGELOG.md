@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.1.6...v0.2.0) (2017-09-07)
+
+
+### Bug Fixes
+
+* displaying metadata on small devices in landscape mode ([#44](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/44)) ([3a0595c](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3a0595c))
+
+
+### Features
+
+* rights notices ([#45](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/45)) ([ab750b9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ab750b9))
+* viewing publications in full screen mode ([fb85e0b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fb85e0b))
+* zoom ([04e2290](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/04e2290))
+
+
+
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.1.5...v0.1.6) (2017-08-14)
 

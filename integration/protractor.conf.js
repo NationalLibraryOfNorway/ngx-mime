@@ -7,8 +7,7 @@ const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
-  getPageTimeout: 60000,
-  allScriptsTimeout: 500000,
+  allScriptsTimeout: 11000,
   SELENIUM_PROMISE_MANAGER: false,
   specs: getFeatureFiles(),
   unknownFlags: [
@@ -36,8 +35,8 @@ const config = {
     tags: ['~@Ignore']
   },
   onPrepare: function() {
-    const width = 1600;
-    const height = 1200;
+    const width = 1024;
+    const height = 768;
     browser.driver.manage().window().setSize(width, height);
   },
   afterLaunch: function () {
@@ -53,8 +52,10 @@ const config = {
 
 if (argv.device === 'desktop') {
   config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@desktop');
-} else if (argv.device === 'mobile') {
-  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@mobile');
+} else if (argv.device === 'android') {
+  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@android');
+} else if (argv.device === 'iphone') {
+  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@iphone');
 }
 
 if (process.env.TRAVIS) {
@@ -62,8 +63,8 @@ if (process.env.TRAVIS) {
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 
   config.capabilities = null,
-  config.multiCapabilities = getCapabilities(),
-  config.afterLaunch = function () {}
+    config.multiCapabilities = getCapabilities(),
+    config.afterLaunch = function () { }
 }
 
 function getCapabilities() {
@@ -72,23 +73,25 @@ function getCapabilities() {
     .concat(remoteBrowsers.customMobileLaunchers);
   if (argv.device === 'desktop') {
     browsers = remoteBrowsers.customDesktopLaunchers;
-  } else if (argv.device === 'mobile') {
-    browsers = remoteBrowsers.customMobileLaunchers;
+  } else if (argv.device === 'android') {
+    browsers = remoteBrowsers.androidLaunchers;
+  } else if (argv.device === 'iphone') {
+    browsers = remoteBrowsers.iphoneLaunchers;
   }
 
   for (const cap of browsers) {
     capabilities.push({
       browserName: cap.browserName,
       version: cap.version,
+      platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
       deviceName: cap.deviceName,
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
-      shardTestFiles: true,
-      maxInstances: 5,
-      seleniumVersion: '3.3.1',
+      seleniumVersion: '3.4.0',
+      screenResolution: "1024x768"
     });
   }
   return capabilities;
