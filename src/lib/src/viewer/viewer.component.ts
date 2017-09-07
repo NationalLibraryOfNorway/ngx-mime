@@ -94,7 +94,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
-        this.modeService.mode = this.config.initViwerMode;
+        this.modeService.mode = this.config.initViewerMode;
         this.manifestUri = manifestUriChanges.currentValue;
         this.cleanUp();
         this.loadManifest();

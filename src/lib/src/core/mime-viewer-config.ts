@@ -4,7 +4,7 @@ export class MimeViewerConfig {
   public attributionDialogEnabled? = true;
   public attributionDialogHideTimeout? = -1;
   public navigationControlEnabled? = true;
-  public initViwerMode? = ViewerMode.PAGE;
+  public initViewerMode? = ViewerMode.PAGE;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
@@ -22,8 +22,8 @@ export class MimeViewerConfig {
       this.navigationControlEnabled =
         fields.navigationControlEnabled !== undefined ? fields.navigationControlEnabled : this.navigationControlEnabled;
 
-      this.initViwerMode =
-      fields.initViwerMode !== undefined ? fields.initViwerMode : this.initViwerMode;
+      this.initViewerMode =
+      fields.initViwerMode !== undefined ? fields.initViwerMode : this.initViewerMode;
     }
   }
 }
