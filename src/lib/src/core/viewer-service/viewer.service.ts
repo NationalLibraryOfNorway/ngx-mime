@@ -79,7 +79,7 @@ export class ViewerService implements OnInit {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
         this.clearOpenSeadragonTooltips();
-        this.options = new Options(this.modeService.mode, manifest.tileSource);
+        this.options = new Options(manifest.tileSource);
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
         this.pageService.numberOfPages = this.tileSources.length;
       });

@@ -62,10 +62,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    this.modeService.mode = ViewerMode.PAGE;
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
+          this.modeService.mode = this.config.initViwerMode;
           this.cleanUp();
           this.viewerService.setUpViewer(manifest);
 
@@ -95,10 +95,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
-        // Always set to dashboard-mode when manifest changes
-        this.modeService.mode = ViewerMode.PAGE;
         this.manifestUri = manifestUriChanges.currentValue;
-        this.cleanUp();
         this.loadManifest();
       }
     }

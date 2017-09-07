@@ -111,7 +111,7 @@ export class Options {
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
 
-  constructor(mode: ViewerMode, tileSources?: Service[]) {
+  constructor(tileSources?: Service[]) {
     if (tileSources) {
       this.tileSources = tileSources;
     }
