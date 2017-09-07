@@ -43,6 +43,24 @@ export class ViewerPage {
       + ' || document.msFullscreenElement) != null');
   }
 
+  getHeader(): ElementFinder {
+    const el = element(by.css('mime-viewer-header'));
+    utils.waitForElement(el);
+    return el;
+  }
+
+  getFooter(): ElementFinder {
+    const el = element(by.css('mime-viewer-footer'));
+    utils.waitForElement(el);
+    return el;
+  }
+
+  getFirstPageOverlay(): ElementFinder {
+    const el = element.all(by.css('svg rect')).first();
+    utils.waitForElement(el);
+    return el;
+  }
+
   getAnimationTime(): promise.Promise<number> {
     return browser.executeScript('return window.openSeadragonViewer.animationTime;');
   }

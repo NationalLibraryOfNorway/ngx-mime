@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +17,9 @@ import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
 import { ClickService } from '../core/click/click.service';
+import { PageService } from '../core/page-service/page-service';
+import { ModeService } from '../core/mode-service/mode.service';
+import { ViewerMode } from '../core/models/viewer-mode';
 import 'openseadragon';
 import '../rxjs-extension';
 
@@ -47,7 +50,9 @@ describe('ViewerComponent', function () {
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         MimeResizeService,
         MimeViewerIntl,
-        ClickService
+        ClickService,
+        PageService,
+        ModeService
       ]
     }).compileComponents();
   }));
@@ -55,7 +60,7 @@ describe('ViewerComponent', function () {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerComponent);
     comp = fixture.componentInstance;
-    de = fixture.debugElement.query(By.css('h1'));
+    fixture.detectChanges();
 
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
@@ -75,10 +80,90 @@ describe('ViewerComponent', function () {
   });
 
   it('should create viewer', inject([ViewerService], (viewerService: ViewerService) => {
-    comp.ngOnInit();
-
     expect(viewerService.getViewer()).toBeDefined();
   }));
+
+  it('svgOverlay-plugin should be defined', inject([ViewerService], (viewerService: ViewerService) => {
+    expect(viewerService.getViewer().svgOverlay()).toBeDefined();
+  }));
+
+  it('should create overlays', inject([ViewerService], (viewerService: ViewerService) => {
+    expect(viewerService.getOverlays()).toBeDefined();
+  }));
+
+  it('should create overlays-array with same size as tilesources-array', inject([ViewerService], (viewerService: ViewerService) => {
+    expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
+  }));
+
+  it('should initially open in Page-mode', inject([ModeService], (modeService: ModeService) => {
+    expect(modeService.mode).toBe(ViewerMode.PAGE);
+  }));
+
+  it('should change to page-mode on when doubleclicking in dashboard-mode',
+    inject([ViewerService, ClickService], (viewerService: ViewerService, clickService: ClickService) => {
+      comp.ngOnInit();
+      let firstOverlay = viewerService.getOverlays()[0];
+      let clickEvent = {
+        quick: true,
+        tracker: { dblClickTimeThreshold: 0 },
+        preventDefaultAction: false,
+        originalEvent: { target: firstOverlay }
+      };
+      clickService.click(clickEvent);
+      clickService.click(clickEvent);
+      expect(comp.mode).toBe(ViewerMode.PAGE);
+    }));
+
+  it('should fit page vertically when in initial page-mode',
+    inject([ViewerService, ClickService, PageService],
+      (viewerService: ViewerService, clickService: ClickService, pageService: PageService) => {
+        pending('');
+      }));
+
+  it('should change to page-mode when doubleclick in zoomed-in page-mode', () => {
+    pending('');
+  });
+
+  it('should change to dashboard-mode when single-click in page-mode', () => {
+    pending('');
+  });
+
+  it('should change to dashboard-mode when single-click in zoomed-in page-mode', () => {
+    pending('');
+  });
+
+  it('should change to page-mode when doubleclicking in dashboard-mode', () => {
+    pending('');
+  });
+
+
+
+  it('should change to pageView on first click',
+    //async(
+    inject([ViewerService, ClickService], (viewerService: ViewerService, clickService: ClickService) => {
+      // comp.ngOnInit();
+      // fixture.detectChanges();
+
+      // let firstOverlay = viewerService.getOverlays()[0];
+      // let clickEvent = {
+      //   quick: true,
+      //   tracker: { dblClickTimeThreshold: 0 },
+      //   preventDefaultAction: false,
+      //   originalEvent: { target: firstOverlay }
+      // };
+      // clickService.click(clickEvent);
+      // fixture.detectChanges();
+
+      // fixture.whenStable().then(() => {
+      //   fixture.detectChanges();
+      //   expect(comp.mode).toBe(ViewerMode.PAGE);
+      //   expect(false).toBe(true); // This proves that the whenStable.then is never run
+      // });
+      pending('Set to pending until we findout why whenStable.then is not run');
+    }));
+
+
+
 
   it('should increase zoom level when pinching out', inject([ViewerService], (viewerService: ViewerService) => {
     // comp.ngOnInit();
@@ -122,6 +207,11 @@ describe('ViewerComponent', function () {
     pending('Set to pending until we find a way to perform pan event');
   }));
 
+
+  it('should increase zoom-level when doubleclicking in page-mode', () => {
+    pending('');
+  });
+
   function pinchOut(viewerService: ViewerService) {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });
@@ -139,6 +229,7 @@ describe('ViewerComponent', function () {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 60 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
   }
+
 });
 
 @Component({

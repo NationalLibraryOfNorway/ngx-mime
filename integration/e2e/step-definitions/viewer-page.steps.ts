@@ -18,12 +18,4 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
-  Given(/^the viewer is in page view$/, async () => {
-    expect(true).to.be.true;
-  });
-
-  Given(/^the viewer is in dashboard view$/, async () => {
-    expect(true).to.be.true;
-  });
-
 });

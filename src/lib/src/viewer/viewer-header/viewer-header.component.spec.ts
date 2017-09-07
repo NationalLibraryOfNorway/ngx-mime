@@ -58,6 +58,40 @@ describe('ViewerHeaderComponent', () => {
     component.openContents();
   });
 
+  it("should start in visible mode", async(() => {
+    expect(component.state).toBe('show');
+    expectHeaderToShow(fixture.debugElement.nativeElement);
+  }));
+
+  it("should not be visible when state is changed to 'hide'", async(() => {
+    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
+    // Check initial style to make sure we later see an actual change
+    expectHeaderToShow(fixture.debugElement.nativeElement);
+
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectHeaderToBeHidden(fixture.debugElement.nativeElement);
+    });
+  }));
+
+  it("should be visible when state is changed to 'show'", async(() => {
+    let toolbar = fixture.debugElement.query(By.css("md-toolbar"));
+
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectHeaderToBeHidden(fixture.debugElement.nativeElement);
+
+      component.state = 'show';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expectHeaderToShow(fixture.debugElement.nativeElement);
+      });
+
+    });
+
+  }));
   it('should show fullscreen button if fullscreen mode is supported',
     inject([FullscreenService], (fullscreenService: FullscreenService) => {
       spyOn(fullscreenService, 'isEnabled').and.returnValue(true);
@@ -99,6 +133,17 @@ describe('ViewerHeaderComponent', () => {
 })
 class ViewerHeaderTestModule { }
 
+function expectHeaderToShow(element: any) {
+  expect(element.style.display).toBe('block');
+  expect(element.style.opacity).toBe('1');
+  expect(element.style.transform).toBe('translate(0px, 0px)');
+}
+
+function expectHeaderToBeHidden(element: any) {
+  expect(element.style.display).toBe('none');
+  expect(element.style.opacity).toBe('0');
+  expect(element.style.transform).toBe('translate(0px, -100%)');
+}
 class FullscreenServiceMock {
 
   public isEnabled(): boolean {

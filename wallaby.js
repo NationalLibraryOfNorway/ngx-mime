@@ -79,6 +79,7 @@ module.exports = function (wallaby) {
           '@angular/router/testing': 'npm:@angular/router/bundles/router-testing.umd.js',
           '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js',
           'openseadragon': 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
+          'd3': 'npm:d3/build/d3.min.js',
         },
       });
 

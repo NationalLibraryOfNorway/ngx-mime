@@ -1,6 +1,7 @@
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
+import { ViewerMode } from './viewer-mode';
 
 export class Options {
   id = 'openseadragon';
@@ -17,7 +18,7 @@ export class Options {
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 0;
+  defaultZoomLevel = 0.00015;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
@@ -27,7 +28,7 @@ export class Options {
   homeFillsViewer = false;
   panHorizontal = true;
   panVertical = true;
-  constrainDuringPan = false;
+  constrainDuringPan = true;
   wrapHorizontal = false;
   wrapVertical = false;
   minZoomImageRatio = 1;
@@ -38,7 +39,7 @@ export class Options {
   preserveImageSizeOnResize = false;
   minScrollDeltaTime = 50;
   pixelsPerWheelLine = 40;
-  visibilityRatio = 0.5;
+  visibilityRatio = 1;
   viewportMargins: Object = {};
   imageLoaderLimit = 0;
   clickTimeThreshold = 300;
@@ -46,7 +47,7 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = 1.2;
+  animationTime = 0.6;
   gestureSettingsMouse = new GestureSettingsMouse();
   gestureSettingsTouch = new GestureSettingsTouch();
   gestureSettingsPen = new GestureSettingsPen();
@@ -102,7 +103,7 @@ export class Options {
   referenceStripPosition = 'BOTTOM_LEFT';
   referenceStripSizeRatio = 0.2;
   collectionMode = false;
-  collectionRows = 3;
+  collectionRows = 1;
   collectionColumns = 0;
   collectionLayout = 'horizontal';
   collectionTileSize = 800;

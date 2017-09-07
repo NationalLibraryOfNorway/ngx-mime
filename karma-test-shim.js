@@ -85,7 +85,6 @@ System.config({
     '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
     '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
     '@angular/flex-layout' : 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
-    
     // Testing bundles
     '@angular/core/testing': 'npm:@angular/core/bundles/core-testing.umd.js',
     '@angular/common/testing': 'npm:@angular/common/bundles/common-testing.umd.js',
@@ -99,6 +98,7 @@ System.config({
     'tslib': 'npm:tslib/tslib.js',
     'openseadragon': 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
     'rxjs': 'npm:rxjs',
+    'd3': 'npm:d3/build/d3.min.js',
     'src': 'src'
   }
 });
