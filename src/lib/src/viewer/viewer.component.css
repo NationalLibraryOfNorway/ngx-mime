@@ -59,3 +59,7 @@ mime-viewer-footer {
   overflow: hidden;
   z-index: 2;
 }
+
+::ng-deep .cdk-overlay-container {
+  z-index: 2147483647;
+}

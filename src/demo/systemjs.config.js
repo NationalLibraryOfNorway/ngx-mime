@@ -43,13 +43,13 @@
       '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
       '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
       '@angular/flex-layout' : 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
- 
+
       // other libraries
       'tslib': 'npm:tslib/tslib.js',
       'rxjs': 'npm:rxjs',
       'hammerjs': 'npm:hammerjs/hammer.js',
       'openseadragon': 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
-      'd3': 'npm:d3/build/d3.min.js',
+      'd3': 'npm:d3/build/d3.min.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {

@@ -1,6 +1,6 @@
-import { browser, element, by, ElementFinder, By } from 'protractor';
-import { Utils } from '../helpers/utils';
+import { browser, element, ElementFinder, by, By } from 'protractor';
 import { promise, WebElement } from 'selenium-webdriver';
+import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
 export class ViewerPage {
@@ -9,9 +9,8 @@ export class ViewerPage {
   private pointerPosition2 = {x: 750, y: 200};
 
   async open() {
-    await browser.restart();
-    await browser.manage().window().maximize();
-    return browser.get('');
+    await browser.get('/');
+    await browser.sleep(5000);
   }
 
   async openContentsDialog() {
@@ -19,16 +18,29 @@ export class ViewerPage {
     await utils.waitForElement(element(by.css('.contents-container')));
   }
 
-  async openSeadragonElement() {
-    const el = element(by.css('.openseadragon-container'));
-    await utils.waitForElement(el);
-    return el;
+  fullscreenButton(): ElementFinder {
+    return element(by.css('#fullscreenButton'));
   }
 
-  async getAttribution() {
+  exitFullscreenButton(): ElementFinder {
+    return element(by.css('#exitFullscreenButton'));
+  }
+
+  openSeadragonElement() {
+    const el = element(by.css('.openseadragon-container'));
+    return utils.waitForElement(el);
+  }
+
+  getAttribution() {
     const el = element(by.css('#attribution-container > .contents'));
-    await utils.waitForElement(el);
-    return el;
+    return utils.waitForElement(el);
+  }
+
+  isFullscreen(): promise.Promise<boolean> {
+    return browser.executeScript('return (document.fullscreenElement'
+      + ' || document.mozFullScreenElement'
+      + ' || document.webkitFullscreenElement'
+      + ' || document.msFullscreenElement) != null');
   }
 
   getHeader(): ElementFinder {
@@ -141,8 +153,7 @@ export class ViewerPage {
   }
 
   async clickNavigationButton(buttonId: string): Promise<void> {
-    const button = element(by.id(buttonId));
-    utils.waitForElement(button);
+    const button = await utils.waitForElement(element(by.id(buttonId)));
     await utils.clickElement(button);
   }
 
