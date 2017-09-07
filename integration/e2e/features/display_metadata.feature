@@ -8,5 +8,6 @@ Feature: Displaying Metadata
     Given the viewer is opened with a publication
 
   Scenario: Show descriptive metadata
+    Given the viewer is in dashboard view
     Given the viewer is in metadata view
     Then descriptive metadata are displayed to the user
