@@ -3,13 +3,13 @@ import { Capabilities } from 'selenium-webdriver';
 import { browser, element, by, ElementFinder, By } from 'protractor';
 
 const EC = protractor.ExpectedConditions;
-const TIMEOUT = 200;
+const RETRY = 100;
 export class Utils {
 
   public async waitForElement(el: ElementFinder) {
     let found = false;
-    for (let i = 0; i < TIMEOUT; i++) {
-      await browser.sleep(1);
+    for (let i = 0; i < RETRY; i++) {
+      await browser.sleep(10);
       const isElementPresent = await browser.isElementPresent(el);
       if (isElementPresent) {
         found = true;

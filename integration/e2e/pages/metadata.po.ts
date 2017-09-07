@@ -1,5 +1,5 @@
 import { protractor } from 'protractor/built';
-import { browser, element, by } from 'protractor';
+import { browser, element, ElementFinder, by } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
@@ -23,11 +23,13 @@ export class MetadataPage {
   }
 
   getAttribution() {
-    return utils.waitForElement(element(by.css('#metadata-attribution')));
+    const el = element(by.css('#metadata-attribution'));
+    return utils.waitForElement(el);
   }
 
   getLicense() {
-    return utils.waitForElement(element(by.css('#metadata-license')));
+    const el = element(by.css('#metadata-license'));
+    return utils.waitForElement(el);
   }
 }
 

@@ -11,7 +11,7 @@ Feature: Zoom
   #
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @mobile
+  @android @iphone
   Scenario: Zooming in on mobile
     Given zoom level is home
     When the user pinch out
@@ -19,7 +19,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @mobile
+  @android @iphone
   Scenario: Zooming out on mobile
     Given the view is zoomed in
     When the user pinch out
@@ -27,7 +27,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use TouchActions
   @Ignore
-  @mobile
+  @android @iphone
   Scenario: Zooming out on mobile
     Given the view is zoomed in
     When the user pinch in
@@ -39,7 +39,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @mobile
+  @android @iphone
   Scenario: Auto zooming in on mobile
     Given zoom level is home
     When the user double taps
@@ -47,7 +47,7 @@ Feature: Zoom
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
-  @mobile
+  @android @iphone
   Scenario: Auto zooming out on mobile
     Given the view is zoomed in
     When the user double taps

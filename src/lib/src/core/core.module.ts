@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MimeViewerIntl } from './viewer-intl';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './mime-resize-service/mime-resize.service';
+import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { ViewerService } from './viewer-service/viewer.service';
 import { ClickService } from './click/click.service';
 
@@ -14,6 +15,7 @@ import { ClickService } from './click/click.service';
     MimeViewerIntl,
     IiifManifestService,
     MimeResizeService,
+    FullscreenService,
     ViewerService,
     ClickService
   ]
