@@ -33,6 +33,10 @@ export class PageService {
     return (page > -1) && (page <= this.numberOfPages - 1);
   }
 
+  isCurrentPageValid(): boolean {
+    return this.isWithinBounds(this._currentPage);
+  }
+
   // Returns -1 if next page is out of bounds
   getNextPage(): number {
     if (!this.isWithinBounds(this.currentPage + 1)) {

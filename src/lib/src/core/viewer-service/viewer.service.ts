@@ -1,3 +1,4 @@
+import { Service } from '../../../../../dist/src/core/models/manifest';
 import { Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
@@ -18,12 +19,11 @@ declare const OpenSeadragon: any;
 export class ViewerService implements OnInit {
 
   private viewer: any;
+  private svgNode: any;
   private options: Options;
 
   private overlays: Array<SVGRectElement>;
-  private svgNode: any;
-  private tileSources: any[];
-
+  private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
   private isCurrentPageFittedVertically = false;
@@ -38,6 +38,42 @@ export class ViewerService implements OnInit {
 
   ngOnInit(): void { }
 
+  public getViewer(): any {
+    return this.viewer;
+  }
+
+  public getTilesources(): Service[] {
+    return this.tileSources;
+  }
+
+  public getOverlays(): SVGRectElement[] {
+    return this.overlays;
+  }
+
+  public getZoom(): number {
+    return this.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
+  }
+
+  public getHomeZoom(): number {
+    return this.shortenDecimals(this.viewer.viewport.getHomeZoom(), 5);
+  }
+
+  public getMinZoom(): number {
+    return this.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
+  }
+
+  public getMaxZoom(): number {
+    return this.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
+  }
+
+  public zoomHome(): void {
+    this.zoomTo(this.getHomeZoom());
+  }
+
+  public zoomTo(level: number): void {
+    this.viewer.viewport.zoomTo(level);
+  }
+
   setUpViewer(manifest: Manifest) {
     if (manifest.tileSource) {
       this.tileSources = manifest.tileSource;
@@ -45,6 +81,7 @@ export class ViewerService implements OnInit {
         this.clearOpenSeadragonTooltips();
         this.options = new Options(this.modeService.mode, manifest.tileSource);
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+        this.pageService.numberOfPages = this.tileSources.length;
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
@@ -56,18 +93,6 @@ export class ViewerService implements OnInit {
       this.createOverlays();
       this.fitBoundsToStart();
     }
-  }
-
-  getViewer() {
-    return this.viewer;
-  }
-
-  getTilesources() {
-    return this.tileSources;
-  }
-
-  getOverlays() {
-    return this.overlays;
   }
 
   addToWindow() {
@@ -104,8 +129,7 @@ export class ViewerService implements OnInit {
     // Overrides default goHome, raised when clicking home-button
     this.viewer.viewport.goHome = () => {
       this.viewer.raiseEvent('home');
-      this.modeService.mode = ViewerMode.DASHBOARD;
-      this.zoomHome();
+      this.toggleToDashboard();
     };
   }
 
@@ -143,6 +167,25 @@ export class ViewerService implements OnInit {
   }
 
   /**
+   * Switches to DASHBOARD-mode and fit bounds to dashboard home
+   */
+  toggleToDashboard(): void {
+    this.modeService.mode = ViewerMode.DASHBOARD;
+    this.zoomTo(this.getHomeZoom());
+  }
+
+  /**
+   * Switches to PAGE-mode and fits bounds to current page
+   */
+  toggleToPage(): void {
+    if (!this.pageService.isCurrentPageValid()) {
+      return;
+    }
+    this.modeService.mode = ViewerMode.PAGE;
+    this.fitBounds(this.overlays[this.pageService.currentPage]);
+  }
+
+  /**
    * Scroll-toggle-handler
    * Scroll-up dashboard-mode: Toggle page-mode
    * Scroll-down page-mode: Toggle dashboard-mode if page is at min-zoom
@@ -150,17 +193,16 @@ export class ViewerService implements OnInit {
   scrollToggleMode = (e: any) => {
     let event = e.originalEvent;
     let delta = (event.wheelDelta) ? event.wheelDelta : -event.deltaY;
-    // Scrolling down
-    if (delta < 0) {
-      if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
-        this.modeService.toggleMode();
-        this.zoomTo(this.getHomeZoom());
-      }
-      // Scrolling up
-    } else if (delta > 0) {
+
+    // Scrolling up
+    if (delta > 0) {
       if (this.modeService.mode === ViewerMode.DASHBOARD) {
-        this.modeService.toggleMode();
-        this.fitBounds(this.overlays[this.pageService.currentPage]);
+        this.toggleToPage();
+      }
+      // Scrolling down
+    } else if (delta < 0) {
+      if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
+        this.toggleToDashboard();
       }
     }
   }
@@ -171,16 +213,15 @@ export class ViewerService implements OnInit {
    * Pinch-in page-mode: Toggles dashboard-mode if page is at min-zoom
    */
   pinchToggleMode = (event: any) => {
+
     // Pinch Out
     if (event.distance > event.lastDistance) {
       if (this.modeService.mode === ViewerMode.DASHBOARD) {
-        this.modeService.toggleMode();
-        this.fitBounds(this.overlays[this.pageService.currentPage]);
+        this.toggleToPage();
       }
       // Pinch In
     } else if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
-      this.modeService.toggleMode();
-      this.zoomTo(this.getHomeZoom());
+      this.toggleToDashboard();
     }
   }
 
@@ -194,7 +235,7 @@ export class ViewerService implements OnInit {
     if (this.isPageHit(target)) {
       this.pageService.currentPage = requestedPage;
       this.modeService.toggleMode();
-      this.fitBounds(target);
+      this.modeService.mode === ViewerMode.PAGE ? this.toggleToPage() : this.toggleToDashboard();
     }
   }
 
@@ -212,14 +253,16 @@ export class ViewerService implements OnInit {
       this.zoomTo(this.getZoom() * this.options.zoomPerClick);
     } else {
       let requestedPage = this.getOverlayIndexFromClickEvent(target);
-      if (this.isPageHit) {
-        this.modeService.mode = ViewerMode.PAGE;
+      if (this.isPageHit(target)) {
         this.pageService.currentPage = requestedPage;
-        this.fitBounds(target);
+        this.toggleToPage();
       }
     }
   }
 
+  /**
+   * Called each time an animation ends
+   */
   animationsEndCallback = () => {
     this.setisCurrentPageFittedVertically();
   }
@@ -246,38 +289,7 @@ export class ViewerService implements OnInit {
    * @param target
    */
   isPageHit(target: HTMLElement): boolean {
-    return target.nodeName === 'rect';
-  }
-
-  public getZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
-  }
-
-  public getHomeZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getHomeZoom(), 5);
-  }
-
-  public getMinZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
-  }
-
-  public getMaxZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
-  }
-
-  public zoomHome(): void {
-    this.zoomTo(this.getHomeZoom());
-  }
-
-  public zoomTo(level: number): void {
-    this.viewer.viewport.zoomTo(level);
-  }
-
-  // TODO: This should return items in world, not tilesources-array
-  public getPageCount(): number {
-    if (this.tileSources) {
-      return this.tileSources.length;
-    }
+    return target instanceof SVGRectElement;
   }
 
   /**
@@ -331,34 +343,11 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Fits viewport bounds to page
-   * @param page index of page
+   * Fit viewport bounds to an overlay
+   * @param overlay
    */
-  fitBoundsToPage(page: number): void {
-    if (page < 0) {
-      return;
-    }
-    let box = this.overlays[page];
-    let pageBounds = this.createRectangle(box);
-    this.viewer.viewport.fitBounds(pageBounds);
-
-  }
-
-  /**
-   * Toggle viewport-bounds between page and dashboard
-   * This function assumes ViewerMode is set before being called
-   * @param currentOverlay
-   */
-  fitBounds(currentOverlay: SVGRectElement): void {
-    if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      let dashboardBounds = this.viewer.viewport.getBounds();
-      this.viewer.viewport.fitBounds(dashboardBounds);
-      // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
-      this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
-    } else if (this.modeService.mode === ViewerMode.PAGE) {
-      let pageBounds = this.createRectangle(currentOverlay);
-      this.viewer.viewport.fitBounds(pageBounds);
-    }
+  fitBounds(overlay: SVGRectElement): void {
+    this.viewer.viewport.fitBounds(this.createRectangle(overlay));
   }
 
   /**
@@ -388,9 +377,6 @@ export class ViewerService implements OnInit {
     return -1;
   }
 
-  public fitVertically(): void {
-    this.viewer.viewport.fitVertically(false);
-  }
 
   private clearOpenSeadragonTooltips() {
     OpenSeadragon.setString('Tooltips.Home', '');

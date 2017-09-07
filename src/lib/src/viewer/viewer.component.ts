@@ -68,7 +68,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         .subscribe((manifest: Manifest) => {
           this.cleanUp();
           this.viewerService.setUpViewer(manifest);
-          this.pageService.numberOfPages = this.viewerService.getPageCount();
 
           if (this.config.attributionDialogEnabled && manifest.attribution) {
             this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
@@ -122,16 +121,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.header.state = this.footer.state = 'hide';
     }
     this.changeDetectorRef.detectChanges();
-  }
-
-  nextPage(): void {
-    let nextPage = this.pageService.getNextPage();
-    this.viewerService.fitBoundsToPage(nextPage);
-  }
-
-  prevPage(): void {
-    let prevPage = this.pageService.getPrevPage();
-    this.viewerService.fitBoundsToPage(prevPage);
   }
 
   ngAfterViewChecked() {
