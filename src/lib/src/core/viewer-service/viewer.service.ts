@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
 import { Injectable, NgZone, OnInit } from '@angular/core';
@@ -19,14 +20,15 @@ export class ViewerService implements OnInit {
   private viewer: any;
   private options: Options;
 
-  private overlays: Array<HTMLElement>;
+  private overlays: Array<SVGRectElement>;
   private svgNode: any;
   private tileSources: any[];
 
   private subscriptions: Array<Subscription> = [];
 
   private isCurrentPageFittedVertically = false;
-  private isCanvasPressed = false;
+  public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+
 
   constructor(
     private zone: NgZone,
@@ -46,7 +48,7 @@ export class ViewerService implements OnInit {
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.toggleMode(mode);
+        this.setSettings(mode);
       }));
 
       this.addToWindow();
@@ -68,10 +70,6 @@ export class ViewerService implements OnInit {
     return this.overlays;
   }
 
-  getIsCanvasPressed(): boolean {
-    return this.isCanvasPressed;
-  }
-
   addToWindow() {
     window.openSeadragonViewer = this.viewer;
   }
@@ -88,13 +86,13 @@ export class ViewerService implements OnInit {
   addEvents(): void {
     this.addOverrides();
     this.clickService.reset();
-    this.addSingleClickEvents();
+    this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
-    this.viewer.addHandler('canvas-press', () => this.isCanvasPressed = true);
-    this.viewer.addHandler('canvas-release', () => this.isCanvasPressed = false);
+    this.viewer.addHandler('canvas-press', () => this.isCanvasPressed.next(true));
+    this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
   }
@@ -112,10 +110,10 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Toggles between page/dashboard-mode
+   * Set settings for page/dashboard-mode
    * @param mode ViewerMode
    */
-  toggleMode(mode: ViewerMode) {
+  setSettings(mode: ViewerMode) {
     if (mode === ViewerMode.DASHBOARD) {
       this.setDashboardSettings();
     } else if (mode === ViewerMode.PAGE) {
@@ -190,36 +188,25 @@ export class ViewerService implements OnInit {
    * Adds single-click-handler
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
-  addSingleClickEvents(): void {
-    this.clickService.addSingleClickHandler((event: any) => {
-      let target: HTMLElement = event.originalEvent.target;
-      let requestedPage = this.getOverlayIndexFromClickEvent(target);
-      if (this.isPageHit(target)) {
-        this.pageService.currentPage = requestedPage;
-        this.modeService.toggleMode();
-        this.fitBounds(target);
-      }
-    });
+  singleClickHandler = (event: any) => {
+    let target = event.originalEvent.target;
+    let requestedPage = this.getOverlayIndexFromClickEvent(target);
+    if (this.isPageHit(target)) {
+      this.pageService.currentPage = requestedPage;
+      this.modeService.toggleMode();
+      this.fitBounds(target);
+    }
   }
-
-  /**
-   * Checks if hit element is a <rect>-element
-   * @param target
-   */
-  isPageHit(target: HTMLElement): boolean {
-    return target.nodeName === 'rect';
-  }
-
 
   /**
    * Double-click-handler
    * Double-click dashboard-mode should go to page-mode
    * Double-click page-mode should
-   *    - Zoom in if page is fitted vertically
-   *    - Fit vertically if page is already zoomed in
+   *    a) Zoom in if page is fitted vertically, or
+   *    b) Fit vertically if page is already zoomed in
    */
   dblClickHandler = (event: any) => {
-    let target: HTMLElement = event.originalEvent.target;
+    let target = event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
     if (this.isCurrentPageFittedVertically) {
       this.zoomTo(this.getZoom() * this.options.zoomPerClick);
@@ -238,7 +225,7 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Checks whether current page's overlay has a larger height than the SVG parent-node
+   * Checks whether current page's overlay has a larger height than the SVG parentnode
    * If the heights are equal, then this page is fitted vertically in the viewer
    * (Note that this function is called after animation is ended for correct calculation)
    */
@@ -252,6 +239,14 @@ export class ViewerService implements OnInit {
     let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
     let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
     return svgNodeHeight >= currentOverlayHeight;
+  }
+
+  /**
+   * Checks if hit element is a <rect>-element
+   * @param target
+   */
+  isPageHit(target: HTMLElement): boolean {
+    return target.nodeName === 'rect';
   }
 
   public getZoom(): number {
@@ -315,7 +310,7 @@ export class ViewerService implements OnInit {
         .attr('height', tile.height)
         .attr('class', 'tile');
 
-      let currentOverlay: HTMLElement = this.svgNode.node().children[i];
+      let currentOverlay: SVGRectElement = this.svgNode.node().children[i];
       this.overlays.push(currentOverlay);
 
       currentX = currentX + tile.width + OptionsOverlays.TILES_MARGIN;
@@ -344,7 +339,7 @@ export class ViewerService implements OnInit {
       return;
     }
     let box = this.overlays[page];
-    let pageBounds = this.createRectangel(box);
+    let pageBounds = this.createRectangle(box);
     this.viewer.viewport.fitBounds(pageBounds);
 
   }
@@ -354,23 +349,23 @@ export class ViewerService implements OnInit {
    * This function assumes ViewerMode is set before being called
    * @param currentOverlay
    */
-  fitBounds(currentOverlay: any): void {
+  fitBounds(currentOverlay: SVGRectElement): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       let dashboardBounds = this.viewer.viewport.getBounds();
       this.viewer.viewport.fitBounds(dashboardBounds);
       // Also need to zoom out to defaultZoomLevel for dashboard-view after bounds are fitted...
       this.viewer.viewport.zoomTo(this.options.defaultZoomLevel);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
-      let pageBounds = this.createRectangel(currentOverlay);
+      let pageBounds = this.createRectangle(currentOverlay);
       this.viewer.viewport.fitBounds(pageBounds);
     }
   }
 
   /**
-   * Returns an OpenSeadragon.Rectangle instance of this overlay
+   * Returns an OpenSeadragon.Rectangle instance of an overlay
    * @param overlay
    */
-  createRectangel(overlay: any): any {
+  createRectangle(overlay: SVGRectElement): any {
     return new OpenSeadragon.Rect(
       overlay.x.baseVal.value,
       overlay.y.baseVal.value,
@@ -383,7 +378,7 @@ export class ViewerService implements OnInit {
    * Returns overlay-index for click-event if hit
    * @param target hit <rect>
    */
-  getOverlayIndexFromClickEvent(target: HTMLElement) {
+  getOverlayIndexFromClickEvent(target: any) {
     if (this.isPageHit(target)) {
       let requestedPage = this.overlays.indexOf(target);
       if (requestedPage >= 0) {

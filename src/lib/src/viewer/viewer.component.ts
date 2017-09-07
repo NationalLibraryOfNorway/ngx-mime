@@ -31,12 +31,13 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private subscriptions: Array<Subscription> = [];
+  private isCanvasPressed = false;
 
   ViewerMode: typeof ViewerMode = ViewerMode;
 
@@ -75,10 +76,20 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         })
     );
 
+    this.subscriptions.push(
+      this.viewerService.isCanvasPressed.subscribe((value: boolean) => {
+        this.isCanvasPressed = value;
+        this.changeDetectorRef.detectChanges();
+      })
+    );
+
+    this.subscriptions.push(
+      this.modeService.onChange.subscribe((mode: ViewerMode) => {
+        this.toggleToolbarsState(mode);
+      })
+    );
+
     this.loadManifest();
-    this.modeService.onChange.subscribe((mode: ViewerMode) => {
-      this.toggleToolbarsState(mode);
-    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -110,7 +121,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     } else if (mode === ViewerMode.PAGE) {
       this.header.state = this.footer.state = 'hide';
     }
-    this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
   }
 
   nextPage(): void {
@@ -121,22 +132,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   prevPage(): void {
     let prevPage = this.pageService.getPrevPage();
     this.viewerService.fitBoundsToPage(prevPage);
-  }
-
-  goToPageFromUserInput(event: any) {
-    let page = event.target.value;
-
-    if (!this.isInt(page) || !this.pageService.isWithinBounds(page)) {
-      return;
-    }
-    this.pageService.currentPage = page;
-    this.viewerService.fitBoundsToPage(+page);
-  }
-
-  private isInt(value: any): boolean {
-    return !isNaN(value) &&
-      parseInt(value, 10) == value &&
-      !isNaN(parseInt(value, 10));
   }
 
   ngAfterViewChecked() {
@@ -160,7 +155,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     return {
       'page': this.mode === ViewerMode.PAGE,
       'dashboard': this.mode === ViewerMode.DASHBOARD,
-      'canvas-pressed': this.viewerService.getIsCanvasPressed()
+      'canvas-pressed': this.isCanvasPressed
     };
   }
 }
