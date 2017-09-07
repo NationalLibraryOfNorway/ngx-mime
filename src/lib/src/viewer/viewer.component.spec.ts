@@ -99,9 +99,9 @@ describe('ViewerComponent', function () {
     expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
   }));
 
-  it('should initially open in dashboardview', () => {
+  it('should initially open in Page-mode', () => {
     fixture.detectChanges();
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+    expect(comp.mode).toBe(ViewerMode.PAGE);
   });
 
   it('should change to page-mode on when doubleclicking in dashboard-mode',
@@ -117,11 +117,13 @@ describe('ViewerComponent', function () {
       clickService.click(clickEvent);
       clickService.click(clickEvent);
       expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
+    }));
 
-  it('should fit page vertically when changing to page-mode', () => {
-    pending('');
-  });
+  it('should fit page vertically when in initial page-mode',
+    inject([ViewerService, ClickService, PageService],
+      (viewerService: ViewerService, clickService: ClickService, pageService: PageService) => {
+        pending('');
+      }));
 
   it('should change to page-mode when doubleclick in zoomed-in page-mode', () => {
     pending('');
@@ -163,7 +165,7 @@ describe('ViewerComponent', function () {
       //   expect(false).toBe(true); // This proves that the whenStable.then is never run
       // });
       pending('Set to pending until we findout why whenStable.then is not run');
-  }));
+    }));
 
 
 

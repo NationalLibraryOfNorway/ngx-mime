@@ -26,7 +26,7 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  private isCurrentPageFittedVertically = false;
+  public isCurrentPageFittedVertically = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
 
@@ -129,7 +129,7 @@ export class ViewerService implements OnInit {
     // Overrides default goHome, raised when clicking home-button
     this.viewer.viewport.goHome = () => {
       this.viewer.raiseEvent('home');
-      this.toggleToDashboard();
+      this.toggleToPage();
     };
   }
 
