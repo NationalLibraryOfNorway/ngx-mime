@@ -121,7 +121,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     } else if (mode === ViewerMode.PAGE) {
       this.header.state = this.footer.state = 'hide';
     }
-    this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
   }
 
   nextPage(): void {
