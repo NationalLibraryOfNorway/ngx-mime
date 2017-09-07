@@ -62,13 +62,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
+    this.modeService.mode = ViewerMode.PAGE;
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
-          this.modeService.mode = this.config.initViwerMode;
           this.cleanUp();
           this.viewerService.setUpViewer(manifest);
-
           if (this.config.attributionDialogEnabled && manifest.attribution) {
             this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
           }
@@ -95,7 +94,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
+        this.modeService.mode = this.config.initViwerMode;
         this.manifestUri = manifestUriChanges.currentValue;
+        this.cleanUp();
         this.loadManifest();
       }
     }

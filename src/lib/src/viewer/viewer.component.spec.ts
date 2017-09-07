@@ -80,29 +80,24 @@ describe('ViewerComponent', function () {
   });
 
   it('should create viewer', inject([ViewerService], (viewerService: ViewerService) => {
-    comp.ngOnInit();
     expect(viewerService.getViewer()).toBeDefined();
   }));
 
   it('svgOverlay-plugin should be defined', inject([ViewerService], (viewerService: ViewerService) => {
-    comp.ngOnInit();
     expect(viewerService.getViewer().svgOverlay()).toBeDefined();
   }));
 
   it('should create overlays', inject([ViewerService], (viewerService: ViewerService) => {
-    comp.ngOnInit();
     expect(viewerService.getOverlays()).toBeDefined();
   }));
 
   it('should create overlays-array with same size as tilesources-array', inject([ViewerService], (viewerService: ViewerService) => {
-    comp.ngOnInit();
     expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
   }));
 
-  it('should initially open in Page-mode', () => {
-    fixture.detectChanges();
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  });
+  it('should initially open in Page-mode', inject([ModeService], (modeService: ModeService) => {
+    expect(modeService.mode).toBe(ViewerMode.PAGE);
+  }));
 
   it('should change to page-mode on when doubleclicking in dashboard-mode',
     inject([ViewerService, ClickService], (viewerService: ViewerService, clickService: ClickService) => {
