@@ -8,18 +8,17 @@ defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   const utils = new Utils();
   // 300ms is the time the animation is set up to use but we need some extra time
-  const switchAnimationTime = 3000;
+  const switchAnimationTime = 1200;
 
   Given(/^the viewer is in dashboard view$/, async () => {
-    await page.open();
-  });
-
-  Given(/^the viewer is in page view$/, async () => {
-    await page.open();
     const firstOverlay = page.getFirstPageOverlay();
     firstOverlay.click();
     await browser.sleep(switchAnimationTime);
   });
+
+  Given(/^the viewer is in page view$/, async () => {
+  });
+
 
   When(/^the user click in the viewer$/, async () => {
     const firstOverlay = page.getFirstPageOverlay();
@@ -35,6 +34,10 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the viewer should change to page view$/, async () => {
+    expect(await isPageMode()).to.be.true;
+  });
+
+  Given(/^the viewer should be in page view$/, async () => {
     expect(await isPageMode()).to.be.true;
   });
 

@@ -107,7 +107,6 @@ export class ViewerService implements OnInit {
       }));
 
       this.addToWindow();
-      this.addEvents();
       this.createOverlays();
       this.fitBoundsToStart();
 
@@ -119,24 +118,6 @@ export class ViewerService implements OnInit {
         this.createPagesCenterPosition(); // This should be done after viewer has loaded all tiles
         this.calculateCurrentPage(center);
       }));
-    }
-  }
-
-  private createPagesCenterPosition() {
-    if (!this.pagesCenterPoint && this.viewer.world.getItemAt(this.pageService.numberOfPages - 1)) {
-      this.pagesCenterPoint = [];
-      for (let i = 0; i < this.pageService.numberOfPages; i++) {
-        const item = this.viewer.world.getItemAt(i);
-        const itemCenter = item._xSpring.current.value + (item._worldWidthCurrent / 2);
-        this.pagesCenterPoint.push(itemCenter);
-      }
-    }
-  }
-
-  private calculateCurrentPage(center: any) {
-    if (this.pagesCenterPoint) {
-      const currentPageIndex = new ArrayUtils().findClosestIndex(this.pagesCenterPoint, center.x);
-      this.currentPageIndex.next(currentPageIndex);
     }
   }
 
@@ -445,6 +426,25 @@ export class ViewerService implements OnInit {
   private shortenDecimals(zoom: string, precision: number): number {
     const short = Number(zoom).toPrecision(precision);
     return Number(short);
+  }
+
+  private createPagesCenterPosition() {
+    if (!this.pagesCenterPoint && this.viewer.world.getItemAt(this.pageService.numberOfPages - 1)) {
+      this.pagesCenterPoint = [];
+      for (let i = 0; i < this.pageService.numberOfPages; i++) {
+        const item = this.viewer.world.getItemAt(i);
+        const itemCenter = item._xSpring.current.value + (item._worldWidthCurrent / 2);
+        this.pagesCenterPoint.push(itemCenter);
+      }
+    }
+  }
+
+  private calculateCurrentPage(center: any) {
+    if (this.pagesCenterPoint) {
+      const currentPageIndex = new ArrayUtils().findClosestIndex(this.pagesCenterPoint, center.x);
+      this.currentPageIndex.next(currentPageIndex);
+      this.addEvents();
+    }
   }
 
   private getViewportCenter() {
