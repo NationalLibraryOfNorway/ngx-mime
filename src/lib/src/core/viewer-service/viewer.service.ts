@@ -1,7 +1,3 @@
-import { SwipeUtils } from './swipe-utils';
-import { ArrayUtils } from './array-utils';
-import { CalculateNextPageFactory } from './calculate-next-page-factory';
-import { SwipeHelper } from './swipe-helper';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Rx';
@@ -15,6 +11,9 @@ import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { ClickService } from '../click/click.service';
+import { SwipeUtils } from './swipe-utils';
+import { ArrayUtils } from './array-utils';
+import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import '../ext/svg-overlay';
 import * as d3 from 'd3';
 
