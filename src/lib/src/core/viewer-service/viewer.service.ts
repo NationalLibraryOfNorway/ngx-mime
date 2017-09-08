@@ -360,47 +360,84 @@ export class ViewerService implements OnInit {
   }
 
   private positionTilesInSinglePageView(requestedPageIndex: number): void {
-    //First centre the page
-    this.panToPage(requestedPageIndex);
 
     let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
     if (!requestedPage) {
       return;
     }
 
+    //First centre the page
+    this.panToPage(requestedPageIndex);
+
+    //Zoom viewport to fit new top/bottom padding
+    //TODO: Configurable padding
+    //TODO: Add animation to zoom for smoother transition
+    let viewport = this.viewer.viewport;
+    let resizeRatio = this.getViewportHeightChangeRatio(viewport, 160, 0);
+    let zoom = viewport.getZoom() * resizeRatio;
+    viewport.zoomTo(zoom, null, false);
+
+    //Add left/right padding to OpenSeadragon to hide previous/next pages
+    //TODO: Add logic for pages wider and shorter than the viewport
+    //TODO: Adjust padding on page change
+    //TODO: Adjust padding on window resize
+    //TODO: Adjust padding on zoom
+    //TODO: Configurable padding for header/footer
+    let requestedPageBounds = requestedPage.getBounds(true);
     let rootNode = d3.select(this.viewer.container.parentNode);
-    rootNode.style('padding', '0');
+    let newPageBounds = this.getResizedRectangle(this.getCenteredRectangle(requestedPageBounds, viewport.getCenter(true)), resizeRatio);
+    this.padViewportContainerToFitTile(viewport, newPageBounds, rootNode);
 
-    //HACK ALERT!!! And terribly clunky. TODO: Find a better way to wait for viewport resize
+    //Update position of previous/next tiles
+    //TODO: Configurable margin
+    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 10);
+    this.positionNextTiles(requestedPageIndex, requestedPageBounds, 10);
+
     setTimeout(() => {
+      requestedPageBounds = requestedPage.getBounds(true);
+      console.log(requestedPageBounds);
+    }, 2000);
+  }
 
-      //Add left/right padding to OpenSeadragon to hide previous/next pages
-      let requestedPageBounds = requestedPage.getBounds(true);
-      let viewportBounds = this.viewer.viewport.getBounds(true);
+  private getViewportHeightChangeRatio(viewport: any, verticalPadding: number, newVerticalPadding: number): number {
 
-      //TODO: Add logic for pages wider and shorter than the viewport
-      //TODO: Refactor to own function
-      //TODO: Adjust padding on page change
-      //TODO: Adjust padding on window resize
-      //TODO: Adjust padding on zoom
-      //TODO: Add animation to padding/positioning for smoother transition
-      //TODO: Configurable padding for header/footer
-      let heightChangeRatio = viewportBounds.height / requestedPageBounds.height;
-      let newPageWidth = heightChangeRatio * requestedPageBounds.width;
-      let newPageLeft =  (viewportBounds.x + (viewportBounds.width / 2)) - (newPageWidth / 2);
-      let requestedPageCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(newPageLeft, 0));
-      let viewerCoordinates = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, 0));
-      let paddingInPixels = requestedPageCoordinates.x - viewerCoordinates.x;
+    let paddingVector = new OpenSeadragon.Point(0, verticalPadding - newVerticalPadding);
+    let paddingInViewportCoordinates = viewport.deltaPointsFromPixels(paddingVector);
 
-      //let rootNode = d3.select(this.viewer.container.parentNode);
-      rootNode.style('padding', '0 ' + paddingInPixels + 'px');
-      this.viewer.viewport.fitBounds(requestedPageBounds, false);
+    let height = viewport.getBounds(true).height;
+    let newHeight = height + paddingInViewportCoordinates.y;
+    let resizeRatio = newHeight / height;
 
-      //Update position of previous/next tiles
-      this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 10);
-      this.positionNextTiles(requestedPageIndex, requestedPageBounds, 10);
+    return resizeRatio;
+  }
 
-    }, 100);
+  private getResizedRectangle(rectangle: any, resizeRatio: number): any {
+    return new OpenSeadragon.Rect(
+      (rectangle.x + (rectangle.width / 2)) - ((rectangle.width * resizeRatio) / 2),
+      (rectangle.y + (rectangle.height / 2)) - ((rectangle.height * resizeRatio) / 2),
+      rectangle.width * resizeRatio,
+      rectangle.height * resizeRatio
+    );
+  }
+
+  private getCenteredRectangle(rectangle: any, viewportCenter: any): any {
+    return new OpenSeadragon.Rect(
+      viewportCenter.x - (rectangle.width / 2),
+      viewportCenter.y - (rectangle.height / 2),
+      rectangle.width,
+      rectangle.height
+    );
+  }
+
+  //TODO: Individual logic for top, bottom, left and right (current only suuports equal left/right and 0 top/bottom)
+  private padViewportContainerToFitTile(viewport: any, tileBounds: any, container: any): void {
+
+    let viewportBounds = viewport.getBounds(true);
+    let tileLeftCoordinates = viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(tileBounds.x, 0));
+    let viewerLeftCoordinates = viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, 0));
+    let paddingInPixels = tileLeftCoordinates.x - viewerLeftCoordinates.x;
+
+    container.style('padding','0 ' + paddingInPixels + 'px');
   }
 
   private positionTilesInDashboardView(requestedPageIndex: number): void{
@@ -409,21 +446,21 @@ export class ViewerService implements OnInit {
       return;
     }
 
-    let requestedPageBounds = requestedPage.getBounds(true);
+    //Zoom viewport to fit new top/bottom padding
+    //TODO: Configurable padding
+    let viewport = this.viewer.viewport;
+    let resizeRatio = this.getViewportHeightChangeRatio(viewport, 0, 160);
+    let zoom = viewport.getZoom() * resizeRatio;
+    viewport.zoomTo(zoom, null, false);
 
     //TODO: Configurable padding for header/footer
     let rootNode = d3.select(this.viewer.container.parentNode);
     rootNode.style('padding', '80px 0');
 
-    //HACK ALERT!!! And terribly clunky. TODO: Find a better way to wait for viewport resize
-    setTimeout(() => {
-      this.viewer.viewport.fitBounds(requestedPageBounds, false);
-
-      //TODO: Configurable margin
-      this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 100);
-      this.positionNextTiles(requestedPageIndex, requestedPageBounds, 100);
-
-    }, 100);
+    //TODO: Configurable margin
+    let requestedPageBounds = requestedPage.getBounds(true);
+    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 100);
+    this.positionNextTiles(requestedPageIndex, requestedPageBounds, 100);
   }
 
   //Recursive function to iterate through previous pages and position them to the left of the current page
