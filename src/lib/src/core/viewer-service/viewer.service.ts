@@ -106,10 +106,6 @@ export class ViewerService implements OnInit {
         this.setSettings(mode);
       }));
 
-      this.addToWindow();
-      this.createOverlays();
-      this.fitBoundsToStart();
-
       this.subscriptions.push(this.onPageChange.subscribe((page: any) => {
         console.log('new page', page);
       }));
@@ -118,6 +114,10 @@ export class ViewerService implements OnInit {
         this.createPagesCenterPosition(); // This should be done after viewer has loaded all tiles
         this.calculateCurrentPage(center);
       }));
+
+      this.addToWindow();
+      this.createOverlays();
+      this.addEvents();
     }
   }
 
