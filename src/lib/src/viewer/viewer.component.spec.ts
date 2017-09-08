@@ -99,38 +99,35 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(ViewerMode.PAGE);
   }));
 
-  it('should change to dashboard view on first click',
-    fakeAsync(inject([ViewerService, ClickService], (viewerService: ViewerService, clickService: ClickService) => {
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-    let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = {
-      quick: true,
-      tracker: { dblClickTimeThreshold: 0 },
-      preventDefaultAction: false,
-      originalEvent: { target: firstOverlay }
-    };
-    clickService.click(clickEvent);
-    tick();
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+  it('should change mode to page mode when chainging manifest',
+    fakeAsync(inject([ViewerService, ModeService], (viewerService: ViewerService, modeService: ModeService) => {
+    viewerService.toggleToDashboard();
+    expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+
+    testHostComponent.manifestUri = 'dummyURI3';
+    testHostFixture.detectChanges();
+    tick(1000);
+    fixture.detectChanges();
+    expect(modeService.mode).toBe(ViewerMode.PAGE);
   })));
 
-
   it('should change to dashboard mode when doubleclicking in page mode',
-    fakeAsync(inject([ViewerService, ClickService], (viewerService: ViewerService, clickService: ClickService) => {
-      // fixture.detectChanges();
-      // expect(comp.mode).toBe(ViewerMode.PAGE);
-      // let firstOverlay = viewerService.getOverlays()[0];
-      // let clickEvent = {
-      //   quick: true,
-      //   tracker: { dblClickTimeThreshold: 0 },
-      //   preventDefaultAction: false,
-      //   originalEvent: { target: firstOverlay }
-      // };
-      // clickService.click(clickEvent);
-      // clickService.click(clickEvent);
-      // tick();
-      // expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-      pending('Need to figure out why test is failing, when the one click test works');
+    fakeAsync(inject([ViewerService, ModeService, ClickService], (viewerService: ViewerService, modeService: ModeService, clickService: ClickService) => {
+
+      let firstOverlay = viewerService.getOverlays()[0];
+      let clickEvent = {
+        quick: true,
+        tracker: { dblClickTimeThreshold: 0 },
+        preventDefaultAction: false,
+        originalEvent: { target: firstOverlay }
+      };
+      viewerService.toggleToDashboard();
+      expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+
+      clickService.click(clickEvent);
+      clickService.click(clickEvent);
+      tick(1000);
+      expect(comp.mode).toBe(ViewerMode.PAGE);
   })));
 
   it('should fit page vertically when in initial page-mode',
