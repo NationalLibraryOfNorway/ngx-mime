@@ -21,8 +21,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate(OptionsTransitions.TIME_IN_MILLIS + 'ms ease-in')),
-      transition('show => hide', animate(OptionsTransitions.TIME_IN_MILLIS + 'ms ease-out'))
+      transition('hide => show', animate(OptionsTransitions.TOOLBARS + 'ms ease-in')),
+      transition('show => hide', animate(OptionsTransitions.TOOLBARS + 'ms ease-out'))
     ])
   ],
   host: {

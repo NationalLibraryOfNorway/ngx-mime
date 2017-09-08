@@ -10,7 +10,7 @@ export class MimeViewerConfig {
     attributionDialogEnabled?: boolean;
     attributionDialogHideTimeout?: number;
     navigationControlEnabled?: boolean;
-    initViwerMode?: ViewerMode;
+    initViewerMode?: ViewerMode;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -23,7 +23,7 @@ export class MimeViewerConfig {
         fields.navigationControlEnabled !== undefined ? fields.navigationControlEnabled : this.navigationControlEnabled;
 
       this.initViewerMode =
-      fields.initViwerMode !== undefined ? fields.initViwerMode : this.initViewerMode;
+      fields.initViewerMode !== undefined ? fields.initViewerMode : this.initViewerMode;
     }
   }
 }

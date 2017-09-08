@@ -89,11 +89,12 @@ export class ViewerService implements OnInit {
       }));
 
       this.addToWindow();
-      this.addEvents();
       this.createOverlays();
-      this.fitBoundsToStart();
+      this.addEvents();
+      //this.fitBoundsToStart();
     }
   }
+
 
   addToWindow() {
     window.openSeadragonViewer = this.viewer;
@@ -133,6 +134,7 @@ export class ViewerService implements OnInit {
     };
   }
 
+
   /**
    * Set settings for page/dashboard-mode
    * @param mode ViewerMode
@@ -163,7 +165,7 @@ export class ViewerService implements OnInit {
     setTimeout(() => {
       this.viewer.gestureSettingsTouch.pinchToZoom = true;
       this.viewer.gestureSettingsMouse.scrollToZoom = true;
-    }, OptionsTransitions.TIME_IN_MILLIS);
+    }, 300);
   }
 
   /**
@@ -264,24 +266,23 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    this.setisCurrentPageFittedVertically();
+    this.isCurrentPageFittedVertically = this.getIsFittedVertically();
   }
 
   /**
-   * Checks whether current page's overlay has a larger height than the SVG parentnode
+   * Checks whether current page's overlay bounds has a larger height than the viewport bounds
    * If the heights are equal, then this page is fitted vertically in the viewer
    * (Note that this function is called after animation is ended for correct calculation)
    */
-  setisCurrentPageFittedVertically(): void {
-    let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
-    let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
-    this.isCurrentPageFittedVertically = svgNodeHeight === currentOverlayHeight;
+  getIsFittedVertically(): boolean {
+    let page = Math.round(this.createRectangle(this.overlays[this.pageService.currentPage]).height);
+    let view = Math.round(this.viewer.viewport.getBounds().height);
+    return page === view;
   }
 
   pageIsAtMinZoom(): boolean {
-    let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
-    let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
-    return svgNodeHeight >= currentOverlayHeight;
+    return Math.round(this.createRectangle(this.overlays[this.pageService.currentPage]).height)
+      >= Math.round(this.viewer.viewport.getBounds().height);
   }
 
   /**

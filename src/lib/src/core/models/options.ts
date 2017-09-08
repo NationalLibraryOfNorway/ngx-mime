@@ -1,7 +1,9 @@
+import { OptionsTransitions } from './options-transitions';
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
 import { ViewerMode } from './viewer-mode';
+
 
 export class Options {
   id = 'openseadragon';
@@ -13,12 +15,12 @@ export class Options {
   prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
   navImages: null;
   debugMode = false;
-  debugGridColor = '#437AB2';
+  debugGridColor = '#ffcc00';
   blendTime = 0;
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 0.00015;
+  defaultZoomLevel = 0.00014;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
@@ -47,7 +49,7 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = 0.6;
+  animationTime = OptionsTransitions.OSD / 1000;
   gestureSettingsMouse = new GestureSettingsMouse();
   gestureSettingsTouch = new GestureSettingsTouch();
   gestureSettingsPen = new GestureSettingsPen();
