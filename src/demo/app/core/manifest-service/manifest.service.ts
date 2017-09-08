@@ -37,6 +37,10 @@ export class ManifestService {
     {
       label: 'Landscape',
       uri: 'assets/fixtures/presentation/2/landscape-manifest.json'
+    },
+    {
+      label: 'Different sizes',
+      uri: 'assets/fixtures/presentation/2/different-size-manifest.json'
     }
   ];
 
