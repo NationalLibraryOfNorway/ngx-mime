@@ -371,11 +371,9 @@ export class ViewerService implements OnInit {
 
     //Zoom viewport to fit new top/bottom padding
     //TODO: Configurable padding
-    //TODO: Add animation to zoom for smoother transition
     let viewport = this.viewer.viewport;
     let resizeRatio = this.getViewportHeightChangeRatio(viewport, 160, 0);
-    let zoom = viewport.getZoom() * resizeRatio;
-    viewport.zoomTo(zoom, null, false);
+    this.animateZoom(viewport, resizeRatio, 200);
 
     //Add left/right padding to OpenSeadragon to hide previous/next pages
     //TODO: Add logic for pages wider and shorter than the viewport
@@ -388,15 +386,47 @@ export class ViewerService implements OnInit {
     let newPageBounds = this.getResizedRectangle(this.getCenteredRectangle(requestedPageBounds, viewport.getCenter(true)), resizeRatio);
     this.padViewportContainerToFitTile(viewport, newPageBounds, rootNode);
 
-    //Update position of previous/next tiles
-    //TODO: Configurable margin
-    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 10);
-    this.positionNextTiles(requestedPageIndex, requestedPageBounds, 10);
-
+    //TODO: Something better than a timeout function
     setTimeout(() => {
-      requestedPageBounds = requestedPage.getBounds(true);
-      console.log(requestedPageBounds);
-    }, 2000);
+      //Update position of previous/next tiles
+      //TODO: Configurable margin
+      this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 20);
+      this.positionNextTiles(requestedPageIndex, requestedPageBounds, 20);
+    }, 500);
+
+  }
+
+  //TODO: Refactoring
+  private animateZoom(viewport: any, resizeRatio: number, milliseconds: number): void {
+    let iterations = 10;
+
+    let currentZoom = viewport.getZoom();
+    let zoomIncrement = (currentZoom * (resizeRatio - 1)) / iterations;
+    let timeIncrement = milliseconds / iterations;
+    
+    this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, 1, iterations);
+  }
+
+  //TODO: Refactoring
+  private incrementZoom(viewport: any, currentZoom: number, zoomIncrement: number, timeIncrement: number, i: number, iterations: number) {
+    if (i > iterations) {
+      return;
+    }
+    i = i + 1;
+    
+    setTimeout(() => {
+
+      let viewportZoom = viewport.getZoom();
+      if (currentZoom != viewportZoom)
+      {
+        zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
+        currentZoom = viewportZoom;
+      }
+      currentZoom = currentZoom + zoomIncrement;
+      viewport.zoomTo(currentZoom, null, false);
+      
+      this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, i, iterations);
+    }, timeIncrement);
   }
 
   private getViewportHeightChangeRatio(viewport: any, verticalPadding: number, newVerticalPadding: number): number {
@@ -446,21 +476,26 @@ export class ViewerService implements OnInit {
       return;
     }
 
+    //Update position of previous/next tiles
+    let requestedPageBounds = requestedPage.getBounds(true);
+    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, OptionsOverlays.TILES_MARGIN);
+    this.positionNextTiles(requestedPageIndex, requestedPageBounds, OptionsOverlays.TILES_MARGIN);
+
     //Zoom viewport to fit new top/bottom padding
     //TODO: Configurable padding
+    //TODO: Animate zoom
     let viewport = this.viewer.viewport;
     let resizeRatio = this.getViewportHeightChangeRatio(viewport, 0, 160);
-    let zoom = viewport.getZoom() * resizeRatio;
-    viewport.zoomTo(zoom, null, false);
+    this.animateZoom(viewport, resizeRatio, 200);
 
-    //TODO: Configurable padding for header/footer
-    let rootNode = d3.select(this.viewer.container.parentNode);
-    rootNode.style('padding', '80px 0');
 
-    //TODO: Configurable margin
-    let requestedPageBounds = requestedPage.getBounds(true);
-    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 100);
-    this.positionNextTiles(requestedPageIndex, requestedPageBounds, 100);
+    //TODO: Something better than a timeout function
+    setTimeout(() => {
+      //TODO: Configurable padding for header/footer
+      let rootNode = d3.select(this.viewer.container.parentNode);
+      rootNode.style('padding', '80px 0');
+    }, 500);
+    
   }
 
   //Recursive function to iterate through previous pages and position them to the left of the current page
