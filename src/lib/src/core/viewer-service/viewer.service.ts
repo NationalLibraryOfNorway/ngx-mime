@@ -443,7 +443,6 @@ export class ViewerService implements OnInit {
     if (this.pagesCenterPoint) {
       const currentPageIndex = new ArrayUtils().findClosestIndex(this.pagesCenterPoint, center.x);
       this.currentPageIndex.next(currentPageIndex);
-      this.addEvents();
     }
   }
 
