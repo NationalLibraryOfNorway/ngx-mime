@@ -13,6 +13,10 @@ export class ViewerPage {
     await browser.sleep(5000);
   }
 
+  async goToPage(pageNumber: number) {
+    // @Todo
+  }
+
   async openContentsDialog() {
     await element(by.css('#contentsDialogButton')).click();
     await utils.waitForElement(element(by.css('.contents-container')));
