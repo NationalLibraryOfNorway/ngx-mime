@@ -69,9 +69,7 @@ describe('ViewerComponent', function () {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerComponent);
     comp = fixture.componentInstance;
-
     fixture.detectChanges();
-
 
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
@@ -116,20 +114,16 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(ViewerMode.PAGE);
   });
 
-  it('should change mode to page mode when chainging manifest',
-    fakeAsync(() => {
+  it('should change mode to page mode when chainging manifest', fakeAsync(() => {
     viewerService.toggleToDashboard();
     expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
-
     testHostComponent.manifestUri = 'dummyURI3';
     testHostFixture.detectChanges();
-    tick(1000);
-    fixture.detectChanges();
+    tick(100000);
     expect(modeService.mode).toBe(ViewerMode.PAGE);
   }));
 
   it('should change to page mode when double clicking in dashboard mode', fakeAsync(() => {
-      expect(comp.mode).toBe(ViewerMode.PAGE);
       viewerService.toggleToDashboard();
       expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
 
@@ -147,9 +141,7 @@ describe('ViewerComponent', function () {
   }));
 
   it('should change to page mode when single click in dashboard mode', fakeAsync(() => {
-    expect(comp.mode).toBe(ViewerMode.PAGE);
     viewerService.toggleToDashboard();
-    expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
 
     let firstOverlay = viewerService.getOverlays()[0];
     let clickEvent = {
