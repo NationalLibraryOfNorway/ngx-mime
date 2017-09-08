@@ -21,7 +21,7 @@ module.exports = function (wallaby) {
 
       {pattern: 'src/demo/systemjs.config.js', instrument: false},
       {pattern: 'src/demo/systemjs-angular-loader.js', instrument: false, load: false},
-
+      {pattern: 'node_modules/openseadragon/build/openseadragon/openseadragon.min.js', instrument: false},
       {pattern: 'src/**/*.spec.ts', ignore: true},
       {pattern: 'src/**/*.ts', load: false},
       {pattern: 'src/**/*.html', load: false},
