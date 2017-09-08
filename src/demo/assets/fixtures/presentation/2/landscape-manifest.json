@@ -1,0 +1,1542 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@type": "sc:Manifest",
+  "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/manifest{?fields}",
+  "label": "Peik",
+  "metadata": [
+    {
+      "label": "Tittel",
+      "value": "Peik"
+    },
+    {
+      "label": "Forfatter",
+      "value": "Dybvad, Øyvind"
+    },
+    {
+      "label": "Medforfatter/Bidragsyter",
+      "value": "Nilssen, Jens R."
+    },
+    {
+      "label": "Publisert",
+      "value": "Oslo: Notem, 2000"
+    },
+    {
+      "label": "Emne",
+      "value": "tegneserier | teikneseriar | julehefte | nynorsk"
+    },
+    {
+      "label": "Språk",
+      "value": "Norsk (Nynorsk)"
+    },
+    {
+      "label": "Varig lenke",
+      "value": "<a href='http://urn.nb.no/URN:NBN:no-nb_digibok_2011031806047' target='_blank'>http://urn.nb.no/URN:NBN:no-nb_digibok_2011031806047</a>"
+    },
+    {
+      "label": "Medietype",
+      "value": "Bøker"
+    }
+  ],
+  "license": "https://beta.nb.no/lisens/copyright",
+  "attribution": "Dette verket kan ikke kopieres, spres, vises eller fremføres for allmennheten i noen form uten samtykke fra den enkelte rettighetshaver.",
+  "service": {
+    "@context": "http://iiif.io/api/search/0/context.json",
+    "@id": "https://api.nb.no:443/catalog/v1/contentsearch/656e1aa1ef5fb4c45b92e46efca7201d/search",
+    "profile": "http://iiif.io/api/search/0/search"
+  },
+  "sequences": [
+    {
+      "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/sequence/normal",
+      "@type": "sc:Sequence",
+      "label": "Current Page Order",
+      "viewingHint": "paged",
+      "canvases": [
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_C1",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_C1/full/72,0/0/native.jpg",
+          "height": 2192,
+          "width": 2930,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_C1",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_C1",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_C1",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 2930,
+                  "height": 2192,
+                  "sizes": [
+                    {
+                      "width": 1465,
+                      "height": 1096
+                    },
+                    {
+                      "width": 732,
+                      "height": 548
+                    },
+                    {
+                      "width": 366,
+                      "height": 274
+                    },
+                    {
+                      "width": 183,
+                      "height": 137
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0033333333333333335,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2192,
+                "width": 2930
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_C1"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_I1",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_I1/full/72,0/0/native.jpg",
+          "height": 2153,
+          "width": 2882,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_I1",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_I1",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_I1",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 2882,
+                  "height": 2153,
+                  "sizes": [
+                    {
+                      "width": 1441,
+                      "height": 1076
+                    },
+                    {
+                      "width": 720,
+                      "height": 538
+                    },
+                    {
+                      "width": 360,
+                      "height": 269
+                    },
+                    {
+                      "width": 180,
+                      "height": 134
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0033333333333333335,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2153,
+                "width": 2882
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_I1"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0001",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0001/full/72,0/0/native.jpg",
+          "height": 2933,
+          "width": 3786,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0001",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0001",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0001",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3786,
+                  "height": 2933,
+                  "sizes": [
+                    {
+                      "width": 1893,
+                      "height": 1466
+                    },
+                    {
+                      "width": 946,
+                      "height": 733
+                    },
+                    {
+                      "width": 473,
+                      "height": 366
+                    },
+                    {
+                      "width": 236,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2933,
+                "width": 3786
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0001"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0002",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0002/full/72,0/0/native.jpg",
+          "height": 2933,
+          "width": 3786,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0002",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0002",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0002",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3786,
+                  "height": 2933,
+                  "sizes": [
+                    {
+                      "width": 1893,
+                      "height": 1466
+                    },
+                    {
+                      "width": 946,
+                      "height": 733
+                    },
+                    {
+                      "width": 473,
+                      "height": 366
+                    },
+                    {
+                      "width": 236,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2933,
+                "width": 3786
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0002"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0003",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0003/full/72,0/0/native.jpg",
+          "height": 2934,
+          "width": 3784,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0003",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0003",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0003",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3784,
+                  "height": 2934,
+                  "sizes": [
+                    {
+                      "width": 1892,
+                      "height": 1467
+                    },
+                    {
+                      "width": 946,
+                      "height": 733
+                    },
+                    {
+                      "width": 473,
+                      "height": 366
+                    },
+                    {
+                      "width": 236,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2934,
+                "width": 3784
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0003"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0004",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0004/full/72,0/0/native.jpg",
+          "height": 2934,
+          "width": 3784,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0004",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0004",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0004",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3784,
+                  "height": 2934,
+                  "sizes": [
+                    {
+                      "width": 1892,
+                      "height": 1467
+                    },
+                    {
+                      "width": 946,
+                      "height": 733
+                    },
+                    {
+                      "width": 473,
+                      "height": 366
+                    },
+                    {
+                      "width": 236,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2934,
+                "width": 3784
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0004"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0005",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0005/full/72,0/0/native.jpg",
+          "height": 2934,
+          "width": 3784,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0005",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0005",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0005",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3784,
+                  "height": 2934,
+                  "sizes": [
+                    {
+                      "width": 1892,
+                      "height": 1467
+                    },
+                    {
+                      "width": 946,
+                      "height": 733
+                    },
+                    {
+                      "width": 473,
+                      "height": 366
+                    },
+                    {
+                      "width": 236,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2934,
+                "width": 3784
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0005"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0006",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0006/full/72,0/0/native.jpg",
+          "height": 2934,
+          "width": 3784,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0006",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0006",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0006",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3784,
+                  "height": 2934,
+                  "sizes": [
+                    {
+                      "width": 1892,
+                      "height": 1467
+                    },
+                    {
+                      "width": 946,
+                      "height": 733
+                    },
+                    {
+                      "width": 473,
+                      "height": 366
+                    },
+                    {
+                      "width": 236,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2934,
+                "width": 3784
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0006"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0007",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0007/full/72,0/0/native.jpg",
+          "height": 2932,
+          "width": 3792,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0007",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0007",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0007",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3792,
+                  "height": 2932,
+                  "sizes": [
+                    {
+                      "width": 1896,
+                      "height": 1466
+                    },
+                    {
+                      "width": 948,
+                      "height": 733
+                    },
+                    {
+                      "width": 474,
+                      "height": 366
+                    },
+                    {
+                      "width": 237,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2932,
+                "width": 3792
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0007"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0008",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0008/full/72,0/0/native.jpg",
+          "height": 2932,
+          "width": 3792,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0008",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0008",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0008",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3792,
+                  "height": 2932,
+                  "sizes": [
+                    {
+                      "width": 1896,
+                      "height": 1466
+                    },
+                    {
+                      "width": 948,
+                      "height": 733
+                    },
+                    {
+                      "width": 474,
+                      "height": 366
+                    },
+                    {
+                      "width": 237,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2932,
+                "width": 3792
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0008"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0009",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0009/full/72,0/0/native.jpg",
+          "height": 2932,
+          "width": 3794,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0009",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0009",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0009",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3794,
+                  "height": 2932,
+                  "sizes": [
+                    {
+                      "width": 1897,
+                      "height": 1466
+                    },
+                    {
+                      "width": 948,
+                      "height": 733
+                    },
+                    {
+                      "width": 474,
+                      "height": 366
+                    },
+                    {
+                      "width": 237,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2932,
+                "width": 3794
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0009"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0010",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0010/full/72,0/0/native.jpg",
+          "height": 2932,
+          "width": 3794,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0010",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0010",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0010",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3794,
+                  "height": 2932,
+                  "sizes": [
+                    {
+                      "width": 1897,
+                      "height": 1466
+                    },
+                    {
+                      "width": 948,
+                      "height": 733
+                    },
+                    {
+                      "width": 474,
+                      "height": 366
+                    },
+                    {
+                      "width": 237,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2932,
+                "width": 3794
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0010"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0011",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0011/full/72,0/0/native.jpg",
+          "height": 2933,
+          "width": 3784,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0011",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0011",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0011",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3784,
+                  "height": 2933,
+                  "sizes": [
+                    {
+                      "width": 1892,
+                      "height": 1466
+                    },
+                    {
+                      "width": 946,
+                      "height": 733
+                    },
+                    {
+                      "width": 473,
+                      "height": 366
+                    },
+                    {
+                      "width": 236,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2933,
+                "width": 3784
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0011"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0012",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0012/full/72,0/0/native.jpg",
+          "height": 2933,
+          "width": 3784,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0012",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0012",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0012",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 3784,
+                  "height": 2933,
+                  "sizes": [
+                    {
+                      "width": 1892,
+                      "height": 1466
+                    },
+                    {
+                      "width": 946,
+                      "height": 733
+                    },
+                    {
+                      "width": 473,
+                      "height": 366
+                    },
+                    {
+                      "width": 236,
+                      "height": 183
+                    },
+                    {
+                      "width": 118,
+                      "height": 91
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16,
+                        32
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2933,
+                "width": 3784
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0012"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0013",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0013/full/72,0/0/native.jpg",
+          "height": 2929,
+          "width": 1884,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0013",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0013",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0013",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 1884,
+                  "height": 2929,
+                  "sizes": [
+                    {
+                      "width": 942,
+                      "height": 1464
+                    },
+                    {
+                      "width": 471,
+                      "height": 732
+                    },
+                    {
+                      "width": 235,
+                      "height": 366
+                    },
+                    {
+                      "width": 117,
+                      "height": 183
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2929,
+                "width": 1884
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0013"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0014",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0014/full/72,0/0/native.jpg",
+          "height": 2929,
+          "width": 1884,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0014",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0014",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0014",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 1884,
+                  "height": 2929,
+                  "sizes": [
+                    {
+                      "width": 942,
+                      "height": 1464
+                    },
+                    {
+                      "width": 471,
+                      "height": 732
+                    },
+                    {
+                      "width": 235,
+                      "height": 366
+                    },
+                    {
+                      "width": 117,
+                      "height": 183
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2929,
+                "width": 1884
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0014"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0015",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0015/full/72,0/0/native.jpg",
+          "height": 2928,
+          "width": 1888,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0015",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0015",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0015",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 1888,
+                  "height": 2928,
+                  "sizes": [
+                    {
+                      "width": 944,
+                      "height": 1464
+                    },
+                    {
+                      "width": 472,
+                      "height": 732
+                    },
+                    {
+                      "width": 236,
+                      "height": 366
+                    },
+                    {
+                      "width": 118,
+                      "height": 183
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2928,
+                "width": 1888
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0015"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0016",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0016/full/72,0/0/native.jpg",
+          "height": 2928,
+          "width": 1888,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_0016",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_0016",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_0016",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 1888,
+                  "height": 2928,
+                  "sizes": [
+                    {
+                      "width": 944,
+                      "height": 1464
+                    },
+                    {
+                      "width": 472,
+                      "height": 732
+                    },
+                    {
+                      "width": 236,
+                      "height": 366
+                    },
+                    {
+                      "width": 118,
+                      "height": 183
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0025,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2928,
+                "width": 1888
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_0016"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_I3",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_I3/full/72,0/0/native.jpg",
+          "height": 2153,
+          "width": 2893,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_I3",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_I3",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_I3",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 2893,
+                  "height": 2153,
+                  "sizes": [
+                    {
+                      "width": 1446,
+                      "height": 1076
+                    },
+                    {
+                      "width": 723,
+                      "height": 538
+                    },
+                    {
+                      "width": 361,
+                      "height": 269
+                    },
+                    {
+                      "width": 180,
+                      "height": 134
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.003333333333333333,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2153,
+                "width": 2893
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_I3"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_C3",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_C3/full/72,0/0/native.jpg",
+          "height": 2192,
+          "width": 2931,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_C3",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_C3",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_C3",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 2931,
+                  "height": 2192,
+                  "sizes": [
+                    {
+                      "width": 1465,
+                      "height": 1096
+                    },
+                    {
+                      "width": 732,
+                      "height": 548
+                    },
+                    {
+                      "width": 366,
+                      "height": 274
+                    },
+                    {
+                      "width": 183,
+                      "height": 137
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.003333333333333333,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2192,
+                "width": 2931
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_C3"
+            }
+          ]
+        },
+        {
+          "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_C2",
+          "@type": "sc:Canvas",
+          "label": "-",
+          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_C2/full/72,0/0/native.jpg",
+          "height": 2192,
+          "width": 43,
+          "images": [
+            {
+              "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/annotation/URN:NBN:no-nb_digibok_2011031806047_C2",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "URN:NBN:no-nb_digibok_2011031806047_C2",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2011031806047_C2",
+                  "protocol": "http://iiif.io/api/image",
+                  "width": 43,
+                  "height": 2192,
+                  "sizes": [
+                    {
+                      "width": 21,
+                      "height": 1096
+                    },
+                    {
+                      "width": 10,
+                      "height": 548
+                    },
+                    {
+                      "width": 5,
+                      "height": 274
+                    },
+                    {
+                      "width": 2,
+                      "height": 137
+                    }
+                  ],
+                  "tiles": [
+                    {
+                      "width": 1024,
+                      "scaleFactors": [
+                        1,
+                        2,
+                        4,
+                        8,
+                        16
+                      ]
+                    }
+                  ],
+                  "profile": "http://iiif.io/api/image/2/level1.json",
+                  "service": {
+                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
+                    "profile": "http://iiif.io/api/annex/service/physdim",
+                    "physicalScale": 0.0033333333333333335,
+                    "physicalUnits": "in"
+                  }
+                },
+                "height": 2192,
+                "width": 43
+              },
+              "on": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_C2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "structures": [
+    {
+      "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/range/r-0",
+      "@type": "sc:Range",
+      "label": "Framside",
+      "canvases": [
+        "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_C1"
+      ]
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/range/r-1",
+      "@type": "sc:Range",
+      "label": "Bakside",
+      "canvases": [
+        "https://api.nb.no/catalog/v1/iiif/656e1aa1ef5fb4c45b92e46efca7201d/canvas/URN:NBN:no-nb_digibok_2011031806047_C3"
+      ]
+    }
+  ]
+}
