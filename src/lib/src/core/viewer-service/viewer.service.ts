@@ -1,3 +1,9 @@
+import { SwipeUtils } from './swipe-utils';
+import { ArrayUtils } from './array-utils';
+import { CalculateNextPageFactory } from './calculate-next-page-factory';
+import { SwipeHelper } from './swipe-helper';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
@@ -28,6 +34,11 @@ export class ViewerService implements OnInit {
   public isCurrentPageFittedVertically = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
+  private currentCenter: ReplaySubject<any> = new ReplaySubject();
+  private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
+  private dragStartPosition: any;
+  private pagesCenterPoint: any[];
+  private currentMode: ViewerMode;
 
   constructor(
     private zone: NgZone,
@@ -36,6 +47,14 @@ export class ViewerService implements OnInit {
     private modeService: ModeService) { }
 
   ngOnInit(): void { }
+
+  get onCenterChange(): Observable<number> {
+    return this.currentCenter.asObservable();
+  }
+
+  get onPageChange(): Observable<number> {
+    return this.currentPageIndex.asObservable().distinctUntilChanged();
+  }
 
   public getViewer(): any {
     return this.viewer;
@@ -84,6 +103,7 @@ export class ViewerService implements OnInit {
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+        this.currentMode = mode;
         this.setSettings(mode);
       }));
 
@@ -91,6 +111,33 @@ export class ViewerService implements OnInit {
       this.addEvents();
       this.createOverlays();
       this.fitBoundsToStart();
+
+      this.subscriptions.push(this.onPageChange.subscribe((page: any) => {
+        console.log('new page', page);
+      }));
+
+      this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: any) => {
+        this.createPagesCenterPosition(); // This should be done after viewer has loaded all tiles
+        this.calculateCurrentPage(center);
+      }));
+    }
+  }
+
+  private createPagesCenterPosition() {
+    if (!this.pagesCenterPoint && this.viewer.world.getItemAt(this.pageService.numberOfPages - 1)) {
+      this.pagesCenterPoint = [];
+      for (let i = 0; i < this.pageService.numberOfPages; i++) {
+        const item = this.viewer.world.getItemAt(i);
+        const itemCenter = item._xSpring.current.value + (item._worldWidthCurrent / 2);
+        this.pagesCenterPoint.push(itemCenter);
+      }
+    }
+  }
+
+  private calculateCurrentPage(center: any) {
+    if (this.pagesCenterPoint) {
+      const currentPageIndex = new ArrayUtils().findClosestIndex(this.pagesCenterPoint, center.x);
+      this.currentPageIndex.next(currentPageIndex);
     }
   }
 
@@ -115,10 +162,20 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
-    this.viewer.addHandler('canvas-press', () => this.isCanvasPressed.next(true));
+    this.viewer.addHandler('canvas-press', (e: any) => {
+      this.dragStartPosition = e.position;
+      this.isCanvasPressed.next(true);
+    });
     this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
+
+    this.viewer.addHandler('canvas-drag-end', (e: any) => {
+      this.swipeToPage(e);
+    });
+    this.viewer.addHandler('animation', (e: any) => {
+      this.currentCenter.next(this.viewer.viewport.getCenter(true));
+    });
   }
 
   /**
@@ -390,4 +447,43 @@ export class ViewerService implements OnInit {
     const short = Number(zoom).toPrecision(precision);
     return Number(short);
   }
+
+  private getViewportCenter() {
+    return this.viewer.viewport.getCenter(true);
+  }
+
+  private swipeToPage(e: any) {
+    const speed: number = e.speed;
+    const dragEndPosision = e.position;
+
+    const direction = new SwipeUtils().getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = new ArrayUtils().findClosestIndex(this.pagesCenterPoint, viewportCenter.x);
+
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(this.currentMode);
+    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      speed: speed,
+      direction:  direction,
+      currentPageIndex: currentPageIndex,
+      maxPage: this.pageService.numberOfPages
+    });
+
+    if (this.currentMode === ViewerMode.DASHBOARD) {
+      this.goToPageIndex(newPageIndex);
+    }
+  }
+
+  private goToPageIndex(pageIndex: number): void {
+    const newPageCenter = this.pagesCenterPoint[pageIndex];
+    const viewportCenter = this.getViewportCenter();
+    this.panTo(newPageCenter, viewportCenter.y);
+  }
+
+  private panTo(x: number, y: number): void {
+    this.viewer.viewport.panTo({
+      x: x,
+      y: y
+    }, false);
+  }
+
 }
