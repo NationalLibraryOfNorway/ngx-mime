@@ -88,9 +88,8 @@ export class ViewerService implements OnInit {
       }));
 
       this.addToWindow();
-      this.addEvents();
       this.createOverlays();
-      this.fitBoundsToStart();
+      this.addEvents();
     }
   }
 
