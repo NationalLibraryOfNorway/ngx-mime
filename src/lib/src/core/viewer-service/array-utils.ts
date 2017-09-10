@@ -1,12 +1,14 @@
+import { Point } from './../models/point';
+
 export class ArrayUtils {
 
-  public findClosestIndex(array: any, value: any) {
+  public findClosestIndex(array: Point[], value: number) {
     let i: number;
     let result: any;
     let lastDelta: any;
 
-    array.some(function (item: any, index: number) {
-      const delta = Math.abs(value - item);
+    array.some(function (item: Point, index: number) {
+      const delta = Math.abs(value - item.x);
       if (delta >= lastDelta) {
         return true;
       }

@@ -1,3 +1,4 @@
+import { CenterPoints } from './../models/page-center-point';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Rx';
@@ -14,6 +15,7 @@ import { ClickService } from '../click/click.service';
 import { SwipeUtils } from './swipe-utils';
 import { ArrayUtils } from './array-utils';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
+import { Point } from './../models/point';
 import '../ext/svg-overlay';
 import * as d3 from 'd3';
 
@@ -33,10 +35,10 @@ export class ViewerService implements OnInit {
   public isCurrentPageFittedVertically = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
-  private currentCenter: ReplaySubject<any> = new ReplaySubject();
+  private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
-  private pagesCenterPoint: any[];
+  private centerPoints = new CenterPoints();
   private currentMode: ViewerMode;
 
   constructor(
@@ -47,7 +49,7 @@ export class ViewerService implements OnInit {
 
   ngOnInit(): void { }
 
-  get onCenterChange(): Observable<number> {
+  get onCenterChange(): Observable<Point> {
     return this.currentCenter.asObservable();
   }
 
@@ -111,7 +113,6 @@ export class ViewerService implements OnInit {
       }));
 
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: any) => {
-        this.createPagesCenterPosition(); // This should be done after viewer has loaded all tiles
         this.calculateCurrentPage(center);
       }));
 
@@ -132,6 +133,8 @@ export class ViewerService implements OnInit {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+    this.centerPoints = new CenterPoints();
+    this.currentMode = null;
   }
 
   addEvents(): void {
@@ -361,6 +364,11 @@ export class ViewerService implements OnInit {
       let currentOverlay: SVGRectElement = this.svgNode.node().children[i];
       this.overlays.push(currentOverlay);
 
+      this.centerPoints.add({
+        x: currentX + (tile.width / 2),
+        y: currentY + (tile.height / 2)
+      });
+
       currentX = currentX + tile.width + OptionsOverlays.TILES_MARGIN;
     });
   }
@@ -428,25 +436,12 @@ export class ViewerService implements OnInit {
     return Number(short);
   }
 
-  private createPagesCenterPosition() {
-    if (!this.pagesCenterPoint && this.viewer.world.getItemAt(this.pageService.numberOfPages - 1)) {
-      this.pagesCenterPoint = [];
-      for (let i = 0; i < this.pageService.numberOfPages; i++) {
-        const item = this.viewer.world.getItemAt(i);
-        const itemCenter = item._xSpring.current.value + (item._worldWidthCurrent / 2);
-        this.pagesCenterPoint.push(itemCenter);
-      }
-    }
+  private calculateCurrentPage(center: Point) {
+    const currentPageIndex = this.centerPoints.findClosestIndex(center);
+    this.currentPageIndex.next(currentPageIndex);
   }
 
-  private calculateCurrentPage(center: any) {
-    if (this.pagesCenterPoint) {
-      const currentPageIndex = new ArrayUtils().findClosestIndex(this.pagesCenterPoint, center.x);
-      this.currentPageIndex.next(currentPageIndex);
-    }
-  }
-
-  private getViewportCenter() {
+  private getViewportCenter(): Point {
     return this.viewer.viewport.getCenter(true);
   }
 
@@ -456,25 +451,24 @@ export class ViewerService implements OnInit {
 
     const direction = new SwipeUtils().getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = new ArrayUtils().findClosestIndex(this.pagesCenterPoint, viewportCenter.x);
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.currentMode);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       speed: speed,
       direction:  direction,
       currentPageIndex: currentPageIndex,
-      maxPage: this.pageService.numberOfPages
+      maxPage: this.pageService.numberOfPages - 1
     });
 
     if (this.currentMode === ViewerMode.DASHBOARD) {
-      this.goToPageIndex(newPageIndex);
+      this.goToPage(newPageIndex);
     }
   }
 
-  private goToPageIndex(pageIndex: number): void {
-    const newPageCenter = this.pagesCenterPoint[pageIndex];
-    const viewportCenter = this.getViewportCenter();
-    this.panTo(newPageCenter, viewportCenter.y);
+  private goToPage(pageIndex: number): void {
+    const newPageCenter = this.centerPoints.get(pageIndex);
+    this.panTo(newPageCenter.x, newPageCenter.y);
   }
 
   private panTo(x: number, y: number): void {
