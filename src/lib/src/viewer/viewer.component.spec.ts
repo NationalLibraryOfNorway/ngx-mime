@@ -202,6 +202,29 @@ describe('ViewerComponent', function () {
     pending('');
   });
 
+  it('should change page when swipeing to left',
+    fakeAsync(inject([ViewerService, ClickService],
+    (viewerService: ViewerService, clickService: ClickService) => {
+    // viewerService.toggleToDashboard();
+    // tick();
+    // const viewer = viewerService.getViewer();
+    // viewer.raiseEvent('canvas-press', {position: {
+    //   x: 1450, y: 150}
+    // });
+    // tick(1);
+    // viewer.raiseEvent('canvas-drag-end', {position: {
+    //   x: 150, y: 150}
+    // });
+    // let pageNumber = 0;
+    // viewerService.onPageChange.subscribe(p => {
+    //   pageNumber = p;
+    // });
+    // tick(100);
+    // expect(pageNumber).toBe(10);
+    pending('Set to pending until we find a way to perform swipe event');
+  })));
+
+
   function pinchOut(viewerService: ViewerService) {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });
