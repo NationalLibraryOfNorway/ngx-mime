@@ -101,6 +101,13 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
   }
 
+  async swipe(startPoint: Point, endPoint: Point): Promise<void> {
+    await browser.touchActions()
+      .tapAndHold(startPoint)
+      .release(endPoint)
+      .perform();
+  }
+
   async pinchOut(): Promise<void> {
     await browser.touchActions()
       .tapAndHold(this.thumbStartPosition)
