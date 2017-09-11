@@ -128,6 +128,32 @@ describe('ViewerFooterComponent', () => {
       });
     }));
 
+  it('should display next page',
+    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
+      spyOn(viewerService, 'goToNextPage');
+
+      const button = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
+      button.nativeElement.click();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(viewerService.goToNextPage.calls.count()).toEqual(1);
+      });
+    }));
+
+  it('should display previous page',
+    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
+      spyOn(cmp, 'goToPreviousPage');
+
+      const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
+      button.nativeElement.click();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(viewerService.goToPreviousPage.calls.count()).toEqual(1);
+      });
+    }));
+
 });
 
 function expectFooterToShow(element: any) {
@@ -147,6 +173,11 @@ class ViewerServiceMock {
   get onPageChange(): Observable<number> {
     return this.pageChanged.asObservable();
   }
+
+  public goToPreviousPage(): void { }
+
+  public goToNextPage(): void { }
+
 }
 
 class PageServiceMock {
@@ -160,4 +191,7 @@ class PageServiceMock {
     return this._numberOfPages;
   }
 
+  public getZoom(): number {
+    return 0;
+  }
 }
