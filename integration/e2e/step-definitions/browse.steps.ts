@@ -23,10 +23,13 @@ defineSupportCode(function ({ Given, When, Then }) {
     }
   });
 
-  Then(/^the content of the page (.*) is displayed$/, async (pageNumber: number) => {
-    console.log('direction', pageNumber);
-    return Promise.resolve('pending');
+  When(/^the user drags the page slider to page (.*)$/, async (pageNumber: number) => {
+    await page.goToPage(pageNumber - 1);
+  });
+
+  Then(/^the content of the page (.*) is displayed$/, async (pageNumber: string) => {
+    const currentPageNumber = await page.getCurrentPageNumber();
+    expect(currentPageNumber).to.eql(pageNumber);
   });
 
 });
-
