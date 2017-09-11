@@ -165,7 +165,7 @@ describe('ViewerComponent', function () {
   }));
 
   it('should be in zoomed PAGE-mode when doubleclicking in page-mode', fakeAsync(() => {
-    pending('')
+    pending('');
   }));
 
   it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
