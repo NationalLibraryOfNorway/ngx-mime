@@ -1,19 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
-import './../../rxjs-extension';
 
 @Injectable()
-export class IiifService {
+export class IiifManifestService {
+  protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
+
   constructor(private http: HttpClient) { }
 
-  getManifest(manifestUri: string): Observable<Manifest> {
-    return this.http.get(manifestUri)
-      .map(this.extractData)
-      .catch(this.handleError);
+  get currentManifest(): Observable<Manifest> {
+    return this._currentManifest.asObservable();
+  }
+
+  load(manifestUri: string): void {
+    if (manifestUri === null) {
+      return;
+    }
+    this.http.get(manifestUri)
+      .subscribe(
+      (res: Response) => this._currentManifest.next(this.extractData(res)),
+      (err: HttpErrorResponse) => this.handleError
+    );
+
   }
 
   private extractData(response: Response) {

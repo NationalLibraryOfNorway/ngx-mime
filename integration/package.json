@@ -13,8 +13,12 @@
     "mountebank": "mb --port 2020 --configfile ./e2e/templates/imposters.ejs --allowInjection --nologfile",
     "e2e": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor\" --kill-others --success first",
     "e2e:aot": "concurrently \"npm run mountebank\" \"npm run start:aot\" \"npm run protractor\" --kill-others --success first",
-    "preprotractor": "webdriver-manager update --versions.standalone=3.3.1",
-    "protractor": "protractor protractor.conf.js"
+    "preprotractor": "webdriver-manager update --versions.standalone=3.4.0 && sh ./scripts/wait-on.sh",
+    "protractor": "npm run protractor:desktop && npm run protractor:mobile",
+    "protractor:desktop": "protractor protractor.conf.js --device=desktop",
+    "protractor:mobile": "npm run protractor:android && npm run protractor:iphone",
+    "protractor:android": "protractor protractor.conf.js --device=android",
+    "protractor:iphone": "protractor protractor.conf.js --device=iphone"
   },
   "private": true,
   "dependencies": {
@@ -22,17 +26,18 @@
     "@angular/common": "^4.3.4",
     "@angular/compiler": "^4.3.4",
     "@angular/core": "^4.3.4",
-    "@angular/flex-layout": "^2.0.0-beta.8",
+    "@angular/flex-layout": "2.0.0-beta.9",
     "@angular/forms": "^4.3.4",
     "@angular/http": "^4.3.4",
-    "@angular/material": "^2.0.0-beta.8",
-    "@angular/cdk": "^2.0.0-beta.8",
+    "@angular/material": "^2.0.0-beta.10",
+    "@angular/cdk": "^2.0.0-beta.10",
     "@angular/platform-browser": "^4.3.4",
     "@angular/platform-browser-dynamic": "^4.3.4",
     "@angular/router": "^4.3.4",
     "@nationallibraryofnorway/ngx-mime": "../dist/",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.4.1",
+    "d3": "^4.10.0",
     "rxjs": "^5.1.0",
     "web-animations-js": "^2.2.5",
     "zone.js": "^0.8.4",
@@ -72,6 +77,6 @@
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3",
-    "chromedriver": "^2.30.1"
+    "chromedriver": "^2.32.0"
   }
 }

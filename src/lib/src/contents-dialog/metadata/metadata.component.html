@@ -1,0 +1,14 @@
+<div role="list" id="metadata-container" class="metadata-container">
+  <div *ngFor="let metadata of manifest?.metadata" class="metadata">
+    <div class="title">{{metadata.label}}</div>
+    <span class="content" [innerHTML]="metadata.value"></span>
+  </div>
+  <div *ngIf="manifest?.attribution">
+    <div class="title">{{intl.attribution}}</div>
+    <span id="metadata-attribution" class="content attribution" [innerHTML]="manifest?.attribution"></span>
+  </div>
+  <div *ngIf="manifest?.license">
+    <div class="title">{{intl.license}}</div>
+    <span id="metadata-license" class="content license"><a [href]="manifest?.license" target="_blank">{{manifest?.license}}</a></span>
+  </div>
+</div>

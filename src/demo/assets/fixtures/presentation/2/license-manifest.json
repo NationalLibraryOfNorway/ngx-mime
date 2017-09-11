@@ -38,7 +38,6 @@
     }
   ],
   "license": "https://beta.nb.no/lisens/cc0",
-  "attribution": "Du kan kopiere, endre, spre, vise og fremføre dette verket, selv for kommersielle formål, uten å spørre om tillatelse.",
   "sequences": [
     {
       "@id": "https://api.nb.no/catalog/v1/iiif/5cd391dac8839ca92ba103fd2ffa849a/sequence/normal",
