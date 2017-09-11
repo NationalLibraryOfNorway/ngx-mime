@@ -100,8 +100,8 @@ describe('ViewerFooterComponent', () => {
       fixture.detectChanges();
 
       const previousButton = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
-      expect(previousButton.nativeElement.disabled).toBeFalsy();
       const nextButton = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
+      expect(previousButton.nativeElement.disabled).toBeFalsy();
       expect(nextButton.nativeElement.disabled).toBeFalsy();
     }));
 
