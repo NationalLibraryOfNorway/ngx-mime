@@ -271,8 +271,7 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Checks whether current page's overlay bounds has a larger height than the viewport bounds
-   * If the heights are equal, then this page is fitted vertically in the viewer
+   * Checks whether current overlaybounds' width or height is equal to viewport
    * (Note that this function is called after animation is ended for correct calculation)
    */
   getIsCurrentPageFittedViewport(): boolean {
