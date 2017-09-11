@@ -52,6 +52,8 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
         this.currentSliderPage = -1;
       } else if (this.currentSliderPage === -1) {
         this.currentPage = currentPage;
+      } else {
+        this.currentPage = this.currentSliderPage;
       }
       this.numberOfPages = this.pageService.numberOfPages;
       this.changeDetectorRef.detectChanges();
