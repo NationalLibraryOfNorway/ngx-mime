@@ -1,3 +1,12 @@
 <md-toolbar>
-  <span class="text">{{intl.footerTestString}}</span>
+  <div fxLayout="row" fxFlex fxLayoutAlign="start center">
+    <div fxFlex>
+      <md-slider [max]="numberOfPages" [value]="currentPage" (change)="onSliderChange($event)" fxFlex></md-slider>
+    </div>
+    <div class="pages" fxFlex="50px">{{currentPage}}/{{numberOfPages}}</div>
+    <div class="navigation-buttons">
+        <button id="footerNavigateBeforeButton" md-icon-button [attr.aria-label]="intl.previousPage" [mdTooltip]="intl.previousPage" (click)="goToPreviousPage()"><md-icon>navigate_before</md-icon></button>
+        <button id="footerNavigateNextButton" md-icon-button [attr.aria-label]="intl.nextPage" [mdTooltip]="intl.nextPage" (click)="goToNextPage()"><md-icon>navigate_next</md-icon></button>
+    </div>
+  </div>
 </md-toolbar>

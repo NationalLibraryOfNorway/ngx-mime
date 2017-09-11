@@ -92,6 +92,32 @@ export class ViewerService implements OnInit {
     this.viewer.viewport.zoomTo(level);
   }
 
+  public goToPreviousPage(): void {
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
+    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      direction:  'previous',
+      currentPageIndex: currentPageIndex,
+      maxPage: this.pageService.numberOfPages - 1
+    });
+    this.goToPage(newPageIndex);
+  }
+
+  public goToNextPage(): void {
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
+    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      direction:  'next',
+      currentPageIndex: currentPageIndex,
+      maxPage: this.pageService.numberOfPages - 1
+    });
+    this.goToPage(newPageIndex);
+  }
+
   public goToPage(pageIndex: number): void {
     const newPageCenter = this.centerPoints.get(pageIndex);
     this.panTo(newPageCenter.x, newPageCenter.y);
