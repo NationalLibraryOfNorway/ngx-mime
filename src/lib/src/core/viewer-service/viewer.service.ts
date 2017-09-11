@@ -13,7 +13,6 @@ import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { ClickService } from '../click/click.service';
 import { SwipeUtils } from './swipe-utils';
-import { ArrayUtils } from './array-utils';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import '../ext/svg-overlay';
@@ -93,6 +92,11 @@ export class ViewerService implements OnInit {
     this.viewer.viewport.zoomTo(level);
   }
 
+  public goToPage(pageIndex: number): void {
+    const newPageCenter = this.centerPoints.get(pageIndex);
+    this.panTo(newPageCenter.x, newPageCenter.y);
+  }
+
   setUpViewer(manifest: Manifest) {
     if (manifest.tileSource) {
       this.tileSources = manifest.tileSource;
@@ -106,10 +110,6 @@ export class ViewerService implements OnInit {
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
         this.currentMode = mode;
         this.setSettings(mode);
-      }));
-
-      this.subscriptions.push(this.onPageChange.subscribe((page: any) => {
-        console.log('new page', page);
       }));
 
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: any) => {
@@ -464,11 +464,6 @@ export class ViewerService implements OnInit {
     if (this.currentMode === ViewerMode.DASHBOARD) {
       this.goToPage(newPageIndex);
     }
-  }
-
-  private goToPage(pageIndex: number): void {
-    const newPageCenter = this.centerPoints.get(pageIndex);
-    this.panTo(newPageCenter.x, newPageCenter.y);
   }
 
   private panTo(x: number, y: number): void {
