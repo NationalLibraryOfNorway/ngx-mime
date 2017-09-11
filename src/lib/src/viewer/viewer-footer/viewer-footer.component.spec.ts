@@ -130,27 +130,27 @@ describe('ViewerFooterComponent', () => {
 
   it('should display next page',
     inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
-      spyOn(viewerService, 'goToNextPage');
+      spy = spyOn(viewerService, 'goToNextPage');
 
       const button = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
       button.nativeElement.click();
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(viewerService.goToNextPage.calls.count()).toEqual(1);
+        expect(spy.calls.count()).toEqual(1);
       });
     }));
 
   it('should display previous page',
     inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
-      spyOn(cmp, 'goToPreviousPage');
+      spy = spyOn(cmp, 'goToPreviousPage');
 
       const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
       button.nativeElement.click();
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(viewerService.goToPreviousPage.calls.count()).toEqual(1);
+        expect(spy.calls.count()).toEqual(1);
       });
     }));
 
