@@ -8,6 +8,7 @@ import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { ClickService } from '../click/click.service';
+import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import '../ext/svg-overlay';
 import * as d3 from 'd3';
 
@@ -29,14 +30,16 @@ export class ViewerService implements OnInit {
 
   //TODO: Refactor to use Page Service instead
   private currentPage = 0;
-  
+
   private horizontalPadding: number = 0;
 
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService) { }
+    private modeService: ModeService,
+    private mimeResizeService: MimeResizeService
+  ) { }
 
   ngOnInit(): void { }
 
@@ -57,6 +60,11 @@ export class ViewerService implements OnInit {
       this.addEvents();
       this.createOverlays();
       this.fitBoundsToStart();
+
+      //TODO: Add only in page mode?
+      this.subscriptions.push(this.mimeResizeService.onResize.subscribe(() => {
+        this.applicationResize();
+      }));
     }
   }
 
@@ -406,7 +414,7 @@ export class ViewerService implements OnInit {
     let currentZoom = viewport.getZoom();
     let zoomIncrement = (currentZoom * (resizeRatio - 1)) / iterations;
     let timeIncrement = milliseconds / iterations;
-    
+
     this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, 1, iterations);
   }
 
@@ -416,7 +424,7 @@ export class ViewerService implements OnInit {
       return;
     }
     i = i + 1;
-    
+
     setTimeout(() => {
 
       let viewportZoom = viewport.getZoom();
@@ -427,7 +435,7 @@ export class ViewerService implements OnInit {
       }
       currentZoom = currentZoom + zoomIncrement;
       viewport.zoomTo(currentZoom, null, false);
-      
+
       this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, i, iterations);
     }, timeIncrement);
   }
@@ -499,7 +507,7 @@ export class ViewerService implements OnInit {
       rootNode.style('padding', '80px 0');
       this.horizontalPadding = 0;
     }, 500);
-    
+
   }
 
   //Recursive function to iterate through previous pages and position them to the left of the current page
@@ -560,7 +568,7 @@ export class ViewerService implements OnInit {
 
     let center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
     this.viewer.viewport.panTo(center, false);
-    
+
     if (this.modeService.mode === ViewerMode.PAGE) {
       //TODO: Something better than a timeout function
       setTimeout(() => {
@@ -609,5 +617,17 @@ export class ViewerService implements OnInit {
       //No use case beyond last page as OpenSeadragon prevents it by default
 
     });
+  }
+
+  private applicationResize(): void {
+    //TODO: Limit how often this runs
+    if (this.modeService.mode === ViewerMode.PAGE) {
+      //TODO: Something better than a timeout function
+      //TODO: Error handling
+      setTimeout(() => {
+        let pageBounds = this.viewer.world.getItemAt(this.currentPage).getBounds();
+        this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
+      }, 500);
+    }
   }
 }
