@@ -1,0 +1,52 @@
+.viewer__container {
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:host > > > .openseadragon-container {
+  flex-grow: 1;
+}
+
+:host > > > .openseadragon-canvas:focus {
+  outline: none;
+}
+
+#openseadragon {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  padding: 80px 0;
+}
+
+.viewer__container.page #openseadragon {
+  height: 100%;
+}
+
+.viewer__container > > > .tile {
+  fill-opacity: 0;
+}
+
+mime-viewer-header {
+  height: 64px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+mime-viewer-footer {
+  height: 64px;
+  max-height: 64px;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 2;
+}

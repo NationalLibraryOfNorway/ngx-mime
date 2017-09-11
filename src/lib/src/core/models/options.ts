@@ -20,7 +20,7 @@ export class Options {
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 0.00014;
+  defaultZoomLevel = 0;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
@@ -38,7 +38,7 @@ export class Options {
   smoothTileEdgesMinZoom = 1.1;
   iOSDevice = true;
   autoResize = true;
-  preserveImageSizeOnResize = false;
+  preserveImageSizeOnResize = true;
   minScrollDeltaTime = 50;
   pixelsPerWheelLine = 40;
   visibilityRatio = 1;
