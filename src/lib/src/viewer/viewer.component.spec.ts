@@ -120,6 +120,9 @@ describe('ViewerComponent', function () {
     testHostComponent.manifestUri = 'dummyURI3';
     testHostFixture.detectChanges();
     tick(100000);
+    testHostComponent.manifestUri = 'dummyURI4';
+    testHostFixture.detectChanges();
+    tick(100000);
     expect(modeService.mode).toBe(ViewerMode.PAGE);
   }));
 
@@ -158,9 +161,9 @@ describe('ViewerComponent', function () {
   it('should fit page vertically when in initial page mode', (done: any) => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(viewerService.getIsFittedVertically()).toBe(true)
+      expect(viewerService.getIsFittedVertically()).toBe(true);
       done();
-    })
+    });
   });
 
   it('should change to page mode when doubleclick in zoomed-in page mode', () => {
