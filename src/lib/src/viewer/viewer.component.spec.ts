@@ -116,78 +116,116 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(ViewerMode.PAGE);
   });
 
-  it('should change to page-mode when doubleclicking in dashboard-mode', (done: any) => {
+  it('should change to dash-mode when doubleclicking in page-mode', fakeAsync(() => {
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+    let firstOverlay = viewerService.getOverlays()[0];
+    let clickEvent = {
+      quick: true,
+      tracker: { dblClickTimeThreshold: 0 },
+      preventDefaultAction: false,
+      originalEvent: { target: firstOverlay }
+    };
+    clickService.click(clickEvent);
 
-    fixture.whenStable().then(() => {
-      expect(comp.mode).toBe(ViewerMode.PAGE);
-      let firstOverlay = viewerService.getOverlays()[0];
-      let clickEvent = {
-        quick: true,
-        tracker: { dblClickTimeThreshold: 0 },
-        preventDefaultAction: false,
-        originalEvent: { target: firstOverlay }
-      };
-      clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+    clickService.click(clickEvent);
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+  }));
 
-      expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-      clickService.click(clickEvent);
-      clickService.click(clickEvent);
-      expect(comp.mode).toBe(ViewerMode.PAGE);
-      done()
-    })
 
-  });
-
+  // Can't seem to get this one working without done-callback
   it('should fit page vertically when in initial page-mode', (done: any) => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(viewerService.getIsFittedVertically()).toBe(true)
+      expect(viewerService.getIsFittedVertically()).toBe(true);
       done();
-    })
-  });
-
-
-  it('should change to page-mode when doubleclick in zoomed-in page-mode', () => {
-    pending('');
-  });
-
-  it('should change to dashboard-mode when single-click in page-mode', () => {
-    pending('');
-  });
-
-  it('should change to dashboard-mode when single-click in zoomed-in page-mode', () => {
-    pending('');
-  });
-
-  it('should change to page-mode when doubleclicking in dashboard-mode', () => {
-    pending('');
-  });
-
-
-
-  it('should change to pageView on first click',
-    //async(
-    () => {
-      // comp.ngOnInit();
-      // fixture.detectChanges();
-
-      // let firstOverlay = viewerService.getOverlays()[0];
-      // let clickEvent = {
-      //   quick: true,
-      //   tracker: { dblClickTimeThreshold: 0 },
-      //   preventDefaultAction: false,
-      //   originalEvent: { target: firstOverlay }
-      // };
-      // clickService.click(clickEvent);
-      // fixture.detectChanges();
-
-      // fixture.whenStable().then(() => {
-      //   fixture.detectChanges();
-      //   expect(comp.mode).toBe(ViewerMode.PAGE);
-      //   expect(false).toBe(true); // This proves that the whenStable.then is never run
-      // });
-      pending('Set to pending until we findout why whenStable.then is not run');
     });
+  });
+
+
+  it('should still be page-mode when doubleclick in zoomed-in page-mode', fakeAsync(() => {
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+    let firstOverlay = viewerService.getOverlays()[0];
+    let clickEvent = {
+      quick: true,
+      tracker: { dblClickTimeThreshold: 0 },
+      preventDefaultAction: false,
+      originalEvent: { target: firstOverlay }
+    };
+    clickService.click(clickEvent);
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+  }));
+
+  it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+    let firstOverlay = viewerService.getOverlays()[0];
+    let clickEvent = {
+      quick: true,
+      tracker: { dblClickTimeThreshold: 0 },
+      preventDefaultAction: false,
+      originalEvent: { target: firstOverlay }
+    };
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+  }));
+
+  it('should change to dashboard-mode when single-click in zoomed-in page-mode', fakeAsync(() => {
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+    let firstOverlay = viewerService.getOverlays()[0];
+    let clickEvent = {
+      quick: true,
+      tracker: { dblClickTimeThreshold: 0 },
+      preventDefaultAction: false,
+      originalEvent: { target: firstOverlay }
+    };
+    clickService.click(clickEvent);
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.PAGE); // We are in zoomed-in page-mode
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+  }));
+
+  it('should change to page-mode when doubleclicking in dashboard-mode', fakeAsync(() => {
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+    let firstOverlay = viewerService.getOverlays()[0];
+    let clickEvent = {
+      quick: true,
+      tracker: { dblClickTimeThreshold: 0 },
+      preventDefaultAction: false,
+      originalEvent: { target: firstOverlay }
+    };
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+    clickService.click(clickEvent);
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+  }));
+
+
+
+  it('should change to dashboard-view on first click', fakeAsync(() => {
+    expect(comp.mode).toBe(ViewerMode.PAGE);
+    let firstOverlay = viewerService.getOverlays()[0];
+    let clickEvent = {
+      quick: true,
+      tracker: { dblClickTimeThreshold: 0 },
+      preventDefaultAction: false,
+      originalEvent: { target: firstOverlay }
+    };
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+  }));
 
 
 
@@ -238,6 +276,58 @@ describe('ViewerComponent', function () {
   it('should increase zoom-level when doubleclicking in page-mode', () => {
     pending('');
   });
+
+  it('should return an OpenSeadragon.Rect with properties equal to overlay', () => {
+    let overlay = viewerService.getOverlays()[0];
+    let rect = viewerService.createRectangle(overlay);
+
+    expect(rect.x).toEqual(overlay.x.baseVal.value);
+    expect(rect.y).toEqual(overlay.y.baseVal.value);
+    expect(rect.width).toEqual(overlay.width.baseVal.value);
+    expect(rect.height).toEqual(overlay.height.baseVal.value);
+  });
+
+
+  it('should fit bounds vertically to viewport for a page', fakeAsync(() => {
+    let overlay = viewerService.getOverlays()[0];
+    let viewer = viewerService.getViewer();
+    let overlayBounds = viewerService.createRectangle(overlay);
+
+    viewerService.fitBounds(overlay);
+    tick(1000);
+
+    let viewportY = Math.round(viewer.viewport.getBounds().y)
+    let overlayY = Math.round(overlayBounds.y)
+    expect(viewportY).toEqual(overlayY)
+
+  }));
+
+  it('should return overlay-index if target is an overlay', () => {
+    let overlay, index;
+    overlay = viewerService.getOverlays()[0];
+    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    expect(index).toBe(0);
+
+    overlay = viewerService.getOverlays()[1];
+    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    expect(index).toBe(1);
+
+    overlay = viewerService.getOverlays()[12];
+    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    expect(index).toBe(12);
+
+    // Should return -1 for nonsense overlay
+    overlay = viewerService.getOverlays()[12000];
+    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    expect(index).toBe(-1);
+
+  });
+
+
+
+
+
+
 
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
