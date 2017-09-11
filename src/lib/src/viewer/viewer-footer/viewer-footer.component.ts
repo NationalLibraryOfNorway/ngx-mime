@@ -47,13 +47,13 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
-    this.subscriptions.push(this.viewerService.onPageChange.subscribe((currentPage) => {
+    this.subscriptions.push(this.viewerService
+      .onPageChange
+      .subscribe((currentPage: number) => {
       if (this.currentSliderPage !== -1 &&  this.currentSliderPage === currentPage) {
         this.currentSliderPage = -1;
       } else if (this.currentSliderPage === -1) {
         this.currentPage = currentPage;
-      } else {
-        this.currentPage = this.currentSliderPage;
       }
       this.numberOfPages = this.pageService.numberOfPages;
       this.changeDetectorRef.detectChanges();
@@ -76,6 +76,8 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
 
   public onSliderChange(change: MdSliderChange): void {
     this.currentSliderPage = change.value;
+    this.currentPage = change.value;
     this.viewerService.goToPage(change.value);
+    this.changeDetectorRef.detectChanges();
   }
 }
