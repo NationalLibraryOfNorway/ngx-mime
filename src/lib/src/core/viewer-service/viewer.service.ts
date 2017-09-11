@@ -29,6 +29,8 @@ export class ViewerService implements OnInit {
 
   //TODO: Refactor to use Page Service instead
   private currentPage = 0;
+  
+  private horizontalPadding: number = 0;
 
   constructor(
     private zone: NgZone,
@@ -367,7 +369,10 @@ export class ViewerService implements OnInit {
     }
 
     //First centre the page
-    this.panToPage(requestedPageIndex);
+    //TODO: Refactor to own method
+    let requestedPageBounds = requestedPage.getBounds(true);
+    let pageCenter = new OpenSeadragon.Point(requestedPageBounds.x + (requestedPageBounds.width / 2), requestedPageBounds.y + (requestedPageBounds.height / 2));
+    this.viewer.viewport.panTo(pageCenter, false);
 
     //Zoom viewport to fit new top/bottom padding
     //TODO: Configurable padding
@@ -377,7 +382,6 @@ export class ViewerService implements OnInit {
 
     //Add left/right padding to OpenSeadragon to hide previous/next pages
     //TODO: Add logic for pages wider and shorter than the viewport
-    //TODO: Adjust padding on page change
     //TODO: Adjust padding on window resize
     //TODO: Adjust padding on zoom
     //TODO: Configurable padding for header/footer
@@ -459,15 +463,16 @@ export class ViewerService implements OnInit {
     );
   }
 
-  //TODO: Individual logic for top, bottom, left and right (current only suuports equal left/right and 0 top/bottom)
+  //TODO: Individual logic for top, bottom, left and right (current only supports equal left/right and 0 top/bottom)
   private padViewportContainerToFitTile(viewport: any, tileBounds: any, container: any): void {
 
     let viewportBounds = viewport.getBounds(true);
     let tileLeftCoordinates = viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(tileBounds.x, 0));
     let viewerLeftCoordinates = viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, 0));
-    let paddingInPixels = tileLeftCoordinates.x - viewerLeftCoordinates.x;
+    let paddingInPixels = Math.round(tileLeftCoordinates.x - viewerLeftCoordinates.x);
 
-    container.style('padding','0 ' + paddingInPixels + 'px');
+    this.horizontalPadding = this.horizontalPadding + paddingInPixels;
+    container.style('padding','0 ' + this.horizontalPadding + 'px');
   }
 
   private positionTilesInDashboardView(requestedPageIndex: number): void{
@@ -483,7 +488,6 @@ export class ViewerService implements OnInit {
 
     //Zoom viewport to fit new top/bottom padding
     //TODO: Configurable padding
-    //TODO: Animate zoom
     let viewport = this.viewer.viewport;
     let resizeRatio = this.getViewportHeightChangeRatio(viewport, 0, 160);
     this.animateZoom(viewport, resizeRatio, 200);
@@ -494,6 +498,7 @@ export class ViewerService implements OnInit {
       //TODO: Configurable padding for header/footer
       let rootNode = d3.select(this.viewer.container.parentNode);
       rootNode.style('padding', '80px 0');
+      this.horizontalPadding = 0;
     }, 500);
     
   }
@@ -556,6 +561,13 @@ export class ViewerService implements OnInit {
 
     let center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
     this.viewer.viewport.panTo(center, false);
+    
+    if (this.modeService.mode === ViewerMode.PAGE) {
+      //TODO: Something better than a timeout function
+      setTimeout(() => {
+        this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
+      }, 500);
+    }
   }
 
   //TODO: Move this method to page service
