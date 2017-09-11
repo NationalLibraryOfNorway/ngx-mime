@@ -36,6 +36,8 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
   public state = 'show';
   public currentPage: number;
+  public isFirstPage: boolean;
+  public isLastPage: boolean;
   public numberOfPages: number;
   private currentSliderPage = -1;
 
@@ -56,6 +58,8 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
         this.currentPage = currentPage;
       }
       this.numberOfPages = this.pageService.numberOfPages;
+      this.isFirstPage = currentPage === 0;
+      this.isLastPage = currentPage === (this.numberOfPages - 1);
       this.changeDetectorRef.detectChanges();
     }));
   }
