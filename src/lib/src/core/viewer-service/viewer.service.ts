@@ -321,9 +321,8 @@ export class ViewerService implements OnInit {
         .attr('width', tile.width)
         .attr('height', tile.height)
         .attr('class', 'tile');
-      let currentOverlay: SVGRectElement = this.svgNode.node().children[i];
+      let currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
-
       currentX = currentX + tile.width + OptionsOverlays.TILES_MARGIN;
     });
   }
