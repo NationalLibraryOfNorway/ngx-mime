@@ -1,3 +1,4 @@
+import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
 
 import { OptionsTransitions } from '../core/models/options-transitions';
@@ -28,6 +29,7 @@ import 'openseadragon';
 import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
+  const config: MimeViewerConfig = new MimeViewerConfig();
   let de: DebugElement;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
@@ -72,7 +74,6 @@ describe('ViewerComponent', function () {
 
     fixture.detectChanges();
 
-
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
     testHostComponent.manifestUri = 'dummyURI1';
@@ -91,28 +92,27 @@ describe('ViewerComponent', function () {
     expect(viewerService.getViewer()).toBeDefined();
   });
 
-  it('should initially open in page mode', () => {
-    expect(modeService.mode).toBe(ViewerMode.PAGE);
+  it('should initially open in configs intial-mode', () => {
+    expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should change mode to page mode when chainging manifest', fakeAsync(() => {
-    viewerService.toggleToDashboard();
-    expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
-    testHostComponent.manifestUri = 'dummyURI3';
-    testHostFixture.detectChanges();
-    tick(100000);
-    expect(modeService.mode).toBe(ViewerMode.PAGE);
-  }));
+  it('should change mode to initial-mode when changing manifest', (done: any) => {
+    testHostFixture.whenStable().then(() => {
+      // Toggle to opposite of initial-mode
+      config.initViewerMode === ViewerMode.PAGE ? viewerService.toggleToDashboard() : viewerService.toggleToPage();
+      testHostComponent.manifestUri = 'dummyURI3';
+      testHostComponent.viewerComponent.ngOnInit();
+      testHostFixture.detectChanges();
+      expect(modeService.mode).toBe(config.initViewerMode);
+      done();
+    });
+  });
 
-  it('should change to dash-mode when doubleclicking in page-mode', fakeAsync(() => {
+  it('should change to DASHBOARD-mode when doubleclicking in PAGE-mode', fakeAsync(() => {
+    viewerService.toggleToPage();
     expect(comp.mode).toBe(ViewerMode.PAGE);
     let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = {
-      quick: true,
-      tracker: { dblClickTimeThreshold: 0 },
-      preventDefaultAction: false,
-      originalEvent: { target: firstOverlay }
-    };
+    let clickEvent = createClickEvent(firstOverlay);
     clickService.click(clickEvent);
 
     tick(1000);
@@ -123,86 +123,64 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-  it('should change to page mode when double clicking in dashboard mode', fakeAsync(() => {
-      viewerService.toggleToDashboard();
-      expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
 
-      let firstOverlay = viewerService.getOverlays()[0];
-      let clickEvent = {
-        quick: true,
-        tracker: { dblClickTimeThreshold: 0 },
-        preventDefaultAction: false,
-        originalEvent: { target: firstOverlay }
-      };
-      clickService.click(clickEvent);
-      clickService.click(clickEvent);
-      tick(1000);
-      expect(comp.mode).toBe(ViewerMode.PAGE);
+
+  it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
+    viewerService.toggleToDashboard();
+    expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+
+    let firstOverlay = viewerService.getOverlays()[0];
+    let clickEvent = createClickEvent(firstOverlay);
+    clickService.click(clickEvent);
+    clickService.click(clickEvent);
+    tick(1000);
+    expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-  it('should change to page mode when single click in dashboard mode', fakeAsync(() => {
+  it('should change to PAGE-mode when singleclicking in DASHBOARD-mode', fakeAsync(() => {
     viewerService.toggleToDashboard();
 
     let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = {
-      quick: true,
-      tracker: { dblClickTimeThreshold: 0 },
-      preventDefaultAction: false,
-      originalEvent: { target: firstOverlay }
-    };
+    let clickEvent = createClickEvent(firstOverlay);
     clickService.click(clickEvent);
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-  // Can't seem to get this one working without done-callback
-  it('should fit page vertically when in initial page-mode', (done: any) => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(viewerService.getIsFittedVertically()).toBe(true);
-      done();
-    });
-  });
+  it('should fit page vertically in PAGE-mode', fakeAsync(() => {
+    viewerService.toggleToPage();
+    tick(1000);
+    expect(viewerService.getIsFittedVertically()).toBe(true);
+  }));
 
 
-  it('should still be page-mode when doubleclick in zoomed-in page-mode', fakeAsync(() => {
-    expect(comp.mode).toBe(ViewerMode.PAGE);
+  it('should still be PAGE-mode when doubleclick in zoomed-in page-mode', fakeAsync(() => {
+    viewerService.toggleToPage();
     let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = {
-      quick: true,
-      tracker: { dblClickTimeThreshold: 0 },
-      preventDefaultAction: false,
-      originalEvent: { target: firstOverlay }
-    };
+    let clickEvent = createClickEvent(firstOverlay);
     clickService.click(clickEvent);
     clickService.click(clickEvent);
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.PAGE);
+  }));
+
+  it('should be in zoomed PAGE-mode when doubleclicking in page-mode', fakeAsync(() => {
+    pending('')
   }));
 
   it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
-    expect(comp.mode).toBe(ViewerMode.PAGE);
+    viewerService.toggleToPage();
     let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = {
-      quick: true,
-      tracker: { dblClickTimeThreshold: 0 },
-      preventDefaultAction: false,
-      originalEvent: { target: firstOverlay }
-    };
+    let clickEvent = createClickEvent(firstOverlay);
     clickService.click(clickEvent);
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
 
   it('should change to dashboard-mode when single-click in zoomed-in page-mode', fakeAsync(() => {
-    expect(comp.mode).toBe(ViewerMode.PAGE);
+    viewerService.toggleToPage();
     let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = {
-      quick: true,
-      tracker: { dblClickTimeThreshold: 0 },
-      preventDefaultAction: false,
-      originalEvent: { target: firstOverlay }
-    };
+    let clickEvent = createClickEvent(firstOverlay);
     clickService.click(clickEvent);
     clickService.click(clickEvent);
     tick(1000);
@@ -212,23 +190,7 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
 
-  it('should change to page-mode when doubleclicking in dashboard-mode', fakeAsync(() => {
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-    let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = {
-      quick: true,
-      tracker: { dblClickTimeThreshold: 0 },
-      preventDefaultAction: false,
-      originalEvent: { target: firstOverlay }
-    };
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
+
 
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
@@ -358,6 +320,15 @@ describe('ViewerComponent', function () {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 60, lastDistance: 70 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 60 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
+  }
+
+  function createClickEvent(target: any) {
+    return {
+      quick: true,
+      tracker: { dblClickTimeThreshold: 0 },
+      preventDefaultAction: false,
+      originalEvent: { target: target }
+    };
   }
 
 });

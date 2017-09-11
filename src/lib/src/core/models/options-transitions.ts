@@ -3,7 +3,7 @@
  */
 
 export const OptionsTransitions = {
-  // Transition time in MILLIS for header/footer
+  // Transition time for header/footer
   TOOLBARS: 300,
   // Transition time for OSD-animations
   OSD: 600,

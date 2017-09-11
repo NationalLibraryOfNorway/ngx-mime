@@ -126,10 +126,10 @@ export class ViewerService implements OnInit {
    * Overrides for default OSD-functions
    */
   addOverrides(): void {
-    // Overrides default goHome, raised when clicking home-button
+    // Raised when viewer loads first time
     this.viewer.viewport.goHome = () => {
       this.viewer.raiseEvent('home');
-      this.toggleToPage();
+      this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
     };
   }
 
@@ -321,7 +321,6 @@ export class ViewerService implements OnInit {
         .attr('width', tile.width)
         .attr('height', tile.height)
         .attr('class', 'tile');
-
       let currentOverlay: SVGRectElement = this.svgNode.node().children[i];
       this.overlays.push(currentOverlay);
 
