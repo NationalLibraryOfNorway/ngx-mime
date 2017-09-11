@@ -371,12 +371,12 @@ export class ViewerService implements OnInit {
     //First centre the page
     //TODO: Refactor to own method
     let requestedPageBounds = requestedPage.getBounds(true);
+    let viewport = this.viewer.viewport;
     let pageCenter = new OpenSeadragon.Point(requestedPageBounds.x + (requestedPageBounds.width / 2), requestedPageBounds.y + (requestedPageBounds.height / 2));
-    this.viewer.viewport.panTo(pageCenter, false);
+    viewport.panTo(pageCenter, false);
 
     //Zoom viewport to fit new top/bottom padding
     //TODO: Configurable padding
-    let viewport = this.viewer.viewport;
     let resizeRatio = this.getViewportHeightChangeRatio(viewport, 160, 0);
     this.animateZoom(viewport, resizeRatio, 200);
 
@@ -385,7 +385,6 @@ export class ViewerService implements OnInit {
     //TODO: Adjust padding on window resize
     //TODO: Adjust padding on zoom
     //TODO: Configurable padding for header/footer
-    let requestedPageBounds = requestedPage.getBounds(true);
     let rootNode = d3.select(this.viewer.container.parentNode);
     let newPageBounds = this.getResizedRectangle(this.getCenteredRectangle(requestedPageBounds, viewport.getCenter(true)), resizeRatio);
     this.padViewportContainerToFitTile(viewport, newPageBounds, rootNode);
