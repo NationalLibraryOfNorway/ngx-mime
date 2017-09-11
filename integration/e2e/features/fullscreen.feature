@@ -15,6 +15,6 @@ Feature: Viewing publications in fullscreen mode
   @android @desktop
   Scenario: Exit Fullscreen mode
     Given the viewer is in dashboard view
-    Given the viewer is in full screen mode
+    And the viewer is in full screen mode
     When the user select exit full screen mode
     Then the viewer should be presented normally
