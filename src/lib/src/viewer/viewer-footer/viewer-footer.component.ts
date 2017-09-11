@@ -1,9 +1,10 @@
-import { OptionsTransitions } from '../../core/models/options-transitions';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { MdSliderChange } from '@angular/material';
-import { MimeViewerIntl } from './../../core/viewer-intl';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { MdSliderChange } from '@angular/material';
+import { Subscription } from 'rxjs/Subscription';
+
+import { MimeViewerIntl } from './../../core/viewer-intl';
+import { OptionsTransitions } from '../../core/models/options-transitions';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { PageService } from './../../core/page-service/page-service';
 
@@ -58,8 +59,8 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
         this.currentPage = currentPage;
       }
       this.numberOfPages = this.pageService.numberOfPages;
-      this.isFirstPage = currentPage === 0;
-      this.isLastPage = currentPage === (this.numberOfPages - 1);
+      this.isFirstPage = this.isOnFirstPage(currentPage);
+      this.isLastPage = this.isOnLastPage(currentPage);
       this.changeDetectorRef.detectChanges();
     }));
   }
@@ -84,4 +85,13 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
     this.viewerService.goToPage(change.value);
     this.changeDetectorRef.detectChanges();
   }
+
+  private isOnFirstPage(currentPage: number): boolean {
+    return currentPage === 0;
+  }
+
+  private isOnLastPage(currentPage: number): boolean {
+    return currentPage === (this.numberOfPages - 1);
+  }
+
 }
