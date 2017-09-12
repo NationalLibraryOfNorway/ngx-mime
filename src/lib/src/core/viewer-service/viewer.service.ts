@@ -130,6 +130,7 @@ export class ViewerService implements OnInit {
         this.clearOpenSeadragonTooltips();
         this.options = new Options(manifest.tileSource);
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+        this.pageService.reset();
         this.pageService.numberOfPages = this.tileSources.length;
       });
 
@@ -147,6 +148,7 @@ export class ViewerService implements OnInit {
       this.addEvents();
     }
   }
+
 
   addToWindow() {
     window.openSeadragonViewer = this.viewer;
@@ -191,12 +193,13 @@ export class ViewerService implements OnInit {
    * Overrides for default OSD-functions
    */
   addOverrides(): void {
-    // Overrides default goHome, raised when clicking home-button
+    // Raised when viewer loads first time
     this.viewer.viewport.goHome = () => {
       this.viewer.raiseEvent('home');
-      this.toggleToPage();
+      this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
     };
   }
+
 
   /**
    * Set settings for page/dashboard-mode
@@ -228,7 +231,7 @@ export class ViewerService implements OnInit {
     setTimeout(() => {
       this.viewer.gestureSettingsTouch.pinchToZoom = true;
       this.viewer.gestureSettingsMouse.scrollToZoom = true;
-    }, OptionsTransitions.TIME_IN_MILLIS);
+    }, 300);
   }
 
   /**
@@ -329,24 +332,23 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    this.setisCurrentPageFittedVertically();
+    this.isCurrentPageFittedVertically = this.getIsFittedVertically();
   }
 
   /**
-   * Checks whether current page's overlay has a larger height than the SVG parentnode
+   * Checks whether current page's overlay bounds has a larger height than the viewport bounds
    * If the heights are equal, then this page is fitted vertically in the viewer
    * (Note that this function is called after animation is ended for correct calculation)
    */
-  setisCurrentPageFittedVertically(): void {
-    let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
-    let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
-    this.isCurrentPageFittedVertically = svgNodeHeight === currentOverlayHeight;
+  getIsFittedVertically(): boolean {
+    let page = Math.round(this.createRectangle(this.overlays[this.pageService.currentPage]).height);
+    let view = Math.round(this.viewer.viewport.getBounds().height);
+    return page === view;
   }
 
   pageIsAtMinZoom(): boolean {
-    let svgNodeHeight = Math.round(this.svgNode.node().parentNode.getBoundingClientRect().height);
-    let currentOverlayHeight = Math.round(this.overlays[this.pageService.currentPage].getBoundingClientRect().height);
-    return svgNodeHeight >= currentOverlayHeight;
+    return Math.round(this.createRectangle(this.overlays[this.pageService.currentPage]).height)
+      >= Math.round(this.viewer.viewport.getBounds().height);
   }
 
   /**
@@ -386,8 +388,7 @@ export class ViewerService implements OnInit {
         .attr('width', tile.width)
         .attr('height', tile.height)
         .attr('class', 'tile');
-
-      let currentOverlay: SVGRectElement = this.svgNode.node().children[i];
+      let currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
 
       this.centerPoints.add({

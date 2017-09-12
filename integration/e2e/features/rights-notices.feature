@@ -6,10 +6,10 @@ Feature: Rights Notices
 
   Scenario: Attribution
     Given the viewer is opened with a publication with attribution labels
-    Given the viewer is in dashboard view
+    And the viewer is in dashboard view
     Then the attribution must be shown
 
   Scenario: License
     Given the viewer is opened with a publication with licenses associated with it
-    Given the viewer is in dashboard view
+    And the viewer is in dashboard view
     Then the license must be shown as hyperlinks

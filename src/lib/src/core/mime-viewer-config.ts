@@ -4,13 +4,13 @@ export class MimeViewerConfig {
   public attributionDialogEnabled? = true;
   public attributionDialogHideTimeout? = -1;
   public navigationControlEnabled? = true;
-  public initViwerMode? = ViewerMode.PAGE;
+  public initViewerMode? = ViewerMode.PAGE;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
     attributionDialogHideTimeout?: number;
     navigationControlEnabled?: boolean;
-    initViwerMode?: ViewerMode;
+    initViewerMode?: ViewerMode;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -22,8 +22,8 @@ export class MimeViewerConfig {
       this.navigationControlEnabled =
         fields.navigationControlEnabled !== undefined ? fields.navigationControlEnabled : this.navigationControlEnabled;
 
-      this.initViwerMode =
-      fields.initViwerMode !== undefined ? fields.initViwerMode : this.initViwerMode;
+      this.initViewerMode =
+      fields.initViewerMode !== undefined ? fields.initViewerMode : this.initViewerMode;
     }
   }
 }
