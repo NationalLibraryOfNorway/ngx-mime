@@ -136,7 +136,7 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-drag-end', this.dragEndHandler);
   }
 
-  dragEndHandler(): void {
+  dragEndHandler = (e: any) => {
     //TODO: Don't center page if zoomed in
     this.updateCurrentPage();
     this.panToPage(this.currentPage);
