@@ -91,7 +91,8 @@ function getCapabilities() {
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
       seleniumVersion: '3.4.0',
-      screenResolution: "1024x768"
+      screenResolution: "1024x768",
+      nativeEvents: false
     });
   }
   return capabilities;
