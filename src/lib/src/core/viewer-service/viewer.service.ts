@@ -160,10 +160,8 @@ export class ViewerService implements OnInit {
    */
   setSettings(mode: ViewerMode) {
     if (mode === ViewerMode.DASHBOARD) {
-      this.positionTilesInDashboardView(this.pageService.currentPage);
       this.setDashboardSettings();
     } else if (mode === ViewerMode.PAGE) {
-      this.positionTilesInSinglePageView(this.pageService.currentPage);
       this.setPageSettings();
     }
   }
@@ -195,7 +193,8 @@ export class ViewerService implements OnInit {
    */
   toggleToDashboard(): void {
     this.modeService.mode = ViewerMode.DASHBOARD;
-    this.zoomTo(this.getHomeZoom());
+    this.positionTilesInDashboardView(this.pageService.currentPage);
+    //this.zoomTo(this.getHomeZoom());
   }
 
   /**
@@ -206,7 +205,8 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    this.fitBounds(this.overlays[this.pageService.currentPage]);
+    this.positionTilesInSinglePageView(this.pageService.currentPage);
+    //this.fitBounds(this.overlays[this.pageService.currentPage]);
   }
 
   /**

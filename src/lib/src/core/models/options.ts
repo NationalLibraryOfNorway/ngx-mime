@@ -115,7 +115,7 @@ export class Options {
 
   constructor(tileSources?: Service[]) {
     if (tileSources) {
-      this.tileSources = tileSources;
+      //this.tileSources = tileSources;
     }
   }
 }
