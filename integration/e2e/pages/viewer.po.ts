@@ -180,6 +180,28 @@ export class ViewerPage {
   async waitForAnimation(): Promise<void> {
     await browser.sleep((await this.getAnimationTime()) * 100);
   }
+
+  async isDashboardMode(): Promise<boolean> {
+    const header = await this.getHeader();
+    const footer = await this.getFooter();
+    const headerDisplay = header.getCssValue('display');
+    const footerDisplay = footer.getCssValue('display');
+
+    const headerisPresent = (await headerDisplay) === 'block';
+    const footerisPresent = (await footerDisplay) === 'block';
+    return (headerisPresent && headerisPresent);
+  }
+
+  async isPageMode(): Promise<boolean> {
+    const header = await this.getHeader();
+    const footer = await this.getFooter();
+    const headerDisplay = header.getCssValue('display');
+    const footerDisplay = footer.getCssValue('display');
+
+    const headerisHidden = (await headerDisplay) === 'none';
+    const footerisHidden = (await footerDisplay) === 'none';
+    return (headerisHidden && footerisHidden);
+  }
 }
 
 export interface Point {
