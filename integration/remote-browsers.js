@@ -11,7 +11,7 @@ exports.customDesktopLaunchers = [
   },
   {
     browserName: "internet explorer",
-    platform: "Windows 10",
+    platform: "Windows 8",
     version: "latest"
   },
   {
