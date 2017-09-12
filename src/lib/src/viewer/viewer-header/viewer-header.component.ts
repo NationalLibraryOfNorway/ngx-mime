@@ -30,8 +30,8 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate(OptionsTransitions.TOOLBARS + 'ms ease-in')),
-      transition('show => hide', animate(OptionsTransitions.TOOLBARS + 'ms ease-out'))
+      transition('hide => show', animate(OptionsTransitions.TOOLBARS_EASE_OUT_TIME + 'ms ease-out')),
+      transition('show => hide', animate(OptionsTransitions.TOOLBARS_EASE_IN_TIME + 'ms ease-in'))
     ])
   ],
   host: {

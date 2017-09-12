@@ -1,6 +1,6 @@
 <div id="mimeViewer" class="viewer__container" [ngClass]="setClasses()">
-  <mime-viewer-header #header></mime-viewer-header>
-  <mime-osd-toolbar *ngIf="config?.navigationControlEnabled"></mime-osd-toolbar>
+  <mime-viewer-header class="navbar navbar__header" #header></mime-viewer-header>
+  <mime-osd-toolbar #osdToolbar></mime-osd-toolbar>
   <div id="openseadragon"></div>
-  <mime-viewer-footer #footer></mime-viewer-footer>
+  <mime-viewer-footer class="navbar navbar__footer" #footer></mime-viewer-footer>
 </div>

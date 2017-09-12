@@ -1,19 +1,40 @@
+import { OptionsTransitions } from '../../core/models/options-transitions';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Dimensions } from './../../core/models/dimensions';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { MimeViewerIntl } from './../../core/viewer-intl';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'mime-osd-toolbar',
   templateUrl: './osd-toolbar.component.html',
   styleUrls: ['./osd-toolbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('osdToolbarState', [
+      state('hide', style({
+        opacity: 0,
+        display: 'none',
+        transform: 'translate(-100%,0)'
+      })),
+      state('show', style({
+        opacity: 1,
+        display: 'block'
+      })),
+      transition('hide => show', animate(OptionsTransitions.TOOLBARS_EASE_OUT_TIME + 'ms ease-out')),
+      transition('show => hide', animate(OptionsTransitions.TOOLBARS_EASE_IN_TIME + 'ms ease-in'))
+    ])
+  ],
+  host: {
+    '[@osdToolbarState]': 'state'
+  }
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
   public osdToolbarStyle = {};
   private subscriptions: Array<Subscription> = [];
+  public state = 'show';
 
   constructor(
     public intl: MimeViewerIntl,
@@ -27,7 +48,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
       };
       this.changeDetectorRef.detectChanges();
     });
-
+    this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
   }
 
   ngOnDestroy() {

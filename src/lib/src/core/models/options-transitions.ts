@@ -3,9 +3,10 @@
  */
 
 export const OptionsTransitions = {
-  // Transition time for header/footer
-  TOOLBARS: 300,
-  // Transition time for OSD-animations
+  // Transition time for toolbars
+  TOOLBARS_EASE_IN_TIME: 200,
+  TOOLBARS_EASE_OUT_TIME: 250,
+  // Animation time inside OSD-canvas
   OSD: 600,
 
   ZOOMFACTOR: 0.0002

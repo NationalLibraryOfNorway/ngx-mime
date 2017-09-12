@@ -17,25 +17,21 @@
   width: 100%;
   flex-grow: 1;
   flex-direction: column;
+  height: 100%;
 }
 
-.viewer__container.page {
-  & #openseadragon {
-    height: 100%;
-  }
-}
-
-.viewer__container >>>.tile:hover {
+.viewer__container>>>.tile:hover {
   stroke: #08f;
   stroke-width: 10;
   cursor: pointer;
 }
 
-.viewer__container.page >>>.tile:hover {
+.viewer__container.page>>>.tile:hover {
   stroke: none;
 }
 
-.viewer__container.canvas-pressed,.viewer__container.canvas-pressed>>>.tile:hover  {
+.viewer__container.canvas-pressed,
+.viewer__container.canvas-pressed>>>.tile:hover {
   cursor: grabbing;
   cursor: -webkit-grabbing;
 }
@@ -44,23 +40,22 @@
   fill-opacity: 0; /* Svg-tile filled black if this is not set? */
 }
 
-
-mime-viewer-header {
+.navbar {
   height: 64px;
   position: absolute;
-  top: 0;
   width: 100%;
-  overflow:hidden;
+  overflow: hidden;
   z-index: 2;
 }
 
-mime-viewer-footer {
-  height: 64px;
+.navbar__header {
+  top: 0;
+  width: 100%;
+}
+
+.navbar__footer {
   max-height: 64px;
-  position: absolute;
   bottom: 0;
-  overflow:hidden;
-  z-index: 2;
 }
 
 ::ng-deep .cdk-overlay-container {
