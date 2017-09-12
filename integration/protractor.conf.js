@@ -93,7 +93,8 @@ function getCapabilities() {
       seleniumVersion: '3.4.0',
       screenResolution: "1024x768",
       nativeEvents: false,
-      ignoreZoomSetting: true
+      ignoreZoomSetting: true,
+      enablePersistentHover: true
     });
   }
   return capabilities;
