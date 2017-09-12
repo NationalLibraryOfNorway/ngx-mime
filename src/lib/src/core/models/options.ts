@@ -15,12 +15,12 @@ export class Options {
   prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
   navImages: null;
   debugMode = false;
-  debugGridColor = '#ffcc00';
+  debugGridColor = '#08f';
   blendTime = 0;
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 14 / 100000;
+  defaultZoomLevel = 16 / 100000;
   //defaultZoomLevel = 0;
   opacity = 1;
   compositeOperation: string = null;
@@ -56,7 +56,7 @@ export class Options {
   gestureSettingsPen = new GestureSettingsPen();
   gestureSettingsUnknown = new GestureSettingsUnknown();
   zoomPerClick = 2.0;
-  zoomPerScroll = 1.2;
+  zoomPerScroll = 1.1;
   zoomPerSecond = 1.0;
   showNavigator = false;
   navigatorId: string;

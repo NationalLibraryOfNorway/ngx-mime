@@ -104,7 +104,7 @@ export class ViewerService implements OnInit {
 
       //TODO: Add only in page mode?
       this.subscriptions.push(this.mimeResizeService.onResize.subscribe(() => {
-        this.applicationResize();
+        //this.applicationResize();
       }));
     }
   }
@@ -128,7 +128,7 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    this.viewer.addHandler('animation-start', () => this.spinnerService.show());
+    // this.viewer.addHandler('animation-start', () => this.spinnerService.show());
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
@@ -142,7 +142,7 @@ export class ViewerService implements OnInit {
   dragEndHandler = (e: any) => {
     //TODO: Don't center page if zoomed in
     this.updateCurrentPage();
-    this.panToPage(this.currentPage);
+    this.panToPage(this.pageService.currentPage);
   }
 
   /**
@@ -196,8 +196,8 @@ export class ViewerService implements OnInit {
    */
   toggleToDashboard(): void {
     this.modeService.mode = ViewerMode.DASHBOARD;
-    this.positionTilesInDashboardView(this.pageService.currentPage);
-    //this.zoomTo(this.getHomeZoom());
+    //this.positionTilesInDashboardView(this.pageService.currentPage);
+    this.zoomTo(this.getHomeZoom());
   }
 
   /**
@@ -208,8 +208,8 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    this.positionTilesInSinglePageView(this.pageService.currentPage);
-    //this.fitBounds(this.overlays[this.pageService.currentPage]);
+    //this.positionTilesInSinglePageView(this.pageService.currentPage);
+    this.fitBounds(this.overlays[this.pageService.currentPage]);
   }
 
   /**
@@ -293,8 +293,8 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    this.spinnerService.hide();
     this.isCurrentPageFittedViewport = this.getIsCurrentPageFittedViewport();
+    //  this.spinnerService.hide();
   }
 
   /**
@@ -390,7 +390,7 @@ export class ViewerService implements OnInit {
    * @param overlay
    */
   fitBounds(overlay: SVGRectElement): void {
-    //this.viewer.viewport.fitBounds(this.createRectangle(overlay));
+    this.viewer.viewport.fitBounds(this.createRectangle(overlay));
   }
 
   /**
@@ -494,8 +494,7 @@ export class ViewerService implements OnInit {
     setTimeout(() => {
 
       let viewportZoom = viewport.getZoom();
-      if (currentZoom != viewportZoom)
-      {
+      if (currentZoom != viewportZoom) {
         zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
         currentZoom = viewportZoom;
       }
@@ -545,10 +544,10 @@ export class ViewerService implements OnInit {
     let paddingInPixels = Math.round(tileLeftCoordinates.x - viewerLeftCoordinates.x);
 
     this.horizontalPadding = this.horizontalPadding + paddingInPixels;
-    container.style('padding','0 ' + this.horizontalPadding + 'px');
+    container.style('padding', '0 ' + this.horizontalPadding + 'px');
   }
 
-  private positionTilesInDashboardView(requestedPageIndex: number): void{
+  private positionTilesInDashboardView(requestedPageIndex: number): void {
     let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
     if (!requestedPage) {
       return;
@@ -638,7 +637,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.PAGE) {
       //TODO: Something better than a timeout function
       setTimeout(() => {
-        this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
+        //this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
       }, 500);
     }
   }
@@ -658,23 +657,23 @@ export class ViewerService implements OnInit {
       let tileBounds = tiledImage.getBounds(true);
       if (tileBounds.x + tileBounds.width > centerX) {
 
-        if(tileBounds.x < centerX) {
+        if (tileBounds.x < centerX) {
           //Center point is within tile bounds
-          this.currentPage = i;
+          this.pageService.currentPage = i;
         }
         else {
           //No use case before first page as OpenSeadragon prevents it by default
 
           //Centre point is between two tiles
-          let previousTileBounds = this.viewer.world.getItemAt(i-1).getBounds();
+          let previousTileBounds = this.viewer.world.getItemAt(i - 1).getBounds();
           let marginLeft = previousTileBounds.x + previousTileBounds.width;
-          let marginCentre = marginLeft + ((tileBounds.x - marginLeft) / 2 );
+          let marginCentre = marginLeft + ((tileBounds.x - marginLeft) / 2);
 
           if (centerX > marginCentre) {
-            this.currentPage = i;
+            this.pageService.currentPage = i;
           }
           else {
-            this.currentPage = i - 1;
+            this.pageService.currentPage = i - 1;
           }
         }
 
@@ -686,13 +685,14 @@ export class ViewerService implements OnInit {
   }
 
   private applicationResize(): void {
+    console.log('application resize')
     //TODO: Limit how often this runs
     if (this.modeService.mode === ViewerMode.PAGE) {
       //TODO: Something better than a timeout function
       //TODO: Error handling
       setTimeout(() => {
-        let pageBounds = this.viewer.world.getItemAt(this.currentPage).getBounds();
-        this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
+        let pageBounds = this.viewer.world.getItemAt(this.pageService.currentPage).getBounds();
+        // this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
       }, 500);
     }
   }
