@@ -3,10 +3,12 @@ import { Observable } from 'rxjs/Observable';
 import { ViewerMode } from '../models/viewer-mode';
 
 export class ModeService {
+  private _initialMode: ViewerMode;
   private _mode: ViewerMode;
   private toggleModeSubject: ReplaySubject<ViewerMode> = new ReplaySubject();
 
-  constructor() { }
+  constructor(
+  ) { }
 
   get onChange(): Observable<ViewerMode> {
     return this.toggleModeSubject.asObservable();
@@ -19,6 +21,16 @@ export class ModeService {
 
   get mode(): ViewerMode {
     return this._mode;
+  }
+
+  set initialMode(mode: ViewerMode) {
+    this._initialMode = mode;
+    this._mode = mode;
+    this.change();
+  }
+
+  get initialMode(): ViewerMode {
+    return this._initialMode;
   }
 
   toggleMode(): void {

@@ -9,5 +9,5 @@ Feature: Displaying Metadata
 
   Scenario: Show descriptive metadata
     Given the viewer is in dashboard view
-    Given the viewer is in metadata view
+    And the viewer is in metadata view
     Then descriptive metadata are displayed to the user

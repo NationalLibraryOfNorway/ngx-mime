@@ -1,4 +1,12 @@
+/**
+ * All transition times are in milliseconds
+ */
+
 export const OptionsTransitions = {
-  TIME_IN_MILLIS: 300,
+  // Transition time for header/footer
+  TOOLBARS: 300,
+  // Transition time for OSD-animations
+  OSD: 600,
+
   ZOOMFACTOR: 0.0002
 };

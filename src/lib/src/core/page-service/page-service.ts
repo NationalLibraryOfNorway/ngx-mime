@@ -10,6 +10,10 @@ export class PageService {
     this._currentPage = 0;
   }
 
+  reset() {
+    this._currentPage = 0;
+  }
+
   set currentPage(currentPage: number) {
     if (!this.isWithinBounds(currentPage)) {
       return;
