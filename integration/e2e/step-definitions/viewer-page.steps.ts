@@ -22,9 +22,12 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
+  Given(/^the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside$/, async () => {
+    await page.open();
+  });
+
   Given(/^the user is on page (.*)$/, async (pageNumber: number) => {
     await page.goToPage(pageNumber);
-    return Promise.resolve('pending');
   });
 
 });
