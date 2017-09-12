@@ -1,3 +1,4 @@
+import { SpinnerService } from '../spinner-service/spinner.service';
 import { Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
@@ -40,7 +41,8 @@ export class ViewerService implements OnInit {
     private clickService: ClickService,
     private pageService: PageService,
     private modeService: ModeService,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
+    private spinnerService: SpinnerService
   ) { }
 
   ngOnInit(): void { }
@@ -126,6 +128,7 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
+    this.viewer.addHandler('animation-start', () => this.spinnerService.show());
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
@@ -290,6 +293,7 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
+    this.spinnerService.hide();
     this.isCurrentPageFittedViewport = this.getIsCurrentPageFittedViewport();
   }
 
