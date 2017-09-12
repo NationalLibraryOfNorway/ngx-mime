@@ -28,13 +28,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     await browser.sleep(switchAnimationTime);
   });
 
-  When(/^the user double click in the viewer$/, async () => {
-    const firstOverlay = await page.getFirstPageOverlay();
-    await utils.clickElement(firstOverlay);
-    await utils.clickElement(firstOverlay);
-    await browser.sleep(switchAnimationTime);
-  });
-
   Then(/^the viewer should change to page view$/, async () => {
     expect(await page.isPageMode()).to.be.true;
   });
