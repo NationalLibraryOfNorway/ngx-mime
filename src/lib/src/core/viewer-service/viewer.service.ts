@@ -287,7 +287,7 @@ export class ViewerService implements OnInit {
     const viewportBounds = this.viewer.viewport.getBounds();
 
     return (Math.round(pageBounds.y) >= Math.round(viewportBounds.y))
-      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x))
+      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x));
 
   }
 
