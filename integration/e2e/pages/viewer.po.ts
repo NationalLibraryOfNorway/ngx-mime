@@ -54,7 +54,7 @@ export class ViewerPage {
   }
 
   getFirstPageOverlay() {
-    const el = element.all(by.css('svg rect')).first();
+    const el = element.all(by.css('svg > g > rect')).first();
     return utils.waitForElement(el);
   }
 
