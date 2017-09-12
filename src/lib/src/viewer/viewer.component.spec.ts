@@ -313,9 +313,7 @@ describe('ViewerComponent', function () {
 
   });
 
-  it('should change page when swipeing to left',
-    fakeAsync(inject([ViewerService, ClickService],
-    (viewerService: ViewerService, clickService: ClickService) => {
+  it('should change page when swipeing to left', () => {
     // viewerService.toggleToDashboard();
     // tick();
     // const viewer = viewerService.getViewer();
@@ -333,8 +331,7 @@ describe('ViewerComponent', function () {
     // tick(100);
     // expect(pageNumber).toBe(10);
     pending('Set to pending until we find a way to perform swipe event');
-  })));
-
+  });
 
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
