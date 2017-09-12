@@ -80,9 +80,9 @@ export class Options {
   navigationControlAnchor = ControlAnchor.TOP_LEFT;
   showZoomControl = true;
   showHomeControl = true;
-  showFullPageControl = true;
+  showFullPageControl = false;
   showRotationControl = false;
-  showSequenceControl = true;
+  showSequenceControl = false;
   sequenceControlAnchor = ControlAnchor.TOP_LEFT;
   navPrevNextWrap = false;
   zoomInButton = 'zoomInButton';
