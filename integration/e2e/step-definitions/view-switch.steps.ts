@@ -12,7 +12,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Given(/^the viewer is in dashboard view$/, async () => {
     const firstOverlay = await page.getFirstPageOverlay();
-    await utils.clickElement(firstOverlay);
+    await firstOverlay.click();
     await browser.sleep(switchAnimationTime);
     expect(await page.isDashboardMode()).to.be.true;
   });
@@ -24,14 +24,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^the user click in the viewer$/, async () => {
     const firstOverlay = await page.getFirstPageOverlay();
-    await utils.clickElement(firstOverlay);
-    await browser.sleep(switchAnimationTime);
-  });
-
-  When(/^the user double click in the viewer$/, async () => {
-    const firstOverlay = await page.getFirstPageOverlay();
-    await utils.clickElement(firstOverlay);
-    await utils.clickElement(firstOverlay);
+    await firstOverlay.click();
     await browser.sleep(switchAnimationTime);
   });
 
