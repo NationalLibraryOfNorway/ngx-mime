@@ -17,4 +17,5 @@ export class MimeViewerIntl {
   previousPage = 'Previous Page';
   nextPage = 'Next Page';
   home = 'Go Home';
+  search = 'Search';
 }

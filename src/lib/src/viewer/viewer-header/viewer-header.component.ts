@@ -66,7 +66,11 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openContents() {
+  public toggleContents() {
+    this.contentsDialogService.toggle();
+  }
+
+  public toggleSearch() {
     this.contentsDialogService.toggle();
   }
 
