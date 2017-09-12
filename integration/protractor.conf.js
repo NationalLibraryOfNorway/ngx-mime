@@ -92,7 +92,8 @@ function getCapabilities() {
       build: process.env.TRAVIS_JOB_NUMBER,
       seleniumVersion: '3.4.0',
       screenResolution: "1024x768",
-      nativeEvents: false
+      nativeEvents: false,
+      ignoreZoomSetting: true
     });
   }
   return capabilities;
