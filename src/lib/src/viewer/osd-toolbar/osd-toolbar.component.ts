@@ -11,7 +11,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   selector: 'mime-osd-toolbar',
   templateUrl: './osd-toolbar.component.html',
   styleUrls: ['./osd-toolbar.component.scss'],
-  //  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('osdToolbarState', [
       state('hide', style({
