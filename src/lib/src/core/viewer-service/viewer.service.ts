@@ -30,10 +30,6 @@ export class ViewerService implements OnInit {
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
-
-  //TODO: Refactor to use Page Service instead
-  private currentPage = 0;
-
   private horizontalPadding: number = 0;
 
   constructor(
@@ -142,7 +138,6 @@ export class ViewerService implements OnInit {
   dragEndHandler = (e: any) => {
     //TODO: Don't center page if zoomed in
     this.updateCurrentPage();
-    this.panToPage(this.pageService.currentPage);
   }
 
   /**
@@ -183,7 +178,7 @@ export class ViewerService implements OnInit {
    */
   setPageSettings(): void {
     // TODO: Allow panning when zoomed in on Page View
-    //this.viewer.panVertical = true;
+    this.viewer.panVertical = true;
 
     setTimeout(() => {
       this.viewer.gestureSettingsTouch.pinchToZoom = true;
@@ -627,25 +622,13 @@ export class ViewerService implements OnInit {
     this.positionNextTiles(currentTileIndex + 1, nextTileBounds, margin);
   }
 
-  private panToPage(pageIndex: number): void {
-    let page = this.viewer.world.getItemAt(pageIndex);
-    let pageBounds = page.getBounds(true);
 
-    let center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
-    this.viewer.viewport.panTo(center, false);
-
-    if (this.modeService.mode === ViewerMode.PAGE) {
-      //TODO: Something better than a timeout function
-      setTimeout(() => {
-        //this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
-      }, 500);
-    }
-  }
 
   //TODO: Move this method to page service
   private updateCurrentPage(): void {
     let viewportBounds = this.viewer.viewport.getBounds();
     let centerX = viewportBounds.x + (viewportBounds.width / 2);
+    let currentPageUpdated = false;
 
     //TODO: Is it faster to iterate through tiles, svg nodes or overlays[]?
     this.tileSources.some((tile, i) => {
@@ -656,10 +639,11 @@ export class ViewerService implements OnInit {
 
       let tileBounds = tiledImage.getBounds(true);
       if (tileBounds.x + tileBounds.width > centerX) {
-
+        //Center point is within tile bounds
         if (tileBounds.x < centerX) {
-          //Center point is within tile bounds
+
           this.pageService.currentPage = i;
+          currentPageUpdated = true;
         }
         else {
           //No use case before first page as OpenSeadragon prevents it by default
@@ -682,10 +666,30 @@ export class ViewerService implements OnInit {
       //No use case beyond last page as OpenSeadragon prevents it by default
 
     });
+    console.log('currentpage:', this.pageService.currentPage)
+    this.panToPage();
+  }
+
+
+  private panToPage(): void {
+
+    let page = this.viewer.world.getItemAt(this.pageService.currentPage);
+    let pageBounds = page.getBounds(true);
+
+    let center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
+    this.viewer.viewport.panTo(center, false);
+
+
+
+    // if (this.modeService.mode === ViewerMode.PAGE) {
+    //   //TODO: Something better than a timeout function
+    //   setTimeout(() => {
+    //     //this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
+    //   }, 500);
+    // }
   }
 
   private applicationResize(): void {
-    console.log('application resize')
     //TODO: Limit how often this runs
     if (this.modeService.mode === ViewerMode.PAGE) {
       //TODO: Something better than a timeout function
@@ -695,5 +699,14 @@ export class ViewerService implements OnInit {
         // this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
       }, 500);
     }
+  }
+
+  private isZoomedInPageMode(): boolean {
+    // if(this.modeService.mode === ViewerMode.PAGE ) {
+    //   console.log('page mode')
+    // } else {
+    //   console.log('dash mode')
+    // }
+    return this.modeService.mode === ViewerMode.PAGE && !this.isCurrentPageFittedViewport;
   }
 }
