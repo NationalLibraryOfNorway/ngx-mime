@@ -75,7 +75,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(bounds.y).to.equal(0);
   });
 
-  Then(/^the page should be fitted to viewport$/, async () => {
+  Then(/^the current zoom level is home$/, async () => {
     expect(await page.isCurrentPageFittedViewport()).to.be.true;
   });
 });
