@@ -281,7 +281,7 @@ export class ViewerService implements OnInit {
 
   pageIsAtMinZoom(): boolean {
     return Math.round(this.createRectangle(this.overlays[this.pageService.currentPage]).height)
-      >= Math.round(this.viewer.viewport.getBounds().height);
+      <= Math.round(this.viewer.viewport.getBounds().height);
   }
 
   /**
