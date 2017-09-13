@@ -43,22 +43,19 @@ export class ViewerPage {
       + ' || document.msFullscreenElement) != null');
   }
 
-  getHeader(): ElementFinder {
+  getHeader() {
     const el = element(by.css('mime-viewer-header'));
-    utils.waitForElement(el);
-    return el;
+    return utils.waitForElement(el);
   }
 
-  getFooter(): ElementFinder {
+  getFooter() {
     const el = element(by.css('mime-viewer-footer'));
-    utils.waitForElement(el);
-    return el;
+    return utils.waitForElement(el);
   }
 
-  getFirstPageOverlay(): ElementFinder {
-    const el = element.all(by.css('svg rect')).first();
-    utils.waitForElement(el);
-    return el;
+  getFirstPageOverlay() {
+    const el = element.all(by.css('svg > g > rect')).first();
+    return utils.waitForElement(el);
   }
 
   getAnimationTime(): promise.Promise<number> {
@@ -159,6 +156,28 @@ export class ViewerPage {
 
   async waitForAnimation(): Promise<void> {
     await browser.sleep((await this.getAnimationTime()) * 100);
+  }
+
+  async isDashboardMode(): Promise<boolean> {
+    const header = await this.getHeader();
+    const footer = await this.getFooter();
+    const headerDisplay = header.getCssValue('display');
+    const footerDisplay = footer.getCssValue('display');
+
+    const headerisPresent = (await headerDisplay) === 'block';
+    const footerisPresent = (await footerDisplay) === 'block';
+    return (headerisPresent && headerisPresent);
+  }
+
+  async isPageMode(): Promise<boolean> {
+    const header = await this.getHeader();
+    const footer = await this.getFooter();
+    const headerDisplay = header.getCssValue('display');
+    const footerDisplay = footer.getCssValue('display');
+
+    const headerisHidden = (await headerDisplay) === 'none';
+    const footerisHidden = (await footerDisplay) === 'none';
+    return (headerisHidden && footerisHidden);
   }
 }
 
