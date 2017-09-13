@@ -1,3 +1,4 @@
+import { OptionsZoom } from '../models/options-zoom';
 import { Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
@@ -25,7 +26,7 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  public isCurrentPageFittedVertically = false;
+  public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
 
@@ -121,6 +122,25 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
   }
+
+  // Binds to OSD-Toolbar button
+  zoomIn(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.zoomTo(this.getZoom() + OptionsZoom.ZOOMFACTOR);
+  }
+
+  // Binds to OSD-Toolbar button
+  zoomOut(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.pageIsAtMinZoom() ? this.toggleToPage() : this.zoomTo(this.getZoom() - OptionsZoom.ZOOMFACTOR);
+  }
+
 
   /**
    * Overrides for default OSD-functions
@@ -221,8 +241,10 @@ export class ViewerService implements OnInit {
         this.toggleToPage();
       }
       // Pinch In
-    } else if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
-      this.toggleToDashboard();
+    } else {
+      if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
+        this.toggleToDashboard();
+      }
     }
   }
 
@@ -250,7 +272,7 @@ export class ViewerService implements OnInit {
   dblClickHandler = (event: any) => {
     let target = event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
-    if (this.isCurrentPageFittedVertically) {
+    if (this.isCurrentPageFittedViewport) {
       this.zoomTo(this.getZoom() * this.options.zoomPerClick);
     } else {
       let requestedPage = this.getOverlayIndexFromClickEvent(target);
@@ -265,23 +287,26 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    this.isCurrentPageFittedVertically = this.getIsFittedVertically();
+    this.isCurrentPageFittedViewport = this.getIsCurrentPageFittedViewport();
   }
 
   /**
-   * Checks whether current page's overlay bounds has a larger height than the viewport bounds
-   * If the heights are equal, then this page is fitted vertically in the viewer
+   * Checks whether current overlaybounds' width or height is equal to viewport
    * (Note that this function is called after animation is ended for correct calculation)
    */
-  getIsFittedVertically(): boolean {
-    let page = Math.round(this.createRectangle(this.overlays[this.pageService.currentPage]).height);
-    let view = Math.round(this.viewer.viewport.getBounds().height);
-    return page === view;
+  getIsCurrentPageFittedViewport(): boolean {
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const viewportBounds = this.viewer.viewport.getBounds();
+    return (Math.round(pageBounds.y) === Math.round(viewportBounds.y))
+      || (Math.round(pageBounds.x) === Math.round(viewportBounds.x));
   }
 
   pageIsAtMinZoom(): boolean {
-    return Math.round(this.createRectangle(this.overlays[this.pageService.currentPage]).height)
-      <= Math.round(this.viewer.viewport.getBounds().height);
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const viewportBounds = this.viewer.viewport.getBounds();
+
+    return (Math.round(pageBounds.y) >= Math.round(viewportBounds.y))
+      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x));
   }
 
   /**

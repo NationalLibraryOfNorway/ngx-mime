@@ -1,3 +1,7 @@
+import { PageService } from '../../core/page-service/page-service';
+import { ModeService } from '../../core/mode-service/mode.service';
+import { ClickService } from '../../core/click/click.service';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -19,7 +23,11 @@ describe('OsdToolbarComponent', () => {
       declarations: [OsdToolbarComponent],
       providers: [
         MimeResizeService,
-        MimeViewerIntl
+        MimeViewerIntl,
+        ViewerService,
+        ClickService,
+        PageService,
+        ModeService
       ]
     })
       .compileComponents();

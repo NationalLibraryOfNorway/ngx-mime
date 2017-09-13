@@ -147,10 +147,10 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-  it('should fit page vertically in PAGE-mode', fakeAsync(() => {
+  it('should fit page to viewport in PAGE-mode', fakeAsync(() => {
     viewerService.toggleToPage();
     tick(1000);
-    expect(viewerService.getIsFittedVertically()).toBe(true);
+    expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
   }));
 
 
@@ -162,10 +162,6 @@ describe('ViewerComponent', function () {
     clickService.click(clickEvent);
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
-  it('should be in zoomed PAGE-mode when doubleclicking in page-mode', fakeAsync(() => {
-    pending('');
   }));
 
   it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
@@ -231,6 +227,10 @@ describe('ViewerComponent', function () {
     pending('Set to pending until we find a way to perform pinch event');
   });
 
+  it('#pageIsAtMinZoom should return true if page is at minimum zoom level', () => {
+    pending('');
+  });
+
   it('should move image inside the view when user is panning', () => {
     // comp.ngOnInit();
     // viewerService.zoomTo(2);
@@ -241,10 +241,6 @@ describe('ViewerComponent', function () {
     //
     // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
     pending('Set to pending until we find a way to perform pan event');
-  });
-
-  it('should increase zoom-level when doubleclicking in page mode', () => {
-    pending('');
   });
 
   it('svgOverlay-plugin should be defined', () => {
@@ -269,7 +265,7 @@ describe('ViewerComponent', function () {
     expect(rect.height).toEqual(overlay.height.baseVal.value);
   });
 
-  it('should fit bounds vertically to viewport for a page', fakeAsync(() => {
+  it('should fit bounds to viewport for a page', fakeAsync(() => {
     let overlay = viewerService.getOverlays()[0];
     let viewer = viewerService.getViewer();
     let overlayBounds = viewerService.createRectangle(overlay);
@@ -277,10 +273,12 @@ describe('ViewerComponent', function () {
     viewerService.fitBounds(overlay);
     tick(1000);
 
+    let viewportX = Math.round(viewer.viewport.getBounds().x);
     let viewportY = Math.round(viewer.viewport.getBounds().y);
+    let overlayX = Math.round(overlayBounds.y);
     let overlayY = Math.round(overlayBounds.y);
-    expect(viewportY).toEqual(overlayY);
 
+    expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
   }));
 
   it('should return overlay-index if target is an overlay', () => {
