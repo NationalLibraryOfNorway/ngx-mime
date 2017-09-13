@@ -51,8 +51,7 @@ Feature: Zoom
   Scenario: Auto zooming out on mobile
     Given the view is zoomed in
     When the user double taps
-    Then the current zoom level is home
-    And the view should be vertically centered
+    Then the page should be fitted to viewport
 
   # TODO Ignoring this until we find out how to use Actions
   @Ignore
@@ -68,8 +67,7 @@ Feature: Zoom
   Scenario: Auto zooming out on desktop
     Given the view is zoomed in
     When the user double click
-    Then the current zoom level is home
-    And the view should be vertically centered
+    Then the page should be fitted to viewport
 
   #
   # Button actions
@@ -81,13 +79,12 @@ Feature: Zoom
     When the user click zoom in button
     Then the current zoom level has increased
 
-  # TODO Ignoring this until we decided if viewer should change mode
-  @Ignore
   @desktop
   Scenario: Zooming out on desktop from home
     Given zoom level is home
+    And the viewer is in page view
     When the user click zoom out button
-    Then the current zoom level is home
+    Then the page should be fitted to viewport
 
   @desktop
   Scenario: Zooming out on desktop

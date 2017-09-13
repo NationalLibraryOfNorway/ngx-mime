@@ -1,3 +1,4 @@
+import { OptionsZoom } from '../models/options-zoom';
 import { Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
@@ -121,6 +122,25 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
   }
+
+  // Binds to OSD-Toolbar button
+  zoomIn(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.zoomTo(this.getZoom() + OptionsZoom.ZOOMFACTOR);
+  }
+
+  // Binds to OSD-Toolbar button
+  zoomOut(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.pageIsAtMinZoom() ? this.toggleToPage() : this.zoomTo(this.getZoom() - OptionsZoom.ZOOMFACTOR);
+  }
+
 
   /**
    * Overrides for default OSD-functions
@@ -277,7 +297,6 @@ export class ViewerService implements OnInit {
   getIsCurrentPageFittedViewport(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
-
     return (Math.round(pageBounds.y) === Math.round(viewportBounds.y))
       || (Math.round(pageBounds.x) === Math.round(viewportBounds.x));
   }
@@ -287,7 +306,7 @@ export class ViewerService implements OnInit {
     const viewportBounds = this.viewer.viewport.getBounds();
 
     return (Math.round(pageBounds.y) >= Math.round(viewportBounds.y))
-      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x))
+      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x));
 
   }
 

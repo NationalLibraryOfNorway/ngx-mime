@@ -164,13 +164,6 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-<<<<<<< HEAD
-  it('should be in zoomed PAGE-mode when doubleclicking in page-mode', fakeAsync(() => {
-    pending('');
-  }));
-
-=======
->>>>>>> breaking: fitVertically now checks both x & y-bounds to work for landscape-images. fix: faulty pinchzoom-toggle
   it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
     viewerService.toggleToPage();
     let firstOverlay = viewerService.getOverlays()[0];
@@ -248,10 +241,6 @@ describe('ViewerComponent', function () {
     //
     // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
     pending('Set to pending until we find a way to perform pan event');
-  });
-
-  it('should increase zoom-level when doubleclicking in page mode', () => {
-    pending('');
   });
 
   it('svgOverlay-plugin should be defined', () => {

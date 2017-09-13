@@ -25,7 +25,7 @@ export class Options {
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
   degrees = 0;
-  minZoomLevel: number = null;
+  minZoomLevel = this.defaultZoomLevel;
   maxZoomLevel: number = null;
   homeFillsViewer = false;
   panHorizontal = true;
@@ -85,8 +85,8 @@ export class Options {
   showSequenceControl = true;
   sequenceControlAnchor = ControlAnchor.TOP_LEFT;
   navPrevNextWrap = false;
-  zoomInButton = 'zoomInButton';
-  zoomOutButton = 'zoomOutButton';
+  zoomInButton: string = null;
+  zoomOutButton: string = null;
   homeButton = 'homeButton';
   fullPageButton: string;
   rotateLeftButton: string;
