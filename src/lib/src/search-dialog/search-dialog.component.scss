@@ -11,17 +11,35 @@
 }
 
 .search-form {
-  padding: 8px 16px;
+  padding: 0px 16px;
 }
 
 .search-button {
   position: absolute;
   z-index: 1;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .search-input {
   padding-left: 40px;
+  font-size: 20px;
+}
+
+.search-result-container {
+  overflow: auto;
+  margin-bottom: 8px;
+}
+
+.search-result {
+  padding: 8px 16px;
+}
+
+em {
+  font-weight: 700;
+}
+
+.hit {
+  margin-bottom: 4px;
 }
 
 ::ng-deep .mat-dialog-container {
@@ -32,4 +50,8 @@
 
 ::ng-deep .search-container > div > div > .mat-toolbar{
   padding: 0px 0px !important;
+}
+
+::ng-deep .search-result-container .mat-card {
+  padding: 8px;
 }

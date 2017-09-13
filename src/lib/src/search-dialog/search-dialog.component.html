@@ -25,4 +25,17 @@
       </md-form-field>
     </form>
   </div>
+  <div class="search-result-container" [ngStyle]="tabHeight">
+    <div *ngIf="!isSearching" class="search-result" fxLayout="column">
+      <div *ngIf="currentSearch !== ''">
+        <span>{{numberOfHits}}</span> treff for <em>{{currentSearch}}</em>
+      </div>
+      <div *ngFor="let hit of hits" class="hit">
+        <md-card>{{hit.before}} <em>{{hit.match}}</em> {{hit.after}}</md-card>
+      </div>
+    </div>
+    <div *ngIf="isSearching" class="search-result" fxLayout="column">
+      <md-progress-bar mode="indeterminate"></md-progress-bar>
+    </div>
+  </div>
 </div>

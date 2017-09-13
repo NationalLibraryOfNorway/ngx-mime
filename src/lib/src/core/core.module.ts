@@ -1,3 +1,4 @@
+import { IiifContentSearchService } from './iiif-content-search-service/iiif-content-search.service';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -16,6 +17,7 @@ import { ClickService } from './click/click.service';
   providers: [
     MimeViewerIntl,
     IiifManifestService,
+    IiifContentSearchService,
     MimeResizeService,
     FullscreenService,
     ViewerService,
