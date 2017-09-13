@@ -9,6 +9,7 @@ import { MimeViewerIntl } from './../../core/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
 import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
+import { SearchDialogService } from './../../search-dialog/search-dialog.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 
@@ -47,6 +48,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
+    private searchDialogService: SearchDialogService,
     private fullscreenService: FullscreenService) { }
 
   ngOnInit() {
@@ -71,7 +73,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public toggleSearch() {
-    this.contentsDialogService.toggle();
+    this.searchDialogService.toggle();
   }
 
   public toggleFullscreen(): void {

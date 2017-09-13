@@ -5,6 +5,7 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { ContentsDialogModule } from './contents-dialog/contents-dialog.module';
 import { AttributionDialogModule } from './attribution-dialog/attribution-dialog.module';
+import { SearchDialogModule } from './search-dialog/search-dialog.module';
 import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
@@ -26,7 +27,8 @@ import 'd3';
     CoreModule,
     SharedModule,
     ContentsDialogModule,
-    AttributionDialogModule
+    AttributionDialogModule,
+    SearchDialogModule
   ],
   exports: [
     ViewerComponent

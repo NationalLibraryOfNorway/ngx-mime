@@ -1,0 +1,28 @@
+<div class="search-container">
+  <div [ngSwitch]="media.isActive('lt-md')">
+    <div *ngSwitchCase="true">
+      <md-toolbar color="primary">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+          <div class="heading">{{intl.search}}</div>
+        </div>
+      </md-toolbar>
+    </div>
+    <div *ngSwitchDefault>
+      <md-toolbar>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+          <div class="heading heading-desktop">{{intl.search}}</div>
+          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+        </div>
+      </md-toolbar>
+    </div>
+  </div>
+  <div class="search-form" fxLayout="column">
+    <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
+      <button type="submit" md-icon-button class="search-button"><md-icon>search</md-icon></button>
+      <md-form-field fxFlex>
+        <input mdInput fxFill class="search-input" [(ngModel)]="q" name="q" autocomplete="off">
+      </md-form-field>
+    </form>
+  </div>
+</div>

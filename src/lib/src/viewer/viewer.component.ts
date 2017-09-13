@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { SearchDialogService } from '../search-dialog/search-dialog.service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
@@ -50,6 +51,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
+    private searchDialogService: SearchDialogService,
     private viewerService: ViewerService,
     private mimeService: MimeResizeService,
     private dialog: MdDialog,
@@ -58,6 +60,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private modeService: ModeService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
+    searchDialogService.el = el;
     mimeService.el = el;
   }
 

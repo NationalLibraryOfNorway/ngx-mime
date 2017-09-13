@@ -1,0 +1,35 @@
+.heading {
+  font-size: 17px;
+}
+
+.heading-desktop {
+  padding-left: 16px;
+}
+
+.label {
+  text-decoration: underline;
+}
+
+.search-form {
+  padding: 8px 16px;
+}
+
+.search-button {
+  position: absolute;
+  z-index: 1;
+  margin-top: 10px;
+}
+
+.search-input {
+  padding-left: 40px;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0px !important;
+  max-width: none !important;
+  overflow: initial;
+}
+
+::ng-deep .search-container > div > div > .mat-toolbar{
+  padding: 0px 0px !important;
+}
