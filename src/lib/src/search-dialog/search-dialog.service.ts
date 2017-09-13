@@ -38,7 +38,6 @@ export class SearchDialogService {
 
   public open() {
     if (!this.isSearchDialogOpen) {
-      console.log('open');
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(SearchDialogComponent, config);
       this.dialogRef.afterClosed().subscribe(result => {
