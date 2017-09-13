@@ -69,10 +69,12 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public toggleContents() {
+    this.searchDialogService.close();
     this.contentsDialogService.toggle();
   }
 
   public toggleSearch() {
+    this.contentsDialogService.close();
     this.searchDialogService.toggle();
   }
 
