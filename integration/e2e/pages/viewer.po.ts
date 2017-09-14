@@ -186,10 +186,6 @@ export class ViewerPage {
     return (headerisHidden && footerisHidden);
   }
 
-  getSVGBoundingClient(): promise.Promise<any> {
-    return browser.executeScript('return window.openSeadragonViewer.viewport.getCenter(false);');
-  }
-
   async isCurrentPageFittedViewport(): Promise<boolean> {
     const svgParent = await this.getSVGElement()
     const overlay = await this.getFirstPageOverlay()
