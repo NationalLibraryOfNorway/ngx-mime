@@ -1,7 +1,6 @@
+import { CustomOptions } from '../core/models/options-custom';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
-
-import { OptionsTransitions } from '../core/models/options-transitions';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';

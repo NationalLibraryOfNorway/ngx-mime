@@ -1,7 +1,5 @@
-import { OptionsZoom } from '../models/options-zoom';
+import { CustomOptions } from '../models/options-custom';
 import { Subject } from 'rxjs/Rx';
-import { OptionsTransitions } from '../models/options-transitions';
-import { OptionsOverlays } from '../models/options-overlays';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ModeService } from '../../core/mode-service/mode.service';
@@ -129,7 +127,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       return;
     }
-    this.zoomTo(this.getZoom() + OptionsZoom.ZOOMFACTOR);
+    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomfactor);
   }
 
   // Binds to OSD-Toolbar button
@@ -138,7 +136,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       return;
     }
-    this.pageIsAtMinZoom() ? this.toggleToPage() : this.zoomTo(this.getZoom() - OptionsZoom.ZOOMFACTOR);
+    this.pageIsAtMinZoom() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomfactor);
   }
 
 
@@ -348,7 +346,7 @@ export class ViewerService implements OnInit {
         .attr('class', 'tile');
       let currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
-      currentX = currentX + tile.width + OptionsOverlays.TILES_MARGIN;
+      currentX = currentX + tile.width + CustomOptions.overlays.tilesMargin;
     });
   }
 

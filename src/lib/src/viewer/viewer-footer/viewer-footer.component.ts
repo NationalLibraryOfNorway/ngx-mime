@@ -1,4 +1,4 @@
-import { OptionsTransitions } from '../../core/models/options-transitions';
+import { CustomOptions } from '../../core/models/options-custom';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MdSliderChange } from '@angular/material';
@@ -21,8 +21,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate(OptionsTransitions.TOOLBARS + 'ms ease-in')),
-      transition('show => hide', animate(OptionsTransitions.TOOLBARS + 'ms ease-out'))
+      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
     ])
   ],
   host: {
