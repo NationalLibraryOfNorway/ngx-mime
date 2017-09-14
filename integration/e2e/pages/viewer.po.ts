@@ -54,15 +54,13 @@ export class ViewerPage {
     return utils.waitForElement(el);
   }
 
-  // Todo: the svg element should have an ID
   getSVGElement() {
-    const el = element(by.css('svg'));
+    const el = element(by.css('#openseadragon svg'));
     return utils.waitForElement(el);
   }
 
-  // Todo: the svg element should have an ID
   getFirstPageOverlay() {
-    const el = element.all(by.css('svg > g > rect')).first();
+    const el = element.all(by.css('#openseadragon svg > g > rect')).first();
     return utils.waitForElement(el);
   }
 
