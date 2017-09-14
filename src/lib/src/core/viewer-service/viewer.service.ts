@@ -147,10 +147,11 @@ export class ViewerService implements OnInit {
    */
   addOverrides(): void {
     // Raised when viewer loads first time
-    this.viewer.viewport.goHome = () => {
+    //TODO: Reimplement go home override (current version causes incorrect zoom at start-up)
+    /*this.viewer.viewport.goHome = () => {
       this.viewer.raiseEvent('home');
       this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
-    };
+    };*/
   }
 
 
