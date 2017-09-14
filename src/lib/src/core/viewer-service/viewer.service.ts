@@ -307,7 +307,6 @@ export class ViewerService implements OnInit {
 
     return (Math.round(pageBounds.y) >= Math.round(viewportBounds.y))
       || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x));
-
   }
 
   /**
