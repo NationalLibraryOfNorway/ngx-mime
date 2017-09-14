@@ -90,6 +90,9 @@ export class ViewerService implements OnInit {
       this.addToWindow();
       this.createOverlays();
       this.addEvents();
+
+
+
     }
   }
 
@@ -107,8 +110,19 @@ export class ViewerService implements OnInit {
     });
   }
 
+  /**
+   * Disables navigation with keyboard.
+   * Seems to be no way to set this in options?
+   */
+  disableKeyboardNavigation() {
+    this.viewer.innerTracker.keyHandler = null;
+    this.viewer.innerTracker.keyDownHandler = null;
+    this.viewer.innerTracker.keyPressHandler = null;
+  }
+
   addEvents(): void {
     this.addOverrides();
+    this.disableKeyboardNavigation();
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
@@ -119,6 +133,7 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
+
   }
 
   // Binds to OSD-Toolbar button
