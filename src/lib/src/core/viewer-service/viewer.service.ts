@@ -7,7 +7,7 @@ import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
-import { ClickService } from '../click/click.service';
+import { ClickService } from '../click-service/click.service';
 import '../ext/svg-overlay';
 import * as d3 from 'd3';
 
