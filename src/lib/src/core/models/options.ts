@@ -1,4 +1,4 @@
-import { OptionsTransitions } from './options-transitions';
+import { CustomOptions } from './options-custom';
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
@@ -49,7 +49,7 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = OptionsTransitions.OSD / 1000;
+  animationTime = CustomOptions.transitions.OSDAnimationTime / 1000;
   gestureSettingsMouse = new GestureSettingsMouse();
   gestureSettingsTouch = new GestureSettingsTouch();
   gestureSettingsPen = new GestureSettingsPen();
