@@ -98,7 +98,15 @@ describe('ViewerComponent', function () {
   it('should change mode to initial-mode when changing manifest', async((done: any) => {
     testHostFixture.whenStable().then(() => {
       // Toggle to opposite of initial-mode
-      config.initViewerMode === ViewerMode.PAGE ? viewerService.toggleToDashboard() : viewerService.toggleToPage();
+      if(config.initViewerMode === ViewerMode.PAGE) {
+        viewerService.toggleToDashboard();
+        expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+      } else {
+        viewerService.toggleToPage();
+        expect(modeService.mode).toBe(ViewerMode.PAGE);
+      }
+
+      expect(modeService.mode).toBe(config.initViewerMode);
       testHostComponent.manifestUri = 'dummyURI3';
       testHostComponent.viewerComponent.ngOnInit();
       testHostFixture.detectChanges();
@@ -268,20 +276,24 @@ describe('ViewerComponent', function () {
     expect(rect.height).toEqual(overlay.height.baseVal.value);
   });
 
-  it('should fit bounds to viewport for a page', fakeAsync(() => {
+  it('should fit bounds to viewport for a page', (done: any) => {
     let overlay = viewerService.getOverlays()[0];
     let viewer = viewerService.getViewer();
     let overlayBounds = viewerService.createRectangle(overlay);
 
     viewerService.fitBounds(overlay);
-    tick(1000);
 
-    let viewportX = Math.round(viewer.viewport.getBounds().x);
-    let viewportY = Math.round(viewer.viewport.getBounds().y);
-    let overlayX = Math.round(overlayBounds.y);
-    let overlayY = Math.round(overlayBounds.y);
-    expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
-  }));
+    setTimeout(() => {
+      let viewportX = Math.round(viewer.viewport.getBounds().x);
+      let viewportY = Math.round(viewer.viewport.getBounds().y);
+      let overlayX = Math.round(overlayBounds.y);
+      let overlayY = Math.round(overlayBounds.y);
+
+      expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
+      done();
+    }, 0);
+
+  });
 
   it('should return overlay-index if target is an overlay', () => {
     let overlay, index;
