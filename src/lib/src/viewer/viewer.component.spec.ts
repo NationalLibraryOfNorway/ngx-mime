@@ -95,7 +95,7 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should change mode to initial-mode when changing manifest', (done: any) => {
+  it('should change mode to initial-mode when changing manifest', async((done: any) => {
     testHostFixture.whenStable().then(() => {
       // Toggle to opposite of initial-mode
       config.initViewerMode === ViewerMode.PAGE ? viewerService.toggleToDashboard() : viewerService.toggleToPage();
@@ -105,7 +105,7 @@ describe('ViewerComponent', function () {
       expect(modeService.mode).toBe(config.initViewerMode);
       done();
     });
-  });
+  }));
 
   it('should change to DASHBOARD-mode when doubleclicking in PAGE-mode', fakeAsync(() => {
     viewerService.toggleToPage();
@@ -146,11 +146,15 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-  it('should fit page to viewport in PAGE-mode', fakeAsync(() => {
+  it('should fit page to viewport in PAGE-mode', (done: any) => {
     viewerService.toggleToPage();
-    tick(1000);
-    expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
-  }));
+    // We need to wait until zoom and pan animations are done
+    // async and fakeAsync don't seem to work
+    setTimeout(() => {
+      expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
+      done();
+    }, 0);
+  });
 
 
   it('should still be PAGE-mode when doubleclick in zoomed-in page-mode', fakeAsync(() => {
@@ -276,7 +280,6 @@ describe('ViewerComponent', function () {
     let viewportY = Math.round(viewer.viewport.getBounds().y);
     let overlayX = Math.round(overlayBounds.y);
     let overlayY = Math.round(overlayBounds.y);
-
     expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
   }));
 

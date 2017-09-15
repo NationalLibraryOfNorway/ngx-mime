@@ -2,6 +2,7 @@ import { CustomOptions } from '../models/options-custom';
 import { Subject } from 'rxjs/Rx';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Utils } from '../../core/utils'
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
@@ -319,16 +320,16 @@ export class ViewerService implements OnInit {
   getIsCurrentPageFittedViewport(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
-    return (Math.round(pageBounds.y) === Math.round(viewportBounds.y))
-      || (Math.round(pageBounds.x) === Math.round(viewportBounds.x));
+    let widthIsFitted  = Utils.numbersAreClose(pageBounds.width,  viewportBounds.width, 5);
+    let heightIsFittes = Utils.numbersAreClose(pageBounds.height,  viewportBounds.height, 5);
+    return widthIsFitted || heightIsFittes;
   }
 
   pageIsAtMinZoom(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
-
-    return (Math.round(pageBounds.y) >= Math.round(viewportBounds.y))
-      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x));
+    return (pageBounds.width >= viewportBounds.width)
+      || (pageBounds.height >= viewportBounds.height);
   }
 
   getCurrentPageToViewportFitRatio(): number {
