@@ -331,6 +331,21 @@ export class ViewerService implements OnInit {
       || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x));
   }
 
+  getCurrentPageToViewportFitRatio(): number {
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const viewportBounds = this.viewer.viewport.getBounds();
+
+    let resizeRatio = viewportBounds.height / pageBounds.height;
+    if (resizeRatio * pageBounds.width <= viewportBounds.width)
+    {
+      return resizeRatio;
+    }
+    else {
+      //Page at full height is wider than viewport.  Return fit by width instead.
+      return viewportBounds.width / pageBounds.width;
+    }
+  }
+
   /**
    * Checks if hit element is a <rect>-element
    * @param target
@@ -464,6 +479,10 @@ export class ViewerService implements OnInit {
     //Zoom viewport to fit new top/bottom padding
     //TODO: Configurable padding
     let resizeRatio = this.getViewportHeightChangeRatio(viewport, 160, 0);
+    if (!this.getIsCurrentPageFittedViewport())
+    {
+      resizeRatio = resizeRatio * this.getCurrentPageToViewportFitRatio();
+    }
     this.animateZoom(viewport, resizeRatio, 200);
 
     //Add left/right padding to OpenSeadragon to hide previous/next pages
