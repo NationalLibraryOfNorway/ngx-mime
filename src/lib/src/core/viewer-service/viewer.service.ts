@@ -1,3 +1,4 @@
+import { PanDirection } from '../models/pan-direction';
 import { SpinnerService } from '../spinner-service/spinner.service';
 import { Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
@@ -30,7 +31,10 @@ export class ViewerService implements OnInit {
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
-  private horizontalPadding: number = 0;
+  private horizontalPadding = 0;
+
+  // TODO: Move this to config when merging
+  private readonly PAN_SENSITIVITY_MARGIN = 40;
 
   constructor(
     private zone: NgZone,
@@ -135,10 +139,7 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-drag-end', this.dragEndHandler);
   }
 
-  dragEndHandler = (e: any) => {
-    //TODO: Don't center page if zoomed in
-    this.updateCurrentPage();
-  }
+
 
   /**
    * Overrides for default OSD-functions
@@ -301,8 +302,8 @@ export class ViewerService implements OnInit {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
 
-    return (Math.round(pageBounds.y) === Math.round(viewportBounds.y))
-      || (Math.round(pageBounds.x) === Math.round(viewportBounds.x));
+    return (Math.round(pageBounds.height) === Math.round(viewportBounds.height))
+      || (Math.round(pageBounds.width) === Math.round(viewportBounds.width));
   }
 
   pageIsAtMinZoom(): boolean {
@@ -623,41 +624,69 @@ export class ViewerService implements OnInit {
   }
 
 
+  /**
+   * Handler for drag-events
+   */
+  dragEndHandler = (e: any) => {
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
 
-  //TODO: Move this method to page service
-  private updateCurrentPage(): void {
-    let viewportBounds = this.viewer.viewport.getBounds();
-    let centerX = viewportBounds.x + (viewportBounds.width / 2);
-    let currentPageUpdated = false;
+    // If zoomed in page mode
+    if (this.isZoomedInPageMode()) {
+      const dir: PanDirection = this.getPanDirection(pageBounds);
+      if (dir !== undefined) {
+        // First fit current page
+        this.toggleToPage();
+        // Then pan to next or previous page
+        // Needs timeout because we have to wait for first animation to end...
+        setTimeout(() => {
+          this.panToNextOrPreviousPageFromDirection(dir);
+        }, OptionsTransitions.OSD);
 
-    //TODO: Is it faster to iterate through tiles, svg nodes or overlays[]?
+      }
+      // Dash or fitted-page-mode
+    } else {
+      this.pageService.currentPage = this.getNewPageFromPanning();
+      this.panToPage();
+    }
+  }
+
+  /**
+   * Iterates pages
+   * Returns index of new page to pan to
+   */
+  getNewPageFromPanning(): number {
+    const viewportBounds = this.viewer.viewport.getBounds();
+    const centerX = viewportBounds.x + (viewportBounds.width / 2);
+    let foundPage = null;
+
     this.tileSources.some((tile, i) => {
-      let tiledImage = this.viewer.world.getItemAt(i);
-      if (!tiledImage) {
+      const page = this.viewer.world.getItemAt(i);
+      if (!page) {
         return;
       }
 
-      let tileBounds = tiledImage.getBounds(true);
-      if (tileBounds.x + tileBounds.width > centerX) {
-        //Center point is within tile bounds
-        if (tileBounds.x < centerX) {
+      const pageBounds = page.getBounds(true);
 
-          this.pageService.currentPage = i;
-          currentPageUpdated = true;
+      if (pageBounds.x + pageBounds.width > centerX) {
+        //Center point is within pagebounds
+        if (pageBounds.x < centerX) {
+          foundPage = i;
         }
         else {
           //No use case before first page as OpenSeadragon prevents it by default
 
           //Centre point is between two tiles
-          let previousTileBounds = this.viewer.world.getItemAt(i - 1).getBounds();
-          let marginLeft = previousTileBounds.x + previousTileBounds.width;
-          let marginCentre = marginLeft + ((tileBounds.x - marginLeft) / 2);
+          let previouspageBounds = this.viewer.world.getItemAt(i - 1).getBounds();
+          let marginLeft = previouspageBounds.x + previouspageBounds.width;
+          let marginCentre = marginLeft + ((pageBounds.x - marginLeft) / 2);
 
           if (centerX > marginCentre) {
-            this.pageService.currentPage = i;
+            foundPage = i;
+
           }
           else {
-            this.pageService.currentPage = i - 1;
+            foundPage = i - 1;
+
           }
         }
 
@@ -666,28 +695,34 @@ export class ViewerService implements OnInit {
       //No use case beyond last page as OpenSeadragon prevents it by default
 
     });
-    console.log('currentpage:', this.pageService.currentPage)
+
+    return foundPage;
+  }
+
+  /**
+   * Pans to next or previous page depending on direction
+   * @param {PanDirection}
+   */
+  panToNextOrPreviousPageFromDirection(dir: PanDirection) {
+    if (dir === PanDirection.LEFT) {
+      this.pageService.getNextPage();
+    } else if (dir === PanDirection.RIGHT) {
+      this.pageService.getPrevPage();
+    }
     this.panToPage();
   }
 
-
+  /**
+   * Pans to center of current page
+   */
   private panToPage(): void {
-
-    let page = this.viewer.world.getItemAt(this.pageService.currentPage);
-    let pageBounds = page.getBounds(true);
-
-    let center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
     this.viewer.viewport.panTo(center, false);
-
-
-
-    // if (this.modeService.mode === ViewerMode.PAGE) {
-    //   //TODO: Something better than a timeout function
-    //   setTimeout(() => {
-    //     //this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
-    //   }, 500);
-    // }
   }
+
+
+
 
   private applicationResize(): void {
     //TODO: Limit how often this runs
@@ -696,17 +731,28 @@ export class ViewerService implements OnInit {
       //TODO: Error handling
       setTimeout(() => {
         let pageBounds = this.viewer.world.getItemAt(this.pageService.currentPage).getBounds();
-        // this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
+        this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
       }, 500);
     }
   }
 
   private isZoomedInPageMode(): boolean {
-    // if(this.modeService.mode === ViewerMode.PAGE ) {
-    //   console.log('page mode')
-    // } else {
-    //   console.log('dash mode')
-    // }
     return this.modeService.mode === ViewerMode.PAGE && !this.isCurrentPageFittedViewport;
   }
+
+
+  /**
+   * Calculates PanDirection for a page
+   * @param page : Overlay for page
+   * @returns {PanDirection} undefined if not RIGHT or LEFT
+   */
+  private getPanDirection(page: any): PanDirection {
+    const vpBounds = this.viewer.viewport.getBounds();
+    return (
+      (vpBounds.x - this.PAN_SENSITIVITY_MARGIN < page.x) ? PanDirection.RIGHT
+        : (vpBounds.x + vpBounds.width + this.PAN_SENSITIVITY_MARGIN > page.x + page.width) ? PanDirection.LEFT
+          : undefined);
+  }
+
+
 }
