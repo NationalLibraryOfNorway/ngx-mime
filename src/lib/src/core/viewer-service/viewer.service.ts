@@ -4,6 +4,7 @@ import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Utils } from '../../core/utils'
 import { ModeService } from '../../core/mode-service/mode.service';
+import { Dimensions } from "../models/dimensions";
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
@@ -25,6 +26,7 @@ export class ViewerService implements OnInit {
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
+  private containerPadding: Dimensions = new Dimensions();
 
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
@@ -32,8 +34,6 @@ export class ViewerService implements OnInit {
 
   //TODO: Refactor to use Page Service instead
   private currentPage = 0;
-
-  private horizontalPadding: number = 0;
 
   constructor(
     private zone: NgZone,
@@ -493,7 +493,7 @@ export class ViewerService implements OnInit {
     //TODO: Configurable padding for header/footer
     let rootNode = d3.select(this.viewer.container.parentNode);
     let newPageBounds = this.getResizedRectangle(this.getCenteredRectangle(requestedPageBounds, viewport.getCenter(true)), resizeRatio);
-    this.padViewportContainerToFitTile(viewport, newPageBounds, rootNode);
+    this.padViewportContainerToFitTile(newPageBounds, rootNode);
 
     //TODO: Something better than a timeout function
     setTimeout(() => {
@@ -567,17 +567,54 @@ export class ViewerService implements OnInit {
       rectangle.height
     );
   }
+  
+  private padViewportContainerToFitTile(tileBounds: any, container: any): void {
+    
+    let paddingChange = this.getViewportPaddingDifferenceToFitRectangle(tileBounds);
+    this.containerPadding = this.getCombinedPadding(this.containerPadding, paddingChange);
+    this.updatePadding(container, this.containerPadding);
+    
+  }
+  
+  private getCombinedPadding(initialPadding: any, paddingToAdd: any): Dimensions {
+    let padding = new Dimensions();
+    
+    padding.left = initialPadding.left + paddingToAdd.left;
+    if (padding.left < 0) { padding.left = 0; }
 
-  //TODO: Individual logic for top, bottom, left and right (current only supports equal left/right and 0 top/bottom)
-  private padViewportContainerToFitTile(viewport: any, tileBounds: any, container: any): void {
+    padding.right = initialPadding.right + paddingToAdd.right;
+    if (padding.right < 0) { padding.right = 0; }
 
-    let viewportBounds = viewport.getBounds(true);
-    let tileLeftCoordinates = viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(tileBounds.x, 0));
-    let viewerLeftCoordinates = viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, 0));
-    let paddingInPixels = Math.round(tileLeftCoordinates.x - viewerLeftCoordinates.x);
+    padding.top = initialPadding.top + paddingToAdd.top;
+    if (padding.top < 0) { padding.top = 0; }
 
-    this.horizontalPadding = this.horizontalPadding + paddingInPixels;
-    container.style('padding','0 ' + this.horizontalPadding + 'px');
+    padding.bottom = initialPadding.bottom + paddingToAdd.bottom;
+    if (padding.bottom < 0) { padding.bottom = 0; }
+    
+    return padding;
+  }
+  
+  private updatePadding(element: any, padding: any): void {
+    element.style('padding', padding.top + 'px ' + padding.right + 'px ' + padding.bottom + 'px ' + padding.left + 'px');
+  }
+
+  private getViewportPaddingDifferenceToFitRectangle(rectangle: any): Dimensions {
+    let padding = new Dimensions();
+    let viewportBounds = this.viewer.viewport.getBounds(true);
+    
+    padding.left = this.getViewportCoordinateDifferenceInPixels(rectangle.x, viewportBounds.x);
+    padding.right = this.getViewportCoordinateDifferenceInPixels(viewportBounds.x + viewportBounds.width, rectangle.x + rectangle.width);
+    padding.top = this.getViewportCoordinateDifferenceInPixels(rectangle.y, viewportBounds.y);
+    padding.bottom = this.getViewportCoordinateDifferenceInPixels(viewportBounds.y + viewportBounds.height, rectangle.y + rectangle.height);
+    
+    return padding;
+  }
+
+  //TODO: add direction parameter
+  private getViewportCoordinateDifferenceInPixels(minuendCoordinate: number, subtrahendCoordinate: number): number {
+    let minuendCoordinateInPixels = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(minuendCoordinate, 0)).x;
+    let subtrahendCoordinateInPixels = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(subtrahendCoordinate, 0)).x;
+    return Math.round(minuendCoordinateInPixels - subtrahendCoordinateInPixels);
   }
 
   private positionTilesInDashboardView(requestedPageIndex: number): void{
@@ -603,7 +640,7 @@ export class ViewerService implements OnInit {
       //TODO: Configurable padding for header/footer
       let rootNode = d3.select(this.viewer.container.parentNode);
       rootNode.style('padding', '80px 0');
-      this.horizontalPadding = 0;
+      this.containerPadding = new Dimensions({top: 80, bottom: 80});
     }, 500);
 
   }
@@ -670,7 +707,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.PAGE) {
       //TODO: Something better than a timeout function
       setTimeout(() => {
-        this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
+        this.padViewportContainerToFitTile(pageBounds, d3.select(this.viewer.container.parentNode));
       }, 500);
     }
   }
@@ -724,7 +761,7 @@ export class ViewerService implements OnInit {
       //TODO: Error handling
       setTimeout(() => {
         let pageBounds = this.viewer.world.getItemAt(this.currentPage).getBounds();
-        this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
+        this.padViewportContainerToFitTile(pageBounds, d3.select(this.viewer.container.parentNode));
       }, 500);
     }
   }
