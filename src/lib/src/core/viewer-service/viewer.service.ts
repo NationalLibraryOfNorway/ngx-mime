@@ -1,6 +1,5 @@
+import { CustomOptions } from '../models/options-custom';
 import { Subject } from 'rxjs/Rx';
-import { OptionsTransitions } from '../models/options-transitions';
-import { OptionsOverlays } from '../models/options-overlays';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ModeService } from '../../core/mode-service/mode.service';
@@ -8,7 +7,7 @@ import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
-import { ClickService } from '../click/click.service';
+import { ClickService } from '../click-service/click.service';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import '../ext/svg-overlay';
 import * as d3 from 'd3';
@@ -102,7 +101,7 @@ export class ViewerService implements OnInit {
 
       //TODO: Add only in page mode?
       this.subscriptions.push(this.mimeResizeService.onResize.subscribe(() => {
-        this.applicationResize();
+        //this.applicationResize();
       }));
     }
   }
@@ -136,11 +135,30 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-drag-end', this.dragEndHandler);
   }
 
-  dragEndHandler(): void {
+  dragEndHandler = () => {
     //TODO: Don't center page if zoomed in
     this.updateCurrentPage();
     this.panToPage(this.currentPage);
   }
+
+  // Binds to OSD-Toolbar button
+  zoomIn(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomfactor);
+  }
+
+  // Binds to OSD-Toolbar button
+  zoomOut(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.pageIsAtMinZoom() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomfactor);
+  }
+
 
   /**
    * Overrides for default OSD-functions
@@ -295,14 +313,12 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Checks whether current page's overlay bounds has a larger height than the viewport bounds
-   * If the heights are equal, then this page is fitted vertically in the viewer
+   * Checks whether current overlaybounds' width or height is equal to viewport
    * (Note that this function is called after animation is ended for correct calculation)
    */
   getIsCurrentPageFittedViewport(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
-
     return (Math.round(pageBounds.y) === Math.round(viewportBounds.y))
       || (Math.round(pageBounds.x) === Math.round(viewportBounds.x));
   }
@@ -312,8 +328,7 @@ export class ViewerService implements OnInit {
     const viewportBounds = this.viewer.viewport.getBounds();
 
     return (Math.round(pageBounds.y) >= Math.round(viewportBounds.y))
-      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x))
-
+      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x));
   }
 
   /**
@@ -365,7 +380,7 @@ export class ViewerService implements OnInit {
         .attr('class', 'tile');
       let currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
-      currentX = currentX + tile.width + OptionsOverlays.TILES_MARGIN;
+      currentX = currentX + tile.width + CustomOptions.overlays.tilesMargin;
     });
   }
 
@@ -553,8 +568,8 @@ export class ViewerService implements OnInit {
 
     //Update position of previous/next tiles
     let requestedPageBounds = requestedPage.getBounds(true);
-    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, OptionsOverlays.TILES_MARGIN);
-    this.positionNextTiles(requestedPageIndex, requestedPageBounds, OptionsOverlays.TILES_MARGIN);
+    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, CustomOptions.overlays.tilesMargin);
+    this.positionNextTiles(requestedPageIndex, requestedPageBounds, CustomOptions.overlays.tilesMargin);
 
     //Zoom viewport to fit new top/bottom padding
     //TODO: Configurable padding

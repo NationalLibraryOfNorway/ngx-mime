@@ -22,3 +22,4 @@ if you're using Mime in your first project.
 ### Developers
 
 See our [Developer Setup Guide](https://github.com/NationalLibraryOfNorway/ngx-mime/wiki/Developer-Setup).
+

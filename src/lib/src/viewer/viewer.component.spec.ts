@@ -1,7 +1,6 @@
+import { CustomOptions } from '../core/models/options-custom';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
-
-import { OptionsTransitions } from '../core/models/options-transitions';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -20,7 +19,7 @@ import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
-import { ClickService } from '../core/click/click.service';
+import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
@@ -164,13 +163,6 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-<<<<<<< HEAD
-  it('should be in zoomed PAGE-mode when doubleclicking in page-mode', fakeAsync(() => {
-    pending('');
-  }));
-
-=======
->>>>>>> breaking: fitVertically now checks both x & y-bounds to work for landscape-images. fix: faulty pinchzoom-toggle
   it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
     viewerService.toggleToPage();
     let firstOverlay = viewerService.getOverlays()[0];
@@ -248,10 +240,6 @@ describe('ViewerComponent', function () {
     //
     // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
     pending('Set to pending until we find a way to perform pan event');
-  });
-
-  it('should increase zoom-level when doubleclicking in page mode', () => {
-    pending('');
   });
 
   it('svgOverlay-plugin should be defined', () => {
