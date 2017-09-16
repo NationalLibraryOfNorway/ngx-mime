@@ -21,7 +21,6 @@ export class Options {
   autoHideControls = true;
   immediateRender = false;
   defaultZoomLevel = 16 / 100000;
-  //defaultZoomLevel = 0;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
@@ -116,7 +115,7 @@ export class Options {
 
   constructor(tileSources?: Service[]) {
     if (tileSources) {
-      //this.tileSources = tileSources;
+      // this.tileSources = tileSources;
     }
   }
 }

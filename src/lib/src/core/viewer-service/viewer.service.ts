@@ -5,7 +5,7 @@ import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Utils } from '../../core/utils'
+import { Utils } from '../../core/utils';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
@@ -103,10 +103,7 @@ export class ViewerService implements OnInit {
       this.createOverlays();
       this.addEvents();
 
-      //TODO: Add only in page mode?
-      this.subscriptions.push(this.mimeResizeService.onResize.subscribe(() => {
-        //this.applicationResize();
-      }));
+
     }
   }
 
@@ -203,7 +200,6 @@ export class ViewerService implements OnInit {
    */
   toggleToDashboard(): void {
     this.modeService.mode = ViewerMode.DASHBOARD;
-    //this.positionTilesInDashboardView(this.pageService.currentPage);
     this.zoomTo(this.getHomeZoom());
   }
 
@@ -215,7 +211,6 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    //this.positionTilesInSinglePageView(this.pageService.currentPage);
     this.fitBounds(this.overlays[this.pageService.currentPage]);
   }
 
@@ -235,7 +230,7 @@ export class ViewerService implements OnInit {
       }
       // Scrolling down
     } else if (delta < 0) {
-      if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
+      if (this.modeService.mode === ViewerMode.PAGE && this.isPageFittedOrSmaller()) {
         this.toggleToDashboard();
       }
     }
@@ -255,7 +250,7 @@ export class ViewerService implements OnInit {
       }
       // Pinch In
     } else {
-      if (this.modeService.mode === ViewerMode.PAGE && this.pageIsAtMinZoom()) {
+      if (this.modeService.mode === ViewerMode.PAGE && this.isPageFittedOrSmaller()) {
         this.toggleToDashboard();
       }
     }
@@ -312,20 +307,17 @@ export class ViewerService implements OnInit {
   getIsCurrentPageFittedViewport(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
-    let widthIsFitted  = Utils.numbersAreClose(pageBounds.width,  viewportBounds.width, 5);
-    let heightIsFittes = Utils.numbersAreClose(pageBounds.height,  viewportBounds.height, 5);
-    console.log("width is fitted?", widthIsFitted)
-    console.log("height is fitted?", heightIsFittes)
-    return widthIsFitted || heightIsFittes;
+    const widthIsFitted = Utils.numbersAreClose(pageBounds.width, viewportBounds.width, 5);
+    const heightIsFitted = Utils.numbersAreClose(pageBounds.height, viewportBounds.height, 5);
+    return widthIsFitted || heightIsFitted;
   }
 
-  pageIsAtMinZoom(): boolean {
+  isPageFittedOrSmaller(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
 
-    return (Math.round(pageBounds.y) >= Math.round(viewportBounds.y))
-      || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x))
-
+    return (Math.round(pageBounds.height) <= Math.round(viewportBounds.height))
+      || (Math.round(pageBounds.width) <= Math.round(viewportBounds.width));
   }
 
   /**
@@ -352,8 +344,8 @@ export class ViewerService implements OnInit {
 
     this.tileSources.forEach((tile, i) => {
 
-      //TODO: Logic for tiles wider and shorter than the viewport
-      if (tile.height != height) {
+      // TODO: Logic for tiles wider and shorter than the viewport
+      if (tile.height !== height) {
         let heightChangeRatio = height / tile.height;
         tile.height = height;
         tile.width = heightChangeRatio * tile.width;
@@ -444,197 +436,6 @@ export class ViewerService implements OnInit {
     return Number(short);
   }
 
-  private positionTilesInSinglePageView(requestedPageIndex: number): void {
-
-    let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
-    if (!requestedPage) {
-      return;
-    }
-
-    //First centre the page
-    //TODO: Refactor to own method
-    let requestedPageBounds = requestedPage.getBounds(true);
-    let viewport = this.viewer.viewport;
-    let pageCenter = new OpenSeadragon.Point(requestedPageBounds.x + (requestedPageBounds.width / 2), requestedPageBounds.y + (requestedPageBounds.height / 2));
-    viewport.panTo(pageCenter, false);
-
-    //Zoom viewport to fit new top/bottom padding
-    //TODO: Configurable padding
-    let resizeRatio = this.getViewportHeightChangeRatio(viewport, 160, 0);
-    this.animateZoom(viewport, resizeRatio, 200);
-
-    //Add left/right padding to OpenSeadragon to hide previous/next pages
-    //TODO: Add logic for pages wider and shorter than the viewport
-    //TODO: Adjust padding on window resize
-    //TODO: Adjust padding on zoom
-    //TODO: Configurable padding for header/footer
-    let rootNode = d3.select(this.viewer.container.parentNode);
-    let newPageBounds = this.getResizedRectangle(this.getCenteredRectangle(requestedPageBounds, viewport.getCenter(true)), resizeRatio);
-    this.padViewportContainerToFitTile(viewport, newPageBounds, rootNode);
-
-    //TODO: Something better than a timeout function
-    setTimeout(() => {
-      //Update position of previous/next tiles
-      //TODO: Configurable margin
-      this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 20);
-      this.positionNextTiles(requestedPageIndex, requestedPageBounds, 20);
-    }, 500);
-
-  }
-
-  //TODO: Refactoring
-  private animateZoom(viewport: any, resizeRatio: number, milliseconds: number): void {
-    let iterations = 10;
-
-    let currentZoom = viewport.getZoom();
-    let zoomIncrement = (currentZoom * (resizeRatio - 1)) / iterations;
-    let timeIncrement = milliseconds / iterations;
-
-    this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, 1, iterations);
-  }
-
-  //TODO: Refactoring
-  private incrementZoom(viewport: any, currentZoom: number, zoomIncrement: number, timeIncrement: number, i: number, iterations: number) {
-    if (i > iterations) {
-      return;
-    }
-    i = i + 1;
-
-    setTimeout(() => {
-
-      let viewportZoom = viewport.getZoom();
-      if (currentZoom != viewportZoom) {
-        zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
-        currentZoom = viewportZoom;
-      }
-      currentZoom = currentZoom + zoomIncrement;
-      viewport.zoomTo(currentZoom, null, false);
-
-      this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, i, iterations);
-    }, timeIncrement);
-  }
-
-  private getViewportHeightChangeRatio(viewport: any, verticalPadding: number, newVerticalPadding: number): number {
-
-    let paddingVector = new OpenSeadragon.Point(0, verticalPadding - newVerticalPadding);
-    let paddingInViewportCoordinates = viewport.deltaPointsFromPixels(paddingVector);
-
-    let height = viewport.getBounds(true).height;
-    let newHeight = height + paddingInViewportCoordinates.y;
-    let resizeRatio = newHeight / height;
-
-    return resizeRatio;
-  }
-
-  private getResizedRectangle(rectangle: any, resizeRatio: number): any {
-    return new OpenSeadragon.Rect(
-      (rectangle.x + (rectangle.width / 2)) - ((rectangle.width * resizeRatio) / 2),
-      (rectangle.y + (rectangle.height / 2)) - ((rectangle.height * resizeRatio) / 2),
-      rectangle.width * resizeRatio,
-      rectangle.height * resizeRatio
-    );
-  }
-
-  private getCenteredRectangle(rectangle: any, viewportCenter: any): any {
-    return new OpenSeadragon.Rect(
-      viewportCenter.x - (rectangle.width / 2),
-      viewportCenter.y - (rectangle.height / 2),
-      rectangle.width,
-      rectangle.height
-    );
-  }
-
-  //TODO: Individual logic for top, bottom, left and right (current only supports equal left/right and 0 top/bottom)
-  private padViewportContainerToFitTile(viewport: any, tileBounds: any, container: any): void {
-
-    let viewportBounds = viewport.getBounds(true);
-    let tileLeftCoordinates = viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(tileBounds.x, 0));
-    let viewerLeftCoordinates = viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(viewportBounds.x, 0));
-    let paddingInPixels = Math.round(tileLeftCoordinates.x - viewerLeftCoordinates.x);
-
-    this.horizontalPadding = this.horizontalPadding + paddingInPixels;
-    container.style('padding', '0 ' + this.horizontalPadding + 'px');
-  }
-
-  private positionTilesInDashboardView(requestedPageIndex: number): void {
-    let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
-    if (!requestedPage) {
-      return;
-    }
-
-    //Update position of previous/next tiles
-    let requestedPageBounds = requestedPage.getBounds(true);
-    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, OptionsOverlays.TILES_MARGIN);
-    this.positionNextTiles(requestedPageIndex, requestedPageBounds, OptionsOverlays.TILES_MARGIN);
-
-    //Zoom viewport to fit new top/bottom padding
-    //TODO: Configurable padding
-    let viewport = this.viewer.viewport;
-    let resizeRatio = this.getViewportHeightChangeRatio(viewport, 0, 160);
-    this.animateZoom(viewport, resizeRatio, 200);
-
-
-    //TODO: Something better than a timeout function
-    setTimeout(() => {
-      //TODO: Configurable padding for header/footer
-      let rootNode = d3.select(this.viewer.container.parentNode);
-      rootNode.style('padding', '80px 0');
-      this.horizontalPadding = 0;
-    }, 500);
-
-  }
-
-  //Recursive function to iterate through previous pages and position them to the left of the current page
-  private positionPreviousTiles(currentTileIndex: number, currentTileBounds: any, margin: number): void {
-    let previousTiledImage = this.viewer.world.getItemAt(currentTileIndex - 1);
-    if (!previousTiledImage) {
-      return;
-    }
-
-    let previousTileBounds = previousTiledImage.getBounds(true);
-
-    //Position tiled image
-    previousTileBounds.x = currentTileBounds.x - previousTileBounds.width - margin;
-    previousTileBounds.y = currentTileBounds.y;
-    previousTiledImage.setPosition(new OpenSeadragon.Point(previousTileBounds.x, previousTileBounds.y), true);
-    previousTiledImage.update();
-
-    //Position overlay
-    //TODO: Update x and y base values in this.overlays[]
-    let previousOverlay = this.overlays[currentTileIndex - 1];
-    let previousSvgNode = d3.select(previousOverlay);
-    previousSvgNode.attr('x', previousTileBounds.x)
-      .attr('y', previousTileBounds.y);
-
-    //Call function for previous tile
-    this.positionPreviousTiles(currentTileIndex - 1, previousTileBounds, margin);
-  }
-
-  //Recursive function to iterate through next pages and position them to the right of the current page
-  private positionNextTiles(currentTileIndex: number, currentTileBounds: any, margin: number): void {
-    let nextTiledImage = this.viewer.world.getItemAt(currentTileIndex + 1);
-    if (!nextTiledImage) {
-      return;
-    }
-
-    let nextTileBounds = nextTiledImage.getBounds(true);
-
-    //Position tiled image
-    nextTileBounds.x = currentTileBounds.x + currentTileBounds.width + margin;
-    nextTileBounds.y = currentTileBounds.y;
-    nextTiledImage.setPosition(new OpenSeadragon.Point(nextTileBounds.x, nextTileBounds.y), true);
-    nextTiledImage.update();
-
-    //Position overlay
-    //TODO: Update x and y base values in this.overlays[]
-    let nextOverlay = this.overlays[currentTileIndex + 1];
-    let nextSvgNode = d3.select(nextOverlay);
-    nextSvgNode.attr('x', nextTileBounds.x)
-      .attr('y', nextTileBounds.y);
-
-    //Call function for next tile
-    this.positionNextTiles(currentTileIndex + 1, nextTileBounds, margin);
-  }
 
 
   /**
@@ -658,10 +459,8 @@ export class ViewerService implements OnInit {
       }
       // Dash or fitted-page-mode
     } else {
-      console.log("we are in fitted or dashboard mode")
-      let page = this.getNewPageFromPanning();
-      console.log("got page: ", page)
-      if(page >= 0) {
+      const page = this.getNewPageFromPanning();
+      if (page >= 0) {
         this.pageService.currentPage = page;
         this.panToPage();
       }
@@ -678,7 +477,6 @@ export class ViewerService implements OnInit {
     let foundPage = -1;
 
     this.tileSources.some((tile, i) => {
-      console.log("iteraring")
       const page = this.viewer.world.getItemAt(i);
       if (!page) {
         return;
@@ -687,14 +485,13 @@ export class ViewerService implements OnInit {
       const pageBounds = page.getBounds(true);
 
       if (pageBounds.x + pageBounds.width > centerX) {
-        //Center point is within pagebounds
+        // Center point is within pagebounds
         if (pageBounds.x < centerX) {
           foundPage = i;
-        }
-        else {
-          //No use case before first page as OpenSeadragon prevents it by default
+        } else {
+          // No use case before first page as OpenSeadragon prevents it by default
 
-          //Centre point is between two tiles
+          // Centre point is between two tiles
           let previouspageBounds = this.viewer.world.getItemAt(i - 1).getBounds();
           let marginLeft = previouspageBounds.x + previouspageBounds.width;
           let marginCentre = marginLeft + ((pageBounds.x - marginLeft) / 2);
@@ -702,8 +499,7 @@ export class ViewerService implements OnInit {
           if (centerX > marginCentre) {
             foundPage = i;
 
-          }
-          else {
+          } else {
             foundPage = i - 1;
 
           }
@@ -711,7 +507,7 @@ export class ViewerService implements OnInit {
 
         return true;
       }
-      //No use case beyond last page as OpenSeadragon prevents it by default
+      // No use case beyond last page as OpenSeadragon prevents it by default
 
     });
 
@@ -741,22 +537,8 @@ export class ViewerService implements OnInit {
   }
 
 
-
-
-  private applicationResize(): void {
-    //TODO: Limit how often this runs
-    if (this.modeService.mode === ViewerMode.PAGE) {
-      //TODO: Something better than a timeout function
-      //TODO: Error handling
-      setTimeout(() => {
-        let pageBounds = this.viewer.world.getItemAt(this.pageService.currentPage).getBounds();
-        this.padViewportContainerToFitTile(this.viewer.viewport, pageBounds, d3.select(this.viewer.container.parentNode));
-      }, 500);
-    }
-  }
-
   private isZoomedInPageMode(): boolean {
-    return this.modeService.mode === ViewerMode.PAGE && !this.isCurrentPageFittedViewport;
+    return this.modeService.mode === ViewerMode.PAGE && !this.isPageFittedOrSmaller();
   }
 
 
@@ -767,8 +549,6 @@ export class ViewerService implements OnInit {
    */
   private getPanDirection(page: any): PanDirection {
     const vpBounds = this.viewer.viewport.getBounds();
-    console.log("RIGHT", vpBounds.x - this.PAN_SENSITIVITY_MARGIN < page.x)
-    console.log("LEFT", vpBounds.x + vpBounds.width + this.PAN_SENSITIVITY_MARGIN > page.x + page.width)
     return (
       (vpBounds.x - this.PAN_SENSITIVITY_MARGIN < page.x) ? PanDirection.RIGHT
         : (vpBounds.x + vpBounds.width + this.PAN_SENSITIVITY_MARGIN > page.x + page.width) ? PanDirection.LEFT
