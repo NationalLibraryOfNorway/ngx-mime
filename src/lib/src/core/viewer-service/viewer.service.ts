@@ -5,6 +5,7 @@ import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Utils } from '../../core/utils'
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
@@ -107,6 +108,16 @@ export class ViewerService implements OnInit {
         //this.applicationResize();
       }));
     }
+  }
+
+  nextPage() {
+    const newPage = this.pageService.getNextPage();
+    this.toggleToPage();
+  }
+
+  prevPage() {
+    const newPage = this.pageService.getPrevPage();
+    this.toggleToPage();
   }
 
 
@@ -301,9 +312,11 @@ export class ViewerService implements OnInit {
   getIsCurrentPageFittedViewport(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
-
-    return (Math.round(pageBounds.height) === Math.round(viewportBounds.height))
-      || (Math.round(pageBounds.width) === Math.round(viewportBounds.width));
+    let widthIsFitted  = Utils.numbersAreClose(pageBounds.width,  viewportBounds.width, 5);
+    let heightIsFittes = Utils.numbersAreClose(pageBounds.height,  viewportBounds.height, 5);
+    console.log("width is fitted?", widthIsFitted)
+    console.log("height is fitted?", heightIsFittes)
+    return widthIsFitted || heightIsFittes;
   }
 
   pageIsAtMinZoom(): boolean {
@@ -637,7 +650,7 @@ export class ViewerService implements OnInit {
         // First fit current page
         this.toggleToPage();
         // Then pan to next or previous page
-        // Needs timeout because we have to wait for first animation to end...
+        // Needs timeout because we have to wait for first animation to end
         setTimeout(() => {
           this.panToNextOrPreviousPageFromDirection(dir);
         }, OptionsTransitions.OSD);
@@ -645,8 +658,13 @@ export class ViewerService implements OnInit {
       }
       // Dash or fitted-page-mode
     } else {
-      this.pageService.currentPage = this.getNewPageFromPanning();
-      this.panToPage();
+      console.log("we are in fitted or dashboard mode")
+      let page = this.getNewPageFromPanning();
+      console.log("got page: ", page)
+      if(page >= 0) {
+        this.pageService.currentPage = page;
+        this.panToPage();
+      }
     }
   }
 
@@ -657,9 +675,10 @@ export class ViewerService implements OnInit {
   getNewPageFromPanning(): number {
     const viewportBounds = this.viewer.viewport.getBounds();
     const centerX = viewportBounds.x + (viewportBounds.width / 2);
-    let foundPage = null;
+    let foundPage = -1;
 
     this.tileSources.some((tile, i) => {
+      console.log("iteraring")
       const page = this.viewer.world.getItemAt(i);
       if (!page) {
         return;
@@ -748,6 +767,8 @@ export class ViewerService implements OnInit {
    */
   private getPanDirection(page: any): PanDirection {
     const vpBounds = this.viewer.viewport.getBounds();
+    console.log("RIGHT", vpBounds.x - this.PAN_SENSITIVITY_MARGIN < page.x)
+    console.log("LEFT", vpBounds.x + vpBounds.width + this.PAN_SENSITIVITY_MARGIN > page.x + page.width)
     return (
       (vpBounds.x - this.PAN_SENSITIVITY_MARGIN < page.x) ? PanDirection.RIGHT
         : (vpBounds.x + vpBounds.width + this.PAN_SENSITIVITY_MARGIN > page.x + page.width) ? PanDirection.LEFT

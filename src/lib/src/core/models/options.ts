@@ -92,8 +92,8 @@ export class Options {
   fullPageButton: string;
   rotateLeftButton: string;
   rotateRightButton: string;
-  previousButton = 'navigateBeforeButton';
-  nextButton = 'navigateNextButton';
+  previousButton: string = null;
+  nextButton: string = null;
   sequenceMode = true;
   initialPage = 0;
   preserveViewport = false;

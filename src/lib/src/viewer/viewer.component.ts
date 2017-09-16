@@ -145,4 +145,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       'canvas-pressed': this.isCanvasPressed
     };
   }
+
+
 }

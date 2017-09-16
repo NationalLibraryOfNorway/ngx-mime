@@ -47,7 +47,6 @@ export class PageService {
       return -1;
     }
     this.currentPage++;
-    console.log("updated current page")
     return this.currentPage;
   }
 
