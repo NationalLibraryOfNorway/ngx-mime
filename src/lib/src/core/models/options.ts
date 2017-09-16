@@ -82,7 +82,7 @@ export class Options {
   showHomeControl = true;
   showFullPageControl = true;
   showRotationControl = false;
-  showSequenceControl = true;
+  showSequenceControl = false;
   sequenceControlAnchor = ControlAnchor.TOP_LEFT;
   navPrevNextWrap = false;
   zoomInButton = 'zoomInButton';
