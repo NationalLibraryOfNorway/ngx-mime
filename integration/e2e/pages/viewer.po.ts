@@ -14,6 +14,10 @@ export class ViewerPage {
     await browser.sleep(5000);
   }
 
+  async goToPage(pageNumber: number) {
+    // @Todo
+  }
+
   async openContentsDialog() {
     await element(by.css('#contentsDialogButton')).click();
     await utils.waitForElement(element(by.css('.contents-container')));
@@ -98,6 +102,13 @@ export class ViewerPage {
 
   getBounds(): promise.Promise<any> {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
+  }
+
+  async swipe(startPoint: Point, endPoint: Point): Promise<void> {
+    await browser.touchActions()
+      .tapAndHold(startPoint)
+      .release(endPoint)
+      .perform();
   }
 
   async pinchOut(): Promise<void> {

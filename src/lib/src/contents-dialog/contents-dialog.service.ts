@@ -28,6 +28,10 @@ export class ContentsDialogService {
       });
   }
 
+  public destroy() {
+    this.close();
+  }
+
   set el(el: ElementRef) {
     this._el = el;
   }
@@ -44,7 +48,11 @@ export class ContentsDialogService {
   }
 
   public close() {
-    this.dialogRef.close();
+    if (this.dialogRef) {
+      this.dialogRef.close();
+      this.isContentsDialogOpen = false;
+    }
+    this.isContentsDialogOpen = false;
   }
 
   public toggle() {

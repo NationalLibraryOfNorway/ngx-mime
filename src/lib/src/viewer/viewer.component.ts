@@ -130,12 +130,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private cleanUp() {
-    this.closeAllDialogs();
     this.viewerService.destroy();
-  }
-
-  private closeAllDialogs() {
-    this.dialog.closeAll();
+    this.attributionDialogService.destroy();
+    this.contentsDialogService.destroy();
   }
 
   setClasses() {
@@ -145,4 +142,5 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       'canvas-pressed': this.isCanvasPressed
     };
   }
+
 }

@@ -122,8 +122,6 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-
-
   it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
     viewerService.toggleToDashboard();
     expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
@@ -185,15 +183,13 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
 
-
-
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
 
-    spyOn(testHostComponent.viewerComponent.dialog, 'closeAll').and.callThrough();
+    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.dialog.closeAll).toHaveBeenCalled();
+    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
   });
 
   it('should increase zoom level when pinching out', () => {
@@ -299,6 +295,26 @@ describe('ViewerComponent', function () {
     index = viewerService.getOverlayIndexFromClickEvent(overlay);
     expect(index).toBe(-1);
 
+  });
+
+  it('should change page when swipeing to left', () => {
+    // viewerService.toggleToDashboard();
+    // tick();
+    // const viewer = viewerService.getViewer();
+    // viewer.raiseEvent('canvas-press', {position: {
+    //   x: 1450, y: 150}
+    // });
+    // tick(1);
+    // viewer.raiseEvent('canvas-drag-end', {position: {
+    //   x: 150, y: 150}
+    // });
+    // let pageNumber = 0;
+    // viewerService.onPageChange.subscribe(p => {
+    //   pageNumber = p;
+    // });
+    // tick(100);
+    // expect(pageNumber).toBe(10);
+    pending('Set to pending until we find a way to perform swipe event');
   });
 
   function pinchOut() {
