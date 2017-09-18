@@ -2,11 +2,12 @@ import { browser, element, ElementFinder, by, By, protractor } from 'protractor'
 import { promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
 
+
 const utils = new Utils();
 export class ViewerPage {
-  private thumbStartPosition = {x: 600, y: 300};
-  private pointerPosition1 = {x: 650, y: 275};
-  private pointerPosition2 = {x: 750, y: 200};
+  private thumbStartPosition = { x: 600, y: 300 };
+  private pointerPosition1 = { x: 650, y: 275 };
+  private pointerPosition2 = { x: 750, y: 200 };
 
   async open() {
     await browser.get('/');
@@ -66,8 +67,13 @@ export class ViewerPage {
     return utils.waitForElement(el);
   }
 
+  getSVGElement() {
+    const el = element(by.css('#openseadragon svg'));
+    return utils.waitForElement(el);
+  }
+
   getFirstPageOverlay() {
-    const el = element.all(by.css('svg > g > rect')).first();
+    const el = element.all(by.css('#openseadragon svg > g > rect')).first();
     return utils.waitForElement(el);
   }
 
@@ -198,6 +204,19 @@ export class ViewerPage {
     const headerisHidden = (await headerDisplay) === 'none';
     const footerisHidden = (await footerDisplay) === 'none';
     return (headerisHidden && footerisHidden);
+  }
+
+  async isCurrentPageFittedViewport(): Promise<boolean> {
+    const svgParent = await this.getSVGElement()
+    const overlay = await this.getFirstPageOverlay()
+
+    const svgParentDimensions = await svgParent.getSize();
+    const overlayDimensions = await overlay.getSize();
+
+    return (
+      Math.round(svgParentDimensions.width) === Math.round(overlayDimensions.width)
+      || Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height)
+    );
   }
 }
 
