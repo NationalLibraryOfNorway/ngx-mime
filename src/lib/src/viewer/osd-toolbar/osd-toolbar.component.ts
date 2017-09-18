@@ -51,12 +51,12 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     });
   }
 
-  nextPage() {
-    this.viewerService.nextPage();
+  public goToPreviousPage(): void {
+    this.viewerService.goToPreviousPage();
   }
 
-  prevPage() {
-    this.viewerService.prevPage();
+  public goToNextPage(): void {
+    this.viewerService.goToNextPage();
   }
 
 }

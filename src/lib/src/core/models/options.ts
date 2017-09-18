@@ -110,10 +110,4 @@ export class Options {
   collectionTileMargin = 80;
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
-
-  constructor(tileSources?: Service[]) {
-    if (tileSources) {
-      this.tileSources = tileSources;
-    }
-  }
 }

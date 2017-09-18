@@ -1,6 +1,7 @@
 import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
 import { promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
+import { isUndefined } from "util";
 
 
 const utils = new Utils();
@@ -12,6 +13,8 @@ export class ViewerPage {
   async open() {
     await browser.get('/');
     await browser.sleep(5000);
+    // waitForAngular doesn't work when setting up OSD in multiimage mode.
+    browser.waitForAngularEnabled(false);
   }
 
   async goToPage(pageNumber: number) {
@@ -19,11 +22,15 @@ export class ViewerPage {
     for (let i = 0; i < pageNumber; i++) {
       await slider.sendKeys(protractor.Key.ARROW_RIGHT);
     }
+    await browser.sleep(await this.getAnimationTime() * 1000);
   }
 
   async getCurrentPageNumber() {
-    const el =  await utils.waitForElement(element(by.css('#currentPageNumber')));
-    const currentPageNumber = await el.getText();
+    // The footer might be hidden, but the pagenumber is still updated, so use
+    // waitForPresenceOf insted of waitForElement.
+    const el =  await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
+    // Not using el.getText() as it don't seem to work when element not visible
+    const currentPageNumber = await el.getAttribute('textContent');
     return currentPageNumber;
   }
 
@@ -176,13 +183,26 @@ export class ViewerPage {
     await this.clickNavigationButton('zoomOutButton');
   }
 
+  async clickNextButton(): Promise<void> {
+    await this.clickNavigationButton('navigateNextButton');
+    await this.waitForAnimation(500);
+  }
+
+  async clickPreviousButton(): Promise<void> {
+    await this.clickNavigationButton('navigateBeforeButton');
+    await this.waitForAnimation(500);
+  }
+
   async clickNavigationButton(buttonId: string): Promise<void> {
     const button = await utils.waitForElement(element(by.id(buttonId)));
     await utils.clickElement(button);
   }
 
-  async waitForAnimation(): Promise<void> {
-    await browser.sleep((await this.getAnimationTime()) * 100);
+  async waitForAnimation(animationTime?: number): Promise<void> {
+    if (isUndefined(animationTime)) {
+      animationTime = await this.getAnimationTime() * 100;
+    }
+    await browser.sleep(animationTime);
   }
 
   async isDashboardMode(): Promise<boolean> {

@@ -22,6 +22,11 @@ export class Utils {
     }
   }
 
+  public async waitForPresenceOf(el: ElementFinder) {
+    await browser.wait(EC.presenceOf(el), 10000);
+    return el;
+  }
+
   async clickElement(el: ElementFinder) {
     const browserName = await this.getBrowserName();
     switch (browserName) {

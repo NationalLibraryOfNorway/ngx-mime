@@ -23,6 +23,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     }
   });
 
+  When(/^the user swipe (.*) and the velocity is equal or greater than (.*)$/, async (direction: string, velocity: string) => {
+    pending();
+  });
+
   When(/^the user drags the page slider to page (.*)$/, async (pageNumber: number) => {
     await page.goToPage(pageNumber - 1);
   });
@@ -32,4 +36,12 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(currentPageNumber).to.eql(pageNumber);
   });
 
+
+  When(/^the user click the (.*) button$/, async (navigationButton: string,) => {
+    if (navigationButton === 'next') {
+      await page.clickNextButton();
+    } else if (navigationButton === 'previous') {
+      await page.clickPreviousButton();
+    }
+  });
 });

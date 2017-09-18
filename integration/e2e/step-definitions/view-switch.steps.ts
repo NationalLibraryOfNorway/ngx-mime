@@ -1,7 +1,7 @@
 import { ViewerPage } from '../pages/viewer.po';
 import { defineSupportCode } from 'cucumber';
 import { expect } from '../helpers/chai-imports';
-import { browser, by } from 'protractor';
+import { by } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 defineSupportCode(function ({ Given, When, Then }) {
@@ -13,7 +13,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   Given(/^the viewer is in dashboard view$/, async () => {
     const firstOverlay = await page.getFirstPageOverlay();
     await firstOverlay.click();
-    await browser.sleep(switchAnimationTime);
+    await page.waitForAnimation(switchAnimationTime);
     expect(await page.isDashboardMode()).to.be.true;
   });
 
@@ -23,9 +23,11 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
   When(/^the user click in the viewer$/, async () => {
+    // TODO click page.getSVGElement() insted of first overlay
+    // to be able to switch view mode when firste page is out of view
     const firstOverlay = await page.getFirstPageOverlay();
     await firstOverlay.click();
-    await browser.sleep(switchAnimationTime);
+    await page.waitForAnimation(switchAnimationTime);
   });
 
   Then(/^the viewer should change to page view$/, async () => {

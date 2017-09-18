@@ -143,7 +143,7 @@ export class ViewerService implements OnInit {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
         this.clearOpenSeadragonTooltips();
-        this.options = new Options(manifest.tileSource);
+        this.options = new Options();
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
         this.pageService.reset();
         this.pageService.numberOfPages = this.tileSources.length;
@@ -162,17 +162,6 @@ export class ViewerService implements OnInit {
       this.addEvents();
     }
   }
-
-  nextPage(): void {
-    const newPage = this.pageService.getNextPage();
-    this.toggleToPage();
-  }
-
-  prevPage(): void {
-    const newPage = this.pageService.getPrevPage();
-    this.toggleToPage();
-  }
-
 
   addToWindow() {
     window.openSeadragonViewer = this.viewer;
