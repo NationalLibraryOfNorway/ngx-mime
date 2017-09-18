@@ -1,5 +1,4 @@
 import { Hit } from './../core/models/search-result';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef, OnDestroy } from '@angular/core';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
@@ -11,6 +10,8 @@ import { MimeResizeService } from './../core/mime-resize-service/mime-resize.ser
 import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 import { SearchResult } from './../core/models/search-result';
+import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 
 @Component({
   selector: 'mime-search',
@@ -24,6 +25,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
   public numberOfHits = 0;
   public isSearching = false;
   public tabHeight = {};
+  private manifest: Manifest;
   private mimeHeight = 0;
   private subscriptions: Array<Subscription> = [];
 
@@ -31,12 +33,18 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,
+    private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
     private el: ElementRef) {
     this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
     }));
+
+    this.subscriptions.push(this.iiifManifestService.currentManifest
+      .subscribe((manifest: Manifest) => {
+        this.manifest = manifest;
+      }));
 
     this.subscriptions.push(iiifContentSearchService.currentSearchResult.subscribe((sr: SearchResult) => {
       this.hits = sr.hits;
@@ -66,7 +74,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.currentSearch = this.q;
-    this.iiifContentSearchService.search('https://api.nb.no/catalog/v1/contentsearch/a1c90e1593b0fec98751e63d6d5af9fd/search?q=dog');
+    this.iiifContentSearchService.search(`${this.manifest.service.id}?q=${this.q}`);
   }
 
   private resizeTabHeight(): void {
