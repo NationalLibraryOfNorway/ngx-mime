@@ -1,14 +1,14 @@
-import { MimeViewerConfig } from '../core/mime-viewer-config';
-import { BehaviorSubject, Subject } from 'rxjs/Rx';
-
-import { OptionsTransitions } from '../core/models/options-transitions';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
+import { MimeViewerConfig } from '../core/mime-viewer-config';
+import { OptionsTransitions } from '../core/models/options-transitions';
 import { SharedModule } from '../shared/shared.module';
 import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
 import { ViewerComponent } from './viewer.component';
@@ -21,7 +21,7 @@ import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
-import { ClickService } from '../core/click/click.service';
+import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
@@ -134,8 +134,6 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-
-
   it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
     viewerService.toggleToDashboard();
     expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
@@ -158,10 +156,10 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-  it('should fit page vertically in PAGE-mode', fakeAsync(() => {
+  it('should fit page to viewport in PAGE-mode', fakeAsync(() => {
     viewerService.toggleToPage();
     tick(1000);
-    expect(viewerService.getIsFittedVertically()).toBe(true);
+    expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
   }));
 
 
@@ -173,10 +171,6 @@ describe('ViewerComponent', function () {
     clickService.click(clickEvent);
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
-  it('should be in zoomed PAGE-mode when doubleclicking in page-mode', fakeAsync(() => {
-    pending('');
   }));
 
   it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
@@ -200,8 +194,6 @@ describe('ViewerComponent', function () {
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
-
-
 
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
@@ -242,6 +234,10 @@ describe('ViewerComponent', function () {
     pending('Set to pending until we find a way to perform pinch event');
   });
 
+  it('#pageIsAtMinZoom should return true if page is at minimum zoom level', () => {
+    pending('');
+  });
+
   it('should move image inside the view when user is panning', () => {
     // comp.ngOnInit();
     // viewerService.zoomTo(2);
@@ -252,10 +248,6 @@ describe('ViewerComponent', function () {
     //
     // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
     pending('Set to pending until we find a way to perform pan event');
-  });
-
-  it('should increase zoom-level when doubleclicking in page mode', () => {
-    pending('');
   });
 
   it('svgOverlay-plugin should be defined', () => {
@@ -280,7 +272,7 @@ describe('ViewerComponent', function () {
     expect(rect.height).toEqual(overlay.height.baseVal.value);
   });
 
-  it('should fit bounds vertically to viewport for a page', fakeAsync(() => {
+  it('should fit bounds to viewport for a page', fakeAsync(() => {
     let overlay = viewerService.getOverlays()[0];
     let viewer = viewerService.getViewer();
     let overlayBounds = viewerService.createRectangle(overlay);
@@ -288,10 +280,12 @@ describe('ViewerComponent', function () {
     viewerService.fitBounds(overlay);
     tick(1000);
 
+    let viewportX = Math.round(viewer.viewport.getBounds().x);
     let viewportY = Math.round(viewer.viewport.getBounds().y);
+    let overlayX = Math.round(overlayBounds.y);
     let overlayY = Math.round(overlayBounds.y);
-    expect(viewportY).toEqual(overlayY);
 
+    expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
   }));
 
   it('should return overlay-index if target is an overlay', () => {

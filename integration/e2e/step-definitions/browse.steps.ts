@@ -12,7 +12,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     console.log('velocity', velocity);
     if (direction === 'left-to-right') {
       const start = {
-        x: 2000,
+        x: 200,
         y: 0
       };
       const end = {

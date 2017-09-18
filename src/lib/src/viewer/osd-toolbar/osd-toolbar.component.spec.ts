@@ -10,6 +10,8 @@ import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.
 import { MimeViewerIntl } from '../../core/viewer-intl';
 import { PageService } from './../../core/page-service/page-service';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
+import { ModeService } from '../../core/mode-service/mode.service';
+import { ClickService } from '../../core/click-service/click.service';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
@@ -27,7 +29,10 @@ describe('OsdToolbarComponent', () => {
         MimeResizeService,
         MimeViewerIntl,
         { provide: ViewerService, useClass: ViewerServiceMock },
-        { provide: PageService, useClass: PageServiceMock }
+        { provide: PageService, useClass: PageServiceMock },
+        ClickService,
+        PageService,
+        ModeService
       ]
     })
       .compileComponents();

@@ -1,10 +1,10 @@
-import { OptionsTransitions } from '../../core/models/options-transitions';
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
+import { CustomOptions } from '../../core/models/options-custom';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
 import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
@@ -32,8 +32,8 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate(OptionsTransitions.TOOLBARS + 'ms ease-in')),
-      transition('show => hide', animate(OptionsTransitions.TOOLBARS + 'ms ease-out'))
+      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
     ])
   ],
   host: {

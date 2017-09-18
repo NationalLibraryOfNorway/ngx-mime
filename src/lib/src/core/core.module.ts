@@ -9,7 +9,7 @@ import { MimeResizeService } from './mime-resize-service/mime-resize.service';
 import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { ViewerService } from './viewer-service/viewer.service';
 import { ModeService } from './mode-service/mode.service';
-import { ClickService } from './click/click.service';
+import { ClickService } from './click-service/click.service';
 
 @NgModule({
   imports: [HttpClientModule],

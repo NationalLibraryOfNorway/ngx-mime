@@ -86,6 +86,7 @@ Feature: Zoom
   @desktop
   Scenario: Zooming out on desktop from home
     Given zoom level is home
+    #And the viewer is in page view
     When the user click zoom out button
     Then the current zoom level is home
 

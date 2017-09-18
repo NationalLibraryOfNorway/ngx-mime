@@ -45,6 +45,14 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     }));
   }
 
+  zoomIn() {
+    this.viewerService.zoomIn();
+  }
+
+  zoomOut() {
+    this.viewerService.zoomOut();
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
