@@ -154,12 +154,12 @@ export class ViewerService implements OnInit {
     }
   }
 
-  nextPage() {
+  nextPage(): void {
     const newPage = this.pageService.getNextPage();
     this.toggleToPage();
   }
 
-  prevPage() {
+  prevPage(): void {
     const newPage = this.pageService.getPrevPage();
     this.toggleToPage();
   }
@@ -180,10 +180,10 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Disables navigation with keyboard.
+   * Set navigation with keyboard.
    * Seems to be no way to set this in options?
    */
-  disableKeyboardNavigation() {
+  setKeyboardNavigation() {
     this.viewer.innerTracker.keyHandler = null;
     this.viewer.innerTracker.keyDownHandler = null;
     this.viewer.innerTracker.keyPressHandler = null;
@@ -191,13 +191,11 @@ export class ViewerService implements OnInit {
 
   addEvents(): void {
     this.addOverrides();
-    this.disableKeyboardNavigation();
+    this.setKeyboardNavigation();
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    this.viewer.addHandler('animation-start', () => {
-      this.isAnimating.next(true);
-    });
+    this.viewer.addHandler('animation-start', () => this.isAnimating.next(true));
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
@@ -210,7 +208,6 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
 
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
-      //this.dragEndHandler(e);
       this.swipeToPage(e);
     });
     this.viewer.addHandler('animation', (e: any) => {
@@ -275,7 +272,6 @@ export class ViewerService implements OnInit {
    * Set settings for page-mode
    */
   setPageSettings(): void {
-    // TODO: Allow panning when zoomed in on Page View
     this.viewer.panVertical = true;
 
     setTimeout(() => {
@@ -411,7 +407,7 @@ export class ViewerService implements OnInit {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
 
-    let resizeRatio = viewportBounds.height / pageBounds.height;
+    const resizeRatio = viewportBounds.height / pageBounds.height;
     if (resizeRatio * pageBounds.width <= viewportBounds.width) {
       return resizeRatio;
     } else {
@@ -434,7 +430,7 @@ export class ViewerService implements OnInit {
    */
   createOverlays(): void {
     this.overlays = [];
-    let svgOverlay = this.viewer.svgOverlay();
+    const svgOverlay = this.viewer.svgOverlay();
     this.svgNode = d3.select(svgOverlay.node());
 
     let center = new OpenSeadragon.Point(0, 0);
@@ -479,22 +475,10 @@ export class ViewerService implements OnInit {
     });
   }
 
-  /**
-   * Fit bounds to first page
-   */
-  fitBoundsToStart(): void {
-    // Don't need to fit bounds if pages < 3
-    if (this.overlays.length < 3) {
-      return;
-    }
-    let firstpageDashboardBounds = this.viewer.viewport.getBounds();
-    firstpageDashboardBounds.x = 0;
-    this.viewer.viewport.fitBounds(firstpageDashboardBounds);
-  }
 
   /**
    * Fit viewport bounds to an overlay
-   * @param overlay
+   * @param {SVGRectElement} overlay
    */
   fitBounds(overlay: SVGRectElement): void {
     this.viewer.viewport.fitBounds(this.createRectangle(overlay));
@@ -502,7 +486,7 @@ export class ViewerService implements OnInit {
 
   /**
    * Returns an OpenSeadragon.Rectangle instance of an overlay
-   * @param overlay
+   * @param {SVGRectElement} overlay
    */
   createRectangle(overlay: SVGRectElement): any {
     return new OpenSeadragon.Rect(
@@ -569,16 +553,6 @@ export class ViewerService implements OnInit {
     return this.modeService.mode === ViewerMode.PAGE && !this.isPageFittedOrSmaller();
   }
 
-
-  private isPanningOutsidePage(page: any): boolean {
-    const vpBounds = this.viewer.viewport.getBounds();
-    const isOutsideRightBound = vpBounds.x - CustomOptions.pan.sensitivityMargin < page.x;
-    const isOutsideLeftBound = vpBounds.x + vpBounds.width + CustomOptions.pan.sensitivityMargin > page.x + page.width;
-    return isOutsideRightBound || isOutsideLeftBound;
-  }
-
-
-
   private calculateCurrentPage(center: Point) {
     const currentPageIndex = this.centerPoints.findClosestIndex(center);
     this.currentPageIndex.next(currentPageIndex);
@@ -593,8 +567,9 @@ export class ViewerService implements OnInit {
     const dragEndPosision = e.position;
 
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const viewportBounds = this.viewer.viewport.getBounds();
 
-    const direction = new SwipeUtils().getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
+    const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
 
@@ -609,10 +584,9 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.isCurrentPageFittedViewport) {
       this.goToPage(newPageIndex);
 
-    // Zoomed in page mode
+      // Zoomed in page mode
     } else if (this.modeService.mode === ViewerMode.PAGE && !this.isPageFittedOrSmaller()) {
-      if (this.isPanningOutsidePage(pageBounds)) {
-
+      if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
         this.toggleToPage();
         setTimeout(() => {
           this.panOnePage(direction);
