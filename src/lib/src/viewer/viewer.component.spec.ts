@@ -87,15 +87,6 @@ describe('ViewerComponent', function () {
 
   it('should create component', () => expect(comp).toBeDefined());
 
-  it('should cleanUp when manifestUri changes', () => {
-    testHostComponent.manifestUri = 'dummyURI2';
-
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
-    testHostFixture.detectChanges();
-
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
-  });
-
   it('should create viewer', () => {
     expect(viewerService.getViewer()).toBeDefined();
   });
@@ -159,6 +150,7 @@ describe('ViewerComponent', function () {
     expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
   }));
 
+
   it('should still be PAGE-mode when doubleclick in zoomed-in page-mode', fakeAsync(() => {
     viewerService.toggleToPage();
     let firstOverlay = viewerService.getOverlays()[0];
@@ -190,6 +182,15 @@ describe('ViewerComponent', function () {
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
+
+  it('should close all dialogs when manifestUri changes', () => {
+    testHostComponent.manifestUri = 'dummyURI2';
+
+    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+    testHostFixture.detectChanges();
+
+    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+  });
 
   it('should increase zoom level when pinching out', () => {
     // comp.ngOnInit();
