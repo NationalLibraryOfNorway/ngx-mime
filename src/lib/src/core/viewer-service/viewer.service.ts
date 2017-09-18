@@ -1,8 +1,6 @@
 import { PanDirection } from '../models/pan-direction';
-import { SpinnerService } from '../spinner-service/spinner.service';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
-import { OptionsTransitions } from '../models/options-transitions';
-import { OptionsOverlays } from '../models/options-overlays';
+import { CustomOptions } from '../models/options-custom';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Utils } from '../../core/utils';
@@ -11,8 +9,7 @@ import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
-import { ClickService } from '../click/click.service';
-import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
+import { ClickService } from '../click-service/click.service';
 import '../ext/svg-overlay';
 import * as d3 from 'd3';
 
@@ -42,9 +39,7 @@ export class ViewerService implements OnInit {
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService,
-    private mimeResizeService: MimeResizeService,
-    private spinnerService: SpinnerService
+    private modeService: ModeService
   ) { }
 
   ngOnInit(): void { }
@@ -103,8 +98,6 @@ export class ViewerService implements OnInit {
       this.addToWindow();
       this.createOverlays();
       this.addEvents();
-
-
     }
   }
 
@@ -132,8 +125,19 @@ export class ViewerService implements OnInit {
     });
   }
 
+  /**
+   * Disables navigation with keyboard.
+   * Seems to be no way to set this in options?
+   */
+  disableKeyboardNavigation() {
+    this.viewer.innerTracker.keyHandler = null;
+    this.viewer.innerTracker.keyDownHandler = null;
+    this.viewer.innerTracker.keyPressHandler = null;
+  }
+
   addEvents(): void {
     this.addOverrides();
+    this.disableKeyboardNavigation();
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
@@ -147,9 +151,26 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
-    this.viewer.addHandler('canvas-drag-end', this.dragEndHandler);
+
   }
 
+  // Binds to OSD-Toolbar button
+  zoomIn(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomfactor);
+  }
+
+  // Binds to OSD-Toolbar button
+  zoomOut(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.isPageFittedOrSmaller() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomfactor);
+  }
 
 
   /**
@@ -287,10 +308,10 @@ export class ViewerService implements OnInit {
       this.zoomTo(this.getZoom() * this.options.zoomPerClick);
     } else {
       let requestedPage = this.getOverlayIndexFromClickEvent(target);
-      if (this.isPageHit(target)) {
+      if (requestedPage >= 0) {
         this.pageService.currentPage = requestedPage;
-        this.toggleToPage();
       }
+      this.toggleToPage();
     }
   }
 
@@ -303,8 +324,7 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Checks whether current page's overlay bounds has a larger height than the viewport bounds
-   * If the heights are equal, then this page is fitted vertically in the viewer
+   * Checks whether current overlaybounds' width or height is equal to viewport
    * (Note that this function is called after animation is ended for correct calculation)
    */
   getIsCurrentPageFittedViewport(): boolean {
@@ -372,7 +392,7 @@ export class ViewerService implements OnInit {
         .attr('class', 'tile');
       let currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
-      currentX = currentX + tile.width + OptionsOverlays.TILES_MARGIN;
+      currentX = currentX + tile.width + CustomOptions.overlays.tilesMargin;
     });
   }
 
@@ -458,7 +478,7 @@ export class ViewerService implements OnInit {
 
         setTimeout(() => {
           this.panToNextOrPreviousPageFromDirection(dir);
-        }, OptionsTransitions.OSD);
+        }, CustomOptions.transitions.OSDAnimationTime);
 
       }
       // Dash or fitted-page-mode

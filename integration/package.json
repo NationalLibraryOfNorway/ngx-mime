@@ -16,7 +16,7 @@
     "preprotractor": "webdriver-manager update --versions.standalone=3.4.0 && sh ./scripts/wait-on.sh",
     "protractor": "npm run protractor:desktop && npm run protractor:mobile",
     "protractor:desktop": "protractor protractor.conf.js --device=desktop",
-    "protractor:mobile": "npm run protractor:android && npm run protractor:iphone",
+    "protractor:mobile": "npm run protractor:android",
     "protractor:android": "protractor protractor.conf.js --device=android",
     "protractor:iphone": "protractor protractor.conf.js --device=iphone"
   },

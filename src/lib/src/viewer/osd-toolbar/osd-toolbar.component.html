@@ -2,7 +2,7 @@
   <div class="osd-toolbar-container" fxLayout="column" fxLayoutAlign="center center">
     <div class="osd-toolbar-row">
       <md-toolbar-row>
-        <button id="zoomInButton" md-icon-button [attr.aria-label]="intl.zoomIn" [mdTooltip]="intl.zoomIn"><md-icon>zoom_in</md-icon></button>
+        <button (click)="zoomIn()" id="zoomInButton" md-icon-button [attr.aria-label]="intl.zoomIn" [mdTooltip]="intl.zoomIn"><md-icon>zoom_in</md-icon></button>
       </md-toolbar-row>
     </div>
     <div class="osd-toolbar-row">
@@ -14,7 +14,7 @@
     </div>
     <div class="osd-toolbar-row">
       <md-toolbar-row>
-        <button id="zoomOutButton" md-icon-button [attr.aria-label]="intl.zoomOut" [mdTooltip]="intl.zoomOut"><md-icon>zoom_out</md-icon></button>
+        <button (click)="zoomOut()" id="zoomOutButton" md-icon-button [attr.aria-label]="intl.zoomOut" [mdTooltip]="intl.zoomOut"><md-icon>zoom_out</md-icon></button>
       </md-toolbar-row>
     </div>
   </div>
