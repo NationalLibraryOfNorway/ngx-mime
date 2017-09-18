@@ -41,7 +41,7 @@ const config = {
   },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
-      openReportInBrowser: false,
+      openReportInBrowser: true,
       jsonDir: '.tmp/json-output',
       reportPath: './.tmp/report/'
     });
