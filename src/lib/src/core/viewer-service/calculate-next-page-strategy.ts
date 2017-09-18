@@ -1,5 +1,5 @@
 export interface NextPageCriteria {
-  speed: number;
+  speed?: number;
   direction: string;
   currentPageIndex: number;
   maxPage: number;

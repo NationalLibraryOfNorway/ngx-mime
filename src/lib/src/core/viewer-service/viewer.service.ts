@@ -1,11 +1,10 @@
-import { Injectable, NgZone, OnInit } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { CenterPoints } from './../models/page-center-point';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Subscription } from 'rxjs/Subscription';
-
-import { CenterPoints } from './../models/page-center-point';
 import { CustomOptions } from '../models/options-custom';
+import { Subject } from 'rxjs/Rx';
+import { Injectable, NgZone, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
@@ -92,6 +91,32 @@ export class ViewerService implements OnInit {
 
   public zoomTo(level: number): void {
     this.viewer.viewport.zoomTo(level);
+  }
+
+  public goToPreviousPage(): void {
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
+    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      direction:  'previous',
+      currentPageIndex: currentPageIndex,
+      maxPage: this.pageService.numberOfPages - 1
+    });
+    this.goToPage(newPageIndex);
+  }
+
+  public goToNextPage(): void {
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
+    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      direction:  'next',
+      currentPageIndex: currentPageIndex,
+      maxPage: this.pageService.numberOfPages - 1
+    });
+    this.goToPage(newPageIndex);
   }
 
   public goToPage(pageIndex: number): void {

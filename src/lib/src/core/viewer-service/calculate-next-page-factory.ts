@@ -1,3 +1,4 @@
+import { NavigatorCalculateNextPageStrategy } from './navigator-calculate-next-page-strategy';
 import { CalculateNextPageStrategy } from './calculate-next-page-strategy';
 import { ViewerMode } from '../models/viewer-mode';
 import { DashboardModeCalculateNextPageStrategy } from './dashboard-mode-calculate-next-page-strategy';
@@ -10,7 +11,8 @@ export class CalculateNextPageFactory {
       return new DashboardModeCalculateNextPageStrategy();
     } else if (mode === ViewerMode.PAGE) {
       return new PageModeCalculateNextPageStrategy();
+    } else {
+      return new NavigatorCalculateNextPageStrategy();
     }
-    return null;
   }
 }
