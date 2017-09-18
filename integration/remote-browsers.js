@@ -8,12 +8,12 @@ exports.customDesktopLaunchers = [
     browserName: "firefox",
     version: "latest",
     platform: "Windows 10",
-  },
-  {
-    browserName: "MicrosoftEdge",
-    platform: "Windows 10",
-    version: "latest"
   }
+  // {
+  //   browserName: "MicrosoftEdge",
+  //   platform: "Windows 10",
+  //   version: "latest"
+  // },
   // {
   //   browserName: "internet explorer",
   //   platform: "Windows 10",

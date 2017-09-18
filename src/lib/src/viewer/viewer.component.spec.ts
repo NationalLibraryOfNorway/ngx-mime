@@ -87,6 +87,15 @@ describe('ViewerComponent', function () {
 
   it('should create component', () => expect(comp).toBeDefined());
 
+  it('should cleanUp when manifestUri changes', () => {
+    testHostComponent.manifestUri = 'dummyURI2';
+
+    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+    testHostFixture.detectChanges();
+
+    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+  });
+
   it('should create viewer', () => {
     expect(viewerService.getViewer()).toBeDefined();
   });
@@ -121,7 +130,6 @@ describe('ViewerComponent', function () {
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
-
 
   it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
     viewerService.toggleToDashboard();

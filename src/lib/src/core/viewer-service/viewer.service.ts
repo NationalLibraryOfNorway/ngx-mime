@@ -15,7 +15,9 @@ import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
 import '../ext/svg-overlay';
+
 import * as d3 from 'd3';
+import '../../rxjs-extension';
 
 declare const OpenSeadragon: any;
 
@@ -138,7 +140,7 @@ export class ViewerService implements OnInit {
         this.setSettings(mode);
       }));
 
-      this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: any) => {
+      this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
       }));
 
