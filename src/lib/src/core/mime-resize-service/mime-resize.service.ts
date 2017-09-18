@@ -11,7 +11,7 @@ export class MimeResizeService {
   private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
   private dimensions = new Dimensions();
 
-  constructor() { }
+  constructor(private mimeDomHelper: MimeDomHelper) { }
 
   set el(el: ElementRef) {
     this._el = el;
@@ -26,7 +26,7 @@ export class MimeResizeService {
   }
 
   markForCheck() {
-    const dimensions = new MimeDomHelper().getBoundingClientRect(this.el);
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
 
     if (this.dimensions.bottom !== dimensions.bottom ||
       this.dimensions.height !== dimensions.height ||

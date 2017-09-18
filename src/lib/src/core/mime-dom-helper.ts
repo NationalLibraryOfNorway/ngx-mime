@@ -1,11 +1,14 @@
 import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { Dimensions } from './models/dimensions';
-import { ElementRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 
+@Injectable()
 export class MimeDomHelper {
-  private fullscreen = new FullscreenService();
+
+  constructor(private fullscreen: FullscreenService) { }
 
   public getBoundingClientRect(el: ElementRef): Dimensions {
+    console.log('getBoundingClientRect()');
     try {
       if (this.isDocumentInFullScreenMode() && el.nativeElement.nodeName === 'MIME-VIEWER') {
         return this.createFullscreenDimensions(el);
