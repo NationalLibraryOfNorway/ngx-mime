@@ -81,11 +81,10 @@ Feature: Zoom
     When the user click zoom in button
     Then the current zoom level has increased
 
-  # TODO Ignoring this until we decided if viewer should change mode
-  @Ignore
   @desktop
   Scenario: Zooming out on desktop from home
     Given zoom level is home
+    #And the viewer is in page view
     When the user click zoom out button
     Then the current zoom level is home
 
