@@ -52,7 +52,7 @@ export let testManifest = {
                   'allmennheten i noen form uten samtykke fra den enkelte rettighetshaver.',
   'service': {
     '@context': 'http://iiif.io/api/search/0/context.json',
-    '@id': 'https://api.nb.no:443/catalog/v1/contentsearch/0266d0da8f0d064a7725048aacf19872/search',
+    '@id': 'http://example.org/services/identifier/search',
     'profile': 'http://iiif.io/api/search/0/search'
   },
   'sequences': [

@@ -63,4 +63,8 @@ describe('ManifestBuidler', () => {
     });
   });
 
+  it('should hava a content search URI ', () => {
+    expect(manifest.service.id).toBe('http://example.org/services/identifier/search');
+  });
+
 });
