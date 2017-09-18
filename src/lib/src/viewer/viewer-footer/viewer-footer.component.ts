@@ -4,7 +4,7 @@ import { MdSliderChange } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../../core/viewer-intl';
-import { OptionsTransitions } from '../../core/models/options-transitions';
+import { CustomOptions } from '../../core/models/options-custom';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { PageService } from './../../core/page-service/page-service';
 
@@ -24,8 +24,8 @@ import { PageService } from './../../core/page-service/page-service';
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate(OptionsTransitions.TOOLBARS + 'ms ease-in')),
-      transition('show => hide', animate(OptionsTransitions.TOOLBARS + 'ms ease-out'))
+      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
     ])
   ],
   host: {

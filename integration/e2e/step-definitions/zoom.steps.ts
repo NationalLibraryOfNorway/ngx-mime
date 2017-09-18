@@ -70,12 +70,12 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect((await page.getZoomLevel())).to.equal((await page.getMinZoom()));
   });
 
-  Then(/^the current zoom level is home$/, async () => {
-    expect((await page.getZoomLevel()).toPrecision(5)).to.equal((await page.getHomeZoom()).toPrecision(5));
-  });
-
   Then(/^the view should be vertically centered$/, async () => {
     const bounds = await page.getBounds();
     expect(bounds.y).to.equal(0);
+  });
+
+  Then(/^the current zoom level is home$/, async () => {
+    expect(await page.isCurrentPageFittedViewport()).to.be.true;
   });
 });
