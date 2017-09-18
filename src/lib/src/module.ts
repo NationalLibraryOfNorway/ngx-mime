@@ -1,5 +1,6 @@
 
 import { NgModule} from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -9,7 +10,6 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
 import './rxjs-extension';
@@ -25,10 +25,10 @@ import 'd3';
     OsdToolbarComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     CoreModule,
     SharedModule,
     ContentsDialogModule,
-    BrowserAnimationsModule,
     AttributionDialogModule
   ],
   exports: [

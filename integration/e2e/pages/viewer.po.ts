@@ -1,4 +1,4 @@
-import { browser, element, ElementFinder, by, By } from 'protractor';
+import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
 import { promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
 
@@ -12,6 +12,19 @@ export class ViewerPage {
   async open() {
     await browser.get('/');
     await browser.sleep(5000);
+  }
+
+  async goToPage(pageNumber: number) {
+    const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
+    for (let i = 0; i < pageNumber; i++) {
+      await slider.sendKeys(protractor.Key.ARROW_RIGHT);
+    }
+  }
+
+  async getCurrentPageNumber() {
+    const el =  await utils.waitForElement(element(by.css('#currentPageNumber')));
+    const currentPageNumber = await el.getText();
+    return currentPageNumber;
   }
 
   async openContentsDialog() {
@@ -98,6 +111,13 @@ export class ViewerPage {
 
   getBounds(): promise.Promise<any> {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
+  }
+
+  async swipe(startPoint: Point, endPoint: Point): Promise<void> {
+    await browser.touchActions()
+      .tapAndHold(startPoint)
+      .release(endPoint)
+      .perform();
   }
 
   async pinchOut(): Promise<void> {
