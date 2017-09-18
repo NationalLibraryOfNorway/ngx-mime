@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { IiifContentSearchService } from './iiif-content-search.service';
 import { SearchResultBuilder } from './../builders/search-result.builder';
 import { SearchResult } from './../models/search-result';
+import { Manifest } from './../models/manifest';
 
 import './../../rxjs-extension';
 
@@ -28,13 +29,17 @@ describe('IiifContentSearchService', () => {
     fakeAsync((svc: IiifContentSearchService, http: HttpClient, httpMock: HttpTestingController) => {
     let result: SearchResult = null;
 
-    svc.search('dummyUrl');
+    svc.search({
+      service: {
+        id: 'dummyUrl'
+      }
+    }, 'query');
     svc.currentSearchResult.subscribe((searchResult: SearchResult) => {
       result = searchResult;
     });
 
-    httpMock.expectOne(`dummyUrl`)
-      .flush(new SearchResultBuilder({
+    httpMock.expectOne(`dummyUrl?q=query`)
+      .flush(new SearchResultBuilder(new Manifest(), {
         hits: [
           {
             match: 'querystring'

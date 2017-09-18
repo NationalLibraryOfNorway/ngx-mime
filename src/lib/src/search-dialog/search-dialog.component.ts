@@ -74,7 +74,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.currentSearch = this.q;
-    this.iiifContentSearchService.search(`${this.manifest.service.id}?q=${this.q}`);
+    this.iiifContentSearchService.search(this.manifest, this.q);
   }
 
   private resizeTabHeight(): void {

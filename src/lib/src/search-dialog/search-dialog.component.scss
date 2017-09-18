@@ -35,6 +35,10 @@ em {
   margin-bottom: 4px;
 }
 
+.pageLabel {
+  text-align: right;
+}
+
 ::ng-deep .mat-dialog-container {
   padding: 0px !important;
   max-width: none !important;

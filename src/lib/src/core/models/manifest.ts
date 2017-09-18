@@ -50,11 +50,11 @@ export class Metadata {
 }
 
 export class Sequence {
-  public id: string;
-  public type: string;
-  public label: string;
-  public viewingHint: string;
-  public canvases: Canvas[];
+  public id?: string;
+  public type?: string;
+  public label?: string;
+  public viewingHint?: string;
+  public canvases?: Canvas[];
 
   constructor(
     fields?: {
@@ -76,13 +76,13 @@ export class Sequence {
 }
 
 export class Canvas {
-  public id: string;
-  public type: string;
-  public label: string;
-  public thumbnail: string;
-  public height: number;
-  public width: number;
-  public images: Images[];
+  public id?: string;
+  public type?: string;
+  public label?: string;
+  public thumbnail?: string;
+  public height?: number;
+  public width?: number;
+  public images?: Images[];
 
   constructor(
     fields?: {

@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IiifSearchResult } from './../models/iiif-search-result';
 import { SearchResultBuilder } from './../builders/search-result.builder';
 import { SearchResult } from './../models/search-result';
+import { Manifest } from './../models/manifest';
 
 @Injectable()
 export class IiifContentSearchService {
@@ -23,22 +24,22 @@ export class IiifContentSearchService {
     return this._searching.asObservable();
   }
 
-  search(contentSearchUri: string): void {
-    if (contentSearchUri === null) {
+  search(manifest: Manifest, q: string): void {
+    if (q === null) {
       return;
     }
     this._searching.next(true);
-    this.http.get(contentSearchUri)
+    this.http.get(`${manifest.service.id}?q=${q}`)
       .finally(() => this._searching.next(false))
       .subscribe(
-      (res: IiifSearchResult) => this._currentSearchResult.next(this.extractData(res)),
+      (res: IiifSearchResult) => this._currentSearchResult.next(this.extractData(manifest, res)),
       (err: HttpErrorResponse) => this.handleError
       );
 
   }
 
-  private extractData(iiifSearchResult: IiifSearchResult): SearchResult {
-    return new SearchResultBuilder(iiifSearchResult).build();
+  private extractData(manifest: Manifest, iiifSearchResult: IiifSearchResult): SearchResult {
+    return new SearchResultBuilder(manifest, iiifSearchResult).build();
   }
 
   private handleError(err: HttpErrorResponse | any) {

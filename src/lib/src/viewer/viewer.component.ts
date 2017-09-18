@@ -136,6 +136,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewerService.destroy();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
+    this.searchDialogService.destroy();
   }
 
   setClasses() {
