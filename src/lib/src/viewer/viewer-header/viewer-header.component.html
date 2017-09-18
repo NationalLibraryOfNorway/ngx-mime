@@ -3,7 +3,7 @@
     <button id="contentsDialogButton" md-icon-button [attr.aria-label]="intl.contents" [mdTooltip]="intl.contents" (click)="toggleContents()">
       <md-icon>list</md-icon>
     </button>
-    <button id="searchDialogButton" *ngIf="isContentSearchEnabled" md-icon-button [attr.aria-label]="intl.search" [mdTooltip]="intl.search" (click)="toggleSearch()">
+    <button id="contentSearchDialogButton" *ngIf="isContentSearchEnabled" md-icon-button [attr.aria-label]="intl.search" [mdTooltip]="intl.search" (click)="toggleSearch()">
       <md-icon>search</md-icon>
     </button>
     <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" md-icon-button [attr.aria-label]="intl.fullScreen" [mdTooltip]="intl.fullScreen" (click)="toggleFullscreen()">

@@ -7,7 +7,7 @@ import { ManifestBuilder } from './../core/builders/manifest.builder';
 import { Manifest } from './../core/models/manifest';
 
 export class IiifManifestServiceStub {
-  protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
+  public _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
 
   get currentManifest(): Observable<Manifest> {
     return this._currentManifest.asObservable();

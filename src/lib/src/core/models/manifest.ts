@@ -163,17 +163,17 @@ export class Resource {
 }
 
 export class Service {
-  public context: string;
-  public id: string;
-  public protocol: string;
-  public width: number;
-  public height: number;
-  public sizes: Size[];
-  public tiles: Tile[];
-  public profile: string;
-  public physicalScale: number;
-  public physicalUnits: string;
-  public service: Service;
+  public context?: string;
+  public id?: string;
+  public protocol?: string;
+  public width?: number;
+  public height?: number;
+  public sizes?: Size[];
+  public tiles?: Tile[];
+  public profile?: string;
+  public physicalScale?: number;
+  public physicalUnits?: string;
+  public service?: Service;
 
   constructor(
     fields?: {

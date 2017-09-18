@@ -96,6 +96,7 @@ describe('ViewerHeaderComponent', () => {
     });
 
   }));
+
   it('should show fullscreen button if fullscreen mode is supported',
     inject([FullscreenService], (fullscreenService: FullscreenService) => {
       spyOn(fullscreenService, 'isEnabled').and.returnValue(true);
@@ -114,6 +115,28 @@ describe('ViewerHeaderComponent', () => {
 
       const button = fixture.debugElement.query(By.css('#fullscreenButton'));
       expect(button).not.toBeNull();
+    }));
+
+  it('should show search button if manifest has a search service',
+    inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
+      iiifManifestService._currentManifest.next({
+        service: {}
+      });
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('#contentSearchDialogButton'));
+      expect(button.nativeElement.getAttribute('aria-label')).toBe('Search');
+    }));
+
+  it('should hide search button if manifest does not have a search service',
+    inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
+      iiifManifestService._currentManifest.next({});
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('#contentSearchDialogButton'));
+      expect(button).toBeNull();
     }));
 
 });
