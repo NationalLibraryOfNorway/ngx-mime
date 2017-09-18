@@ -24,7 +24,6 @@ defineSupportCode(function ({ Given, Then }) {
 
   Given(/^the user is on page (.*)$/, async (pageNumber: number) => {
     await page.goToPage(pageNumber);
-    return Promise.resolve('pending');
   });
 
 });

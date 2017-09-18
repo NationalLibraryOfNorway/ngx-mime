@@ -80,9 +80,9 @@ export class Options {
   navigationControlAnchor = ControlAnchor.TOP_LEFT;
   showZoomControl = true;
   showHomeControl = true;
-  showFullPageControl = true;
+  showFullPageControl = false;
   showRotationControl = false;
-  showSequenceControl = true;
+  showSequenceControl = false;
   sequenceControlAnchor = ControlAnchor.TOP_LEFT;
   navPrevNextWrap = false;
   zoomInButton: string = null;
@@ -91,8 +91,8 @@ export class Options {
   fullPageButton: string;
   rotateLeftButton: string;
   rotateRightButton: string;
-  previousButton = 'navigateBeforeButton';
-  nextButton = 'navigateNextButton';
+  previousButton: string;
+  nextButton: string;
   sequenceMode = true;
   initialPage = 0;
   preserveViewport = false;
