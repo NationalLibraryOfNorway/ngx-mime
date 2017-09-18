@@ -206,7 +206,6 @@ export class ViewerService implements OnInit {
     this.pageIsAtMinZoom() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomfactor);
   }
 
-
   /**
    * Overrides for default OSD-functions
    */
@@ -217,7 +216,6 @@ export class ViewerService implements OnInit {
       this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
     };
   }
-
 
   /**
    * Set settings for page/dashboard-mode

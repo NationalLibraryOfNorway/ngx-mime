@@ -3,10 +3,10 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { MdSliderChange } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../../core/viewer-intl';
-import { CustomOptions } from '../../core/models/options-custom';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { PageService } from './../../core/page-service/page-service';
+import { CustomOptions } from '../../core/models/options-custom';
+import { MimeViewerIntl } from './../../core/viewer-intl';
 
 @Component({
   selector: 'mime-viewer-footer',
