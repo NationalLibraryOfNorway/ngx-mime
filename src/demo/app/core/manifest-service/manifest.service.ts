@@ -33,6 +33,14 @@ export class ManifestService {
     {
       label: 'Attribution',
       uri: 'assets/fixtures/presentation/2/attribution-manifest.json'
+    },
+    {
+      label: 'Landscape',
+      uri: 'assets/fixtures/presentation/2/landscape-manifest.json'
+    },
+    {
+      label: 'Different sizes',
+      uri: 'assets/fixtures/presentation/2/different-size-manifest.json'
     }
   ];
 
