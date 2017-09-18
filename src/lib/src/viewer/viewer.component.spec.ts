@@ -131,8 +131,6 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-
-
   it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
     viewerService.toggleToDashboard();
     expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
@@ -193,8 +191,6 @@ describe('ViewerComponent', function () {
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
-
-
 
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';

@@ -26,6 +26,7 @@ import 'd3';
     CoreModule,
     SharedModule,
     ContentsDialogModule,
+    BrowserAnimationsModule,
     AttributionDialogModule
   ],
   exports: [

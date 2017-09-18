@@ -1,4 +1,3 @@
-import { Subject } from 'rxjs/Rx';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -10,13 +9,14 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ObservableMedia } from '@angular/flex-layout';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
 import { ViewerFooterComponent } from './viewer-footer.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { PageService } from './../../core/page-service/page-service';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
-import { Observable } from 'rxjs/Observable';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
