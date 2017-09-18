@@ -133,8 +133,8 @@ export class ViewerPage {
   async dblClick(): Promise<void> {
     await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
       return browser.actions()
-        .mouseMove(canvas)
-        .doubleClick()
+        .click(canvas)
+        .click(canvas)
         .perform();
     });
   }
@@ -142,7 +142,8 @@ export class ViewerPage {
   async dblTap(): Promise<void> {
     await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
       return browser.touchActions()
-        .doubleTap(canvas)
+        .tap(canvas)
+        .tap(canvas)
         .perform();
     });
   }
@@ -187,8 +188,8 @@ export class ViewerPage {
   }
 
   async isCurrentPageFittedViewport(): Promise<boolean> {
-    const svgParent = await this.getSVGElement()
-    const overlay = await this.getFirstPageOverlay()
+    const svgParent = await this.getSVGElement();
+    const overlay = await this.getFirstPageOverlay();
 
     const svgParentDimensions = await svgParent.getSize();
     const overlayDimensions = await overlay.getSize();
@@ -197,6 +198,16 @@ export class ViewerPage {
       Math.round(svgParentDimensions.width) === Math.round(overlayDimensions.width)
       || Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height)
     );
+  }
+
+  async isVerticallyCentered(): Promise<boolean> {
+    const svgParent = await this.getSVGElement();
+    const overlay = await this.getFirstPageOverlay();
+
+    const svgParentDimensions = await svgParent.getSize();
+    const overlayDimensions = await overlay.getSize();
+
+    return Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height);
   }
 }
 

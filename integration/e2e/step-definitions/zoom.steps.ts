@@ -71,8 +71,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the view should be vertically centered$/, async () => {
-    const bounds = await page.getBounds();
-    expect(bounds.y).to.equal(0);
+    expect(await page.isVerticallyCentered()).to.be.true;
   });
 
   Then(/^the current zoom level is home$/, async () => {

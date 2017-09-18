@@ -289,10 +289,10 @@ export class ViewerService implements OnInit {
       this.zoomTo(this.getZoom() * this.options.zoomPerClick);
     } else {
       let requestedPage = this.getOverlayIndexFromClickEvent(target);
-      if (this.isPageHit(target)) {
+      if (requestedPage >= 0) {
         this.pageService.currentPage = requestedPage;
-        this.toggleToPage();
       }
+      this.toggleToPage();
     }
   }
 
