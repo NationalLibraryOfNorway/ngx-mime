@@ -1,6 +1,6 @@
 import { PanDirection } from '../models/pan-direction';
 import { SpinnerService } from '../spinner-service/spinner.service';
-import { Subject } from 'rxjs/Rx';
+import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { OptionsTransitions } from '../models/options-transitions';
 import { OptionsOverlays } from '../models/options-overlays';
 import { Injectable, NgZone, OnInit } from '@angular/core';
@@ -31,6 +31,7 @@ export class ViewerService implements OnInit {
 
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+  public isAnimating: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private horizontalPadding = 0;
 
@@ -136,7 +137,9 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    // this.viewer.addHandler('animation-start', () => this.spinnerService.show());
+    this.viewer.addHandler('animation-start', () => {
+      this.isAnimating.next(true);
+    });
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
@@ -296,7 +299,7 @@ export class ViewerService implements OnInit {
    */
   animationsEndCallback = () => {
     this.isCurrentPageFittedViewport = this.getIsCurrentPageFittedViewport();
-    //  this.spinnerService.hide();
+    this.isAnimating.next(false);
   }
 
   /**
@@ -452,6 +455,7 @@ export class ViewerService implements OnInit {
         this.toggleToPage();
         // Then pan to next or previous page
         // Needs timeout because we have to wait for first animation to end
+
         setTimeout(() => {
           this.panToNextOrPreviousPageFromDirection(dir);
         }, OptionsTransitions.OSD);
