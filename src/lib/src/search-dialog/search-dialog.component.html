@@ -19,8 +19,8 @@
   </div>
   <div class="search-form" fxLayout="column">
     <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
-      <button type="submit" md-icon-button class="search-button"><md-icon>search</md-icon></button>
       <md-form-field fxFlex>
+        <button type="submit" mdPrefix md-icon-button><md-icon>search</md-icon></button>
         <input mdInput fxFill class="search-input" [(ngModel)]="q" name="q" autocomplete="off">
       </md-form-field>
     </form>
