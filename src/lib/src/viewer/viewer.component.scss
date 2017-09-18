@@ -1,11 +1,66 @@
-.openSeadragonContainer {
+.viewer__container {
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:host>>>.openseadragon-container {
+  flex-grow: 1;
 }
 
 #openseadragon {
+  display: flex;
   width: 100%;
-  height: calc(100% - 80px);
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.viewer__container.page {
+  & #openseadragon {
+    height: 100%;
+  }
+}
+
+.viewer__container >>>.tile:hover {
+  stroke: #08f;
+  stroke-width: 10;
+  cursor: pointer;
+}
+
+.viewer__container.page >>>.tile:hover {
+  stroke: none;
+}
+
+.viewer__container.canvas-pressed,.viewer__container.canvas-pressed>>>.tile:hover  {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.viewer__container>>>.tile {
+  fill-opacity: 0; /* Svg-tile filled black if this is not set? */
+}
+
+
+mime-viewer-header {
+  height: 64px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow:hidden;
+  z-index: 2;
+}
+
+mime-viewer-footer {
+  height: 64px;
+  max-height: 64px;
+  position: absolute;
+  bottom: 0;
+  overflow:hidden;
+  z-index: 2;
 }
 
 ::ng-deep .cdk-overlay-container {

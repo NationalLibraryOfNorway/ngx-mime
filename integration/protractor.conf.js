@@ -17,8 +17,8 @@ const config = {
   capabilities: {
     'browserName': 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu" ]
-    }    
+      args: [ "--headless", "--disable-gpu", "--window-size=1024x768" ]
+    }
   },
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',

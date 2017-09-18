@@ -1,6 +1,9 @@
+import { CustomOptions } from './options-custom';
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
+import { ViewerMode } from './viewer-mode';
+
 
 export class Options {
   id = 'openseadragon';
@@ -12,22 +15,22 @@ export class Options {
   prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
   navImages: null;
   debugMode = false;
-  debugGridColor = '#437AB2';
+  debugGridColor = '#ffcc00';
   blendTime = 0;
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 0;
+  defaultZoomLevel = 0.00014;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
   degrees = 0;
-  minZoomLevel: number = null;
+  minZoomLevel = this.defaultZoomLevel;
   maxZoomLevel: number = null;
   homeFillsViewer = false;
   panHorizontal = true;
   panVertical = true;
-  constrainDuringPan = false;
+  constrainDuringPan = true;
   wrapHorizontal = false;
   wrapVertical = false;
   minZoomImageRatio = 1;
@@ -38,7 +41,7 @@ export class Options {
   preserveImageSizeOnResize = false;
   minScrollDeltaTime = 50;
   pixelsPerWheelLine = 40;
-  visibilityRatio = 0.5;
+  visibilityRatio = 1;
   viewportMargins: Object = {};
   imageLoaderLimit = 0;
   clickTimeThreshold = 300;
@@ -46,7 +49,7 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = 1.2;
+  animationTime = CustomOptions.transitions.OSDAnimationTime / 1000;
   gestureSettingsMouse = new GestureSettingsMouse();
   gestureSettingsTouch = new GestureSettingsTouch();
   gestureSettingsPen = new GestureSettingsPen();
@@ -82,8 +85,8 @@ export class Options {
   showSequenceControl = true;
   sequenceControlAnchor = ControlAnchor.TOP_LEFT;
   navPrevNextWrap = false;
-  zoomInButton = 'zoomInButton';
-  zoomOutButton = 'zoomOutButton';
+  zoomInButton: string = null;
+  zoomOutButton: string = null;
   homeButton = 'homeButton';
   fullPageButton: string;
   rotateLeftButton: string;
@@ -102,7 +105,7 @@ export class Options {
   referenceStripPosition = 'BOTTOM_LEFT';
   referenceStripSizeRatio = 0.2;
   collectionMode = false;
-  collectionRows = 3;
+  collectionRows = 1;
   collectionColumns = 0;
   collectionLayout = 'horizontal';
   collectionTileSize = 800;

@@ -1,3 +1,4 @@
+import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -18,7 +19,9 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private mimeService: MimeResizeService) { }
+    private mimeService: MimeResizeService,
+    private viewerService: ViewerService
+  ) { }
 
   ngOnInit() {
     this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
@@ -28,6 +31,14 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     });
 
+  }
+
+  zoomIn() {
+    this.viewerService.zoomIn();
+  }
+
+  zoomOut() {
+    this.viewerService.zoomOut();
   }
 
   ngOnDestroy() {
