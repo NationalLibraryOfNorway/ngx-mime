@@ -11,6 +11,7 @@ import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { SearchDialogService } from './../../search-dialog/search-dialog.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
+import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 
 @Component({
@@ -42,6 +43,7 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
   public state = 'show';
+  isContentSearchEnabled = false;
   isFullscreenEnabled = false;
 
   constructor(
@@ -49,7 +51,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
     private searchDialogService: SearchDialogService,
-    private fullscreenService: FullscreenService) { }
+    private fullscreenService: FullscreenService,
+    private iiifManifestService: IiifManifestService) { }
 
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
@@ -57,6 +60,11 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
 
     this.subscriptions.push(this.fullscreenService.onChange.subscribe(() => {
+      this.changeDetectorRef.detectChanges();
+    }));
+
+    this.subscriptions.push(this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
+      this.isContentSearchEnabled = manifest.service ? true : false;
       this.changeDetectorRef.detectChanges();
     }));
 

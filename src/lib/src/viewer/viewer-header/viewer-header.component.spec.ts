@@ -1,19 +1,21 @@
-import { Observable } from 'rxjs/Observable';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ObservableMedia } from '@angular/flex-layout';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
+import { SearchDialogModule } from './../../search-dialog/search-dialog.module';
 import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
+import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -24,10 +26,12 @@ describe('ViewerHeaderComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        ViewerHeaderTestModule
+        ViewerHeaderTestModule,
+        SearchDialogModule
       ],
       providers: [
-        { provide: FullscreenService, useClass: FullscreenServiceMock }
+        { provide: FullscreenService, useClass: FullscreenServiceMock },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
     })
       .compileComponents();
@@ -55,7 +59,7 @@ describe('ViewerHeaderComponent', () => {
     }));
 
   it('should open contents dialog', () => {
-    component.openContents();
+    component.toggleContents();
   });
 
   it('should start in visible mode', async(() => {

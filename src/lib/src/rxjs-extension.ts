@@ -10,3 +10,4 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/finally';

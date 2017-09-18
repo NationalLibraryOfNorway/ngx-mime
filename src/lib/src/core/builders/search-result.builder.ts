@@ -8,12 +8,14 @@ export class SearchResultBuilder {
   public build(): SearchResult {
     const searchResult = new SearchResult();
     const hits: Hit[] = [];
-    for (let iiifHit of this.iiifSearchResult.hits) {
-      searchResult.add(new Hit({
-        match: iiifHit.match,
-        before: iiifHit.before,
-        after: iiifHit.after
-      }));
+    if (this.iiifSearchResult.hits) {
+      for (const iiifHit of this.iiifSearchResult.hits) {
+        searchResult.add(new Hit({
+          match: iiifHit.match,
+          before: iiifHit.before,
+          after: iiifHit.after
+        }));
+      }
     }
     return searchResult;
   }

@@ -15,6 +15,7 @@ import { ViewerComponent } from './viewer.component';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
+import { SearchDialogModule } from './../search-dialog/search-dialog.module';
 import { testManifest } from '../test/testManifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
@@ -50,7 +51,8 @@ describe('ViewerComponent', function () {
         NoopAnimationsModule,
         SharedModule,
         ContentsDialogModule,
-        AttributionDialogModule
+        AttributionDialogModule,
+        SearchDialogModule
       ],
       declarations: [
         ViewerComponent,

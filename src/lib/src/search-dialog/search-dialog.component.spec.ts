@@ -8,14 +8,15 @@ import { ObservableMedia, MatchMedia } from '@angular/flex-layout';
 
 import { SharedModule } from './../shared/shared.module';
 import { MimeMaterialModule } from './../shared/mime-material.module';
-import { ContentsDialogComponent } from './search-dialog.component';
+import { SearchDialogComponent } from './search-dialog.component';
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
+import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 
-describe('ContentsDialogComponent', () => {
-  let component: ContentsDialogComponent;
-  let fixture: ComponentFixture<ContentsDialogComponent>;
+describe('SearchDialogComponent', () => {
+  let component: SearchDialogComponent;
+  let fixture: ComponentFixture<SearchDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,11 +26,12 @@ describe('ContentsDialogComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [
-        ContentsDialogComponent
+        SearchDialogComponent
       ],
       providers: [
         MimeViewerIntl,
         IiifManifestService,
+        IiifContentSearchService,
         MimeResizeService,
         { provide: MdDialogRef, useClass: MdDialogRefMock },
         { provide: ObservableMedia, useClass: MediaMock }
@@ -39,7 +41,7 @@ describe('ContentsDialogComponent', () => {
   }));
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(ContentsDialogComponent);
+    fixture = TestBed.createComponent(SearchDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

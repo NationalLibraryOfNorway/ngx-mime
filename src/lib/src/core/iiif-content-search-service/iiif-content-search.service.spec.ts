@@ -6,10 +6,17 @@ import { IiifContentSearchService } from './iiif-content-search.service';
 import { SearchResultBuilder } from './../builders/search-result.builder';
 import { SearchResult } from './../models/search-result';
 
+import './../../rxjs-extension';
+
 describe('IiifContentSearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [IiifContentSearchService]
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        IiifContentSearchService
+      ]
     });
   });
 
@@ -27,9 +34,15 @@ describe('IiifContentSearchService', () => {
     });
 
     httpMock.expectOne(`dummyUrl`)
-      .flush(new SearchResultBuilder({}).build());
+      .flush(new SearchResultBuilder({
+        hits: [
+          {
+            match: 'querystring'
+          }
+        ]
+      }).build());
     tick();
-    expect(result.size()).toBe(2);
+    expect(result.size()).toBe(1);
 
   })));
 

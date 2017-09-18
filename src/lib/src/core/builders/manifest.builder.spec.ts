@@ -2,7 +2,7 @@ import { ManifestBuilder } from './manifest.builder';
 import { testManifest } from '../../test/testManifest';
 import { Canvas, Images, Manifest, Sequence } from '../models/manifest';
 
-describe('ManifestBuidler', () => {
+describe('ManifestBuilder', () => {
   let manifest: Manifest;
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('ManifestBuidler', () => {
     expect(manifest.label).toBe('Fjellkongen Ludvig \"Ludden\"');
     expect(manifest.metadata.length).toBe(10);
     expect(manifest.license).toBe('https://beta.nb.no/lisens/copyright');
-    expect(manifest.service.id).toBe('https://api.nb.no:443/catalog/v1/contentsearch/0266d0da8f0d064a7725048aacf19872/search');
+    expect(manifest.service.id).toBe('http://example.org/services/identifier/search');
   });
 
   it('should test manifest sequence after build', () => {
@@ -61,10 +61,6 @@ describe('ManifestBuidler', () => {
         });
       });
     });
-  });
-
-  it('should hava a content search URI ', () => {
-    expect(manifest.service.id).toBe('http://example.org/services/identifier/search');
   });
 
 });
