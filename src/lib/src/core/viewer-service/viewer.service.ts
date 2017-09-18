@@ -43,7 +43,7 @@ export class ViewerService implements OnInit {
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
   private centerPoints = new CenterPoints();
-  private currentMode: ViewerMode;
+
 
   constructor(
     private zone: NgZone,
@@ -104,7 +104,7 @@ export class ViewerService implements OnInit {
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      direction:  'previous',
+      direction: 'previous',
       currentPageIndex: currentPageIndex,
       maxPage: this.pageService.numberOfPages - 1
     });
@@ -117,7 +117,7 @@ export class ViewerService implements OnInit {
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      direction:  'next',
+      direction: 'next',
       currentPageIndex: currentPageIndex,
       maxPage: this.pageService.numberOfPages - 1
     });
@@ -141,7 +141,6 @@ export class ViewerService implements OnInit {
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.currentMode = mode;
         this.setSettings(mode);
       }));
 
@@ -178,7 +177,6 @@ export class ViewerService implements OnInit {
       subscription.unsubscribe();
     });
     this.centerPoints = new CenterPoints();
-    this.currentMode = null;
   }
 
   /**
@@ -212,6 +210,7 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
 
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
+      //this.dragEndHandler(e);
       this.swipeToPage(e);
     });
     this.viewer.addHandler('animation', (e: any) => {
@@ -544,92 +543,13 @@ export class ViewerService implements OnInit {
   }
 
 
-
-  /**
-   * Handler for drag-events
-   */
-  dragEndHandler = (e: any) => {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-
-    // If zoomed in page mode
-    if (this.isZoomedInPageMode()) {
-      const dir: PanDirection = this.getPanDirection(pageBounds);
-      if (dir !== undefined) {
-        // First fit current page
-        this.toggleToPage();
-        // Then pan to next or previous page
-        // Needs timeout because we have to wait for first animation to end
-
-        setTimeout(() => {
-          this.panToNextOrPreviousPageFromDirection(dir);
-        }, CustomOptions.transitions.OSDAnimationTime);
-
-      }
-      // Dash or fitted-page-mode
-    } else {
-      const page = this.getNewPageFromPanning();
-      if (page >= 0) {
-        this.pageService.currentPage = page;
-        this.panToPage();
-      }
-    }
-  }
-
-  /**
-   * Iterates pages
-   * Returns index of new page to pan to
-   */
-  getNewPageFromPanning(): number {
-    const viewportBounds = this.viewer.viewport.getBounds();
-    const centerX = viewportBounds.x + (viewportBounds.width / 2);
-    let foundPage = -1;
-
-    this.tileSources.some((tile, i) => {
-      const page = this.viewer.world.getItemAt(i);
-      if (!page) {
-        return;
-      }
-
-      const pageBounds = page.getBounds(true);
-
-      if (pageBounds.x + pageBounds.width > centerX) {
-        // Center point is within pagebounds
-        if (pageBounds.x < centerX) {
-          foundPage = i;
-        } else {
-          // No use case before first page as OpenSeadragon prevents it by default
-
-          // Centre point is between two tiles
-          let previouspageBounds = this.viewer.world.getItemAt(i - 1).getBounds();
-          let marginLeft = previouspageBounds.x + previouspageBounds.width;
-          let marginCentre = marginLeft + ((pageBounds.x - marginLeft) / 2);
-
-          if (centerX > marginCentre) {
-            foundPage = i;
-
-          } else {
-            foundPage = i - 1;
-
-          }
-        }
-
-        return true;
-      }
-      // No use case beyond last page as OpenSeadragon prevents it by default
-
-    });
-
-    return foundPage;
-  }
-
   /**
    * Pans to next or previous page depending on direction
-   * @param {PanDirection}
    */
-  panToNextOrPreviousPageFromDirection(dir: PanDirection) {
-    if (dir === PanDirection.LEFT) {
+  panOnePage(direction: string) {
+    if (direction === 'left') {
       this.pageService.getNextPage();
-    } else if (dir === PanDirection.RIGHT) {
+    } else if (direction === 'right') {
       this.pageService.getPrevPage();
     }
     this.panToPage();
@@ -650,18 +570,13 @@ export class ViewerService implements OnInit {
   }
 
 
-  /**
-   * Calculates PanDirection for a page
-   * @param page : Overlay for page
-   * @returns {PanDirection} undefined if not RIGHT or LEFT
-   */
-  private getPanDirection(page: any): PanDirection {
+  private isPanningOutsidePage(page: any): boolean {
     const vpBounds = this.viewer.viewport.getBounds();
-    return (
-      (vpBounds.x - CustomOptions.pan.sensitivityMargin < page.x) ? PanDirection.RIGHT
-        : (vpBounds.x + vpBounds.width + CustomOptions.pan.sensitivityMargin > page.x + page.width) ? PanDirection.LEFT
-          : undefined);
+    const isOutsideRightBound = vpBounds.x - CustomOptions.pan.sensitivityMargin < page.x;
+    const isOutsideLeftBound = vpBounds.x + vpBounds.width + CustomOptions.pan.sensitivityMargin > page.x + page.width;
+    return isOutsideRightBound || isOutsideLeftBound;
   }
+
 
 
   private calculateCurrentPage(center: Point) {
@@ -677,22 +592,35 @@ export class ViewerService implements OnInit {
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+
     const direction = new SwipeUtils().getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
 
-    const calculateNextPageStrategy = CalculateNextPageFactory.create(this.currentMode);
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       speed: speed,
-      direction:  direction,
+      direction: direction,
       currentPageIndex: currentPageIndex,
       maxPage: this.pageService.numberOfPages - 1
     });
 
-    if (this.currentMode === ViewerMode.DASHBOARD) {
+    if (this.modeService.mode === ViewerMode.DASHBOARD || this.isCurrentPageFittedViewport) {
       this.goToPage(newPageIndex);
+
+    // Zoomed in page mode
+    } else if (this.modeService.mode === ViewerMode.PAGE && !this.isPageFittedOrSmaller()) {
+      if (this.isPanningOutsidePage(pageBounds)) {
+
+        this.toggleToPage();
+        setTimeout(() => {
+          this.panOnePage(direction);
+        }, CustomOptions.transitions.OSDAnimationTime);
+      }
     }
   }
+
 
   private panTo(x: number, y: number): void {
     this.viewer.viewport.panTo({
