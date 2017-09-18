@@ -2,8 +2,6 @@ import { CustomOptions } from './options-custom';
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
-import { ViewerMode } from './viewer-mode';
-
 
 export class Options {
   id = 'openseadragon';

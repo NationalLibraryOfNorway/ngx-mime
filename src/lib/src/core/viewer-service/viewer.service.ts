@@ -5,11 +5,13 @@ import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Utils } from '../../core/utils';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { Dimensions } from '../models/dimensions';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { ClickService } from '../click-service/click.service';
+import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import '../ext/svg-overlay';
 import * as d3 from 'd3';
 
@@ -25,15 +27,12 @@ export class ViewerService implements OnInit {
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
+  private containerPadding: Dimensions = new Dimensions();
 
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
   public isAnimating: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private horizontalPadding = 0;
-
-  // TODO: Move this to config when merging
-  private readonly PAN_SENSITIVITY_MARGIN = 40;
 
   constructor(
     private zone: NgZone,
@@ -151,6 +150,7 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
+    this.viewer.addHandler('canvas-drag-end', this.dragEndHandler);
 
   }
 
@@ -160,7 +160,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       return;
     }
-    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomfactor);
+    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor);
   }
 
   // Binds to OSD-Toolbar button
@@ -169,7 +169,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       return;
     }
-    this.isPageFittedOrSmaller() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomfactor);
+    this.isPageFittedOrSmaller() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
   }
 
 
@@ -178,6 +178,7 @@ export class ViewerService implements OnInit {
    */
   addOverrides(): void {
     // Raised when viewer loads first time
+    // TODO: Reimplement go home override (current version causes incorrect zoom at start-up)
     this.viewer.viewport.goHome = () => {
       this.viewer.raiseEvent('home');
       this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
@@ -338,9 +339,21 @@ export class ViewerService implements OnInit {
   isPageFittedOrSmaller(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
+    return (pageBounds.width <= viewportBounds.width)
+      || (pageBounds.height <= viewportBounds.height);
+  }
 
-    return (Math.round(pageBounds.height) <= Math.round(viewportBounds.height))
-      || (Math.round(pageBounds.width) <= Math.round(viewportBounds.width));
+  getCurrentPageToViewportFitRatio(): number {
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const viewportBounds = this.viewer.viewport.getBounds();
+
+    let resizeRatio = viewportBounds.height / pageBounds.height;
+    if (resizeRatio * pageBounds.width <= viewportBounds.width) {
+      return resizeRatio;
+    } else {
+      // Page at full height is wider than viewport.  Return fit by width instead.
+      return viewportBounds.width / pageBounds.width;
+    }
   }
 
   /**
@@ -574,8 +587,8 @@ export class ViewerService implements OnInit {
   private getPanDirection(page: any): PanDirection {
     const vpBounds = this.viewer.viewport.getBounds();
     return (
-      (vpBounds.x - this.PAN_SENSITIVITY_MARGIN < page.x) ? PanDirection.RIGHT
-        : (vpBounds.x + vpBounds.width + this.PAN_SENSITIVITY_MARGIN > page.x + page.width) ? PanDirection.LEFT
+      (vpBounds.x - CustomOptions.pan.sensitivityMargin < page.x) ? PanDirection.RIGHT
+        : (vpBounds.x + vpBounds.width + CustomOptions.pan.sensitivityMargin > page.x + page.width) ? PanDirection.LEFT
           : undefined);
   }
 

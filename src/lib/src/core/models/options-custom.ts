@@ -4,7 +4,13 @@
 
 export const CustomOptions = {
   zoom: {
-    zoomfactor: 0.0002
+    zoomFactor: 0.0002
+  },
+
+  pan: {
+    // How many pixels before we reach end of page.
+    // Used to determine if we are dragging outside of current page
+    sensitivityMargin: 40
   },
 
   // All transition times in milliseconds

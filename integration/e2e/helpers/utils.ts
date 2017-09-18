@@ -36,4 +36,8 @@ export class Utils {
     const cap: Capabilities = await browser.getCapabilities();
     return cap.get('browserName');
   }
+
+  static numbersAreClose(thing: number, realThing: number, epsilon: number): boolean {
+    return (Math.abs(thing - realThing) <= epsilon);
+  }
 }

@@ -6,12 +6,13 @@ Feature: Viewing publications in fullscreen mode
   Background:
     Given the viewer is opened with a publication
 
+@Ignore
   @android @desktop
   Scenario: Fullscreen mode
     Given the viewer is in dashboard view
     When the user select full screen mode
     Then the viewer should be presented using the entire screen
-
+@Ignore
   @android @desktop
   Scenario: Exit Fullscreen mode
     Given the viewer is in dashboard view

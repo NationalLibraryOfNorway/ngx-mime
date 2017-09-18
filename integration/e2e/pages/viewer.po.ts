@@ -194,10 +194,10 @@ export class ViewerPage {
     const svgParentDimensions = await svgParent.getSize();
     const overlayDimensions = await overlay.getSize();
 
-    return (
-      Math.round(svgParentDimensions.width) === Math.round(overlayDimensions.width)
-      || Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height)
-    );
+    const widthIsFitted = Utils.numbersAreClose(svgParentDimensions.width, overlayDimensions.width, 5);
+    const heightIsFitted = Utils.numbersAreClose(svgParentDimensions.height, overlayDimensions.height, 5);
+
+    return widthIsFitted || heightIsFitted;
   }
 
   async isVerticallyCentered(): Promise<boolean> {

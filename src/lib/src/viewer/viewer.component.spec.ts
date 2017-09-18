@@ -95,16 +95,24 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should change mode to initial-mode when changing manifest', () => {
+  it('should change mode to initial-mode when changing manifest', async((done: any) => {
     testHostFixture.whenStable().then(() => {
       // Toggle to opposite of initial-mode
-      config.initViewerMode === ViewerMode.PAGE ? viewerService.toggleToDashboard() : viewerService.toggleToPage();
+      if (config.initViewerMode === ViewerMode.PAGE) {
+        viewerService.toggleToDashboard();
+        expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+      } else {
+        viewerService.toggleToPage();
+        expect(modeService.mode).toBe(ViewerMode.PAGE);
+      }
+
+      expect(modeService.mode).toBe(config.initViewerMode);
       testHostComponent.manifestUri = 'dummyURI3';
       testHostComponent.viewerComponent.ngOnInit();
       testHostFixture.detectChanges();
       expect(modeService.mode).toBe(config.initViewerMode);
     });
-  });
+  }));
 
   it('should change to DASHBOARD-mode when doubleclicking in PAGE-mode', fakeAsync(() => {
     viewerService.toggleToPage();
@@ -145,11 +153,15 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
 
-  it('should fit page to viewport in PAGE-mode', fakeAsync(() => {
+  it('should fit page to viewport in PAGE-mode', (done: any) => {
     viewerService.toggleToPage();
-    tick(1000);
-    expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
-  }));
+    // We need to wait until zoom and pan animations are done
+    // async and fakeAsync don't seem to work
+    setTimeout(() => {
+      expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
+      done();
+    }, 0);
+  });
 
 
   it('should still be PAGE-mode when doubleclick in zoomed-in page-mode', fakeAsync(() => {
@@ -263,21 +275,24 @@ describe('ViewerComponent', function () {
     expect(rect.height).toEqual(overlay.height.baseVal.value);
   });
 
-  it('should fit bounds to viewport for a page', fakeAsync(() => {
+  it('should fit bounds to viewport for a page', (done: any) => {
     let overlay = viewerService.getOverlays()[0];
     let viewer = viewerService.getViewer();
     let overlayBounds = viewerService.createRectangle(overlay);
 
     viewerService.fitBounds(overlay);
-    tick(1000);
 
-    let viewportX = Math.round(viewer.viewport.getBounds().x);
-    let viewportY = Math.round(viewer.viewport.getBounds().y);
-    let overlayX = Math.round(overlayBounds.y);
-    let overlayY = Math.round(overlayBounds.y);
+    setTimeout(() => {
+      let viewportX = Math.round(viewer.viewport.getBounds().x);
+      let viewportY = Math.round(viewer.viewport.getBounds().y);
+      let overlayX = Math.round(overlayBounds.y);
+      let overlayY = Math.round(overlayBounds.y);
 
-    expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
-  }));
+      expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
+      done();
+    }, 0);
+
+  });
 
   it('should return overlay-index if target is an overlay', () => {
     let overlay, index;
