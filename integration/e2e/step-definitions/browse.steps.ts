@@ -21,6 +21,7 @@ defineSupportCode(function ({ Given, When, Then }) {
       };
       page.swipe(start, end);
     }
+    return Promise.resolve('pending');
   });
 
   When(/^the user drags the page slider to page (.*)$/, async (pageNumber: number) => {
