@@ -11,6 +11,10 @@ export class CenterPoints {
     return {...this.centerPoints[index]};
   }
 
+  public update(index: number, point: Point): void {
+    this.centerPoints[index] = point;
+  }
+
   public findClosestIndex(point: Point): number {
     let i: number;
     let result: any;

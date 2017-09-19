@@ -819,7 +819,8 @@ export class ViewerService implements OnInit {
 
   //Recursive function to iterate through previous pages and position them to the left of the current page
   private positionPreviousTiles(currentTileIndex: number, currentTileBounds: any, margin: number): void {
-    let previousTiledImage = this.viewer.world.getItemAt(currentTileIndex - 1);
+    let previousTileIndex = currentTileIndex - 1;
+    let previousTiledImage = this.viewer.world.getItemAt(previousTileIndex);
     if (!previousTiledImage) {
       return;
     }
@@ -831,6 +832,12 @@ export class ViewerService implements OnInit {
     previousTileBounds.y = currentTileBounds.y;
     previousTiledImage.setPosition(new OpenSeadragon.Point(previousTileBounds.x, previousTileBounds.y), true);
     previousTiledImage.update();
+    
+    //Update center
+    this.centerPoints.update(previousTileIndex, {
+      x: previousTileBounds.x + (previousTileBounds.width / 2),
+      y: previousTileBounds.y + (previousTileBounds.height / 2)
+    });
 
     //Position overlay
     //TODO: Update x and y base values in this.overlays[]
@@ -840,12 +847,13 @@ export class ViewerService implements OnInit {
       .attr('y', previousTileBounds.y);
 
     //Call function for previous tile
-    this.positionPreviousTiles(currentTileIndex - 1, previousTileBounds, margin);
+    this.positionPreviousTiles(previousTileIndex, previousTileBounds, margin);
   }
 
   //Recursive function to iterate through next pages and position them to the right of the current page
   private positionNextTiles(currentTileIndex: number, currentTileBounds: any, margin: number): void {
-    let nextTiledImage = this.viewer.world.getItemAt(currentTileIndex + 1);
+    let nextTileIndex = currentTileIndex + 1;
+    let nextTiledImage = this.viewer.world.getItemAt(nextTileIndex);
     if (!nextTiledImage) {
       return;
     }
@@ -858,6 +866,12 @@ export class ViewerService implements OnInit {
     nextTiledImage.setPosition(new OpenSeadragon.Point(nextTileBounds.x, nextTileBounds.y), true);
     nextTiledImage.update();
 
+    //Update center
+    this.centerPoints.update(nextTileIndex, {
+      x: nextTileBounds.x + (nextTileBounds.width / 2),
+      y: nextTileBounds.y + (nextTileBounds.height / 2)
+    });
+
     //Position overlay
     //TODO: Update x and y base values in this.overlays[]
     let nextOverlay = this.overlays[currentTileIndex + 1];
@@ -866,51 +880,7 @@ export class ViewerService implements OnInit {
       .attr('y', nextTileBounds.y);
 
     //Call function for next tile
-    this.positionNextTiles(currentTileIndex + 1, nextTileBounds, margin);
-  }
-
-
-
-  //TODO: Move this method to page service
-  private updateCurrentPage(): void {
-    let viewportBounds = this.viewer.viewport.getBounds();
-    let centerX = viewportBounds.x + (viewportBounds.width / 2);
-
-    //TODO: Is it faster to iterate through tiles, svg nodes or overlays[]?
-    this.tileSources.some((tile, i) => {
-      let tiledImage = this.viewer.world.getItemAt(i);
-      if (!tiledImage) {
-        return;
-      }
-
-      let tileBounds = tiledImage.getBounds(true);
-      if (tileBounds.x + tileBounds.width > centerX) {
-
-        if (tileBounds.x < centerX) {
-          //Center point is within tile bounds
-          this.pageService.currentPage = i;
-        }
-        else {
-          //No use case before first page as OpenSeadragon prevents it by default
-
-          //Centre point is between two tiles
-          let previousTileBounds = this.viewer.world.getItemAt(i - 1).getBounds();
-          let marginLeft = previousTileBounds.x + previousTileBounds.width;
-          let marginCentre = marginLeft + ((tileBounds.x - marginLeft) / 2);
-
-          if (centerX > marginCentre) {
-            this.pageService.currentPage = i;
-          }
-          else {
-            this.pageService.currentPage = i - 1;
-          }
-        }
-
-        return true;
-      }
-      //No use case beyond last page as OpenSeadragon prevents it by default
-
-    });
+    this.positionNextTiles(nextTileIndex, nextTileBounds, margin);
   }
 
   private applicationResize(): void {
