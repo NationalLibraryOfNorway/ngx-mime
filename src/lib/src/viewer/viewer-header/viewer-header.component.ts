@@ -1,4 +1,4 @@
-import { OptionsTransitions } from '../../core/models/options-transitions';
+import { CustomOptions } from '../../core/models/options-custom';
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
@@ -30,8 +30,8 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate(OptionsTransitions.TOOLBARS_EASE_OUT_TIME + 'ms ease-out')),
-      transition('show => hide', animate(OptionsTransitions.TOOLBARS_EASE_IN_TIME + 'ms ease-in'))
+      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
     ])
   ],
   host: {

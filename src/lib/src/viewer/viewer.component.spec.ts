@@ -1,7 +1,6 @@
+import { CustomOptions } from '../core/models/options-custom';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
-
-import { OptionsTransitions } from '../core/models/options-transitions';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -20,7 +19,7 @@ import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/viewer-intl';
-import { ClickService } from '../core/click/click.service';
+import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
@@ -88,6 +87,15 @@ describe('ViewerComponent', function () {
 
   it('should create component', () => expect(comp).toBeDefined());
 
+  it('should cleanUp when manifestUri changes', () => {
+    testHostComponent.manifestUri = 'dummyURI2';
+
+    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+    testHostFixture.detectChanges();
+
+    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+  });
+
   it('should create viewer', () => {
     expect(viewerService.getViewer()).toBeDefined();
   });
@@ -122,8 +130,6 @@ describe('ViewerComponent', function () {
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
-
-
 
   it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
     viewerService.toggleToDashboard();
@@ -186,15 +192,13 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
 
-
-
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
 
-    spyOn(testHostComponent.viewerComponent.dialog, 'closeAll').and.callThrough();
+    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.dialog.closeAll).toHaveBeenCalled();
+    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
   });
 
   it('should increase zoom level when pinching out', () => {
@@ -241,10 +245,6 @@ describe('ViewerComponent', function () {
     //
     // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
     pending('Set to pending until we find a way to perform pan event');
-  });
-
-  it('should increase zoom-level when doubleclicking in page mode', () => {
-    pending('');
   });
 
   it('svgOverlay-plugin should be defined', () => {
@@ -304,6 +304,26 @@ describe('ViewerComponent', function () {
     index = viewerService.getOverlayIndexFromClickEvent(overlay);
     expect(index).toBe(-1);
 
+  });
+
+  it('should change page when swipeing to left', () => {
+    // viewerService.toggleToDashboard();
+    // tick();
+    // const viewer = viewerService.getViewer();
+    // viewer.raiseEvent('canvas-press', {position: {
+    //   x: 1450, y: 150}
+    // });
+    // tick(1);
+    // viewer.raiseEvent('canvas-drag-end', {position: {
+    //   x: 150, y: 150}
+    // });
+    // let pageNumber = 0;
+    // viewerService.onPageChange.subscribe(p => {
+    //   pageNumber = p;
+    // });
+    // tick(100);
+    // expect(pageNumber).toBe(10);
+    pending('Set to pending until we find a way to perform swipe event');
   });
 
   function pinchOut() {

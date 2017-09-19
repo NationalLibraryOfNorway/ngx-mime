@@ -1,16 +1,30 @@
-import { browser, element, ElementFinder, by, By } from 'protractor';
+import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
 import { promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
 
+
 const utils = new Utils();
 export class ViewerPage {
-  private thumbStartPosition = {x: 600, y: 300};
-  private pointerPosition1 = {x: 650, y: 275};
-  private pointerPosition2 = {x: 750, y: 200};
+  private thumbStartPosition = { x: 600, y: 300 };
+  private pointerPosition1 = { x: 650, y: 275 };
+  private pointerPosition2 = { x: 750, y: 200 };
 
   async open() {
     await browser.get('/');
     await browser.sleep(5000);
+  }
+
+  async goToPage(pageNumber: number) {
+    const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
+    for (let i = 0; i < pageNumber; i++) {
+      await slider.sendKeys(protractor.Key.ARROW_RIGHT);
+    }
+  }
+
+  async getCurrentPageNumber() {
+    const el =  await utils.waitForElement(element(by.css('#currentPageNumber')));
+    const currentPageNumber = await el.getText();
+    return currentPageNumber;
   }
 
   async openContentsDialog() {
@@ -43,22 +57,24 @@ export class ViewerPage {
       + ' || document.msFullscreenElement) != null');
   }
 
-  getHeader(): ElementFinder {
+  getHeader() {
     const el = element(by.css('mime-viewer-header'));
-    utils.waitForElement(el);
-    return el;
+    return utils.waitForElement(el);
   }
 
-  getFooter(): ElementFinder {
+  getFooter() {
     const el = element(by.css('mime-viewer-footer'));
-    utils.waitForElement(el);
-    return el;
+    return utils.waitForElement(el);
   }
 
-  getFirstPageOverlay(): ElementFinder {
-    const el = element.all(by.css('svg rect')).first();
-    utils.waitForElement(el);
-    return el;
+  getSVGElement() {
+    const el = element(by.css('#openseadragon svg'));
+    return utils.waitForElement(el);
+  }
+
+  getFirstPageOverlay() {
+    const el = element.all(by.css('#openseadragon svg > g > rect')).first();
+    return utils.waitForElement(el);
   }
 
   getAnimationTime(): promise.Promise<number> {
@@ -95,6 +111,13 @@ export class ViewerPage {
 
   getBounds(): promise.Promise<any> {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
+  }
+
+  async swipe(startPoint: Point, endPoint: Point): Promise<void> {
+    await browser.touchActions()
+      .tapAndHold(startPoint)
+      .release(endPoint)
+      .perform();
   }
 
   async pinchOut(): Promise<void> {
@@ -159,6 +182,41 @@ export class ViewerPage {
 
   async waitForAnimation(): Promise<void> {
     await browser.sleep((await this.getAnimationTime()) * 100);
+  }
+
+  async isDashboardMode(): Promise<boolean> {
+    const header = await this.getHeader();
+    const footer = await this.getFooter();
+    const headerDisplay = header.getCssValue('display');
+    const footerDisplay = footer.getCssValue('display');
+
+    const headerisPresent = (await headerDisplay) === 'block';
+    const footerisPresent = (await footerDisplay) === 'block';
+    return (headerisPresent && headerisPresent);
+  }
+
+  async isPageMode(): Promise<boolean> {
+    const header = await this.getHeader();
+    const footer = await this.getFooter();
+    const headerDisplay = header.getCssValue('display');
+    const footerDisplay = footer.getCssValue('display');
+
+    const headerisHidden = (await headerDisplay) === 'none';
+    const footerisHidden = (await footerDisplay) === 'none';
+    return (headerisHidden && footerisHidden);
+  }
+
+  async isCurrentPageFittedViewport(): Promise<boolean> {
+    const svgParent = await this.getSVGElement()
+    const overlay = await this.getFirstPageOverlay()
+
+    const svgParentDimensions = await svgParent.getSize();
+    const overlayDimensions = await overlay.getSize();
+
+    return (
+      Math.round(svgParentDimensions.width) === Math.round(overlayDimensions.width)
+      || Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height)
+    );
   }
 }
 

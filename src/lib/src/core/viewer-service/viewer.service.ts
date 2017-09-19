@@ -1,6 +1,8 @@
+import { CenterPoints } from './../models/page-center-point';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { CustomOptions } from '../models/options-custom';
 import { Subject } from 'rxjs/Rx';
-import { OptionsTransitions } from '../models/options-transitions';
-import { OptionsOverlays } from '../models/options-overlays';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ModeService } from '../../core/mode-service/mode.service';
@@ -8,9 +10,14 @@ import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
-import { ClickService } from '../click/click.service';
+import { SwipeUtils } from './swipe-utils';
+import { CalculateNextPageFactory } from './calculate-next-page-factory';
+import { Point } from './../models/point';
+import { ClickService } from '../click-service/click.service';
 import '../ext/svg-overlay';
+
 import * as d3 from 'd3';
+import '../../rxjs-extension';
 
 declare const OpenSeadragon: any;
 
@@ -28,6 +35,11 @@ export class ViewerService implements OnInit {
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
+  private currentCenter: ReplaySubject<Point> = new ReplaySubject();
+  private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
+  private dragStartPosition: any;
+  private centerPoints = new CenterPoints();
+  private currentMode: ViewerMode;
 
   constructor(
     private zone: NgZone,
@@ -36,6 +48,14 @@ export class ViewerService implements OnInit {
     private modeService: ModeService) { }
 
   ngOnInit(): void { }
+
+  get onCenterChange(): Observable<Point> {
+    return this.currentCenter.asObservable();
+  }
+
+  get onPageChange(): Observable<number> {
+    return this.currentPageIndex.asObservable().distinctUntilChanged();
+  }
 
   public getViewer(): any {
     return this.viewer;
@@ -73,6 +93,37 @@ export class ViewerService implements OnInit {
     this.viewer.viewport.zoomTo(level);
   }
 
+  public goToPreviousPage(): void {
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
+    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      direction:  'previous',
+      currentPageIndex: currentPageIndex,
+      maxPage: this.pageService.numberOfPages - 1
+    });
+    this.goToPage(newPageIndex);
+  }
+
+  public goToNextPage(): void {
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
+    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      direction:  'next',
+      currentPageIndex: currentPageIndex,
+      maxPage: this.pageService.numberOfPages - 1
+    });
+    this.goToPage(newPageIndex);
+  }
+
+  public goToPage(pageIndex: number): void {
+    const newPageCenter = this.centerPoints.get(pageIndex);
+    this.panTo(newPageCenter.x, newPageCenter.y);
+  }
+
   setUpViewer(manifest: Manifest) {
     if (manifest.tileSource) {
       this.tileSources = manifest.tileSource;
@@ -85,7 +136,12 @@ export class ViewerService implements OnInit {
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+        this.currentMode = mode;
         this.setSettings(mode);
+      }));
+
+      this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
+        this.calculateCurrentPage(center);
       }));
 
       this.addToWindow();
@@ -106,6 +162,8 @@ export class ViewerService implements OnInit {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+    this.centerPoints = new CenterPoints();
+    this.currentMode = null;
   }
 
   addEvents(): void {
@@ -116,10 +174,38 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
-    this.viewer.addHandler('canvas-press', () => this.isCanvasPressed.next(true));
+    this.viewer.addHandler('canvas-press', (e: any) => {
+      this.dragStartPosition = e.position;
+      this.isCanvasPressed.next(true);
+    });
     this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
     this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
+
+    this.viewer.addHandler('canvas-drag-end', (e: any) => {
+      this.swipeToPage(e);
+    });
+    this.viewer.addHandler('animation', (e: any) => {
+      this.currentCenter.next(this.viewer.viewport.getCenter(true));
+    });
+  }
+
+  // Binds to OSD-Toolbar button
+  zoomIn(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomfactor);
+  }
+
+  // Binds to OSD-Toolbar button
+  zoomOut(): void {
+    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    this.pageIsAtMinZoom() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomfactor);
   }
 
   /**
@@ -132,7 +218,6 @@ export class ViewerService implements OnInit {
       this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
     };
   }
-
 
   /**
    * Set settings for page/dashboard-mode
@@ -277,7 +362,6 @@ export class ViewerService implements OnInit {
   getIsCurrentPageFittedViewport(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
-
     return (Math.round(pageBounds.y) === Math.round(viewportBounds.y))
       || (Math.round(pageBounds.x) === Math.round(viewportBounds.x));
   }
@@ -288,7 +372,6 @@ export class ViewerService implements OnInit {
 
     return (Math.round(pageBounds.y) >= Math.round(viewportBounds.y))
       || (Math.round(pageBounds.x) >= Math.round(viewportBounds.x));
-
   }
 
   /**
@@ -330,7 +413,13 @@ export class ViewerService implements OnInit {
         .attr('class', 'tile');
       let currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
-      currentX = currentX + tile.width + OptionsOverlays.TILES_MARGIN;
+
+      this.centerPoints.add({
+        x: currentX + (tile.width / 2),
+        y: currentY + (tile.height / 2)
+      });
+
+      currentX = currentX + tile.width + CustomOptions.overlays.tilesMargin;
     });
   }
 
@@ -396,4 +485,42 @@ export class ViewerService implements OnInit {
     const short = Number(zoom).toPrecision(precision);
     return Number(short);
   }
+
+  private calculateCurrentPage(center: Point) {
+    const currentPageIndex = this.centerPoints.findClosestIndex(center);
+    this.currentPageIndex.next(currentPageIndex);
+  }
+
+  private getViewportCenter(): Point {
+    return this.viewer.viewport.getCenter(true);
+  }
+
+  private swipeToPage(e: any) {
+    const speed: number = e.speed;
+    const dragEndPosision = e.position;
+
+    const direction = new SwipeUtils().getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+
+    const calculateNextPageStrategy = CalculateNextPageFactory.create(this.currentMode);
+    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      speed: speed,
+      direction:  direction,
+      currentPageIndex: currentPageIndex,
+      maxPage: this.pageService.numberOfPages - 1
+    });
+
+    if (this.currentMode === ViewerMode.DASHBOARD) {
+      this.goToPage(newPageIndex);
+    }
+  }
+
+  private panTo(x: number, y: number): void {
+    this.viewer.viewport.panTo({
+      x: x,
+      y: y
+    }, false);
+  }
+
 }
