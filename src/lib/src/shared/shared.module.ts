@@ -1,3 +1,4 @@
+import { SpinnerService } from '../core/spinner-service/spinner.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -15,5 +16,8 @@ import { MimeMaterialModule } from './mime-material.module';
     FlexLayoutModule,
     MimeMaterialModule
   ],
+  providers: [
+    SpinnerService
+  ]
 })
 export class SharedModule { }

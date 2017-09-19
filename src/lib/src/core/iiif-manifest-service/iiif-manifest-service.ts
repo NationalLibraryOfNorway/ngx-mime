@@ -27,13 +27,11 @@ export class IiifManifestService {
     }
     this.spinnerService.show();
     this.http.get(manifestUri)
-    .finally(() => this.spinnerService.hide())
+      .finally(() => this.spinnerService.hide())
       .subscribe(
       (res: Response) => this._currentManifest.next(this.extractData(res)),
       (err: HttpErrorResponse) => this.handleError
-    )
-
-
+      )
   }
 
   private extractData(response: Response) {

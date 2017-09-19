@@ -1,3 +1,4 @@
+import { SpinnerService } from '../spinner-service/spinner.service';
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +16,8 @@ describe('IiifManifestService', () => {
         HttpClientTestingModule
       ],
       providers: [
-        IiifManifestService
+        IiifManifestService,
+        SpinnerService
       ]
     });
   });
