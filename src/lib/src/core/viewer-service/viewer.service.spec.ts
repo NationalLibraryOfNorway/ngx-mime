@@ -1,7 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 
 import { ViewerService } from './viewer.service';
-import { ClickService } from '../click/click.service';
+import { ClickService } from '../click-service/click.service';
+import { PageService } from './../page-service/page-service';
+import { ModeService } from './../mode-service/mode.service';
 
 describe('ViewerService', () => {
   beforeEach(() => {
@@ -9,7 +11,9 @@ describe('ViewerService', () => {
       imports: [],
       providers: [
         ViewerService,
-        ClickService
+        ClickService,
+        PageService,
+        ModeService
       ]
     });
   });
