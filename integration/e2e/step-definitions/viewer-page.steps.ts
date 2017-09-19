@@ -26,6 +26,10 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
+  Given(/^the viewer is opened with a publication without the word "Heimdall"$/, async () => {
+    await page.open();
+  });
+
   Given(/^the user is on page (.*)$/, async (pageNumber: number) => {
     await page.goToPage(pageNumber);
   });

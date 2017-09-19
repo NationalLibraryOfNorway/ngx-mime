@@ -28,11 +28,11 @@
   <div class="search-result-container" [ngStyle]="tabHeight">
     <div *ngIf="!isSearching" class="search-result" fxLayout="column">
       <div *ngIf="currentSearch !== ''">
-        <span>{{numberOfHits}}</span> treff for <em>{{currentSearch}}</em>
+        <span id="numberOfHits">{{numberOfHits}}</span> treff for <em>{{currentSearch}}</em>
       </div>
       <md-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)">
         <md-card-content fxLayout="row" fxLayoutAlign="space-between start">
-          <div fxFlex>
+          <div fxFlex class="summary">
             {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
           </div>
           <div fxFlex="40px" class="pageLabel">

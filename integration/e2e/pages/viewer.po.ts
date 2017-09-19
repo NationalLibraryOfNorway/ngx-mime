@@ -32,6 +32,11 @@ export class ViewerPage {
     await utils.waitForElement(element(by.css('.contents-container')));
   }
 
+  async openContentSearchDialog() {
+    await element(by.css('#contentSearchDialogButton')).click();
+    await utils.waitForElement(element(by.css('.search-container')));
+  }
+
   fullscreenButton(): ElementFinder {
     return element(by.css('#fullscreenButton'));
   }
