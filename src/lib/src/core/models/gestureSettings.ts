@@ -9,12 +9,15 @@ export class GestureSettings {
   pinchRotate = false;
 }
 
-export class GestureSettingsMouse extends GestureSettings {}
-
-export class GestureSettingsTouch extends GestureSettings {
-  pinchToZoom = true;
+export class GestureSettingsMouse extends GestureSettings {
+  scrollToZoom = false;
 }
 
-export class GestureSettingsPen extends GestureSettings {}
+export class GestureSettingsTouch extends GestureSettings {
+  scrollToZoom = false;
+  pinchToZoom = false;
+}
 
-export class GestureSettingsUnknown extends GestureSettings {}
+export class GestureSettingsPen extends GestureSettings { }
+
+export class GestureSettingsUnknown extends GestureSettings { }

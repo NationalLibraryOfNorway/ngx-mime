@@ -1,6 +1,8 @@
+import { CustomOptions } from '../../core/models/options-custom';
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../../core/viewer-intl';
@@ -14,10 +16,31 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
   selector: 'mime-viewer-header',
   templateUrl: './viewer-header.component.html',
   styleUrls: ['./viewer-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('headerState', [
+      state('hide', style({
+        opacity: 0,
+        display: 'none',
+        transform: 'translate(0, -100%)'
+
+      })),
+      state('show', style({
+        opacity: 1,
+        display: 'block',
+        transform: 'translate(0, 0)'
+      })),
+      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
+    ])
+  ],
+  host: {
+    '[@headerState]': 'state'
+  }
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
+  public state = 'show';
   isFullscreenEnabled = false;
 
   constructor(

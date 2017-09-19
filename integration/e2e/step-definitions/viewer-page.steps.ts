@@ -18,12 +18,12 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
-  Given(/^the viewer is in page view$/, async () => {
-    expect(true).to.be.true;
+  Given(/^a left-to-right publication with 10 pages$/, async () => {
+    await page.open();
   });
 
-  Given(/^the viewer is in dashboard view$/, async () => {
-    expect(true).to.be.true;
+  Given(/^the user is on page (.*)$/, async (pageNumber: number) => {
+    await page.goToPage(pageNumber);
   });
 
 });

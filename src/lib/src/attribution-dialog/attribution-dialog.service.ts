@@ -37,6 +37,10 @@ export class AttributionDialogService {
 
   }
 
+  public destroy() {
+    this.close();
+  }
+
   set el(el: ElementRef) {
     this._el = el;
   }
@@ -54,7 +58,10 @@ export class AttributionDialogService {
   }
 
   public close(): void {
-    this.dialogRef.close();
+    if (this.dialogRef) {
+      this.dialogRef.close();
+      this.isAttributionDialogOpen = false;
+    }
   }
 
   public toggle(): void {
