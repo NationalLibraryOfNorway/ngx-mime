@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { URLSearchParams } from '@angular/http';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  manifestUri = 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest';
+export class AppComponent implements OnInit {
 
   constructor() { }
+
+  ngOnInit() {
+  }
+
 }

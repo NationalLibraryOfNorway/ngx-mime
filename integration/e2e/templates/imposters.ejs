@@ -10,7 +10,7 @@
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'gjallarhorn.ejs') %>" }}]
   },
   {
-    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/contentsearch/iiif/search?q=heimdall", "method": "GET, "query": { "q": "Heimdall" } }}]}],
+    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/contentsearch/iiif/search", "method": "GET", "query": { "q": "Heimdall" } }}]}],
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'no_hits.ejs') %>" }}]
   }]
 }
