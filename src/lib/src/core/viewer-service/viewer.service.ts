@@ -197,7 +197,9 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    this.viewer.addHandler('animation-start', () => this.isAnimating.next(true));
+    this.viewer.addHandler('animation-start', () => {
+      this.isAnimating.next(true);
+    });
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
@@ -547,17 +549,6 @@ export class ViewerService implements OnInit {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
     this.viewer.viewport.panTo(center, false);
-
-    if (this.modeService.mode === ViewerMode.PAGE) {
-      //TODO: Something better than a timeout function
-      setTimeout(() => {
-        //this.resizeViewportContainerToFitPage();
-      }, 500);
-    }
-  }
-
-  private isZoomedInPageMode(): boolean {
-    return this.modeService.mode === ViewerMode.PAGE && !this.isPageFittedOrSmaller();
   }
 
   private calculateCurrentPage(center: Point) {
@@ -588,12 +579,15 @@ export class ViewerService implements OnInit {
       maxPage: this.pageService.numberOfPages - 1
     });
 
-    if (this.modeService.mode === ViewerMode.DASHBOARD || this.isCurrentPageFittedViewport) {
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      this.goToPage(newPageIndex);
+
+    } else if(this.modeService.mode === ViewerMode.PAGE && this.isCurrentPageFittedViewport) {
       this.goToPage(newPageIndex);
 
       // Zoomed in page mode
-    } else if (this.modeService.mode === ViewerMode.PAGE && !this.isPageFittedOrSmaller()) {
-      if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
+    } else if (this.isZoomedInPage()) {
+      if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds) && direction) {
         this.toggleToPage();
         setTimeout(() => {
           this.panOnePage(direction);
@@ -601,6 +595,13 @@ export class ViewerService implements OnInit {
       }
     }
   }
+
+  isZoomedInPage(): boolean {
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const viewportBounds = this.viewer.viewport.getBounds();
+    return this.modeService.mode === ViewerMode.PAGE && (pageBounds.height > viewportBounds.height);
+  }
+
 
   private panTo(x: number, y: number): void {
     this.viewer.viewport.panTo({
@@ -664,14 +665,14 @@ export class ViewerService implements OnInit {
   }
 
   private positionTilesInDashboardView(requestedPageIndex: number): void {
-    
+
     this.updatePagePositions(requestedPageIndex, CustomOptions.overlays.tilesMargin)
 
     const rootNode = d3.select(this.viewer.container.parentNode);
     rootNode.style('max-width', '');
 
   }
-  
+
   private updatePagePositions(centerPageIndex: number, margin: number): void {
     let centerTiledImage = this.viewer.world.getItemAt(centerPageIndex);
     if (!centerTiledImage) {
