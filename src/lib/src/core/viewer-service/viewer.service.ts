@@ -32,6 +32,7 @@ export class ViewerService implements OnInit {
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
+
   private containerPadding: Dimensions = new Dimensions();
 
   public isCurrentPageFittedViewport = false;
@@ -126,6 +127,15 @@ export class ViewerService implements OnInit {
   public goToPage(pageIndex: number): void {
     const newPageCenter = this.centerPoints.get(pageIndex);
     this.panTo(newPageCenter.x, newPageCenter.y);
+  }
+
+  public updatePadding(padding: Dimensions): void {
+    //TODO: Check whether padding has changed properly
+    if (this.containerPadding.top !== padding.top) {
+      this.paddingChanged(padding);
+      this.containerPadding = padding;
+    }
+
   }
 
   setUpViewer(manifest: Manifest) {
@@ -405,19 +415,6 @@ export class ViewerService implements OnInit {
       || (pageBounds.height <= viewportBounds.height);
   }
 
-  getCurrentPageToViewportFitRatio(): number {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    const viewportBounds = this.viewer.viewport.getBounds();
-
-    const resizeRatio = viewportBounds.height / pageBounds.height;
-    if (resizeRatio * pageBounds.width <= viewportBounds.width) {
-      return resizeRatio;
-    } else {
-      // Page at full height is wider than viewport.  Return fit by width instead.
-      return viewportBounds.width / pageBounds.width;
-    }
-  }
-
   /**
    * Checks if hit element is a <rect>-element
    * @param target
@@ -552,7 +549,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.PAGE) {
       //TODO: Something better than a timeout function
       setTimeout(() => {
-        this.resizeViewportContainerToFitTile(pageBounds, d3.select(this.viewer.container.parentNode));
+        this.resizeViewportContainerToFitPage();
       }, 500);
     }
   }
@@ -643,26 +640,11 @@ export class ViewerService implements OnInit {
     let pageCenter = new OpenSeadragon.Point(requestedPageBounds.x + (requestedPageBounds.width / 2), requestedPageBounds.y + (requestedPageBounds.height / 2));
     viewport.panTo(pageCenter, false);
 
-    //Zoom viewport to fit new top/bottom padding
-    //TODO: Configurable padding
-    let resizeRatio = this.getViewportHeightChangeRatio(viewport, 160, 0);
-    if (!this.getIsCurrentPageFittedViewport()) {
-      resizeRatio = resizeRatio * this.getCurrentPageToViewportFitRatio();
-    }
-    this.animateZoom(viewport, resizeRatio, 200);
-
-    //Set max-width on OpenSeadragon container to match current tile width
-    //TODO: Add logic for pages wider and shorter than the viewport
-    //TODO: Adjust width on zoom
-    //TODO: Configurable padding for header/footer
-    let rootNode = d3.select(this.viewer.container.parentNode);
-    let newPageBounds = this.getResizedRectangle(this.getCenteredRectangle(requestedPageBounds, viewport.getCenter(true)), resizeRatio);
-    this.resizeViewportContainerToFitTile(newPageBounds, rootNode);
-    rootNode.style('padding', '0');
-    
 
     //TODO: Something better than a timeout function
     setTimeout(() => {
+      this.resizeViewportContainerToFitPage();
+
       //Update position of previous/next tiles
       //TODO: Configurable margin
       this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 20);
@@ -672,7 +654,8 @@ export class ViewerService implements OnInit {
   }
 
   //TODO: Refactoring
-  private animateZoom(viewport: any, resizeRatio: number, milliseconds: number): void {
+  private animateZoom(resizeRatio: number, milliseconds: number): void {
+    let viewport = this.viewer.viewport;
     let iterations = 10;
 
     let currentZoom = viewport.getZoom();
@@ -703,48 +686,13 @@ export class ViewerService implements OnInit {
     }, timeIncrement);
   }
 
-  private getViewportHeightChangeRatio(viewport: any, verticalPadding: number, newVerticalPadding: number): number {
-
-    let paddingVector = new OpenSeadragon.Point(0, verticalPadding - newVerticalPadding);
-    let paddingInViewportCoordinates = viewport.deltaPointsFromPixels(paddingVector);
-
-    let height = viewport.getBounds(true).height;
-    let newHeight = height + paddingInViewportCoordinates.y;
-    let resizeRatio = newHeight / height;
-
-    return resizeRatio;
-  }
-
-  private getResizedRectangle(rectangle: any, resizeRatio: number): any {
-    return new OpenSeadragon.Rect(
-      (rectangle.x + (rectangle.width / 2)) - ((rectangle.width * resizeRatio) / 2),
-      (rectangle.y + (rectangle.height / 2)) - ((rectangle.height * resizeRatio) / 2),
-      rectangle.width * resizeRatio,
-      rectangle.height * resizeRatio
-    );
-  }
-
-  private getCenteredRectangle(rectangle: any, viewportCenter: any): any {
-    return new OpenSeadragon.Rect(
-      viewportCenter.x - (rectangle.width / 2),
-      viewportCenter.y - (rectangle.height / 2),
-      rectangle.width,
-      rectangle.height
-    );
-  }
-
-  private resizeViewportContainerToFitTile(tileBounds: any, container: any): void {
-    let widthVector = new OpenSeadragon.Point(tileBounds.width, 0);
+  private resizeViewportContainerToFitPage(): void {
+    let container = d3.select(this.viewer.container.parentNode);
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    
+    let widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
     let widthInPixels = Math.round(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
     container.style('max-width', widthInPixels + 'px');
-  }
-
-  //TODO: add direction parameter
-  //TODO: not used - delete?
-  private getViewportCoordinateDifferenceInPixels(minuendCoordinate: number, subtrahendCoordinate: number): number {
-    let minuendCoordinateInPixels = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(minuendCoordinate, 0)).x;
-    let subtrahendCoordinateInPixels = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(subtrahendCoordinate, 0)).x;
-    return Math.round(minuendCoordinateInPixels - subtrahendCoordinateInPixels);
   }
 
   private positionTilesInDashboardView(requestedPageIndex: number): void {
@@ -758,20 +706,11 @@ export class ViewerService implements OnInit {
     this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, CustomOptions.overlays.tilesMargin);
     this.positionNextTiles(requestedPageIndex, requestedPageBounds, CustomOptions.overlays.tilesMargin);
 
-    //Zoom viewport to fit new top/bottom padding
-    //TODO: Configurable padding
-    let viewport = this.viewer.viewport;
-    let resizeRatio = this.getViewportHeightChangeRatio(viewport, 0, 160);
-    this.animateZoom(viewport, resizeRatio, 200);
-
 
     //TODO: Something better than a timeout function
     setTimeout(() => {
-      //TODO: Configurable padding for header/footer
       let rootNode = d3.select(this.viewer.container.parentNode);
-      rootNode.style('padding', '80px 0');
       rootNode.style('max-width', '');
-      this.containerPadding = new Dimensions({ top: 80, bottom: 80 });
     }, 500);
 
   }
@@ -841,4 +780,44 @@ export class ViewerService implements OnInit {
     //Call function for next tile
     this.positionNextTiles(nextTileIndex, nextTileBounds, margin);
   }
+
+  private paddingChanged(newPadding: Dimensions): void {
+    if (!this.viewer) {
+      return;
+    }
+
+    const maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode).node().getBoundingClientRect());
+    const viewportHeight = maxViewportDimensions.height - newPadding.top - newPadding.bottom;
+    const viewportWidth = maxViewportDimensions.width - newPadding.left - newPadding.right;
+
+    const viewportSizeVector = new OpenSeadragon.Point(viewportWidth, viewportHeight);
+    const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(viewportSizeVector);
+    const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
+
+    this.resetZoom(viewportBounds);
+  }
+
+  private resetZoom(viewportBounds?: any, pageBounds?: any): void {
+    if (!viewportBounds) {
+      viewportBounds = this.viewer.viewport.getBounds();
+    }
+
+    if (!pageBounds) {
+      pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    }
+
+    let resizeRatio = this.getPageToViewportFitRatio(viewportBounds, pageBounds);
+    this.animateZoom(resizeRatio, 200);
+  }
+
+  private getPageToViewportFitRatio(viewportBounds: any, pageBounds: any): number {
+    const resizeRatio = viewportBounds.height / pageBounds.height;
+    if (resizeRatio * pageBounds.width <= viewportBounds.width) {
+      return resizeRatio;
+    } else {
+      // Page at full height is wider than viewport.  Return fit by width instead.
+      return viewportBounds.width / pageBounds.width;
+    }
+  }
+
 }

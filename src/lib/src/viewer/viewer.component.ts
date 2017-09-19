@@ -26,6 +26,7 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
+import { Dimensions } from '../core/models/dimensions';
 
 @Component({
   selector: 'mime-viewer',
@@ -55,7 +56,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private dialog: MdDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private pageService: PageService,
-    private modeService: ModeService) {
+    private modeService: ModeService ) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     mimeService.el = el;
@@ -115,8 +116,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   toggleToolbarsState(mode: ViewerMode): void {
     if (mode === ViewerMode.DASHBOARD) {
       this.header.state = this.footer.state = 'show';
+      this.viewerService.updatePadding(new Dimensions({top: 80, bottom: 80}));
     } else if (mode === ViewerMode.PAGE) {
       this.header.state = this.footer.state = 'hide';
+      this.viewerService.updatePadding(new Dimensions());
     }
     this.changeDetectorRef.detectChanges();
   }
