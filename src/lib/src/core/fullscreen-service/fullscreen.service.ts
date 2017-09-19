@@ -8,7 +8,6 @@ export class FullscreenService {
   private changeSubject: ReplaySubject<boolean> = new ReplaySubject();
 
   constructor() {
-    console.log('FullscreenService constructor()');
     this.onchange();
    }
 
