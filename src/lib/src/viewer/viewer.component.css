@@ -19,13 +19,20 @@
 #openseadragon {
   box-sizing: border-box;
   display: flex;
-  width: 100%;
   flex-grow: 1;
   flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .viewer__container.page #openseadragon {
   height: 100%;
+}
+
+.viewer__container.dashboard > > > .tile:hover {
+  stroke: #08f;
+  stroke-width: 10;
+  cursor: pointer;
 }
 
 .viewer__container.page > > > .tile:hover {

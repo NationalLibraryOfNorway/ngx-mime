@@ -17,7 +17,6 @@ import { SwipeUtils } from './swipe-utils';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
-import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import '../ext/svg-overlay';
 import * as d3 from 'd3';
 
@@ -49,8 +48,7 @@ export class ViewerService implements OnInit {
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService,
-    private mimeResizeService: MimeResizeService
+    private modeService: ModeService
   ) { }
 
   ngOnInit(): void { }
@@ -152,11 +150,6 @@ export class ViewerService implements OnInit {
       this.addToWindow();
       this.createOverlays();
       this.addEvents();
-
-      //TODO: Add only in page mode?
-      this.subscriptions.push(this.mimeResizeService.onResize.subscribe(() => {
-        this.applicationResize();
-      }));
     }
   }
 
@@ -559,11 +552,10 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.PAGE) {
       //TODO: Something better than a timeout function
       setTimeout(() => {
-        this.padViewportContainerToFitTile(pageBounds, d3.select(this.viewer.container.parentNode));
+        this.resizeViewportContainerToFitTile(pageBounds, d3.select(this.viewer.container.parentNode));
       }, 500);
     }
   }
-
 
   private isZoomedInPageMode(): boolean {
     return this.modeService.mode === ViewerMode.PAGE && !this.isPageFittedOrSmaller();
@@ -659,14 +651,15 @@ export class ViewerService implements OnInit {
     }
     this.animateZoom(viewport, resizeRatio, 200);
 
-    //Add left/right padding to OpenSeadragon to hide previous/next pages
+    //Set max-width on OpenSeadragon container to match current tile width
     //TODO: Add logic for pages wider and shorter than the viewport
-    //TODO: Adjust padding on window resize
-    //TODO: Adjust padding on zoom
+    //TODO: Adjust width on zoom
     //TODO: Configurable padding for header/footer
     let rootNode = d3.select(this.viewer.container.parentNode);
     let newPageBounds = this.getResizedRectangle(this.getCenteredRectangle(requestedPageBounds, viewport.getCenter(true)), resizeRatio);
-    this.padViewportContainerToFitTile(newPageBounds, rootNode);
+    this.resizeViewportContainerToFitTile(newPageBounds, rootNode);
+    rootNode.style('padding', '0');
+    
 
     //TODO: Something better than a timeout function
     setTimeout(() => {
@@ -740,49 +733,14 @@ export class ViewerService implements OnInit {
     );
   }
 
-  private padViewportContainerToFitTile(tileBounds: any, container: any): void {
-
-    let paddingChange = this.getViewportPaddingDifferenceToFitRectangle(tileBounds);
-    this.containerPadding = this.getCombinedPadding(this.containerPadding, paddingChange);
-    this.updatePadding(container, this.containerPadding);
-
-  }
-
-  private getCombinedPadding(initialPadding: any, paddingToAdd: any): Dimensions {
-    let padding = new Dimensions();
-
-    padding.left = initialPadding.left + paddingToAdd.left;
-    if (padding.left < 0) { padding.left = 0; }
-
-    padding.right = initialPadding.right + paddingToAdd.right;
-    if (padding.right < 0) { padding.right = 0; }
-
-    padding.top = initialPadding.top + paddingToAdd.top;
-    if (padding.top < 0) { padding.top = 0; }
-
-    padding.bottom = initialPadding.bottom + paddingToAdd.bottom;
-    if (padding.bottom < 0) { padding.bottom = 0; }
-
-    return padding;
-  }
-
-  private updatePadding(element: any, padding: any): void {
-    element.style('padding', padding.top + 'px ' + padding.right + 'px ' + padding.bottom + 'px ' + padding.left + 'px');
-  }
-
-  private getViewportPaddingDifferenceToFitRectangle(rectangle: any): Dimensions {
-    let padding = new Dimensions();
-    let viewportBounds = this.viewer.viewport.getBounds(true);
-
-    padding.left = this.getViewportCoordinateDifferenceInPixels(rectangle.x, viewportBounds.x);
-    padding.right = this.getViewportCoordinateDifferenceInPixels(viewportBounds.x + viewportBounds.width, rectangle.x + rectangle.width);
-    padding.top = this.getViewportCoordinateDifferenceInPixels(rectangle.y, viewportBounds.y);
-    padding.bottom = this.getViewportCoordinateDifferenceInPixels(viewportBounds.y + viewportBounds.height, rectangle.y + rectangle.height);
-
-    return padding;
+  private resizeViewportContainerToFitTile(tileBounds: any, container: any): void {
+    let widthVector = new OpenSeadragon.Point(tileBounds.width, 0);
+    let widthInPixels = Math.round(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
+    container.style('max-width', widthInPixels + 'px');
   }
 
   //TODO: add direction parameter
+  //TODO: not used - delete?
   private getViewportCoordinateDifferenceInPixels(minuendCoordinate: number, subtrahendCoordinate: number): number {
     let minuendCoordinateInPixels = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(minuendCoordinate, 0)).x;
     let subtrahendCoordinateInPixels = this.viewer.viewport.viewportToWindowCoordinates(new OpenSeadragon.Point(subtrahendCoordinate, 0)).x;
@@ -812,6 +770,7 @@ export class ViewerService implements OnInit {
       //TODO: Configurable padding for header/footer
       let rootNode = d3.select(this.viewer.container.parentNode);
       rootNode.style('padding', '80px 0');
+      rootNode.style('max-width', '');
       this.containerPadding = new Dimensions({ top: 80, bottom: 80 });
     }, 500);
 
@@ -832,7 +791,7 @@ export class ViewerService implements OnInit {
     previousTileBounds.y = currentTileBounds.y;
     previousTiledImage.setPosition(new OpenSeadragon.Point(previousTileBounds.x, previousTileBounds.y), true);
     previousTiledImage.update();
-    
+
     //Update center
     this.centerPoints.update(previousTileIndex, {
       x: previousTileBounds.x + (previousTileBounds.width / 2),
@@ -882,20 +841,4 @@ export class ViewerService implements OnInit {
     //Call function for next tile
     this.positionNextTiles(nextTileIndex, nextTileBounds, margin);
   }
-
-  private applicationResize(): void {
-    //TODO: Limit how often this runs
-    if (this.modeService.mode === ViewerMode.PAGE) {
-      //TODO: Something better than a timeout function
-      //TODO: Error handling
-      setTimeout(() => {
-        let pageBounds = this.viewer.world.getItemAt(this.pageService.currentPage).getBounds();
-        this.padViewportContainerToFitTile(pageBounds, d3.select(this.viewer.container.parentNode));
-      }, 500);
-    }
-  }
-
-
-
-
 }
