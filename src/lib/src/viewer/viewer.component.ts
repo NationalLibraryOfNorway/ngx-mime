@@ -122,6 +122,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngAfterViewChecked() {
+    console.log('ViewerComponent - ngAfterViewChecked()');
     this.mimeService.markForCheck();
   }
 

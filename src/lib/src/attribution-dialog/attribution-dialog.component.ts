@@ -45,6 +45,7 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewChecked() {
+    console.log('AttributionDialogComponent - ngAfterViewChecked()');
     this.attributionDialogResizeService.markForCheck();
   }
 }
