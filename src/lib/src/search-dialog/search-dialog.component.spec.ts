@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Rx';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
@@ -13,6 +15,7 @@ import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { ViewerService } from './../core/viewer-service/viewer.service';
 
 describe('SearchDialogComponent', () => {
   let component: SearchDialogComponent;
@@ -34,7 +37,8 @@ describe('SearchDialogComponent', () => {
         IiifContentSearchService,
         MimeResizeService,
         { provide: MdDialogRef, useClass: MdDialogRefMock },
-        { provide: ObservableMedia, useClass: MediaMock }
+        { provide: ObservableMedia, useClass: MediaMock },
+        { provide: ViewerService}
       ]
     })
       .compileComponents();
@@ -70,6 +74,16 @@ describe('SearchDialogComponent', () => {
       expect(heading).toBeNull();
     }));
 
+  it('should go to hit when selected',
+    inject([ViewerService], (viewerService: ViewerService) => {
+      spyOn(media, 'isActive').and.returnValue(true);
+
+      fixture.detectChanges();
+
+      const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
+      expect(heading).toBeNull();
+    }));
+
 });
 
 class MdDialogRefMock {
@@ -79,4 +93,16 @@ class MediaMock {
   isActive(m: string) {
     return false;
   }
+}
+
+class ViewerServiceMock {
+  pageChanged = new Subject<number>();
+  get onPageChange(): Observable<number> {
+    return this.pageChanged.asObservable();
+  }
+
+  public goToPreviousPage(): void { }
+
+  public goToNextPage(): void { }
+
 }

@@ -30,18 +30,16 @@
       <div *ngIf="currentSearch !== ''">
         <span>{{numberOfHits}}</span> treff for <em>{{currentSearch}}</em>
       </div>
-      <div *ngFor="let hit of hits" class="hit">
-        <md-card>
-          <md-card-content fxLayout="row" fxLayoutAlign="space-between start">
-            <div fxFlex>
-              {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
-            </div>
-            <div fxFlex="40px" class="pageLabel">
-              {{hit.index}}
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
+      <md-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)">
+        <md-card-content fxLayout="row" fxLayoutAlign="space-between start">
+          <div fxFlex>
+            {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
+          </div>
+          <div fxFlex="40px" class="pageLabel">
+            {{hit.index}}
+          </div>
+        </md-card-content>
+      </md-card>
     </div>
     <div *ngIf="isSearching" class="search-result" fxLayout="column">
       <md-progress-bar mode="indeterminate"></md-progress-bar>

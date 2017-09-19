@@ -1,4 +1,3 @@
-import { Hit } from './../core/models/search-result';
 import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef, OnDestroy } from '@angular/core';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
@@ -12,6 +11,8 @@ import { Dimensions } from './../core/models/dimensions';
 import { SearchResult } from './../core/models/search-result';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
+import { ViewerService } from './../core/viewer-service/viewer.service';
+import { Hit } from './../core/models/search-result';
 
 @Component({
   selector: 'mime-search',
@@ -35,6 +36,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
+    private viewerService: ViewerService,
     private el: ElementRef) {
     this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
@@ -75,6 +77,10 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.currentSearch = this.q;
     this.iiifContentSearchService.search(this.manifest, this.q);
+  }
+
+  goToHit(hit: Hit): void {
+    this.viewerService.goToPage(hit.index);
   }
 
   private resizeTabHeight(): void {
