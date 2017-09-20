@@ -78,9 +78,9 @@ export class ViewerService implements OnInit {
     return this.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
   }
 
-  public getHomeZoom(): number {
+  /*public getHomeZoom(): number {
     return this.shortenDecimals(this.viewer.viewport.getHomeZoom(), 5);
-  }
+  }*/
 
   public getMinZoom(): number {
     return this.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
@@ -90,9 +90,9 @@ export class ViewerService implements OnInit {
     return this.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
   }
 
-  public zoomHome(): void {
+  /*public zoomHome(): void {
     this.zoomTo(this.getHomeZoom());
-  }
+  }*/
 
   public zoomTo(level: number): void {
     this.viewer.viewport.zoomTo(level);
@@ -600,7 +600,6 @@ export class ViewerService implements OnInit {
     }
   }
 
-
   private panTo(x: number, y: number): void {
     this.viewer.viewport.panTo({
       x: x,
@@ -653,45 +652,12 @@ export class ViewerService implements OnInit {
 
   }
 
-  //TODO: Refactoring
-  private animateZoom(resizeRatio: number, milliseconds: number): void {
-    let viewport = this.viewer.viewport;
-    let iterations = 10;
-
-    let currentZoom = viewport.getZoom();
-    let zoomIncrement = (currentZoom * (resizeRatio - 1)) / iterations;
-    let timeIncrement = milliseconds / iterations;
-
-    this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, 1, iterations);
-  }
-
-  //TODO: Refactoring
-  private incrementZoom(viewport: any, currentZoom: number, zoomIncrement: number, timeIncrement: number, i: number, iterations: number) {
-    if (i > iterations) {
-      return;
-    }
-    i = i + 1;
-
-    setTimeout(() => {
-
-      let viewportZoom = viewport.getZoom();
-      if (currentZoom != viewportZoom) {
-        zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
-        currentZoom = viewportZoom;
-      }
-      currentZoom = currentZoom + zoomIncrement;
-      viewport.zoomTo(currentZoom, null, false);
-
-      this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, i, iterations);
-    }, timeIncrement);
-  }
-
   private resizeViewportContainerToFitPage(): void {
     let container = d3.select(this.viewer.container.parentNode);
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    
+
     let widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
-    let widthInPixels = Math.round(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
+    let widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
     container.style('max-width', widthInPixels + 'px');
   }
 
@@ -786,18 +752,34 @@ export class ViewerService implements OnInit {
       return;
     }
 
+    const container = d3.select(this.viewer.container.parentNode);
+    this.setPadding(container, new Dimensions());
+
     const maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode).node().getBoundingClientRect());
     const viewportHeight = maxViewportDimensions.height - newPadding.top - newPadding.bottom;
     const viewportWidth = maxViewportDimensions.width - newPadding.left - newPadding.right;
 
-    const viewportSizeVector = new OpenSeadragon.Point(viewportWidth, viewportHeight);
-    const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(viewportSizeVector);
+    const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(new OpenSeadragon.Point(viewportWidth, viewportHeight));
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
 
-    this.resetZoom(viewportBounds);
+    this.zoomHome(viewportBounds);
+
+    setTimeout(() => {
+      this.setPadding(container, newPadding);
+    }, this.options.animationTime * 1000);
+
   }
 
-  private resetZoom(viewportBounds?: any, pageBounds?: any): void {
+  private setPadding(element: any, padding: Dimensions): void {
+    element.style('padding', padding.top + 'px ' + padding.right + 'px ' + padding.bottom + 'px ' + padding.left + 'px');
+  }
+  
+  private zoomHome(viewportBounds?: any): void {
+    this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds), false);
+  }
+
+  private getHomeZoom(viewportBounds?: any, pageBounds?: any): number {
+
     if (!viewportBounds) {
       viewportBounds = this.viewer.viewport.getBounds();
     }
@@ -806,17 +788,14 @@ export class ViewerService implements OnInit {
       pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     }
 
-    let resizeRatio = this.getPageToViewportFitRatio(viewportBounds, pageBounds);
-    this.animateZoom(resizeRatio, 200);
-  }
-
-  private getPageToViewportFitRatio(viewportBounds: any, pageBounds: any): number {
+    const currentZoom = this.viewer.viewport.getZoom();
     const resizeRatio = viewportBounds.height / pageBounds.height;
+
     if (resizeRatio * pageBounds.width <= viewportBounds.width) {
-      return resizeRatio;
+      return resizeRatio * currentZoom;
     } else {
       // Page at full height is wider than viewport.  Return fit by width instead.
-      return viewportBounds.width / pageBounds.width;
+      return viewportBounds.width / pageBounds.width * currentZoom;
     }
   }
 
