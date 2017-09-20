@@ -25,6 +25,7 @@ import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
+import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 
 import 'openseadragon';
 import '../rxjs-extension';
@@ -61,6 +62,7 @@ describe('ViewerComponent', function () {
       providers: [
         ViewerService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        IiifContentSearchService,
         MimeResizeService,
         MimeViewerIntl,
         ClickService,

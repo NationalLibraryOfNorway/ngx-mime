@@ -16,6 +16,7 @@ import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manife
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { ViewerService } from './../core/viewer-service/viewer.service';
+import { Hit } from './../core/models/search-result';
 
 describe('SearchDialogComponent', () => {
   let component: SearchDialogComponent;
@@ -38,7 +39,7 @@ describe('SearchDialogComponent', () => {
         MimeResizeService,
         { provide: MdDialogRef, useClass: MdDialogRefMock },
         { provide: ObservableMedia, useClass: MediaMock },
-        { provide: ViewerService}
+        { provide: ViewerService, useClass: ViewerServiceMock }
       ]
     })
       .compileComponents();
@@ -74,19 +75,58 @@ describe('SearchDialogComponent', () => {
       expect(heading).toBeNull();
     }));
 
-  it('should go to hit when selected',
-    inject([ViewerService], (viewerService: ViewerService) => {
+  it('should go to hit and close dialog when selected on mobile',
+    inject([ObservableMedia, ViewerService, MdDialogRef],
+      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MdDialogRef<SearchDialogComponent>) => {
       spyOn(media, 'isActive').and.returnValue(true);
-
+      spyOn(viewerService, 'goToPage').and.callThrough();
+      spyOn(dialogRef, 'close').and.callThrough();
+      component.currentSearch = 'dummysearch';
+      component.hits = [
+        new Hit({
+          index: 0,
+          match: 'querystring'
+        })
+      ];
+      component.numberOfHits = 1;
       fixture.detectChanges();
 
-      const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
-      expect(heading).toBeNull();
+      const hits = fixture.debugElement.queryAll(By.css('.hit'));
+      hits[0].triggerEventHandler('click', null);
+
+      fixture.detectChanges();
+      expect(viewerService.goToPage).toHaveBeenCalled();
+      expect(dialogRef.close).toHaveBeenCalled();
+    }));
+
+    it('should go to hit and when selected on desktop',
+    inject([ObservableMedia, ViewerService, MdDialogRef],
+      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MdDialogRef<SearchDialogComponent>) => {
+      spyOn(media, 'isActive').and.returnValue(false);
+      spyOn(viewerService, 'goToPage').and.callThrough();
+      spyOn(dialogRef, 'close').and.callThrough();
+      component.currentSearch = 'dummysearch';
+      component.hits = [
+        new Hit({
+          index: 0,
+          match: 'querystring'
+        })
+      ];
+      component.numberOfHits = 1;
+      fixture.detectChanges();
+
+      const hits = fixture.debugElement.queryAll(By.css('.hit'));
+      hits[0].triggerEventHandler('click', null);
+
+      fixture.detectChanges();
+      expect(viewerService.goToPage).toHaveBeenCalled();
+      expect(dialogRef.close).not.toHaveBeenCalled();
     }));
 
 });
 
 class MdDialogRefMock {
+  close(): void {}
 }
 
 class MediaMock {
@@ -104,5 +144,7 @@ class ViewerServiceMock {
   public goToPreviousPage(): void { }
 
   public goToNextPage(): void { }
+
+  public goToPage(index: number): void { }
 
 }

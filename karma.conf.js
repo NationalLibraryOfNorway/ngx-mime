@@ -44,6 +44,7 @@ module.exports = function (config) {
       'node_modules/tslib/tslib.js',
       'node_modules/openseadragon/build/openseadragon/openseadragon.min.js',
       'node_modules/d3/build/d3.min.js',
+      'node_modules/hammerjs/hammer.min.js',
       { pattern: 'node_modules/@angular/material/prebuilt-themes/indigo-pink.css', included: true, watched: true },
 
       // RxJs
