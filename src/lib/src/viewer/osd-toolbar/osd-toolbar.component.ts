@@ -1,4 +1,4 @@
-import { OptionsTransitions } from '../../core/models/options-transitions';
+import { CustomOptions } from '../../core/models/options-custom';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -25,8 +25,8 @@ import { PageService } from './../../core/page-service/page-service';
         opacity: 1,
         display: 'block'
       })),
-      transition('hide => show', animate(OptionsTransitions.TOOLBARS_EASE_OUT_TIME + 'ms ease-out')),
-      transition('show => hide', animate(OptionsTransitions.TOOLBARS_EASE_IN_TIME + 'ms ease-in'))
+      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
+      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in'))
     ])
   ],
   host: {
@@ -59,11 +59,11 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.viewerService
       .onPageChange
       .subscribe((currentPage: number) => {
-      this.numberOfPages = this.pageService.numberOfPages;
-      this.isFirstPage = this.isOnFirstPage(currentPage);
-      this.isLastPage = this.isOnLastPage(currentPage);
-      this.changeDetectorRef.detectChanges();
-    }));
+        this.numberOfPages = this.pageService.numberOfPages;
+        this.isFirstPage = this.isOnFirstPage(currentPage);
+        this.isLastPage = this.isOnLastPage(currentPage);
+        this.changeDetectorRef.detectChanges();
+      }));
 
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
   }
