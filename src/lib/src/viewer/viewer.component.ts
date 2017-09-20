@@ -26,6 +26,7 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
+import {FullscreenService} from '../core/fullscreen-service/fullscreen.service';
 
 @Component({
   selector: 'mime-viewer',
@@ -51,14 +52,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
     private viewerService: ViewerService,
-    private mimeService: MimeResizeService,
+    private mimeResizeService: MimeResizeService,
     private dialog: MdDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private pageService: PageService,
-    private modeService: ModeService) {
+    private modeService: ModeService,
+    private fullscreenService: FullscreenService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
-    mimeService.el = el;
+    mimeResizeService.el = el;
   }
 
   ngOnInit(): void {
@@ -86,6 +88,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.toggleToolbarsState(mode);
       })
     );
+
+    // this.subscriptions.push(
+    //   this.fullscreenService.onChange.subscribe((value: boolean) => {
+    //     console.log('ViewerComponent - fullscreen changed');
+    //     this.mimeResizeService.markForCheck();
+    //   })
+    // );
 
     this.loadManifest();
   }
@@ -121,10 +130,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
-  ngAfterViewChecked() {
-    console.log('ViewerComponent - ngAfterViewChecked()');
-    this.mimeService.markForCheck();
-  }
+  // ngAfterViewChecked() {
+  //   console.log('ViewerComponent - ngAfterViewChecked()');
+  //   this.mimeResizeService.markForCheck();
+  // }
 
   private loadManifest() {
     this.iiifManifestService.load(this.manifestUri);

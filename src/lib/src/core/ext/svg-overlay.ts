@@ -76,6 +76,7 @@ declare const OpenSeadragon: any;
 
     // ----------
     resize() {
+      console.log('Overlay - resize()');
       if (this._containerWidth !== this._viewer.container.clientWidth) {
         this._containerWidth = this._viewer.container.clientWidth;
         this._svg.setAttribute('width', this._containerWidth);

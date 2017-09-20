@@ -44,6 +44,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
+    console.log('ContentsDialogComponent - onResize()');
     this.resizeTabHeight();
   }
 
