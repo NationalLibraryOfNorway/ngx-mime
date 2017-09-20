@@ -78,10 +78,6 @@ export class ViewerService implements OnInit {
     return this.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
   }
 
-  /*public getHomeZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getHomeZoom(), 5);
-  }*/
-
   public getMinZoom(): number {
     return this.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
   }
@@ -90,12 +86,16 @@ export class ViewerService implements OnInit {
     return this.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
   }
 
-  /*public zoomHome(): void {
-    this.zoomTo(this.getHomeZoom());
-  }*/
-
   public zoomTo(level: number): void {
     this.viewer.viewport.zoomTo(level);
+  }
+
+  public home(): void {
+    const viewportCenter = this.getViewportCenter();
+    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    
+    this.goToPage(currentPageIndex);
+    this.goToHomeZoom();
   }
 
   public goToPreviousPage(): void {
@@ -549,7 +549,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.PAGE) {
       //TODO: Something better than a timeout function
       setTimeout(() => {
-        this.resizeViewportContainerToFitPage();
+        //this.resizeViewportContainerToFitPage();
       }, 500);
     }
   }
@@ -642,7 +642,7 @@ export class ViewerService implements OnInit {
 
     //TODO: Something better than a timeout function
     setTimeout(() => {
-      this.resizeViewportContainerToFitPage();
+      //this.resizeViewportContainerToFitPage();
 
       //Update position of previous/next tiles
       //TODO: Configurable margin
@@ -672,12 +672,8 @@ export class ViewerService implements OnInit {
     this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, CustomOptions.overlays.tilesMargin);
     this.positionNextTiles(requestedPageIndex, requestedPageBounds, CustomOptions.overlays.tilesMargin);
 
-
-    //TODO: Something better than a timeout function
-    setTimeout(() => {
-      let rootNode = d3.select(this.viewer.container.parentNode);
-      rootNode.style('max-width', '');
-    }, 500);
+    const rootNode = d3.select(this.viewer.container.parentNode);
+    rootNode.style('max-width', '');
 
   }
 
@@ -762,7 +758,7 @@ export class ViewerService implements OnInit {
     const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(new OpenSeadragon.Point(viewportWidth, viewportHeight));
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
 
-    this.zoomHome(viewportBounds);
+    this.goToHomeZoom(viewportBounds);
 
     setTimeout(() => {
       this.setPadding(container, newPadding);
@@ -773,9 +769,13 @@ export class ViewerService implements OnInit {
   private setPadding(element: any, padding: Dimensions): void {
     element.style('padding', padding.top + 'px ' + padding.right + 'px ' + padding.bottom + 'px ' + padding.left + 'px');
   }
-  
-  private zoomHome(viewportBounds?: any): void {
+
+  private goToHomeZoom(viewportBounds?: any): void {
     this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds), false);
+    
+    if (this.modeService.mode === ViewerMode.PAGE) {
+      this.resizeViewportContainerToFitPage();
+    }
   }
 
   private getHomeZoom(viewportBounds?: any, pageBounds?: any): number {
