@@ -37,7 +37,7 @@ export class ViewerService implements OnInit {
 
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
-  public isAnimating: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
 
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
@@ -125,6 +125,7 @@ export class ViewerService implements OnInit {
   }
 
   public goToPage(pageIndex: number): void {
+    this.pageService.currentPage = pageIndex;
     const newPageCenter = this.centerPoints.get(pageIndex);
     this.panTo(newPageCenter.x, newPageCenter.y);
 
@@ -197,9 +198,7 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    this.viewer.addHandler('animation-start', () => {
-      this.isAnimating.next(true);
-    });
+    this.viewer.addHandler('animation-start', () => { });
     this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
@@ -277,17 +276,15 @@ export class ViewerService implements OnInit {
    */
   setPageSettings(): void {
     this.viewer.panVertical = true;
-
-    setTimeout(() => {
-      this.viewer.gestureSettingsTouch.pinchToZoom = true;
-      this.viewer.gestureSettingsMouse.scrollToZoom = true;
-    }, 300);
+    this.viewer.gestureSettingsTouch.pinchToZoom = true;
+    this.viewer.gestureSettingsMouse.scrollToZoom = true;
   }
 
   /**
    * Switches to DASHBOARD-mode and fit bounds to dashboard home
    */
   toggleToDashboard(): void {
+
     this.modeService.mode = ViewerMode.DASHBOARD;
     this.positionTilesInDashboardView(this.pageService.currentPage);
 
@@ -381,9 +378,11 @@ export class ViewerService implements OnInit {
   dblClickHandler = (event: any) => {
     let target = event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
-    if (this.isCurrentPageFittedViewport) {
+    if (this.modeService.mode === ViewerMode.PAGE) {
+      this.modeService.mode = ViewerMode.PAGE_ZOOMED;
       this.zoomTo(this.getZoom() * this.options.zoomPerClick);
     } else {
+      this.modeService.mode = ViewerMode.PAGE;
       let requestedPage = this.getOverlayIndexFromClickEvent(target);
       if (requestedPage >= 0) {
         this.pageService.currentPage = requestedPage;
@@ -396,21 +395,35 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    this.isCurrentPageFittedViewport = this.getIsCurrentPageFittedViewport();
-    this.isAnimating.next(false);
+    this.setModeCallback();
   }
 
-  /**
-   * Checks whether current overlaybounds' width or height is equal to viewport
-   * (Note that this function is called after animation is ended for correct calculation)
-   */
-  getIsCurrentPageFittedViewport(): boolean {
+  setModeCallback() {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
     const widthIsFitted = Utils.numbersAreClose(pageBounds.width, viewportBounds.width, 5);
     const heightIsFitted = Utils.numbersAreClose(pageBounds.height, viewportBounds.height, 5);
-    return widthIsFitted || heightIsFitted;
+
+    if (
+      widthIsFitted || heightIsFitted
+    ) {
+      console.log('switching to PAGE-mode');
+      this.modeService.mode = ViewerMode.PAGE;
+    } else if (
+      this.getZoom() === this.getHomeZoom()
+    ) {
+      console.log('switching to DASHBOARD-mode');
+      this.modeService.mode = ViewerMode.DASHBOARD;
+    } else if (
+      (pageBounds.width > viewportBounds.width) ||
+      (pageBounds.height > viewportBounds.height)
+    ) {
+      console.log('switching to PAGE_ZOOMED-mode');
+      this.modeService.mode = ViewerMode.PAGE_ZOOMED;
+    }
+
   }
+
 
   isPageFittedOrSmaller(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
@@ -548,6 +561,7 @@ export class ViewerService implements OnInit {
   private panToPage(): void {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
+    this.viewer.viewport.fitBounds(pageBounds);
     this.viewer.viewport.panTo(center, false);
   }
 
@@ -579,14 +593,9 @@ export class ViewerService implements OnInit {
       maxPage: this.pageService.numberOfPages - 1
     });
 
-    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+    if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
       this.goToPage(newPageIndex);
-
-    } else if(this.modeService.mode === ViewerMode.PAGE && this.isCurrentPageFittedViewport) {
-      this.goToPage(newPageIndex);
-
-      // Zoomed in page mode
-    } else if (this.isZoomedInPage()) {
+    } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds) && direction) {
         this.toggleToPage();
         setTimeout(() => {
@@ -596,11 +605,6 @@ export class ViewerService implements OnInit {
     }
   }
 
-  isZoomedInPage(): boolean {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    const viewportBounds = this.viewer.viewport.getBounds();
-    return this.modeService.mode === ViewerMode.PAGE && (pageBounds.height > viewportBounds.height);
-  }
 
 
   private panTo(x: number, y: number): void {

@@ -14,19 +14,19 @@ describe('SwipeUtils ', () => {
   });
 
   it('should be outside right page bounds', () => {
-    let pageBounds = { x: 0, width: 200 }
+    let pageBounds = { x: 0, width: 200 };
     // Pan outside right bounds
-    let viewportBounds = { x: 200, width: 100 }
+    let viewportBounds = { x: 200, width: 100 };
 
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(true);
-  })
+  });
 
   it('should be outside left page bounds', () => {
-    let pageBounds = { x: 100, width: 200 }
+    let pageBounds = { x: 100, width: 200 };
     // Pan outside left bounds
-    let viewportBounds = { x: 99, width: 100 }
+    let viewportBounds = { x: 99, width: 100 };
 
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(true);
-  })
+  });
 
 });

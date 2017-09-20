@@ -31,7 +31,7 @@ export class IiifManifestService {
       .subscribe(
       (res: Response) => this._currentManifest.next(this.extractData(res)),
       (err: HttpErrorResponse) => this.handleError
-      )
+      );
   }
 
   private extractData(response: Response) {
