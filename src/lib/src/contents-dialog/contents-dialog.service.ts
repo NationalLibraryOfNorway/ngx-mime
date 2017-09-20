@@ -1,24 +1,26 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
-import { ObservableMedia } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
 
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { Manifest } from './../core/models/manifest';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { ObservableMedia } from '@angular/flex-layout';
 
 @Injectable()
 export class ContentsDialogService {
   private _el: ElementRef;
   private isContentsDialogOpen = false;
   private dialogRef: MdDialogRef<ContentsDialogComponent>;
+  private tabHeight = {};
+  private mimeHeight = 0;
 
   constructor(
     private dialog: MdDialog,
     private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService) {
+    private mimeResizeService: MimeResizeService,
+    private mimeDomHelper: MimeDomHelper,
+    private media: ObservableMedia) {
       mimeResizeService.onResize.subscribe(rect => {
         if (this.isContentsDialogOpen) {
           const config = this.getDialogConfig();
@@ -26,6 +28,7 @@ export class ContentsDialogService {
           this.dialogRef.updateSize(config.width, config.height);
         }
       });
+      console.log('j');
   }
 
   public destroy() {
@@ -57,6 +60,23 @@ export class ContentsDialogService {
 
   public toggle() {
     this.isContentsDialogOpen ? this.close() : this.open();
+  }
+
+  public resizeTabHeight(): void {
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+    let height = this.mimeHeight;
+
+    if (this.media.isActive('lt-md')) {
+      height -= 104;
+      this.tabHeight = {
+        'maxHeight': window.innerHeight - 128 + 'px'
+      };
+    } else {
+      height -= 208;
+      this.tabHeight = {
+        'maxHeight': height + 'px'
+      };
+    }
   }
 
   private getDialogConfig(): MdDialogConfig {

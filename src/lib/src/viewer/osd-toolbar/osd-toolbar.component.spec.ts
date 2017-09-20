@@ -5,13 +5,15 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Rx';
 
 import { OsdToolbarComponent } from './osd-toolbar.component';
-import { SharedModule } from './../../shared/shared.module';
-import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
+import { SharedModule } from '../../shared/shared.module';
+import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
 import { MimeViewerIntl } from '../../core/viewer-intl';
-import { PageService } from './../../core/page-service/page-service';
-import { ViewerService } from './../../core/viewer-service/viewer.service';
+import { PageService } from '../../core/page-service/page-service';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { ClickService } from '../../core/click-service/click.service';
+import { MimeDomHelper } from '../../core/mime-dom-helper';
+import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
@@ -32,7 +34,9 @@ describe('OsdToolbarComponent', () => {
         { provide: PageService, useClass: PageServiceMock },
         ClickService,
         PageService,
-        ModeService
+        ModeService,
+        MimeDomHelper,
+        FullscreenService
       ]
     })
       .compileComponents();

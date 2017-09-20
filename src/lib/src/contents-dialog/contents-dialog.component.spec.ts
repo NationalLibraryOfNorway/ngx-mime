@@ -1,18 +1,18 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { MdDialogRef } from '@angular/material';
-import { ObservableMedia, MatchMedia } from '@angular/flex-layout';
+import { ObservableMedia } from '@angular/flex-layout';
 
-import { SharedModule } from './../shared/shared.module';
-import { MimeMaterialModule } from './../shared/mime-material.module';
+import { SharedModule } from '../shared/shared.module';
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
-import { MimeViewerIntl } from './../core/viewer-intl';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { MimeViewerIntl } from '../core/viewer-intl';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { ContentsDialogService } from './contents-dialog.service';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -33,6 +33,7 @@ describe('ContentsDialogComponent', () => {
         MimeViewerIntl,
         IiifManifestService,
         MimeResizeService,
+        ContentsDialogService,
         { provide: MdDialogRef, useClass: MdDialogRefMock },
         { provide: ObservableMedia, useClass: MediaMock }
       ]
