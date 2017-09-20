@@ -93,7 +93,7 @@ export class ViewerService implements OnInit {
   public home(): void {
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
-    
+
     this.goToPage(currentPageIndex);
     this.goToHomeZoom();
   }
@@ -322,14 +322,10 @@ export class ViewerService implements OnInit {
 
     // Scrolling up
     if (delta > 0) {
-      if (this.modeService.mode === ViewerMode.DASHBOARD) {
-        this.toggleToPage();
-      }
+      this.zoomInGesture();
       // Scrolling down
     } else if (delta < 0) {
-      if (this.modeService.mode === ViewerMode.PAGE && this.isPageFittedOrSmaller()) {
-        this.toggleToDashboard();
-      }
+      this.zoomOutGesture();
     }
   }
 
@@ -339,16 +335,29 @@ export class ViewerService implements OnInit {
    * Pinch-in page-mode: Toggles dashboard-mode if page is at min-zoom
    */
   pinchToggleMode = (event: any) => {
-
     // Pinch Out
     if (event.distance > event.lastDistance) {
-      if (this.modeService.mode === ViewerMode.DASHBOARD) {
-        this.toggleToPage();
-      }
+      this.zoomInGesture();
       // Pinch In
     } else {
-      if (this.modeService.mode === ViewerMode.PAGE && this.isPageFittedOrSmaller()) {
+      this.zoomOutGesture();
+    }
+  }
+
+  zoomInGesture(): void {
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      this.toggleToPage();
+    } else {
+      this.resizeViewportContainerToFitPage();
+    }
+  }
+
+  zoomOutGesture(): void {
+    if (this.modeService.mode === ViewerMode.PAGE) {
+      if (this.isPageFittedOrSmaller()) {
         this.toggleToDashboard();
+      } else {
+        this.resizeViewportContainerToFitPage();
       }
     }
   }
@@ -772,7 +781,7 @@ export class ViewerService implements OnInit {
 
   private goToHomeZoom(viewportBounds?: any): void {
     this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds), false);
-    
+
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.resizeViewportContainerToFitPage();
     }
