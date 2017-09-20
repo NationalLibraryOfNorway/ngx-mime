@@ -36,14 +36,14 @@ export class IiifContentSearchService {
     this.http.get(`${manifest.service.id}?q=${q}`)
       .finally(() => this._searching.next(false))
       .subscribe(
-      (res: IiifSearchResult) => this._currentSearchResult.next(this.extractData(manifest, res)),
+      (res: IiifSearchResult) => this._currentSearchResult.next(this.extractData(q, manifest, res)),
       (err: HttpErrorResponse) => this.handleError
       );
 
   }
 
-  private extractData(manifest: Manifest, iiifSearchResult: IiifSearchResult): SearchResult {
-    return new SearchResultBuilder(manifest, iiifSearchResult).build();
+  private extractData(q: string, manifest: Manifest, iiifSearchResult: IiifSearchResult): SearchResult {
+    return new SearchResultBuilder(q, manifest, iiifSearchResult).build();
   }
 
   private handleError(err: HttpErrorResponse | any) {

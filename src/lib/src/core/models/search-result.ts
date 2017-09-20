@@ -1,12 +1,15 @@
 export class SearchResult {
+  public q: string;
   public hits: Hit[] = [];
 
   constructor(
     fields?: {
-      hits?: Hit[]
+      q?: string;
+      hits?: Hit[];
     }
   ) {
     if (fields) {
+      this.q = fields.q || this.q;
       this.hits = fields.hits || this.hits;
     }
   }

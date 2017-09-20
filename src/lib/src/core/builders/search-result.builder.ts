@@ -4,10 +4,11 @@ import { SearchResult, Hit } from './../models/search-result';
 
 export class SearchResultBuilder {
 
-  constructor(private manifest: Manifest, private iiifSearchResult: IiifSearchResult) { }
+  constructor(private q: string, private manifest: Manifest, private iiifSearchResult: IiifSearchResult) { }
 
   public build(): SearchResult {
     const searchResult = new SearchResult();
+    searchResult.q = this.q;
     const hits: Hit[] = [];
     if (this.iiifSearchResult.hits) {
       this.iiifSearchResult.hits.forEach((hit: IiifHit, index: number) => {
