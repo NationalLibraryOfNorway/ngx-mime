@@ -1,11 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ElementRef, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../core/viewer-intl';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/viewer-intl';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import { Manifest } from './../core/models/manifest';
-import {FullscreenService} from '../core/fullscreen-service/fullscreen.service';
+import { Manifest } from '../core/models/manifest';
 
 @Component({
   selector: 'mime-attribution-dialog',
@@ -22,8 +21,7 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    private attributionDialogResizeService: AttributionDialogResizeService,
-    private fullscreenService: FullscreenService) {
+    private attributionDialogResizeService: AttributionDialogResizeService) {
     attributionDialogResizeService.el = el;
   }
 
@@ -32,15 +30,12 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
         this.changeDetectorRef.markForCheck();
-        this.attributionDialogResizeService.markForCheck();
       }));
+  }
 
-    // this.subscriptions.push(
-    //   this.fullscreenService.onChange.subscribe((value: boolean) => {
-    //     console.log('AttributionDialogComponent - fullscreen changed');
-    //     this.attributionDialogResizeService.markForCheck();
-    //   })
-    // );
+  ngAfterViewInit() {
+    console.log('AttributionDialogComponent - ngAfterViewInit()');
+    this.attributionDialogResizeService.markForCheck();
   }
 
   ngOnDestroy() {
@@ -49,14 +44,9 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: any) {
-  //   console.log('AttributionDialogComponent - onResize()');
-  //   this.attributionDialogResizeService.markForCheck();
-  // }
-
-  // ngAfterViewChecked() {
-  //   console.log('AttributionDialogComponent - ngAfterViewChecked()');
-  //   this.attributionDialogResizeService.markForCheck();
-  // }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    console.log('AttributionDialogComponent - onResize()');
+    this.attributionDialogResizeService.markForCheck();
+  }
 }

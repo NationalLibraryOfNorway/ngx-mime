@@ -11,22 +11,18 @@ import {
   ChangeDetectorRef,
   ViewChild,
 } from '@angular/core';
-import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
-import { Options } from '../core/models/options';
-import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
-import {FullscreenService} from '../core/fullscreen-service/fullscreen.service';
 
 @Component({
   selector: 'mime-viewer',
@@ -53,11 +49,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private attributionDialogService: AttributionDialogService,
     private viewerService: ViewerService,
     private mimeResizeService: MimeResizeService,
-    private dialog: MdDialog,
     private changeDetectorRef: ChangeDetectorRef,
-    private pageService: PageService,
-    private modeService: ModeService,
-    private fullscreenService: FullscreenService) {
+    private modeService: ModeService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     mimeResizeService.el = el;
@@ -89,14 +82,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       })
     );
 
-    // this.subscriptions.push(
-    //   this.fullscreenService.onChange.subscribe((value: boolean) => {
-    //     console.log('ViewerComponent - fullscreen changed');
-    //     this.mimeResizeService.markForCheck();
-    //   })
-    // );
-
     this.loadManifest();
+  }
+
+  ngAfterViewInit() {
+    console.log('ViewerComponent - ngAfterViewInit()');
+    this.mimeResizeService.markForCheck();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -129,11 +120,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.changeDetectorRef.detectChanges();
   }
-
-  // ngAfterViewChecked() {
-  //   console.log('ViewerComponent - ngAfterViewChecked()');
-  //   this.mimeResizeService.markForCheck();
-  // }
 
   private loadManifest() {
     this.iiifManifestService.load(this.manifestUri);
