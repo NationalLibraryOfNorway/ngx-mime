@@ -542,19 +542,6 @@ export class ViewerService implements OnInit {
     return Number(short);
   }
 
-
-  /**
-   * Pans to next or previous page depending on direction
-   */
-  panOnePage(direction: string) {
-    if (direction === 'left') {
-      this.pageService.getNextPage();
-    } else if (direction === 'right') {
-      this.pageService.getPrevPage();
-    }
-    this.panToPage();
-  }
-
   /**
    * Pans to center of current page
    */
@@ -582,7 +569,8 @@ export class ViewerService implements OnInit {
 
     const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    //const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.pageService.currentPage;
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -598,7 +586,7 @@ export class ViewerService implements OnInit {
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds) && direction) {
         this.toggleToPage();
         setTimeout(() => {
-          this.panOnePage(direction);
+          this.goToPage(newPageIndex);
         }, CustomOptions.transitions.OSDAnimationTime);
       }
     }
