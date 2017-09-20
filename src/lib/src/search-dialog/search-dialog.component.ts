@@ -1,5 +1,5 @@
 import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef, OnDestroy } from '@angular/core';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -31,6 +31,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
+    public dialogRef: MdDialogRef<SearchDialogComponent>,
     public intl: MimeViewerIntl,
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,
@@ -81,6 +82,9 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
 
   goToHit(hit: Hit): void {
     this.viewerService.goToPage(hit.index);
+    if (this.media.isActive('lt-md')) {
+      this.dialogRef.close();
+    }
   }
 
   private resizeTabHeight(): void {
