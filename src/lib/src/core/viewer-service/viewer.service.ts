@@ -561,7 +561,6 @@ export class ViewerService implements OnInit {
   private panToPage(): void {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
-    this.viewer.viewport.fitBounds(pageBounds);
     this.viewer.viewport.panTo(center, false);
   }
 
@@ -594,8 +593,10 @@ export class ViewerService implements OnInit {
     });
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
+      console.log("dash or page")
       this.goToPage(newPageIndex);
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      console.log("zoomed in")
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds) && direction) {
         this.toggleToPage();
         setTimeout(() => {
