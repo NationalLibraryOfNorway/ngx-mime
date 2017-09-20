@@ -20,7 +20,9 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the word "(.*)" should be highlighted$/, async (term: string) => {
-    return Promise.resolve('pending');
+    const hits = await contentSearchPage.getHits();
+    const firstHit = await hits[0].getAttribute('innerHTML');
+    expect(firstHit).to.contains(`${term} </em>`);
   });
 
 });

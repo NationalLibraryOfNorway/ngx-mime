@@ -6,39 +6,23 @@ const utils = new Utils();
 export class ContentSearchPage {
 
   async setSearchTerm(term: string) {
-    const el = await utils.waitForElement(element(by.css('.search-input')));
-    el.clear().sendKeys(term).sendKeys(protractor.Key.ENTER);
+    const el: ElementFinder = await utils.waitForElement(element(by.css('.search-input')));
+    await el.clear();
+    await utils.sendKeys(el, term)
+    await el.sendKeys(protractor.Key.ENTER);
   }
 
   async getNumberOfHits() {
-    const el = await utils.waitForElement(element(by.css('#numberOfHits')));
-    return el.getText();
+    await browser.sleep(1000);
+    const el: ElementFinder = await utils.waitForElement(element(by.css('#numberOfHits')));
+    const numberOfHits = await el.getAttribute('value');
+    return parseInt(numberOfHits, 8);
   }
 
   async getHits() {
     const hits = [];
     const el = element.all(by.css('.summary'));
     await utils.waitForElement(el.first());
-    const count = await el.count();
-    for (let i = 0; i < count; i++) {
-      const hit = el.get(i);
-      const summary = await hit.getText();
-      hits.push(new Hit({
-        summary: summary
-      }));
-    }
-    return hits;
-  }
-}
-
-export class Hit {
-  public summary?: string;
-
-  constructor(public fields?: {
-    summary?: string;
-  }) {
-    if (fields) {
-      this.summary = fields.summary || this.summary;
-    }
+    return el;
   }
 }

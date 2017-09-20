@@ -27,6 +27,7 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
+import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 
 @Component({
   selector: 'mime-viewer',
@@ -57,7 +58,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private dialog: MdDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private pageService: PageService,
-    private modeService: ModeService) {
+    private modeService: ModeService,
+    private iiifContentSearchService: IiifContentSearchService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     searchDialogService.el = el;
@@ -137,6 +139,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
     this.searchDialogService.destroy();
+    this.iiifContentSearchService.destroy();
   }
 
   setClasses() {

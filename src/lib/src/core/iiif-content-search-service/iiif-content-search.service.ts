@@ -16,6 +16,10 @@ export class IiifContentSearchService {
 
   constructor(private http: HttpClient) { }
 
+  destroy() {
+    this._currentSearchResult.next(new SearchResult({}));
+  }
+
   get currentSearchResult(): Observable<SearchResult> {
     return this._currentSearchResult.asObservable();
   }
@@ -24,7 +28,7 @@ export class IiifContentSearchService {
     return this._searching.asObservable();
   }
 
-  search(manifest: Manifest, q: string): void {
+  public search(manifest: Manifest, q: string): void {
     if (q === null) {
       return;
     }

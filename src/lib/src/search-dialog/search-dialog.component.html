@@ -27,8 +27,14 @@
   </div>
   <div class="search-result-container" [ngStyle]="tabHeight">
     <div *ngIf="!isSearching" class="search-result" fxLayout="column">
+      <input type="hidden" id="numberOfHits" [value]="numberOfHits">
       <div *ngIf="currentSearch !== ''">
-        <span id="numberOfHits">{{numberOfHits}}</span> treff for <em>{{currentSearch}}</em>
+        <div *ngIf="numberOfHits > 0">
+          {{numberOfHits}} results found for <em>{{currentSearch}}</em>
+        </div>
+        <div *ngIf="numberOfHits === 0">
+            No results found for <em>{{currentSearch}}</em>
+        </div>
       </div>
       <md-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)">
         <md-card-content fxLayout="row" fxLayoutAlign="space-between start">
