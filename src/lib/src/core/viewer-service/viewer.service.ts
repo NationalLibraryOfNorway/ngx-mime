@@ -127,6 +127,10 @@ export class ViewerService implements OnInit {
   public goToPage(pageIndex: number): void {
     const newPageCenter = this.centerPoints.get(pageIndex);
     this.panTo(newPageCenter.x, newPageCenter.y);
+
+    if (this.modeService.mode === ViewerMode.PAGE) {
+      this.resizeViewportContainerToFitPage(this.createRectangle(this.overlays[pageIndex]));
+    }
   }
 
   public updatePadding(padding: Dimensions): void {
@@ -650,9 +654,12 @@ export class ViewerService implements OnInit {
 
   }
 
-  private resizeViewportContainerToFitPage(): void {
+  private resizeViewportContainerToFitPage(pageBounds?: any): void {
     let container = d3.select(this.viewer.container.parentNode);
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+
+    if (!pageBounds) {
+      pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    }
 
     let widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
     let widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
