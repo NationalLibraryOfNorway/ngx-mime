@@ -19,6 +19,7 @@
 }
 
 .search-result-container {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   overflow: auto;
   margin-bottom: 8px;
 }
@@ -52,4 +53,8 @@ em {
 
 ::ng-deep .search-result-container .mat-card {
   padding: 8px;
+}
+
+input {
+  font-family: Roboto, "Helvetica Neue", sans-serif
 }
