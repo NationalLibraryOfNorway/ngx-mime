@@ -1,10 +1,13 @@
 import { DashboardModeCalculateNextPageStrategy } from './dashboard-mode-calculate-next-page-strategy';
 
 describe('DashboardModeCalculateNextPageStrategy ', () => {
+  let strategy: DashboardModeCalculateNextPageStrategy;
+
+  beforeEach(() => {
+    strategy = new DashboardModeCalculateNextPageStrategy();
+  });
 
   it('should stay on same page when speed is slow', () => {
-    const strategy = new DashboardModeCalculateNextPageStrategy();
-
     const res = strategy.calculateNextPage({
       speed: 400,
       direction: 'left',

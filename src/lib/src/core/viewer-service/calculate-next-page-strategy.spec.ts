@@ -3,10 +3,13 @@ import { DashboardModeCalculateNextPageStrategy } from './dashboard-mode-calcula
 
 
 describe('CalculateNextPageStrategy ', () => {
+  let strategy: DashboardModeCalculateNextPageStrategy;
+
+  beforeEach(() => {
+    strategy = new DashboardModeCalculateNextPageStrategy();
+  });
 
   it('should return maxPage when next page is larger than maxPage', () => {
-    const strategy = new DashboardModeCalculateNextPageStrategy();
-
     const res = strategy.calculateNextPage({
       speed: 4000,
       direction: 'left',
@@ -17,8 +20,6 @@ describe('CalculateNextPageStrategy ', () => {
   });
 
   it('should not return index lower than 0', () => {
-    const strategy = new DashboardModeCalculateNextPageStrategy();
-
     const res = strategy.calculateNextPage({
       speed: 4000,
       direction: 'right',

@@ -1,10 +1,13 @@
 import { PageModeCalculateNextPageStrategy } from './page-mode-calculate-next-page-strategy';
 
 describe('PageModeCalculateNextPageStrategy ', () => {
+  let strategy: PageModeCalculateNextPageStrategy;
+
+  beforeEach(() => {
+    strategy = new PageModeCalculateNextPageStrategy();
+  });
 
   it('should stay on same page when speed is below 200', () => {
-    const strategy = new PageModeCalculateNextPageStrategy();
-
     const res = strategy.calculateNextPage({
       speed: 199,
       direction: 'left',
@@ -16,8 +19,6 @@ describe('PageModeCalculateNextPageStrategy ', () => {
   });
 
   it('should get next page if speed is 200 and direction is left', () => {
-    const strategy = new PageModeCalculateNextPageStrategy();
-
     const res = strategy.calculateNextPage({
       speed: 200,
       direction: 'left',
@@ -29,8 +30,6 @@ describe('PageModeCalculateNextPageStrategy ', () => {
   });
 
   it('should get previous page if speed is 200 and direction is right', () => {
-    const strategy = new PageModeCalculateNextPageStrategy();
-
     const res = strategy.calculateNextPage({
       speed: 200,
       direction: 'right',
