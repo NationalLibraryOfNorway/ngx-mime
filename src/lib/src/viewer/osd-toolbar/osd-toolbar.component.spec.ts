@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Rx';
 
@@ -15,7 +14,7 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { ClickService } from '../../core/click-service/click.service';
 
 describe('OsdToolbarComponent', () => {
-  let cmp: OsdToolbarComponent;
+  let component: OsdToolbarComponent;
   let fixture: ComponentFixture<OsdToolbarComponent>;
   let spy: any;
 
@@ -35,18 +34,18 @@ describe('OsdToolbarComponent', () => {
         PageService,
         ModeService
       ]
-    }).compileComponents();
-  })
-  );
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
-    cmp = fixture.componentInstance;
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should be created', () => {
-    expect(cmp).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should re-render when the i18n labels have changed',
@@ -64,7 +63,7 @@ describe('OsdToolbarComponent', () => {
     // Check initial style to make sure we later see an actual change
     expectOSDToolbarToShow(fixture.debugElement.nativeElement);
 
-    cmp.state = 'hide';
+    component.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
@@ -72,13 +71,13 @@ describe('OsdToolbarComponent', () => {
   }));
 
   it('should be visible when state is changed to \'show\'', async(() => {
-    cmp.state = 'hide';
+    component.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
 
-      cmp.state = 'show';
+      component.state = 'show';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expectOSDToolbarToShow(fixture.debugElement.nativeElement);
@@ -139,7 +138,7 @@ describe('OsdToolbarComponent', () => {
 
   it('should display previous page',
     inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
-      spy = spyOn(viewerService, 'goToPreviousPage');
+      spy = spyOn(component, 'goToPreviousPage');
 
       const button = fixture.debugElement.query(By.css('#navigateBeforeButton'));
       button.nativeElement.click();
