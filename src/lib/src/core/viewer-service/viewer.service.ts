@@ -407,18 +407,18 @@ export class ViewerService implements OnInit {
     if (
       widthIsFitted || heightIsFitted
     ) {
-      console.log('switching to PAGE-mode');
+      //console.log('switching to PAGE-mode');
       this.modeService.mode = ViewerMode.PAGE;
     } else if (
       this.getZoom() === this.getHomeZoom()
     ) {
-      console.log('switching to DASHBOARD-mode');
+      //console.log('switching to DASHBOARD-mode');
       this.modeService.mode = ViewerMode.DASHBOARD;
     } else if (
       (pageBounds.width > viewportBounds.width) ||
       (pageBounds.height > viewportBounds.height)
     ) {
-      console.log('switching to PAGE_ZOOMED-mode');
+      //console.log('switching to PAGE_ZOOMED-mode');
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
 
@@ -593,10 +593,8 @@ export class ViewerService implements OnInit {
     });
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
-      console.log("dash or page")
       this.goToPage(newPageIndex);
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      console.log("zoomed in")
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds) && direction) {
         this.toggleToPage();
         setTimeout(() => {
