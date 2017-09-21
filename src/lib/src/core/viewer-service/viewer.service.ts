@@ -644,12 +644,9 @@ export class ViewerService implements OnInit {
 
     //TODO: Something better than a timeout function
     setTimeout(() => {
-      //this.resizeViewportContainerToFitPage();
-
       //Update position of previous/next tiles
       //TODO: Configurable margin
-      this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, 20);
-      this.positionNextTiles(requestedPageIndex, requestedPageBounds, 20);
+      this.updatePagePositions(requestedPageIndex, 20)
     }, 500);
 
   }
@@ -667,85 +664,77 @@ export class ViewerService implements OnInit {
   }
 
   private positionTilesInDashboardView(requestedPageIndex: number): void {
-    let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
-    if (!requestedPage) {
-      return;
-    }
-
-    //Update position of previous/next tiles
-    let requestedPageBounds = requestedPage.getBounds(true);
-    this.positionPreviousTiles(requestedPageIndex, requestedPageBounds, CustomOptions.overlays.tilesMargin);
-    this.positionNextTiles(requestedPageIndex, requestedPageBounds, CustomOptions.overlays.tilesMargin);
+    
+    this.updatePagePositions(requestedPageIndex, CustomOptions.overlays.tilesMargin)
 
     const rootNode = d3.select(this.viewer.container.parentNode);
     rootNode.style('max-width', '');
 
   }
+  
+  private updatePagePositions(centerPageIndex: number, margin: number): void {
+    let centerTiledImage = this.viewer.world.getItemAt(centerPageIndex);
+    if (!centerTiledImage) {
+      return;
+    }
+
+    //Update position of previous/next tiles
+    let centerPageBounds = centerTiledImage.getBounds(true);
+    this.positionPreviousPages(centerPageIndex, centerPageBounds, margin);
+    this.positionNextPages(centerPageIndex, centerPageBounds, margin);
+  }
 
   //Recursive function to iterate through previous pages and position them to the left of the current page
-  private positionPreviousTiles(currentTileIndex: number, currentTileBounds: any, margin: number): void {
-    let previousTileIndex = currentTileIndex - 1;
-    let previousTiledImage = this.viewer.world.getItemAt(previousTileIndex);
+  private positionPreviousPages(currentPageIndex: number, currentPageBounds: any, margin: number): void {
+    let previousPageIndex = currentPageIndex - 1;
+    let previousTiledImage = this.viewer.world.getItemAt(previousPageIndex);
     if (!previousTiledImage) {
       return;
     }
 
-    let previousTileBounds = previousTiledImage.getBounds(true);
-
-    //Position tiled image
-    previousTileBounds.x = currentTileBounds.x - previousTileBounds.width - margin;
-    previousTileBounds.y = currentTileBounds.y;
-    previousTiledImage.setPosition(new OpenSeadragon.Point(previousTileBounds.x, previousTileBounds.y), true);
-    previousTiledImage.update();
-
-    //Update center
-    this.centerPoints.update(previousTileIndex, {
-      x: previousTileBounds.x + (previousTileBounds.width / 2),
-      y: previousTileBounds.y + (previousTileBounds.height / 2)
-    });
-
-    //Position overlay
-    //TODO: Update x and y base values in this.overlays[]
-    let previousOverlay = this.overlays[currentTileIndex - 1];
-    let previousSvgNode = d3.select(previousOverlay);
-    previousSvgNode.attr('x', previousTileBounds.x)
-      .attr('y', previousTileBounds.y);
+    let previousPageBounds = previousTiledImage.getBounds(true);
+    previousPageBounds.x = currentPageBounds.x - previousPageBounds.width - margin;
+    previousPageBounds.y = currentPageBounds.y;
+    this.repositionPage(previousPageIndex, previousPageBounds, previousTiledImage);
 
     //Call function for previous tile
-    this.positionPreviousTiles(previousTileIndex, previousTileBounds, margin);
+    this.positionPreviousPages(previousPageIndex, previousPageBounds, margin);
   }
 
   //Recursive function to iterate through next pages and position them to the right of the current page
-  private positionNextTiles(currentTileIndex: number, currentTileBounds: any, margin: number): void {
-    let nextTileIndex = currentTileIndex + 1;
-    let nextTiledImage = this.viewer.world.getItemAt(nextTileIndex);
+  private positionNextPages(currentPageIndex: number, currentPageBounds: any, margin: number): void {
+    const nextPageIndex = currentPageIndex + 1;
+    const nextTiledImage = this.viewer.world.getItemAt(nextPageIndex);
     if (!nextTiledImage) {
       return;
     }
 
-    let nextTileBounds = nextTiledImage.getBounds(true);
+    let nextPageBounds = nextTiledImage.getBounds(true);
+    nextPageBounds.x = currentPageBounds.x + currentPageBounds.width + margin;
+    nextPageBounds.y = currentPageBounds.y;
+    this.repositionPage(nextPageIndex, nextPageBounds, nextTiledImage);
+
+    //Call function for next tile
+    this.positionNextPages(nextPageIndex, nextPageBounds, margin);
+  }
+
+  private repositionPage(index: number, bounds: any, tiledImage: any) {
 
     //Position tiled image
-    nextTileBounds.x = currentTileBounds.x + currentTileBounds.width + margin;
-    nextTileBounds.y = currentTileBounds.y;
-    nextTiledImage.setPosition(new OpenSeadragon.Point(nextTileBounds.x, nextTileBounds.y), true);
-    nextTiledImage.update();
+    tiledImage.setPosition(new OpenSeadragon.Point(bounds.x, bounds.y), true);
+    tiledImage.update();
 
     //Update center
-    this.centerPoints.update(nextTileIndex, {
-      x: nextTileBounds.x + (nextTileBounds.width / 2),
-      y: nextTileBounds.y + (nextTileBounds.height / 2)
+    this.centerPoints.update(index, {
+      x: bounds.x + (bounds.width / 2),
+      y: bounds.y + (bounds.height / 2)
     });
 
     //Position overlay
-    //TODO: Update x and y base values in this.overlays[]
-    let nextOverlay = this.overlays[currentTileIndex + 1];
-    let nextSvgNode = d3.select(nextOverlay);
-    nextSvgNode.attr('x', nextTileBounds.x)
-      .attr('y', nextTileBounds.y);
-
-    //Call function for next tile
-    this.positionNextTiles(nextTileIndex, nextTileBounds, margin);
+    let overlay = this.overlays[index];
+    let svgNode = d3.select(overlay);
+    svgNode.attr('x', bounds.x)
+           .attr('y', bounds.y);
   }
 
   private paddingChanged(newPadding: Dimensions): void {
