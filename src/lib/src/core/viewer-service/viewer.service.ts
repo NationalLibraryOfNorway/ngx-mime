@@ -477,7 +477,7 @@ export class ViewerService implements OnInit {
         y: currentY + (tile.height / 2)
       });
 
-      currentX = currentX + tile.width + CustomOptions.overlays.tilesMargin;
+      currentX = currentX + tile.width + CustomOptions.overlays.pageMarginPageView;
     });
   }
 
@@ -629,8 +629,7 @@ export class ViewerService implements OnInit {
     // TODO: Something better than a timeout function
     setTimeout(() => {
       // Update position of previous/next tiles
-      // TODO: Configurable margin
-      PagePositionUtils.updatePagePositions(this.viewer, requestedPageIndex, 20, this.overlays, this.centerPoints);
+      PagePositionUtils.updatePagePositions(this.viewer, requestedPageIndex, CustomOptions.overlays.pageMarginPageView, this.overlays, this.centerPoints);
     }, 500);
 
   }
@@ -650,7 +649,7 @@ export class ViewerService implements OnInit {
   private positionTilesInDashboardView(requestedPageIndex: number): void {
 
     PagePositionUtils.updatePagePositions(
-      this.viewer, requestedPageIndex, CustomOptions.overlays.tilesMargin, this.overlays, this.centerPoints
+      this.viewer, requestedPageIndex, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.centerPoints
     );
 
     const rootNode = d3.select(this.viewer.container.parentNode);
