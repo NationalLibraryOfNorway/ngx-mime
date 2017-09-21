@@ -13,6 +13,7 @@ import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
+import { PagePositionUtils } from './page-position-utils';
 import { SwipeUtils } from './swipe-utils';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
@@ -638,7 +639,7 @@ export class ViewerService implements OnInit {
     setTimeout(() => {
       //Update position of previous/next tiles
       //TODO: Configurable margin
-      this.updatePagePositions(requestedPageIndex, 20)
+      PagePositionUtils.updatePagePositions(this.viewer, requestedPageIndex, 20, this.overlays, this.centerPoints);
     }, 500);
 
   }
@@ -657,76 +658,11 @@ export class ViewerService implements OnInit {
 
   private positionTilesInDashboardView(requestedPageIndex: number): void {
 
-    this.updatePagePositions(requestedPageIndex, CustomOptions.overlays.tilesMargin)
+    PagePositionUtils.updatePagePositions(this.viewer, requestedPageIndex, CustomOptions.overlays.tilesMargin, this.overlays, this.centerPoints);
 
     const rootNode = d3.select(this.viewer.container.parentNode);
     rootNode.style('max-width', '');
 
-  }
-
-  private updatePagePositions(centerPageIndex: number, margin: number): void {
-    let centerTiledImage = this.viewer.world.getItemAt(centerPageIndex);
-    if (!centerTiledImage) {
-      return;
-    }
-
-    //Update position of previous/next tiles
-    let centerPageBounds = centerTiledImage.getBounds(true);
-    this.positionPreviousPages(centerPageIndex, centerPageBounds, margin);
-    this.positionNextPages(centerPageIndex, centerPageBounds, margin);
-  }
-
-  //Recursive function to iterate through previous pages and position them to the left of the current page
-  private positionPreviousPages(currentPageIndex: number, currentPageBounds: any, margin: number): void {
-    let previousPageIndex = currentPageIndex - 1;
-    let previousTiledImage = this.viewer.world.getItemAt(previousPageIndex);
-    if (!previousTiledImage) {
-      return;
-    }
-
-    let previousPageBounds = previousTiledImage.getBounds(true);
-    previousPageBounds.x = currentPageBounds.x - previousPageBounds.width - margin;
-    previousPageBounds.y = currentPageBounds.y;
-    this.repositionPage(previousPageIndex, previousPageBounds, previousTiledImage);
-
-    //Call function for previous tile
-    this.positionPreviousPages(previousPageIndex, previousPageBounds, margin);
-  }
-
-  //Recursive function to iterate through next pages and position them to the right of the current page
-  private positionNextPages(currentPageIndex: number, currentPageBounds: any, margin: number): void {
-    const nextPageIndex = currentPageIndex + 1;
-    const nextTiledImage = this.viewer.world.getItemAt(nextPageIndex);
-    if (!nextTiledImage) {
-      return;
-    }
-
-    let nextPageBounds = nextTiledImage.getBounds(true);
-    nextPageBounds.x = currentPageBounds.x + currentPageBounds.width + margin;
-    nextPageBounds.y = currentPageBounds.y;
-    this.repositionPage(nextPageIndex, nextPageBounds, nextTiledImage);
-
-    //Call function for next tile
-    this.positionNextPages(nextPageIndex, nextPageBounds, margin);
-  }
-
-  private repositionPage(index: number, bounds: any, tiledImage: any) {
-
-    //Position tiled image
-    tiledImage.setPosition(new OpenSeadragon.Point(bounds.x, bounds.y), true);
-    tiledImage.update();
-
-    //Update center
-    this.centerPoints.update(index, {
-      x: bounds.x + (bounds.width / 2),
-      y: bounds.y + (bounds.height / 2)
-    });
-
-    //Position overlay
-    let overlay = this.overlays[index];
-    let svgNode = d3.select(overlay);
-    svgNode.attr('x', bounds.x)
-           .attr('y', bounds.y);
   }
 
   private paddingChanged(newPadding: Dimensions): void {
