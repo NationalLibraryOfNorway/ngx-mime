@@ -150,7 +150,9 @@ export class ViewerService implements OnInit {
   }
 
   public clearHightlight(): void {
-
+    if (this.svgNode) {
+      this.svgNode.selectAll('.hit').remove();
+    }
   }
 
   setUpViewer(manifest: Manifest) {
