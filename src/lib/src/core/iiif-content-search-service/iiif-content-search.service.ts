@@ -20,7 +20,7 @@ export class IiifContentSearchService {
     this._currentSearchResult.next(new SearchResult({}));
   }
 
-  get currentSearchResult(): Observable<SearchResult> {
+  get onChange(): Observable<SearchResult> {
     return this._currentSearchResult.asObservable();
   }
 

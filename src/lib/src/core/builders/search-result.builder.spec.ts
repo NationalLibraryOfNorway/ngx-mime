@@ -6,13 +6,15 @@ import { SearchResultBuilder } from './search-result.builder';
 describe('SearchResultBuilder', () => {
 
   it('should build empty search result', () => {
+    const q = 'testquery';
     const manifest = new Manifest({});
     const iiifSearchResult: IiifSearchResult = {};
-    const searchResult = new SearchResultBuilder(manifest, iiifSearchResult).build();
+    const searchResult = new SearchResultBuilder(q, manifest, iiifSearchResult).build();
     expect(searchResult).not.toBeNull();
   });
 
   it('should return search result', () => {
+    const q = 'testquery';
     const manifest = new Manifest({
       sequences: [
       {
@@ -31,19 +33,25 @@ describe('SearchResultBuilder', () => {
     const iiifSearchResult: IiifSearchResult = {
       resources: [
         {
-          '@id': 'rid2#xywh=968,1062,321,78"',
+          '@id': 'rid2#xywh=968,1062,321,78',
           on: 'canvasid2#xywh=968,1062,321,78'
         }
       ],
       hits: [
         {
-          annotations: ['rid2#xywh=968,1062,321,78"']
+          annotations: ['rid2#xywh=968,1062,321,78']
         }
       ]
     };
-    const searchResult = new SearchResultBuilder(manifest, iiifSearchResult).build();
+    const searchResult = new SearchResultBuilder(q, manifest, iiifSearchResult).build();
     expect(searchResult.hits[0].index).toEqual(1);
     expect(searchResult.hits[0].label).toEqual('label2');
+    expect(searchResult.hits[0].rect.x).toEqual(968);
+    expect(searchResult.hits[0].rect.y).toEqual(1062);
+    expect(searchResult.hits[0].rect.width).toEqual(321);
+    expect(searchResult.hits[0].rect.height).toEqual(78);
+    expect(searchResult.hits[0].rect.centerX).toEqual(1128.5);
+    expect(searchResult.hits[0].rect.centerY).toEqual(1101);
   });
 
 });

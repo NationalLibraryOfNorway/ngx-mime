@@ -34,12 +34,12 @@ describe('IiifContentSearchService', () => {
         id: 'dummyUrl'
       }
     }, 'query');
-    svc.currentSearchResult.subscribe((searchResult: SearchResult) => {
+    svc.onChange.subscribe((searchResult: SearchResult) => {
       result = searchResult;
     });
 
     httpMock.expectOne(`dummyUrl?q=query`)
-      .flush(new SearchResultBuilder(new Manifest(), {
+      .flush(new SearchResultBuilder('query', new Manifest(), {
         hits: [
           {
             match: 'querystring'

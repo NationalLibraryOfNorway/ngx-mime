@@ -1,3 +1,5 @@
+import { Rect } from './rect';
+
 export class SearchResult {
   public q: string;
   public hits: Hit[] = [];
@@ -29,6 +31,7 @@ export class Hit {
   public match: string;
   public before: string;
   public after: string;
+  public rect: Rect;
 
   constructor(
     fields?: {
@@ -37,6 +40,7 @@ export class Hit {
       match?: string;
       before?: string;
       after?: string;
+      rect?: Rect;
     }
   ) {
     if (fields) {
@@ -45,6 +49,7 @@ export class Hit {
       this.match = fields.match || this.match;
       this.before = fields.before || this.before;
       this.after = fields.after || this.after;
+      this.rect = fields.rect || this.rect;
     }
   }
 }

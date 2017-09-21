@@ -28,6 +28,7 @@ import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
+import { SearchResult } from './../core/models/search-result';
 
 @Component({
   selector: 'mime-viewer',
@@ -77,6 +78,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
           }
         })
+    );
+
+    this.subscriptions.push(
+      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+        this.viewerService.highlight(sr);
+      })
     );
 
     this.subscriptions.push(
