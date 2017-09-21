@@ -352,11 +352,11 @@ export class ViewerService implements OnInit {
   singleClickHandler = (event: any) => {
     const target = event.originalEvent.target;
     const requestedPage = this.getOverlayIndexFromClickEvent(target);
-    if (this.isPageHit(target)) {
+    if (requestedPage) {
       this.pageService.currentPage = requestedPage;
-      this.modeService.toggleMode();
-      this.modeService.mode === ViewerMode.PAGE ? this.toggleToPage() : this.toggleToDashboard();
     }
+    this.modeService.toggleMode();
+    this.modeService.mode === ViewerMode.PAGE ? this.toggleToPage() : this.toggleToDashboard();
   }
 
   /**
