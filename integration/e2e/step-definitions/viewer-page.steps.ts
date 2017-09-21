@@ -19,7 +19,7 @@ defineSupportCode(function ({ Given, Then }) {
   });
 
   Given(/^a left-to-right publication with 10 pages$/, async () => {
-    await page.open();
+    await page.open('http://localhost:4040/catalog/v1/iiif/a-ltr-book-10-pages/manifest');
   });
 
   Given(/^the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside$/, async () => {

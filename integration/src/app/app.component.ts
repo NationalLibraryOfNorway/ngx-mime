@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { URLSearchParams } from '@angular/http';
 
 @Component({
   selector: 'app-root',
