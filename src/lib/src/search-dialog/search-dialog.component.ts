@@ -51,7 +51,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
       this.hits = sr.hits;
-      this.currentSearch = sr.q;
+      this.currentSearch = sr.q ? sr.q : '';
       this.q = sr.q;
       this.numberOfHits = sr.size();
     }));
