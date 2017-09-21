@@ -271,26 +271,31 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Switches to DASHBOARD-mode and fit bounds to dashboard home
+   * Switches to DASHBOARD-mode, repositions pages and removes max-width on viewer
    */
   toggleToDashboard(): void {
 
     this.modeService.mode = ViewerMode.DASHBOARD;
-    this.positionTilesInDashboardView(this.pageService.currentPage);
 
-    // this.zoomTo(this.getHomeZoom());
+    PagePositionUtils.updatePagePositions(
+      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.centerPoints
+    );
+
+    d3.select(this.viewer.container.parentNode).style('max-width', '');
   }
 
   /**
-   * Switches to PAGE-mode and fits bounds to current page
+   * Switches to PAGE-mode, centers currentPage and repositions pages other pages
    */
   toggleToPage(): void {
     if (!this.pageService.isCurrentPageValid()) {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    this.positionTilesInSinglePageView(this.pageService.currentPage);
-    // this.fitBounds(this.overlays[this.pageService.currentPage]);
+    this.goToPage(this.pageService.currentPage);
+
+    PagePositionUtils.updatePagePositions(
+      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.centerPoints);
   }
 
   /**
@@ -600,42 +605,7 @@ export class ViewerService implements OnInit {
 
 
 
-
-  private positionTilesInDashboardView(requestedPageIndex: number): void {
-
-    PagePositionUtils.updatePagePositions(
-      this.viewer, requestedPageIndex, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.centerPoints
-    );
-
-    const rootNode = d3.select(this.viewer.container.parentNode).style('max-width', '');
-  }
-
-  private positionTilesInSinglePageView(requestedPageIndex: number): void {
-
-    let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
-    if (!requestedPage) {
-      return;
-    }
-
-    // First centre the page
-    // TODO: Refactor to own method
-    let requestedPageBounds = requestedPage.getBounds(true);
-    let viewport = this.viewer.viewport;
-    let pageCenter = new OpenSeadragon.Point(
-      requestedPageBounds.x + (requestedPageBounds.width / 2), requestedPageBounds.y + (requestedPageBounds.height / 2)
-    );
-    viewport.panTo(pageCenter, false);
-
-
-    // TODO: Something better than a timeout function
-    setTimeout(() => {
-      // Update position of previous/next tiles
-      PagePositionUtils.updatePagePositions(
-        this.viewer, requestedPageIndex, CustomOptions.overlays.pageMarginPageView, this.overlays, this.centerPoints);
-    }, 500);
-
-  }
-
+  
   private resizeViewportContainerToFitPage(pageBounds?: any): void {
     let container = d3.select(this.viewer.container.parentNode);
 
