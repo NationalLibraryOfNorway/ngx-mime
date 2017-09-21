@@ -183,19 +183,8 @@ export class ViewerService implements OnInit {
     this.centerPoints = new CenterPoints();
   }
 
-  /**
-   * Set navigation with keyboard.
-   * Seems to be no way to set this in options?
-   */
-  setKeyboardNavigation() {
-    this.viewer.innerTracker.keyHandler = null;
-    this.viewer.innerTracker.keyDownHandler = null;
-    this.viewer.innerTracker.keyPressHandler = null;
-  }
-
   addEvents(): void {
     this.addOverrides();
-    this.setKeyboardNavigation();
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
