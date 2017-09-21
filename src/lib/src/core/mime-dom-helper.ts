@@ -8,7 +8,6 @@ export class MimeDomHelper {
   constructor(private fullscreen: FullscreenService) { }
 
   public getBoundingClientRect(el: ElementRef): Dimensions {
-    console.log('getBoundingClientRect()');
     try {
       if (this.isDocumentInFullScreenMode() && el.nativeElement.nodeName === 'MIME-VIEWER') {
         return this.createFullscreenDimensions(el);

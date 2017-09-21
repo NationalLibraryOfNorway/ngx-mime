@@ -22,12 +22,15 @@ export class AttributionDialogService {
     private mimeDomHelper: MimeDomHelper
   ) {
     mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+      console.log('AttributionDialogService - mimeResizeService.onResize');
       if (this.isAttributionDialogOpen) {
-        const config = this.getDialogConfig();
-        this.dialogRef.updatePosition(config.position);
+        this.attributionDialogResizeService.markForCheck();
+        // const config = this.getDialogConfig();
+        // this.dialogRef.updatePosition(config.position);
       }
     });
     attributionDialogResizeService.onResize.subscribe((dimensions: Dimensions) => {
+      console.log('AttributionDialogService - attributionDialogResizeService.onResize');
       if (this.isAttributionDialogOpen) {
         this.attributionDialogHeight = dimensions.height;
         const config = this.getDialogConfig();

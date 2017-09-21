@@ -83,6 +83,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     );
 
     this.loadManifest();
+
+    console.log(this.el);
+    this.el.onResize((event: any) => {
+      console.log('nvcdsbvjhbdsakjvbhdkjsavbhkjdsa');
+    });
   }
 
   ngAfterViewInit() {

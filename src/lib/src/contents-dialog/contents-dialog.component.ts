@@ -24,6 +24,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper) {
     mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+      console.log('ContentsDialogComponent - mimeResizeService.onResize');
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
     });
@@ -42,6 +43,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
+    console.log('ContentsDialogComponent - onResize()');
     this.mimeResizeService.markForCheck();
   }
 
