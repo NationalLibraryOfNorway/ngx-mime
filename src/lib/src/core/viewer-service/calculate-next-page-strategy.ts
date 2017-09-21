@@ -1,5 +1,6 @@
 export interface NextPageCriteria {
   speed?: number;
+  isPastCenter?: boolean;
   direction: string;
   currentPageIndex: number;
   maxPage: number;

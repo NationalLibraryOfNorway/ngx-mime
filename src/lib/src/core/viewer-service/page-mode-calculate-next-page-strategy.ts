@@ -3,12 +3,14 @@ import { CalculateNextPageStrategy, NextPageCriteria } from './calculate-next-pa
 export class PageModeCalculateNextPageStrategy extends CalculateNextPageStrategy {
 
   calculateNextPage(criteria: NextPageCriteria): number {
+    const isPastCenter = criteria.isPastCenter;
     const speed = criteria.speed;
     const direction = criteria.direction;
     const currentPageIndex = criteria.currentPageIndex;
     const maxPage = criteria.maxPage;
 
-    let nextPage = (speed >= 200) ? 1 : 0;
+
+    let nextPage = (speed >= 200 || isPastCenter) ? 1 : 0;
     nextPage = direction === 'left' ? nextPage : nextPage * -1;
     nextPage = currentPageIndex + nextPage;
     return super.constrainToRange(nextPage, 0, maxPage);

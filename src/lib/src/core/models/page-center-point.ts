@@ -8,7 +8,7 @@ export class CenterPoints {
   }
 
   public get(index: number): Point {
-    return {...this.centerPoints[index]};
+    return { ...this.centerPoints[index] };
   }
 
   public update(index: number, point: Point): void {

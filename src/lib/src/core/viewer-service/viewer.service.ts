@@ -304,8 +304,8 @@ export class ViewerService implements OnInit {
    * Scroll-down page-mode: Toggle dashboard-mode if page is at min-zoom
    */
   scrollToggleMode = (e: any) => {
-    let event = e.originalEvent;
-    let delta = (event.wheelDelta) ? event.wheelDelta : -event.deltaY;
+    const event = e.originalEvent;
+    const delta = (event.wheelDelta) ? event.wheelDelta : -event.deltaY;
 
     // Scrolling up
     if (delta > 0) {
@@ -354,8 +354,8 @@ export class ViewerService implements OnInit {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
-    let target = event.originalEvent.target;
-    let requestedPage = this.getOverlayIndexFromClickEvent(target);
+    const target = event.originalEvent.target;
+    const requestedPage = this.getOverlayIndexFromClickEvent(target);
     if (this.isPageHit(target)) {
       this.pageService.currentPage = requestedPage;
       this.modeService.toggleMode();
@@ -371,14 +371,14 @@ export class ViewerService implements OnInit {
    *    b) Fit vertically if page is already zoomed in
    */
   dblClickHandler = (event: any) => {
-    let target = event.originalEvent.target;
+    const target = event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
       this.zoomTo(this.getZoom() * this.options.zoomPerClick);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
-      let requestedPage = this.getOverlayIndexFromClickEvent(target);
+      const requestedPage: number = this.getOverlayIndexFromClickEvent(target);
       if (requestedPage >= 0) {
         this.pageService.currentPage = requestedPage;
       }
@@ -472,7 +472,7 @@ export class ViewerService implements OnInit {
         .attr('width', tile.width)
         .attr('height', tile.height)
         .attr('class', 'tile');
-      let currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
+      const currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
 
       this.centerPoints.add({
@@ -512,7 +512,7 @@ export class ViewerService implements OnInit {
    */
   getOverlayIndexFromClickEvent(target: any) {
     if (this.isPageHit(target)) {
-      let requestedPage = this.overlays.indexOf(target);
+      const requestedPage: number = this.overlays.indexOf(target);
       if (requestedPage >= 0) {
         return requestedPage;
       }
@@ -562,11 +562,13 @@ export class ViewerService implements OnInit {
 
     const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
-    // const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
-    const currentPageIndex = this.pageService.currentPage;
 
+    const currentPageIndex = this.pageService.currentPage;
+    const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
+
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+      isPastCenter: isPanningPastCenter,
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,
@@ -574,12 +576,10 @@ export class ViewerService implements OnInit {
     });
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
-
       this.goToPage(newPageIndex);
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      console.log('swiping, page zoomed')
-      if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds) && direction) {
-        //this.zoomTo(this.getHomeZoom())
+      // REMOVE direction here
+      if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
         this.fitBounds(this.overlays[this.pageService.currentPage]);
         setTimeout(() => {
           this.goToPage(newPageIndex);

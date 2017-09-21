@@ -16,4 +16,10 @@ export class SwipeUtils {
     const isOutsideRightBound = vpBounds.x + vpBounds.width + CustomOptions.pan.sensitivityMargin > pageBounds.x + pageBounds.width;
     return isOutsideRightBound || isOutsideLeftBound;
   }
+
+  static isPanningPastCenter(pageBounds: any, vpBounds: any): boolean {
+    const isPastCenterRight = vpBounds.x > pageBounds.x + (pageBounds.width / 2);
+    const isPastCenterLeft = vpBounds.x + vpBounds.width + (pageBounds.width / 2) < pageBounds.x + pageBounds.width;
+    return isPastCenterRight || isPastCenterLeft;
+  }
 }
