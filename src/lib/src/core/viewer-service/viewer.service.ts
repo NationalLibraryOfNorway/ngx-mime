@@ -527,7 +527,7 @@ export class ViewerService implements OnInit {
     OpenSeadragon.setString('Tooltips.FullPage', '');
   }
 
-  private shortenDecimals(zoom: string, precision: number): number {
+  private shortenDecimals(zoom: any, precision: number): number {
     const short = Number(zoom).toPrecision(precision);
     return Number(short);
   }
@@ -671,9 +671,9 @@ export class ViewerService implements OnInit {
     const viewportWidth = maxViewportDimensions.width - newPadding.left - newPadding.right;
 
     const viewportSizeInViewportCoordinates =
-    this.viewer.viewport.deltaPointsFromPixels(
-      new OpenSeadragon.Point(viewportWidth, viewportHeight)
-    );
+      this.viewer.viewport.deltaPointsFromPixels(
+        new OpenSeadragon.Point(viewportWidth, viewportHeight)
+      );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
 
     this.goToHomeZoom(viewportBounds);
@@ -706,14 +706,14 @@ export class ViewerService implements OnInit {
       pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     }
 
-    const currentZoom = this.viewer.viewport.getZoom();
-    const resizeRatio = viewportBounds.height / pageBounds.height;
+    const currentZoom: number = this.viewer.viewport.getZoom();
+    const resizeRatio: number = viewportBounds.height / pageBounds.height;
 
     if (resizeRatio * pageBounds.width <= viewportBounds.width) {
-      return resizeRatio * currentZoom;
+      return this.shortenDecimals(resizeRatio * currentZoom, 5);
     } else {
       // Page at full height is wider than viewport.  Return fit by width instead.
-      return viewportBounds.width / pageBounds.width * currentZoom;
+      return this.shortenDecimals(viewportBounds.width / pageBounds.width * currentZoom, 5);
     }
   }
 
