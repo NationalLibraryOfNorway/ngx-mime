@@ -6,7 +6,6 @@ import { MimeViewerIntl } from '../core/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Dimensions } from '../core/models/dimensions';
-import { ContentsDialogService } from './contents-dialog.service';
 
 @Component({
   selector: 'mime-contents',
@@ -23,8 +22,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,
     private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper,
-    private contentsDialogService: ContentsDialogService) {
+    private mimeDomHelper: MimeDomHelper) {
     mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
@@ -44,9 +42,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    console.log('ContentsDialogComponent - onResize()');
     this.mimeResizeService.markForCheck();
-    this.resizeTabHeight();
   }
 
   private resizeTabHeight(): void {

@@ -34,7 +34,7 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // console.log('AttributionDialogComponent - ngAfterViewInit()');
+    console.log('AttributionDialogComponent - ngAfterViewInit()');
     this.attributionDialogResizeService.markForCheck();
   }
 
@@ -46,7 +46,7 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    // console.log('AttributionDialogComponent - onResize()');
+    console.log('AttributionDialogComponent - onResize()');
     this.attributionDialogResizeService.markForCheck();
   }
 }
