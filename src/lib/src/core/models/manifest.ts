@@ -2,6 +2,7 @@ export class Manifest {
   public context?: string;
   public type?: string;
   public id?: string;
+  public viewingDirection = ViewingDirection.LTR;
   public label?: string;
   public metadata?: Metadata[];
   public license?: string;
@@ -16,6 +17,7 @@ export class Manifest {
       context?: string,
       type?: string,
       id?: string,
+      viewingDirection?: ViewingDirection,
       label?: string,
       metadata?: Metadata[],
       license?: string,
@@ -30,6 +32,7 @@ export class Manifest {
       this.context = fields.context || this.context;
       this.type = fields.type || this.type;
       this.id = fields.id || this.id;
+      this.viewingDirection = fields.viewingDirection || this.viewingDirection;
       this.label = fields.label || this.label;
       this.metadata = fields.metadata || this.metadata;
       this.license = fields.license || this.license;
@@ -250,4 +253,9 @@ export class Structure {
 
 export class TileSource {
 
+}
+
+export enum ViewingDirection {
+  LTR,
+  RTL
 }
