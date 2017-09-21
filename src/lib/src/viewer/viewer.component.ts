@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ElementRef,
   ChangeDetectorRef,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
@@ -118,6 +118,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  // ChangeDetection fix
+  onModeChange() {
+    if (this.mode === ViewerMode.DASHBOARD) {
+      this.contentsDialogService.destroy();
+      this.searchDialogService.destroy();
+    }
   }
 
   get mode(): ViewerMode {
