@@ -1,7 +1,8 @@
 import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
 import { promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
-import { isUndefined } from "util";
+import { isUndefined } from 'util';
+
 
 
 const utils = new Utils();
@@ -227,6 +228,7 @@ export class ViewerPage {
     return (headerisHidden && footerisHidden);
   }
 
+
   async isCurrentPageFittedViewport(): Promise<boolean> {
     const svgParent = await this.getSVGElement();
     const overlay = await this.getFirstPageOverlay();
@@ -249,6 +251,7 @@ export class ViewerPage {
 
     return Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height);
   }
+
 }
 
 export interface Point {

@@ -156,17 +156,17 @@ describe('ViewerComponent', function () {
   });
 
   it('should fit bounds to viewport for a page', (done: any) => {
-    let overlay = viewerService.getOverlays()[0];
-    let viewer = viewerService.getViewer();
-    let overlayBounds = viewerService.createRectangle(overlay);
+    const overlay = viewerService.getOverlays()[0];
+    const viewer = viewerService.getViewer();
+    const overlayBounds = viewerService.createRectangle(overlay);
 
     viewerService.fitBounds(overlay);
 
     setTimeout(() => {
-      let viewportX = Math.round(viewer.viewport.getBounds().x);
-      let viewportY = Math.round(viewer.viewport.getBounds().y);
-      let overlayX = Math.round(overlayBounds.y);
-      let overlayY = Math.round(overlayBounds.y);
+      const viewportX = Math.round(viewer.viewport.getBounds().x);
+      const viewportY = Math.round(viewer.viewport.getBounds().y);
+      const overlayX = Math.round(overlayBounds.y);
+      const overlayY = Math.round(overlayBounds.y);
 
       expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
       done();
@@ -278,6 +278,8 @@ describe('ViewerComponent', function () {
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
+
+
 
 
   it('should increase zoom level when pinching out', () => {

@@ -19,7 +19,9 @@ import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
 import '../ext/svg-overlay';
+
 import * as d3 from 'd3';
+import '../../rxjs-extension';
 
 declare const OpenSeadragon: any;
 
@@ -45,13 +47,11 @@ export class ViewerService implements OnInit {
   private dragStartPosition: any;
   private centerPoints = new CenterPoints();
 
-
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService
-  ) { }
+    private modeService: ModeService) { }
 
   ngOnInit(): void { }
 
@@ -136,7 +136,7 @@ export class ViewerService implements OnInit {
   }
 
   public updatePadding(padding: Dimensions): void {
-    //TODO: Check whether padding has changed properly
+    // TODO: Check whether padding has changed properly
     if (this.containerPadding.top !== padding.top) {
       this.paddingChanged(padding);
       this.containerPadding = padding;
@@ -159,7 +159,7 @@ export class ViewerService implements OnInit {
         this.setSettings(mode);
       }));
 
-      this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: any) => {
+      this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
       }));
 
@@ -301,7 +301,7 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.PAGE;
     this.positionTilesInSinglePageView(this.pageService.currentPage);
-    //this.fitBounds(this.overlays[this.pageService.currentPage]);
+    // this.fitBounds(this.overlays[this.pageService.currentPage]);
   }
 
   /**
@@ -408,18 +408,18 @@ export class ViewerService implements OnInit {
     if (
       widthIsFitted || heightIsFitted
     ) {
-      //console.log('switching to PAGE-mode');
+      // console.log('switching to PAGE-mode');
       this.modeService.mode = ViewerMode.PAGE;
     } else if (
       this.getZoom() === this.getHomeZoom()
     ) {
-      //console.log('switching to DASHBOARD-mode');
+      // console.log('switching to DASHBOARD-mode');
       this.modeService.mode = ViewerMode.DASHBOARD;
     } else if (
       (pageBounds.width > viewportBounds.width) ||
       (pageBounds.height > viewportBounds.height)
     ) {
-      //console.log('switching to PAGE_ZOOMED-mode');
+      // console.log('switching to PAGE_ZOOMED-mode');
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
 
@@ -570,7 +570,7 @@ export class ViewerService implements OnInit {
 
     const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
-    //const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    // const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
     const currentPageIndex = this.pageService.currentPage;
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
@@ -627,18 +627,20 @@ export class ViewerService implements OnInit {
       return;
     }
 
-    //First centre the page
-    //TODO: Refactor to own method
+    // First centre the page
+    // TODO: Refactor to own method
     let requestedPageBounds = requestedPage.getBounds(true);
     let viewport = this.viewer.viewport;
-    let pageCenter = new OpenSeadragon.Point(requestedPageBounds.x + (requestedPageBounds.width / 2), requestedPageBounds.y + (requestedPageBounds.height / 2));
+    let pageCenter = new OpenSeadragon.Point(
+      requestedPageBounds.x + (requestedPageBounds.width / 2), requestedPageBounds.y + (requestedPageBounds.height / 2)
+    );
     viewport.panTo(pageCenter, false);
 
 
-    //TODO: Something better than a timeout function
+    // TODO: Something better than a timeout function
     setTimeout(() => {
-      //Update position of previous/next tiles
-      //TODO: Configurable margin
+      // Update position of previous/next tiles
+      // TODO: Configurable margin
       PagePositionUtils.updatePagePositions(this.viewer, requestedPageIndex, 20, this.overlays, this.centerPoints);
     }, 500);
 
@@ -658,7 +660,9 @@ export class ViewerService implements OnInit {
 
   private positionTilesInDashboardView(requestedPageIndex: number): void {
 
-    PagePositionUtils.updatePagePositions(this.viewer, requestedPageIndex, CustomOptions.overlays.tilesMargin, this.overlays, this.centerPoints);
+    PagePositionUtils.updatePagePositions(
+      this.viewer, requestedPageIndex, CustomOptions.overlays.tilesMargin, this.overlays, this.centerPoints
+    );
 
     const rootNode = d3.select(this.viewer.container.parentNode);
     rootNode.style('max-width', '');
@@ -677,7 +681,10 @@ export class ViewerService implements OnInit {
     const viewportHeight = maxViewportDimensions.height - newPadding.top - newPadding.bottom;
     const viewportWidth = maxViewportDimensions.width - newPadding.left - newPadding.right;
 
-    const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(new OpenSeadragon.Point(viewportWidth, viewportHeight));
+    const viewportSizeInViewportCoordinates =
+    this.viewer.viewport.deltaPointsFromPixels(
+      new OpenSeadragon.Point(viewportWidth, viewportHeight)
+    );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
 
     this.goToHomeZoom(viewportBounds);

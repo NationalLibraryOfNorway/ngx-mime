@@ -1,7 +1,7 @@
 import { ViewerPage } from '../pages/viewer.po';
 import { defineSupportCode } from 'cucumber';
 import { expect } from '../helpers/chai-imports';
-import { by } from 'protractor';
+import { browser, by } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 defineSupportCode(function ({ Given, When, Then }) {

@@ -16,5 +16,4 @@ export class SwipeUtils {
     const isOutsideRightBound = vpBounds.x + vpBounds.width + CustomOptions.pan.sensitivityMargin > pageBounds.x + pageBounds.width;
     return isOutsideRightBound || isOutsideLeftBound;
   }
-
 }

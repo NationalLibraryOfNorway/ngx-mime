@@ -56,7 +56,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private dialog: MdDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private pageService: PageService,
-    private modeService: ModeService ) {
+    private modeService: ModeService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     mimeService.el = el;
@@ -145,6 +145,4 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       'canvas-pressed': this.isCanvasPressed
     };
   }
-
-
 }

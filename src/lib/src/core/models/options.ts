@@ -2,6 +2,8 @@ import { CustomOptions } from './options-custom';
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
+import { ViewerMode } from './viewer-mode';
+
 
 export class Options {
   id = 'openseadragon';
@@ -18,7 +20,7 @@ export class Options {
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 0;
+  defaultZoomLevel = 0.00014;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
@@ -78,7 +80,7 @@ export class Options {
   navigationControlAnchor = ControlAnchor.TOP_LEFT;
   showZoomControl = true;
   showHomeControl = true;
-  showFullPageControl = true;
+  showFullPageControl = false;
   showRotationControl = false;
   showSequenceControl = false;
   sequenceControlAnchor = ControlAnchor.TOP_LEFT;
