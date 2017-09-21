@@ -87,14 +87,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.toggleToolbarsState(mode);
       })
     );
-
-    this.loadManifest();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
-      if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
+      if (manifestUriChanges.currentValue !== manifestUriChanges.previousValue) {
         this.modeService.mode = this.config.initViewerMode;
         this.manifestUri = manifestUriChanges.currentValue;
         this.cleanUp();
