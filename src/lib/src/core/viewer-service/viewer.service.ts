@@ -428,12 +428,14 @@ export class ViewerService implements OnInit {
       }
 
       let currentY = center.y - tile.height / 2;
-      this.viewer.addTiledImage({
-        index: i,
-        tileSource: tile,
-        height: tile.height,
-        x: currentX,
-        y: currentY
+      this.zone.runOutsideAngular(() => {
+        this.viewer.addTiledImage({
+          index: i,
+          tileSource: tile,
+          height: tile.height,
+          x: currentX,
+          y: currentY
+        });
       });
 
       // Style overlay to match tile

@@ -14,8 +14,6 @@ export class ViewerPage {
   async open() {
     await browser.get('/');
     await browser.sleep(5000);
-    // waitForAngular doesn't work when setting up OSD in multiimage mode.
-    browser.waitForAngularEnabled(false);
   }
 
   async goToPage(pageNumber: number) {
@@ -30,7 +28,7 @@ export class ViewerPage {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
     const el =  await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
-    // Not using el.getText() as it don't seem to work when element not visible
+    // Not using el.getText() as it don't seem to work when element is not visible
     const currentPageNumber = await el.getAttribute('textContent');
     return currentPageNumber;
   }
