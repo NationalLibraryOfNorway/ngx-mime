@@ -1,3 +1,5 @@
+import * as d3 from 'd3';
+
 export class PagePositionUtils {
 
   static updatePagePositions(viewer: any, centerPageIndex: number, margin: number, overlays: any, centerPoints: any): void {
