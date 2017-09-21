@@ -390,7 +390,7 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    //this.setModeCallback();
+    // this.setModeCallback();
   }
 
   setModeCallback() {
@@ -578,7 +578,6 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
       this.goToPage(newPageIndex);
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      // REMOVE direction here
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
         this.fitBounds(this.overlays[this.pageService.currentPage]);
         setTimeout(() => {
@@ -605,7 +604,7 @@ export class ViewerService implements OnInit {
 
 
 
-  
+
   private resizeViewportContainerToFitPage(pageBounds?: any): void {
     let container = d3.select(this.viewer.container.parentNode);
 
@@ -636,9 +635,9 @@ export class ViewerService implements OnInit {
       );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
 
-    //this.goToHomeZoom(viewportBounds);
+    // this.goToHomeZoom(viewportBounds);
     this.animateZoom(this.viewer.viewport, this.getHomeZoom(viewportBounds), 100);
-    
+
 
     setTimeout(() => {
       this.setPadding(container, newPadding);
@@ -679,7 +678,7 @@ export class ViewerService implements OnInit {
     }
   }
 
-  //TODO: Refactoring
+  // TODO: Refactoring
   private animateZoom(viewport: any, zoom: number, milliseconds: number): void {
     let iterations = 10;
 
@@ -690,7 +689,7 @@ export class ViewerService implements OnInit {
     this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, 1, iterations);
   }
 
-  //TODO: Refactoring
+  // TODO: Refactoring
   private incrementZoom(viewport: any, currentZoom: number, zoomIncrement: number, timeIncrement: number, i: number, iterations: number) {
     if (i > iterations) {
       return;
@@ -700,7 +699,7 @@ export class ViewerService implements OnInit {
     setTimeout(() => {
 
       let viewportZoom = viewport.getZoom();
-      if (currentZoom != viewportZoom) {
+      if (currentZoom !== viewportZoom) {
         zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
         currentZoom = viewportZoom;
       }
@@ -709,7 +708,7 @@ export class ViewerService implements OnInit {
 
       this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, i, iterations);
 
-      //TODO: Some kind of callback that triggers resize?
+      // TODO: Some kind of callback that triggers resize?
       if (this.modeService.mode === ViewerMode.PAGE) {
         this.resizeViewportContainerToFitPage();
       }
