@@ -1,13 +1,13 @@
-import { CustomOptions } from '../../core/models/options-custom';
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { Dimensions } from './../../core/models/dimensions';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { MimeViewerIntl } from './../../core/viewer-intl';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { PageService } from './../../core/page-service/page-service';
+import { CustomOptions } from '../../core/models/options-custom';
 
 @Component({
   selector: 'mime-osd-toolbar',

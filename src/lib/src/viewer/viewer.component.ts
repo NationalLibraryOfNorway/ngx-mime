@@ -1,14 +1,14 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChange,
   SimpleChanges,
-  ElementRef,
-  ChangeDetectorRef,
   ViewChild,
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
@@ -43,9 +43,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ViewerMode: typeof ViewerMode = ViewerMode;
 
   // Viewchilds
-  @ViewChild('header') header: ViewerHeaderComponent;
-  @ViewChild('footer') footer: ViewerFooterComponent;
-  @ViewChild('osdToolbar') osdToolbar: OsdToolbarComponent;
+  @ViewChild('mimeHeader') header: ViewerHeaderComponent;
+  @ViewChild('mimeFooter') footer: ViewerFooterComponent;
+  @ViewChild('mimeOsdToolbar') osdToolbar: OsdToolbarComponent;
 
   constructor(
     private el: ElementRef,
@@ -118,13 +118,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     switch (mode) {
       case ViewerMode.DASHBOARD:
         this.header.state = this.footer.state = 'show';
-        if (this.config.navigationControlEnabled) {
+        if (this.config.navigationControlEnabled && this.osdToolbar) {
           this.osdToolbar.state = 'hide';
         }
         break;
       case ViewerMode.PAGE:
         this.header.state = this.footer.state = 'hide';
-        if (this.config.navigationControlEnabled) {
+        if (this.config.navigationControlEnabled && this.osdToolbar) {
           this.osdToolbar.state = 'show';
         }
         break;
