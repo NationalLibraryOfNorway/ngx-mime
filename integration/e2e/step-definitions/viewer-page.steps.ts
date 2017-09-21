@@ -21,7 +21,7 @@ defineSupportCode(function ({ Given, Then }) {
   Given(/^a (.*) publication with 10 pages$/, async (viewingDirection: string) => {
     if (viewingDirection === 'left-to-right') {
       await page.open('a-ltr-book-10-pages');
-    } else if (viewingDirection === 'left-to-right') {
+    } else if (viewingDirection === 'right-to-left') {
       await page.open('a-rtl-book-10-pages');
     }
   });

@@ -26,6 +26,9 @@ defineSupportCode(function ({ Given, When, Then }) {
   When(/^the user swipe (.*) and the velocity is equal or greater than (.*)$/, async (direction: string, velocity: string) => {
     pending();
   });
+  When(/^the user swipe (.*) but the velocity is less than (.*)$/, async (direction: string, velocity: string) => {
+    pending();
+  });
 
   When(/^the user drags the page slider to page (.*)$/, async (pageNumber: number) => {
     await page.goToPage(pageNumber - 1);
