@@ -385,7 +385,7 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    this.setModeCallback();
+    //this.setModeCallback();
   }
 
   setModeCallback() {
@@ -395,21 +395,19 @@ export class ViewerService implements OnInit {
     const heightIsFitted = Utils.numbersAreClose(pageBounds.height, viewportBounds.height, 5);
 
     if (
-      widthIsFitted || heightIsFitted
-    ) {
-      // console.log('switching to PAGE-mode');
-      this.modeService.mode = ViewerMode.PAGE;
-    } else if (
       this.getZoom() === this.getHomeZoom()
     ) {
-      // console.log('switching to DASHBOARD-mode');
-      this.modeService.mode = ViewerMode.DASHBOARD;
+      console.log('switching to PAGE-mode');
+      this.modeService.mode = ViewerMode.PAGE;
     } else if (
       (pageBounds.width > viewportBounds.width) ||
       (pageBounds.height > viewportBounds.height)
     ) {
-      // console.log('switching to PAGE_ZOOMED-mode');
+      console.log('switching to PAGE_ZOOMED-mode');
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
+    } else {
+      console.log('switching to DASHBOARD-mode');
+      this.modeService.mode = ViewerMode.DASHBOARD;
     }
 
   }
@@ -571,10 +569,13 @@ export class ViewerService implements OnInit {
     });
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
+
       this.goToPage(newPageIndex);
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      console.log('swiping, page zoomed')
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds) && direction) {
-        this.toggleToPage();
+        //this.zoomTo(this.getHomeZoom())
+        this.fitBounds(this.overlays[this.pageService.currentPage]);
         setTimeout(() => {
           this.goToPage(newPageIndex);
         }, CustomOptions.transitions.OSDAnimationTime);
@@ -600,15 +601,15 @@ export class ViewerService implements OnInit {
 
 
 
+  private positionTilesInDashboardView(requestedPageIndex: number): void {
 
+    PagePositionUtils.updatePagePositions(
+      this.viewer, requestedPageIndex, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.centerPoints
+    );
 
+    const rootNode = d3.select(this.viewer.container.parentNode).style('max-width', '');
+  }
 
-
-
-
-
-
-  /*** padding stuff */
   private positionTilesInSinglePageView(requestedPageIndex: number): void {
 
     let requestedPage = this.viewer.world.getItemAt(requestedPageIndex);
@@ -629,7 +630,8 @@ export class ViewerService implements OnInit {
     // TODO: Something better than a timeout function
     setTimeout(() => {
       // Update position of previous/next tiles
-      PagePositionUtils.updatePagePositions(this.viewer, requestedPageIndex, CustomOptions.overlays.pageMarginPageView, this.overlays, this.centerPoints);
+      PagePositionUtils.updatePagePositions(
+        this.viewer, requestedPageIndex, CustomOptions.overlays.pageMarginPageView, this.overlays, this.centerPoints);
     }, 500);
 
   }
@@ -644,17 +646,6 @@ export class ViewerService implements OnInit {
     let widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
     let widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
     container.style('max-width', widthInPixels + 'px');
-  }
-
-  private positionTilesInDashboardView(requestedPageIndex: number): void {
-
-    PagePositionUtils.updatePagePositions(
-      this.viewer, requestedPageIndex, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.centerPoints
-    );
-
-    const rootNode = d3.select(this.viewer.container.parentNode);
-    rootNode.style('max-width', '');
-
   }
 
   private paddingChanged(newPadding: Dimensions): void {
