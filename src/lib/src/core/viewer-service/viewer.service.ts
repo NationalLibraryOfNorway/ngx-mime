@@ -1,11 +1,12 @@
-import { PanDirection } from '../models/pan-direction';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
-import { CenterPoints } from './../models/page-center-point';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { CustomOptions } from '../models/options-custom';
 import { Injectable, NgZone, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+
+import { PanDirection } from '../models/pan-direction';
+import { CenterPoints } from './../models/page-center-point';
+import { CustomOptions } from '../models/options-custom';
 import { Utils } from '../../core/utils';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Dimensions } from '../models/dimensions';
@@ -19,10 +20,10 @@ import { ZoomAnimation } from './zoom-animation';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
-import '../ext/svg-overlay';
 
-import * as d3 from 'd3';
+import '../ext/svg-overlay';
 import '../../rxjs-extension';
+import * as d3 from 'd3';
 
 declare const OpenSeadragon: any;
 
