@@ -14,6 +14,7 @@ export class ContentsDialogConfigStrategyFactory {
   constructor(private media: ObservableMedia, private mimeDomHelper: MimeDomHelper) { }
 
   public create(): ContentsDialogConfigStrategy {
-    return this.media.isActive('lt-md') ? new MobileContentsDialogConfigStrategy() : new DesktopContentsDialogConfigStrategy(this.mimeDomHelper);
+    return this.media.isActive('lt-md') ?
+      new MobileContentsDialogConfigStrategy() : new DesktopContentsDialogConfigStrategy(this.mimeDomHelper);
   }
 }
