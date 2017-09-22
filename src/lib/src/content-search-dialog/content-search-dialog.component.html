@@ -1,0 +1,50 @@
+<div class="content-search-container">
+  <div [ngSwitch]="media.isActive('lt-md')">
+    <div *ngSwitchCase="true">
+      <md-toolbar color="primary">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+          <div class="heading">{{intl.search}}</div>
+        </div>
+      </md-toolbar>
+    </div>
+    <div *ngSwitchDefault>
+      <md-toolbar>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+          <div class="heading heading-desktop">{{intl.search}}</div>
+          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+        </div>
+      </md-toolbar>
+    </div>
+  </div>
+  <div class="content-search-form" fxLayout="column">
+    <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
+      <md-form-field fxFlex>
+        <button type="submit" mdPrefix md-icon-button><md-icon>search</md-icon></button>
+        <input mdInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off">
+      </md-form-field>
+    </form>
+  </div>
+  <div class="content-search-result-container" [ngStyle]="tabHeight">
+    <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
+      <input type="hidden" id="numberOfHits" [value]="numberOfHits">
+      <div *ngIf="currentSearch.length > 0">
+        <div *ngIf="numberOfHits > 0" [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"></div>
+        <div *ngIf="numberOfHits === 0" [innerHTML]="intl.noResultsFoundLabel(currentSearch)"></div>
+      </div>
+      <md-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)">
+        <md-card-content fxLayout="row" fxLayoutAlign="space-between start">
+          <div fxFlex class="summary">
+            {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
+          </div>
+          <div fxFlex="40px" class="pageLabel">
+            {{hit.index + 1}}
+          </div>
+        </md-card-content>
+      </md-card>
+    </div>
+    <div *ngIf="isSearching" class="content-search-result" fxLayout="column">
+      <md-progress-bar mode="indeterminate"></md-progress-bar>
+    </div>
+  </div>
+</div>

@@ -10,5 +10,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/throttle';
+import 'rxjs/add/operator/filter';

@@ -18,7 +18,7 @@ module.exports = function (wallaby) {
       {pattern: 'node_modules/zone.js/dist/jasmine-patch.js', instrument: false},
       {pattern: 'node_modules/zone.js/dist/async-test.js', instrument: false},
       {pattern: 'node_modules/zone.js/dist/fake-async-test.js', instrument: false},
-
+      {pattern: 'node_modules/hammerjs/hammer.min.js', instrument: false},
       {pattern: 'src/demo/systemjs.config.js', instrument: false},
       {pattern: 'src/demo/systemjs-angular-loader.js', instrument: false, load: false},
       {pattern: 'node_modules/openseadragon/build/openseadragon/openseadragon.min.js', instrument: false},

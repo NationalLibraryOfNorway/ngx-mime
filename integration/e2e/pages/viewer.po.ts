@@ -9,8 +9,9 @@ export class ViewerPage {
   private pointerPosition1 = { x: 650, y: 275 };
   private pointerPosition2 = { x: 750, y: 200 };
 
-  async open() {
-    await browser.get('/');
+  async open(manifestUri?: string) {
+    const uri = manifestUri ? `/?manifestUri=${manifestUri}` : `/`;
+    await browser.get(uri);
     await browser.sleep(5000);
   }
 
@@ -30,6 +31,11 @@ export class ViewerPage {
   async openContentsDialog() {
     await element(by.css('#contentsDialogButton')).click();
     await utils.waitForElement(element(by.css('.contents-container')));
+  }
+
+  async openContentSearchDialog() {
+    await element(by.css('#contentSearchDialogButton')).click();
+    await utils.waitForElement(element(by.css('.content-search-container')));
   }
 
   fullscreenButton(): ElementFinder {
@@ -181,7 +187,7 @@ export class ViewerPage {
   }
 
   async waitForAnimation(): Promise<void> {
-    await browser.sleep((await this.getAnimationTime()) * 100);
+    await browser.sleep((await this.getAnimationTime()) * 1000);
   }
 
   async isDashboardMode(): Promise<boolean> {

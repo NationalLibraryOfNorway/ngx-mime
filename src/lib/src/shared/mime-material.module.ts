@@ -7,7 +7,10 @@ import {
   MdDialogModule,
   MdTabsModule,
   MdListModule,
-  MdSliderModule
+  MdSliderModule,
+  MdInputModule,
+  MdProgressBarModule,
+  MdCardModule
 } from '@angular/material';
 
 @NgModule({
@@ -19,7 +22,10 @@ import {
     MdDialogModule,
     MdTabsModule,
     MdListModule,
-    MdSliderModule
+    MdSliderModule,
+    MdInputModule,
+    MdProgressBarModule,
+    MdCardModule
   ],
 })
 export class MimeMaterialModule { }
