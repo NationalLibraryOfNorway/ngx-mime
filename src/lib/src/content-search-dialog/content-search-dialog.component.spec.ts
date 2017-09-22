@@ -15,6 +15,8 @@ import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { MimeDomHelper } from './../core/mime-dom-helper';
+import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { ViewerService } from './../core/viewer-service/viewer.service';
 import { Hit } from './../core/models/search-result';
 
@@ -37,6 +39,8 @@ describe('ContentSearchDialogComponent', () => {
         IiifManifestService,
         IiifContentSearchService,
         MimeResizeService,
+        MimeDomHelper,
+        FullscreenService,
         { provide: MdDialogRef, useClass: MdDialogRefMock },
         { provide: ObservableMedia, useClass: MediaMock },
         { provide: ViewerService, useClass: ViewerServiceMock }

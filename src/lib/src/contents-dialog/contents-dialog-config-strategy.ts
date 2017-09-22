@@ -1,5 +1,5 @@
 import { MimeDomHelper } from './../core/mime-dom-helper';
-import { ElementRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { MdDialogConfig } from '@angular/material';
 
 import { Dimensions } from './../core/models/dimensions';
@@ -23,6 +23,11 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
 export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfigStrategy {
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
+  private mimeDomHelper: MimeDomHelper;
+
+  constructor(mimeDomHelper: MimeDomHelper) {
+    this.mimeDomHelper = mimeDomHelper;
+  }
 
   public getConfig(el: ElementRef): MdDialogConfig {
     const dimensions = this.getPosition(el);
@@ -38,7 +43,7 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
   }
 
   private getPosition(el: ElementRef): Dimensions {
-    const dimensions = new MimeDomHelper().getBoundingClientRect(el);
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
       top: dimensions.top + 64,
       left: dimensions.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight

@@ -1,13 +1,9 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
-import { ObservableMedia } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
 
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { Manifest } from './../core/models/manifest';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 
 @Injectable()
 export class ContentsDialogService {

@@ -26,16 +26,15 @@ import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 
 import 'openseadragon';
 import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  let de: DebugElement;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
-  let spy: any;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
 
@@ -67,7 +66,8 @@ describe('ViewerComponent', function () {
         MimeViewerIntl,
         ClickService,
         PageService,
-        ModeService
+        ModeService,
+        FullscreenService
       ]
     }).compileComponents();
   }));

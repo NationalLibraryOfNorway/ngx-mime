@@ -16,6 +16,7 @@ import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-man
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
+import { MimeDomHelper } from './../../core/mime-dom-helper';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -30,6 +31,8 @@ describe('ViewerHeaderComponent', () => {
         ContentSearchDialogModule
       ],
       providers: [
+        MimeDomHelper,
+        FullscreenService,
         { provide: FullscreenService, useClass: FullscreenServiceMock },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]

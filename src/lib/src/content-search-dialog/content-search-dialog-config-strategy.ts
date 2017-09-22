@@ -23,6 +23,11 @@ export class MobileContentSearchDialogConfigStrategy implements ContentSearchDia
 export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
+  private mimeDomHelper: MimeDomHelper;
+
+  constructor(mimeDomHelper: MimeDomHelper) {
+    this.mimeDomHelper = mimeDomHelper;
+  }
 
   public getConfig(el: ElementRef): MdDialogConfig {
     const dimensions = this.getPosition(el);
@@ -38,7 +43,7 @@ export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDi
   }
 
   private getPosition(el: ElementRef): Dimensions {
-    const dimensions = new MimeDomHelper().getBoundingClientRect(el);
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
       top: dimensions.top + 64,
       left: dimensions.right - DesktopContentSearchDialogConfigStrategy.dialogWidth - DesktopContentSearchDialogConfigStrategy.paddingRight

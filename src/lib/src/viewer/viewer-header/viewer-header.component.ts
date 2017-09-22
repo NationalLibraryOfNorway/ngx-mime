@@ -51,8 +51,9 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
+    private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
-    private iiifManifestService: IiifManifestService) { }
+    private mimeDomHelper: MimeDomHelper) { }
 
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
@@ -87,7 +88,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public toggleFullscreen(): void {
-    return new MimeDomHelper().toggleFullscreen();
+    return this.mimeDomHelper.toggleFullscreen();
   }
 
   public isInFullScreen(): boolean {

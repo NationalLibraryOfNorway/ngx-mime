@@ -6,13 +6,15 @@ import {
   MobileContentSearchDialogConfigStrategy,
   DesktopContentSearchDialogConfigStrategy
 } from './content-search-dialog-config-strategy';
+import { MimeDomHelper } from '../core/mime-dom-helper';
 
 @Injectable()
 export class ContentSearchDialogConfigStrategyFactory {
 
-  constructor(private media: ObservableMedia) { }
+  constructor(private media: ObservableMedia, private mimeDomHelper: MimeDomHelper) { }
 
   public create(): ContentSearchDialogConfigStrategy {
-    return this.media.isActive('lt-md') ? new MobileContentSearchDialogConfigStrategy() : new DesktopContentSearchDialogConfigStrategy();
+    return this.media.isActive('lt-md') ?
+      new MobileContentSearchDialogConfigStrategy() : new DesktopContentSearchDialogConfigStrategy(this.mimeDomHelper);
   }
 }

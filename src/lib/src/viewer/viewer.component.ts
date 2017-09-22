@@ -11,7 +11,6 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { MdDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
@@ -19,8 +18,6 @@ import { AttributionDialogService } from '../attribution-dialog/attribution-dial
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
-import { Options } from '../core/models/options';
-import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
@@ -60,9 +57,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private contentSearchDialogService: ContentSearchDialogService,
     private viewerService: ViewerService,
     private mimeService: MimeResizeService,
-    private dialog: MdDialog,
     private changeDetectorRef: ChangeDetectorRef,
-    private pageService: PageService,
     private modeService: ModeService,
     private iiifContentSearchService: IiifContentSearchService) {
     contentsDialogService.el = el;

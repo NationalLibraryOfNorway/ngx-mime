@@ -1,18 +1,17 @@
-import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef, OnDestroy } from '@angular/core';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { Component, OnInit, HostListener, ElementRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../core/viewer-intl';
-import { Manifest } from './../core/models/manifest';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { MimeDomHelper } from './../core/mime-dom-helper';
-import { Dimensions } from './../core/models/dimensions';
+import { MimeViewerIntl } from '../core/viewer-intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { Dimensions } from '../core/models/dimensions';
 
 @Component({
   selector: 'mime-contents',
   templateUrl: './contents-dialog.component.html',
-  styleUrls: ['./contents-dialog.component.scss']
+  styleUrls: ['./contents-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentsDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
@@ -23,7 +22,8 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,
-    private el: ElementRef) {
+    private el: ElementRef,
+    private mimeDomHelper: MimeDomHelper) {
     mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
@@ -47,7 +47,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   }
 
   private resizeTabHeight(): void {
-    const dimensions = new MimeDomHelper().getBoundingClientRect(this.el);
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
     let height = this.mimeHeight;
 
     if (this.media.isActive('lt-md')) {

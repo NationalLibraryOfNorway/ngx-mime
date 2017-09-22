@@ -38,7 +38,8 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
     private viewerService: ViewerService,
-    private el: ElementRef) {
+    private el: ElementRef,
+    private mimeDomHelper: MimeDomHelper) {
     this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
@@ -90,7 +91,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   }
 
   private resizeTabHeight(): void {
-    const dimensions = new MimeDomHelper().getBoundingClientRect(this.el);
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
     let height = this.mimeHeight;
 
     if (this.media.isActive('lt-md')) {
