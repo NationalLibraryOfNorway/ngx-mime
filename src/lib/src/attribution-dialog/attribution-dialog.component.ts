@@ -33,10 +33,6 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
       }));
   }
 
-  ngAfterViewChecked() {
-    this.attributionDialogResizeService.markForCheck();
-  }
-
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
@@ -45,6 +41,10 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
+    this.attributionDialogResizeService.markForCheck();
+  }
+
+  ngAfterViewChecked() {
     this.attributionDialogResizeService.markForCheck();
   }
 }
