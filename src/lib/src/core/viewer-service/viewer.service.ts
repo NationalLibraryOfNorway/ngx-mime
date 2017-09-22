@@ -16,7 +16,6 @@ import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { PagePositionUtils } from './page-position-utils';
 import { SwipeUtils } from './swipe-utils';
-import { ZoomAnimation } from './zoom-animation';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
@@ -162,7 +161,6 @@ export class ViewerService implements OnInit {
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
       }));
-
       this.addToWindow();
       this.createOverlays();
       this.addEvents();
@@ -435,7 +433,7 @@ export class ViewerService implements OnInit {
           x: currentX,
           y: currentY,
           success: i === initialPage ? (e: any) => {
-            e.item.addOnceHandler('fully-loaded-change', () => {this.initialPageLoaded();});
+            e.item.addOnceHandler('fully-loaded-change', () => {this.initialPageLoaded(); });
           } : ''
         });
       });
@@ -608,13 +606,36 @@ export class ViewerService implements OnInit {
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-
-    ZoomAnimation.animateZoom(this.viewer.viewport, this.getHomeZoom(viewportBounds), 100, this.resizeViewportContainerToFitPage);
+    this.animateZoom(this.getHomeZoom(viewportBounds), 100);
 
     setTimeout(() => {
       this.setPadding(container, newPadding);
     }, this.options.animationTime * 1000);
 
+  }
+
+  private animateZoom(zoom: number, milliseconds: number): void {
+    const iterations = 10;
+    let index = 0;
+    let currentZoom = this.viewer.viewport.getZoom();
+    let zoomIncrement = (zoom - currentZoom) / iterations;
+    let timeIncrement = milliseconds / iterations;
+
+    let intervalTimer = setInterval(() => {
+      const viewportZoom = this.viewer.viewport.getZoom();
+      if (currentZoom !== viewportZoom) {
+        zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
+        currentZoom = viewportZoom;
+      }
+      currentZoom = currentZoom + zoomIncrement;
+      this.viewer.viewport.zoomTo(currentZoom, null, false);
+
+      this.resizeViewportContainerToFitPage();
+
+      if (index++ >= iterations) {
+        clearInterval(intervalTimer);
+      }
+    }, timeIncrement);
   }
 
   private setPadding(element: any, padding: Dimensions): void {
