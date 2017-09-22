@@ -1,16 +1,12 @@
 import { CustomOptions } from '../../core/models/options-custom';
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
-import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
-import { ObservableMedia, MediaChange } from '@angular/flex-layout';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../../core/viewer-intl';
-import { Manifest } from './../../core/models/manifest';
-import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
-import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
+import { MimeViewerIntl } from '../../core/viewer-intl';
+import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
-import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
+import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -47,7 +43,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
-    private fullscreenService: FullscreenService) { }
+    private fullscreenService: FullscreenService,
+    private mimeDomHelper: MimeDomHelper) { }
 
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
@@ -71,7 +68,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public toggleFullscreen(): void {
-    return new MimeDomHelper().toggleFullscreen();
+    return this.mimeDomHelper.toggleFullscreen();
   }
 
   public isInFullScreen(): boolean {

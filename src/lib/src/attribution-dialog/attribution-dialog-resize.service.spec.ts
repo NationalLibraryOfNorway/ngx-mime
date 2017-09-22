@@ -1,11 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 
 describe('AttributionDialogResizeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AttributionDialogResizeService]
+      providers: [
+        AttributionDialogResizeService,
+        MimeDomHelper,
+        FullscreenService
+      ]
     });
   });
 

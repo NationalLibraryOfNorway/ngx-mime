@@ -1,19 +1,18 @@
 import { Observable } from 'rxjs/Observable';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ObservableMedia } from '@angular/flex-layout';
 
-import { SharedModule } from './../../shared/shared.module';
-import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
+import { SharedModule } from '../../shared/shared.module';
+import { ContentsDialogModule } from '../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
-import { MimeViewerIntl } from './../../core/viewer-intl';
-import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
-import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
+import { MimeViewerIntl } from '../../core/viewer-intl';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
+import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
+import { MimeDomHelper } from '../../core/mime-dom-helper';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -27,6 +26,7 @@ describe('ViewerHeaderComponent', () => {
         ViewerHeaderTestModule
       ],
       providers: [
+        MimeDomHelper,
         { provide: FullscreenService, useClass: FullscreenServiceMock }
       ]
     })
