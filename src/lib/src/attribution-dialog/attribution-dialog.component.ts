@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ElementRef, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../core/viewer-intl';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/viewer-intl';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import { Manifest } from './../core/models/manifest';
+import { Manifest } from '../core/models/manifest';
 
 @Component({
   selector: 'mime-attribution-dialog',

@@ -1,9 +1,7 @@
-import { CustomOptions } from '../core/models/options-custom';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, ViewChild } from '@angular/core';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
@@ -23,16 +21,15 @@ import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 
 import 'openseadragon';
 import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  let de: DebugElement;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
-  let spy: any;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
 
@@ -62,7 +59,8 @@ describe('ViewerComponent', function () {
         MimeViewerIntl,
         ClickService,
         PageService,
-        ModeService
+        ModeService,
+        FullscreenService
       ]
     }).compileComponents();
   }));
