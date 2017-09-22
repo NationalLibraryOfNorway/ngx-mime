@@ -43,7 +43,7 @@ describe('SwipeUtils ', () => {
     let viewportBounds = { x: 51, width: 100 };
     expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(true);
 
-    viewportBounds = { x: 60, width: 200 }
+    viewportBounds = { x: 60, width: 200 };
     expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(true);
   });
 
@@ -54,7 +54,7 @@ describe('SwipeUtils ', () => {
     expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(true);
 
     pageBounds = { x: 100, width: 100 };
-    viewportBounds = { x: 49, width: 100 }
+    viewportBounds = { x: 49, width: 100 };
 
     expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(true);
   });
