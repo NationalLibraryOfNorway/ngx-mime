@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ElementRef,
   ChangeDetectorRef,
-  ViewChild, Renderer2,
+  ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
