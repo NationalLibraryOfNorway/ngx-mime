@@ -413,6 +413,7 @@ export class ViewerService implements OnInit {
     let currentX = center.x - (this.tileSources[0].width / 2);
     let height = this.tileSources[0].height;
 
+    const initialPage = 0;
 
     this.tileSources.forEach((tile, i) => {
 
@@ -429,7 +430,10 @@ export class ViewerService implements OnInit {
           tileSource: tile,
           height: tile.height,
           x: currentX,
-          y: currentY
+          y: currentY,
+          success: i === initialPage ? (e: any) => {
+            e.item.addOnceHandler('fully-loaded-change', () => {this.initialPageLoaded();});
+          } : ''
         });
       });
 
@@ -453,6 +457,13 @@ export class ViewerService implements OnInit {
     });
   }
 
+  /**
+   * Sets viewer size and opacity once the first page has fully loaded
+   */
+  initialPageLoaded = (): void => {
+    this.resizeViewportContainerToFitPage();
+    d3.select(this.viewer.container.parentNode).transition().duration(CustomOptions.transitions.OSDAnimationTime).style('opacity', '1');
+  }
 
   /**
    * Fit viewport bounds to an overlay
