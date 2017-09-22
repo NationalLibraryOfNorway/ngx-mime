@@ -415,7 +415,7 @@ export class ViewerService implements OnInit {
 
 
     this.tileSources.forEach((tile, i) => {
-      
+
       if (tile.height !== height) {
         let heightChangeRatio = height / tile.height;
         tile.height = height;
@@ -504,15 +504,6 @@ export class ViewerService implements OnInit {
     return Number(short);
   }
 
-  /**
-   * Pans to center of current page
-   */
-  private panToPage(): void {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    const center = new OpenSeadragon.Point(pageBounds.x + (pageBounds.width / 2), pageBounds.y + (pageBounds.height / 2));
-    this.viewer.viewport.panTo(center, false);
-  }
-
   private calculateCurrentPage(center: Point) {
     const currentPageIndex = this.centerPoints.findClosestIndex(center);
     this.currentPageIndex.next(currentPageIndex);
@@ -563,15 +554,6 @@ export class ViewerService implements OnInit {
       y: y
     }, false);
   }
-
-
-
-
-
-
-
-
-
 
   resizeViewportContainerToFitPage = (pageBounds?: any): void => {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
