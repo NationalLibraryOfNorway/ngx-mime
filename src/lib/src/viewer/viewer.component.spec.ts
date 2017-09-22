@@ -8,7 +8,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 import { MimeViewerConfig } from '../core/mime-viewer-config';
-import { OptionsTransitions } from '../core/models/options-transitions';
 import { SharedModule } from '../shared/shared.module';
 import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
 import { ViewerComponent } from './viewer.component';

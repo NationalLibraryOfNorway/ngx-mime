@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Rx';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
@@ -7,6 +5,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { MdDialogRef } from '@angular/material';
 import { ObservableMedia, MatchMedia } from '@angular/flex-layout';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Rx';
 
 import { SharedModule } from './../shared/shared.module';
 import { MimeMaterialModule } from './../shared/mime-material.module';

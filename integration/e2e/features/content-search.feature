@@ -16,3 +16,4 @@ Feature: Content search
       And the viewer is in dashboard view
     When the user search for the word "Heimdall" 
     Then there are no results found
+    
