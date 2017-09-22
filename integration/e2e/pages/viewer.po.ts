@@ -187,7 +187,7 @@ export class ViewerPage {
   }
 
   async waitForAnimation(): Promise<void> {
-    await browser.sleep((await this.getAnimationTime()) * 100);
+    await browser.sleep((await this.getAnimationTime()) * 1000);
   }
 
   async isDashboardMode(): Promise<boolean> {
