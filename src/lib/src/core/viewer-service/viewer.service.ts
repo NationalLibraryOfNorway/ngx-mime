@@ -37,7 +37,7 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  private containerPadding: Dimensions = new Dimensions();
+  private containerPadding: ReplaySubject<Dimensions> = new ReplaySubject();
 
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
@@ -62,6 +62,10 @@ export class ViewerService implements OnInit {
 
   get onPageChange(): Observable<number> {
     return this.currentPageIndex.asObservable().distinctUntilChanged();
+  }
+
+  get onPaddingChange(): Observable<Dimensions> {
+    return this.containerPadding.asObservable();
   }
 
   public getViewer(): any {
@@ -135,12 +139,7 @@ export class ViewerService implements OnInit {
   }
 
   public updatePadding(padding: Dimensions): void {
-    // TODO: Check whether padding has changed properly
-    if (this.containerPadding.top !== padding.top) {
-      this.paddingChanged(padding);
-      this.containerPadding = padding;
-    }
-
+    this.containerPadding.next(padding);
   }
 
   setUpViewer(manifest: Manifest) {
@@ -160,6 +159,10 @@ export class ViewerService implements OnInit {
 
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
+      }));
+
+      this.subscriptions.push(this.onPaddingChange.throttle(val => Observable.interval(500)).subscribe((padding: Dimensions) => {
+        this.paddingChanged(padding);
       }));
       this.addToWindow();
       this.createOverlays();
@@ -589,7 +592,7 @@ export class ViewerService implements OnInit {
   }
 
   private paddingChanged(newPadding: Dimensions): void {
-    if (!this.viewer) {
+    if (!this.viewer || !this.overlays) {
       return;
     }
 
@@ -609,7 +612,7 @@ export class ViewerService implements OnInit {
 
     setTimeout(() => {
       this.setPadding(container, newPadding);
-    }, this.options.animationTime * 1000);
+    }, CustomOptions.transitions.OSDAnimationTime);
 
   }
 
