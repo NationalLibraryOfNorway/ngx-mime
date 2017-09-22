@@ -15,6 +15,7 @@ import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { PagePositionUtils } from './page-position-utils';
 import { SwipeUtils } from './swipe-utils';
+import { ZoomAnimation } from './zoom-animation';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
@@ -127,10 +128,7 @@ export class ViewerService implements OnInit {
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.centerPoints.get(pageIndex);
     this.panTo(newPageCenter.x, newPageCenter.y);
-
-    if (this.modeService.mode === ViewerMode.PAGE) {
-      this.resizeViewportContainerToFitPage(this.createRectangle(this.overlays[pageIndex]));
-    }
+    this.resizeViewportContainerToFitPage(this.createRectangle(this.overlays[pageIndex]));
   }
 
   public updatePadding(padding: Dimensions): void {
@@ -602,7 +600,11 @@ export class ViewerService implements OnInit {
 
 
 
-  private resizeViewportContainerToFitPage(pageBounds?: any): void {
+  resizeViewportContainerToFitPage = (pageBounds?: any): void  => {
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      return;
+    }
+    
     let container = d3.select(this.viewer.container.parentNode);
 
     if (!pageBounds) {
@@ -631,11 +633,9 @@ export class ViewerService implements OnInit {
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-
-    // this.goToHomeZoom(viewportBounds);
-    this.animateZoom(this.viewer.viewport, this.getHomeZoom(viewportBounds), 100);
-
-
+    
+    ZoomAnimation.animateZoom(this.viewer.viewport, this.getHomeZoom(viewportBounds), 100, this.resizeViewportContainerToFitPage);
+    
     setTimeout(() => {
       this.setPadding(container, newPadding);
     }, this.options.animationTime * 1000);
@@ -648,10 +648,7 @@ export class ViewerService implements OnInit {
 
   private goToHomeZoom(viewportBounds?: any): void {
     this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds), false);
-
-    if (this.modeService.mode === ViewerMode.PAGE) {
-      this.resizeViewportContainerToFitPage();
-    }
+    this.resizeViewportContainerToFitPage();
   }
 
   private getHomeZoom(viewportBounds?: any, pageBounds?: any): number {
@@ -673,44 +670,6 @@ export class ViewerService implements OnInit {
       // Page at full height is wider than viewport.  Return fit by width instead.
       return this.shortenDecimals(viewportBounds.width / pageBounds.width * currentZoom, 5);
     }
-  }
-
-  // TODO: Refactoring
-  private animateZoom(viewport: any, zoom: number, milliseconds: number): void {
-    let iterations = 10;
-
-    let currentZoom = viewport.getZoom();
-    let zoomIncrement = (zoom - currentZoom) / iterations;
-    let timeIncrement = milliseconds / iterations;
-
-    this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, 1, iterations);
-  }
-
-  // TODO: Refactoring
-  private incrementZoom(viewport: any, currentZoom: number, zoomIncrement: number, timeIncrement: number, i: number, iterations: number) {
-    if (i > iterations) {
-      return;
-    }
-    i = i + 1;
-
-    setTimeout(() => {
-
-      let viewportZoom = viewport.getZoom();
-      if (currentZoom !== viewportZoom) {
-        zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
-        currentZoom = viewportZoom;
-      }
-      currentZoom = currentZoom + zoomIncrement;
-      viewport.zoomTo(currentZoom, null, false);
-
-      this.incrementZoom(viewport, currentZoom, zoomIncrement, timeIncrement, i, iterations);
-
-      // TODO: Some kind of callback that triggers resize?
-      if (this.modeService.mode === ViewerMode.PAGE) {
-        this.resizeViewportContainerToFitPage();
-      }
-
-    }, timeIncrement);
   }
 
 }
