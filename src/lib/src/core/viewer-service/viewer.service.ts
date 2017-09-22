@@ -208,6 +208,7 @@ export class ViewerService implements OnInit {
 
   // Binds to OSD-Toolbar button
   zoomIn(): void {
+    this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor);
   }
 
@@ -383,7 +384,7 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-
+ //   this.resizeViewportContainerToFitPage();
   }
 
   isPageFittedOrSmaller(): boolean {
@@ -552,6 +553,7 @@ export class ViewerService implements OnInit {
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       // We need to zoom out before we go to next page in zoomed-in-mode
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
+        this.modeService.mode = ViewerMode.PAGE;
         this.fitBounds(this.overlays[this.pageService.currentPage]);
         setTimeout(() => {
           this.goToPage(newPageIndex);
