@@ -269,7 +269,8 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
-    this.goToPage(this.pageService.currentPage);
+    const pageCenter = this.centerPoints.get(this.pageService.currentPage);
+    this.panTo(pageCenter.x, pageCenter.y);
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.centerPoints
@@ -286,7 +287,8 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    this.goToPage(this.pageService.currentPage);
+    const pageCenter = this.centerPoints.get(this.pageService.currentPage);
+    this.panTo(pageCenter.x, pageCenter.y);
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.centerPoints);
