@@ -1,14 +1,14 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChange,
   SimpleChanges,
-  ElementRef,
-  ChangeDetectorRef,
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
@@ -21,6 +21,7 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
+import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 
@@ -39,8 +40,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ViewerMode: typeof ViewerMode = ViewerMode;
 
   // Viewchilds
-  @ViewChild('header') header: ViewerHeaderComponent;
-  @ViewChild('footer') footer: ViewerFooterComponent;
+  @ViewChild('mimeHeader') header: ViewerHeaderComponent;
+  @ViewChild('mimeFooter') footer: ViewerFooterComponent;
+  @ViewChild('mimeOsdToolbar') osdToolbar: OsdToolbarComponent;
 
   constructor(
     private el: ElementRef,
@@ -108,10 +110,19 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   toggleToolbarsState(mode: ViewerMode): void {
-    if (mode === ViewerMode.DASHBOARD) {
-      this.header.state = this.footer.state = 'show';
-    } else if (mode === ViewerMode.PAGE) {
-      this.header.state = this.footer.state = 'hide';
+    switch (mode) {
+      case ViewerMode.DASHBOARD:
+        this.header.state = this.footer.state = 'show';
+        if (this.config.navigationControlEnabled && this.osdToolbar) {
+          this.osdToolbar.state = 'hide';
+        }
+        break;
+      case ViewerMode.PAGE:
+        this.header.state = this.footer.state = 'hide';
+        if (this.config.navigationControlEnabled && this.osdToolbar) {
+          this.osdToolbar.state = 'show';
+        }
+        break;
     }
     this.changeDetectorRef.detectChanges();
   }

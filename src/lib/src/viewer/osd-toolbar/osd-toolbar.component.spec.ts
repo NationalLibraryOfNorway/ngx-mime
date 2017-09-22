@@ -39,7 +39,7 @@ describe('OsdToolbarComponent', () => {
         FullscreenService
       ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -51,6 +51,46 @@ describe('OsdToolbarComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should re-render when the i18n labels have changed',
+    inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
+      const button = fixture.debugElement.query(By.css('#homeButton'));
+
+      intl.home = 'Go home button';
+      intl.changes.next();
+      fixture.detectChanges();
+
+      expect(button.nativeElement.getAttribute('aria-label')).toBe('Go home button');
+    }));
+
+  it('should not be visible when state is changed to \'hide\'', async(() => {
+    // Check initial style to make sure we later see an actual change
+    expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+    });
+  }));
+
+  it('should be visible when state is changed to \'show\'', async(() => {
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+
+      component.state = 'show';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+      });
+
+    });
+
+  }));
+
 
   it('should enable both navigation buttons when viewer is on second page',
     inject([ViewerService], (viewerService: ViewerServiceMock) => {
@@ -114,6 +154,21 @@ describe('OsdToolbarComponent', () => {
     }));
 
 });
+
+function expectOSDToolbarToShow(element: any) {
+  expect(element.style.display).toBe('block');
+  expect(element.style.opacity).toBe('1');
+}
+
+function expectOSDToolbarToBeHidden(element: any) {
+  expect(element.style.display).toBe('none');
+  expect(element.style.opacity).toBe('0');
+  expect(element.style.transform).toBe('translate(-100%, 0px)');
+}
+
+
+
+
 
 class ViewerServiceMock {
   pageChanged = new Subject<number>();
