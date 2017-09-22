@@ -22,7 +22,7 @@ defineSupportCode(function ({ Given, Then }) {
     if (viewingDirection === 'left-to-right') {
       await page.open('a-ltr-book-10-pages');
     } else if (viewingDirection === 'right-to-left') {
-      await page.open('a-rtl-book-10-pages');
+      pending();
     }
   });
 

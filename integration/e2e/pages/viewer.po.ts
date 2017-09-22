@@ -7,7 +7,6 @@ import { isUndefined } from 'util';
 const bookShelf = {
   'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
   'a-ltr-book-10-pages': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book-10-pages/manifest',
-  'a-rtl-book-10-pages': 'http://localhost:4040/catalog/v1/iiif/a-rtl-book-10-pages/manifest'
 };
 
 const utils = new Utils();
@@ -16,10 +15,10 @@ export class ViewerPage {
   private pointerPosition1 = { x: 650, y: 275 };
   private pointerPosition2 = { x: 750, y: 200 };
 
-  async open(manifest?: string) {
+  async open(manifestName?: string) {
     let path = '/';
-    if (manifest) {
-      path += '?manifestUri=' + bookShelf[manifest];
+    if (manifestName) {
+      path += '?manifestUri=' + bookShelf[manifestName];
     }
     await browser.get(path);
     await browser.sleep(5000);
