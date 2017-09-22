@@ -16,7 +16,6 @@ export class ContentsDialogService {
     private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService) {
       mimeResizeService.onResize.subscribe(rect => {
-        console.log('ContentsDialogService - mimeResizeService.onResize');
         if (this.isContentsDialogOpen) {
           const config = this.getDialogConfig();
           this.dialogRef.updatePosition(config.position);

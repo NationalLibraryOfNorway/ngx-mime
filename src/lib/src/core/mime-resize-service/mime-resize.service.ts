@@ -2,8 +2,8 @@ import { Injectable, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { MimeDomHelper } from './../mime-dom-helper';
-import { Dimensions } from './../models/dimensions';
+import { MimeDomHelper } from '../mime-dom-helper';
+import { Dimensions } from '../models/dimensions';
 
 @Injectable()
 export class MimeResizeService {
@@ -26,7 +26,6 @@ export class MimeResizeService {
   }
 
   markForCheck() {
-    console.log('MimeResizeService - markForCheck()');
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
 
     if (this.dimensions.bottom !== dimensions.bottom ||

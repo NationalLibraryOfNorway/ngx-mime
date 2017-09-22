@@ -26,7 +26,6 @@ export class AttributionDialogResizeService {
   }
 
   markForCheck() {
-    console.log('AttributionDialogResizeService - markForCheck()');
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
     if (this.dimensions.bottom !== dimensions.bottom ||
       this.dimensions.height !== dimensions.height ||

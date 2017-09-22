@@ -5,7 +5,6 @@ import { MimeViewerIntl } from '../core/viewer-intl';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 import { Manifest } from '../core/models/manifest';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 
 @Component({
   selector: 'mime-attribution-dialog',
@@ -22,7 +21,6 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService) {
     attributionDialogResizeService.el = el;
   }
@@ -35,8 +33,7 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
       }));
   }
 
-  ngAfterViewInit() {
-    console.log('AttributionDialogComponent - ngAfterViewInit()');
+  ngAfterViewChecked() {
     this.attributionDialogResizeService.markForCheck();
   }
 
@@ -48,8 +45,6 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    console.log('AttributionDialogComponent - onResize()');
-    // this.attributionDialogResizeService.markForCheck();
-    this.mimeResizeService.markForCheck();
+    this.attributionDialogResizeService.markForCheck();
   }
 }

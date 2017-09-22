@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -10,7 +10,8 @@ import { Dimensions } from '../core/models/dimensions';
 @Component({
   selector: 'mime-contents',
   templateUrl: './contents-dialog.component.html',
-  styleUrls: ['./contents-dialog.component.scss']
+  styleUrls: ['./contents-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentsDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
@@ -24,7 +25,6 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper) {
     mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-      console.log('ContentsDialogComponent - mimeResizeService.onResize');
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
     });
@@ -43,8 +43,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    console.log('ContentsDialogComponent - onResize()');
-    this.mimeResizeService.markForCheck();
+    this.resizeTabHeight();
   }
 
   private resizeTabHeight(): void {

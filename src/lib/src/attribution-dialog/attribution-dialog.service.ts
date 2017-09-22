@@ -3,10 +3,10 @@ import { Injectable, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 
 import { AttributionDialogComponent } from './attribution-dialog.component';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import { MimeDomHelper } from './../core/mime-dom-helper';
-import { Dimensions } from './../core/models/dimensions';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { Dimensions } from '../core/models/dimensions';
 
 @Injectable()
 export class AttributionDialogService {
@@ -22,15 +22,12 @@ export class AttributionDialogService {
     private mimeDomHelper: MimeDomHelper
   ) {
     mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-      console.log('AttributionDialogService - mimeResizeService.onResize');
       if (this.isAttributionDialogOpen) {
-        this.attributionDialogResizeService.markForCheck();
-        // const config = this.getDialogConfig();
-        // this.dialogRef.updatePosition(config.position);
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
       }
     });
     attributionDialogResizeService.onResize.subscribe((dimensions: Dimensions) => {
-      console.log('AttributionDialogService - attributionDialogResizeService.onResize');
       if (this.isAttributionDialogOpen) {
         this.attributionDialogHeight = dimensions.height;
         const config = this.getDialogConfig();

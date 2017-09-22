@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ElementRef,
   ChangeDetectorRef,
-  ViewChild,
+  ViewChild, Renderer2,
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -48,12 +48,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
     private viewerService: ViewerService,
-    private mimeResizeService: MimeResizeService,
+    private mimeService: MimeResizeService,
     private changeDetectorRef: ChangeDetectorRef,
     private modeService: ModeService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
-    mimeResizeService.el = el;
+    mimeService.el = el;
   }
 
   ngOnInit(): void {
@@ -83,16 +83,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     );
 
     this.loadManifest();
-
-    console.log(this.el);
-    this.el.onResize((event: any) => {
-      console.log('nvcdsbvjhbdsakjvbhdkjsavbhkjdsa');
-    });
-  }
-
-  ngAfterViewInit() {
-    console.log('ViewerComponent - ngAfterViewInit()');
-    this.mimeResizeService.markForCheck();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -124,6 +114,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.header.state = this.footer.state = 'hide';
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngAfterViewChecked() {
+    this.mimeService.markForCheck();
   }
 
   private loadManifest() {
