@@ -386,33 +386,8 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    // this.setModeCallback();
-  }
-
-  setModeCallback() {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    const viewportBounds = this.viewer.viewport.getBounds();
-    const widthIsFitted = Utils.numbersAreClose(pageBounds.width, viewportBounds.width, 5);
-    const heightIsFitted = Utils.numbersAreClose(pageBounds.height, viewportBounds.height, 5);
-
-    if (
-      this.getZoom() === this.getHomeZoom()
-    ) {
-      console.log('switching to PAGE-mode');
-      this.modeService.mode = ViewerMode.PAGE;
-    } else if (
-      (pageBounds.width > viewportBounds.width) ||
-      (pageBounds.height > viewportBounds.height)
-    ) {
-      console.log('switching to PAGE_ZOOMED-mode');
-      this.modeService.mode = ViewerMode.PAGE_ZOOMED;
-    } else {
-      console.log('switching to DASHBOARD-mode');
-      this.modeService.mode = ViewerMode.DASHBOARD;
-    }
 
   }
-
 
   isPageFittedOrSmaller(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
@@ -572,7 +547,9 @@ export class ViewerService implements OnInit {
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
       this.goToPage(newPageIndex);
+
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      // We need to zoom out before we go to next page in zoomed-in-mode
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
         this.fitBounds(this.overlays[this.pageService.currentPage]);
         setTimeout(() => {
