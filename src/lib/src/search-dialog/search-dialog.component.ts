@@ -94,12 +94,11 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
     let height = this.mimeHeight;
 
     if (this.media.isActive('lt-md')) {
-      height -= 104;
       this.tabHeight = {
         'maxHeight': window.innerHeight - 128 + 'px'
       };
     } else {
-      height -= 208;
+      height -= 224;
       this.tabHeight = {
         'maxHeight': height + 'px'
       };
