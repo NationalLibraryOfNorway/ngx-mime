@@ -263,8 +263,11 @@ export class ViewerService implements OnInit {
    * Switches to DASHBOARD-mode, repositions pages and removes max-width on viewer
    */
   toggleToDashboard(): void {
-
+    if (!this.pageService.isCurrentPageValid()) {
+      return;
+    }
     this.modeService.mode = ViewerMode.DASHBOARD;
+    this.goToPage(this.pageService.currentPage);
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.centerPoints
@@ -412,8 +415,7 @@ export class ViewerService implements OnInit {
 
 
     this.tileSources.forEach((tile, i) => {
-
-      // TODO: Logic for tiles wider and shorter than the viewport
+      
       if (tile.height !== height) {
         let heightChangeRatio = height / tile.height;
         tile.height = height;
@@ -554,8 +556,6 @@ export class ViewerService implements OnInit {
       }
     }
   }
-
-
 
   private panTo(x: number, y: number): void {
     this.viewer.viewport.panTo({
