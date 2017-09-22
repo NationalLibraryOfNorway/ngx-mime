@@ -68,15 +68,15 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
   }
 
-  zoomIn() {
+  zoomIn(): void {
     this.viewerService.zoomIn();
   }
 
-  zoomOut() {
+  zoomOut(): void {
     this.viewerService.zoomOut();
   }
 
-  home() {
+  home(): void {
     this.viewerService.home();
   }
 

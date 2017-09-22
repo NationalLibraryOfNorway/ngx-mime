@@ -206,19 +206,11 @@ export class ViewerService implements OnInit {
 
   // Binds to OSD-Toolbar button
   zoomIn(): void {
-    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
-    if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      return;
-    }
     this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor);
   }
 
   // Binds to OSD-Toolbar button
   zoomOut(): void {
-    // This check could be removed later since OSD-Toolbar isnt visible in DASHBOARD-view
-    if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      return;
-    }
     this.isPageFittedOrSmaller() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
   }
 
