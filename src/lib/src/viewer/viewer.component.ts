@@ -38,9 +38,11 @@ import { SearchResult } from './../core/models/search-result';
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
+  @Input() public q: string;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
+  private currentManifest: Manifest;
 
   ViewerMode: typeof ViewerMode = ViewerMode;
 
@@ -72,10 +74,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
+          this.currentManifest = manifest;
           this.cleanUp();
           this.viewerService.setUpViewer(manifest);
           if (this.config.attributionDialogEnabled && manifest.attribution) {
             this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
+          }
+
+          if (this.q) {
+            this.iiifContentSearchService.search(manifest, this.q);
           }
         })
     );
@@ -103,14 +110,29 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    let manifestUriIsChanged = false;
+    let qIsChanged = false;
+    if (changes['q']) {
+      const qChanges: SimpleChange = changes['q'];
+      if (!qChanges.isFirstChange() && qChanges.currentValue !== qChanges.firstChange) {
+        this.q = qChanges.currentValue;
+        qIsChanged = true;
+      }
+    }
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
         this.modeService.mode = this.config.initViewerMode;
         this.manifestUri = manifestUriChanges.currentValue;
-        this.cleanUp();
-        this.loadManifest();
+        manifestUriIsChanged = true;
       }
+    }
+
+    if (manifestUriIsChanged) {
+      this.cleanUp();
+      this.loadManifest();
+    } else if (qIsChanged) {
+      this.iiifContentSearchService.search(this.currentManifest, this.q);
     }
   }
 

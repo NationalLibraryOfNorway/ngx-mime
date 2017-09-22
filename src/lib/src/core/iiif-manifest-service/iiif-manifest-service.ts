@@ -9,12 +9,12 @@ import { ManifestBuilder } from '../builders/manifest.builder';
 
 @Injectable()
 export class IiifManifestService {
-  protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
+  protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(null);
 
   constructor(private http: HttpClient) { }
 
   get currentManifest(): Observable<Manifest> {
-    return this._currentManifest.asObservable();
+    return this._currentManifest.asObservable().filter(m => m !== null).distinctUntilChanged();
   }
 
   load(manifestUri: string): void {

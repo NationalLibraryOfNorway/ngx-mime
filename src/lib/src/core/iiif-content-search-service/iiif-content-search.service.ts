@@ -29,7 +29,10 @@ export class IiifContentSearchService {
   }
 
   public search(manifest: Manifest, q: string): void {
-    if (q === null) {
+    if (!q || q === null) {
+      return;
+    }
+    if (!manifest.service || manifest.service === null) {
       return;
     }
     this._searching.next(true);
