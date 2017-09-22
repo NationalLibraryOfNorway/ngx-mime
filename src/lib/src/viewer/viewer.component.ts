@@ -22,6 +22,7 @@ import { Options } from '../core/models/options';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
+import { CustomOptions } from '../core/models/options-custom';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
@@ -117,7 +118,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     switch (mode) {
       case ViewerMode.DASHBOARD:
         this.header.state = this.footer.state = 'show';
-        this.viewerService.updatePadding(new Dimensions({top: 80, bottom: 80}));
+        this.viewerService.updatePadding(new Dimensions({top: CustomOptions.padding.header, bottom:  CustomOptions.padding.footer}));
         if (this.config.navigationControlEnabled && this.osdToolbar) {
           this.osdToolbar.state = 'hide';
         }
