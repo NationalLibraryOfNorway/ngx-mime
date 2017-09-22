@@ -35,7 +35,7 @@ export class ViewerPage {
 
   async openContentSearchDialog() {
     await element(by.css('#contentSearchDialogButton')).click();
-    await utils.waitForElement(element(by.css('.search-container')));
+    await utils.waitForElement(element(by.css('.content-search-container')));
   }
 
   fullscreenButton(): ElementFinder {

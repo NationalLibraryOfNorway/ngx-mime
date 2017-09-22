@@ -8,7 +8,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
-import { SearchDialogModule } from './../../search-dialog/search-dialog.module';
+import { ContentSearchDialogModule } from './../../content-search-dialog/content-search-dialog.module';
 import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
@@ -27,7 +27,7 @@ describe('ViewerHeaderComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         ViewerHeaderTestModule,
-        SearchDialogModule
+        ContentSearchDialogModule
       ],
       providers: [
         { provide: FullscreenService, useClass: FullscreenServiceMock },
