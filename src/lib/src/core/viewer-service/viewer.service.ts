@@ -129,9 +129,9 @@ export class ViewerService implements OnInit {
     const newPageCenter = this.centerPoints.get(pageIndex);
     this.panTo(newPageCenter.x, newPageCenter.y);
 
-    this.viewer.addOnceHandler('animation-finish', () => {
-      this.resizeViewportContainerToFitPage(this.createRectangle(this.overlays[pageIndex]), true);
-    });
+    setTimeout(() => {
+      this.resizeViewportContainerToFitPage(this.createRectangle(this.overlays[pageIndex]));
+    }, CustomOptions.transitions.OSDAnimationTime);
   }
 
   public updatePadding(padding: Dimensions): void {
@@ -567,7 +567,7 @@ export class ViewerService implements OnInit {
     }, false);
   }
 
-  resizeViewportContainerToFitPage = (pageBounds?: any, transition?: boolean): void => {
+  resizeViewportContainerToFitPage = (pageBounds?: any): void => {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       return;
     }
@@ -581,12 +581,7 @@ export class ViewerService implements OnInit {
     const widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
     const widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
 
-    if (transition) {
-      container.transition().duration(CustomOptions.transitions.OSDAnimationTime).style('max-width', widthInPixels + 'px');
-    } else {
-      container.style('max-width', widthInPixels + 'px');
-    }
-
+    container.style('max-width', widthInPixels + 'px');
   }
 
   private paddingChanged(newPadding: Dimensions): void {
