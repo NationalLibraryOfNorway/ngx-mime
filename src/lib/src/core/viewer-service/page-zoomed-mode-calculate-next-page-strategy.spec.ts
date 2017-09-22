@@ -12,8 +12,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       speed: 45,
       direction: 'left',
-      currentPageIndex: 1,
-      maxPage: 100
+      currentPageIndex: 1
     });
 
     expect(res).toBe(1);
@@ -23,8 +22,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       speed: 50,
       direction: 'left',
-      currentPageIndex: 1,
-      maxPage: 100
+      currentPageIndex: 1
     });
 
     expect(res).toBe(2);
@@ -34,8 +32,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       speed: 50,
       direction: 'right',
-      currentPageIndex: 2,
-      maxPage: 100
+      currentPageIndex: 2
     });
 
     expect(res).toBe(1);

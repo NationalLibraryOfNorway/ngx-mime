@@ -107,7 +107,6 @@ export class ViewerService implements OnInit {
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       direction: 'previous',
       currentPageIndex: currentPageIndex,
-      maxPage: this.pageService.numberOfPages - 1
     });
     this.goToPage(newPageIndex);
   }
@@ -120,7 +119,6 @@ export class ViewerService implements OnInit {
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       direction: 'next',
       currentPageIndex: currentPageIndex,
-      maxPage: this.pageService.numberOfPages - 1
     });
     this.goToPage(newPageIndex);
   }
@@ -572,7 +570,6 @@ export class ViewerService implements OnInit {
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,
-      maxPage: this.pageService.numberOfPages - 1
     });
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {

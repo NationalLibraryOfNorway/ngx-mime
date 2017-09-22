@@ -11,8 +11,7 @@ describe('DashboardModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       speed: 400,
       direction: 'left',
-      currentPageIndex: 1,
-      maxPage: 100
+      currentPageIndex: 1
     });
 
     expect(res).toBe(1);

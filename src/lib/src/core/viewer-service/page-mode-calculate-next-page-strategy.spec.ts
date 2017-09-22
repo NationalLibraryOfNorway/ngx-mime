@@ -11,8 +11,7 @@ describe('PageModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       speed: 199,
       direction: 'left',
-      currentPageIndex: 1,
-      maxPage: 100
+      currentPageIndex: 1
     });
 
     expect(res).toBe(1);
@@ -22,8 +21,7 @@ describe('PageModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       speed: 200,
       direction: 'left',
-      currentPageIndex: 1,
-      maxPage: 100
+      currentPageIndex: 1
     });
 
     expect(res).toBe(2);
@@ -33,8 +31,7 @@ describe('PageModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       speed: 200,
       direction: 'right',
-      currentPageIndex: 2,
-      maxPage: 100
+      currentPageIndex: 2
     });
 
     expect(res).toBe(1);
