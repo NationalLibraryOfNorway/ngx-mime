@@ -10,25 +10,25 @@
   text-decoration: underline;
 }
 
-.search-form {
+.content-search-form {
   padding: 0px 16px;
 }
 
-.search-input {
+.content-search-input {
   font-size: 20px;
 }
 
-.search-result-container {
+.content-search-result-container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   overflow: auto;
   margin-bottom: 8px;
 }
 
-.search-result {
+.content-search-result {
   padding: 8px 16px;
 }
 
-::ng-deep .search-container .current-search {
+::ng-deep .content-search-container .current-content-search {
   font-weight: 700;
 }
 
@@ -48,11 +48,11 @@
   overflow: initial;
 }
 
-::ng-deep .search-container > div > div > .mat-toolbar{
+::ng-deep .content-search-container > div > div > .mat-toolbar{
   padding: 0px 0px !important;
 }
 
-::ng-deep .search-result-container .mat-card {
+::ng-deep .content-search-result-container .mat-card {
   padding: 8px;
 }
 

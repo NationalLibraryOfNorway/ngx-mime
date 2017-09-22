@@ -4,11 +4,11 @@ import { MdDialogConfig } from '@angular/material';
 
 import { Dimensions } from './../core/models/dimensions';
 
-export interface SearchDialogConfigStrategy {
+export interface ContentSearchDialogConfigStrategy {
   getConfig(elementRef?: ElementRef): MdDialogConfig;
 }
 
-export class MobileSearchDialogConfigStrategy implements SearchDialogConfigStrategy {
+export class MobileContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
 
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     return {
@@ -20,7 +20,7 @@ export class MobileSearchDialogConfigStrategy implements SearchDialogConfigStrat
   }
 }
 
-export class DesktopSearchDialogConfigStrategy implements SearchDialogConfigStrategy {
+export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
 
@@ -29,7 +29,7 @@ export class DesktopSearchDialogConfigStrategy implements SearchDialogConfigStra
     return {
       hasBackdrop: false,
       disableClose: true,
-      width: `${DesktopSearchDialogConfigStrategy.dialogWidth}px`,
+      width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
@@ -41,7 +41,7 @@ export class DesktopSearchDialogConfigStrategy implements SearchDialogConfigStra
     const dimensions = new MimeDomHelper().getBoundingClientRect(el);
     return new Dimensions({
       top: dimensions.top + 64,
-      left: dimensions.right - DesktopSearchDialogConfigStrategy.dialogWidth - DesktopSearchDialogConfigStrategy.paddingRight
+      left: dimensions.right - DesktopContentSearchDialogConfigStrategy.dialogWidth - DesktopContentSearchDialogConfigStrategy.paddingRight
     });
   }
 

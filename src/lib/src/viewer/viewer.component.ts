@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
-import { SearchDialogService } from '../search-dialog/search-dialog.service';
+import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { Options } from '../core/models/options';
@@ -53,7 +53,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
-    private searchDialogService: SearchDialogService,
+    private contentSearchDialogService: ContentSearchDialogService,
     private viewerService: ViewerService,
     private mimeService: MimeResizeService,
     private dialog: MdDialog,
@@ -63,7 +63,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private iiifContentSearchService: IiifContentSearchService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
-    searchDialogService.el = el;
+    contentSearchDialogService.el = el;
     mimeService.el = el;
   }
 
@@ -124,7 +124,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   onModeChange() {
     if (this.mode === ViewerMode.DASHBOARD) {
       this.contentsDialogService.destroy();
-      this.searchDialogService.destroy();
+      this.contentSearchDialogService.destroy();
     }
   }
 
@@ -153,7 +153,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewerService.destroy();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
-    this.searchDialogService.destroy();
+    this.contentSearchDialogService.destroy();
     this.iiifContentSearchService.destroy();
   }
 

@@ -16,10 +16,10 @@ import { Hit } from './../core/models/search-result';
 
 @Component({
   selector: 'mime-search',
-  templateUrl: './search-dialog.component.html',
-  styleUrls: ['./search-dialog.component.scss']
+  templateUrl: './content-search-dialog.component.html',
+  styleUrls: ['./content-search-dialog.component.scss']
 })
-export class SearchDialogComponent implements OnInit, OnDestroy {
+export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   public q: string;
   public hits: Hit[] = [];
   public currentSearch = '';
@@ -31,7 +31,7 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    public dialogRef: MdDialogRef<SearchDialogComponent>,
+    public dialogRef: MdDialogRef<ContentSearchDialogComponent>,
     public intl: MimeViewerIntl,
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,

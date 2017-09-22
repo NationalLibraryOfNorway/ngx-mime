@@ -9,7 +9,7 @@ import { MimeViewerIntl } from './../../core/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
 import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
-import { SearchDialogService } from './../../search-dialog/search-dialog.service';
+import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
@@ -50,7 +50,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
-    private searchDialogService: SearchDialogService,
+    private contentSearchDialogService: ContentSearchDialogService,
     private fullscreenService: FullscreenService,
     private iiifManifestService: IiifManifestService) { }
 
@@ -77,13 +77,13 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public toggleContents() {
-    this.searchDialogService.close();
+    this.contentSearchDialogService.close();
     this.contentsDialogService.toggle();
   }
 
   public toggleSearch() {
     this.contentsDialogService.close();
-    this.searchDialogService.toggle();
+    this.contentSearchDialogService.toggle();
   }
 
   public toggleFullscreen(): void {

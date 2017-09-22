@@ -10,7 +10,7 @@ import { ObservableMedia, MatchMedia } from '@angular/flex-layout';
 
 import { SharedModule } from './../shared/shared.module';
 import { MimeMaterialModule } from './../shared/mime-material.module';
-import { SearchDialogComponent } from './search-dialog.component';
+import { ContentSearchDialogComponent } from './content-search-dialog.component';
 import { MimeViewerIntl } from './../core/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
@@ -18,9 +18,9 @@ import { MimeResizeService } from './../core/mime-resize-service/mime-resize.ser
 import { ViewerService } from './../core/viewer-service/viewer.service';
 import { Hit } from './../core/models/search-result';
 
-describe('SearchDialogComponent', () => {
-  let component: SearchDialogComponent;
-  let fixture: ComponentFixture<SearchDialogComponent>;
+describe('ContentSearchDialogComponent', () => {
+  let component: ContentSearchDialogComponent;
+  let fixture: ComponentFixture<ContentSearchDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('SearchDialogComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [
-        SearchDialogComponent
+        ContentSearchDialogComponent
       ],
       providers: [
         MimeViewerIntl,
@@ -46,7 +46,7 @@ describe('SearchDialogComponent', () => {
   }));
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(SearchDialogComponent);
+    fixture = TestBed.createComponent(ContentSearchDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
@@ -77,7 +77,7 @@ describe('SearchDialogComponent', () => {
 
   it('should go to hit and close dialog when selected on mobile',
     inject([ObservableMedia, ViewerService, MdDialogRef],
-      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MdDialogRef<SearchDialogComponent>) => {
+      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MdDialogRef<ContentSearchDialogComponent>) => {
       spyOn(media, 'isActive').and.returnValue(true);
       spyOn(viewerService, 'goToPage').and.callThrough();
       spyOn(dialogRef, 'close').and.callThrough();
@@ -101,7 +101,7 @@ describe('SearchDialogComponent', () => {
 
     it('should go to hit and when selected on desktop',
     inject([ObservableMedia, ViewerService, MdDialogRef],
-      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MdDialogRef<SearchDialogComponent>) => {
+      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MdDialogRef<ContentSearchDialogComponent>) => {
       spyOn(media, 'isActive').and.returnValue(false);
       spyOn(viewerService, 'goToPage').and.callThrough();
       spyOn(dialogRef, 'close').and.callThrough();
