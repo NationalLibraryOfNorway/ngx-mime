@@ -445,6 +445,7 @@ export class ViewerService implements OnInit {
         .attr('width', tile.width)
         .attr('height', tile.height)
         .attr('class', 'tile');
+
       const currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
 
@@ -579,19 +580,19 @@ export class ViewerService implements OnInit {
 
 
 
-  resizeViewportContainerToFitPage = (pageBounds?: any): void  => {
+  resizeViewportContainerToFitPage = (pageBounds?: any): void => {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       return;
     }
-    
-    let container = d3.select(this.viewer.container.parentNode);
+
+    const container = d3.select(this.viewer.container.parentNode);
 
     if (!pageBounds) {
       pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     }
 
-    let widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
-    let widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
+    const widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
+    const widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
     container.style('max-width', widthInPixels + 'px');
   }
 
@@ -612,9 +613,9 @@ export class ViewerService implements OnInit {
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-    
+
     ZoomAnimation.animateZoom(this.viewer.viewport, this.getHomeZoom(viewportBounds), 100, this.resizeViewportContainerToFitPage);
-    
+
     setTimeout(() => {
       this.setPadding(container, newPadding);
     }, this.options.animationTime * 1000);
