@@ -213,13 +213,18 @@ export class ViewerService implements OnInit {
   zoomIn(): void {
     this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor);
+
+    setTimeout(() => {
+      this.resizeViewportContainerToFitPage();
+    }, 100)
+
+
   }
 
   // Binds to OSD-Toolbar button
   zoomOut(): void {
     if (this.isViewportLargerThanPage()) {
-      this.toggleToPage()
-      console.log("vp is larger than page, so toggle to page")
+      this.toggleToPage();
     } else {
       this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
     }
@@ -379,7 +384,8 @@ export class ViewerService implements OnInit {
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
-      this.zoomTo(this.getZoom() * this.options.zoomPerClick);
+      //this.zoomTo(this.getZoom() * this.options.zoomPerClick);
+      this.zoomIn();
     } else {
       this.modeService.mode = ViewerMode.PAGE;
       const requestedPage: number = this.getOverlayIndexFromClickEvent(target);
@@ -412,12 +418,7 @@ export class ViewerService implements OnInit {
     const pbHeight = Math.round(pageBounds.height);
     const vpWidth = Math.round(viewportBounds.width);
     const vpHeight = Math.round(viewportBounds.height);
-
-    //console.log("page height", pbHeight)
-    // console.log("vp height", vpHeight)
     return (vpHeight >= pbHeight || vpWidth >= pbWidth)
-    //|| (vpWidth >= pbWidth);
-    //return (pbWidth <= vpWidth) || (pbHeight <= vpHeight);
   }
 
   /**
@@ -566,12 +567,15 @@ export class ViewerService implements OnInit {
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
+
+
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       isPastCenter: isPanningPastCenter,
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,
     });
+
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
       this.goToPage(newPageIndex);
@@ -580,7 +584,8 @@ export class ViewerService implements OnInit {
       // We need to zoom out before we go to next page in zoomed-in-mode
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
         this.modeService.mode = ViewerMode.PAGE;
-        this.fitBounds(this.overlays[this.pageService.currentPage]);
+        this.goToPage(this.pageService.currentPage);
+        this.resizeViewportContainerToFitPage();
         setTimeout(() => {
           this.goToPage(newPageIndex);
         }, CustomOptions.transitions.OSDAnimationTime);
