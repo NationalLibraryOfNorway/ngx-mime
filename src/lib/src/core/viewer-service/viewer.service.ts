@@ -217,7 +217,12 @@ export class ViewerService implements OnInit {
 
   // Binds to OSD-Toolbar button
   zoomOut(): void {
-    this.isPageFittedOrSmaller() ? this.toggleToPage() : this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
+    if (this.isViewportLargerThanPage()) {
+      this.toggleToPage()
+      console.log("vp is larger than page, so toggle to page")
+    } else {
+      this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
+    }
   }
 
 
@@ -340,7 +345,7 @@ export class ViewerService implements OnInit {
 
   zoomOutGesture(): void {
     if (this.modeService.mode === ViewerMode.PAGE) {
-      if (this.isPageFittedOrSmaller()) {
+      if (this.isViewportLargerThanPage()) {
         this.toggleToDashboard();
       } else {
         this.resizeViewportContainerToFitPage();
@@ -389,7 +394,8 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
- //   this.resizeViewportContainerToFitPage();
+    //   this.resizeViewportContainerToFitPage();
+
   }
 
   isPageFittedOrSmaller(): boolean {
@@ -397,6 +403,21 @@ export class ViewerService implements OnInit {
     const viewportBounds = this.viewer.viewport.getBounds();
     return (pageBounds.width <= viewportBounds.width)
       || (pageBounds.height <= viewportBounds.height);
+  }
+
+  isViewportLargerThanPage(): boolean {
+    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const viewportBounds = this.viewer.viewport.getBounds();
+    const pbWidth = Math.round(pageBounds.width);
+    const pbHeight = Math.round(pageBounds.height);
+    const vpWidth = Math.round(viewportBounds.width);
+    const vpHeight = Math.round(viewportBounds.height);
+
+    //console.log("page height", pbHeight)
+    // console.log("vp height", vpHeight)
+    return (vpHeight >= pbHeight || vpWidth >= pbWidth)
+    //|| (vpWidth >= pbWidth);
+    //return (pbWidth <= vpWidth) || (pbHeight <= vpHeight);
   }
 
   /**
@@ -439,7 +460,7 @@ export class ViewerService implements OnInit {
           x: currentX,
           y: currentY,
           success: i === initialPage ? (e: any) => {
-            e.item.addOnceHandler('fully-loaded-change', () => {this.initialPageLoaded(); });
+            e.item.addOnceHandler('fully-loaded-change', () => { this.initialPageLoaded(); });
           } : ''
         });
       });
