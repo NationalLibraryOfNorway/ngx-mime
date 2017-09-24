@@ -24,7 +24,7 @@ export const CustomOptions = {
     pageMarginDashboardView: 300, // Margin between pages in Dashboard View in OpenSeadragon viewport-coordinates
     pageMarginPageView: 20 // Margin between pages in Page View in OpenSeadragon viewport-coordinates
   },
-  
+
   padding: {
     // Padding in viewer container in pixels
     header: 80, // Placeholder above viewer for header in Dashboard View

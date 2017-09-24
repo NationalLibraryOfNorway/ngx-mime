@@ -129,6 +129,9 @@ export class ViewerService implements OnInit {
   }
 
   public goToPage(pageIndex: number): void {
+    if (!this.pageService.isWithinBounds(pageIndex)) {
+      return;
+    }
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.centerPoints.get(pageIndex);
     this.panTo(newPageCenter.x, newPageCenter.y);
@@ -216,7 +219,7 @@ export class ViewerService implements OnInit {
 
     setTimeout(() => {
       this.resizeViewportContainerToFitPage();
-    }, 100)
+    }, 100);
 
 
   }
@@ -384,7 +387,7 @@ export class ViewerService implements OnInit {
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
-      //this.zoomTo(this.getZoom() * this.options.zoomPerClick);
+      // this.zoomTo(this.getZoom() * this.options.zoomPerClick);
       this.zoomIn();
     } else {
       this.modeService.mode = ViewerMode.PAGE;
@@ -400,7 +403,6 @@ export class ViewerService implements OnInit {
    * Called each time an animation ends
    */
   animationsEndCallback = () => {
-    //   this.resizeViewportContainerToFitPage();
 
   }
 
@@ -418,7 +420,7 @@ export class ViewerService implements OnInit {
     const pbHeight = Math.round(pageBounds.height);
     const vpWidth = Math.round(viewportBounds.width);
     const vpHeight = Math.round(viewportBounds.height);
-    return (vpHeight >= pbHeight || vpWidth >= pbWidth)
+    return (vpHeight >= pbHeight || vpWidth >= pbWidth);
   }
 
   /**
@@ -584,8 +586,9 @@ export class ViewerService implements OnInit {
       // We need to zoom out before we go to next page in zoomed-in-mode
       if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
         this.modeService.mode = ViewerMode.PAGE;
-        this.goToPage(this.pageService.currentPage);
-        this.resizeViewportContainerToFitPage();
+        this.toggleToPage();
+        // this.goToPage(this.pageService.currentPage);
+        //  this.resizeViewportContainerToFitPage();
         setTimeout(() => {
           this.goToPage(newPageIndex);
         }, CustomOptions.transitions.OSDAnimationTime);
