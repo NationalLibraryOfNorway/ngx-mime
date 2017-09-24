@@ -3,7 +3,7 @@
     <div *ngSwitchCase="true">
       <md-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
           <div class="heading">{{intl.search}}</div>
         </div>
       </md-toolbar>
@@ -12,7 +12,7 @@
       <md-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
           <div class="heading heading-desktop">{{intl.search}}</div>
-          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true"><md-icon>close</md-icon></button>
+          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
         </div>
       </md-toolbar>
     </div>
@@ -20,19 +20,19 @@
   <div class="content-search-form" fxLayout="column">
     <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
       <md-form-field fxFlex>
-        <button type="submit" mdPrefix md-icon-button><md-icon>search</md-icon></button>
+        <button type="submit" mdPrefix md-icon-button tabindex="-1"><md-icon>search</md-icon></button>
         <input mdInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off">
       </md-form-field>
     </form>
   </div>
-  <div class="content-search-result-container" [ngStyle]="tabHeight">
+  <div class="content-search-result-container" [ngStyle]="tabHeight" tabindex="0">
     <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
       <input type="hidden" id="numberOfHits" [value]="numberOfHits">
       <div *ngIf="currentSearch.length > 0">
         <div *ngIf="numberOfHits > 0" [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"></div>
         <div *ngIf="numberOfHits === 0" [innerHTML]="intl.noResultsFoundLabel(currentSearch)"></div>
       </div>
-      <md-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)">
+      <md-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
         <md-card-content fxLayout="row" fxLayoutAlign="space-between start">
           <div fxFlex class="summary">
             {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
