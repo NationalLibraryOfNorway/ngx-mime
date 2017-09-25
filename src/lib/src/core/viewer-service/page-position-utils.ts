@@ -60,8 +60,8 @@ export class PagePositionUtils {
 
     // Update center
     centerPoints.update(index, {
-      x: bounds.x + (bounds.width / 2),
-      y: bounds.y + (bounds.height / 2)
+      centerX: bounds.x + (bounds.width / 2),
+      centerY: bounds.y + (bounds.height / 2)
     });
 
     // Position overlay
