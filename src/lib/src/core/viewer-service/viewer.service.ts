@@ -145,9 +145,7 @@ export class ViewerService implements OnInit {
     const newPageCenter = this.tileRects.get(pageIndex);
     this.panTo(newPageCenter.centerX, newPageCenter.centerY);
 
-    setTimeout(() => {
-      this.pageMask.changePage(this.overlays[pageIndex]);
-    }, CustomOptions.transitions.OSDAnimationTime);
+    this.pageMask.changePage(this.overlays[pageIndex]);
   }
 
   public updatePadding(padding: Dimensions): void {
@@ -278,18 +276,14 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    const zoom = this.getZoom() + zoomFactor;
-    this.zoomTo(zoom);
-    this.pageMask.changeZoom(zoom);
+    this.zoomTo(this.getZoom() + zoomFactor);
   }
 
   zoomOut(): void {
     if (this.isViewportLargerThanPage()) {
       this.toggleToPage();
     } else {
-      const zoom = this.getZoom() - CustomOptions.zoom.zoomFactor;
-      this.zoomTo(zoom);
-      this.pageMask.changeZoom(zoom);
+      this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
     }
   }
 
@@ -298,9 +292,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    const zoom = this.getZoom() + CustomOptions.zoom.zoomFactor;
-    this.zoomTo(zoom, position);
-    this.pageMask.changeZoom(zoom);
+    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor, position);
   }
 
   /**
@@ -337,8 +329,7 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
-    const pageCenter = this.tileRects.get(this.pageService.currentPage);
-    this.panTo(pageCenter.centerX, pageCenter.centerY);
+    this.goToPage(this.pageService.currentPage);
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.tileRects
@@ -355,8 +346,7 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    const pageCenter = this.tileRects.get(this.pageService.currentPage);
-    this.panTo(pageCenter.centerX, pageCenter.centerY);
+    this.goToPage(this.pageService.currentPage);
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.tileRects);
@@ -733,13 +723,7 @@ export class ViewerService implements OnInit {
   }
 
   private goToHomeZoom(viewportBounds?: any): void {
-    
-    const homeZoom = this.getHomeZoom(viewportBounds);
-    this.viewer.viewport.zoomTo(homeZoom, false);
-
-    setTimeout(() => {
-      this.pageMask.changeZoom(homeZoom);
-    }, CustomOptions.transitions.OSDAnimationTime);
+    this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds));
   }
 
   private getHomeZoom(viewportBounds?: any, pageBounds?: any): number {

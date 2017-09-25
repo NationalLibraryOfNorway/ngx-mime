@@ -6,11 +6,27 @@ export class PageMask {
   _root: any;
   _window: any;
 
+  _disableResize = false;
+
 
   constructor(
     viewer: any
   ) {
+    let self = this;
+
     this._viewer = viewer;
+
+    this._viewer.addHandler('animation', function () {
+      self.resize();
+    });
+
+    this._viewer.addHandler('canvas-drag', function () {
+      self._disableResize = true;
+    });
+
+    this._viewer.addHandler('canvas-drag-end', function () {
+      self._disableResize = false;
+    });
   }
 
   public initialise(pageBounds: any): void {
@@ -56,10 +72,6 @@ export class PageMask {
     this.resize();
   }
 
-  public changeZoom(zoom: number) {
-    this.resize(zoom);
-  }
-
   public changePage(pageBounds: any) {
     this._window.attr('width', pageBounds.width.baseVal.value)
       .attr('height', pageBounds.height.baseVal.value)
@@ -69,17 +81,17 @@ export class PageMask {
     this.resize();
   }
 
-  private resize(zoom?: number) {
-    if (!this._window) {
+  private resize() {
+    if (!this._window || this._disableResize) {
       return;
     }
 
     let p = this._viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
-    zoom = zoom ? zoom : this._viewer.viewport.getZoom(true);
+    let zoom = this._viewer.viewport.getZoom(true);
     let scale = this._viewer.viewport._containerInnerSize.x * zoom;
-    
+
     this._window.attr('transform',
       'translate(' + p.x + ',' + p.y + ') scale(' + scale + ')');
-    
+
   }
 }
