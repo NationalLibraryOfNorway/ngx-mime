@@ -4,7 +4,8 @@
 
 export const CustomOptions = {
   zoom: {
-    zoomFactor: 0.0002
+    zoomFactor: 0.0002,
+    dblClickZoomFactor: 0.00045
   },
 
   pan: {

@@ -42,6 +42,8 @@ export class ViewerService implements OnInit {
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
+  private zoomedInDragEndCount = 0;
+
 
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
@@ -199,29 +201,52 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-press', (e: any) => {
       this.dragStartPosition = e.position;
       this.isCanvasPressed.next(true);
+
     });
-    this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
+    this.viewer.addHandler('canvas-release', () => {
+      this.isCanvasPressed.next(false);
+    });
     this.viewer.addHandler('canvas-scroll', this.scrollHandler);
     this.viewer.addHandler('canvas-pinch', this.pinchHandler);
 
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
       this.swipeToPage(e);
     });
+
+    this.viewer.addHandler('canvas-drag', (e: any) => {
+      if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
+        return;
+      }
+      const dragEndPosision = e.position;
+      const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
+      const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+      const vpBounds = this.viewer.viewport.getBounds();
+      if (
+        (SwipeUtils.isPanningOutsideLeft(pageBounds, vpBounds) && direction === 'right') ||
+        (SwipeUtils.isPanningOutsideRight(pageBounds, vpBounds) && direction === 'left')
+      ) {
+        this.viewer.panHorizontal = false;
+      } else {
+        this.viewer.panHorizontal = true;
+      }
+
+    });
+
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
     });
   }
 
-  // Binds to OSD-Toolbar button
-  zoomIn(): void {
+
+  zoomIn(dblClickZoom?: boolean): void {
+    const zoomFactor = dblClickZoom ? CustomOptions.zoom.dblClickZoomFactor : CustomOptions.zoom.zoomFactor;
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor);
+    this.zoomTo(this.getZoom() + zoomFactor);
     this.resizeViewportContainerToFitPage();
   }
 
-  // Binds to OSD-Toolbar button
   zoomOut(): void {
     if (this.isViewportLargerThanPage()) {
       this.toggleToPage();
@@ -395,7 +420,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
       // this.zoomTo(this.getZoom() * this.options.zoomPerClick);
-      this.zoomIn();
+      this.zoomIn(true);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
       const requestedPage: number = this.getOverlayIndexFromClickEvent(target);
@@ -557,6 +582,7 @@ export class ViewerService implements OnInit {
   }
 
   private swipeToPage(e: any) {
+
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
@@ -570,28 +596,32 @@ export class ViewerService implements OnInit {
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
+    const isPanningOutsidePage = SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds);
+    this.zoomedInDragEndCount = isPanningOutsidePage ? this.zoomedInDragEndCount + 1 : 0;
+
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       isPastCenter: isPanningPastCenter,
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,
+      forceNextPage: this.zoomedInDragEndCount === 2
     });
-
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
       this.goToPage(newPageIndex);
 
-    } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      // We need to zoom out before we go to next page in zoomed-in-mode
-      if (SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)) {
-        this.modeService.mode = ViewerMode.PAGE;
-        this.toggleToPage();
-        // this.goToPage(this.pageService.currentPage);
-        this.resizeViewportContainerToFitPage();
-        setTimeout(() => {
-          this.goToPage(newPageIndex);
-        }, CustomOptions.transitions.OSDAnimationTime);
-      }
+    } else if (
+      this.modeService.mode === ViewerMode.PAGE_ZOOMED &&
+      newPageIndex !== this.pageService.currentPage) {
+
+      // Zoom out before we go to next page in zoomed-in-mode
+      this.modeService.mode = ViewerMode.PAGE;
+      this.toggleToPage();
+      // this.goToPage(this.pageService.currentPage);
+      this.resizeViewportContainerToFitPage();
+      setTimeout(() => {
+        this.goToPage(newPageIndex);
+      }, CustomOptions.transitions.OSDAnimationTime);
     }
   }
 

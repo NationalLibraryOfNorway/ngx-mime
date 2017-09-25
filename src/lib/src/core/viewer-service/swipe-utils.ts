@@ -12,9 +12,15 @@ export class SwipeUtils {
   }
 
   static isPanningOutsidePage(pageBounds: any, vpBounds: any): boolean {
-    const isOutsideLeftBound = vpBounds.x - CustomOptions.pan.sensitivityMargin < pageBounds.x;
-    const isOutsideRightBound = vpBounds.x + vpBounds.width + CustomOptions.pan.sensitivityMargin > pageBounds.x + pageBounds.width;
-    return isOutsideRightBound || isOutsideLeftBound;
+    return this.isPanningOutsideLeft(pageBounds, vpBounds) || this.isPanningOutsideRight(pageBounds, vpBounds);
+  }
+
+  static isPanningOutsideLeft(pageBounds: any, vpBounds: any): boolean {
+    return vpBounds.x < pageBounds.x;
+  }
+
+  static isPanningOutsideRight(pageBounds: any, vpBounds: any): boolean {
+    return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width
   }
 
   static isPanningPastCenter(pageBounds: any, vpBounds: any): boolean {
