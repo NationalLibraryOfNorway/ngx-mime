@@ -87,7 +87,7 @@ export class ViewerPage {
   }
 
   getFirstPageOverlay() {
-    const el = element(by.css('#openseadragon svg'));
+    const el = element.all(by.css('#openseadragon svg > g > rect')).first();
     return utils.waitForElement(el);
   }
 
@@ -165,7 +165,7 @@ export class ViewerPage {
   }
 
   async dblClick(): Promise<void> {
-    await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
+    await browser.findElement(By.css('.openseadragon-canvas > canvas')).then((canvas: WebElement) => {
       return browser.actions()
         .click(canvas)
         .click(canvas)
@@ -174,7 +174,7 @@ export class ViewerPage {
   }
 
   async dblTap(): Promise<void> {
-    await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
+    await browser.findElement(By.css('.openseadragon-canvas > canvas')).then((canvas: WebElement) => {
       return browser.touchActions()
         .tap(canvas)
         .tap(canvas)
@@ -188,6 +188,10 @@ export class ViewerPage {
 
   async clickZoomOutButton(): Promise<void> {
     await this.clickNavigationButton('zoomOutButton');
+  }
+
+  async clickZoomHomeButton(): Promise<void> {
+    await this.clickNavigationButton('homeButton');
   }
 
   async clickNextButton(): Promise<void> {
@@ -207,7 +211,7 @@ export class ViewerPage {
 
   async waitForAnimation(animationTime?: number): Promise<void> {
     if (isUndefined(animationTime)) {
-      animationTime = await this.getAnimationTime() * 100;
+      animationTime = await this.getAnimationTime() * 1000;
     }
     await browser.sleep(animationTime);
   }

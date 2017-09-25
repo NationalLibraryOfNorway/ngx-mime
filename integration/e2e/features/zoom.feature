@@ -54,13 +54,16 @@ Feature: Zoom
     Then the current zoom level is home
     And the view should be vertically centered
 
-
+  # TODO Ignoring this until we find out how to use Touch Actions
+  @Ignore
   @desktop
   Scenario: Auto zooming in on desktop
     Given zoom level is home
     When the user double click
     Then the current zoom level has increased
 
+  # TODO Ignoring this until we find out how to use double click Actions consistently
+  @Ignore
   @desktop
   Scenario: Auto zooming out on desktop
     Given the view is zoomed in
