@@ -12,6 +12,10 @@
   flex-grow: 1;
 }
 
+:host>>>.openseadragon-canvas>>>canvas {
+  z-index: -1;
+}
+
 :host>>>.openseadragon-canvas:focus {
   outline: none;
 }

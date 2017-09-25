@@ -17,6 +17,7 @@ import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { PagePositionUtils } from './page-position-utils';
 import { SwipeUtils } from './swipe-utils';
+import { PageMask } from './page-mask';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
@@ -41,6 +42,7 @@ export class ViewerService implements OnInit {
   private subscriptions: Array<Subscription> = [];
 
   private containerPadding: ReplaySubject<Dimensions> = new ReplaySubject();
+  private pageMask: PageMask;
 
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
@@ -144,7 +146,7 @@ export class ViewerService implements OnInit {
     this.panTo(newPageCenter.centerX, newPageCenter.centerY);
 
     setTimeout(() => {
-      this.resizeViewportContainerToFitPage(this.createRectangle(this.overlays[pageIndex]));
+      this.pageMask.changePage(this.overlays[pageIndex]);
     }, CustomOptions.transitions.OSDAnimationTime);
   }
 
@@ -190,6 +192,7 @@ export class ViewerService implements OnInit {
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
         this.pageService.reset();
         this.pageService.numberOfPages = this.tileSources.length;
+        this.pageMask = new PageMask(this.viewer);
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
@@ -275,15 +278,18 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    this.zoomTo(this.getZoom() + zoomFactor);
-    this.resizeViewportContainerToFitPage();
+    const zoom = this.getZoom() + zoomFactor;
+    this.zoomTo(zoom);
+    this.pageMask.changeZoom(zoom);
   }
 
   zoomOut(): void {
     if (this.isViewportLargerThanPage()) {
       this.toggleToPage();
     } else {
-      this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
+      const zoom = this.getZoom() - CustomOptions.zoom.zoomFactor;
+      this.zoomTo(zoom);
+      this.pageMask.changeZoom(zoom);
     }
   }
 
@@ -292,23 +298,10 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor, position);
-    this.resizeViewportContainerToFitPage();
+    const zoom = this.getZoom() + CustomOptions.zoom.zoomFactor;
+    this.zoomTo(zoom, position);
+    this.pageMask.changeZoom(zoom);
   }
-
-
-  /**
-   * Overrides for default OSD-functions
-   */
-  addOverrides(): void {
-    // Raised when viewer loads first time
-    // TODO: Reimplement go home override (current version causes incorrect zoom at start-up)
-    // this.viewer.viewport.goHome = () => {
-    //   this.viewer.raiseEvent('home');
-    //   this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
-    // };
-  }
-
 
   /**
    * Set settings for page/dashboard-mode
@@ -410,7 +403,7 @@ export class ViewerService implements OnInit {
       } else {
         this.zoomIn();
       }
-      this.resizeViewportContainerToFitPage();
+      //this.resizeViewportContainerToFitPage();
     }
   }
 
@@ -421,7 +414,7 @@ export class ViewerService implements OnInit {
       } else {
         this.zoomOut();
       }
-      this.resizeViewportContainerToFitPage();
+      //this.resizeViewportContainerToFitPage();
     }
   }
 
@@ -552,7 +545,7 @@ export class ViewerService implements OnInit {
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
-    this.resizeViewportContainerToFitPage();
+    this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
     d3.select(this.viewer.container.parentNode).transition().duration(CustomOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
@@ -653,7 +646,7 @@ export class ViewerService implements OnInit {
       this.modeService.mode = ViewerMode.PAGE;
       this.toggleToPage();
       // this.goToPage(this.pageService.currentPage);
-      this.resizeViewportContainerToFitPage();
+      //this.resizeViewportContainerToFitPage();
       setTimeout(() => {
         this.goToPage(newPageIndex);
       }, CustomOptions.transitions.OSDAnimationTime);
@@ -682,7 +675,7 @@ export class ViewerService implements OnInit {
     const widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
     const widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
 
-    container.style('max-width', widthInPixels + 'px');
+    //container.style('max-width', widthInPixels + 'px');
   }
 
   private paddingChanged(newPadding: Dimensions): void {
@@ -691,7 +684,7 @@ export class ViewerService implements OnInit {
     }
 
     const container = d3.select(this.viewer.container.parentNode);
-    this.setPadding(container, new Dimensions());
+    //this.setPadding(container, new Dimensions());
 
     const maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode).node().getBoundingClientRect());
     const viewportHeight = maxViewportDimensions.height - newPadding.top - newPadding.bottom;
@@ -702,10 +695,11 @@ export class ViewerService implements OnInit {
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-    this.animateZoom(this.getHomeZoom(viewportBounds), 100);
+    //this.animateZoom(this.getHomeZoom(viewportBounds), 100);
+    this.goToHomeZoom(viewportBounds);
 
     setTimeout(() => {
-      this.setPadding(container, newPadding);
+      //this.setPadding(container, newPadding);
     }, CustomOptions.transitions.OSDAnimationTime);
 
   }
@@ -739,8 +733,13 @@ export class ViewerService implements OnInit {
   }
 
   private goToHomeZoom(viewportBounds?: any): void {
-    this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds), false);
-    this.resizeViewportContainerToFitPage();
+    
+    const homeZoom = this.getHomeZoom(viewportBounds);
+    this.viewer.viewport.zoomTo(homeZoom, false);
+
+    setTimeout(() => {
+      this.pageMask.changeZoom(homeZoom);
+    }, CustomOptions.transitions.OSDAnimationTime);
   }
 
   private getHomeZoom(viewportBounds?: any, pageBounds?: any): number {
