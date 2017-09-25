@@ -3,10 +3,10 @@ import { Injectable, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 
 import { AttributionDialogComponent } from './attribution-dialog.component';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import { MimeDomHelper } from './../core/mime-dom-helper';
-import { Dimensions } from './../core/models/dimensions';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { Dimensions } from '../core/models/dimensions';
 
 @Injectable()
 export class AttributionDialogService {
@@ -19,6 +19,7 @@ export class AttributionDialogService {
     private dialog: MdDialog,
     private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
+    private mimeDomHelper: MimeDomHelper
   ) {
     mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       if (this.isAttributionDialogOpen) {
@@ -93,7 +94,7 @@ export class AttributionDialogService {
 
   private getPosition(el: ElementRef) {
     const padding = 20;
-    const dimensions = new MimeDomHelper().getBoundingClientRect(el);
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
       top: dimensions.top + dimensions.height - this.attributionDialogHeight - padding,
       left: dimensions.left + padding

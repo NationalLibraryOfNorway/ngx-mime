@@ -10,7 +10,7 @@ import { ManifestBuilder } from '../builders/manifest.builder';
 
 @Injectable()
 export class IiifManifestService {
-  protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
+  protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(null);
 
   constructor(
     private http: HttpClient,
@@ -18,7 +18,7 @@ export class IiifManifestService {
   ) { }
 
   get currentManifest(): Observable<Manifest> {
-    return this._currentManifest.asObservable();
+    return this._currentManifest.asObservable().filter(m => m !== null).distinctUntilChanged();
   }
 
   load(manifestUri: string): void {
@@ -32,6 +32,10 @@ export class IiifManifestService {
       (res: Response) => this._currentManifest.next(this.extractData(res)),
       (err: HttpErrorResponse) => this.handleError
       );
+  }
+
+  destroy() {
+    this._currentManifest.next(null);
   }
 
   private extractData(response: Response) {

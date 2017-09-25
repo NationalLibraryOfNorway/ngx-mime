@@ -44,4 +44,11 @@ export class Utils {
     const cap: Capabilities = await browser.getCapabilities();
     return cap.get('browserName');
   }
+
+  async sendKeys(el: ElementFinder, txt: string) {
+    for (let i = 0; i < txt.length; i++) {
+      await el.sendKeys(txt[i]);
+      await browser.sleep(100);
+    }
+  }
 }

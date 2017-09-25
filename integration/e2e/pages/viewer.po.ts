@@ -16,11 +16,11 @@ export class ViewerPage {
   private pointerPosition2 = { x: 750, y: 200 };
 
   async open(manifestName?: string) {
-    let path = '/';
+    let uri = '/';
     if (manifestName) {
-      path += '?manifestUri=' + bookShelf[manifestName];
+      uri += '?manifestUri=' + bookShelf[manifestName];
     }
-    await browser.get(path);
+    await browser.get(uri);
     await browser.sleep(5000);
   }
 
@@ -44,6 +44,11 @@ export class ViewerPage {
   async openContentsDialog() {
     await element(by.css('#contentsDialogButton')).click();
     await utils.waitForElement(element(by.css('.contents-container')));
+  }
+
+  async openContentSearchDialog() {
+    await element(by.css('#contentSearchDialogButton')).click();
+    await utils.waitForElement(element(by.css('.content-search-container')));
   }
 
   fullscreenButton(): ElementFinder {

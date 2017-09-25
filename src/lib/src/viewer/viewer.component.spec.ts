@@ -1,19 +1,20 @@
-import { CustomOptions } from '../core/models/options-custom';
-import { MimeViewerConfig } from '../core/mime-viewer-config';
-import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
+import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { SharedModule } from '../shared/shared.module';
 import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
 import { ViewerComponent } from './viewer.component';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
+import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
 import { testManifest } from '../test/testManifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
@@ -23,16 +24,16 @@ import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
+import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 
 import 'openseadragon';
 import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  let de: DebugElement;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
-  let spy: any;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
 
@@ -49,7 +50,8 @@ describe('ViewerComponent', function () {
         NoopAnimationsModule,
         SharedModule,
         ContentsDialogModule,
-        AttributionDialogModule
+        AttributionDialogModule,
+        ContentSearchDialogModule
       ],
       declarations: [
         ViewerComponent,
@@ -58,11 +60,13 @@ describe('ViewerComponent', function () {
       providers: [
         ViewerService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        IiifContentSearchService,
         MimeResizeService,
         MimeViewerIntl,
         ClickService,
         PageService,
-        ModeService
+        ModeService,
+        FullscreenService
       ]
     }).compileComponents();
   }));

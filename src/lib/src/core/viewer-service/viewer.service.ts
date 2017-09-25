@@ -5,9 +5,10 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 
 import { PanDirection } from '../models/pan-direction';
-import { CenterPoints } from './../models/page-center-point';
-import { CustomOptions } from '../models/options-custom';
+
 import { Utils } from '../../core/utils';
+import { TileRects } from './../models/tile-rects';
+import { CustomOptions } from '../models/options-custom';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Dimensions } from '../models/dimensions';
 import { Manifest, Service } from '../models/manifest';
@@ -19,6 +20,8 @@ import { SwipeUtils } from './swipe-utils';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
+import { SearchResult } from './../models/search-result';
+import { Rect } from './../models/rect';
 
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
@@ -48,7 +51,8 @@ export class ViewerService implements OnInit {
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
-  private centerPoints = new CenterPoints();
+  private tileRects = new TileRects();
+  private currentMode: ViewerMode;
 
   constructor(
     private zone: NgZone,
@@ -100,7 +104,7 @@ export class ViewerService implements OnInit {
 
   public home(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     this.goToPage(currentPageIndex);
     this.goToHomeZoom();
@@ -109,7 +113,7 @@ export class ViewerService implements OnInit {
 
   public goToPreviousPage(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -121,7 +125,7 @@ export class ViewerService implements OnInit {
 
   public goToNextPage(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -136,8 +140,8 @@ export class ViewerService implements OnInit {
       return;
     }
     this.pageService.currentPage = pageIndex;
-    const newPageCenter = this.centerPoints.get(pageIndex);
-    this.panTo(newPageCenter.x, newPageCenter.y);
+    const newPageCenter = this.tileRects.get(pageIndex);
+    this.panTo(newPageCenter.centerX, newPageCenter.centerY);
 
     setTimeout(() => {
       this.resizeViewportContainerToFitPage(this.createRectangle(this.overlays[pageIndex]));
@@ -146,6 +150,35 @@ export class ViewerService implements OnInit {
 
   public updatePadding(padding: Dimensions): void {
     this.containerPadding.next(padding);
+  }
+
+  public highlight(searchResult: SearchResult): void {
+    this.clearHightlight();
+    if (this.viewer) {
+      let svgOverlay = this.viewer.svgOverlay();
+      this.svgNode = d3.select(svgOverlay.node());
+      for (const hit of searchResult.hits) {
+        for (let rect of hit.rects) {
+          const tileRect = this.tileRects.get(hit.index);
+          const x = tileRect.x + rect.x;
+          const y = tileRect.y + rect.y;
+          const width = rect.width;
+          const height = rect.height;
+          let currentOverlay: SVGRectElement = this.svgNode.append('rect')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('width', width)
+            .attr('height', height)
+            .attr('class', 'hit');
+        }
+      };
+    }
+  }
+
+  public clearHightlight(): void {
+    if (this.svgNode) {
+      this.svgNode.selectAll('.hit').remove();
+    }
   }
 
   setUpViewer(manifest: Manifest) {
@@ -187,8 +220,9 @@ export class ViewerService implements OnInit {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
-    this.centerPoints = new CenterPoints();
     this.overlays = null;
+    this.tileRects = new TileRects();
+    this.currentMode = null;
   }
 
   addEvents(): void {
@@ -310,11 +344,11 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
-    const pageCenter = this.centerPoints.get(this.pageService.currentPage);
-    this.panTo(pageCenter.x, pageCenter.y);
+    const pageCenter = this.tileRects.get(this.pageService.currentPage);
+    this.panTo(pageCenter.centerX, pageCenter.centerY);
 
     PagePositionUtils.updatePagePositions(
-      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.centerPoints
+      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.tileRects
     );
 
     d3.select(this.viewer.container.parentNode).style('max-width', '');
@@ -328,11 +362,11 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    const pageCenter = this.centerPoints.get(this.pageService.currentPage);
-    this.panTo(pageCenter.x, pageCenter.y);
+    const pageCenter = this.tileRects.get(this.pageService.currentPage);
+    this.panTo(pageCenter.centerX, pageCenter.centerY);
 
     PagePositionUtils.updatePagePositions(
-      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.centerPoints);
+      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.tileRects);
   }
 
   /**
@@ -503,10 +537,12 @@ export class ViewerService implements OnInit {
       const currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
 
-      this.centerPoints.add({
-        x: currentX + (tile.width / 2),
-        y: currentY + (tile.height / 2)
-      });
+      this.tileRects.add(new Rect({
+        x: currentX,
+        y: currentY,
+        width: tile.width,
+        height: tile.height
+      }));
 
       currentX = currentX + tile.width + CustomOptions.overlays.pageMarginPageView;
     });
@@ -571,7 +607,7 @@ export class ViewerService implements OnInit {
   }
 
   private calculateCurrentPage(center: Point) {
-    const currentPageIndex = this.centerPoints.findClosestIndex(center);
+    const currentPageIndex = this.tileRects.findClosestIndex(center);
     this.currentPageIndex.next(currentPageIndex);
   }
 
@@ -589,6 +625,7 @@ export class ViewerService implements OnInit {
 
     const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
+   // const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const currentPageIndex = this.pageService.currentPage;
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);

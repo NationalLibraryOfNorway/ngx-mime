@@ -17,4 +17,14 @@ export class MimeViewerIntl {
   previousPage = 'Previous Page';
   nextPage = 'Next Page';
   home = 'Go Home';
+  search = 'Search';
+
+  noResultsFoundLabel = (q: string) => {
+    return `No results found for <em class="current-search">${q}</em>`;
+  }
+
+  resultsFoundLabel = (numberOfHits: number, q: string) => {
+    return `${numberOfHits} results found for <em class="current-search">${q}</em>`;
+  }
+
 }

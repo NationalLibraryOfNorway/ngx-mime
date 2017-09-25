@@ -1,19 +1,22 @@
-import { Observable } from 'rxjs/Observable';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ObservableMedia } from '@angular/flex-layout';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
+import { ContentSearchDialogModule } from './../../content-search-dialog/content-search-dialog.module';
 import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
+import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
+import { MimeDomHelper } from './../../core/mime-dom-helper';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -24,10 +27,14 @@ describe('ViewerHeaderComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        ViewerHeaderTestModule
+        ViewerHeaderTestModule,
+        ContentSearchDialogModule
       ],
       providers: [
-        { provide: FullscreenService, useClass: FullscreenServiceMock }
+        MimeDomHelper,
+        FullscreenService,
+        { provide: FullscreenService, useClass: FullscreenServiceMock },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
     })
       .compileComponents();
@@ -55,7 +62,7 @@ describe('ViewerHeaderComponent', () => {
     }));
 
   it('should open contents dialog', () => {
-    component.openContents();
+    component.toggleContents();
   });
 
   it('should start in visible mode', async(() => {
@@ -92,6 +99,7 @@ describe('ViewerHeaderComponent', () => {
     });
 
   }));
+
   it('should show fullscreen button if fullscreen mode is supported',
     inject([FullscreenService], (fullscreenService: FullscreenService) => {
       spyOn(fullscreenService, 'isEnabled').and.returnValue(true);
@@ -110,6 +118,28 @@ describe('ViewerHeaderComponent', () => {
 
       const button = fixture.debugElement.query(By.css('#fullscreenButton'));
       expect(button).not.toBeNull();
+    }));
+
+  it('should show search button if manifest has a search service',
+    inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
+      iiifManifestService._currentManifest.next({
+        service: {}
+      });
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('#contentSearchDialogButton'));
+      expect(button.nativeElement.getAttribute('aria-label')).toBe('Search');
+    }));
+
+  it('should hide search button if manifest does not have a search service',
+    inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
+      iiifManifestService._currentManifest.next({});
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('#contentSearchDialogButton'));
+      expect(button).toBeNull();
     }));
 
 });
