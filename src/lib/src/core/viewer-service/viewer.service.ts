@@ -270,8 +270,6 @@ export class ViewerService implements OnInit {
    */
   setDashboardSettings(): void {
     this.viewer.panVertical = false;
-    this.viewer.gestureSettingsTouch.pinchToZoom = false;
-    this.viewer.gestureSettingsMouse.scrollToZoom = false;
   }
 
   /**
@@ -279,8 +277,6 @@ export class ViewerService implements OnInit {
    */
   setPageSettings(): void {
     this.viewer.panVertical = true;
-    this.viewer.gestureSettingsTouch.pinchToZoom = false;
-    this.viewer.gestureSettingsMouse.scrollToZoom = false;
   }
 
   /**
@@ -591,7 +587,7 @@ export class ViewerService implements OnInit {
         this.modeService.mode = ViewerMode.PAGE;
         this.toggleToPage();
         // this.goToPage(this.pageService.currentPage);
-          this.resizeViewportContainerToFitPage();
+        this.resizeViewportContainerToFitPage();
         setTimeout(() => {
           this.goToPage(newPageIndex);
         }, CustomOptions.transitions.OSDAnimationTime);
