@@ -330,6 +330,7 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
     this.goToPage(this.pageService.currentPage);
+    this.pageMask.hide();
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.tileRects
@@ -347,6 +348,7 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.PAGE;
     this.goToPage(this.pageService.currentPage);
+    this.pageMask.show();
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.tileRects);
