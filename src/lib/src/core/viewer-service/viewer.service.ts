@@ -133,18 +133,19 @@ export class ViewerService implements OnInit {
       let svgOverlay = this.viewer.svgOverlay();
       this.svgNode = d3.select(svgOverlay.node());
       for (const hit of searchResult.hits) {
-        const tileRect = this.tileRects.get(hit.index);
-        const x = tileRect.x + hit.rect.x;
-        const y = tileRect.y + hit.rect.y;
-        const width = hit.rect.width;
-        const height = hit.rect.height;
-
-        let currentOverlay: SVGRectElement = this.svgNode.append('rect')
-          .attr('x', x)
-          .attr('y', y)
-          .attr('width', width)
-          .attr('height', height)
-          .attr('class', 'hit');
+        for (let rect of hit.rects) {
+          const tileRect = this.tileRects.get(hit.index);
+          const x = tileRect.x + rect.x;
+          const y = tileRect.y + rect.y;
+          const width = rect.width;
+          const height = rect.height;
+          let currentOverlay: SVGRectElement = this.svgNode.append('rect')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('width', width)
+            .attr('height', height)
+            .attr('class', 'hit');
+        }
       };
     }
   }
