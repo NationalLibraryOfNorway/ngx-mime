@@ -92,8 +92,8 @@ export class ViewerService implements OnInit {
     return this.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
   }
 
-  public zoomTo(level: number): void {
-    this.viewer.viewport.zoomTo(level);
+  public zoomTo(level: number, position?: Point): void {
+    this.viewer.viewport.zoomTo(level, position);
   }
 
   public home(): void {
@@ -102,6 +102,7 @@ export class ViewerService implements OnInit {
 
     this.goToPage(currentPageIndex);
     this.goToHomeZoom();
+    this.modeService.mode = ViewerMode.PAGE;
   }
 
   public goToPreviousPage(): void {
@@ -200,8 +201,8 @@ export class ViewerService implements OnInit {
       this.isCanvasPressed.next(true);
     });
     this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
-    this.viewer.addHandler('canvas-scroll', this.scrollToggleMode);
-    this.viewer.addHandler('canvas-pinch', this.pinchToggleMode);
+    this.viewer.addHandler('canvas-scroll', this.scrollHandler);
+    this.viewer.addHandler('canvas-pinch', this.pinchHandler);
 
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
       this.swipeToPage(e);
@@ -213,14 +214,11 @@ export class ViewerService implements OnInit {
 
   // Binds to OSD-Toolbar button
   zoomIn(): void {
-    this.modeService.mode = ViewerMode.PAGE_ZOOMED;
+    if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
+      this.modeService.mode = ViewerMode.PAGE_ZOOMED;
+    }
     this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor);
-
-    setTimeout(() => {
-      this.resizeViewportContainerToFitPage();
-    }, 100);
-
-
+    this.resizeViewportContainerToFitPage();
   }
 
   // Binds to OSD-Toolbar button
@@ -231,6 +229,29 @@ export class ViewerService implements OnInit {
       this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
     }
   }
+
+  zoomInAtPoint(position: Point): void {
+    position = this.viewer.viewport.pointFromPixel(position);
+    if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
+      this.modeService.mode = ViewerMode.PAGE_ZOOMED;
+    }
+    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor, position);
+    this.resizeViewportContainerToFitPage();
+  }
+
+
+  /**
+   * Overrides for default OSD-functions
+   */
+  addOverrides(): void {
+    // Raised when viewer loads first time
+    // TODO: Reimplement go home override (current version causes incorrect zoom at start-up)
+    // this.viewer.viewport.goHome = () => {
+    //   this.viewer.raiseEvent('home');
+    //   this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
+    // };
+  }
+
 
   /**
    * Set settings for page/dashboard-mode
@@ -258,8 +279,8 @@ export class ViewerService implements OnInit {
    */
   setPageSettings(): void {
     this.viewer.panVertical = true;
-    this.viewer.gestureSettingsTouch.pinchToZoom = true;
-    this.viewer.gestureSettingsMouse.scrollToZoom = true;
+    this.viewer.gestureSettingsTouch.pinchToZoom = false;
+    this.viewer.gestureSettingsMouse.scrollToZoom = false;
   }
 
   /**
@@ -300,10 +321,9 @@ export class ViewerService implements OnInit {
    * Scroll-up dashboard-mode: Toggle page-mode
    * Scroll-down page-mode: Toggle dashboard-mode if page is at min-zoom
    */
-  scrollToggleMode = (e: any) => {
+  scrollHandler = (e: any) => {
     const event = e.originalEvent;
     const delta = (event.wheelDelta) ? event.wheelDelta : -event.deltaY;
-
     // Scrolling up
     if (delta > 0) {
       this.zoomInGesture();
@@ -318,31 +338,37 @@ export class ViewerService implements OnInit {
    * Pinch-out dashboard-mode: Toggles page-mode
    * Pinch-in page-mode: Toggles dashboard-mode if page is at min-zoom
    */
-  pinchToggleMode = (event: any) => {
+  pinchHandler = (e: any) => {
     // Pinch Out
-    if (event.distance > event.lastDistance) {
-      this.zoomInGesture();
+    if (e.distance > e.lastDistance) {
+      this.zoomInGesture(e.center);
       // Pinch In
     } else {
       this.zoomOutGesture();
     }
   }
 
-  zoomInGesture(): void {
+  zoomInGesture(position?: Point): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.toggleToPage();
     } else {
+      if (position) {
+        this.zoomInAtPoint(position);
+      } else {
+        this.zoomIn();
+      }
       this.resizeViewportContainerToFitPage();
     }
   }
 
   zoomOutGesture(): void {
-    if (this.modeService.mode === ViewerMode.PAGE) {
+    if (this.modeService.mode === ViewerMode.PAGE || this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       if (this.isViewportLargerThanPage()) {
         this.toggleToDashboard();
       } else {
-        this.resizeViewportContainerToFitPage();
+        this.zoomOut();
       }
+      this.resizeViewportContainerToFitPage();
     }
   }
 
@@ -383,6 +409,7 @@ export class ViewerService implements OnInit {
       this.toggleToPage();
     }
   }
+
 
   isPageFittedOrSmaller(): boolean {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
@@ -547,8 +574,6 @@ export class ViewerService implements OnInit {
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
-
-
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       isPastCenter: isPanningPastCenter,
       speed: speed,
@@ -566,7 +591,7 @@ export class ViewerService implements OnInit {
         this.modeService.mode = ViewerMode.PAGE;
         this.toggleToPage();
         // this.goToPage(this.pageService.currentPage);
-        //  this.resizeViewportContainerToFitPage();
+          this.resizeViewportContainerToFitPage();
         setTimeout(() => {
           this.goToPage(newPageIndex);
         }, CustomOptions.transitions.OSDAnimationTime);
