@@ -49,12 +49,12 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     private pageService: PageService) { }
 
   ngOnInit() {
-    this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
+    this.subscriptions.push(this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
       this.osdToolbarStyle = {
         'top': (dimensions.top + 110) + 'px'
       };
       this.changeDetectorRef.detectChanges();
-    });
+    }));
 
     this.subscriptions.push(this.viewerService
       .onPageChange

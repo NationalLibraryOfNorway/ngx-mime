@@ -24,10 +24,10 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     private mimeResizeService: MimeResizeService,
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper) {
-    mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+      this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
-    });
+    }));
 
   }
 
