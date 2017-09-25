@@ -214,20 +214,18 @@ export class ViewerService implements OnInit {
     });
 
     this.viewer.addHandler('canvas-drag', (e: any) => {
-      if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
-        return;
-      }
-      const dragEndPosision = e.position;
-      const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
-      const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-      const vpBounds = this.viewer.viewport.getBounds();
-      if (
-        (SwipeUtils.isPanningOutsideLeft(pageBounds, vpBounds) && direction === 'right') ||
-        (SwipeUtils.isPanningOutsideRight(pageBounds, vpBounds) && direction === 'left')
-      ) {
-        this.viewer.panHorizontal = false;
-      } else {
-        this.viewer.panHorizontal = true;
+      this.viewer.panHorizontal = true;
+      if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        const dragEndPosision = e.position;
+        const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
+        const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+        const vpBounds = this.viewer.viewport.getBounds();
+        if (
+          (SwipeUtils.isPanningOutsideLeft(pageBounds, vpBounds) && direction === 'right') ||
+          (SwipeUtils.isPanningOutsideRight(pageBounds, vpBounds) && direction === 'left')
+        ) {
+          this.viewer.panHorizontal = false;
+        }
       }
 
     });
@@ -623,6 +621,7 @@ export class ViewerService implements OnInit {
         this.goToPage(newPageIndex);
       }, CustomOptions.transitions.OSDAnimationTime);
     }
+    if (this.zoomedInDragEndCount === 2) { this.zoomedInDragEndCount = 0; }
   }
 
   private panTo(x: number, y: number): void {
