@@ -31,7 +31,7 @@ export class Hit {
   public match: string;
   public before: string;
   public after: string;
-  public rect: Rect;
+  public rects: Rect[];
 
   constructor(
     fields?: {
@@ -40,7 +40,7 @@ export class Hit {
       match?: string;
       before?: string;
       after?: string;
-      rect?: Rect;
+      rects?: Rect[];
     }
   ) {
     if (fields) {
@@ -49,7 +49,7 @@ export class Hit {
       this.match = fields.match || this.match;
       this.before = fields.before || this.before;
       this.after = fields.after || this.after;
-      this.rect = fields.rect || this.rect;
+      this.rects = fields.rects || this.rects;
     }
   }
 }
