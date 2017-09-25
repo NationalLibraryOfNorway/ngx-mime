@@ -16,7 +16,7 @@ export const CustomOptions = {
 
   // All transition times in milliseconds
   transitions: {
-    toolbarsEaseInTime: 300,
+    toolbarsEaseInTime: 200,
     toolbarsEaseOutTime: 250,
     OSDAnimationTime: 600 // Animation-time for OSD-animations
   },

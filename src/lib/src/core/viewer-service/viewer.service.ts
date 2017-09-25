@@ -395,7 +395,6 @@ export class ViewerService implements OnInit {
       } else {
         this.zoomIn();
       }
-      //this.resizeViewportContainerToFitPage();
     }
   }
 
@@ -406,7 +405,6 @@ export class ViewerService implements OnInit {
       } else {
         this.zoomOut();
       }
-      //this.resizeViewportContainerToFitPage();
     }
   }
 
@@ -637,8 +635,7 @@ export class ViewerService implements OnInit {
       // Zoom out before we go to next page in zoomed-in-mode
       this.modeService.mode = ViewerMode.PAGE;
       this.toggleToPage();
-      // this.goToPage(this.pageService.currentPage);
-      //this.resizeViewportContainerToFitPage();
+
       setTimeout(() => {
         this.goToPage(newPageIndex);
       }, CustomOptions.transitions.OSDAnimationTime);
@@ -651,23 +648,6 @@ export class ViewerService implements OnInit {
       x: x,
       y: y
     }, false);
-  }
-
-  resizeViewportContainerToFitPage = (pageBounds?: any): void => {
-    if (this.modeService.mode === ViewerMode.DASHBOARD || !this.viewer.container) {
-      return;
-    }
-
-    const container = d3.select(this.viewer.container.parentNode);
-
-    if (!pageBounds) {
-      pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    }
-
-    const widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
-    const widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
-
-    //container.style('max-width', widthInPixels + 'px');
   }
 
   private paddingChanged(newPadding: Dimensions): void {
@@ -687,37 +667,12 @@ export class ViewerService implements OnInit {
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-    //this.animateZoom(this.getHomeZoom(viewportBounds), 100);
     this.goToHomeZoom(viewportBounds);
 
     setTimeout(() => {
       //this.setPadding(container, newPadding);
     }, CustomOptions.transitions.OSDAnimationTime);
 
-  }
-
-  private animateZoom(zoom: number, milliseconds: number): void {
-    const iterations = 10;
-    let index = 0;
-    let currentZoom = this.viewer.viewport.getZoom();
-    let zoomIncrement = (zoom - currentZoom) / iterations;
-    let timeIncrement = milliseconds / iterations;
-
-    let intervalTimer = setInterval(() => {
-      const viewportZoom = this.viewer.viewport.getZoom();
-      if (currentZoom !== viewportZoom) {
-        zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
-        currentZoom = viewportZoom;
-      }
-      currentZoom = currentZoom + zoomIncrement;
-      this.viewer.viewport.zoomTo(currentZoom, null, false);
-
-      this.resizeViewportContainerToFitPage();
-
-      if (index++ >= iterations) {
-        clearInterval(intervalTimer);
-      }
-    }, timeIncrement);
   }
 
   private setPadding(element: any, padding: Dimensions): void {
