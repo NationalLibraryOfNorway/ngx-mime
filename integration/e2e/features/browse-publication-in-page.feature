@@ -3,6 +3,7 @@ Feature: Browse through a publication in page view
   As a user
   I want to navigate between pages
 
+  @Ignore
   @android @iphone
   Scenario Outline: Swipe to navigate
     Given a <viewingDirection> publication with 10 pages
@@ -19,6 +20,7 @@ Feature: Browse through a publication in page view
         | left-to-right | 1  | right | 1 |
         | left-to-right | 10 | left  | 10 |
 
+  @Ignore
   @android @iphone
   Scenario Outline: Cancel swipe navigation
     Given a <viewingDirection> publication with 10 pages

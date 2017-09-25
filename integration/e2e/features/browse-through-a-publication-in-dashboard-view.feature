@@ -3,6 +3,7 @@ Feature: Browse through a publication in dashboard view
   As a user
   I want to navigate between pages
 
+  @Ignore
   @android @iphone
   Scenario Outline: Swipe to navigate
     Given a <viewingDirection> publication with 10 pages

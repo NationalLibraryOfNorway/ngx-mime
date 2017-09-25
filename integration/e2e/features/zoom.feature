@@ -37,12 +37,16 @@ Feature: Zoom
   # Click Actions
   #
 
+  # TODO Ignoring this until we find out how to use Touch Actions
+  @Ignore
   @android @iphone
   Scenario: Auto zooming in on mobile
     Given zoom level is home
     When the user double taps
     Then the current zoom level has increased
 
+  # TODO Ignoring this until we find out how to use Touch Actions
+  @Ignore
   @android @iphone
   Scenario: Auto zooming out on mobile
     Given the view is zoomed in
