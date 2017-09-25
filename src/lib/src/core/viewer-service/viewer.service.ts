@@ -185,15 +185,14 @@ export class ViewerService implements OnInit {
       subscription.unsubscribe();
     });
     this.centerPoints = new CenterPoints();
+    this.overlays = null;
   }
 
   addEvents(): void {
-    this.addOverrides();
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
     this.viewer.addHandler('animation-start', () => { });
-    this.viewer.addHandler('animation-finish', this.animationsEndCallback);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
     this.viewer.addHandler('canvas-press', (e: any) => {
@@ -232,20 +231,6 @@ export class ViewerService implements OnInit {
       this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
     }
   }
-
-
-  /**
-   * Overrides for default OSD-functions
-   */
-  addOverrides(): void {
-    // Raised when viewer loads first time
-    // TODO: Reimplement go home override (current version causes incorrect zoom at start-up)
-    // this.viewer.viewport.goHome = () => {
-    //   this.viewer.raiseEvent('home');
-    //   this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
-    // };
-  }
-
 
   /**
    * Set settings for page/dashboard-mode
@@ -397,13 +382,6 @@ export class ViewerService implements OnInit {
       }
       this.toggleToPage();
     }
-  }
-
-  /**
-   * Called each time an animation ends
-   */
-  animationsEndCallback = () => {
-
   }
 
   isPageFittedOrSmaller(): boolean {
@@ -604,7 +582,7 @@ export class ViewerService implements OnInit {
   }
 
   resizeViewportContainerToFitPage = (pageBounds?: any): void => {
-    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+    if (this.modeService.mode === ViewerMode.DASHBOARD || !this.viewer.container) {
       return;
     }
 
