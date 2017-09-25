@@ -13,7 +13,7 @@ export class MobileContentSearchDialogConfigStrategy implements ContentSearchDia
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     return {
       hasBackdrop: false,
-      disableClose: true,
+      disableClose: false,
       width: '100%',
       height: '100%'
     };
@@ -33,7 +33,7 @@ export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDi
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
-      disableClose: true,
+      disableClose: false,
       width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
