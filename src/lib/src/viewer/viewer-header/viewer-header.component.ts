@@ -1,12 +1,18 @@
-import { CustomOptions } from '../../core/models/options-custom';
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
+import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from '../../core/viewer-intl';
-import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
+import { CustomOptions } from '../../core/models/options-custom';
+import { MimeViewerIntl } from './../../core/viewer-intl';
+import { Manifest } from './../../core/models/manifest';
+import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
+import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
+import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
-import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
+import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
+import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -37,12 +43,15 @@ import { FullscreenService } from '../../core/fullscreen-service/fullscreen.serv
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
   public state = 'show';
+  isContentSearchEnabled = false;
   isFullscreenEnabled = false;
 
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
+    private contentSearchDialogService: ContentSearchDialogService,
+    private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper) { }
 
@@ -55,6 +64,11 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     }));
 
+    this.subscriptions.push(this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
+      this.isContentSearchEnabled = manifest.service ? true : false;
+      this.changeDetectorRef.detectChanges();
+    }));
+
   }
 
   ngOnDestroy() {
@@ -63,8 +77,14 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openContents() {
+  public toggleContents() {
+    this.contentSearchDialogService.close();
     this.contentsDialogService.toggle();
+  }
+
+  public toggleSearch() {
+    this.contentsDialogService.close();
+    this.contentSearchDialogService.toggle();
   }
 
   public toggleFullscreen(): void {

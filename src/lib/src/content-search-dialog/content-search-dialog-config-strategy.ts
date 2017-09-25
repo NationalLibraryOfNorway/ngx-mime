@@ -1,14 +1,14 @@
 import { MimeDomHelper } from './../core/mime-dom-helper';
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { MdDialogConfig } from '@angular/material';
 
 import { Dimensions } from './../core/models/dimensions';
 
-export interface ContentsDialogConfigStrategy {
+export interface ContentSearchDialogConfigStrategy {
   getConfig(elementRef?: ElementRef): MdDialogConfig;
 }
 
-export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigStrategy {
+export class MobileContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
 
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     return {
@@ -20,7 +20,7 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
   }
 }
 
-export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfigStrategy {
+export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
   private mimeDomHelper: MimeDomHelper;
@@ -34,7 +34,7 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
     return {
       hasBackdrop: false,
       disableClose: false,
-      width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
+      width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
@@ -46,7 +46,7 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
       top: dimensions.top + 64,
-      left: dimensions.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight
+      left: dimensions.right - DesktopContentSearchDialogConfigStrategy.dialogWidth - DesktopContentSearchDialogConfigStrategy.paddingRight
     });
   }
 

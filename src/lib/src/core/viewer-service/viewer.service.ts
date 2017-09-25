@@ -1,10 +1,11 @@
-import { CenterPoints } from './../models/page-center-point';
+import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { CustomOptions } from '../models/options-custom';
-import { Subject } from 'rxjs/Rx';
-import { Injectable, NgZone, OnInit } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+
+import { TileRects } from './../models/tile-rects';
+import { CustomOptions } from '../models/options-custom';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
@@ -14,6 +15,8 @@ import { SwipeUtils } from './swipe-utils';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
+import { SearchResult } from './../models/search-result';
+import { Rect } from './../models/rect';
 import '../ext/svg-overlay';
 
 import * as d3 from 'd3';
@@ -38,7 +41,7 @@ export class ViewerService implements OnInit {
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
-  private centerPoints = new CenterPoints();
+  private tileRects = new TileRects();
   private currentMode: ViewerMode;
 
   constructor(
@@ -95,7 +98,7 @@ export class ViewerService implements OnInit {
 
   public goToPreviousPage(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -108,7 +111,7 @@ export class ViewerService implements OnInit {
 
   public goToNextPage(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -120,8 +123,36 @@ export class ViewerService implements OnInit {
   }
 
   public goToPage(pageIndex: number): void {
-    const newPageCenter = this.centerPoints.get(pageIndex);
-    this.panTo(newPageCenter.x, newPageCenter.y);
+    const newPageCenter = this.tileRects.get(pageIndex);
+    this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+  }
+
+  public highlight(searchResult: SearchResult): void {
+    this.clearHightlight();
+    if (this.viewer) {
+      let svgOverlay = this.viewer.svgOverlay();
+      this.svgNode = d3.select(svgOverlay.node());
+      for (const hit of searchResult.hits) {
+        const tileRect = this.tileRects.get(hit.index);
+        const x = tileRect.x + hit.rect.x;
+        const y = tileRect.y + hit.rect.y;
+        const width = hit.rect.width;
+        const height = hit.rect.height;
+
+        let currentOverlay: SVGRectElement = this.svgNode.append('rect')
+          .attr('x', x)
+          .attr('y', y)
+          .attr('width', width)
+          .attr('height', height)
+          .attr('class', 'hit');
+      };
+    }
+  }
+
+  public clearHightlight(): void {
+    if (this.svgNode) {
+      this.svgNode.selectAll('.hit').remove();
+    }
   }
 
   setUpViewer(manifest: Manifest) {
@@ -162,7 +193,7 @@ export class ViewerService implements OnInit {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
-    this.centerPoints = new CenterPoints();
+    this.tileRects = new TileRects();
     this.currentMode = null;
   }
 
@@ -414,10 +445,12 @@ export class ViewerService implements OnInit {
       let currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
 
-      this.centerPoints.add({
-        x: currentX + (tile.width / 2),
-        y: currentY + (tile.height / 2)
-      });
+      this.tileRects.add(new Rect({
+        x: currentX,
+        y: currentY,
+        width: tile.width,
+        height: tile.height
+      }));
 
       currentX = currentX + tile.width + CustomOptions.overlays.tilesMargin;
     });
@@ -487,7 +520,7 @@ export class ViewerService implements OnInit {
   }
 
   private calculateCurrentPage(center: Point) {
-    const currentPageIndex = this.centerPoints.findClosestIndex(center);
+    const currentPageIndex = this.tileRects.findClosestIndex(center);
     this.currentPageIndex.next(currentPageIndex);
   }
 
@@ -501,7 +534,7 @@ export class ViewerService implements OnInit {
 
     const direction = new SwipeUtils().getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.centerPoints.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.currentMode);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({

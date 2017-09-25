@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from '../core/models/manifest';
 import { ModeService } from '../core/mode-service/mode.service';
@@ -24,6 +25,8 @@ import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
+import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
+import { SearchResult } from './../core/models/search-result';
 
 @Component({
   selector: 'mime-viewer',
@@ -33,9 +36,11 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
+  @Input() public q: string;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
+  private currentManifest: Manifest;
 
   ViewerMode: typeof ViewerMode = ViewerMode;
 
@@ -49,12 +54,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
+    private contentSearchDialogService: ContentSearchDialogService,
     private viewerService: ViewerService,
     private mimeService: MimeResizeService,
     private changeDetectorRef: ChangeDetectorRef,
-    private modeService: ModeService) {
+    private modeService: ModeService,
+    private iiifContentSearchService: IiifContentSearchService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
+    contentSearchDialogService.el = el;
     mimeService.el = el;
   }
 
@@ -63,12 +71,23 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
+          this.currentManifest = manifest;
           this.cleanUp();
           this.viewerService.setUpViewer(manifest);
           if (this.config.attributionDialogEnabled && manifest.attribution) {
             this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
           }
+
+          if (this.q) {
+            this.iiifContentSearchService.search(manifest, this.q);
+          }
         })
+    );
+
+    this.subscriptions.push(
+      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+        this.viewerService.highlight(sr);
+      })
     );
 
     this.subscriptions.push(
@@ -88,14 +107,29 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    let manifestUriIsChanged = false;
+    let qIsChanged = false;
+    if (changes['q']) {
+      const qChanges: SimpleChange = changes['q'];
+      if (!qChanges.isFirstChange() && qChanges.currentValue !== qChanges.firstChange) {
+        this.q = qChanges.currentValue;
+        qIsChanged = true;
+      }
+    }
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
       if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
         this.modeService.mode = this.config.initViewerMode;
         this.manifestUri = manifestUriChanges.currentValue;
-        this.cleanUp();
-        this.loadManifest();
+        manifestUriIsChanged = true;
       }
+    }
+
+    if (manifestUriIsChanged) {
+      this.cleanUp();
+      this.loadManifest();
+    } else if (qIsChanged) {
+      this.iiifContentSearchService.search(this.currentManifest, this.q);
     }
   }
 
@@ -103,6 +137,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  // ChangeDetection fix
+  onModeChange() {
+    if (this.mode === ViewerMode.DASHBOARD) {
+      this.contentsDialogService.destroy();
+      this.contentSearchDialogService.destroy();
+    }
   }
 
   get mode(): ViewerMode {
@@ -139,6 +181,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.viewerService.destroy();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
+    this.contentSearchDialogService.destroy();
+    this.iiifContentSearchService.destroy();
   }
 
   setClasses() {
