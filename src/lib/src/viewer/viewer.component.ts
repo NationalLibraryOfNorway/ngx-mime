@@ -137,6 +137,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+    this.iiifManifestService.destroy();
+    this.iiifContentSearchService.destroy();
   }
 
   // ChangeDetection fix

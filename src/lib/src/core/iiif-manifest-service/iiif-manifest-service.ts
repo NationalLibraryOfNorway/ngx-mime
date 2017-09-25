@@ -29,6 +29,10 @@ export class IiifManifestService {
 
   }
 
+  destroy() {
+    this._currentManifest.next(null);
+  }
+
   private extractData(response: Response) {
     return new ManifestBuilder(response).build();
   }
