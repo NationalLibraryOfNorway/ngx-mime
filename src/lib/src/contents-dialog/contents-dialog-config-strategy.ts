@@ -13,7 +13,7 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
   public getConfig(elementRef: ElementRef): MdDialogConfig {
     return {
       hasBackdrop: false,
-      disableClose: true,
+      disableClose: false,
       width: '100%',
       height: '100%'
     };
@@ -33,7 +33,7 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
-      disableClose: true,
+      disableClose: false,
       width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
