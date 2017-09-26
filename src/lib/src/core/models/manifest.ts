@@ -2,7 +2,7 @@ export class Manifest {
   public context?: string;
   public type?: string;
   public id?: string;
-  public viewingDirection = ViewingDirection.LTR;
+  public viewingDirection? = ViewingDirection.LTR;
   public label?: string;
   public metadata?: Metadata[];
   public license?: string;
