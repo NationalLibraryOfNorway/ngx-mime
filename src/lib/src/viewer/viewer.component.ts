@@ -118,11 +118,19 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     let manifestUriIsChanged = false;
     let qIsChanged = false;
+    let canvasIndexChanged = false;
     if (changes['q']) {
       const qChanges: SimpleChange = changes['q'];
       if (!qChanges.isFirstChange() && qChanges.currentValue !== qChanges.firstChange) {
         this.q = qChanges.currentValue;
         qIsChanged = true;
+      }
+    }
+    if (changes['canvasIndex']) {
+      const canvasIndexChanges: SimpleChange = changes['canvasIndex'];
+      if (!canvasIndexChanges.isFirstChange() && canvasIndexChanges.currentValue !== canvasIndexChanges.firstChange) {
+        this.canvasIndex = canvasIndexChanges.currentValue;
+        canvasIndexChanged = true;
       }
     }
     if (changes['manifestUri']) {
@@ -137,8 +145,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (manifestUriIsChanged) {
       this.cleanUp();
       this.loadManifest();
-    } else if (qIsChanged) {
-      this.iiifContentSearchService.search(this.currentManifest, this.q);
+    } else {
+      if (qIsChanged) {
+        this.iiifContentSearchService.search(this.currentManifest, this.q);
+      }
+      if (canvasIndexChanged) {
+        this.viewerService.goToPage(this.canvasIndex);
+      }
     }
   }
 
