@@ -10,16 +10,15 @@ import { SpinnerState, SpinnerService } from '../../core/spinner-service/spinner
   styleUrls: ['./viewer-spinner.component.scss']
 })
 export class ViewerSpinnerComponent implements OnDestroy, OnInit {
-  visible = false;
-
-  private spinnerStateChanged: Subscription;
+  public visible = false;
+  private spinnerSub: Subscription;
 
   constructor(
     private spinnerService: SpinnerService,
     private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.spinnerStateChanged = this.spinnerService.spinnerState
+    this.spinnerSub = this.spinnerService.spinnerState
       .subscribe((state: SpinnerState) => {
         this.visible = state.show;
         this.changeDetectorRef.detectChanges();
@@ -27,6 +26,6 @@ export class ViewerSpinnerComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.spinnerStateChanged.unsubscribe();
+    this.spinnerSub.unsubscribe();
   }
 }

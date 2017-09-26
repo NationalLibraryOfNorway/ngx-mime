@@ -1,4 +1,4 @@
-.spinner {
+.mime-spinner {
   display: none;
   position: fixed;
   left: 50%;
@@ -7,6 +7,6 @@
   z-index: 9999; // TODO: This shouldn't be arbitrary set
 }
 
-.spinner--active {
+.mime-spinner--active {
   display: block;
 }

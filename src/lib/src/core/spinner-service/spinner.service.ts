@@ -9,12 +9,9 @@ export interface SpinnerState {
 @Injectable()
 export class SpinnerService {
   private spinnerSubject = new Subject<SpinnerState>();
+  public spinnerState = this.spinnerSubject.asObservable();
 
-  spinnerState = this.spinnerSubject.asObservable();
-
-  constructor(@Optional() @SkipSelf() prior: SpinnerService) {
-    if (prior) { return prior; }
-  }
+  constructor() { }
 
   show() {
     this.spinnerSubject.next(<SpinnerState>{ show: true });
