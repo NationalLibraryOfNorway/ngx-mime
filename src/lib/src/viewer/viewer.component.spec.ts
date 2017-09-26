@@ -118,8 +118,6 @@ describe('ViewerComponent', function () {
         viewerService.toggleToPage();
         expect(modeService.mode).toBe(ViewerMode.PAGE);
       }
-
-      expect(modeService.mode).toBe(config.initViewerMode);
       testHostComponent.manifestUri = 'dummyURI3';
       testHostComponent.viewerComponent.ngOnInit();
       testHostFixture.detectChanges();
