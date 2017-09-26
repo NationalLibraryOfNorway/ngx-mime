@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 
 export class PageMask {
   _viewer: any;
+  _pageBounds: any;
 
   _root: any;
   _cover: any;
@@ -21,12 +22,19 @@ export class PageMask {
       self.resize();
     });
 
+    this._viewer.addHandler('resize', function () {
+      self.resize();
+    });
+
     this._viewer.addHandler('canvas-drag', function () {
       self._disableResize = true;
     });
 
     this._viewer.addHandler('canvas-drag-end', function () {
-      self._disableResize = false;
+      setTimeout(() => {
+        self._disableResize = false;
+        self.changeBounds();
+      }, 300);
     });
   }
 
@@ -74,12 +82,8 @@ export class PageMask {
   }
 
   public changePage(pageBounds: any) {
-    this._transparentWindow.attr('width', pageBounds.width.baseVal.value)
-      .attr('height', pageBounds.height.baseVal.value)
-      .attr('x', pageBounds.x.baseVal.value)
-      .attr('y', pageBounds.y.baseVal.value);
-
-    this.resize();
+    this._pageBounds = pageBounds;
+    this.changeBounds();
   }
 
   public show() {
@@ -88,6 +92,19 @@ export class PageMask {
 
   public hide() {
     this._cover.style('fill-opacity', '0');
+  }
+  
+  private changeBounds() {
+    if (!this._transparentWindow || this._disableResize) {
+      return;
+    }
+    
+    this._transparentWindow.attr('width', this._pageBounds.width.baseVal.value)
+      .attr('height', this._pageBounds.height.baseVal.value)
+      .attr('x', this._pageBounds.x.baseVal.value)
+      .attr('y', this._pageBounds.y.baseVal.value);
+
+    this.resize();
   }
 
   private resize() {
