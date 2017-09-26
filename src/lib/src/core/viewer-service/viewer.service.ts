@@ -4,8 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 
-import { PanDirection } from '../models/pan-direction';
-
 import { Utils } from '../../core/utils';
 import { TileRects } from './../models/tile-rects';
 import { CustomOptions } from '../models/options-custom';
@@ -219,34 +217,13 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('canvas-press', (e: any) => {
       this.dragStartPosition = e.position;
       this.isCanvasPressed.next(true);
-
     });
-    this.viewer.addHandler('canvas-release', () => {
-      this.isCanvasPressed.next(false);
-    });
+    this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollHandler);
     this.viewer.addHandler('canvas-pinch', this.pinchHandler);
 
-    this.viewer.addHandler('canvas-drag-end', (e: any) => {
-      this.swipeToPage(e);
-    });
-
-    this.viewer.addHandler('canvas-drag', (e: any) => {
-      this.viewer.panHorizontal = true;
-      if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-        const dragEndPosision = e.position;
-        const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
-        const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-        const vpBounds = this.viewer.viewport.getBounds();
-        if (
-          (SwipeUtils.isPanningOutsideLeft(pageBounds, vpBounds) && direction === 'right') ||
-          (SwipeUtils.isPanningOutsideRight(pageBounds, vpBounds) && direction === 'left')
-        ) {
-          this.viewer.panHorizontal = false;
-        }
-      }
-
-    });
+    this.viewer.addHandler('canvas-drag', (e: any) => this.dragHandler(e));
+    this.viewer.addHandler('canvas-drag-end', (e: any) => this.swipeToPage(e));
 
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
@@ -276,19 +253,6 @@ export class ViewerService implements OnInit {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
     this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor, position);
-  }
-
-
-  /**
-   * Overrides for default OSD-functions
-   */
-  addOverrides(): void {
-    // Raised when viewer loads first time
-    // TODO: Reimplement go home override (current version causes incorrect zoom at start-up)
-    // this.viewer.viewport.goHome = () => {
-    //   this.viewer.raiseEvent('home');
-    //   this.modeService.initialMode === ViewerMode.DASHBOARD ? this.toggleToDashboard() : this.toggleToPage();
-    // };
   }
 
 
@@ -348,9 +312,7 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Scroll-toggle-handler
-   * Scroll-up dashboard-mode: Toggle page-mode
-   * Scroll-down page-mode: Toggle dashboard-mode if page is at min-zoom
+   * Scroll-handler
    */
   scrollHandler = (e: any) => {
     const event = e.originalEvent;
@@ -365,10 +327,8 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Pinch-toggle-handler
-   * Pinch-out dashboard-mode: Toggles page-mode
-   * Pinch-in page-mode: Toggles dashboard-mode if page is at min-zoom
-   */
+   * Pinch-handler
+  */
   pinchHandler = (e: any) => {
     // Pinch Out
     if (e.distance > e.lastDistance) {
@@ -379,6 +339,10 @@ export class ViewerService implements OnInit {
     }
   }
 
+  /**
+   *
+   * @param {Point} point to zoom to. If not set, the viewer will zoom to center
+   */
   zoomInGesture(position?: Point): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.toggleToPage();
@@ -402,7 +366,7 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Adds single-click-handler
+   * Single-click-handler
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
@@ -427,7 +391,6 @@ export class ViewerService implements OnInit {
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
-      // this.zoomTo(this.getZoom() * this.options.zoomPerClick);
       this.zoomIn(true);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
@@ -437,14 +400,6 @@ export class ViewerService implements OnInit {
       }
       this.toggleToPage();
     }
-  }
-
-
-  isPageFittedOrSmaller(): boolean {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    const viewportBounds = this.viewer.viewport.getBounds();
-    return (pageBounds.width <= viewportBounds.width)
-      || (pageBounds.height <= viewportBounds.height);
   }
 
   isViewportLargerThanPage(): boolean {
@@ -459,7 +414,7 @@ export class ViewerService implements OnInit {
 
   /**
    * Checks if hit element is a <rect>-element
-   * @param target
+   * @param {HTMLElement} target
    */
   isPageHit(target: HTMLElement): boolean {
     return target instanceof SVGRectElement;
@@ -588,6 +543,22 @@ export class ViewerService implements OnInit {
 
   private getViewportCenter(): Point {
     return this.viewer.viewport.getCenter(true);
+  }
+
+  private dragHandler = (e: any) => {
+    this.viewer.panHorizontal = true;
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      const dragEndPosision = e.position;
+      const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
+      const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+      const vpBounds = this.viewer.viewport.getBounds();
+      if (
+        (SwipeUtils.isPanningOutsideLeft(pageBounds, vpBounds) && direction === 'right') ||
+        (SwipeUtils.isPanningOutsideRight(pageBounds, vpBounds) && direction === 'left')
+      ) {
+        this.viewer.panHorizontal = false;
+      }
+    }
   }
 
   private swipeToPage(e: any) {

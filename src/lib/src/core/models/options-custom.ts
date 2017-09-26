@@ -9,14 +9,13 @@ export const CustomOptions = {
   },
 
   pan: {
-    // How many pixels before we reach end of page.
-    // Used to determine if we are dragging outside of current page
-    sensitivityMargin: 40
+    // Sensitivity when determining swipe-direction.
+    swipeDirectionThreshold: 40
   },
 
   // All transition times in milliseconds
   transitions: {
-    toolbarsEaseInTime: 300,
+    toolbarsEaseInTime: 200,
     toolbarsEaseOutTime: 250,
     OSDAnimationTime: 600 // Animation-time for OSD-animations
   },

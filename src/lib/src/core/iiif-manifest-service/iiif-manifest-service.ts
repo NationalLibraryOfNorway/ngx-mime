@@ -1,4 +1,3 @@
-import { SpinnerService } from '../spinner-service/spinner.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -7,6 +6,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
+import { SpinnerService } from '../spinner-service/spinner.service';
 
 @Injectable()
 export class IiifManifestService {

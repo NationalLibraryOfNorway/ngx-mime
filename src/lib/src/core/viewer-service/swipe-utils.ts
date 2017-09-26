@@ -3,9 +3,9 @@ export class SwipeUtils {
 
   // Using sensitivityMargin so it is not so sensitive to swipe-direction when zoomed in
   static getSwipeDirection(start: number, end: number) {
-    if (start > end + CustomOptions.pan.sensitivityMargin) {
+    if (start > end + CustomOptions.pan.swipeDirectionThreshold) {
       return 'left';
-    } else if (start + CustomOptions.pan.sensitivityMargin < end) {
+    } else if (start + CustomOptions.pan.swipeDirectionThreshold < end) {
       return 'right';
     }
     return undefined;
@@ -20,7 +20,7 @@ export class SwipeUtils {
   }
 
   static isPanningOutsideRight(pageBounds: any, vpBounds: any): boolean {
-    return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width
+    return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width;
   }
 
   static isPanningPastCenter(pageBounds: any, vpBounds: any): boolean {

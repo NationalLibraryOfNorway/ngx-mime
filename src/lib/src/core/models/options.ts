@@ -55,7 +55,7 @@ export class Options {
   gestureSettingsPen = new GestureSettingsPen();
   gestureSettingsUnknown = new GestureSettingsUnknown();
   zoomPerClick = 2.0;
-  zoomPerScroll = 1.1;
+  zoomPerScroll = 1.2;
   zoomPerSecond = 1.0;
   showNavigator = false;
   navigatorId: string;

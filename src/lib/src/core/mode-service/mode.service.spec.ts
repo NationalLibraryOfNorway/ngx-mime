@@ -1,5 +1,5 @@
-import { ModeService } from './mode.service';
 import { TestBed, inject } from '@angular/core/testing';
+import { ModeService } from './mode.service';
 
 
 describe('ModeService', () => {

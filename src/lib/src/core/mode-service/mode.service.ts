@@ -1,5 +1,6 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
+
 import { ViewerMode } from '../models/viewer-mode';
 
 export class ModeService {
