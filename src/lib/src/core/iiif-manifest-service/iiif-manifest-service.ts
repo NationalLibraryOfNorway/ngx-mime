@@ -6,6 +6,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 @Injectable()
 export class IiifManifestService {
@@ -19,14 +20,13 @@ export class IiifManifestService {
 
   load(manifestUri: string): void {
     if (manifestUri === null) {
-      return;
+      this._currentManifest.error(new HttpErrorResponse({error: 'ManifestUri is missing'}));
     }
     this.http.get(manifestUri)
       .subscribe(
       (res: Response) => this._currentManifest.next(this.extractData(res)),
-      (err: HttpErrorResponse) => this.handleError
-    );
-
+      (err: HttpErrorResponse) => this._currentManifest.error(this.handleError(err))
+      );
   }
 
   destroy() {
@@ -37,7 +37,7 @@ export class IiifManifestService {
     return new ManifestBuilder(response).build();
   }
 
-  private handleError(err: HttpErrorResponse | any) {
+  private handleError(err: HttpErrorResponse | any): ErrorObservable {
     let errMsg: string;
     if (err.error instanceof Error) {
       errMsg = err.error.message;

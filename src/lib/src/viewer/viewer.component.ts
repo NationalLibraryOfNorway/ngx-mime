@@ -25,8 +25,9 @@ import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from './../core/models/search-result';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
+import { SearchResult } from '../core/models/search-result';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 @Component({
   selector: 'mime-viewer',
@@ -40,7 +41,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
-  private currentManifest: Manifest;
+  public currentManifest: Manifest;
+  public errorMessage: string = null;
 
   ViewerMode: typeof ViewerMode = ViewerMode;
 
@@ -68,11 +70,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.modeService.initialMode = this.config.initViewerMode;
+
     this.subscriptions.push(
-      this.iiifManifestService.currentManifest
-        .subscribe((manifest: Manifest) => {
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
           this.currentManifest = manifest;
           this.cleanUp();
+          this.changeDetectorRef.detectChanges();
           this.viewerService.setUpViewer(manifest);
           if (this.config.attributionDialogEnabled && manifest.attribution) {
             this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
@@ -81,7 +85,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           if (this.q) {
             this.iiifContentSearchService.search(manifest, this.q);
           }
-        })
+        }, (err: ErrorObservable) => {
+          this.errorMessage = err.error;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
     );
 
     this.subscriptions.push(
@@ -154,21 +162,23 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   toggleToolbarsState(mode: ViewerMode): void {
-    switch (mode) {
-      case ViewerMode.DASHBOARD:
-        this.header.state = this.footer.state = 'show';
-        if (this.config.navigationControlEnabled && this.osdToolbar) {
-          this.osdToolbar.state = 'hide';
-        }
-        break;
-      case ViewerMode.PAGE:
-        this.header.state = this.footer.state = 'hide';
-        if (this.config.navigationControlEnabled && this.osdToolbar) {
-          this.osdToolbar.state = 'show';
-        }
-        break;
+    if (this.header && this.footer) {
+      switch (mode) {
+        case ViewerMode.DASHBOARD:
+          this.header.state = this.footer.state = 'show';
+          if (this.config.navigationControlEnabled && this.osdToolbar) {
+            this.osdToolbar.state = 'hide';
+          }
+          break;
+        case ViewerMode.PAGE:
+          this.header.state = this.footer.state = 'hide';
+          if (this.config.navigationControlEnabled && this.osdToolbar) {
+            this.osdToolbar.state = 'show';
+          }
+          break;
+      }
+      this.changeDetectorRef.detectChanges();
     }
-    this.changeDetectorRef.detectChanges();
   }
 
   ngAfterViewChecked() {
@@ -176,6 +186,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private loadManifest() {
+    this.errorMessage = null;
     this.iiifManifestService.load(this.manifestUri);
   }
 
