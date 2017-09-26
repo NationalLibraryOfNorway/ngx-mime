@@ -40,8 +40,6 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  private containerPadding: ReplaySubject<Dimensions> = new ReplaySubject();
-
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
@@ -68,10 +66,6 @@ export class ViewerService implements OnInit {
 
   get onPageChange(): Observable<number> {
     return this.currentPageIndex.asObservable().distinctUntilChanged();
-  }
-
-  get onPaddingChange(): Observable<Dimensions> {
-    return this.containerPadding.asObservable();
   }
 
   public getViewer(): any {
@@ -142,15 +136,8 @@ export class ViewerService implements OnInit {
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     this.panTo(newPageCenter.centerX, newPageCenter.centerY);
-
-    setTimeout(() => {
-      this.resizeViewportContainerToFitPage(this.createRectangle(this.overlays[pageIndex]));
-    }, CustomOptions.transitions.OSDAnimationTime);
   }
 
-  public updatePadding(padding: Dimensions): void {
-    this.containerPadding.next(padding);
-  }
 
   public highlight(searchResult: SearchResult): void {
     this.clearHightlight();
@@ -200,9 +187,6 @@ export class ViewerService implements OnInit {
         this.calculateCurrentPage(center);
       }));
 
-      this.subscriptions.push(this.onPaddingChange.throttle(val => Observable.interval(500)).subscribe((padding: Dimensions) => {
-        this.paddingChanged(padding);
-      }));
       this.addToWindow();
       this.createOverlays();
       this.addEvents();
@@ -276,7 +260,6 @@ export class ViewerService implements OnInit {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
     this.zoomTo(this.getZoom() + zoomFactor);
-    this.resizeViewportContainerToFitPage();
   }
 
   zoomOut(): void {
@@ -293,7 +276,6 @@ export class ViewerService implements OnInit {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
     this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor, position);
-    this.resizeViewportContainerToFitPage();
   }
 
 
@@ -344,14 +326,11 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
-    const pageCenter = this.tileRects.get(this.pageService.currentPage);
-    this.panTo(pageCenter.centerX, pageCenter.centerY);
+    this.fitBoundsInDashboardView();
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.tileRects
     );
-
-    d3.select(this.viewer.container.parentNode).style('max-width', '');
   }
 
   /**
@@ -362,8 +341,7 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    const pageCenter = this.tileRects.get(this.pageService.currentPage);
-    this.panTo(pageCenter.centerX, pageCenter.centerY);
+    this.fitBounds(this.overlays[this.pageService.currentPage]);
 
     PagePositionUtils.updatePagePositions(
       this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.tileRects);
@@ -410,7 +388,6 @@ export class ViewerService implements OnInit {
       } else {
         this.zoomIn();
       }
-      this.resizeViewportContainerToFitPage();
     }
   }
 
@@ -421,7 +398,6 @@ export class ViewerService implements OnInit {
       } else {
         this.zoomOut();
       }
-      this.resizeViewportContainerToFitPage();
     }
   }
 
@@ -552,7 +528,6 @@ export class ViewerService implements OnInit {
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
-    this.resizeViewportContainerToFitPage();
     d3.select(this.viewer.container.parentNode).transition().duration(CustomOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
@@ -625,7 +600,7 @@ export class ViewerService implements OnInit {
 
     const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
-   // const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
+    // const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const currentPageIndex = this.pageService.currentPage;
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
@@ -653,7 +628,6 @@ export class ViewerService implements OnInit {
       this.modeService.mode = ViewerMode.PAGE;
       this.toggleToPage();
       // this.goToPage(this.pageService.currentPage);
-      this.resizeViewportContainerToFitPage();
       setTimeout(() => {
         this.goToPage(newPageIndex);
       }, CustomOptions.transitions.OSDAnimationTime);
@@ -668,79 +642,31 @@ export class ViewerService implements OnInit {
     }, false);
   }
 
-  resizeViewportContainerToFitPage = (pageBounds?: any): void => {
-    if (this.modeService.mode === ViewerMode.DASHBOARD || !this.viewer.container) {
-      return;
-    }
 
-    const container = d3.select(this.viewer.container.parentNode);
 
-    if (!pageBounds) {
-      pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    }
-
-    const widthVector = new OpenSeadragon.Point(pageBounds.width, 0);
-    const widthInPixels = Math.ceil(this.viewer.viewport.deltaPixelsFromPoints(widthVector).x);
-
-    container.style('max-width', widthInPixels + 'px');
-  }
-
-  private paddingChanged(newPadding: Dimensions): void {
+  private fitBoundsInDashboardView(): void {
     if (!this.viewer || !this.overlays) {
       return;
     }
 
     const container = d3.select(this.viewer.container.parentNode);
-    this.setPadding(container, new Dimensions());
 
     const maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode).node().getBoundingClientRect());
-    const viewportHeight = maxViewportDimensions.height - newPadding.top - newPadding.bottom;
-    const viewportWidth = maxViewportDimensions.width - newPadding.left - newPadding.right;
+    const viewportHeight = maxViewportDimensions.height - CustomOptions.padding.header - CustomOptions.padding.footer;
+    const viewportWidth = maxViewportDimensions.width;
 
     const viewportSizeInViewportCoordinates =
       this.viewer.viewport.deltaPointsFromPixels(
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
     const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-    this.animateZoom(this.getHomeZoom(viewportBounds), 100);
 
-    setTimeout(() => {
-      this.setPadding(container, newPadding);
-    }, CustomOptions.transitions.OSDAnimationTime);
-
+    this.goToHomeZoom(viewportBounds);
   }
 
-  private animateZoom(zoom: number, milliseconds: number): void {
-    const iterations = 10;
-    let index = 0;
-    let currentZoom = this.viewer.viewport.getZoom();
-    let zoomIncrement = (zoom - currentZoom) / iterations;
-    let timeIncrement = milliseconds / iterations;
-
-    let intervalTimer = setInterval(() => {
-      const viewportZoom = this.viewer.viewport.getZoom();
-      if (currentZoom !== viewportZoom) {
-        zoomIncrement = viewportZoom / currentZoom * zoomIncrement;
-        currentZoom = viewportZoom;
-      }
-      currentZoom = currentZoom + zoomIncrement;
-      this.viewer.viewport.zoomTo(currentZoom, null, false);
-
-      this.resizeViewportContainerToFitPage();
-
-      if (index++ >= iterations) {
-        clearInterval(intervalTimer);
-      }
-    }, timeIncrement);
-  }
-
-  private setPadding(element: any, padding: Dimensions): void {
-    element.style('padding', padding.top + 'px ' + padding.right + 'px ' + padding.bottom + 'px ' + padding.left + 'px');
-  }
 
   private goToHomeZoom(viewportBounds?: any): void {
     this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds), false);
-    this.resizeViewportContainerToFitPage();
   }
 
   private getHomeZoom(viewportBounds?: any, pageBounds?: any): number {
