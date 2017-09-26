@@ -37,6 +37,7 @@ import { SearchResult } from './../core/models/search-result';
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
   @Input() public q: string;
+  @Input() public canvasIndex: number;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
@@ -100,6 +101,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.modeService.onChange.subscribe((mode: ViewerMode) => {
         this.toggleToolbarsState(mode);
+      })
+    );
+
+    this.subscriptions.push(
+      this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+        if (state && this.canvasIndex) {
+          this.viewerService.goToPage(this.canvasIndex);
+        }
       })
     );
 

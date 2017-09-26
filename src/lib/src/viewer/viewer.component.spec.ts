@@ -108,6 +108,18 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
+  it('should open viewer on pages canvas index if present', (done: any) => {
+    testHostFixture.whenStable().then(() => {
+      spyOn(viewerService, 'goToPage').and.callThrough();
+      testHostComponent.manifestUri = 'dummyURI3';
+      testHostComponent.canvasIndex = 2;
+      testHostComponent.viewerComponent.ngOnInit();
+      testHostFixture.detectChanges();
+      expect(viewerService.goToPage).toHaveBeenCalled();
+      done();
+    });
+  });
+
   it('should change mode to initial-mode when changing manifest', (done: any) => {
     testHostFixture.whenStable().then(() => {
       // Toggle to opposite of initial-mode
@@ -361,12 +373,13 @@ describe('ViewerComponent', function () {
 
 @Component({
   selector: `test-component`,
-  template: `<mime-viewer [manifestUri]="manifestUri"></mime-viewer>`
+  template: `<mime-viewer [manifestUri]="manifestUri" canvasIndex="canvasIndex"></mime-viewer>`
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent)
   public viewerComponent: any;
   public manifestUri: string;
+  public canvasIndex = 0;
 }
 
 class IiifManifestServiceStub {

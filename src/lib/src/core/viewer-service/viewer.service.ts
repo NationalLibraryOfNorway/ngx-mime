@@ -1,7 +1,7 @@
 import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 
 import { TileRects } from './../models/tile-rects';
@@ -38,8 +38,9 @@ export class ViewerService implements OnInit {
   public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
-  private currentCenter: ReplaySubject<Point> = new ReplaySubject();
-  private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
+  private currentCenter: Subject<Point> = new BehaviorSubject(null);
+  private currentPageIndex: Subject<number> = new BehaviorSubject(0);
+  private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private dragStartPosition: any;
   private tileRects = new TileRects();
   private currentMode: ViewerMode;
@@ -58,6 +59,10 @@ export class ViewerService implements OnInit {
 
   get onPageChange(): Observable<number> {
     return this.currentPageIndex.asObservable().distinctUntilChanged();
+  }
+
+  get onOsdReadyChange(): Observable<boolean> {
+    return this.osdIsReady.asObservable().distinctUntilChanged();
   }
 
   public getViewer(): any {
@@ -219,6 +224,9 @@ export class ViewerService implements OnInit {
     });
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
+    });
+    this.viewer.addHandler('open', (e: any) => {
+      this.osdIsReady.next(true);
     });
   }
 
