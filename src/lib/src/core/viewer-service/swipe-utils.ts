@@ -1,14 +1,20 @@
 import { CustomOptions } from '../models/options-custom';
 export class SwipeUtils {
 
-  // Using sensitivityMargin so it is not so sensitive to swipe-direction when zoomed in
   static getSwipeDirection(start: number, end: number) {
-    if (start > end + CustomOptions.pan.swipeDirectionThreshold) {
+    return start > end ? 'left' : 'right';
+  }
+
+  // Added threshold to prevent sensitive direction-calculation when zoomed in
+  static getZoomedInSwipeDirection(startX: number, endX: number, startY: number, endY: number) {
+    const deltaX = Math.abs(startX - endX);
+    const deltaY = Math.abs(startY - endY);
+
+    if (startX > endX && (deltaX - CustomOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
       return 'left';
-    } else if (start + CustomOptions.pan.swipeDirectionThreshold < end) {
+    } else if (startX < endX && (deltaX - CustomOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
       return 'right';
     }
-    return undefined;
   }
 
   static isPanningOutsidePage(pageBounds: any, vpBounds: any): boolean {

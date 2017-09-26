@@ -42,8 +42,6 @@ export class ViewerService implements OnInit {
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
   private zoomedInDragEndCount = 0;
-
-
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
@@ -549,9 +547,14 @@ export class ViewerService implements OnInit {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const dragEndPosision = e.position;
-      const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
       const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
       const vpBounds = this.viewer.viewport.getBounds();
+      const direction = SwipeUtils.getZoomedInSwipeDirection(
+        this.dragStartPosition.x,
+        dragEndPosision.x,
+        this.dragStartPosition.y,
+        dragEndPosision.y
+      );
       if (
         (SwipeUtils.isPanningOutsideLeft(pageBounds, vpBounds) && direction === 'right') ||
         (SwipeUtils.isPanningOutsideRight(pageBounds, vpBounds) && direction === 'left')
@@ -571,7 +574,6 @@ export class ViewerService implements OnInit {
 
     const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
-    // const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const currentPageIndex = this.pageService.currentPage;
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);

@@ -9,8 +9,8 @@ export const CustomOptions = {
   },
 
   pan: {
-    // Sensitivity when determining swipe-direction.
-    swipeDirectionThreshold: 40
+    // Sensitivity when determining zoomed-in-swipe-direction.
+    swipeDirectionZoomedThreshold: 20
   },
 
   // All transition times in milliseconds
