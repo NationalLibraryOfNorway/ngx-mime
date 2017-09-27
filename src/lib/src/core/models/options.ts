@@ -29,7 +29,7 @@ export class Options {
   maxZoomLevel: number = null;
   homeFillsViewer = false;
   panHorizontal = true;
-  panVertical = true;
+  panVertical = false;
   constrainDuringPan = true;
   wrapHorizontal = false;
   wrapVertical = false;
