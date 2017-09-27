@@ -1,13 +1,13 @@
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { IiifManifestService } from './iiif-manifest-service';
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { testManifest } from '../../test/testManifest';
-import '../../rxjs-extension';
 import { MimeViewerIntl } from '../viewer-intl';
+import '../../rxjs-extension';
 
 describe('IiifManifestService', () => {
   beforeEach(() => {
@@ -30,15 +30,21 @@ describe('IiifManifestService', () => {
   it('should return a Manifest', inject([IiifManifestService, HttpClient, HttpTestingController],
     fakeAsync((svc: IiifManifestService, http: HttpClient, httpMock: HttpTestingController) => {
     let result: Manifest = null;
+    let error: string = null;
 
     svc.load('dummyUrl');
-    svc.currentManifest.subscribe((manifest: Manifest) => {
-      result = manifest;
-    });
+    svc.currentManifest.subscribe(
+      (manifest: Manifest) => result = manifest
+    );
+
+    svc.errorMessage.subscribe(
+      (err: string) => error = err
+    );
 
     httpMock.expectOne(`dummyUrl`)
       .flush(new ManifestBuilder(testManifest).build());
     tick();
+    expect(error).toBeNull();
     expect(result.label).toBe('Fjellkongen Ludvig \"Ludden\"');
 
   })));
@@ -49,12 +55,14 @@ describe('IiifManifestService', () => {
         let result: Manifest = null;
         let error: string = null;
 
+        svc.load(null);
         svc.currentManifest.subscribe(
-          (manifest: Manifest) => result = manifest,
-          (err: HttpErrorResponse) => error = err.error
+          (manifest: Manifest) => result = manifest
         );
 
-        svc.load(null);
+        svc.errorMessage.subscribe(
+          (err: string) => error = err
+        );
 
         httpMock.expectNone('');
         expect(result).toBeNull();
@@ -65,17 +73,19 @@ describe('IiifManifestService', () => {
     inject([IiifManifestService, HttpClient, HttpTestingController],
       fakeAsync((svc: IiifManifestService, http: HttpClient, httpMock: HttpTestingController) => {
         let result: Manifest = null;
-        let error: any = null;
-
-        svc.currentManifest.subscribe(
-          (manifest: Manifest) => result = manifest,
-          (err: HttpErrorResponse) => error = err.error
-        );
+        let error: string = null;
 
         svc.load('dummyUrl');
+        svc.currentManifest.subscribe(
+          (manifest: Manifest) => result = manifest
+        );
 
-        httpMock.expectOne('dummyUrl').error(new ErrorEvent('ERROR', {error: 'Cannot /GET dummyUrl'}), {status: 404});
+        svc.errorMessage.subscribe(
+          (err: string) => error = err
+        );
+
+        httpMock.expectOne('dummyUrl').flush('Cannot /GET dummyUrl', {status: 404, statusText: 'NOT FOUND'});
         expect(result).toBeNull();
-        expect(error.error).toBe('Cannot /GET dummyUrl');
+        expect(error).toBe('Cannot /GET dummyUrl');
   })));
 });

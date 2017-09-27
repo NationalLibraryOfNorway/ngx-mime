@@ -27,7 +27,6 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from '../core/models/search-result';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { MimeViewerIntl } from '../core/viewer-intl';
 
 @Component({
@@ -76,6 +75,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest) => {
+          this.resetErrorMessage();
           this.currentManifest = manifest;
           this.cleanUp();
           this.changeDetectorRef.detectChanges();
@@ -87,8 +87,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           if (this.q) {
             this.iiifContentSearchService.search(manifest, this.q);
           }
-        }, (err: ErrorObservable) => {
-          this.errorMessage = err.error;
+        }
+      )
+    );
+
+    this.subscriptions.push(
+      this.iiifManifestService.errorMessage.subscribe(
+        (error: string) => {
+          this.resetCurrentManifest();
+          this.errorMessage = error;
           this.changeDetectorRef.detectChanges();
         }
       )
@@ -188,7 +195,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private loadManifest() {
-    this.errorMessage = null;
     this.iiifManifestService.load(this.manifestUri);
   }
 
@@ -198,6 +204,16 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
     this.iiifContentSearchService.destroy();
+  }
+
+  private resetCurrentManifest() {
+    this.iiifManifestService.resetCurrentManifest();
+    this.currentManifest = null;
+  }
+
+  private resetErrorMessage() {
+    this.iiifManifestService.resetErrorMessage();
+    this.errorMessage = null;
   }
 
   setClasses() {

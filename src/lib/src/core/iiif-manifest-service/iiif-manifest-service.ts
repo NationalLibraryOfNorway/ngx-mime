@@ -6,12 +6,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { MimeViewerIntl } from '../viewer-intl';
 
 @Injectable()
 export class IiifManifestService {
   protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(null);
+  protected _errorMessage: Subject<string> = new BehaviorSubject(null);
 
   constructor(public intl: MimeViewerIntl, private http: HttpClient) { }
 
@@ -19,15 +19,27 @@ export class IiifManifestService {
     return this._currentManifest.asObservable().filter(m => m !== null).distinctUntilChanged();
   }
 
+  get errorMessage(): Observable<string> {
+    return this._errorMessage.asObservable();
+  }
+
   load(manifestUri: string): void {
     if (manifestUri === null) {
-      this._currentManifest.error(new HttpErrorResponse({error: this.intl.manifestUriMissing}));
-    }
-    this.http.get(manifestUri)
-      .subscribe(
-      (res: Response) => this._currentManifest.next(this.extractData(res)),
-      (err: HttpErrorResponse) => this._currentManifest.error(this.handleError(err))
+      this._errorMessage.next(this.intl.manifestUriMissing);
+    } else {
+      this.http.get(manifestUri).subscribe(
+        (res: Response) => this._currentManifest.next(this.extractData(res)),
+        (err: HttpErrorResponse) => this._errorMessage.next(this.handleError(err))
       );
+    }
+  }
+
+  resetCurrentManifest() {
+    this._currentManifest.next(null);
+  }
+
+  resetErrorMessage() {
+    this._errorMessage.next(null);
   }
 
   destroy() {
@@ -38,14 +50,14 @@ export class IiifManifestService {
     return new ManifestBuilder(response).build();
   }
 
-  private handleError(err: HttpErrorResponse | any): ErrorObservable {
+  private handleError(err: HttpErrorResponse | any): string {
     let errMsg: string;
     if (err.error instanceof Error) {
       errMsg = err.error.message;
     } else {
       errMsg = err.error;
     }
-    return Observable.throw(errMsg);
+    return errMsg;
   }
 
 }

@@ -30,7 +30,7 @@ import { FullscreenService } from '../core/fullscreen-service/fullscreen.service
 import 'openseadragon';
 import '../rxjs-extension';
 
-describe('ViewerComponent', function () {
+xdescribe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
