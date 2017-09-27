@@ -41,7 +41,7 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-
+  private isAnimating: boolean;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
@@ -114,7 +114,11 @@ export class ViewerService implements OnInit {
       direction: 'previous',
       currentPageIndex: currentPageIndex,
     });
-    this.goToPage(newPageIndex);
+    if (this.isAnimating) {
+      setTimeout(() => this.goToPage(newPageIndex), ViewerOptions.transitions.OSDAnimationTime);
+    } else {
+      this.goToPage(newPageIndex);
+    }
   }
 
   public goToNextPage(): void {
@@ -129,7 +133,11 @@ export class ViewerService implements OnInit {
       direction: 'next',
       currentPageIndex: currentPageIndex,
     });
-    this.goToPage(newPageIndex);
+    if (this.isAnimating) {
+      setTimeout(() => this.goToPage(newPageIndex), ViewerOptions.transitions.OSDAnimationTime);
+    } else {
+      this.goToPage(newPageIndex);
+    }
   }
 
   public goToPage(pageIndex: number): void {
@@ -215,7 +223,8 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    this.viewer.addHandler('animation-start', () => { });
+    this.viewer.addHandler('animation-start', () => this.isAnimating = true);
+    this.viewer.addHandler('animation-end', () => this.isAnimating = false);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
     this.viewer.addHandler('canvas-press', (e: any) => {
