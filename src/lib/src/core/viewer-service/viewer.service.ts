@@ -48,7 +48,6 @@ export class ViewerService implements OnInit {
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
   private tileRects = new TileRects();
-  private currentMode: ViewerMode;
 
   constructor(
     private zone: NgZone,
@@ -204,7 +203,6 @@ export class ViewerService implements OnInit {
     });
     this.overlays = null;
     this.tileRects = new TileRects();
-    this.currentMode = null;
   }
 
   addEvents(): void {
