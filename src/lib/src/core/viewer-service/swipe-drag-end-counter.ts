@@ -14,8 +14,10 @@ export class SwipeDragEndCounter {
   public addHit(side: string) {
     if (side === 'left') {
       this.leftCount++;
+      this.rightCount = 0;
     } else if (side === 'right') {
       this.rightCount++;
+      this.leftCount = 0;
     }
   }
 
