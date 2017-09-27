@@ -41,7 +41,6 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  private isAnimating: boolean;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
@@ -103,9 +102,6 @@ export class ViewerService implements OnInit {
   }
 
   public goToPreviousPage(): void {
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      this.goToHomeZoom();
-    }
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
@@ -114,17 +110,10 @@ export class ViewerService implements OnInit {
       direction: 'previous',
       currentPageIndex: currentPageIndex,
     });
-    if (this.isAnimating) {
-      setTimeout(() => this.goToPage(newPageIndex), ViewerOptions.transitions.OSDAnimationTime);
-    } else {
-      this.goToPage(newPageIndex);
-    }
+    this.goToPage(newPageIndex);
   }
 
   public goToNextPage(): void {
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      this.goToHomeZoom();
-    }
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
@@ -133,20 +122,25 @@ export class ViewerService implements OnInit {
       direction: 'next',
       currentPageIndex: currentPageIndex,
     });
-    if (this.isAnimating) {
-      setTimeout(() => this.goToPage(newPageIndex), ViewerOptions.transitions.OSDAnimationTime);
-    } else {
-      this.goToPage(newPageIndex);
-    }
+    this.goToPage(newPageIndex);
   }
 
   public goToPage(pageIndex: number): void {
     if (!this.pageService.isWithinBounds(pageIndex)) {
       return;
     }
+
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
-    this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.goToHomeZoom();
+      setTimeout(() => {
+        this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+        this.modeService.mode = ViewerMode.PAGE;
+      }, ViewerOptions.transitions.OSDAnimationTime);
+    } else {
+      this.panTo(newPageCenter.centerX, newPageCenter.centerY)
+    }
   }
 
 
@@ -223,8 +217,6 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    this.viewer.addHandler('animation-start', () => this.isAnimating = true);
-    this.viewer.addHandler('animation-end', () => this.isAnimating = false);
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
     this.viewer.addHandler('canvas-press', (e: any) => {
@@ -612,17 +604,10 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
       this.goToPage(newPageIndex);
 
-    } else if (
-      this.modeService.mode === ViewerMode.PAGE_ZOOMED &&
-      newPageIndex !== this.pageService.currentPage) {
-
-      // Zoom out before we go to next page in zoomed-in-mode
-      this.modeService.mode = ViewerMode.PAGE;
-      this.toggleToPage();
-      setTimeout(() => {
-        this.goToPage(newPageIndex);
-      }, ViewerOptions.transitions.OSDAnimationTime);
+    } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED && newPageIndex !== this.pageService.currentPage) {
+      this.goToPage(newPageIndex);
     }
+
     this.swipeDragEndCounter.resetIfCountIsReached();
   }
 
