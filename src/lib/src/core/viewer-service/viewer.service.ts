@@ -133,13 +133,16 @@ export class ViewerService implements OnInit {
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      this.goToHomeZoom();
-      setTimeout(() => {
-        this.panTo(newPageCenter.centerX, newPageCenter.centerY);
-        this.modeService.mode = ViewerMode.PAGE;
-      }, ViewerOptions.transitions.OSDAnimationTime);
+      if (this.swipeDragEndCounter.shouldSwitchPage()) {
+        this.swipeDragEndCounter.resetIfCountIsReached();
+        this.goToHomeZoom();
+        setTimeout(() => {
+          this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+          this.modeService.mode = ViewerMode.PAGE;
+        }, ViewerOptions.transitions.OSDAnimationTime);
+      }
     } else {
-      this.panTo(newPageCenter.centerX, newPageCenter.centerY)
+      this.panTo(newPageCenter.centerX, newPageCenter.centerY);
     }
   }
 
@@ -589,26 +592,23 @@ export class ViewerService implements OnInit {
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
-    const pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
-    this.swipeDragEndCounter.addHit(pannedPastSide);
-    const forceNextPage: boolean = this.swipeDragEndCounter.shouldSwitchPage();
+    let pannedPastSide: string, pageEndHitCountReached: boolean;
+
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
+      this.swipeDragEndCounter.addHit(pannedPastSide);
+      pageEndHitCountReached = this.swipeDragEndCounter.shouldSwitchPage();
+    }
 
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       isPastCenter: isPanningPastCenter,
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,
-      forceNextPage: forceNextPage
+      pageEndHitCountReached: pageEndHitCountReached
     });
 
-    if (
-      (this.modeService.mode === ViewerMode.DASHBOARD) ||
-      (this.modeService.mode === ViewerMode.PAGE) ||
-      (this.modeService.mode === ViewerMode.PAGE_ZOOMED && newPageIndex !== this.pageService.currentPage)
-    ) {
-      this.goToPage(newPageIndex);
-    }
-    this.swipeDragEndCounter.resetIfCountIsReached();
+    this.goToPage(newPageIndex);
   }
 
   private panTo(x: number, y: number): void {

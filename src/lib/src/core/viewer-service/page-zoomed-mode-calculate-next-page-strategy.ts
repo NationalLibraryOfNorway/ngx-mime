@@ -8,9 +8,9 @@ export class PageZoomedModeCalculateNextPageStrategy implements CalculateNextPag
     const speed = criteria.speed;
     const direction = criteria.direction;
     const currentPageIndex = criteria.currentPageIndex;
-    const forceNextPage = criteria.forceNextPage;
+    const pageEndHitCountReached = criteria.pageEndHitCountReached;
 
-    let nextPage = (forceNextPage && speed >= 50) ? 1 : 0;
+    let nextPage = (pageEndHitCountReached && speed >= 50) ? 1 : 0;
 
     nextPage = direction === 'left' ? nextPage : nextPage * -1;
     nextPage = currentPageIndex + nextPage;
