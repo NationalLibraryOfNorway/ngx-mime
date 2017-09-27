@@ -203,7 +203,10 @@ export class ViewerService implements OnInit {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    this.viewer.addHandler('animation-finish', this.animationsEndCallback);
+    this.viewer.addHandler('animation-finish', () => {
+      this.animationsEndCallback();
+      this.currentCenter.next(this.viewer.viewport.getCenter(true));
+    });
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
     this.viewer.addHandler('canvas-press', (e: any) => {
@@ -216,9 +219,6 @@ export class ViewerService implements OnInit {
 
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
       this.swipeToPage(e);
-    });
-    this.viewer.addHandler('animation', (e: any) => {
-      this.currentCenter.next(this.viewer.viewport.getCenter(true));
     });
   }
 

@@ -27,4 +27,8 @@ export class MimeViewerIntl {
     return `${numberOfHits} results found for <em class="current-search">${q}</em>`;
   }
 
+  currentHitLabel = (currentHit: number, numberOfHits: number) => {
+    return `${currentHit} of ${numberOfHits} hits`;
+  }
+
 }

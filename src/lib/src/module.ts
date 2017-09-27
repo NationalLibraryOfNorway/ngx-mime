@@ -9,6 +9,7 @@ import { ContentSearchDialogModule } from './content-search-dialog/content-searc
 import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
+import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
 import './rxjs-extension';
@@ -20,7 +21,8 @@ import 'd3';
     ViewerComponent,
     ViewerHeaderComponent,
     ViewerFooterComponent,
-    OsdToolbarComponent
+    OsdToolbarComponent,
+    ContentSearchNavigatorComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -9,14 +9,15 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { SharedModule } from './../../shared/shared.module';
 import { ViewerFooterComponent } from './viewer-footer.component';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { PageService } from './../../core/page-service/page-service';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
-import { Observable } from 'rxjs/Observable';
+import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
@@ -31,6 +32,7 @@ describe('ViewerFooterComponent', () => {
         declarations: [ViewerFooterComponent],
         providers: [
           MimeViewerIntl,
+          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
           { provide: ViewerService, useClass: ViewerServiceMock },
           { provide: PageService, useClass: PageServiceMock }
         ]
@@ -194,4 +196,12 @@ class PageServiceMock {
   public getZoom(): number {
     return 0;
   }
+}
+
+class IiifContentSearchServiceMock {
+  _onChange = new Subject<number>();
+  get onChange(): Observable<number> {
+    return this._onChange.asObservable();
+  }
+
 }

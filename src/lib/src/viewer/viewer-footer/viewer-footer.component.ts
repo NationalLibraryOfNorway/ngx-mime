@@ -7,6 +7,8 @@ import { MimeViewerIntl } from './../../core/viewer-intl';
 import { CustomOptions } from '../../core/models/options-custom';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { PageService } from './../../core/page-service/page-service';
+import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
+import { SearchResult } from './../../core/models/search-result';
 
 @Component({
   selector: 'mime-viewer-footer',
@@ -34,22 +36,27 @@ import { PageService } from './../../core/page-service/page-service';
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
 
-  private subscriptions: Array<Subscription> = [];
   public state = 'show';
+  public showNavigationToolbar = true;
   public currentPage: number;
   public isFirstPage: boolean;
   public isLastPage: boolean;
   public numberOfPages: number;
   private currentSliderPage = -1;
+  public searchResult: SearchResult = null;
+  public hasContentSearchHits = false;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,
-    private pageService: PageService) { }
+    private pageService: PageService,
+    private iiifContentSearchService: IiifContentSearchService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
+
     this.subscriptions.push(this.viewerService
       .onPageChange
       .subscribe((currentPage: number) => {
@@ -62,6 +69,11 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
       this.isFirstPage = this.isOnFirstPage(currentPage);
       this.isLastPage = this.isOnLastPage(currentPage);
       this.changeDetectorRef.detectChanges();
+    }));
+
+    this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+      this.searchResult = sr;
+      this.hasContentSearchHits = sr.size() > 0;
     }));
   }
 
