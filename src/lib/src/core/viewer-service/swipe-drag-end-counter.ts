@@ -11,12 +11,6 @@ export class SwipeDragEndCounter {
     this.rightCount = 0;
   }
 
-  public resetIfCountIsReached(): void {
-    if (this.leftCount >= 2 || this.rightCount >= 2) {
-      this.reset();
-    }
-  }
-
   public addHit(side: string) {
     if (side === 'left') {
       this.leftCount++;
@@ -28,6 +22,4 @@ export class SwipeDragEndCounter {
   public shouldSwitchPage(): boolean {
     return this.leftCount >= 2 || this.rightCount >= 2;
   }
-
-
 }

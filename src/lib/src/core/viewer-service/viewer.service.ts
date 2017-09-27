@@ -134,7 +134,7 @@ export class ViewerService implements OnInit {
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       if (this.swipeDragEndCounter.shouldSwitchPage()) {
-        this.swipeDragEndCounter.resetIfCountIsReached();
+        this.swipeDragEndCounter.reset();
         this.goToHomeZoom();
         setTimeout(() => {
           this.panTo(newPageCenter.centerX, newPageCenter.centerY);
