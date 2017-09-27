@@ -17,6 +17,14 @@ export class SwipeUtils {
     }
   }
 
+  static getSideIfPanningPastEndOfPage(pageBounds: any, vpBounds: any): string {
+    if (vpBounds.x < pageBounds.x) {
+      return 'left';
+    } else if (vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width) {
+      return 'right';
+    }
+  }
+
   static isPanningOutsidePage(pageBounds: any, vpBounds: any): boolean {
     return this.isPanningOutsideLeft(pageBounds, vpBounds) || this.isPanningOutsideRight(pageBounds, vpBounds);
   }

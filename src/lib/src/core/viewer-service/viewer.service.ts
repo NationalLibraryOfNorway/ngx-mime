@@ -1,3 +1,4 @@
+
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -20,6 +21,8 @@ import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
 import { SearchResult } from './../models/search-result';
 import { Rect } from './../models/rect';
+import { SwipeDragEndCounter } from './swipe-drag-end-counter';
+
 
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
@@ -38,10 +41,9 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  public isCurrentPageFittedViewport = false;
-  public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
 
-  private zoomedInDragEndCount = 0;
+  public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+  private swipeDragEndCounter = new SwipeDragEndCounter();
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
@@ -264,6 +266,8 @@ export class ViewerService implements OnInit {
     } else if (mode === ViewerMode.PAGE) {
       this.setPageSettings();
     }
+    // Reset count when switching mode
+    this.swipeDragEndCounter.reset();
   }
 
   /**
@@ -549,6 +553,7 @@ export class ViewerService implements OnInit {
       const dragEndPosision = e.position;
       const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
       const vpBounds = this.viewer.viewport.getBounds();
+      const pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
       const direction = SwipeUtils.getZoomedInSwipeDirection(
         this.dragStartPosition.x,
         dragEndPosision.x,
@@ -556,8 +561,8 @@ export class ViewerService implements OnInit {
         dragEndPosision.y
       );
       if (
-        (SwipeUtils.isPanningOutsideLeft(pageBounds, vpBounds) && direction === 'right') ||
-        (SwipeUtils.isPanningOutsideRight(pageBounds, vpBounds) && direction === 'left')
+        (pannedPastSide === 'left' && direction === 'right') ||
+        (pannedPastSide === 'right' && direction === 'left')
       ) {
         this.viewer.panHorizontal = false;
       }
@@ -579,15 +584,16 @@ export class ViewerService implements OnInit {
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
-    const isPanningOutsidePage = SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds);
-    this.zoomedInDragEndCount = isPanningOutsidePage ? this.zoomedInDragEndCount + 1 : 0;
+    const pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
+    this.swipeDragEndCounter.addHit(pannedPastSide);
+    const forceNextPage: boolean = this.swipeDragEndCounter.shouldSwitchPage();
 
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       isPastCenter: isPanningPastCenter,
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,
-      forceNextPage: this.zoomedInDragEndCount === 2
+      forceNextPage: forceNextPage
     });
 
     if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
@@ -600,12 +606,11 @@ export class ViewerService implements OnInit {
       // Zoom out before we go to next page in zoomed-in-mode
       this.modeService.mode = ViewerMode.PAGE;
       this.toggleToPage();
-      // this.goToPage(this.pageService.currentPage);
       setTimeout(() => {
         this.goToPage(newPageIndex);
       }, CustomOptions.transitions.OSDAnimationTime);
     }
-    if (this.zoomedInDragEndCount === 2) { this.zoomedInDragEndCount = 0; }
+    this.swipeDragEndCounter.resetIfCountIsReached();
   }
 
   private panTo(x: number, y: number): void {
