@@ -1,6 +1,6 @@
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { IiifManifestService } from './iiif-manifest-service';
 import { Manifest } from '../models/manifest';
@@ -41,4 +41,31 @@ describe('IiifManifestService', () => {
 
   })));
 
+  it('should return error message if manifest url is missing',
+    inject([IiifManifestService, HttpClient, HttpTestingController],
+      fakeAsync((svc: IiifManifestService, http: HttpClient, httpMock: HttpTestingController) => {
+        let result: Manifest = null;
+        let error: string = null;
+
+        svc.load(null);
+        svc.currentManifest.subscribe(
+          (manifest: Manifest) => result = manifest,
+          (err: HttpErrorResponse) => error = err.error
+        );
+
+        httpMock.expectNone(null);
+        expect(result).toBeNull();
+        expect(error).toBe('ManifestUri is missing');
+    })));
+
+  it('should return error message if IiifManifestService could not load manifest',
+    inject([IiifManifestService, HttpClient, HttpTestingController],
+      fakeAsync((svc: IiifManifestService, http: HttpClient, httpMock: HttpTestingController) => {
+        let result: Manifest = null;
+
+        svc.load('dummyUrl');
+        svc.currentManifest.subscribe((manifest: Manifest) => {
+          result = manifest;
+        });
+  })));
 });
