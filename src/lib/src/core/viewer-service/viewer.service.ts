@@ -103,6 +103,9 @@ export class ViewerService implements OnInit {
   }
 
   public goToPreviousPage(): void {
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.goToHomeZoom();
+    }
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
@@ -115,6 +118,9 @@ export class ViewerService implements OnInit {
   }
 
   public goToNextPage(): void {
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.goToHomeZoom();
+    }
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
