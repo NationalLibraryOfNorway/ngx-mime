@@ -132,14 +132,12 @@ export class ViewerService implements OnInit {
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      if (this.swipeDragEndCounter.shouldSwitchPage()) {
-        this.swipeDragEndCounter.reset();
-        this.goToHomeZoom();
-        setTimeout(() => {
-          this.panTo(newPageCenter.centerX, newPageCenter.centerY);
-          this.modeService.mode = ViewerMode.PAGE;
-        }, ViewerOptions.transitions.OSDAnimationTime);
-      }
+      this.swipeDragEndCounter.reset();
+      this.goToHomeZoom();
+      setTimeout(() => {
+        this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+        this.modeService.mode = ViewerMode.PAGE;
+      }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
       this.panTo(newPageCenter.centerX, newPageCenter.centerY);
     }
@@ -273,8 +271,6 @@ export class ViewerService implements OnInit {
     } else if (mode === ViewerMode.PAGE) {
       this.setPageSettings();
     }
-    // Reset count when switching mode
-    this.swipeDragEndCounter.reset();
   }
 
   /**
@@ -599,8 +595,14 @@ export class ViewerService implements OnInit {
       currentPageIndex: currentPageIndex,
       pageEndHitCountReached: pageEndHitCountReached
     });
+    if (
+      this.modeService.mode === ViewerMode.DASHBOARD ||
+      this.modeService.mode === ViewerMode.PAGE ||
+      pageEndHitCountReached
+    ) {
+      this.goToPage(newPageIndex);
+    }
 
-    this.goToPage(newPageIndex);
   }
 
   private panTo(x: number, y: number): void {
