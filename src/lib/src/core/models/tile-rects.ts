@@ -12,10 +12,6 @@ export class TileRects {
     return {...this.tileRects[index]};
   }
 
-  public update(index: number, point: Point): void {
-    this.tileRects[index] = point;
-  }
-
   public findClosestIndex(point: Point): number {
     let i: number;
     let result: any;
@@ -31,5 +27,13 @@ export class TileRects {
       lastDelta = delta;
     });
     return i;
+  }
+
+  public getMaxHeight(): number {
+    return Math.max.apply(Math, this.tileRects.map(function(rect){return rect.height;}));
+  }
+
+  public getMaxWidth(): number {
+    return Math.max.apply(Math, this.tileRects.map(function(rect){return rect.width;}));
   }
 }

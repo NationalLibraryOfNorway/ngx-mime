@@ -435,12 +435,6 @@ export class ViewerService implements OnInit {
 
     this.tileSources.forEach((tile, i) => {
 
-      if (tile.height !== height) {
-        let heightChangeRatio = height / tile.height;
-        tile.height = height;
-        tile.width = Math.round(heightChangeRatio * tile.width);
-      }
-
       let currentY = center.y - tile.height / 2;
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
@@ -615,11 +609,38 @@ export class ViewerService implements OnInit {
 
 
   private fitBoundsInDashboardView(): void {
-    if (!this.viewer || !this.overlays) {
+    if (!this.viewer) {
+      return;
+    }
+    
+    this.zoomTo(this.getDashboardZoomLevel());
+  }
+  
+  private getDashboardZoomLevel(): number {
+    if (!this.viewer || !this.tileRects) {
       return;
     }
 
-    const container = d3.select(this.viewer.container.parentNode);
+    const viewportBounds = this.getDashboardViewportBounds();
+    const maxPageHeight = this.tileRects.getMaxHeight();
+    const maxPageWidth = this.tileRects.getMaxWidth();
+
+    const currentZoom: number = this.viewer.viewport.getZoom();
+    const resizeRatio: number = viewportBounds.height / maxPageHeight;
+    
+
+    if (resizeRatio * maxPageWidth <= viewportBounds.width) {
+      return this.shortenDecimals(resizeRatio * currentZoom, 5);
+    } else {
+      // Page at full height is wider than viewport.  Return fit by width instead.
+      return this.shortenDecimals(viewportBounds.width / maxPageWidth * currentZoom, 5);
+    }
+  }
+
+  private getDashboardViewportBounds(): any {
+    if (!this.viewer) {
+      return;
+    }
 
     const maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode).node().getBoundingClientRect());
     const viewportHeight = maxViewportDimensions.height - ViewerOptions.padding.header - ViewerOptions.padding.footer;
@@ -629,9 +650,8 @@ export class ViewerService implements OnInit {
       this.viewer.viewport.deltaPointsFromPixels(
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
-    const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-
-    this.goToHomeZoom(viewportBounds);
+    
+    return new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
   }
 
 
