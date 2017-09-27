@@ -9,6 +9,7 @@ export class PageMask {
   _transparentWindow: any;
 
   _disableResize = false;
+  _center: any;
 
 
   constructor(
@@ -17,6 +18,10 @@ export class PageMask {
     let self = this;
 
     this._viewer = viewer;
+
+    this._viewer.addHandler('animation', function () {
+      self.resize();
+    });
 
     this._viewer.addHandler('animation', function () {
       self.resize();
@@ -31,14 +36,15 @@ export class PageMask {
     });
 
     this._viewer.addHandler('canvas-drag-end', function () {
-      setTimeout(() => {
         self._disableResize = false;
-        self.changeBounds();
-      }, 300);
+        self.resize();
     });
   }
 
   public initialise(pageBounds: any): void {
+    this._pageBounds = pageBounds;
+    this._center = this._viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
+    
     this._root = d3.select(this._viewer.canvas).append('svg')
       .attr('position', 'absolute')
       .attr('left', '0')
@@ -72,10 +78,8 @@ export class PageMask {
       .style('fill', '#ffffff');
 
     this._transparentWindow = mask.append('rect')
-      .attr('width', pageBounds.width.baseVal.value)
-      .attr('height', pageBounds.height.baseVal.value)
-      .attr('x', pageBounds.x.baseVal.value)
-      .attr('y', pageBounds.y.baseVal.value)
+      .attr('height', '100%')
+      .attr('y', 0)
       .style('fill', '#000000');
 
     this.resize();
@@ -83,7 +87,7 @@ export class PageMask {
 
   public changePage(pageBounds: any) {
     this._pageBounds = pageBounds;
-    this.changeBounds();
+    this.resize();
   }
 
   public show() {
@@ -93,31 +97,16 @@ export class PageMask {
   public hide() {
     this._cover.style('fill-opacity', '0');
   }
-  
-  private changeBounds() {
-    if (!this._transparentWindow || this._disableResize) {
-      return;
-    }
-    
-    this._transparentWindow.attr('width', this._pageBounds.width.baseVal.value)
-      .attr('height', this._pageBounds.height.baseVal.value)
-      .attr('x', this._pageBounds.x.baseVal.value)
-      .attr('y', this._pageBounds.y.baseVal.value);
-
-    this.resize();
-  }
 
   private resize() {
     if (!this._transparentWindow || this._disableResize) {
       return;
     }
-
-    let p = this._viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
+    
     let zoom = this._viewer.viewport.getZoom(true);
     let scale = this._viewer.viewport._containerInnerSize.x * zoom;
 
-    this._transparentWindow.attr('transform',
-      'translate(' + p.x + ',' + p.y + ') scale(' + scale + ')');
-
+    this._transparentWindow.attr('width', this._pageBounds.width.baseVal.value * scale)
+      .attr('x', this._center.x - (this._pageBounds.width.baseVal.value * scale / 2));
   }
 }
