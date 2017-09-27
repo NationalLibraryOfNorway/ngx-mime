@@ -585,7 +585,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
       this.swipeDragEndCounter.addHit(pannedPastSide);
-      pageEndHitCountReached = this.swipeDragEndCounter.shouldSwitchPage();
+      pageEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
     }
 
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({

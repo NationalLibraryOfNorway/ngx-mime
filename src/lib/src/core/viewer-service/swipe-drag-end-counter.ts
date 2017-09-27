@@ -19,7 +19,7 @@ export class SwipeDragEndCounter {
     }
   }
 
-  public shouldSwitchPage(): boolean {
+  public hitCountReached(): boolean {
     return this.leftCount >= 2 || this.rightCount >= 2;
   }
 }
