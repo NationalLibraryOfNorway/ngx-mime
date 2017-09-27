@@ -266,7 +266,11 @@ export class ViewerService implements OnInit {
    * @param mode ViewerMode
    */
   setSettings(mode: ViewerMode) {
-    if (mode === ViewerMode.PAGE_ZOOMED) {
+    if (mode === ViewerMode.DASHBOARD) {
+      this.viewer.panVertical = false;
+    } else if (mode === ViewerMode.PAGE) {
+      this.viewer.panVertical = false;
+    } else if (mode === ViewerMode.PAGE_ZOOMED) {
       this.viewer.panVertical = true;
     }
   }
