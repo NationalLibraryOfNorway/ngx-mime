@@ -447,7 +447,7 @@ export class ViewerService implements OnInit {
       if (tile.height !== height) {
         let heightChangeRatio = height / tile.height;
         tile.height = height;
-        tile.width = heightChangeRatio * tile.width;
+        tile.width = Math.round(heightChangeRatio * tile.width);
       }
 
       let currentY = center.y - tile.height / 2;
@@ -482,7 +482,7 @@ export class ViewerService implements OnInit {
         height: tile.height
       }));
 
-      currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginPageView;
+      currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
     });
   }
 
