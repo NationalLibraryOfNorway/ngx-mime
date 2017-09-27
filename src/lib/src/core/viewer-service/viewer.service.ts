@@ -14,7 +14,6 @@ import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
-import { PagePositionUtils } from './page-position-utils';
 import { SwipeUtils } from './swipe-utils';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
@@ -301,10 +300,6 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
     this.fitBoundsInDashboardView();
-
-    PagePositionUtils.updatePagePositions(
-      this.viewer, this.pageService.currentPage, ViewerOptions.overlays.pageMarginDashboardView, this.overlays, this.tileRects
-    );
   }
 
   /**
@@ -316,9 +311,6 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.PAGE;
     this.fitBounds(this.overlays[this.pageService.currentPage]);
-
-    PagePositionUtils.updatePagePositions(
-      this.viewer, this.pageService.currentPage, ViewerOptions.overlays.pageMarginPageView, this.overlays, this.tileRects);
   }
 
   /**
