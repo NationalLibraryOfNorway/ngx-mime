@@ -28,6 +28,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from '../core/models/search-result';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { MimeViewerIntl } from '../core/viewer-intl';
 
 @Component({
   selector: 'mime-viewer',
@@ -52,6 +53,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('mimeOsdToolbar') osdToolbar: OsdToolbarComponent;
 
   constructor(
+    public intl: MimeViewerIntl,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,

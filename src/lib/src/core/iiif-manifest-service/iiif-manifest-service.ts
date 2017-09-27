@@ -7,12 +7,13 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { MimeViewerIntl } from '../viewer-intl';
 
 @Injectable()
 export class IiifManifestService {
   protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(public intl: MimeViewerIntl, private http: HttpClient) { }
 
   get currentManifest(): Observable<Manifest> {
     return this._currentManifest.asObservable().filter(m => m !== null).distinctUntilChanged();
@@ -20,7 +21,7 @@ export class IiifManifestService {
 
   load(manifestUri: string): void {
     if (manifestUri === null) {
-      this._currentManifest.error(new HttpErrorResponse({error: 'ManifestUri is missing'}));
+      this._currentManifest.error(new HttpErrorResponse({error: this.intl.manifestUriMissing}));
     }
     this.http.get(manifestUri)
       .subscribe(

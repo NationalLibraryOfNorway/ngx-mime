@@ -7,6 +7,7 @@ import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { testManifest } from '../../test/testManifest';
 import '../../rxjs-extension';
+import { MimeViewerIntl } from '../viewer-intl';
 
 describe('IiifManifestService', () => {
   beforeEach(() => {
@@ -15,7 +16,8 @@ describe('IiifManifestService', () => {
         HttpClientTestingModule
       ],
       providers: [
-        IiifManifestService
+        IiifManifestService,
+        MimeViewerIntl
       ]
     });
   });
