@@ -612,10 +612,10 @@ export class ViewerService implements OnInit {
     if (!this.viewer) {
       return;
     }
-    
+
     this.zoomTo(this.getDashboardZoomLevel());
   }
-  
+
   private getDashboardZoomLevel(): number {
     if (!this.viewer || !this.tileRects) {
       return;
@@ -627,7 +627,7 @@ export class ViewerService implements OnInit {
 
     const currentZoom: number = this.viewer.viewport.getZoom();
     const resizeRatio: number = viewportBounds.height / maxPageHeight;
-    
+
 
     if (resizeRatio * maxPageWidth <= viewportBounds.width) {
       return this.shortenDecimals(resizeRatio * currentZoom, 5);
@@ -650,7 +650,7 @@ export class ViewerService implements OnInit {
       this.viewer.viewport.deltaPointsFromPixels(
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
-    
+
     return new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
   }
 
