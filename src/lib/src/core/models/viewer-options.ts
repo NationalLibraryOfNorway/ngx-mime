@@ -2,7 +2,7 @@
  * Custom options not related to the OpenSeadragon-Viewer-object
 ****************************************************************/
 
-export const CustomOptions = {
+export const ViewerOptions = {
   zoom: {
     zoomFactor: 0.0002,
     dblClickZoomFactor: 0.00045

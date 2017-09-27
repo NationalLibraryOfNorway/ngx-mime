@@ -1,4 +1,4 @@
-import { CustomOptions } from '../models/options-custom';
+import { ViewerOptions } from '../models/viewer-options';
 import { SwipeUtils } from './swipe-utils';
 
 describe('SwipeUtils ', () => {

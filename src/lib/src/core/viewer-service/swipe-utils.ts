@@ -1,4 +1,4 @@
-import { CustomOptions } from '../models/options-custom';
+import { ViewerOptions } from '../models/viewer-options';
 export class SwipeUtils {
 
   static getSwipeDirection(start: number, end: number) {
@@ -10,9 +10,9 @@ export class SwipeUtils {
     const deltaX = Math.abs(startX - endX);
     const deltaY = Math.abs(startY - endY);
 
-    if (startX > endX && (deltaX - CustomOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
+    if (startX > endX && (deltaX - ViewerOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
       return 'left';
-    } else if (startX < endX && (deltaX - CustomOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
+    } else if (startX < endX && (deltaX - ViewerOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
       return 'right';
     }
   }

@@ -7,7 +7,7 @@ import { Injectable, NgZone, OnInit } from '@angular/core';
 
 import { Utils } from '../../core/utils';
 import { TileRects } from './../models/tile-rects';
-import { CustomOptions } from '../models/options-custom';
+import { ViewerOptions } from '../models/viewer-options';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Dimensions } from '../models/dimensions';
 import { Manifest, Service } from '../models/manifest';
@@ -232,7 +232,7 @@ export class ViewerService implements OnInit {
 
 
   zoomIn(dblClickZoom?: boolean): void {
-    const zoomFactor = dblClickZoom ? CustomOptions.zoom.dblClickZoomFactor : CustomOptions.zoom.zoomFactor;
+    const zoomFactor = dblClickZoom ? ViewerOptions.zoom.dblClickZoomFactor : ViewerOptions.zoom.zoomFactor;
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
@@ -243,7 +243,7 @@ export class ViewerService implements OnInit {
     if (this.isViewportLargerThanPage()) {
       this.toggleToPage();
     } else {
-      this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
+      this.zoomTo(this.getZoom() - ViewerOptions.zoom.zoomFactor);
     }
   }
 
@@ -252,7 +252,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor, position);
+    this.zoomTo(this.getZoom() + ViewerOptions.zoom.zoomFactor, position);
   }
 
 
@@ -295,7 +295,7 @@ export class ViewerService implements OnInit {
     this.fitBoundsInDashboardView();
 
     PagePositionUtils.updatePagePositions(
-      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.tileRects
+      this.viewer, this.pageService.currentPage, ViewerOptions.overlays.pageMarginDashboardView, this.overlays, this.tileRects
     );
   }
 
@@ -310,7 +310,7 @@ export class ViewerService implements OnInit {
     this.fitBounds(this.overlays[this.pageService.currentPage]);
 
     PagePositionUtils.updatePagePositions(
-      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.tileRects);
+      this.viewer, this.pageService.currentPage, ViewerOptions.overlays.pageMarginPageView, this.overlays, this.tileRects);
   }
 
   /**
@@ -477,7 +477,7 @@ export class ViewerService implements OnInit {
         height: tile.height
       }));
 
-      currentX = currentX + tile.width + CustomOptions.overlays.pageMarginPageView;
+      currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginPageView;
     });
   }
 
@@ -485,7 +485,7 @@ export class ViewerService implements OnInit {
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
-    d3.select(this.viewer.container.parentNode).transition().duration(CustomOptions.transitions.OSDAnimationTime).style('opacity', '1');
+    d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
   /**
@@ -608,7 +608,7 @@ export class ViewerService implements OnInit {
       this.toggleToPage();
       setTimeout(() => {
         this.goToPage(newPageIndex);
-      }, CustomOptions.transitions.OSDAnimationTime);
+      }, ViewerOptions.transitions.OSDAnimationTime);
     }
     this.swipeDragEndCounter.resetIfCountIsReached();
   }
@@ -630,7 +630,7 @@ export class ViewerService implements OnInit {
     const container = d3.select(this.viewer.container.parentNode);
 
     const maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode).node().getBoundingClientRect());
-    const viewportHeight = maxViewportDimensions.height - CustomOptions.padding.header - CustomOptions.padding.footer;
+    const viewportHeight = maxViewportDimensions.height - ViewerOptions.padding.header - ViewerOptions.padding.footer;
     const viewportWidth = maxViewportDimensions.width;
 
     const viewportSizeInViewportCoordinates =

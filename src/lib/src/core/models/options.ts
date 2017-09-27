@@ -1,4 +1,4 @@
-import { CustomOptions } from './options-custom';
+import { ViewerOptions } from './viewer-options';
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
@@ -49,7 +49,7 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = CustomOptions.transitions.OSDAnimationTime / 1000;
+  animationTime = ViewerOptions.transitions.OSDAnimationTime / 1000;
   gestureSettingsMouse = new GestureSettingsMouse();
   gestureSettingsTouch = new GestureSettingsTouch();
   gestureSettingsPen = new GestureSettingsPen();
