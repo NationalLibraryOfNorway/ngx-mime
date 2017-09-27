@@ -47,13 +47,14 @@ describe('IiifManifestService', () => {
         let result: Manifest = null;
         let error: string = null;
 
-        svc.load(null);
         svc.currentManifest.subscribe(
           (manifest: Manifest) => result = manifest,
           (err: HttpErrorResponse) => error = err.error
         );
 
-        httpMock.expectNone(null);
+        svc.load(null);
+
+        httpMock.expectNone('');
         expect(result).toBeNull();
         expect(error).toBe('ManifestUri is missing');
     })));
@@ -62,10 +63,17 @@ describe('IiifManifestService', () => {
     inject([IiifManifestService, HttpClient, HttpTestingController],
       fakeAsync((svc: IiifManifestService, http: HttpClient, httpMock: HttpTestingController) => {
         let result: Manifest = null;
+        let error: any = null;
+
+        svc.currentManifest.subscribe(
+          (manifest: Manifest) => result = manifest,
+          (err: HttpErrorResponse) => error = err.error
+        );
 
         svc.load('dummyUrl');
-        svc.currentManifest.subscribe((manifest: Manifest) => {
-          result = manifest;
-        });
+
+        httpMock.expectOne('dummyUrl').error(new ErrorEvent('ERROR', {error: 'Cannot /GET dummyUrl'}), {status: 404});
+        expect(result).toBeNull();
+        expect(error.error).toBe('Cannot /GET dummyUrl');
   })));
 });
