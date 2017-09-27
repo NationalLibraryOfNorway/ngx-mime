@@ -601,13 +601,13 @@ export class ViewerService implements OnInit {
       forceNextPage: forceNextPage
     });
 
-    if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
-      this.goToPage(newPageIndex);
-
-    } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED && newPageIndex !== this.pageService.currentPage) {
+    if (
+      (this.modeService.mode === ViewerMode.DASHBOARD) ||
+      (this.modeService.mode === ViewerMode.PAGE) ||
+      (this.modeService.mode === ViewerMode.PAGE_ZOOMED && newPageIndex !== this.pageService.currentPage)
+    ) {
       this.goToPage(newPageIndex);
     }
-
     this.swipeDragEndCounter.resetIfCountIsReached();
   }
 
