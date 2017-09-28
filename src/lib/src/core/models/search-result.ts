@@ -21,9 +21,9 @@ export class SearchResult {
   }
 
   public get(index: number): Hit {
-    return {
+    return new Hit({
       ...this.hits[index]
-    };
+    });
   }
 
   public size(): number {

@@ -1,9 +1,10 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 
 import { SearchResult } from './../../../core/models/search-result';
-import { Hit } from './../../../core/models/iiif-search-result';
+import { Hit } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from './../../../core/viewer-intl';
 
@@ -39,7 +40,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
         this.currentIndex = this.findCurrentHitIndex(canvasIndex);
         this.isHitOnActivePage = this.searchResult.get(this.currentIndex).index === canvasIndex;
         this.isFirstHitPage = this.currentIndex <= 0;
-  
+
         const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1).index;
         const currentHit = this.searchResult.get(this.currentIndex);
         this.isLastHitPage = currentHit.index === lastCanvasIndex;
@@ -76,24 +77,30 @@ export class ContentSearchNavigatorComponent implements OnInit {
   }
 
   goToPreviousHitPage() {
+    let hit: Hit;
     if (this.isHitOnActivePage) {
-      const hit = this.searchResult.get(this.currentIndex - 1);
-      this.viewerService.goToPage(hit.index);
+      hit = this.searchResult.get(this.currentIndex - 1);
     } else {
-      const hit = this.searchResult.get(this.currentIndex);
+      hit = this.searchResult.get(this.currentIndex);
+    }
+    if (hit) {
+      this.currentIndex = this.findCurrentHitIndex(hit.index);
       this.viewerService.goToPage(hit.index);
     }
     this.changeDetectorRef.detectChanges();
   }
 
   goToNextHitPage() {
+    let hit: Hit;
     if (this.currentIndex === -1) {
-      const first = this.searchResult.get(0);
-      this.viewerService.goToPage(first.index);
+      hit = this.searchResult.get(0);
     } else {
       const current = this.searchResult.get(this.currentIndex);
-      const next = this.searchResult.hits.find(h => h.index > current.index);
-      this.viewerService.goToPage(next.index);
+      hit = this.searchResult.hits.find(h => h.index > current.index);
+    }
+    if (hit) {
+      this.currentIndex = this.findCurrentHitIndex(hit.index);
+      this.viewerService.goToPage(hit.index);
     }
     this.changeDetectorRef.detectChanges();
   }
