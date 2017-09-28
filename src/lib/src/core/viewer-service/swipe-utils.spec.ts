@@ -1,4 +1,4 @@
-import { CustomOptions } from '../models/options-custom';
+import { ViewerOptions } from '../models/viewer-options';
 import { SwipeUtils } from './swipe-utils';
 
 describe('SwipeUtils ', () => {
@@ -11,6 +11,21 @@ describe('SwipeUtils ', () => {
   it('should return left', () => {
     const direction = SwipeUtils.getSwipeDirection(100, 0);
     expect(direction).toBe('left');
+  });
+
+  it('should return left on zoomed-in-swipe', () => {
+    const direction = SwipeUtils.getZoomedInSwipeDirection(100, 0, 50, 50);
+    expect(direction).toBe('left');
+  });
+
+  it('should return right on zoomed-in-swipe', () => {
+    const direction = SwipeUtils.getZoomedInSwipeDirection(0, 100, 50, 50);
+    expect(direction).toBe('right');
+  });
+
+  it('should return undefined on zoomed-in-swipe', () => {
+    const direction = SwipeUtils.getZoomedInSwipeDirection(0, 0, 50, 0);
+    expect(direction).toBe(undefined);
   });
 
   it('should return true when panning outside right page-bounds', () => {

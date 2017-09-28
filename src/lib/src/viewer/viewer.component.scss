@@ -21,11 +21,9 @@
 }
 
 #openseadragon {
-  box-sizing: border-box;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  margin: 0 auto;
   opacity: 0;
   width: 100%;
 }
@@ -37,8 +35,8 @@
 }
 
 .viewer-container >>>.tile:hover {
-  // stroke: #08f;
-  // stroke-width: 10;
+  stroke: #08f;
+  stroke-width: 10;
   cursor: pointer;
 }
 

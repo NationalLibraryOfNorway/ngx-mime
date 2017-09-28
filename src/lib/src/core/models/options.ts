@@ -1,4 +1,4 @@
-import { CustomOptions } from './options-custom';
+import { ViewerOptions } from './viewer-options';
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
@@ -29,7 +29,7 @@ export class Options {
   maxZoomLevel: number = null;
   homeFillsViewer = false;
   panHorizontal = true;
-  panVertical = true;
+  panVertical = false;
   constrainDuringPan = true;
   wrapHorizontal = false;
   wrapVertical = false;
@@ -49,13 +49,13 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = CustomOptions.transitions.OSDAnimationTime / 1000;
+  animationTime = ViewerOptions.transitions.OSDAnimationTime / 1000;
   gestureSettingsMouse = new GestureSettingsMouse();
   gestureSettingsTouch = new GestureSettingsTouch();
   gestureSettingsPen = new GestureSettingsPen();
   gestureSettingsUnknown = new GestureSettingsUnknown();
   zoomPerClick = 2.0;
-  zoomPerScroll = 1.1;
+  zoomPerScroll = 1.2;
   zoomPerSecond = 1.0;
   showNavigator = false;
   navigatorId: string;

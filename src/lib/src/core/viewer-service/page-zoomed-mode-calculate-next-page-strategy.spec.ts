@@ -13,7 +13,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
       speed: 45,
       direction: 'left',
       currentPageIndex: 1,
-      forceNextPage: true
+      pageEndHitCountReached: true
     });
 
     expect(res).toBe(1);
@@ -24,7 +24,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
       speed: 200,
       direction: 'left',
       currentPageIndex: 1,
-      forceNextPage: false
+      pageEndHitCountReached: false
     });
 
     expect(res).toBe(1);
@@ -35,7 +35,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
       speed: 50,
       direction: 'left',
       currentPageIndex: 1,
-      forceNextPage: true
+      pageEndHitCountReached: true
     });
 
     expect(res).toBe(2);
@@ -46,7 +46,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
       speed: 50,
       direction: 'right',
       currentPageIndex: 2,
-      forceNextPage: true
+      pageEndHitCountReached: true
     });
 
     expect(res).toBe(1);

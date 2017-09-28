@@ -1,9 +1,9 @@
-import { PageZoomedModeCalculateNextPageStrategy } from './page-zoomed-mode-calculate-next-page-strategy';
 import { NavigatorCalculateNextPageStrategy } from './navigator-calculate-next-page-strategy';
 import { CalculateNextPageStrategy } from './calculate-next-page-strategy';
 import { ViewerMode } from '../models/viewer-mode';
 import { DashboardModeCalculateNextPageStrategy } from './dashboard-mode-calculate-next-page-strategy';
 import { PageModeCalculateNextPageStrategy } from './page-mode-calculate-next-page-strategy';
+import { PageZoomedModeCalculateNextPageStrategy } from './page-zoomed-mode-calculate-next-page-strategy';
 
 export class CalculateNextPageFactory {
 

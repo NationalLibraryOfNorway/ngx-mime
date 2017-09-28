@@ -2,16 +2,15 @@
  * Custom options not related to the OpenSeadragon-Viewer-object
 ****************************************************************/
 
-export const CustomOptions = {
+export const ViewerOptions = {
   zoom: {
     zoomFactor: 0.0002,
     dblClickZoomFactor: 0.00045
   },
 
   pan: {
-    // How many pixels before we reach end of page.
-    // Used to determine if we are dragging outside of current page
-    sensitivityMargin: 40
+    // Sensitivity when determining zoomed-in-swipe-direction.
+    swipeDirectionZoomedThreshold: 20
   },
 
   // All transition times in milliseconds

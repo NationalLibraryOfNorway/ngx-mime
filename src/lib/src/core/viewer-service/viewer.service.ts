@@ -1,21 +1,19 @@
+
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 
-import { PanDirection } from '../models/pan-direction';
-
 import { Utils } from '../../core/utils';
 import { TileRects } from './../models/tile-rects';
-import { CustomOptions } from '../models/options-custom';
+import { ViewerOptions } from '../models/viewer-options';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Dimensions } from '../models/dimensions';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
-import { PagePositionUtils } from './page-position-utils';
 import { SwipeUtils } from './swipe-utils';
 import { PageMask } from './page-mask';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
@@ -23,6 +21,8 @@ import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
 import { SearchResult } from './../models/search-result';
 import { Rect } from './../models/rect';
+import { SwipeDragEndCounter } from './swipe-drag-end-counter';
+
 
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
@@ -41,20 +41,13 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  private containerPadding: ReplaySubject<Dimensions> = new ReplaySubject();
-  private pageMask: PageMask;
-
-  public isCurrentPageFittedViewport = false;
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
-
-  private zoomedInDragEndCount = 0;
-
-
+  private pageMask: PageMask;
+  private swipeDragEndCounter = new SwipeDragEndCounter();
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
   private tileRects = new TileRects();
-  private currentMode: ViewerMode;
 
   constructor(
     private zone: NgZone,
@@ -70,10 +63,6 @@ export class ViewerService implements OnInit {
 
   get onPageChange(): Observable<number> {
     return this.currentPageIndex.asObservable().distinctUntilChanged();
-  }
-
-  get onPaddingChange(): Observable<Dimensions> {
-    return this.containerPadding.asObservable();
   }
 
   public getViewer(): any {
@@ -141,16 +130,23 @@ export class ViewerService implements OnInit {
     if (!this.pageService.isWithinBounds(pageIndex)) {
       return;
     }
+
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
-    this.panTo(newPageCenter.centerX, newPageCenter.centerY);
-
-    this.pageMask.changePage(this.overlays[pageIndex]);
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.swipeDragEndCounter.reset();
+      this.goToHomeZoom();
+      setTimeout(() => {
+        this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+        this.pageMask.changePage(this.overlays[pageIndex]);
+        this.modeService.mode = ViewerMode.PAGE;
+      }, ViewerOptions.transitions.OSDAnimationTime);
+    } else {
+      this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+      this.pageMask.changePage(this.overlays[pageIndex]);
+    }
   }
 
-  public updatePadding(padding: Dimensions): void {
-    this.containerPadding.next(padding);
-  }
 
   public highlight(searchResult: SearchResult): void {
     this.clearHightlight();
@@ -201,9 +197,6 @@ export class ViewerService implements OnInit {
         this.calculateCurrentPage(center);
       }));
 
-      this.subscriptions.push(this.onPaddingChange.throttle(val => Observable.interval(500)).subscribe((padding: Dimensions) => {
-        this.paddingChanged(padding);
-      }));
       this.addToWindow();
       this.createOverlays();
       this.addEvents();
@@ -223,47 +216,24 @@ export class ViewerService implements OnInit {
     });
     this.overlays = null;
     this.tileRects = new TileRects();
-    this.currentMode = null;
   }
 
   addEvents(): void {
     this.clickService.reset();
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
-    this.viewer.addHandler('animation-start', () => { });
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
     this.viewer.addHandler('canvas-press', (e: any) => {
       this.dragStartPosition = e.position;
       this.isCanvasPressed.next(true);
-
     });
-    this.viewer.addHandler('canvas-release', () => {
-      this.isCanvasPressed.next(false);
-    });
+    this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
     this.viewer.addHandler('canvas-scroll', this.scrollHandler);
     this.viewer.addHandler('canvas-pinch', this.pinchHandler);
 
-    this.viewer.addHandler('canvas-drag-end', (e: any) => {
-      this.swipeToPage(e);
-    });
-
-    this.viewer.addHandler('canvas-drag', (e: any) => {
-      this.viewer.panHorizontal = true;
-      if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-        const dragEndPosision = e.position;
-        const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
-        const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-        const vpBounds = this.viewer.viewport.getBounds();
-        if (
-          (SwipeUtils.isPanningOutsideLeft(pageBounds, vpBounds) && direction === 'right') ||
-          (SwipeUtils.isPanningOutsideRight(pageBounds, vpBounds) && direction === 'left')
-        ) {
-          this.viewer.panHorizontal = false;
-        }
-      }
-
-    });
+    this.viewer.addHandler('canvas-drag', (e: any) => this.dragHandler(e));
+    this.viewer.addHandler('canvas-drag-end', (e: any) => this.swipeToPage(e));
 
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
@@ -272,7 +242,7 @@ export class ViewerService implements OnInit {
 
 
   zoomIn(dblClickZoom?: boolean): void {
-    const zoomFactor = dblClickZoom ? CustomOptions.zoom.dblClickZoomFactor : CustomOptions.zoom.zoomFactor;
+    const zoomFactor = dblClickZoom ? ViewerOptions.zoom.dblClickZoomFactor : ViewerOptions.zoom.zoomFactor;
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
@@ -283,7 +253,7 @@ export class ViewerService implements OnInit {
     if (this.isViewportLargerThanPage()) {
       this.toggleToPage();
     } else {
-      this.zoomTo(this.getZoom() - CustomOptions.zoom.zoomFactor);
+      this.zoomTo(this.getZoom() - ViewerOptions.zoom.zoomFactor);
     }
   }
 
@@ -292,7 +262,7 @@ export class ViewerService implements OnInit {
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    this.zoomTo(this.getZoom() + CustomOptions.zoom.zoomFactor, position);
+    this.zoomTo(this.getZoom() + ViewerOptions.zoom.zoomFactor, position);
   }
 
   /**
@@ -301,24 +271,12 @@ export class ViewerService implements OnInit {
    */
   setSettings(mode: ViewerMode) {
     if (mode === ViewerMode.DASHBOARD) {
-      this.setDashboardSettings();
+      this.viewer.panVertical = false;
     } else if (mode === ViewerMode.PAGE) {
-      this.setPageSettings();
+      this.viewer.panVertical = false;
+    } else if (mode === ViewerMode.PAGE_ZOOMED) {
+      this.viewer.panVertical = true;
     }
-  }
-
-  /**
-   * Set settings for dashboard-mode
-   */
-  setDashboardSettings(): void {
-    this.viewer.panVertical = false;
-  }
-
-  /**
-   * Set settings for page-mode
-   */
-  setPageSettings(): void {
-    this.viewer.panVertical = true;
   }
 
   /**
@@ -329,14 +287,10 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
+
+    this.fitBoundsInDashboardView();
     this.goToPage(this.pageService.currentPage);
     this.pageMask.hide();
-
-    PagePositionUtils.updatePagePositions(
-      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginDashboardView, this.overlays, this.tileRects
-    );
-
-    d3.select(this.viewer.container.parentNode).style('max-width', '');
   }
 
   /**
@@ -347,17 +301,13 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
+    this.fitBounds(this.overlays[this.pageService.currentPage]);
     this.goToPage(this.pageService.currentPage);
     this.pageMask.show();
-
-    PagePositionUtils.updatePagePositions(
-      this.viewer, this.pageService.currentPage, CustomOptions.overlays.pageMarginPageView, this.overlays, this.tileRects);
   }
 
   /**
-   * Scroll-toggle-handler
-   * Scroll-up dashboard-mode: Toggle page-mode
-   * Scroll-down page-mode: Toggle dashboard-mode if page is at min-zoom
+   * Scroll-handler
    */
   scrollHandler = (e: any) => {
     const event = e.originalEvent;
@@ -372,10 +322,8 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Pinch-toggle-handler
-   * Pinch-out dashboard-mode: Toggles page-mode
-   * Pinch-in page-mode: Toggles dashboard-mode if page is at min-zoom
-   */
+   * Pinch-handler
+  */
   pinchHandler = (e: any) => {
     // Pinch Out
     if (e.distance > e.lastDistance) {
@@ -386,6 +334,10 @@ export class ViewerService implements OnInit {
     }
   }
 
+  /**
+   *
+   * @param {Point} point to zoom to. If not set, the viewer will zoom to center
+   */
   zoomInGesture(position?: Point): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.toggleToPage();
@@ -409,7 +361,7 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Adds single-click-handler
+   * Single-click-handler
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
@@ -434,7 +386,6 @@ export class ViewerService implements OnInit {
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
-      // this.zoomTo(this.getZoom() * this.options.zoomPerClick);
       this.zoomIn(true);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
@@ -444,14 +395,6 @@ export class ViewerService implements OnInit {
       }
       this.toggleToPage();
     }
-  }
-
-
-  isPageFittedOrSmaller(): boolean {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    const viewportBounds = this.viewer.viewport.getBounds();
-    return (pageBounds.width <= viewportBounds.width)
-      || (pageBounds.height <= viewportBounds.height);
   }
 
   isViewportLargerThanPage(): boolean {
@@ -466,7 +409,7 @@ export class ViewerService implements OnInit {
 
   /**
    * Checks if hit element is a <rect>-element
-   * @param target
+   * @param {HTMLElement} target
    */
   isPageHit(target: HTMLElement): boolean {
     return target instanceof SVGRectElement;
@@ -488,12 +431,6 @@ export class ViewerService implements OnInit {
     const initialPage = 0;
 
     this.tileSources.forEach((tile, i) => {
-
-      if (tile.height !== height) {
-        let heightChangeRatio = height / tile.height;
-        tile.height = height;
-        tile.width = heightChangeRatio * tile.width;
-      }
 
       let currentY = center.y - tile.height / 2;
       this.zone.runOutsideAngular(() => {
@@ -527,7 +464,7 @@ export class ViewerService implements OnInit {
         height: tile.height
       }));
 
-      currentX = currentX + tile.width + CustomOptions.overlays.pageMarginPageView;
+      currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
     });
   }
 
@@ -536,7 +473,7 @@ export class ViewerService implements OnInit {
    */
   initialPageLoaded = (): void => {
     this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
-    d3.select(this.viewer.container.parentNode).transition().duration(CustomOptions.transitions.OSDAnimationTime).style('opacity', '1');
+    d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
   /**
@@ -598,6 +535,28 @@ export class ViewerService implements OnInit {
     return this.viewer.viewport.getCenter(true);
   }
 
+  private dragHandler = (e: any) => {
+    this.viewer.panHorizontal = true;
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      const dragEndPosision = e.position;
+      const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+      const vpBounds = this.viewer.viewport.getBounds();
+      const pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
+      const direction = SwipeUtils.getZoomedInSwipeDirection(
+        this.dragStartPosition.x,
+        dragEndPosision.x,
+        this.dragStartPosition.y,
+        dragEndPosision.y
+      );
+      if (
+        (pannedPastSide === 'left' && direction === 'right') ||
+        (pannedPastSide === 'right' && direction === 'left')
+      ) {
+        this.viewer.panHorizontal = false;
+      }
+    }
+  }
+
   private swipeToPage(e: any) {
 
     const speed: number = e.speed;
@@ -608,39 +567,34 @@ export class ViewerService implements OnInit {
 
     const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
-   // const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
     const currentPageIndex = this.pageService.currentPage;
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
-    const isPanningOutsidePage = SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds);
-    this.zoomedInDragEndCount = isPanningOutsidePage ? this.zoomedInDragEndCount + 1 : 0;
+    let pannedPastSide: string, pageEndHitCountReached: boolean;
+
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
+      this.swipeDragEndCounter.addHit(pannedPastSide);
+      pageEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
+    }
 
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       isPastCenter: isPanningPastCenter,
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,
-      forceNextPage: this.zoomedInDragEndCount === 2
+      pageEndHitCountReached: pageEndHitCountReached
     });
-
-    if (this.modeService.mode === ViewerMode.DASHBOARD || this.modeService.mode === ViewerMode.PAGE) {
+    if (
+      this.modeService.mode === ViewerMode.DASHBOARD ||
+      this.modeService.mode === ViewerMode.PAGE ||
+      pageEndHitCountReached
+    ) {
       this.goToPage(newPageIndex);
-
-    } else if (
-      this.modeService.mode === ViewerMode.PAGE_ZOOMED &&
-      newPageIndex !== this.pageService.currentPage) {
-
-      // Zoom out before we go to next page in zoomed-in-mode
-      this.modeService.mode = ViewerMode.PAGE;
-      this.toggleToPage();
-
-      setTimeout(() => {
-        this.goToPage(newPageIndex);
-      }, CustomOptions.transitions.OSDAnimationTime);
     }
-    if (this.zoomedInDragEndCount === 2) { this.zoomedInDragEndCount = 0; }
+
   }
 
   private panTo(x: number, y: number): void {
@@ -650,37 +604,57 @@ export class ViewerService implements OnInit {
     }, false);
   }
 
-  private paddingChanged(newPadding: Dimensions): void {
-    if (!this.viewer || !this.overlays) {
+
+
+  private fitBoundsInDashboardView(): void {
+    if (!this.viewer) {
       return;
     }
 
-    const container = d3.select(this.viewer.container.parentNode);
-    //this.setPadding(container, new Dimensions());
+    this.zoomTo(this.getDashboardZoomLevel());
+  }
+
+  private getDashboardZoomLevel(): number {
+    if (!this.viewer || !this.tileRects) {
+      return;
+    }
+
+    const viewportBounds = this.getDashboardViewportBounds();
+    const maxPageHeight = this.tileRects.getMaxHeight();
+    const maxPageWidth = this.tileRects.getMaxWidth();
+
+    const currentZoom: number = this.viewer.viewport.getZoom();
+    const resizeRatio: number = viewportBounds.height / maxPageHeight;
+
+
+    if (resizeRatio * maxPageWidth <= viewportBounds.width) {
+      return this.shortenDecimals(resizeRatio * currentZoom, 5);
+    } else {
+      // Page at full height is wider than viewport.  Return fit by width instead.
+      return this.shortenDecimals(viewportBounds.width / maxPageWidth * currentZoom, 5);
+    }
+  }
+
+  private getDashboardViewportBounds(): any {
+    if (!this.viewer) {
+      return;
+    }
 
     const maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode).node().getBoundingClientRect());
-    const viewportHeight = maxViewportDimensions.height - newPadding.top - newPadding.bottom;
-    const viewportWidth = maxViewportDimensions.width - newPadding.left - newPadding.right;
+    const viewportHeight = maxViewportDimensions.height - ViewerOptions.padding.header - ViewerOptions.padding.footer;
+    const viewportWidth = maxViewportDimensions.width;
 
     const viewportSizeInViewportCoordinates =
       this.viewer.viewport.deltaPointsFromPixels(
         new OpenSeadragon.Point(viewportWidth, viewportHeight)
       );
-    const viewportBounds = new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-    this.goToHomeZoom(viewportBounds);
 
-    setTimeout(() => {
-      //this.setPadding(container, newPadding);
-    }, CustomOptions.transitions.OSDAnimationTime);
-
+    return new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
   }
 
-  private setPadding(element: any, padding: Dimensions): void {
-    element.style('padding', padding.top + 'px ' + padding.right + 'px ' + padding.bottom + 'px ' + padding.left + 'px');
-  }
 
   private goToHomeZoom(viewportBounds?: any): void {
-    this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds));
+    this.viewer.viewport.zoomTo(this.getHomeZoom(viewportBounds), false);
   }
 
   private getHomeZoom(viewportBounds?: any, pageBounds?: any): number {

@@ -12,6 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
@@ -20,15 +21,14 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { Manifest } from '../core/models/manifest';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
-import { CustomOptions } from '../core/models/options-custom';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
-import { Dimensions } from '../core/models/dimensions';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
+import { ViewerOptions } from '../core/models/viewer-options';
 
 @Component({
   selector: 'mime-viewer',
@@ -157,14 +157,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     switch (mode) {
       case ViewerMode.DASHBOARD:
         this.header.state = this.footer.state = 'show';
-        this.viewerService.updatePadding(new Dimensions({top: CustomOptions.padding.header, bottom:  CustomOptions.padding.footer}));
         if (this.config.navigationControlEnabled && this.osdToolbar) {
           this.osdToolbar.state = 'hide';
         }
         break;
       case ViewerMode.PAGE:
         this.header.state = this.footer.state = 'hide';
-        this.viewerService.updatePadding(new Dimensions());
         if (this.config.navigationControlEnabled && this.osdToolbar) {
           this.osdToolbar.state = 'show';
         }

@@ -7,7 +7,7 @@ import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { PageService } from './../../core/page-service/page-service';
-import { CustomOptions } from '../../core/models/options-custom';
+import { ViewerOptions } from '../../core/models/viewer-options';
 
 @Component({
   selector: 'mime-osd-toolbar',
@@ -25,8 +25,8 @@ import { CustomOptions } from '../../core/models/options-custom';
         opacity: 1,
         display: 'block'
       })),
-      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
-      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in'))
+      transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
+      transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'))
     ])
   ],
   host: {
