@@ -569,7 +569,7 @@ export class ViewerService implements OnInit {
     const viewportCenter = this.getViewportCenter();
 
     const currentPageIndex = this.pageService.currentPage;
-    const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
+    const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, this.getViewportCenter());
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
     let pannedPastSide: string, pageEndHitCountReached: boolean;

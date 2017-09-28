@@ -18,9 +18,9 @@ export class SwipeUtils {
   }
 
   static getSideIfPanningPastEndOfPage(pageBounds: any, vpBounds: any): string {
-    if (vpBounds.x < pageBounds.x) {
+    if (this.isPanningOutsideLeft(pageBounds, vpBounds)) {
       return 'left';
-    } else if (vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width) {
+    } else if (this.isPanningOutsideRight(pageBounds, vpBounds)) {
       return 'right';
     }
   }
@@ -37,9 +37,9 @@ export class SwipeUtils {
     return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width;
   }
 
-  static isPanningPastCenter(pageBounds: any, vpBounds: any): boolean {
-    const isPastCenterRight = vpBounds.x > pageBounds.x + (pageBounds.width / 2);
-    const isPastCenterLeft = vpBounds.x + vpBounds.width + (pageBounds.width / 2) < pageBounds.x + pageBounds.width;
+  static isPanningPastCenter(pageBounds: any, vpCenter: any): boolean {
+    const isPastCenterRight = pageBounds.x + pageBounds.width < vpCenter.x;
+    const isPastCenterLeft = pageBounds.x > vpCenter.x;
     return isPastCenterRight || isPastCenterLeft;
   }
 }
