@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import {ViewerOptions} from "../models/viewer-options";
 
 export class PageMask {
   _viewer: any;
@@ -59,7 +60,7 @@ export class PageMask {
       .attr('height', '100%')
       .attr('x', 0)
       .attr('y', 0)
-      .style('fill', '#ffffff')
+      .style('fill', ViewerOptions.colors.canvasBackgroundColor)
       .style('fill-opacity', '1');
 
     const mask = this._root.append('mask')
@@ -83,6 +84,9 @@ export class PageMask {
 
     this.setCenter();
     this.resize();
+
+    d3.select(this._viewer.canvas).select('canvas').style('background-color', ViewerOptions.colors.canvasBackgroundColor);
+    d3.select(this._viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
   public changePage(pageBounds: any) {

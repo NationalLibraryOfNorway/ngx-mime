@@ -473,7 +473,6 @@ export class ViewerService implements OnInit {
    */
   initialPageLoaded = (): void => {
     this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
-    d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
   /**

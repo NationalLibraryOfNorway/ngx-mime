@@ -29,5 +29,9 @@ export const ViewerOptions = {
     // Padding in viewer container in pixels
     header: 80, // Placeholder above viewer for header in Dashboard View
     footer: 80 // Placeholder below viewer for footer in Dashboard View
+  },
+  
+  colors: {
+    canvasBackgroundColor: '#fafafa'
   }
 };
