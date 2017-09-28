@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { SearchResult } from './../../../core/models/search-result';
 import { Hit } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
+import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from './../../../core/viewer-intl';
 
 @Component({
@@ -28,7 +29,8 @@ export class ContentSearchNavigatorComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     public intl: MimeViewerIntl,
-    private viewerService: ViewerService) { }
+    private viewerService: ViewerService,
+    private iiifContentSearchService: IiifContentSearchService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
@@ -52,6 +54,10 @@ export class ContentSearchNavigatorComponent implements OnInit {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  clear(): void {
+    this.iiifContentSearchService.destroy();
   }
 
   findCurrentHitIndex(canvasIndex: number): number {
