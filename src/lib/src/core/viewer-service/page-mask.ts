@@ -11,7 +11,6 @@ export class PageMask {
   _disableResize = false;
   _center: any;
 
-
   constructor(
     viewer: any
   ) {
@@ -28,6 +27,7 @@ export class PageMask {
     });
 
     this._viewer.addHandler('resize', function () {
+      self.setCenter();
       self.resize();
     });
 
@@ -43,8 +43,7 @@ export class PageMask {
 
   public initialise(pageBounds: any): void {
     this._pageBounds = pageBounds;
-    this._center = this._viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
-    
+
     this._root = d3.select(this._viewer.canvas).append('svg')
       .attr('position', 'absolute')
       .attr('left', '0')
@@ -82,6 +81,7 @@ export class PageMask {
       .attr('y', 0)
       .style('fill', '#000000');
 
+    this.setCenter();
     this.resize();
   }
 
@@ -96,6 +96,10 @@ export class PageMask {
 
   public hide() {
     this._cover.style('fill-opacity', '0');
+  }
+
+  private setCenter() {
+    this._center = this._viewer.viewport.pixelFromPoint(this._viewer.viewport.getCenter(), true);
   }
 
   private resize() {
