@@ -36,12 +36,12 @@ describe('SwipeDragEndCounter ', () => {
     const counter = new SwipeDragEndCounter();
     counter.addHit('left');
     counter.addHit('left');
-    expect(counter.shouldSwitchPage()).toBe(true);
+    expect(counter.hitCountReached()).toBe(true);
     counter.reset();
-    expect(counter.shouldSwitchPage()).toBe(false);
+    expect(counter.hitCountReached()).toBe(false);
     counter.addHit('right');
     counter.addHit('right');
-    expect(counter.shouldSwitchPage()).toBe(true);
+    expect(counter.hitCountReached()).toBe(true);
   });
 
 });
