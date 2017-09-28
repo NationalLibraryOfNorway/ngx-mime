@@ -52,12 +52,6 @@ describe('SwipeUtils ', () => {
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(false);
   });
 
-  // static isPanningPastCenter(pageBounds: any, vpCenter: any): boolean {
-  //   const isPastCenterRight = pageBounds.x + pageBounds.width < vpCenter.x;
-  //   const isPastCenterLeft = pageBounds.x > vpCenter.x;
-  //   return isPastCenterRight || isPastCenterLeft;
-  // }
-
   it('should return true when panning past center of page on the right side', () => {
     const pageBounds = { x: 101, width: 100 };
 
