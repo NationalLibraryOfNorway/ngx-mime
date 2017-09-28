@@ -36,8 +36,8 @@ export class PageMask {
     });
 
     this._viewer.addHandler('canvas-drag-end', function () {
-        self._disableResize = false;
-        self.resize();
+      self._disableResize = false;
+      self.resize();
     });
   }
 
@@ -106,7 +106,7 @@ export class PageMask {
     if (!this._transparentWindow || this._disableResize) {
       return;
     }
-    
+
     let zoom = this._viewer.viewport.getZoom(true);
     let scale = this._viewer.viewport._containerInnerSize.x * zoom;
 
