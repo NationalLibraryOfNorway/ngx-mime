@@ -115,7 +115,7 @@ export class PageMask {
     }
 
     const zoom = this.viewer.viewport.getZoom(true);
-    const scale = this.viewer.viewport.getContainerSize().x * zoom;
+    const scale = this.viewer.viewport._containerInnerSize.x * zoom;
 
     this.transparentWindow.attr('width', this.pageBounds.width.baseVal.value * scale)
       .attr('x', this.center.x - (this.pageBounds.width.baseVal.value * scale / 2));
