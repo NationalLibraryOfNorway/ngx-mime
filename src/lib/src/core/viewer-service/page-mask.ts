@@ -1,16 +1,17 @@
 import * as d3 from 'd3';
 import { ViewerOptions } from '../models/viewer-options';
+import { Point } from '../models/point';
 
 export class PageMask {
   viewer: any;
-  pageBounds: any;
+  pageBounds: SVGRectElement;
 
   root: any;
   cover: any;
-  transparentWindow: any;
+  transparentArea: any;
 
   disableResize = false;
-  center: any;
+  center: Point;
 
   constructor(viewer: any) {
     this.viewer = viewer;
@@ -38,7 +39,7 @@ export class PageMask {
     });
   }
 
-  public initialise(pageBounds: any): void {
+  public initialise(pageBounds: SVGRectElement): void {
     this.pageBounds = pageBounds;
 
     this.root = d3.select(this.viewer.canvas).append('svg')
@@ -47,9 +48,9 @@ export class PageMask {
       .attr('top', '0')
       .attr('width', '100%')
       .attr('height', '100%')
-      .style('z-index', '150')
-      .attr('class', 'pagemask')
-      .attr('mask', 'url(#mask1)');
+      .attr('id', 'page-mask')
+      .attr('class', 'page-mask')
+      .attr('mask', 'url(#page-mask--mask-element)');
 
     this.cover = this.root.append('rect')
       .attr('width', '100%')
@@ -64,7 +65,7 @@ export class PageMask {
       .attr('height', '100%')
       .attr('x', 0)
       .attr('y', 0)
-      .attr('id', 'mask1');
+      .attr('id', 'page-mask--mask-element');
 
     mask.append('rect')
       .attr('width', '100%')
@@ -73,7 +74,7 @@ export class PageMask {
       .attr('y', 0)
       .style('fill', '#ffffff');
 
-    this.transparentWindow = mask.append('rect')
+    this.transparentArea = mask.append('rect')
       .attr('height', '100%')
       .attr('y', 0)
       .style('fill', '#000000');
@@ -85,7 +86,7 @@ export class PageMask {
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
-  public changePage(pageBounds: any): void {
+  public changePage(pageBounds: SVGRectElement) {
     this.pageBounds = pageBounds;
     this.resize();
   }
@@ -110,14 +111,14 @@ export class PageMask {
 
   private resize(): void {
 
-    if (!this.transparentWindow || this.disableResize) {
+    if (!this.transparentArea || this.disableResize) {
       return;
     }
 
     const zoom = this.viewer.viewport.getZoom(true);
     const scale = this.viewer.viewport._containerInnerSize.x * zoom;
 
-    this.transparentWindow.attr('width', this.pageBounds.width.baseVal.value * scale)
+    this.transparentArea.attr('width', this.pageBounds.width.baseVal.value * scale)
       .attr('x', this.center.x - (this.pageBounds.width.baseVal.value * scale / 2));
   }
 }
