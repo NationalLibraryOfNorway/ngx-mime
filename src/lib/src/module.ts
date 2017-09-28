@@ -10,6 +10,7 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
 import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
+import { PageNavigatorComponent } from './viewer/viewer-footer/page-navigator/page-navigator.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
 import './rxjs-extension';
@@ -22,7 +23,8 @@ import 'd3';
     ViewerHeaderComponent,
     ViewerFooterComponent,
     OsdToolbarComponent,
-    ContentSearchNavigatorComponent
+    ContentSearchNavigatorComponent,
+    PageNavigatorComponent
   ],
   imports: [
     BrowserAnimationsModule,

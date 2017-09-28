@@ -4,11 +4,6 @@
   max-height: 48px;
 }
 
-.pages {
-  font-size: 13px;
-  text-align: right;
-}
-
 [hidden] {
   display: none;
 }
