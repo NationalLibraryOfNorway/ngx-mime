@@ -52,38 +52,42 @@ describe('SwipeUtils ', () => {
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(false);
   });
 
+  // static isPanningPastCenter(pageBounds: any, vpCenter: any): boolean {
+  //   const isPastCenterRight = pageBounds.x + pageBounds.width < vpCenter.x;
+  //   const isPastCenterLeft = pageBounds.x > vpCenter.x;
+  //   return isPastCenterRight || isPastCenterLeft;
+  // }
+
   it('should return true when panning past center of page on the right side', () => {
-    const pageBounds = { x: 0, width: 100 };
+    const pageBounds = { x: 101, width: 100 };
 
-    let viewportBounds = { x: 51, width: 100 };
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(true);
+    let center = { x: 200, y: 0 };
+    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
 
-    viewportBounds = { x: 60, width: 200 };
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(true);
   });
 
   it('should return true when panning past center of page on the left side', () => {
     let pageBounds = { x: 0, width: 100 };
-    let viewportBounds = { x: -51, width: 100 };
+    let center = { x: -51, y: 0 };
 
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(true);
+    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
 
     pageBounds = { x: 100, width: 100 };
-    viewportBounds = { x: 49, width: 100 };
+    center = { x: 50, y: 0 };
 
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(true);
+    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
   });
 
   it('should return false when not panning past center of page', () => {
-    const pageBounds = { x: 0, width: 100 };
+    const pageBounds = { x: 50, width: 50 };
 
     // Not past center on right side
-    let viewportBounds = { x: 49, width: 100 };
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(false);
+    let center = { x: 200, y: 0 };
+    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(false);
 
     // Not past center on left side
-    viewportBounds = { x: -49, width: 100 };
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds)).toBe(false);
+    center = { x: 200, y: 0 };
+    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(false);
   });
 
 });
