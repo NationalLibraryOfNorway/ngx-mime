@@ -4,6 +4,7 @@ import { ViewerService } from './viewer.service';
 import { ClickService } from '../click-service/click.service';
 import { PageService } from './../page-service/page-service';
 import { ModeService } from './../mode-service/mode.service';
+import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 
 describe('ViewerService', () => {
   beforeEach(() => {
@@ -13,8 +14,8 @@ describe('ViewerService', () => {
         ViewerService,
         ClickService,
         PageService,
-        ModeService
-      ]
+        ModeService,
+        MimeResizeService]
     });
   });
 

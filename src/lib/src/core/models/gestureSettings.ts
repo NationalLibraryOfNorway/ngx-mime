@@ -1,5 +1,5 @@
 export class GestureSettings {
-  scrollToZoom = true;
+  scrollToZoom = false;
   clickToZoom = false;
   dblClickToZoom = false;
   pinchToZoom = false;
@@ -10,12 +10,9 @@ export class GestureSettings {
 }
 
 export class GestureSettingsMouse extends GestureSettings {
-  scrollToZoom = false;
 }
 
 export class GestureSettingsTouch extends GestureSettings {
-  scrollToZoom = false;
-  pinchToZoom = false;
 }
 
 export class GestureSettingsPen extends GestureSettings { }

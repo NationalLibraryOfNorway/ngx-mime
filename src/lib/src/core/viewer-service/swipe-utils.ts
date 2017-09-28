@@ -1,7 +1,45 @@
+import { ViewerOptions } from '../models/viewer-options';
 export class SwipeUtils {
 
-  public getSwipeDirection(start: number, end: number) {
+  static getSwipeDirection(start: number, end: number) {
     return start > end ? 'left' : 'right';
   }
 
+  // Added threshold to prevent sensitive direction-calculation when zoomed in
+  static getZoomedInSwipeDirection(startX: number, endX: number, startY: number, endY: number) {
+    const deltaX = Math.abs(startX - endX);
+    const deltaY = Math.abs(startY - endY);
+
+    if (startX > endX && (deltaX - ViewerOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
+      return 'left';
+    } else if (startX < endX && (deltaX - ViewerOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
+      return 'right';
+    }
+  }
+
+  static getSideIfPanningPastEndOfPage(pageBounds: any, vpBounds: any): string {
+    if (vpBounds.x < pageBounds.x) {
+      return 'left';
+    } else if (vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width) {
+      return 'right';
+    }
+  }
+
+  static isPanningOutsidePage(pageBounds: any, vpBounds: any): boolean {
+    return this.isPanningOutsideLeft(pageBounds, vpBounds) || this.isPanningOutsideRight(pageBounds, vpBounds);
+  }
+
+  static isPanningOutsideLeft(pageBounds: any, vpBounds: any): boolean {
+    return vpBounds.x < pageBounds.x;
+  }
+
+  static isPanningOutsideRight(pageBounds: any, vpBounds: any): boolean {
+    return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width;
+  }
+
+  static isPanningPastCenter(pageBounds: any, vpBounds: any): boolean {
+    const isPastCenterRight = vpBounds.x > pageBounds.x + (pageBounds.width / 2);
+    const isPastCenterLeft = vpBounds.x + vpBounds.width + (pageBounds.width / 2) < pageBounds.x + pageBounds.width;
+    return isPastCenterRight || isPastCenterLeft;
+  }
 }

@@ -1,0 +1,12 @@
+.mime-spinner {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, 0);
+  z-index: 9999; // TODO: This shouldn't be arbitrary set
+}
+
+.mime-spinner--active {
+  display: block;
+}

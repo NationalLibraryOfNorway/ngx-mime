@@ -4,7 +4,7 @@ import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
-import { CustomOptions } from '../../core/models/options-custom';
+import { ViewerOptions } from '../../core/models/viewer-options';
 import { MimeViewerIntl } from './../../core/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
 import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
@@ -32,8 +32,8 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
-      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
+      transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+      transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
     ])
   ],
   host: {

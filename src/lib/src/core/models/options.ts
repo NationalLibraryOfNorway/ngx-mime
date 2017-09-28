@@ -1,4 +1,4 @@
-import { CustomOptions } from './options-custom';
+import { ViewerOptions } from './viewer-options';
 import { GestureSettingsMouse, GestureSettingsPen, GestureSettingsTouch, GestureSettingsUnknown } from './gestureSettings';
 import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
@@ -15,12 +15,12 @@ export class Options {
   prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
   navImages: null;
   debugMode = false;
-  debugGridColor = '#ffcc00';
+  debugGridColor = '#08f';
   blendTime = 0;
   alwaysBlend = false;
   autoHideControls = true;
   immediateRender = false;
-  defaultZoomLevel = 0.00014;
+  defaultZoomLevel = 0;
   opacity = 1;
   compositeOperation: string = null;
   placeholderFillStyle: string | CanvasGradient | CanvasPattern = null;
@@ -29,7 +29,7 @@ export class Options {
   maxZoomLevel: number = null;
   homeFillsViewer = false;
   panHorizontal = true;
-  panVertical = true;
+  panVertical = false;
   constrainDuringPan = true;
   wrapHorizontal = false;
   wrapVertical = false;
@@ -38,7 +38,7 @@ export class Options {
   smoothTileEdgesMinZoom = 1.1;
   iOSDevice = true;
   autoResize = true;
-  preserveImageSizeOnResize = false;
+  preserveImageSizeOnResize = true;
   minScrollDeltaTime = 50;
   pixelsPerWheelLine = 40;
   visibilityRatio = 1;
@@ -49,7 +49,7 @@ export class Options {
   dblClickTimeThreshold = 300;
   dblClickDistThreshold = 20;
   springStiffness = 6.5;
-  animationTime = CustomOptions.transitions.OSDAnimationTime / 1000;
+  animationTime = ViewerOptions.transitions.OSDAnimationTime / 1000;
   gestureSettingsMouse = new GestureSettingsMouse();
   gestureSettingsTouch = new GestureSettingsTouch();
   gestureSettingsPen = new GestureSettingsPen();
@@ -91,8 +91,8 @@ export class Options {
   fullPageButton: string;
   rotateLeftButton: string;
   rotateRightButton: string;
-  previousButton: string;
-  nextButton: string;
+  previousButton: string = null;
+  nextButton: string = null;
   sequenceMode = true;
   initialPage = 0;
   preserveViewport = false;
@@ -112,10 +112,4 @@ export class Options {
   collectionTileMargin = 80;
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
-
-  constructor(tileSources?: Service[]) {
-    if (tileSources) {
-      this.tileSources = tileSources;
-    }
-  }
 }

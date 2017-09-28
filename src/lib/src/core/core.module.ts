@@ -1,3 +1,4 @@
+import { SpinnerService } from './spinner-service/spinner.service';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -21,7 +22,8 @@ import { ClickService } from './click-service/click.service';
     ViewerService,
     ClickService,
     PageService,
-    ModeService
+    ModeService,
+    SpinnerService
   ]
 })
 export class CoreModule { }
