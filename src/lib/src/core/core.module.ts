@@ -12,8 +12,6 @@ import { ModeService } from './mode-service/mode.service';
 import { ClickService } from './click-service/click.service';
 
 @NgModule({
-  imports: [HttpClientModule],
-  exports: [HttpClientModule],
   providers: [
     MimeViewerIntl,
     IiifManifestService,
@@ -26,14 +24,4 @@ import { ClickService } from './click-service/click.service';
     ModeService
   ]
 })
-export class CoreModule {
-
-  constructor(
-    @Optional() @SkipSelf() parentModule: CoreModule) {
-    if (parentModule) {
-      throw new Error(
-        'CoreModule is already loaded. Import it in the AppModule only');
-    }
-  }
-
-}
+export class CoreModule { }
