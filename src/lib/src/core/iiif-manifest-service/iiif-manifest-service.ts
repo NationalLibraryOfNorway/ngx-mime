@@ -34,16 +34,17 @@ export class IiifManifestService {
     }
   }
 
+  destroy() {
+    this.resetCurrentManifest();
+    this.resetErrorMessage();
+  }
+
   resetCurrentManifest() {
     this._currentManifest.next(null);
   }
 
   resetErrorMessage() {
     this._errorMessage.next(null);
-  }
-
-  destroy() {
-    this._currentManifest.next(null);
   }
 
   private extractData(response: Response) {
