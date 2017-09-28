@@ -1,51 +1,47 @@
 import * as d3 from 'd3';
-import { ViewerOptions } from "../models/viewer-options";
+import { ViewerOptions } from '../models/viewer-options';
 
 export class PageMask {
-  _viewer: any;
-  _pageBounds: any;
+  viewer: any;
+  pageBounds: any;
 
-  _root: any;
-  _cover: any;
-  _transparentWindow: any;
+  root: any;
+  cover: any;
+  transparentWindow: any;
 
-  _disableResize = false;
-  _center: any;
+  disableResize = false;
+  center: any;
 
-  constructor(
-    viewer: any
-  ) {
-    let self = this;
+  constructor(viewer: any) {
+    this.viewer = viewer;
 
-    this._viewer = viewer;
-
-    this._viewer.addHandler('animation', function () {
-      self.resize();
+    this.viewer.addHandler('animation', () => {
+      this.resize();
     });
 
-    this._viewer.addHandler('animation', function () {
-      self.resize();
+    this.viewer.addHandler('animation', () => {
+      this.resize();
     });
 
-    this._viewer.addHandler('resize', function () {
-      self.setCenter();
-      self.resize();
+    this.viewer.addHandler('resize', () => {
+      this.setCenter();
+      this.resize();
     });
 
-    this._viewer.addHandler('canvas-drag', function () {
-      self._disableResize = true;
+    this.viewer.addHandler('canvas-drag', () => {
+      this.disableResize = true;
     });
 
-    this._viewer.addHandler('canvas-drag-end', function () {
-      self._disableResize = false;
-      self.resize();
+    this.viewer.addHandler('canvas-drag-end', () => {
+      this.disableResize = false;
+      this.resize();
     });
   }
 
   public initialise(pageBounds: any): void {
-    this._pageBounds = pageBounds;
+    this.pageBounds = pageBounds;
 
-    this._root = d3.select(this._viewer.canvas).append('svg')
+    this.root = d3.select(this.viewer.canvas).append('svg')
       .attr('position', 'absolute')
       .attr('left', '0')
       .attr('top', '0')
@@ -55,7 +51,7 @@ export class PageMask {
       .attr('class', 'pagemask')
       .attr('mask', 'url(#mask1)');
 
-    this._cover = this._root.append('rect')
+    this.cover = this.root.append('rect')
       .attr('width', '100%')
       .attr('height', '100%')
       .attr('x', 0)
@@ -63,7 +59,7 @@ export class PageMask {
       .style('fill', ViewerOptions.colors.canvasBackgroundColor)
       .style('fill-opacity', '1');
 
-    const mask = this._root.append('mask')
+    const mask = this.root.append('mask')
       .attr('width', '100%')
       .attr('height', '100%')
       .attr('x', 0)
@@ -77,7 +73,7 @@ export class PageMask {
       .attr('y', 0)
       .style('fill', '#ffffff');
 
-    this._transparentWindow = mask.append('rect')
+    this.transparentWindow = mask.append('rect')
       .attr('height', '100%')
       .attr('y', 0)
       .style('fill', '#000000');
@@ -85,42 +81,43 @@ export class PageMask {
     this.setCenter();
     this.resize();
 
-    d3.select(this._viewer.canvas).select('canvas').style('background-color', ViewerOptions.colors.canvasBackgroundColor);
-    d3.select(this._viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
+    d3.select(this.viewer.canvas).select('canvas').style('background-color', ViewerOptions.colors.canvasBackgroundColor);
+    d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
-  public changePage(pageBounds: any) {
-    this._pageBounds = pageBounds;
+  public changePage(pageBounds: any): void {
+    this.pageBounds = pageBounds;
     this.resize();
   }
 
-  public show() {
-    if (!this._cover) {
+  public show(): void {
+    if (!this.cover) {
       return;
     }
-    this._cover.style('fill-opacity', '1');
+    this.cover.style('fill-opacity', '1');
   }
 
-  public hide() {
-    if (!this._cover) {
+  public hide(): void {
+    if (!this.cover) {
       return;
     }
-    this._cover.style('fill-opacity', '0');
+    this.cover.style('fill-opacity', '0');
   }
 
-  private setCenter() {
-    this._center = this._viewer.viewport.pixelFromPoint(this._viewer.viewport.getCenter(), true);
+  private setCenter(): void {
+    this.center = this.viewer.viewport.pixelFromPoint(this.viewer.viewport.getCenter(), true);
   }
 
-  private resize() {
-    if (!this._transparentWindow || this._disableResize) {
+  private resize(): void {
+
+    if (!this.transparentWindow || this.disableResize) {
       return;
     }
 
-    let zoom = this._viewer.viewport.getZoom(true);
-    let scale = this._viewer.viewport._containerInnerSize.x * zoom;
+    const zoom = this.viewer.viewport.getZoom(true);
+    const scale = this.viewer.viewport.getContainerSize().x * zoom;
 
-    this._transparentWindow.attr('width', this._pageBounds.width.baseVal.value * scale)
-      .attr('x', this._center.x - (this._pageBounds.width.baseVal.value * scale / 2));
+    this.transparentWindow.attr('width', this.pageBounds.width.baseVal.value * scale)
+      .attr('x', this.center.x - (this.pageBounds.width.baseVal.value * scale / 2));
   }
 }
