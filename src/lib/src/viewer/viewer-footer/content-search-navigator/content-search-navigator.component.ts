@@ -35,7 +35,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
 
     this.subscriptions.push(this.viewerService
       .onPageChange
-      .switchMap((canvasIndex: number, index: number) => {
+      .subscribe((canvasIndex) => {
         this.currentCanvasIndex = canvasIndex;
         this.currentIndex = this.findCurrentHitIndex(canvasIndex);
         this.isHitOnActivePage = this.searchResult.get(this.currentIndex).index === canvasIndex;
@@ -45,9 +45,6 @@ export class ContentSearchNavigatorComponent implements OnInit {
         const currentHit = this.searchResult.get(this.currentIndex);
         this.isLastHitPage = currentHit.index === lastCanvasIndex;
         this.changeDetectorRef.detectChanges();
-        return Observable.of(canvasIndex);
-      })
-      .subscribe((canvasIndex: number) => {
       }));
   }
 
@@ -83,11 +80,8 @@ export class ContentSearchNavigatorComponent implements OnInit {
     } else {
       hit = this.searchResult.get(this.currentIndex);
     }
-    if (hit) {
-      this.currentIndex = this.findCurrentHitIndex(hit.index);
-      this.viewerService.goToPage(hit.index);
-    }
-    this.changeDetectorRef.detectChanges();
+    this.currentIndex = this.findCurrentHitIndex(hit.index);
+    this.viewerService.goToPage(hit.index);
   }
 
   goToNextHitPage() {
@@ -98,11 +92,8 @@ export class ContentSearchNavigatorComponent implements OnInit {
       const current = this.searchResult.get(this.currentIndex);
       hit = this.searchResult.hits.find(h => h.index > current.index);
     }
-    if (hit) {
-      this.currentIndex = this.findCurrentHitIndex(hit.index);
-      this.viewerService.goToPage(hit.index);
-    }
-    this.changeDetectorRef.detectChanges();
+    this.currentIndex = this.findCurrentHitIndex(hit.index);
+    this.viewerService.goToPage(hit.index);
   }
 
 }
