@@ -10,6 +10,7 @@ import { SearchResult } from './../../../core/models/search-result';
 import { Hit } from './../../../core/models/search-result';
 import { MimeViewerIntl } from './../../../core/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
+import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
@@ -25,6 +26,7 @@ describe('ContentSearchNavigatorComponent', () => {
       providers: [
         MimeViewerIntl,
         { provide: ViewerService, useClass: ViewerServiceMock },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
       ]
 
     })
@@ -133,5 +135,13 @@ class ViewerServiceMock {
   }
 
   goToPage(canvasIndex: number): void { }
+
+}
+
+class IiifContentSearchServiceMock {
+  _onChange = new Subject<number>();
+  get onChange(): Observable<number> {
+    return this._onChange.asObservable();
+  }
 
 }
