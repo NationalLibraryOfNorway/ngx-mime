@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../../core/viewer-intl';
 import { CustomOptions } from '../../core/models/options-custom';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';
@@ -40,13 +39,9 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
     private iiifContentSearchService: IiifContentSearchService) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
-
     this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
       this.searchResult = sr;
       this.hasContentSearchHits = sr.size() > 0;
