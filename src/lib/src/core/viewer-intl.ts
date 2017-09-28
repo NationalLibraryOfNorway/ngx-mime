@@ -22,6 +22,7 @@ export class MimeViewerIntl {
   // ERRORS
   somethingHasGoneWrong = 'Oh dear, something has gone terribly wrong...';
   manifestUriMissing = 'ManifestUri is missing';
+  manifestNotValid = 'Manifest is not valid';
 
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;

@@ -28,8 +28,15 @@ export class IiifManifestService {
       this._errorMessage.next(this.intl.manifestUriMissing);
     } else {
       this.http.get(manifestUri).subscribe(
-        (res: Response) => this._currentManifest.next(this.extractData(res)),
-        (err: HttpErrorResponse) => this._errorMessage.next(this.handleError(err))
+        (response: Response) => {
+          const manifest = this.extractData(response);
+          if (this.isManifestValid(manifest)) {
+            this._currentManifest.next(manifest);
+          } else {
+            this._errorMessage.next(this.intl.manifestNotValid);
+          }
+        },
+        (error: HttpErrorResponse) => this._errorMessage.next(this.handleError(error))
       );
     }
   }
@@ -47,8 +54,12 @@ export class IiifManifestService {
     this._errorMessage.next(null);
   }
 
-  private extractData(response: Response) {
+  private extractData(response: Response): Manifest {
     return new ManifestBuilder(response).build();
+  }
+
+  private isManifestValid(manifest: Manifest): boolean {
+    return manifest && manifest.tileSource && manifest.tileSource.length > 0;
   }
 
   private handleError(err: HttpErrorResponse | any): string {
