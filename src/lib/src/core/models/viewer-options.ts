@@ -10,6 +10,8 @@ export const ViewerOptions = {
 
   pan: {
     // Sensitivity when determining zoomed-in-swipe-direction.
+    // Higher threshold means swipe-direction must be more focused in
+    // x-direction before the gesture is recognized as "left" or "right"
     swipeDirectionZoomedThreshold: 20
   },
 
@@ -21,8 +23,13 @@ export const ViewerOptions = {
   },
 
   overlays: {
-    pageMarginDashboardView: 300, // Margin between pages in Dashboard View in OpenSeadragon viewport-coordinates
-    pageMarginPageView: 20 // Margin between pages in Page View in OpenSeadragon viewport-coordinates
+    // Margin between pages in Dashboard View in OpenSeadragon viewport-coordinates
+    pageMarginDashboardView: 300,
+    // Margin between pages in Page View in OpenSeadragon viewport-coordinates
+    pageMarginPageView: 20,
+    // Standard deviation for gaussian blur used on drop-shadow-effect on overlays.
+    // 0 = no variation = solid line
+    filterblurStdDeviation: 20
   },
 
   padding: {

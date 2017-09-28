@@ -34,6 +34,7 @@ declare const OpenSeadragon: any;
 export class ViewerService implements OnInit {
 
   private viewer: any;
+  private svgOverlay: any;
   private svgNode: any;
   private options: Options;
 
@@ -151,8 +152,6 @@ export class ViewerService implements OnInit {
   public highlight(searchResult: SearchResult): void {
     this.clearHightlight();
     if (this.viewer) {
-      let svgOverlay = this.viewer.svgOverlay();
-      this.svgNode = d3.select(svgOverlay.node());
       for (const hit of searchResult.hits) {
         for (let rect of hit.rects) {
           const tileRect = this.tileRects.get(hit.index);
@@ -197,7 +196,9 @@ export class ViewerService implements OnInit {
         this.calculateCurrentPage(center);
       }));
 
+
       this.addToWindow();
+      this.setupOverlays();
       this.createOverlays();
       this.addEvents();
     }
@@ -205,6 +206,11 @@ export class ViewerService implements OnInit {
 
   addToWindow() {
     window.openSeadragonViewer = this.viewer;
+  }
+
+  setupOverlays(): void {
+    this.svgOverlay = this.viewer.svgOverlay();
+    this.svgNode = d3.select(this.svgOverlay.node());
   }
 
   destroy() {
@@ -422,21 +428,12 @@ export class ViewerService implements OnInit {
    */
   createOverlays(): void {
     this.overlays = [];
-    const svgOverlay = this.viewer.svgOverlay();
-    this.svgNode = d3.select(svgOverlay.node());
-    const svgParent = d3.select(svgOverlay.node().parentNode);
     const initialPage = 0;
-
-    let center = new OpenSeadragon.Point(0, 0);
+    const center = new OpenSeadragon.Point(0, 0);
+    const height = this.tileSources[0].height;
     let currentX = center.x - (this.tileSources[0].width / 2);
-    let height = this.tileSources[0].height;
 
-    // Append blur-filter used for drop-shadow
-    svgParent.append('filter')
-      .attr('id', 'blur')
-      .append('feGaussianBlur').
-      attr('in', 'SourceGraphic').
-      attr('stdDeviation', 10);
+    this.appendBlurFilter();
 
     this.tileSources.forEach((tile, i) => {
       let currentY = center.y - tile.height / 2;
@@ -473,6 +470,19 @@ export class ViewerService implements OnInit {
 
       currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
     });
+  }
+
+  /**
+   * Append blur-filter-definition used for drop-shadow
+   */
+  private appendBlurFilter(): void {
+    const svgParent = d3.select(this.svgOverlay.node().parentNode);
+
+    svgParent.append('filter')
+      .attr('id', 'blur')
+      .append('feGaussianBlur').
+      attr('in', 'SourceGraphic').
+      attr('stdDeviation', ViewerOptions.overlays.filterblurStdDeviation);
   }
 
   /**
