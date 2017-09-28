@@ -3,14 +3,18 @@ import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 
 describe('SwipeDragEndCounter ', () => {
 
+  let counter: SwipeDragEndCounter;
+
+  beforeEach(() => {
+    counter = new SwipeDragEndCounter();
+  });
+
   it('should be no hits initially', () => {
-    const counter = new SwipeDragEndCounter();
     expect(counter.leftCount).toBe(0);
   });
 
 
   it('should increment on left/right-hits', () => {
-    const counter = new SwipeDragEndCounter();
     counter.addHit('left');
     expect(counter.leftCount).toBe(1);
     counter.addHit('left');
@@ -22,7 +26,6 @@ describe('SwipeDragEndCounter ', () => {
   });
 
   it('should not increment when side is not left/right', () => {
-    const counter = new SwipeDragEndCounter();
     counter.addHit('up');
     expect(counter.leftCount).toBe(0);
     expect(counter.rightCount).toBe(0);
@@ -31,9 +34,23 @@ describe('SwipeDragEndCounter ', () => {
     expect(counter.rightCount).toBe(0);
   });
 
+  it('should reset counter of opposite side when incrementing a side', () => {
+    counter.addHit('left');
+    expect(counter.leftCount).toBe(1);
+    expect(counter.rightCount).toBe(0);
+
+    counter.addHit('right');
+    expect(counter.leftCount).toBe(0);
+    expect(counter.rightCount).toBe(1);
+
+
+    counter.addHit('right');
+    expect(counter.leftCount).toBe(0);
+    expect(counter.rightCount).toBe(2);
+  });
+
 
   it('should return true when one of the counts are 2', () => {
-    const counter = new SwipeDragEndCounter();
     counter.addHit('left');
     counter.addHit('left');
     expect(counter.hitCountReached()).toBe(true);
