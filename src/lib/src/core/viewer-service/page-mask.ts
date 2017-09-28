@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import {ViewerOptions} from "../models/viewer-options";
+import { ViewerOptions } from "../models/viewer-options";
 
 export class PageMask {
   _viewer: any;
@@ -95,10 +95,16 @@ export class PageMask {
   }
 
   public show() {
+    if (!this._cover) {
+      return;
+    }
     this._cover.style('fill-opacity', '1');
   }
 
   public hide() {
+    if (!this._cover) {
+      return;
+    }
     this._cover.style('fill-opacity', '0');
   }
 

@@ -52,8 +52,9 @@ describe('SwipeUtils ', () => {
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(false);
   });
 
+
   it('should return true when panning past center of page on the right side', () => {
-    const pageBounds = { x: 101, width: 100 };
+    const pageBounds = { x: 99, width: 100 };
 
     let center = { x: 200, y: 0 };
     expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
@@ -73,14 +74,10 @@ describe('SwipeUtils ', () => {
   });
 
   it('should return false when not panning past center of page', () => {
-    const pageBounds = { x: 50, width: 50 };
+    const pageBounds = { x: 100, width: 100 };
 
-    // Not past center on right side
-    let center = { x: 200, y: 0 };
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(false);
-
-    // Not past center on left side
-    center = { x: 200, y: 0 };
+    // Not past center
+    const center = { x: 199, y: 0 };
     expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(false);
   });
 

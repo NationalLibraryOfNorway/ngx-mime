@@ -30,7 +30,7 @@ export const ViewerOptions = {
     header: 80, // Placeholder above viewer for header in Dashboard View
     footer: 80 // Placeholder below viewer for footer in Dashboard View
   },
-  
+
   colors: {
     canvasBackgroundColor: '#fafafa'
   }
