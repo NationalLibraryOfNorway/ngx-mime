@@ -287,10 +287,10 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
-
-    this.fitBoundsInDashboardView();
     this.goToPage(this.pageService.currentPage);
     this.pageMask.hide();
+
+    this.fitBoundsInDashboardView();
   }
 
   /**
@@ -301,9 +301,10 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    this.fitBounds(this.overlays[this.pageService.currentPage]);
     this.goToPage(this.pageService.currentPage);
     this.pageMask.show();
+
+    this.fitBounds(this.overlays[this.pageService.currentPage]);
   }
 
   /**
