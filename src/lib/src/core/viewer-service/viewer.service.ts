@@ -424,15 +424,21 @@ export class ViewerService implements OnInit {
     this.overlays = [];
     const svgOverlay = this.viewer.svgOverlay();
     this.svgNode = d3.select(svgOverlay.node());
+    const svgParent = d3.select(svgOverlay.node().parentNode);
+    const initialPage = 0;
 
     let center = new OpenSeadragon.Point(0, 0);
     let currentX = center.x - (this.tileSources[0].width / 2);
     let height = this.tileSources[0].height;
 
-    const initialPage = 0;
+    // Append blur-filter used for drop-shadow
+    svgParent.append('filter')
+      .attr('id', 'blur')
+      .append('feGaussianBlur').
+      attr('in', 'SourceGraphic').
+      attr('stdDeviation', 10);
 
     this.tileSources.forEach((tile, i) => {
-
       let currentY = center.y - tile.height / 2;
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({

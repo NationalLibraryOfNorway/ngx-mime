@@ -190,6 +190,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   setClasses() {
     return {
       'page': this.mode === ViewerMode.PAGE,
+      'page-zoomed': this.mode === ViewerMode.PAGE_ZOOMED,
       'dashboard': this.mode === ViewerMode.DASHBOARD,
       'canvas-pressed': this.isCanvasPressed
     };
