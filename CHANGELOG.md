@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.2.0...v0.3.0) (2017-09-28)
+
+
+### Bug Fixes
+
+* cleanup manifest service on destroy ([f269091](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f269091))
+* multiple annotations on single hit ([379263e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/379263e))
+* previous/next page button in page navigator don't work ([dc1d68c](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/dc1d68c))
+* Toggling fullscreen mode makes browser hangs ([a2d40bf](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a2d40bf))
+
+
+### Features
+
+* browse through a publication in dashboard view ([97a1ffd](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/97a1ffd))
+* content search ([#62](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/62)) ([97ded80](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/97ded80))
+* hide page navigation in dashboard mode ([c77cba7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c77cba7))
+* keyboard navigation in content search ([b9210ad](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b9210ad))
+* keyboard navigation in contents ([66f7a0f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/66f7a0f))
+* landscape manifest in demo app ([b7b4d64](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b7b4d64))
+* loading different manifest in integration app ([#61](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/61)) ([1acfcb4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1acfcb4))
+* slider navigation in dashboard view ([59ec6ce](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/59ec6ce))
+* Switching between page and dashboard view ([fa429f6](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fa429f6))
+* upgrade material to beta 11 ([bff44ca](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bff44ca))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.1.6...v0.2.0) (2017-09-07)
 
