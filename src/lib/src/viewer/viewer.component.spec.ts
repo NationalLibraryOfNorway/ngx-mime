@@ -387,7 +387,8 @@ describe('ViewerComponent', function () {
       quick: true,
       tracker: { dblClickTimeThreshold: 0 },
       preventDefaultAction: false,
-      originalEvent: { target: target }
+      originalEvent: { target: target },
+      position: new OpenSeadragon.Point(0, 0)
     };
   }
 

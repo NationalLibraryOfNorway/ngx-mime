@@ -4,8 +4,8 @@
 
 export const ViewerOptions = {
   zoom: {
-    zoomFactor: 0.0002,
-    dblClickZoomFactor: 0.00045
+    zoomFactor: 1.15,
+    dblClickZoomFactor: 2.7
   },
 
   pan: {

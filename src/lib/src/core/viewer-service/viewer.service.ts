@@ -26,6 +26,7 @@ import { Side } from '../models/side';
 import { Bounds } from '../models/bounds';
 
 
+import { PinchStatus } from '../models/pinchStatus';
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
 import * as d3 from 'd3';
@@ -34,6 +35,7 @@ declare const OpenSeadragon: any;
 
 @Injectable()
 export class ViewerService {
+
   private viewer: any;
   private svgOverlay: any;
   private svgNode: any;
@@ -50,6 +52,7 @@ export class ViewerService {
   private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private pageMask: PageMask;
+  private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
   private tileRects = new TileRects();
 
@@ -97,6 +100,10 @@ export class ViewerService {
 
   public zoomTo(level: number, position?: Point): void {
     this.viewer.viewport.zoomTo(level, position);
+  }
+
+  public zoomBy(zoomFactor: number, position?: Point): void {
+    this.viewer.viewport.zoomBy(zoomFactor, position);
   }
 
   private getViewportBounds(): Bounds {
@@ -266,28 +273,49 @@ export class ViewerService {
   }
 
 
-  zoomIn(dblClickZoom?: boolean): void {
-    const zoomFactor = dblClickZoom ? ViewerOptions.zoom.dblClickZoomFactor : ViewerOptions.zoom.zoomFactor;
+  zoomIn(zoomFactor?: number): void {
+    if (typeof zoomFactor === 'undefined') {
+      zoomFactor = ViewerOptions.zoom.zoomFactor;
+    }
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    this.zoomTo(this.getZoom() + zoomFactor);
+    this.zoomBy(zoomFactor);
   }
 
-  zoomOut(): void {
+  zoomOut(zoomFactor?: number): void {
+    if (typeof zoomFactor === 'undefined') {
+      zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, -1);
+    }
     if (this.isViewportLargerThanPage()) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
-      this.zoomTo(this.getZoom() - ViewerOptions.zoom.zoomFactor);
+      this.zoomBy(zoomFactor);
     }
   }
 
-  zoomInAtPoint(position: Point): void {
+  zoomInAtPoint(position: Point, zoomFactor?: number): void {
     position = this.viewer.viewport.pointFromPixel(position);
+    if (typeof zoomFactor === 'undefined') {
+      zoomFactor = ViewerOptions.zoom.zoomFactor;
+    }
+
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
-    this.zoomTo(this.getZoom() + ViewerOptions.zoom.zoomFactor, position);
+    this.zoomBy(zoomFactor, position);
+  }
+
+  zoomOutAtPoint(position: Point, zoomFactor?: number): void {
+    position = this.viewer.viewport.pointFromPixel(position);
+    if (typeof zoomFactor === 'undefined') {
+      zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, -1);
+    }
+    if (this.isViewportLargerThanPage()) {
+      this.modeService.mode = ViewerMode.PAGE;
+    } else {
+      this.zoomBy(zoomFactor, position);
+    }
   }
 
 
@@ -320,6 +348,7 @@ export class ViewerService {
     this.pageMask.hide();
 
     this.fitBoundsInDashboardView();
+    this.viewer.viewport.minZoomLevel = this.getDashboardZoomLevel();
   }
 
   /**
@@ -333,59 +362,94 @@ export class ViewerService {
     this.pageMask.show();
 
     this.fitBounds(this.overlays[this.pageService.currentPage]);
+
   }
 
   /**
    * Scroll-handler
    */
-  scrollHandler = (e: any) => {
-    const event = e.originalEvent;
-    const delta = (event.wheelDelta) ? event.wheelDelta : -event.deltaY;
+  scrollHandler = (event: any) => {
+    const zoomFactor = Math.pow( ViewerOptions.zoom.zoomFactor, event.scroll );
     // Scrolling up
-    if (delta > 0) {
-      this.zoomInGesture();
+    if (event.scroll > 0) {
+      this.zoomInGesture(event.position, zoomFactor);
       // Scrolling down
-    } else if (delta < 0) {
-      this.zoomOutGesture();
+    } else if (event.scroll < 0) {
+      this.zoomOutGesture(event.position, zoomFactor);
     }
   }
 
   /**
    * Pinch-handler
   */
-  pinchHandler = (e: any) => {
+  pinchHandler = (event: any) => {
+    const zoomFactor = event.distance / event.lastDistance;
     // Pinch Out
-    if (e.distance > e.lastDistance) {
-      this.zoomInGesture(e.center);
+    if (event.distance > event.lastDistance) {
+      this.zoomInPinchGesture(event, zoomFactor);
       // Pinch In
     } else {
-      this.zoomOutGesture();
+      this.zoomOutPinchGesture(event, zoomFactor);
     }
   }
 
   /**
+   * Process zoom out pinch gesture (pinch in)
+   *
+   * Zoom out and toggle to dashboard when all zoomed out.
+   * Stop before toggling to dashboard.
+   *
+   * @param {any} event from pinch gesture
+   */
+  zoomOutPinchGesture(event: any, zoomFactor: number): void {
+    const gestureId = event.gesturePoints[0].id;
+      if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        this.pinchStatus.shouldStop = true;
+        this.zoomOutAtPoint(event.center, zoomFactor);
+      } else if (this.modeService.mode === ViewerMode.PAGE) {
+        if (!this.pinchStatus.shouldStop || gestureId === this.pinchStatus.previousGestureId + 2) {
+          this.pinchStatus.shouldStop = false;
+          this.modeService.toggleMode();
+        }
+        this.pinchStatus.previousGestureId = gestureId;
+      }
+  }
+
+  /**
+   * Process zoom in pinch gesture (pinch out)
+   *
+   * Toggle to page mode and Zoom in
+   *
+   * @param {any} event from pinch gesture
+   */
+  zoomInPinchGesture(event: any, zoomFactor: number): void {
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      this.modeService.mode = ViewerMode.PAGE;
+    } else {
+      this.zoomInAtPoint(event.center, zoomFactor);
+    }
+  }
+  /**
    *
    * @param {Point} point to zoom to. If not set, the viewer will zoom to center
    */
-  zoomInGesture(position?: Point): void {
+  zoomInGesture(position: Point, zoomFactor?: number): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
       if (position) {
-        this.zoomInAtPoint(position);
+        this.zoomInAtPoint(position, zoomFactor);
       } else {
         this.zoomIn();
       }
     }
   }
 
-  zoomOutGesture(): void {
-    if (this.modeService.mode === ViewerMode.PAGE || this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      if (this.isViewportLargerThanPage()) {
-        this.toggleToDashboard();
-      } else {
-        this.zoomOut();
-      }
+  zoomOutGesture(position: Point, zoomFactor?: number): void {
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.zoomOutAtPoint(position, zoomFactor);
+    } else if (this.modeService.mode === ViewerMode.PAGE) {
+      this.modeService.mode = ViewerMode.DASHBOARD;
     }
   }
 
@@ -414,7 +478,7 @@ export class ViewerService {
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
-      this.zoomIn(true);
+      this.zoomInAtPoint(event.position, ViewerOptions.zoom.dblClickZoomFactor);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
       const requestedPage: number = this.getOverlayIndexFromClickEvent(target);
@@ -522,6 +586,7 @@ export class ViewerService {
    */
   fitBounds(overlay: SVGRectElement): void {
     this.viewer.viewport.fitBounds(this.createRectangle(overlay));
+    this.viewer.viewport.minZoomLevel = this.getDashboardZoomLevel();
   }
 
   /**
