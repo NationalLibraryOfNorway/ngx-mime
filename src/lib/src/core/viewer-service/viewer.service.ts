@@ -62,11 +62,11 @@ export class ViewerService implements OnInit {
   }
 
   get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable().distinctUntilChanged();
+    return this.currentPageIndex.asObservable();
   }
 
   get onOsdReadyChange(): Observable<boolean> {
-    return this.osdIsReady.asObservable().distinctUntilChanged();
+    return this.osdIsReady.asObservable();
   }
 
   public getViewer(): any {
@@ -526,7 +526,7 @@ export class ViewerService implements OnInit {
   }
 
   private calculateCurrentPage(center: Point) {
-    const currentPageIndex = this.tileRects.findClosestIndex(center);
+    let currentPageIndex = this.tileRects.findClosestIndex(center);
     this.currentPageIndex.next(currentPageIndex);
   }
 

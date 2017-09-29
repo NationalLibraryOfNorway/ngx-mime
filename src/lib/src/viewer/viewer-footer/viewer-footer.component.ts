@@ -53,16 +53,16 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.viewerService
       .onPageChange
       .subscribe((currentPage: number) => {
-      if (this.currentSliderPage !== -1 &&  this.currentSliderPage === currentPage) {
-        this.currentSliderPage = -1;
-      } else if (this.currentSliderPage === -1) {
-        this.currentPage = currentPage;
-      }
-      this.numberOfPages = this.pageService.numberOfPages;
-      this.isFirstPage = this.isOnFirstPage(currentPage);
-      this.isLastPage = this.isOnLastPage(currentPage);
-      this.changeDetectorRef.detectChanges();
-    }));
+        if (this.currentSliderPage !== -1 && this.currentSliderPage === currentPage) {
+          this.currentSliderPage = -1;
+        } else if (this.currentSliderPage === -1) {
+          this.currentPage = currentPage;
+        }
+        this.numberOfPages = this.pageService.numberOfPages;
+        this.isFirstPage = this.isOnFirstPage(currentPage);
+        this.isLastPage = this.isOnLastPage(currentPage);
+        this.changeDetectorRef.detectChanges();
+      }));
   }
 
   ngOnDestroy() {
