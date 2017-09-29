@@ -32,7 +32,6 @@ import { ViewerOptions } from '../../core/models/viewer-options';
   }
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
-
   public state = 'show';
   public showNavigationToolbar = true;
   public searchResult: SearchResult = null;
@@ -47,11 +46,12 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
       this.searchResult = sr;
-      this.showContentSearchNavigator  = this.media.isActive('lt-md') &&  this.searchResult.size() > 0;
+      this.showContentSearchNavigator  = this.isMobileAndHasSearchResult();
+      this.changeDetectorRef.detectChanges();
     }));
 
     this.subscriptions.push(this.media.subscribe((change: MediaChange) => {
-      this.showContentSearchNavigator = this.media.isActive('lt-md') &&  this.searchResult.size() > 0;
+      this.showContentSearchNavigator = this.isMobileAndHasSearchResult();
       this.changeDetectorRef.detectChanges();
     }));
   }
@@ -62,4 +62,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
     });
   }
 
+  private isMobileAndHasSearchResult(): boolean {
+    return this.searchResult.size() > 0 && this.media.isActive('lt-md');
+  }
 }
