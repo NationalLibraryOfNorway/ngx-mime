@@ -13,7 +13,7 @@ export class TileRects {
   }
 
   public findClosestIndex(point: Point): number {
-    let i: number;
+    let i = 0;
     let result: any;
     let lastDelta: any;
 

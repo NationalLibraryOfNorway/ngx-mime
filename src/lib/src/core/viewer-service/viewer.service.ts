@@ -41,9 +41,11 @@ export class ViewerService implements OnInit {
   private subscriptions: Array<Subscription> = [];
 
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+
+  private currentCenter: Subject<Point> = new BehaviorSubject(null);
+  private currentPageIndex: Subject<number> = new BehaviorSubject(0);
+  private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
-  private currentCenter: ReplaySubject<Point> = new ReplaySubject();
-  private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
   private dragStartPosition: any;
   private tileRects = new TileRects();
 
@@ -60,7 +62,11 @@ export class ViewerService implements OnInit {
   }
 
   get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable().distinctUntilChanged();
+    return this.currentPageIndex.asObservable();
+  }
+
+  get onOsdReadyChange(): Observable<boolean> {
+    return this.osdIsReady.asObservable();
   }
 
   public getViewer(): any {
@@ -232,6 +238,13 @@ export class ViewerService implements OnInit {
 
     this.viewer.addHandler('canvas-drag', (e: any) => this.dragHandler(e));
     this.viewer.addHandler('canvas-drag-end', (e: any) => this.swipeToPage(e));
+
+    this.viewer.addHandler('animation', (e: any) => {
+      this.currentCenter.next(this.viewer.viewport.getCenter(true));
+    });
+    this.viewer.addHandler('open', (e: any) => {
+      this.osdIsReady.next(true);
+    });
   }
 
   zoomIn(dblClickZoom?: boolean): void {
@@ -515,7 +528,7 @@ export class ViewerService implements OnInit {
   }
 
   private calculateCurrentPage(center: Point) {
-    const currentPageIndex = this.tileRects.findClosestIndex(center);
+    let currentPageIndex = this.tileRects.findClosestIndex(center);
     this.currentPageIndex.next(currentPageIndex);
   }
 
