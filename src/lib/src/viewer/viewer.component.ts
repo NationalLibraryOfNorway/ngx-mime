@@ -12,6 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
@@ -28,6 +29,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from '../core/models/search-result';
 import { MimeViewerIntl } from '../core/viewer-intl';
+import { ViewerOptions } from '../core/models/viewer-options';
 
 @Component({
   selector: 'mime-viewer',
@@ -121,8 +123,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.toggleToolbarsState(mode);
       })
     );
-
-    this.loadManifest();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -137,7 +137,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
-      if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.firstChange) {
+      if (manifestUriChanges.currentValue !== manifestUriChanges.previousValue) {
         this.modeService.mode = this.config.initViewerMode;
         this.manifestUri = manifestUriChanges.currentValue;
         manifestUriIsChanged = true;

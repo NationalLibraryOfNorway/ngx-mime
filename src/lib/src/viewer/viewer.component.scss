@@ -8,39 +8,38 @@
   flex-direction: column;
 }
 
-:host>>>.openseadragon-container {
+:host::ng-deep.openseadragon-container {
   flex-grow: 1;
+}
+
+:host::ng-deep.openseadragon-canvas:focus {
+  outline: none;
 }
 
 #openseadragon {
   display: flex;
-  width: 100%;
   flex-grow: 1;
   flex-direction: column;
+  opacity: 0;
+  width: 100%;
 }
 
-.viewer-container.page {
-  & #openseadragon {
-    height: 100%;
-  }
-}
-
-.viewer-container >>>.tile:hover {
+.viewer-container::ng-deep.tile:hover {
   stroke: #08f;
   stroke-width: 10;
   cursor: pointer;
 }
 
-.viewer-container.page >>>.tile:hover {
+.viewer-container.page::ng-deep.tile:hover {
   stroke: none;
 }
 
-.viewer-container.canvas-pressed,.viewer-container.canvas-pressed>>>.tile:hover  {
+.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover  {
   cursor: grabbing;
   cursor: -webkit-grabbing;
 }
 
-.viewer-container>>>.tile {
+.viewer-container::ng-deep.tile {
   fill-opacity: 0; /* Svg-tile filled black if this is not set? */
 }
 

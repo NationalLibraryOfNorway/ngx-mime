@@ -7,13 +7,15 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { MimeViewerIntl } from '../viewer-intl';
+import { SpinnerService } from '../spinner-service/spinner.service';
 
 @Injectable()
 export class IiifManifestService {
   protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(null);
   protected _errorMessage: Subject<string> = new BehaviorSubject(null);
 
-  constructor(public intl: MimeViewerIntl, private http: HttpClient) { }
+  constructor(public intl: MimeViewerIntl,private http: HttpClient,
+    private spinnerService: SpinnerService) { }
 
   get currentManifest(): Observable<Manifest> {
     return this._currentManifest.asObservable().filter(m => m !== null).distinctUntilChanged();
@@ -27,19 +29,19 @@ export class IiifManifestService {
     console.log('Load 1');
     if (manifestUri === null) {
       this._errorMessage.next(this.intl.manifestUriMissing);
-    } else {
-      this.http.get(manifestUri).subscribe(
-        (response: Response) => {
+    }else {
+    this.spinnerService.show();this.http.get(manifestUri)
+      .finally(() => this.spinnerService.hide())
+      .subscribe(
+      (response: Response) => {
           const manifest = this.extractData(response);
-          if (this.isManifestValid(manifest)) {
-            this._currentManifest.next(manifest);
-          } else {
-            this._errorMessage.next(this.intl.manifestNotValid);
-          }
+          if (this.isManifestValid(manifest)) {this._currentManifest.next(manifest);
+          } else {this._errorMessage.next(this.intl.manifestNotValid);
+      }
         },
         (error: HttpErrorResponse) => this._errorMessage.next(this.handleError(error))
-      );
-    }
+    );
+}
   }
 
   destroy() {

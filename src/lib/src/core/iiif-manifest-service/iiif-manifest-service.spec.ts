@@ -7,6 +7,7 @@ import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { testManifest } from '../../test/testManifest';
 import { MimeViewerIntl } from '../viewer-intl';
+import { SpinnerService } from '../spinner-service/spinner.service';
 import '../../rxjs-extension';
 
 describe('IiifManifestService', () => {
@@ -18,6 +19,8 @@ describe('IiifManifestService', () => {
       providers: [
         IiifManifestService,
         MimeViewerIntl
+        IiifManifestService,
+        SpinnerService
       ]
     });
   });

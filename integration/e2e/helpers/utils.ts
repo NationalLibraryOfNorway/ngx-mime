@@ -4,6 +4,9 @@ import { Capabilities } from 'selenium-webdriver';
 const EC = protractor.ExpectedConditions;
 const RETRY = 100;
 export class Utils {
+  static numbersAreClose(thing: number, realThing: number, epsilon: number): boolean {
+    return (Math.abs(thing - realThing) <= epsilon);
+  }
 
   public async waitForElement(el: ElementFinder) {
     let found = false;
@@ -20,6 +23,11 @@ export class Utils {
     } else {
       return el;
     }
+  }
+
+  public async waitForPresenceOf(el: ElementFinder) {
+    await browser.wait(EC.presenceOf(el), 10000);
+    return el;
   }
 
   async clickElement(el: ElementFinder) {

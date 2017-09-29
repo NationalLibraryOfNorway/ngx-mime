@@ -34,10 +34,13 @@ describe('PageService', () => {
 
     service.currentPage = -2;
     expect(service.currentPage).toBe(76);
+
     service.currentPage = 100;
     expect(service.currentPage).toBe(76);
+
     service.currentPage = 101;
     expect(service.currentPage).toBe(76);
+
     service.currentPage = 176;
     expect(service.currentPage).toBe(76);
   });
@@ -66,6 +69,27 @@ describe('PageService', () => {
   it('#getPrevPage should return -1 when going out of bounds', () => {
     service.currentPage = 0;
     expect(service.getPrevPage()).toBe(-1);
+  });
+
+  it('should return maxPage when next page is larger than maxPage', () => {
+
+    let newPage = service.constrainToRange(101);
+    expect(newPage).toBe(100);
+
+    newPage = service.constrainToRange(110);
+    expect(newPage).toBe(100);
+
+  });
+
+  it('should not return index lower than 0', () => {
+    let newPage = service.constrainToRange(0);
+    expect(newPage).toBe(0);
+
+    newPage = service.constrainToRange(-1);
+    expect(newPage).toBe(0);
+
+    newPage = service.constrainToRange(-10);
+    expect(newPage).toBe(0);
   });
 
 });

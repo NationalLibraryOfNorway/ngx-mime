@@ -1,4 +1,5 @@
 export enum ViewerMode {
   DASHBOARD,
-  PAGE
+  PAGE,
+  PAGE_ZOOMED
 }
