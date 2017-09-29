@@ -4,6 +4,7 @@ import { FormsModule }   from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MimeMaterialModule } from './mime-material.module';
+import { SpinnerService } from '../core/spinner-service/spinner.service';
 
 @NgModule({
   imports: [
@@ -18,5 +19,8 @@ import { MimeMaterialModule } from './mime-material.module';
     MimeMaterialModule,
     FormsModule
   ],
+  providers: [
+    SpinnerService
+  ]
 })
 export class SharedModule { }

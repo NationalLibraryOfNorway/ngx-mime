@@ -8,6 +8,7 @@ import {
   MdTabsModule,
   MdListModule,
   MdSliderModule,
+  MdProgressSpinnerModule,
   MdInputModule,
   MdProgressBarModule,
   MdCardModule
@@ -23,6 +24,7 @@ import {
     MdTabsModule,
     MdListModule,
     MdSliderModule,
+    MdProgressSpinnerModule,
     MdInputModule,
     MdProgressBarModule,
     MdCardModule

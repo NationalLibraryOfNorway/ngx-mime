@@ -1,6 +1,6 @@
 import {
-  Canvas, Images, Manifest, Metadata, Resource,
-  Sequence, Service, Size, Structure, Tile
+  Canvas, Images, Manifest, Metadata, Resource, Sequence,
+  Service, Size, Structure, Tile, ViewingDirection
 } from '../models/manifest';
 
 export class ManifestBuilder {
@@ -11,6 +11,7 @@ export class ManifestBuilder {
       context: BuilderUtils.extractContext(this.data),
       type: BuilderUtils.extracType(this.data),
       id: BuilderUtils.extractId(this.data),
+      viewingDirection: BuilderUtils.extractViewingDirection(this.data),
       label: this.data.label,
       metadata: new MetadataBuilder(this.data.metadata).build(),
       license: this.data.license,
@@ -226,5 +227,13 @@ export class BuilderUtils {
 
   static extractContext(value: any): any {
     return value['@context'];
+  }
+
+  static extractViewingDirection(value: any): ViewingDirection {
+    if (value['viewingDirection'] === 'left-to-right') {
+      return ViewingDirection.LTR;
+    } else if (value['viewingDirection'] === 'right-to-left') {
+      return ViewingDirection.RTL;
+    }
   }
 }
