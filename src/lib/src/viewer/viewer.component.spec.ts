@@ -30,7 +30,7 @@ import { FullscreenService } from '../core/fullscreen-service/fullscreen.service
 import 'openseadragon';
 import '../rxjs-extension';
 
-xdescribe('ViewerComponent', function () {
+describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
@@ -91,244 +91,244 @@ xdescribe('ViewerComponent', function () {
 
   it('should create component', () => expect(comp).toBeDefined());
 
-  it('should cleanUp when manifestUri changes', () => {
-    testHostComponent.manifestUri = 'dummyURI2';
-
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
-    testHostFixture.detectChanges();
-
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
-  });
-
-  it('should create viewer', () => {
-    expect(viewerService.getViewer()).toBeDefined();
-  });
-
-  it('should initially open in configs intial-mode', () => {
-    expect(modeService.mode).toBe(config.initViewerMode);
-  });
-
-  it('should change mode to initial-mode when changing manifest', (done: any) => {
-    testHostFixture.whenStable().then(() => {
-      // Toggle to opposite of initial-mode
-      config.initViewerMode === ViewerMode.PAGE ? viewerService.toggleToDashboard() : viewerService.toggleToPage();
-      testHostComponent.manifestUri = 'dummyURI3';
-      testHostComponent.viewerComponent.ngOnInit();
-      testHostFixture.detectChanges();
-      expect(modeService.mode).toBe(config.initViewerMode);
-      done();
-    });
-  });
-
-  it('should change to DASHBOARD-mode when doubleclicking in PAGE-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-    let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
-  it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
-    viewerService.toggleToDashboard();
-    expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
-
-    let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
-  it('should change to PAGE-mode when singleclicking in DASHBOARD-mode', fakeAsync(() => {
-    viewerService.toggleToDashboard();
-
-    let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
-  it('should fit page to viewport in PAGE-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    tick(1000);
-    expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
-  }));
-
-
-  it('should still be PAGE-mode when doubleclick in zoomed-in page-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
-  it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-  }));
-
-  it('should change to dashboard-mode when single-click in zoomed-in page-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    let firstOverlay = viewerService.getOverlays()[0];
-    let clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE); // We are in zoomed-in page-mode
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-  }));
-
-  it('should close all dialogs when manifestUri changes', () => {
-    testHostComponent.manifestUri = 'dummyURI2';
-
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
-    testHostFixture.detectChanges();
-
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
-  });
-
-  it('should increase zoom level when pinching out', () => {
-    // comp.ngOnInit();
-    //
-    // pinchOut(viewerService);
-    //
-    // expect(viewerService.getZoom()).toBeGreaterThan(viewerService.getHomeZoom());
-    pending('Set to pending until we find a way to perform pinch event');
-  });
-
-  it('should decrease zoom level when is zoomed in and pinching in', () => {
-    // comp.ngOnInit();
-    // const previousZoom = 1;
-    // viewerService.zoomTo(previousZoom);
-    //
-    // pinchIn(viewerService);
-    //
-    // expect(viewerService.getZoom()).toBeLessThan(previousZoom);
-    pending('Set to pending until we find a way to perform pinch event');
-  });
-
-  it('should not decrease zoom level when zoom level is home and pinching in', () => {
-    // comp.ngOnInit();
-    // viewerService.zoomHome();
-    //
-    // pinchIn(viewerService);
-    //
-    // expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
-    pending('Set to pending until we find a way to perform pinch event');
-  });
-
-  it('#pageIsAtMinZoom should return true if page is at minimum zoom level', () => {
-    pending('');
-  });
-
-  it('should move image inside the view when user is panning', () => {
-    // comp.ngOnInit();
-    // viewerService.zoomTo(2);
-    // const viewer = viewerService.getViewer();
-    // const previousCenter = viewer.viewport.getCenter(false);
-    //
-    // viewer.raiseEvent('pan', {x: 150, y: 150});
-    //
-    // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
-    pending('Set to pending until we find a way to perform pan event');
-  });
-
-  it('svgOverlay-plugin should be defined', () => {
-    expect(viewerService.getViewer().svgOverlay()).toBeDefined();
-  });
-
-  it('should create overlays', () => {
-    expect(viewerService.getOverlays()).toBeDefined();
-  });
-
-  it('should create overlays-array with same size as tilesources-array', () => {
-    expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
-  });
-
-  it('should return an OpenSeadragon.Rect with properties equal to overlay', () => {
-    let overlay = viewerService.getOverlays()[0];
-    let rect = viewerService.createRectangle(overlay);
-
-    expect(rect.x).toEqual(overlay.x.baseVal.value);
-    expect(rect.y).toEqual(overlay.y.baseVal.value);
-    expect(rect.width).toEqual(overlay.width.baseVal.value);
-    expect(rect.height).toEqual(overlay.height.baseVal.value);
-  });
-
-  it('should fit bounds to viewport for a page', fakeAsync(() => {
-    let overlay = viewerService.getOverlays()[0];
-    let viewer = viewerService.getViewer();
-    let overlayBounds = viewerService.createRectangle(overlay);
-
-    viewerService.fitBounds(overlay);
-    tick(1000);
-
-    let viewportX = Math.round(viewer.viewport.getBounds().x);
-    let viewportY = Math.round(viewer.viewport.getBounds().y);
-    let overlayX = Math.round(overlayBounds.y);
-    let overlayY = Math.round(overlayBounds.y);
-
-    expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
-  }));
-
-  it('should return overlay-index if target is an overlay', () => {
-    let overlay, index;
-    overlay = viewerService.getOverlays()[0];
-    index = viewerService.getOverlayIndexFromClickEvent(overlay);
-    expect(index).toBe(0);
-
-    overlay = viewerService.getOverlays()[1];
-    index = viewerService.getOverlayIndexFromClickEvent(overlay);
-    expect(index).toBe(1);
-
-    overlay = viewerService.getOverlays()[12];
-    index = viewerService.getOverlayIndexFromClickEvent(overlay);
-    expect(index).toBe(12);
-
-    // Should return -1 for nonsense overlay
-    overlay = viewerService.getOverlays()[12000];
-    index = viewerService.getOverlayIndexFromClickEvent(overlay);
-    expect(index).toBe(-1);
-
-  });
-
-  it('should change page when swipeing to left', () => {
-    // viewerService.toggleToDashboard();
-    // tick();
-    // const viewer = viewerService.getViewer();
-    // viewer.raiseEvent('canvas-press', {position: {
-    //   x: 1450, y: 150}
-    // });
-    // tick(1);
-    // viewer.raiseEvent('canvas-drag-end', {position: {
-    //   x: 150, y: 150}
-    // });
-    // let pageNumber = 0;
-    // viewerService.onPageChange.subscribe(p => {
-    //   pageNumber = p;
-    // });
-    // tick(100);
-    // expect(pageNumber).toBe(10);
-    pending('Set to pending until we find a way to perform swipe event');
-  });
+  // it('should cleanUp when manifestUri changes', () => {
+  //   testHostComponent.manifestUri = 'dummyURI2';
+  //
+  //   spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+  //   testHostFixture.detectChanges();
+  //
+  //   expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+  // });
+  //
+  // it('should create viewer', () => {
+  //   expect(viewerService.getViewer()).toBeDefined();
+  // });
+  //
+  // it('should initially open in configs intial-mode', () => {
+  //   expect(modeService.mode).toBe(config.initViewerMode);
+  // });
+  //
+  // it('should change mode to initial-mode when changing manifest', (done: any) => {
+  //   testHostFixture.whenStable().then(() => {
+  //     // Toggle to opposite of initial-mode
+  //     config.initViewerMode === ViewerMode.PAGE ? viewerService.toggleToDashboard() : viewerService.toggleToPage();
+  //     testHostComponent.manifestUri = 'dummyURI3';
+  //     testHostComponent.viewerComponent.ngOnInit();
+  //     testHostFixture.detectChanges();
+  //     expect(modeService.mode).toBe(config.initViewerMode);
+  //     done();
+  //   });
+  // });
+  //
+  // it('should change to DASHBOARD-mode when doubleclicking in PAGE-mode', fakeAsync(() => {
+  //   viewerService.toggleToPage();
+  //   expect(comp.mode).toBe(ViewerMode.PAGE);
+  //   let firstOverlay = viewerService.getOverlays()[0];
+  //   let clickEvent = createClickEvent(firstOverlay);
+  //   clickService.click(clickEvent);
+  //
+  //   tick(1000);
+  //   expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+  //   clickService.click(clickEvent);
+  //   clickService.click(clickEvent);
+  //   tick(1000);
+  //   expect(comp.mode).toBe(ViewerMode.PAGE);
+  // }));
+  //
+  // it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
+  //   viewerService.toggleToDashboard();
+  //   expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+  //
+  //   let firstOverlay = viewerService.getOverlays()[0];
+  //   let clickEvent = createClickEvent(firstOverlay);
+  //   clickService.click(clickEvent);
+  //   clickService.click(clickEvent);
+  //   tick(1000);
+  //   expect(comp.mode).toBe(ViewerMode.PAGE);
+  // }));
+  //
+  // it('should change to PAGE-mode when singleclicking in DASHBOARD-mode', fakeAsync(() => {
+  //   viewerService.toggleToDashboard();
+  //
+  //   let firstOverlay = viewerService.getOverlays()[0];
+  //   let clickEvent = createClickEvent(firstOverlay);
+  //   clickService.click(clickEvent);
+  //   tick(1000);
+  //   expect(comp.mode).toBe(ViewerMode.PAGE);
+  // }));
+  //
+  // it('should fit page to viewport in PAGE-mode', fakeAsync(() => {
+  //   viewerService.toggleToPage();
+  //   tick(1000);
+  //   expect(viewerService.getIsCurrentPageFittedViewport()).toBe(true);
+  // }));
+  //
+  //
+  // it('should still be PAGE-mode when doubleclick in zoomed-in page-mode', fakeAsync(() => {
+  //   viewerService.toggleToPage();
+  //   let firstOverlay = viewerService.getOverlays()[0];
+  //   let clickEvent = createClickEvent(firstOverlay);
+  //   clickService.click(clickEvent);
+  //   clickService.click(clickEvent);
+  //   tick(1000);
+  //   expect(comp.mode).toBe(ViewerMode.PAGE);
+  // }));
+  //
+  // it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
+  //   viewerService.toggleToPage();
+  //   let firstOverlay = viewerService.getOverlays()[0];
+  //   let clickEvent = createClickEvent(firstOverlay);
+  //   clickService.click(clickEvent);
+  //   tick(1000);
+  //   expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+  // }));
+  //
+  // it('should change to dashboard-mode when single-click in zoomed-in page-mode', fakeAsync(() => {
+  //   viewerService.toggleToPage();
+  //   let firstOverlay = viewerService.getOverlays()[0];
+  //   let clickEvent = createClickEvent(firstOverlay);
+  //   clickService.click(clickEvent);
+  //   clickService.click(clickEvent);
+  //   tick(1000);
+  //   expect(comp.mode).toBe(ViewerMode.PAGE); // We are in zoomed-in page-mode
+  //   clickService.click(clickEvent);
+  //   tick(1000);
+  //   expect(comp.mode).toBe(ViewerMode.DASHBOARD);
+  // }));
+  //
+  // it('should close all dialogs when manifestUri changes', () => {
+  //   testHostComponent.manifestUri = 'dummyURI2';
+  //
+  //   spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+  //   testHostFixture.detectChanges();
+  //
+  //   expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+  // });
+  //
+  // it('should increase zoom level when pinching out', () => {
+  //   // comp.ngOnInit();
+  //   //
+  //   // pinchOut(viewerService);
+  //   //
+  //   // expect(viewerService.getZoom()).toBeGreaterThan(viewerService.getHomeZoom());
+  //   pending('Set to pending until we find a way to perform pinch event');
+  // });
+  //
+  // it('should decrease zoom level when is zoomed in and pinching in', () => {
+  //   // comp.ngOnInit();
+  //   // const previousZoom = 1;
+  //   // viewerService.zoomTo(previousZoom);
+  //   //
+  //   // pinchIn(viewerService);
+  //   //
+  //   // expect(viewerService.getZoom()).toBeLessThan(previousZoom);
+  //   pending('Set to pending until we find a way to perform pinch event');
+  // });
+  //
+  // it('should not decrease zoom level when zoom level is home and pinching in', () => {
+  //   // comp.ngOnInit();
+  //   // viewerService.zoomHome();
+  //   //
+  //   // pinchIn(viewerService);
+  //   //
+  //   // expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
+  //   pending('Set to pending until we find a way to perform pinch event');
+  // });
+  //
+  // it('#pageIsAtMinZoom should return true if page is at minimum zoom level', () => {
+  //   pending('');
+  // });
+  //
+  // it('should move image inside the view when user is panning', () => {
+  //   // comp.ngOnInit();
+  //   // viewerService.zoomTo(2);
+  //   // const viewer = viewerService.getViewer();
+  //   // const previousCenter = viewer.viewport.getCenter(false);
+  //   //
+  //   // viewer.raiseEvent('pan', {x: 150, y: 150});
+  //   //
+  //   // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
+  //   pending('Set to pending until we find a way to perform pan event');
+  // });
+  //
+  // it('svgOverlay-plugin should be defined', () => {
+  //   expect(viewerService.getViewer().svgOverlay()).toBeDefined();
+  // });
+  //
+  // it('should create overlays', () => {
+  //   expect(viewerService.getOverlays()).toBeDefined();
+  // });
+  //
+  // it('should create overlays-array with same size as tilesources-array', () => {
+  //   expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
+  // });
+  //
+  // it('should return an OpenSeadragon.Rect with properties equal to overlay', () => {
+  //   let overlay = viewerService.getOverlays()[0];
+  //   let rect = viewerService.createRectangle(overlay);
+  //
+  //   expect(rect.x).toEqual(overlay.x.baseVal.value);
+  //   expect(rect.y).toEqual(overlay.y.baseVal.value);
+  //   expect(rect.width).toEqual(overlay.width.baseVal.value);
+  //   expect(rect.height).toEqual(overlay.height.baseVal.value);
+  // });
+  //
+  // it('should fit bounds to viewport for a page', fakeAsync(() => {
+  //   let overlay = viewerService.getOverlays()[0];
+  //   let viewer = viewerService.getViewer();
+  //   let overlayBounds = viewerService.createRectangle(overlay);
+  //
+  //   viewerService.fitBounds(overlay);
+  //   tick(1000);
+  //
+  //   let viewportX = Math.round(viewer.viewport.getBounds().x);
+  //   let viewportY = Math.round(viewer.viewport.getBounds().y);
+  //   let overlayX = Math.round(overlayBounds.y);
+  //   let overlayY = Math.round(overlayBounds.y);
+  //
+  //   expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
+  // }));
+  //
+  // it('should return overlay-index if target is an overlay', () => {
+  //   let overlay, index;
+  //   overlay = viewerService.getOverlays()[0];
+  //   index = viewerService.getOverlayIndexFromClickEvent(overlay);
+  //   expect(index).toBe(0);
+  //
+  //   overlay = viewerService.getOverlays()[1];
+  //   index = viewerService.getOverlayIndexFromClickEvent(overlay);
+  //   expect(index).toBe(1);
+  //
+  //   overlay = viewerService.getOverlays()[12];
+  //   index = viewerService.getOverlayIndexFromClickEvent(overlay);
+  //   expect(index).toBe(12);
+  //
+  //   // Should return -1 for nonsense overlay
+  //   overlay = viewerService.getOverlays()[12000];
+  //   index = viewerService.getOverlayIndexFromClickEvent(overlay);
+  //   expect(index).toBe(-1);
+  //
+  // });
+  //
+  // it('should change page when swipeing to left', () => {
+  //   // viewerService.toggleToDashboard();
+  //   // tick();
+  //   // const viewer = viewerService.getViewer();
+  //   // viewer.raiseEvent('canvas-press', {position: {
+  //   //   x: 1450, y: 150}
+  //   // });
+  //   // tick(1);
+  //   // viewer.raiseEvent('canvas-drag-end', {position: {
+  //   //   x: 150, y: 150}
+  //   // });
+  //   // let pageNumber = 0;
+  //   // viewerService.onPageChange.subscribe(p => {
+  //   //   pageNumber = p;
+  //   // });
+  //   // tick(100);
+  //   // expect(pageNumber).toBe(10);
+  //   pending('Set to pending until we find a way to perform swipe event');
+  // });
 
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
@@ -371,15 +371,26 @@ export class TestHostComponent {
 
 class IiifManifestServiceStub {
   protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
+  protected _errorMessage: Subject<string> = new BehaviorSubject(null);
 
   get currentManifest(): Observable<Manifest> {
     return this._currentManifest.asObservable();
   }
 
+  get errorMessage(): Observable<string> {
+    return this._errorMessage.asObservable();
+  }
+
   load(manifestUri: string): void {
-    if (manifestUri === null) {
-      return;
-    }
+    console.log('Load 2 - ' + manifestUri);
     this._currentManifest.next(new ManifestBuilder(testManifest).build());
+  }
+
+  resetCurrentManifest() {
+    this._currentManifest.next(null);
+  }
+
+  resetErrorMessage() {
+    this._errorMessage.next(null);
   }
 }

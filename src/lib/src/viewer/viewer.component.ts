@@ -75,17 +75,19 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest) => {
-          this.resetErrorMessage();
-          this.currentManifest = manifest;
-          this.cleanUp();
-          this.changeDetectorRef.detectChanges();
-          this.viewerService.setUpViewer(manifest);
-          if (this.config.attributionDialogEnabled && manifest.attribution) {
-            this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
-          }
+          if (manifest) {
+            this.resetErrorMessage();
+            this.currentManifest = manifest;
+            this.cleanUp();
+            this.changeDetectorRef.detectChanges();
+            this.viewerService.setUpViewer(manifest);
+            if (this.config.attributionDialogEnabled && manifest.attribution) {
+              this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
+            }
 
-          if (this.q) {
-            this.iiifContentSearchService.search(manifest, this.q);
+            if (this.q) {
+              this.iiifContentSearchService.search(manifest, this.q);
+            }
           }
         }
       )
@@ -198,7 +200,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.iiifManifestService.load(this.manifestUri);
   }
 
-  private cleanUp() {
+  public cleanUp() {
     this.viewerService.destroy();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();

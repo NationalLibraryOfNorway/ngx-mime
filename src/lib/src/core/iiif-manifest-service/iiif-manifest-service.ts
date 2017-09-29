@@ -24,6 +24,7 @@ export class IiifManifestService {
   }
 
   load(manifestUri: string): void {
+    console.log('Load 1');
     if (manifestUri === null) {
       this._errorMessage.next(this.intl.manifestUriMissing);
     } else {
@@ -59,7 +60,7 @@ export class IiifManifestService {
   }
 
   private isManifestValid(manifest: Manifest): boolean {
-    return manifest && manifest.tileSource && manifest.tileSource.length > 0;
+    return (manifest != null && manifest.tileSource != null && manifest.tileSource.length > 0);
   }
 
   private handleError(err: HttpErrorResponse | any): string {

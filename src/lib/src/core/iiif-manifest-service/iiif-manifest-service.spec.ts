@@ -22,10 +22,6 @@ describe('IiifManifestService', () => {
     });
   });
 
-  beforeEach(inject([IiifManifestService], (svc: IiifManifestService) => {
-    svc.destroy();
-  }));
-
   it('should be created', inject([IiifManifestService],
       (svc: IiifManifestService) => {
     expect(svc).toBeTruthy();
