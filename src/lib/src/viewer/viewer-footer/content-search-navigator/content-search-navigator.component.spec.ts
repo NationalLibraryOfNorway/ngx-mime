@@ -1,5 +1,6 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
-import { async, ComponentFixture, TestBed, inject, tick } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -44,7 +45,19 @@ describe('ContentSearchNavigatorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return 0 if canvasIndex is before first hit', () => {
+  it('should re-render when the i18n labels have changed',
+    inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
+      const text = fixture.debugElement.query(By.css('#footerNavigateNextHitButton'));
+      expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Hit`);
+
+      intl.nextHitLabel = 'New test string';
+      intl.changes.next();
+      fixture.detectChanges();
+      expect(text.nativeElement.getAttribute('aria-label')).toContain('New test string');
+    })
+  );
+
+  it('should return -1 if canvasIndex is before first hit', () => {
     const res = component.findCurrentHitIndex(1);
     expect(res).toBe(-1);
   });

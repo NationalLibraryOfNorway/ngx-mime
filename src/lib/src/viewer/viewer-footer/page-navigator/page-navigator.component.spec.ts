@@ -48,16 +48,16 @@ describe('PageNavigatorComponent', () => {
   });
 
   it('should re-render when the i18n labels have changed',
-  inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
-    const text = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
-    expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Page`);
+    inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
+      const text = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
+      expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Page`);
 
-    intl.nextPage = 'New test string';
-    intl.changes.next();
-    fixture.detectChanges();
-    expect(text.nativeElement.getAttribute('aria-label')).toContain('New test string');
-  })
-);
+      intl.nextPage = 'New test string';
+      intl.changes.next();
+      fixture.detectChanges();
+      expect(text.nativeElement.getAttribute('aria-label')).toContain('New test string');
+    })
+  );
 
   it('should enable both navigation buttons when viewer is on second page',
     inject([ViewerService], (viewerService: ViewerServiceMock) => {
