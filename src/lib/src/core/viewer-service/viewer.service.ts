@@ -33,8 +33,7 @@ import * as d3 from 'd3';
 declare const OpenSeadragon: any;
 
 @Injectable()
-export class ViewerService implements OnInit {
-
+export class ViewerService {
   private viewer: any;
   private svgOverlay: any;
   private svgNode: any;
@@ -59,8 +58,6 @@ export class ViewerService implements OnInit {
     private clickService: ClickService,
     private pageService: PageService,
     private modeService: ModeService) { }
-
-  ngOnInit(): void { }
 
   get onCenterChange(): Observable<Point> {
     return this.currentCenter.asObservable();
@@ -205,19 +202,18 @@ export class ViewerService implements OnInit {
         this.pageMask = new PageMask(this.viewer);
       });
 
-      this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.modeChanged(mode);
-      }));
+      this.addToWindow();
+      this.setupOverlays();
+      this.createOverlays();
+      this.addEvents();
 
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
       }));
 
-
-      this.addToWindow();
-      this.setupOverlays();
-      this.createOverlays();
-      this.addEvents();
+      this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+        this.modeChanged(mode);
+      }));
     }
   }
 
@@ -280,7 +276,7 @@ export class ViewerService implements OnInit {
 
   zoomOut(): void {
     if (this.isViewportLargerThanPage()) {
-      this.toggleToPage();
+      this.modeService.mode = ViewerMode.PAGE;
     } else {
       this.zoomTo(this.getZoom() - ViewerOptions.zoom.zoomFactor);
     }
@@ -303,9 +299,11 @@ export class ViewerService implements OnInit {
     if (mode === ViewerMode.DASHBOARD) {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
+      this.toggleToDashboard();
     } else if (mode === ViewerMode.PAGE) {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
+      this.toggleToPage();
     } else if (mode === ViewerMode.PAGE_ZOOMED) {
       this.viewer.panVertical = true;
     }
@@ -314,11 +312,10 @@ export class ViewerService implements OnInit {
   /**
    * Switches to DASHBOARD-mode, repositions pages and removes max-width on viewer
    */
-  toggleToDashboard(): void {
+  private toggleToDashboard(): void {
     if (!this.pageService.isCurrentPageValid()) {
       return;
     }
-    this.modeService.mode = ViewerMode.DASHBOARD;
     this.goToPage(this.pageService.currentPage);
     this.pageMask.hide();
 
@@ -328,11 +325,10 @@ export class ViewerService implements OnInit {
   /**
    * Switches to PAGE-mode, centers currentPage and repositions pages other pages
    */
-  toggleToPage(): void {
+  private toggleToPage(): void {
     if (!this.pageService.isCurrentPageValid()) {
       return;
     }
-    this.modeService.mode = ViewerMode.PAGE;
     this.goToPage(this.pageService.currentPage);
     this.pageMask.show();
 
@@ -373,7 +369,7 @@ export class ViewerService implements OnInit {
    */
   zoomInGesture(position?: Point): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      this.toggleToPage();
+      this.modeService.mode = ViewerMode.PAGE;
     } else {
       if (position) {
         this.zoomInAtPoint(position);
@@ -404,7 +400,6 @@ export class ViewerService implements OnInit {
       this.pageService.currentPage = requestedPage;
     }
     this.modeService.toggleMode();
-    this.modeService.mode === ViewerMode.PAGE ? this.toggleToPage() : this.toggleToDashboard();
   }
 
   /**
@@ -426,7 +421,6 @@ export class ViewerService implements OnInit {
       if (requestedPage >= 0) {
         this.pageService.currentPage = requestedPage;
       }
-      this.toggleToPage();
     }
   }
 

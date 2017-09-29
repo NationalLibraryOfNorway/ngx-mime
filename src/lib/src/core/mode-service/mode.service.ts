@@ -26,8 +26,7 @@ export class ModeService {
 
   set initialMode(mode: ViewerMode) {
     this._initialMode = mode;
-    this._mode = mode;
-    this.change();
+    this.mode = mode;
   }
 
   get initialMode(): ViewerMode {
