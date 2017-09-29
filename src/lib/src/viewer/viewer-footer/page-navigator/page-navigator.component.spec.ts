@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import {
   async,
   ComponentFixture,
@@ -119,7 +119,7 @@ describe('PageNavigatorComponent', () => {
         expect(spy.calls.count()).toEqual(1);
       });
     }));
- 
+
 });
 
 class ViewerServiceMock {
@@ -137,15 +137,8 @@ class ViewerServiceMock {
 class PageServiceMock {
   public _numberOfPages: number;
 
-  set numberOfPages(numberOfPages: number) {
-    this._numberOfPages = numberOfPages;
-  }
-
   get numberOfPages(): number {
     return this._numberOfPages;
   }
 
-  public getZoom(): number {
-    return 0;
-  }
 }
