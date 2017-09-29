@@ -473,7 +473,7 @@ export class ViewerService implements OnInit {
   }
 
   /**
-   * Append blur-filter-definition used for drop-shadow
+   * Append blur-filter definition used for drop-shadow
    */
   private appendBlurFilter(): void {
     const svgParent = d3.select(this.svgOverlay.node().parentNode);
@@ -592,7 +592,7 @@ export class ViewerService implements OnInit {
 
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
-      this.swipeDragEndCounter.addHit(pannedPastSide);
+      this.swipeDragEndCounter.addHit(pannedPastSide, direction);
       pageEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
     }
 
