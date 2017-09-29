@@ -108,13 +108,14 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should open viewer on pages canvas index if present', (done: any) => {
+  it('should open viewer on canvas index if present', (done: any) => {
+    spyOn(viewerService, 'goToPage').and.callThrough();
+    testHostComponent.manifestUri = 'dummyURI3';
+    testHostComponent.canvasIndex = 0;
+    testHostFixture.detectChanges();
+    testHostComponent.canvasIndex = 2;
+    testHostFixture.detectChanges();
     testHostFixture.whenStable().then(() => {
-      spyOn(viewerService, 'goToPage').and.callThrough();
-      testHostComponent.manifestUri = 'dummyURI3';
-      testHostComponent.canvasIndex = 2;
-      testHostComponent.viewerComponent.ngOnInit();
-      testHostFixture.detectChanges();
       expect(viewerService.goToPage).toHaveBeenCalled();
       done();
     });
@@ -417,4 +418,7 @@ class IiifManifestServiceStub {
     }
     this._currentManifest.next(new ManifestBuilder(testManifest).build());
   }
+
+  destroy(): void { }
+
 }
