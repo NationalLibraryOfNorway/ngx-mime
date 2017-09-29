@@ -20,10 +20,6 @@ export class PageMask {
       this.resize();
     });
 
-    this.viewer.addHandler('animation', () => {
-      this.resize();
-    });
-
     this.viewer.addHandler('resize', () => {
       this.setCenter();
       this.resize();
@@ -98,9 +94,11 @@ export class PageMask {
 
     const zoom = this.viewer.viewport.getZoom(true);
     const scale = this.viewer.viewport._containerInnerSize.x * zoom;
-    const width = this.center.x - (this.pageBounds.width.baseVal.value * scale / 2);
+    
+    let width = Math.round(this.center.x - (this.pageBounds.width.baseVal.value * scale / 2));
+    if (width < 0) { width = 0 }
     
     this.leftMask.attr('width', width).attr('x', 0);
-    this.rightMask.attr('width', width).attr('x', this.center.x + (this.pageBounds.width.baseVal.value * scale / 2));
+    this.rightMask.attr('width', width).attr('x', Math.round(this.center.x + (this.pageBounds.width.baseVal.value * scale / 2)));
   }
 }
