@@ -3,18 +3,12 @@ import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
 
 export class PageMask {
-  maskElementId = 'page-mask--mask-element';
-  clipPathId = 'page-mask--clip-path';
 
   viewer: any;
-  overlays: any;
   pageBounds: SVGRectElement;
-
-  root: any;
-  defs: any;
-  canvasCover: any;
-  visibleCanvasArea: any;
-  visibleOverlayArea: any;
+  
+  leftMask: any;
+  rightMask: any;
 
   disableResize = false;
   center: Point;
@@ -47,14 +41,11 @@ export class PageMask {
 
   public initialise(pageBounds: SVGRectElement): void {
     this.pageBounds = pageBounds;
-
+    
     this.addCanvasMask();
-    this.addOverlayClipPath();
 
     this.setCenter();
     this.resize();
-
-    d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
   public changePage(pageBounds: SVGRectElement) {
@@ -63,78 +54,37 @@ export class PageMask {
   }
 
   public show(): void {
-    if (!this.canvasCover) {
+    if (!this.leftMask || !this.rightMask) {
       return;
     }
-    this.canvasCover.style('fill-opacity', '1');
-    this.overlays.attr('clip-path', 'url(#' + this.clipPathId + ')');
+    this.leftMask.attr('height', '100%');
+    this.rightMask.attr('height', '100%');
   }
 
   public hide(): void {
-    if (!this.canvasCover) {
+    if (!this.leftMask || !this.rightMask) {
       return;
     }
-    this.canvasCover.style('fill-opacity', '0');
-    this.overlays.attr('clip-path', '');
+    this.leftMask.attr('height', '0');
+    this.rightMask.attr('height', '0');
   }
 
   private addCanvasMask() {
     d3.select(this.viewer.canvas).select('canvas').style('background-color', ViewerOptions.colors.canvasBackgroundColor);
+    
+    const overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
 
-    this.root = d3.select(this.viewer.canvas).append('svg')
-      .attr('position', 'absolute')
-      .attr('left', '0')
-      .attr('top', '0')
-      .attr('width', '100%')
-      .attr('height', '100%')
-      .attr('id', 'page-mask')
-      .attr('class', 'page-mask')
-      .attr('mask', 'url(#' + this.maskElementId + ')');
+    const mask = overlays.append('g').attr('id', 'page-mask');
 
-    this.canvasCover = this.root.append('rect')
-      .attr('width', '100%')
-      .attr('height', '100%')
-      .attr('x', 0)
-      .attr('y', 0)
-      .style('fill', ViewerOptions.colors.canvasBackgroundColor)
-      .style('fill-opacity', '1');
-
-    this.defs = this.root.append('defs');
-
-    const mask = this.defs.append('mask')
-      .attr('width', '100%')
-      .attr('height', '100%')
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('id', this.maskElementId);
-
-    mask.append('rect')
-      .attr('width', '100%')
-      .attr('height', '100%')
-      .attr('x', 0)
-      .attr('y', 0)
-      .style('fill', '#ffffff');
-
-    this.visibleCanvasArea = mask.append('rect')
+    this.leftMask = mask.append('rect')
       .attr('height', '100%')
       .attr('y', 0)
-      .style('fill', '#000000');
-  }
+      .style('fill', ViewerOptions.colors.canvasBackgroundColor);
 
-  private addOverlayClipPath() {
-    this.overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
-    this.overlays.attr('clip-path', 'url(#' + this.clipPathId + ')');
-
-    const clipPath = this.defs.append('clipPath')
-      .attr('width', '100%')
+    this.rightMask = mask.append('rect')
       .attr('height', '100%')
-      .attr('x', 0)
       .attr('y', 0)
-      .attr('id', this.clipPathId);
-
-    this.visibleOverlayArea = clipPath.append('rect')
-      .attr('height', '100%')
-      .attr('y', 0);
+      .style('fill', ViewerOptions.colors.canvasBackgroundColor);
   }
 
   private setCenter(): void {
@@ -142,17 +92,15 @@ export class PageMask {
   }
 
   private resize(): void {
-    if (this.disableResize || !this.visibleCanvasArea || !this.visibleOverlayArea) {
+    if (this.disableResize || !this.leftMask || !this.rightMask) {
       return;
     }
 
     const zoom = this.viewer.viewport.getZoom(true);
     const scale = this.viewer.viewport._containerInnerSize.x * zoom;
-
-    const width = this.pageBounds.width.baseVal.value * scale;
-    const x = this.center.x - (this.pageBounds.width.baseVal.value * scale / 2);
-
-    this.visibleCanvasArea.attr('width', width).attr('x', x);
-    this.visibleOverlayArea.attr('width', width).attr('x', x);
+    const width = this.center.x - (this.pageBounds.width.baseVal.value * scale / 2);
+    
+    this.leftMask.attr('width', width).attr('x', 0);
+    this.rightMask.attr('width', width).attr('x', this.center.x + (this.pageBounds.width.baseVal.value * scale / 2));
   }
 }

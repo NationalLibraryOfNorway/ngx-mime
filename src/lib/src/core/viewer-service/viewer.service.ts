@@ -215,6 +215,9 @@ export class ViewerService implements OnInit {
 
   destroy() {
     if (this.viewer != null && this.viewer.isOpen()) {
+      if (this.viewer.container != null) {
+        d3.select(this.viewer.container.parentNode).style('opacity', '0');
+      }
       this.viewer.destroy();
     }
     this.subscriptions.forEach((subscription: Subscription) => {
@@ -490,6 +493,7 @@ export class ViewerService implements OnInit {
    */
   initialPageLoaded = (): void => {
     this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
+    d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
   /**
