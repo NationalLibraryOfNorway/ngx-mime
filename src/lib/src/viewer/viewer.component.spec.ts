@@ -404,4 +404,6 @@ class IiifManifestServiceStub {
     }
     this._currentManifest.next(new ManifestBuilder(testManifest).build());
   }
+
+  destroy() {}
 }
