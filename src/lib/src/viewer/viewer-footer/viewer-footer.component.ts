@@ -34,7 +34,7 @@ import { ViewerOptions } from '../../core/models/viewer-options';
 export class ViewerFooterComponent implements OnInit, OnDestroy {
   public state = 'show';
   public showNavigationToolbar = true;
-  public searchResult: SearchResult = null;
+  public searchResult: SearchResult = new SearchResult();
   public showPageNavigator = true;
   public showContentSearchNavigator = false;
   private subscriptions: Array<Subscription> = [];
@@ -54,7 +54,6 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.media.subscribe((change: MediaChange) => {
       this.showPageNavigator = !this.isMobile() && this.searchResult.size() > 0;
-      console.log(this.showPageNavigator);
       this.changeDetectorRef.detectChanges();
     }));
   }

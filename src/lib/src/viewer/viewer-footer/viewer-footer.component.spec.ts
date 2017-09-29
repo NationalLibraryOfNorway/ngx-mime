@@ -8,6 +8,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ViewerFooterComponent } from './viewer-footer.component';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
@@ -90,20 +91,21 @@ function expectFooterToBeHidden(element: any) {
 
 class IiifContentSearchServiceMock {
   _onChange = new Subject<number>();
+
   get onChange(): Observable<number> {
     return this._onChange.asObservable();
   }
-
 }
 
 class MediaMock {
   _onChange = new Subject<number>();
+
   isActive(m: string) {
     return false;
   }
 
-  subscribe() {
-    return this._onChange.asObservable();
+  subscribe(): Subscription {
+    return this._onChange.asObservable().subscribe();
   }
 
  }
