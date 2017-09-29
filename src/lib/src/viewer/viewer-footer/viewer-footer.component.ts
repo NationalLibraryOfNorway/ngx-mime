@@ -35,6 +35,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   public state = 'show';
   public showNavigationToolbar = true;
   public searchResult: SearchResult = null;
+  public showPageNavigator = true;
   public showContentSearchNavigator = false;
   private subscriptions: Array<Subscription> = [];
 
@@ -46,12 +47,14 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
       this.searchResult = sr;
-      this.showContentSearchNavigator  = this.isMobileAndHasSearchResult();
+      this.showContentSearchNavigator = this.searchResult.size() > 0;
+      this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
       this.changeDetectorRef.detectChanges();
     }));
 
     this.subscriptions.push(this.media.subscribe((change: MediaChange) => {
-      this.showContentSearchNavigator = this.isMobileAndHasSearchResult();
+      this.showPageNavigator = !this.isMobile() && this.searchResult.size() > 0;
+      console.log(this.showPageNavigator);
       this.changeDetectorRef.detectChanges();
     }));
   }
@@ -62,7 +65,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
     });
   }
 
-  private isMobileAndHasSearchResult(): boolean {
-    return this.searchResult.size() > 0 && this.media.isActive('lt-md');
+  private isMobile(): boolean {
+    return  this.media.isActive('lt-md');
   }
 }
