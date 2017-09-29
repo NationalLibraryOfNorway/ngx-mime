@@ -8,15 +8,11 @@
   flex-direction: column;
 }
 
-:host>>>.openseadragon-container {
+:host::ng-deep.openseadragon-container {
   flex-grow: 1;
 }
 
-:host>>>.openseadragon-canvas>>>canvas {
-  z-index: -1;
-}
-
-:host>>>.openseadragon-canvas:focus {
+:host::ng-deep.openseadragon-canvas:focus {
   outline: none;
 }
 
@@ -28,19 +24,13 @@
   width: 100%;
 }
 
-.viewer-container.page {
-  & #openseadragon {
-    height: 100%;
-  }
-}
-
 ::ng-deep .viewer-container.page-zoomed .tile:hover {
   cursor: grab;
   cursor: -webkit-grab;
 }
 
 .viewer-container.canvas-pressed,
-.viewer-container.canvas-pressed>>>.tile:hover {
+.viewer-container.canvas-pressed::ng-deep.tile:hover {
   cursor: grabbing;
   cursor: -webkit-grabbing;
 }
