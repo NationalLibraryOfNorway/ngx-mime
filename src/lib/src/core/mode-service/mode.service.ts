@@ -1,5 +1,6 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
+
 import { ViewerMode } from '../models/viewer-mode';
 
 export class ModeService {
@@ -36,7 +37,7 @@ export class ModeService {
   toggleMode(): void {
     if (this.mode === ViewerMode.DASHBOARD) {
       this.mode = ViewerMode.PAGE;
-    } else if (this.mode === ViewerMode.PAGE) {
+    } else if (this.mode === ViewerMode.PAGE || this.mode === ViewerMode.PAGE_ZOOMED) {
       this.mode = ViewerMode.DASHBOARD;
     }
   }

@@ -61,19 +61,19 @@ return Promise.resolve()
         // the window object.
         // See https://github.com/rollup/rollup/wiki/JavaScript-API#globals for more.
         '@angular/core': 'ng.core',
+        '@angular/animations': 'ng.animations',
         '@angular/material': 'ng.material',
         '@angular/flex-layout': 'ng.flex-layout',
-        'openseadragon': 'ng.opensedragon',
-        'd3': 'ng.d3'
+        'openseadragon': 'ng.opensedragon'
       },
       external: [
         // List of dependencies
         // See https://github.com/rollup/rollup/wiki/JavaScript-API#external for more.
         '@angular/core',
+        '@angular/animations',
         '@angular/material',
         '@angular/flex-layout',
-        'openseadragon',
-        'd3'
+        'openseadragon'
       ],
       plugins: [
         sourcemaps()

@@ -11,9 +11,9 @@ defineSupportCode(function ({ Given, When, Then }) {
   const switchAnimationTime = 1700;
 
   Given(/^the viewer is in dashboard view$/, async () => {
-    const firstOverlay = await page.getFirstPageOverlay();
-    await firstOverlay.click();
-    await browser.sleep(switchAnimationTime);
+    const overlay = await page.getSVGElement();
+    await overlay.click();
+    await page.waitForAnimation(switchAnimationTime);
     expect(await page.isDashboardMode()).to.be.true;
   });
 
@@ -23,9 +23,11 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
   When(/^the user click in the viewer$/, async () => {
-    const firstOverlay = await page.getFirstPageOverlay();
-    await firstOverlay.click();
-    await browser.sleep(switchAnimationTime);
+    // TODO click page.getSVGElement() insted of first overlay
+    // to be able to switch view mode when firste page is out of view
+    const overlay = await page.getSVGElement();
+    await overlay.click();
+    await page.waitForAnimation(switchAnimationTime);
   });
 
   Then(/^the viewer should change to page view$/, async () => {

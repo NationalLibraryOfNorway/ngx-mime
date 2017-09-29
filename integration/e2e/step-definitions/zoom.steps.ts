@@ -7,13 +7,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   let previousZoomLevel = 0;
 
   Given(/^zoom level is home$/, async () => {
-    await page.setHomeZoom();
-    await page.waitForAnimation();
+    expect(await page.isCurrentPageFittedViewport()).to.be.true;
   });
 
   Given(/^the view is all zoomed out$/, async () => {
-    const zoomLevel = await page.getMinZoom();
-    await page.setZoomLevel(zoomLevel);
+    await page.clickZoomHomeButton();
     await page.waitForAnimation();
   });
 
@@ -71,8 +69,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the view should be vertically centered$/, async () => {
-    const bounds = await page.getBounds();
-    expect(bounds.y).to.equal(0);
+    expect(await page.isVerticallyCentered()).to.be.true;
   });
 
   Then(/^the current zoom level is home$/, async () => {
