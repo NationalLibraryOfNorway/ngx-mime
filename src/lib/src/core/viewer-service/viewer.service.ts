@@ -15,7 +15,6 @@ import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { SwipeUtils } from './swipe-utils';
-import { PageMask } from './page-mask';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
@@ -43,7 +42,6 @@ export class ViewerService implements OnInit {
   private subscriptions: Array<Subscription> = [];
 
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
-  private pageMask: PageMask;
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private currentCenter: ReplaySubject<Point> = new ReplaySubject();
   private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
@@ -139,12 +137,10 @@ export class ViewerService implements OnInit {
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY);
-        this.pageMask.changePage(this.overlays[pageIndex]);
         this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
       this.panTo(newPageCenter.centerX, newPageCenter.centerY);
-      this.pageMask.changePage(this.overlays[pageIndex]);
     }
   }
 
@@ -185,7 +181,6 @@ export class ViewerService implements OnInit {
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
         this.pageService.reset();
         this.pageService.numberOfPages = this.tileSources.length;
-        this.pageMask = new PageMask(this.viewer);
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
@@ -294,7 +289,6 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
     this.goToPage(this.pageService.currentPage);
-    this.pageMask.hide();
 
     this.fitBoundsInDashboardView();
   }
@@ -308,7 +302,6 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.PAGE;
     this.goToPage(this.pageService.currentPage);
-    this.pageMask.show();
 
     this.fitBounds(this.overlays[this.pageService.currentPage]);
   }
@@ -489,7 +482,8 @@ export class ViewerService implements OnInit {
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
-    this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
+    d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
+
   }
 
   /**
