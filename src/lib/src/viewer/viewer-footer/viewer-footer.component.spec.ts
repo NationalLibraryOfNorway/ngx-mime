@@ -1,18 +1,14 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import {
   async,
   ComponentFixture,
-  TestBed,
-  inject
+  TestBed
 } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { SharedModule } from './../../shared/shared.module';
 import { ViewerFooterComponent } from './viewer-footer.component';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 
@@ -25,10 +21,11 @@ describe('ViewerFooterComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [NoopAnimationsModule, SharedModule],
+        imports: [NoopAnimationsModule],
         declarations: [ViewerFooterComponent],
         providers: [
           { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
+          { provide: ObservableMedia, useClass: MediaMock }
         ]
       }).compileComponents();
     })
@@ -98,3 +95,15 @@ class IiifContentSearchServiceMock {
   }
 
 }
+
+class MediaMock {
+  _onChange = new Subject<number>();
+  isActive(m: string) {
+    return false;
+  }
+
+  subscribe() {
+    return this._onChange.asObservable();
+  }
+
+ }
