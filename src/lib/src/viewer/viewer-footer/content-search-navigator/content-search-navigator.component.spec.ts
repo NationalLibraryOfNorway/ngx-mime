@@ -64,6 +64,11 @@ describe('ContentSearchNavigatorComponent', () => {
     expect(res).toBe(1);
   });
 
+  it('should return 3 if canvasIndex is after last', () => {
+    const res = component.findCurrentHitIndex(9);
+    expect(res).toBe(3);
+  });
+
   it('should go to first hit if current canvas is 4 and user presses previous hit button',
     inject([ViewerService], (viewerService: ViewerServiceMock) => {
       spyOn(viewerService, 'goToPage');

@@ -71,12 +71,11 @@ export class ContentSearchNavigatorComponent implements OnInit {
           return -1;
         } else {
           const phit = this.searchResult.get(i - 1);
-          const prev = this.searchResult.hits.findIndex(sr => sr.index === phit.index);
-          return prev;
+          return this.searchResult.hits.findIndex(sr => sr.index === phit.index);
         }
       }
     }
-    return -1;
+    return this.searchResult.size() - 1;
   }
 
   goToPreviousHitPage() {
