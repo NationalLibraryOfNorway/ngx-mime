@@ -21,11 +21,17 @@ defineSupportCode(function ({ Given, When, Then }) {
       };
       page.swipe(start, end);
     }
-    return Promise.resolve('pending');
+  });
+
+  When(/^the user swipe (.*) and the velocity is equal or greater than (.*)$/, async (direction: string, velocity: string) => {
+    pending();
+  });
+  When(/^the user swipe (.*) but the velocity is less than (.*)$/, async (direction: string, velocity: string) => {
+    pending();
   });
 
   When(/^the user drags the page slider to page (.*)$/, async (pageNumber: number) => {
-    await page.goToPage(pageNumber - 1);
+    await page.slideToPage(pageNumber - 1);
   });
 
   Then(/^the content of the page (.*) is displayed$/, async (pageNumber: string) => {
@@ -33,4 +39,12 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(currentPageNumber).to.eql(pageNumber);
   });
 
+
+  When(/^the user click the (.*) button$/, async (navigationButton: string,) => {
+    if (navigationButton === 'next') {
+      await page.clickNextButton();
+    } else if (navigationButton === 'previous') {
+      await page.clickPreviousButton();
+    }
+  });
 });

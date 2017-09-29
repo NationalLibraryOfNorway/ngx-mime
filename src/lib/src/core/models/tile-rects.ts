@@ -9,7 +9,7 @@ export class TileRects {
   }
 
   public get(index: number): Rect {
-    return {...this.tileRects[index]};
+    return { ...this.tileRects[index] };
   }
 
   public findClosestIndex(point: Point): number {
@@ -27,5 +27,13 @@ export class TileRects {
       lastDelta = delta;
     });
     return i;
+  }
+
+  public getMaxHeight(): number {
+    return Math.max.apply(Math, this.tileRects.map(function (rect) { return rect.height; }));
+  }
+
+  public getMaxWidth(): number {
+    return Math.max.apply(Math, this.tileRects.map(function (rect) { return rect.width; }));
   }
 }

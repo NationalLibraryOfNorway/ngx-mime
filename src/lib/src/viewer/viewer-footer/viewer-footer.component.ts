@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
 
-import { CustomOptions } from '../../core/models/options-custom';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';
+import { ViewerOptions } from '../../core/models/viewer-options';
 
 @Component({
   selector: 'mime-viewer-footer',
@@ -22,8 +22,8 @@ import { SearchResult } from './../../core/models/search-result';
         display: 'block',
         transform: 'translate(0, 0)'
       })),
-      transition('hide => show', animate(CustomOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
-      transition('show => hide', animate(CustomOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
+      transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+      transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
     ])
   ],
   host: {

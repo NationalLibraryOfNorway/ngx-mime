@@ -1,5 +1,5 @@
+
 import { NgModule} from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -11,6 +11,7 @@ import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.comp
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
 import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
 import { PageNavigatorComponent } from './viewer/viewer-footer/page-navigator/page-navigator.component';
+import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
 import './rxjs-extension';
@@ -24,10 +25,11 @@ import 'd3';
     ViewerFooterComponent,
     OsdToolbarComponent,
     ContentSearchNavigatorComponent,
-    PageNavigatorComponent
+    PageNavigatorComponent,
+    ViewerSpinnerComponent,
+    OsdToolbarComponent
   ],
   imports: [
-    BrowserAnimationsModule,
     CoreModule,
     SharedModule,
     ContentsDialogModule,

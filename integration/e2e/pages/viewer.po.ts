@@ -1,7 +1,13 @@
 import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
 import { promise, WebElement } from 'selenium-webdriver';
+import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
 
+
+const bookShelf = {
+  'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
+  'a-ltr-book-10-pages': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book-10-pages/manifest',
+};
 
 const utils = new Utils();
 export class ViewerPage {
@@ -9,22 +15,45 @@ export class ViewerPage {
   private pointerPosition1 = { x: 650, y: 275 };
   private pointerPosition2 = { x: 750, y: 200 };
 
-  async open(manifestUri?: string) {
-    const uri = manifestUri ? `/?manifestUri=${manifestUri}` : `/`;
+  async open(manifestName?: string) {
+    let uri = '/';
+    if (manifestName) {
+      uri += '?manifestUri=' + bookShelf[manifestName];
+    }
     await browser.get(uri);
     await browser.sleep(5000);
   }
-
   async goToPage(pageNumber: number) {
+    const isPageMode = this.isPageMode();
+    const isDashboardMode = this.isDashboardMode();
+    if (await isPageMode) {
+      await this.navigateToPage(pageNumber);
+    } else if (await isDashboardMode) {
+      await this.slideToPage(pageNumber);
+    }
+  }
+
+  async slideToPage(pageNumber: number) {
     const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
     for (let i = 0; i < pageNumber; i++) {
       await slider.sendKeys(protractor.Key.ARROW_RIGHT);
     }
+    await this.waitForAnimation();
+  }
+
+  async navigateToPage(pageNumber: number) {
+    for (let i = 0; i < pageNumber; i++) {
+      await this.clickNextButton();
+    }
+    await this.waitForAnimation();
   }
 
   async getCurrentPageNumber() {
-    const el =  await utils.waitForElement(element(by.css('#currentPageNumber')));
-    const currentPageNumber = await el.getText();
+    // The footer might be hidden, but the pagenumber is still updated, so use
+    // waitForPresenceOf insted of waitForElement.
+    const el =  await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
+    // Not using el.getText() as it don't seem to work when element is not visible
+    const currentPageNumber = await el.getAttribute('textContent');
     return currentPageNumber;
   }
 
@@ -157,18 +186,19 @@ export class ViewerPage {
   }
 
   async dblClick(): Promise<void> {
-    await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
+    await browser.findElement(By.css('.openseadragon-canvas > canvas')).then((canvas: WebElement) => {
       return browser.actions()
-        .mouseMove(canvas)
-        .doubleClick()
+        .click(canvas)
+        .click(canvas)
         .perform();
     });
   }
 
   async dblTap(): Promise<void> {
-    await browser.findElement(By.css('.openseadragon-canvas')).then((canvas: WebElement) => {
+    await browser.findElement(By.css('.openseadragon-canvas > canvas')).then((canvas: WebElement) => {
       return browser.touchActions()
-        .doubleTap(canvas)
+        .tap(canvas)
+        .tap(canvas)
         .perform();
     });
   }
@@ -181,13 +211,37 @@ export class ViewerPage {
     await this.clickNavigationButton('zoomOutButton');
   }
 
+  async clickZoomHomeButton(): Promise<void> {
+    await this.clickNavigationButton('homeButton');
+  }
+
+  async clickNextButton(): Promise<void> {
+    await this.clickDisableableNavigationButton('navigateNextButton');
+    await this.waitForAnimation(500);
+  }
+
+  async clickPreviousButton(): Promise<void> {
+    await this.clickDisableableNavigationButton('navigateBeforeButton');
+    await this.waitForAnimation(500);
+  }
+
   async clickNavigationButton(buttonId: string): Promise<void> {
     const button = await utils.waitForElement(element(by.id(buttonId)));
     await utils.clickElement(button);
   }
 
-  async waitForAnimation(): Promise<void> {
-    await browser.sleep((await this.getAnimationTime()) * 1000);
+  async clickDisableableNavigationButton(buttonId: string): Promise<void> {
+    const button: ElementFinder = await utils.waitForElement(element(by.id(buttonId)));
+    if (await button.isEnabled()) {
+      await utils.clickElement(button);
+    }
+  }
+
+  async waitForAnimation(animationTime?: number): Promise<void> {
+    if (isUndefined(animationTime)) {
+      animationTime = await this.getAnimationTime() * 1000;
+    }
+    await browser.sleep(animationTime);
   }
 
   async isDashboardMode(): Promise<boolean> {
@@ -212,18 +266,30 @@ export class ViewerPage {
     return (headerisHidden && footerisHidden);
   }
 
+
   async isCurrentPageFittedViewport(): Promise<boolean> {
-    const svgParent = await this.getSVGElement()
-    const overlay = await this.getFirstPageOverlay()
+    const svgParent = await this.getSVGElement();
+    const overlay = await this.getFirstPageOverlay();
 
     const svgParentDimensions = await svgParent.getSize();
     const overlayDimensions = await overlay.getSize();
 
-    return (
-      Math.round(svgParentDimensions.width) === Math.round(overlayDimensions.width)
-      || Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height)
-    );
+    const widthIsFitted = Utils.numbersAreClose(svgParentDimensions.width, overlayDimensions.width, 5);
+    const heightIsFitted = Utils.numbersAreClose(svgParentDimensions.height, overlayDimensions.height, 5);
+
+    return widthIsFitted || heightIsFitted;
   }
+
+  async isVerticallyCentered(): Promise<boolean> {
+    const svgParent = await this.getSVGElement();
+    const overlay = await this.getFirstPageOverlay();
+
+    const svgParentDimensions = await svgParent.getSize();
+    const overlayDimensions = await overlay.getSize();
+
+    return Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height);
+  }
+
 }
 
 export interface Point {

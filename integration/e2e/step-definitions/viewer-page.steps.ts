@@ -18,8 +18,12 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
-  Given(/^a left-to-right publication with 10 pages$/, async () => {
-    await page.open('http://localhost:4040/catalog/v1/iiif/a-ltr-book-10-pages/manifest');
+  Given(/^a (.*) publication with 10 pages$/, async (viewingDirection: string) => {
+    if (viewingDirection === 'left-to-right') {
+      await page.open('a-ltr-book-10-pages');
+    } else if (viewingDirection === 'right-to-left') {
+      pending();
+    }
   });
 
   Given(/^the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside$/, async () => {
@@ -31,7 +35,7 @@ defineSupportCode(function ({ Given, Then }) {
   });
 
   Given(/^the user is on page (.*)$/, async (pageNumber: number) => {
-    await page.goToPage(pageNumber);
+    await page.goToPage(pageNumber - 1);
   });
 
 });

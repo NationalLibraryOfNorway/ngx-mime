@@ -59,4 +59,14 @@ export class PageService {
     return this.currentPage;
   }
 
+  constrainToRange(pageIndex: number): number {
+    if (pageIndex < 0) {
+      return 0;
+    } else if (pageIndex >= this.numberOfPages - 1) {
+      return this.numberOfPages;
+    } else {
+      return pageIndex;
+    }
+  }
+
 }
