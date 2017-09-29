@@ -4,10 +4,8 @@ import { MdSliderChange } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../../../core/viewer-intl';
-import { CustomOptions } from '../../../core/models/options-custom';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { PageService } from './../../../core/page-service/page-service';
-import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../../core/models/search-result';
 
 @Component({
