@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
@@ -35,16 +36,23 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   public state = 'show';
   public showNavigationToolbar = true;
   public searchResult: SearchResult = null;
-  public hasContentSearchHits = false;
+  public showContentSearchNavigator = false;
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private iiifContentSearchService: IiifContentSearchService) { }
+    private iiifContentSearchService: IiifContentSearchService,
+    public media: ObservableMedia,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
       this.searchResult = sr;
-      this.hasContentSearchHits = sr.size() > 0;
+      this.showContentSearchNavigator  = this.media.isActive('lt-md') &&  this.searchResult.size() > 0;
+    }));
+
+    this.subscriptions.push(this.media.subscribe((change: MediaChange) => {
+      this.showContentSearchNavigator = this.media.isActive('lt-md') &&  this.searchResult.size() > 0;
+      this.changeDetectorRef.detectChanges();
     }));
   }
 
