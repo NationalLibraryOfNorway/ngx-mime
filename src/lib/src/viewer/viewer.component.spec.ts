@@ -395,7 +395,7 @@ describe('ViewerComponent', function () {
 
 @Component({
   selector: `test-component`,
-  template: `<mime-viewer [manifestUri]="manifestUri" canvasIndex="canvasIndex"></mime-viewer>`
+  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex"></mime-viewer>`
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent)
