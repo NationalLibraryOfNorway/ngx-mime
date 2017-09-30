@@ -20,9 +20,29 @@ export class ContentSearchPage {
   }
 
   async getHits() {
-    const hits = [];
     const el = element.all(by.css('.summary'));
     await utils.waitForElement(el.first());
+    return el;
+  }
+
+  contentSearchNavigatorToolbar() {
+    return element(by.css('#content-search-navigator-toolbar'));
+  }
+
+  clearButton() {
+    return utils.waitForElement(element(by.css('#footerNavigateCloseHitsButton')));
+  }
+
+  previousButton() {
+    return utils.waitForElement(element(by.css('#footerNavigatePreviousHitButton')));
+  }
+
+  nextButton() {
+    return utils.waitForElement(element(by.css('#footerNavigateNextHitButton')));
+  }
+
+  async getHighlighted() {
+    const el = element.all(by.css('.hit'));
     return el;
   }
 }
