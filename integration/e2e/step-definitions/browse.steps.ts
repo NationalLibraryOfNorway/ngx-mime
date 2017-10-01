@@ -31,7 +31,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When(/^the user drags the page slider to page (.*)$/, async (pageNumber: number) => {
-    await page.goToPage(pageNumber - 1);
+    await page.slideToPage(pageNumber - 1);
   });
 
   Then(/^the content of the page (.*) is displayed$/, async (pageNumber: string) => {

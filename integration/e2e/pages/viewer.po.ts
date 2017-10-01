@@ -1,7 +1,7 @@
 import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
 import { promise, WebElement } from 'selenium-webdriver';
-import { Utils } from '../helpers/utils';
 import { isUndefined } from 'util';
+import { Utils } from '../helpers/utils';
 
 
 const bookShelf = {
@@ -23,13 +23,29 @@ export class ViewerPage {
     await browser.get(uri);
     await browser.sleep(5000);
   }
-
   async goToPage(pageNumber: number) {
+    const isPageMode = this.isPageMode();
+    const isDashboardMode = this.isDashboardMode();
+    if (await isPageMode) {
+      await this.navigateToPage(pageNumber);
+    } else if (await isDashboardMode) {
+      await this.slideToPage(pageNumber);
+    }
+  }
+
+  async slideToPage(pageNumber: number) {
     const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
     for (let i = 0; i < pageNumber; i++) {
       await slider.sendKeys(protractor.Key.ARROW_RIGHT);
     }
-    await browser.sleep(await this.getAnimationTime() * 1000);
+    await this.waitForAnimation();
+  }
+
+  async navigateToPage(pageNumber: number) {
+    for (let i = 0; i < pageNumber; i++) {
+      await this.clickNextButton();
+    }
+    await this.waitForAnimation();
   }
 
   async getCurrentPageNumber() {
@@ -200,18 +216,25 @@ export class ViewerPage {
   }
 
   async clickNextButton(): Promise<void> {
-    await this.clickNavigationButton('navigateNextButton');
+    await this.clickDisableableNavigationButton('navigateNextButton');
     await this.waitForAnimation(500);
   }
 
   async clickPreviousButton(): Promise<void> {
-    await this.clickNavigationButton('navigateBeforeButton');
+    await this.clickDisableableNavigationButton('navigateBeforeButton');
     await this.waitForAnimation(500);
   }
 
   async clickNavigationButton(buttonId: string): Promise<void> {
     const button = await utils.waitForElement(element(by.id(buttonId)));
     await utils.clickElement(button);
+  }
+
+  async clickDisableableNavigationButton(buttonId: string): Promise<void> {
+    const button: ElementFinder = await utils.waitForElement(element(by.id(buttonId)));
+    if (await button.isEnabled()) {
+      await utils.clickElement(button);
+    }
   }
 
   async waitForAnimation(animationTime?: number): Promise<void> {

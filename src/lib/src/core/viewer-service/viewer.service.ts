@@ -15,6 +15,7 @@ import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { SwipeUtils } from './swipe-utils';
+import { PageMask } from './page-mask';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
@@ -42,9 +43,12 @@ export class ViewerService implements OnInit {
   private subscriptions: Array<Subscription> = [];
 
   public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+
+  private currentCenter: Subject<Point> = new BehaviorSubject(null);
+  private currentPageIndex: Subject<number> = new BehaviorSubject(0);
+  private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
-  private currentCenter: ReplaySubject<Point> = new ReplaySubject();
-  private currentPageIndex: ReplaySubject<number> = new ReplaySubject();
+  private pageMask: PageMask;
   private dragStartPosition: any;
   private tileRects = new TileRects();
 
@@ -61,7 +65,11 @@ export class ViewerService implements OnInit {
   }
 
   get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable().distinctUntilChanged();
+    return this.currentPageIndex.asObservable();
+  }
+
+  get onOsdReadyChange(): Observable<boolean> {
+    return this.osdIsReady.asObservable();
   }
 
   public getViewer(): any {
@@ -137,10 +145,12 @@ export class ViewerService implements OnInit {
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+        this.pageMask.changePage(this.overlays[pageIndex]);
         this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
       this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+      this.pageMask.changePage(this.overlays[pageIndex]);
     }
   }
 
@@ -181,6 +191,7 @@ export class ViewerService implements OnInit {
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
         this.pageService.reset();
         this.pageService.numberOfPages = this.tileSources.length;
+        this.pageMask = new PageMask(this.viewer);
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
@@ -210,6 +221,9 @@ export class ViewerService implements OnInit {
 
   destroy() {
     if (this.viewer != null && this.viewer.isOpen()) {
+      if (this.viewer.container != null) {
+        d3.select(this.viewer.container.parentNode).style('opacity', '0');
+      }
       this.viewer.destroy();
     }
     this.subscriptions.forEach((subscription: Subscription) => {
@@ -239,6 +253,9 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
     });
+    this.viewer.addHandler('open', (e: any) => {
+      this.osdIsReady.next(true);
+    });
   }
 
 
@@ -266,6 +283,7 @@ export class ViewerService implements OnInit {
     this.zoomTo(this.getZoom() + ViewerOptions.zoom.zoomFactor, position);
   }
 
+
   /**
    * Set settings for page/dashboard-mode
    * @param mode ViewerMode
@@ -289,6 +307,7 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
     this.goToPage(this.pageService.currentPage);
+    this.pageMask.hide();
 
     this.fitBoundsInDashboardView();
   }
@@ -302,6 +321,7 @@ export class ViewerService implements OnInit {
     }
     this.modeService.mode = ViewerMode.PAGE;
     this.goToPage(this.pageService.currentPage);
+    this.pageMask.show();
 
     this.fitBounds(this.overlays[this.pageService.currentPage]);
   }
@@ -429,6 +449,7 @@ export class ViewerService implements OnInit {
     this.appendBlurFilter();
 
     this.tileSources.forEach((tile, i) => {
+
       let currentY = center.y - tile.height / 2;
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
@@ -473,6 +494,8 @@ export class ViewerService implements OnInit {
 
     svgParent.append('filter')
       .attr('id', 'blur')
+      .attr('height', '130%')
+      .attr('width', '130%')
       .append('feGaussianBlur').
       attr('in', 'SourceGraphic').
       attr('stdDeviation', ViewerOptions.overlays.filterblurStdDeviation);
@@ -482,8 +505,8 @@ export class ViewerService implements OnInit {
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
+    this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
-
   }
 
   /**
@@ -537,7 +560,7 @@ export class ViewerService implements OnInit {
   }
 
   private calculateCurrentPage(center: Point) {
-    const currentPageIndex = this.tileRects.findClosestIndex(center);
+    let currentPageIndex = this.tileRects.findClosestIndex(center);
     this.currentPageIndex.next(currentPageIndex);
   }
 

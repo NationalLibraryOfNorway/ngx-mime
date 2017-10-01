@@ -39,6 +39,7 @@ import { ViewerOptions } from '../core/models/viewer-options';
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
   @Input() public q: string;
+  @Input() public canvasIndex: number;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
@@ -104,11 +105,22 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.toggleToolbarsState(mode);
       })
     );
+
+    this.subscriptions.push(
+      this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+        if (state && this.canvasIndex) {
+          this.viewerService.goToPage(this.canvasIndex);
+        }
+      })
+    );
+
+    this.loadManifest();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     let manifestUriIsChanged = false;
     let qIsChanged = false;
+    let canvasIndexChanged = false;
     if (changes['q']) {
       const qChanges: SimpleChange = changes['q'];
       if (!qChanges.isFirstChange() && qChanges.currentValue !== qChanges.firstChange) {
@@ -116,9 +128,16 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         qIsChanged = true;
       }
     }
+    if (changes['canvasIndex']) {
+      const canvasIndexChanges: SimpleChange = changes['canvasIndex'];
+      if (!canvasIndexChanges.isFirstChange() && canvasIndexChanges.currentValue !== canvasIndexChanges.firstChange) {
+        this.canvasIndex = canvasIndexChanges.currentValue;
+        canvasIndexChanged = true;
+      }
+    }
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
-      if (manifestUriChanges.currentValue !== manifestUriChanges.previousValue) {
+      if (!manifestUriChanges.isFirstChange() && manifestUriChanges.currentValue !== manifestUriChanges.previousValue) {
         this.modeService.mode = this.config.initViewerMode;
         this.manifestUri = manifestUriChanges.currentValue;
         manifestUriIsChanged = true;
@@ -128,8 +147,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (manifestUriIsChanged) {
       this.cleanUp();
       this.loadManifest();
-    } else if (qIsChanged) {
-      this.iiifContentSearchService.search(this.currentManifest, this.q);
+    } else {
+      if (qIsChanged) {
+        this.iiifContentSearchService.search(this.currentManifest, this.q);
+      }
+      if (canvasIndexChanged) {
+        this.viewerService.goToPage(this.canvasIndex);
+      }
     }
   }
 
