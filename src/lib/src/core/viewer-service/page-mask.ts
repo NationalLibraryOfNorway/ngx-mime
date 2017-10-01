@@ -98,7 +98,7 @@ export class PageMask {
     const scale = this.viewer.viewport._containerInnerSize.x * zoom;
 
     let width = Math.round(this.center.x - (this.pageBounds.width.baseVal.value * scale / 2));
-    if (width < 0) { width = 0 }
+    if (width < 0) { width = 0; }
 
     this.leftMask.attr('width', width).attr('x', 0);
     this.rightMask.attr('width', width).attr('x', Math.round(this.center.x + (this.pageBounds.width.baseVal.value * scale / 2)));
