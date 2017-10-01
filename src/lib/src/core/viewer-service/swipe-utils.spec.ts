@@ -1,3 +1,5 @@
+import { Point } from '../models/point';
+import { Bounds } from '../models/bounds';
 import { Direction } from '../models/direction';
 import { ViewerOptions } from '../models/viewer-options';
 import { SwipeUtils } from './swipe-utils';
@@ -30,55 +32,55 @@ describe('SwipeUtils ', () => {
   });
 
   it('should return true when panning outside right page-bounds', () => {
-    const pageBounds = { x: 0, width: 200 };
+    const pageBounds: Bounds = { x: 0, y: 0, width: 200, height: 200 };
     // Pan outside right bounds
-    const viewportBounds = { x: 200, width: 100 };
+    const viewportBounds: Bounds = { x: 200, y: 0, width: 100, height: 100 };
 
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(true);
   });
 
   it('should return true when panning outside left page-bounds', () => {
-    const pageBounds = { x: 100, width: 200 };
+    const pageBounds: Bounds = { x: 100, y: 0, width: 200, height: 200 };
     // Pan outside left bounds
-    const viewportBounds = { x: 99, width: 100 };
+    const viewportBounds: Bounds = { x: 99, y: 0, width: 100, height: 100 };
 
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(true);
   });
 
   it('should return false when not panning outside page-bounds', () => {
-    const pageBounds = { x: 0, width: 200 };
+    const pageBounds: Bounds = { x: 0, y: 0, width: 200, height: 200 };
     // Panning inside bounds
-    const viewportBounds = { x: 60, width: 100 };
+    const viewportBounds: Bounds = { x: 60, y: 0, width: 100, height: 100 };
 
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(false);
   });
 
 
   it('should return true when panning past center of page on the right side', () => {
-    const pageBounds = { x: 99, width: 100 };
+    const pageBounds: Bounds = { x: 99, y: 0, width: 100, height: 100 };
 
-    let center = { x: 200, y: 0 };
+    let center: Point = { x: 200, y: 0 };
     expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
 
   });
 
   it('should return true when panning past center of page on the left side', () => {
-    let pageBounds = { x: 0, width: 100 };
-    let center = { x: -51, y: 0 };
+    let pageBounds: Bounds = { x: 0, y: 0, width: 100, height: 100 };
+    let center: Point = { x: -51, y: 0 };
 
     expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
 
-    pageBounds = { x: 100, width: 100 };
+    pageBounds = { x: 100, y: 0, width: 100, height: 100 };
     center = { x: 50, y: 0 };
 
     expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
   });
 
   it('should return false when not panning past center of page', () => {
-    const pageBounds = { x: 100, width: 100 };
+    const pageBounds: Bounds = { x: 100, y: 0, width: 100, height: 100 };
 
     // Not past center
-    const center = { x: 199, y: 0 };
+    const center: Point = { x: 199, y: 0 };
     expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(false);
   });
 

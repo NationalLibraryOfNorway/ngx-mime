@@ -1,5 +1,7 @@
+import { Point } from '../models/point';
 import { Side } from '../models/side';
 import { Direction } from '../models/direction';
+import { Bounds } from '../models/bounds';
 import { ViewerOptions } from '../models/viewer-options';
 export class SwipeUtils {
 
@@ -19,7 +21,7 @@ export class SwipeUtils {
     }
   }
 
-  static getSideIfPanningPastEndOfPage(pageBounds: any, vpBounds: any): Side {
+  static getSideIfPanningPastEndOfPage(pageBounds: Bounds, vpBounds: Bounds): Side {
     if (this.isPanningOutsideLeft(pageBounds, vpBounds)) {
       return Side.LEFT;
     } else if (this.isPanningOutsideRight(pageBounds, vpBounds)) {
@@ -27,19 +29,19 @@ export class SwipeUtils {
     }
   }
 
-  static isPanningOutsidePage(pageBounds: any, vpBounds: any): boolean {
+  static isPanningOutsidePage(pageBounds: Bounds, vpBounds: Bounds): boolean {
     return this.isPanningOutsideLeft(pageBounds, vpBounds) || this.isPanningOutsideRight(pageBounds, vpBounds);
   }
 
-  static isPanningOutsideLeft(pageBounds: any, vpBounds: any): boolean {
+  static isPanningOutsideLeft(pageBounds: Bounds, vpBounds: Bounds): boolean {
     return vpBounds.x < pageBounds.x;
   }
 
-  static isPanningOutsideRight(pageBounds: any, vpBounds: any): boolean {
+  static isPanningOutsideRight(pageBounds: Bounds, vpBounds: Bounds): boolean {
     return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width;
   }
 
-  static isPanningPastCenter(pageBounds: any, vpCenter: any): boolean {
+  static isPanningPastCenter(pageBounds: Bounds, vpCenter: Point): boolean {
     const isPastCenterRight = pageBounds.x + pageBounds.width < vpCenter.x;
     const isPastCenterLeft = pageBounds.x > vpCenter.x;
     return isPastCenterRight || isPastCenterLeft;

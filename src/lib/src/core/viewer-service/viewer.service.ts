@@ -23,6 +23,7 @@ import { Rect } from './../models/rect';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { Direction } from '../models/direction';
 import { Side } from '../models/side';
+import { Bounds } from '../models/bounds';
 
 
 import '../ext/svg-overlay';
@@ -43,7 +44,7 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+  public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private currentCenter: Subject<Point> = new BehaviorSubject(null);
   private currentPageIndex: Subject<number> = new BehaviorSubject(0);
@@ -99,6 +100,16 @@ export class ViewerService implements OnInit {
 
   public zoomTo(level: number, position?: Point): void {
     this.viewer.viewport.zoomTo(level, position);
+  }
+
+  private getViewportBounds(): Bounds {
+    return this.viewer.viewport.getBounds();
+  }
+
+  private getPageBounds(pageIndex: number): Bounds {
+    if (this.pageService.isWithinBounds(pageIndex)) {
+      return this.createRectangle(this.overlays[this.pageService.currentPage]);
+    }
   }
 
   public home(): void {
@@ -419,7 +430,7 @@ export class ViewerService implements OnInit {
   }
 
   isViewportLargerThanPage(): boolean {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const pageBounds = this.getPageBounds(this.pageService.currentPage);
     const viewportBounds = this.viewer.viewport.getBounds();
     const pbWidth = Math.round(pageBounds.width);
     const pbHeight = Math.round(pageBounds.height);
@@ -573,8 +584,8 @@ export class ViewerService implements OnInit {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const dragEndPosision = e.position;
-      const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-      const vpBounds = this.viewer.viewport.getBounds();
+      const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
+      const vpBounds: Bounds = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
       const direction: Direction = SwipeUtils.getZoomedInSwipeDirection(
         this.dragStartPosition.x,
@@ -596,14 +607,14 @@ export class ViewerService implements OnInit {
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    const viewportBounds = this.viewer.viewport.getBounds();
+    const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
+    const viewportBounds: Bounds = this.getViewportBounds();
 
     const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
-    const viewportCenter = this.getViewportCenter();
+    const viewportCenter: Point = this.getViewportCenter();
 
-    const currentPageIndex = this.pageService.currentPage;
-    const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportCenter);
+    const currentPageIndex: number = this.pageService.currentPage;
+    const isPanningPastCenter: boolean = SwipeUtils.isPanningPastCenter(pageBounds, viewportCenter);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
     let pannedPastSide: Side, pageEndHitCountReached: boolean;
@@ -698,7 +709,7 @@ export class ViewerService implements OnInit {
     }
 
     if (!pageBounds) {
-      pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+      pageBounds = this.getPageBounds(this.pageService.currentPage);
     }
 
     const currentZoom: number = this.viewer.viewport.getZoom();
