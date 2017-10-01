@@ -1,27 +1,29 @@
+import { Side } from '../models/side';
+import { Direction } from '../models/direction';
 import { ViewerOptions } from '../models/viewer-options';
 export class SwipeUtils {
 
-  static getSwipeDirection(start: number, end: number) {
-    return start > end ? 'left' : 'right';
+  static getSwipeDirection(start: number, end: number): Direction {
+    return start > end ? Direction.LEFT : Direction.RIGHT;
   }
 
   // Added threshold to prevent sensitive direction-calculation when zoomed in
-  static getZoomedInSwipeDirection(startX: number, endX: number, startY: number, endY: number) {
+  static getZoomedInSwipeDirection(startX: number, endX: number, startY: number, endY: number): Direction {
     const deltaX = Math.abs(startX - endX);
     const deltaY = Math.abs(startY - endY);
 
     if (startX > endX && (deltaX - ViewerOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
-      return 'left';
+      return Direction.LEFT;
     } else if (startX < endX && (deltaX - ViewerOptions.pan.swipeDirectionZoomedThreshold > deltaY)) {
-      return 'right';
+      return Direction.RIGHT;
     }
   }
 
-  static getSideIfPanningPastEndOfPage(pageBounds: any, vpBounds: any): string {
+  static getSideIfPanningPastEndOfPage(pageBounds: any, vpBounds: any): Side {
     if (this.isPanningOutsideLeft(pageBounds, vpBounds)) {
-      return 'left';
+      return Side.LEFT;
     } else if (this.isPanningOutsideRight(pageBounds, vpBounds)) {
-      return 'right';
+      return Side.RIGHT;
     }
   }
 

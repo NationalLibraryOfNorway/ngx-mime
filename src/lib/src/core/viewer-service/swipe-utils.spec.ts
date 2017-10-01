@@ -1,3 +1,4 @@
+import { Direction } from '../models/direction';
 import { ViewerOptions } from '../models/viewer-options';
 import { SwipeUtils } from './swipe-utils';
 
@@ -5,22 +6,22 @@ describe('SwipeUtils ', () => {
 
   it('should return right', () => {
     const direction = SwipeUtils.getSwipeDirection(0, 100);
-    expect(direction).toBe('right');
+    expect(direction).toBe(Direction.RIGHT);
   });
 
   it('should return left', () => {
     const direction = SwipeUtils.getSwipeDirection(100, 0);
-    expect(direction).toBe('left');
+    expect(direction).toBe(Direction.LEFT);
   });
 
   it('should return left on zoomed-in-swipe', () => {
     const direction = SwipeUtils.getZoomedInSwipeDirection(100, 0, 50, 50);
-    expect(direction).toBe('left');
+    expect(direction).toBe(Direction.LEFT);
   });
 
   it('should return right on zoomed-in-swipe', () => {
     const direction = SwipeUtils.getZoomedInSwipeDirection(0, 100, 50, 50);
-    expect(direction).toBe('right');
+    expect(direction).toBe(Direction.RIGHT);
   });
 
   it('should return undefined on zoomed-in-swipe', () => {

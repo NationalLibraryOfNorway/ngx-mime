@@ -1,4 +1,3 @@
-
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -22,6 +21,8 @@ import { ClickService } from '../click-service/click.service';
 import { SearchResult } from './../models/search-result';
 import { Rect } from './../models/rect';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
+import { Direction } from '../models/direction';
+import { Side } from '../models/side';
 
 
 import '../ext/svg-overlay';
@@ -115,7 +116,7 @@ export class ViewerService implements OnInit {
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      direction: 'previous',
+      direction: Direction.PREVIOUS,
       currentPageIndex: currentPageIndex,
     });
     this.goToPage(newPageIndex);
@@ -127,7 +128,7 @@ export class ViewerService implements OnInit {
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      direction: 'next',
+      direction: Direction.NEXT,
       currentPageIndex: currentPageIndex,
     });
     this.goToPage(newPageIndex);
@@ -574,16 +575,16 @@ export class ViewerService implements OnInit {
       const dragEndPosision = e.position;
       const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
       const vpBounds = this.viewer.viewport.getBounds();
-      const pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
-      const direction = SwipeUtils.getZoomedInSwipeDirection(
+      const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
+      const direction: Direction = SwipeUtils.getZoomedInSwipeDirection(
         this.dragStartPosition.x,
         dragEndPosision.x,
         this.dragStartPosition.y,
         dragEndPosision.y
       );
       if (
-        (pannedPastSide === 'left' && direction === 'right') ||
-        (pannedPastSide === 'right' && direction === 'left')
+        (pannedPastSide === Side.LEFT && direction === Direction.RIGHT) ||
+        (pannedPastSide === Side.RIGHT && direction === Direction.LEFT)
       ) {
         this.viewer.panHorizontal = false;
       }
@@ -598,14 +599,14 @@ export class ViewerService implements OnInit {
     const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
     const viewportBounds = this.viewer.viewport.getBounds();
 
-    const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
+    const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
     const viewportCenter = this.getViewportCenter();
 
     const currentPageIndex = this.pageService.currentPage;
     const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportCenter);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
-    let pannedPastSide: string, pageEndHitCountReached: boolean;
+    let pannedPastSide: Side, pageEndHitCountReached: boolean;
 
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);

@@ -1,3 +1,5 @@
+import { Direction } from '../models/direction';
+import { Side } from '../models/side';
 export class SwipeDragEndCounter {
   public leftCount: number;
   public rightCount: number;
@@ -12,10 +14,10 @@ export class SwipeDragEndCounter {
   }
 
 /**
- * @param dir Direction of swipe / pan
- * @param side Hit side
+ * @param {Direction} direction of swipe / pan
+ * @param {Side} side hit by swipe
  */
-  public addHit(side: string, dir: string): void {
+  public addHit(side: Side, dir: Direction): void {
     this.incrementSide(side);
     this.clearOppositeSideOfDragDirection(dir);
   }
@@ -24,11 +26,11 @@ export class SwipeDragEndCounter {
     return this.leftCount >= 2 || this.rightCount >= 2;
   }
 
-  private incrementSide(side: string): void {
-    if (side === 'left') {
+  private incrementSide(side: Side): void {
+    if (side === Side.LEFT) {
       this.leftCount++;
       this.rightCount = 0;
-    } else if (side === 'right') {
+    } else if (side === Side.RIGHT) {
       this.rightCount++;
       this.leftCount = 0;
     }
@@ -36,12 +38,12 @@ export class SwipeDragEndCounter {
 
   /**
    * Clear opposite side if swiping in the other direction
-   * @param dir Direction of swipe / pan
+   * @param {Direction} Direction of swipe / pan
    */
-  private clearOppositeSideOfDragDirection(dir: string): void {
-    if (dir === 'left') {
+  private clearOppositeSideOfDragDirection(dir: Direction): void {
+    if (dir === Direction.LEFT) {
       this.leftCount = 0;
-    } else if (dir === 'right') {
+    } else if (dir === Direction.RIGHT) {
       this.rightCount = 0;
     }
   }
