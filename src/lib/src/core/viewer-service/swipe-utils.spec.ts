@@ -17,17 +17,23 @@ describe('SwipeUtils ', () => {
   });
 
   it('should return left on zoomed-in-swipe', () => {
-    const direction = SwipeUtils.getZoomedInSwipeDirection(100, 0, 50, 50);
+    const start: Point = { x: 100, y: 50 };
+    const end: Point = { x: 0, y: 50 };
+    const direction = SwipeUtils.getZoomedInSwipeDirection(start, end);
     expect(direction).toBe(Direction.LEFT);
   });
 
   it('should return right on zoomed-in-swipe', () => {
-    const direction = SwipeUtils.getZoomedInSwipeDirection(0, 100, 50, 50);
+    const start: Point = { x: 0, y: 50 };
+    const end: Point = { x: 100, y: 50 };
+    const direction = SwipeUtils.getZoomedInSwipeDirection(start, end);
     expect(direction).toBe(Direction.RIGHT);
   });
 
-  it('should return undefined on zoomed-in-swipe', () => {
-    const direction = SwipeUtils.getZoomedInSwipeDirection(0, 0, 50, 0);
+  it('should return undefined on zoomed-in-swipe when deltaY is higher than deltaX (not implemented)', () => {
+    const start: Point = { x: 0, y: 50 };
+    const end: Point = { x: 0, y: 0 };
+    const direction = SwipeUtils.getZoomedInSwipeDirection(start, end);
     expect(direction).toBe(undefined);
   });
 

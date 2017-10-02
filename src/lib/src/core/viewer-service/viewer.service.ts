@@ -583,16 +583,11 @@ export class ViewerService implements OnInit {
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      const dragEndPosision = e.position;
+      const dragEndPosision: Point = e.position;
       const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
       const vpBounds: Bounds = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
-      const direction: Direction = SwipeUtils.getZoomedInSwipeDirection(
-        this.dragStartPosition.x,
-        dragEndPosision.x,
-        this.dragStartPosition.y,
-        dragEndPosision.y
-      );
+      const direction: Direction = SwipeUtils.getZoomedInSwipeDirection(this.dragStartPosition, dragEndPosision);
       if (
         (pannedPastSide === Side.LEFT && direction === Direction.RIGHT) ||
         (pannedPastSide === Side.RIGHT && direction === Direction.LEFT)
