@@ -81,9 +81,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.resetErrorMessage();
             this.currentManifest = manifest;
             this.cleanUp();
+            this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
-              console.log('Attribution: ' + manifest.attribution);
               this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
             }
 
@@ -98,7 +98,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.iiifManifestService.errorMessage.subscribe((error: string) => {
         this.resetCurrentManifest();
         this.errorMessage = error;
-        // this.changeDetectorRef.detectChanges();
+        this.changeDetectorRef.detectChanges();
       })
     );
 
@@ -229,12 +229,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private resetCurrentManifest(): void {
-    this.iiifManifestService.resetCurrentManifest();
     this.currentManifest = null;
   }
 
   private resetErrorMessage(): void {
-    this.iiifManifestService.resetErrorMessage();
     this.errorMessage = null;
   }
 
