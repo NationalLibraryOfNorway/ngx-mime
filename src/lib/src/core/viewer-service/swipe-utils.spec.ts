@@ -1,3 +1,4 @@
+import { ViewerMode } from '../models/viewer-mode';
 import { Point } from '../models/point';
 import { Bounds } from '../models/bounds';
 import { Direction } from '../models/direction';
@@ -6,34 +7,40 @@ import { SwipeUtils } from './swipe-utils';
 
 describe('SwipeUtils ', () => {
 
-  it('should return right', () => {
-    const direction = SwipeUtils.getSwipeDirection(0, 100);
+  const swipeDirectionZoomedThreshold = ViewerOptions.pan.swipeDirectionZoomedThreshold;
+
+  it('should return right when swiping in PAGE-mode', () => {
+    const start: Point = { x: 0, y: 50 };
+    const end: Point = { x: 100, y: 50 };
+    const direction = SwipeUtils.getSwipeDirection(ViewerMode.PAGE, start, end);
     expect(direction).toBe(Direction.RIGHT);
   });
 
-  it('should return left', () => {
-    const direction = SwipeUtils.getSwipeDirection(100, 0);
+  it('should return left when swiping in PAGE-mode', () => {
+    const start: Point = { x: 100, y: 50 };
+    const end: Point = { x: 0, y: 50 };
+    const direction = SwipeUtils.getSwipeDirection(ViewerMode.PAGE, start, end);
     expect(direction).toBe(Direction.LEFT);
   });
 
   it('should return left on zoomed-in-swipe', () => {
-    const start: Point = { x: 100, y: 50 };
+    const start: Point = { x: swipeDirectionZoomedThreshold + 1, y: 50 };
     const end: Point = { x: 0, y: 50 };
-    const direction = SwipeUtils.getZoomedInSwipeDirection(start, end);
+    const direction = SwipeUtils.getSwipeDirection(ViewerMode.PAGE_ZOOMED, start, end);
     expect(direction).toBe(Direction.LEFT);
   });
 
   it('should return right on zoomed-in-swipe', () => {
     const start: Point = { x: 0, y: 50 };
-    const end: Point = { x: 100, y: 50 };
-    const direction = SwipeUtils.getZoomedInSwipeDirection(start, end);
+    const end: Point = { x: swipeDirectionZoomedThreshold + 1, y: 50 };
+    const direction = SwipeUtils.getSwipeDirection(ViewerMode.PAGE_ZOOMED, start, end);
     expect(direction).toBe(Direction.RIGHT);
   });
 
   it('should return undefined on zoomed-in-swipe when deltaY is higher than deltaX (not implemented)', () => {
     const start: Point = { x: 0, y: 50 };
     const end: Point = { x: 0, y: 0 };
-    const direction = SwipeUtils.getZoomedInSwipeDirection(start, end);
+    const direction = SwipeUtils.getSwipeDirection(ViewerMode.PAGE_ZOOMED, start, end);
     expect(direction).toBe(undefined);
   });
 
