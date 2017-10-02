@@ -405,7 +405,6 @@ class IiifManifestServiceStub {
   }
 
   load(manifestUri: string): void {
-    // console.log('Load 2 - ' + manifestUri);
     if (manifestUri) {
       const manifest = new ManifestBuilder(testManifest).build();
       if (manifest && manifest.tileSource) {
