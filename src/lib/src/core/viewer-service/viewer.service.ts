@@ -274,31 +274,13 @@ export class ViewerService {
   }
 
 
-  zoomIn(zoomFactor?: number): void {
+  zoomIn(zoomFactor?: number, position?: Point): void {
     if (typeof zoomFactor === 'undefined') {
       zoomFactor = ViewerOptions.zoom.zoomFactor;
     }
-    if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
-      this.modeService.mode = ViewerMode.PAGE_ZOOMED;
-    }
-    this.zoomBy(zoomFactor);
-  }
 
-  zoomOut(zoomFactor?: number): void {
-    if (typeof zoomFactor === 'undefined') {
-      zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, -1);
-    }
-    if (this.isViewportLargerThanPage()) {
-      this.modeService.mode = ViewerMode.PAGE;
-    } else {
-      this.zoomBy(zoomFactor);
-    }
-  }
-
-  zoomInAtPoint(position: Point, zoomFactor?: number): void {
-    position = this.viewer.viewport.pointFromPixel(position);
-    if (typeof zoomFactor === 'undefined') {
-      zoomFactor = ViewerOptions.zoom.zoomFactor;
+    if (typeof position !== 'undefined') {
+      position = this.viewer.viewport.pointFromPixel(position);
     }
 
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
@@ -307,18 +289,21 @@ export class ViewerService {
     this.zoomBy(zoomFactor, position);
   }
 
-  zoomOutAtPoint(position: Point, zoomFactor?: number): void {
-    position = this.viewer.viewport.pointFromPixel(position);
+  zoomOut(zoomFactor?: number, position?: Point): void {
     if (typeof zoomFactor === 'undefined') {
       zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, -1);
     }
+
+    if (typeof position !== 'undefined') {
+      position = this.viewer.viewport.pointFromPixel(position);
+    }
+
     if (this.isViewportLargerThanPage()) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
       this.zoomBy(zoomFactor, position);
     }
   }
-
 
   /**
    * Callback for mode-change
@@ -382,7 +367,7 @@ export class ViewerService {
 
   /**
    * Pinch-handler
-  */
+   */
   pinchHandler = (event: any) => {
     this.pinchStatus.active = true;
     const zoomFactor = event.distance / event.lastDistance;
@@ -396,25 +381,27 @@ export class ViewerService {
   }
 
   /**
-   * Process zoom out pinch gesture (pinch in)
    *
-   * Zoom out and toggle to dashboard when all zoomed out.
-   * Stop before toggling to dashboard.
-   *
-   * @param {any} event from pinch gesture
+   * @param {Point} point to zoom to. If not set, the viewer will zoom to center
    */
-  zoomOutPinchGesture(event: any, zoomFactor: number): void {
-    const gestureId = event.gesturePoints[0].id;
-      if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-        this.pinchStatus.shouldStop = true;
-        this.zoomOutAtPoint(event.center, zoomFactor);
-      } else if (this.modeService.mode === ViewerMode.PAGE) {
-        if (!this.pinchStatus.shouldStop || gestureId === this.pinchStatus.previousGestureId + 2) {
-          this.pinchStatus.shouldStop = false;
-          this.modeService.toggleMode();
-        }
-        this.pinchStatus.previousGestureId = gestureId;
+  zoomInGesture(position: Point, zoomFactor?: number): void {
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      this.modeService.mode = ViewerMode.PAGE;
+    } else {
+      if (position) {
+        this.zoomIn(zoomFactor, position);
+      } else {
+        this.zoomIn();
       }
+    }
+  }
+
+  zoomOutGesture(position: Point, zoomFactor?: number): void {
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.zoomOut(zoomFactor, position);
+    } else if (this.modeService.mode === ViewerMode.PAGE) {
+      this.modeService.mode = ViewerMode.DASHBOARD;
+    }
   }
 
   /**
@@ -428,31 +415,30 @@ export class ViewerService {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
-      this.zoomInAtPoint(event.center, zoomFactor);
-    }
-  }
-  /**
-   *
-   * @param {Point} point to zoom to. If not set, the viewer will zoom to center
-   */
-  zoomInGesture(position: Point, zoomFactor?: number): void {
-    if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      this.modeService.mode = ViewerMode.PAGE;
-    } else {
-      if (position) {
-        this.zoomInAtPoint(position, zoomFactor);
-      } else {
-        this.zoomIn();
-      }
+      this.zoomIn(zoomFactor, event.center);
     }
   }
 
-  zoomOutGesture(position: Point, zoomFactor?: number): void {
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      this.zoomOutAtPoint(position, zoomFactor);
-    } else if (this.modeService.mode === ViewerMode.PAGE) {
-      this.modeService.mode = ViewerMode.DASHBOARD;
-    }
+  /**
+   * Process zoom out pinch gesture (pinch in)
+   *
+   * Zoom out and toggle to dashboard when all zoomed out.
+   * Stop between zooming out and toggling to dashboard.
+   *
+   * @param {any} event from pinch gesture
+   */
+  zoomOutPinchGesture(event: any, zoomFactor: number): void {
+    const gestureId = event.gesturePoints[0].id;
+      if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        this.pinchStatus.shouldStop = true;
+        this.zoomOut(zoomFactor, event.center);
+      } else if (this.modeService.mode === ViewerMode.PAGE) {
+        if (!this.pinchStatus.shouldStop || gestureId === this.pinchStatus.previousGestureId + 2) {
+          this.pinchStatus.shouldStop = false;
+          this.modeService.toggleMode();
+        }
+        this.pinchStatus.previousGestureId = gestureId;
+      }
   }
 
   /**
@@ -480,7 +466,7 @@ export class ViewerService {
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
-      this.zoomInAtPoint(event.position, ViewerOptions.zoom.dblClickZoomFactor);
+      this.zoomIn(ViewerOptions.zoom.dblClickZoomFactor, event.position);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
       const requestedPage: number = this.getOverlayIndexFromClickEvent(target);
