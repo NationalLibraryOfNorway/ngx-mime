@@ -254,6 +254,7 @@ export class ViewerService {
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
     this.viewer.addHandler('canvas-press', (e: any) => {
+      this.pinchStatus.active = false;
       this.dragStartPosition = e.position;
       this.isCanvasPressed.next(true);
     });
@@ -383,6 +384,7 @@ export class ViewerService {
    * Pinch-handler
   */
   pinchHandler = (event: any) => {
+    this.pinchStatus.active = true;
     const zoomFactor = event.distance / event.lastDistance;
     // Pinch Out
     if (event.distance > event.lastDistance) {
@@ -632,8 +634,10 @@ export class ViewerService {
   }
 
   private calculateCurrentPage(center: Point) {
-    let currentPageIndex = this.tileRects.findClosestIndex(center);
-    this.currentPageIndex.next(currentPageIndex);
+    if (center) {
+      let currentPageIndex = this.tileRects.findClosestIndex(center);
+      this.currentPageIndex.next(currentPageIndex);
+    }
   }
 
   private getViewportCenter(): Point {
@@ -658,6 +662,10 @@ export class ViewerService {
   }
 
   private swipeToPage(e: any) {
+    // Don't swipe on pinch actions
+    if (this.pinchStatus.active) {
+      return;
+    }
 
     const speed: number = e.speed;
     const dragEndPosision = e.position;
