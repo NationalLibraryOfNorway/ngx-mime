@@ -18,7 +18,7 @@ describe('IiifManifestService', () => {
       ],
       providers: [
         IiifManifestService,
-        MimeViewerIntl
+        MimeViewerIntl,
         IiifManifestService,
         SpinnerService
       ]
@@ -77,7 +77,7 @@ describe('IiifManifestService', () => {
         let result: Manifest = null;
         let error: string = null;
 
-        svc.load('dummyUrl');
+        svc.load('wrongManifestUrl');
         svc.currentManifest.subscribe(
           (manifest: Manifest) => result = manifest
         );
@@ -86,7 +86,7 @@ describe('IiifManifestService', () => {
           (err: string) => error = err
         );
 
-        httpMock.expectOne('dummyUrl').flush('Cannot /GET dummyUrl', {status: 404, statusText: 'NOT FOUND'});
+        httpMock.expectOne('wrongManifestUrl').flush('Cannot /GET dummyUrl', {status: 404, statusText: 'NOT FOUND'});
         expect(result).toBeNull();
         expect(error).toBe('Cannot /GET dummyUrl');
   })));
@@ -97,7 +97,7 @@ describe('IiifManifestService', () => {
         let result: Manifest = null;
         let error: string = null;
 
-        svc.load('dummyUrl');
+        svc.load('invalidManifest');
         svc.currentManifest.subscribe(
           (manifest: Manifest) => result = manifest
         );
@@ -107,7 +107,7 @@ describe('IiifManifestService', () => {
         );
 
         testManifest.sequences = null;
-        httpMock.expectOne(`dummyUrl`).flush(new ManifestBuilder(testManifest).build());
+        httpMock.expectOne(`invalidManifest`).flush(new ManifestBuilder(testManifest).build());
         expect(result).toBeNull();
         expect(error).toBe('Manifest is not valid');
   })));

@@ -8,6 +8,7 @@ import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { MimeViewerIntl } from '../viewer-intl';
 import { SpinnerService } from '../spinner-service/spinner.service';
+import { isUndefined } from 'util';
 
 @Injectable()
 export class IiifManifestService {
@@ -26,22 +27,25 @@ export class IiifManifestService {
   }
 
   load(manifestUri: string): void {
-    console.log('Load 1');
-    if (manifestUri === null) {
+    console.log('Load 1 - ' + manifestUri);
+    if (manifestUri) {
+      this.spinnerService.show();
+      this.http.get(manifestUri)
+        .finally(() => this.spinnerService.hide())
+        .subscribe(
+          (response: Response) => {
+            const manifest = this.extractData(response);
+            if (this.isManifestValid(manifest)) {
+              this._currentManifest.next(manifest);
+            } else {
+              this._errorMessage.next(this.intl.manifestNotValid);
+            }
+          },
+          (error: HttpErrorResponse) => this._errorMessage.next(this.handleError(error))
+        );
+    } else {
       this._errorMessage.next(this.intl.manifestUriMissing);
-    }else {
-    this.spinnerService.show();this.http.get(manifestUri)
-      .finally(() => this.spinnerService.hide())
-      .subscribe(
-      (response: Response) => {
-          const manifest = this.extractData(response);
-          if (this.isManifestValid(manifest)) {this._currentManifest.next(manifest);
-          } else {this._errorMessage.next(this.intl.manifestNotValid);
-      }
-        },
-        (error: HttpErrorResponse) => this._errorMessage.next(this.handleError(error))
-    );
-}
+    }
   }
 
   destroy() {
@@ -58,7 +62,9 @@ export class IiifManifestService {
   }
 
   private extractData(response: Response): Manifest {
-    return new ManifestBuilder(response).build();
+    const manifest = new ManifestBuilder(response).build();
+    console.log('Sequence length: ' + manifest.sequences.length);
+    return manifest;
   }
 
   private isManifestValid(manifest: Manifest): boolean {
