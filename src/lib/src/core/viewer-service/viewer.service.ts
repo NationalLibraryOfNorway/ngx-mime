@@ -149,10 +149,11 @@ export class ViewerService implements OnInit {
     if (!this.pageService.isWithinBounds(pageIndex)) {
       return;
     }
-
+    const oldPageCenter = this.tileRects.get(this.pageService.currentPage);
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.panTo(oldPageCenter.centerX, oldPageCenter.centerY);
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY);
