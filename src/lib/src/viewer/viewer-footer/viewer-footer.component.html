@@ -3,7 +3,7 @@
     <div fxFlex="250px" fxFlex.lt-md="100%" *ngIf="searchResult.size() > 0">
       <mime-content-search-navigator *ngIf="showContentSearchNavigator" [searchResult]="searchResult"></mime-content-search-navigator>
     </div>
-    <div fxFlex *ngIf="showPageNavigator">
+    <div fxFlex [hidden]="!showPageNavigator">
       <mime-page-navigator [searchResult]="searchResult"></mime-page-navigator>
     </div>
   </div>

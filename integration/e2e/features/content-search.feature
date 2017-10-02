@@ -25,11 +25,17 @@ Feature: Content search
     Then the content of hit number 1 should be displayed
 
   Scenario: Go to next search hit
-    Given the user has selected the second hit
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+      And the viewer is in dashboard view
+      And the user search for the word "Gjallarhorn"
+      And the user has selected the second hit
     When the user select the next hit button
     Then the content of hit number 3 should be displayed
 
   Scenario: Go to previous search hit
-    Given the user has selected the second hit
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+      And the viewer is in dashboard view
+      And the user search for the word "Gjallarhorn"
+      And the user has selected the second hit
     When the user select the previous hit button
     Then the content of hit number 1 should be displayed

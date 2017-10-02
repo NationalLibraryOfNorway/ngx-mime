@@ -20,8 +20,8 @@ export class ContentSearchPage {
   }
 
   async getHits() {
-    const el = element.all(by.css('.summary'));
-    await utils.waitForElement(el.first());
+    const el = element.all(by.css('.content-search-container .hit'));
+    await utils.waitForElement(el.last());
     return el;
   }
 

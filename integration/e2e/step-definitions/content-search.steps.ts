@@ -9,16 +9,17 @@ defineSupportCode(function ({ Given, When, Then }) {
   const contentSearchPage = new ContentSearchPage();
 
   Given(/^the user has selected the second hit$/, async () => {
-    selectHit(1);
+    await selectHit(1);
   });
 
   When(/^the user search for the word "(.*)"$/, async (term: string) => {
     await page.openContentSearchDialog();
     await contentSearchPage.setSearchTerm(term);
+    await page.waitForAnimation();
   });
 
   When(/^the user selects the first hit$/, async () => {
-    selectHit(0);
+    await selectHit(0);
   });
 
   When(/^the user select the (.*) hit button$/, async (action: string) => {
