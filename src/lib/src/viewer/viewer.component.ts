@@ -220,7 +220,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.iiifManifestService.load(this.manifestUri);
   }
 
-  public cleanUp() {
+  private cleanUp() {
     this.viewerService.destroy();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
