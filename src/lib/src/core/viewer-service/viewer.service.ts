@@ -153,7 +153,6 @@ export class ViewerService implements OnInit {
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      this.swipeDragEndCounter.reset();
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY);
@@ -207,7 +206,7 @@ export class ViewerService implements OnInit {
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.setSettings(mode);
+        this.modeChanged(mode);
       }));
 
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
@@ -297,13 +296,15 @@ export class ViewerService implements OnInit {
 
 
   /**
-   * Set settings for page/dashboard-mode
+   * Callback for mode-change
    * @param mode ViewerMode
    */
-  setSettings(mode: ViewerMode) {
+  modeChanged(mode: ViewerMode): void {
     if (mode === ViewerMode.DASHBOARD) {
+      this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
     } else if (mode === ViewerMode.PAGE) {
+      this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
     } else if (mode === ViewerMode.PAGE_ZOOMED) {
       this.viewer.panVertical = true;
