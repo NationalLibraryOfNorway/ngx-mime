@@ -9,10 +9,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   const contentSearchPage = new ContentSearchPage();
 
   Given(/^the user has selected the second hit$/, async () => {
-    const hits = await contentSearchPage.getHits();
-    const first = hits[1];
-    await first.click();
-    await page.waitForAnimation();
+    selectHit(1);
   });
 
   When(/^the user search for the word "(.*)"$/, async (term: string) => {
@@ -21,10 +18,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When(/^the user selects the first hit$/, async () => {
-    const hits = await contentSearchPage.getHits();
-    const first = hits[0];
-    await first.click();
-    await page.waitForAnimation();
+    selectHit(0);
   });
 
   When(/^the user select the (.*) hit button$/, async (action: string) => {
@@ -71,4 +65,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(el.isPresent()).to.eql({});
   });
 
+  async function selectHit(selected: number) {
+    const hits = await contentSearchPage.getHits();
+    const first = hits[selected];
+    await first.click();
+    await page.waitForAnimation();
+  }
 });

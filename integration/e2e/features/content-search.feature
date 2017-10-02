@@ -1,8 +1,8 @@
 @android @iphone @desktop 
 Feature: Content search 
-In order to find specific content inside a publication 
-As a user 
-I want to search for text in the publication
+  In order to find specific content inside a publication 
+  As a user 
+  I want to search for text in the publication
 
   Scenario: Search with hits 
     Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
