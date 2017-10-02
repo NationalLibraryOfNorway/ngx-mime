@@ -588,7 +588,7 @@ export class ViewerService implements OnInit {
       const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
       const vpBounds: Bounds = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
-      const direction: Direction = SwipeUtils.getZoomedInSwipeDirection(this.dragStartPosition, dragEndPosision);
+      const direction: Direction = SwipeUtils.getSwipeDirection(ViewerMode.PAGE_ZOOMED, this.dragStartPosition, dragEndPosision);
       if (
         (pannedPastSide === Side.LEFT && direction === Direction.RIGHT) ||
         (pannedPastSide === Side.RIGHT && direction === Direction.LEFT)
@@ -606,7 +606,7 @@ export class ViewerService implements OnInit {
     const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
     const viewportBounds: Bounds = this.getViewportBounds();
 
-    const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
+    const direction: Direction = SwipeUtils.getSwipeDirection(this.modeService.mode, this.dragStartPosition, dragEndPosision);
     const viewportCenter: Point = this.getViewportCenter();
 
     const currentPageIndex: number = this.pageService.currentPage;
@@ -614,7 +614,6 @@ export class ViewerService implements OnInit {
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
     let pannedPastSide: Side, pageEndHitCountReached: boolean;
-
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
       this.swipeDragEndCounter.addHit(pannedPastSide, direction);
@@ -631,7 +630,7 @@ export class ViewerService implements OnInit {
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||
       this.modeService.mode === ViewerMode.PAGE ||
-      pageEndHitCountReached
+      pageEndHitCountReached && direction
     ) {
       this.goToPage(newPageIndex);
     }

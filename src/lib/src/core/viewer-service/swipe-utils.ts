@@ -1,3 +1,4 @@
+import { ViewerMode } from '../models/viewer-mode';
 import { Point } from '../models/point';
 import { Side } from '../models/side';
 import { Direction } from '../models/direction';
@@ -5,20 +6,16 @@ import { Bounds } from '../models/bounds';
 import { ViewerOptions } from '../models/viewer-options';
 export class SwipeUtils {
 
-  // TODO: Add sensitivity-threshold or join with getZoomedInSwipeDirection()?
-  static getSwipeDirection(start: number, end: number): Direction {
-    return start > end ? Direction.LEFT : Direction.RIGHT;
-  }
 
   // Added threshold to prevent sensitive direction-calculation when zoomed in
-  static getZoomedInSwipeDirection(start: Point, end: Point): Direction {
-    const deltaX = Math.abs(start.x - end.x);
+  static getSwipeDirection(mode: ViewerMode, start: Point, end: Point): Direction {
+    let deltaX = Math.abs(start.x - end.x);
     const deltaY = Math.abs(start.y - end.y);
-    const deltaXMinusThreshold = deltaX - ViewerOptions.pan.swipeDirectionZoomedThreshold;
+    deltaX = (mode === ViewerMode.PAGE_ZOOMED) ? deltaX - ViewerOptions.pan.swipeDirectionZoomedThreshold : deltaX;
 
-    if (start.x > end.x && (deltaXMinusThreshold > deltaY)) {
+    if (start.x > end.x && (deltaX >= deltaY)) {
       return Direction.LEFT;
-    } else if (start.x < end.x && (deltaXMinusThreshold > deltaY)) {
+    } else if (start.x < end.x && (deltaX >= deltaY)) {
       return Direction.RIGHT;
     }
   }
