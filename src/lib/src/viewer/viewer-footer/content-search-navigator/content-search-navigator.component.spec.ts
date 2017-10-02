@@ -121,6 +121,27 @@ describe('ContentSearchNavigatorComponent', () => {
 
     }));
 
+  it('should disable previous button if on first hit',
+    inject([ViewerService], (viewerService: ViewerServiceMock) => {
+      viewerService.setPageChange(2);
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const button = fixture.debugElement.query(By.css('#footerNavigatePreviousHitButton'));
+        expect(button.nativeElement.disabled).toBeTruthy();
+      });
+
+    }));
+
+  it('should disable next button if on first hit',
+    inject([ViewerService], (viewerService: ViewerServiceMock) => {
+      viewerService.setPageChange(8);
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const button = fixture.debugElement.query(By.css('#footerNavigateNextHitButton'));
+        expect(button.nativeElement.disabled).toBeTruthy();
+      });
+
+    }));
 
   function createDefaultData() {
     const searchResult = new SearchResult();
