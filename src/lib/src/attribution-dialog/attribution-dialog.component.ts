@@ -29,6 +29,7 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.iiifManifestService.currentManifest
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
+        console.log('currentManifest has changed: ' + this.manifest.attribution);
         this.changeDetectorRef.markForCheck();
       }));
   }

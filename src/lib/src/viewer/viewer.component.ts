@@ -29,6 +29,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
 import { ViewerOptions } from '../core/models/viewer-options';
+import { MimeViewerIntl } from '../core/viewer-intl';
 
 @Component({
   selector: 'mime-viewer',
@@ -44,6 +45,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
   private currentManifest: Manifest;
+  public errorMessage: string = null;
 
   ViewerMode: typeof ViewerMode = ViewerMode;
 
@@ -53,6 +55,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('mimeOsdToolbar') osdToolbar: OsdToolbarComponent;
 
   constructor(
+    public intl: MimeViewerIntl,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private contentsDialogService: ContentsDialogService,
@@ -74,17 +77,29 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
-          this.currentManifest = manifest;
-          this.cleanUp();
-          this.viewerService.setUpViewer(manifest);
-          if (this.config.attributionDialogEnabled && manifest.attribution) {
-            this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
-          }
+          if (manifest) {
+            this.resetErrorMessage();
+            this.currentManifest = manifest;
+            this.cleanUp();
+            this.viewerService.setUpViewer(manifest);
+            if (this.config.attributionDialogEnabled && manifest.attribution) {
+              console.log('Attribution: ' + manifest.attribution);
+              this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
+            }
 
-          if (this.q) {
-            this.iiifContentSearchService.search(manifest, this.q);
+            if (this.q) {
+              this.iiifContentSearchService.search(manifest, this.q);
+            }
           }
         })
+    );
+
+    this.subscriptions.push(
+      this.iiifManifestService.errorMessage.subscribe((error: string) => {
+        this.resetCurrentManifest();
+        this.errorMessage = error;
+        // this.changeDetectorRef.detectChanges();
+      })
     );
 
     this.subscriptions.push(
@@ -178,21 +193,23 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   toggleToolbarsState(mode: ViewerMode): void {
-    switch (mode) {
-      case ViewerMode.DASHBOARD:
-        this.header.state = this.footer.state = 'show';
-        if (this.config.navigationControlEnabled && this.osdToolbar) {
-          this.osdToolbar.state = 'hide';
-        }
-        break;
-      case ViewerMode.PAGE:
-        this.header.state = this.footer.state = 'hide';
-        if (this.config.navigationControlEnabled && this.osdToolbar) {
-          this.osdToolbar.state = 'show';
-        }
-        break;
+    if (this.header && this.footer) {
+      switch (mode) {
+        case ViewerMode.DASHBOARD:
+          this.header.state = this.footer.state = 'show';
+          if (this.config.navigationControlEnabled && this.osdToolbar) {
+            this.osdToolbar.state = 'hide';
+          }
+          break;
+        case ViewerMode.PAGE:
+          this.header.state = this.footer.state = 'hide';
+          if (this.config.navigationControlEnabled && this.osdToolbar) {
+            this.osdToolbar.state = 'show';
+          }
+          break;
+      }
+      this.changeDetectorRef.detectChanges();
     }
-    this.changeDetectorRef.detectChanges();
   }
 
   ngAfterViewChecked() {
@@ -203,12 +220,22 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.iiifManifestService.load(this.manifestUri);
   }
 
-  private cleanUp() {
+  public cleanUp() {
     this.viewerService.destroy();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
     this.iiifContentSearchService.destroy();
+  }
+
+  private resetCurrentManifest(): void {
+    this.iiifManifestService.resetCurrentManifest();
+    this.currentManifest = null;
+  }
+
+  private resetErrorMessage(): void {
+    this.iiifManifestService.resetErrorMessage();
+    this.errorMessage = null;
   }
 
   setClasses() {

@@ -6,7 +6,7 @@ import { PageService } from './../page-service/page-service';
 import { ModeService } from './../mode-service/mode.service';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 
-describe('ViewerService', () => {
+xdescribe('ViewerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
