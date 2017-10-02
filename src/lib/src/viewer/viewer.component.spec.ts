@@ -373,6 +373,16 @@ describe('ViewerComponent', function () {
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
+  it('should emit when page number changes', fakeAsync(() => {
+    comp.ngOnInit();
+    tick(100);
+    let currentPageNumber: number;
+    comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
+    viewerService.goToPage(2);
+    tick(1300);
+    expect(currentPageNumber).toEqual(2);
+  }));
+
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });
