@@ -30,7 +30,7 @@ export class IiifManifestService {
 
   load(manifestUri: string): void {
     if (manifestUri === null) {
-      this._errorMessage.next(this.intl.manifestUriMissing);
+      this._errorMessage.next(this.intl.manifestUriMissingLabel);
     } else {
       this.spinnerService.show();
       this.http.get(manifestUri)
@@ -41,7 +41,7 @@ export class IiifManifestService {
             if (this.isManifestValid(manifest)) {
               this._currentManifest.next(manifest);
             } else {
-              this._errorMessage.next(this.intl.manifestNotValid);
+              this._errorMessage.next(this.intl.manifestNotValidLabel);
             }
           },
           (err: HttpErrorResponse) => {
