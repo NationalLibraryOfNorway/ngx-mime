@@ -1,3 +1,4 @@
+import { Direction } from '../models/direction';
 import { PageService } from '../page-service/page-service';
 import { CalculateNextPageStrategy, NextPageCriteria } from './calculate-next-page-strategy';
 
@@ -9,7 +10,7 @@ export class DashboardModeCalculateNextPageStrategy implements CalculateNextPage
     const currentPageIndex = criteria.currentPageIndex;
 
     let nextPage = this.calculateNumberOfpagesToGo(speed);
-    nextPage = direction === 'left' ? nextPage : nextPage * -1;
+    nextPage = direction === Direction.LEFT ? nextPage : nextPage * -1;
     nextPage = currentPageIndex + nextPage;
     return new PageService().constrainToRange(nextPage);
   }

@@ -24,23 +24,22 @@
   width: 100%;
 }
 
-.viewer-container::ng-deep.tile:hover {
-  stroke: #08f;
-  stroke-width: 10;
-  cursor: pointer;
+::ng-deep .viewer-container.page-zoomed .tile:hover {
+  cursor: -webkit-grab;
 }
 
-.viewer-container.page::ng-deep.tile:hover {
-  stroke: none;
-}
-
-.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover  {
+.viewer-container.canvas-pressed,
+.viewer-container.canvas-pressed::ng-deep.tile:hover {
   cursor: grabbing;
   cursor: -webkit-grabbing;
 }
 
-.viewer-container::ng-deep.tile {
-  fill-opacity: 0; /* Svg-tile filled black if this is not set? */
+::ng-deep .viewer-container .tile {
+  fill-opacity: 0;
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 7;
+  cursor: pointer;
+  filter: url(#blur);
 }
 
 ::ng-deep .viewer-container .hit {
