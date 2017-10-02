@@ -348,7 +348,7 @@ export class ViewerService {
     this.pageMask.show();
 
     this.fitBounds(this.overlays[this.pageService.currentPage]);
-
+    this.viewer.viewport.minZoomLevel = this.getDashboardZoomLevel();
   }
 
   /**
@@ -574,7 +574,6 @@ export class ViewerService {
    */
   fitBounds(overlay: SVGRectElement): void {
     this.viewer.viewport.fitBounds(this.createRectangle(overlay));
-    this.viewer.viewport.minZoomLevel = this.getDashboardZoomLevel();
   }
 
   /**
