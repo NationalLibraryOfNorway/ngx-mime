@@ -17,13 +17,11 @@ import { MimeViewerIntl } from './../../../core/viewer-intl';
 })
 export class ContentSearchNavigatorComponent implements OnInit {
   @Input() searchResult: SearchResult;
-  public currentHitIndex: number;
   public isHitOnActivePage = false;
   public isFirstHitPage = false;
   public isLastHitPage = false;
   private subscriptions: Array<Subscription> = [];
   public currentIndex = 0;
-  private canvasIndexes: number[];
   private currentCanvasIndex = -1;
 
   constructor(
@@ -60,24 +58,6 @@ export class ContentSearchNavigatorComponent implements OnInit {
     this.iiifContentSearchService.destroy();
   }
 
-  findCurrentHitIndex(canvasIndex: number): number {
-    for (let i = 0; i < this.searchResult.size(); i++) {
-      const hit = this.searchResult.get(i);
-      if (hit.index === canvasIndex) {
-        return i;
-      }
-      if (hit.index >= canvasIndex) {
-        if (i === 0) {
-          return -1;
-        } else {
-          const phit = this.searchResult.get(i - 1);
-          return this.searchResult.hits.findIndex(sr => sr.index === phit.index);
-        }
-      }
-    }
-    return this.searchResult.size() - 1;
-  }
-
   goToPreviousHitPage() {
     const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
     const previousCanvasIndex = this.searchResult.get(previousIndex).index;
@@ -99,6 +79,24 @@ export class ContentSearchNavigatorComponent implements OnInit {
 
   private goToCanvasIndex(canvasIndex: number): void {
     this.viewerService.goToPage(canvasIndex);
+  }
+
+  findCurrentHitIndex(canvasIndex: number): number {
+    for (let i = 0; i < this.searchResult.size(); i++) {
+      const hit = this.searchResult.get(i);
+      if (hit.index === canvasIndex) {
+        return i;
+      }
+      if (hit.index >= canvasIndex) {
+        if (i === 0) {
+          return -1;
+        } else {
+          const phit = this.searchResult.get(i - 1);
+          return this.searchResult.hits.findIndex(sr => sr.index === phit.index);
+        }
+      }
+    }
+    return this.searchResult.size() - 1;
   }
 
 }

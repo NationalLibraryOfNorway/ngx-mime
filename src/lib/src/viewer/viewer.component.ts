@@ -161,7 +161,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
-    this.viewerService.destroy();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
