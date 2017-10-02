@@ -12,7 +12,7 @@ export const ViewerOptions = {
     // Sensitivity when determining zoomed-in-swipe-direction.
     // Higher threshold means that swipe must be more focused in
     // x-direction before the gesture is recognized as "left" or "right"
-    swipeDirectionZoomedThreshold: 100
+    swipeDirectionZoomedThreshold: 70
   },
 
   // All transition times in milliseconds
