@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.3.0...v0.4.0) (2017-09-29)
+
+
+### Features
+
+* Browsing through a publication in page view ([#70](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/70)) ([5e6d23c](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5e6d23c))
+* it should be possible to set the startup canvas ([#69](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/69)) ([dad6f5a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/dad6f5a))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.2.0...v0.3.0) (2017-09-28)
 
