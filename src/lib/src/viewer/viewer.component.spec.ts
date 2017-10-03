@@ -368,7 +368,7 @@ describe('ViewerComponent', function () {
     let selectedMode: ViewerMode;
     comp.onPageModeChange.subscribe((mode: ViewerMode) => selectedMode = mode);
 
-    viewerService.toggleToDashboard();
+    modeService.mode = ViewerMode.DASHBOARD;
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
