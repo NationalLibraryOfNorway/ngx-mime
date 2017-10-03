@@ -194,7 +194,7 @@ export class ViewerService implements OnInit {
   }
 
   setUpViewer(manifest: Manifest) {
-    if (manifest.tileSource) {
+    if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
         this.clearOpenSeadragonTooltips();

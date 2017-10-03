@@ -21,6 +21,11 @@ export class MimeViewerIntl {
   previousHitLabel = 'Previous Hit';
   nextHitLabel = 'Next Hit';
 
+  // ERRORS
+  somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';
+  manifestUriMissingLabel = 'ManifestUri is missing';
+  manifestNotValidLabel = 'Manifest is not valid';
+
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;
   }
