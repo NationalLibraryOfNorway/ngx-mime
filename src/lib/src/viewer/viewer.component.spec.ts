@@ -391,7 +391,7 @@ describe('ViewerComponent', function () {
       fixture.detectChanges();
       expect(currentPageNumber).toEqual(2);
       done();
-    }, 2000);
+    }, 3000);
   });
 
   function pinchOut() {
