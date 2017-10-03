@@ -25,8 +25,12 @@ export class PageMask {
       this.resize();
     });
 
+    this.viewer.addHandler('canvas-pinch', () => {
+      this.disableResize = false;
+    });
+
     this.viewer.addHandler('canvas-drag', (e: any) => {
-      if ((e.delta.x || e.delta.y) && e.speed > 0) {
+      if ((e.delta.x || e.delta.y) && e.speed > 0 && e.direction !== 0) {
         this.disableResize = true;
       }
     });
