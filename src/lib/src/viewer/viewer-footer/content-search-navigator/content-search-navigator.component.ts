@@ -78,7 +78,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
   }
 
   private goToCanvasIndex(canvasIndex: number): void {
-    this.viewerService.goToPage(canvasIndex);
+    this.viewerService.goToPage(canvasIndex, false);
   }
 
   findCurrentHitIndex(canvasIndex: number): number {

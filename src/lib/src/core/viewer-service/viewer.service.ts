@@ -48,7 +48,6 @@ export class ViewerService implements OnInit {
 
   private currentCenter: Subject<Point> = new BehaviorSubject(null);
   private currentPageIndex: Subject<number> = new BehaviorSubject(0);
-  private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private pageMask: PageMask;
   private dragStartPosition: any;
@@ -68,10 +67,6 @@ export class ViewerService implements OnInit {
 
   get onPageChange(): Observable<number> {
     return this.currentPageIndex.asObservable();
-  }
-
-  get onOsdReadyChange(): Observable<boolean> {
-    return this.osdIsReady.asObservable();
   }
 
   public getViewer(): any {
@@ -116,7 +111,7 @@ export class ViewerService implements OnInit {
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
-    this.goToPage(currentPageIndex);
+    this.goToPage(currentPageIndex, false);
     this.goToHomeZoom();
     this.modeService.mode = ViewerMode.PAGE;
   }
@@ -130,7 +125,7 @@ export class ViewerService implements OnInit {
       direction: Direction.PREVIOUS,
       currentPageIndex: currentPageIndex,
     });
-    this.goToPage(newPageIndex);
+    this.goToPage(newPageIndex, false);
   }
 
   public goToNextPage(): void {
@@ -142,10 +137,10 @@ export class ViewerService implements OnInit {
       direction: Direction.NEXT,
       currentPageIndex: currentPageIndex,
     });
-    this.goToPage(newPageIndex);
+    this.goToPage(newPageIndex, false);
   }
 
-  public goToPage(pageIndex: number): void {
+  public goToPage(pageIndex: number, immediately: boolean): void {
     if (!this.pageService.isWithinBounds(pageIndex)) {
       return;
     }
@@ -154,15 +149,15 @@ export class ViewerService implements OnInit {
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const oldPageCenter = this.tileRects.get(oldIndex);
-      this.panTo(oldPageCenter.centerX, oldPageCenter.centerY);
+      this.panTo(oldPageCenter.centerX, oldPageCenter.centerY, immediately);
       this.goToHomeZoom();
       setTimeout(() => {
-        this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+        this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
         this.pageMask.changePage(this.overlays[pageIndex]);
         this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
-      this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+      this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
       this.pageMask.changePage(this.overlays[pageIndex]);
     }
   }
@@ -269,9 +264,6 @@ export class ViewerService implements OnInit {
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
     });
-    this.viewer.addHandler('open', (e: any) => {
-      this.osdIsReady.next(true);
-    });
   }
 
   zoomIn(dblClickZoom?: boolean): void {
@@ -323,7 +315,7 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
-    this.goToPage(this.pageService.currentPage);
+    this.goToPage(this.pageService.currentPage, false);
     this.pageMask.hide();
 
     this.fitBoundsInDashboardView();
@@ -337,7 +329,7 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    this.goToPage(this.pageService.currentPage);
+    this.goToPage(this.pageService.currentPage, false);
     this.pageMask.show();
 
     this.fitBounds(this.overlays[this.pageService.currentPage]);
@@ -618,16 +610,16 @@ export class ViewerService implements OnInit {
       this.modeService.mode === ViewerMode.PAGE ||
       pageEndHitCountReached && direction
     ) {
-      this.goToPage(newPageIndex);
+      this.goToPage(newPageIndex, false);
     }
 
   }
 
-  private panTo(x: number, y: number): void {
+  private panTo(x: number, y: number, immediately: boolean): void {
     this.viewer.viewport.panTo({
       x: x,
       y: y
-    }, false);
+    }, immediately);
   }
 
 
