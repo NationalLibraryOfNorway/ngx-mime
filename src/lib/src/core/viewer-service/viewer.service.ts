@@ -24,6 +24,7 @@ import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 import { Bounds } from '../models/bounds';
+import { ZoomUtils } from './zoom-utils';
 
 
 import { PinchStatus } from '../models/pinchStatus';
@@ -284,6 +285,8 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
+      position = ZoomUtils.constrainPositionToPage(position, this.getPageBounds(this.pageService.currentPage));
+
     }
 
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
@@ -299,6 +302,7 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
+      position = ZoomUtils.constrainPositionToPage(position, this.getPageBounds(this.pageService.currentPage));
     }
 
     if (this.isViewportLargerThanPage()) {
@@ -358,7 +362,7 @@ export class ViewerService {
    * Scroll-handler
    */
   scrollHandler = (event: any) => {
-    const zoomFactor = Math.pow( ViewerOptions.zoom.zoomFactor, event.scroll );
+    const zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, event.scroll);
     // Scrolling up
     if (event.scroll > 0) {
       this.zoomInGesture(event.position, zoomFactor);
@@ -375,10 +379,10 @@ export class ViewerService {
     this.pinchStatus.active = true;
     const zoomFactor = event.distance / event.lastDistance;
     // Pinch Out
-    if (event.distance > event.lastDistance) {
+    if (event.distance > event.lastDistance + ViewerOptions.zoom.pinchZoomThreshold) {
       this.zoomInPinchGesture(event, zoomFactor);
       // Pinch In
-    } else {
+    } else if (event.distance + ViewerOptions.zoom.pinchZoomThreshold < event.lastDistance) {
       this.zoomOutPinchGesture(event, zoomFactor);
     }
   }
@@ -432,16 +436,16 @@ export class ViewerService {
    */
   zoomOutPinchGesture(event: any, zoomFactor: number): void {
     const gestureId = event.gesturePoints[0].id;
-      if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-        this.pinchStatus.shouldStop = true;
-        this.zoomOut(zoomFactor, event.center);
-      } else if (this.modeService.mode === ViewerMode.PAGE) {
-        if (!this.pinchStatus.shouldStop || gestureId === this.pinchStatus.previousGestureId + 2) {
-          this.pinchStatus.shouldStop = false;
-          this.modeService.toggleMode();
-        }
-        this.pinchStatus.previousGestureId = gestureId;
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.pinchStatus.shouldStop = true;
+      this.zoomOut(zoomFactor, event.center);
+    } else if (this.modeService.mode === ViewerMode.PAGE) {
+      if (!this.pinchStatus.shouldStop || gestureId === this.pinchStatus.previousGestureId + 2) {
+        this.pinchStatus.shouldStop = false;
+        this.modeService.toggleMode();
       }
+      this.pinchStatus.previousGestureId = gestureId;
+    }
   }
 
   /**
