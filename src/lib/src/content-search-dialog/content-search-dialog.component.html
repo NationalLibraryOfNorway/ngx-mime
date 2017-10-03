@@ -28,7 +28,7 @@
   <div class="content-search-result-container" [ngStyle]="tabHeight" tabindex="0">
     <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
       <input type="hidden" id="numberOfHits" [value]="numberOfHits">
-      <div *ngIf="currentSearch.length > 0">
+      <div *ngIf="currentSearch && currentSearch.length > 0">
         <div *ngIf="numberOfHits > 0" [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"></div>
         <div *ngIf="numberOfHits === 0" [innerHTML]="intl.noResultsFoundLabel(currentSearch)"></div>
       </div>

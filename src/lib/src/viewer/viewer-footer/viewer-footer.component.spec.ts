@@ -1,22 +1,17 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import {
   async,
   ComponentFixture,
-  TestBed,
-  inject
+  TestBed
 } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subject } from 'rxjs/Rx';
-
-import { SharedModule } from './../../shared/shared.module';
-import { ViewerFooterComponent } from './viewer-footer.component';
-import { MimeViewerIntl } from './../../core/viewer-intl';
-import { PageService } from './../../core/page-service/page-service';
-import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+
+import { ViewerFooterComponent } from './viewer-footer.component';
+import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
@@ -27,12 +22,11 @@ describe('ViewerFooterComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [NoopAnimationsModule, SharedModule],
+        imports: [NoopAnimationsModule],
         declarations: [ViewerFooterComponent],
         providers: [
-          MimeViewerIntl,
-          { provide: ViewerService, useClass: ViewerServiceMock },
-          { provide: PageService, useClass: PageServiceMock }
+          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
+          { provide: ObservableMedia, useClass: MediaMock }
         ]
       }).compileComponents();
     })
@@ -47,18 +41,6 @@ describe('ViewerFooterComponent', () => {
   it('should be created', () => {
     expect(cmp).toBeTruthy();
   });
-
-  it('should re-render when the i18n labels have changed',
-    inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
-      const text = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
-      expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Page`);
-
-      intl.nextPage = 'New test string';
-      intl.changes.next();
-      fixture.detectChanges();
-      expect(text.nativeElement.getAttribute('aria-label')).toContain('New test string');
-    })
-  );
 
   it('should start in visible mode', async(() => {
     expect(cmp.state).toBe('show');
@@ -93,67 +75,6 @@ describe('ViewerFooterComponent', () => {
 
   }));
 
-  it('should enable both navigation buttons when viewer is on second page',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-
-      viewerService.pageChanged.next(1);
-      fixture.detectChanges();
-
-      const previousButton = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
-      const nextButton = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
-      expect(previousButton.nativeElement.disabled).toBeFalsy();
-      expect(nextButton.nativeElement.disabled).toBeFalsy();
-    }));
-
-  it('should disable previous button when viewer is on first page',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-
-      viewerService.pageChanged.next(0);
-      fixture.detectChanges();
-
-      const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
-      expect(button.nativeElement.disabled).toBeTruthy();
-    }));
-
-  it('should disable next button when viewer is on last page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageService) => {
-      spyOnProperty(pageService, 'numberOfPages', 'get').and.returnValue(10);
-
-      viewerService.pageChanged.next(9);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        const button = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
-        expect(button.nativeElement.disabled).toBeTruthy();
-      });
-    }));
-
-  it('should display next page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
-      spy = spyOn(viewerService, 'goToNextPage');
-
-      const button = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
-      button.nativeElement.click();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
-      });
-    }));
-
-  it('should display previous page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
-      spy = spyOn(cmp, 'goToPreviousPage');
-
-      const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
-      button.nativeElement.click();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
-      });
-    }));
-
 });
 
 function expectFooterToShow(element: any) {
@@ -168,30 +89,23 @@ function expectFooterToBeHidden(element: any) {
   expect(element.style.transform).toBe('translate(0px, 100%)');
 }
 
-class ViewerServiceMock {
-  pageChanged = new Subject<number>();
-  get onPageChange(): Observable<number> {
-    return this.pageChanged.asObservable();
-  }
+class IiifContentSearchServiceMock {
+  _onChange = new Subject<number>();
 
-  public goToPreviousPage(): void { }
-
-  public goToNextPage(): void { }
-
-}
-
-class PageServiceMock {
-  public _numberOfPages: number;
-
-  set numberOfPages(numberOfPages: number) {
-    this._numberOfPages = numberOfPages;
-  }
-
-  get numberOfPages(): number {
-    return this._numberOfPages;
-  }
-
-  public getZoom(): number {
-    return 0;
+  get onChange(): Observable<number> {
+    return this._onChange.asObservable();
   }
 }
+
+class MediaMock {
+  _onChange = new Subject<number>();
+
+  isActive(m: string) {
+    return false;
+  }
+
+  subscribe(): Subscription {
+    return this._onChange.asObservable().subscribe();
+  }
+
+ }

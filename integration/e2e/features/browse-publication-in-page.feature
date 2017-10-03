@@ -10,7 +10,7 @@ Feature: Browse through a publication in page view
     And the zoom level is home
     And the user is on page <startPage>
     When the user swipe <swipeDirection> and the velocity is equal or greater than 200
-    Then the content of the page <endPage> is displayed
+    Then page <endPage> is displayed
 
     Examples:
         | viewingDirection | startPage | swipeDirection | endPage |
@@ -26,7 +26,7 @@ Feature: Browse through a publication in page view
     And the zoom level is home
     And the user is on page <startPage>
     When the user swipe <swipeDirection> but the velocity is less than 200
-    Then the content of the page <endPage> is displayed
+    Then page <endPage> is displayed
 
     Examples:
         | viewingDirection | startPage | swipeDirection | endPage |
@@ -38,7 +38,7 @@ Feature: Browse through a publication in page view
     Given a <viewingDirection> publication with 10 pages
     And the user is on page <startPage>
     When the user click the <navigationButton> button
-    Then the content of the page <endPage> is displayed
+    Then page <endPage> is displayed
 
     Examples:
         | viewingDirection | startPage | navigationButton | endPage |

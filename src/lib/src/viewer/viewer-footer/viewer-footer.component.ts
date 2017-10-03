@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { MdSliderChange } from '@angular/material';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../../core/viewer-intl';
+import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
+import { SearchResult } from './../../core/models/search-result';
 import { ViewerOptions } from '../../core/models/viewer-options';
-import { ViewerService } from './../../core/viewer-service/viewer.service';
-import { PageService } from './../../core/page-service/page-service';
 
 @Component({
   selector: 'mime-viewer-footer',
@@ -33,36 +32,30 @@ import { PageService } from './../../core/page-service/page-service';
   }
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
-
-  private subscriptions: Array<Subscription> = [];
   public state = 'show';
-  public currentPage: number;
-  public isFirstPage: boolean;
-  public isLastPage: boolean;
-  public numberOfPages: number;
-  private currentSliderPage = -1;
+  public showNavigationToolbar = true;
+  public searchResult: SearchResult = new SearchResult();
+  public showPageNavigator = true;
+  public showContentSearchNavigator = false;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private viewerService: ViewerService,
-    private pageService: PageService) { }
+    private iiifContentSearchService: IiifContentSearchService,
+    public media: ObservableMedia,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
-    this.subscriptions.push(this.viewerService
-      .onPageChange
-      .subscribe((currentPage: number) => {
-        if (this.currentSliderPage !== -1 && this.currentSliderPage === currentPage) {
-          this.currentSliderPage = -1;
-        } else if (this.currentSliderPage === -1) {
-          this.currentPage = currentPage;
-        }
-        this.numberOfPages = this.pageService.numberOfPages;
-        this.isFirstPage = this.isOnFirstPage(currentPage);
-        this.isLastPage = this.isOnLastPage(currentPage);
-        this.changeDetectorRef.detectChanges();
-      }));
+    this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+      this.searchResult = sr;
+      this.showContentSearchNavigator = this.searchResult.size() > 0;
+      this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
+      this.changeDetectorRef.detectChanges();
+    }));
+
+    this.subscriptions.push(this.media.subscribe((change: MediaChange) => {
+      this.showPageNavigator = !this.isMobile() && this.searchResult.size() > 0;
+      this.changeDetectorRef.detectChanges();
+    }));
   }
 
   ngOnDestroy() {
@@ -71,27 +64,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
     });
   }
 
-  public goToPreviousPage(): void {
-    this.viewerService.goToPreviousPage();
+  private isMobile(): boolean {
+    return  this.media.isActive('lt-md');
   }
-
-  public goToNextPage(): void {
-    this.viewerService.goToNextPage();
-  }
-
-  public onSliderChange(change: MdSliderChange): void {
-    this.currentSliderPage = change.value;
-    this.currentPage = change.value;
-    this.viewerService.goToPage(change.value);
-    this.changeDetectorRef.detectChanges();
-  }
-
-  private isOnFirstPage(currentPage: number): boolean {
-    return currentPage === 0;
-  }
-
-  private isOnLastPage(currentPage: number): boolean {
-    return currentPage === (this.numberOfPages - 1);
-  }
-
 }

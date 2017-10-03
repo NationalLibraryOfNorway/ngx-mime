@@ -20,6 +20,12 @@ export class SearchResult {
     this.hits.push(hit);
   }
 
+  public get(index: number): Hit {
+    return new Hit({
+      ...this.hits[index]
+    });
+  }
+
   public size(): number {
     return this.hits.length;
   }

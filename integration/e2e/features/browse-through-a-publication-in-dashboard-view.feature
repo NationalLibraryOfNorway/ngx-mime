@@ -10,7 +10,7 @@ Feature: Browse through a publication in dashboard view
       And the viewer is in dashboard view
       And the user is on page <startPage>
     When the user swipe <swipeDirection> and the velocity is between <velocity>
-    Then the content of the page <endPage> is displayed
+    Then page <endPage> is displayed
 
     Examples:
         | viewingDirection | startPage | swipeDirection | velocity | endPage |

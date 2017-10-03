@@ -1,0 +1,15 @@
+<md-toolbar id="content-search-navigator-toolbar" color="primary">
+  <div *ngIf="searchResult" fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+    <div>
+      <button id="footerNavigateCloseHitsButton" md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" mdTooltipPosition="above" (click)="clear()"><md-icon>close</md-icon></button>
+    </div>
+    <div fxFlex class="current-hit-label" [ngClass]="{'not-on-page': !isHitOnActivePage}" fxFlex [innerHTML]="intl.currentHitLabel(currentIndex + 1, searchResult.size())">
+    </div>
+    <div class="navigation-buttons">
+      <button id="footerNavigatePreviousHitButton" md-icon-button [attr.aria-label]="intl.previousHitLabel" [mdTooltip]="intl.previousHitLabel" mdTooltipPosition="above"
+        [disabled]="isFirstHitPage" (click)="goToPreviousHitPage()"><md-icon>navigate_before</md-icon></button>
+      <button id="footerNavigateNextHitButton" md-icon-button [attr.aria-label]="intl.nextHitLabel" [mdTooltip]="intl.nextHitLabel" mdTooltipPosition="above"
+        [disabled]="isLastHitPage" (click)="goToNextHitPage()"><md-icon>navigate_next</md-icon></button>
+    </div>
+  </div>
+</md-toolbar>
