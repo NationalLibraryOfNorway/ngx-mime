@@ -1,4 +1,3 @@
-
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -15,12 +14,16 @@ import { Options } from '../models/options';
 import { PageService } from '../page-service/page-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { SwipeUtils } from './swipe-utils';
+import { PageMask } from './page-mask';
 import { CalculateNextPageFactory } from './calculate-next-page-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
 import { SearchResult } from './../models/search-result';
 import { Rect } from './../models/rect';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
+import { Direction } from '../models/direction';
+import { Side } from '../models/side';
+import { Bounds } from '../models/bounds';
 
 
 import '../ext/svg-overlay';
@@ -33,6 +36,7 @@ declare const OpenSeadragon: any;
 export class ViewerService implements OnInit {
 
   private viewer: any;
+  private svgOverlay: any;
   private svgNode: any;
   private options: Options;
 
@@ -40,12 +44,13 @@ export class ViewerService implements OnInit {
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
 
-  public isCanvasPressed: Subject<boolean> = new Subject<boolean>();
+  public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private currentCenter: Subject<Point> = new BehaviorSubject(null);
   private currentPageIndex: Subject<number> = new BehaviorSubject(0);
   private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
+  private pageMask: PageMask;
   private dragStartPosition: any;
   private tileRects = new TileRects();
 
@@ -97,6 +102,16 @@ export class ViewerService implements OnInit {
     this.viewer.viewport.zoomTo(level, position);
   }
 
+  private getViewportBounds(): Bounds {
+    return this.viewer.viewport.getBounds();
+  }
+
+  private getPageBounds(pageIndex: number): Bounds {
+    if (this.pageService.isWithinBounds(pageIndex)) {
+      return this.createRectangle(this.overlays[this.pageService.currentPage]);
+    }
+  }
+
   public home(): void {
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
@@ -112,7 +127,7 @@ export class ViewerService implements OnInit {
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      direction: 'previous',
+      direction: Direction.PREVIOUS,
       currentPageIndex: currentPageIndex,
     });
     this.goToPage(newPageIndex);
@@ -124,7 +139,7 @@ export class ViewerService implements OnInit {
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      direction: 'next',
+      direction: Direction.NEXT,
       currentPageIndex: currentPageIndex,
     });
     this.goToPage(newPageIndex);
@@ -138,14 +153,15 @@ export class ViewerService implements OnInit {
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      this.swipeDragEndCounter.reset();
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+        this.pageMask.changePage(this.overlays[pageIndex]);
         this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
       this.panTo(newPageCenter.centerX, newPageCenter.centerY);
+      this.pageMask.changePage(this.overlays[pageIndex]);
     }
   }
 
@@ -153,8 +169,6 @@ export class ViewerService implements OnInit {
   public highlight(searchResult: SearchResult): void {
     this.clearHightlight();
     if (this.viewer) {
-      let svgOverlay = this.viewer.svgOverlay();
-      this.svgNode = d3.select(svgOverlay.node());
       for (const hit of searchResult.hits) {
         for (let rect of hit.rects) {
           const tileRect = this.tileRects.get(hit.index);
@@ -188,17 +202,20 @@ export class ViewerService implements OnInit {
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
         this.pageService.reset();
         this.pageService.numberOfPages = this.tileSources.length;
+        this.pageMask = new PageMask(this.viewer);
       });
 
       this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.setSettings(mode);
+        this.modeChanged(mode);
       }));
 
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
       }));
 
+
       this.addToWindow();
+      this.setupOverlays();
       this.createOverlays();
       this.addEvents();
     }
@@ -208,8 +225,16 @@ export class ViewerService implements OnInit {
     window.openSeadragonViewer = this.viewer;
   }
 
+  setupOverlays(): void {
+    this.svgOverlay = this.viewer.svgOverlay();
+    this.svgNode = d3.select(this.svgOverlay.node());
+  }
+
   destroy() {
     if (this.viewer != null && this.viewer.isOpen()) {
+      if (this.viewer.container != null) {
+        d3.select(this.viewer.container.parentNode).style('opacity', '0');
+      }
       this.viewer.destroy();
     }
     this.subscriptions.forEach((subscription: Subscription) => {
@@ -271,13 +296,15 @@ export class ViewerService implements OnInit {
 
 
   /**
-   * Set settings for page/dashboard-mode
+   * Callback for mode-change
    * @param mode ViewerMode
    */
-  setSettings(mode: ViewerMode) {
+  modeChanged(mode: ViewerMode): void {
     if (mode === ViewerMode.DASHBOARD) {
+      this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
     } else if (mode === ViewerMode.PAGE) {
+      this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
     } else if (mode === ViewerMode.PAGE_ZOOMED) {
       this.viewer.panVertical = true;
@@ -292,6 +319,9 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
+    this.goToPage(this.pageService.currentPage);
+    this.pageMask.hide();
+
     this.fitBoundsInDashboardView();
   }
 
@@ -303,6 +333,9 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
+    this.goToPage(this.pageService.currentPage);
+    this.pageMask.show();
+
     this.fitBounds(this.overlays[this.pageService.currentPage]);
   }
 
@@ -398,7 +431,7 @@ export class ViewerService implements OnInit {
   }
 
   isViewportLargerThanPage(): boolean {
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+    const pageBounds = this.getPageBounds(this.pageService.currentPage);
     const viewportBounds = this.viewer.viewport.getBounds();
     const pbWidth = Math.round(pageBounds.width);
     const pbHeight = Math.round(pageBounds.height);
@@ -421,14 +454,12 @@ export class ViewerService implements OnInit {
    */
   createOverlays(): void {
     this.overlays = [];
-    const svgOverlay = this.viewer.svgOverlay();
-    this.svgNode = d3.select(svgOverlay.node());
-
-    let center = new OpenSeadragon.Point(0, 0);
-    let currentX = center.x - (this.tileSources[0].width / 2);
-    let height = this.tileSources[0].height;
-
     const initialPage = 0;
+    const center = new OpenSeadragon.Point(0, 0);
+    const height = this.tileSources[0].height;
+    let currentX = center.x - (this.tileSources[0].width / 2);
+
+    this.appendBlurFilter();
 
     this.tileSources.forEach((tile, i) => {
 
@@ -469,9 +500,25 @@ export class ViewerService implements OnInit {
   }
 
   /**
+   * Append blur-filter definition used for drop-shadow
+   */
+  private appendBlurFilter(): void {
+    const svgParent = d3.select(this.svgOverlay.node().parentNode);
+
+    svgParent.append('filter')
+      .attr('id', 'blur')
+      .attr('height', '130%')
+      .attr('width', '130%')
+      .append('feGaussianBlur').
+      attr('in', 'SourceGraphic').
+      attr('stdDeviation', ViewerOptions.overlays.filterblurStdDeviation);
+  }
+
+  /**
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
+    this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
@@ -537,19 +584,14 @@ export class ViewerService implements OnInit {
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      const dragEndPosision = e.position;
-      const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-      const vpBounds = this.viewer.viewport.getBounds();
-      const pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
-      const direction = SwipeUtils.getZoomedInSwipeDirection(
-        this.dragStartPosition.x,
-        dragEndPosision.x,
-        this.dragStartPosition.y,
-        dragEndPosision.y
-      );
+      const dragEndPosision: Point = e.position;
+      const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
+      const vpBounds: Bounds = this.getViewportBounds();
+      const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
+      const direction: Direction = SwipeUtils.getSwipeDirection(ViewerMode.PAGE_ZOOMED, this.dragStartPosition, dragEndPosision);
       if (
-        (pannedPastSide === 'left' && direction === 'right') ||
-        (pannedPastSide === 'right' && direction === 'left')
+        (pannedPastSide === Side.LEFT && direction === Direction.RIGHT) ||
+        (pannedPastSide === Side.RIGHT && direction === Direction.LEFT)
       ) {
         this.viewer.panHorizontal = false;
       }
@@ -561,21 +603,20 @@ export class ViewerService implements OnInit {
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
-    const pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
-    const viewportBounds = this.viewer.viewport.getBounds();
+    const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
+    const viewportBounds: Bounds = this.getViewportBounds();
 
-    const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition.x, dragEndPosision.x);
-    const viewportCenter = this.getViewportCenter();
+    const direction: Direction = SwipeUtils.getSwipeDirection(this.modeService.mode, this.dragStartPosition, dragEndPosision);
+    const viewportCenter: Point = this.getViewportCenter();
 
-    const currentPageIndex = this.pageService.currentPage;
-    const isPanningPastCenter = SwipeUtils.isPanningPastCenter(pageBounds, viewportBounds);
+    const currentPageIndex: number = this.pageService.currentPage;
+    const isPanningPastCenter: boolean = SwipeUtils.isPanningPastCenter(pageBounds, viewportCenter);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
-    let pannedPastSide: string, pageEndHitCountReached: boolean;
-
+    let pannedPastSide: Side, pageEndHitCountReached: boolean;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
-      this.swipeDragEndCounter.addHit(pannedPastSide);
+      this.swipeDragEndCounter.addHit(pannedPastSide, direction);
       pageEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
     }
 
@@ -589,7 +630,7 @@ export class ViewerService implements OnInit {
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||
       this.modeService.mode === ViewerMode.PAGE ||
-      pageEndHitCountReached
+      pageEndHitCountReached && direction
     ) {
       this.goToPage(newPageIndex);
     }
@@ -663,7 +704,7 @@ export class ViewerService implements OnInit {
     }
 
     if (!pageBounds) {
-      pageBounds = this.createRectangle(this.overlays[this.pageService.currentPage]);
+      pageBounds = this.getPageBounds(this.pageService.currentPage);
     }
 
     const currentZoom: number = this.viewer.viewport.getZoom();

@@ -1,8 +1,9 @@
+import { Direction } from '../models/direction';
 export interface NextPageCriteria {
   speed?: number;
   isPastCenter?: boolean;
   pageEndHitCountReached?: boolean;
-  direction: string;
+  direction: Direction;
   currentPageIndex: number;
 }
 

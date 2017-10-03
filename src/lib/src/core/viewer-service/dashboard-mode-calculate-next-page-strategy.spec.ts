@@ -1,3 +1,4 @@
+import { Direction } from '../models/direction';
 import { DashboardModeCalculateNextPageStrategy } from './dashboard-mode-calculate-next-page-strategy';
 
 describe('DashboardModeCalculateNextPageStrategy ', () => {
@@ -10,7 +11,7 @@ describe('DashboardModeCalculateNextPageStrategy ', () => {
   it('should stay on same page when speed is slow', () => {
     const res = strategy.calculateNextPage({
       speed: 400,
-      direction: 'left',
+      direction: Direction.LEFT,
       currentPageIndex: 1
     });
 

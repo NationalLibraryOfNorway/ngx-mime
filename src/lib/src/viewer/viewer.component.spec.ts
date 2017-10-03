@@ -365,6 +365,14 @@ describe('ViewerComponent', function () {
     pending('Set to pending until we find a way to perform swipe event');
   });
 
+  it('should emit when page mode changes', () => {
+    let selectedMode: ViewerMode;
+    comp.onPageModeChange.subscribe((mode: ViewerMode) => selectedMode = mode);
+
+    viewerService.toggleToDashboard();
+    expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
+  });
+
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });
