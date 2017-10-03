@@ -99,7 +99,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
         'maxHeight': window.innerHeight - 128 + 'px'
       };
     } else {
-      height -= 224;
+      height -= 272;
       this.tabHeight = {
         'maxHeight': height + 'px'
       };

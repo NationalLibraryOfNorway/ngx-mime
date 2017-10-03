@@ -1,13 +1,10 @@
-<md-toolbar>
+<md-toolbar class="footer-toolbar">
   <div fxLayout="row" fxFlex fxLayoutAlign="start center">
-    <div fxFlex>
-      <md-slider id="navigationSlider" [max]="numberOfPages - 1" [value]="currentPage" (input)="onSliderChange($event)" fxFlex></md-slider>
+    <div fxFlex="250px" fxFlex.lt-md="100%" *ngIf="searchResult.size() > 0">
+      <mime-content-search-navigator *ngIf="showContentSearchNavigator" [searchResult]="searchResult"></mime-content-search-navigator>
     </div>
-    <div class="pages" fxFlex="50px"><span id="currentPageNumber">{{currentPage + 1}}</span>/{{numberOfPages}}</div>
-    <div class="navigation-buttons">
-      <button id="footerNavigateBeforeButton" md-icon-button [attr.aria-label]="intl.previousPage" [mdTooltip]="intl.previousPage"
-        [disabled]="isFirstPage" (click)="goToPreviousPage()"><md-icon>navigate_before</md-icon></button>
-      <button id="footerNavigateNextButton" md-icon-button [attr.aria-label]="intl.nextPage" [mdTooltip]="intl.nextPage" [disabled]="isLastPage" (click)="goToNextPage()"><md-icon>navigate_next</md-icon></button>
+    <div fxFlex [hidden]="!showPageNavigator">
+      <mime-page-navigator [searchResult]="searchResult"></mime-page-navigator>
     </div>
   </div>
 </md-toolbar>

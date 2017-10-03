@@ -34,9 +34,9 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.slideToPage(pageNumber - 1);
   });
 
-  Then(/^the content of the page (.*) is displayed$/, async (pageNumber: string) => {
+  Then(/^page (.*) is displayed$/, async (pageNumber: string) => {
     const currentPageNumber = await page.getCurrentPageNumber();
-    expect(currentPageNumber).to.eql(pageNumber);
+    expect(currentPageNumber).to.eql(parseInt(pageNumber, 10));
   });
 
 

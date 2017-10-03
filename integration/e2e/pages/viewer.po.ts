@@ -54,7 +54,7 @@ export class ViewerPage {
     const el =  await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
     // Not using el.getText() as it don't seem to work when element is not visible
     const currentPageNumber = await el.getAttribute('textContent');
-    return currentPageNumber;
+    return parseInt(currentPageNumber, 10);
   }
 
   async openContentsDialog() {
