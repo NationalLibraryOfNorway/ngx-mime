@@ -36,6 +36,7 @@ describe('ViewerComponent', function () {
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
+  let originalTimeout: number;
 
   let viewerService: ViewerService;
   let pageService: PageService;
@@ -87,6 +88,12 @@ describe('ViewerComponent', function () {
     pageService = TestBed.get(PageService);
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
+  afterEach(function() {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
   it('should create component', () => expect(comp).toBeDefined());
@@ -137,7 +144,6 @@ describe('ViewerComponent', function () {
       expect(modeService.mode).toBe(config.initViewerMode);
     });
   }));
-
 
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
@@ -210,12 +216,9 @@ describe('ViewerComponent', function () {
 
   });
 
-
-
   /**************************************
    * Singleclicks
    **************************************/
-
   it('should change to PAGE-mode when singleclicking in DASHBOARD-mode', fakeAsync(() => {
     viewerService.toggleToDashboard();
 
@@ -235,7 +238,6 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
 
-
   it('should change to dashboard-mode when single-click in zoomed-in page-mode', fakeAsync(() => {
     viewerService.toggleToPage();
     const firstOverlay = viewerService.getOverlays()[0];
@@ -249,12 +251,9 @@ describe('ViewerComponent', function () {
     expect(comp.mode).toBe(ViewerMode.DASHBOARD);
   }));
 
-
-
   /**************************************
    * Doubleclicks
    **************************************/
-
   it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
     viewerService.toggleToDashboard();
     expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
@@ -293,9 +292,6 @@ describe('ViewerComponent', function () {
     tick(1000);
     expect(comp.mode).toBe(ViewerMode.PAGE);
   }));
-
-
-
 
   it('should increase zoom level when pinching out', () => {
     // comp.ngOnInit();
@@ -343,8 +339,6 @@ describe('ViewerComponent', function () {
     pending('Set to pending until we find a way to perform pan event');
   });
 
-
-
   it('should change page when swipeing to left', () => {
     // viewerService.toggleToDashboard();
     // tick();
@@ -371,6 +365,21 @@ describe('ViewerComponent', function () {
 
     viewerService.toggleToDashboard();
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
+  });
+
+  it('should emit when page number changes', (done) => {
+    let currentPageNumber: number;
+    comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
+    setTimeout(() => {
+      fixture.detectChanges();
+      viewerService.goToPage(1);
+      fixture.detectChanges();
+    }, 2000);
+    setTimeout(() => {
+      fixture.detectChanges();
+      expect(currentPageNumber).toEqual(1);
+      done();
+    }, 4000);
   });
 
   function pinchOut() {
@@ -415,16 +424,35 @@ export class TestHostComponent {
 
 class IiifManifestServiceStub {
   protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
+  protected _errorMessage: Subject<string> = new BehaviorSubject(null);
 
   get currentManifest(): Observable<Manifest> {
     return this._currentManifest.asObservable();
   }
 
+  get errorMessage(): Observable<string> {
+    return this._errorMessage.asObservable();
+  }
+
   load(manifestUri: string): void {
-    if (manifestUri === null) {
-      return;
+    if (manifestUri) {
+      const manifest = new ManifestBuilder(testManifest).build();
+      if (manifest && manifest.tileSource) {
+        this._currentManifest.next(manifest);
+      } else {
+        this._errorMessage.next('Manifest is not valid');
+      }
+    } else {
+      this._errorMessage.next('ManifestUri is missing');
     }
-    this._currentManifest.next(new ManifestBuilder(testManifest).build());
+  }
+
+  resetCurrentManifest() {
+    this._currentManifest.next(null);
+  }
+
+  resetErrorMessage() {
+    this._errorMessage.next(null);
   }
 
   destroy(): void { }
