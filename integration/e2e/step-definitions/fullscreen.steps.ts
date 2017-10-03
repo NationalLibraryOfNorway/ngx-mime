@@ -21,11 +21,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the viewer should be presented using the entire screen$/, async () => {
-    expect(await page.isFullscreen()).to.be.true;
+    expect(await page.isFullscreen()).to.equal(true);
   });
 
   Then(/^the viewer should be presented normally$/, async () => {
-    expect(await page.isFullscreen()).to.be.false;
+    expect(await page.isFullscreen()).to.equal(false);
   });
 
 });

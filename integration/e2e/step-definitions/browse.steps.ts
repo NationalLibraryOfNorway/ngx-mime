@@ -40,7 +40,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
 
-  When(/^the user click the (.*) button$/, async (navigationButton: string,) => {
+  When(/^the user click the (.*) button$/, async (navigationButton: string) => {
     if (navigationButton === 'next') {
       await page.clickNextButton();
     } else if (navigationButton === 'previous') {

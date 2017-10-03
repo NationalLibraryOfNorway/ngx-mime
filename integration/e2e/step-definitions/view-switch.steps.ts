@@ -14,11 +14,11 @@ defineSupportCode(function ({ Given, When, Then }) {
     const overlay = await page.getSVGElement();
     await overlay.click();
     await page.waitForAnimation(switchAnimationTime);
-    expect(await page.isDashboardMode()).to.be.true;
+    expect(await page.isDashboardMode()).to.equal(true);
   });
 
   Given(/^the viewer is in page view$/, async () => {
-    expect(await page.isPageMode()).to.be.true;
+    expect(await page.isPageMode()).to.equal(true);
   });
 
 
@@ -31,15 +31,15 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the viewer should change to page view$/, async () => {
-    expect(await page.isPageMode()).to.be.true;
+    expect(await page.isPageMode()).to.equal(true);
   });
 
   Given(/^the viewer should be in page view$/, async () => {
-    expect(await page.isPageMode()).to.be.true;
+    expect(await page.isPageMode()).to.equal(true);
   });
 
   Then(/^the viewer should change to dashboard view$/, async () => {
-    expect(await page.isDashboardMode()).to.be.true;
+    expect(await page.isDashboardMode()).to.equal(true);
   });
 
 });
