@@ -95,6 +95,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             if (this.q) {
               this.iiifContentSearchService.search(manifest, this.q);
             }
+
+            if (this.canvasIndex) {
+              setTimeout(() => {
+                this.viewerService.goToPage(this.canvasIndex, false);
+                this.changeDetectorRef.detectChanges();
+              }, 0);
+            }
           }
         })
     );
@@ -124,14 +131,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.modeService.onChange.subscribe((mode: ViewerMode) => {
         this.toggleToolbarsState(mode);
         this.onPageModeChange.emit(mode);
-      })
-    );
-
-    this.subscriptions.push(
-      this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-        if (state && this.canvasIndex) {
-          this.viewerService.goToPage(this.canvasIndex);
-        }
       })
     );
 
@@ -179,7 +178,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
       if (canvasIndexChanged) {
-        this.viewerService.goToPage(this.canvasIndex);
+        this.viewerService.goToPage(this.canvasIndex, true);
       }
     }
   }
