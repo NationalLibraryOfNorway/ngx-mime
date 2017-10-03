@@ -36,6 +36,7 @@ describe('ViewerComponent', function () {
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
+  let originalTimeout: number;
 
   let viewerService: ViewerService;
   let pageService: PageService;
@@ -87,6 +88,12 @@ describe('ViewerComponent', function () {
     pageService = TestBed.get(PageService);
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
+  afterEach(function() {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
   it('should create component', () => expect(comp).toBeDefined());
@@ -373,15 +380,19 @@ describe('ViewerComponent', function () {
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should emit when page number changes', fakeAsync(() => {
-    comp.ngOnInit();
-    tick(100);
+  it('should emit when page number changes', (done) => {
     let currentPageNumber: number;
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
-    viewerService.goToPage(2);
-    tick(1300);
-    expect(currentPageNumber).toEqual(2);
-  }));
+    setTimeout(() => {
+      fixture.detectChanges();
+      viewerService.goToPage(2);
+    }, 1000);
+    setTimeout(() => {
+      fixture.detectChanges();
+      expect(currentPageNumber).toEqual(2);
+      done();
+    }, 2000);
+  });
 
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
