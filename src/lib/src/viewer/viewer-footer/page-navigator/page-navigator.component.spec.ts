@@ -13,7 +13,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { PageNavigatorComponent } from './page-navigator.component';
 import { SharedModule } from './../../../shared/shared.module';
-import { MimeViewerIntl } from './../../../core/viewer-intl';
+import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { PageService } from './../../../core/page-service/page-service';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
@@ -52,7 +52,7 @@ describe('PageNavigatorComponent', () => {
       const text = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
       expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Page`);
 
-      intl.nextPage = 'New test string';
+      intl.nextPageLabel = 'New test string';
       intl.changes.next();
       fixture.detectChanges();
       expect(text.nativeElement.getAttribute('aria-label')).toContain('New test string');
