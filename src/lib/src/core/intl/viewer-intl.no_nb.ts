@@ -5,23 +5,21 @@ import { MimeViewerIntl } from './viewer-intl';
 
 @Injectable()
 export class MimeViewerIntlNoNb extends MimeViewerIntl {
-  changes: Subject<void> = new Subject<void>();
-
-  close = 'Åpne';
-  attribution = 'Tillatelse';
-  contents = 'Innhold';
-  metadata = 'Metadata';
-  license = 'Lisens';
-  fullScreen = 'Fullskjerm';
-  exitFullScreen = 'Avslutt fullskjerm';
-  zoomIn = 'Zoom inn';
-  zoomOut = 'Zoom ut';
-  previousPage = 'Forrige side';
-  nextPage = 'Neste side';
-  home = 'Hjem';
-  search = 'Søk';
-  previousHitLabel = 'Forrige treff';
-  nextHitLabel = 'Neste treff';
+  closeLabel = 'Lukk';
+  attributionLabel = 'Tillatelse';
+  contentsLabel = 'Innhold';
+  metadataLabel = 'Metadata';
+  licenseLabel = 'Lisens';
+  fullScreenLabel = 'Fullskjerm';
+  exitFullScreenLabel = 'Avslutt fullskjerm';
+  zoomInLabel = 'Zoom inn';
+  zoomOutLabel = 'Zoom ut';
+  previousPageLabel = 'Forrige side';
+  nextPageLabel = 'Neste side';
+  homeLabel = 'Hjem';
+  searchLabel = 'Søk';
+  previousHitLabelLabel = 'Forrige treff';
+  nextHitLabelLabel = 'Neste treff';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';

@@ -3,7 +3,7 @@
     <div *ngSwitchCase="true">
       <md-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
+          <button md-icon-button [attr.aria-label]="intl.closeLabel" [mdTooltip]="intl.closeLabel" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
           <div class="heading">{{intl.search}}</div>
         </div>
       </md-toolbar>
@@ -12,7 +12,7 @@
       <md-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
           <div class="heading heading-desktop">{{intl.search}}</div>
-          <button md-icon-button [attr.aria-label]="intl.close" [mdTooltip]="intl.close" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
+          <button md-icon-button [attr.aria-label]="intl.closeLabel" [mdTooltip]="intl.closeLabel" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
         </div>
       </md-toolbar>
     </div>
