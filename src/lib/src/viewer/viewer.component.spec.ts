@@ -36,6 +36,7 @@ describe('ViewerComponent', function () {
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
+  let originalTimeout: number;
 
   let viewerService: ViewerService;
   let pageService: PageService;
@@ -87,6 +88,12 @@ describe('ViewerComponent', function () {
     pageService = TestBed.get(PageService);
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
+  afterEach(function() {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
   it('should create component', () => expect(comp).toBeDefined());
@@ -358,6 +365,21 @@ describe('ViewerComponent', function () {
 
     viewerService.toggleToDashboard();
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
+  });
+
+  it('should emit when page number changes', (done) => {
+    let currentPageNumber: number;
+    comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
+    setTimeout(() => {
+      fixture.detectChanges();
+      viewerService.goToPage(1);
+      fixture.detectChanges();
+    }, 2000);
+    setTimeout(() => {
+      fixture.detectChanges();
+      expect(currentPageNumber).toEqual(1);
+      done();
+    }, 4000);
   });
 
   function pinchOut() {
