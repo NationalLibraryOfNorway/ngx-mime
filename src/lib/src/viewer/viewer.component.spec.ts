@@ -19,7 +19,7 @@ import { testManifest } from '../test/testManifest';
 import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { MimeViewerIntl } from '../core/viewer-intl';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';

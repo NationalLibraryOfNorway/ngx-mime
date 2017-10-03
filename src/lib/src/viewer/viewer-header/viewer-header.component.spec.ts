@@ -11,7 +11,7 @@ import { SharedModule } from './../../shared/shared.module';
 import { ContentSearchDialogModule } from './../../content-search-dialog/content-search-dialog.module';
 import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
-import { MimeViewerIntl } from './../../core/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
@@ -54,7 +54,7 @@ describe('ViewerHeaderComponent', () => {
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
       const button = fixture.debugElement.query(By.css('#contentsDialogButton'));
 
-      intl.contents = 'Metadata of the publication';
+      intl.contentsLabel = 'Metadata of the publication';
       intl.changes.next();
       fixture.detectChanges();
 

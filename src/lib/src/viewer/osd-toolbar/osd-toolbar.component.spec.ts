@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Rx';
 import { OsdToolbarComponent } from './osd-toolbar.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
-import { MimeViewerIntl } from '../../core/viewer-intl';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { PageService } from '../../core/page-service/page-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ModeService } from '../../core/mode-service/mode.service';
@@ -56,7 +56,7 @@ describe('OsdToolbarComponent', () => {
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
       const button = fixture.debugElement.query(By.css('#homeButton'));
 
-      intl.home = 'Go home button';
+      intl.homeLabel = 'Go home button';
       intl.changes.next();
       fixture.detectChanges();
 

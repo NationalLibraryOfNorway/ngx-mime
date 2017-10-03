@@ -9,7 +9,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { SharedModule } from '../shared/shared.module';
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
-import { MimeViewerIntl } from '../core/viewer-intl';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
