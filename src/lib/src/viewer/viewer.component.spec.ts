@@ -384,14 +384,15 @@ describe('ViewerComponent', function () {
     let currentPageNumber: number;
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
     setTimeout(() => {
-      viewerService.goToPage(2);
       fixture.detectChanges();
-    }, 1000);
+      viewerService.goToPage(1);
+      fixture.detectChanges();
+    }, 100);
     setTimeout(() => {
       fixture.detectChanges();
-      expect(currentPageNumber).toEqual(2);
+      expect(currentPageNumber).toEqual(1);
       done();
-    }, 3000);
+    }, 2000);
   });
 
   function pinchOut() {
