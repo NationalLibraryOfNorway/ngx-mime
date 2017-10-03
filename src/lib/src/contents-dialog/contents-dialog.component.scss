@@ -10,7 +10,7 @@
   text-decoration: underline;
 }
 
-::ng-deep .mat-dialog-container {
+::ng-deep .contents-panel > .mat-dialog-container {
   padding: 0px !important;
   max-width: none !important;
   overflow: initial;
