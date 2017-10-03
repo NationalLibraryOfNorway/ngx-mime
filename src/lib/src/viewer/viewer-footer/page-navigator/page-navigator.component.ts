@@ -3,7 +3,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { MdSliderChange } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../../../core/viewer-intl';
+import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { PageService } from './../../../core/page-service/page-service';
 import { SearchResult } from './../../../core/models/search-result';

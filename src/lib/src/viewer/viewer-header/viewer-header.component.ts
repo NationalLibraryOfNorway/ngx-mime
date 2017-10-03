@@ -5,7 +5,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Subscription } from 'rxjs/Subscription';
 
 import { ViewerOptions } from '../../core/models/viewer-options';
-import { MimeViewerIntl } from './../../core/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
 import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';

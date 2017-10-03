@@ -31,7 +31,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
 import { ViewerOptions } from '../core/models/viewer-options';
-import { MimeViewerIntl } from '../core/viewer-intl';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
 
 @Component({
   selector: 'mime-viewer',
