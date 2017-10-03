@@ -26,7 +26,7 @@ export class PageMask {
     });
 
     this.viewer.addHandler('canvas-drag', (e: any) => {
-      if (e.delta.x || e.delta.y) {
+      if ((e.delta.x || e.delta.y) && e.speed > 0) {
         this.disableResize = true;
       }
     });
