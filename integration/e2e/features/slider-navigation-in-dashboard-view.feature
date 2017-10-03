@@ -8,4 +8,4 @@ Feature: Slider navigation i dashboard view
     Given a left-to-right publication with 10 pages
       And the viewer is in dashboard view
     When the user drags the page slider to page 5
-    Then the content of the page 5 is displayed
+    Then page 5 is displayed
