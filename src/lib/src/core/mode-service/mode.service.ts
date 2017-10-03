@@ -12,7 +12,7 @@ export class ModeService {
   ) { }
 
   get onChange(): Observable<ViewerMode> {
-    return this.toggleModeSubject.asObservable();
+    return this.toggleModeSubject.asObservable().distinctUntilChanged();
   }
 
   set mode(mode: ViewerMode) {
