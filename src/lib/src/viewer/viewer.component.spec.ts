@@ -387,12 +387,12 @@ describe('ViewerComponent', function () {
       fixture.detectChanges();
       viewerService.goToPage(1);
       fixture.detectChanges();
-    }, 100);
+    }, 2000);
     setTimeout(() => {
       fixture.detectChanges();
       expect(currentPageNumber).toEqual(1);
       done();
-    }, 2000);
+    }, 4000);
   });
 
   function pinchOut() {
