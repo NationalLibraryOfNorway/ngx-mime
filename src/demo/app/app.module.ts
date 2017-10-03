@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MimeViewerIntl, MimeViewerIntlNoNb } from 'ngx-mime';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -25,9 +24,6 @@ import 'hammerjs';
   declarations: [
     AppComponent,
     ViewerComponent
-  ],
-  providers: [
-    {provide: MimeViewerIntl, useClass: MimeViewerIntlNoNb}
   ],
   bootstrap: [AppComponent]
 })
