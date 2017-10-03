@@ -5,7 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
-import { MimeViewerIntl } from './../../core/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { MetadataComponent } from './metadata.component';
 import { Manifest, Metadata } from './../../core/models/manifest';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';

@@ -4,7 +4,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 
 import { Dimensions } from './../../core/models/dimensions';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
-import { MimeViewerIntl } from './../../core/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { PageService } from './../../core/page-service/page-service';
 import { ViewerOptions } from '../../core/models/viewer-options';

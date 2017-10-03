@@ -7,7 +7,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { SpinnerService } from '../spinner-service/spinner.service';
-import { MimeViewerIntl } from '../viewer-intl';
+import { MimeViewerIntl } from '../intl/viewer-intl';
 
 @Injectable()
 export class IiifManifestService {

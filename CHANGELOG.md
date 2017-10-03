@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.4.0...v0.5.0) (2017-10-03)
+
+
+### Bug Fixes
+
+* pan to center of previous page before zooming out when going to a new page in zoomed-in-mode ([9cc967f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9cc967f))
+* recreate and update yarn lockfile to fix previous merge problem ([aef1b92](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/aef1b92))
+
+
+### Features
+
+* emit page mode change ([7d2277d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/7d2277d))
+* emit page number change ([bc201f8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bc201f8))
+* hide all pages except for the current page in page view ([7f81cd3](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/7f81cd3))
+* internationalization provider for norwegian bokmål ([2829836](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2829836))
+* navigate through search hits ([1c3b731](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1c3b731))
+* show error message if manifest fails to load ([08cab63](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/08cab63))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.3.0...v0.4.0) (2017-09-29)
 

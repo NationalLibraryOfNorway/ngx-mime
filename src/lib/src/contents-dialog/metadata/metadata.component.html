@@ -4,11 +4,11 @@
     <span class="content" [innerHTML]="metadata.value"></span>
   </div>
   <div *ngIf="manifest?.attribution">
-    <div class="title">{{intl.attribution}}</div>
+    <div class="title">{{intl.attributionLabel}}</div>
     <span id="metadata-attribution" class="content attribution" [innerHTML]="manifest?.attribution"></span>
   </div>
   <div *ngIf="manifest?.license">
-    <div class="title">{{intl.license}}</div>
+    <div class="title">{{intl.licenseLabel}}</div>
     <span id="metadata-license" class="content license"><a [href]="manifest?.license" target="_blank">{{manifest?.license}}</a></span>
   </div>
 </div>
