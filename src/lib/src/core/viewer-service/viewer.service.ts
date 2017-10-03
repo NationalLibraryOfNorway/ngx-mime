@@ -461,10 +461,7 @@ export class ViewerService implements OnInit {
     const height = this.tileSources[0].height;
     let currentX = center.x - (this.tileSources[0].width / 2);
 
-    this.appendBlurFilter();
-
     this.tileSources.forEach((tile, i) => {
-
       let currentY = center.y - tile.height / 2;
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
@@ -499,21 +496,6 @@ export class ViewerService implements OnInit {
 
       currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
     });
-  }
-
-  /**
-   * Append blur-filter definition used for drop-shadow
-   */
-  private appendBlurFilter(): void {
-    const svgParent = d3.select(this.svgOverlay.node().parentNode);
-
-    svgParent.append('filter')
-      .attr('id', 'blur')
-      .attr('height', '130%')
-      .attr('width', '130%')
-      .append('feGaussianBlur').
-      attr('in', 'SourceGraphic').
-      attr('stdDeviation', ViewerOptions.overlays.filterblurStdDeviation);
   }
 
   /**
