@@ -18,6 +18,8 @@ export class MimeViewerIntl {
   nextPage = 'Next Page';
   home = 'Go Home';
   search = 'Search';
+  previousHitLabel = 'Previous Hit';
+  nextHitLabel = 'Next Hit';
 
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;
@@ -25,6 +27,10 @@ export class MimeViewerIntl {
 
   resultsFoundLabel = (numberOfHits: number, q: string) => {
     return `${numberOfHits} results found for <em class="current-search">${q}</em>`;
+  }
+
+  currentHitLabel = (currentHit: number, numberOfHits: number) => {
+    return `${currentHit} of ${numberOfHits} hits`;
   }
 
 }

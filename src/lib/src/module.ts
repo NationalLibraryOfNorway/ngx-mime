@@ -9,6 +9,8 @@ import { ContentSearchDialogModule } from './content-search-dialog/content-searc
 import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
+import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
+import { PageNavigatorComponent } from './viewer/viewer-footer/page-navigator/page-navigator.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
@@ -21,6 +23,9 @@ import 'd3';
     ViewerComponent,
     ViewerHeaderComponent,
     ViewerFooterComponent,
+    OsdToolbarComponent,
+    ContentSearchNavigatorComponent,
+    PageNavigatorComponent,
     ViewerSpinnerComponent,
     OsdToolbarComponent
   ],

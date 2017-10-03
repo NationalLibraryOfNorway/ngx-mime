@@ -4,9 +4,11 @@ import {
   Component,
   ElementRef,
   Input,
+  Output,
   OnChanges,
   OnDestroy,
   OnInit,
+  EventEmitter,
   SimpleChange,
   SimpleChanges,
   ViewChild,
@@ -41,6 +43,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public q: string;
   @Input() public canvasIndex: number;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
+  @Output('pageModeChanged') onPageModeChange: EventEmitter<ViewerMode> = new EventEmitter();
+
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
   private currentManifest: Manifest;
@@ -103,6 +107,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.modeService.onChange.subscribe((mode: ViewerMode) => {
         this.toggleToolbarsState(mode);
+        this.onPageModeChange.emit(mode);
       })
     );
 
@@ -161,8 +166,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
-    this.iiifManifestService.destroy();
+    this.attributionDialogService.destroy();
+    this.contentsDialogService.destroy();
+    this.contentSearchDialogService.destroy();
     this.iiifContentSearchService.destroy();
+    this.iiifManifestService.destroy();
   }
 
   // ChangeDetection fix
