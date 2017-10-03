@@ -384,8 +384,8 @@ describe('ViewerComponent', function () {
     let currentPageNumber: number;
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
     setTimeout(() => {
-      fixture.detectChanges();
       viewerService.goToPage(2);
+      fixture.detectChanges();
     }, 1000);
     setTimeout(() => {
       fixture.detectChanges();
