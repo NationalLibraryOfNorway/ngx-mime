@@ -56,11 +56,11 @@ export class IiifManifestService {
     this.resetErrorMessage();
   }
 
-  resetCurrentManifest() {
+  private resetCurrentManifest() {
     this._currentManifest.next(null);
   }
 
-  resetErrorMessage() {
+  private resetErrorMessage() {
     this._errorMessage.next(null);
   }
 

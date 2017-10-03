@@ -45,6 +45,7 @@ describe('IiifManifestService', () => {
 
     httpMock.expectOne(`dummyUrl`).flush(new ManifestBuilder(testManifest).build());
     tick();
+    httpMock.verify();
     expect(error).toBeNull();
     expect(result.label).toBe('Fjellkongen Ludvig \"Ludden\"');
 
@@ -66,6 +67,7 @@ describe('IiifManifestService', () => {
         );
 
         httpMock.expectNone('');
+        httpMock.verify();
         expect(result).toBeNull();
         expect(error).toBe('ManifestUri is missing');
       })));
@@ -86,6 +88,7 @@ describe('IiifManifestService', () => {
         );
 
         httpMock.expectOne('wrongManifestUrl').flush('Cannot /GET wrongManifestUrl', {status: 404, statusText: 'NOT FOUND'});
+        httpMock.verify();
         expect(result).toBeNull();
         expect(error).toBe('Cannot /GET wrongManifestUrl');
       })));
@@ -108,6 +111,7 @@ describe('IiifManifestService', () => {
         const invalidManifest = new ManifestBuilder(testManifest).build();
         invalidManifest.sequences = null;
         httpMock.expectOne(`invalidManifest`).flush(invalidManifest);
+        httpMock.verify();
         expect(result).toBeNull();
         expect(error).toBe('Manifest is not valid');
       })));

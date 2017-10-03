@@ -6,7 +6,7 @@
   <mime-viewer-footer class="navbar navbar-footer" #mimeFooter></mime-viewer-footer>
 </div>
 
-<div class="ngx-error" *ngIf="errorMessage" fxLayout="column" fxLayoutAlign="center center">
+<div class="error-container" *ngIf="errorMessage" fxLayout="column" fxLayoutAlign="center center">
   <span>{{intl.somethingHasGoneWrongLabel}}</span>
   <span>{{errorMessage}}</span>
 </div>
