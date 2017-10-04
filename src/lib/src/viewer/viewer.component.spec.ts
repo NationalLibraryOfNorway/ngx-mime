@@ -32,6 +32,7 @@ import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
+  const osdAnimationTime = 1500;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
@@ -92,7 +93,7 @@ describe('ViewerComponent', function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
-  afterEach(function() {
+  afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
@@ -113,19 +114,6 @@ describe('ViewerComponent', function () {
 
   it('should initially open in configs intial-mode', () => {
     expect(modeService.mode).toBe(config.initViewerMode);
-  });
-
-  it('should open viewer on canvas index if present', (done: any) => {
-    spyOn(viewerService, 'goToPage').and.callThrough();
-    testHostComponent.manifestUri = 'dummyURI3';
-    testHostComponent.canvasIndex = 0;
-    testHostFixture.detectChanges();
-    testHostComponent.canvasIndex = 2;
-    testHostFixture.detectChanges();
-    testHostFixture.whenStable().then(() => {
-      expect(viewerService.goToPage).toHaveBeenCalled();
-      done();
-    });
   });
 
   it('should change mode to initial-mode when changing manifest', async(() => {
@@ -369,17 +357,37 @@ describe('ViewerComponent', function () {
 
   it('should emit when page number changes', (done) => {
     let currentPageNumber: number;
+    testHostComponent.canvasIndex = 2;
+    testHostFixture.detectChanges();
+
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
-    setTimeout(() => {
-      fixture.detectChanges();
-      viewerService.goToPage(1);
-      fixture.detectChanges();
-    }, 2000);
-    setTimeout(() => {
-      fixture.detectChanges();
-      expect(currentPageNumber).toEqual(1);
-      done();
-    }, 4000);
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          fixture.detectChanges();
+          expect(currentPageNumber).toEqual(2);
+          done();
+        }, osdAnimationTime);
+      }
+    });
+  });
+
+  it('should open viewer on canvas index if present', (done) => {
+    let currentPageNumber: number;
+    testHostComponent.canvasIndex = 2;
+    testHostFixture.detectChanges();
+
+    comp.onPageChange.subscribe((pageNumber: number) => {
+      currentPageNumber = pageNumber;
+    });
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          expect(currentPageNumber).toEqual(2);
+          done();
+        }, osdAnimationTime);
+      }
+    });
   });
 
   function pinchOut() {

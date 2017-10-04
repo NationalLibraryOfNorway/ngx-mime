@@ -17,6 +17,9 @@ export class TileRects {
     let result: any;
     let lastDelta: any;
 
+    if (point === null) {
+      return -1;
+    }
     this.tileRects.some(function (rect: Rect, index: number) {
       const delta = Math.abs(point.x - rect.centerX);
       if (delta >= lastDelta) {

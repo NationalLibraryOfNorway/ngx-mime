@@ -46,8 +46,9 @@ export class ViewerService implements OnInit {
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private currentCenter: Subject<Point> = new BehaviorSubject(null);
-  private currentPageIndex: Subject<number> = new BehaviorSubject(0);
+  private currentCenter: Subject<Point> = new Subject();
+  private currentPageIndex: Subject<number> = new Subject();
+  private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private pageMask: PageMask;
   private dragStartPosition: any;
@@ -67,6 +68,10 @@ export class ViewerService implements OnInit {
 
   get onPageChange(): Observable<number> {
     return this.currentPageIndex.asObservable();
+  }
+
+  get onOsdReadyChange(): Observable<boolean> {
+    return this.osdIsReady.asObservable().distinctUntilChanged();
   }
 
   public getViewer(): any {
@@ -208,8 +213,10 @@ export class ViewerService implements OnInit {
 
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
+        if (center && center !== null) {
+          this.osdIsReady.next(true);
+        }
       }));
-
 
       this.addToWindow();
       this.setupOverlays();
@@ -229,6 +236,7 @@ export class ViewerService implements OnInit {
 
   destroy() {
     this.osdIsReady.next(false);
+    this.currentCenter.next(null);
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
         d3.select(this.viewer.container.parentNode).style('opacity', '0');
@@ -499,7 +507,7 @@ export class ViewerService implements OnInit {
   initialPageLoaded = (): void => {
     this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
-    this.osdIsReady.next(true);
+    this.currentCenter.next(this.viewer.viewport.getCenter(true));
   }
 
   /**

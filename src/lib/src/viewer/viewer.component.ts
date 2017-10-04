@@ -95,15 +95,16 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             if (this.q) {
               this.iiifContentSearchService.search(manifest, this.q);
             }
-
-            if (this.canvasIndex) {
-              setTimeout(() => {
-                this.viewerService.goToPage(this.canvasIndex, false);
-                this.changeDetectorRef.detectChanges();
-              }, 0);
-            }
           }
         })
+    );
+
+    this.subscriptions.push(
+      this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+        if (state && this.canvasIndex) {
+          this.viewerService.goToPage(this.canvasIndex, false);
+        }
+      })
     );
 
     this.subscriptions.push(
