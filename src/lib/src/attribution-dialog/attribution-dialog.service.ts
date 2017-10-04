@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable, ElementRef } from '@angular/core';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AttributionDialogComponent } from './attribution-dialog.component';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
@@ -14,6 +15,7 @@ export class AttributionDialogService {
   private dialogRef: MdDialogRef<AttributionDialogComponent>;
   private _el: ElementRef;
   private attributionDialogHeight = 0;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
     private dialog: MdDialog,
@@ -39,6 +41,9 @@ export class AttributionDialogService {
 
   public destroy() {
     this.close();
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
   set el(el: ElementRef) {
@@ -70,12 +75,12 @@ export class AttributionDialogService {
 
   private closeDialogAfter(seconds: number) {
     if (seconds > 0) {
-      Observable
+      this.subscriptions.push(Observable
         .interval(seconds * 1000)
         .take(1)
         .subscribe(() => {
           this.close();
-        });
+        }));
     }
   }
 
