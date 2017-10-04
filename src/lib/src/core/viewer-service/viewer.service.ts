@@ -233,6 +233,7 @@ export class ViewerService implements OnInit {
   }
 
   destroy() {
+    this.osdIsReady.next(false);
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
         d3.select(this.viewer.container.parentNode).style('opacity', '0');
@@ -268,9 +269,6 @@ export class ViewerService implements OnInit {
 
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
-    });
-    this.viewer.addHandler('open', (e: any) => {
-      this.osdIsReady.next(true);
     });
   }
 
@@ -506,6 +504,7 @@ export class ViewerService implements OnInit {
   initialPageLoaded = (): void => {
     this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
+    this.osdIsReady.next(true);
   }
 
   /**
