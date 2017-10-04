@@ -23,5 +23,10 @@
         <mime-metadata></mime-metadata>
       </div>
     </md-tab>
+    <md-tab [label]="intl.tocLabel">
+      <div class="tab-container" [ngStyle]="tabHeight">
+        <mime-toc></mime-toc>
+      </div>
+    </md-tab>
   </md-tab-group>
 </div>

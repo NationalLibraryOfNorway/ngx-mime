@@ -14,6 +14,7 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { TOCComponent } from './tableOfContents/tableOfContents.component';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -28,7 +29,8 @@ describe('ContentsDialogComponent', () => {
       ],
       declarations: [
         ContentsDialogComponent,
-        MetadataComponent
+        MetadataComponent,
+        TOCComponent
       ],
       providers: [
         MimeViewerIntl,

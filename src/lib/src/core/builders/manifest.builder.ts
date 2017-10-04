@@ -18,7 +18,7 @@ export class ManifestBuilder {
       attribution: this.data.attribution,
       service: new ServiceBuilder(this.data.service).build(),
       sequences: new SequenceBuilder(this.data.sequences).build(),
-      structures: new StructureBuilder(this.data.structure).build(),
+      structures: new StructureBuilder(this.data.structures).build(),
       tileSource: new TileSourceBuilder(this.data.sequences).build()
     });
   }
