@@ -90,7 +90,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToPreviousHitPage();
-        expect(viewerService.goToPage).toHaveBeenCalledWith(2);
+        expect(viewerService.goToPage).toHaveBeenCalledWith(2, false);
       });
 
     }));
@@ -103,7 +103,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToPreviousHitPage();
-        expect(viewerService.goToPage).toHaveBeenCalledWith(2);
+        expect(viewerService.goToPage).toHaveBeenCalledWith(2, false);
       });
 
     }));
@@ -116,7 +116,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToNextHitPage();
-        expect(viewerService.goToPage).toHaveBeenCalledWith(2);
+        expect(viewerService.goToPage).toHaveBeenCalledWith(2, false);
       });
 
     }));

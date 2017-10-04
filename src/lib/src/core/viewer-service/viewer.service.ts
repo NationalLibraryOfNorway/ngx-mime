@@ -46,8 +46,8 @@ export class ViewerService implements OnInit {
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private currentCenter: Subject<Point> = new BehaviorSubject(null);
-  private currentPageIndex: Subject<number> = new BehaviorSubject(0);
+  private currentCenter: Subject<Point> = new Subject();
+  private currentPageIndex: Subject<number> = new Subject();
   private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private pageMask: PageMask;
@@ -71,7 +71,7 @@ export class ViewerService implements OnInit {
   }
 
   get onOsdReadyChange(): Observable<boolean> {
-    return this.osdIsReady.asObservable();
+    return this.osdIsReady.asObservable().distinctUntilChanged();
   }
 
   public getViewer(): any {
@@ -116,7 +116,7 @@ export class ViewerService implements OnInit {
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
-    this.goToPage(currentPageIndex);
+    this.goToPage(currentPageIndex, false);
     this.goToHomeZoom();
     this.modeService.mode = ViewerMode.PAGE;
   }
@@ -130,7 +130,7 @@ export class ViewerService implements OnInit {
       direction: Direction.PREVIOUS,
       currentPageIndex: currentPageIndex,
     });
-    this.goToPage(newPageIndex);
+    this.goToPage(newPageIndex, false);
   }
 
   public goToNextPage(): void {
@@ -142,10 +142,10 @@ export class ViewerService implements OnInit {
       direction: Direction.NEXT,
       currentPageIndex: currentPageIndex,
     });
-    this.goToPage(newPageIndex);
+    this.goToPage(newPageIndex, false);
   }
 
-  public goToPage(pageIndex: number): void {
+  public goToPage(pageIndex: number, immediately: boolean): void {
     if (!this.pageService.isWithinBounds(pageIndex)) {
       return;
     }
@@ -154,16 +154,14 @@ export class ViewerService implements OnInit {
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const oldPageCenter = this.tileRects.get(oldIndex);
-      this.panTo(oldPageCenter.centerX, oldPageCenter.centerY);
+      this.panTo(oldPageCenter.centerX, oldPageCenter.centerY, immediately);
       this.goToHomeZoom();
       setTimeout(() => {
-        this.panTo(newPageCenter.centerX, newPageCenter.centerY);
-        this.pageMask.changePage(this.overlays[pageIndex]);
+        this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
         this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
-      this.panTo(newPageCenter.centerX, newPageCenter.centerY);
-      this.pageMask.changePage(this.overlays[pageIndex]);
+      this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
     }
   }
 
@@ -213,8 +211,26 @@ export class ViewerService implements OnInit {
 
       this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
+        if (center && center !== null) {
+          this.osdIsReady.next(true);
+        }
       }));
 
+      this.subscriptions.push(
+        this.onPageChange.subscribe((canvasIndex: number) => {
+          if (canvasIndex !== -1) {
+            this.pageMask.changePage(this.overlays[canvasIndex]);
+          }
+        })
+      );
+
+      this.subscriptions.push(
+        this.onOsdReadyChange.subscribe((state: boolean) => {
+          if (state) {
+            this.initialPageLoaded();
+          }
+        })
+      );
 
       this.addToWindow();
       this.setupOverlays();
@@ -233,6 +249,8 @@ export class ViewerService implements OnInit {
   }
 
   destroy() {
+    this.osdIsReady.next(false);
+    this.currentCenter.next(null);
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
         d3.select(this.viewer.container.parentNode).style('opacity', '0');
@@ -268,9 +286,6 @@ export class ViewerService implements OnInit {
 
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
-    });
-    this.viewer.addHandler('open', (e: any) => {
-      this.osdIsReady.next(true);
     });
   }
 
@@ -323,7 +338,7 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.DASHBOARD;
-    this.goToPage(this.pageService.currentPage);
+    this.goToPage(this.pageService.currentPage, false);
     this.pageMask.hide();
 
     this.fitBoundsInDashboardView();
@@ -337,7 +352,7 @@ export class ViewerService implements OnInit {
       return;
     }
     this.modeService.mode = ViewerMode.PAGE;
-    this.goToPage(this.pageService.currentPage);
+    this.goToPage(this.pageService.currentPage, false);
     this.pageMask.show();
 
     this.fitBounds(this.overlays[this.pageService.currentPage]);
@@ -473,7 +488,7 @@ export class ViewerService implements OnInit {
           x: currentX,
           y: currentY,
           success: i === initialPage ? (e: any) => {
-            e.item.addOnceHandler('fully-loaded-change', () => { this.initialPageLoaded(); });
+            e.item.addOnceHandler('fully-loaded-change', () => { });
           } : ''
         });
       });
@@ -504,6 +519,7 @@ export class ViewerService implements OnInit {
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
+    this.goToPage(this.pageService.currentPage, true);
     this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
@@ -618,16 +634,16 @@ export class ViewerService implements OnInit {
       this.modeService.mode === ViewerMode.PAGE ||
       pageEndHitCountReached && direction
     ) {
-      this.goToPage(newPageIndex);
+      this.goToPage(newPageIndex, false);
     }
 
   }
 
-  private panTo(x: number, y: number): void {
+  private panTo(x: number, y: number, immediately: boolean): void {
     this.viewer.viewport.panTo({
       x: x,
       y: y
-    }, false);
+    }, immediately);
   }
 
 
