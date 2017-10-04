@@ -232,14 +232,14 @@ export class Structure {
   public id: string;
   public type: string;
   public label: string;
-  public canvases: Canvas[];
+  public canvases: string[];
 
   constructor(
     fields?: {
       id?: string,
       type?: string,
       label?: string,
-      canvases?: Canvas[]
+      canvases?: string[]
     }
   ) {
     if (fields) {

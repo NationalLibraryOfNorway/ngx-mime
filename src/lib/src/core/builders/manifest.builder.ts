@@ -190,7 +190,7 @@ export class StructureBuilder {
           id: BuilderUtils.extractId(structure),
           type: BuilderUtils.extracType(structure),
           label: structure.label,
-          canvases: null // TODO Find a way to handle canvases as both Canvas object and string array.
+          canvases: structure.canvases
         }));
       }
     }

@@ -3,7 +3,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { Manifest } from '../../core/models/manifest';
+import { Canvas, Manifest, Structure } from '../../core/models/manifest';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
 
 @Component({
   selector: 'mime-toc',
@@ -18,7 +19,8 @@ export class TOCComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService) { }
+    private iiifManifestService: IiifManifestService,
+    private viewerService: ViewerService,) { }
 
   ngOnInit() {
     this.subscriptions.push(this.iiifManifestService.currentManifest
@@ -33,6 +35,20 @@ export class TOCComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
+  }
+
+  getCanvasIndex(canvasUrl: string): number {
+    let index = 0;
+    this.manifest.sequences[0].canvases.forEach((canvas: Canvas, i: number) => {
+      if (canvas.id === canvasUrl) {
+        index = i;
+      }
+    });
+    return index;
+  }
+
+  goToPage(page: number): void {
+    this.viewerService.goToPage(page);
   }
 
 }

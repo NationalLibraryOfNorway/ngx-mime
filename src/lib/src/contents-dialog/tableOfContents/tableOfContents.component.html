@@ -1,5 +1,8 @@
 <div role="list" id="toc-container" class="toc-container">
-  <div *ngFor="let structure of manifest?.structures" class="toc">
-    <div class="title">{{structure.label}}</div>
+  <div class="toc" *ngFor="let structure of manifest?.structures">
+    <span class="toc-link" (click)="goToPage(getCanvasIndex(structure.canvases[0]))" fxLayout="row" fxLayoutAlign="space-between center">
+      <div class="title">{{structure.label}}</div>
+      <div class="canvasLabel">{{getCanvasIndex(structure.canvases[0])}}</div>
+    </span>
   </div>
 </div>
