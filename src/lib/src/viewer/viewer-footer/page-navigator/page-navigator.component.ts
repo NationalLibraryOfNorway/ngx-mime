@@ -62,7 +62,7 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
   public onSliderChange(change: MdSliderChange): void {
     this.currentSliderPage = change.value;
     this.currentPage = change.value;
-    this.viewerService.goToPage(change.value);
+    this.viewerService.goToPage(change.value, false);
     this.changeDetectorRef.detectChanges();
   }
 
