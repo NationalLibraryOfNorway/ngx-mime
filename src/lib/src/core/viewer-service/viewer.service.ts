@@ -158,12 +158,10 @@ export class ViewerService implements OnInit {
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
-        this.pageMask.changePage(this.overlays[pageIndex]);
         this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
       this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
-      this.pageMask.changePage(this.overlays[pageIndex]);
     }
   }
 
@@ -217,6 +215,22 @@ export class ViewerService implements OnInit {
           this.osdIsReady.next(true);
         }
       }));
+
+      this.subscriptions.push(
+        this.onPageChange.subscribe((canvasIndex: number) => {
+          if (canvasIndex !== -1) {
+            this.pageMask.changePage(this.overlays[canvasIndex]);
+          }
+        })
+      );
+
+      this.subscriptions.push(
+        this.onOsdReadyChange.subscribe((state: boolean) => {
+          if (state) {
+            this.initialPageLoaded();
+          }
+        })
+      );
 
       this.addToWindow();
       this.setupOverlays();
@@ -474,7 +488,7 @@ export class ViewerService implements OnInit {
           x: currentX,
           y: currentY,
           success: i === initialPage ? (e: any) => {
-            e.item.addOnceHandler('fully-loaded-change', () => { this.initialPageLoaded(); });
+            e.item.addOnceHandler('fully-loaded-change', () => { });
           } : ''
         });
       });
@@ -505,9 +519,9 @@ export class ViewerService implements OnInit {
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
+    this.goToPage(this.pageService.currentPage, true);
     this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
-    this.currentCenter.next(this.viewer.viewport.getCenter(true));
   }
 
   /**
