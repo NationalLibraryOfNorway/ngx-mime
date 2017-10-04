@@ -12,7 +12,7 @@ export class DashboardModeCalculateNextPageStrategy implements CalculateNextPage
     let nextPage = this.calculateNumberOfpagesToGo(speed);
     nextPage = direction === Direction.LEFT ? nextPage : nextPage * -1;
     nextPage = currentPageIndex + nextPage;
-    return new PageService().constrainToRange(nextPage);
+    return nextPage;
   }
 
   private calculateNumberOfpagesToGo(speed: number): number {

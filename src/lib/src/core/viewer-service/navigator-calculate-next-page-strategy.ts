@@ -11,6 +11,7 @@ export class NavigatorCalculateNextPageStrategy implements CalculateNextPageStra
     let nextPage = 1;
     nextPage = direction === Direction.NEXT ? nextPage : nextPage * -1;
     nextPage = currentPageIndex + nextPage;
-    return new PageService().constrainToRange(nextPage);
+    console.log('NavigatorCalculateNextPageStrategy');
+    return nextPage;
   }
 }

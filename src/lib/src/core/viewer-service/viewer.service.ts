@@ -49,7 +49,7 @@ export class ViewerService {
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private currentCenter: Subject<Point> = new Subject();
-  private currentPageIndex: Subject<number> = new Subject();
+  private currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(0);
   private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private pageMask: PageMask;
@@ -151,11 +151,8 @@ export class ViewerService {
   }
 
   public goToPage(pageIndex: number, immediately: boolean): void {
-    if (!this.pageService.isWithinBounds(pageIndex)) {
-      return;
-    }
     const oldIndex = this.pageService.currentPage;
-    this.pageService.currentPage = pageIndex;
+    this.pageService.currentPage = this.pageService.constrainToRange(pageIndex);
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const oldPageCenter = this.tileRects.get(oldIndex);
@@ -670,7 +667,7 @@ export class ViewerService {
     const direction: Direction = SwipeUtils.getSwipeDirection(this.modeService.mode, this.dragStartPosition, dragEndPosision);
     const viewportCenter: Point = this.getViewportCenter();
 
-    const currentPageIndex: number = this.pageService.currentPage;
+    const currentPageIndex: number = this.currentPageIndex.getValue();
     const isPanningPastCenter: boolean = SwipeUtils.isPanningPastCenter(pageBounds, viewportCenter);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 

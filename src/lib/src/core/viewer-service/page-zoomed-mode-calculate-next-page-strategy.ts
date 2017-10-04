@@ -15,6 +15,6 @@ export class PageZoomedModeCalculateNextPageStrategy implements CalculateNextPag
 
     nextPage = direction === Direction.LEFT ? nextPage : nextPage * -1;
     nextPage = currentPageIndex + nextPage;
-    return new PageService().constrainToRange(nextPage);
+    return nextPage;
   }
 }
