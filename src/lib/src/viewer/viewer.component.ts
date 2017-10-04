@@ -100,6 +100,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     );
 
     this.subscriptions.push(
+      this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+        if (state && this.canvasIndex) {
+          this.viewerService.goToPage(this.canvasIndex, false);
+        }
+      })
+    );
+
+    this.subscriptions.push(
       this.iiifManifestService.errorMessage.subscribe((error: string) => {
         this.resetCurrentManifest();
         this.errorMessage = error;
@@ -124,14 +132,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.modeService.onChange.subscribe((mode: ViewerMode) => {
         this.toggleToolbarsState(mode);
         this.onPageModeChange.emit(mode);
-      })
-    );
-
-    this.subscriptions.push(
-      this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-        if (state && this.canvasIndex) {
-          this.viewerService.goToPage(this.canvasIndex);
-        }
       })
     );
 
@@ -179,7 +179,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
       if (canvasIndexChanged) {
-        this.viewerService.goToPage(this.canvasIndex);
+        this.viewerService.goToPage(this.canvasIndex, true);
       }
     }
   }
