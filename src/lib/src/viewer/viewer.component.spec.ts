@@ -116,22 +116,25 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should change mode to initial-mode when changing manifest', async(() => {
-    testHostFixture.whenStable().then(() => {
-      // Toggle to opposite of initial-mode
-      if (config.initViewerMode === ViewerMode.PAGE) {
-        viewerService.toggleToDashboard();
-        expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
-      } else {
-        viewerService.toggleToPage();
-        expect(modeService.mode).toBe(ViewerMode.PAGE);
+  it('should change mode to initial-mode when changing manifest', (done) => {
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          if (config.initViewerMode === ViewerMode.PAGE) {
+            viewerService.toggleToDashboard();
+            expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+          } else {
+            viewerService.toggleToPage();
+            expect(modeService.mode).toBe(ViewerMode.PAGE);
+          }
+          testHostComponent.manifestUri = 'dummyURI3';
+          testHostFixture.detectChanges();
+          expect(modeService.mode).toBe(config.initViewerMode);
+          done();
+        }, osdAnimationTime);
       }
-      testHostComponent.manifestUri = 'dummyURI3';
-      testHostComponent.viewerComponent.ngOnInit();
-      testHostFixture.detectChanges();
-      expect(modeService.mode).toBe(config.initViewerMode);
     });
-  }));
+  });
 
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
@@ -357,19 +360,17 @@ describe('ViewerComponent', function () {
 
   it('should emit when page number changes', (done) => {
     let currentPageNumber: number;
-    testHostComponent.canvasIndex = 2;
-    testHostFixture.detectChanges();
-
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        setTimeout(() => {
-          fixture.detectChanges();
-          expect(currentPageNumber).toEqual(2);
-          done();
-        }, osdAnimationTime);
-      }
-    });
+    setTimeout(() => {
+      fixture.detectChanges();
+      viewerService.goToPage(1, false);
+      fixture.detectChanges();
+    }, 2000);
+    setTimeout(() => {
+      fixture.detectChanges();
+      expect(currentPageNumber).toEqual(1);
+      done();
+    }, 4000);
   });
 
   it('should open viewer on canvas index if present', (done) => {
