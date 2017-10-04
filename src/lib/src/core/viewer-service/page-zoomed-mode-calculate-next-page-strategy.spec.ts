@@ -8,21 +8,8 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     strategy = new PageZoomedModeCalculateNextPageStrategy();
   });
 
-
-  it('should stay on same page when speed is below 50', () => {
+  it('should stay on same page when pageEndHitCountReached is false', () => {
     const res = strategy.calculateNextPage({
-      speed: 45,
-      direction: Direction.LEFT,
-      currentPageIndex: 1,
-      pageEndHitCountReached: true
-    });
-
-    expect(res).toBe(1);
-  });
-
-  it('should stay on same page when forceNextPage is false', () => {
-    const res = strategy.calculateNextPage({
-      speed: 200,
       direction: Direction.LEFT,
       currentPageIndex: 1,
       pageEndHitCountReached: false
@@ -31,9 +18,8 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     expect(res).toBe(1);
   });
 
-  it('should get next page if speed is 50 and direction is left', () => {
+  it('should get next page if direction is left and hitcount is reached', () => {
     const res = strategy.calculateNextPage({
-      speed: 50,
       direction: Direction.LEFT,
       currentPageIndex: 1,
       pageEndHitCountReached: true
@@ -42,9 +28,8 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     expect(res).toBe(2);
   });
 
-  it('should get previous page if speed is 50 and direction is right', () => {
+  it('should get previous page if direction is right and hitcount is reached', () => {
     const res = strategy.calculateNextPage({
-      speed: 50,
       direction: Direction.RIGHT,
       currentPageIndex: 2,
       pageEndHitCountReached: true
