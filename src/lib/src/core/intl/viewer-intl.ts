@@ -5,21 +5,26 @@ import { Subject } from 'rxjs/Subject';
 export class MimeViewerIntl {
   changes: Subject<void> = new Subject<void>();
 
-  close = 'Close';
-  attribution = 'Attribution';
-  contents = 'Contents';
-  metadata = 'Metadata';
-  license = 'License';
-  fullScreen = 'Full screen';
-  exitFullScreen = 'Exit full screen';
-  zoomIn = 'Zoom in';
-  zoomOut = 'Zoom out';
-  previousPage = 'Previous Page';
-  nextPage = 'Next Page';
-  home = 'Go Home';
-  search = 'Search';
+  closeLabel = 'Close';
+  attributionLabel = 'Attribution';
+  contentsLabel = 'Contents';
+  metadataLabel = 'Metadata';
+  licenseLabel = 'License';
+  fullScreenLabel = 'Full screen';
+  exitFullScreenLabel = 'Exit full screen';
+  zoomInLabel = 'Zoom in';
+  zoomOutLabel = 'Zoom out';
+  previousPageLabel = 'Previous Page';
+  nextPageLabel = 'Next Page';
+  homeLabel = 'Go Home';
+  searchLabel = 'Search';
   previousHitLabel = 'Previous Hit';
   nextHitLabel = 'Next Hit';
+
+  // ERRORS
+  somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';
+  manifestUriMissingLabel = 'ManifestUri is missing';
+  manifestNotValidLabel = 'Manifest is not valid';
 
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;

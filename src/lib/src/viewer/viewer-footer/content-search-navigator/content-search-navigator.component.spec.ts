@@ -9,7 +9,7 @@ import { SharedModule } from './../../../shared/shared.module';
 import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
 import { SearchResult } from './../../../core/models/search-result';
 import { Hit } from './../../../core/models/search-result';
-import { MimeViewerIntl } from './../../../core/viewer-intl';
+import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 

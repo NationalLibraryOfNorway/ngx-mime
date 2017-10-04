@@ -1,15 +1,15 @@
 <md-toolbar>
   <div fxLayout='row' fxLayoutAlign="end center" fxFlex>
-    <button id="contentsDialogButton" md-icon-button [attr.aria-label]="intl.contents" [mdTooltip]="intl.contents" (click)="toggleContents()">
+    <button id="contentsDialogButton" md-icon-button [attr.aria-label]="intl.contentsLabel" [mdTooltip]="intl.contentsLabel" (click)="toggleContents()">
       <md-icon>list</md-icon>
     </button>
-    <button id="contentSearchDialogButton" *ngIf="isContentSearchEnabled" md-icon-button [attr.aria-label]="intl.search" [mdTooltip]="intl.search" (click)="toggleSearch()">
+    <button id="contentSearchDialogButton" *ngIf="isContentSearchEnabled" md-icon-button [attr.aria-label]="intl.searchLabel" [mdTooltip]="intl.searchLabel" (click)="toggleSearch()">
       <md-icon>search</md-icon>
     </button>
-    <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" md-icon-button [attr.aria-label]="intl.fullScreen" [mdTooltip]="intl.fullScreen" (click)="toggleFullscreen()">
+    <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" md-icon-button [attr.aria-label]="intl.fullScreenLabel" [mdTooltip]="intl.fullScreenLabel" (click)="toggleFullscreen()">
       <md-icon>fullscreen</md-icon>
     </button>
-    <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" md-icon-button [attr.aria-label]="intl.exitFullScreen" [mdTooltip]="intl.exitFullScreen" (click)="toggleFullscreen()">
+    <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" md-icon-button [attr.aria-label]="intl.exitFullScreenLabel" [mdTooltip]="intl.exitFullScreenLabel" (click)="toggleFullscreen()">
       <md-icon >fullscreen_exit</md-icon>
     </button>
   </div>

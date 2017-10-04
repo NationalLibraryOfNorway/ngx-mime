@@ -35,11 +35,18 @@
 }
 
 ::ng-deep .viewer-container .tile {
-  fill-opacity: 0;
-  stroke: rgba(0, 0, 0, 0.5);
-  stroke-width: 7;
   cursor: pointer;
-  filter: url(#blur);
+  fill-opacity: 0;
+}
+
+::ng-deep .viewer-container .dashboard .tile {
+  stroke: rgba(0, 0, 0, 0.15);
+  stroke-width: 8;
+  transition: 0.25s ease stroke;
+}
+
+::ng-deep .viewer-container .dashboard .tile:hover {
+  stroke: rgba(0, 0, 0, 0.45);
 }
 
 ::ng-deep .viewer-container .hit {
@@ -66,4 +73,9 @@
 
 ::ng-deep .cdk-overlay-container {
   z-index: 2147483647;
+}
+
+.error-container {
+  width: 100%;
+  height: 100%;
 }

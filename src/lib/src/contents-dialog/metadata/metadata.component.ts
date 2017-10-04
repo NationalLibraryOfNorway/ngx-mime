@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MimeViewerIntl } from './../../core/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from './../../core/models/manifest';
 

@@ -11,7 +11,7 @@ import { Subject } from 'rxjs/Rx';
 import { SharedModule } from './../shared/shared.module';
 import { MimeMaterialModule } from './../shared/mime-material.module';
 import { ContentSearchDialogComponent } from './content-search-dialog.component';
-import { MimeViewerIntl } from './../core/viewer-intl';
+import { MimeViewerIntl } from './../core/intl/viewer-intl';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';

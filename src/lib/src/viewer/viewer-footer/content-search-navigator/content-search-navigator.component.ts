@@ -7,7 +7,7 @@ import { SearchResult } from './../../../core/models/search-result';
 import { Hit } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
-import { MimeViewerIntl } from './../../../core/viewer-intl';
+import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 
 @Component({
   selector: 'mime-content-search-navigator',

@@ -154,10 +154,12 @@ export class ViewerService {
     if (!this.pageService.isWithinBounds(pageIndex)) {
       return;
     }
-
+    const oldIndex = this.pageService.currentPage;
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      const oldPageCenter = this.tileRects.get(oldIndex);
+      this.panTo(oldPageCenter.centerX, oldPageCenter.centerY);
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY);
@@ -199,7 +201,7 @@ export class ViewerService {
   }
 
   setUpViewer(manifest: Manifest) {
-    if (manifest.tileSource) {
+    if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
         this.clearOpenSeadragonTooltips();
@@ -512,10 +514,7 @@ export class ViewerService {
     const height = this.tileSources[0].height;
     let currentX = center.x - (this.tileSources[0].width / 2);
 
-    this.appendBlurFilter();
-
     this.tileSources.forEach((tile, i) => {
-
       let currentY = center.y - tile.height / 2;
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
@@ -550,21 +549,6 @@ export class ViewerService {
 
       currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
     });
-  }
-
-  /**
-   * Append blur-filter definition used for drop-shadow
-   */
-  private appendBlurFilter(): void {
-    const svgParent = d3.select(this.svgOverlay.node().parentNode);
-
-    svgParent.append('filter')
-      .attr('id', 'blur')
-      .attr('height', '130%')
-      .attr('width', '130%')
-      .append('feGaussianBlur').
-      attr('in', 'SourceGraphic').
-      attr('stdDeviation', ViewerOptions.overlays.filterblurStdDeviation);
   }
 
   /**
