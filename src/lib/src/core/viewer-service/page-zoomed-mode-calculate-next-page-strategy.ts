@@ -6,7 +6,6 @@ import { CalculateNextPageStrategy, NextPageCriteria } from './calculate-next-pa
 export class PageZoomedModeCalculateNextPageStrategy implements CalculateNextPageStrategy {
 
   calculateNextPage(criteria: NextPageCriteria): number {
-    const speed = criteria.speed;
     const direction = criteria.direction;
     const currentPageIndex = criteria.currentPageIndex;
     const pageEndHitCountReached = criteria.pageEndHitCountReached;
