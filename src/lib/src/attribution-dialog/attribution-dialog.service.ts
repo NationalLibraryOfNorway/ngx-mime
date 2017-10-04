@@ -72,7 +72,7 @@ export class AttributionDialogService {
     if (seconds > 0) {
       Observable
         .interval(seconds * 1000)
-        .first()
+        .take(1)
         .subscribe(() => {
           this.close();
         });
