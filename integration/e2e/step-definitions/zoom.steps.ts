@@ -16,7 +16,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Given(/^the view is zoomed in$/, async () => {
-    await page.zoomIn();
+    await page.clickZoomInButton();
     await page.waitForAnimation();
   });
 
