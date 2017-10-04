@@ -32,6 +32,7 @@ import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
+  const osdAnimationTime = 1500;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
@@ -92,7 +93,7 @@ describe('ViewerComponent', function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
-  afterEach(function() {
+  afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
@@ -115,35 +116,25 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should open viewer on canvas index if present', (done: any) => {
-    spyOn(viewerService, 'goToPage').and.callThrough();
-    testHostComponent.manifestUri = 'dummyURI3';
-    testHostComponent.canvasIndex = 0;
-    testHostFixture.detectChanges();
-    testHostComponent.canvasIndex = 2;
-    testHostFixture.detectChanges();
-    testHostFixture.whenStable().then(() => {
-      expect(viewerService.goToPage).toHaveBeenCalled();
-      done();
+  it('should change mode to initial-mode when changing manifest', (done) => {
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          if (config.initViewerMode === ViewerMode.PAGE) {
+            viewerService.toggleToDashboard();
+            expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+          } else {
+            viewerService.toggleToPage();
+            expect(modeService.mode).toBe(ViewerMode.PAGE);
+          }
+          testHostComponent.manifestUri = 'dummyURI3';
+          testHostFixture.detectChanges();
+          expect(modeService.mode).toBe(config.initViewerMode);
+          done();
+        }, osdAnimationTime);
+      }
     });
   });
-
-  it('should change mode to initial-mode when changing manifest', async(() => {
-    testHostFixture.whenStable().then(() => {
-      // Toggle to opposite of initial-mode
-      if (config.initViewerMode === ViewerMode.PAGE) {
-        viewerService.toggleToDashboard();
-        expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
-      } else {
-        viewerService.toggleToPage();
-        expect(modeService.mode).toBe(ViewerMode.PAGE);
-      }
-      testHostComponent.manifestUri = 'dummyURI3';
-      testHostComponent.viewerComponent.ngOnInit();
-      testHostFixture.detectChanges();
-      expect(modeService.mode).toBe(config.initViewerMode);
-    });
-  }));
 
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
@@ -372,7 +363,7 @@ describe('ViewerComponent', function () {
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
     setTimeout(() => {
       fixture.detectChanges();
-      viewerService.goToPage(1);
+      viewerService.goToPage(1, false);
       fixture.detectChanges();
     }, 2000);
     setTimeout(() => {
@@ -380,6 +371,24 @@ describe('ViewerComponent', function () {
       expect(currentPageNumber).toEqual(1);
       done();
     }, 4000);
+  });
+
+  it('should open viewer on canvas index if present', (done) => {
+    let currentPageNumber: number;
+    testHostComponent.canvasIndex = 2;
+    testHostFixture.detectChanges();
+
+    comp.onPageChange.subscribe((pageNumber: number) => {
+      currentPageNumber = pageNumber;
+    });
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          expect(currentPageNumber).toEqual(2);
+          done();
+        }, osdAnimationTime);
+      }
+    });
   });
 
   function pinchOut() {
