@@ -4,14 +4,14 @@
       <md-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
           <button md-icon-button [attr.aria-label]="intl.closeLabel" [mdTooltip]="intl.closeLabel" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
-          <div class="heading">{{intl.search}}</div>
+          <div class="heading">{{intl.searchLabel}}</div>
         </div>
       </md-toolbar>
     </div>
     <div *ngSwitchDefault>
       <md-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <div class="heading heading-desktop">{{intl.search}}</div>
+          <div class="heading heading-desktop">{{intl.searchLabel}}</div>
           <button md-icon-button [attr.aria-label]="intl.closeLabel" [mdTooltip]="intl.closeLabel" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
         </div>
       </md-toolbar>
