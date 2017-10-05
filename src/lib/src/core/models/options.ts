@@ -30,7 +30,7 @@ export class Options {
   homeFillsViewer = false;
   panHorizontal = true;
   panVertical = false;
-  constrainDuringPan = true;
+  constrainDuringPan = false;
   wrapHorizontal = false;
   wrapVertical = false;
   minZoomImageRatio = 1;
