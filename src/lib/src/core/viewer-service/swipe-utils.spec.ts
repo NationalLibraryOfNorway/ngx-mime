@@ -97,4 +97,20 @@ describe('SwipeUtils ', () => {
     expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(false);
   });
 
+  it('should return true when direction is inside right semicircle', () => {
+    let direction = Math.PI / 4;
+    expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(true);
+
+    direction = Math.PI / 8;
+    expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(true);
+  });
+
+  it('should return false when direction is not inside right semicircle (equivalent to left semicircle)', () => {
+    let direction = -Math.PI / 4;
+    expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(false);
+
+    direction = -Math.PI / 8;
+    expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(false);
+  });
+
 });
