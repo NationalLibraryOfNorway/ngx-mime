@@ -106,10 +106,7 @@ describe('SwipeUtils ', () => {
   });
 
   it('should return false when direction is not inside right semicircle (equivalent to left semicircle)', () => {
-    let direction = -Math.PI / 4;
-    expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(false);
-
-    direction = -Math.PI / 8;
+    const direction = -Math.PI / 1.5;
     expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(false);
   });
 
