@@ -6,14 +6,17 @@ import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from '../../shared/shared.module';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
-import { Manifest, Metadata } from '../../core/models/manifest';
+import { Manifest, Structure } from '../../core/models/manifest';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { TOCComponent } from './tableOfContents.component';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { ClickService } from '../../core/click-service/click.service';
+import { PageService } from '../../core/page-service/page-service';
+import { ModeService } from '../../core/mode-service/mode.service';
 
 describe('TOCComponent', () => {
   let component: TOCComponent;
   let fixture: ComponentFixture<TOCComponent>;
-  let iiifManifestServiceStub: IiifManifestServiceStub;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,6 +28,10 @@ describe('TOCComponent', () => {
         TOCComponent
       ],
       providers: [
+        ViewerService,
+        ClickService,
+        PageService,
+        ModeService,
         MimeViewerIntl,
         {provide: IiifManifestService, useClass: IiifManifestServiceStub}
       ]
@@ -42,18 +49,49 @@ describe('TOCComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should display table of contents', () => {
+    fixture.detectChanges();
+
+    const structures: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc'));
+    expect(structures.length).toEqual(3);
+  });
+
+  it('should display the correct label', () => {
+    const labels: DebugElement[] = fixture.debugElement.queryAll(By.css('.label'));
+    expect(labels[0].nativeElement.innerText).toEqual('Forside');
+    expect(labels[1].nativeElement.innerText).toEqual('Tittelside');
+    expect(labels[2].nativeElement.innerText).toEqual('Bakside');
+  });
+
+  it('should display the correct page number', () => {
+    const pageNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.canvasIndex'));
+    expect(pageNumbers[0].nativeElement.innerText).toEqual('1');
+    expect(pageNumbers[1].nativeElement.innerText).toEqual('2');
+    expect(pageNumbers[2].nativeElement.innerText).toEqual('5');
+  });
+
+  it('should close contents dialog when selecting')
+
 });
 
 class IiifManifestServiceStub {
 
   get currentManifest(): Observable<Manifest> {
     return Observable.of(new Manifest({
-      metadata: [
-        new Metadata('label1', 'value1'),
-        new Metadata('label2', 'value2')
-      ],
-      attribution: 'This is a test attribution',
-      license: 'https://wiki.creativecommons.org/wiki/CC0'
+      sequences: [{
+        canvases: [
+          {id: 'canvas1'},
+          {id: 'canvas2'},
+          {id: 'canvas3'},
+          {id: 'canvas4'},
+          {id: 'canvas5'}
+        ]
+      }],
+      structures: [
+        new Structure({label: 'Forside', canvases: ['canvas1']}),
+        new Structure({label: 'Tittelside', canvases: ['canvas2']}),
+        new Structure({label: 'Bakside', canvases: ['canvas5']})
+      ]
     }));
   }
 

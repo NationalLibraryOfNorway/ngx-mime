@@ -15,6 +15,10 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 import { TOCComponent } from './tableOfContents/tableOfContents.component';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { ClickService } from '../core/click-service/click.service';
+import { PageService } from '../core/page-service/page-service';
+import { ModeService } from '../core/mode-service/mode.service';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -33,7 +37,11 @@ describe('ContentsDialogComponent', () => {
         TOCComponent
       ],
       providers: [
+        ViewerService,
+        ClickService,
         MimeViewerIntl,
+        PageService,
+        ModeService,
         IiifManifestService,
         MimeResizeService,
         MimeDomHelper,
