@@ -4,15 +4,17 @@
 
 export const ViewerOptions = {
   zoom: {
-    zoomFactor: 0.0002,
-    dblClickZoomFactor: 0.00045
+    zoomFactor: 1.15,
+    dblClickZoomFactor: 2.7,
+    // How many pixels since lastDistance before it is considered a pinch
+    pinchZoomThreshold: 3
   },
 
   pan: {
-    // Sensitivity when determining zoomed-in-swipe-direction.
+    // Sensitivity when determining swipe-direction.
     // Higher threshold means that swipe must be more focused in
     // x-direction before the gesture is recognized as "left" or "right"
-    swipeDirectionZoomedThreshold: 70
+    swipeDirectionThreshold: 70
   },
 
   // All transition times in milliseconds

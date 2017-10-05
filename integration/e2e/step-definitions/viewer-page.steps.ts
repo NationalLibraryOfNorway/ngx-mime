@@ -7,7 +7,7 @@ defineSupportCode(function ({ Given, Then }) {
 
   Given(/^the viewer is opened with a publication$/, async () => {
     await page.open();
-    expect(await(await page.openSeadragonElement()).isPresent()).to.be.true;
+    expect(await(await page.openSeadragonElement()).isPresent()).to.equal(true);
   });
 
   Given(/^the viewer is opened with a publication with attribution labels$/, async () => {

@@ -121,10 +121,10 @@ describe('ViewerComponent', function () {
       if (state) {
         setTimeout(() => {
           if (config.initViewerMode === ViewerMode.PAGE) {
-            viewerService.toggleToDashboard();
+            modeService.mode = ViewerMode.DASHBOARD;
             expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
           } else {
-            viewerService.toggleToPage();
+            modeService.mode = ViewerMode.PAGE;
             expect(modeService.mode).toBe(ViewerMode.PAGE);
           }
           testHostComponent.manifestUri = 'dummyURI3';
@@ -207,83 +207,6 @@ describe('ViewerComponent', function () {
 
   });
 
-  /**************************************
-   * Singleclicks
-   **************************************/
-  it('should change to PAGE-mode when singleclicking in DASHBOARD-mode', fakeAsync(() => {
-    viewerService.toggleToDashboard();
-
-    const firstOverlay = viewerService.getOverlays()[0];
-    const clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
-  it('should change to dashboard-mode when single-click in page-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    const firstOverlay = viewerService.getOverlays()[0];
-    const clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-  }));
-
-  it('should change to dashboard-mode when single-click in zoomed-in page-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    const firstOverlay = viewerService.getOverlays()[0];
-    const clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE_ZOOMED); // We are in zoomed-in page-mode
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.DASHBOARD);
-  }));
-
-  /**************************************
-   * Doubleclicks
-   **************************************/
-  it('should change to PAGE-mode when doubleclicking in DASHBOARD-mode', fakeAsync(() => {
-    viewerService.toggleToDashboard();
-    expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
-
-    const firstOverlay = viewerService.getOverlays()[0];
-    const clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
-  it('should change to PAGE_ZOOMED-mode when doubleclicking in PAGE-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    expect(modeService.mode).toBe(ViewerMode.PAGE);
-
-    const firstOverlay = viewerService.getOverlays()[0];
-    const clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE_ZOOMED);
-  }));
-
-  it('should change to PAGE-mode when doubleclick in PAGE_ZOOMED-mode', fakeAsync(() => {
-    viewerService.toggleToPage();
-    const firstOverlay = viewerService.getOverlays()[0];
-    const clickEvent = createClickEvent(firstOverlay);
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE_ZOOMED);
-
-    clickService.click(clickEvent);
-    clickService.click(clickEvent);
-    tick(1000);
-    expect(comp.mode).toBe(ViewerMode.PAGE);
-  }));
-
   it('should increase zoom level when pinching out', () => {
     // comp.ngOnInit();
     //
@@ -331,7 +254,7 @@ describe('ViewerComponent', function () {
   });
 
   it('should change page when swipeing to left', () => {
-    // viewerService.toggleToDashboard();
+    // modeService.mode = ViewerMode.DASHBOARD;
     // tick();
     // const viewer = viewerService.getViewer();
     // viewer.raiseEvent('canvas-press', {position: {
@@ -354,7 +277,7 @@ describe('ViewerComponent', function () {
     let selectedMode: ViewerMode;
     comp.onPageModeChange.subscribe((mode: ViewerMode) => selectedMode = mode);
 
-    viewerService.toggleToDashboard();
+    modeService.mode = ViewerMode.DASHBOARD;
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
@@ -407,15 +330,6 @@ describe('ViewerComponent', function () {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 60, lastDistance: 70 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 60 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
-  }
-
-  function createClickEvent(target: any) {
-    return {
-      quick: true,
-      tracker: { dblClickTimeThreshold: 0 },
-      preventDefaultAction: false,
-      originalEvent: { target: target }
-    };
   }
 
 });
