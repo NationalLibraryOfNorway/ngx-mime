@@ -231,9 +231,13 @@ export class ViewerService {
       }));
 
       this.subscriptions.push(
-        this.onPageChange.subscribe((canvasIndex: number) => {
-          if (canvasIndex !== -1) {
-            this.pageMask.changePage(this.overlays[canvasIndex]);
+        this.pageService.onPageChange.subscribe((pageIndex: number) => {
+          if (pageIndex !== -1) {
+            this.pageMask.changePage(this.overlays[pageIndex]);
+            
+            if (this.modeService.mode === ViewerMode.PAGE) {
+              this.fitBounds(this.overlays[pageIndex]);
+            }
           }
         })
       );

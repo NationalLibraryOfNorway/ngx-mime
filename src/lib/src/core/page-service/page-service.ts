@@ -1,28 +1,32 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class PageService {
-
-  private _currentPage: number;
+  
   private _numberOfPages: number;
+  private _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
 
-  constructor() {
-    this._currentPage = 0;
-  }
+  constructor() {}
 
   reset() {
-    this._currentPage = 0;
+    this._currentPage.next(0);
   }
 
   set currentPage(currentPage: number) {
     if (!this.isWithinBounds(currentPage)) {
       return;
     }
-    this._currentPage = currentPage;
+    this._currentPage.next(currentPage);
   }
 
   get currentPage(): number {
-    return this._currentPage;
+    return this._currentPage.value;
+  }
+
+  get onPageChange(): Observable<number> {
+    return this._currentPage.asObservable().distinctUntilChanged();
   }
 
   set numberOfPages(numberOfPages: number) {
@@ -38,7 +42,7 @@ export class PageService {
   }
 
   isCurrentPageValid(): boolean {
-    return this.isWithinBounds(this._currentPage);
+    return this.isWithinBounds(this.currentPage);
   }
 
   // Returns -1 if next page is out of bounds
