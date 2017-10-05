@@ -127,7 +127,6 @@ export class ViewerService {
 
     this.goToPage(currentPageIndex, false);
     this.goToHomeZoom();
-    this.modeService.mode = ViewerMode.PAGE;
   }
 
   public goToPreviousPage(): void {
@@ -167,7 +166,6 @@ export class ViewerService {
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
-        this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
       this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
@@ -234,9 +232,8 @@ export class ViewerService {
         this.pageService.onPageChange.subscribe((pageIndex: number) => {
           if (pageIndex !== -1) {
             this.pageMask.changePage(this.overlays[pageIndex]);
-            
             if (this.modeService.mode === ViewerMode.PAGE) {
-              this.fitBounds(this.overlays[pageIndex]);
+              this.goToHomeZoom();
             }
           }
         })
@@ -367,8 +364,8 @@ export class ViewerService {
     this.goToPage(this.pageService.currentPage, false);
     this.pageMask.hide();
 
-    this.fitBoundsInDashboardView();
-    this.viewer.viewport.minZoomLevel = this.getDashboardZoomLevel();
+    this.goToHomeZoom();
+    this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(ViewerMode.DASHBOARD);
   }
 
   /**
@@ -381,8 +378,8 @@ export class ViewerService {
     this.goToPage(this.pageService.currentPage, false);
     this.pageMask.show();
 
-    this.fitBounds(this.overlays[this.pageService.currentPage]);
-    this.viewer.viewport.minZoomLevel = this.getDashboardZoomLevel();
+    this.goToHomeZoom();
+    this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(ViewerMode.DASHBOARD);
   }
 
   /**
@@ -586,14 +583,6 @@ export class ViewerService {
   }
 
   /**
-   * Fit viewport bounds to an overlay
-   * @param {SVGRectElement} overlay
-   */
-  fitBounds(overlay: SVGRectElement): void {
-    this.viewer.viewport.fitBounds(this.createRectangle(overlay));
-  }
-
-  /**
    * Returns an OpenSeadragon.Rectangle instance of an overlay
    * @param {SVGRectElement} overlay
    */
@@ -717,34 +706,47 @@ export class ViewerService {
     }, immediately);
   }
 
+  private goToHomeZoom(): void {
+    this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
 
-
-  private fitBoundsInDashboardView(): void {
-    if (!this.viewer) {
-      return;
+    if(this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.modeService.mode = ViewerMode.PAGE;
     }
-
-    this.zoomTo(this.getDashboardZoomLevel());
   }
 
-  private getDashboardZoomLevel(): number {
+  private getHomeZoomLevel(mode: ViewerMode): number {
     if (!this.viewer || !this.tileRects) {
       return;
     }
 
-    const viewportBounds = this.getDashboardViewportBounds();
-    const maxPageHeight = this.tileRects.getMaxHeight();
-    const maxPageWidth = this.tileRects.getMaxWidth();
+    let pageHeight: number;
+    let pageWidth: number;
+    let viewportBounds: any;
 
+    if (mode === ViewerMode.DASHBOARD)
+    {
+      pageHeight = this.tileRects.getMaxHeight();
+      pageWidth = this.tileRects.getMaxWidth();
+      viewportBounds = this.getDashboardViewportBounds();
+    } else {
+      const currentPageBounds = this.tileRects.get(this.pageService.currentPage);
+      pageHeight = currentPageBounds.height;
+      pageWidth = currentPageBounds.width;
+      viewportBounds = this.viewer.viewport.getBounds();
+    }
+
+    return this.getFittedZoomLevel(viewportBounds, pageHeight, pageWidth);
+  }
+
+  private getFittedZoomLevel(viewportBounds: any, pageHeight: number, pageWidth: number) {
     const currentZoom: number = this.viewer.viewport.getZoom();
-    const resizeRatio: number = viewportBounds.height / maxPageHeight;
+    const resizeRatio: number = viewportBounds.height / pageHeight;
 
-
-    if (resizeRatio * maxPageWidth <= viewportBounds.width) {
+    if (resizeRatio * pageWidth <= viewportBounds.width) {
       return this.shortenDecimals(resizeRatio * currentZoom, 5);
     } else {
       // Page at full height is wider than viewport.  Return fit by width instead.
-      return this.shortenDecimals(viewportBounds.width / maxPageWidth * currentZoom, 5);
+      return this.shortenDecimals(viewportBounds.width / pageWidth * currentZoom, 5);
     }
   }
 
@@ -763,15 +765,6 @@ export class ViewerService {
       );
 
     return new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
-  }
-
-  private goToHomeZoom(): void {
-    if (this.modeService.mode === ViewerMode.DASHBOARD)
-    {
-      this.fitBoundsInDashboardView();
-    } else {
-      this.fitBounds(this.overlays[this.pageService.currentPage]);
-    }
   }
 
 }
