@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.5.0...v0.6.0) (2017-10-05)
+
+
+### Bug Fixes
+
+* added missing contents and search content labels ([9fae622](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9fae622))
+* better panning in zoomed-in-mode + remove speed-criteria from zoomed-mode when calculating next page ([8473a82](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8473a82))
+* dispose attribution observable ([6d44611](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6d44611))
+* material dialog bug ([fdca465](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fdca465))
+* open viewer on canvas index if present ([11b1afe](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/11b1afe))
+
+
+### Features
+
+* improve zooming ([bf1280f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bf1280f))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.4.0...v0.5.0) (2017-10-03)
 
