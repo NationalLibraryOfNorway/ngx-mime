@@ -20,13 +20,12 @@ export class TOCComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    private viewerService: ViewerService,) { }
+    private viewerService: ViewerService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.iiifManifestService.currentManifest
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
-        console.log(this.manifest.structures);
         this.changeDetectorRef.markForCheck();
       }));
   }
@@ -37,18 +36,16 @@ export class TOCComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCanvasIndex(canvasUrl: string): number {
-    let index = 0;
-    this.manifest.sequences[0].canvases.forEach((canvas: Canvas, i: number) => {
-      if (canvas.id === canvasUrl) {
-        index = i;
-      }
-    });
+  getCanvasIndex(structure: Structure): number {
+    let index = -1;
+    if (this.manifest && this.manifest.sequences[0] && this.manifest.sequences[0].canvases && structure && structure.canvases[0]) {
+      index = this.manifest.sequences[0].canvases.findIndex((canvas: Canvas) => canvas.id === structure.canvases[0]);
+    }
     return index;
   }
 
   goToPage(page: number): void {
-    this.viewerService.goToPage(page);
+    this.viewerService.goToPage(page, false);
   }
 
 }
