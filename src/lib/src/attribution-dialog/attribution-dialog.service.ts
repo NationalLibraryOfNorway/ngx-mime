@@ -52,13 +52,22 @@ export class AttributionDialogService {
 
   public open(timeout?: number): void {
     if (!this.isAttributionDialogOpen) {
-      const config = this.getDialogConfig();
-      this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
-      this.dialogRef.afterClosed().subscribe(result => {
-        this.isAttributionDialogOpen = false;
-      });
-      this.isAttributionDialogOpen = true;
-      this.closeDialogAfter(timeout);
+      /**
+       * Sleeping for material animations to finish
+       * fix: https://github.com/angular/material2/issues/7438
+       */
+      this.subscriptions.push(Observable
+        .interval(1000)
+        .take(1)
+        .subscribe(() => {
+          const config = this.getDialogConfig();
+          this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
+          this.dialogRef.afterClosed().subscribe(result => {
+            this.isAttributionDialogOpen = false;
+          });
+          this.isAttributionDialogOpen = true;
+          this.closeDialogAfter(timeout);
+        }));
     }
   }
 
