@@ -15,7 +15,8 @@ export class MobileContentSearchDialogConfigStrategy implements ContentSearchDia
       hasBackdrop: false,
       disableClose: false,
       width: '100%',
-      height: '100%'
+      height: '100%',
+      panelClass: 'content-search-panel',
     };
   }
 }
@@ -38,7 +39,8 @@ export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDi
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
-      }
+      },
+      panelClass: 'content-search-panel',
     };
   }
 
