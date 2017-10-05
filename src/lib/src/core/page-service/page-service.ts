@@ -63,7 +63,7 @@ export class PageService {
     if (pageIndex < 0) {
       return 0;
     } else if (pageIndex >= this.numberOfPages - 1) {
-      return this.numberOfPages -1;
+      return this.numberOfPages - 1;
     } else {
       return pageIndex;
     }
