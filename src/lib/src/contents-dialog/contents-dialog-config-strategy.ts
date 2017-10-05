@@ -15,7 +15,8 @@ export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigS
       hasBackdrop: false,
       disableClose: false,
       width: '100%',
-      height: '100%'
+      height: '100%',
+      panelClass: 'contents-panel'
     };
   }
 }
@@ -38,7 +39,8 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
-      }
+      },
+      panelClass: 'contents-panel'
     };
   }
 

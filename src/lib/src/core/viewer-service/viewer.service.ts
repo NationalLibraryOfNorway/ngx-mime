@@ -643,7 +643,7 @@ export class ViewerService {
       const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
       const vpBounds: Bounds = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
-      const direction: Direction = SwipeUtils.getSwipeDirection(ViewerMode.PAGE_ZOOMED, this.dragStartPosition, dragEndPosision);
+      const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, false);
       if (
         (pannedPastSide === Side.LEFT && direction === Direction.RIGHT) ||
         (pannedPastSide === Side.RIGHT && direction === Direction.LEFT)
@@ -662,10 +662,12 @@ export class ViewerService {
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
+    const isPageZoomed = this.modeService.mode === ViewerMode.PAGE_ZOOMED;
+
     const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
     const viewportBounds: Bounds = this.getViewportBounds();
 
-    const direction: Direction = SwipeUtils.getSwipeDirection(this.modeService.mode, this.dragStartPosition, dragEndPosision);
+    const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, isPageZoomed);
     const viewportCenter: Point = this.getViewportCenter();
 
     const currentPageIndex: number = this.currentPageIndex.getValue();
