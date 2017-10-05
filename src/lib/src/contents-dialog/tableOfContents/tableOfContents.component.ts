@@ -5,6 +5,9 @@ import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { Canvas, Manifest, Structure } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { ContentsDialogComponent } from '../contents-dialog.component';
+import { MdDialogRef } from '@angular/material';
+import { ObservableMedia } from '@angular/flex-layout';
 
 @Component({
   selector: 'mime-toc',
@@ -17,7 +20,9 @@ export class TOCComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
+    public dialogRef: MdDialogRef<ContentsDialogComponent>,
     public intl: MimeViewerIntl,
+    public media: ObservableMedia,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private viewerService: ViewerService) { }
@@ -36,16 +41,11 @@ export class TOCComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCanvasIndex(structure: Structure): number {
-    let index = -1;
-    if (this.manifest && this.manifest.sequences[0] && this.manifest.sequences[0].canvases && structure && structure.canvases[0]) {
-      index = this.manifest.sequences[0].canvases.findIndex((canvas: Canvas) => canvas.id === structure.canvases[0]);
-    }
-    return index;
-  }
-
   goToPage(page: number): void {
     this.viewerService.goToPage(page, false);
+    if (this.media.isActive('lt-md')) {
+      this.dialogRef.close();
+    }
   }
 
 }

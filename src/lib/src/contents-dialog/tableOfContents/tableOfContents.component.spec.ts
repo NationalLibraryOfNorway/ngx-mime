@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -13,6 +13,9 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ClickService } from '../../core/click-service/click.service';
 import { PageService } from '../../core/page-service/page-service';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { Subject } from 'rxjs/Subject';
+import { MdDialogRef } from '@angular/material';
+import { ContentsDialogComponent } from '../contents-dialog.component';
 
 describe('TOCComponent', () => {
   let component: TOCComponent;
@@ -33,7 +36,8 @@ describe('TOCComponent', () => {
         PageService,
         ModeService,
         MimeViewerIntl,
-        {provide: IiifManifestService, useClass: IiifManifestServiceStub}
+        { provide: MdDialogRef, useClass: MdDialogRefMock },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
     })
     .compileComponents();
@@ -70,7 +74,25 @@ describe('TOCComponent', () => {
     expect(pageNumbers[2].nativeElement.innerText).toEqual('5');
   });
 
-  it('should close contents dialog when selecting')
+  it('should go to page when selecting a page in TOC',
+    inject([ViewerService], (viewerService: ViewerService) => {
+      spyOn(viewerService, 'goToPage').and.callThrough();
+
+      const divs: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc-link'));
+      divs[2].triggerEventHandler('click', null);
+
+      expect(viewerService.goToPage).toHaveBeenCalledWith(4, false);
+  }));
+
+  it('should close contents dialog when selecting a page in TOC when on mobile',
+    inject([MdDialogRef], (dialogRef: MdDialogRef<ContentsDialogComponent>) => {
+      spyOn(dialogRef, 'close').and.callThrough();
+
+      const divs: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc-link'));
+      divs[2].triggerEventHandler('click', null);
+
+      expect(dialogRef.close).toHaveBeenCalled();
+    }));
 
 });
 
@@ -88,13 +110,17 @@ class IiifManifestServiceStub {
         ]
       }],
       structures: [
-        new Structure({label: 'Forside', canvases: ['canvas1']}),
-        new Structure({label: 'Tittelside', canvases: ['canvas2']}),
-        new Structure({label: 'Bakside', canvases: ['canvas5']})
+        new Structure({label: 'Forside', canvases: ['canvas1'], canvasIndex: 0}),
+        new Structure({label: 'Tittelside', canvases: ['canvas2'], canvasIndex: 1}),
+        new Structure({label: 'Bakside', canvases: ['canvas5'], canvasIndex: 4})
       ]
     }));
   }
 
   load(manifestUri: string): void {
   }
+}
+
+class MdDialogRefMock {
+  close(): void {}
 }

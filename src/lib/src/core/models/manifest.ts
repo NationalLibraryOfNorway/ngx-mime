@@ -233,13 +233,15 @@ export class Structure {
   public type: string;
   public label: string;
   public canvases: string[];
+  public canvasIndex: number;
 
   constructor(
     fields?: {
       id?: string,
       type?: string,
       label?: string,
-      canvases?: string[]
+      canvases?: string[],
+      canvasIndex?: number
     }
   ) {
     if (fields) {
@@ -247,6 +249,7 @@ export class Structure {
       this.type = fields.type || this.type;
       this.label = fields.label || this.label;
       this.canvases = fields.canvases || this.canvases;
+      this.canvasIndex = fields.canvasIndex;
     }
   }
 }
