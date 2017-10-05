@@ -638,6 +638,8 @@ export class ViewerService {
     return this.viewer.viewport.getCenter(true);
   }
 
+
+
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
@@ -645,10 +647,10 @@ export class ViewerService {
       const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
       const vpBounds: Bounds = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
-      const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, false);
+      const direction: number = e.direction;
       if (
-        (pannedPastSide === Side.LEFT && direction === Direction.RIGHT) ||
-        (pannedPastSide === Side.RIGHT && direction === Direction.LEFT)
+        (pannedPastSide === Side.LEFT && SwipeUtils.isDirectionInRightSemicircle(direction)) ||
+        (pannedPastSide === Side.RIGHT && !SwipeUtils.isDirectionInRightSemicircle(direction))
       ) {
         this.viewer.panHorizontal = false;
       }
