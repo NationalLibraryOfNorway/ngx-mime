@@ -167,22 +167,22 @@ describe('ViewerComponent', function () {
     expect(rect.height).toEqual(overlay.height.baseVal.value);
   });
 
-  it('should fit bounds to viewport for a page', (done: any) => {
+  it('should return to home zoom', (done: any) => {
     const overlay = viewerService.getOverlays()[0];
     const viewer = viewerService.getViewer();
-    const overlayBounds = viewerService.createRectangle(overlay);
 
-    viewerService.fitBounds(overlay);
+    viewerService.zoomTo(1);
+    viewerService.home();
 
     setTimeout(() => {
-      const viewportX = Math.round(viewer.viewport.getBounds().x);
-      const viewportY = Math.round(viewer.viewport.getBounds().y);
-      const overlayX = Math.round(overlayBounds.y);
-      const overlayY = Math.round(overlayBounds.y);
+      const viewportHeight = Math.round(viewer.viewport.getBounds().height);
+      const viewportWidth = Math.round(viewer.viewport.getBounds().width);
+      const overlayHeight = Math.round(overlay.height.baseVal.value);
+      const overlayWidth = Math.round(overlay.width.baseVal.value);
 
-      expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
+      expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
       done();
-    }, 0);
+    }, osdAnimationTime);
 
   });
 
