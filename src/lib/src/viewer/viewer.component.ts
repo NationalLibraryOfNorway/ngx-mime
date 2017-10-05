@@ -197,14 +197,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   // ChangeDetection fix
   onModeChange() {
-    if (this.mode === ViewerMode.DASHBOARD) {
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.contentsDialogService.destroy();
       this.contentSearchDialogService.destroy();
     }
-  }
-
-  get mode(): ViewerMode {
-    return this.modeService.mode;
   }
 
   toggleToolbarsState(mode: ViewerMode): void {
@@ -253,9 +249,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   setClasses() {
     return {
-      'page': this.mode === ViewerMode.PAGE,
-      'page-zoomed': this.mode === ViewerMode.PAGE_ZOOMED,
-      'dashboard': this.mode === ViewerMode.DASHBOARD,
+      'page': this.modeService.mode === ViewerMode.PAGE,
+      'page-zoomed': this.modeService.mode === ViewerMode.PAGE_ZOOMED,
+      'dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
       'canvas-pressed': this.isCanvasPressed
     };
   }

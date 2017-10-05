@@ -4,8 +4,10 @@
 
 export const ViewerOptions = {
   zoom: {
-    zoomFactor: 0.0002,
-    dblClickZoomFactor: 0.00045
+    zoomFactor: 1.15,
+    dblClickZoomFactor: 2.7,
+    // How many pixels since lastDistance before it is considered a pinch
+    pinchZoomThreshold: 3
   },
 
   pan: {

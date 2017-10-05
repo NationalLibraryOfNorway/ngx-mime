@@ -36,14 +36,13 @@ describe('ClickService', () => {
     })
   );
 
-  it('only doubleClickCounter should increase to 1 aftere double click', fakeAsync(() => {
+  it('only doubleClickCounter should increase to 1 aftere double click', () => {
     service.click(event);
     service.click(event);
-    // We don'nt need to tick/wait for timer to end. A double click will clear the timeout
+    // We don't need to tick/wait for timer to end. A double click will clear the timeout
     expect(singleClickCounter).toBe(0);
     expect(doubleClickCounter).toBe(1);
-  })
-);
+  });
 
   it('only singleClickCounter should increase to 2 aftere two clicks', fakeAsync(() => {
       service.click(event);
@@ -55,7 +54,7 @@ describe('ClickService', () => {
     })
   );
 
-  it('both clickCounters should not increase on \'slow\' clicks', fakeAsync(() => {
+  it('both clickCounters should remain at 0 after \'slow\' clicks', fakeAsync(() => {
     event.quick = false;
     service.click(event);
     tick(event.tracker.dblClickTimeThreshold);
