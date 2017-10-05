@@ -134,6 +134,7 @@ export class ViewerService {
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       direction: Direction.PREVIOUS,
       currentPageIndex: currentPageIndex,
+      currentPageCenter: this.currentPageIndex.getValue()
     });
     this.goToPage(newPageIndex, false);
   }
@@ -146,6 +147,7 @@ export class ViewerService {
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       direction: Direction.NEXT,
       currentPageIndex: currentPageIndex,
+      currentPageCenter: this.currentPageIndex.getValue()
     });
     this.goToPage(newPageIndex, false);
   }
@@ -670,8 +672,7 @@ export class ViewerService {
     const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, isPageZoomed);
     const viewportCenter: Point = this.getViewportCenter();
 
-    const currentPageIndex: number = this.currentPageIndex.getValue();
-    const isPanningPastCenter: boolean = SwipeUtils.isPanningPastCenter(pageBounds, viewportCenter);
+    const currentPageIndex: number = this.pageService.currentPage;
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
     let pannedPastSide: Side, pageEndHitCountReached: boolean;
@@ -682,7 +683,7 @@ export class ViewerService {
     }
 
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      isPastCenter: isPanningPastCenter,
+      currentPageCenter: this.currentPageIndex.getValue(),
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,

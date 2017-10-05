@@ -12,7 +12,8 @@ describe('DashboardModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       speed: 400,
       direction: Direction.LEFT,
-      currentPageIndex: 1
+      currentPageIndex: 1,
+      currentPageCenter: 1
     });
 
     expect(res).toBe(1);
