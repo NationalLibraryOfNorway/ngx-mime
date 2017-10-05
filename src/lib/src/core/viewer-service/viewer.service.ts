@@ -441,7 +441,7 @@ export class ViewerService {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
-      this.zoomIn(zoomFactor, event.center);
+      this.zoomIn(zoomFactor, this.dragStartPosition);
     }
   }
 
@@ -457,7 +457,7 @@ export class ViewerService {
     const gestureId = event.gesturePoints[0].id;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       this.pinchStatus.shouldStop = true;
-      this.zoomOut(zoomFactor, event.center);
+      this.zoomOut(zoomFactor, this.dragStartPosition);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
       if (!this.pinchStatus.shouldStop || gestureId === this.pinchStatus.previousGestureId + 2) {
         this.pinchStatus.shouldStop = false;
