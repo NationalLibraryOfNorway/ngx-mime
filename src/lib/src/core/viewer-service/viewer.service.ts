@@ -152,7 +152,8 @@ export class ViewerService {
 
   public goToPage(pageIndex: number, immediately: boolean): void {
     const oldIndex = this.pageService.currentPage;
-    this.pageService.currentPage = this.pageService.constrainToRange(pageIndex);
+    pageIndex = this.pageService.constrainToRange(pageIndex);
+    this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const oldPageCenter = this.tileRects.get(oldIndex);
