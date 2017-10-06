@@ -446,7 +446,7 @@ export class ViewerService {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
-      this.zoomIn(zoomFactor, event.center);
+      this.zoomIn(zoomFactor, this.dragStartPosition || event.center);
     }
   }
 
