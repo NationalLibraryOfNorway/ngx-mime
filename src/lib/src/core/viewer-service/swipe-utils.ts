@@ -39,4 +39,13 @@ export class SwipeUtils {
     return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width;
   }
 
+  /**
+   *
+   * @param {direction} direction Current computed direction, expressed as an
+   * angle counterclockwise relative to the positive X axis (-pi to pi, in radians).
+   * Only valid if speed > 0.
+   */
+  static isDirectionInRightSemicircle(direction: number) {
+    return direction > -Math.PI / 2 && direction < Math.PI / 2;
+  }
 }
