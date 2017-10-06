@@ -81,7 +81,6 @@ describe('ViewerFooterComponent', () => {
 
   }));
 
-
   it('should always show pageNavigator in desktop size', () => {
     spyOn(mediaMock, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
