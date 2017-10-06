@@ -13,9 +13,9 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ClickService } from '../../core/click-service/click.service';
 import { PageService } from '../../core/page-service/page-service';
 import { ModeService } from '../../core/mode-service/mode.service';
-import { Subject } from 'rxjs/Subject';
 import { MdDialogRef } from '@angular/material';
 import { ContentsDialogComponent } from '../contents-dialog.component';
+import { ObservableMedia } from '@angular/flex-layout';
 
 describe('TOCComponent', () => {
   let component: TOCComponent;
@@ -76,7 +76,7 @@ describe('TOCComponent', () => {
 
   it('should go to page when selecting a page in TOC',
     inject([ViewerService], (viewerService: ViewerService) => {
-      spyOn(viewerService, 'goToPage').and.callThrough();
+      let spy = spyOn(viewerService, 'goToPage').and.callThrough();
 
       const divs: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc-link'));
       divs[2].triggerEventHandler('click', null);
@@ -85,7 +85,8 @@ describe('TOCComponent', () => {
   }));
 
   it('should close contents dialog when selecting a page in TOC when on mobile',
-    inject([MdDialogRef], (dialogRef: MdDialogRef<ContentsDialogComponent>) => {
+    inject([MdDialogRef, ObservableMedia], (dialogRef: MdDialogRef<ContentsDialogComponent>, media: ObservableMedia) => {
+      spyOn(media, 'isActive').and.returnValue(true);
       spyOn(dialogRef, 'close').and.callThrough();
 
       const divs: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc-link'));
