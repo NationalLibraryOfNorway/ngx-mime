@@ -72,10 +72,10 @@ export class IiifManifestService {
     return (manifest && manifest.tileSource && manifest.tileSource.length > 0);
   }
 
-  private handleError(err: HttpErrorResponse | any): string {
+  private handleError(err: HttpErrorResponse): string {
     let errMsg: string;
-    if (err.error instanceof Error) {
-      errMsg = err.error.message;
+    if (err.error instanceof Object) {
+      errMsg = err.message;
     } else {
       errMsg = err.error;
     }

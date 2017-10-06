@@ -14,7 +14,6 @@ export class TileRects {
 
   public findClosestIndex(point: Point): number {
     let i = 0;
-    let result: any;
     let lastDelta: any;
 
     if (point === null) {
@@ -26,7 +25,6 @@ export class TileRects {
         return true;
       }
       i = index;
-      result = rect;
       lastDelta = delta;
     });
     return i;

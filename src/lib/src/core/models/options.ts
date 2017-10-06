@@ -76,7 +76,7 @@ export class Options {
   useCanvas = true;
   minPixelRatio = 0.5;
   mouseNavEnabled = true;
-  showNavigationControl = true;
+  showNavigationControl = false;
   navigationControlAnchor = ControlAnchor.TOP_LEFT;
   showZoomControl = true;
   showHomeControl = true;
@@ -87,7 +87,7 @@ export class Options {
   navPrevNextWrap = false;
   zoomInButton: string = null;
   zoomOutButton: string = null;
-  homeButton = 'homeButton';
+  homeButton: string = null;
   fullPageButton: string;
   rotateLeftButton: string;
   rotateRightButton: string;

@@ -53,7 +53,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
     }));
 
     this.subscriptions.push(this.media.subscribe((change: MediaChange) => {
-      this.showPageNavigator = !this.isMobile() && this.searchResult.size() > 0;
+      this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
       this.changeDetectorRef.detectChanges();
     }));
   }
@@ -65,6 +65,6 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   }
 
   private isMobile(): boolean {
-    return  this.media.isActive('lt-md');
+    return this.media.isActive('lt-md');
   }
 }
