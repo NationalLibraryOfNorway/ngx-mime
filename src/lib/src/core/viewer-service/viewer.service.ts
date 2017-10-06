@@ -647,7 +647,7 @@ export class ViewerService {
       const direction: number = e.direction;
       if (
         (pannedPastSide === Side.LEFT && SwipeUtils.isDirectionInRightSemicircle(direction)) ||
-        (pannedPastSide === Side.RIGHT && !SwipeUtils.isDirectionInRightSemicircle(direction))
+        (pannedPastSide === Side.RIGHT && SwipeUtils.isDirectionInLeftSemicircle(direction))
       ) {
         this.viewer.panHorizontal = false;
       }
