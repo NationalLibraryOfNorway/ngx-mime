@@ -65,6 +65,6 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   }
 
   private isMobile(): boolean {
-    return  this.media.isActive('lt-md');
+    return this.media.isActive('lt-md');
   }
 }
