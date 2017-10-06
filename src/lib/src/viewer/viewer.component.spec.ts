@@ -32,7 +32,7 @@ import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  const osdAnimationTime = 1500;
+  const osdAnimationTime = 4000;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
@@ -130,7 +130,9 @@ describe('ViewerComponent', function () {
           testHostComponent.manifestUri = 'dummyURI3';
           testHostFixture.detectChanges();
           expect(modeService.mode).toBe(config.initViewerMode);
-          done();
+          setTimeout(() => {
+            done();
+          }, 100);
         }, osdAnimationTime);
       }
     });
@@ -284,16 +286,21 @@ describe('ViewerComponent', function () {
   it('should emit when page number changes', (done) => {
     let currentPageNumber: number;
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
-    setTimeout(() => {
-      fixture.detectChanges();
-      viewerService.goToPage(1, false);
-      fixture.detectChanges();
-    }, 2000);
-    setTimeout(() => {
-      fixture.detectChanges();
-      expect(currentPageNumber).toEqual(1);
-      done();
-    }, 4000);
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          viewerService.goToPage(1, false);
+        }, 100);
+
+        setTimeout(() => {
+          testHostFixture.detectChanges();
+          expect(currentPageNumber).toEqual(1);
+          setTimeout(() => {
+            done();
+          }, 100);
+        }, osdAnimationTime);
+      }
+    });
   });
 
   it('should open viewer on canvas index if present', (done) => {
@@ -307,8 +314,11 @@ describe('ViewerComponent', function () {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
+          testHostFixture.detectChanges();
           expect(currentPageNumber).toEqual(2);
-          done();
+          setTimeout(() => {
+            done();
+          }, 100);
         }, osdAnimationTime);
       }
     });
@@ -336,13 +346,16 @@ describe('ViewerComponent', function () {
 
 @Component({
   selector: `test-component`,
-  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex"></mime-viewer>`
+  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex" [config]="config"></mime-viewer>`
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent)
   public viewerComponent: any;
   public manifestUri: string;
   public canvasIndex = 0;
+  public config = new MimeViewerConfig({
+    attributionDialogHideTimeout: 1
+  });
 }
 
 class IiifManifestServiceStub {
