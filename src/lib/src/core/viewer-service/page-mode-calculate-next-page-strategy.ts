@@ -5,14 +5,15 @@ import { CalculateNextPageStrategy, NextPageCriteria } from './calculate-next-pa
 export class PageModeCalculateNextPageStrategy implements CalculateNextPageStrategy {
 
   calculateNextPage(criteria: NextPageCriteria): number {
-    const isPastCenter = criteria.isPastCenter;
+    const isNewPageInCenter = (criteria.currentPageIndex !== criteria.currentPageCenter);
     const speed = criteria.speed;
     const direction = criteria.direction;
-    const currentPageIndex = criteria.currentPageIndex;
+    const currentPageCenter = criteria.currentPageCenter;
 
-    let nextPage = (speed >= 200 || isPastCenter) ? 1 : 0;
-    nextPage = direction === Direction.LEFT ? nextPage : nextPage * -1;
-    nextPage = currentPageIndex + nextPage;
-    return new PageService().constrainToRange(nextPage);
+    let pageDelta = (speed >= 200 && !isNewPageInCenter) ? 1 : 0;
+    pageDelta = direction === Direction.LEFT ? pageDelta : pageDelta * -1;
+    const nextPage = currentPageCenter + pageDelta;
+
+    return nextPage;
   }
 }

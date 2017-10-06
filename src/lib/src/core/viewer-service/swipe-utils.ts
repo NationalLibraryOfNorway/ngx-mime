@@ -39,12 +39,6 @@ export class SwipeUtils {
     return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width;
   }
 
-  static isPanningPastCenter(pageBounds: Bounds, vpCenter: Point): boolean {
-    const isPastCenterRight = pageBounds.x + pageBounds.width < vpCenter.x;
-    const isPastCenterLeft = pageBounds.x > vpCenter.x;
-    return isPastCenterRight || isPastCenterLeft;
-  }
-
   /**
    *
    * @param {direction} direction Current computed direction, expressed as an

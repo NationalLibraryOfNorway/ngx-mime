@@ -49,7 +49,7 @@ export class ViewerService {
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private currentCenter: Subject<Point> = new Subject();
-  private currentPageIndex: Subject<number> = new Subject();
+  private currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(0);
   private osdIsReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private pageMask: PageMask;
@@ -137,6 +137,7 @@ export class ViewerService {
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       direction: Direction.PREVIOUS,
       currentPageIndex: currentPageIndex,
+      currentPageCenter: this.currentPageIndex.getValue()
     });
     this.goToPage(newPageIndex, false);
   }
@@ -149,15 +150,14 @@ export class ViewerService {
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
       direction: Direction.NEXT,
       currentPageIndex: currentPageIndex,
+      currentPageCenter: this.currentPageIndex.getValue()
     });
     this.goToPage(newPageIndex, false);
   }
 
   public goToPage(pageIndex: number, immediately: boolean): void {
-    if (!this.pageService.isWithinBounds(pageIndex)) {
-      return;
-    }
     const oldIndex = this.pageService.currentPage;
+    pageIndex = this.pageService.constrainToRange(pageIndex);
     this.pageService.currentPage = pageIndex;
     const newPageCenter = this.tileRects.get(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
@@ -446,7 +446,7 @@ export class ViewerService {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
-      this.zoomIn(zoomFactor, event.center);
+      this.zoomIn(zoomFactor, this.dragStartPosition || event.center);
     }
   }
 
@@ -672,7 +672,6 @@ export class ViewerService {
     const viewportCenter: Point = this.getViewportCenter();
 
     const currentPageIndex: number = this.pageService.currentPage;
-    const isPanningPastCenter: boolean = SwipeUtils.isPanningPastCenter(pageBounds, viewportCenter);
     const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
 
     let pannedPastSide: Side, pageEndHitCountReached: boolean;
@@ -683,7 +682,7 @@ export class ViewerService {
     }
 
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      isPastCenter: isPanningPastCenter,
+      currentPageCenter: this.currentPageIndex.getValue(),
       speed: speed,
       direction: direction,
       currentPageIndex: currentPageIndex,
@@ -709,7 +708,7 @@ export class ViewerService {
   private goToHomeZoom(): void {
     this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
 
-    if(this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE;
     }
   }
@@ -723,8 +722,7 @@ export class ViewerService {
     let pageWidth: number;
     let viewportBounds: any;
 
-    if (mode === ViewerMode.DASHBOARD)
-    {
+    if (mode === ViewerMode.DASHBOARD) {
       pageHeight = this.tileRects.getMaxHeight();
       pageWidth = this.tileRects.getMaxWidth();
       viewportBounds = this.getDashboardViewportBounds();

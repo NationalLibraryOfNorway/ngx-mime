@@ -8,11 +8,19 @@ export class DashboardModeCalculateNextPageStrategy implements CalculateNextPage
     const speed = criteria.speed;
     const direction = criteria.direction;
     const currentPageIndex = criteria.currentPageIndex;
+    const currentPageCenter = criteria.currentPageCenter;
 
-    let nextPage = this.calculateNumberOfpagesToGo(speed);
-    nextPage = direction === Direction.LEFT ? nextPage : nextPage * -1;
-    nextPage = currentPageIndex + nextPage;
-    return new PageService().constrainToRange(nextPage);
+
+    let nextPage: number;
+    let pageDelta = this.calculateNumberOfpagesToGo(speed);
+    if (pageDelta === 0) {
+      nextPage = currentPageCenter;
+    } else {
+      pageDelta = direction === Direction.LEFT ? pageDelta : pageDelta * -1;
+      nextPage = currentPageIndex + pageDelta;
+    }
+
+    return nextPage;
   }
 
   private calculateNumberOfpagesToGo(speed: number): number {

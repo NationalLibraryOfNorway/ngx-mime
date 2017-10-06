@@ -74,10 +74,10 @@ describe('PageService', () => {
   it('should return maxPage when next page is larger than maxPage', () => {
 
     let newPage = service.constrainToRange(101);
-    expect(newPage).toBe(100);
+    expect(newPage).toBe(99);
 
     newPage = service.constrainToRange(110);
-    expect(newPage).toBe(100);
+    expect(newPage).toBe(99);
 
   });
 
