@@ -50,7 +50,7 @@ export class ViewerService {
 
   private currentCenter: Subject<Point> = new Subject();
   private currentPageIndex: Subject<number> = new Subject();
-  private osdIsReady: Subject<boolean> = new BehaviorSubject(false);
+  private osdIsReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private pageMask: PageMask;
   private pinchStatus = new PinchStatus();
@@ -118,7 +118,7 @@ export class ViewerService {
   }
 
   public home(): void {
-    if (!this.osdIsReady) {
+    if (!this.osdIsReady.getValue()) {
       return;
     }
 
