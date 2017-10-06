@@ -39,13 +39,13 @@
   fill-opacity: 0;
 }
 
-::ng-deep .viewer-container .dashboard .tile {
+::ng-deep .viewer-container.dashboard .tile {
   stroke: rgba(0, 0, 0, 0.15);
   stroke-width: 8;
   transition: 0.25s ease stroke;
 }
 
-::ng-deep .viewer-container .dashboard .tile:hover {
+::ng-deep .viewer-container.dashboard .tile:hover {
   stroke: rgba(0, 0, 0, 0.45);
 }
 
@@ -54,7 +54,6 @@
 }
 
 .navbar {
-  height: 64px;
   position: absolute;
   width: 100%;
   overflow: hidden;
@@ -68,7 +67,6 @@
 
 .navbar-footer {
   bottom: 0;
-  max-height: 64px;
 }
 
 ::ng-deep .cdk-overlay-container {

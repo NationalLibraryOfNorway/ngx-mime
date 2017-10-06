@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.6.0...v0.7.0) (2017-10-06)
+
+
+### Bug Fixes
+
+* page-slider disappears after window resize ([9fca275](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9fca275))
+* panning does not stop when hitting the edge of the page if panning diagonal ([4f56fa4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4f56fa4))
+* remove api error massages to users ([a74e753](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a74e753))
+* setting mime header and footer toolbar to angular material toolbar height ([c521d6e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c521d6e))
+* viewport doesn't pan on first/last page ([db027e7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/db027e7))
+
+
+### Features
+
+* better pinch-zooming ([f3a3c76](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f3a3c76))
+* improved scrolling ([880cfc4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/880cfc4))
+* reset zoom level on browser resize and page change ([a4f9736](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a4f9736))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.5.0...v0.6.0) (2017-10-05)
 

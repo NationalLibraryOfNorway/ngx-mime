@@ -12,6 +12,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       direction: Direction.LEFT,
       currentPageIndex: 1,
+      currentPageCenter: 1,
       pageEndHitCountReached: false
     });
 
@@ -22,6 +23,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       direction: Direction.LEFT,
       currentPageIndex: 1,
+      currentPageCenter: 1,
       pageEndHitCountReached: true
     });
 
@@ -32,6 +34,7 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
     const res = strategy.calculateNextPage({
       direction: Direction.RIGHT,
       currentPageIndex: 2,
+      currentPageCenter: 2,
       pageEndHitCountReached: true
     });
 
