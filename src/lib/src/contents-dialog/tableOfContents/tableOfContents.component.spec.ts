@@ -37,6 +37,7 @@ describe('TOCComponent', () => {
         ModeService,
         MimeViewerIntl,
         { provide: MdDialogRef, useClass: MdDialogRefMock },
+        { provide: ObservableMedia, useClass: MediaMock },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
     })
@@ -120,4 +121,10 @@ class IiifManifestServiceStub {
 
 class MdDialogRefMock {
   close(): void {}
+}
+
+class MediaMock {
+  isActive(m: string) {
+    return false;
+  }
 }
