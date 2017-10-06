@@ -132,7 +132,7 @@ describe('ViewerComponent', function () {
           expect(modeService.mode).toBe(config.initViewerMode);
           setTimeout(() => {
             done();
-          }, 100);
+          }, 1000);
         }, osdAnimationTime);
       }
     });
@@ -297,7 +297,7 @@ describe('ViewerComponent', function () {
           expect(currentPageNumber).toEqual(1);
           setTimeout(() => {
             done();
-          }, 100);
+          }, 1000);
         }, osdAnimationTime);
       }
     });
@@ -318,7 +318,7 @@ describe('ViewerComponent', function () {
           expect(currentPageNumber).toEqual(2);
           setTimeout(() => {
             done();
-          }, 100);
+          }, 1000);
         }, osdAnimationTime);
       }
     });
