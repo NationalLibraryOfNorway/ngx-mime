@@ -54,7 +54,6 @@
 }
 
 .navbar {
-  height: 64px;
   position: absolute;
   width: 100%;
   overflow: hidden;
@@ -68,7 +67,6 @@
 
 .navbar-footer {
   bottom: 0;
-  max-height: 64px;
 }
 
 ::ng-deep .cdk-overlay-container {
