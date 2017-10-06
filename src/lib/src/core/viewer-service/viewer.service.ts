@@ -166,6 +166,7 @@ export class ViewerService {
       this.goToHomeZoom();
       setTimeout(() => {
         this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
+        this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
       this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
@@ -707,10 +708,6 @@ export class ViewerService {
 
   private goToHomeZoom(): void {
     this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
-
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      this.modeService.mode = ViewerMode.PAGE;
-    }
   }
 
   private getHomeZoomLevel(mode: ViewerMode): number {
