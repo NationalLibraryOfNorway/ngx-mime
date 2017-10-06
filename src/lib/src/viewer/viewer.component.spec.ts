@@ -32,7 +32,7 @@ import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  const osdAnimationTime = 2000;
+  const osdAnimationTime = 1500;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
@@ -97,6 +97,182 @@ describe('ViewerComponent', function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
+  it('should create component', () => expect(comp).toBeDefined());
+
+  it('should cleanUp when manifestUri changes', () => {
+    testHostComponent.manifestUri = 'dummyURI2';
+
+    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+    testHostFixture.detectChanges();
+
+    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+  });
+
+  it('should create viewer', () => {
+    expect(viewerService.getViewer()).toBeDefined();
+  });
+
+  it('should initially open in configs intial-mode', () => {
+    expect(modeService.mode).toBe(config.initViewerMode);
+  });
+
+  it('should change mode to initial-mode when changing manifest', (done) => {
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          if (config.initViewerMode === ViewerMode.PAGE) {
+            modeService.mode = ViewerMode.DASHBOARD;
+            expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
+          } else {
+            modeService.mode = ViewerMode.PAGE;
+            expect(modeService.mode).toBe(ViewerMode.PAGE);
+          }
+          testHostComponent.manifestUri = 'dummyURI3';
+          testHostFixture.detectChanges();
+          expect(modeService.mode).toBe(config.initViewerMode);
+          done();
+        }, osdAnimationTime);
+      }
+    });
+  });
+
+  it('should close all dialogs when manifestUri changes', () => {
+    testHostComponent.manifestUri = 'dummyURI2';
+
+    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+    testHostFixture.detectChanges();
+
+    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+  });
+
+  it('svgOverlay-plugin should be defined', () => {
+    expect(viewerService.getViewer().svgOverlay()).toBeDefined();
+  });
+
+  it('should create overlays', () => {
+    expect(viewerService.getOverlays()).toBeDefined();
+  });
+
+  it('should create overlays-array with same size as tilesources-array', () => {
+    expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
+  });
+
+  it('should return an OpenSeadragon.Rect with properties equal to overlay', () => {
+    let overlay = viewerService.getOverlays()[0];
+    let rect = viewerService.createRectangle(overlay);
+
+    expect(rect.x).toEqual(overlay.x.baseVal.value);
+    expect(rect.y).toEqual(overlay.y.baseVal.value);
+    expect(rect.width).toEqual(overlay.width.baseVal.value);
+    expect(rect.height).toEqual(overlay.height.baseVal.value);
+  });
+
+  it('should fit bounds to viewport for a page', (done: any) => {
+    const overlay = viewerService.getOverlays()[0];
+    const viewer = viewerService.getViewer();
+    const overlayBounds = viewerService.createRectangle(overlay);
+
+    viewerService.fitBounds(overlay);
+
+    setTimeout(() => {
+      const viewportX = Math.round(viewer.viewport.getBounds().x);
+      const viewportY = Math.round(viewer.viewport.getBounds().y);
+      const overlayX = Math.round(overlayBounds.y);
+      const overlayY = Math.round(overlayBounds.y);
+
+      expect((overlayY === viewportY) || (overlayX === viewportX)).toEqual(true);
+      done();
+    }, 0);
+
+  });
+
+  it('should return overlay-index if target is an overlay', () => {
+    let overlay, index;
+    overlay = viewerService.getOverlays()[0];
+    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    expect(index).toBe(0);
+
+    overlay = viewerService.getOverlays()[1];
+    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    expect(index).toBe(1);
+
+    overlay = viewerService.getOverlays()[12];
+    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    expect(index).toBe(12);
+
+    // Should return -1 for nonsense overlay
+    overlay = viewerService.getOverlays()[12000];
+    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    expect(index).toBe(-1);
+
+  });
+
+  it('should increase zoom level when pinching out', () => {
+    // comp.ngOnInit();
+    //
+    // pinchOut(viewerService);
+    //
+    // expect(viewerService.getZoom()).toBeGreaterThan(viewerService.getHomeZoom());
+    pending('Set to pending until we find a way to perform pinch event');
+  });
+
+  it('should decrease zoom level when is zoomed in and pinching in', () => {
+    // comp.ngOnInit();
+    // const previousZoom = 1;
+    // viewerService.zoomTo(previousZoom);
+    //
+    // pinchIn(viewerService);
+    //
+    // expect(viewerService.getZoom()).toBeLessThan(previousZoom);
+    pending('Set to pending until we find a way to perform pinch event');
+  });
+
+  it('should not decrease zoom level when zoom level is home and pinching in', () => {
+    // comp.ngOnInit();
+    // viewerService.zoomHome();
+    //
+    // pinchIn(viewerService);
+    //
+    // expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
+    pending('Set to pending until we find a way to perform pinch event');
+  });
+
+  it('#pageIsAtMinZoom should return true if page is at minimum zoom level', () => {
+    pending('');
+  });
+
+  it('should move image inside the view when user is panning', () => {
+    // comp.ngOnInit();
+    // viewerService.zoomTo(2);
+    // const viewer = viewerService.getViewer();
+    // const previousCenter = viewer.viewport.getCenter(false);
+    //
+    // viewer.raiseEvent('pan', {x: 150, y: 150});
+    //
+    // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
+    pending('Set to pending until we find a way to perform pan event');
+  });
+
+  it('should change page when swipeing to left', () => {
+    // modeService.mode = ViewerMode.DASHBOARD;
+    // tick();
+    // const viewer = viewerService.getViewer();
+    // viewer.raiseEvent('canvas-press', {position: {
+    //   x: 1450, y: 150}
+    // });
+    // tick(1);
+    // viewer.raiseEvent('canvas-drag-end', {position: {
+    //   x: 150, y: 150}
+    // });
+    // let pageNumber = 0;
+    // viewerService.onPageChange.subscribe(p => {
+    //   pageNumber = p;
+    // });
+    // tick(100);
+    // expect(pageNumber).toBe(10);
+    pending('Set to pending until we find a way to perform swipe event');
+  });
+
   it('should emit when page mode changes', () => {
     let selectedMode: ViewerMode;
     comp.onPageModeChange.subscribe((mode: ViewerMode) => selectedMode = mode);
@@ -115,11 +291,8 @@ describe('ViewerComponent', function () {
         }, 100);
 
         setTimeout(() => {
-          testHostFixture.detectChanges();
           expect(currentPageNumber).toEqual(1);
-          setTimeout(() => {
-            done();
-          }, 1000);
+          done();
         }, osdAnimationTime);
       }
     });
@@ -136,11 +309,8 @@ describe('ViewerComponent', function () {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          testHostFixture.detectChanges();
           expect(currentPageNumber).toEqual(2);
-          setTimeout(() => {
-            done();
-          }, 1000);
+          done();
         }, osdAnimationTime);
       }
     });
