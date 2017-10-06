@@ -1,4 +1,3 @@
-import { SearchResult, Hit } from './../../core/models/search-result';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import {
   async,
@@ -14,6 +13,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { ViewerFooterComponent } from './viewer-footer.component';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
+import { SearchResult, Hit } from './../../core/models/search-result';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
