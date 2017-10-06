@@ -8,6 +8,7 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ContentsDialogComponent } from '../contents-dialog.component';
 import { MdDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
+import { PageService } from '../../core/page-service/page-service';
 
 @Component({
   selector: 'mime-toc',
@@ -17,6 +18,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 })
 export class TOCComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
+  public currentPage: number;
   private subscriptions: Array<Subscription> = [];
 
   constructor(
@@ -25,14 +27,23 @@ export class TOCComponent implements OnInit, OnDestroy {
     public media: ObservableMedia,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    private viewerService: ViewerService) { }
+    private viewerService: ViewerService,
+    private pageService: PageService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.iiifManifestService.currentManifest
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
-        this.changeDetectorRef.markForCheck();
+        this.currentPage = this.pageService.currentPage;
+        this.changeDetectorRef.detectChanges();
       }));
+
+    this.subscriptions.push(
+      this.viewerService.onPageChange.subscribe((page: number) => {
+        this.currentPage = page;
+        this.changeDetectorRef.detectChanges();
+      })
+    );
   }
 
   ngOnDestroy() {

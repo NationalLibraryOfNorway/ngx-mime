@@ -62,6 +62,11 @@ export class ViewerPage {
     await utils.waitForElement(element(by.css('.contents-container')));
   }
 
+  async openTableOfContentsTab() {
+    await element.all(by.css('.mat-tab-label')).get(1).click();
+    await utils.waitForElement(element(by.css('.toc-container')));
+  }
+
   async openContentSearchDialog() {
     await element(by.css('#contentSearchDialogButton')).click();
     await utils.waitForElement(element(by.css('.content-search-container')));

@@ -56,7 +56,7 @@ describe('TOCComponent', () => {
   it('should display table of contents', () => {
     fixture.detectChanges();
 
-    const structures: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc'));
+    const structures: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc-link'));
     expect(structures.length).toEqual(3);
   });
 
@@ -97,7 +97,6 @@ describe('TOCComponent', () => {
 });
 
 class IiifManifestServiceStub {
-
   get currentManifest(): Observable<Manifest> {
     return Observable.of(new Manifest({
       sequences: [{
@@ -115,9 +114,6 @@ class IiifManifestServiceStub {
         new Structure({label: 'Bakside', canvases: ['canvas5'], canvasIndex: 4})
       ]
     }));
-  }
-
-  load(manifestUri: string): void {
   }
 }
 
