@@ -16,31 +16,40 @@ export class AttributionDialogService {
   private _el: ElementRef;
   private attributionDialogHeight = 0;
   private subscriptions: Array<Subscription> = [];
+  private dialogSubscription: Subscription;
 
   constructor(
     private dialog: MdDialog,
     private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
     private mimeDomHelper: MimeDomHelper
-  ) {
-    mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+  ) { }
+
+  public initialize(): void {
+    this.subscriptions.push(this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       if (this.isAttributionDialogOpen) {
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);
       }
-    });
-    attributionDialogResizeService.onResize.subscribe((dimensions: Dimensions) => {
+    }));
+    this.subscriptions.push(this.attributionDialogResizeService.onResize.subscribe((dimensions: Dimensions) => {
       if (this.isAttributionDialogOpen) {
         this.attributionDialogHeight = dimensions.height;
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);
       }
-    });
+    }));
+  }
 
+  public cleanUp() {
+    this.close();
+    if (this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
   }
 
   public destroy() {
-    this.close();
+    this.cleanUp();
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
@@ -56,7 +65,7 @@ export class AttributionDialogService {
        * Sleeping for material animations to finish
        * fix: https://github.com/angular/material2/issues/7438
        */
-      this.subscriptions.push(Observable
+      this.dialogSubscription = Observable
         .interval(1000)
         .take(1)
         .subscribe(() => {
@@ -67,7 +76,7 @@ export class AttributionDialogService {
           });
           this.isAttributionDialogOpen = true;
           this.closeDialogAfter(timeout);
-        }));
+        });
     }
   }
 

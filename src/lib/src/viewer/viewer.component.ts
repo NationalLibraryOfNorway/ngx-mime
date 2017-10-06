@@ -78,6 +78,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
+    this.attributionDialogService.initialize();
+    this.contentsDialogService.initialize();
+    this.contentSearchDialogService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
@@ -198,8 +201,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   // ChangeDetection fix
   onModeChange() {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      this.contentsDialogService.destroy();
-      this.contentSearchDialogService.destroy();
+      this.contentsDialogService.cleanUp();
+      this.contentSearchDialogService.cleanUp();
     }
   }
 
@@ -233,9 +236,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   private cleanUp() {
     this.viewerService.destroy();
-    this.attributionDialogService.destroy();
-    this.contentsDialogService.destroy();
-    this.contentSearchDialogService.destroy();
+    this.attributionDialogService.cleanUp();
+    this.contentsDialogService.cleanUp();
+    this.contentSearchDialogService.cleanUp();
     this.iiifContentSearchService.destroy();
   }
 
