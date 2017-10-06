@@ -708,7 +708,7 @@ export class ViewerService {
   private goToHomeZoom(): void {
     this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
 
-    if(this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE;
     }
   }
@@ -722,8 +722,7 @@ export class ViewerService {
     let pageWidth: number;
     let viewportBounds: any;
 
-    if (mode === ViewerMode.DASHBOARD)
-    {
+    if (mode === ViewerMode.DASHBOARD) {
       pageHeight = this.tileRects.getMaxHeight();
       pageWidth = this.tileRects.getMaxWidth();
       viewportBounds = this.getDashboardViewportBounds();

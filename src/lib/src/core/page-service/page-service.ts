@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class PageService {
-  
+
   private _numberOfPages: number;
   private _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
 
