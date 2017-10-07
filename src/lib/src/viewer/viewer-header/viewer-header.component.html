@@ -1,16 +1,28 @@
 <md-toolbar>
-  <div fxLayout='row' fxLayoutAlign="end center" fxFlex>
-    <button id="contentsDialogButton" md-icon-button [attr.aria-label]="intl.contentsLabel" [mdTooltip]="intl.contentsLabel" (click)="toggleContents()">
-      <md-icon>list</md-icon>
-    </button>
-    <button id="contentSearchDialogButton" *ngIf="isContentSearchEnabled" md-icon-button [attr.aria-label]="intl.searchLabel" [mdTooltip]="intl.searchLabel" (click)="toggleSearch()">
-      <md-icon>search</md-icon>
-    </button>
-    <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" md-icon-button [attr.aria-label]="intl.fullScreenLabel" [mdTooltip]="intl.fullScreenLabel" (click)="toggleFullscreen()">
-      <md-icon>fullscreen</md-icon>
-    </button>
-    <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" md-icon-button [attr.aria-label]="intl.exitFullScreenLabel" [mdTooltip]="intl.exitFullScreenLabel" (click)="toggleFullscreen()">
-      <md-icon >fullscreen_exit</md-icon>
-    </button>
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+    <div fxFlex>
+      <ng-template #mimeHeaderBefore></ng-template>
+    </div>
+    <div>
+      <button id="contentsDialogButton" md-icon-button [attr.aria-label]="intl.contentsLabel" [mdTooltip]="intl.contentsLabel"
+        (click)="toggleContents()">
+        <md-icon>list</md-icon>
+      </button>
+      <button id="contentSearchDialogButton" *ngIf="isContentSearchEnabled" md-icon-button [attr.aria-label]="intl.searchLabel"
+        [mdTooltip]="intl.searchLabel" (click)="toggleSearch()">
+        <md-icon>search</md-icon>
+      </button>
+      <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" md-icon-button [attr.aria-label]="intl.fullScreenLabel"
+        [mdTooltip]="intl.fullScreenLabel" (click)="toggleFullscreen()">
+        <md-icon>fullscreen</md-icon>
+      </button>
+      <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" md-icon-button [attr.aria-label]="intl.exitFullScreenLabel"
+        [mdTooltip]="intl.exitFullScreenLabel" (click)="toggleFullscreen()">
+        <md-icon >fullscreen_exit</md-icon>
+      </button>
+    </div>
+    <div>
+      <ng-template #mimeHeaderAfter></ng-template>
+    </div>
   </div>
 </md-toolbar>
