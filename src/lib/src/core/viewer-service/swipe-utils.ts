@@ -45,7 +45,14 @@ export class SwipeUtils {
    * angle counterclockwise relative to the positive X axis (-pi to pi, in radians).
    * Only valid if speed > 0.
    */
-  static isDirectionInRightSemicircle(direction: number) {
+  static isDirectionInRightSemicircle(direction: number): boolean {
     return direction > -Math.PI / 2 && direction < Math.PI / 2;
+  }
+
+  /**
+   * @param {direction} @see isDirectionInRightSemicircle
+   */
+  static isDirectionInLeftSemicircle(direction: number): boolean {
+    return !this.isDirectionInRightSemicircle(direction) || direction === 0; // fix for speed = 0
   }
 }
