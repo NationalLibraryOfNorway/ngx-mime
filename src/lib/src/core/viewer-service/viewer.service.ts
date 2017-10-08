@@ -300,6 +300,14 @@ export class ViewerService {
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
     });
+
+    this.disableOSDKeyhandlers();
+  }
+
+  private disableOSDKeyhandlers(): void {
+    this.viewer.innerTracker.keyHandler = null;
+    this.viewer.innerTracker.keyDownHandler = null;
+    this.viewer.innerTracker.keyPressHandler = null;
   }
 
 
