@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -82,8 +82,8 @@ describe('PageNavigatorComponent', () => {
     }));
 
   it('should disable next button when viewer is on last page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageService) => {
-      spyOnProperty(pageService, 'numberOfPages', 'get').and.returnValue(10);
+    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
+      pageService._currentNumberOfPages.next(10);
 
       viewerService.pageChanged.next(9);
       fixture.detectChanges();
@@ -135,10 +135,15 @@ class ViewerServiceMock {
 }
 
 class PageServiceMock {
-  public _numberOfPages: number;
+  _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(0);
+  _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
 
-  get numberOfPages(): number {
-    return this._numberOfPages;
+  get onPageChange(): Observable<number> {
+    return this._currentPage.asObservable().distinctUntilChanged();
+  }
+
+  get onNumberOfPagesChange(): Observable<number> {
+    return this._currentNumberOfPages.asObservable().distinctUntilChanged();
   }
 
 }

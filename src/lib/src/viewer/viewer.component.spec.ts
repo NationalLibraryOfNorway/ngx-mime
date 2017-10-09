@@ -32,7 +32,7 @@ import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  const osdAnimationTime = 1500;
+  const osdAnimationTime = 4000;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
