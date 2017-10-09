@@ -14,22 +14,28 @@ export class ContentSearchDialogService {
   private _el: ElementRef;
   private isContentSearchDialogOpen = false;
   private dialogRef: MdDialogRef<ContentSearchDialogComponent>;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
     private dialog: MdDialog,
     private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService) {
-      mimeResizeService.onResize.subscribe(rect => {
-        if (this.isContentSearchDialogOpen) {
-          const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-          this.dialogRef.updateSize(config.width, config.height);
-        }
-      });
+    private mimeResizeService: MimeResizeService) { }
+
+  public initialize(): void {
+    this.subscriptions.push(this.mimeResizeService.onResize.subscribe(rect => {
+      if (this.isContentSearchDialogOpen) {
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
+        this.dialogRef.updateSize(config.width, config.height);
+      }
+    }));
   }
 
   public destroy() {
     this.close();
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
   set el(el: ElementRef) {
