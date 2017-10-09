@@ -83,11 +83,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
           if (manifest) {
-            this.destroy();
-            this.attributionDialogService.initialize();
-            this.contentsDialogService.initialize();
-            this.contentSearchDialogService.initialize();
-            this.resetErrorMessage();
+            this.cleanup();
+            this.initialize();
             this.currentManifest = manifest;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest);
@@ -175,7 +172,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (manifestUriIsChanged) {
-      this.destroy();
+      this.cleanup();
       this.loadManifest();
     } else {
       if (qIsChanged) {
@@ -191,7 +188,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
-    this.destroy();
+    this.cleanup();
     this.iiifManifestService.destroy();
     this.iiifContentSearchService.destroy();
   }
@@ -234,11 +231,18 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.iiifManifestService.load(this.manifestUri);
   }
 
-  private destroy() {
+  private initialize() {
+    this.attributionDialogService.initialize();
+    this.contentsDialogService.initialize();
+    this.contentSearchDialogService.initialize();
+  }
+
+  private cleanup() {
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
     this.viewerService.destroy();
+    this.resetErrorMessage();
   }
 
   private resetCurrentManifest(): void {

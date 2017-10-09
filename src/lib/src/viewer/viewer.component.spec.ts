@@ -99,13 +99,12 @@ describe('ViewerComponent', function () {
 
   it('should create component', () => expect(comp).toBeDefined());
 
-  it('should cleanUp when manifestUri changes', () => {
+  it('should cleanup when manifestUri changes', () => {
+    spyOn(testHostComponent.viewerComponent, 'cleanup').and.callThrough();
     testHostComponent.manifestUri = 'dummyURI2';
-
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+    expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
   });
 
   it('should create viewer', () => {
@@ -139,10 +138,10 @@ describe('ViewerComponent', function () {
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
 
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+    spyOn(testHostComponent.viewerComponent, 'cleanup').and.callThrough();
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+    expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
   });
 
   it('svgOverlay-plugin should be defined', () => {
