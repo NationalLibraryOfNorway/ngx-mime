@@ -34,11 +34,11 @@ const config = {
     format: 'pretty',
     tags: ['~@Ignore']
   },
-  onPrepare: function() {
-    const width = 1024;
-    const height = 768;
-    browser.driver.manage().window().setSize(width, height);
-  },
+  // onPrepare: function() {
+  //   const width = 1024;
+  //   const height = 768;
+  //   browser.driver.manage().window().setSize(width, height);
+  // },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
       openReportInBrowser: true,
@@ -63,14 +63,13 @@ if (process.env.TRAVIS) {
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 
   config.capabilities = null,
-    config.multiCapabilities = getCapabilities(),
-    config.afterLaunch = function () { }
+  config.multiCapabilities = getCapabilities(),
+  config.afterLaunch = function () { }
 }
 
 function getCapabilities() {
   const capabilities = [];
-  let browsers = remoteBrowsers.customDesktopLaunchers
-    .concat(remoteBrowsers.customMobileLaunchers);
+  var browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.customMobileLaunchers);
   if (argv.device === 'desktop') {
     browsers = remoteBrowsers.customDesktopLaunchers;
   } else if (argv.device === 'android') {
@@ -90,7 +89,7 @@ function getCapabilities() {
       name: 'Mime E2E Tests',
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
       build: process.env.TRAVIS_JOB_NUMBER,
-      seleniumVersion: '3.4.0',
+      seleniumVersion: '3.5.0',
       screenResolution: "1024x768"
     });
   }
