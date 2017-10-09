@@ -38,9 +38,15 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
         } else if (this.currentSliderPage === -1) {
           this.currentPage = currentPage;
         }
-        this.numberOfPages = this.pageService.numberOfPages;
         this.isFirstPage = this.isOnFirstPage(currentPage);
         this.isLastPage = this.isOnLastPage(currentPage);
+        this.changeDetectorRef.detectChanges();
+      }));
+
+    this.subscriptions.push(this.pageService
+      .onNumberOfPagesChange
+      .subscribe((numberOfPages: number) => {
+        this.numberOfPages = numberOfPages;
         this.changeDetectorRef.detectChanges();
       }));
   }
