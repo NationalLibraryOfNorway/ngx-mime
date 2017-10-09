@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 export class PageService {
 
   private _numberOfPages: number;
+  private _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(0);
   private _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor() {}
@@ -29,7 +30,12 @@ export class PageService {
     return this._currentPage.asObservable().distinctUntilChanged();
   }
 
+  get onNumberOfPagesChange(): Observable<number> {
+    return this._currentNumberOfPages.asObservable().distinctUntilChanged();
+  }
+
   set numberOfPages(numberOfPages: number) {
+    this._currentNumberOfPages.next(numberOfPages);
     this._numberOfPages = numberOfPages;
   }
 
