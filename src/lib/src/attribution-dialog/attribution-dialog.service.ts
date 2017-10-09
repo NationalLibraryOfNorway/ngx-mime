@@ -41,15 +41,11 @@ export class AttributionDialogService {
     }));
   }
 
-  public cleanUp() {
+  public destroy() {
     this.close();
     if (this.dialogSubscription) {
       this.dialogSubscription.unsubscribe();
     }
-  }
-
-  public destroy() {
-    this.cleanUp();
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });

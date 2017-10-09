@@ -78,17 +78,17 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    this.attributionDialogService.initialize();
-    this.contentsDialogService.initialize();
-    this.contentSearchDialogService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
           if (manifest) {
+            this.destroy();
+            this.attributionDialogService.initialize();
+            this.contentsDialogService.initialize();
+            this.contentSearchDialogService.initialize();
             this.resetErrorMessage();
             this.currentManifest = manifest;
-            this.cleanUp();
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -175,7 +175,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (manifestUriIsChanged) {
-      this.cleanUp();
+      this.destroy();
       this.loadManifest();
     } else {
       if (qIsChanged) {
@@ -191,19 +191,19 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
-    this.attributionDialogService.destroy();
-    this.contentsDialogService.destroy();
-    this.contentSearchDialogService.destroy();
-    this.iiifContentSearchService.destroy();
+    this.destroy();
     this.iiifManifestService.destroy();
+    this.iiifContentSearchService.destroy();
   }
 
   // ChangeDetection fix
   onModeChange() {
+    /*
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      this.contentsDialogService.cleanUp();
-      this.contentSearchDialogService.cleanUp();
+      this.contentsDialogService.destroy();
+      this.contentSearchDialogService.destroy();
     }
+    */
   }
 
   toggleToolbarsState(mode: ViewerMode): void {
@@ -234,12 +234,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.iiifManifestService.load(this.manifestUri);
   }
 
-  private cleanUp() {
+  private destroy() {
+    this.attributionDialogService.destroy();
+    this.contentsDialogService.destroy();
+    this.contentSearchDialogService.destroy();
     this.viewerService.destroy();
-    this.attributionDialogService.cleanUp();
-    this.contentsDialogService.cleanUp();
-    this.contentSearchDialogService.cleanUp();
-    this.iiifContentSearchService.destroy();
   }
 
   private resetCurrentManifest(): void {
