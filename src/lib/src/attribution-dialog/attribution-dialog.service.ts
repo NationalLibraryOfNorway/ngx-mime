@@ -16,7 +16,6 @@ export class AttributionDialogService {
   private _el: ElementRef;
   private attributionDialogHeight = 0;
   private subscriptions: Array<Subscription> = [];
-  private dialogSubscription: Subscription;
 
   constructor(
     private dialog: MdDialog,
@@ -43,9 +42,6 @@ export class AttributionDialogService {
 
   public destroy() {
     this.close();
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
@@ -61,7 +57,7 @@ export class AttributionDialogService {
        * Sleeping for material animations to finish
        * fix: https://github.com/angular/material2/issues/7438
        */
-      this.dialogSubscription = Observable
+      this.subscriptions.push(Observable
         .interval(1000)
         .take(1)
         .subscribe(() => {
@@ -72,7 +68,7 @@ export class AttributionDialogService {
           });
           this.isAttributionDialogOpen = true;
           this.closeDialogAfter(timeout);
-        });
+        }));
     }
   }
 

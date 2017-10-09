@@ -12,7 +12,6 @@ export class ContentsDialogService {
   private isContentsDialogOpen = false;
   private dialogRef: MdDialogRef<ContentsDialogComponent>;
   private subscriptions: Array<Subscription> = [];
-  private dialogSubscription: Subscription;
 
   constructor(
     private dialog: MdDialog,
@@ -32,9 +31,6 @@ export class ContentsDialogService {
 
   public destroy() {
     this.close();
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
