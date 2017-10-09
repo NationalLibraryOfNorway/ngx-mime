@@ -99,13 +99,12 @@ describe('ViewerComponent', function () {
 
   it('should create component', () => expect(comp).toBeDefined());
 
-  it('should cleanUp when manifestUri changes', () => {
+  it('should cleanup when manifestUri changes', () => {
+    spyOn(testHostComponent.viewerComponent, 'cleanup').and.callThrough();
     testHostComponent.manifestUri = 'dummyURI2';
-
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+    expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
   });
 
   it('should create viewer', () => {
@@ -139,10 +138,10 @@ describe('ViewerComponent', function () {
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
 
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+    spyOn(testHostComponent.viewerComponent, 'cleanup').and.callThrough();
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+    expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
   });
 
   it('svgOverlay-plugin should be defined', () => {
@@ -284,16 +283,18 @@ describe('ViewerComponent', function () {
   it('should emit when page number changes', (done) => {
     let currentPageNumber: number;
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
-    setTimeout(() => {
-      fixture.detectChanges();
-      viewerService.goToPage(1, false);
-      fixture.detectChanges();
-    }, 2000);
-    setTimeout(() => {
-      fixture.detectChanges();
-      expect(currentPageNumber).toEqual(1);
-      done();
-    }, 4000);
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          viewerService.goToPage(1, false);
+        }, 100);
+
+        setTimeout(() => {
+          expect(currentPageNumber).toEqual(1);
+          done();
+        }, osdAnimationTime);
+      }
+    });
   });
 
   it('should open viewer on canvas index if present', (done) => {
@@ -336,13 +337,16 @@ describe('ViewerComponent', function () {
 
 @Component({
   selector: `test-component`,
-  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex"></mime-viewer>`
+  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex" [config]="config"></mime-viewer>`
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent)
   public viewerComponent: any;
   public manifestUri: string;
   public canvasIndex = 0;
+  public config = new MimeViewerConfig({
+    attributionDialogHideTimeout: -1
+  });
 }
 
 class IiifManifestServiceStub {
