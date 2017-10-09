@@ -87,7 +87,7 @@ describe('TOCComponent', () => {
 
   }));
 
-  xit('should close contents dialog when selecting a page in TOC when on mobile',
+  it('should close contents dialog when selecting a page in TOC when on mobile',
     inject([MdDialogRef, ObservableMedia], (dialogRef: MdDialogRef<ContentsDialogComponent>, media: ObservableMedia) => {
       spyOn(media, 'isActive').and.returnValue(true);
       spyOn(dialogRef, 'close').and.callThrough();
