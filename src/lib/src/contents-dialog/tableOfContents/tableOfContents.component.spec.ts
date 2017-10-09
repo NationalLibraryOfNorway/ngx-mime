@@ -125,6 +125,6 @@ class MdDialogRefMock {
 
 class MediaMock {
   isActive(m: string) {
-    return false;
+    return true;
   }
 }
