@@ -68,7 +68,7 @@ export class ViewerService {
   }
 
   get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable();
+    return this.currentPageIndex.asObservable().distinctUntilChanged();
   }
 
   get onOsdReadyChange(): Observable<boolean> {
@@ -222,12 +222,14 @@ export class ViewerService {
         this.modeChanged(mode);
       }));
 
-      this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
-        this.calculateCurrentPage(center);
-        if (center && center !== null) {
-          this.osdIsReady.next(true);
-        }
-      }));
+      this.zone.runOutsideAngular(() => {
+        this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
+          this.calculateCurrentPage(center);
+          if (center && center !== null) {
+            this.osdIsReady.next(true);
+          }
+        }));
+      });
 
       this.subscriptions.push(
         this.pageService.onPageChange.subscribe((pageIndex: number) => {
@@ -244,6 +246,7 @@ export class ViewerService {
         this.onOsdReadyChange.subscribe((state: boolean) => {
           if (state) {
             this.initialPageLoaded();
+            this.currentCenter.next(this.viewer.viewport.getCenter(true));
           }
         })
       );
