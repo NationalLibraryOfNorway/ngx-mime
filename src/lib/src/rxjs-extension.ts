@@ -13,4 +13,5 @@ import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/throttle';
+import 'rxjs/add/operator/sample';
 import 'rxjs/add/operator/filter';

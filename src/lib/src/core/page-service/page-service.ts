@@ -1,31 +1,41 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class PageService {
 
-  private _currentPage: number;
   private _numberOfPages: number;
+  private _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(0);
+  private _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
 
-  constructor() {
-    this._currentPage = 0;
-  }
+  constructor() {}
 
   reset() {
-    this._currentPage = 0;
+    this._currentPage.next(0);
   }
 
   set currentPage(currentPage: number) {
     if (!this.isWithinBounds(currentPage)) {
       return;
     }
-    this._currentPage = currentPage;
+    this._currentPage.next(currentPage);
   }
 
   get currentPage(): number {
-    return this._currentPage;
+    return this._currentPage.value;
+  }
+
+  get onPageChange(): Observable<number> {
+    return this._currentPage.asObservable().distinctUntilChanged();
+  }
+
+  get onNumberOfPagesChange(): Observable<number> {
+    return this._currentNumberOfPages.asObservable().distinctUntilChanged();
   }
 
   set numberOfPages(numberOfPages: number) {
+    this._currentNumberOfPages.next(numberOfPages);
     this._numberOfPages = numberOfPages;
   }
 
@@ -38,7 +48,7 @@ export class PageService {
   }
 
   isCurrentPageValid(): boolean {
-    return this.isWithinBounds(this._currentPage);
+    return this.isWithinBounds(this.currentPage);
   }
 
   // Returns -1 if next page is out of bounds
@@ -63,7 +73,7 @@ export class PageService {
     if (pageIndex < 0) {
       return 0;
     } else if (pageIndex >= this.numberOfPages - 1) {
-      return this.numberOfPages;
+      return this.numberOfPages - 1;
     } else {
       return pageIndex;
     }

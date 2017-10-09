@@ -18,8 +18,8 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   nextPageLabel = 'Neste side';
   homeLabel = 'Hjem';
   searchLabel = 'Søk';
-  previousHitLabelLabel = 'Forrige treff';
-  nextHitLabelLabel = 'Neste treff';
+  previousHitLabel = 'Forrige treff';
+  nextHitLabel = 'Neste treff';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';

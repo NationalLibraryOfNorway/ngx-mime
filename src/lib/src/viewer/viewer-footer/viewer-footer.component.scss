@@ -1,7 +1,10 @@
 :host {
   display: block;
   width: 100%;
-  max-height: 48px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .footer-toolbar {

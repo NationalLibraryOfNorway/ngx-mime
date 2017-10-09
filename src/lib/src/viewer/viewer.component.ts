@@ -14,6 +14,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
@@ -37,7 +38,8 @@ import { MimeViewerIntl } from '../core/intl/viewer-intl';
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '(window:resize)': '[$event]' }
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
@@ -138,6 +140,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.viewerService.onPageChange.subscribe((pageNumber: number) => {
         this.onPageChange.emit(pageNumber);
+      })
+    );
+
+    this.subscriptions.push(
+      this.mimeService.onResize.throttle(val => Observable.interval(ViewerOptions.transitions.OSDAnimationTime)).subscribe(() => {
+        setTimeout(() => {
+          this.viewerService.home();
+        }, ViewerOptions.transitions.OSDAnimationTime);
       })
     );
 

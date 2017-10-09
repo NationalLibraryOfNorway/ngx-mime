@@ -68,35 +68,6 @@ describe('SwipeUtils ', () => {
     expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(false);
   });
 
-
-  it('should return true when panning past center of page on the right side', () => {
-    const pageBounds: Bounds = { x: 99, y: 0, width: 100, height: 100 };
-
-    let center: Point = { x: 200, y: 0 };
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
-
-  });
-
-  it('should return true when panning past center of page on the left side', () => {
-    let pageBounds: Bounds = { x: 0, y: 0, width: 100, height: 100 };
-    let center: Point = { x: -51, y: 0 };
-
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
-
-    pageBounds = { x: 100, y: 0, width: 100, height: 100 };
-    center = { x: 50, y: 0 };
-
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(true);
-  });
-
-  it('should return false when not panning past center of page', () => {
-    const pageBounds: Bounds = { x: 100, y: 0, width: 100, height: 100 };
-
-    // Not past center
-    const center: Point = { x: 199, y: 0 };
-    expect(SwipeUtils.isPanningPastCenter(pageBounds, center)).toBe(false);
-  });
-
   it('should return true when direction is inside right semicircle', () => {
     let direction = Math.PI / 4;
     expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(true);
@@ -105,9 +76,11 @@ describe('SwipeUtils ', () => {
     expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(true);
   });
 
-  it('should return false when direction is not inside right semicircle (equivalent to left semicircle)', () => {
-    const direction = -Math.PI / 1.5;
-    expect(SwipeUtils.isDirectionInRightSemicircle(direction)).toBe(false);
+  it('should return true when direction is in left semicircle', () => {
+    let direction = -Math.PI / 1.5;
+    expect(SwipeUtils.isDirectionInLeftSemicircle(direction)).toBe(true);
+    direction = 0; // means speed = 0
+    expect(SwipeUtils.isDirectionInLeftSemicircle(direction)).toBe(true);
   });
 
 });
