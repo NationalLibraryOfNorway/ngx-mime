@@ -13,7 +13,6 @@ export class PageMask {
 
   disableResize = false;
   center: Point;
-  private handlers: any[] = [];
 
   constructor(viewer: any) {
     this.viewer = viewer;
