@@ -1,5 +1,5 @@
 import { Injectable, ElementRef } from '@angular/core';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { ContentsDialogComponent } from './contents-dialog.component';
@@ -10,11 +10,11 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 export class ContentsDialogService {
   private _el: ElementRef;
   private isContentsDialogOpen = false;
-  private dialogRef: MdDialogRef<ContentsDialogComponent>;
+  private dialogRef: MatDialogRef<ContentsDialogComponent>;
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService) {
   }
@@ -63,7 +63,7 @@ export class ContentsDialogService {
     this.isContentsDialogOpen ? this.close() : this.open();
   }
 
-  private getDialogConfig(): MdDialogConfig {
+  private getDialogConfig(): MatDialogConfig {
     return this.contentsDialogConfigStrategyFactory.create().getConfig(this._el);
   }
 

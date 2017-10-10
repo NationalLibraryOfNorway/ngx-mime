@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from '../shared/shared.module';
@@ -33,7 +33,7 @@ describe('AttributionDialogComponent', () => {
         MimeDomHelper,
         FullscreenService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: MdDialogRef, useClass: MdDialogRefMock },
+        { provide: MatDialogRef, useClass: MatDialogRefMock },
       ]
     })
       .compileComponents();
@@ -70,5 +70,5 @@ class IiifManifestServiceStub {
   }
 }
 
-class MdDialogRefMock {
+class MatDialogRefMock {
 }

@@ -1,11 +1,11 @@
-<md-sidenav-container class="demo-root" fullscreen>
-  <md-sidenav [mode]="sidenavMode" [opened]="sidenavIsOpen" #start>
+<mat-sidenav-container class="demo-root" fullscreen>
+  <mat-sidenav [mode]="sidenavMode" [opened]="sidenavIsOpen" #start>
     <demo-sidenav [sidenav]="start"></demo-sidenav>
-  </md-sidenav>
+  </mat-sidenav>
   <div fxFlexFill>
     <demo-navbar [sidenav]="start"></demo-navbar>
     <div class="demo-content">
       <router-outlet></router-outlet>
     </div>
   </div>
-</md-sidenav-container>
+</mat-sidenav-container>

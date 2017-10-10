@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'demo-navbar',
@@ -9,7 +9,7 @@ import { MdSidenav } from '@angular/material';
 })
 
 export class NavbarComponent implements OnInit {
-  @Input() sidenav: MdSidenav;
+  @Input() sidenav: MatSidenav;
   public manifestUri: string;
 
   constructor(private router: Router) { }
