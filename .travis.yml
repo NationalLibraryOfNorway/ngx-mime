@@ -27,6 +27,7 @@ before_install:
 
 install:
   - npm install
+  - npm install -g mountebank
 
 before_script:
  - npm prune
