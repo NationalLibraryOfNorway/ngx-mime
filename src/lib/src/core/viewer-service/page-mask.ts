@@ -2,7 +2,6 @@ import * as d3 from 'd3';
 import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
 
-declare const OpenSeadragon: any;
 export class PageMask {
 
   viewer: any;
