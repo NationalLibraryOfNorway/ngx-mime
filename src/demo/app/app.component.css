@@ -2,12 +2,12 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-md-sidenav {
+mat-sidenav {
   width: 240px;
 }
 
 .demo-content {
   width: 100%;
-  height: calc(100% - 56px);
+  height: calc(100% - 64px);
   box-sizing: border-box;
 }

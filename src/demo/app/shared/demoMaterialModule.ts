@@ -1,28 +1,28 @@
 import { NgModule } from '@angular/core';
 import {
-  MdButtonModule,
-  MdIconModule,
-  MdListModule,
-  MdSidenavModule,
-  MdToolbarModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatIconModule,
+  MatListModule,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 @NgModule({
   imports: [
-    MdButtonModule,
-    MdIconModule,
-    MdListModule,
-    MdSidenavModule,
-    MdToolbarModule,
-    MdTooltipModule
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatTooltipModule
   ],
   exports: [
-    MdButtonModule,
-    MdIconModule,
-    MdListModule,
-    MdSidenavModule,
-    MdToolbarModule,
-    MdTooltipModule
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatTooltipModule
   ],
 })
 export class DemoMaterialModule { }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { MdSliderChange } from '@angular/material';
+import { MatSliderChange } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
@@ -65,7 +65,7 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
     this.viewerService.goToNextPage();
   }
 
-  public onSliderChange(change: MdSliderChange): void {
+  public onSliderChange(change: MatSliderChange): void {
     this.currentSliderPage = change.value;
     this.currentPage = change.value;
     this.viewerService.goToPage(change.value, false);

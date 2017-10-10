@@ -1,9 +1,9 @@
 <div id="attribution-container" class="attribution-container">
-  <md-toolbar class="attribution-toolbar">
+  <mat-toolbar class="attribution-toolbar">
     <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
       <div>{{intl.attributionLabel}}</div>
-      <button md-icon-button [attr.aria-label]="intl.closeLabel" [mdTooltip]="intl.closeLabel" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
+      <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
     </div>
-  </md-toolbar>
+  </mat-toolbar>
   <div class="contents" [innerHTML]="manifest?.attribution"></div>
 </div>
