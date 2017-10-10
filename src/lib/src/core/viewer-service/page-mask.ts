@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
 
+declare const OpenSeadragon: any;
 export class PageMask {
 
   viewer: any;
@@ -12,33 +13,10 @@ export class PageMask {
 
   disableResize = false;
   center: Point;
+  private handlers: any[] = [];
 
   constructor(viewer: any) {
     this.viewer = viewer;
-
-    this.viewer.addHandler('animation', () => {
-      this.resize();
-    });
-
-    this.viewer.addHandler('resize', () => {
-      this.setCenter();
-      this.resize();
-    });
-
-    this.viewer.addHandler('canvas-pinch', () => {
-      this.disableResize = false;
-    });
-
-    this.viewer.addHandler('canvas-drag', (e: any) => {
-      if ((e.delta.x || e.delta.y) && e.speed > 0 && e.direction !== 0) {
-        this.disableResize = true;
-      }
-    });
-
-    this.viewer.addHandler('canvas-drag-end', () => {
-      this.disableResize = false;
-      this.resize();
-    });
   }
 
   public initialise(pageBounds: SVGRectElement): void {
@@ -56,6 +34,7 @@ export class PageMask {
   }
 
   public show(): void {
+    this.addHandlers();
     if (!this.leftMask || !this.rightMask) {
       return;
     }
@@ -64,11 +43,59 @@ export class PageMask {
   }
 
   public hide(): void {
+    this.removeHandlers();
     if (!this.leftMask || !this.rightMask) {
       return;
     }
     this.leftMask.attr('height', '0');
     this.rightMask.attr('height', '0');
+  }
+
+  private addHandlers() {
+    this.viewer.addHandler('animation', this.animationHandler);
+    this.viewer.addHandler('animation-finish', this.animationFinishHandler);
+    this.viewer.addHandler('resize', this.resizeHandler);
+    this.viewer.addHandler('canvas-pinch', this.canvasPinchHandler);
+    this.viewer.addHandler('canvas-drag', this.canvasDragHandler);
+    this.viewer.addHandler('canvas-drag-end', this.canvasDragEndHandler);
+  }
+
+  private removeHandlers() {
+    this.viewer.removeHandler('animation', this.animationHandler);
+    this.viewer.removeHandler('animation-finish', this.animationFinishHandler);
+    this.viewer.removeHandler('resize', this.resizeHandler);
+    this.viewer.removeHandler('canvas-pinch', this.canvasPinchHandler);
+    this.viewer.removeHandler('canvas-drag', this.canvasDragHandler);
+    this.viewer.removeHandler('canvas-drag-end', this.canvasDragEndHandler);
+  }
+
+  private animationHandler = () => {
+    this.resize();
+  }
+
+  private animationFinishHandler = () => {
+    this.setCenter();
+    this.resize();
+  }
+
+  private resizeHandler = () => {
+    this.setCenter();
+    this.resize();
+  }
+
+  private canvasPinchHandler = () => {
+    this.disableResize = false;
+  }
+
+  private canvasDragHandler = (e: any) => {
+    if ((e.delta.x || e.delta.y) && e.speed > 0 && e.direction !== 0) {
+      this.disableResize = true;
+    }
+  }
+
+  private canvasDragEndHandler = () => {
+    this.disableResize = false;
+    this.resize();
   }
 
   private addCanvasMask() {
