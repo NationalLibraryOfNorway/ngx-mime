@@ -58,6 +58,10 @@ export class ViewerService {
   private dragStartPosition: any;
   private tileRects = new TileRects();
 
+  // Variables hard-coded for testing Two-Page view. TODO: Implementation
+  private view: View = View.ONE_PAGE;
+  private paged: boolean = true;
+
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
@@ -536,7 +540,7 @@ export class ViewerService {
    */
   createOverlays(): void {
     this.overlays = [];
-    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(View.ONE_PAGE, false);
+    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.view, this.paged);
 
     this.tileSources.forEach((tile, i) => {
 
