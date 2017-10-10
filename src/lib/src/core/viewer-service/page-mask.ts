@@ -90,7 +90,7 @@ export class PageMask {
   }
 
   private setCenter(): void {
-    this.center = this.viewer.viewport.pixelFromPoint(this.viewer.viewport.getCenter(), true);
+    this.center = new OpenSeadragon.Point(this.viewer.viewport._containerInnerSize.x / 2, this.viewer.viewport._containerInnerSize.y / 2);
   }
 
   private resize(): void {
