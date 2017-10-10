@@ -2,7 +2,7 @@
 
 set -e -o pipefail
 
-TUNNEL_FILE="sc-4.4.7-linux.tar.gz"
+TUNNEL_FILE="sc-4.4.9-linux.tar.gz"
 TUNNEL_URL="https://saucelabs.com/downloads/${TUNNEL_FILE}"
 TUNNEL_DIR="/tmp/saucelabs-connect"
 
@@ -27,8 +27,8 @@ rm ${TUNNEL_FILE}
 ARGS="--no-proxy-caching"
 
 # Set tunnel-id only on Travis, to make local testing easier.
-if [ ! -z "${TRAVIS_JOB_NUMBER}" ]; then
-  ARGS="${ARGS} --tunnel-identifier ${TRAVIS_JOB_NUMBER}"
+if [ ! -z "${TRAVIS_JOB_ID}" ]; then
+  ARGS="${ARGS} --tunnel-identifier ${TRAVIS_JOB_ID}"
 fi
 if [ ! -z "${BROWSER_PROVIDER_READY_FILE}" ]; then
   ARGS="${ARGS} --readyfile ${BROWSER_PROVIDER_READY_FILE}"
