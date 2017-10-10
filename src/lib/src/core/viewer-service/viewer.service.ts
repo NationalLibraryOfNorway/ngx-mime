@@ -25,7 +25,8 @@ import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 import { Bounds } from '../models/bounds';
 import { ZoomUtils } from './zoom-utils';
-
+import { View } from '../models/view';
+import { CalculatePagePositionFactory } from '../page-position/calculate-page-position-factory';
 
 import { PinchStatus } from '../models/pinchStatus';
 import '../ext/svg-overlay';
@@ -535,45 +536,38 @@ export class ViewerService {
    */
   createOverlays(): void {
     this.overlays = [];
-    const initialPage = 0;
-    const center = new OpenSeadragon.Point(0, 0);
-    const height = this.tileSources[0].height;
-    let currentX = center.x - (this.tileSources[0].width / 2);
+    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(View.ONE_PAGE, false);
 
     this.tileSources.forEach((tile, i) => {
-      let currentY = center.y - tile.height / 2;
+
+      const position = calculatePagePositionStrategy.calculatePagePosition({
+        pageIndex: i,
+        pageSource: tile,
+        previousPagePosition: this.tileRects.get(i - 1)
+      });
+
+      this.tileRects.add(position);
+
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
           index: i,
           tileSource: tile,
-          height: tile.height,
-          x: currentX,
-          y: currentY,
-          success: i === initialPage ? (e: any) => {
-            e.item.addOnceHandler('fully-loaded-change', () => { });
-          } : ''
+          height: position.height,
+          x: position.x,
+          y: position.y
         });
       });
 
       // Style overlay to match tile
       this.svgNode.append('rect')
-        .attr('x', currentX)
-        .attr('y', currentY)
-        .attr('width', tile.width)
-        .attr('height', tile.height)
+        .attr('x', position.x)
+        .attr('y', position.y)
+        .attr('width', position.width)
+        .attr('height', position.height)
         .attr('class', 'tile');
 
       const currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
       this.overlays.push(currentOverlay);
-
-      this.tileRects.add(new Rect({
-        x: currentX,
-        y: currentY,
-        width: tile.width,
-        height: tile.height
-      }));
-
-      currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
     });
   }
 
