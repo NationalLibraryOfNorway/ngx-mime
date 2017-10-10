@@ -30,6 +30,7 @@ install:
   - npm install -g mountebank
   - npm install -g webdriver-manager
   - npm install -g protractor
+  - npm install -g @angular/cli
 
 before_script:
  - npm prune
