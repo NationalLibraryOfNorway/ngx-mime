@@ -19,6 +19,6 @@ npm run coverage
 start_tunnel
 wait_for_tunnel
 
-npm run integration:aot
+npm run integration
 
 teardown_tunnel
