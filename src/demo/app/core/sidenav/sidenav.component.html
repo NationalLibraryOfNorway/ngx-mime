@@ -1,10 +1,10 @@
 <h3>Manifest</h3>
-<md-nav-list>
-  <a *ngFor="let manifest of manifests" md-list-item 
+<mat-nav-list>
+  <a *ngFor="let manifest of manifests" mat-list-item 
     [routerLink]="['demo']"
     [queryParams]="{ manifestUri: manifest.uri }"
     routerLinkActive="active"
     (click)="close()">
     {{manifest.label}}
   </a>
-</md-nav-list>
+</mat-nav-list>

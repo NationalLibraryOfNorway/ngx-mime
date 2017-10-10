@@ -71,7 +71,7 @@ describe('ViewerHeaderComponent', () => {
   }));
 
   it('should not be visible when state is changed to hide', async(() => {
-    let toolbar = fixture.debugElement.query(By.css('md-toolbar'));
+    let toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
     // Check initial style to make sure we later see an actual change
     expectHeaderToShow(fixture.debugElement.nativeElement);
 
@@ -83,7 +83,7 @@ describe('ViewerHeaderComponent', () => {
   }));
 
   it('should be visible when state is changed to show', async(() => {
-    let toolbar = fixture.debugElement.query(By.css('md-toolbar'));
+    let toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
     component.state = 'hide';
     fixture.detectChanges();

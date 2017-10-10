@@ -3,7 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { ObservableMedia, MatchMedia } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Rx';
@@ -41,7 +41,7 @@ describe('ContentSearchDialogComponent', () => {
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
-        { provide: MdDialogRef, useClass: MdDialogRefMock },
+        { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: ObservableMedia, useClass: MediaMock },
         { provide: ViewerService, useClass: ViewerServiceMock }
       ]
@@ -80,8 +80,8 @@ describe('ContentSearchDialogComponent', () => {
     }));
 
   it('should go to hit and close dialog when selected on mobile',
-    inject([ObservableMedia, ViewerService, MdDialogRef],
-      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MdDialogRef<ContentSearchDialogComponent>) => {
+    inject([ObservableMedia, ViewerService, MatDialogRef],
+      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MatDialogRef<ContentSearchDialogComponent>) => {
       spyOn(media, 'isActive').and.returnValue(true);
       spyOn(viewerService, 'goToPage').and.callThrough();
       spyOn(dialogRef, 'close').and.callThrough();
@@ -104,8 +104,8 @@ describe('ContentSearchDialogComponent', () => {
     }));
 
     it('should go to hit and when selected on desktop',
-    inject([ObservableMedia, ViewerService, MdDialogRef],
-      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MdDialogRef<ContentSearchDialogComponent>) => {
+    inject([ObservableMedia, ViewerService, MatDialogRef],
+      (media: ObservableMedia, viewerService: ViewerService, dialogRef: MatDialogRef<ContentSearchDialogComponent>) => {
       spyOn(media, 'isActive').and.returnValue(false);
       spyOn(viewerService, 'goToPage').and.callThrough();
       spyOn(dialogRef, 'close').and.callThrough();
@@ -129,7 +129,7 @@ describe('ContentSearchDialogComponent', () => {
 
 });
 
-class MdDialogRefMock {
+class MatDialogRefMock {
   close(): void {}
 }
 
