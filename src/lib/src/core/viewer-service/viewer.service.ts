@@ -277,12 +277,11 @@ export class ViewerService {
     this.subscriptions.push(
       this.viewerLayoutService.viewerLayoutState.subscribe((state: ViewerLayout) => {
         if (this.viewerLayout !== state && this.osdIsReady.getValue()) {
+          const savedPage = this.pageService.currentPage;
           this.viewerLayout = state;
           this.destroy();
           this.setUpViewer(this.manifest);
-          // this.viewer.destroy();
-          // this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
-          // this.createOverlays();
+          this.goToPage(savedPage, false);
         }
       })
     );
