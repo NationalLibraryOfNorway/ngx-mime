@@ -14,6 +14,7 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { MediaServiceStub } from './../test/media-service-stub';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -37,7 +38,7 @@ describe('ContentsDialogComponent', () => {
         MimeDomHelper,
         FullscreenService,
         { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: ObservableMedia, useClass: MediaMock }
+        { provide: ObservableMedia, useClass: MediaServiceStub }
       ]
     })
       .compileComponents();
@@ -76,10 +77,4 @@ describe('ContentsDialogComponent', () => {
 });
 
 class MatDialogRefMock {
-}
-
-class MediaMock {
-  isActive(m: string) {
-    return false;
-  }
 }

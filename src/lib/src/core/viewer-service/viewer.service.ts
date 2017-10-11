@@ -128,7 +128,6 @@ export class ViewerService {
     this.setMinZoom(this.modeService.mode);
     this.goToPage(currentPageIndex, false);
     this.goToHomeZoom();
-
   }
 
   public goToPreviousPage(): void {
