@@ -1,7 +1,6 @@
 
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
 import { MimeViewerConfig } from '../mime-viewer-config';
@@ -19,10 +18,6 @@ export class ViewerLayoutService {
 
   setState(viewerLayout: ViewerLayout) {
     this.viewerLayoutSubject.next(viewerLayout);
-  }
-
-  getState(): ViewerLayout {
-    return this.viewerLayoutSubject.getValue();
   }
 
 }
