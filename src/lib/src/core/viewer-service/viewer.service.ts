@@ -28,8 +28,10 @@ import { ZoomUtils } from './zoom-utils';
 import { ViewerLayout } from '../models/viewer-layout';
 import { CalculatePagePositionFactory } from '../page-position/calculate-page-position-factory';
 import { SpinnerService } from '../spinner-service/spinner.service';
-
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { PinchStatus } from '../models/pinchStatus';
+import { MimeViewerConfig } from '../mime-viewer-config';
+
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
 import * as d3 from 'd3';
@@ -58,19 +60,17 @@ export class ViewerService {
   private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
   private tileRects = new TileRects();
-
-  // Variables hard-coded for testing Two-Page view. TODO: Implementation
-  private viewerLayout: ViewerLayout;
-  private paged: boolean = true;
-
   private manifest: Manifest;
+
+  private viewerLayout: ViewerLayout = new MimeViewerConfig().initViewerLayout;
 
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
     private modeService: ModeService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private viewerLayoutService: ViewerLayoutService
   ) { }
 
 
@@ -216,66 +216,78 @@ export class ViewerService {
     }
   }
 
-  public toggleViewerLayout(viewerLayout: ViewerLayout) {
-    this.viewerLayout = viewerLayout;
-    this.destroy();
-    this.setUpViewer(this.manifest, viewerLayout);
+
+  setUpViewer(manifest: Manifest) {
+    if (!manifest || !manifest.tileSource) {
+      return;
+    }
+
+    this.tileSources = manifest.tileSource;
+    this.zone.runOutsideAngular(() => {
+
+      this.clearOpenSeadragonTooltips();
+      this.manifest = manifest;
+      this.options = new Options();
+      this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+      this.pageService.reset();
+      this.pageService.numberOfPages = this.tileSources.length;
+      this.pageMask = new PageMask(this.viewer);
+    });
+
+    this.addToWindow();
+    this.setupOverlays();
+    this.createOverlays();
+    this.addEvents();
+    this.addSubscriptions();
   }
 
-  setUpViewer(manifest: Manifest, initialViewerLayout: ViewerLayout) {
-    if (manifest && manifest.tileSource) {
-      this.tileSources = manifest.tileSource;
-      this.zone.runOutsideAngular(() => {
 
-        this.clearOpenSeadragonTooltips();
-        this.manifest = manifest;
-        this.viewerLayout = initialViewerLayout;
-        this.options = new Options();
-        this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
-        this.pageService.reset();
-        this.pageService.numberOfPages = this.tileSources.length;
-        this.pageMask = new PageMask(this.viewer);
-      });
+  addSubscriptions(): void {
+    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+      this.modeChanged(mode);
+    }));
 
-      this.addToWindow();
-      this.setupOverlays();
-      this.createOverlays();
-      this.addEvents();
-
-      this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.modeChanged(mode);
+    this.zone.runOutsideAngular(() => {
+      this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
+        this.calculateCurrentPage(center);
+        if (center && center !== null) {
+          this.osdIsReady.next(true);
+        }
       }));
+    });
 
-      this.zone.runOutsideAngular(() => {
-        this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
-          this.calculateCurrentPage(center);
-          if (center && center !== null) {
-            this.osdIsReady.next(true);
+    this.subscriptions.push(
+      this.pageService.onPageChange.subscribe((pageIndex: number) => {
+        if (pageIndex !== -1) {
+          this.pageMask.changePage(this.overlays[pageIndex]);
+          if (this.modeService.mode === ViewerMode.PAGE) {
+            this.goToHomeZoom();
           }
-        }));
-      });
+        }
+      })
+    );
 
-      this.subscriptions.push(
-        this.pageService.onPageChange.subscribe((pageIndex: number) => {
-          if (pageIndex !== -1) {
-            this.pageMask.changePage(this.overlays[pageIndex]);
-            if (this.modeService.mode === ViewerMode.PAGE) {
-              this.goToHomeZoom();
-            }
-          }
-        })
-      );
+    this.subscriptions.push(
+      this.onOsdReadyChange.subscribe((state: boolean) => {
+        if (state) {
+          this.initialPageLoaded();
+          this.currentCenter.next(this.viewer.viewport.getCenter(true));
+        }
+      })
+    );
 
-      this.subscriptions.push(
-        this.onOsdReadyChange.subscribe((state: boolean) => {
-          if (state) {
-            this.initialPageLoaded();
-            this.currentCenter.next(this.viewer.viewport.getCenter(true));
-          }
-        })
-      );
-
-    }
+    this.subscriptions.push(
+      this.viewerLayoutService.viewerLayoutState.subscribe((state: ViewerLayout) => {
+        if(this.viewerLayout !== state && this.osdIsReady.getValue()) {
+          this.viewerLayout = state;
+          this.destroy();
+          this.setUpViewer(this.manifest);
+          // this.viewer.destroy();
+          // this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+          // this.createOverlays();
+        }
+      })
+    );
   }
 
   addToWindow() {
@@ -559,7 +571,7 @@ export class ViewerService {
    */
   createOverlays(): void {
     this.overlays = [];
-    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.viewerLayout, this.paged);
+    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.viewerLayout, this.viewerLayoutService.paged);
 
     this.tileSources.forEach((tile, i) => {
 

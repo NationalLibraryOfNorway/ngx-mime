@@ -12,8 +12,8 @@ import { ContentSearchDialogService } from './../../content-search-dialog/conten
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
-import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ViewerLayout } from '../../core/models/viewer-layout';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -55,7 +55,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
-    private viewerService: ViewerService
+    private viewerLayoutService: ViewerLayoutService
   ) { }
 
   ngOnInit() {
@@ -98,12 +98,12 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     return this.fullscreenService.isFullscreen();
   }
 
-  public toggleOnePageView() {
-    this.viewerService.toggleViewerLayout(ViewerLayout.ONE_PAGE);
+  public toggleOnePageView(): void {
+    this.viewerLayoutService.toggleState(ViewerLayout.ONE_PAGE);
   }
 
-  public toggleTwoPageView() {
-    this.viewerService.toggleViewerLayout(ViewerLayout.TWO_PAGE);
+  public toggleTwoPageView(): void {
+    this.viewerLayoutService.toggleState(ViewerLayout.TWO_PAGE);
   }
 
 }
