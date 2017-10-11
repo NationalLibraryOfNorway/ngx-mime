@@ -276,7 +276,7 @@ export class ViewerService {
 
     this.subscriptions.push(
       this.viewerLayoutService.viewerLayoutState.subscribe((state: ViewerLayout) => {
-        if(this.viewerLayout !== state && this.osdIsReady.getValue()) {
+        if (this.viewerLayout !== state && this.osdIsReady.getValue()) {
           this.viewerLayout = state;
           this.destroy();
           this.setUpViewer(this.manifest);
