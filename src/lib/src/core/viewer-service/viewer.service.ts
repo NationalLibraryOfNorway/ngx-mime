@@ -27,7 +27,6 @@ import { Bounds } from '../models/bounds';
 import { ZoomUtils } from './zoom-utils';
 import { ViewerLayout } from '../models/viewer-layout';
 import { CalculatePagePositionFactory } from '../page-position/calculate-page-position-factory';
-import { SpinnerService } from '../spinner-service/spinner.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { PinchStatus } from '../models/pinchStatus';
 import { MimeViewerConfig } from '../mime-viewer-config';
@@ -69,7 +68,6 @@ export class ViewerService {
     private clickService: ClickService,
     private pageService: PageService,
     private modeService: ModeService,
-    private spinnerService: SpinnerService,
     private viewerLayoutService: ViewerLayoutService
   ) { }
 
