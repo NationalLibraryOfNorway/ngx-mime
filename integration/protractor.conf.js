@@ -22,12 +22,14 @@ const config = {
     compiler: "ts:ts-node/register",
     require: [
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
-      path.resolve(process.cwd(), './e2e/**/*.steps.ts')
+      path.resolve(process.cwd(), './e2e/**/*.steps.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/reporter.ts')
     ],
     format: 'pretty',
     tags: getTags()
   },
-  onPrepare: function() {
+  onPrepare: function () {
     if (config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
       const width = 1024;
       const height = 768;
@@ -46,31 +48,48 @@ if (process.env.TRAVIS) {
     tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
     build: process.env.TRAVIS_JOB_NUMBER,
   });
+} else {
+  config.afterLaunch = function () {
+    multiCucumberHTLMReporter.generate({
+      openReportInBrowser: false,
+      jsonDir: '.tmp/json-output',
+      reportPath: './.tmp/report/'
+    });
+  }
 }
 
 function getCapabilities() {
+  let capabilities = null;
   if (argv.browser) {
     const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
-    return {
+    capabilities = {
       browserName: cap.browserName,
       version: cap.version,
       platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
-      deviceName: cap.deviceName,      
+      deviceName: cap.deviceName,
     }
   } else {
-    return {
+    capabilities = {
       browserName: 'chrome'
     }
   }
+
+  if (argv.browser ===  'chrome' && argv.headless) {
+    capabilities.chromeOptions = {
+      args: ["--headless", "--disable-gpu", "--window-size=1024x768"]
+    }
+  }
+
+  return capabilities;
 }
 
 function getTags() {
   let tags = ['~@Ignore']
   if (argv.tags) {
     tags = tags.concat(argv.tags.split(','));
-  }    
+  }
   return tags;
 }
 
