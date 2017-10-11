@@ -7,7 +7,7 @@ exports.customDesktopLaunchers = [
   {
     browserName: "firefox",
     platform: "Windows 10",
-    version: "latest"
+    version: "latest-1"
   },
   // {
   //   browserName: "MicrosoftEdge",
