@@ -99,15 +99,15 @@ export class ViewerService {
   }
 
   public getZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
+    return Utils.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
   }
 
   public getMinZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
+    return Utils.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
   }
 
   public getMaxZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
+    return Utils.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
   }
 
   public zoomTo(level: number, position?: Point): void {
@@ -649,11 +649,6 @@ export class ViewerService {
     OpenSeadragon.setString('Tooltips.FullPage', '');
   }
 
-  private shortenDecimals(zoom: any, precision: number): number {
-    const short = Number(zoom).toPrecision(precision);
-    return Number(short);
-  }
-
   private calculateCurrentPage(center: Point) {
     if (center) {
       let currentPageIndex = this.tileRects.findClosestIndex(center);
@@ -767,10 +762,10 @@ export class ViewerService {
     const resizeRatio: number = viewportBounds.height / pageHeight;
 
     if (resizeRatio * pageWidth <= viewportBounds.width) {
-      return this.shortenDecimals(resizeRatio * currentZoom, 5);
+      return Utils.shortenDecimals(resizeRatio * currentZoom, 5);
     } else {
       // Page at full height is wider than viewport.  Return fit by width instead.
-      return this.shortenDecimals(viewportBounds.width / pageWidth * currentZoom, 5);
+      return Utils.shortenDecimals(viewportBounds.width / pageWidth * currentZoom, 5);
     }
   }
 
