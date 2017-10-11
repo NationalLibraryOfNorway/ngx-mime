@@ -99,11 +99,11 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public toggleOnePageView(): void {
-    this.viewerLayoutService.toggleState(ViewerLayout.ONE_PAGE);
+    this.viewerLayoutService.setState(ViewerLayout.ONE_PAGE);
   }
 
   public toggleTwoPageView(): void {
-    this.viewerLayoutService.toggleState(ViewerLayout.TWO_PAGE);
+    this.viewerLayoutService.setState(ViewerLayout.TWO_PAGE);
   }
 
 }

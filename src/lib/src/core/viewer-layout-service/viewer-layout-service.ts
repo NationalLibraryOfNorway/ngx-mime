@@ -17,7 +17,7 @@ export class ViewerLayoutService {
 
   constructor() { }
 
-  toggleState(viewerLayout: ViewerLayout) {
+  setState(viewerLayout: ViewerLayout) {
     this.viewerLayoutSubject.next(viewerLayout);
   }
 
