@@ -12,7 +12,7 @@ exports.customDesktopLaunchers = [
   {
     browserName: "MicrosoftEdge",
     platform: "Windows 10",
-    version: "15"
+    version: "latest"
   }
   // {
   //   browserName: "internet explorer",
