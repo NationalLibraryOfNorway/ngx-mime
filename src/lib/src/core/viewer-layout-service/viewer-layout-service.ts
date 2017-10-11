@@ -10,7 +10,7 @@ import { ViewerLayout } from '../models/viewer-layout';
 @Injectable()
 export class ViewerLayoutService {
 
-  private viewerLayout: ViewerLayout;
+
   public paged = true;
   private viewerLayoutSubject: BehaviorSubject<ViewerLayout> = new BehaviorSubject(new MimeViewerConfig().initViewerLayout);
   public viewerLayoutState = this.viewerLayoutSubject.asObservable();
@@ -19,6 +19,10 @@ export class ViewerLayoutService {
 
   setState(viewerLayout: ViewerLayout) {
     this.viewerLayoutSubject.next(viewerLayout);
+  }
+
+  getState(): ViewerLayout {
+    return this.viewerLayoutSubject.getValue();
   }
 
 }
