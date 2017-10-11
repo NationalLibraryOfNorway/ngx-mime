@@ -47,6 +47,9 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
 
+  ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
+  private viewerLayout: ViewerLayout;
+
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
@@ -70,6 +73,10 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
       this.isContentSearchEnabled = manifest.service ? true : false;
       this.changeDetectorRef.detectChanges();
+    }));
+
+    this.subscriptions.push(this.viewerLayoutService.viewerLayoutState.subscribe((viewerLayout: ViewerLayout) => {
+      this.viewerLayout = viewerLayout;
     }));
 
   }

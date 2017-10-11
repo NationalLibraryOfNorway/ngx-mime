@@ -1,10 +1,10 @@
 <mat-toolbar>
   <div fxLayout='row' fxLayoutAlign="end center" fxFlex>
-    <button id="toggleTwoPageView" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel" [matTooltip]="intl.twoPageViewLabel"
+    <button id="toggleTwoPageView" *ngIf="viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel" [matTooltip]="intl.twoPageViewLabel"
     (click)="toggleTwoPageView()">
       <mat-icon>chrome_reader_mode</mat-icon>
     </button>
-    <button id="toggleSinglePageView" mat-icon-button [attr.aria-label]="intl.singlePageViewLabel" [matTooltip]="intl.singlePageViewLabel"
+    <button id="toggleSinglePageView" *ngIf="viewerLayout === ViewerLayout.TWO_PAGE" mat-icon-button [attr.aria-label]="intl.singlePageViewLabel" [matTooltip]="intl.singlePageViewLabel"
     (click)="toggleOnePageView()">
     <mat-icon>description</mat-icon>
   </button>
