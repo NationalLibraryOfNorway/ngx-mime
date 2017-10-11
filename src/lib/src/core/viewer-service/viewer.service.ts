@@ -25,8 +25,9 @@ import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 import { Bounds } from '../models/bounds';
 import { ZoomUtils } from './zoom-utils';
-import { View } from '../models/view';
+import { ViewerLayout } from '../models/viewer-layout';
 import { CalculatePagePositionFactory } from '../page-position/calculate-page-position-factory';
+import { SpinnerService } from '../spinner-service/spinner.service';
 
 import { PinchStatus } from '../models/pinchStatus';
 import '../ext/svg-overlay';
@@ -59,14 +60,21 @@ export class ViewerService {
   private tileRects = new TileRects();
 
   // Variables hard-coded for testing Two-Page view. TODO: Implementation
-  private view: View = View.ONE_PAGE;
+  private viewerLayout: ViewerLayout;
   private paged: boolean = true;
+
+  private manifest: Manifest;
 
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService) { }
+    private modeService: ModeService,
+    private spinnerService: SpinnerService
+  ) { }
+
+
+  //#region getters / setters
 
   get onCenterChange(): Observable<Point> {
     return this.currentCenter.asObservable();
@@ -121,6 +129,8 @@ export class ViewerService {
       return this.createRectangle(this.overlays[this.pageService.currentPage]);
     }
   }
+
+  //#endregion getters / setters
 
   public home(): void {
     if (!this.osdIsReady.getValue()) {
@@ -206,11 +216,20 @@ export class ViewerService {
     }
   }
 
-  setUpViewer(manifest: Manifest) {
+  public toggleViewerLayout(viewerLayout: ViewerLayout) {
+    this.viewerLayout = viewerLayout;
+    this.destroy();
+    this.setUpViewer(this.manifest, viewerLayout);
+  }
+
+  setUpViewer(manifest: Manifest, initialViewerLayout: ViewerLayout) {
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
+
         this.clearOpenSeadragonTooltips();
+        this.manifest = manifest;
+        this.viewerLayout = initialViewerLayout;
         this.options = new Options();
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
         this.pageService.reset();
@@ -540,7 +559,7 @@ export class ViewerService {
    */
   createOverlays(): void {
     this.overlays = [];
-    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.view, this.paged);
+    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.viewerLayout, this.paged);
 
     this.tileSources.forEach((tile, i) => {
 

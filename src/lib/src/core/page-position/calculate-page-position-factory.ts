@@ -1,14 +1,14 @@
 import { CalculatePagePositionStrategy } from './calculate-page-position-strategy';
 import { OnePageCalculatePagePositionStrategy } from './one-page-calculate-page-position-strategy';
 import { TwoPageCalculatePagePositionStrategy } from './two-page-calculate-page-position-strategy';
-import { View } from '../models/view';
+import { ViewerLayout } from '../models/viewer-layout';
 
 export class CalculatePagePositionFactory {
 
-  public static create(view: View, paged: boolean): CalculatePagePositionStrategy {
-    if (view === View.ONE_PAGE || !paged) {
+  public static create(viewerLayout: ViewerLayout, paged: boolean): CalculatePagePositionStrategy {
+    if (viewerLayout === ViewerLayout.ONE_PAGE || !paged) {
       return new OnePageCalculatePagePositionStrategy();
-    } else if (view === View.TWO_PAGE) {
+    } else if (viewerLayout === ViewerLayout.TWO_PAGE) {
       return new TwoPageCalculatePagePositionStrategy();
     }
   }

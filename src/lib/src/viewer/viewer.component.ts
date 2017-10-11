@@ -33,6 +33,7 @@ import { IiifContentSearchService } from './../core/iiif-content-search-service/
 import { SearchResult } from './../core/models/search-result';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { ViewerLayout } from '../core/models/viewer-layout';
 
 @Component({
   selector: 'mime-viewer',
@@ -89,7 +90,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.initialize();
             this.currentManifest = manifest;
             this.changeDetectorRef.detectChanges();
-            this.viewerService.setUpViewer(manifest);
+            this.viewerService.setUpViewer(manifest, ViewerLayout.TWO_PAGE);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
               this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
             }
