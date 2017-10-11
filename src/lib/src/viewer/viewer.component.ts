@@ -55,8 +55,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private currentManifest: Manifest;
   public errorMessage: string = null;
 
-  ViewerMode: typeof ViewerMode = ViewerMode;
-
   // Viewchilds
   @ViewChild('mimeHeader') header: ViewerHeaderComponent;
   @ViewChild('mimeFooter') footer: ViewerFooterComponent;
