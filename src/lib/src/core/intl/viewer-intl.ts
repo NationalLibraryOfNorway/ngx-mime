@@ -8,7 +8,7 @@ export class MimeViewerIntl {
   closeLabel = 'Close';
   attributionLabel = 'Attribution';
   contentsLabel = 'Contents';
-  twoPageViewLabel = 'Two-Up-View';
+  twoPageViewLabel = 'Two-Page-View';
   singlePageViewLabel = 'Single-Page-View';
   metadataLabel = 'Metadata';
   licenseLabel = 'License';
