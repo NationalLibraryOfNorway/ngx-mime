@@ -105,11 +105,11 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     return this.fullscreenService.isFullscreen();
   }
 
-  public toggleOnePageView(): void {
+  public setLayoutOnePage(): void {
     this.viewerLayoutService.setState(ViewerLayout.ONE_PAGE);
   }
 
-  public toggleTwoPageView(): void {
+  public setLayoutTwoPage(): void {
     this.viewerLayoutService.setState(ViewerLayout.TWO_PAGE);
   }
 
