@@ -48,15 +48,12 @@ describe('ViewerFooterComponent', () => {
     expect(cmp).toBeTruthy();
   });
 
-  it('should start in visible mode', async(() => {
-    expect(cmp.state).toBe('show');
-    expectFooterToShow(fixture.debugElement.nativeElement);
+  it('should start in hidden mode', async(() => {
+    expect(cmp.state).toBe('hide');
+    expectFooterToBeHidden(fixture.debugElement.nativeElement);
   }));
 
   it('should not be visible when state is changed to \'hide\'', async(() => {
-    // Check initial style to make sure we later see an actual change
-    expectFooterToShow(fixture.debugElement.nativeElement);
-
     cmp.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {

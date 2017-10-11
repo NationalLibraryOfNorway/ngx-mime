@@ -1,6 +1,6 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Mime IIIF viewer",
   "homepage": "https://github.com/NationalLibraryOfNorway/ngx-mime",
   "bugs": "https://github.com/NationalLibraryOfNorway/ngx-mime/issues",
