@@ -9,15 +9,15 @@ export class TwoPageCalculatePagePositionStrategy implements CalculatePagePositi
     let x: number;
 
     if (!criteria.pageIndex) {
-      //First page
+      // First page
       x = 0;
     } else if (criteria.pageIndex % 2) {
-      //Even page numbers
+      // Even page numbers
       x = criteria.previousPagePosition.x
         + criteria.previousPagePosition.width
         + ViewerOptions.overlays.pageMarginDashboardView;
     } else {
-      //Odd page numbers
+      // Odd page numbers
       x = criteria.previousPagePosition.x
         + criteria.previousPagePosition.width;
     }

@@ -1,11 +1,12 @@
 import * as d3 from 'd3';
 import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
+import { Rect } from '../models/rect';
 
 export class PageMask {
 
   viewer: any;
-  pageBounds: SVGRectElement;
+  pageBounds: Rect;
 
   leftMask: any;
   rightMask: any;
@@ -17,7 +18,7 @@ export class PageMask {
     this.viewer = viewer;
   }
 
-  public initialise(pageBounds: SVGRectElement): void {
+  public initialise(pageBounds: Rect): void {
     this.pageBounds = pageBounds;
 
     this.addCanvasMask();
@@ -26,7 +27,7 @@ export class PageMask {
     this.resize();
   }
 
-  public changePage(pageBounds: SVGRectElement) {
+  public changePage(pageBounds: Rect) {
     this.pageBounds = pageBounds;
     this.resize();
   }
@@ -126,10 +127,10 @@ export class PageMask {
     const zoom = this.viewer.viewport.getZoom(true);
     const scale = this.viewer.viewport._containerInnerSize.x * zoom;
 
-    let width = Math.round(this.center.x - (this.pageBounds.width.baseVal.value * scale / 2));
+    let width = Math.round(this.center.x - (this.pageBounds.width * scale / 2));
     if (width < 0) { width = 0; }
 
     this.leftMask.attr('width', width).attr('x', 0);
-    this.rightMask.attr('width', width).attr('x', Math.round(this.center.x + (this.pageBounds.width.baseVal.value * scale / 2)));
+    this.rightMask.attr('width', width).attr('x', Math.round(this.center.x + (this.pageBounds.width * scale / 2)));
   }
 }
