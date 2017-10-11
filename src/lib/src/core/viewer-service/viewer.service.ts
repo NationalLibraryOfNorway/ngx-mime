@@ -222,8 +222,6 @@ export class ViewerService {
 
     this.tileSources = manifest.tileSource;
     this.zone.runOutsideAngular(() => {
-
-      this.clearOpenSeadragonTooltips();
       this.manifest = manifest;
       this.options = new Options();
       this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
@@ -639,16 +637,6 @@ export class ViewerService {
     return -1;
   }
 
-
-  private clearOpenSeadragonTooltips() {
-    OpenSeadragon.setString('Tooltips.Home', '');
-    OpenSeadragon.setString('Tooltips.ZoomOut', '');
-    OpenSeadragon.setString('Tooltips.ZoomIn', '');
-    OpenSeadragon.setString('Tooltips.NextPage', '');
-    OpenSeadragon.setString('Tooltips.ZoomIn', '');
-    OpenSeadragon.setString('Tooltips.FullPage', '');
-  }
-
   private calculateCurrentPage(center: Point) {
     if (center) {
       let currentPageIndex = this.tileRects.findClosestIndex(center);
@@ -659,8 +647,6 @@ export class ViewerService {
   private getViewportCenter(): Point {
     return this.viewer.viewport.getCenter(true);
   }
-
-
 
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
