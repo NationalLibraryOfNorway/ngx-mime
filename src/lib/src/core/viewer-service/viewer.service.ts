@@ -25,10 +25,12 @@ import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 import { Bounds } from '../models/bounds';
 import { ZoomUtils } from './zoom-utils';
-import { View } from '../models/view';
+import { ViewerLayout } from '../models/viewer-layout';
 import { CalculatePagePositionFactory } from '../page-position/calculate-page-position-factory';
-
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { PinchStatus } from '../models/pinchStatus';
+import { MimeViewerConfig } from '../mime-viewer-config';
+
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
 import * as d3 from 'd3';
@@ -58,16 +60,20 @@ export class ViewerService {
   private dragStartPosition: any;
   private tileRects: Rect[] = [];
   private pageRects: PageRects;
+  private manifest: Manifest;
 
-  // Variables hard-coded for testing Two-Page view. TODO: Implementation
-  private view: View = View.ONE_PAGE;
-  private paged: boolean = true;
+  private viewerLayout: ViewerLayout = new MimeViewerConfig().initViewerLayout;
 
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService) { }
+    private modeService: ModeService,
+    private viewerLayoutService: ViewerLayoutService
+  ) { }
+
+
+  //#region getters / setters
 
   get onCenterChange(): Observable<Point> {
     return this.currentCenter.asObservable();
@@ -122,6 +128,8 @@ export class ViewerService {
       return this.createRectangle(this.overlays[this.pageService.currentPage]);
     }
   }
+
+  //#endregion getters / setters
 
   public home(): void {
     if (!this.osdIsReady.getValue()) {
@@ -207,56 +215,77 @@ export class ViewerService {
     }
   }
 
+
   setUpViewer(manifest: Manifest) {
-    if (manifest && manifest.tileSource) {
-      this.tileSources = manifest.tileSource;
-      this.zone.runOutsideAngular(() => {
-        this.clearOpenSeadragonTooltips();
-        this.options = new Options();
-        this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
-        this.pageService.reset();
-        this.pageMask = new PageMask(this.viewer);
-      });
-
-      this.addToWindow();
-      this.setupOverlays();
-      this.createOverlays();
-      this.addEvents();
-
-      this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.modeChanged(mode);
-      }));
-
-      this.zone.runOutsideAngular(() => {
-        this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
-          this.calculateCurrentPage(center);
-          if (center && center !== null) {
-            this.osdIsReady.next(true);
-          }
-        }));
-      });
-
-      this.subscriptions.push(
-        this.pageService.onPageChange.subscribe((pageIndex: number) => {
-          if (pageIndex !== -1) {
-            this.pageMask.changePage(this.pageRects.get(pageIndex));
-            if (this.modeService.mode === ViewerMode.PAGE) {
-              this.goToHomeZoom();
-            }
-          }
-        })
-      );
-
-      this.subscriptions.push(
-        this.onOsdReadyChange.subscribe((state: boolean) => {
-          if (state) {
-            this.initialPageLoaded();
-            this.currentCenter.next(this.viewer.viewport.getCenter(true));
-          }
-        })
-      );
-
+    if (!manifest || !manifest.tileSource) {
+      return;
     }
+
+    this.tileSources = manifest.tileSource;
+    this.zone.runOutsideAngular(() => {
+
+      this.clearOpenSeadragonTooltips();
+      this.manifest = manifest;
+      this.options = new Options();
+      this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+      this.pageService.reset();
+      this.pageMask = new PageMask(this.viewer);
+    });
+
+    this.addToWindow();
+    this.setupOverlays();
+    this.createOverlays();
+    this.addEvents();
+    this.addSubscriptions();
+  }
+
+
+  addSubscriptions(): void {
+    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+      this.modeChanged(mode);
+    }));
+
+    this.zone.runOutsideAngular(() => {
+      this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
+        this.calculateCurrentPage(center);
+        if (center && center !== null) {
+          this.osdIsReady.next(true);
+        }
+      }));
+    });
+
+    this.subscriptions.push(
+      this.pageService.onPageChange.subscribe((pageIndex: number) => {
+        if (pageIndex !== -1) {
+          this.pageMask.changePage(this.pageRects.get(pageIndex));
+          if (this.modeService.mode === ViewerMode.PAGE) {
+            this.goToHomeZoom();
+          }
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.onOsdReadyChange.subscribe((state: boolean) => {
+        if (state) {
+          this.initialPageLoaded();
+          this.currentCenter.next(this.viewer.viewport.getCenter(true));
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.viewerLayoutService.viewerLayoutState.subscribe((state: ViewerLayout) => {
+        if(this.viewerLayout !== state && this.osdIsReady.getValue()) {
+          this.viewerLayout = state;
+          this.destroy();
+          this.setUpViewer(this.manifest);
+          // this.viewer.destroy();
+          // this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+          // this.createOverlays();
+        }
+      })
+    );
   }
 
   addToWindow() {
@@ -542,7 +571,7 @@ export class ViewerService {
    */
   createOverlays(): void {
     this.overlays = [];
-    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.view, this.paged);
+    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.viewerLayout, this.viewerLayoutService.paged);
 
     this.tileSources.forEach((tile, i) => {
 
@@ -576,7 +605,7 @@ export class ViewerService {
       this.overlays.push(currentOverlay);
     });
 
-    this.pageRects = new PageRects(this.tileRects, this.view);
+    this.pageRects = new PageRects(this.tileRects, this.viewerLayout, this.viewerLayoutService.paged);
     this.pageService.numberOfPages = this.pageRects.length();
   }
 

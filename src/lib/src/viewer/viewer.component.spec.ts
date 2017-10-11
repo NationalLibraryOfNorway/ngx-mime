@@ -26,6 +26,7 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 
 import 'openseadragon';
 import '../rxjs-extension';
@@ -68,7 +69,8 @@ describe('ViewerComponent', function () {
         ClickService,
         PageService,
         ModeService,
-        FullscreenService
+        FullscreenService,
+        ViewerLayoutService
       ]
     }).compileComponents();
   }));

@@ -1,16 +1,28 @@
 <mat-toolbar>
   <div fxLayout='row' fxLayoutAlign="end center" fxFlex>
-    <button id="contentsDialogButton" mat-icon-button [attr.aria-label]="intl.contentsLabel" [matTooltip]="intl.contentsLabel" (click)="toggleContents()">
+    <button id="toggleTwoPageView" *ngIf="viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel" [matTooltip]="intl.twoPageViewLabel"
+    (click)="toggleTwoPageView()">
+      <mat-icon>chrome_reader_mode</mat-icon>
+    </button>
+    <button id="toggleSinglePageView" *ngIf="viewerLayout === ViewerLayout.TWO_PAGE" mat-icon-button [attr.aria-label]="intl.singlePageViewLabel" [matTooltip]="intl.singlePageViewLabel"
+    (click)="toggleOnePageView()">
+    <mat-icon>description</mat-icon>
+  </button>
+    <button id="contentsDialogButton" mat-icon-button [attr.aria-label]="intl.contentsLabel" [matTooltip]="intl.contentsLabel"
+      (click)="toggleContents()">
       <mat-icon>list</mat-icon>
     </button>
-    <button id="contentSearchDialogButton" *ngIf="isContentSearchEnabled" mat-icon-button [attr.aria-label]="intl.searchLabel" [matTooltip]="intl.searchLabel" (click)="toggleSearch()">
+    <button id="contentSearchDialogButton" *ngIf="isContentSearchEnabled" mat-icon-button [attr.aria-label]="intl.searchLabel"
+      [matTooltip]="intl.searchLabel" (click)="toggleSearch()">
       <mat-icon>search</mat-icon>
     </button>
-    <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" mat-icon-button [attr.aria-label]="intl.fullScreenLabel" [matTooltip]="intl.fullScreenLabel" (click)="toggleFullscreen()">
+    <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" mat-icon-button [attr.aria-label]="intl.fullScreenLabel"
+      [matTooltip]="intl.fullScreenLabel" (click)="toggleFullscreen()">
       <mat-icon>fullscreen</mat-icon>
     </button>
-    <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" mat-icon-button [attr.aria-label]="intl.exitFullScreenLabel" [matTooltip]="intl.exitFullScreenLabel" (click)="toggleFullscreen()">
-      <mat-icon >fullscreen_exit</mat-icon>
+    <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" mat-icon-button [attr.aria-label]="intl.exitFullScreenLabel"
+      [matTooltip]="intl.exitFullScreenLabel" (click)="toggleFullscreen()">
+      <mat-icon>fullscreen_exit</mat-icon>
     </button>
   </div>
 </mat-toolbar>

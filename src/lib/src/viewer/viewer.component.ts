@@ -33,6 +33,7 @@ import { IiifContentSearchService } from './../core/iiif-content-search-service/
 import { SearchResult } from './../core/models/search-result';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { ViewerLayout } from '../core/models/viewer-layout';
 
 @Component({
   selector: 'mime-viewer',

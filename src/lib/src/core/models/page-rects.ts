@@ -1,13 +1,13 @@
 import { Point } from './point';
 import { Rect } from './rect';
-import { View } from './view';
+import { ViewerLayout } from './viewer-layout';
 
 export class PageRects {
   private pageRects: Rect[] = [];
   private tileIndicesPerPage: number[][] = [];
 
-  constructor(tileRects: Rect[], view: View) {
-    if (view === View.ONE_PAGE) {
+  constructor(tileRects: Rect[], viewerLayout: ViewerLayout, paged: boolean) {
+    if (viewerLayout === ViewerLayout.ONE_PAGE || !paged) {
       this.initialiseWithOneTilePerPage(tileRects);
     } else {
       this.initialiseWithTwoTilesPerPage(tileRects);

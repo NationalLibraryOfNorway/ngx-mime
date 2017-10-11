@@ -12,6 +12,8 @@ import { ContentSearchDialogService } from './../../content-search-dialog/conten
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
+import { ViewerLayout } from '../../core/models/viewer-layout';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -45,6 +47,9 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
 
+  ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
+  private viewerLayout: ViewerLayout;
+
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
@@ -52,7 +57,9 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private contentSearchDialogService: ContentSearchDialogService,
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
-    private mimeDomHelper: MimeDomHelper) { }
+    private mimeDomHelper: MimeDomHelper,
+    private viewerLayoutService: ViewerLayoutService
+  ) { }
 
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
@@ -66,6 +73,10 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
       this.isContentSearchEnabled = manifest.service ? true : false;
       this.changeDetectorRef.detectChanges();
+    }));
+
+    this.subscriptions.push(this.viewerLayoutService.viewerLayoutState.subscribe((viewerLayout: ViewerLayout) => {
+      this.viewerLayout = viewerLayout;
     }));
 
   }
@@ -92,6 +103,14 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public isInFullScreen(): boolean {
     return this.fullscreenService.isFullscreen();
+  }
+
+  public toggleOnePageView(): void {
+    this.viewerLayoutService.setState(ViewerLayout.ONE_PAGE);
+  }
+
+  public toggleTwoPageView(): void {
+    this.viewerLayoutService.setState(ViewerLayout.TWO_PAGE);
   }
 
 }

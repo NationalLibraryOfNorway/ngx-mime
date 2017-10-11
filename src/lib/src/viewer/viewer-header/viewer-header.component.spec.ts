@@ -1,3 +1,4 @@
+
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,6 +18,8 @@ import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
 import { MimeDomHelper } from './../../core/mime-dom-helper';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { ViewerLayout } from '../../core/models/viewer-layout';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -33,6 +36,7 @@ describe('ViewerHeaderComponent', () => {
       providers: [
         MimeDomHelper,
         FullscreenService,
+        ViewerLayoutService,
         { provide: FullscreenService, useClass: FullscreenServiceMock },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
@@ -138,6 +142,29 @@ describe('ViewerHeaderComponent', () => {
 
       const button = fixture.debugElement.query(By.css('#contentSearchDialogButton'));
       expect(button).toBeNull();
+    }));
+
+  it('should hide one-page-button and show two-page-button if current viewer-layout is one-page-view',
+    inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
+      viewerLayoutService.setState(ViewerLayout.ONE_PAGE);
+
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageView'));
+      expect(btnTwoPageView).not.toBeNull();
+
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageView'));
+      expect(btnOnePageView).toBeNull();
+    }));
+
+
+    it('should hide two-page-button and show one-page-button if current viewer-layout is two-page-view',
+    inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
+      viewerLayoutService.setState(ViewerLayout.TWO_PAGE);
+
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageView'));
+      expect(btnTwoPageView).toBeNull();
+
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageView'));
+      expect(btnOnePageView).not.toBeNull();
     }));
 
 });
