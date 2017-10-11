@@ -34,6 +34,7 @@ import { SearchResult } from './../core/models/search-result';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ViewerLayout } from '../core/models/viewer-layout';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 
 @Component({
   selector: 'mime-viewer',
@@ -53,6 +54,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
   private currentManifest: Manifest;
+  private viewerLayout: ViewerLayout;
+
   public errorMessage: string = null;
 
   // Viewchilds
@@ -71,7 +74,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private mimeService: MimeResizeService,
     private changeDetectorRef: ChangeDetectorRef,
     private modeService: ModeService,
-    private iiifContentSearchService: IiifContentSearchService) {
+    private iiifContentSearchService: IiifContentSearchService,
+    private viewerLayoutService: ViewerLayoutService
+  ) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     contentSearchDialogService.el = el;
@@ -149,6 +154,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         }, ViewerOptions.transitions.OSDAnimationTime);
       })
     );
+
+    this.subscriptions.push(this.viewerLayoutService.viewerLayoutState.subscribe((viewerLayout: ViewerLayout) => {
+      this.viewerLayout = viewerLayout;
+    }));
 
     this.loadManifest();
   }
@@ -267,6 +276,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       'mode-page': this.modeService.mode === ViewerMode.PAGE,
       'mode-page-zoomed': this.modeService.mode === ViewerMode.PAGE_ZOOMED,
       'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
+      'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
+      'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
       'canvas-pressed': this.isCanvasPressed
     };
   }
