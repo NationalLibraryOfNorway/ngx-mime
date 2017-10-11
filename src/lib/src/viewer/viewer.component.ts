@@ -266,9 +266,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   setClasses() {
     return {
-      'page': this.modeService.mode === ViewerMode.PAGE,
-      'page-zoomed': this.modeService.mode === ViewerMode.PAGE_ZOOMED,
-      'dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
+      'mode-page': this.modeService.mode === ViewerMode.PAGE,
+      'mode-page-zoomed': this.modeService.mode === ViewerMode.PAGE_ZOOMED,
+      'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
       'canvas-pressed': this.isCanvasPressed
     };
   }
