@@ -58,14 +58,14 @@ if (argv.device === 'desktop') {
   config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@iphone');
 }
 
-// if (process.env.TRAVIS) {
+if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 
   config.capabilities = null;
   config.multiCapabilities = getCapabilities();
   config.afterLaunch = function () { };
-// }
+}
 
 function getCapabilities() {
   const capabilities = [];
