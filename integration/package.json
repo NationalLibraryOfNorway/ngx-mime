@@ -13,7 +13,7 @@
     "e2e:all": "concurrently \"npm run mountebank\" \"npm run start:aot\" \"npm run protractor\" --kill-others --success first",
     "e2e:chrome": "concurrently \"npm run mountebank\" \"npm run start:aot\" \"npm run protractor:chrome\" --kill-others --success first",
     "preprotractor": "webdriver-manager update --versions.standalone=3.4.0 && sh ./scripts/wait-on.sh",
-    "protractor": "concurrently \"npm run protractor:chrome\" \"npm run protractor:firefox\" \"npm run protractor:edge\" --kill-others-on-fail",
+    "protractor": "concurrently \"npm run protractor:chrome\" \"npm run protractor:firefox\" \"npm run protractor:edge\" \"npm run protractor:ie\" \"npm run protractor:safari\" \"npm run protractor:android:chrome\" \"npm run protractor:ios:safari\" --kill-others-on-fail",
     "preprotractor:chrome": "webdriver-manager update --versions.standalone=3.4.0 && sh ./scripts/wait-on.sh",
     "protractor:chrome": "protractor --browser=chrome --tags=@desktop",
     "protractor:firefox": "protractor --browser=firefox --tags=@desktop",

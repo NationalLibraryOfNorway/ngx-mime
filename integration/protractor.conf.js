@@ -44,7 +44,7 @@ if (process.env.TRAVIS) {
   config.capabilities = Object.assign(config.capabilities, {
     name: 'Mime E2E Tests',
     tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
-    build: process.env.TRAVIS_JOB_NUMBER,
+    build: process.env.TRAVIS_JOB_NUMBER
   });
 }
 
@@ -57,7 +57,7 @@ function getCapabilities() {
       platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
-      deviceName: cap.deviceName,      
+      deviceName: cap.deviceName
     }
   } else {
     return {
@@ -70,7 +70,7 @@ function getTags() {
   let tags = ['~@Ignore']
   if (argv.tags) {
     tags = tags.concat(argv.tags.split(','));
-  }    
+  }
   return tags;
 }
 
