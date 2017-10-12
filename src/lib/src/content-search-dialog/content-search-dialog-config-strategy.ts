@@ -1,16 +1,16 @@
 import { MimeDomHelper } from './../core/mime-dom-helper';
 import { ElementRef } from '@angular/core';
-import { MdDialogConfig } from '@angular/material';
+import { MatDialogConfig } from '@angular/material';
 
 import { Dimensions } from './../core/models/dimensions';
 
 export interface ContentSearchDialogConfigStrategy {
-  getConfig(elementRef?: ElementRef): MdDialogConfig;
+  getConfig(elementRef?: ElementRef): MatDialogConfig;
 }
 
 export class MobileContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
 
-  public getConfig(elementRef: ElementRef): MdDialogConfig {
+  public getConfig(elementRef: ElementRef): MatDialogConfig {
     return {
       hasBackdrop: false,
       disableClose: false,
@@ -30,7 +30,7 @@ export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDi
     this.mimeDomHelper = mimeDomHelper;
   }
 
-  public getConfig(el: ElementRef): MdDialogConfig {
+  public getConfig(el: ElementRef): MatDialogConfig {
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,

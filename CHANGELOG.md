@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.1"></a>
+## [0.7.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.7.0...v0.7.1) (2017-10-10)
+
+
+### Bug Fixes
+
+* cleanup viewer on destroy ([faa666d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/faa666d))
+* page mask covers entire screen ([2aa3774](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2aa3774))
+* page no longer zooms out before going to next page in zoomed in mode  ([0bdee93](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0bdee93))
+* page numbers is not always updated ([a1e53e9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a1e53e9))
+* page-mask center is calculated incorrectly during pan events ([7e67d7d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/7e67d7d))
+* possible to go outside right side when zoomed in ([882124c](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/882124c))
+* previousHitLabel and nextHitLabel for intl norwegian ([df8a728](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/df8a728))
+* set navbars to hidden initially ([8167de0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8167de0)), closes [#109](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/109) [#111](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/111)
+* single long press causes error on android device ([55dec2d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/55dec2d))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.6.0...v0.7.0) (2017-10-06)
 

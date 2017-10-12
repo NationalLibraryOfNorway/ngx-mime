@@ -71,15 +71,13 @@ describe('ViewerHeaderComponent', () => {
     component.toggleContents();
   });
 
-  it('should start in visible mode', async(() => {
-    expect(component.state).toBe('show');
-    expectHeaderToShow(fixture.debugElement.nativeElement);
+  it('should start in hidden mode', async(() => {
+    expect(component.state).toBe('hide');
+    expectHeaderToBeHidden(fixture.debugElement.nativeElement);
   }));
 
   it('should not be visible when state is changed to hide', async(() => {
-    let toolbar = fixture.debugElement.query(By.css('md-toolbar'));
-    // Check initial style to make sure we later see an actual change
-    expectHeaderToShow(fixture.debugElement.nativeElement);
+    let toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
     component.state = 'hide';
     fixture.detectChanges();
@@ -89,7 +87,7 @@ describe('ViewerHeaderComponent', () => {
   }));
 
   it('should be visible when state is changed to show', async(() => {
-    let toolbar = fixture.debugElement.query(By.css('md-toolbar'));
+    let toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
     component.state = 'hide';
     fixture.detectChanges();
