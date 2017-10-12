@@ -26,9 +26,7 @@ const config = {
   cucumberOpts: {
     compiler: "ts:ts-node/register",
     require: [
-      path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
-      path.resolve(process.cwd(), './e2e/helpers/reporter.ts'),
       path.resolve(process.cwd(), './e2e/**/*.steps.ts')
     ],
     format: 'pretty',
@@ -40,11 +38,6 @@ const config = {
     browser.driver.manage().window().setSize(width, height);
   },
   afterLaunch: function () {
-    multiCucumberHTLMReporter.generate({
-      openReportInBrowser: true,
-      jsonDir: '.tmp/json-output',
-      reportPath: './.tmp/report/'
-    });
   },
   disableChecks: true,
   ignoreUncaughtExceptions: true
