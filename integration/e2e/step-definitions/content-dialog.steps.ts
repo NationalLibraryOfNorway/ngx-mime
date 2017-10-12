@@ -38,10 +38,4 @@ defineSupportCode(function ({ Given, Then, When }) {
   Then(/^the viewer should go to page (.*)$/, async (pageNumber: string) => {
     expect(await page.getCurrentPageNumber()).to.equal(Number(pageNumber));
   });
-
-  Then(/^"Tittelside" should be bold$/, async () => {
-    const selectedTocElement = await toc.getTocElement(1);
-    expect(await selectedTocElement.getCssValue('font-weight')).to.equal('bold');
-  });
-
 });

@@ -1,13 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MatDialogRef } from '@angular/material';
+import { ObservableMedia } from '@angular/flex-layout';
 
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ContentsDialogComponent } from '../contents-dialog.component';
-import { ObservableMedia } from '@angular/flex-layout';
 import { PageService } from '../../core/page-service/page-service';
 
 @Component({
@@ -16,7 +16,7 @@ import { PageService } from '../../core/page-service/page-service';
   styleUrls: ['./table-of-contents.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TOCComponent implements OnInit, OnDestroy {
+export class TocComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
   public currentPage: number;
   private subscriptions: Array<Subscription> = [];

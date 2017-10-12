@@ -12,5 +12,9 @@ Feature: Displaying Table of Contents
     Given the viewer is in dashboard view
       And the viewer is in table of contents view
     Then table of contents are displayed to the user
+
+  Scenario: Selecting table of contents item
+    Given the viewer is in dashboard view
+      And the viewer is in table of contents view
       And the user selects "Tittelside"
-      And "Tittelside" should be bold
+    Then the viewer should go to page 3

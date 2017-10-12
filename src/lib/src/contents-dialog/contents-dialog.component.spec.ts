@@ -14,7 +14,7 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
-import { TOCComponent } from './table-of-contents/table-of-contents.component';
+import { TocComponent } from './table-of-contents/table-of-contents.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
@@ -34,7 +34,7 @@ describe('ContentsDialogComponent', () => {
       declarations: [
         ContentsDialogComponent,
         MetadataComponent,
-        TOCComponent
+        TocComponent
       ],
       providers: [
         ViewerService,

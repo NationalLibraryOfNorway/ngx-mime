@@ -3,24 +3,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
+import { ObservableMedia } from '@angular/flex-layout';
+import { Subject } from 'rxjs/Subject';
+import { MatDialogRef } from '@angular/material';
 
 import { SharedModule } from '../../shared/shared.module';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { Manifest, Structure } from '../../core/models/manifest';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { TOCComponent } from './table-of-contents.component';
+import { TocComponent } from './table-of-contents.component';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ClickService } from '../../core/click-service/click.service';
 import { PageService } from '../../core/page-service/page-service';
 import { ModeService } from '../../core/mode-service/mode.service';
-import { MdDialogRef } from '@angular/material';
 import { ContentsDialogComponent } from '../contents-dialog.component';
-import { ObservableMedia } from '@angular/flex-layout';
-import { Subject } from 'rxjs/Subject';
 
-describe('TOCComponent', () => {
-  let component: TOCComponent;
-  let fixture: ComponentFixture<TOCComponent>;
+
+describe('TocComponent', () => {
+  let component: TocComponent;
+  let fixture: ComponentFixture<TocComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,14 +30,14 @@ describe('TOCComponent', () => {
         HttpClientModule
       ],
       declarations: [
-        TOCComponent
+        TocComponent
       ],
       providers: [
         ClickService,
         PageService,
         ModeService,
         MimeViewerIntl,
-        { provide: MdDialogRef, useClass: MdDialogRefMock },
+        { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: ObservableMedia, useClass: MediaMock },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: ViewerService, useClass: ViewerServiceMock }
@@ -46,7 +47,7 @@ describe('TOCComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TOCComponent);
+    fixture = TestBed.createComponent(TocComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -88,7 +89,7 @@ describe('TOCComponent', () => {
   }));
 
   it('should close contents dialog when selecting a page in TOC when on mobile',
-    inject([MdDialogRef, ObservableMedia], (dialogRef: MdDialogRef<ContentsDialogComponent>, media: ObservableMedia) => {
+    inject([MatDialogRef, ObservableMedia], (dialogRef: MatDialogRef<ContentsDialogComponent>, media: ObservableMedia) => {
       spyOn(media, 'isActive').and.returnValue(true);
       spyOn(dialogRef, 'close').and.callThrough();
 
@@ -121,7 +122,7 @@ class IiifManifestServiceStub {
   }
 }
 
-class MdDialogRefMock {
+class MatDialogRefMock {
   close(): void {}
 }
 
