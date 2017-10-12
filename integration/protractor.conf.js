@@ -34,11 +34,11 @@ const config = {
     format: 'pretty',
     tags: ['~@Ignore']
   },
-  // onPrepare: function() {
-  //   const width = 1024;
-  //   const height = 768;
-  //   browser.driver.manage().window().setSize(width, height);
-  // },
+  onPrepare: function() {
+    const width = 1024;
+    const height = 768;
+    browser.driver.manage().window().setSize(width, height);
+  },
   afterLaunch: function () {
     multiCucumberHTLMReporter.generate({
       openReportInBrowser: true,
