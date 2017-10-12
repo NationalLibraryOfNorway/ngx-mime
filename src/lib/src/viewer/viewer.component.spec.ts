@@ -167,22 +167,31 @@ describe('ViewerComponent', function () {
   });
 
   it('should return to home zoom', (done: any) => {
-    const overlay = viewerService.getOverlays()[0];
-    const viewer = viewerService.getViewer();
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          const overlay = viewerService.getOverlays()[0];
+          const viewer = viewerService.getViewer();
 
-    viewerService.zoomTo(1);
-    viewerService.home();
+          // Make sure zooming actually works, or else test will always be true
+          const startZoom = viewer.viewport.getZoom(false);
+          viewerService.zoomBy(1.5);
+          const newZoom = viewer.viewport.getZoom(false);
+          expect(newZoom).toBeGreaterThan(startZoom);
 
-    setTimeout(() => {
-      const viewportHeight = Math.round(viewer.viewport.getBounds().height);
-      const viewportWidth = Math.round(viewer.viewport.getBounds().width);
-      const overlayHeight = Math.round(overlay.height.baseVal.value);
-      const overlayWidth = Math.round(overlay.width.baseVal.value);
+          // Return to home
+          viewerService.home();
 
-      expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
-      done();
-    }, osdAnimationTime);
+          const viewportHeight = Math.round(viewer.viewport.getBounds().height);
+          const viewportWidth = Math.round(viewer.viewport.getBounds().width);
+          const overlayHeight = Math.round(overlay.height.baseVal.value);
+          const overlayWidth = Math.round(overlay.width.baseVal.value);
+          expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
 
+          done();
+        }, 600);
+      }
+    });
   });
 
   it('should return overlay-index if target is an overlay', () => {
