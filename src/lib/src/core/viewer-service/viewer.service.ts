@@ -530,7 +530,8 @@ export class ViewerService {
       this.zoomIn(ViewerOptions.zoom.dblClickZoomFactor, event.position);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
-      const requestedPage: number = this.getOverlayIndexFromClickEvent(target);
+      const tileIndex: number = this.getOverlayIndexFromClickEvent(target);
+      const requestedPage = this.pageRects.findPageByTileIndex(tileIndex);
       if (requestedPage >= 0) {
         this.pageService.currentPage = requestedPage;
       }
