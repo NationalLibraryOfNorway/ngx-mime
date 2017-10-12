@@ -65,6 +65,14 @@ export class PageService {
     return this._numberOfPages;
   }
 
+  get numberOfTiles(): number {
+    if (!this.tileRects) {
+      return 0;
+    }
+
+    return this.tileRects.length;
+  }
+
   isWithinBounds(page: number): boolean {
     return (page > -1) && (page <= this.numberOfPages - 1);
   }
@@ -109,6 +117,21 @@ export class PageService {
     return this.tileIndicesPerPage.findIndex( function(tileIndicesForPage: any) {
       return tileIndicesForPage.includes(tileIndex);
     });
+  }
+
+  getTilesStringFromPageIndex(index: number): string {
+    if (!this.tileRects) {
+      return '1';
+    }
+
+    const tileIndicesForPage = this.tileIndicesPerPage[index];
+    let currentTiles = '' + (tileIndicesForPage[0] + 1);
+
+    if (tileIndicesForPage.length > 1) {
+      currentTiles = currentTiles + '-' + (tileIndicesForPage[tileIndicesForPage.length - 1] + 1);
+    }
+
+    return currentTiles;
   }
 
   getTileRect(index: number): Rect {

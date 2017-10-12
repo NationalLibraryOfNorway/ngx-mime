@@ -60,9 +60,8 @@ describe('PageNavigatorComponent', () => {
   );
 
   it('should enable both navigation buttons when viewer is on second page',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-
-      viewerService.pageChanged.next(1);
+    inject([PageService], (pageService: PageServiceMock) => {
+      pageService._currentPage.next(1);
       fixture.detectChanges();
 
       const previousButton = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
@@ -72,9 +71,8 @@ describe('PageNavigatorComponent', () => {
     }));
 
   it('should disable previous button when viewer is on first page',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-
-      viewerService.pageChanged.next(0);
+    inject([PageService], (pageService: PageServiceMock) => {
+      pageService._currentPage.next(0);
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
@@ -82,10 +80,10 @@ describe('PageNavigatorComponent', () => {
     }));
 
   it('should disable next button when viewer is on last page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
+    inject([PageService], (pageService: PageServiceMock) => {
       pageService._currentNumberOfPages.next(10);
 
-      viewerService.pageChanged.next(9);
+      pageService._currentPage.next(9);
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
@@ -111,23 +109,22 @@ describe('PageNavigatorComponent', () => {
     inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
       spy = spyOn(component, 'goToPreviousPage');
 
-      const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
-      button.nativeElement.click();
-
+      pageService._currentPage.next(9);
       fixture.detectChanges();
+
       fixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
+        const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
+        button.nativeElement.click();
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(spy.calls.count()).toEqual(1);
+        });
       });
     }));
-
 });
 
 class ViewerServiceMock {
-  pageChanged = new Subject<number>();
-  get onPageChange(): Observable<number> {
-    return this.pageChanged.asObservable();
-  }
-
   public goToPreviousPage(): void { }
 
   public goToNextPage(): void { }
@@ -135,7 +132,7 @@ class ViewerServiceMock {
 }
 
 class PageServiceMock {
-  _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(0);
+  _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(10);
   _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
 
   get onPageChange(): Observable<number> {
@@ -146,4 +143,11 @@ class PageServiceMock {
     return this._currentNumberOfPages.asObservable().distinctUntilChanged();
   }
 
+  get numberOfTiles(): number {
+    return this._currentNumberOfPages.value;
+  }
+
+  getTilesStringFromPageIndex(index: number): string {
+    return '' + index;
+  }
 }
