@@ -21,7 +21,7 @@ export class ViewerPage {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
     await browser.get(uri);
-    await browser.sleep(1001);
+    await browser.sleep(1000);
   }
   async goToPage(pageNumber: number) {
     const isPageMode = this.isPageMode();
