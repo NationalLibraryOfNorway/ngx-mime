@@ -5,7 +5,7 @@ import { ContentsDialogService } from './contents-dialog.service';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
-import { TOCComponent } from './tableOfContents/tableOfContents.component';
+import { TOCComponent } from './table-of-contents/table-of-contents.component';
 
 @NgModule({
   imports: [

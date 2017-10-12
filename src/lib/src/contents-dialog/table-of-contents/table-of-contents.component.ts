@@ -1,19 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { MatDialogRef } from '@angular/material';
 
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { Canvas, Manifest, Structure } from '../../core/models/manifest';
+import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ContentsDialogComponent } from '../contents-dialog.component';
-import { MdDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { PageService } from '../../core/page-service/page-service';
 
 @Component({
   selector: 'mime-toc',
-  templateUrl: './tableOfContents.component.html',
-  styleUrls: ['./tableOfContents.component.scss'],
+  templateUrl: './table-of-contents.component.html',
+  styleUrls: ['./table-of-contents.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TOCComponent implements OnInit, OnDestroy {
@@ -22,7 +22,7 @@ export class TOCComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    public dialogRef: MdDialogRef<ContentsDialogComponent>,
+    public dialogRef: MatDialogRef<ContentsDialogComponent>,
     public intl: MimeViewerIntl,
     public media: ObservableMedia,
     private changeDetectorRef: ChangeDetectorRef,

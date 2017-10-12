@@ -8,7 +8,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { Manifest, Structure } from '../../core/models/manifest';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { TOCComponent } from './tableOfContents.component';
+import { TOCComponent } from './table-of-contents.component';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ClickService } from '../../core/click-service/click.service';
 import { PageService } from '../../core/page-service/page-service';
