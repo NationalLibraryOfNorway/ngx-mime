@@ -5,7 +5,6 @@
   "scripts": {
     "clean": "rimraf aot/ dist/ node_modules/@nationallibraryofnorway .tmp/",
     "ng": "ng",
-    "start": "ng s --port 8080",
     "start:aot": "ng s --aot --prod --port 8080",
     "build": "ng build",
     "test": "ng test",
@@ -14,6 +13,7 @@
     "e2e": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor\" --kill-others --success first",
     "e2e:aot": "concurrently \"npm run mountebank\" \"npm run start:aot\" \"npm run protractor\" --kill-others --success first",
     "preprotractor": "webdriver-manager update --versions.standalone=3.4.0 && sh ./scripts/wait-on.sh",
+    "preprotractor:chrome": "webdriver-manager update --versions.standalone=3.4.0 && sh ./scripts/wait-on.sh",
     "protractor": "npm run protractor:desktop && npm run protractor:mobile",
     "protractor:desktop": "protractor protractor.conf.js --device=desktop",
     "protractor:mobile": "npm run protractor:android",
@@ -41,7 +41,7 @@
     "rxjs": "^5.1.0",
     "web-animations-js": "^2.2.5",
     "zone.js": "^0.8.4",
-    "openseadragon": "^2.2.1"
+    "openseadragon": "2.3.1"
   },
   "devDependencies": {
     "@angular/cli": "1.4.5",
@@ -77,6 +77,6 @@
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3",
-    "chromedriver": "^2.32.0"
+    "chromedriver": "2.33.1"
   }
 }
