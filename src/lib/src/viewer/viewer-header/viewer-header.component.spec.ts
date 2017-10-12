@@ -146,7 +146,10 @@ describe('ViewerHeaderComponent', () => {
 
   it('should hide one-page-button and show two-page-button if current viewer-layout is one-page-view',
     inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
+      component.isPagedManifest = true;
       viewerLayoutService.setState(ViewerLayout.ONE_PAGE);
+
+      fixture.detectChanges();
 
       const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageView'));
       expect(btnTwoPageView).not.toBeNull();
@@ -156,15 +159,30 @@ describe('ViewerHeaderComponent', () => {
     }));
 
 
-    it('should hide two-page-button and show one-page-button if current viewer-layout is two-page-view',
+  it('should hide two-page-button and show one-page-button if current viewer-layout is two-page-view',
     inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
+      component.isPagedManifest = true;
       viewerLayoutService.setState(ViewerLayout.TWO_PAGE);
+
+      fixture.detectChanges();
 
       const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageView'));
       expect(btnTwoPageView).toBeNull();
 
       const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageView'));
       expect(btnOnePageView).not.toBeNull();
+    }));
+
+
+  it('should hide viewer-layout buttons if manifest is not  \"paged\"',
+    inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
+      component.isPagedManifest = false;
+      fixture.detectChanges();
+
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageView'));
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageView'));
+      expect(btnOnePageView).toBeNull();
+      expect(btnTwoPageView).toBeNull();
     }));
 
 });
