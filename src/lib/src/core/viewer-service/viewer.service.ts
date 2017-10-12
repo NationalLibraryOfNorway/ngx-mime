@@ -23,7 +23,6 @@ import { Rect } from './../models/rect';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { Direction } from '../models/direction';
 import { Side } from '../models/side';
-import { Bounds } from '../models/bounds';
 import { ZoomUtils } from './zoom-utils';
 import { ViewerLayout } from '../models/viewer-layout';
 import { CalculatePagePositionFactory } from '../page-position/calculate-page-position-factory';
@@ -119,14 +118,8 @@ export class ViewerService {
     this.viewer.viewport.zoomBy(zoomFactor, position);
   }
 
-  private getViewportBounds(): Bounds {
+  private getViewportBounds(): Rect {
     return this.viewer.viewport.getBounds();
-  }
-
-  private getPageBounds(pageIndex: number): Bounds {
-    if (this.pageService.isWithinBounds(pageIndex)) {
-      return this.createRectangle(this.overlays[this.pageService.currentPage]);
-    }
   }
 
   //#endregion getters / setters
@@ -345,7 +338,7 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToPage(position, this.getPageBounds(this.pageService.currentPage));
+      position = ZoomUtils.constrainPositionToPage(position, this.pageRects.get(this.pageService.currentPage));
 
     }
 
@@ -362,7 +355,7 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToPage(position, this.getPageBounds(this.pageService.currentPage));
+      position = ZoomUtils.constrainPositionToPage(position, this.pageRects.get(this.pageService.currentPage));
     }
 
     if (this.isViewportLargerThanPage()) {
@@ -545,7 +538,7 @@ export class ViewerService {
   }
 
   isViewportLargerThanPage(): boolean {
-    const pageBounds = this.getPageBounds(this.pageService.currentPage);
+    const pageBounds = this.pageRects.get(this.pageService.currentPage);
     const viewportBounds = this.viewer.viewport.getBounds();
     const pbWidth = Math.round(pageBounds.width);
     const pbHeight = Math.round(pageBounds.height);
@@ -616,19 +609,6 @@ export class ViewerService {
   }
 
   /**
-   * Returns an OpenSeadragon.Rectangle instance of an overlay
-   * @param {SVGRectElement} overlay
-   */
-  createRectangle(overlay: SVGRectElement): any {
-    return new OpenSeadragon.Rect(
-      overlay.x.baseVal.value,
-      overlay.y.baseVal.value,
-      overlay.width.baseVal.value,
-      overlay.height.baseVal.value
-    );
-  }
-
-  /**
    * Returns overlay-index for click-event if hit
    * @param target hit <rect>
    */
@@ -657,8 +637,8 @@ export class ViewerService {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const dragEndPosision: Point = e.position;
-      const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
-      const vpBounds: Bounds = this.getViewportBounds();
+      const pageBounds: Rect = this.pageRects.get(this.pageService.currentPage);
+      const vpBounds: Rect = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
       const direction: number = e.direction;
       if (
@@ -681,8 +661,8 @@ export class ViewerService {
 
     const isPageZoomed = this.modeService.mode === ViewerMode.PAGE_ZOOMED;
 
-    const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
-    const viewportBounds: Bounds = this.getViewportBounds();
+    const pageBounds: Rect = this.pageRects.get(this.pageService.currentPage);
+    const viewportBounds: Rect = this.getViewportBounds();
 
     const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, isPageZoomed);
     const viewportCenter: Point = this.getViewportCenter();

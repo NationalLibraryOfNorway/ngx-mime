@@ -158,16 +158,6 @@ describe('ViewerComponent', function () {
     expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
   });
 
-  it('should return an OpenSeadragon.Rect with properties equal to overlay', () => {
-    let overlay = viewerService.getOverlays()[0];
-    let rect = viewerService.createRectangle(overlay);
-
-    expect(rect.x).toEqual(overlay.x.baseVal.value);
-    expect(rect.y).toEqual(overlay.y.baseVal.value);
-    expect(rect.width).toEqual(overlay.width.baseVal.value);
-    expect(rect.height).toEqual(overlay.height.baseVal.value);
-  });
-
   it('should return to home zoom', (done: any) => {
     const overlay = viewerService.getOverlays()[0];
     const viewer = viewerService.getViewer();
