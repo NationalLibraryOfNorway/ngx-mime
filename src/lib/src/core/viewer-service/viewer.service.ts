@@ -602,8 +602,8 @@ export class ViewerService {
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
-    this.goToPage(this.pageService.currentPage, true);
-    this.pageMask.initialise(this.pageService.getCurrentPageRect());
+    this.home();
+    this.pageMask.initialise(this.pageService.getCurrentPageRect(), this.modeService.mode !== ViewerMode.DASHBOARD);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
