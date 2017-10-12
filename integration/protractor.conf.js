@@ -33,9 +33,11 @@ const config = {
     tags: ['~@Ignore']
   },
   onPrepare: function() {
-    const width = 1024;
-    const height = 768;
-    browser.driver.manage().window().setSize(width, height);
+    if (argv.device === 'desktop') {
+      const width = 1024;
+      const height = 768;
+      browser.driver.manage().window().setSize(width, height);
+    }
   },
   afterLaunch: function () {
   },
