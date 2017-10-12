@@ -73,6 +73,10 @@ export class PageService {
     return this.tileRects.length;
   }
 
+  get currentTile(): number {
+    return this.tileIndicesPerPage[this.currentPage][0];
+  }
+
   isWithinBounds(page: number): boolean {
     return (page > -1) && (page <= this.numberOfPages - 1);
   }

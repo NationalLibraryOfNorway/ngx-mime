@@ -262,11 +262,11 @@ export class ViewerService {
     this.subscriptions.push(
       this.viewerLayoutService.viewerLayoutState.subscribe((state: ViewerLayout) => {
         if (this.viewerLayout !== state && this.osdIsReady.getValue()) {
-          const savedPage = this.pageService.currentPage;
+          const savedTile = this.pageService.currentTile;
           this.viewerLayout = state;
           this.destroy();
           this.setUpViewer(this.manifest);
-          this.goToPage(savedPage, false);
+          this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
         }
       })
     );
