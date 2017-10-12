@@ -5,7 +5,6 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 
 import { Utils } from '../../core/utils';
-import { PageRects } from './../models/page-rects';
 import { ViewerOptions } from '../models/viewer-options';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Dimensions } from '../models/dimensions';
@@ -57,8 +56,6 @@ export class ViewerService {
   private pageMask: PageMask;
   private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
-  private tileRects: Rect[] = [];
-  private pageRects: PageRects;
   private manifest: Manifest;
 
   private viewerLayout: ViewerLayout = new MimeViewerConfig().initViewerLayout;
@@ -129,16 +126,13 @@ export class ViewerService {
       return;
     }
 
-    const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.pageRects.findClosestIndex(viewportCenter);
-
-    this.goToPage(currentPageIndex, false);
+    this.goToPage(this.pageService.currentPage, false);
     this.goToHomeZoom();
   }
 
   public goToPreviousPage(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.pageRects.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.pageService.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -151,7 +145,7 @@ export class ViewerService {
 
   public goToNextPage(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.pageRects.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.pageService.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -166,9 +160,9 @@ export class ViewerService {
     const oldIndex = this.pageService.currentPage;
     pageIndex = this.pageService.constrainToRange(pageIndex);
     this.pageService.currentPage = pageIndex;
-    const newPageCenter = this.pageRects.get(pageIndex);
+    const newPageCenter = this.pageService.getPageRect(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      const oldPageCenter = this.pageRects.get(oldIndex);
+      const oldPageCenter = this.pageService.getPageRect(oldIndex);
       this.panTo(oldPageCenter.centerX, oldPageCenter.centerY, immediately);
       this.goToHomeZoom();
       setTimeout(() => {
@@ -186,7 +180,7 @@ export class ViewerService {
     if (this.viewer) {
       for (const hit of searchResult.hits) {
         for (let rect of hit.rects) {
-          const tileRect = this.tileRects[hit.index];
+          const tileRect = this.pageService.getTileRect(hit.index);
           const x = tileRect.x + rect.x;
           const y = tileRect.y + rect.y;
           const width = rect.width;
@@ -248,7 +242,7 @@ export class ViewerService {
     this.subscriptions.push(
       this.pageService.onPageChange.subscribe((pageIndex: number) => {
         if (pageIndex !== -1) {
-          this.pageMask.changePage(this.pageRects.get(pageIndex));
+          this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
           if (this.modeService.mode === ViewerMode.PAGE) {
             this.goToHomeZoom();
           }
@@ -300,8 +294,7 @@ export class ViewerService {
       subscription.unsubscribe();
     });
     this.overlays = null;
-    this.tileRects = [];
-    this.pageRects = null;
+    this.pageService.reset();
   }
 
   addEvents(): void {
@@ -338,7 +331,7 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToPage(position, this.pageRects.get(this.pageService.currentPage));
+      position = ZoomUtils.constrainPositionToPage(position, this.pageService.getCurrentPageRect());
 
     }
 
@@ -355,7 +348,7 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToPage(position, this.pageRects.get(this.pageService.currentPage));
+      position = ZoomUtils.constrainPositionToPage(position, this.pageService.getCurrentPageRect());
     }
 
     if (this.isViewportLargerThanPage()) {
@@ -508,7 +501,7 @@ export class ViewerService {
   singleClickHandler = (event: any) => {
     const target = event.originalEvent.target;
     const tileIndex = this.getOverlayIndexFromClickEvent(target);
-    const requestedPage = this.pageRects.findPageByTileIndex(tileIndex);
+    const requestedPage = this.pageService.findPageByTileIndex(tileIndex);
     if (requestedPage) {
       this.pageService.currentPage = requestedPage;
     }
@@ -531,7 +524,7 @@ export class ViewerService {
     } else {
       this.modeService.mode = ViewerMode.PAGE;
       const tileIndex: number = this.getOverlayIndexFromClickEvent(target);
-      const requestedPage = this.pageRects.findPageByTileIndex(tileIndex);
+      const requestedPage = this.pageService.findPageByTileIndex(tileIndex);
       if (requestedPage >= 0) {
         this.pageService.currentPage = requestedPage;
       }
@@ -539,7 +532,7 @@ export class ViewerService {
   }
 
   isViewportLargerThanPage(): boolean {
-    const pageBounds = this.pageRects.get(this.pageService.currentPage);
+    const pageBounds = this.pageService.getCurrentPageRect();
     const viewportBounds = this.viewer.viewport.getBounds();
     const pbWidth = Math.round(pageBounds.width);
     const pbHeight = Math.round(pageBounds.height);
@@ -562,6 +555,8 @@ export class ViewerService {
    */
   createOverlays(): void {
     this.overlays = [];
+
+    const tileRects: Rect[] = [];
     const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.viewerLayout, this.viewerLayoutService.paged);
 
     this.tileSources.forEach((tile, i) => {
@@ -569,10 +564,10 @@ export class ViewerService {
       const position = calculatePagePositionStrategy.calculatePagePosition({
         pageIndex: i,
         pageSource: tile,
-        previousPagePosition: this.tileRects[i - 1]
+        previousPagePosition: tileRects[i - 1]
       });
 
-      this.tileRects.push(position);
+      tileRects.push(position);
 
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
@@ -596,8 +591,7 @@ export class ViewerService {
       this.overlays.push(currentOverlay);
     });
 
-    this.pageRects = new PageRects(this.tileRects, this.viewerLayout, this.viewerLayoutService.paged);
-    this.pageService.numberOfPages = this.pageRects.length();
+    this.pageService.addPages(tileRects, this.viewerLayout, this.viewerLayoutService.paged);
   }
 
   /**
@@ -605,7 +599,7 @@ export class ViewerService {
    */
   initialPageLoaded = (): void => {
     this.goToPage(this.pageService.currentPage, true);
-    this.pageMask.initialise(this.pageRects.get(this.pageService.currentPage));
+    this.pageMask.initialise(this.pageService.getCurrentPageRect());
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
   }
 
@@ -625,7 +619,7 @@ export class ViewerService {
 
   private calculateCurrentPage(center: Point) {
     if (center) {
-      let currentPageIndex = this.pageRects.findClosestIndex(center);
+      let currentPageIndex = this.pageService.findClosestIndex(center);
       this.currentPageIndex.next(currentPageIndex);
     }
   }
@@ -638,7 +632,7 @@ export class ViewerService {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const dragEndPosision: Point = e.position;
-      const pageBounds: Rect = this.pageRects.get(this.pageService.currentPage);
+      const pageBounds: Rect = this.pageService.getCurrentPageRect();
       const vpBounds: Rect = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
       const direction: number = e.direction;
@@ -662,7 +656,7 @@ export class ViewerService {
 
     const isPageZoomed = this.modeService.mode === ViewerMode.PAGE_ZOOMED;
 
-    const pageBounds: Rect = this.pageRects.get(this.pageService.currentPage);
+    const pageBounds: Rect = this.pageService.getCurrentPageRect();
     const viewportBounds: Rect = this.getViewportBounds();
 
     const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, isPageZoomed);
@@ -707,7 +701,7 @@ export class ViewerService {
   }
 
   private getHomeZoomLevel(mode: ViewerMode): number {
-    if (!this.viewer || !this.pageRects) {
+    if (!this.viewer || !this.pageService) {
       return;
     }
 
@@ -716,11 +710,11 @@ export class ViewerService {
     let viewportBounds: any;
 
     if (mode === ViewerMode.DASHBOARD) {
-      pageHeight = this.pageRects.getMaxHeight();
-      pageWidth = this.pageRects.getMaxWidth();
+      pageHeight = this.pageService.getMaxHeight();
+      pageWidth = this.pageService.getMaxWidth();
       viewportBounds = this.getDashboardViewportBounds();
     } else {
-      const currentPageBounds = this.pageRects.get(this.pageService.currentPage);
+      const currentPageBounds = this.pageService.getCurrentPageRect();
       pageHeight = currentPageBounds.height;
       pageWidth = currentPageBounds.width;
       viewportBounds = this.viewer.viewport.getBounds();
