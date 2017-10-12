@@ -14,7 +14,7 @@
     "e2e:chrome": "concurrently \"npm run mountebank\" \"npm run start:aot\" \"npm run protractor:chrome\" --kill-others --success first",
     "wait": "sh ./scripts/wait-on.sh",
     "preprotractor": "webdriver-manager update --versions.standalone=3.4.0",
-    "protractor": "npm run wait && concurrently \"npm run protractor:chrome\" \"npm run protractor:firefox\" \"npm run protractor:edge\"  \"npm run protractor:android:chrome\""
+    "protractor": "npm run wait && concurrently \"npm run protractor:chrome\" \"npm run protractor:firefox\" \"npm run protractor:edge\"  \"npm run protractor:android:chrome\"",
     "protractor:chrome": "npm run wait && protractor --browser=chrome --tags=@desktop",
     "protractor:firefox": "npm run wait && protractor --browser=firefox --tags=@desktop",
     "protractor:edge": "npm run wait && protractor --browser=MicrosoftEdge --tags=@desktop",
