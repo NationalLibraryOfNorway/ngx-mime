@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rimraf aot/ dist/ node_modules/@nationallibraryofnorway .tmp/",
     "ng": "ng",
-    "start:aot": "ng build --prod --no-progress && lite-server -c=bs-config.json",
+    "start:aot": "ng build --prod --no-progress && node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -26,6 +26,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "4.4.4",
+    "@angular/cdk": "2.0.0-beta.12",
     "@angular/common": "4.4.4",
     "@angular/compiler": "4.4.4",
     "@angular/core": "4.4.4",
@@ -33,18 +34,21 @@
     "@angular/forms": "4.4.4",
     "@angular/http": "4.4.4",
     "@angular/material": "2.0.0-beta.12",
-    "@angular/cdk": "2.0.0-beta.12",
     "@angular/platform-browser": "4.4.4",
     "@angular/platform-browser-dynamic": "4.4.4",
     "@angular/router": "4.4.4",
     "@nationallibraryofnorway/ngx-mime": "../dist/",
+    "body-parser": "^1.18.2",
     "classlist.js": "^1.1.20150312",
+    "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
     "d3": "^4.10.0",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "openseadragon": "2.3.1",
     "rxjs": "^5.1.0",
     "web-animations-js": "^2.2.5",
-    "zone.js": "^0.8.4",
-    "openseadragon": "2.3.1"
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
     "@angular/cli": "1.4.5",
