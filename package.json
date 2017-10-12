@@ -38,8 +38,8 @@
     "test:once": "karma start karma.conf.js --single-run",
     "preintegration": "npm run build && cd integration && npm run clean && npm install",
     "integration": "cd integration && npm run e2e:all",
-    "preintegration:chrome": "npm run build && cd integration && npm run clean && npm install",
-    "integration:chrome": "cd integration && npm run e2e:chrome",
+    "preintegration:chrome": "npm run preintegration",
+    "integration:chrome": "cd integration && npm run preprotractor && npm run e2e:chrome",
     "lint": "tslint \"src/**/*.ts\" -t verbose",
     "release": "sh scripts/release/release.sh"
   },

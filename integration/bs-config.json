@@ -1,7 +1,0 @@
-{
-  "port": 8080,
-  "files": ["./src/**/*.{html,htm,css,js,json}"],
-  "server": { "baseDir": "./dist" },
-  "open": false,
-  "ghostMode": false
-}
