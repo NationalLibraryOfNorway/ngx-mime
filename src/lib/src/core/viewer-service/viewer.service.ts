@@ -554,10 +554,14 @@ export class ViewerService {
    * Creates svg clickable overlays for each tile
    */
   createOverlays(): void {
+    const isPagedManifest = this.manifest.sequences[0].viewingHint === 'paged';
     this.overlays = [];
 
     const tileRects: Rect[] = [];
-    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.viewerLayout, this.viewerLayoutService.paged);
+    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(
+      this.viewerLayout,
+      isPagedManifest
+    );
 
     this.tileSources.forEach((tile, i) => {
 
@@ -591,7 +595,7 @@ export class ViewerService {
       this.overlays.push(currentOverlay);
     });
 
-    this.pageService.addPages(tileRects, this.viewerLayout, this.viewerLayoutService.paged);
+    this.pageService.addPages(tileRects, this.viewerLayout, isPagedManifest);
   }
 
   /**

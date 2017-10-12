@@ -46,9 +46,11 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   public state = 'hide';
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
+  isPagedManifest = false;
 
   ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
   private viewerLayout: ViewerLayout;
+
 
   constructor(
     public intl: MimeViewerIntl,
@@ -72,6 +74,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
       this.isContentSearchEnabled = manifest.service ? true : false;
+      this.isPagedManifest = manifest && manifest.sequences && manifest.sequences[0].viewingHint === 'paged';
       this.changeDetectorRef.detectChanges();
     }));
 
