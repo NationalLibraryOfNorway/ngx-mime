@@ -76,7 +76,7 @@ export class PageRects {
         const nextRect = tileRects[i + 1];
         const groupedRect = new Rect({
           x: thisRect.x,
-          y: thisRect.y,
+          y: Math.min(thisRect.y, nextRect.y),
           height: Math.max(thisRect.height, nextRect.height),
           width: thisRect.width + nextRect.width
         });
