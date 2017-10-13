@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { SearchResult } from './../../../core/models/search-result';
 import { Hit } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
+import { PageService } from './../../../core/page-service/page-service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 
@@ -22,23 +23,24 @@ export class ContentSearchNavigatorComponent implements OnInit {
   public isLastHitPage = false;
   private subscriptions: Array<Subscription> = [];
   public currentIndex = 0;
-  private currentCanvasIndex = -1;
+  private currentCanvasIndices = [-1];
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     public intl: MimeViewerIntl,
     private viewerService: ViewerService,
+    private pageService: PageService,
     private iiifContentSearchService: IiifContentSearchService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
 
-    this.subscriptions.push(this.viewerService
+    this.subscriptions.push(this.pageService
       .onPageChange
-      .subscribe((canvasIndex) => {
-        this.currentCanvasIndex = canvasIndex;
-        this.currentIndex = this.findCurrentHitIndex(canvasIndex);
-        this.isHitOnActivePage = this.searchResult.get(this.currentIndex).index === canvasIndex;
+      .subscribe((pageIndex) => {
+        this.currentCanvasIndices = this.pageService.getTileArrayFromPageIndex(pageIndex);
+        this.currentIndex = this.findCurrentHitIndex(this.currentCanvasIndices);
+        this.isHitOnActivePage = this.currentCanvasIndices.indexOf(this.searchResult.get(this.currentIndex).index) >= 0;
         this.isFirstHitPage = this.currentIndex <= 0;
 
         const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1).index;
@@ -61,7 +63,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
   goToPreviousHitPage() {
     const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
     const previousCanvasIndex = this.searchResult.get(previousIndex).index;
-    this.currentIndex = this.findCurrentHitIndex(previousCanvasIndex);
+    this.currentIndex = this.findCurrentHitIndex([previousCanvasIndex]);
     this.goToCanvasIndex(previousCanvasIndex);
   }
 
@@ -73,7 +75,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
       const current = this.searchResult.get(this.currentIndex);
       nextCanvasIndex = this.searchResult.hits.find(h => h.index > current.index).index;
     }
-    this.currentIndex = this.findCurrentHitIndex(nextCanvasIndex);
+    this.currentIndex = this.findCurrentHitIndex([nextCanvasIndex]);
     this.goToCanvasIndex(nextCanvasIndex);
   }
 
@@ -81,13 +83,13 @@ export class ContentSearchNavigatorComponent implements OnInit {
     this.viewerService.goToTile(canvasIndex, false);
   }
 
-  findCurrentHitIndex(canvasIndex: number): number {
+  findCurrentHitIndex(canvasIndices: number[]): number {
     for (let i = 0; i < this.searchResult.size(); i++) {
       const hit = this.searchResult.get(i);
-      if (hit.index === canvasIndex) {
+      if (canvasIndices.indexOf(hit.index) >= 0) {
         return i;
       }
-      if (hit.index >= canvasIndex) {
+      if (hit.index >= canvasIndices[canvasIndices.length - 1]) {
         if (i === 0) {
           return -1;
         } else {

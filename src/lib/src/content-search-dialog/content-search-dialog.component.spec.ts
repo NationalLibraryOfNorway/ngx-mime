@@ -83,7 +83,7 @@ describe('ContentSearchDialogComponent', () => {
     inject([ObservableMedia, ViewerService, MatDialogRef],
       (media: ObservableMedia, viewerService: ViewerService, dialogRef: MatDialogRef<ContentSearchDialogComponent>) => {
       spyOn(media, 'isActive').and.returnValue(true);
-      spyOn(viewerService, 'goToPage').and.callThrough();
+      spyOn(viewerService, 'goToTile').and.callThrough();
       spyOn(dialogRef, 'close').and.callThrough();
       component.currentSearch = 'dummysearch';
       component.hits = [
@@ -99,7 +99,7 @@ describe('ContentSearchDialogComponent', () => {
       hits[0].triggerEventHandler('click', null);
 
       fixture.detectChanges();
-      expect(viewerService.goToPage).toHaveBeenCalled();
+      expect(viewerService.goToTile).toHaveBeenCalled();
       expect(dialogRef.close).toHaveBeenCalled();
     }));
 
@@ -107,7 +107,7 @@ describe('ContentSearchDialogComponent', () => {
     inject([ObservableMedia, ViewerService, MatDialogRef],
       (media: ObservableMedia, viewerService: ViewerService, dialogRef: MatDialogRef<ContentSearchDialogComponent>) => {
       spyOn(media, 'isActive').and.returnValue(false);
-      spyOn(viewerService, 'goToPage').and.callThrough();
+      spyOn(viewerService, 'goToTile').and.callThrough();
       spyOn(dialogRef, 'close').and.callThrough();
       component.currentSearch = 'dummysearch';
       component.hits = [
@@ -123,7 +123,7 @@ describe('ContentSearchDialogComponent', () => {
       hits[0].triggerEventHandler('click', null);
 
       fixture.detectChanges();
-      expect(viewerService.goToPage).toHaveBeenCalled();
+      expect(viewerService.goToTile).toHaveBeenCalled();
       expect(dialogRef.close).not.toHaveBeenCalled();
     }));
 
@@ -149,6 +149,6 @@ class ViewerServiceMock {
 
   public goToNextPage(): void { }
 
-  public goToPage(index: number): void { }
+  public goToTile(index: number): void { }
 
 }

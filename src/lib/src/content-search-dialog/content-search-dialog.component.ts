@@ -84,7 +84,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   }
 
   goToHit(hit: Hit): void {
-    this.viewerService.goToPage(hit.index, false);
+    this.viewerService.goToTile(hit.index, false);
     if (this.media.isActive('lt-md')) {
       this.dialogRef.close();
     }

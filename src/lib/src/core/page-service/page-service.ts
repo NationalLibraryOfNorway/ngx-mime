@@ -118,8 +118,8 @@ export class PageService {
   }
 
   findPageByTileIndex(tileIndex: number): number {
-    return this.tileIndicesPerPage.findIndex( function(tileIndicesForPage: any) {
-      return tileIndicesForPage.includes(tileIndex);
+    return this.tileIndicesPerPage.findIndex( function(tileIndicesForPage: number[]) {
+      return tileIndicesForPage.indexOf(tileIndex) >= 0;
     });
   }
 
@@ -136,6 +136,14 @@ export class PageService {
     }
 
     return currentTiles;
+  }
+
+  getTileArrayFromPageIndex(index: number): number[] {
+    if (!this.tileRects) {
+      return [0];
+    }
+
+    return this.tileIndicesPerPage[index];
   }
 
   getTileRect(index: number): Rect {

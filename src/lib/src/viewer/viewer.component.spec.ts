@@ -291,7 +291,7 @@ describe('ViewerComponent', function () {
 
   it('should open viewer on canvas index if present', (done) => {
     let currentPageNumber: number;
-    testHostComponent.canvasIndex = 2;
+    testHostComponent.canvasIndex = 12;
     testHostFixture.detectChanges();
 
     comp.onPageChange.subscribe((pageNumber: number) => {
@@ -300,7 +300,7 @@ describe('ViewerComponent', function () {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          expect(currentPageNumber).toEqual(2);
+          expect(currentPageNumber).toEqual(pageService.findPageByTileIndex(12));
           done();
         }, osdAnimationTime);
       }
