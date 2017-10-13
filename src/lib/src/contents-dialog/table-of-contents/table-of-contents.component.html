@@ -2,7 +2,7 @@
   <div *ngFor="let structure of manifest?.structures">
     <div class="toc-link" [class.currentPage]="currentPage === structure.canvasIndex" (click)="goToPage(structure.canvasIndex)" fxLayout="row" fxLayoutAlign="space-between center">
       <span class="label">{{structure.label}}</span>
-      <span class="canvasIndex">{{structure.canvasIndex + 1}}</span>
+      <span class="pageNumber">{{structure.canvasIndex + 1}}</span>
     </div>
   </div>
 </div>
