@@ -563,6 +563,8 @@ export class ViewerService {
       isPagedManifest
     );
 
+    let group: any = this.svgNode.append('g').attr('class', 'page-group');
+
     this.tileSources.forEach((tile, i) => {
 
       const position = calculatePagePositionStrategy.calculatePagePosition({
@@ -583,8 +585,11 @@ export class ViewerService {
         });
       });
 
-      // Style overlay to match tile
-      this.svgNode.append('rect')
+      // Make a group for two-and-two pages if manifest supports it
+      if (i % 2 !== 0 && isPagedManifest) {
+        group = this.svgNode.append('g').attr('class', 'page-group');
+      }
+      group.append('rect')
         .attr('x', position.x)
         .attr('y', position.y)
         .attr('width', position.width)
