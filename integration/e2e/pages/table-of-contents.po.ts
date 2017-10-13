@@ -8,8 +8,8 @@ export class TableOfContentsPage {
     for (let i = 0; i < count; i++) {
       const toc = tocLinks.get(i);
       const label = await toc.element(by.css('.label')).getText();
-      const canvasIndex = await toc.element(by.css('.canvasIndex')).getText();
-      tocs.push(new TOC({label: label, canvasIndex: Number(canvasIndex)}));
+      const pageNumber = await toc.element(by.css('.pageNumber')).getText();
+      tocs.push(new TOC({label: label, canvasIndex: Number(pageNumber)}));
     }
 
     return tocs;
