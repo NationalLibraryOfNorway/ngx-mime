@@ -569,6 +569,7 @@ export class ViewerService {
       this.isManifestPaged
     );
 
+    const isTwoPageView: boolean = this.viewerLayout === ViewerLayout.TWO_PAGE;
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
@@ -591,16 +592,27 @@ export class ViewerService {
         });
       });
 
-      // Make a group for two-and-two pages if manifest supports it
-      if (i % 2 !== 0 && this.isManifestPaged) {
+      if (isTwoPageView && i % 2 !== 0) {
         group = this.svgNode.append('g').attr('class', 'page-group');
       }
+
       const currentOverlay = group.append('rect')
         .attr('x', position.x)
         .attr('y', position.y)
         .attr('width', position.width)
         .attr('height', position.height)
         .attr('class', 'tile');
+
+      // Make custom borders if current layout is two-paged
+      if (isTwoPageView) {
+        if (i % 2 === 0 && i !== 0) {
+          const noLeftStrokeStyle = Number((position.width * 2) + position.height) + ', ' + position.width * 2;
+          currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
+        } else if (i % 2 !== 0 && i !== 0) {
+          const noRightStrokeStyle = position.width + ', ' + position.height + ', ' + Number((position.width * 2) + position.height);
+          currentOverlay.style('stroke-dasharray', noRightStrokeStyle);
+        }
+      }
 
       const currentOverlayNode: SVGRectElement = currentOverlay.node();
       this.overlays.push(currentOverlayNode);
