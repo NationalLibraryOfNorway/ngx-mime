@@ -147,7 +147,7 @@ describe('ViewerHeaderComponent', () => {
   it('should hide one-page-button and show two-page-button if current viewer-layout is one-page-view',
     inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
       component.isPagedManifest = true;
-      viewerLayoutService.setState(ViewerLayout.ONE_PAGE);
+      viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
 
       fixture.detectChanges();
 
@@ -162,7 +162,7 @@ describe('ViewerHeaderComponent', () => {
   it('should hide two-page-button and show one-page-button if current viewer-layout is two-page-view',
     inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
       component.isPagedManifest = true;
-      viewerLayoutService.setState(ViewerLayout.TWO_PAGE);
+      viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
 
       fixture.detectChanges();
 

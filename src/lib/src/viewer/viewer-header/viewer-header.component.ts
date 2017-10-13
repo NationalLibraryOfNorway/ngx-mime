@@ -66,6 +66,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
+    this.isPagedManifest = this.viewerLayoutService.isPagedManifest;
 
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
 
@@ -110,11 +111,11 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public setLayoutOnePage(): void {
-    this.viewerLayoutService.setState(ViewerLayout.ONE_PAGE);
+    this.viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
   }
 
   public setLayoutTwoPage(): void {
-    this.viewerLayoutService.setState(ViewerLayout.TWO_PAGE);
+    this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
   }
 
 }

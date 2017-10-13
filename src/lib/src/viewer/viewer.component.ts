@@ -89,6 +89,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
           if (manifest) {
+            this.viewerLayoutService.init(manifest);
             this.cleanup();
             this.initialize();
             this.currentManifest = manifest;

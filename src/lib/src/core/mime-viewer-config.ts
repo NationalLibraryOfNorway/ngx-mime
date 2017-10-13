@@ -6,7 +6,10 @@ export class MimeViewerConfig {
   public attributionDialogHideTimeout?= -1;
   public navigationControlEnabled?= true;
   public initViewerMode?= ViewerMode.PAGE;
-  public initViewerLayout?= ViewerLayout.ONE_PAGE;
+
+  // If this is set to ONE_PAGE, then one-page-layout will be forced initially,
+  // even if manifest supports two-page-layout
+  public initViewerLayout?= ViewerLayout.TWO_PAGE;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;

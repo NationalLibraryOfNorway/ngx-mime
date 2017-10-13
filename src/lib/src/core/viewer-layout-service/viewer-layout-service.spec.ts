@@ -18,9 +18,26 @@ describe('ViewerLayoutService', () => {
   it('should emit when ViewerLayout is toggled', inject([ViewerLayoutService], (service: ViewerLayoutService) => {
     let newLayout: ViewerLayout;
     service.viewerLayoutState.subscribe((state: ViewerLayout) => newLayout = state);
-    service.setState(ViewerLayout.ONE_PAGE);
+    service.setLayout(ViewerLayout.ONE_PAGE);
     expect(newLayout).toEqual(ViewerLayout.ONE_PAGE);
-    service.setState(ViewerLayout.TWO_PAGE);
+    service.setLayout(ViewerLayout.TWO_PAGE);
     expect(newLayout).toEqual(ViewerLayout.TWO_PAGE);
-}));
+  }));
+
+  it('should set isPagedManifest when manifest is \'paged\'', () => {
+    pending('');
+  });
+
+  it('should set layout to TWO_PAGE if manifest is \'paged\' and TWO_PAGE is set in mime-config', () => {
+    pending('');
+  });
+
+  it('should set layout to ONE_PAGE if manifest is not \'paged\'', () => {
+    pending('');
+  });
+
+  it('should set layout to ONE_PAGE if this is set in mime-config', () => {
+    pending('');
+  });
+
 });
