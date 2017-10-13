@@ -8,10 +8,16 @@ export class PageModeCalculateNextPageStrategy implements CalculateNextPageStrat
     const isNewPageInCenter = (criteria.currentPageIndex !== criteria.currentPageCenter);
     const speed = criteria.speed;
     const direction = criteria.direction;
+    const currentPageCenter = criteria.currentPageCenter;
+    let nextPage = criteria.currentPageIndex;
 
-    const pagesToGo = (speed >= 200 || isNewPageInCenter) ? 1 : 0;
-    const diff = direction === Direction.LEFT ? pagesToGo : pagesToGo * -1;
-    const nextPage = criteria.currentPageIndex + diff;
+    if (isNewPageInCenter) {
+      nextPage = criteria.currentPageCenter;
+    } else if (speed >= 200) {
+      const diff = direction === Direction.LEFT ? 1 : -1;
+      nextPage = criteria.currentPageIndex + diff;
+    }
+
     return nextPage;
   }
 }
