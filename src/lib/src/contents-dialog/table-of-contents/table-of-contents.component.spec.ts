@@ -71,7 +71,7 @@ describe('TocComponent', () => {
   });
 
   it('should display the correct page number', () => {
-    const pageNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.canvasIndex'));
+    const pageNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.pageNumber'));
     expect(pageNumbers[0].nativeElement.innerText).toEqual('1');
     expect(pageNumbers[1].nativeElement.innerText).toEqual('2');
     expect(pageNumbers[2].nativeElement.innerText).toEqual('5');
