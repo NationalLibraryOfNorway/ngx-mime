@@ -108,7 +108,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
         if (state && this.canvasIndex) {
-          this.viewerService.goToPage(this.canvasIndex, false);
+          this.viewerService.goToTile(this.canvasIndex, false);
         }
       })
     );
@@ -197,7 +197,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
       if (canvasIndexChanged) {
-        this.viewerService.goToPage(this.canvasIndex, true);
+        this.viewerService.goToTile(this.canvasIndex, true);
       }
     }
   }

@@ -173,6 +173,11 @@ export class ViewerService {
       this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
     }
   }
+  
+  public goToTile(tileIndex: number, immediately: boolean): void {
+    const pageIndex = this.pageService.findPageByTileIndex(tileIndex);
+    this.goToPage(pageIndex, immediately);
+  }
 
 
   public highlight(searchResult: SearchResult): void {
