@@ -28,6 +28,7 @@ import { CalculatePagePositionFactory } from '../page-position/calculate-page-po
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { PinchStatus } from '../models/pinchStatus';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
@@ -57,6 +58,7 @@ export class ViewerService {
   private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
   private manifest: Manifest;
+  private isManifestPaged: boolean;
 
   private viewerLayout: ViewerLayout = new MimeViewerConfig().initViewerLayout;
 
@@ -216,6 +218,7 @@ export class ViewerService {
     this.tileSources = manifest.tileSource;
     this.zone.runOutsideAngular(() => {
       this.manifest = manifest;
+      this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
       this.options = new Options();
       this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
       this.pageService.reset();
@@ -559,13 +562,11 @@ export class ViewerService {
    * Creates svg clickable overlays for each tile
    */
   createOverlays(): void {
-    const isPagedManifest = this.manifest.sequences[0].viewingHint === 'paged';
     this.overlays = [];
-
     const tileRects: Rect[] = [];
     const calculatePagePositionStrategy = CalculatePagePositionFactory.create(
       this.viewerLayout,
-      isPagedManifest
+      this.isManifestPaged
     );
 
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
@@ -591,7 +592,7 @@ export class ViewerService {
       });
 
       // Make a group for two-and-two pages if manifest supports it
-      if (i % 2 !== 0 && isPagedManifest) {
+      if (i % 2 !== 0 && this.isManifestPaged) {
         group = this.svgNode.append('g').attr('class', 'page-group');
       }
       const currentOverlay = group.append('rect')
@@ -605,7 +606,7 @@ export class ViewerService {
       this.overlays.push(currentOverlayNode);
     });
 
-    this.pageService.addPages(tileRects, this.viewerLayout, isPagedManifest);
+    this.pageService.addPages(tileRects, this.viewerLayout, this.isManifestPaged);
   }
 
   /**

@@ -14,6 +14,7 @@ import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-man
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -66,7 +67,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
-    this.isPagedManifest = this.viewerLayoutService.isPagedManifest;
 
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
 
@@ -76,7 +76,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
       this.isContentSearchEnabled = manifest.service ? true : false;
-      this.isPagedManifest = manifest && manifest.sequences && manifest.sequences[0].viewingHint === 'paged';
+      this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
       this.changeDetectorRef.detectChanges();
     }));
 
