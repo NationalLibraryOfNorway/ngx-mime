@@ -47,9 +47,10 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
   isPagedManifest = false;
+  viewerLayout: ViewerLayout;
 
   ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
-  private viewerLayout: ViewerLayout;
+
 
 
   constructor(

@@ -594,15 +594,15 @@ export class ViewerService {
       if (i % 2 !== 0 && isPagedManifest) {
         group = this.svgNode.append('g').attr('class', 'page-group');
       }
-      group.append('rect')
+      const currentOverlay = group.append('rect')
         .attr('x', position.x)
         .attr('y', position.y)
         .attr('width', position.width)
         .attr('height', position.height)
         .attr('class', 'tile');
 
-      const currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
-      this.overlays.push(currentOverlay);
+      const currentOverlayNode: SVGRectElement = currentOverlay.node();
+      this.overlays.push(currentOverlayNode);
     });
 
     this.pageService.addPages(tileRects, this.viewerLayout, isPagedManifest);

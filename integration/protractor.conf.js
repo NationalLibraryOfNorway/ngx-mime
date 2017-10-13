@@ -14,87 +14,83 @@ const config = {
     'cucumberOpts',
     'device'
   ],
-  capabilities: {
-    'browserName': 'chrome',
-    chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=1024x768" ]
-    }
-  },
+  capabilities: getCapabilities(),
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
     compiler: "ts:ts-node/register",
     require: [
-      path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
-      path.resolve(process.cwd(), './e2e/helpers/reporter.ts'),
-      path.resolve(process.cwd(), './e2e/**/*.steps.ts')
+      path.resolve(process.cwd(), './e2e/**/*.steps.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/reporter.ts')
     ],
     format: 'pretty',
-    tags: ['~@Ignore']
+    tags: getTags()
   },
-  onPrepare: function() {
-    const width = 1024;
-    const height = 768;
-    browser.driver.manage().window().setSize(width, height);
-  },
-  afterLaunch: function () {
-    multiCucumberHTLMReporter.generate({
-      openReportInBrowser: true,
-      jsonDir: '.tmp/json-output',
-      reportPath: './.tmp/report/'
-    });
+  onPrepare: function () {
+    if (config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
+      const width = 1024;
+      const height = 768;
+      browser.driver.manage().window().setSize(width, height);
+    }
   },
   disableChecks: true,
   ignoreUncaughtExceptions: true
 };
 
-if (argv.device === 'desktop') {
-  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@desktop');
-} else if (argv.device === 'android') {
-  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@android');
-} else if (argv.device === 'iphone') {
-  config.cucumberOpts.tags = config.cucumberOpts.tags.concat('@iphone');
-}
-
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-
-  config.capabilities = null,
-    config.multiCapabilities = getCapabilities(),
-    config.afterLaunch = function () { }
+  config.capabilities = Object.assign(config.capabilities, {
+    name: 'Mime E2E Tests',
+    tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+    build: process.env.TRAVIS_JOB_NUMBER,
+  });
+} else {
+  config.afterLaunch = function () {
+    multiCucumberHTLMReporter.generate({
+      openReportInBrowser: false,
+      jsonDir: '.tmp/json-output',
+      reportPath: './.tmp/report/'
+    });
+  }
 }
 
 function getCapabilities() {
-  const capabilities = [];
-  let browsers = remoteBrowsers.customDesktopLaunchers
-    .concat(remoteBrowsers.customMobileLaunchers);
-  if (argv.device === 'desktop') {
-    browsers = remoteBrowsers.customDesktopLaunchers;
-  } else if (argv.device === 'android') {
-    browsers = remoteBrowsers.androidLaunchers;
-  } else if (argv.device === 'iphone') {
-    browsers = remoteBrowsers.iphoneLaunchers;
-  }
-
-  for (const cap of browsers) {
-    capabilities.push({
+  let capabilities = null;
+  if (argv.browser) {
+    const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
+    capabilities = {
       browserName: cap.browserName,
       version: cap.version,
       platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
       deviceName: cap.deviceName,
-      name: 'Mime E2E Tests',
-      tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
-      build: process.env.TRAVIS_JOB_NUMBER,
-      seleniumVersion: '3.4.0',
-      screenResolution: "1024x768"
-    });
+    }
+  } else {
+    capabilities = {
+      browserName: 'chrome'
+    }
   }
+
+  if (argv.browser ===  'chrome' && argv.headless) {
+    capabilities.chromeOptions = {
+      args: ["--headless", "--disable-gpu", "--window-size=1024x768"]
+    }
+  }
+
   return capabilities;
+}
+
+function getTags() {
+  let tags = ['~@Ignore']
+  if (argv.tags) {
+    tags = tags.concat(argv.tags.split(','));
+  }
+  return tags;
 }
 
 function getFeatureFiles() {
