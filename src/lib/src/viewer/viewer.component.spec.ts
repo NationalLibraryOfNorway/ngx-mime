@@ -208,6 +208,7 @@ describe('ViewerComponent', function () {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
+          const startMinZoomLevel = viewer.viewport.minZoomLevel;
           viewportHeight = Math.round(viewer.viewport.getBounds().height);
           viewportWidth = Math.round(viewer.viewport.getBounds().width);
           overlayHeight = Math.round(overlay.height.baseVal.value);
@@ -232,6 +233,11 @@ describe('ViewerComponent', function () {
             // Return to home
             mimeResizeServiceStub.triggerResize();
             setTimeout(() => {
+
+              // Confirm that minimum zoom level is updated
+              const endMinZoomLevel = viewer.viewport.minZoomLevel;
+              expect(endMinZoomLevel).toBeGreaterThan(startMinZoomLevel);
+
               viewportHeight = Math.round(viewer.viewport.getBounds().height);
               viewportWidth = Math.round(viewer.viewport.getBounds().width);
               overlayHeight = Math.round(overlay.height.baseVal.value);
