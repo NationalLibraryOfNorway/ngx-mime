@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { PageRects } from './../models/page-rects';
 import { ViewerLayout } from '../models/viewer-layout';
-import { Point } from './../models/Point';
+import { Point } from './../models/point';
 import { Rect } from './../models/rect';
 
 
