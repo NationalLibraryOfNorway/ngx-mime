@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf aot/ dist/ node_modules/@nationallibraryofnorway .tmp/",
+    "clean": "rimraf aot/ dist/ node_modules/@nationallibraryofnorway .tmp/ && mkdir .tmp",
     "ng": "ng",
     "start": "ng build --prod --no-progress && node server/index.js",
     "build": "ng build",
