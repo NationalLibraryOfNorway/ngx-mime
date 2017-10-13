@@ -15,14 +15,14 @@
     "wait": "sh ./scripts/wait-on.sh",
     "preprotractor": "webdriver-manager update --versions.standalone=3.4.0",
     "protractor": "npm run wait && concurrently \"npm run protractor:chrome\" \"npm run protractor:firefox\" \"npm run protractor:edge\" \"npm run protractor:android:chrome\"",
-    "protractor:chrome": "sh ./scripts/protractor.sh --browser chrome --tags @desktop",
-    "protractor:chrome:headless": "sh ./scripts/protractor-chrome-headless.sh",
-    "protractor:firefox": "sh ./scripts/protractor.sh --browser firefox --tags @desktop",
-    "protractor:edge": "sh ./scripts/protractor.sh --browser MicrosoftEdge --tags @desktop",
-    "protractor:ie": "sh ./scripts/protractor.sh --browser \"internet explorer\" --tags @desktop",
-    "protractor:safari": "sh ./scripts/protractor.sh --browser safari --tags @desktop",
-    "protractor:android:chrome": "sh ./scripts/protractor.sh --browser Chrome --tags @android",
-    "protractor:ios:safari": "sh ./scripts/protractor.sh --browser Safari --tags @iphone"
+    "protractor:chrome": "./scripts/protractor.sh --browser chrome --tags @desktop",
+    "protractor:chrome:headless": "./scripts/protractor-chrome-headless.sh",
+    "protractor:firefox": "./scripts/protractor.sh --browser firefox --tags @desktop",
+    "protractor:edge": "./scripts/protractor.sh --browser MicrosoftEdge --tags @desktop",
+    "protractor:ie": "./scripts/protractor.sh --browser \"internet explorer\" --tags @desktop",
+    "protractor:safari": "./scripts/protractor.sh --browser safari --tags @desktop",
+    "protractor:android:chrome": "./scripts/protractor.sh --browser Chrome --tags @android",
+    "protractor:ios:safari": "./scripts/protractor.sh --browser Safari --tags @iphone"
   },
   "private": true,
   "dependencies": {
