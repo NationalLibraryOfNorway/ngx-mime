@@ -13,6 +13,7 @@ import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module'
 import { ViewerComponent } from './viewer.component';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
 import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
 import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
 import { testManifest } from '../test/testManifest';
@@ -43,6 +44,7 @@ describe('ViewerComponent', function () {
   let pageService: PageService;
   let clickService: ClickService;
   let modeService: ModeService;
+  let mimeResizeServiceStub: MimeResizeServiceStub;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -63,7 +65,7 @@ describe('ViewerComponent', function () {
         ViewerService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         IiifContentSearchService,
-        MimeResizeService,
+        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
         MimeViewerIntl,
         ClickService,
         PageService,
@@ -89,6 +91,8 @@ describe('ViewerComponent', function () {
     pageService = TestBed.get(PageService);
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
+    mimeResizeServiceStub = TestBed.get(MimeResizeService);
+
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
@@ -189,6 +193,58 @@ describe('ViewerComponent', function () {
           expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
 
           done();
+        }, 600);
+      }
+    });
+  });
+
+  it('should return to home after resize', (done: any) => {
+    const viewer = viewerService.getViewer();
+    const overlay = viewerService.getOverlays()[0];
+    const openseadragonDE = testHostFixture.debugElement.query(By.css('#openseadragon'));
+    const element = openseadragonDE.nativeElement;
+    let viewportHeight, viewportWidth, overlayHeight, overlayWidth;
+
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          viewportHeight = Math.round(viewer.viewport.getBounds().height);
+          viewportWidth = Math.round(viewer.viewport.getBounds().width);
+          overlayHeight = Math.round(overlay.height.baseVal.value);
+          overlayWidth = Math.round(overlay.width.baseVal.value);
+
+          // Starting out at home
+          expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
+
+          // Resize OSD
+          element.style.display = 'block';
+          element.style.width = '800px';
+          element.style.height = '400px';
+
+          setTimeout(() => {
+            viewportHeight = Math.round(viewer.viewport.getBounds().height);
+            viewportWidth = Math.round(viewer.viewport.getBounds().width);
+            overlayHeight = Math.round(overlay.height.baseVal.value);
+            overlayWidth = Math.round(overlay.width.baseVal.value);
+
+            expect((overlayHeight !== viewportHeight) && (overlayWidth !== viewportWidth)).toEqual(true);
+
+            // Return to home
+            mimeResizeServiceStub.triggerResize();
+            setTimeout(() => {
+              viewportHeight = Math.round(viewer.viewport.getBounds().height);
+              viewportWidth = Math.round(viewer.viewport.getBounds().width);
+              overlayHeight = Math.round(overlay.height.baseVal.value);
+              overlayWidth = Math.round(overlay.width.baseVal.value);
+
+              // Returned to home
+              expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
+
+              done();
+             }, 600);
+
+          }, 600);
+
         }, 600);
       }
     });

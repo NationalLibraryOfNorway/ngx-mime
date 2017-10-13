@@ -25,7 +25,7 @@ export class MimeResizeService {
     return this.resizeSubject.asObservable();
   }
 
-  markForCheck() {
+  markForCheck(): void {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
 
     if (this.dimensions.bottom !== dimensions.bottom ||
