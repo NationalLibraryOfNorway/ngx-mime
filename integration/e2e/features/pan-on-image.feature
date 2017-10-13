@@ -1,4 +1,4 @@
-@android @iphone @desktop
+@desktop
 Feature: Pan on image 
   In order to view high quality images of digitised items in great detail 
   As a user 
