@@ -3,7 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 
 import { SharedModule } from '../shared/shared.module';
@@ -36,7 +36,7 @@ describe('ContentsDialogComponent', () => {
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
-        { provide: MdDialogRef, useClass: MdDialogRefMock },
+        { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: ObservableMedia, useClass: MediaMock }
       ]
     })
@@ -75,7 +75,7 @@ describe('ContentsDialogComponent', () => {
 
 });
 
-class MdDialogRefMock {
+class MatDialogRefMock {
 }
 
 class MediaMock {

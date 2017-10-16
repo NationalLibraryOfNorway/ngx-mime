@@ -4,7 +4,7 @@
  * attribute, however Chrome handles high contrast differently.
  */
 /* Theme for the ripple elements.*/
-/** The mixins below are shared between md-menu and md-select */
+/** The mixins below are shared between mat-menu and mat-select */
 /**
  * This mixin adds the correct panel transform styles based
  * on the direction that the menu panel opens.
@@ -245,7 +245,13 @@
   padding: 0.4375em 0;
   border-top: 0.84375em solid transparent; }
 
-.mat-form-field-autofill-control:-webkit-autofill + .mat-form-field-placeholder-wrapper .mat-form-field-float {
+.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-placeholder {
+  transform: translateY(-1.28125em) scale(0.75) perspective(100px) translateZ(0.001px);
+  -ms-transform: translateY(-1.28125em) scale(0.75);
+  width: 133.33333%; }
+
+.mat-form-field-can-float .mat-form-field-autofill-control:-webkit-autofill + .mat-form-field-placeholder-wrapper
+.mat-form-field-placeholder {
   transform: translateY(-1.28125em) scale(0.75) perspective(100px) translateZ(0.001px);
   -ms-transform: translateY(-1.28125em) scale(0.75);
   width: 133.33333%; }
@@ -256,11 +262,6 @@
 
 .mat-form-field-placeholder {
   top: 1.28125em; }
-  .mat-form-field-placeholder.mat-form-field-float:not(.mat-form-field-empty),
-  .mat-focused .mat-form-field-placeholder.mat-form-field-float {
-    transform: translateY(-1.28125em) scale(0.75) perspective(100px) translateZ(0.001px);
-    -ms-transform: translateY(-1.28125em) scale(0.75);
-    width: 133.33333%; }
 
 .mat-form-field-underline {
   bottom: 1.25em; }
@@ -300,11 +301,10 @@ input.mat-input-element {
   font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-select {
-  padding-top: 16px;
   font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-select-trigger {
-  font-size: 16px; }
+  height: 1.125em; }
 
 .mat-slide-toggle-content {
   font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif; }
@@ -316,6 +316,14 @@ input.mat-input-element {
 
 .mat-stepper-vertical, .mat-stepper-horizontal {
   font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-step-label {
+  font-size: 14px;
+  font-weight: 400; }
+
+.mat-step-label-selected {
+  font-size: 14px;
+  font-weight: 500; }
 
 .mat-tab-group {
   font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -467,6 +475,9 @@ input.mat-input-element {
     [dir='rtl'] .mat-optgroup .mat-option:not(.mat-option-multiple) {
       padding-left: 16px;
       padding-right: 32px; }
+
+.mat-option-text {
+  display: inline-block; }
 
 .mat-option-ripple {
   top: 0;
@@ -892,8 +903,7 @@ input.mat-input-element {
   .mat-focused .mat-form-field-placeholder.mat-warn {
     color: #f44336; }
 
-.mat-form-field-autofill-control:-webkit-autofill + .mat-form-field-placeholder .mat-form-field-required-marker,
-.mat-focused .mat-form-field-placeholder.mat-form-field-float .mat-form-field-required-marker {
+.mat-focused .mat-form-field-required-marker {
   color: #b0bec5; }
 
 .mat-form-field-underline {
@@ -913,7 +923,7 @@ input.mat-input-element {
 .mat-form-field-invalid .mat-form-field-placeholder {
   color: #f44336; }
   .mat-form-field-invalid .mat-form-field-placeholder.mat-accent,
-  .mat-form-field-invalid .mat-form-field-placeholder.mat-form-field-float .mat-form-field-required-marker {
+  .mat-form-field-invalid .mat-form-field-placeholder .mat-form-field-required-marker {
     color: #f44336; }
 
 .mat-form-field-invalid .mat-form-field-ripple {
@@ -1020,13 +1030,13 @@ input.mat-input-element {
 .mat-progress-bar.mat-warn .mat-progress-bar-fill::after {
   background-color: #f44336; }
 
-.mat-progress-spinner path, .mat-spinner path {
+.mat-progress-spinner circle, .mat-spinner circle {
   stroke: #5d4037; }
 
-.mat-progress-spinner.mat-accent path, .mat-spinner.mat-accent path {
+.mat-progress-spinner.mat-accent circle, .mat-spinner.mat-accent circle {
   stroke: #b0bec5; }
 
-.mat-progress-spinner.mat-warn path, .mat-spinner.mat-warn path {
+.mat-progress-spinner.mat-warn circle, .mat-spinner.mat-warn circle {
   stroke: #f44336; }
 
 .mat-radio-outer-circle {
@@ -1068,21 +1078,8 @@ input.mat-input-element {
 .mat-radio-button.mat-warn .mat-radio-ripple .mat-ripple-element {
   background-color: rgba(244, 67, 54, 0.26); }
 
-.mat-select-trigger,
-.mat-select-arrow {
-  color: rgba(0, 0, 0, 0.54); }
-
-.mat-select-underline {
-  background-color: rgba(0, 0, 0, 0.42); }
-
-[aria-disabled='true'] .mat-select-underline {
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.42) 33%, transparent 0%);
-  background-size: 4px 1px;
-  background-repeat: repeat-x; }
-
 .mat-select-disabled .mat-select-value,
-.mat-select-arrow,
-.mat-select-trigger {
+.mat-select-arrow {
   color: rgba(0, 0, 0, 0.54); }
 
 .mat-select-content, .mat-select-panel-done-animating {
@@ -1094,26 +1091,23 @@ input.mat-input-element {
 .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
   background: rgba(0, 0, 0, 0.12); }
 
-.mat-select:focus:not(.mat-select-disabled).mat-primary .mat-select-trigger, .mat-select:focus:not(.mat-select-disabled).mat-primary .mat-select-arrow {
+.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
   color: #5d4037; }
 
-.mat-select:focus:not(.mat-select-disabled).mat-primary .mat-select-underline {
-  background-color: #5d4037; }
-
-.mat-select:focus:not(.mat-select-disabled).mat-accent .mat-select-trigger, .mat-select:focus:not(.mat-select-disabled).mat-accent .mat-select-arrow {
+.mat-form-field.mat-focused.mat-accent .mat-select-arrow {
   color: #b0bec5; }
 
-.mat-select:focus:not(.mat-select-disabled).mat-accent .mat-select-underline {
-  background-color: #b0bec5; }
-
-.mat-select:focus:not(.mat-select-disabled).mat-select-required .mat-select-placeholder::after {
+.mat-form-field.mat-focused.mat-warn .mat-select-arrow {
   color: #f44336; }
 
-.mat-select:focus:not(.mat-select-disabled).mat-warn .mat-select-trigger, .mat-select:focus:not(.mat-select-disabled).mat-warn .mat-select-arrow, .mat-select-invalid .mat-select-trigger, .mat-select-invalid .mat-select-arrow {
+.mat-form-field .mat-select.mat-select-invalid .mat-select-arrow {
   color: #f44336; }
 
-.mat-select:focus:not(.mat-select-disabled).mat-warn .mat-select-underline, .mat-select-invalid .mat-select-underline {
-  background-color: #f44336; }
+.mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+  color: rgba(0, 0, 0, 0.54); }
+
+.mat-select.mat-select-disabled .mat-select-arrow {
+  color: #f44336; }
 
 .mat-drawer-container {
   background-color: #fafafa;
@@ -1249,7 +1243,7 @@ input.mat-input-element {
 .mat-slider-vertical .mat-slider-ticks {
   background-image: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) 2px, transparent 0, transparent); }
 
-.mat-step-header:focus, .mat-step-header:hover {
+.mat-step-header.cdk-keyboard-focused, .mat-step-header.cdk-program-focused, .mat-step-header:hover {
   background-color: rgba(0, 0, 0, 0.04); }
 
 .mat-step-header .mat-step-label,

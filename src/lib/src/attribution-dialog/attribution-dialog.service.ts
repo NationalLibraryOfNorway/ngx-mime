@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable, ElementRef } from '@angular/core';
-import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AttributionDialogComponent } from './attribution-dialog.component';
@@ -12,31 +12,32 @@ import { Dimensions } from '../core/models/dimensions';
 @Injectable()
 export class AttributionDialogService {
   private isAttributionDialogOpen = false;
-  private dialogRef: MdDialogRef<AttributionDialogComponent>;
+  private dialogRef: MatDialogRef<AttributionDialogComponent>;
   private _el: ElementRef;
   private attributionDialogHeight = 0;
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
     private mimeDomHelper: MimeDomHelper
-  ) {
-    mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+  ) { }
+
+  public initialize(): void {
+    this.subscriptions.push(this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       if (this.isAttributionDialogOpen) {
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);
       }
-    });
-    attributionDialogResizeService.onResize.subscribe((dimensions: Dimensions) => {
+    }));
+    this.subscriptions.push(this.attributionDialogResizeService.onResize.subscribe((dimensions: Dimensions) => {
       if (this.isAttributionDialogOpen) {
         this.attributionDialogHeight = dimensions.height;
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);
       }
-    });
-
+    }));
   }
 
   public destroy() {
@@ -93,7 +94,7 @@ export class AttributionDialogService {
     }
   }
 
-  private getDialogConfig(): MdDialogConfig {
+  private getDialogConfig(): MatDialogConfig {
     const dimensions = this.getPosition(this._el);
     return {
       hasBackdrop: false,

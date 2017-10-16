@@ -32,7 +32,7 @@ import { ViewerOptions } from '../../core/models/viewer-options';
   }
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
-  public state = 'show';
+  public state = 'hide';
   public showNavigationToolbar = true;
   public searchResult: SearchResult = new SearchResult();
   public showPageNavigator = true;

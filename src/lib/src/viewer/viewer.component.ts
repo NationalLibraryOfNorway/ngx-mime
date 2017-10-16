@@ -85,9 +85,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
           if (manifest) {
-            this.resetErrorMessage();
+            this.cleanup();
+            this.initialize();
             this.currentManifest = manifest;
-            this.cleanUp();
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -182,7 +182,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (manifestUriIsChanged) {
-      this.cleanUp();
+      this.cleanup();
       this.loadManifest();
     } else {
       if (qIsChanged) {
@@ -198,19 +198,19 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
     });
-    this.attributionDialogService.destroy();
-    this.contentsDialogService.destroy();
-    this.contentSearchDialogService.destroy();
-    this.iiifContentSearchService.destroy();
+    this.cleanup();
     this.iiifManifestService.destroy();
+    this.iiifContentSearchService.destroy();
   }
 
   // ChangeDetection fix
   onModeChange() {
+    /*
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.contentsDialogService.destroy();
       this.contentSearchDialogService.destroy();
     }
+    */
   }
 
   toggleToolbarsState(mode: ViewerMode): void {
@@ -241,12 +241,18 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.iiifManifestService.load(this.manifestUri);
   }
 
-  private cleanUp() {
-    this.viewerService.destroy();
+  private initialize() {
+    this.attributionDialogService.initialize();
+    this.contentsDialogService.initialize();
+    this.contentSearchDialogService.initialize();
+  }
+
+  private cleanup() {
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
-    this.iiifContentSearchService.destroy();
+    this.viewerService.destroy();
+    this.resetErrorMessage();
   }
 
   private resetCurrentManifest(): void {

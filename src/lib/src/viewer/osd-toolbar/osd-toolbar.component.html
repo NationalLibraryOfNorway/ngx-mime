@@ -1,23 +1,23 @@
-<md-toolbar fxHide fxShow.gt-sm="true" class="osd-toolbar" [ngStyle]="osdToolbarStyle">
+<mat-toolbar fxHide fxShow.gt-sm="true" class="osd-toolbar" [ngStyle]="osdToolbarStyle">
   <div class="osd-toolbar-container" fxLayout="column" fxLayoutAlign="center center">
     <div class="osd-toolbar-row">
-      <md-toolbar-row>
-        <button (click)="zoomIn()" id="zoomInButton" md-icon-button [attr.aria-label]="intl.zoomInLabel" [mdTooltip]="intl.zoomInLabel"><md-icon>zoom_in</md-icon></button>
-      </md-toolbar-row>
+      <mat-toolbar-row>
+        <button (click)="zoomIn()" id="zoomInButton" mat-icon-button [attr.aria-label]="intl.zoomInLabel" [matTooltip]="intl.zoomInLabel"><mat-icon>zoom_in</mat-icon></button>
+      </mat-toolbar-row>
     </div>
     <div class="osd-toolbar-row">
-      <md-toolbar-row>
-        <button id="navigateBeforeButton" md-icon-button [attr.aria-label]="intl.previousPageLabel" [mdTooltip]="intl.previousPageLabel" [disabled]="isFirstPage"
-          (click)="goToPreviousPage()"><md-icon>navigate_before</md-icon></button>
-        <button (click)="home()" id="homeButton" md-icon-button [attr.aria-label]="intl.homeLabel" [mdTooltip]="intl.homeLabel"><md-icon>home</md-icon></button>
-        <button id="navigateNextButton" md-icon-button [attr.aria-label]="intl.nextPageLabel" [mdTooltip]="intl.nextPageLabel" [disabled]="isLastPage"
-          (click)="goToNextPage()"><md-icon>navigate_next</md-icon></button>
-      </md-toolbar-row>
+      <mat-toolbar-row>
+        <button id="navigateBeforeButton" mat-icon-button [attr.aria-label]="intl.previousPageLabel" [matTooltip]="intl.previousPageLabel" [disabled]="isFirstPage"
+          (click)="goToPreviousPage()"><mat-icon>navigate_before</mat-icon></button>
+        <button (click)="home()" id="homeButton" mat-icon-button [attr.aria-label]="intl.homeLabel" [matTooltip]="intl.homeLabel"><mat-icon>home</mat-icon></button>
+        <button id="navigateNextButton" mat-icon-button [attr.aria-label]="intl.nextPageLabel" [matTooltip]="intl.nextPageLabel" [disabled]="isLastPage"
+          (click)="goToNextPage()"><mat-icon>navigate_next</mat-icon></button>
+      </mat-toolbar-row>
     </div>
     <div class="osd-toolbar-row">
-      <md-toolbar-row>
-        <button (click)="zoomOut()" id="zoomOutButton" md-icon-button [attr.aria-label]="intl.zoomOutLabel" [mdTooltip]="intl.zoomOutLabel"><md-icon>zoom_out</md-icon></button>
-      </md-toolbar-row>
+      <mat-toolbar-row>
+        <button (click)="zoomOut()" id="zoomOutButton" mat-icon-button [attr.aria-label]="intl.zoomOutLabel" [matTooltip]="intl.zoomOutLabel"><mat-icon>zoom_out</mat-icon></button>
+      </mat-toolbar-row>
     </div>
   </div>
-</md-toolbar>
+</mat-toolbar>

@@ -1,5 +1,5 @@
 import { Injectable, ElementRef } from '@angular/core';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -13,23 +13,29 @@ import { Manifest } from './../core/models/manifest';
 export class ContentSearchDialogService {
   private _el: ElementRef;
   private isContentSearchDialogOpen = false;
-  private dialogRef: MdDialogRef<ContentSearchDialogComponent>;
+  private dialogRef: MatDialogRef<ContentSearchDialogComponent>;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService) {
-      mimeResizeService.onResize.subscribe(rect => {
-        if (this.isContentSearchDialogOpen) {
-          const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-          this.dialogRef.updateSize(config.width, config.height);
-        }
-      });
+    private mimeResizeService: MimeResizeService) { }
+
+  public initialize(): void {
+    this.subscriptions.push(this.mimeResizeService.onResize.subscribe(rect => {
+      if (this.isContentSearchDialogOpen) {
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
+        this.dialogRef.updateSize(config.width, config.height);
+      }
+    }));
   }
 
   public destroy() {
     this.close();
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
   set el(el: ElementRef) {
@@ -59,7 +65,7 @@ export class ContentSearchDialogService {
     this.isContentSearchDialogOpen ? this.close() : this.open();
   }
 
-  private getDialogConfig(): MdDialogConfig {
+  private getDialogConfig(): MatDialogConfig {
     return this.contentSearchDialogConfigStrategyFactory.create().getConfig(this._el);
   }
 
