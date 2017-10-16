@@ -1,5 +1,6 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
+import { ObservableMedia } from '@angular/flex-layout';
 
 import { ViewerService } from './viewer.service';
 import { ClickService } from '../click-service/click.service';
@@ -23,7 +24,8 @@ describe('ViewerService', () => {
         ViewerLayoutService,
         IiifContentSearchService,
         HttpClient,
-        HttpHandler
+        HttpHandler,
+        ObservableMedia
       ]
     });
   });

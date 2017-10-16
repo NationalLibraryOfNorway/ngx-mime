@@ -7,8 +7,10 @@ export class MimeViewerConfig {
   public navigationControlEnabled?= true;
   public initViewerMode?= ViewerMode.PAGE;
 
+
   // If this is set to ONE_PAGE, then one-page-layout will be forced initially,
   // even if manifest supports two-page-layout
+  // On Mobile the one-page-layout will allways be loaded by default
   public initViewerLayout?= ViewerLayout.TWO_PAGE;
 
   constructor(fields?: {

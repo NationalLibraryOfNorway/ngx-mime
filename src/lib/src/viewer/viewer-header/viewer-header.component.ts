@@ -80,7 +80,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     }));
 
-    this.subscriptions.push(this.viewerLayoutService.viewerLayoutState.subscribe((viewerLayout: ViewerLayout) => {
+    this.subscriptions.push(this.viewerLayoutService.onChange.subscribe((viewerLayout: ViewerLayout) => {
       this.viewerLayout = viewerLayout;
     }));
 

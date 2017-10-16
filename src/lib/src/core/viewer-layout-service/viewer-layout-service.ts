@@ -1,6 +1,7 @@
-import { Subject } from 'rxjs/Rx';
+import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { ObservableMedia } from '@angular/flex-layout';
 
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerLayout } from '../models/viewer-layout';
@@ -10,21 +11,39 @@ import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 @Injectable()
 export class ViewerLayoutService {
   private mimeConfig = new MimeViewerConfig();
-  private viewerLayoutSubject: Subject<ViewerLayout> = new Subject<ViewerLayout>();
-  public viewerLayoutState = this.viewerLayoutSubject.asObservable();
-  constructor() { }
-
-  init(manifest: Manifest) {
-    const isPagedManifest = ManifestUtils.isManifestPaged(manifest);
-    if (isPagedManifest && this.mimeConfig.initViewerLayout === ViewerLayout.TWO_PAGE) {
-      this.viewerLayoutSubject.next(ViewerLayout.TWO_PAGE);
+  private _layout: ViewerLayout;
+  private subject: BehaviorSubject<ViewerLayout> = new BehaviorSubject<ViewerLayout>(this.mimeConfig.initViewerLayout);
+  constructor(
+    private media: ObservableMedia
+  ) {
+    if (this.mimeConfig.initViewerLayout === ViewerLayout.TWO_PAGE && !this.isMobile()) {
+      this._layout = ViewerLayout.TWO_PAGE;
+      this.change();
     } else {
-      this.viewerLayoutSubject.next(ViewerLayout.ONE_PAGE);
+      this._layout = ViewerLayout.ONE_PAGE;
+      this.change();
     }
   }
 
+  get onChange(): Observable<ViewerLayout> {
+    return this.subject.asObservable().distinctUntilChanged();
+  }
+
+  get layout(): ViewerLayout {
+    return this._layout;
+  }
+
   setLayout(viewerLayout: ViewerLayout) {
-    this.viewerLayoutSubject.next(viewerLayout);
+    this._layout = viewerLayout;
+    this.change();
+  }
+
+  private change() {
+    this.subject.next(this._layout);
+  }
+
+  private isMobile(): boolean {
+    return this.media.isActive('lt-md');
   }
 
 }

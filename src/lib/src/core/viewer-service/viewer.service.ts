@@ -61,8 +61,6 @@ export class ViewerService {
   private manifest: Manifest;
   private isManifestPaged: boolean;
 
-  private viewerLayout: ViewerLayout = new MimeViewerConfig().initViewerLayout;
-
   public currentSearch: SearchResult;
 
   constructor(
@@ -274,10 +272,9 @@ export class ViewerService {
     );
 
     this.subscriptions.push(
-      this.viewerLayoutService.viewerLayoutState.subscribe((state: ViewerLayout) => {
-        if (this.viewerLayout !== state && this.osdIsReady.getValue()) {
+      this.viewerLayoutService.onChange.subscribe((state: ViewerLayout) => {
+        if (this.osdIsReady.getValue()) {
           const savedTile = this.pageService.currentTile;
-          this.viewerLayout = state;
           this.destroy(true);
           this.setUpViewer(this.manifest);
           this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
@@ -527,6 +524,7 @@ export class ViewerService {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
+
     const target = event.originalEvent.target;
     const tileIndex = this.getOverlayIndexFromClickEvent(target);
     const requestedPage = this.pageService.findPageByTileIndex(tileIndex);
@@ -585,11 +583,11 @@ export class ViewerService {
     this.overlays = [];
     const tileRects: Rect[] = [];
     const calculatePagePositionStrategy = CalculatePagePositionFactory.create(
-      this.viewerLayout,
+      this.viewerLayoutService.layout,
       this.isManifestPaged
     );
 
-    const isTwoPageView: boolean = this.viewerLayout === ViewerLayout.TWO_PAGE;
+    const isTwoPageViewAndPaged: boolean = this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE && this.isManifestPaged;
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
@@ -612,7 +610,7 @@ export class ViewerService {
         });
       });
 
-      if (isTwoPageView && i % 2 !== 0) {
+      if (isTwoPageViewAndPaged && i % 2 !== 0) {
         group = this.svgNode.append('g').attr('class', 'page-group');
       }
 
@@ -624,7 +622,7 @@ export class ViewerService {
         .attr('class', 'tile');
 
       // Make custom borders if current layout is two-paged
-      if (isTwoPageView) {
+      if (isTwoPageViewAndPaged) {
         if (i % 2 === 0 && i !== 0) {
           const noLeftStrokeStyle = Number((position.width * 2) + position.height) + ', ' + position.width * 2;
           currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
@@ -638,7 +636,7 @@ export class ViewerService {
       this.overlays.push(currentOverlayNode);
     });
 
-    this.pageService.addPages(tileRects, this.viewerLayout, this.isManifestPaged);
+    this.pageService.addPages(tileRects, this.viewerLayoutService.layout, this.isManifestPaged);
   }
 
   /**

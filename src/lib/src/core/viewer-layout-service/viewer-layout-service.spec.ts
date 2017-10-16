@@ -1,4 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { ObservableMedia } from '@angular/flex-layout';
 
 import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerLayoutService } from './viewer-layout-service';
@@ -7,7 +8,10 @@ import { ViewerLayoutService } from './viewer-layout-service';
 describe('ViewerLayoutService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ViewerLayoutService]
+      providers: [
+        ViewerLayoutService,
+        ObservableMedia
+      ]
     });
   });
 
@@ -17,7 +21,7 @@ describe('ViewerLayoutService', () => {
 
   it('should emit when ViewerLayout is toggled', inject([ViewerLayoutService], (service: ViewerLayoutService) => {
     let newLayout: ViewerLayout;
-    service.viewerLayoutState.subscribe((state: ViewerLayout) => newLayout = state);
+    service.onChange.subscribe((state: ViewerLayout) => newLayout = state);
     service.setLayout(ViewerLayout.ONE_PAGE);
     expect(newLayout).toEqual(ViewerLayout.ONE_PAGE);
     service.setLayout(ViewerLayout.TWO_PAGE);
@@ -39,5 +43,9 @@ describe('ViewerLayoutService', () => {
   it('should set layout to ONE_PAGE if this is set in mime-config', () => {
     pending('');
   });
+
+  it('should start with one-page-layout on mobile', () => {
+    pending('');
+  })
 
 });
