@@ -1,3 +1,13 @@
 :host {
   max-height: 64px;
 }
+
+.header-container {
+  width: 100%;
+}
+
+.label {
+  font-size: smaller;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
