@@ -46,6 +46,6 @@ describe('ViewerLayoutService', () => {
 
   it('should start with one-page-layout on mobile', () => {
     pending('');
-  })
+  });
 
 });
