@@ -550,14 +550,7 @@ export class ViewerService {
           height: tile.height,
           x: currentX,
           y: currentY,
-          placeholderFillStyle: (tiledImage: any, ctx: any) => {
-            // fix: just make a transparent fillstyle; otherwise context fills black for some reason
-            ctx.fillStyle = 'rgba(255,255,255,0)';
-            ctx.fill();
-            if (this.modeService.mode === ViewerMode.DASHBOARD) {
-              this.spinnerService.show();
-            }
-          },
+          placeholderFillStyle: this.tilePreload,
           success: (e: any) => {
             e.item.addHandler('fully-loaded-change', () => this.spinnerService.hide());
           }
@@ -584,6 +577,20 @@ export class ViewerService {
 
       currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
     });
+  }
+
+  /**
+   *
+   * @param tiledImage current tiled image
+   * @param ctx canvas context
+   */
+  private tilePreload = (tiledImage: any, ctx: any) => {
+    // fix: just make a transparent fillstyle; otherwise context fills black
+    ctx.fillStyle = 'rgba(255,255,255,0)';
+    ctx.fill();
+    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+      this.spinnerService.show();
+    }
   }
 
   /**
