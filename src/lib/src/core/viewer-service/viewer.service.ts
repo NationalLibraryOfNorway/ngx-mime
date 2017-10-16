@@ -29,6 +29,7 @@ import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-serv
 import { PinchStatus } from '../models/pinchStatus';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
+import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
@@ -62,12 +63,15 @@ export class ViewerService {
 
   private viewerLayout: ViewerLayout = new MimeViewerConfig().initViewerLayout;
 
+  public currentSearch: SearchResult;
+
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
     private modeService: ModeService,
-    private viewerLayoutService: ViewerLayoutService
+    private viewerLayoutService: ViewerLayoutService,
+    private iiifContentSearchService: IiifContentSearchService
   ) { }
 
 
@@ -185,6 +189,7 @@ export class ViewerService {
   public highlight(searchResult: SearchResult): void {
     this.clearHightlight();
     if (this.viewer) {
+      if (searchResult.q) { this.currentSearch = searchResult; }
       for (const hit of searchResult.hits) {
         for (let rect of hit.rects) {
           const tileRect = this.pageService.getTileRect(hit.index);
@@ -206,6 +211,7 @@ export class ViewerService {
   public clearHightlight(): void {
     if (this.svgNode) {
       this.svgNode.selectAll('.hit').remove();
+      this.currentSearch = null;
     }
   }
 
@@ -272,9 +278,13 @@ export class ViewerService {
         if (this.viewerLayout !== state && this.osdIsReady.getValue()) {
           const savedTile = this.pageService.currentTile;
           this.viewerLayout = state;
-          this.destroy();
+          this.destroy(true);
           this.setUpViewer(this.manifest);
           this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
+          // Recreate highlights if there is an active search going on
+          if (this.currentSearch) {
+            this.highlight(this.currentSearch);
+          }
         }
       })
     );
@@ -289,7 +299,12 @@ export class ViewerService {
     this.svgNode = d3.select(this.svgOverlay.node());
   }
 
-  destroy() {
+  /**
+   *
+   * @param {layoutSwitch} true if switching between layouts
+   * to keep current search-state
+   */
+  destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
     this.currentCenter.next(null);
     if (this.viewer != null && this.viewer.isOpen()) {
@@ -303,6 +318,11 @@ export class ViewerService {
     });
     this.overlays = null;
     this.pageService.reset();
+    // Keep search-state only if layout-switch
+    if (!layoutSwitch) {
+      this.currentSearch = null;
+      this.iiifContentSearchService.destroy();
+    }
   }
 
   addEvents(): void {
