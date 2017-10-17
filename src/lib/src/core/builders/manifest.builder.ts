@@ -7,6 +7,8 @@ export class ManifestBuilder {
   constructor(private data: any) {}
 
   build(): Manifest {
+    const sequences: Sequence[] = new SequenceBuilder(this.data.sequences).build();
+
     return new Manifest({
       context: BuilderUtils.extractContext(this.data),
       type: BuilderUtils.extracType(this.data),
@@ -17,8 +19,8 @@ export class ManifestBuilder {
       license: this.data.license,
       attribution: this.data.attribution,
       service: new ServiceBuilder(this.data.service).build(),
-      sequences: new SequenceBuilder(this.data.sequences).build(),
-      structures: new StructureBuilder(this.data.structure).build(),
+      sequences: sequences,
+      structures: new StructureBuilder(this.data.structures, sequences).build(),
       tileSource: new TileSourceBuilder(this.data.sequences).build()
     });
   }
@@ -179,7 +181,7 @@ export class TilesBuilder {
 }
 
 export class StructureBuilder {
-  constructor(private structures: any[]) { }
+  constructor(private structures: any[], private sequences: Sequence[]) { }
 
   build(): Structure[] {
     let structures: Structure[] = [];
@@ -190,7 +192,8 @@ export class StructureBuilder {
           id: BuilderUtils.extractId(structure),
           type: BuilderUtils.extracType(structure),
           label: structure.label,
-          canvases: null // TODO Find a way to handle canvases as both Canvas object and string array.
+          canvases: structure.canvases,
+          canvasIndex: BuilderUtils.findCanvasIndex(structure.canvases, this.sequences)
         }));
       }
     }
@@ -235,5 +238,13 @@ export class BuilderUtils {
     } else if (value['viewingDirection'] === 'right-to-left') {
       return ViewingDirection.RTL;
     }
+  }
+
+  static findCanvasIndex(canvases: string[], sequences: Sequence[]): number {
+      let index = -1;
+      if (sequences[0] && sequences[0].canvases && canvases[0]) {
+        index = sequences[0].canvases.findIndex((canvas: Canvas) => canvas.id === canvases[0]);
+      }
+      return index;
   }
 }

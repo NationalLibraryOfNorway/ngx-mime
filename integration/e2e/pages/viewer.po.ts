@@ -21,7 +21,7 @@ export class ViewerPage {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
     await browser.get(uri);
-    await browser.sleep(5000);
+    await browser.sleep(1000);
   }
   async goToPage(pageNumber: number) {
     const isPageMode = this.isPageMode();
@@ -60,6 +60,11 @@ export class ViewerPage {
   async openContentsDialog() {
     await element(by.css('#contentsDialogButton')).click();
     await utils.waitForElement(element(by.css('.contents-container')));
+  }
+
+  async openTableOfContentsTab() {
+    await element.all(by.css('.mat-tab-label')).get(1).click();
+    await utils.waitForElement(element(by.css('.toc-container')));
   }
 
   async openContentSearchDialog() {

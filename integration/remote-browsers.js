@@ -1,4 +1,4 @@
-exports.customDesktopLaunchers = [
+exports.customLaunchers = [
   {
     browserName: "chrome",
     version: "latest",
@@ -13,27 +13,23 @@ exports.customDesktopLaunchers = [
     browserName: "MicrosoftEdge",
     platform: "Windows 10",
     version: "latest"
-  }
-  // {
-  //   browserName: "internet explorer",
-  //   platform: "Windows 10",
-  //   version: "latest"
-  // },
-  // {
-  //   browserName: "safari",
-  //   platform: "macOS 10.12",
-  //   version: "10.0"
-  // }
-]
-exports.androidLaunchers = [
+  },
+  {
+    browserName: "internet explorer",
+    platform: "Windows 10",
+    version: "latest"
+  },
+  {
+    browserName: "safari",
+    platform: "macOS 10.12",
+    version: "10.0"
+  },
   {
     browserName: "Chrome",
     deviceName: "Android Emulator",
     platformVersion: "6.0",
     platformName: "Android"
-  }
-]
-exports.iphoneLaunchers = [
+  },
   {
     browserName: "Safari",
     deviceName: "iPhone Simulator",
