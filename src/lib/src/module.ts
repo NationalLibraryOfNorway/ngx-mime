@@ -26,8 +26,7 @@ import 'd3';
     OsdToolbarComponent,
     ContentSearchNavigatorComponent,
     PageNavigatorComponent,
-    ViewerSpinnerComponent,
-    OsdToolbarComponent
+    ViewerSpinnerComponent
   ],
   imports: [
     CoreModule,

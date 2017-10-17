@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Input, Renderer2, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { MdDialog, MdDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -41,10 +41,12 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
   }
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
-  private subscriptions: Array<Subscription> = [];
+  @ViewChild('mimeHeaderBefore', {read: ViewContainerRef}) mimeHeaderBefore: ViewContainerRef;
+  @ViewChild('mimeHeaderAfter', {read: ViewContainerRef}) mimeHeaderAfter: ViewContainerRef;
   public state = 'show';
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
     public intl: MimeViewerIntl,

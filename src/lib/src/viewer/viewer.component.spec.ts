@@ -1,8 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
@@ -26,6 +27,7 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 
 import 'openseadragon';
 import '../rxjs-extension';
@@ -57,7 +59,9 @@ describe('ViewerComponent', function () {
       ],
       declarations: [
         ViewerComponent,
-        TestHostComponent
+        TestHostComponent,
+        ViewerHeaderComponent,
+        TestDynamicComponent
       ],
       providers: [
         ViewerService,
@@ -70,6 +74,10 @@ describe('ViewerComponent', function () {
         ModeService,
         FullscreenService
       ]
+    }).overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [ TestDynamicComponent ],
+      }
     }).compileComponents();
   }));
 
@@ -314,6 +322,20 @@ describe('ViewerComponent', function () {
     });
   });
 
+  it('should create dynamic component to start of header', () => {
+    testHostComponent.addComponentToStartOfHeader();
+
+    const button = testHostFixture.debugElement.query(By.css('#test-dynamic-component'));
+    expect(button).not.toBeNull();
+  });
+
+  it('should create dynamic component to end of header', () => {
+    testHostComponent.addComponentToEndOfHeader();
+
+    const button = testHostFixture.debugElement.query(By.css('#test-dynamic-component'));
+    expect(button).not.toBeNull();
+  });
+
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });
@@ -334,6 +356,12 @@ describe('ViewerComponent', function () {
 
 });
 
+
+@Component({
+  template: `<div id="test-dynamic-component"></div>`
+})
+export class TestDynamicComponent { }
+
 @Component({
   selector: `test-component`,
   template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex"></mime-viewer>`
@@ -343,6 +371,19 @@ export class TestHostComponent {
   public viewerComponent: any;
   public manifestUri: string;
   public canvasIndex = 0;
+
+  constructor(private r: ComponentFactoryResolver) { }
+
+  addComponentToStartOfHeader() {
+    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
+    this.viewerComponent.mimeHeaderBeforeRef.createComponent(factory);
+  }
+
+  addComponentToEndOfHeader() {
+    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
+    this.viewerComponent.mimeHeaderAfterRef.createComponent(factory);
+  }
+
 }
 
 class IiifManifestServiceStub {

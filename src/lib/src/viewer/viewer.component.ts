@@ -12,6 +12,7 @@ import {
   SimpleChange,
   SimpleChanges,
   ViewChild,
+  ViewContainerRef
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -77,6 +78,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     attributionDialogService.el = el;
     contentSearchDialogService.el = el;
     mimeService.el = el;
+  }
+
+  get mimeHeaderBeforeRef(): ViewContainerRef {
+    return this.header.mimeHeaderBefore;
+  }
+
+  get mimeHeaderAfterRef(): ViewContainerRef {
+    return this.header.mimeHeaderAfter;
   }
 
   ngOnInit(): void {
