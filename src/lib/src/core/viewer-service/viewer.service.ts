@@ -129,7 +129,7 @@ export class ViewerService {
     if (!this.osdIsReady.getValue()) {
       return;
     }
-
+    this.setMinZoom(this.modeService.mode);
     this.goToPage(this.pageService.currentPage, false);
     this.goToHomeZoom();
   }
@@ -411,8 +411,8 @@ export class ViewerService {
     this.goToPage(this.pageService.currentPage, false);
     this.pageMask.hide();
 
+    this.setMinZoom(ViewerMode.DASHBOARD);
     this.goToHomeZoom();
-    this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(ViewerMode.DASHBOARD);
   }
 
   /**
@@ -425,8 +425,8 @@ export class ViewerService {
     this.goToPage(this.pageService.currentPage, false);
     this.pageMask.show();
 
+    this.setMinZoom(ViewerMode.PAGE);
     this.goToHomeZoom();
-    this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(ViewerMode.DASHBOARD);
   }
 
   /**
@@ -739,6 +739,11 @@ export class ViewerService {
       x: x,
       y: y
     }, immediately);
+  }
+
+
+  private setMinZoom(mode: ViewerMode): void {
+    this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(mode);
   }
 
   private goToHomeZoom(): void {
