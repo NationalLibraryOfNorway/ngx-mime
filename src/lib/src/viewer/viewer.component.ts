@@ -3,12 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
+  HostListener,
   Input,
-  Output,
   OnChanges,
   OnDestroy,
   OnInit,
-  EventEmitter,
+  Output,
   SimpleChange,
   SimpleChanges,
   ViewChild,
@@ -261,6 +262,18 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   private resetErrorMessage(): void {
     this.errorMessage = null;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  private handleKeyboardEvent(event: KeyboardEvent): void {
+    switch (event.key) {
+      case 'ArrowRight':
+        this.viewerService.goToNextPage();
+        break;
+      case 'ArrowLeft':
+        this.viewerService.goToPreviousPage();
+        break;
+    }
   }
 
   setClasses() {
