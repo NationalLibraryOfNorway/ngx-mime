@@ -12,6 +12,7 @@ export class MimeViewerIntl {
   singlePageViewLabel = 'Single-Page-View';
   metadataLabel = 'Metadata';
   licenseLabel = 'License';
+  tocLabel = 'Table of Contents';
   fullScreenLabel = 'Full screen';
   exitFullScreenLabel = 'Exit full screen';
   zoomInLabel = 'Zoom in';

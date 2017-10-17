@@ -1,16 +1,13 @@
-
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { ObservableMedia } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 
-import { SharedModule } from './../../shared/shared.module';
-import { ContentSearchDialogModule } from './../../content-search-dialog/content-search-dialog.module';
-import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
+import { SharedModule } from '../../shared/shared.module';
+import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
+import { ContentsDialogModule } from '../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
@@ -20,6 +17,11 @@ import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub
 import { MimeDomHelper } from './../../core/mime-dom-helper';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { ViewerLayout } from '../../core/models/viewer-layout';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { ClickService } from '../../core/click-service/click.service';
+import { ModeService } from '../../core/mode-service/mode.service';
+import { PageService } from '../../core/page-service/page-service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -34,9 +36,14 @@ describe('ViewerHeaderComponent', () => {
         ContentSearchDialogModule
       ],
       providers: [
+        ViewerService,
+        ClickService,
+        PageService,
+        ModeService,
         MimeDomHelper,
         FullscreenService,
         ViewerLayoutService,
+        IiifContentSearchService,
         { provide: FullscreenService, useClass: FullscreenServiceMock },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]

@@ -12,6 +12,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   singlePageViewLabel = 'Enkeltside-visning';
   metadataLabel = 'Metadata';
   licenseLabel = 'Lisens';
+  tocLabel = 'Innholdsfortegnelse';
   fullScreenLabel = 'Fullskjerm';
   exitFullScreenLabel = 'Avslutt fullskjerm';
   zoomInLabel = 'Zoom inn';
