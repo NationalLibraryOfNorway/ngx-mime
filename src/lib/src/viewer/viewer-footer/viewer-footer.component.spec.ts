@@ -9,15 +9,15 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
 
 import { ViewerFooterComponent } from './viewer-footer.component';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult, Hit } from './../../core/models/search-result';
+import { MediaServiceStub } from './../../test/media-service-stub';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
-  let mediaMock: MediaMock;
+  let mediaServiceStub: MediaServiceStub;
   let iiifContentSearchServiceMock: IiifContentSearchServiceMock;
   let fixture: ComponentFixture<ViewerFooterComponent>;
   let spy: any;
@@ -30,7 +30,7 @@ describe('ViewerFooterComponent', () => {
         declarations: [ViewerFooterComponent],
         providers: [
           { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
-          { provide: ObservableMedia, useClass: MediaMock }
+          { provide: ObservableMedia, useClass: MediaServiceStub }
         ]
       }).compileComponents();
     })
@@ -39,7 +39,7 @@ describe('ViewerFooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
     cmp = fixture.componentInstance;
-    mediaMock = TestBed.get(ObservableMedia);
+    mediaServiceStub = TestBed.get(ObservableMedia);
     iiifContentSearchServiceMock = TestBed.get(IiifContentSearchService);
     fixture.detectChanges();
   });
@@ -79,11 +79,11 @@ describe('ViewerFooterComponent', () => {
   }));
 
   it('should always show pageNavigator in desktop size', () => {
-    spyOn(mediaMock, 'isActive').and.returnValue(false);
+    spyOn(mediaServiceStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     fixture.detectChanges();
 
-    mediaMock._onChange.next(new MediaChange());
+    mediaServiceStub._onChange.next(new MediaChange());
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -92,14 +92,14 @@ describe('ViewerFooterComponent', () => {
   });
 
   it('should show pageNavigator in desktop size and if content search navigator is displayed', () => {
-    spyOn(mediaMock, 'isActive').and.returnValue(false);
+    spyOn(mediaServiceStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     cmp.showContentSearchNavigator = false;
 
     const sr = new SearchResult();
     sr.add(new Hit());
 
-    mediaMock._onChange.next(new MediaChange());
+    mediaServiceStub._onChange.next(new MediaChange());
     iiifContentSearchServiceMock._onChange.next(sr);
 
     fixture.whenStable().then(() => {
@@ -110,12 +110,12 @@ describe('ViewerFooterComponent', () => {
   });
 
   it('should hide pageNavigator if mobile size and content search navigator is displayed', () => {
-    spyOn(mediaMock, 'isActive').and.returnValue(true);
+    spyOn(mediaServiceStub, 'isActive').and.returnValue(true);
     cmp.searchResult = new SearchResult();
     cmp.searchResult.add(new Hit());
     fixture.detectChanges();
 
-    mediaMock._onChange.next(new MediaChange());
+    mediaServiceStub._onChange.next(new MediaChange());
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -142,19 +142,5 @@ class IiifContentSearchServiceMock {
 
   get onChange(): Observable<SearchResult> {
     return this._onChange.asObservable();
-  }
-}
-
-class MediaMock {
-  _onChange = new Subject<MediaChange>();
-
-  isActive(m: string) {
-    return false;
-  }
-
-  subscribe(next?: (value: MediaChange) => void,
-    error?: (error: any) => void,
-    complete?: () => void): Subscription {
-    return this._onChange.subscribe(next, error, complete);
   }
 }
