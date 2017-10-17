@@ -4,9 +4,6 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  Input,
-  Renderer2,
-  ElementRef,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
