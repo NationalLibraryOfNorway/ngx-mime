@@ -1,5 +1,6 @@
 import { Injectable, ElementRef } from '@angular/core';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
@@ -9,23 +10,30 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 export class ContentsDialogService {
   private _el: ElementRef;
   private isContentsDialogOpen = false;
-  private dialogRef: MdDialogRef<ContentsDialogComponent>;
+  private dialogRef: MatDialogRef<ContentsDialogComponent>;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService) {
-      mimeResizeService.onResize.subscribe(rect => {
-        if (this.isContentsDialogOpen) {
-          const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-          this.dialogRef.updateSize(config.width, config.height);
-        }
-      });
+  }
+
+  public initialize(): void {
+    this.subscriptions.push(this.mimeResizeService.onResize.subscribe(rect => {
+      if (this.isContentsDialogOpen) {
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
+        this.dialogRef.updateSize(config.width, config.height);
+      }
+    }));
   }
 
   public destroy() {
     this.close();
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
   }
 
   set el(el: ElementRef) {
@@ -55,7 +63,7 @@ export class ContentsDialogService {
     this.isContentsDialogOpen ? this.close() : this.open();
   }
 
-  private getDialogConfig(): MdDialogConfig {
+  private getDialogConfig(): MatDialogConfig {
     return this.contentsDialogConfigStrategyFactory.create().getConfig(this._el);
   }
 

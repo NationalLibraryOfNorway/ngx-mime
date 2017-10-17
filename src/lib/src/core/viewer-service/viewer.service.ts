@@ -68,7 +68,7 @@ export class ViewerService {
   }
 
   get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable();
+    return this.currentPageIndex.asObservable().distinctUntilChanged();
   }
 
   get onOsdReadyChange(): Observable<boolean> {
@@ -125,6 +125,7 @@ export class ViewerService {
     const viewportCenter = this.getViewportCenter();
     const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
 
+    this.setMinZoom(this.modeService.mode);
     this.goToPage(currentPageIndex, false);
     this.goToHomeZoom();
   }
@@ -222,12 +223,14 @@ export class ViewerService {
         this.modeChanged(mode);
       }));
 
-      this.subscriptions.push(this.onCenterChange.throttle(val => Observable.interval(500)).subscribe((center: Point) => {
-        this.calculateCurrentPage(center);
-        if (center && center !== null) {
-          this.osdIsReady.next(true);
-        }
-      }));
+      this.zone.runOutsideAngular(() => {
+        this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
+          this.calculateCurrentPage(center);
+          if (center && center !== null) {
+            this.osdIsReady.next(true);
+          }
+        }));
+      });
 
       this.subscriptions.push(
         this.pageService.onPageChange.subscribe((pageIndex: number) => {
@@ -244,6 +247,7 @@ export class ViewerService {
         this.onOsdReadyChange.subscribe((state: boolean) => {
           if (state) {
             this.initialPageLoaded();
+            this.currentCenter.next(this.viewer.viewport.getCenter(true));
           }
         })
       );
@@ -365,8 +369,8 @@ export class ViewerService {
     this.goToPage(this.pageService.currentPage, false);
     this.pageMask.hide();
 
+    this.setMinZoom(ViewerMode.DASHBOARD);
     this.goToHomeZoom();
-    this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(ViewerMode.DASHBOARD);
   }
 
   /**
@@ -379,8 +383,8 @@ export class ViewerService {
     this.goToPage(this.pageService.currentPage, false);
     this.pageMask.show();
 
+    this.setMinZoom(ViewerMode.PAGE);
     this.goToHomeZoom();
-    this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(ViewerMode.DASHBOARD);
   }
 
   /**
@@ -704,6 +708,11 @@ export class ViewerService {
       x: x,
       y: y
     }, immediately);
+  }
+
+
+  private setMinZoom(mode: ViewerMode): void {
+    this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(mode);
   }
 
   private goToHomeZoom(): void {

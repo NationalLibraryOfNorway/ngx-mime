@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MdSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material';
 
 import { ManifestService } from './../manifest-service/manifest.service';
 import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
@@ -11,7 +11,7 @@ import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
 })
 
 export class SidenavComponent implements OnInit {
-  @Input() sidenav: MdSidenav;
+  @Input() sidenav: MatSidenav;
 
   manifests: ManifestMenuItem[];
 

@@ -14,6 +14,7 @@ import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module'
 import { ViewerComponent } from './viewer.component';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
 import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
 import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
 import { testManifest } from '../test/testManifest';
@@ -34,7 +35,7 @@ import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  const osdAnimationTime = 1500;
+  const osdAnimationTime = 4000;
   let comp: ViewerComponent;
   let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
@@ -45,6 +46,7 @@ describe('ViewerComponent', function () {
   let pageService: PageService;
   let clickService: ClickService;
   let modeService: ModeService;
+  let mimeResizeServiceStub: MimeResizeServiceStub;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -67,7 +69,7 @@ describe('ViewerComponent', function () {
         ViewerService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         IiifContentSearchService,
-        MimeResizeService,
+        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
         MimeViewerIntl,
         ClickService,
         PageService,
@@ -97,6 +99,8 @@ describe('ViewerComponent', function () {
     pageService = TestBed.get(PageService);
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
+    mimeResizeServiceStub = TestBed.get(MimeResizeService);
+
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
@@ -107,13 +111,12 @@ describe('ViewerComponent', function () {
 
   it('should create component', () => expect(comp).toBeDefined());
 
-  it('should cleanUp when manifestUri changes', () => {
+  it('should cleanup when manifestUri changes', () => {
+    spyOn(testHostComponent.viewerComponent, 'cleanup').and.callThrough();
     testHostComponent.manifestUri = 'dummyURI2';
-
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+    expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
   });
 
   it('should create viewer', () => {
@@ -147,10 +150,10 @@ describe('ViewerComponent', function () {
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
 
-    spyOn(testHostComponent.viewerComponent, 'cleanUp').and.callThrough();
+    spyOn(testHostComponent.viewerComponent, 'cleanup').and.callThrough();
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.cleanUp).toHaveBeenCalled();
+    expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
   });
 
   it('svgOverlay-plugin should be defined', () => {
@@ -176,22 +179,89 @@ describe('ViewerComponent', function () {
   });
 
   it('should return to home zoom', (done: any) => {
-    const overlay = viewerService.getOverlays()[0];
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          const overlay = viewerService.getOverlays()[0];
+          const viewer = viewerService.getViewer();
+
+          // Make sure zooming actually works, or else test will always be true
+          const startZoom = viewer.viewport.getZoom(false);
+          viewerService.zoomBy(1.5);
+          const newZoom = viewer.viewport.getZoom(false);
+          expect(newZoom).toBeGreaterThan(startZoom);
+
+          // Return to home
+          viewerService.home();
+
+          const viewportHeight = Math.round(viewer.viewport.getBounds().height);
+          const viewportWidth = Math.round(viewer.viewport.getBounds().width);
+          const overlayHeight = Math.round(overlay.height.baseVal.value);
+          const overlayWidth = Math.round(overlay.width.baseVal.value);
+          expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
+
+          done();
+        }, 600);
+      }
+    });
+  });
+
+  it('should return to home after resize', (done: any) => {
     const viewer = viewerService.getViewer();
+    const overlay = viewerService.getOverlays()[0];
+    const openseadragonDE = testHostFixture.debugElement.query(By.css('#openseadragon'));
+    const element = openseadragonDE.nativeElement;
+    let viewportHeight, viewportWidth, overlayHeight, overlayWidth;
 
-    viewerService.zoomTo(1);
-    viewerService.home();
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          const startMinZoomLevel = viewer.viewport.minZoomLevel;
+          viewportHeight = Math.round(viewer.viewport.getBounds().height);
+          viewportWidth = Math.round(viewer.viewport.getBounds().width);
+          overlayHeight = Math.round(overlay.height.baseVal.value);
+          overlayWidth = Math.round(overlay.width.baseVal.value);
 
-    setTimeout(() => {
-      const viewportHeight = Math.round(viewer.viewport.getBounds().height);
-      const viewportWidth = Math.round(viewer.viewport.getBounds().width);
-      const overlayHeight = Math.round(overlay.height.baseVal.value);
-      const overlayWidth = Math.round(overlay.width.baseVal.value);
+          // Starting out at home
+          expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
 
-      expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
-      done();
-    }, osdAnimationTime);
+          // Resize OSD
+          element.style.display = 'block';
+          element.style.width = '800px';
+          element.style.height = '400px';
 
+          setTimeout(() => {
+            viewportHeight = Math.round(viewer.viewport.getBounds().height);
+            viewportWidth = Math.round(viewer.viewport.getBounds().width);
+            overlayHeight = Math.round(overlay.height.baseVal.value);
+            overlayWidth = Math.round(overlay.width.baseVal.value);
+
+            expect((overlayHeight !== viewportHeight) && (overlayWidth !== viewportWidth)).toEqual(true);
+
+            // Return to home
+            mimeResizeServiceStub.triggerResize();
+            setTimeout(() => {
+
+              // Confirm that minimum zoom level is updated
+              const endMinZoomLevel = viewer.viewport.minZoomLevel;
+              expect(endMinZoomLevel).toBeGreaterThan(startMinZoomLevel);
+
+              viewportHeight = Math.round(viewer.viewport.getBounds().height);
+              viewportWidth = Math.round(viewer.viewport.getBounds().width);
+              overlayHeight = Math.round(overlay.height.baseVal.value);
+              overlayWidth = Math.round(overlay.width.baseVal.value);
+
+              // Returned to home
+              expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
+
+              done();
+             }, 600);
+
+          }, 600);
+
+        }, 600);
+      }
+    });
   });
 
   it('should return overlay-index if target is an overlay', () => {
@@ -292,16 +362,18 @@ describe('ViewerComponent', function () {
   it('should emit when page number changes', (done) => {
     let currentPageNumber: number;
     comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
-    setTimeout(() => {
-      fixture.detectChanges();
-      viewerService.goToPage(1, false);
-      fixture.detectChanges();
-    }, 2000);
-    setTimeout(() => {
-      fixture.detectChanges();
-      expect(currentPageNumber).toEqual(1);
-      done();
-    }, 4000);
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          viewerService.goToPage(1, false);
+        }, 100);
+
+        setTimeout(() => {
+          expect(currentPageNumber).toEqual(1);
+          done();
+        }, osdAnimationTime);
+      }
+    });
   });
 
   it('should open viewer on canvas index if present', (done) => {
@@ -364,13 +436,16 @@ export class TestDynamicComponent { }
 
 @Component({
   selector: `test-component`,
-  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex"></mime-viewer>`
+  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex" [config]="config"></mime-viewer>`
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent)
   public viewerComponent: any;
   public manifestUri: string;
   public canvasIndex = 0;
+  public config = new MimeViewerConfig({
+    attributionDialogHideTimeout: -1
+  });
 
   constructor(private r: ComponentFactoryResolver) { }
 

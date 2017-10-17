@@ -3,7 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 
 import { SharedModule } from '../shared/shared.module';
@@ -14,6 +14,12 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { MediaServiceStub } from './../test/media-service-stub';
+import { TocComponent } from './table-of-contents/table-of-contents.component';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { ClickService } from '../core/click-service/click.service';
+import { PageService } from '../core/page-service/page-service';
+import { ModeService } from '../core/mode-service/mode.service';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -28,16 +34,21 @@ describe('ContentsDialogComponent', () => {
       ],
       declarations: [
         ContentsDialogComponent,
-        MetadataComponent
+        MetadataComponent,
+        TocComponent
       ],
       providers: [
+        ViewerService,
+        ClickService,
         MimeViewerIntl,
+        PageService,
+        ModeService,
         IiifManifestService,
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
-        { provide: MdDialogRef, useClass: MdDialogRefMock },
-        { provide: ObservableMedia, useClass: MediaMock }
+        { provide: MatDialogRef, useClass: MatDialogRefMock },
+        { provide: ObservableMedia, useClass: MediaServiceStub }
       ]
     })
       .compileComponents();
@@ -75,11 +86,5 @@ describe('ContentsDialogComponent', () => {
 
 });
 
-class MdDialogRefMock {
-}
-
-class MediaMock {
-  isActive(m: string) {
-    return false;
-  }
+class MatDialogRefMock {
 }

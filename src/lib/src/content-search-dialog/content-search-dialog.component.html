@@ -1,28 +1,28 @@
 <div class="content-search-container">
   <div [ngSwitch]="media.isActive('lt-md')">
     <div *ngSwitchCase="true">
-      <md-toolbar color="primary">
+      <mat-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <button md-icon-button [attr.aria-label]="intl.closeLabel" [mdTooltip]="intl.closeLabel" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
+          <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
           <div class="heading">{{intl.searchLabel}}</div>
         </div>
-      </md-toolbar>
+      </mat-toolbar>
     </div>
     <div *ngSwitchDefault>
-      <md-toolbar>
+      <mat-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
           <div class="heading heading-desktop">{{intl.searchLabel}}</div>
-          <button md-icon-button [attr.aria-label]="intl.closeLabel" [mdTooltip]="intl.closeLabel" [md-dialog-close]="true" tabindex="-1"><md-icon>close</md-icon></button>
+          <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
         </div>
-      </md-toolbar>
+      </mat-toolbar>
     </div>
   </div>
   <div class="content-search-form" fxLayout="column">
     <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
-      <md-form-field fxFlex>
-        <button type="submit" mdPrefix md-icon-button tabindex="-1"><md-icon>search</md-icon></button>
-        <input mdInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off">
-      </md-form-field>
+      <mat-form-field fxFlex>
+        <button type="submit" matPrefix mat-icon-button tabindex="-1"><mat-icon>search</mat-icon></button>
+        <input matInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off">
+      </mat-form-field>
     </form>
   </div>
   <div class="content-search-result-container" [ngStyle]="tabHeight" tabindex="0">
@@ -32,19 +32,19 @@
         <div *ngIf="numberOfHits > 0" [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"></div>
         <div *ngIf="numberOfHits === 0" [innerHTML]="intl.noResultsFoundLabel(currentSearch)"></div>
       </div>
-      <md-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
-        <md-card-content fxLayout="row" fxLayoutAlign="space-between start">
+      <mat-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
+        <mat-card-content fxLayout="row" fxLayoutAlign="space-between start">
           <div fxFlex class="summary">
             {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
           </div>
           <div fxFlex="40px" class="pageLabel">
             {{hit.index + 1}}
           </div>
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
     </div>
     <div *ngIf="isSearching" class="content-search-result" fxLayout="column">
-      <md-progress-bar mode="indeterminate"></md-progress-bar>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   </div>
 </div>

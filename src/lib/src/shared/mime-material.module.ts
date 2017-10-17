@@ -1,33 +1,33 @@
 import { NgModule } from '@angular/core';
 import {
-  MdToolbarModule,
-  MdButtonModule,
-  MdIconModule,
-  MdTooltipModule,
-  MdDialogModule,
-  MdTabsModule,
-  MdListModule,
-  MdSliderModule,
-  MdProgressSpinnerModule,
-  MdInputModule,
-  MdProgressBarModule,
-  MdCardModule
+  MatToolbarModule,
+  MatButtonModule,
+  MatIconModule,
+  MatTooltipModule,
+  MatDialogModule,
+  MatTabsModule,
+  MatListModule,
+  MatSliderModule,
+  MatProgressSpinnerModule,
+  MatInputModule,
+  MatProgressBarModule,
+  MatCardModule
 } from '@angular/material';
 
 @NgModule({
   exports: [
-    MdToolbarModule,
-    MdButtonModule,
-    MdIconModule,
-    MdTooltipModule,
-    MdDialogModule,
-    MdTabsModule,
-    MdListModule,
-    MdSliderModule,
-    MdProgressSpinnerModule,
-    MdInputModule,
-    MdProgressBarModule,
-    MdCardModule
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatListModule,
+    MatSliderModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatProgressBarModule,
+    MatCardModule
   ],
 })
 export class MimeMaterialModule { }

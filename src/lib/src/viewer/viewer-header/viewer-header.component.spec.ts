@@ -1,22 +1,24 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { ObservableMedia } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 
-import { SharedModule } from './../../shared/shared.module';
-import { ContentSearchDialogModule } from './../../content-search-dialog/content-search-dialog.module';
-import { ContentsDialogModule } from './../../contents-dialog/contents-dialog.module';
+import { SharedModule } from '../../shared/shared.module';
+import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
+import { ContentsDialogModule } from '../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
-import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
-import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
-import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
-import { MimeDomHelper } from './../../core/mime-dom-helper';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
+import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
+import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
+import { MimeDomHelper } from '../../core/mime-dom-helper';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { ClickService } from '../../core/click-service/click.service';
+import { ModeService } from '../../core/mode-service/mode.service';
+import { PageService } from '../../core/page-service/page-service';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -31,6 +33,10 @@ describe('ViewerHeaderComponent', () => {
         ContentSearchDialogModule
       ],
       providers: [
+        ViewerService,
+        ClickService,
+        PageService,
+        ModeService,
         MimeDomHelper,
         FullscreenService,
         { provide: FullscreenService, useClass: FullscreenServiceMock },
@@ -65,15 +71,13 @@ describe('ViewerHeaderComponent', () => {
     component.toggleContents();
   });
 
-  it('should start in visible mode', async(() => {
-    expect(component.state).toBe('show');
-    expectHeaderToShow(fixture.debugElement.nativeElement);
+  it('should start in hidden mode', async(() => {
+    expect(component.state).toBe('hide');
+    expectHeaderToBeHidden(fixture.debugElement.nativeElement);
   }));
 
   it('should not be visible when state is changed to hide', async(() => {
-    let toolbar = fixture.debugElement.query(By.css('md-toolbar'));
-    // Check initial style to make sure we later see an actual change
-    expectHeaderToShow(fixture.debugElement.nativeElement);
+    let toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
     component.state = 'hide';
     fixture.detectChanges();
@@ -83,7 +87,7 @@ describe('ViewerHeaderComponent', () => {
   }));
 
   it('should be visible when state is changed to show', async(() => {
-    let toolbar = fixture.debugElement.query(By.css('md-toolbar'));
+    let toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
     component.state = 'hide';
     fixture.detectChanges();
