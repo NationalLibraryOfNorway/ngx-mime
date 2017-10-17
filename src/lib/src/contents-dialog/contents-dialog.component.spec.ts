@@ -14,6 +14,11 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { TocComponent } from './table-of-contents/table-of-contents.component';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { ClickService } from '../core/click-service/click.service';
+import { PageService } from '../core/page-service/page-service';
+import { ModeService } from '../core/mode-service/mode.service';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -28,10 +33,15 @@ describe('ContentsDialogComponent', () => {
       ],
       declarations: [
         ContentsDialogComponent,
-        MetadataComponent
+        MetadataComponent,
+        TocComponent
       ],
       providers: [
+        ViewerService,
+        ClickService,
         MimeViewerIntl,
+        PageService,
+        ModeService,
         IiifManifestService,
         MimeResizeService,
         MimeDomHelper,
