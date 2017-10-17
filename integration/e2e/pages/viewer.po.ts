@@ -113,7 +113,7 @@ export class ViewerPage {
   }
 
   getFirstPageOverlay() {
-    const el = element.all(by.css('#openseadragon svg > g > rect')).first();
+    const el = element.all(by.css('#openseadragon svg g rect')).first();
     return utils.waitForElement(el);
   }
 
