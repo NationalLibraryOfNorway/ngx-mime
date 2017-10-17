@@ -35,8 +35,8 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^page (.*) is displayed$/, async (pageNumber: string) => {
-    const currentPageNumber = await page.getCurrentPageNumber();
-    expect(currentPageNumber).to.eql(parseInt(pageNumber, 10));
+    const currentPageString = await page.getCurrentPageString();
+    expect(currentPageString.includes(pageNumber)).to.eql(true);
   });
 
 

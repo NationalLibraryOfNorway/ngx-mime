@@ -35,6 +35,10 @@ export class ViewerPage {
 
   async slideToPage(pageNumber: number) {
     const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
+    const isTwoPageView = this.isTwoPageView()
+    if (await isTwoPageView) {
+      pageNumber = Math.floor(pageNumber / 2);
+    }
     for (let i = 0; i < pageNumber; i++) {
       await slider.sendKeys(protractor.Key.ARROW_RIGHT);
     }
@@ -48,13 +52,14 @@ export class ViewerPage {
     await this.waitForAnimation();
   }
 
-  async getCurrentPageNumber() {
+  async getCurrentPageString() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el =  await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
+    const el = await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
     // Not using el.getText() as it don't seem to work when element is not visible
     const currentPageNumber = await el.getAttribute('textContent');
-    return parseInt(currentPageNumber, 10);
+    // return parseInt(currentPageNumber, 10);
+    return currentPageNumber;
   }
 
   async openContentsDialog() {
@@ -114,6 +119,16 @@ export class ViewerPage {
 
   getFirstPageOverlay() {
     const el = element.all(by.css('#openseadragon svg g rect')).first();
+    return utils.waitForElement(el);
+  }
+
+  getOnePageButton() {
+    const el = element(by.css('#toggleSinglePageViewButton'));
+    return utils.waitForElement(el);
+  }
+
+  getTwoPageButton() {
+    const el = element(by.css('#toggleTwoPageViewButton'));
     return utils.waitForElement(el);
   }
 
@@ -255,6 +270,19 @@ export class ViewerPage {
     return (headerisHidden && footerisHidden);
   }
 
+  async isTwoPageView(): Promise<boolean> {
+    const btn = await this.getOnePageButton();
+    const btnDisplay = btn.getCssValue('display');
+    const onePageBtnIsDisplayed = (await btnDisplay) === 'block';
+    return onePageBtnIsDisplayed;
+  }
+
+  async isOnePageView(): Promise<boolean> {
+    const btn = await this.getTwoPageButton();
+    const btnDisplay = btn.getCssValue('display');
+    const twoPageBtnIsDisplayed = (await btnDisplay) === 'block';
+    return twoPageBtnIsDisplayed;
+  }
 
   async isCurrentPageFittedViewport(): Promise<boolean> {
     const svgParent = await this.getSVGElement();

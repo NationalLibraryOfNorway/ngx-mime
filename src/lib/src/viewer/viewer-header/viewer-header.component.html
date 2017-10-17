@@ -1,13 +1,13 @@
 <mat-toolbar>
   <div fxLayout='row' fxLayoutAlign="end center" fxFlex>
-    <button id="toggleTwoPageView" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel" [matTooltip]="intl.twoPageViewLabel"
-    (click)="setLayoutTwoPage()">
+    <button id="toggleTwoPageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel"
+      [matTooltip]="intl.twoPageViewLabel" (click)="setLayoutTwoPage()">
       <mat-icon>chrome_reader_mode</mat-icon>
     </button>
-    <button id="toggleSinglePageView" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.TWO_PAGE" mat-icon-button [attr.aria-label]="intl.singlePageViewLabel" [matTooltip]="intl.singlePageViewLabel"
-    (click)="setLayoutOnePage()">
-    <mat-icon>description</mat-icon>
-  </button>
+    <button id="toggleSinglePageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.TWO_PAGE" mat-icon-button [attr.aria-label]="intl.singlePageViewLabel"
+      [matTooltip]="intl.singlePageViewLabel" (click)="setLayoutOnePage()">
+      <mat-icon>description</mat-icon>
+    </button>
     <button id="contentsDialogButton" mat-icon-button [attr.aria-label]="intl.contentsLabel" [matTooltip]="intl.contentsLabel"
       (click)="toggleContents()">
       <mat-icon>list</mat-icon>

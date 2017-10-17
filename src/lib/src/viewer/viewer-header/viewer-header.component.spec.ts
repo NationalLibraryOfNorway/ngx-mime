@@ -158,10 +158,10 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.detectChanges();
 
-      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageView'));
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageViewButton'));
       expect(btnTwoPageView).not.toBeNull();
 
-      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageView'));
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageViewButton'));
       expect(btnOnePageView).toBeNull();
     }));
 
@@ -173,10 +173,10 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.detectChanges();
 
-      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageView'));
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageViewButton'));
       expect(btnTwoPageView).toBeNull();
 
-      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageView'));
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageViewButton'));
       expect(btnOnePageView).not.toBeNull();
     }));
 
@@ -186,8 +186,8 @@ describe('ViewerHeaderComponent', () => {
       component.isPagedManifest = false;
       fixture.detectChanges();
 
-      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageView'));
-      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageView'));
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageViewButton'));
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageViewButton'));
       expect(btnOnePageView).toBeNull();
       expect(btnTwoPageView).toBeNull();
     }));
