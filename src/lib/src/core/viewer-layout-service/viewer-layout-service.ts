@@ -16,6 +16,9 @@ export class ViewerLayoutService {
   constructor(
     private media: ObservableMedia
   ) {
+  }
+
+  init(): void {
     if (this.mimeConfig.initViewerLayout === ViewerLayout.TWO_PAGE && !this.isMobile()) {
       this._layout = ViewerLayout.TWO_PAGE;
       this.change();

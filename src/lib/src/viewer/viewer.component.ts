@@ -85,6 +85,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.modeService.initialMode = this.config.initViewerMode;
+    this.viewerLayoutService.init();
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {

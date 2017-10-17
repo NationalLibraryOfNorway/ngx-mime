@@ -1,16 +1,20 @@
+
 import { TestBed, inject } from '@angular/core/testing';
 import { ObservableMedia } from '@angular/flex-layout';
 
 import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerLayoutService } from './viewer-layout-service';
-
+import { MimeViewerConfig } from '../mime-viewer-config';
 
 describe('ViewerLayoutService', () => {
+  let config: MimeViewerConfig;
   beforeEach(() => {
+
+    config = new MimeViewerConfig();
     TestBed.configureTestingModule({
       providers: [
         ViewerLayoutService,
-        ObservableMedia
+        { provide: ObservableMedia, useClass: MediaMock },
       ]
     });
   });
@@ -28,24 +32,31 @@ describe('ViewerLayoutService', () => {
     expect(newLayout).toEqual(ViewerLayout.TWO_PAGE);
   }));
 
-  it('should set isPagedManifest when manifest is \'paged\'', () => {
-    pending('');
-  });
+  it('should set initial layout to specified layout in mime-config',
+    inject([ViewerLayoutService, ObservableMedia], (service: ViewerLayoutService, media: ObservableMedia) => {
+      let initLayout = config.initViewerLayout;
+      spyOn(media, 'isActive').and.returnValue(false);
+      service.init();
 
-  it('should set layout to TWO_PAGE if manifest is \'paged\' and TWO_PAGE is set in mime-config', () => {
-    pending('');
-  });
+      if (initLayout === ViewerLayout.TWO_PAGE) {
+        expect(service.layout === ViewerLayout.TWO_PAGE);
+      } if (initLayout === ViewerLayout.ONE_PAGE) {
+        expect(service.layout === ViewerLayout.ONE_PAGE);
+      }
+    }));
 
-  it('should set layout to ONE_PAGE if manifest is not \'paged\'', () => {
-    pending('');
-  });
+  it('should set initial layout to ONE_PAGE on mobile, regardless of mime-config',
+    inject([ViewerLayoutService, ObservableMedia], (service: ViewerLayoutService, media: ObservableMedia) => {
 
-  it('should set layout to ONE_PAGE if this is set in mime-config', () => {
-    pending('');
-  });
-
-  it('should start with one-page-layout on mobile', () => {
-    pending('');
-  });
+      spyOn(media, 'isActive').and.returnValue(true);
+      service.init();
+      expect(service.layout).toEqual(ViewerLayout.ONE_PAGE);
+    }));
 
 });
+
+class MediaMock {
+  isActive(m: string) {
+    return false;
+  }
+}
