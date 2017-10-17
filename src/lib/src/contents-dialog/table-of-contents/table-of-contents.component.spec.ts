@@ -79,12 +79,12 @@ describe('TocComponent', () => {
 
   it('should go to page when selecting a page in TOC',
     inject([ViewerService], (viewerService: ViewerService) => {
-      spyOn(viewerService, 'goToPage').and.callThrough();
+      spyOn(viewerService, 'goToTile').and.callThrough();
 
       const divs: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc-link'));
       divs[2].triggerEventHandler('click', null);
 
-      expect(viewerService.goToPage).toHaveBeenCalledWith(4, false);
+      expect(viewerService.goToTile).toHaveBeenCalledWith(4, false);
 
   }));
 
@@ -138,5 +138,5 @@ class ViewerServiceMock {
     return this.pageChanged.asObservable();
   }
 
-  public goToPage(index: number): void { }
+  public goToTile(index: number): void { }
 }
