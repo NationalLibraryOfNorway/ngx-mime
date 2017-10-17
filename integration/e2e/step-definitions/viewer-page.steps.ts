@@ -43,7 +43,7 @@ defineSupportCode(function ({ Given, Then }) {
   });
 
   Given(/^the viewer is opened with a publication with viewing hint "paged"$/, async () => {
-    await page.open();
+    await page.open('a-ltr-10-pages-book');
   });
 
   Given(/^the viewer is opened with a publication with viewing hint "individuals"$/, async () => {

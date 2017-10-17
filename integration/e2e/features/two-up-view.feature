@@ -12,13 +12,10 @@ Feature: Two-Up view
   Scenario: Two-Up pages
     Given the viewer is opened with a publication with viewing hint "paged"
       And the user is on page 2
-    Then page 2 should be on the left side
-      And page 3 should be on the right side
+    Then page 2 and 3 are displayed
 
   @desktop @android @iphone
   Scenario: User select Two-Up mode
-    Given the viewer is opened with a publication with viewing hint "individuals"
-      And the user is on page 1
-    When the user select "Two-Up" mode
-    Then page 1 should be on the left side
-      And page 2 should be on the right side
+    Given the viewer is opened with a publication with viewing hint "paged"
+      And the user is on page 2
+    Then only page 2 is displayed

@@ -1,4 +1,4 @@
-import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
+import { browser, element, ElementFinder, by, By, protractor, ElementArrayFinder } from 'protractor';
 import { promise, WebElement } from 'selenium-webdriver';
 import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
@@ -7,7 +7,7 @@ import { Utils } from '../helpers/utils';
 const bookShelf = {
   'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
   'a-ltr-10-pages-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
-  'a-individuals-book': 'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
+  'a-individuals-manifest': 'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
 };
 
 const utils = new Utils();
@@ -115,6 +115,31 @@ export class ViewerPage {
 
   getSVGElement() {
     const el = element(by.css('#openseadragon svg'));
+    return utils.waitForElement(el);
+  }
+
+  getFirstPageInFirstGroupOverlay() {
+    const el = element(by.css('#openseadragon svg g.page-group:first-child rect:first-child'));
+    return utils.waitForElement(el);
+  }
+
+  getSecondPageInFirstGroupOverlay() {
+    const el = element(by.css('#openseadragon svg g.page-group:nth-child(2)')).element(by.css('rect:first-child'));
+    return utils.waitForElement(el);
+  }
+
+  getAllPageOverlays() {
+    const el = element.all(by.css('#openseadragon svg g.page-group rect'));
+    return el;
+  }
+
+  getLeftPageMask() {
+    const el = element(by.css('#openseadragon svg g#page-mask rect:first-child'));
+    return utils.waitForElement(el);
+  }
+
+  getRightPageMask() {
+    const el = element(by.css('#openseadragon svg g#page-mask rect:nth-child(2)'));
     return utils.waitForElement(el);
   }
 
@@ -320,6 +345,47 @@ export class ViewerPage {
     return Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height);
   }
 
+  async visiblePages(): Promise<Boolean[]> {
+    const pages = await this.getAllPageOverlays();
+
+    const [leftPageMask, rightPageMask] = await Promise.all([this.getLeftPageMask(), this.getRightPageMask()]);
+
+
+    let leftPageMaskSize = leftPageMask.getSize();
+    let leftPageMaskLoc = leftPageMask.getLocation();
+    let rightPageMaskSize =  rightPageMask.getSize();
+    let rightPageMaskLoc = rightPageMask.getLocation();
+    [leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc] =
+      await Promise.all([leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc]);
+
+    const promiseArray = pages.map((page, i) => {
+      return isElementInReadersViewport(
+        page,
+        {size: leftPageMaskSize, location: leftPageMaskLoc},
+        {size: rightPageMaskSize, location: rightPageMaskLoc}
+      );
+    });
+
+    return Promise.all(promiseArray);
+  }
+}
+
+async function isElementInReadersViewport (
+  element: any,
+  leftPageMask: {size: any, location: any},
+  rightPageMask: {size: any, location: any}): Promise<boolean> {
+
+  const [pageSize, pageLocation] =  await Promise.all([element.getSize(), element.getLocation()]);
+
+  const rect = {
+    left: pageLocation.x,
+    right: pageLocation.x + pageSize.width,
+  }
+
+  return (
+      rect.right >= leftPageMask.size.width &&
+      rect.left <= rightPageMask.location.x
+  );
 }
 
 export interface Point {
