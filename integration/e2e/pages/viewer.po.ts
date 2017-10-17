@@ -6,7 +6,8 @@ import { Utils } from '../helpers/utils';
 
 const bookShelf = {
   'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
-  'a-ltr-book-10-pages': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book-10-pages/manifest',
+  'a-ltr-10-pages-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
+  'a-individuals-book': 'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
 };
 
 const utils = new Utils();
