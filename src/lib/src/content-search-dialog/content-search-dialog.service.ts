@@ -8,11 +8,12 @@ import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialo
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Manifest } from './../core/models/manifest';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ContentSearchDialogService {
   private _el: ElementRef;
-  private isContentSearchDialogOpen = false;
+  private _isContentSearchDialogOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private dialogRef: MatDialogRef<ContentSearchDialogComponent>;
   private subscriptions: Array<Subscription> = [];
 
@@ -21,9 +22,13 @@ export class ContentSearchDialogService {
     private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService) { }
 
+  get isContentSearchDialogOpen(): BehaviorSubject<boolean> {
+    return this._isContentSearchDialogOpen;
+  }
+
   public initialize(): void {
     this.subscriptions.push(this.mimeResizeService.onResize.subscribe(rect => {
-      if (this.isContentSearchDialogOpen) {
+      if (this._isContentSearchDialogOpen.getValue()) {
         const config = this.getDialogConfig();
         this.dialogRef.updatePosition(config.position);
         this.dialogRef.updateSize(config.width, config.height);
@@ -43,26 +48,25 @@ export class ContentSearchDialogService {
   }
 
   public open() {
-    if (!this.isContentSearchDialogOpen) {
+    if (!this._isContentSearchDialogOpen.getValue()) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(ContentSearchDialogComponent, config);
       this.dialogRef.afterClosed().subscribe(result => {
-        this.isContentSearchDialogOpen = false;
+        this._isContentSearchDialogOpen.next(false);
       });
-      this.isContentSearchDialogOpen = true;
+      this._isContentSearchDialogOpen.next(true);
     }
   }
 
   public close() {
     if (this.dialogRef) {
       this.dialogRef.close();
-      this.isContentSearchDialogOpen = false;
     }
-    this.isContentSearchDialogOpen = false;
+    this._isContentSearchDialogOpen.next(false);
   }
 
   public toggle() {
-    this.isContentSearchDialogOpen ? this.close() : this.open();
+    this._isContentSearchDialogOpen.getValue() ? this.close() : this.open();
   }
 
   private getDialogConfig(): MatDialogConfig {

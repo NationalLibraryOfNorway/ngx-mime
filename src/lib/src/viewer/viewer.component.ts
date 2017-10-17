@@ -11,7 +11,7 @@ import {
   EventEmitter,
   SimpleChange,
   SimpleChanges,
-  ViewChild,
+  ViewChild, HostListener,
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -33,6 +33,7 @@ import { IiifContentSearchService } from './../core/iiif-content-search-service/
 import { SearchResult } from './../core/models/search-result';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 
 @Component({
   selector: 'mime-viewer',
@@ -61,6 +62,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('mimeFooter') footer: ViewerFooterComponent;
   @ViewChild('mimeOsdToolbar') osdToolbar: OsdToolbarComponent;
 
+  @HostListener('window:keyup', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
+  }
+
   constructor(
     public intl: MimeViewerIntl,
     private el: ElementRef,
@@ -72,7 +78,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private mimeService: MimeResizeService,
     private changeDetectorRef: ChangeDetectorRef,
     private modeService: ModeService,
-    private iiifContentSearchService: IiifContentSearchService) {
+    private iiifContentSearchService: IiifContentSearchService,
+    private accessKeysHandlerService: AccessKeysService) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     contentSearchDialogService.el = el;

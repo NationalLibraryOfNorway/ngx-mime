@@ -1,16 +1,16 @@
 import { SpinnerService } from './spinner-service/spinner.service';
-import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 
 import { MimeViewerIntl } from './intl/viewer-intl';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from './iiif-content-search-service/iiif-content-search.service';
-import { PageService } from '../core/page-service/page-service';
+import { PageService } from './page-service/page-service';
 import { MimeResizeService } from './mime-resize-service/mime-resize.service';
 import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { ViewerService } from './viewer-service/viewer.service';
 import { ModeService } from './mode-service/mode.service';
 import { ClickService } from './click-service/click.service';
+import { AccessKeysService } from './access-keys-handler-service/access-keys.service';
 
 @NgModule({
   providers: [
@@ -23,7 +23,8 @@ import { ClickService } from './click-service/click.service';
     ClickService,
     PageService,
     ModeService,
-    SpinnerService
+    SpinnerService,
+    AccessKeysService
   ]
 })
 export class CoreModule { }
