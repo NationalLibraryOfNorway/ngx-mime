@@ -177,7 +177,7 @@
     tsickle "^0.21.0"
 
 "@nationallibraryofnorway/ngx-mime@../dist/":
-  version "0.7.0"
+  version "0.7.1"
 
 "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
@@ -687,7 +687,7 @@ bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
 
-body-parser@1.18.2, body-parser@^1.16.1:
+body-parser@1.18.2, body-parser@^1.16.1, body-parser@^1.18.2:
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.18.2.tgz#87678a19d84b47d859b83199bd59bce222b10454"
   dependencies:
@@ -970,7 +970,7 @@ chokidar@^1.4.1, chokidar@^1.6.0, chokidar@^1.7.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
-chromedriver@^2.32.0:
+chromedriver@2.33.1:
   version "2.33.1"
   resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-2.33.1.tgz#e5434f1a1636aa7d826099cd5616276e55ac4ec1"
   dependencies:
@@ -1476,9 +1476,9 @@ cucumber-tag-expressions@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cucumber-tag-expressions/-/cucumber-tag-expressions-1.0.1.tgz#d6d3c43180a03f5fb4fc957fe1382ddce5cb9ac8"
 
-cucumber@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/cucumber/-/cucumber-2.2.0.tgz#8709358d55481d0937f96bfc15b31eb5abc4ff6b"
+cucumber@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/cucumber/-/cucumber-2.3.1.tgz#3791a51ffd0c61462ad57fdb8ed111d55b51cde3"
   dependencies:
     assertion-error-formatter "^2.0.0"
     babel-runtime "^6.11.6"
@@ -2288,7 +2288,7 @@ exports-loader@^0.6.3:
     loader-utils "^1.0.2"
     source-map "0.5.x"
 
-express@^4.13.3:
+express@^4.13.3, express@^4.16.2:
   version "4.16.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.2.tgz#e35c6dfe2d64b7dca0a5cd4f21781be3299e076c"
   dependencies:
@@ -4241,7 +4241,7 @@ once@^1.3.0, once@^1.3.3, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-openseadragon@^2.2.1:
+openseadragon@2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/openseadragon/-/openseadragon-2.3.1.tgz#efdcfee19d8b3c46d00d7f7dda787c7057f68364"
 

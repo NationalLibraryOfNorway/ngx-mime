@@ -62,6 +62,11 @@ export class ViewerPage {
     await utils.waitForElement(element(by.css('.contents-container')));
   }
 
+  async openTableOfContentsTab() {
+    await element.all(by.css('.mat-tab-label')).get(1).click();
+    await utils.waitForElement(element(by.css('.toc-container')));
+  }
+
   async openContentSearchDialog() {
     await element(by.css('#contentSearchDialogButton')).click();
     await utils.waitForElement(element(by.css('.content-search-container')));
@@ -116,20 +121,8 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.animationTime;');
   }
 
-  getHomeZoom(): promise.Promise<number> {
-    return browser.executeScript('return window.openSeadragonViewer.viewport.getHomeZoom();');
-  }
-
-  setHomeZoom(): promise.Promise<any> {
-    return browser.executeScript('window.openSeadragonViewer.viewport.goHome(true);');
-  }
-
   getZoomLevel(): promise.Promise<number> {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getZoom(true);');
-  }
-
-  setZoomLevel(level: number): promise.Promise<any> {
-    return browser.executeScript('window.openSeadragonViewer.viewport.zoomTo(' + level + ');');
   }
 
   getMinZoom(): promise.Promise<number> {
@@ -142,10 +135,6 @@ export class ViewerPage {
 
   getCenter(): promise.Promise<Point> {
     return browser.executeScript('return window.openSeadragonViewer.viewport.getCenter(false);');
-  }
-
-  getBounds(): promise.Promise<any> {
-    return browser.executeScript('return window.openSeadragonViewer.viewport.getBounds(true);');
   }
 
   async swipe(startPoint: Point, endPoint: Point): Promise<void> {

@@ -25,11 +25,12 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 npm run wait && protractor --browser=${BROWSER} --tags=${TAGS} > .tmp/${BROWSER}_result.txt
-cat .tmp/${BROWSER}_result.txt
 
 if [ $? -eq 0 ]
 then
+  cat .tmp/${BROWSER}_result.txt
   exit 0
 else
+  cat .tmp/${BROWSER}_result.txt
   exit 1
 fi

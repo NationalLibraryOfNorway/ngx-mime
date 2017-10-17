@@ -18,6 +18,10 @@ defineSupportCode(function ({ Given, Then }) {
     await page.open();
   });
 
+  Given(/^the viewer is opened with a publication which include a table of contents$/, async () => {
+    await page.open();
+  });
+
   Given(/^a (.*) publication with 10 pages$/, async (viewingDirection: string) => {
     if (viewingDirection === 'left-to-right') {
       await page.open('a-ltr-book-10-pages');
