@@ -102,12 +102,6 @@ export class ViewerPage {
     return utils.waitForElement(el);
   }
 
-  async getHeaderLabel() {
-    const header = await this.getHeader();
-    const label = await utils.waitForPresenceOf(header.element(by.css('.label')));
-    return label.getAttribute('textContent');
-  }
-
   getFooter() {
     const el = element(by.css('mime-viewer-footer'));
     return utils.waitForElement(el);
