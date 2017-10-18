@@ -18,8 +18,11 @@ export class ViewerLayoutService {
   ) {
   }
 
-  init(): void {
-    if (this.mimeConfig.initViewerLayout === ViewerLayout.TWO_PAGE && !this.isMobile()) {
+  init(isPagedManifest?: boolean): void {
+    if (
+      this.mimeConfig.initViewerLayout === ViewerLayout.TWO_PAGE &&
+      isPagedManifest &&
+      !this.isMobile()) {
       this._layout = ViewerLayout.TWO_PAGE;
       this.change();
     } else {

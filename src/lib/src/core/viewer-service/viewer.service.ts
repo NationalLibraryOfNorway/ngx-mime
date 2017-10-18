@@ -585,7 +585,7 @@ export class ViewerService {
       this.isManifestPaged
     );
 
-    const isTwoPageViewAndPaged: boolean = this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE && this.isManifestPaged;
+    const isTwoPageView: boolean = this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE;
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
@@ -608,7 +608,7 @@ export class ViewerService {
         });
       });
 
-      if (isTwoPageViewAndPaged && i % 2 !== 0) {
+      if (isTwoPageView && i % 2 !== 0) {
         group = this.svgNode.append('g').attr('class', 'page-group');
       }
 
@@ -620,7 +620,7 @@ export class ViewerService {
         .attr('class', 'tile');
 
       // Make custom borders if current layout is two-paged
-      if (isTwoPageViewAndPaged) {
+      if (isTwoPageView) {
         if (i % 2 === 0 && i !== 0) {
           const noLeftStrokeStyle = Number((position.width * 2) + position.height) + ', ' + position.width * 2;
           currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);

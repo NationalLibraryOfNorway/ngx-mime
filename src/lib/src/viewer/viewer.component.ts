@@ -35,6 +35,7 @@ import { ViewerOptions } from '../core/models/viewer-options';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 
 @Component({
   selector: 'mime-viewer',
@@ -85,7 +86,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.modeService.initialMode = this.config.initViewerMode;
-    this.viewerLayoutService.init();
     this.subscriptions.push(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
@@ -93,6 +93,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.cleanup();
             this.initialize();
             this.currentManifest = manifest;
+            this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {

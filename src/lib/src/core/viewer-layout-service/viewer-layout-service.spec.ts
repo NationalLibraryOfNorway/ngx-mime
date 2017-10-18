@@ -53,6 +53,12 @@ describe('ViewerLayoutService', () => {
       expect(service.layout).toEqual(ViewerLayout.ONE_PAGE);
     }));
 
+  it('should set initial layout to TWO_PAGE if manifest is paged AND we are not and mobile',
+    inject([ViewerLayoutService, ObservableMedia], (service: ViewerLayoutService, media: ObservableMedia) => {
+      spyOn(media, 'isActive').and.returnValue(false);
+      service.init(true);
+      expect(service.layout).toEqual(ViewerLayout.TWO_PAGE);
+    }));
 });
 
 class MediaMock {
