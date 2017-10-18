@@ -10,6 +10,30 @@ defineSupportCode(function ({ Given, When, Then }) {
   // 300ms is the time the animation is set up to use but we need some extra time
   const switchAnimationTime = 1700;
 
+
+  Given(/^the layout is two-page$/, async () => {
+    const btn = await page.getTwoPageButton();
+    // Button is present, so click to switch to two-page
+    if (btn) {
+      await btn.click();
+      // We dont know how long it takes to build the layout, so the wait might become an issue here?
+      await page.waitForAnimation(switchAnimationTime);
+    }
+    expect(await page.isTwoPageView()).to.equal(true);
+  });
+
+  Given(/^the layout is one-page$/, async () => {
+    const btn = await page.getOnePageButton();
+    // Button is present, so switch to one-page
+    if (btn) {
+      await btn.click();
+      // We dont know how long it takes to build the layout, so the wait might become an issue here?
+      await page.waitForAnimation(switchAnimationTime);
+    }
+
+    expect(await page.isOnePageView()).to.equal(true);
+  });
+
   Then(/^only the cover page is displayed/, async () => {
     const visiblePages = await page.visiblePages();
     // Firste page visible
