@@ -43,7 +43,7 @@ export class ViewerService {
   private viewer: any;
   private svgOverlay: any;
   private svgNode: any;
-  private options: Options;
+  private config: MimeViewerConfig;
 
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
@@ -214,26 +214,24 @@ export class ViewerService {
   }
 
 
-  setUpViewer(manifest: Manifest) {
-    if (!manifest || !manifest.tileSource) {
-      return;
+  setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
+    this.config = config;
+    if (manifest && manifest.tileSource) {
+      this.tileSources = manifest.tileSource;
+      this.zone.runOutsideAngular(() => {
+        this.manifest = manifest;
+        this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
+        this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.getOptions()));
+        this.pageService.reset();
+        this.pageMask = new PageMask(this.viewer);
+      });
+
+      this.addToWindow();
+      this.setupOverlays();
+      this.createOverlays();
+      this.addEvents();
+      this.addSubscriptions();
     }
-
-    this.tileSources = manifest.tileSource;
-    this.zone.runOutsideAngular(() => {
-      this.manifest = manifest;
-      this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
-      this.options = new Options();
-      this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
-      this.pageService.reset();
-      this.pageMask = new PageMask(this.viewer);
-    });
-
-    this.addToWindow();
-    this.setupOverlays();
-    this.createOverlays();
-    this.addEvents();
-    this.addSubscriptions();
   }
 
 
@@ -276,7 +274,7 @@ export class ViewerService {
         if (this.osdIsReady.getValue()) {
           const savedTile = this.pageService.currentTile;
           this.destroy(true);
-          this.setUpViewer(this.manifest);
+          this.setUpViewer(this.manifest, this.config);
           this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
           // Recreate highlights if there is an active search going on
           if (this.currentSearch) {
@@ -292,6 +290,7 @@ export class ViewerService {
   }
 
   setupOverlays(): void {
+    console.log("setuo overlays, viewer:", this.viewer)
     this.svgOverlay = this.viewer.svgOverlay();
     this.svgNode = d3.select(this.svgOverlay.node());
   }
@@ -660,6 +659,14 @@ export class ViewerService {
       }
     }
     return -1;
+  }
+
+  private getOptions(): Options {
+    const options = new Options();
+    options.ajaxWithCredentials = this.config.withCredentials;
+    options.loadTilesWithAjax = this.config.loadTilesWithAjax;
+    options.crossOriginPolicy = this.config.crossOriginPolicy;
+    return options;
   }
 
   private calculateCurrentPage(center: Point) {
