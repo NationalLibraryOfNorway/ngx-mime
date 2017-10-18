@@ -18,6 +18,7 @@ import { MimeResizeService } from './../core/mime-resize-service/mime-resize.ser
 import { MimeDomHelper } from './../core/mime-dom-helper';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { ViewerService } from './../core/viewer-service/viewer.service';
+import { MediaServiceStub } from './../test/media-service-stub';
 import { Hit } from './../core/models/search-result';
 
 describe('ContentSearchDialogComponent', () => {
@@ -42,7 +43,7 @@ describe('ContentSearchDialogComponent', () => {
         MimeDomHelper,
         FullscreenService,
         { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: ObservableMedia, useClass: MediaMock },
+        { provide: ObservableMedia, useClass: MediaServiceStub },
         { provide: ViewerService, useClass: ViewerServiceMock }
       ]
     })
@@ -131,12 +132,6 @@ describe('ContentSearchDialogComponent', () => {
 
 class MatDialogRefMock {
   close(): void {}
-}
-
-class MediaMock {
-  isActive(m: string) {
-    return false;
-  }
 }
 
 class ViewerServiceMock {

@@ -23,5 +23,10 @@
         <mime-metadata></mime-metadata>
       </div>
     </mat-tab>
+    <mat-tab [label]="intl.tocLabel">
+      <div class="tab-container" [ngStyle]="tabHeight">
+        <mime-toc></mime-toc>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </div>
