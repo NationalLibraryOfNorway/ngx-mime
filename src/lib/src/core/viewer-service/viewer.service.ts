@@ -25,6 +25,7 @@ import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 import { Bounds } from '../models/bounds';
 import { ZoomUtils } from './zoom-utils';
+import { MimeViewerConfig } from './../mime-viewer-config';
 
 
 import { PinchStatus } from '../models/pinchStatus';
@@ -40,7 +41,7 @@ export class ViewerService {
   private viewer: any;
   private svgOverlay: any;
   private svgNode: any;
-  private options: Options;
+  private config: MimeViewerConfig;
 
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
@@ -202,13 +203,13 @@ export class ViewerService {
     }
   }
 
-  setUpViewer(manifest: Manifest) {
+  setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
+    this.config = config;
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
         this.clearOpenSeadragonTooltips();
-        this.options = new Options();
-        this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.options));
+        this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.getOptions()));
         this.pageService.reset();
         this.pageService.numberOfPages = this.tileSources.length;
         this.pageMask = new PageMask(this.viewer);
@@ -612,6 +613,14 @@ export class ViewerService {
       }
     }
     return -1;
+  }
+
+  private getOptions(): Options {
+    const options = new Options();
+    options.ajaxWithCredentials = this.config.withCredentials;
+    options.loadTilesWithAjax = this.config.loadTilesWithAjax;
+    options.crossOriginPolicy = this.config.crossOriginPolicy;
+    return options;
   }
 
 
