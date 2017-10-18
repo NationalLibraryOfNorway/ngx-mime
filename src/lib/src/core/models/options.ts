@@ -112,4 +112,5 @@ export class Options {
   collectionTileMargin = 80;
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
+  loadTilesWithAjax = false;
 }
