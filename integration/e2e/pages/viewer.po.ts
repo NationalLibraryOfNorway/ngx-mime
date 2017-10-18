@@ -122,14 +122,22 @@ export class ViewerPage {
     return utils.waitForElement(el);
   }
 
-  getOnePageButton() {
+  async getOnePageButton() {
     const el = element(by.css('#toggleSinglePageViewButton'));
-    return utils.waitForElement(el);
+    if (await el.isPresent()) {
+      return el;
+    } else {
+      return false;
+    }
   }
 
-  getTwoPageButton() {
+  async getTwoPageButton() {
     const el = element(by.css('#toggleTwoPageViewButton'));
-    return utils.waitForElement(el);
+    if (await el.isPresent()) {
+      return el;
+    } else {
+      return false;
+    }
   }
 
   getAnimationTime(): promise.Promise<number> {
@@ -272,9 +280,13 @@ export class ViewerPage {
 
   async isTwoPageView(): Promise<boolean> {
     const btn = await this.getOnePageButton();
-    const btnDisplay = btn.getCssValue('display');
-    const onePageBtnIsDisplayed = (await btnDisplay) === 'block';
-    return onePageBtnIsDisplayed;
+    if (btn) {
+      const btnDisplay = btn.getCssValue('display');
+      const onePageBtnIsDisplayed = (await btnDisplay) === 'block';
+      return onePageBtnIsDisplayed;
+    } else {
+      return false;
+    }
   }
 
   async isOnePageView(): Promise<boolean> {
