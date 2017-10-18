@@ -306,20 +306,12 @@ export class ViewerPage {
 
   async isTwoPageView(): Promise<boolean> {
     const btn = await this.getOnePageButton();
-    if (btn) {
-      const btnDisplay = btn.getCssValue('display');
-      const onePageBtnIsDisplayed = (await btnDisplay) === 'block';
-      return onePageBtnIsDisplayed;
-    } else {
-      return false;
-    }
+    return (btn) ? true : false;
   }
 
   async isOnePageView(): Promise<boolean> {
     const btn = await this.getTwoPageButton();
-    const btnDisplay = btn.getCssValue('display');
-    const twoPageBtnIsDisplayed = (await btnDisplay) === 'block';
-    return twoPageBtnIsDisplayed;
+    return (btn) ? true : false;
   }
 
   async isCurrentPageFittedViewport(): Promise<boolean> {
@@ -353,7 +345,7 @@ export class ViewerPage {
 
     let leftPageMaskSize = leftPageMask.getSize();
     let leftPageMaskLoc = leftPageMask.getLocation();
-    let rightPageMaskSize =  rightPageMask.getSize();
+    let rightPageMaskSize = rightPageMask.getSize();
     let rightPageMaskLoc = rightPageMask.getLocation();
     [leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc] =
       await Promise.all([leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc]);
@@ -361,8 +353,8 @@ export class ViewerPage {
     const promiseArray = pages.map((page, i) => {
       return isElementInReadersViewport(
         page,
-        {size: leftPageMaskSize, location: leftPageMaskLoc},
-        {size: rightPageMaskSize, location: rightPageMaskLoc}
+        { size: leftPageMaskSize, location: leftPageMaskLoc },
+        { size: rightPageMaskSize, location: rightPageMaskLoc }
       );
     });
 
@@ -370,12 +362,12 @@ export class ViewerPage {
   }
 }
 
-async function isElementInReadersViewport (
+async function isElementInReadersViewport(
   element: any,
-  leftPageMask: {size: any, location: any},
-  rightPageMask: {size: any, location: any}): Promise<boolean> {
+  leftPageMask: { size: any, location: any },
+  rightPageMask: { size: any, location: any }): Promise<boolean> {
 
-  const [pageSize, pageLocation] =  await Promise.all([element.getSize(), element.getLocation()]);
+  const [pageSize, pageLocation] = await Promise.all([element.getSize(), element.getLocation()]);
 
   const rect = {
     left: pageLocation.x,
@@ -383,8 +375,8 @@ async function isElementInReadersViewport (
   }
 
   return (
-      rect.right >= leftPageMask.size.width &&
-      rect.left <= rightPageMask.location.x
+    rect.right >= leftPageMask.size.width &&
+    rect.left <= rightPageMask.location.x
   );
 }
 
