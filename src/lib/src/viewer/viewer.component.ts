@@ -58,9 +58,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ViewerMode: typeof ViewerMode = ViewerMode;
 
   // Viewchilds
-  @ViewChild('mimeHeader') header: ViewerHeaderComponent;
-  @ViewChild('mimeFooter') footer: ViewerFooterComponent;
-  @ViewChild('mimeOsdToolbar') osdToolbar: OsdToolbarComponent;
+  @ViewChild('mimeHeader')
+  private header: ViewerHeaderComponent;
+  @ViewChild('mimeFooter')
+  private footer: ViewerFooterComponent;
+  @ViewChild('mimeOsdToolbar')
+  private osdToolbar: OsdToolbarComponent;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -86,6 +89,14 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   get mimeHeaderAfterRef(): ViewContainerRef {
     return this.header.mimeHeaderAfter;
+  }
+
+  get mimeFooterBeforeRef(): ViewContainerRef {
+    return this.footer.mimeFooterBefore;
+  }
+
+  get mimeFooterAfterRef(): ViewContainerRef {
+    return this.footer.mimeFooterAfter;
   }
 
   ngOnInit(): void {

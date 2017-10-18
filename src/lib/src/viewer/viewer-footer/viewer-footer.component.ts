@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
@@ -32,6 +40,8 @@ import { ViewerOptions } from '../../core/models/viewer-options';
   }
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
+  @ViewChild('mimeFooterBefore', {read: ViewContainerRef}) mimeFooterBefore: ViewContainerRef;
+  @ViewChild('mimeFooterAfter', {read: ViewContainerRef}) mimeFooterAfter: ViewContainerRef;
   public state = 'hide';
   public showNavigationToolbar = true;
   public searchResult: SearchResult = new SearchResult();

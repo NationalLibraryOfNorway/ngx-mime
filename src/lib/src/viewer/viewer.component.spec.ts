@@ -29,6 +29,7 @@ import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
+import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 
 import 'openseadragon';
 import '../rxjs-extension';
@@ -63,6 +64,7 @@ describe('ViewerComponent', function () {
         ViewerComponent,
         TestHostComponent,
         ViewerHeaderComponent,
+        ViewerFooterComponent,
         TestDynamicComponent
       ],
       providers: [
@@ -408,6 +410,20 @@ describe('ViewerComponent', function () {
     expect(button).not.toBeNull();
   });
 
+  it('should create dynamic component to start of footer', () => {
+    testHostComponent.addComponentToStartOfFooter();
+
+    const button = testHostFixture.debugElement.query(By.css('#test-dynamic-component'));
+    expect(button).not.toBeNull();
+  });
+
+  it('should create dynamic component to end of footer', () => {
+    testHostComponent.addComponentToEndOfFooter();
+
+    const button = testHostFixture.debugElement.query(By.css('#test-dynamic-component'));
+    expect(button).not.toBeNull();
+  });
+
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });
@@ -457,6 +473,16 @@ export class TestHostComponent {
   addComponentToEndOfHeader() {
     const factory = this.r.resolveComponentFactory(TestDynamicComponent);
     this.viewerComponent.mimeHeaderAfterRef.createComponent(factory);
+  }
+
+  addComponentToStartOfFooter() {
+    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
+    this.viewerComponent.mimeFooterBeforeRef.createComponent(factory);
+  }
+
+  addComponentToEndOfFooter() {
+    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
+    this.viewerComponent.mimeFooterAfterRef.createComponent(factory);
   }
 
 }
