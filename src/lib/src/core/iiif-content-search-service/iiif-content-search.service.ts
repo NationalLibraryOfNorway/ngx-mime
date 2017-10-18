@@ -13,7 +13,7 @@ import { Manifest } from './../models/manifest';
 export class IiifContentSearchService {
   protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(new SearchResult({}));
   protected _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
-  protected _currentQ: Subject<string> = new BehaviorSubject<string>(null);
+  protected _currentQ: Subject<string> = new Subject<string>();
 
   constructor(private http: HttpClient) { }
 
