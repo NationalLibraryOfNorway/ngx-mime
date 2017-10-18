@@ -8,7 +8,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   const utils = new Utils();
   // 300ms is the time the animation is set up to use but we need some extra time
-  const switchAnimationTime = 1700;
+  const switchAnimationTime = 3400;
 
 
   Given(/^the layout is two-page$/, async () => {
@@ -16,7 +16,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     // Button is present, so click to switch to two-page
     if (btn) {
       await btn.click();
-      // We dont know how long it takes to build the layout, so the wait might become an issue here?
       await page.waitForAnimation(switchAnimationTime);
     }
     expect(await page.isTwoPageView()).to.equal(true);
@@ -27,7 +26,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     // Button is present, so switch to one-page
     if (btn) {
       await btn.click();
-      // We dont know how long it takes to build the layout, so the wait might become an issue here?
       await page.waitForAnimation(switchAnimationTime);
     }
 
