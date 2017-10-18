@@ -1,4 +1,3 @@
-import { SearchResult } from './../core/models/search-result';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -28,6 +27,7 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { SearchResult } from './../core/models/search-result';
 
 import 'openseadragon';
 import '../rxjs-extension';
