@@ -290,7 +290,6 @@ export class ViewerService {
   }
 
   setupOverlays(): void {
-    console.log("setuo overlays, viewer:", this.viewer)
     this.svgOverlay = this.viewer.svgOverlay();
     this.svgNode = d3.select(this.svgOverlay.node());
   }
