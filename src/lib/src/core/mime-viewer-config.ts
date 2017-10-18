@@ -5,7 +5,7 @@ export class MimeViewerConfig {
   public attributionDialogHideTimeout?= -1;
   public navigationControlEnabled?= true;
   public initViewerMode?= ViewerMode.PAGE;
-  public WithCredentials?= false;
+  public withCredentials?= false;
   public loadTilesWithAjax?= false;
   public crossOriginPolicy?: string | boolean = false;
 
@@ -14,7 +14,7 @@ export class MimeViewerConfig {
     attributionDialogHideTimeout?: number;
     navigationControlEnabled?: boolean;
     initViewerMode?: ViewerMode;
-    WithCredentials?: boolean;
+    withCredentials?: boolean;
     loadTilesWithAjax?: boolean;
     crossOriginPolicy?: string | boolean;
   }) {
@@ -31,8 +31,8 @@ export class MimeViewerConfig {
       this.initViewerMode =
         fields.initViewerMode !== undefined ? fields.initViewerMode : this.initViewerMode;
 
-      this.WithCredentials =
-        fields.WithCredentials !== undefined ? fields.WithCredentials : this.WithCredentials;
+      this.withCredentials =
+        fields.withCredentials !== undefined ? fields.withCredentials : this.withCredentials;
 
       this.loadTilesWithAjax =
         fields.loadTilesWithAjax !== undefined ? fields.loadTilesWithAjax : this.loadTilesWithAjax;

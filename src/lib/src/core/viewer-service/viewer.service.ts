@@ -617,7 +617,7 @@ export class ViewerService {
 
   private getOptions(): Options {
     const options = new Options();
-    options.ajaxWithCredentials = this.config.WithCredentials;
+    options.ajaxWithCredentials = this.config.withCredentials;
     options.loadTilesWithAjax = this.config.loadTilesWithAjax;
     options.crossOriginPolicy = this.config.crossOriginPolicy;
     return options;
