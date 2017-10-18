@@ -11,4 +11,7 @@
     <div class="title">{{intl.licenseLabel}}</div>
     <span id="metadata-license" class="content license"><a [href]="manifest?.license" target="_blank">{{manifest?.license}}</a></span>
   </div>
+  <div *ngIf="manifest?.logo">
+    <span id="metadata-logo"><img class="content logo" [src]="manifest?.logo"></span>
+  </div>
 </div>
