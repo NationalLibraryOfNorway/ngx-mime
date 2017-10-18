@@ -154,7 +154,7 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.detectChanges();
 
-      const label = fixture.debugElement.query(By.css('.label')).nativeElement;
+      const label = fixture.debugElement.query(By.css('.header-container .label')).nativeElement;
       expect(label.innerHTML).toBe('Testlabel');
     }));
 
