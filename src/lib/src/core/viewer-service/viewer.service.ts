@@ -620,6 +620,7 @@ export class ViewerService {
     options.ajaxWithCredentials = this.config.withCredentials;
     options.loadTilesWithAjax = this.config.loadTilesWithAjax;
     options.crossOriginPolicy = this.config.crossOriginPolicy;
+    options.ajaxHeaders = this.config.ajaxHeaders;
     return options;
   }
 
