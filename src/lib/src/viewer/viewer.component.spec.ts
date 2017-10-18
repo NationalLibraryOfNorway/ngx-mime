@@ -372,12 +372,9 @@ describe('ViewerComponent', function () {
   });
 
   it('should emit when q changes', () => {
-    let query: string;
-    comp.onQChange.subscribe((q: string) => query = q);
+    comp.onQChange.subscribe((q: string) => expect(q).toEqual('dummyquery'));
 
     iiifContentSearchServiceStub._currentQ.next('dummyquery');
-
-    expect(query).toEqual('dummyquery');
   });
 
   it('should open viewer on canvas index if present', (done) => {
