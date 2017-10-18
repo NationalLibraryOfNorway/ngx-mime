@@ -1,3 +1,4 @@
+import { SearchResult } from './../core/models/search-result';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -45,6 +46,7 @@ describe('ViewerComponent', function () {
   let clickService: ClickService;
   let modeService: ModeService;
   let mimeResizeServiceStub: MimeResizeServiceStub;
+  let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -64,7 +66,7 @@ describe('ViewerComponent', function () {
       providers: [
         ViewerService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        IiifContentSearchService,
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
         { provide: MimeResizeService, useClass: MimeResizeServiceStub },
         MimeViewerIntl,
         ClickService,
@@ -92,6 +94,7 @@ describe('ViewerComponent', function () {
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
     mimeResizeServiceStub = TestBed.get(MimeResizeService);
+    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -368,6 +371,15 @@ describe('ViewerComponent', function () {
     });
   });
 
+  it('should emit when q changes', () => {
+    let query: string;
+    comp.onQChange.subscribe((q: string) => query = q);
+
+    iiifContentSearchServiceStub._currentQ.next('dummyquery');
+
+    expect(query).toEqual('dummyquery');
+  });
+
   it('should open viewer on canvas index if present', (done) => {
     let currentPageNumber: number;
     testHostComponent.canvasIndex = 2;
@@ -454,5 +466,24 @@ class IiifManifestServiceStub {
   }
 
   destroy(): void { }
+
+}
+
+class IiifContentSearchServiceStub {
+  public _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(new SearchResult({}));
+  public _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
+  public _currentQ: Subject<string> = new BehaviorSubject<string>(null);
+
+  get onQChange(): Observable<string> {
+    return this._currentQ.asObservable().distinctUntilChanged();
+  }
+
+  get onChange(): Observable<SearchResult> {
+    return this._currentSearchResult.asObservable();
+  }
+
+  get isSearching(): Observable<boolean> {
+    return this._searching.asObservable();
+  }
 
 }
