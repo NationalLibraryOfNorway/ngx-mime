@@ -150,7 +150,7 @@ export class ViewerPage {
 
   async getOnePageButton() {
     const el = element(by.css('#toggleSinglePageViewButton'));
-    if (await el.isPresent()) {
+    if (await el.isPresent() && el.isDisplayed()) {
       return el;
     } else {
       return false;
@@ -159,7 +159,7 @@ export class ViewerPage {
 
   async getTwoPageButton() {
     const el = element(by.css('#toggleTwoPageViewButton'));
-    if (await el.isPresent()) {
+    if (await el.isPresent() && el.isDisplayed()) {
       return el;
     } else {
       return false;
