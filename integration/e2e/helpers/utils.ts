@@ -8,7 +8,7 @@ export class Utils {
     return (Math.abs(thing - realThing) <= epsilon);
   }
 
-  public async waitForElement(el: ElementFinder) {
+  public async waitForElement(el: ElementFinder): Promise<ElementFinder> {
     let found = false;
     for (let i = 0; i < RETRY; i++) {
       await browser.sleep(10);
