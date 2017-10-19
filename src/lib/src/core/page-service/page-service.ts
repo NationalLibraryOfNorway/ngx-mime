@@ -56,11 +56,6 @@ export class PageService {
     return this._currentNumberOfPages.asObservable().distinctUntilChanged();
   }
 
-  /*set numberOfPages(numberOfPages: number) {
-    this._currentNumberOfPages.next(numberOfPages);
-    this._numberOfPages = numberOfPages;
-  }*/
-
   get numberOfPages(): number {
     return this._numberOfPages;
   }

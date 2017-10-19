@@ -8,8 +8,8 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   closeLabel = 'Lukk';
   attributionLabel = 'Tillatelse';
   contentsLabel = 'Innhold';
-  twoPageViewLabel = 'To-side-visning';
-  singlePageViewLabel = 'Enkeltside-visning';
+  twoPageViewLabel = 'Tosidevisning';
+  singlePageViewLabel = 'Enkeltsidevisning';
   metadataLabel = 'Metadata';
   licenseLabel = 'Lisens';
   tocLabel = 'Innholdsfortegnelse';

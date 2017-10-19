@@ -8,8 +8,8 @@ export class MimeViewerIntl {
   closeLabel = 'Close';
   attributionLabel = 'Attribution';
   contentsLabel = 'Contents';
-  twoPageViewLabel = 'Two-Page-View';
-  singlePageViewLabel = 'Single-Page-View';
+  twoPageViewLabel = 'Two page display';
+  singlePageViewLabel = 'Single page display';
   metadataLabel = 'Metadata';
   licenseLabel = 'License';
   tocLabel = 'Table of Contents';
