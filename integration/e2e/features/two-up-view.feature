@@ -30,14 +30,6 @@ Feature: Two-Up view
     Then page 2 and 3 are displayed
 
   @desktop
-  Scenario: User select One-page mode
-    Given the viewer is opened with a publication with viewing hint "paged"
-      And the viewer is in dashboard view
-      And the layout is one-page
-      And the user is on page 2
-    Then only page 2 is displayed
-
-  @desktop
   Scenario: Individuals books
     Given the viewer is opened with a publication with viewing hint "individuals"
       And the user is on page 2
