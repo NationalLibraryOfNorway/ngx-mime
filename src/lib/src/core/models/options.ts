@@ -113,4 +113,5 @@ export class Options {
   crossOriginPolicy: string | boolean = false;
   ajaxWithCredentials = false;
   loadTilesWithAjax = false;
+  ajaxHeaders: any = null;
 }
