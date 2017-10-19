@@ -9,8 +9,6 @@ defineSupportCode(function ({ Given, Then }) {
   const metadata = new MetadataPage();
 
   Then(/the logo associated with the resource are displayed to the user$/, async () => {
-    await viewer.openContentsDialog();
-
     expect(await metadata.isLogoDisplayed()).to.equal(true);
   });
 
