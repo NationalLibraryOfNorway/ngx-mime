@@ -392,15 +392,16 @@ describe('ViewerComponent', function () {
   it('should open viewer on canvas index if present', (done) => {
     let currentPageNumber: number;
     testHostComponent.canvasIndex = 12;
-    testHostFixture.detectChanges();
-
     comp.onPageChange.subscribe((pageNumber: number) => {
       currentPageNumber = pageNumber;
     });
+
+    testHostFixture.detectChanges();
+
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          expect(currentPageNumber).toEqual(pageService.findPageByTileIndex(12));
+          expect(currentPageNumber).toEqual(12);
           done();
         }, osdAnimationTime);
       }
