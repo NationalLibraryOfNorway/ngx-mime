@@ -63,4 +63,8 @@ describe('ManifestBuilder', () => {
     });
   });
 
+  it('should have logo after build', () => {
+    expect(manifest.logo).toBe('http://example.com/dummylogo.jpg');
+  });
+
 });

@@ -63,6 +63,13 @@ describe('MetadataComponent', () => {
     expect(attribution.nativeElement.innerText).toBe('https://wiki.creativecommons.org/wiki/CC0');
   });
 
+  it('should display logo', () => {
+    fixture.detectChanges();
+
+    const attribution: DebugElement = fixture.debugElement.query(By.css('.logo'));
+    expect(attribution.nativeElement.getAttribute('src')).toBe('http://example.com/dummylogo.jpg');
+  });
+
 });
 
 class IiifManifestServiceStub {
@@ -74,7 +81,8 @@ class IiifManifestServiceStub {
         new Metadata('label2', 'value2')
       ],
       attribution: 'This is a test attribution',
-      license: 'https://wiki.creativecommons.org/wiki/CC0'
+      license: 'https://wiki.creativecommons.org/wiki/CC0',
+      logo: 'http://example.com/dummylogo.jpg'
     }));
   }
 

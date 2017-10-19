@@ -17,6 +17,7 @@ export class ManifestBuilder {
       label: this.data.label,
       metadata: new MetadataBuilder(this.data.metadata).build(),
       license: this.data.license,
+      logo: this.data.logo,
       attribution: this.data.attribution,
       service: new ServiceBuilder(this.data.service).build(),
       sequences: sequences,

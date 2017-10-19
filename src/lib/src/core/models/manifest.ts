@@ -6,6 +6,7 @@ export class Manifest {
   public label?: string;
   public metadata?: Metadata[];
   public license?: string;
+  public logo?: string;
   public attribution?: string;
   public service?: Service;
   public sequences?: Sequence[];
@@ -21,6 +22,7 @@ export class Manifest {
       label?: string,
       metadata?: Metadata[],
       license?: string,
+      logo?: string,
       attribution?: string,
       service?: Service,
       sequences?: Sequence[],
@@ -36,6 +38,7 @@ export class Manifest {
       this.label = fields.label || this.label;
       this.metadata = fields.metadata || this.metadata;
       this.license = fields.license || this.license;
+      this.logo = fields.logo || this.logo;
       this.attribution = fields.attribution || this.attribution;
       this.service = fields.service || this.service;
       this.sequences = fields.sequences || this.sequences;
