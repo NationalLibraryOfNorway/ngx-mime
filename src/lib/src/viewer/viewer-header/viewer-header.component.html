@@ -1,6 +1,6 @@
 <mat-toolbar>
   <div class="header-container" fxLayout="row" fxLayoutAlign="space-between center">
-    <span class="label">{{manifest?.label}}</span>
+    <span class="label" [matTooltip]="manifest?.label">{{manifest?.label}}</span>
     <div fxLayout='row' fxLayoutAlign="end center" fxFlex>
       <button id="contentsDialogButton" mat-icon-button [attr.aria-label]="intl.contentsLabel" [matTooltip]="intl.contentsLabel" (click)="toggleContents()">
         <mat-icon>list</mat-icon>
