@@ -13,11 +13,16 @@ import { Manifest } from './../models/manifest';
 export class IiifContentSearchService {
   protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(new SearchResult({}));
   protected _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
+  protected _currentQ: Subject<string> = new Subject<string>();
 
   constructor(private http: HttpClient) { }
 
   destroy() {
     this._currentSearchResult.next(new SearchResult({}));
+  }
+
+  get onQChange(): Observable<string> {
+    return this._currentQ.asObservable().distinctUntilChanged();
   }
 
   get onChange(): Observable<SearchResult> {
@@ -29,6 +34,7 @@ export class IiifContentSearchService {
   }
 
   public search(manifest: Manifest, q: string): void {
+    this._currentQ.next(q);
     if (!q || q === null) {
       return;
     }
