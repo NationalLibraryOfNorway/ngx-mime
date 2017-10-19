@@ -343,12 +343,8 @@ export class ViewerPage {
     const [leftPageMask, rightPageMask] = await Promise.all([this.getLeftPageMask(), this.getRightPageMask()]);
 
 
-    let leftPageMaskSize = leftPageMask.getSize();
-    let leftPageMaskLoc = leftPageMask.getLocation();
-    let rightPageMaskSize = rightPageMask.getSize();
-    let rightPageMaskLoc = rightPageMask.getLocation();
-    [leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc] =
-      await Promise.all([leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc]);
+    const [leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc] =
+      await Promise.all([leftPageMask.getSize(), leftPageMask.getLocation(), rightPageMask.getSize(), rightPageMask.getLocation()]);
 
     const promiseArray = pages.map((page, i) => {
       return isElementInReadersViewport(
