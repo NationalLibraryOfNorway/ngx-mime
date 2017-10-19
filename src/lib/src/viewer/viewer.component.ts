@@ -12,6 +12,7 @@ import {
   SimpleChange,
   SimpleChanges,
   ViewChild,
+  ViewContainerRef
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -58,9 +59,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ViewerMode: typeof ViewerMode = ViewerMode;
 
   // Viewchilds
-  @ViewChild('mimeHeader') header: ViewerHeaderComponent;
-  @ViewChild('mimeFooter') footer: ViewerFooterComponent;
-  @ViewChild('mimeOsdToolbar') osdToolbar: OsdToolbarComponent;
+  @ViewChild('mimeHeader')
+  private header: ViewerHeaderComponent;
+  @ViewChild('mimeFooter')
+  private footer: ViewerFooterComponent;
+  @ViewChild('mimeOsdToolbar')
+  private osdToolbar: OsdToolbarComponent;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -78,6 +82,22 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     attributionDialogService.el = el;
     contentSearchDialogService.el = el;
     mimeService.el = el;
+  }
+
+  get mimeHeaderBeforeRef(): ViewContainerRef {
+    return this.header.mimeHeaderBefore;
+  }
+
+  get mimeHeaderAfterRef(): ViewContainerRef {
+    return this.header.mimeHeaderAfter;
+  }
+
+  get mimeFooterBeforeRef(): ViewContainerRef {
+    return this.footer.mimeFooterBefore;
+  }
+
+  get mimeFooterAfterRef(): ViewContainerRef {
+    return this.footer.mimeFooterAfter;
   }
 
   ngOnInit(): void {
