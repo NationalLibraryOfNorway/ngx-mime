@@ -9,6 +9,10 @@ const remoteBrowsers = require('./remote-browsers');
 const config = {
   allScriptsTimeout: 11000,
   SELENIUM_PROMISE_MANAGER: false,
+  directConnect: false,
+  localSeleniumStandaloneOpts: {
+    jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver']
+  },
   specs: getFeatureFiles(),
   unknownFlags: [
     'cucumberOpts',
