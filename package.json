@@ -40,6 +40,8 @@
     "integration": "cd integration && npm run e2e:all",
     "preintegration:chrome": "npm run preintegration",
     "integration:chrome": "cd integration && npm run preprotractor && npm run e2e:chrome",
+    "preintegration:firefox": "npm run preintegration",
+    "integration:firefox": "cd integration && npm run preprotractor && npm run e2e:firefox",
     "lint": "tslint \"src/**/*.ts\" -t verbose",
     "release": "sh scripts/release/release.sh"
   },

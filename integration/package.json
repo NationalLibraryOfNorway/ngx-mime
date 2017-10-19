@@ -12,6 +12,7 @@
     "mountebank": "mb --port 2020 --configfile ./e2e/templates/imposters.ejs --allowInjection --nologfile",
     "e2e:all": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor\" --kill-others --success first",
     "e2e:chrome": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:chrome:headless\" --kill-others --success first",
+    "e2e:firefox": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:firefox\" --kill-others --success first",
     "wait": "sh ./scripts/wait-on.sh",
     "preprotractor": "webdriver-manager update --versions.standalone=3.4.0",
     "protractor": "npm run wait && concurrently \"npm run protractor:chrome\" \"npm run protractor:firefox\" \"npm run protractor:edge\" \"npm run protractor:android:chrome\"",
@@ -83,6 +84,7 @@
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3",
-    "chromedriver": "2.33.1"
+    "chromedriver": "2.33.1",
+    "geckodriver": "1.9.0"
   }
 }
