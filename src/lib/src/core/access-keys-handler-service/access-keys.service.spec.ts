@@ -39,7 +39,7 @@ describe('AccessKeysService', () => {
         FullscreenService,
         MimeResizeService
       ]
-    })
+    });
   });
 
   it('should be created', inject([AccessKeysService], (service: AccessKeysService) => {
