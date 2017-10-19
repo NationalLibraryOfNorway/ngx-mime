@@ -31,6 +31,15 @@ export class MetadataPage {
     const el = element(by.css('#metadata-license'));
     return utils.waitForElement(el);
   }
+
+  async isLogoDisplayed(): Promise<boolean> {
+    try {
+      const el: ElementFinder = await utils.waitForElement(element(by.css('.content.logo')));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
 
 export class Metadata {
