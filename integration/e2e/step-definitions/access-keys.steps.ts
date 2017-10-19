@@ -53,6 +53,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(await page.getCurrentPageNumber()).to.equal(1);
   });
 
+  Then(/^the viewer should not change page$/, async () => {
+    expect(await page.getCurrentPageNumber()).to.equal(previousPage);
+  });
+
   Then(/^the content search dialog should open$/, async () => {
     expect(await contentSearchPage.isOpen()).to.equal(true);
   });

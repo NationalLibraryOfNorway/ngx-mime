@@ -10,6 +10,7 @@ import { ViewerMode } from '../models/viewer-mode';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from '../models/manifest';
 import { MimeDomHelper } from '../mime-dom-helper';
+import { AccessKeys } from '../models/AccessKeys';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
@@ -42,31 +43,37 @@ export class AccessKeysService implements OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription) => {
       subscription.unsubscribe();
-    })
+    });
   }
 
   public handleKeyEvents(event: KeyboardEvent) {
-    // console.log(event);
-    if (event.key === 'PageDown' || event.key === 'ArrowRight' || (event.key === 'n' && this.isLetterKeysEnabled)) {
-      this.goToNextPage();
-    } else if (event.key === 'PageUp' || event.key === 'ArrowLeft' || (event.key === 'p' && this.isLetterKeysEnabled)) {
-      this.goToPreviousPage();
-    } else if (event.key === 'Home') {
-      this.goToFirstPage();
-    } else if (event.key === 'End') {
-      this.goToLastPage();
-    } else if (event.key === '+') {
-      this.zoomIn();
-    } else if (event.key === '-') {
-      this.zoomOut();
-    } else if (event.key === '0') {
-      this.zoomHome();
-    } else if (this.isSearchable && event.key === 'F' && event.altKey && event.shiftKey) {
-      this.toggleSearch();
-    } else if (event.key === 'C' && event.altKey && event.shiftKey) {
-      this.toggleContents();
-    } else if (event.key === 'f' && this.isLetterKeysEnabled) {
-      this.toggleFullscreen();
+    const accessKeys = new AccessKeys(event);
+    if (this.isLetterKeysEnabled) {
+      if (accessKeys.isNextPageKeys()) {
+        this.goToNextPage();
+      } else if (accessKeys.isPreviousPageKeys()) {
+        this.goToPreviousPage();
+      } else if (accessKeys.isFirstPageKeys()) {
+        this.goToFirstPage();
+      } else if (accessKeys.isLastPageKeys()) {
+        this.goToLastPage();
+      } else if (accessKeys.isZoomInKeys()) {
+        this.zoomIn();
+      } else if (accessKeys.isZoomOutKeys()) {
+        this.zoomOut();
+      } else if (accessKeys.isZoomHomeKeys()) {
+        this.zoomHome();
+      } else if (accessKeys.isFullscreenKeys()) {
+        this.toggleFullscreen();
+      }
+    }
+
+    if (this.isSearchable && accessKeys.isSearchDialogKeys()) {
+      this.toggleSearchDialog();
+    }
+
+    if (accessKeys.isContentsDialogKeys()) {
+      this.toggleContentsDialog();
     }
   }
 
@@ -108,12 +115,12 @@ export class AccessKeysService implements OnDestroy {
     }
   }
 
-  private toggleSearch() {
+  private toggleSearchDialog() {
     this.contentsDialogService.close();
     this.contentSearchDialogService.toggle();
   }
 
-  private toggleContents() {
+  private toggleContentsDialog() {
     this.contentSearchDialogService.close();
     this.contentsDialogService.toggle();
   }

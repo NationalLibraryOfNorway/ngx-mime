@@ -99,3 +99,19 @@ Feature: Access Keys
     And the user hits keys Shift, Alt and F
     Then the contents dialog should close
     And the content search dialog should open
+
+  Scenario Outline: Disable <keys> when Content Search Dialog is open
+    Given the content search dialog is open
+    And the user hits key <keys>
+    Then the viewer should not change page
+
+    Examples:
+      | keys        |
+      | PageDown    |
+      | ArrowRight  |
+      | n           |
+      | PageUp      |
+      | ArrowLeft   |
+      | p           |
+      | Home        |
+      | End         |
