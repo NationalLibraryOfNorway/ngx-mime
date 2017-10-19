@@ -165,7 +165,6 @@ describe('ViewerHeaderComponent', () => {
       expect(btnOnePageView).toBeNull();
     }));
 
-
   it('should hide two-page-button and show one-page-button if current viewer-layout is two-page-view',
     inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
       component.isPagedManifest = true;
@@ -180,7 +179,6 @@ describe('ViewerHeaderComponent', () => {
       expect(btnOnePageView).not.toBeNull();
     }));
 
-
   it('should hide viewer-layout buttons if manifest is not  \"paged\"',
     inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
       component.isPagedManifest = false;
@@ -190,6 +188,18 @@ describe('ViewerHeaderComponent', () => {
       const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageViewButton'));
       expect(btnOnePageView).toBeNull();
       expect(btnTwoPageView).toBeNull();
+  }));
+
+  it('should show label if manifest has a label',
+    inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
+      iiifManifestService._currentManifest.next({
+        label: 'Testlabel'
+      });
+
+      fixture.detectChanges();
+
+      const label = fixture.debugElement.query(By.css('.header-container .label')).nativeElement;
+      expect(label.innerHTML).toBe('Testlabel');
     }));
 
 });

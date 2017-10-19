@@ -50,6 +50,7 @@ export let testManifest = {
   'license': 'https://beta.nb.no/lisens/copyright',
   'attribution':  'Dette verket kan ikke kopieres, spres, vises eller fremføres for ' +
                   'allmennheten i noen form uten samtykke fra den enkelte rettighetshaver.',
+  'logo': 'http://example.com/dummylogo.jpg',
   'service': {
     '@context': 'http://iiif.io/api/search/0/context.json',
     '@id': 'http://example.org/services/identifier/search',

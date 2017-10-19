@@ -55,6 +55,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('mimeHeaderBefore', {read: ViewContainerRef}) mimeHeaderBefore: ViewContainerRef;
   @ViewChild('mimeHeaderAfter', {read: ViewContainerRef}) mimeHeaderAfter: ViewContainerRef;
   private subscriptions: Array<Subscription> = [];
+  public manifest: Manifest;
   public state = 'hide';
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
@@ -86,6 +87,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     }));
 
     this.subscriptions.push(this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
+      this.manifest = manifest;
       this.isContentSearchEnabled = manifest.service ? true : false;
       this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
       this.changeDetectorRef.detectChanges();

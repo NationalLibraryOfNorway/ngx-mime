@@ -38,6 +38,7 @@
     }
   ],
   "license": "https://beta.nb.no/lisens/cc0",
+  "logo": "./assets/fixtures/presentation/2/NB-logo-eng-svart.png",
   "sequences": [
     {
       "@id": "https://api.nb.no/catalog/v1/iiif/5cd391dac8839ca92ba103fd2ffa849a/sequence/normal",

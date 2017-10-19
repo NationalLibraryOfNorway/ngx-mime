@@ -17,6 +17,7 @@ function isJsFile(path) {
   return path.slice(-3) == '.js';
 }
 
+// Example of running specific test file: return /viewer-header\.component\.spec\.(.*\.)?js$/.test(path);
 function isSpecFile(path) {
   return /\.spec\.(.*\.)?js$/.test(path);
 }

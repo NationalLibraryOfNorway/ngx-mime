@@ -1,8 +1,9 @@
 <mat-toolbar>
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-    <div fxFlex>
+  <div class="header-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
       <ng-template #mimeHeaderBefore></ng-template>
     </div>
+    <span fxFlex class="label" [matTooltip]="manifest?.label">{{manifest?.label}}</span>
     <div class="buttons-container">
       <button id="toggleTwoPageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel"
         [matTooltip]="intl.twoPageViewLabel" (click)="setLayoutTwoPage()">
