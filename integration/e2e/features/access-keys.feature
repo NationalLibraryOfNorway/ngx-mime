@@ -101,7 +101,8 @@ Feature: Access Keys
     And the content search dialog should open
 
   Scenario Outline: Disable <keys> when Content Search Dialog is open
-    Given the content search dialog is open
+    Given the viewer is on page 5
+    And the content search dialog is open
     And the user hits key <keys>
     Then the viewer should not change page
 
