@@ -12,6 +12,7 @@ import {
   SimpleChange,
   SimpleChanges,
   ViewChild,
+  ViewContainerRef
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -51,6 +52,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   @Output('pageModeChanged') onPageModeChange: EventEmitter<ViewerMode> = new EventEmitter();
   @Output('pageChanged') onPageChange: EventEmitter<number> = new EventEmitter();
+  @Output('qChanged') onQChange: EventEmitter<string> = new EventEmitter();
 
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
@@ -60,9 +62,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   public errorMessage: string = null;
 
   // Viewchilds
-  @ViewChild('mimeHeader') header: ViewerHeaderComponent;
-  @ViewChild('mimeFooter') footer: ViewerFooterComponent;
-  @ViewChild('mimeOsdToolbar') osdToolbar: OsdToolbarComponent;
+  @ViewChild('mimeHeader')
+  private header: ViewerHeaderComponent;
+  @ViewChild('mimeFooter')
+  private footer: ViewerFooterComponent;
+  @ViewChild('mimeOsdToolbar')
+  private osdToolbar: OsdToolbarComponent;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -82,6 +87,22 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     attributionDialogService.el = el;
     contentSearchDialogService.el = el;
     mimeService.el = el;
+  }
+
+  get mimeHeaderBeforeRef(): ViewContainerRef {
+    return this.header.mimeHeaderBefore;
+  }
+
+  get mimeHeaderAfterRef(): ViewContainerRef {
+    return this.header.mimeHeaderAfter;
+  }
+
+  get mimeFooterBeforeRef(): ViewContainerRef {
+    return this.footer.mimeFooterBefore;
+  }
+
+  get mimeFooterAfterRef(): ViewContainerRef {
+    return this.footer.mimeFooterAfter;
   }
 
   ngOnInit(): void {
@@ -120,6 +141,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.resetCurrentManifest();
         this.errorMessage = error;
         this.changeDetectorRef.detectChanges();
+      })
+    );
+
+    this.subscriptions.push(
+      this.iiifContentSearchService.onQChange.subscribe((q: string) => {
+        this.onQChange.emit(q);
       })
     );
 
