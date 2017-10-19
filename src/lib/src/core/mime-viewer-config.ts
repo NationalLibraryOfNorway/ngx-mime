@@ -8,6 +8,7 @@ export class MimeViewerConfig {
   public withCredentials?= false;
   public loadTilesWithAjax?= false;
   public crossOriginPolicy?: string | boolean = false;
+  public ajaxHeaders?: any = null;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
@@ -17,6 +18,7 @@ export class MimeViewerConfig {
     withCredentials?: boolean;
     loadTilesWithAjax?: boolean;
     crossOriginPolicy?: string | boolean;
+    ajaxHeaders?: any;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -39,6 +41,9 @@ export class MimeViewerConfig {
 
       this.crossOriginPolicy =
         fields.crossOriginPolicy !== undefined ? fields.crossOriginPolicy : this.crossOriginPolicy;
+
+      this.ajaxHeaders =
+        fields.ajaxHeaders !== undefined ? fields.ajaxHeaders : this.ajaxHeaders;
     }
   }
 }

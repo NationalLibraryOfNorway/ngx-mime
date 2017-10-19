@@ -24,6 +24,7 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+webdriver-manager update
 npm run wait && protractor --browser=${BROWSER} --tags=${TAGS} > .tmp/${BROWSER}_result.txt
 
 if [ $? -eq 0 ]
