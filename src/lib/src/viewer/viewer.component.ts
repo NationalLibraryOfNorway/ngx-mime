@@ -48,6 +48,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   @Output('pageModeChanged') onPageModeChange: EventEmitter<ViewerMode> = new EventEmitter();
   @Output('pageChanged') onPageChange: EventEmitter<number> = new EventEmitter();
+  @Output('qChanged') onQChange: EventEmitter<string> = new EventEmitter();
 
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
@@ -114,6 +115,12 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.resetCurrentManifest();
         this.errorMessage = error;
         this.changeDetectorRef.detectChanges();
+      })
+    );
+
+    this.subscriptions.push(
+      this.iiifContentSearchService.onQChange.subscribe((q: string) => {
+        this.onQChange.emit(q);
       })
     );
 
