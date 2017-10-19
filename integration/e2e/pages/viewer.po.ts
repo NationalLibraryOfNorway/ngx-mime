@@ -351,7 +351,7 @@ export class ViewerPage {
       await Promise.all([leftPageMask.getSize(), leftPageMask.getLocation(), rightPageMask.getSize(), rightPageMask.getLocation()]);
 
     const promiseArray = pages.map((page, i) => {
-      return isElementInReadersViewport(
+      return isElementVisibleInReadersViewport(
         page,
         { size: leftPageMaskSize, location: leftPageMaskLoc },
         { size: rightPageMaskSize, location: rightPageMaskLoc }
@@ -362,21 +362,32 @@ export class ViewerPage {
   }
 }
 
-async function isElementInReadersViewport(
+/**
+ * Check if any part of an element is visible in the readers viewport.
+ * Note that the test will not confirm that the whole element is inside the viewport.
+ *
+ * @param element
+ * @param leftPageMask
+ * @param rightPageMask
+ */
+async function isElementVisibleInReadersViewport(
   element: any,
   leftPageMask: { size: any, location: any },
   rightPageMask: { size: any, location: any }): Promise<boolean> {
 
-  const [pageSize, pageLocation] = await Promise.all([element.getSize(), element.getLocation()]);
-
+  const [elementSize, elementLocation] = await Promise.all([element.getSize(), element.getLocation()]);
   const rect = {
-    left: pageLocation.x,
-    right: pageLocation.x + pageSize.width,
+    left: elementLocation.x,
+    right: elementLocation.x + elementSize.width,
+    top: elementLocation.y,
+    bottom: elementLocation.y + elementSize.height
   }
 
   return (
     rect.right >= leftPageMask.size.width &&
-    rect.left <= rightPageMask.location.x
+    rect.left <= rightPageMask.location.x &&
+    rect.bottom >= leftPageMask.size.y &&
+    rect.top <= leftPageMask.size.height
   );
 }
 
