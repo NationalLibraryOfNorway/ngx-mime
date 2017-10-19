@@ -18,6 +18,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   Given(/^the view is zoomed in$/, async () => {
     await page.clickZoomInButton();
     await page.waitForAnimation();
+    previousZoomLevel = await page.getZoomLevel();
   });
 
   When(/^the user pinch out$/, async () => {

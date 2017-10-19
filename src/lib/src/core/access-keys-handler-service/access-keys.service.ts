@@ -9,6 +9,7 @@ import { ModeService } from '../mode-service/mode.service';
 import { ViewerMode } from '../models/viewer-mode';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from '../models/manifest';
+import { MimeDomHelper } from '../mime-dom-helper';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
@@ -22,7 +23,8 @@ export class AccessKeysService implements OnDestroy {
     private modeService: ModeService,
     private iiifManifestService: IiifManifestService,
     private contentSearchDialogService: ContentSearchDialogService,
-    private contentsDialogService: ContentsDialogService
+    private contentsDialogService: ContentsDialogService,
+    private mimeDomHelper: MimeDomHelper
   ) {
     this.subscriptions.push(
       this.contentSearchDialogService.isContentSearchDialogOpen.subscribe((open: boolean) => {
@@ -34,7 +36,7 @@ export class AccessKeysService implements OnDestroy {
       this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
         this.isSearchable = this.isManifestSearchable(manifest);
       })
-    )
+    );
   }
 
   ngOnDestroy(): void {
@@ -44,6 +46,7 @@ export class AccessKeysService implements OnDestroy {
   }
 
   public handleKeyEvents(event: KeyboardEvent) {
+    // console.log(event);
     if (event.key === 'PageDown' || event.key === 'ArrowRight' || (event.key === 'n' && this.isLetterKeysEnabled)) {
       this.goToNextPage();
     } else if (event.key === 'PageUp' || event.key === 'ArrowLeft' || (event.key === 'p' && this.isLetterKeysEnabled)) {
@@ -59,9 +62,11 @@ export class AccessKeysService implements OnDestroy {
     } else if (event.key === '0') {
       this.zoomHome();
     } else if (this.isSearchable && event.key === 'F' && event.altKey && event.shiftKey) {
-      this.openSearch();
+      this.toggleSearch();
     } else if (event.key === 'C' && event.altKey && event.shiftKey) {
-      this.openContents();
+      this.toggleContents();
+    } else if (event.key === 'f' && this.isLetterKeysEnabled) {
+      this.toggleFullscreen();
     }
   }
 
@@ -103,12 +108,18 @@ export class AccessKeysService implements OnDestroy {
     }
   }
 
-  private openSearch() {
+  private toggleSearch() {
+    this.contentsDialogService.close();
     this.contentSearchDialogService.toggle();
   }
 
-  private openContents() {
+  private toggleContents() {
+    this.contentSearchDialogService.close();
     this.contentsDialogService.toggle();
+  }
+
+  private toggleFullscreen() {
+    this.mimeDomHelper.toggleFullscreen();
   }
 
   private isManifestSearchable(manifest: Manifest): boolean {

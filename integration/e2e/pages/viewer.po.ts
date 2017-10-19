@@ -1,5 +1,5 @@
 import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
-import { promise, WebElement } from 'selenium-webdriver';
+import { IKey, Key, promise, WebElement } from 'selenium-webdriver';
 import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
 
@@ -57,6 +57,15 @@ export class ViewerPage {
     return parseInt(currentPageNumber, 10);
   }
 
+  async getNumberOfPages() {
+    // The footer might be hidden, but the pagenumber is still updated, so use
+    // waitForPresenceOf insted of waitForElement.
+    const el =  await utils.waitForPresenceOf(element(by.css('#numOfPages')));
+    // Not using el.getText() as it don't seem to work when element is not visible
+    const numberOfPages = await el.getAttribute('textContent');
+    return parseInt(numberOfPages, 10);
+  }
+
   async openContentsDialog() {
     await element(by.css('#contentsDialogButton')).click();
     await utils.waitForElement(element(by.css('.contents-container')));
@@ -70,6 +79,7 @@ export class ViewerPage {
   async openContentSearchDialog() {
     await element(by.css('#contentSearchDialogButton')).click();
     await utils.waitForElement(element(by.css('.content-search-container')));
+    await this.waitForAnimation();
   }
 
   fullscreenButton(): ElementFinder {
@@ -277,6 +287,45 @@ export class ViewerPage {
     const overlayDimensions = await overlay.getSize();
 
     return Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height);
+  }
+
+  async sendKeyboardEvent(key: string): Promise<void> {
+    let iKey: string = null;
+    if (key === 'PageDown') {
+      iKey = Key.PAGE_DOWN;
+    } else if (key === 'ArrowRight') {
+      iKey = Key.ARROW_RIGHT;
+    } else if (key === 'n') {
+      iKey = Key.chord('n');
+    } else if (key === 'PageUp') {
+      iKey = Key.PAGE_UP;
+    } else if (key === 'ArrowLeft') {
+      iKey = Key.ARROW_LEFT;
+    } else if (key === 'p') {
+      iKey = Key.chord('p');
+    } else if (key === 'Home') {
+      iKey = Key.HOME;
+    } else if (key === 'End') {
+      iKey = Key.END;
+    } else if (key === '+') {
+      iKey = Key.ADD;
+    } else if (key === '-') {
+      iKey = Key.SUBTRACT;
+    } else if (key === '0') {
+      iKey = Key.chord('0');
+    }
+    await browser.actions().sendKeys(iKey).perform();
+    return await browser.sleep(await this.getAnimationTime() * 1000);
+  }
+
+  async sendContentSearchKeyboardEvent(): Promise<void> {
+    await browser.actions().keyDown(Key.SHIFT).keyDown(Key.ALT).sendKeys(Key.chord('F')).perform();
+    return await browser.sleep(await this.getAnimationTime() * 1000);
+  }
+
+  async sendContentKeyboardEvent(): Promise<void> {
+    await browser.actions().keyDown(Key.SHIFT).keyDown(Key.ALT).sendKeys(Key.chord('C')).perform();
+    return await browser.sleep(await this.getAnimationTime() * 1000);
   }
 
 }

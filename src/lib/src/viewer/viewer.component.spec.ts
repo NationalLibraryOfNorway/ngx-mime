@@ -30,6 +30,7 @@ import { FullscreenService } from '../core/fullscreen-service/fullscreen.service
 
 import 'openseadragon';
 import '../rxjs-extension';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
@@ -70,7 +71,8 @@ describe('ViewerComponent', function () {
         ClickService,
         PageService,
         ModeService,
-        FullscreenService
+        FullscreenService,
+        AccessKeysService
       ]
     }).compileComponents();
   }));

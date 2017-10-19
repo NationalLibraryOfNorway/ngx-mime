@@ -51,4 +51,12 @@ export class Utils {
       await browser.sleep(100);
     }
   }
+
+  async isElementVisible(element: ElementFinder) {
+    return await EC.visibilityOf(element) ? true : false;
+  }
+
+  async isElementInvisible(element: ElementFinder) {
+    return await EC.invisibilityOf(element) ? true : false;
+  }
 }

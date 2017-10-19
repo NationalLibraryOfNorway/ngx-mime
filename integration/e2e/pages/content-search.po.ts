@@ -41,6 +41,14 @@ export class ContentSearchPage {
     return utils.waitForElement(element(by.css('#footerNavigateNextHitButton')));
   }
 
+  async isOpen() {
+    return await utils.isElementVisible(element(by.css('.content-search-container')));
+  }
+
+  async isClosed() {
+    return await utils.isElementInvisible(element(by.css('.content-search-container')));
+  }
+
   async getHighlighted() {
     const el = element.all(by.css('.hit'));
     return el;
