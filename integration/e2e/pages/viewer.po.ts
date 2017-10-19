@@ -36,8 +36,8 @@ export class ViewerPage {
 
   async slideToPage(pageNumber: number) {
     const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
-    const isTwoPageView = this.isTwoPageView()
-    if (await isTwoPageView) {
+    const isTwoPageView = this.isTwoPageView();
+    if (await isTwoPageView && pageNumber > 1) {
       pageNumber = Math.floor(pageNumber / 2);
     }
     for (let i = 0; i < pageNumber; i++) {
@@ -47,6 +47,10 @@ export class ViewerPage {
   }
 
   async navigateToPage(pageNumber: number) {
+    const isTwoPageView = this.isTwoPageView();
+    if (await isTwoPageView && pageNumber > 1) {
+      pageNumber = Math.floor(pageNumber / 2);
+    }
     for (let i = 0; i < pageNumber; i++) {
       await this.clickNextButton();
     }
