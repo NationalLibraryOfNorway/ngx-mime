@@ -77,7 +77,7 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "mountebank": "^1.11.0",
-    "multiple-cucumber-html-reporter": "0.1.0",
+    "multiple-cucumber-html-reporter": "1.1.0",
     "protractor": "~5.1.2",
     "protractor-cucumber-framework": "3.1.0",
     "rimraf": "^2.5.4",
