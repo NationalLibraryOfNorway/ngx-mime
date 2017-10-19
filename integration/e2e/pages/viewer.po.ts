@@ -357,7 +357,6 @@ export class ViewerPage {
         { size: rightPageMaskSize, location: rightPageMaskLoc }
       );
     });
-
     return Promise.all(promiseArray);
   }
 }
@@ -376,19 +375,15 @@ async function isElementVisibleInReadersViewport(
   rightPageMask: { size: any, location: any }): Promise<boolean> {
 
   const [elementSize, elementLocation] = await Promise.all([element.getSize(), element.getLocation()]);
-  const rect = {
+  const elementCalculatedLocastion = {
     left: elementLocation.x,
     right: elementLocation.x + elementSize.width,
-    top: elementLocation.y,
-    bottom: elementLocation.y + elementSize.height
   }
 
   return (
-    rect.right >= leftPageMask.size.width &&
-    rect.left <= rightPageMask.location.x &&
-    rect.bottom >= leftPageMask.size.y &&
-    rect.top <= leftPageMask.size.height
-  );
+      elementCalculatedLocastion.right >= leftPageMask.size.width &&
+      elementCalculatedLocastion.left <= rightPageMask.location.x
+    );
 }
 
 export interface Point {
