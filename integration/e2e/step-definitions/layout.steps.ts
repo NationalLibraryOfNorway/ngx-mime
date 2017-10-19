@@ -58,7 +58,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(visiblePages[1]).to.equal(true);
 
     // Rest of the pages should not be visible
-    visiblePages.splice(1, 2);
+    visiblePages.splice(1, 1);
     expect(visiblePages).to.not.include(true);
   });
 
