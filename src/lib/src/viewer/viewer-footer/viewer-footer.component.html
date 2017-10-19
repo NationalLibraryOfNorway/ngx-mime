@@ -1,10 +1,16 @@
 <mat-toolbar class="footer-toolbar">
   <div fxLayout="row" fxFlex fxLayoutAlign="start center">
+    <div>
+      <ng-template #mimeFooterBefore></ng-template>
+    </div>
     <div fxFlex="250px" fxFlex.lt-md="100%" *ngIf="searchResult.size() > 0">
       <mime-content-search-navigator *ngIf="showContentSearchNavigator" [searchResult]="searchResult"></mime-content-search-navigator>
     </div>
     <div fxFlex [hidden]="!showPageNavigator">
       <mime-page-navigator [searchResult]="searchResult"></mime-page-navigator>
     </div>
+  </div>
+  <div>
+    <ng-template #mimeFooterAfter></ng-template>
   </div>
 </mat-toolbar>
