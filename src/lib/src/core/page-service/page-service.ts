@@ -123,6 +123,10 @@ export class PageService {
       return '1';
     }
 
+    if (this.tileIndicesPerPage.length === 0) {
+      return '1';
+    }
+
     const tileIndicesForPage = this.tileIndicesPerPage[index];
     let currentTiles = '' + (tileIndicesForPage[0] + 1);
 
