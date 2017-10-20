@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.7.1...v0.8.0) (2017-10-20)
+
+
+### Bug Fixes
+
+* better fast swiping in page-mode ([#118](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/118)) ([d9901f0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d9901f0)), closes [#117](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/117)
+* emitting pagenumber too many times when opening viewer ([4120a30](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4120a30)), closes [#121](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/121)
+* no pages are displayed on load ([d335b65](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d335b65)), closes [#147](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/147)
+* Viewer zoom in on swipe in landscape mode ([#127](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/127)) ([2443e37](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2443e37)), closes [#110](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/110)
+
+
+### Features
+
+* cors support ([71f8408](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/71f8408)), closes [#130](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/130)
+* emit manifest model on change ([4c66888](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4c66888)), closes [#144](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/144)
+* make it easy for developers to dynamically add components to the header and footer ([985604a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/985604a)), closes [#132](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/132)
+* show individual or organization logo associated with the resource ([bee087a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bee087a)), closes [#135](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/135)
+* show manifest label in header ([2f0fed8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2f0fed8))
+* table of contents ([0e46cad](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0e46cad))
+* two up view ([28451aa](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/28451aa))
+
+
+
 <a name="0.7.1"></a>
 ## [0.7.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.7.0...v0.7.1) (2017-10-10)
 
