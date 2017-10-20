@@ -118,6 +118,13 @@ export class PageService {
     });
   }
 
+  findTileByPageNumber(pageNumber: number): number {
+    if (this.tileIndicesPerPage.length === 0) {
+      return -1;
+    }
+    return this.tileIndicesPerPage[pageNumber][0];
+  }
+
   getTilesStringFromPageIndex(index: number): string {
     if (!this.tileRects) {
       return '1';
