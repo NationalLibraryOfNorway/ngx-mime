@@ -28,6 +28,7 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { SearchResult } from './../core/models/search-result';
@@ -79,7 +80,8 @@ describe('ViewerComponent', function () {
         ClickService,
         PageService,
         ModeService,
-        FullscreenService
+        FullscreenService,
+        ViewerLayoutService
       ]
     }).overrideModule(BrowserDynamicTestingModule, {
       set: {
@@ -173,16 +175,6 @@ describe('ViewerComponent', function () {
 
   it('should create overlays-array with same size as tilesources-array', () => {
     expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
-  });
-
-  it('should return an OpenSeadragon.Rect with properties equal to overlay', () => {
-    let overlay = viewerService.getOverlays()[0];
-    let rect = viewerService.createRectangle(overlay);
-
-    expect(rect.x).toEqual(overlay.x.baseVal.value);
-    expect(rect.y).toEqual(overlay.y.baseVal.value);
-    expect(rect.width).toEqual(overlay.width.baseVal.value);
-    expect(rect.height).toEqual(overlay.height.baseVal.value);
   });
 
   it('should return to home zoom', (done: any) => {
@@ -399,7 +391,7 @@ describe('ViewerComponent', function () {
 
   it('should open viewer on canvas index if present', (done) => {
     let currentPageNumber: number;
-    testHostComponent.canvasIndex = 2;
+    testHostComponent.canvasIndex = 12;
     testHostFixture.detectChanges();
 
     comp.onPageChange.subscribe((pageNumber: number) => {
@@ -408,7 +400,7 @@ describe('ViewerComponent', function () {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          expect(currentPageNumber).toEqual(2);
+          expect(currentPageNumber).toEqual(pageService.findPageByTileIndex(12));
           done();
         }, osdAnimationTime);
       }
@@ -560,7 +552,7 @@ class IiifContentSearchServiceStub {
     return this._searching.asObservable();
   }
 
-  destroy(): void {
+  destroy() {
   }
 
 }

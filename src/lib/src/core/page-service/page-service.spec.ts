@@ -1,11 +1,18 @@
 import { PageService } from './page-service';
+import {Rect} from '../models/rect';
+import {ViewerLayout} from '../models/viewer-layout';
 
 describe('PageService', () => {
   let service: PageService;
 
   beforeEach(() => {
     service = new PageService();
-    service.numberOfPages = 100;
+
+    let pages: Rect[] = [];
+    for (let i = 0; i < 100; i++) {
+      pages.push(new Rect());
+    }
+    service.addPages(pages, ViewerLayout.ONE_PAGE, false);
   });
 
   it('#isWithinBounds should return true when requested page is within bounds', () => {

@@ -1,7 +1,7 @@
+import { Rect } from '../models/rect';
 import { Point } from '../models/point';
 import { Side } from '../models/side';
 import { Direction } from '../models/direction';
-import { Bounds } from '../models/bounds';
 import { ViewerOptions } from '../models/viewer-options';
 export class SwipeUtils {
 
@@ -19,7 +19,7 @@ export class SwipeUtils {
     }
   }
 
-  static getSideIfPanningPastEndOfPage(pageBounds: Bounds, vpBounds: Bounds): Side {
+  static getSideIfPanningPastEndOfPage(pageBounds: Rect, vpBounds: Rect): Side {
     if (this.isPanningOutsideLeft(pageBounds, vpBounds)) {
       return Side.LEFT;
     } else if (this.isPanningOutsideRight(pageBounds, vpBounds)) {
@@ -27,15 +27,15 @@ export class SwipeUtils {
     }
   }
 
-  static isPanningOutsidePage(pageBounds: Bounds, vpBounds: Bounds): boolean {
+  static isPanningOutsidePage(pageBounds: Rect, vpBounds: Rect): boolean {
     return this.isPanningOutsideLeft(pageBounds, vpBounds) || this.isPanningOutsideRight(pageBounds, vpBounds);
   }
 
-  static isPanningOutsideLeft(pageBounds: Bounds, vpBounds: Bounds): boolean {
+  static isPanningOutsideLeft(pageBounds: Rect, vpBounds: Rect): boolean {
     return vpBounds.x < pageBounds.x;
   }
 
-  static isPanningOutsideRight(pageBounds: Bounds, vpBounds: Bounds): boolean {
+  static isPanningOutsideRight(pageBounds: Rect, vpBounds: Rect): boolean {
     return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width;
   }
 

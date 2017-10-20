@@ -48,11 +48,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the page with hit number (.*) should be displayed$/, async (hit) => {
-    const pageNumber = await page.getCurrentPageNumber();
+    const currentPageString = await page.getCurrentPageString();
     if (hit === 1) {
-      expect(pageNumber).to.equal(25);
+      expect(currentPageString.includes('25')).to.eql(true);
     } else if (hit === 3) {
-      expect(pageNumber).to.equal(29);
+      expect(currentPageString.includes('29')).to.eql(true);
     }
   });
 
