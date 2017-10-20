@@ -99,7 +99,7 @@ describe('PageService', () => {
     expect(newPage).toBe(0);
   });
 
-  it('should 1 if tileIndicesPerPage is empty', () => {
+  it('should return 1 if tileIndicesPerPage is empty', () => {
     let page = service.getTilesStringFromPageIndex(0);
     expect(page).toBe('1');
   });
