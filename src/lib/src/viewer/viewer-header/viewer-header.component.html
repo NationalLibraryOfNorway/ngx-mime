@@ -7,11 +7,11 @@
     <div class="buttons-container">
       <button id="toggleTwoPageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel"
         [matTooltip]="intl.twoPageViewLabel" (click)="setLayoutTwoPage()">
-        <mat-icon>chrome_reader_mode</mat-icon>
+        <mat-icon><i class="mime-icon-twopage"></i></mat-icon>
       </button>
       <button id="toggleSinglePageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.TWO_PAGE" mat-icon-button
         [attr.aria-label]="intl.singlePageViewLabel" [matTooltip]="intl.singlePageViewLabel" (click)="setLayoutOnePage()">
-        <mat-icon>description</mat-icon>
+        <mat-icon><i class="mime-icon-onepage"></i></mat-icon>
       </button>
       <button id="contentsDialogButton" mat-icon-button [attr.aria-label]="intl.contentsLabel" [matTooltip]="intl.contentsLabel"
         (click)="toggleContents()">
