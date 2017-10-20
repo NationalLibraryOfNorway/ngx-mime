@@ -63,7 +63,7 @@ export class AccessKeysService implements OnDestroy {
         this.zoomOut();
       } else if (accessKeys.isZoomHomeKeys()) {
         this.zoomHome();
-      } else if (accessKeys.isFullscreenKeys()) {
+      } else if (accessKeys.isFullscreenKeys() && !accessKeys.isSearchDialogKeys()) {
         this.toggleFullscreen();
       }
     }
