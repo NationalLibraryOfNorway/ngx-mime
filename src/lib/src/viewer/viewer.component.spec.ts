@@ -560,4 +560,7 @@ class IiifContentSearchServiceStub {
     return this._searching.asObservable();
   }
 
+  destroy(): void {
+  }
+
 }
