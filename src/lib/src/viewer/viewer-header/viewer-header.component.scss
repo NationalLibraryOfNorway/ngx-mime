@@ -40,9 +40,12 @@ mat-toolbar {
   line-height: 1;
   -webkit-font-smoothing: antialiased;
 }
-#toggleTwoPageViewButton {
-  margin-right: 12px;
-}
+// #toggleOnePageViewButton .mat-icon,
+// #toggleTwoPageViewButton .mat-icon {
+//   width: 68px;
+// }
+
+
 .mime-icon-onepage:before {
   content: "\e900";
 }
