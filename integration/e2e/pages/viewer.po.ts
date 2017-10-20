@@ -1,5 +1,5 @@
 import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
-import { IKey, Key, promise, WebElement } from 'selenium-webdriver';
+import { Key, promise, WebElement } from 'selenium-webdriver';
 import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
 
@@ -319,12 +319,12 @@ export class ViewerPage {
   }
 
   async sendContentSearchKeyboardEvent(): Promise<void> {
-    await browser.actions().keyDown(Key.SHIFT).keyDown(Key.ALT).sendKeys(Key.chord('F')).perform();
+    await browser.actions().sendKeys(Key.chord(Key.SHIFT, Key.ALT, 'F')).perform();
     return await browser.sleep(await this.getAnimationTime() * 1000);
   }
 
   async sendContentKeyboardEvent(): Promise<void> {
-    await browser.actions().keyDown(Key.SHIFT).keyDown(Key.ALT).sendKeys(Key.chord('C')).perform();
+    await browser.actions().sendKeys(Key.chord(Key.SHIFT, Key.ALT, 'C')).perform();
     return await browser.sleep(await this.getAnimationTime() * 1000);
   }
 
