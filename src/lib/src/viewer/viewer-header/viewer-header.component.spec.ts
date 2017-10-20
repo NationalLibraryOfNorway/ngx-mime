@@ -146,6 +146,18 @@ describe('ViewerHeaderComponent', () => {
       expect(button).toBeNull();
     }));
 
+  it('should show label if manifest has a label',
+    inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
+      iiifManifestService._currentManifest.next({
+        label: 'Testlabel'
+      });
+
+      fixture.detectChanges();
+
+      const label = fixture.debugElement.query(By.css('.header-container .label')).nativeElement;
+      expect(label.innerHTML).toBe('Testlabel');
+    }));
+
 });
 
 @NgModule({
