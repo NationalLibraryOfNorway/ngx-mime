@@ -180,7 +180,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
         if (tileIndex !== -1) {
           this.onPageChange.emit(tileIndex);
-          console.log(tileIndex);
         }
       })
     );
