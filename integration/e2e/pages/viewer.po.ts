@@ -374,6 +374,7 @@ async function isElementVisibleInReadersViewport(
   leftPageMask: { size: any, location: any },
   rightPageMask: { size: any, location: any }): Promise<boolean> {
 
+  await utils.waitForElement(element);
   const [elementSize, elementLocation] = await Promise.all([element.getSize(), element.getLocation()]);
   const elementCalculatedLocastion = {
     left: elementLocation.x,
