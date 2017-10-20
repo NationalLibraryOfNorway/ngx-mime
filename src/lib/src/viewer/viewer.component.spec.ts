@@ -51,6 +51,7 @@ describe('ViewerComponent', function () {
   let modeService: ModeService;
   let mimeResizeServiceStub: MimeResizeServiceStub;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
+  let iiifManifestServiceStub: IiifManifestServiceStub;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -107,6 +108,7 @@ describe('ViewerComponent', function () {
     modeService = TestBed.get(ModeService);
     mimeResizeServiceStub = TestBed.get(MimeResizeService);
     iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
+    iiifManifestServiceStub = TestBed.get(IiifManifestService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -379,6 +381,14 @@ describe('ViewerComponent', function () {
     iiifContentSearchServiceStub._currentQ.next('dummyquery');
   });
 
+  it('should emit when manifest changes', () => {
+    comp.onManifestChange.subscribe((m: Manifest) => expect(m.id).toEqual('dummyid'));
+
+    iiifManifestServiceStub._currentManifest.next(new Manifest({
+      id: 'dummyid'
+    }));
+  });
+
   it('should open viewer on canvas index if present', (done) => {
     let currentPageNumber: number;
     testHostComponent.canvasIndex = 12;
@@ -489,7 +499,7 @@ export class TestHostComponent {
 }
 
 class IiifManifestServiceStub {
-  protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
+  public _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
   protected _errorMessage: Subject<string> = new BehaviorSubject(null);
 
   get currentManifest(): Observable<Manifest> {

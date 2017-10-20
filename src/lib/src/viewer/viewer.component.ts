@@ -53,6 +53,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Output('pageModeChanged') onPageModeChange: EventEmitter<ViewerMode> = new EventEmitter();
   @Output('pageChanged') onPageChange: EventEmitter<number> = new EventEmitter();
   @Output('qChanged') onQChange: EventEmitter<string> = new EventEmitter();
+  @Output('manifestChanged') onManifestChange: EventEmitter<Manifest> = new EventEmitter();
 
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
@@ -111,6 +112,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
           if (manifest) {
+            this.onManifestChange.next(manifest);
             this.cleanup();
             this.initialize();
             this.currentManifest = manifest;
