@@ -134,7 +134,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.subscriptions.push(
       this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-        if (state && this.canvasIndex) {
+        // Don't reset current page when switching layout
+        if (state && this.canvasIndex && !this.pageService.currentPage) {
           this.viewerService.goToTile(this.canvasIndex, false);
         }
       })
@@ -179,6 +180,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
         if (tileIndex !== -1) {
           this.onPageChange.emit(tileIndex);
+          console.log(tileIndex);
         }
       })
     );
