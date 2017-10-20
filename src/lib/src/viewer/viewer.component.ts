@@ -25,6 +25,7 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { Manifest } from '../core/models/manifest';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
+import { PageService } from '../core/page-service/page-service';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
@@ -81,6 +82,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private mimeService: MimeResizeService,
     private changeDetectorRef: ChangeDetectorRef,
     private modeService: ModeService,
+    private pageService: PageService,
     private iiifContentSearchService: IiifContentSearchService,
     private viewerLayoutService: ViewerLayoutService
   ) {
@@ -132,7 +134,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.subscriptions.push(
       this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-        if (state && this.canvasIndex) {
+        // Don't reset current page when switching layout
+        if (state && this.canvasIndex && !this.pageService.currentPage) {
           this.viewerService.goToTile(this.canvasIndex, false);
         }
       })
@@ -173,8 +176,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     );
 
     this.subscriptions.push(
-      this.viewerService.onPageChange.subscribe((pageNumber: number) => {
-        this.onPageChange.emit(pageNumber);
+      this.pageService.onPageChange.subscribe((pageNumber: number) => {
+        const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
+        if (tileIndex !== -1) {
+          this.onPageChange.emit(tileIndex);
+        }
       })
     );
 
