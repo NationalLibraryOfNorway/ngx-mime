@@ -21,7 +21,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(await page.isPageMode()).to.equal(true);
   });
 
-
   When(/^the user click in the viewer$/, async () => {
     // TODO click page.getSVGElement() insted of first overlay
     // to be able to switch view mode when firste page is out of view

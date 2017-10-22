@@ -1,12 +1,12 @@
+import { Rect } from '../models/rect';
 import { ZoomUtils } from './zoom-utils';
 import { Point } from '../models/point';
-import { Bounds } from '../models/bounds';
 
 
 describe('ZoomUtils ', () => {
 
   it('should constrain position to pagebounds', () => {
-    const page: Bounds = { x: 100, y: 100, width: 100, height: 100 };
+    const page: Rect = { x: 100, y: 100, width: 100, height: 100 };
 
     // Outside left side of page
     let pos: Point = { x: 50, y: 0 };

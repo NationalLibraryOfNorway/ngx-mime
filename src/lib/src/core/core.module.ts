@@ -11,6 +11,7 @@ import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { ViewerService } from './viewer-service/viewer.service';
 import { ModeService } from './mode-service/mode.service';
 import { ClickService } from './click-service/click.service';
+import { ViewerLayoutService } from './viewer-layout-service/viewer-layout-service';
 
 @NgModule({
   providers: [
@@ -23,7 +24,8 @@ import { ClickService } from './click-service/click.service';
     ClickService,
     PageService,
     ModeService,
-    SpinnerService
+    SpinnerService,
+    ViewerLayoutService
   ]
 })
 export class CoreModule { }

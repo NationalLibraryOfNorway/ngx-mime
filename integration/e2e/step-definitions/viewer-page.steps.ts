@@ -24,7 +24,7 @@ defineSupportCode(function ({ Given, Then }) {
 
   Given(/^a (.*) publication with 10 pages$/, async (viewingDirection: string) => {
     if (viewingDirection === 'left-to-right') {
-      await page.open('a-ltr-book-10-pages');
+      await page.open('a-ltr-10-pages-book');
     } else if (viewingDirection === 'right-to-left') {
       pending();
     }
@@ -40,6 +40,14 @@ defineSupportCode(function ({ Given, Then }) {
 
   Given(/^the user is on page (.*)$/, async (pageNumber: number) => {
     await page.goToPage(pageNumber - 1);
+  });
+
+  Given(/^the viewer is opened with a publication with viewing hint "paged"$/, async () => {
+    await page.open('a-ltr-10-pages-book');
+  });
+
+  Given(/^the viewer is opened with a publication with viewing hint "individuals"$/, async () => {
+    await page.open('a-individuals-manifest');
   });
 
 });
