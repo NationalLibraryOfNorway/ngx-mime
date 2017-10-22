@@ -29,6 +29,7 @@ import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { SearchResult } from './../core/models/search-result';
@@ -52,6 +53,7 @@ describe('ViewerComponent', function () {
   let mimeResizeServiceStub: MimeResizeServiceStub;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
+  let viewerLayoutService: ViewerLayoutService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -81,7 +83,7 @@ describe('ViewerComponent', function () {
         PageService,
         ModeService,
         FullscreenService,
-        ViewerLayoutService
+        ViewerLayoutService,
       ]
     }).overrideModule(BrowserDynamicTestingModule, {
       set: {
@@ -109,6 +111,7 @@ describe('ViewerComponent', function () {
     mimeResizeServiceStub = TestBed.get(MimeResizeService);
     iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
     iiifManifestServiceStub = TestBed.get(IiifManifestService);
+    viewerLayoutService = TestBed.get(ViewerLayoutService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -373,6 +376,25 @@ describe('ViewerComponent', function () {
         }, osdAnimationTime);
       }
     });
+  });
+
+  fit('should stay on same tile after a ViewerLayout change', (done: any) => {
+    // Need to set canvasIndex on input of component to trigger previous occuring bug
+    viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
+    testHostComponent.canvasIndex = 3;
+    testHostFixture.detectChanges();
+    expect(pageService.currentTile).toEqual(3);
+
+    viewerService.goToTile(7, false);
+    expect(pageService.currentTile).toEqual(7);
+
+    viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
+
+    setTimeout(() => {
+      expect(pageService.currentTile).toEqual(7);
+      done();
+    }, osdAnimationTime);
+
   });
 
   it('should emit when q changes', () => {
