@@ -3,8 +3,8 @@
     <div>
       <ng-template #mimeHeaderBefore></ng-template>
     </div>
-    <span fxFlex fxFlexOffset="16px" class="label" [matTooltip]="manifest?.label">{{manifest?.label}}</span>
-    <div class="buttons-container">
+    <div fxFlexOffset="16px" class="label" [matTooltip]="manifest?.label">{{manifest?.label}}</div>
+    <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="buttons-container">
       <button id="toggleTwoPageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel"
         [matTooltip]="intl.twoPageViewLabel" (click)="setLayoutTwoPage()">
         <mat-icon class="mime-icon-twopage"></mat-icon>
