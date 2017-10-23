@@ -26,7 +26,6 @@ import { Side } from '../models/side';
 import { Bounds } from '../models/bounds';
 import { ZoomUtils } from './zoom-utils';
 import { PinchStatus } from '../models/pinchStatus';
-import { SpinnerService } from '../spinner-service/spinner.service';
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
 import * as d3 from 'd3';
@@ -60,8 +59,7 @@ export class ViewerService {
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService,
-    private spinnerService: SpinnerService
+    private modeService: ModeService
   ) { }
 
   get onCenterChange(): Observable<Point> {

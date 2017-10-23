@@ -16,8 +16,8 @@ describe('ViewerService', () => {
         ClickService,
         PageService,
         ModeService,
-        MimeResizeService,
-        SpinnerService]
+        MimeResizeService
+      ]
     });
   });
 
