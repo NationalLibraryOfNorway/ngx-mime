@@ -16,7 +16,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Given(/^the user hits key (.*)$/, async (key: string) => {
-    previousPage = await page.getCurrentPageNumber();
+    previousPage = parseInt(await page.getCurrentPageString(), 10);
     await page.sendKeyboardEvent(key);
   });
 
@@ -37,24 +37,24 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the viewer should go to next page$/, async () => {
-    expect(await page.getCurrentPageNumber()).to.equal(previousPage + 1);
+    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(previousPage + 1);
   });
 
   Then(/^the viewer should go to previous page$/, async () => {
-    expect(await page.getCurrentPageNumber()).to.equal(previousPage - 1);
+    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(previousPage - 1);
   });
 
   Then(/^the viewer should go to last page$/, async () => {
     await browser.sleep(1000);
-    expect(await page.getCurrentPageNumber()).to.equal(await page.getNumberOfPages());
+    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(await page.getNumberOfPages());
   });
 
   Then(/^the viewer should go to first page$/, async () => {
-    expect(await page.getCurrentPageNumber()).to.equal(1);
+    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(1);
   });
 
   Then(/^the viewer should not change page$/, async () => {
-    expect(await page.getCurrentPageNumber()).to.equal(previousPage);
+    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(previousPage);
   });
 
   Then(/^the content search dialog should open$/, async () => {

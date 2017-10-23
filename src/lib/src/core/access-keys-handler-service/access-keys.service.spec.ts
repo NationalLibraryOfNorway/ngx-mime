@@ -15,6 +15,8 @@ import { ContentSearchDialogConfigStrategyFactory } from '../../content-search-d
 import { MimeDomHelper } from '../mime-dom-helper';
 import { FullscreenService } from '../fullscreen-service/fullscreen.service';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
+import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 
 describe('AccessKeysService', () => {
   beforeEach(() => {
@@ -37,7 +39,9 @@ describe('AccessKeysService', () => {
         MimeViewerIntl,
         MimeDomHelper,
         FullscreenService,
-        MimeResizeService
+        MimeResizeService,
+        ViewerLayoutService,
+        IiifContentSearchService
       ]
     });
   });
