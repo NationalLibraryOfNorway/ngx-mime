@@ -6,8 +6,12 @@
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-ltr-book.ejs') %>" }}]
   },
   {
-    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-ltr-book-10-pages/manifest", "method": "GET" }}]}],
-    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-ltr-book-10-pages.ejs') %>" }}]
+    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-ltr-10-pages-book/manifest", "method": "GET" }}]}],
+    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-ltr-10-pages-book.ejs') %>" }}]
+  },
+  {
+    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-individuals-manifest/manifest", "method": "GET" }}]}],
+    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-individuals-book.ejs') %>" }}]
   },
   {
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/contentsearch/iiif/search", "method": "GET", "query": { "q": "Gjallarhorn" } }}]}],

@@ -1,10 +1,10 @@
 import { defineSupportCode } from 'cucumber';
 import { expect } from '../helpers/chai-imports';
+import { browser } from 'protractor';
 
 import { ViewerPage } from '../pages/viewer.po';
 import { MetadataPage } from '../pages/metadata.po';
 import { TableOfContentsPage } from '../pages/table-of-contents.po';
-import { browser } from 'protractor';
 
 defineSupportCode(function ({ Given, Then, When }) {
   const page = new ViewerPage();
@@ -36,6 +36,7 @@ defineSupportCode(function ({ Given, Then, When }) {
   });
 
   Then(/^the viewer should go to page (.*)$/, async (pageNumber: string) => {
-    expect(await page.getCurrentPageNumber()).to.equal(Number(pageNumber));
+    const currentPageString = await page.getCurrentPageString();
+    expect(currentPageString.includes(pageNumber)).to.eql(true);
   });
 });

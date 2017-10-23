@@ -5,7 +5,6 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable, NgZone, OnInit } from '@angular/core';
 
 import { Utils } from '../../core/utils';
-import { TileRects } from './../models/tile-rects';
 import { ViewerOptions } from '../models/viewer-options';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Dimensions } from '../models/dimensions';
@@ -23,12 +22,15 @@ import { Rect } from './../models/rect';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { Direction } from '../models/direction';
 import { Side } from '../models/side';
-import { Bounds } from '../models/bounds';
 import { ZoomUtils } from './zoom-utils';
-import { MimeViewerConfig } from './../mime-viewer-config';
-
-
+import { ViewerLayout } from '../models/viewer-layout';
+import { CalculatePagePositionFactory } from '../page-position/calculate-page-position-factory';
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { PinchStatus } from '../models/pinchStatus';
+import { MimeViewerConfig } from '../mime-viewer-config';
+import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
+import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
+
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
 import * as d3 from 'd3';
@@ -56,13 +58,22 @@ export class ViewerService {
   private pageMask: PageMask;
   private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
-  private tileRects = new TileRects();
+  private manifest: Manifest;
+  private isManifestPaged: boolean;
+
+  public currentSearch: SearchResult;
 
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
     private pageService: PageService,
-    private modeService: ModeService) { }
+    private modeService: ModeService,
+    private viewerLayoutService: ViewerLayoutService,
+    private iiifContentSearchService: IiifContentSearchService
+  ) { }
+
+
+  //#region getters / setters
 
   get onCenterChange(): Observable<Point> {
     return this.currentCenter.asObservable();
@@ -89,15 +100,15 @@ export class ViewerService {
   }
 
   public getZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
+    return Utils.shortenDecimals(this.viewer.viewport.getZoom(true), 5);
   }
 
   public getMinZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
+    return Utils.shortenDecimals(this.viewer.viewport.getMinZoom(), 5);
   }
 
   public getMaxZoom(): number {
-    return this.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
+    return Utils.shortenDecimals(this.viewer.viewport.getMaxZoom(), 5);
   }
 
   public zoomTo(level: number, position?: Point): void {
@@ -108,32 +119,24 @@ export class ViewerService {
     this.viewer.viewport.zoomBy(zoomFactor, position);
   }
 
-  private getViewportBounds(): Bounds {
+  private getViewportBounds(): Rect {
     return this.viewer.viewport.getBounds();
   }
 
-  private getPageBounds(pageIndex: number): Bounds {
-    if (this.pageService.isWithinBounds(pageIndex)) {
-      return this.createRectangle(this.overlays[this.pageService.currentPage]);
-    }
-  }
+  //#endregion getters / setters
 
   public home(): void {
     if (!this.osdIsReady.getValue()) {
       return;
     }
-
-    const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
-
     this.setMinZoom(this.modeService.mode);
-    this.goToPage(currentPageIndex, false);
+    this.goToPage(this.pageService.currentPage, false);
     this.goToHomeZoom();
   }
 
   public goToPreviousPage(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.pageService.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -146,7 +149,7 @@ export class ViewerService {
 
   public goToNextPage(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.tileRects.findClosestIndex(viewportCenter);
+    const currentPageIndex = this.pageService.findClosestIndex(viewportCenter);
 
     const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
     const newPageIndex = calculateNextPageStrategy.calculateNextPage({
@@ -161,9 +164,9 @@ export class ViewerService {
     const oldIndex = this.pageService.currentPage;
     pageIndex = this.pageService.constrainToRange(pageIndex);
     this.pageService.currentPage = pageIndex;
-    const newPageCenter = this.tileRects.get(pageIndex);
+    const newPageCenter = this.pageService.getPageRect(pageIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      const oldPageCenter = this.tileRects.get(oldIndex);
+      const oldPageCenter = this.pageService.getPageRect(oldIndex);
       this.panTo(oldPageCenter.centerX, oldPageCenter.centerY, immediately);
       this.goToHomeZoom();
       setTimeout(() => {
@@ -175,13 +178,19 @@ export class ViewerService {
     }
   }
 
+  public goToTile(tileIndex: number, immediately: boolean): void {
+    const pageIndex = this.pageService.findPageByTileIndex(tileIndex);
+    this.goToPage(pageIndex, immediately);
+  }
+
 
   public highlight(searchResult: SearchResult): void {
     this.clearHightlight();
     if (this.viewer) {
+      if (searchResult.q) { this.currentSearch = searchResult; }
       for (const hit of searchResult.hits) {
         for (let rect of hit.rects) {
-          const tileRect = this.tileRects.get(hit.index);
+          const tileRect = this.pageService.getTileRect(hit.index);
           const x = tileRect.x + rect.x;
           const y = tileRect.y + rect.y;
           const width = rect.width;
@@ -200,18 +209,20 @@ export class ViewerService {
   public clearHightlight(): void {
     if (this.svgNode) {
       this.svgNode.selectAll('.hit').remove();
+      this.currentSearch = null;
     }
   }
+
 
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
     this.config = config;
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
-        this.clearOpenSeadragonTooltips();
+        this.manifest = manifest;
+        this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.getOptions()));
         this.pageService.reset();
-        this.pageService.numberOfPages = this.tileSources.length;
         this.pageMask = new PageMask(this.viewer);
       });
 
@@ -219,41 +230,59 @@ export class ViewerService {
       this.setupOverlays();
       this.createOverlays();
       this.addEvents();
-
-      this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-        this.modeChanged(mode);
-      }));
-
-      this.zone.runOutsideAngular(() => {
-        this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
-          this.calculateCurrentPage(center);
-          if (center && center !== null) {
-            this.osdIsReady.next(true);
-          }
-        }));
-      });
-
-      this.subscriptions.push(
-        this.pageService.onPageChange.subscribe((pageIndex: number) => {
-          if (pageIndex !== -1) {
-            this.pageMask.changePage(this.overlays[pageIndex]);
-            if (this.modeService.mode === ViewerMode.PAGE) {
-              this.goToHomeZoom();
-            }
-          }
-        })
-      );
-
-      this.subscriptions.push(
-        this.onOsdReadyChange.subscribe((state: boolean) => {
-          if (state) {
-            this.initialPageLoaded();
-            this.currentCenter.next(this.viewer.viewport.getCenter(true));
-          }
-        })
-      );
-
+      this.addSubscriptions();
     }
+  }
+
+
+  addSubscriptions(): void {
+    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+      this.modeChanged(mode);
+    }));
+
+    this.zone.runOutsideAngular(() => {
+      this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
+        this.calculateCurrentPage(center);
+        if (center && center !== null) {
+          this.osdIsReady.next(true);
+        }
+      }));
+    });
+
+    this.subscriptions.push(
+      this.pageService.onPageChange.subscribe((pageIndex: number) => {
+        if (pageIndex !== -1) {
+          this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
+          if (this.modeService.mode === ViewerMode.PAGE) {
+            this.goToHomeZoom();
+          }
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.onOsdReadyChange.subscribe((state: boolean) => {
+        if (state) {
+          this.initialPageLoaded();
+          this.currentCenter.next(this.viewer.viewport.getCenter(true));
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.viewerLayoutService.onChange.subscribe((state: ViewerLayout) => {
+        if (this.osdIsReady.getValue()) {
+          const savedTile = this.pageService.currentTile;
+          this.destroy(true);
+          this.setUpViewer(this.manifest, this.config);
+          this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
+          // Recreate highlights if there is an active search going on
+          if (this.currentSearch) {
+            this.highlight(this.currentSearch);
+          }
+        }
+      })
+    );
   }
 
   addToWindow() {
@@ -265,7 +294,12 @@ export class ViewerService {
     this.svgNode = d3.select(this.svgOverlay.node());
   }
 
-  destroy() {
+  /**
+   *
+   * @param {layoutSwitch} true if switching between layouts
+   * to keep current search-state
+   */
+  destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
     this.currentCenter.next(null);
     if (this.viewer != null && this.viewer.isOpen()) {
@@ -278,7 +312,12 @@ export class ViewerService {
       subscription.unsubscribe();
     });
     this.overlays = null;
-    this.tileRects = new TileRects();
+    this.pageService.reset();
+    // Keep search-state only if layout-switch
+    if (!layoutSwitch) {
+      this.currentSearch = null;
+      this.iiifContentSearchService.destroy();
+    }
   }
 
   addEvents(): void {
@@ -315,7 +354,7 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToPage(position, this.getPageBounds(this.pageService.currentPage));
+      position = ZoomUtils.constrainPositionToPage(position, this.pageService.getCurrentPageRect());
 
     }
 
@@ -332,7 +371,7 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToPage(position, this.getPageBounds(this.pageService.currentPage));
+      position = ZoomUtils.constrainPositionToPage(position, this.pageService.getCurrentPageRect());
     }
 
     if (this.isViewportLargerThanPage()) {
@@ -483,8 +522,10 @@ export class ViewerService {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
+
     const target = event.originalEvent.target;
-    const requestedPage = this.getOverlayIndexFromClickEvent(target);
+    const tileIndex = this.getOverlayIndexFromClickEvent(target);
+    const requestedPage = this.pageService.findPageByTileIndex(tileIndex);
     if (requestedPage) {
       this.pageService.currentPage = requestedPage;
     }
@@ -506,7 +547,8 @@ export class ViewerService {
       this.zoomIn(ViewerOptions.zoom.dblClickZoomFactor, event.position);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
-      const requestedPage: number = this.getOverlayIndexFromClickEvent(target);
+      const tileIndex: number = this.getOverlayIndexFromClickEvent(target);
+      const requestedPage = this.pageService.findPageByTileIndex(tileIndex);
       if (requestedPage >= 0) {
         this.pageService.currentPage = requestedPage;
       }
@@ -514,7 +556,7 @@ export class ViewerService {
   }
 
   isViewportLargerThanPage(): boolean {
-    const pageBounds = this.getPageBounds(this.pageService.currentPage);
+    const pageBounds = this.pageService.getCurrentPageRect();
     const viewportBounds = this.viewer.viewport.getBounds();
     const pbWidth = Math.round(pageBounds.width);
     const pbHeight = Math.round(pageBounds.height);
@@ -537,68 +579,71 @@ export class ViewerService {
    */
   createOverlays(): void {
     this.overlays = [];
-    const initialPage = 0;
-    const center = new OpenSeadragon.Point(0, 0);
-    const height = this.tileSources[0].height;
-    let currentX = center.x - (this.tileSources[0].width / 2);
+    const tileRects: Rect[] = [];
+    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(
+      this.viewerLayoutService.layout,
+      this.isManifestPaged
+    );
+
+    const isTwoPageView: boolean = this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE;
+    let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
-      let currentY = center.y - tile.height / 2;
+
+      const position = calculatePagePositionStrategy.calculatePagePosition({
+        pageIndex: i,
+        pageSource: tile,
+        previousPagePosition: tileRects[i - 1]
+      });
+
+      tileRects.push(position);
+
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
           index: i,
           tileSource: tile,
-          height: tile.height,
-          x: currentX,
-          y: currentY,
-          success: i === initialPage ? (e: any) => {
-            e.item.addOnceHandler('fully-loaded-change', () => { });
-          } : ''
+          height: position.height,
+          x: position.x,
+          y: position.y
         });
       });
 
-      // Style overlay to match tile
-      this.svgNode.append('rect')
-        .attr('x', currentX)
-        .attr('y', currentY)
-        .attr('width', tile.width)
-        .attr('height', tile.height)
+      if (isTwoPageView && i % 2 !== 0) {
+        group = this.svgNode.append('g').attr('class', 'page-group');
+      }
+
+      const currentOverlay = group.append('rect')
+        .attr('x', position.x)
+        .attr('y', position.y)
+        .attr('width', position.width)
+        .attr('height', position.height)
         .attr('class', 'tile');
 
-      const currentOverlay: SVGRectElement = this.svgNode.node().childNodes[i];
-      this.overlays.push(currentOverlay);
+      // Make custom borders if current layout is two-paged
+      if (isTwoPageView) {
+        if (i % 2 === 0 && i !== 0) {
+          const noLeftStrokeStyle = Number((position.width * 2) + position.height) + ', ' + position.width * 2;
+          currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
+        } else if (i % 2 !== 0 && i !== 0) {
+          const noRightStrokeStyle = position.width + ', ' + position.height + ', ' + Number((position.width * 2) + position.height);
+          currentOverlay.style('stroke-dasharray', noRightStrokeStyle);
+        }
+      }
 
-      this.tileRects.add(new Rect({
-        x: currentX,
-        y: currentY,
-        width: tile.width,
-        height: tile.height
-      }));
-
-      currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
+      const currentOverlayNode: SVGRectElement = currentOverlay.node();
+      this.overlays.push(currentOverlayNode);
     });
+
+    this.pageService.addPages(tileRects, this.viewerLayoutService.layout, this.isManifestPaged);
   }
 
   /**
    * Sets viewer size and opacity once the first page has fully loaded
    */
   initialPageLoaded = (): void => {
-    this.goToPage(this.pageService.currentPage, true);
-    this.pageMask.initialise(this.overlays[this.pageService.currentPage]);
+    this.home();
+    this.pageMask.initialise(this.pageService.getCurrentPageRect(), this.modeService.mode !== ViewerMode.DASHBOARD);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
-  }
-
-  /**
-   * Returns an OpenSeadragon.Rectangle instance of an overlay
-   * @param {SVGRectElement} overlay
-   */
-  createRectangle(overlay: SVGRectElement): any {
-    return new OpenSeadragon.Rect(
-      overlay.x.baseVal.value,
-      overlay.y.baseVal.value,
-      overlay.width.baseVal.value,
-      overlay.height.baseVal.value
-    );
   }
 
   /**
@@ -624,24 +669,9 @@ export class ViewerService {
     return options;
   }
 
-
-  private clearOpenSeadragonTooltips() {
-    OpenSeadragon.setString('Tooltips.Home', '');
-    OpenSeadragon.setString('Tooltips.ZoomOut', '');
-    OpenSeadragon.setString('Tooltips.ZoomIn', '');
-    OpenSeadragon.setString('Tooltips.NextPage', '');
-    OpenSeadragon.setString('Tooltips.ZoomIn', '');
-    OpenSeadragon.setString('Tooltips.FullPage', '');
-  }
-
-  private shortenDecimals(zoom: any, precision: number): number {
-    const short = Number(zoom).toPrecision(precision);
-    return Number(short);
-  }
-
   private calculateCurrentPage(center: Point) {
     if (center) {
-      let currentPageIndex = this.tileRects.findClosestIndex(center);
+      let currentPageIndex = this.pageService.findClosestIndex(center);
       this.currentPageIndex.next(currentPageIndex);
     }
   }
@@ -650,14 +680,12 @@ export class ViewerService {
     return this.viewer.viewport.getCenter(true);
   }
 
-
-
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const dragEndPosision: Point = e.position;
-      const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
-      const vpBounds: Bounds = this.getViewportBounds();
+      const pageBounds: Rect = this.pageService.getCurrentPageRect();
+      const vpBounds: Rect = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
       const direction: number = e.direction;
       if (
@@ -680,8 +708,8 @@ export class ViewerService {
 
     const isPageZoomed = this.modeService.mode === ViewerMode.PAGE_ZOOMED;
 
-    const pageBounds: Bounds = this.getPageBounds(this.pageService.currentPage);
-    const viewportBounds: Bounds = this.getViewportBounds();
+    const pageBounds: Rect = this.pageService.getCurrentPageRect();
+    const viewportBounds: Rect = this.getViewportBounds();
 
     const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, isPageZoomed);
     const viewportCenter: Point = this.getViewportCenter();
@@ -730,7 +758,7 @@ export class ViewerService {
   }
 
   private getHomeZoomLevel(mode: ViewerMode): number {
-    if (!this.viewer || !this.tileRects) {
+    if (!this.viewer || !this.pageService) {
       return;
     }
 
@@ -739,11 +767,11 @@ export class ViewerService {
     let viewportBounds: any;
 
     if (mode === ViewerMode.DASHBOARD) {
-      pageHeight = this.tileRects.getMaxHeight();
-      pageWidth = this.tileRects.getMaxWidth();
+      pageHeight = this.pageService.getMaxHeight();
+      pageWidth = this.pageService.getMaxWidth();
       viewportBounds = this.getDashboardViewportBounds();
     } else {
-      const currentPageBounds = this.tileRects.get(this.pageService.currentPage);
+      const currentPageBounds = this.pageService.getCurrentPageRect();
       pageHeight = currentPageBounds.height;
       pageWidth = currentPageBounds.width;
       viewportBounds = this.viewer.viewport.getBounds();
@@ -757,10 +785,10 @@ export class ViewerService {
     const resizeRatio: number = viewportBounds.height / pageHeight;
 
     if (resizeRatio * pageWidth <= viewportBounds.width) {
-      return this.shortenDecimals(resizeRatio * currentZoom, 5);
+      return Utils.shortenDecimals(resizeRatio * currentZoom, 5);
     } else {
       // Page at full height is wider than viewport.  Return fit by width instead.
-      return this.shortenDecimals(viewportBounds.width / pageWidth * currentZoom, 5);
+      return Utils.shortenDecimals(viewportBounds.width / pageWidth * currentZoom, 5);
     }
   }
 

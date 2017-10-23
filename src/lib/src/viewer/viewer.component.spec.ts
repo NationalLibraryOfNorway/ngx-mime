@@ -28,6 +28,8 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { SearchResult } from './../core/models/search-result';
@@ -51,6 +53,7 @@ describe('ViewerComponent', function () {
   let mimeResizeServiceStub: MimeResizeServiceStub;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
+  let viewerLayoutService: ViewerLayoutService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -79,7 +82,8 @@ describe('ViewerComponent', function () {
         ClickService,
         PageService,
         ModeService,
-        FullscreenService
+        FullscreenService,
+        ViewerLayoutService,
       ]
     }).overrideModule(BrowserDynamicTestingModule, {
       set: {
@@ -107,6 +111,7 @@ describe('ViewerComponent', function () {
     mimeResizeServiceStub = TestBed.get(MimeResizeService);
     iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
     iiifManifestServiceStub = TestBed.get(IiifManifestService);
+    viewerLayoutService = TestBed.get(ViewerLayoutService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -173,16 +178,6 @@ describe('ViewerComponent', function () {
 
   it('should create overlays-array with same size as tilesources-array', () => {
     expect(viewerService.getTilesources().length).toEqual(viewerService.getOverlays().length);
-  });
-
-  it('should return an OpenSeadragon.Rect with properties equal to overlay', () => {
-    let overlay = viewerService.getOverlays()[0];
-    let rect = viewerService.createRectangle(overlay);
-
-    expect(rect.x).toEqual(overlay.x.baseVal.value);
-    expect(rect.y).toEqual(overlay.y.baseVal.value);
-    expect(rect.width).toEqual(overlay.width.baseVal.value);
-    expect(rect.height).toEqual(overlay.height.baseVal.value);
   });
 
   it('should return to home zoom', (done: any) => {
@@ -383,6 +378,25 @@ describe('ViewerComponent', function () {
     });
   });
 
+  fit('should stay on same tile after a ViewerLayout change', (done: any) => {
+    // Need to set canvasIndex on input of component to trigger previous occuring bug
+    viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
+    testHostComponent.canvasIndex = 3;
+    testHostFixture.detectChanges();
+    expect(pageService.currentTile).toEqual(3);
+
+    viewerService.goToTile(7, false);
+    expect(pageService.currentTile).toEqual(7);
+
+    viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
+
+    setTimeout(() => {
+      expect(pageService.currentTile).toEqual(7);
+      done();
+    }, osdAnimationTime);
+
+  });
+
   it('should emit when q changes', () => {
     comp.onQChange.subscribe((q: string) => expect(q).toEqual('dummyquery'));
 
@@ -399,16 +413,17 @@ describe('ViewerComponent', function () {
 
   it('should open viewer on canvas index if present', (done) => {
     let currentPageNumber: number;
-    testHostComponent.canvasIndex = 2;
-    testHostFixture.detectChanges();
-
+    testHostComponent.canvasIndex = 12;
     comp.onPageChange.subscribe((pageNumber: number) => {
       currentPageNumber = pageNumber;
     });
+
+    testHostFixture.detectChanges();
+
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          expect(currentPageNumber).toEqual(2);
+          expect(currentPageNumber).toEqual(12);
           done();
         }, osdAnimationTime);
       }
@@ -560,7 +575,7 @@ class IiifContentSearchServiceStub {
     return this._searching.asObservable();
   }
 
-  destroy(): void {
+  destroy() {
   }
 
 }

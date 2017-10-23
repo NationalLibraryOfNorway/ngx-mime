@@ -20,6 +20,8 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { ClickService } from '../core/click-service/click.service';
 import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -47,6 +49,8 @@ describe('ContentsDialogComponent', () => {
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
+        ViewerLayoutService,
+        IiifContentSearchService,
         { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: ObservableMedia, useClass: MediaServiceStub }
       ]

@@ -53,7 +53,7 @@ export class TocComponent implements OnInit, OnDestroy {
   }
 
   goToPage(page: number): void {
-    this.viewerService.goToPage(page, false);
+    this.viewerService.goToTile(page, false);
     if (this.media.isActive('lt-md')) {
       this.dialogRef.close();
     }

@@ -3,8 +3,16 @@
     <div>
       <ng-template #mimeHeaderBefore></ng-template>
     </div>
-    <span fxFlex class="label" [matTooltip]="manifest?.label">{{manifest?.label}}</span>
-    <div class="buttons-container">
+    <div fxFlexOffset="16px" class="label" [matTooltip]="manifest?.label">{{manifest?.label}}</div>
+    <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="buttons-container">
+      <button id="toggleTwoPageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel"
+        [matTooltip]="intl.twoPageViewLabel" (click)="setLayoutTwoPage()">
+        <mat-icon>chrome_reader_mode</mat-icon>
+      </button>
+      <button id="toggleSinglePageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.TWO_PAGE" mat-icon-button
+        [attr.aria-label]="intl.singlePageViewLabel" [matTooltip]="intl.singlePageViewLabel" (click)="setLayoutOnePage()">
+        <mat-icon>description</mat-icon>
+      </button>
       <button id="contentsDialogButton" mat-icon-button [attr.aria-label]="intl.contentsLabel" [matTooltip]="intl.contentsLabel"
         (click)="toggleContents()">
         <mat-icon>list</mat-icon>
@@ -19,7 +27,7 @@
       </button>
       <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" mat-icon-button [attr.aria-label]="intl.exitFullScreenLabel"
         [matTooltip]="intl.exitFullScreenLabel" (click)="toggleFullscreen()">
-        <mat-icon >fullscreen_exit</mat-icon>
+        <mat-icon>fullscreen_exit</mat-icon>
       </button>
     </div>
     <div>

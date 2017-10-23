@@ -9,16 +9,19 @@ import { SharedModule } from '../../shared/shared.module';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
 import { ContentsDialogModule } from '../../contents-dialog/contents-dialog.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
-import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
-import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
-import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
-import { MimeDomHelper } from '../../core/mime-dom-helper';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
+import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
+import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
+import { MimeDomHelper } from './../../core/mime-dom-helper';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ClickService } from '../../core/click-service/click.service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { PageService } from '../../core/page-service/page-service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -39,6 +42,8 @@ describe('ViewerHeaderComponent', () => {
         ModeService,
         MimeDomHelper,
         FullscreenService,
+        ViewerLayoutService,
+        IiifContentSearchService,
         { provide: FullscreenService, useClass: FullscreenServiceMock },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
@@ -145,6 +150,45 @@ describe('ViewerHeaderComponent', () => {
       const button = fixture.debugElement.query(By.css('#contentSearchDialogButton'));
       expect(button).toBeNull();
     }));
+
+  it('should hide one-page-button and show two-page-button if current viewer-layout is one-page-view',
+    inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
+      component.isPagedManifest = true;
+      viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
+
+      fixture.detectChanges();
+
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageViewButton'));
+      expect(btnTwoPageView).not.toBeNull();
+
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageViewButton'));
+      expect(btnOnePageView).toBeNull();
+    }));
+
+  it('should hide two-page-button and show one-page-button if current viewer-layout is two-page-view',
+    inject([ViewerLayoutService], (viewerLayoutService: ViewerLayoutService) => {
+      component.isPagedManifest = true;
+      viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
+
+      fixture.detectChanges();
+
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageViewButton'));
+      expect(btnTwoPageView).toBeNull();
+
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageViewButton'));
+      expect(btnOnePageView).not.toBeNull();
+    }));
+
+  it('should hide viewer-layout buttons if manifest is not  \"paged\"',
+    inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {
+      component.isPagedManifest = false;
+      fixture.detectChanges();
+
+      const btnTwoPageView = fixture.debugElement.query(By.css('#toggleTwoPageViewButton'));
+      const btnOnePageView = fixture.debugElement.query(By.css('#toggleSinglePageViewButton'));
+      expect(btnOnePageView).toBeNull();
+      expect(btnTwoPageView).toBeNull();
+  }));
 
   it('should show label if manifest has a label',
     inject([IiifManifestService], (iiifManifestService: IiifManifestServiceStub) => {

@@ -15,6 +15,8 @@ import { SearchResult } from './../../../core/models/search-result';
 })
 export class PageNavigatorComponent implements OnInit, OnDestroy {
   @Input() public searchResult: SearchResult;
+  public numberOfTiles: number;
+  public currentTiles: string;
   public numberOfPages: number;
   public currentPage: number;
   public isFirstPage: boolean;
@@ -30,13 +32,14 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.viewerService
+    this.subscriptions.push(this.pageService
       .onPageChange
       .subscribe((currentPage: number) => {
         if (this.currentSliderPage !== -1 && this.currentSliderPage === currentPage) {
           this.currentSliderPage = -1;
         } else if (this.currentSliderPage === -1) {
           this.currentPage = currentPage;
+          this.currentTiles = this.pageService.getTilesStringFromPageIndex(this.currentPage);
         }
         this.isFirstPage = this.isOnFirstPage(currentPage);
         this.isLastPage = this.isOnLastPage(currentPage);
@@ -47,6 +50,7 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
       .onNumberOfPagesChange
       .subscribe((numberOfPages: number) => {
         this.numberOfPages = numberOfPages;
+        this.numberOfTiles = this.pageService.numberOfTiles;
         this.changeDetectorRef.detectChanges();
       }));
   }
@@ -68,6 +72,7 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
   public onSliderChange(change: MatSliderChange): void {
     this.currentSliderPage = change.value;
     this.currentPage = change.value;
+    this.currentTiles = this.pageService.getTilesStringFromPageIndex(this.currentPage);
     this.viewerService.goToPage(change.value, false);
     this.changeDetectorRef.detectChanges();
   }
