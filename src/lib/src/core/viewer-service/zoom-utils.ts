@@ -1,12 +1,12 @@
+import { Rect } from '../models/rect';
 import { Point } from '../models/point';
-import { Bounds } from '../models/bounds';
 export class ZoomUtils {
   /**
    *
    * @param {Point} in OSD-viewport-coordinates
-   * @param {Bounds} pageBounds
+   * @param {Rect} pageBounds
    */
-  static constrainPositionToPage(point: Point, pageBounds: Bounds): Point {
+  static constrainPositionToPage(point: Point, pageBounds: Rect): Point {
     if (point.x < pageBounds.x) {
       point.x = pageBounds.x;
     } else if (point.x > pageBounds.x + pageBounds.width) {

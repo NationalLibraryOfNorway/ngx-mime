@@ -1,4 +1,4 @@
-import { browser, element, ElementFinder, by, By, protractor } from 'protractor';
+import { browser, element, ElementFinder, by, By, protractor, ElementArrayFinder } from 'protractor';
 import { Key, promise, WebElement } from 'selenium-webdriver';
 import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
@@ -6,7 +6,8 @@ import { Utils } from '../helpers/utils';
 
 const bookShelf = {
   'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
-  'a-ltr-book-10-pages': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book-10-pages/manifest',
+  'a-ltr-10-pages-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
+  'a-individuals-manifest': 'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
 };
 
 const utils = new Utils();
@@ -35,6 +36,10 @@ export class ViewerPage {
 
   async slideToPage(pageNumber: number) {
     const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
+    const isTwoPageView = this.isTwoPageView();
+    if (await isTwoPageView && pageNumber > 1) {
+      pageNumber = Math.floor(pageNumber / 2);
+    }
     for (let i = 0; i < pageNumber; i++) {
       await slider.sendKeys(protractor.Key.ARROW_RIGHT);
     }
@@ -42,19 +47,24 @@ export class ViewerPage {
   }
 
   async navigateToPage(pageNumber: number) {
+    const isTwoPageView = this.isTwoPageView();
+    if (await isTwoPageView && pageNumber > 1) {
+      pageNumber = Math.floor(pageNumber / 2);
+    }
     for (let i = 0; i < pageNumber; i++) {
       await this.clickNextButton();
     }
     await this.waitForAnimation();
   }
 
-  async getCurrentPageNumber() {
+  async getCurrentPageString() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el =  await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
+    const el = await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
     // Not using el.getText() as it don't seem to work when element is not visible
     const currentPageNumber = await el.getAttribute('textContent');
-    return parseInt(currentPageNumber, 10);
+    // return parseInt(currentPageNumber, 10);
+    return currentPageNumber;
   }
 
   async getNumberOfPages() {
@@ -122,9 +132,52 @@ export class ViewerPage {
     return utils.waitForElement(el);
   }
 
-  getFirstPageOverlay() {
-    const el = element.all(by.css('#openseadragon svg > g > rect')).first();
+  getFirstPageInFirstGroupOverlay() {
+    const el = element(by.css('#openseadragon svg g.page-group:first-child rect:first-child'));
     return utils.waitForElement(el);
+  }
+
+  getSecondPageInFirstGroupOverlay() {
+    const el = element(by.css('#openseadragon svg g.page-group:nth-child(2)')).element(by.css('rect:first-child'));
+    return utils.waitForElement(el);
+  }
+
+  getAllPageOverlays() {
+    const el = element.all(by.css('#openseadragon svg g.page-group rect'));
+    return el;
+  }
+
+  getLeftPageMask() {
+    const el = element(by.css('#openseadragon svg g#page-mask rect:first-child'));
+    return utils.waitForElement(el);
+  }
+
+  getRightPageMask() {
+    const el = element(by.css('#openseadragon svg g#page-mask rect:nth-child(2)'));
+    return utils.waitForElement(el);
+  }
+
+  getFirstPageOverlay() {
+    const el = element.all(by.css('#openseadragon svg g rect')).first();
+    return utils.waitForElement(el);
+  }
+
+  async getOnePageButton() {
+    const el = element(by.css('#toggleSinglePageViewButton'));
+    if (await el.isPresent() && el.isDisplayed()) {
+      return el;
+    } else {
+      return false;
+    }
+  }
+
+  async getTwoPageButton() {
+    const el = element(by.css('#toggleTwoPageViewButton'));
+    if (await el.isPresent() && el.isDisplayed()) {
+      return el;
+    } else {
+      return false;
+    }
   }
 
   getAnimationTime(): promise.Promise<number> {
@@ -265,6 +318,15 @@ export class ViewerPage {
     return (headerisHidden && footerisHidden);
   }
 
+  async isTwoPageView(): Promise<boolean> {
+    const btn = await this.getOnePageButton();
+    return (btn) ? true : false;
+  }
+
+  async isOnePageView(): Promise<boolean> {
+    const btn = await this.getTwoPageButton();
+    return (btn) ? true : false;
+  }
 
   async isCurrentPageFittedViewport(): Promise<boolean> {
     const svgParent = await this.getSVGElement();
@@ -328,6 +390,50 @@ export class ViewerPage {
     return await browser.sleep(await this.getAnimationTime() * 1000);
   }
 
+  async visiblePages(): Promise<Boolean[]> {
+    const pages = await this.getAllPageOverlays();
+
+    const [leftPageMask, rightPageMask] = await Promise.all([this.getLeftPageMask(), this.getRightPageMask()]);
+
+
+    const [leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc] =
+      await Promise.all([leftPageMask.getSize(), leftPageMask.getLocation(), rightPageMask.getSize(), rightPageMask.getLocation()]);
+
+    const promiseArray = pages.map((page, i) => {
+      return isElementVisibleInReadersViewport(
+        page,
+        { size: leftPageMaskSize, location: leftPageMaskLoc },
+        { size: rightPageMaskSize, location: rightPageMaskLoc }
+      );
+    });
+    return Promise.all(promiseArray);
+  }
+}
+
+/**
+ * Check if any part of an element is visible in the readers viewport.
+ * Note that the test will not confirm that the whole element is inside the viewport.
+ *
+ * @param element
+ * @param leftPageMask
+ * @param rightPageMask
+ */
+async function isElementVisibleInReadersViewport(
+  element: any,
+  leftPageMask: { size: any, location: any },
+  rightPageMask: { size: any, location: any }): Promise<boolean> {
+
+  await utils.waitForElement(element);
+  const [elementSize, elementLocation] = await Promise.all([element.getSize(), element.getLocation()]);
+  const elementCalculatedLocastion = {
+    left: elementLocation.x,
+    right: elementLocation.x + elementSize.width,
+  }
+
+  return (
+      elementCalculatedLocastion.right >= leftPageMask.size.width &&
+      elementCalculatedLocastion.left <= rightPageMask.location.x
+    );
 }
 
 export interface Point {

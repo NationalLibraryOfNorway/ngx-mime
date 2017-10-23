@@ -26,6 +26,7 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { Manifest } from '../core/models/manifest';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
+import { PageService } from '../core/page-service/page-service';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
@@ -36,6 +37,9 @@ import { SearchResult } from './../core/models/search-result';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { ViewerLayout } from '../core/models/viewer-layout';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 
 @Component({
   selector: 'mime-viewer',
@@ -57,9 +61,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
   private currentManifest: Manifest;
-  public errorMessage: string = null;
+  private viewerLayout: ViewerLayout;
 
-  ViewerMode: typeof ViewerMode = ViewerMode;
+  public errorMessage: string = null;
 
   // Viewchilds
   @ViewChild('mimeHeader')
@@ -91,7 +95,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private changeDetectorRef: ChangeDetectorRef,
     private modeService: ModeService,
     private iiifContentSearchService: IiifContentSearchService,
-    private accessKeysHandlerService: AccessKeysService) {
+    private accessKeysHandlerService: AccessKeysService,
+    private pageService: PageService,
+    private viewerLayoutService: ViewerLayoutService
+  ) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     contentSearchDialogService.el = el;
@@ -124,6 +131,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.cleanup();
             this.initialize();
             this.currentManifest = manifest;
+            this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -139,8 +147,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.subscriptions.push(
       this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-        if (state && this.canvasIndex) {
-          this.viewerService.goToPage(this.canvasIndex, false);
+        // Don't reset current page when switching layout
+        if (state && this.canvasIndex && !this.pageService.currentPage) {
+          this.viewerService.goToTile(this.canvasIndex, false);
         }
       })
     );
@@ -180,8 +189,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     );
 
     this.subscriptions.push(
-      this.viewerService.onPageChange.subscribe((pageNumber: number) => {
-        this.onPageChange.emit(pageNumber);
+      this.pageService.onPageChange.subscribe((pageNumber: number) => {
+        const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
+        if (tileIndex !== -1) {
+          this.onPageChange.emit(tileIndex);
+        }
       })
     );
 
@@ -192,6 +204,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         }, ViewerOptions.transitions.OSDAnimationTime);
       })
     );
+
+    this.subscriptions.push(this.viewerLayoutService.onChange.subscribe((viewerLayout: ViewerLayout) => {
+      this.viewerLayout = viewerLayout;
+    }));
 
     this.loadManifest();
   }
@@ -231,7 +247,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
       if (canvasIndexChanged) {
-        this.viewerService.goToPage(this.canvasIndex, true);
+        this.viewerService.goToTile(this.canvasIndex, true);
       }
     }
   }
@@ -307,9 +323,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   setClasses() {
     return {
-      'page': this.modeService.mode === ViewerMode.PAGE,
-      'page-zoomed': this.modeService.mode === ViewerMode.PAGE_ZOOMED,
-      'dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
+      'mode-page': this.modeService.mode === ViewerMode.PAGE,
+      'mode-page-zoomed': this.modeService.mode === ViewerMode.PAGE_ZOOMED,
+      'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
+      'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
+      'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
       'canvas-pressed': this.isCanvasPressed
     };
   }

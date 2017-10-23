@@ -8,7 +8,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^the user is dragging$/, async () => {
     previousCenter = await page.getCenter();
-    await page.pan({x: 150, y: 150});
+    await page.pan({ x: previousCenter.x + 150, y: 0 });
     await page.waitForAnimation();
   });
 

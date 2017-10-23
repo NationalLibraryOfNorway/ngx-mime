@@ -1,11 +1,12 @@
 import * as d3 from 'd3';
 import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
+import { Rect } from '../models/rect';
 
 export class PageMask {
 
   viewer: any;
-  pageBounds: SVGRectElement;
+  pageBounds: Rect;
 
   leftMask: any;
   rightMask: any;
@@ -17,16 +18,22 @@ export class PageMask {
     this.viewer = viewer;
   }
 
-  public initialise(pageBounds: SVGRectElement): void {
+  public initialise(pageBounds: Rect, visible: boolean): void {
     this.pageBounds = pageBounds;
 
     this.addCanvasMask();
 
     this.setCenter();
     this.resize();
+
+    if (visible) {
+      this.show();
+    } else {
+      this.hide();
+    }
   }
 
-  public changePage(pageBounds: SVGRectElement) {
+  public changePage(pageBounds: Rect) {
     this.pageBounds = pageBounds;
     this.resize();
   }
@@ -36,6 +43,8 @@ export class PageMask {
     if (!this.leftMask || !this.rightMask) {
       return;
     }
+    this.setCenter();
+    this.resize();
     this.leftMask.attr('height', '100%');
     this.rightMask.attr('height', '100%');
   }
@@ -51,7 +60,6 @@ export class PageMask {
 
   private addHandlers() {
     this.viewer.addHandler('animation', this.animationHandler);
-    this.viewer.addHandler('animation-finish', this.animationFinishHandler);
     this.viewer.addHandler('resize', this.resizeHandler);
     this.viewer.addHandler('canvas-pinch', this.canvasPinchHandler);
     this.viewer.addHandler('canvas-drag', this.canvasDragHandler);
@@ -60,7 +68,6 @@ export class PageMask {
 
   private removeHandlers() {
     this.viewer.removeHandler('animation', this.animationHandler);
-    this.viewer.removeHandler('animation-finish', this.animationFinishHandler);
     this.viewer.removeHandler('resize', this.resizeHandler);
     this.viewer.removeHandler('canvas-pinch', this.canvasPinchHandler);
     this.viewer.removeHandler('canvas-drag', this.canvasDragHandler);
@@ -68,11 +75,6 @@ export class PageMask {
   }
 
   private animationHandler = () => {
-    this.resize();
-  }
-
-  private animationFinishHandler = () => {
-    this.setCenter();
     this.resize();
   }
 
@@ -126,10 +128,10 @@ export class PageMask {
     const zoom = this.viewer.viewport.getZoom(true);
     const scale = this.viewer.viewport._containerInnerSize.x * zoom;
 
-    let width = Math.round(this.center.x - (this.pageBounds.width.baseVal.value * scale / 2));
+    let width = Math.round(this.center.x - (this.pageBounds.width * scale / 2));
     if (width < 0) { width = 0; }
 
     this.leftMask.attr('width', width).attr('x', 0);
-    this.rightMask.attr('width', width).attr('x', Math.round(this.center.x + (this.pageBounds.width.baseVal.value * scale / 2)));
+    this.rightMask.attr('width', width).attr('x', Math.round(this.center.x + (this.pageBounds.width * scale / 2)));
   }
 }

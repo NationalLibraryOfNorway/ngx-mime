@@ -10,6 +10,7 @@ import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { ViewerService } from './viewer-service/viewer.service';
 import { ModeService } from './mode-service/mode.service';
 import { ClickService } from './click-service/click.service';
+import { ViewerLayoutService } from './viewer-layout-service/viewer-layout-service';
 import { AccessKeysService } from './access-keys-handler-service/access-keys.service';
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AccessKeysService } from './access-keys-handler-service/access-keys.ser
     PageService,
     ModeService,
     SpinnerService,
-    AccessKeysService
+    AccessKeysService,
+    ViewerLayoutService
   ]
 })
 export class CoreModule { }
