@@ -543,23 +543,7 @@ export class ViewerService {
 
     this.tileSources.forEach((tile, i) => {
       let currentY = center.y - tile.height / 2;
-      this.zone.runOutsideAngular(() => {
-        this.viewer.addTiledImage({
-          index: i,
-          tileSource: tile,
-          height: tile.height,
-          x: currentX,
-          y: currentY,
-          // placeholderFillStyle: (tiledImage: any, ctx: any) => {
 
-
-
-          // },
-          success: (e: any) => {
-            e.item.addHandler('fully-loaded-change', () => this.spinnerService.hide());
-          }
-        });
-      });
       let group = this.svgNode.append('g');
       // Style overlay to match tile
       let overlay = group.append('rect')
@@ -569,31 +553,7 @@ export class ViewerService {
         .attr('height', tile.height)
         .attr('class', 'tile');
 
-
-
-      const spinnerPos: Point = {
-        x: currentX + tile.width / 2,
-        y: currentY + tile.height / 3
-      };
-
-      let spinnerGroup = group.append('g')
-        // .attr('x', (currentX + tile.width / 2))
-        // .attr('y', (currentY + tile.height / 3))
-        .attr('width', tile.width)
-        .attr('height', tile.height / 2)
-        .attr('class', 'spinner-group')
-        .attr('transform', 'translate(' + spinnerPos.x + ', ' + spinnerPos.y + ')')
-
-      let spinner = spinnerGroup.append('circle')
-        .attr('cx', 20)
-        .attr('cy', 20)
-        .attr('r', 100)
-        .attr('class', 'tile-spinner')
-
-
-
-
-
+      const spinner = this.createSpinner(group, tile, {x: currentX, y: currentY});
 
       const currentOverlay = overlay.node();
       this.overlays.push(currentOverlay);
@@ -605,27 +565,52 @@ export class ViewerService {
         height: tile.height
       }));
 
+      this.zone.runOutsideAngular(() => {
+        this.viewer.addTiledImage({
+          index: i,
+          tileSource: tile,
+          height: tile.height,
+          x: currentX,
+          y: currentY,
+          placeholderFillStyle: (tiledImage: any, ctx: any) => {
+            ctx.fillStyle = 'rgba(255,255,255,0)';
+            ctx.fill();
+            if (this.modeService.mode === ViewerMode.DASHBOARD) {
+              spinner.style('display', 'block');
+            }
+          },
+          success: (e: any) => {
+            e.item.addHandler('fully-loaded-change', () => {
+              spinner.style('display', 'none');
+            });
+          }
+        });
+      });
+
       currentX = currentX + tile.width + ViewerOptions.overlays.pageMarginDashboardView;
     });
   }
 
-  spin = (selection: any, duration: any) => {
-    selection.transition()
-      .ease('linear')
-      .duration(duration)
-      .attr('transform', () => {
-        return d3.interpolateString('rotate(0)', 'rotate(360)');
-      });
+  createSpinner(group: any, tile: any, currentPos: Point) {
+    const spinnerPos: Point = {
+      x: currentPos.x + tile.width / 2,
+      y: currentPos.y + tile.height / 3
+    };
 
-    setTimeout(() => { this.spin(selection, duration); }, duration);
+    const spinnerGroup = group.append('g')
+      .attr('width', tile.width)
+      .attr('height', tile.height / 2)
+      .attr('class', 'spinner-group')
+      .attr('transform', 'translate(' + spinnerPos.x + ', ' + spinnerPos.y + ')')
+      .style('display', 'none');
+
+    spinnerGroup.append('circle')
+      .attr('cx', 20)
+      .attr('cy', 20)
+      .attr('r', 100)
+      .attr('class', 'tile-spinner');
+    return spinnerGroup;
   }
-
-  /**
-   *
-   * @param tiledImage current tiled image
-   * @param ctx canvas context
-   */
-  //private tilePreload =
 
   /**
    * Sets viewer size and opacity once the first page has fully loaded
