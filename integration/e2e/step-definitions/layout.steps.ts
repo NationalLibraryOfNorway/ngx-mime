@@ -44,6 +44,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^page 2 and 3 are displayed/, async () => {
     await page.waitForAnimation(switchAnimationTime);
+
     const visiblePages = await page.visiblePages();
     // Second and third pages visible
     expect(visiblePages[1]).to.equal(true);
