@@ -77,3 +77,33 @@
   width: 100%;
   height: 100%;
 }
+::ng-deep .spinner-group {
+
+}
+
+::ng-deep .tile-spinner {
+  fill: transparent;
+  stroke: #ff0000;
+  stroke-width: 15;
+  stroke-linecap: round;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 800;
+  transform-origin: center;
+  animation: spinner 2s linear infinite;
+  animation-timing-function: cubic-bezier(.35, 0, .25, 1);
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+     stroke-dashoffset: 300;
+  }
+  50% {
+    transform: rotate(720deg);
+     stroke-dashoffset: 100;
+  }
+  100% {
+    transform: rotate(1080deg);
+    stroke-dashoffset: 700;
+  }
+}
