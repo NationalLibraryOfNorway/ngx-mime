@@ -1,4 +1,5 @@
 @desktop
+@Ignore-firefox
 Feature: Access Keys
   In order to navigate
   As a user

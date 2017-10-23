@@ -90,7 +90,7 @@ function getCapabilities() {
 }
 
 function getTags() {
-  let tags = ['~@Ignore']
+  let tags = ['~@Ignore', '~@Ignore-firefox']
   if (argv.tags) {
     tags = tags.concat(argv.tags.split(','));
   }
