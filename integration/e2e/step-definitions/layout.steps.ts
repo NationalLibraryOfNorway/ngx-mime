@@ -33,6 +33,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^only the cover page is displayed/, async () => {
+    await page.waitForAnimation(switchAnimationTime);
     const visiblePages = await page.visiblePages();
     // Firste page visible
     expect(visiblePages[0]).to.equal(true);
@@ -42,6 +43,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^page 2 and 3 are displayed/, async () => {
+    await page.waitForAnimation(switchAnimationTime);
     const visiblePages = await page.visiblePages();
     // Second and third pages visible
     expect(visiblePages[1]).to.equal(true);
@@ -53,6 +55,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^only page 2 is displayed/, async () => {
+    await page.waitForAnimation(switchAnimationTime);
     const visiblePages = await page.visiblePages();
     // Second page visible
     expect(visiblePages[1]).to.equal(true);
