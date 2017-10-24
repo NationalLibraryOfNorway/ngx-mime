@@ -23,7 +23,7 @@
       </button>
       <button id="fullscreenButton" *ngIf="isFullscreenEnabled && !isInFullScreen()" mat-icon-button [attr.aria-label]="intl.fullScreenLabel"
         [matTooltip]="intl.fullScreenLabel" (click)="toggleFullscreen()">
-        <mat-icon>fullscreen</mat-icon>
+        <mat-icon aria-hidden="true">fullscreen</mat-icon>
       </button>
       <button id="exitFullscreenButton" *ngIf="isFullscreenEnabled && isInFullScreen()" mat-icon-button [attr.aria-label]="intl.exitFullScreenLabel"
         [matTooltip]="intl.exitFullScreenLabel" (click)="toggleFullscreen()">
