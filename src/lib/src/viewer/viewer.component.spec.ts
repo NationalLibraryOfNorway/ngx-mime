@@ -4,9 +4,6 @@ import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
 
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { SharedModule } from '../shared/shared.module';
@@ -33,6 +30,8 @@ import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { SearchResult } from './../core/models/search-result';
+import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
+import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 
 import 'openseadragon';
 import '../rxjs-extension';
@@ -378,7 +377,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  fit('should stay on same tile after a ViewerLayout change', (done: any) => {
+  it('should stay on same tile after a ViewerLayout change', (done: any) => {
     // Need to set canvasIndex on input of component to trigger previous occuring bug
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
     testHostComponent.canvasIndex = 3;
@@ -517,65 +516,6 @@ export class TestHostComponent {
   addComponentToEndOfFooter() {
     const factory = this.r.resolveComponentFactory(TestDynamicComponent);
     this.viewerComponent.mimeFooterAfterRef.createComponent(factory);
-  }
-
-}
-
-class IiifManifestServiceStub {
-  public _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(new Manifest());
-  protected _errorMessage: Subject<string> = new BehaviorSubject(null);
-
-  get currentManifest(): Observable<Manifest> {
-    return this._currentManifest.asObservable();
-  }
-
-  get errorMessage(): Observable<string> {
-    return this._errorMessage.asObservable();
-  }
-
-  load(manifestUri: string): void {
-    if (manifestUri) {
-      const manifest = new ManifestBuilder(testManifest).build();
-      if (manifest && manifest.tileSource) {
-        this._currentManifest.next(manifest);
-      } else {
-        this._errorMessage.next('Manifest is not valid');
-      }
-    } else {
-      this._errorMessage.next('ManifestUri is missing');
-    }
-  }
-
-  resetCurrentManifest() {
-    this._currentManifest.next(null);
-  }
-
-  resetErrorMessage() {
-    this._errorMessage.next(null);
-  }
-
-  destroy(): void { }
-
-}
-
-class IiifContentSearchServiceStub {
-  public _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(new SearchResult({}));
-  public _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
-  public _currentQ: Subject<string> = new BehaviorSubject<string>(null);
-
-  get onQChange(): Observable<string> {
-    return this._currentQ.asObservable().distinctUntilChanged();
-  }
-
-  get onChange(): Observable<SearchResult> {
-    return this._currentSearchResult.asObservable();
-  }
-
-  get isSearching(): Observable<boolean> {
-    return this._searching.asObservable();
-  }
-
-  destroy() {
   }
 
 }

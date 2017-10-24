@@ -1,5 +1,6 @@
-export let testManifest = {
-  '@context': 'http://iiif.io/api/presentation/2/context.json',
+import { Manifest } from './../core/models/manifest';
+
+export let testManifest: any = {
   '@type': 'sc:Manifest',
   '@id': 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/manifest',
   'label': 'Fjellkongen Ludvig \"Ludden\"',
