@@ -116,7 +116,8 @@ export class ViewerService {
   }
 
   public zoomBy(zoomFactor: number, position?: Point): void {
-    this.viewer.viewport.zoomBy(zoomFactor, position);
+    const currentZoom = this.viewer.viewport.getZoom(false);
+    this.viewer.viewport.zoomBy(ZoomUtils.constraintZoomFactor(zoomFactor, currentZoom, this.getMaxZoom()), position);
   }
 
   private getViewportBounds(): Rect {
@@ -688,6 +689,7 @@ export class ViewerService {
       const vpBounds: Rect = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
       const direction: number = e.direction;
+      console.log('dragHandler');
       if (
         (pannedPastSide === Side.LEFT && SwipeUtils.isDirectionInRightSemicircle(direction)) ||
         (pannedPastSide === Side.RIGHT && SwipeUtils.isDirectionInLeftSemicircle(direction))
