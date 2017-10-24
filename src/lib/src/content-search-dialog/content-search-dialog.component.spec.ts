@@ -19,11 +19,16 @@ import { MimeDomHelper } from './../core/mime-dom-helper';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { ViewerService } from './../core/viewer-service/viewer.service';
 import { MediaServiceStub } from './../test/media-service-stub';
-import { Hit } from './../core/models/search-result';
+import { Hit, SearchResult } from './../core/models/search-result';
+import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
+import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
+import { testManifest } from './../test/testManifest';
 
 describe('ContentSearchDialogComponent', () => {
   let component: ContentSearchDialogComponent;
   let fixture: ComponentFixture<ContentSearchDialogComponent>;
+  let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
+  let iiifManifestServiceStub: IiifManifestServiceStub;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,14 +42,14 @@ describe('ContentSearchDialogComponent', () => {
       ],
       providers: [
         MimeViewerIntl,
-        IiifManifestService,
-        IiifContentSearchService,
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
         { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: ObservableMedia, useClass: MediaServiceStub },
-        { provide: ViewerService, useClass: ViewerServiceMock }
+        { provide: ViewerService, useClass: ViewerServiceMock },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
       ]
     })
       .compileComponents();
@@ -54,6 +59,9 @@ describe('ContentSearchDialogComponent', () => {
     fixture = TestBed.createComponent(ContentSearchDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
+    iiifManifestServiceStub = TestBed.get(IiifManifestService);
   }));
 
   it('should be created', () => {
@@ -128,6 +136,45 @@ describe('ContentSearchDialogComponent', () => {
       expect(dialogRef.close).not.toHaveBeenCalled();
     }));
 
+    it('should remain in search input if content search return zero hits', () => {
+      const searchInput = fixture.debugElement.query(By.css('.content-search-input'));
+      const searchResultContainer = fixture.debugElement.query(By.css('.content-search-result-container'));
+      const spy = spyOn(searchResultContainer.nativeElement, 'focus');
+      iiifManifestServiceStub._currentManifest.next(testManifest);
+
+      fixture.detectChanges();
+
+      searchInput.nativeElement.setAttribute('value', 'dummyvalue');
+      const event = new KeyboardEvent('keypress', {'key': 'Enter'});
+      searchInput.nativeElement.dispatchEvent(event);
+
+      iiifContentSearchServiceStub._currentSearchResult.next(new SearchResult());
+
+      fixture.detectChanges();
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should set focus on search result if content search return hits', () => {
+      const searchInput = fixture.debugElement.query(By.css('.content-search-input'));
+      const searchResultContainer = fixture.debugElement.query(By.css('.content-search-result-container'));
+      const spy = spyOn(searchResultContainer.nativeElement, 'focus');
+      iiifManifestServiceStub._currentManifest.next(testManifest);
+
+      fixture.detectChanges();
+
+      searchInput.nativeElement.setAttribute('value', 'dummyvalue');
+      const event = new KeyboardEvent('keypress', {'key': 'Enter'});
+      searchInput.nativeElement.dispatchEvent(event);
+
+      iiifContentSearchServiceStub._currentSearchResult.next(new SearchResult({
+        hits: [new Hit(), new Hit()]
+      }));
+
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalled();
+    });
 });
 
 class MatDialogRefMock {
