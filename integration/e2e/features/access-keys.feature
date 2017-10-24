@@ -5,7 +5,7 @@ Feature: Access Keys
   I want to be able to nagivate in the viewer with keyboard keys
 
   Background:
-    Given the viewer is opened with a publication
+    Given the viewer is opened with a publication with viewing hint "individuals"
 
   Scenario Outline: Next Page on key <keys>
     Given the user hits key <keys>
