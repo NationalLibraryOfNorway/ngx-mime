@@ -689,7 +689,6 @@ export class ViewerService {
       const vpBounds: Rect = this.getViewportBounds();
       const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
       const direction: number = e.direction;
-      console.log('dragHandler');
       if (
         (pannedPastSide === Side.LEFT && SwipeUtils.isDirectionInRightSemicircle(direction)) ||
         (pannedPastSide === Side.RIGHT && SwipeUtils.isDirectionInLeftSemicircle(direction))
