@@ -90,9 +90,14 @@ function getCapabilities() {
 }
 
 function getTags() {
-  let tags = ['~@Ignore', '~@IgnoreFirefox'];
+  let tags = ['~@Ignore'];
+  let firefoxTags = ['~@Ignore-firefox'];
+
   if (argv.tags) {
     tags = tags.concat(argv.tags.split(','));
+  }
+  if (argv.browser === 'firefox') {
+    tags = tags.concat(firefoxTags);
   }
   return tags;
 }
