@@ -378,7 +378,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  fit('should stay on same tile after a ViewerLayout change', (done: any) => {
+  it('should stay on same tile after a ViewerLayout change', (done: any) => {
     // Need to set canvasIndex on input of component to trigger previous occuring bug
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
     testHostComponent.canvasIndex = 3;
