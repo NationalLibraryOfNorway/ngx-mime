@@ -78,11 +78,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.accessKeysHandlerService.handleKeyEvents(event);
   }
 
-  @HostListener('window:keydown', ['$event'])
-  keydown(event: KeyboardEvent) {
-    return false; // Must return false to prevent Firefox to open menu in browser.
-  }
-
   constructor(
     public intl: MimeViewerIntl,
     private el: ElementRef,
