@@ -25,7 +25,7 @@
       </mat-form-field>
     </form>
   </div>
-  <div class="content-search-result-container" [ngStyle]="tabHeight" tabindex="0">
+  <div #contentSearchResult class="content-search-result-container" [ngStyle]="tabHeight" tabindex="0">
     <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
       <input type="hidden" id="numberOfHits" [value]="numberOfHits">
       <div *ngIf="currentSearch && currentSearch.length > 0">

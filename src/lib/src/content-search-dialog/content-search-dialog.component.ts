@@ -1,4 +1,14 @@
-import { Component, OnInit, Optional, Inject, HostListener, ChangeDetectionStrategy, ElementRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Optional,
+  Inject,
+  HostListener,
+  ChangeDetectionStrategy,
+  ElementRef,
+  OnDestroy,
+  ViewChild
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
@@ -29,6 +39,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   private manifest: Manifest;
   private mimeHeight = 0;
   private subscriptions: Array<Subscription> = [];
+  @ViewChild('contentSearchResult') resultContainer: ElementRef;
 
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
@@ -55,6 +66,9 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
       this.currentSearch = sr.q ? sr.q : '';
       this.q = sr.q;
       this.numberOfHits = sr.size();
+      if (this.resultContainer && this.numberOfHits > 0) {
+        this.resultContainer.nativeElement.focus();
+      }
     }));
 
     this.subscriptions.push(iiifContentSearchService.isSearching.subscribe((s: boolean) => {
