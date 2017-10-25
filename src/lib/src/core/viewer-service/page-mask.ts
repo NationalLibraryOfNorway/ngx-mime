@@ -128,10 +128,24 @@ export class PageMask {
     const zoom = this.viewer.viewport.getZoom(true);
     const scale = this.viewer.viewport._containerInnerSize.x * zoom;
 
-    let width = Math.round(this.center.x - (this.pageBounds.width * scale / 2));
-    if (width < 0) { width = 0; }
 
-    this.leftMask.attr('width', width).attr('x', 0);
-    this.rightMask.attr('width', width).attr('x', Math.round(this.center.x + (this.pageBounds.width * scale / 2)));
+    const imgBounds = new OpenSeadragon.Rect(this.pageBounds.x, this.pageBounds.y, this.pageBounds.width, this.pageBounds.height);
+    const topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopLeft());
+    const topRight = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopRight());
+    let rightWidth = this.viewer.viewport._containerInnerSize.x - topRight.x;
+    const rightX = this.viewer.viewport._containerInnerSize.x - rightWidth;
+    let leftWidth = topLeft.x;
+    const leftX = 0;
+
+    if (leftWidth < 0) { leftWidth = 0; }
+    if (rightWidth < 0) { rightWidth = 0; }
+
+    this.leftMask.attr('width', leftWidth).attr('x', leftX);
+    this.rightMask.attr('width', rightWidth).attr('x', Math.round(rightX));
   }
+
+  private getViewportBounds(): Rect {
+    return this.viewer.viewport.getBounds();
+  }
+
 }
