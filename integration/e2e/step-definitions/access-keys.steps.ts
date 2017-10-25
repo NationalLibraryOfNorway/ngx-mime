@@ -20,20 +20,17 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.sendKeyboardEvent(key);
   });
 
-  Given(/^the user hits keys Shift, Alt and C$/, async () => {
-    await page.sendContentKeyboardEvent();
-  });
-
-  Given(/^the user hits keys Shift, Alt and F$/, async () => {
-    await page.sendContentSearchKeyboardEvent();
-  });
-
   Given(/^the content search dialog is open$/, async () => {
-    await page.sendContentSearchKeyboardEvent();
+    await page.sendKeyboardEvent('s');
   });
 
   Given(/^the contents dialog is open$/, async () => {
-    await page.sendContentKeyboardEvent();
+    await page.sendKeyboardEvent('c');
+  });
+
+  Given(/^the user has performed a search$/, async () => {
+    await contentSearchPage.setSearchTerm('Gjallarhorn');
+    await page.waitForAnimation();
   });
 
   Then(/^the viewer should go to next page$/, async () => {

@@ -375,18 +375,15 @@ export class ViewerPage {
       iKey = Key.SUBTRACT;
     } else if (key === '0') {
       iKey = Key.chord('0');
+    } else if (key === 's') {
+      iKey = Key.chord('s');
+    } else if (key === 'c') {
+      iKey = Key.chord('c');
+    } else if (key === 'Esc') {
+      iKey = Key.ESCAPE;
     }
+
     await browser.actions().sendKeys(iKey).perform();
-    return await browser.sleep(await this.getAnimationTime() * 1000);
-  }
-
-  async sendContentSearchKeyboardEvent(): Promise<void> {
-    await browser.actions().sendKeys(Key.chord(Key.SHIFT, Key.ALT, 'F')).perform();
-    return await browser.sleep(await this.getAnimationTime() * 1000);
-  }
-
-  async sendContentKeyboardEvent(): Promise<void> {
-    await browser.actions().sendKeys(Key.chord(Key.SHIFT, Key.ALT, 'C')).perform();
     return await browser.sleep(await this.getAnimationTime() * 1000);
   }
 
