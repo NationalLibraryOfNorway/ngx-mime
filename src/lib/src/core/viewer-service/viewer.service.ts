@@ -116,6 +116,8 @@ export class ViewerService {
   }
 
   public zoomBy(zoomFactor: number, position?: Point): void {
+    const currentZoom = this.viewer.viewport.getZoom(false);
+    zoomFactor = ZoomUtils.constraintZoomFactor(zoomFactor, currentZoom, this.getMaxZoom());
     this.viewer.viewport.zoomBy(zoomFactor, position);
   }
 
