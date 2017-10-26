@@ -414,7 +414,7 @@ describe('ViewerComponent', function () {
     const viewerFixture = TestBed.createComponent(ViewerComponent);
     const viewerComp = viewerFixture.componentInstance;
 
-    viewerComp.onDomReady.subscribe((state: boolean) => {
+    viewerComp.onViewReady.subscribe((state: boolean) => {
       expect(state).toBeTruthy();
       done();
     });
