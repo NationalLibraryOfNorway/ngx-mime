@@ -457,6 +457,21 @@ describe('ViewerComponent', function () {
     expect(button).not.toBeNull();
   });
 
+  // By.css() query does not find SVG elements https://github.com/angular/angular/pull/15372
+  xit('should add a mask around the page', (done: any) => {
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        setTimeout(() => {
+          const leftPageMask = testHostFixture.debugElement.query(By.css('#mime-left-page-mask'));
+          const rightPageMask = testHostFixture.debugElement.query(By.css('#mime-right-page-mask'));
+          expect(leftPageMask).not.toBeNull();
+          expect(rightPageMask).not.toBeNull();
+          done();
+        }, 600);
+      }
+    });
+  });
+
   function pinchOut() {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });

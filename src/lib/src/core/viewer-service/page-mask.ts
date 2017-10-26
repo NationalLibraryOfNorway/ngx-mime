@@ -107,11 +107,13 @@ export class PageMask {
     const mask = overlays.append('g').attr('id', 'page-mask');
 
     this.leftMask = mask.append('rect')
+      .attr('id', 'mime-left-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
       .style('fill', ViewerOptions.colors.canvasBackgroundColor);
 
     this.rightMask = mask.append('rect')
+      .attr('id', 'mime-right-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
       .style('fill', ViewerOptions.colors.canvasBackgroundColor);
