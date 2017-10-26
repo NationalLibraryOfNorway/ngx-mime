@@ -3,6 +3,7 @@ import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
 import { Rect } from '../models/rect';
 
+declare const OpenSeadragon: any;
 export class PageMask {
 
   viewer: any;
@@ -125,27 +126,37 @@ export class PageMask {
       return;
     }
 
-    const zoom = this.viewer.viewport.getZoom(true);
-    const scale = this.viewer.viewport._containerInnerSize.x * zoom;
-
-
-    const imgBounds = new OpenSeadragon.Rect(this.pageBounds.x, this.pageBounds.y, this.pageBounds.width, this.pageBounds.height);
-    const topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopLeft());
-    const topRight = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopRight());
-    let rightWidth = this.viewer.viewport._containerInnerSize.x - topRight.x;
-    const rightX = this.viewer.viewport._containerInnerSize.x - rightWidth;
-    let leftWidth = topLeft.x;
-    const leftX = 0;
-
-    if (leftWidth < 0) { leftWidth = 0; }
-    if (rightWidth < 0) { rightWidth = 0; }
-
-    this.leftMask.attr('width', leftWidth).attr('x', leftX);
-    this.rightMask.attr('width', rightWidth).attr('x', Math.round(rightX));
+    const leftMaskRect = this.getLeftMaskRect();
+    const rightMaskRect = this.getRightMaskRect();
+    this.leftMask.attr('width', leftMaskRect.width).attr('x', leftMaskRect.x);
+    this.rightMask.attr('width', rightMaskRect.width).attr('x', Math.round(rightMaskRect.x));
   }
 
-  private getViewportBounds(): Rect {
-    return this.viewer.viewport.getBounds();
+  private getLeftMaskRect(): Rect {
+    const imgBounds = new OpenSeadragon.Rect(this.pageBounds.x, this.pageBounds.y, this.pageBounds.width, this.pageBounds.height);
+    const topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopLeft());
+    let width = topLeft.x - ViewerOptions.overlays.pageMarginPageView;
+
+    if (width < 0) { width = 0; }
+
+    return new Rect({
+      x: 0,
+      width: width
+    });
+  }
+
+  private getRightMaskRect(): Rect {
+    const imgBounds = new OpenSeadragon.Rect(this.pageBounds.x, this.pageBounds.y, this.pageBounds.width, this.pageBounds.height);
+    const topRight = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopRight());
+    let width = this.viewer.viewport._containerInnerSize.x - topRight.x;
+    let x = this.viewer.viewport._containerInnerSize.x - width + ViewerOptions.overlays.pageMarginPageView;
+
+    if (width < 0) { width = 0; }
+
+    return new Rect({
+      x: x,
+      width: width
+    });
   }
 
 }
