@@ -34,8 +34,8 @@ export class Options {
   wrapHorizontal = false;
   wrapVertical = false;
   minZoomImageRatio = 1;
-  maxZoomPixelRatio = 1.1;
-  smoothTileEdgesMinZoom = 1.1;
+  maxZoomPixelRatio = 1;
+  smoothTileEdgesMinZoom = 1;
   iOSDevice = true;
   autoResize = true;
   preserveImageSizeOnResize = true;
