@@ -410,18 +410,6 @@ describe('ViewerComponent', function () {
     }));
   });
 
-  it('should emit true after view init', (done) => {
-    const viewerFixture = TestBed.createComponent(ViewerComponent);
-    const viewerComp = viewerFixture.componentInstance;
-
-    viewerComp.onViewReady.subscribe((state: boolean) => {
-      expect(state).toBeTruthy();
-      done();
-    });
-
-    viewerFixture.detectChanges();
-  });
-
   it('should open viewer on canvas index if present', (done) => {
     let currentPageNumber: number;
     testHostComponent.canvasIndex = 12;

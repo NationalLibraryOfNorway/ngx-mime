@@ -7,7 +7,6 @@ import {
   Output,
   OnChanges,
   OnDestroy,
-  AfterViewInit,
   OnInit,
   EventEmitter,
   SimpleChange,
@@ -47,7 +46,7 @@ import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '(window:resize)': '[$event]' }
 })
-export class ViewerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
+export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
   @Input() public q: string;
   @Input() public canvasIndex: number;
@@ -56,7 +55,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
   @Output('pageChanged') onPageChange: EventEmitter<number> = new EventEmitter();
   @Output('qChanged') onQChange: EventEmitter<string> = new EventEmitter();
   @Output('manifestChanged') onManifestChange: EventEmitter<Manifest> = new EventEmitter();
-  @Output('viewReady') onViewReady: EventEmitter<boolean> = new EventEmitter();
 
   private subscriptions: Array<Subscription> = [];
   private isCanvasPressed = false;
@@ -239,10 +237,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges, AfterViewI
         this.viewerService.goToTile(this.canvasIndex, true);
       }
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.onViewReady.next(true);
   }
 
   ngOnDestroy(): void {
