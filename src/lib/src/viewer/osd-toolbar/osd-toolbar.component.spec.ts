@@ -14,6 +14,7 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { ClickService } from '../../core/click-service/click.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
+import { ViewerServiceMock } from './../../test/viewer-service-mock';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
@@ -164,22 +165,6 @@ function expectOSDToolbarToBeHidden(element: any) {
   expect(element.style.display).toBe('none');
   expect(element.style.opacity).toBe('0');
   expect(element.style.transform).toBe('translate(-100%, 0px)');
-}
-
-
-
-
-
-class ViewerServiceMock {
-  pageChanged = new Subject<number>();
-  get onPageChange(): Observable<number> {
-    return this.pageChanged.asObservable();
-  }
-
-  public goToPreviousPage(): void { }
-
-  public goToNextPage(): void { }
-
 }
 
 class PageServiceMock {

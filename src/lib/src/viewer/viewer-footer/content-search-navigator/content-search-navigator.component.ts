@@ -62,25 +62,21 @@ export class ContentSearchNavigatorComponent implements OnInit {
 
   goToPreviousHitPage() {
     const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
-    const previousCanvasIndex = this.searchResult.get(previousIndex).index;
-    this.currentIndex = this.findCurrentHitIndex([previousCanvasIndex]);
-    this.goToCanvasIndex(previousCanvasIndex);
+    const previousHit = this.searchResult.get(previousIndex);
+    this.currentIndex = this.findCurrentHitIndex([previousHit.index]);
+    this.viewerService.setCurrentHit(previousHit);
   }
 
   goToNextHitPage() {
-    let nextCanvasIndex: number;
+    let nextHit: Hit;
     if (this.currentIndex === -1) {
-      nextCanvasIndex = this.searchResult.get(0).index;
+      nextHit = this.searchResult.get(0);
     } else {
       const current = this.searchResult.get(this.currentIndex);
-      nextCanvasIndex = this.searchResult.hits.find(h => h.index > current.index).index;
+      nextHit = this.searchResult.hits.find(h => h.index > current.index);
     }
-    this.currentIndex = this.findCurrentHitIndex([nextCanvasIndex]);
-    this.goToCanvasIndex(nextCanvasIndex);
-  }
-
-  private goToCanvasIndex(canvasIndex: number): void {
-    this.viewerService.goToTile(canvasIndex, false);
+    this.currentIndex = this.findCurrentHitIndex([nextHit.index]);
+    this.viewerService.setCurrentHit(nextHit);
   }
 
   findCurrentHitIndex(canvasIndices: number[]): number {
