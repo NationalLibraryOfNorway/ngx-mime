@@ -1,11 +1,13 @@
 export class AccessKeys {
-  private static nextPageCodes = [34, 39, 78]; // PageDown, ArrowRight, n
-  private static previousPageCodes = [33, 37, 80]; // PageUp, ArrowLeft, p
+  private static nextPageCodes = [34, 39]; // PageDown, ArrowRight
+  private static previousPageCodes = [33, 37]; // PageUp, ArrowLeft
   private static firstPageCodes = [36]; // Home
   private static lastPageCodes = [35]; // End
   private static zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
   private static zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
   private static zoomHomeCodes = [96, 48]; // 0
+  private static nextHit = [78]; // n
+  private static previousHit = [80]; // p
   private static toggleSearchDialogCodes = [83]; // s
   private static toggleContentsDialogCodes = [67]; // C
   private static toggleFullscreenCodes = [70]; // f
@@ -47,6 +49,14 @@ export class AccessKeys {
 
   public isZoomHomeKeys() {
     return !this.isMultiKeys() && AccessKeys.zoomHomeCodes.indexOf(this.keyCode) > -1;
+  }
+
+  public isNextHitKeys() {
+    return !this.isMultiKeys() && AccessKeys.nextHit.indexOf(this.keyCode) > -1;
+  }
+
+  public isPreviousHitKeys() {
+    return !this.isMultiKeys() && AccessKeys.previousHit.indexOf(this.keyCode) > -1;
   }
 
   public isSearchDialogKeys() {

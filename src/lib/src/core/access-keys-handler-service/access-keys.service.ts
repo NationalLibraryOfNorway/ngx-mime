@@ -11,6 +11,7 @@ import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-serv
 import { Manifest } from '../models/manifest';
 import { MimeDomHelper } from '../mime-dom-helper';
 import { AccessKeys } from '../models/AccessKeys';
+import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
@@ -25,7 +26,8 @@ export class AccessKeysService implements OnDestroy {
     private iiifManifestService: IiifManifestService,
     private contentSearchDialogService: ContentSearchDialogService,
     private contentsDialogService: ContentsDialogService,
-    private mimeDomHelper: MimeDomHelper
+    private mimeDomHelper: MimeDomHelper,
+    private contentSearchNavigationService: ContentSearchNavigationService
   ) {
     this.subscriptions.push(
       this.contentSearchDialogService.isContentSearchDialogOpen.subscribe((open: boolean) => {
@@ -57,6 +59,10 @@ export class AccessKeysService implements OnDestroy {
         this.goToFirstPage();
       } else if (accessKeys.isLastPageKeys()) {
         this.goToLastPage();
+      } else if (accessKeys.isNextHitKeys()) {
+        this.goToNextHit();
+      } else if (accessKeys.isPreviousHitKeys()) {
+        this.goToPreviousHit();
       } else if (accessKeys.isZoomInKeys()) {
         this.zoomIn();
       } else if (accessKeys.isZoomOutKeys()) {
@@ -87,6 +93,14 @@ export class AccessKeysService implements OnDestroy {
 
   private goToLastPage() {
     this.viewerService.goToPage(this.pageService.numberOfPages - 1, false);
+  }
+
+  private goToNextHit() {
+    this.contentSearchNavigationService.goToNextHitPage();
+  }
+
+  private goToPreviousHit() {
+    this.contentSearchNavigationService.goToPreviousHitPage();
   }
 
   private zoomIn() {
