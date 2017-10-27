@@ -41,6 +41,11 @@ export class ContentSearchPage {
     return utils.waitForElement(element(by.css('#footerNavigateNextHitButton')));
   }
 
+  async getSelected() {
+    const el = element.all(by.css('.hit.selected'));
+    return el;
+  }
+
   async getHighlighted() {
     const el = element.all(by.css('.hit'));
     return el;

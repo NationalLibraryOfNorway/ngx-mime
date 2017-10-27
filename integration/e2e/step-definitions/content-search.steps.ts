@@ -45,6 +45,9 @@ defineSupportCode(function ({ Given, When, Then }) {
     const hits = await contentSearchPage.getHits();
     const firstHit = await hits[0].getAttribute('innerHTML');
     expect(firstHit).to.contains(`${term} </em>`);
+
+    const selected = await contentSearchPage.getSelected();
+    expect(selected.length).to.equals(0);
   });
 
   Then(/^the page with hit number (.*) should be displayed$/, async (hit) => {
