@@ -10,7 +10,6 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ContentSearchNavigationService implements OnDestroy {
-  protected _currentHitIndex: Subject<number> = new BehaviorSubject(0);
   private currentIndex = 0;
   private isHitOnActivePage = false;
   private isFirstHitPage = false;
@@ -18,66 +17,29 @@ export class ContentSearchNavigationService implements OnDestroy {
   private currentCanvasIndices = [-1];
   private searchResult: SearchResult;
   private subscriptions: Array<Subscription> = [];
-  private pageIndex = 0;
 
   constructor(
     private viewerService: ViewerService,
     private pageService: PageService,
     private iiifContentSearchService: IiifContentSearchService
   ) {
-    console.log('ContentSearchNavigationService - constructor');
     this.init();
   }
 
   init() {
-    console.log('ContentSearchNavigationService - init()');
     this.subscriptions.push(
       this.iiifContentSearchService.onChange.subscribe((result: SearchResult) => {
-        console.log('Content search result update');
         this.searchResult = result;
-        this.currentCanvasIndices = this.pageService.getTileArrayFromPageIndex(this.pageIndex);
-        this.currentIndex = this.findCurrentHitIndex(this.currentCanvasIndices);
-        console.log('CurrentIndex: ' + this.currentIndex);
-        this.isHitOnActivePage = this.currentCanvasIndices.indexOf(this.searchResult.get(this.currentIndex).index) >= 0;
-        this.isFirstHitPage = this.currentIndex <= 0;
-
-        const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1).index;
-        const currentHit = this.searchResult.get(this.currentIndex);
-        this.isLastHitPage = currentHit.index === lastCanvasIndex;
-
-        console.log(this.isHitOnActivePage + ' :: ' + this.isFirstHitPage + ' :: ' + this.isLastHitPage);
-        this._currentHitIndex.next(this.currentIndex);
-      })
-    );
-
-    this.subscriptions.push(
-      this.pageService.onPageChange.subscribe((pageIndex: number) => {
-        console.log('onPageChange');
-        this.pageIndex = pageIndex;
-        this.currentCanvasIndices = this.pageService.getTileArrayFromPageIndex(this.pageIndex);
-        this.currentIndex = this.findCurrentHitIndex(this.currentCanvasIndices);
-        this.isHitOnActivePage = this.currentCanvasIndices.indexOf(this.searchResult.get(this.currentIndex).index) >= 0;
-        this.isFirstHitPage = this.currentIndex <= 0;
-
-        const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1).index;
-        const currentHit = this.searchResult.get(this.currentIndex);
-        this.isLastHitPage = currentHit.index === lastCanvasIndex;
-
-        this._currentHitIndex.next(this.currentIndex);
       })
     );
   }
 
-  private reset() {
-    this.currentIndex = 0;
-    this.isHitOnActivePage = false;
-    this.isFirstHitPage = false;
-    this.isLastHitPage = false;
-    this.currentCanvasIndices = [-1];
-  }
-
-  get onCurrentIndexChange(): Observable<number> {
-    return this._currentHitIndex.asObservable();
+  update(pageIndex: number) {
+    this.currentCanvasIndices = this.pageService.getTileArrayFromPageIndex(pageIndex);
+    this.currentIndex = this.findCurrentHitIndex(this.currentCanvasIndices);
+    this.isHitOnActivePage = this.findHitOnActivePage();
+    this.isFirstHitPage = this.findFirstHitPage();
+    this.isLastHitPage = this.findLastHitPage();
   }
 
   getCurrentIndex(): number {
@@ -97,7 +59,6 @@ export class ContentSearchNavigationService implements OnDestroy {
   }
 
   public goToNextHitPage() {
-    console.log('goToNextHitPage');
     let nextCanvasIndex: number;
     if (this.currentIndex === -1) {
       nextCanvasIndex = this.searchResult.get(0).index;
@@ -105,42 +66,49 @@ export class ContentSearchNavigationService implements OnDestroy {
       const current = this.searchResult.get(this.currentIndex);
       nextCanvasIndex = this.searchResult.hits.find(h => h.index > current.index).index;
     }
-    this.currentIndex = this.findCurrentHitIndex([nextCanvasIndex]);
     this.goToCanvasIndex(nextCanvasIndex);
   }
 
   public goToPreviousHitPage() {
-    console.log('goToPreviousHitPage');
     const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
     const previousCanvasIndex = this.searchResult.get(previousIndex).index;
-    this.currentIndex = this.findCurrentHitIndex([previousCanvasIndex]);
     this.goToCanvasIndex(previousCanvasIndex);
   }
 
   private goToCanvasIndex(canvasIndex: number): void {
+    this.currentIndex = this.findCurrentHitIndex([canvasIndex]);
     this.viewerService.goToTile(canvasIndex, false);
+  }
+
+  private findFirstHitPage() {
+    return this.currentIndex <= 0;
+  }
+
+  private findLastHitPage() {
+    const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1).index;
+    const currentHit = this.searchResult.get(this.currentIndex);
+    return currentHit.index === lastCanvasIndex;
+  }
+
+  private findHitOnActivePage() {
+    return this.currentCanvasIndices.indexOf(this.searchResult.get(this.currentIndex).index) >= 0;
   }
 
   private findCurrentHitIndex(canvasIndices: number[]): number {
     for (let i = 0; i < this.searchResult.size(); i++) {
       const hit = this.searchResult.get(i);
-      console.log('hitIndex: ' + hit.index);
       if (canvasIndices.indexOf(hit.index) >= 0) {
-        console.log('1');
         return i;
       }
       if (hit.index >= canvasIndices[canvasIndices.length - 1]) {
         if (i === 0) {
-          console.log('2');
           return -1;
         } else {
-          console.log('3');
           const phit = this.searchResult.get(i - 1);
           return this.searchResult.hits.findIndex(sr => sr.index === phit.index);
         }
       }
     }
-    console.log('4');
     return this.searchResult.size() - 1;
   }
 

@@ -6,6 +6,8 @@ import { MimeViewerIntl } from '../../../core/intl/viewer-intl';
 import {
   ContentSearchNavigationService
 } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
+import { PageService } from '../../../core/page-service/page-service';
 
 @Component({
   selector: 'mime-content-search-navigator',
@@ -18,25 +20,26 @@ export class ContentSearchNavigatorComponent implements OnInit {
   public isHitOnActivePage = false;
   public isFirstHitPage = false;
   public isLastHitPage = false;
-  private subscriptions: Array<Subscription> = [];
   public currentIndex = 0;
+  private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
     public intl: MimeViewerIntl,
+    private changeDetectorRef: ChangeDetectorRef,
+    private pageService: PageService,
+    private iiifContentSearchService: IiifContentSearchService,
     private contentSearchNavigationService: ContentSearchNavigationService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
 
     this.subscriptions.push(
-      this.contentSearchNavigationService.onCurrentIndexChange.subscribe((currentIndex: number) => {
-        console.log('onCurrentIndexChange');
-        this.currentIndex = currentIndex;
+      this.pageService.onPageChange.subscribe((pageIndex: number) => {
+        this.contentSearchNavigationService.update(pageIndex);
+        this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
         this.isHitOnActivePage = this.contentSearchNavigationService.getHitOnActivePage();
         this.isFirstHitPage = this.contentSearchNavigationService.getFirstHitPage();
         this.isLastHitPage = this.contentSearchNavigationService.getLastHitPage();
-        console.log(this.isHitOnActivePage + ' :: ' + this.isFirstHitPage + ' :: ' + this.isLastHitPage);
         this.changeDetectorRef.detectChanges();
       })
     );
@@ -48,9 +51,9 @@ export class ContentSearchNavigatorComponent implements OnInit {
     });
   }
 
-  // clear(): void {
-  //   this.iiifContentSearchService.destroy();
-  // }
+  clear(): void {
+    this.iiifContentSearchService.destroy();
+  }
 
   goToPreviousHitPage() {
     this.contentSearchNavigationService.goToPreviousHitPage();
