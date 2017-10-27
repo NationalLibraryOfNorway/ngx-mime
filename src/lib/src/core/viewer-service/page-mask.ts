@@ -3,6 +3,7 @@ import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
 import { Rect } from '../models/rect';
 
+declare const OpenSeadragon: any;
 export class PageMask {
 
   viewer: any;
@@ -106,11 +107,13 @@ export class PageMask {
     const mask = overlays.append('g').attr('id', 'page-mask');
 
     this.leftMask = mask.append('rect')
+      .attr('id', 'mime-left-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
       .style('fill', ViewerOptions.colors.canvasBackgroundColor);
 
     this.rightMask = mask.append('rect')
+      .attr('id', 'mime-right-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
       .style('fill', ViewerOptions.colors.canvasBackgroundColor);
@@ -125,13 +128,37 @@ export class PageMask {
       return;
     }
 
-    const zoom = this.viewer.viewport.getZoom(true);
-    const scale = this.viewer.viewport._containerInnerSize.x * zoom;
+    const leftMaskRect = this.getLeftMaskRect();
+    const rightMaskRect = this.getRightMaskRect();
+    this.leftMask.attr('width', leftMaskRect.width).attr('x', leftMaskRect.x);
+    this.rightMask.attr('width', rightMaskRect.width).attr('x', Math.round(rightMaskRect.x));
+  }
 
-    let width = Math.round(this.center.x - (this.pageBounds.width * scale / 2));
+  private getLeftMaskRect(): Rect {
+    const imgBounds = new OpenSeadragon.Rect(this.pageBounds.x, this.pageBounds.y, this.pageBounds.width, this.pageBounds.height);
+    const topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopLeft());
+    let width = topLeft.x - ViewerOptions.overlays.pageMarginPageView;
+
     if (width < 0) { width = 0; }
 
-    this.leftMask.attr('width', width).attr('x', 0);
-    this.rightMask.attr('width', width).attr('x', Math.round(this.center.x + (this.pageBounds.width * scale / 2)));
+    return new Rect({
+      x: 0,
+      width: width
+    });
   }
+
+  private getRightMaskRect(): Rect {
+    const imgBounds = new OpenSeadragon.Rect(this.pageBounds.x, this.pageBounds.y, this.pageBounds.width, this.pageBounds.height);
+    const topRight = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopRight());
+    let width = this.viewer.viewport._containerInnerSize.x - topRight.x;
+    let x = this.viewer.viewport._containerInnerSize.x - width + ViewerOptions.overlays.pageMarginPageView;
+
+    if (width < 0) { width = 0; }
+
+    return new Rect({
+      x: x,
+      width: width
+    });
+  }
+
 }
