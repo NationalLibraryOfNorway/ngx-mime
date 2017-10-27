@@ -64,7 +64,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
     const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
     const previousHit = this.searchResult.get(previousIndex);
     this.currentIndex = this.findCurrentHitIndex([previousHit.index]);
-    this.viewerService.setCurrentHit(previousHit);
+    this.iiifContentSearchService.selected(previousHit);
   }
 
   goToNextHitPage() {
@@ -76,7 +76,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
       nextHit = this.searchResult.hits.find(h => h.index > current.index);
     }
     this.currentIndex = this.findCurrentHitIndex([nextHit.index]);
-    this.viewerService.setCurrentHit(nextHit);
+    this.iiifContentSearchService.selected(nextHit);
   }
 
   findCurrentHitIndex(canvasIndices: number[]): number {

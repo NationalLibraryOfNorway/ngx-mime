@@ -215,11 +215,6 @@ export class ViewerService {
     }
   }
 
-  public setCurrentHit(hit: Hit) {
-    this.highlightCurrentHit(hit);
-    this.currentHit.next(hit);
-  }
-
   private highlightCurrentHit(hit: Hit) {
     this.svgNode.selectAll(`g > rect.selected`)
       .attr('class', 'hit');
@@ -306,7 +301,7 @@ export class ViewerService {
     );
 
     this.subscriptions.push(
-      this.onHitChange.subscribe((hit: Hit) => {
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
         if (hit) {
           this.highlightCurrentHit(hit);
           this.goToTile(hit.index, false);
