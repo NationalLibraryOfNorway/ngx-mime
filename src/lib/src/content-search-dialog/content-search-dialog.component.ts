@@ -23,6 +23,7 @@ import { IiifContentSearchService } from './../core/iiif-content-search-service/
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { ViewerService } from './../core/viewer-service/viewer.service';
 import { Hit } from './../core/models/search-result';
+import { ContentSearchDialogService } from './content-search-dialog.service';
 
 @Component({
   selector: 'mime-search',
@@ -50,7 +51,8 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private iiifContentSearchService: IiifContentSearchService,
     private viewerService: ViewerService,
     private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper) {
+    private mimeDomHelper: MimeDomHelper,
+    private contentSearchDialogService: ContentSearchDialogService) {
     this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
@@ -102,6 +104,14 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     if (this.media.isActive('lt-md')) {
       this.dialogRef.close();
     }
+  }
+
+  onFocus() {
+    this.contentSearchDialogService.setHasFocus(true);
+  }
+
+  onBlur() {
+    this.contentSearchDialogService.setHasFocus(false);
   }
 
   private resizeTabHeight(): void {

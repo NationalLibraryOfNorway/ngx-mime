@@ -29,11 +29,11 @@ export class AccessKeysService implements OnDestroy {
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {
-    this.subscriptions.push(
-      this.contentSearchDialogService.isContentSearchDialogOpen.subscribe((open: boolean) => {
-        this.isLetterKeysEnabled = !open;
-      })
-    );
+    // this.subscriptions.push(
+    //   this.contentSearchDialogService.isContentSearchDialogOpen.subscribe((open: boolean) => {
+    //     this.isLetterKeysEnabled = !open;
+    //   })
+    // );
 
     this.subscriptions.push(
       this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
@@ -77,6 +77,16 @@ export class AccessKeysService implements OnDestroy {
         this.toggleContentsDialog();
       }
     }
+  }
+
+  public disableLetterKeys() {
+    console.log('disableLetterKeys');
+    this.isLetterKeysEnabled = false;
+  }
+
+  public enableLetterKeys() {
+    console.log('enableLetterKeys');
+    this.isLetterKeysEnabled = true;
   }
 
   private goToNextPage() {
