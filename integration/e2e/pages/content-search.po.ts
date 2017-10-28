@@ -42,12 +42,11 @@ export class ContentSearchPage {
   }
 
   async getSelected() {
-    const el = element.all(by.css('.hit.selected'));
-    return el;
+    return element.all(by.css('.openseadragon-canvas .hit.selected'));
   }
 
   async getHighlighted() {
-    const el = element.all(by.css('.hit'));
-    return el;
+    return element.all(by.css('.openseadragon-canvas .hit'));
   }
+
 }

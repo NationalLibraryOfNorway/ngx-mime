@@ -45,9 +45,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     const hits = await contentSearchPage.getHits();
     const firstHit = await hits[0].getAttribute('innerHTML');
     expect(firstHit).to.contains(`${term} </em>`);
-
-    const selected = await contentSearchPage.getSelected();
-    expect(selected.length).to.equals(1);
   });
 
   Then(/^the page with hit number (.*) should be displayed$/, async (hit) => {
@@ -67,6 +64,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^the search result toolbar should be removed$/, async () => {
     const el = await contentSearchPage.contentSearchNavigatorToolbar();
     expect(el.isPresent()).to.eql({});
+  });
+
+  Then(/^hit number (.*) should be marked$/, async (hitIndex) => {
+    const selected = await contentSearchPage.getSelected();
+    expect(selected.length).to.equals(1);
   });
 
   async function selectHit(selected: number) {

@@ -39,3 +39,10 @@ Feature: Content search
       And the user has selected the second hit
     When the user select the previous hit button
     Then the page with hit number 1 should be displayed
+
+  Scenario: Mark selected hit
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+      And the viewer is in dashboard view
+    When the user search for the word "Gjallarhorn" 
+      And the user selects the first hit
+    Then hit number 1 should be marked
