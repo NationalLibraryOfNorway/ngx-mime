@@ -13,6 +13,7 @@ import { MimeDomHelper } from '../mime-dom-helper';
 import { AccessKeys } from '../models/AccessKeys';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
+import { SearchResult } from '../../core/models/search-result';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
@@ -20,6 +21,7 @@ export class AccessKeysService implements OnDestroy {
   private isSearchable = false;
   private subscriptions: Array<Subscription> = [];
   private isSearchDialogOpen = false;
+  private hasHits = false;
 
   constructor(
     private viewerService: ViewerService,
@@ -43,6 +45,12 @@ export class AccessKeysService implements OnDestroy {
         this.isSearchable = this.isManifestSearchable(manifest);
       })
     );
+
+    this.subscriptions.push(
+      this.iiifContentSearchService.onChange.subscribe((result: SearchResult) => {
+        this.hasHits = result.hits.length > 0;
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -62,9 +70,9 @@ export class AccessKeysService implements OnDestroy {
         this.goToFirstPage();
       } else if (accessKeys.isLastPageKeys()) {
         this.goToLastPage();
-      } else if (accessKeys.isNextHitKeys()) {
+      } else if (accessKeys.isNextHitKeys() && this.hasHits) {
         this.goToNextHit();
-      } else if (accessKeys.isPreviousHitKeys()) {
+      } else if (accessKeys.isPreviousHitKeys() && this.hasHits) {
         this.goToPreviousHit();
       } else if (accessKeys.isZoomInKeys()) {
         this.zoomIn();
