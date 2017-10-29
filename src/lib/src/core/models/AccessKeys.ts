@@ -11,6 +11,7 @@ export class AccessKeys {
   private static toggleSearchDialogCodes = [83]; // s
   private static toggleContentsDialogCodes = [67]; // C
   private static toggleFullscreenCodes = [70]; // f
+  private static resetSearch = [83]; // s
   private keyCode: number;
   private altKey = false;
   private shiftKey = false;
@@ -71,7 +72,15 @@ export class AccessKeys {
     return !this.isMultiKeys() && AccessKeys.toggleFullscreenCodes.indexOf(this.keyCode) > -1;
   }
 
+  public isResetSearchKeys() {
+    return this.isShiftPressed() && AccessKeys.resetSearch.indexOf(this.keyCode) > -1;
+  }
+
   private isMultiKeys(): boolean {
     return this.altKey || this.shiftKey || this.ctrlkey;
+  }
+
+  private isShiftPressed(): boolean {
+    return this.shiftKey;
   }
 }

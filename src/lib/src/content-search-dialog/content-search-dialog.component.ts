@@ -1,15 +1,12 @@
 import {
   Component,
   OnInit,
-  Optional,
-  Inject,
   HostListener,
-  ChangeDetectionStrategy,
   ElementRef,
   OnDestroy,
   ViewChild
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -23,7 +20,6 @@ import { IiifContentSearchService } from './../core/iiif-content-search-service/
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { ViewerService } from './../core/viewer-service/viewer.service';
 import { Hit } from './../core/models/search-result';
-import { ContentSearchDialogService } from './content-search-dialog.service';
 
 @Component({
   selector: 'mime-search',
@@ -37,6 +33,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   public numberOfHits = 0;
   public isSearching = false;
   public tabHeight = {};
+  public hasFocus = false;
   private manifest: Manifest;
   private mimeHeight = 0;
   private subscriptions: Array<Subscription> = [];
@@ -51,8 +48,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private iiifContentSearchService: IiifContentSearchService,
     private viewerService: ViewerService,
     private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper,
-    private contentSearchDialogService: ContentSearchDialogService) {
+    private mimeDomHelper: MimeDomHelper) {
     this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
@@ -107,11 +103,11 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   }
 
   onFocus() {
-    this.contentSearchDialogService.setHasFocus(true);
+    this.hasFocus = true;
   }
 
   onBlur() {
-    this.contentSearchDialogService.setHasFocus(false);
+    this.hasFocus = false;
   }
 
   private resizeTabHeight(): void {

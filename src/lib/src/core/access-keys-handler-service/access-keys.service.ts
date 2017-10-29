@@ -12,28 +12,31 @@ import { Manifest } from '../models/manifest';
 import { MimeDomHelper } from '../mime-dom-helper';
 import { AccessKeys } from '../models/AccessKeys';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
+import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
   private isLetterKeysEnabled = true;
   private isSearchable = false;
   private subscriptions: Array<Subscription> = [];
+  private isSearchDialogOpen = false;
 
   constructor(
     private viewerService: ViewerService,
     private pageService: PageService,
     private modeService: ModeService,
     private iiifManifestService: IiifManifestService,
+    private iiifContentSearchService: IiifContentSearchService,
     private contentSearchDialogService: ContentSearchDialogService,
     private contentsDialogService: ContentsDialogService,
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {
-    // this.subscriptions.push(
-    //   this.contentSearchDialogService.isContentSearchDialogOpen.subscribe((open: boolean) => {
-    //     this.isLetterKeysEnabled = !open;
-    //   })
-    // );
+    this.subscriptions.push(
+      this.contentSearchDialogService.isContentSearchDialogOpen.subscribe((open: boolean) => {
+        this.isLetterKeysEnabled = !open;
+      })
+    );
 
     this.subscriptions.push(
       this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
@@ -75,17 +78,17 @@ export class AccessKeysService implements OnDestroy {
         this.toggleSearchDialog();
       } else if (accessKeys.isContentsDialogKeys()) {
         this.toggleContentsDialog();
+      } else if (accessKeys.isResetSearchKeys()) {
+        this.resetSearch();
       }
     }
   }
 
   public disableLetterKeys() {
-    console.log('disableLetterKeys');
     this.isLetterKeysEnabled = false;
   }
 
   public enableLetterKeys() {
-    console.log('enableLetterKeys');
     this.isLetterKeysEnabled = true;
   }
 
@@ -138,6 +141,7 @@ export class AccessKeysService implements OnDestroy {
   private toggleSearchDialog() {
     this.contentsDialogService.close();
     this.contentSearchDialogService.toggle();
+    this.isSearchDialogOpen = !this.isSearchDialogOpen;
   }
 
   private toggleContentsDialog() {
@@ -149,7 +153,15 @@ export class AccessKeysService implements OnDestroy {
     this.mimeDomHelper.toggleFullscreen();
   }
 
+  private resetSearch() {
+    this.iiifContentSearchService.destroy();
+  }
+
   private isManifestSearchable(manifest: Manifest): boolean {
     return manifest.service ? true : false;
+  }
+
+  private searchHasFocus(): boolean {
+    return false;
   }
 }
