@@ -42,7 +42,7 @@ export class ContentSearchPage {
   }
 
   async getSelected() {
-    return element.all(by.css('.openseadragon-canvas .hit.selected'));
+    return utils.waitForElement(element(by.css('.openseadragon-canvas .hit.selected')));
   }
 
   async getHighlighted() {
