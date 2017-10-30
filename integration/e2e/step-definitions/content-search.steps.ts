@@ -66,9 +66,9 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(el.isPresent()).to.eql({});
   });
 
-  Then(/^hit number (.*) should be marked$/, async (hitIndex) => {
-    const selected = await contentSearchPage.getSelected();
-    expect(selected.length).to.equals(1);
+  Then(/^hit number (.*) should be marked$/, async (hitIndex: number) => {
+    const isSelected: boolean = await contentSearchPage.isSelected(hitIndex);
+    expect(isSelected).to.equal(true);
   });
 
   async function selectHit(selected: number) {

@@ -41,8 +41,13 @@ export class ContentSearchPage {
     return utils.waitForElement(element(by.css('#footerNavigateNextHitButton')));
   }
 
-  async getSelected() {
-    return utils.waitForElement(element(by.css('.openseadragon-canvas .hit.selected')));
+  async isSelected(index: number) {
+    try {
+      utils.waitForElement(element(by.css(`.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`)));
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   async getHighlighted() {
