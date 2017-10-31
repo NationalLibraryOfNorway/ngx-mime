@@ -36,6 +36,7 @@ import { IiifContentSearchServiceStub } from './../test/iiif-content-search-serv
 import 'openseadragon';
 import '../rxjs-extension';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
@@ -85,6 +86,7 @@ describe('ViewerComponent', function () {
         FullscreenService,
         AccessKeysService,
         ViewerLayoutService,
+        ContentSearchNavigationService
       ]
     }).overrideModule(BrowserDynamicTestingModule, {
       set: {

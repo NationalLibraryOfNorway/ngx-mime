@@ -17,6 +17,7 @@ import { FullscreenService } from '../fullscreen-service/fullscreen.service';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
+import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 
 describe('AccessKeysService', () => {
   beforeEach(() => {
@@ -41,7 +42,8 @@ describe('AccessKeysService', () => {
         FullscreenService,
         MimeResizeService,
         ViewerLayoutService,
-        IiifContentSearchService
+        IiifContentSearchService,
+        ContentSearchNavigationService
       ]
     });
   });

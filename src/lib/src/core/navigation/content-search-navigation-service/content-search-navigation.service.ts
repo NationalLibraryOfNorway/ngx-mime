@@ -72,6 +72,7 @@ export class ContentSearchNavigationService implements OnDestroy {
   public goToPreviousHitPage() {
     const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
     const previousCanvasIndex = this.searchResult.get(previousIndex).index;
+    this.currentIndex = previousCanvasIndex;
     this.goToCanvasIndex(previousCanvasIndex);
   }
 

@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,10 +13,13 @@ import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { PageService } from './../../../core/page-service/page-service';
+import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
   let fixture: ComponentFixture<ContentSearchNavigatorComponent>;
+  let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,19 +30,21 @@ describe('ContentSearchNavigatorComponent', () => {
       ],
       providers: [
         MimeViewerIntl,
+        ContentSearchNavigationService,
         { provide: ViewerService, useClass: ViewerServiceMock },
-        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
-        { provide: PageService, useClass: PageServiceMock }
+        { provide: PageService, useClass: PageServiceMock },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
       ]
 
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
+    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
     component = fixture.componentInstance;
     component.searchResult = createDefaultData();
+    iiifContentSearchServiceStub._currentSearchResult.next(component.searchResult);
     fixture.detectChanges();
   });
 
@@ -59,68 +64,46 @@ describe('ContentSearchNavigatorComponent', () => {
     })
   );
 
-  it('should return -1 if canvasIndex is before first hit', () => {
-    const res = component.findCurrentHitIndex([1]);
-    expect(res).toBe(-1);
-  });
-
-  it('should return 0 if canvasIndex is on first hit', () => {
-    const res = component.findCurrentHitIndex([2]);
-    expect(res).toBe(0);
-  });
-
-  it('should return 0 if canvasIndex is between first and second hit', () => {
-    const res = component.findCurrentHitIndex([3]);
-    expect(res).toBe(0);
-  });
-
-  it('should return 1 if canvasIndex is between second and fourth hit', () => {
-    const res = component.findCurrentHitIndex([5]);
-    expect(res).toBe(1);
-  });
-
-  it('should return 3 if canvasIndex is after last', () => {
-    const res = component.findCurrentHitIndex([9]);
-    expect(res).toBe(3);
-  });
-
   it('should go to first hit if current canvas is 4 and user presses previous hit button',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-      spyOn(viewerService, 'goToTile');
+    inject([ViewerService, PageService, ContentSearchNavigationService],
+      (viewerService: ViewerServiceMock, pageService: PageServiceMock, csns: ContentSearchNavigationService) => {
+      spyOn(csns, 'goToPreviousHitPage').and.callThrough();
 
       viewerService.setPageChange(4);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToPreviousHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
+        expect(csns.goToPreviousHitPage).toHaveBeenCalledTimes(1);
+        expect(csns.getCurrentIndex()).toEqual(0);
       });
-
     }));
 
   it('should go to first hit if current canvas is 3 and user presses previous hit button',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-      spyOn(viewerService, 'goToTile');
+    inject([ViewerService, PageService, ContentSearchNavigationService],
+      (viewerService: ViewerServiceMock, pageService: PageServiceMock, csns: ContentSearchNavigationService) => {
+      spyOn(csns, 'goToPreviousHitPage').and.callThrough();
 
-      viewerService.setPageChange(3);
+      pageService.setPageChange(3);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToPreviousHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
+        expect(csns.goToPreviousHitPage).toHaveBeenCalledTimes(1);
+        expect(csns.getCurrentIndex()).toEqual(0);
       });
-
     }));
 
   it('should go to first hit if current canvas is 0 and user presses next hit button',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
-      spyOn(viewerService, 'goToTile');
+    inject([ViewerService, PageService, ContentSearchNavigationService],
+      (viewerService: ViewerServiceMock, pageService: PageServiceMock, csns: ContentSearchNavigationService) => {
+      spyOn(csns, 'goToNextHitPage').and.callThrough();
 
       pageService.setPageChange(0);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToNextHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
+        expect(csns.goToNextHitPage).toHaveBeenCalledTimes(1);
+        expect(csns.getCurrentIndex()).toEqual(0);
       });
-
     }));
 
   it('should disable previous button if on first hit',
@@ -131,10 +114,9 @@ describe('ContentSearchNavigatorComponent', () => {
         const button = fixture.debugElement.query(By.css('#footerNavigatePreviousHitButton'));
         expect(button.nativeElement.disabled).toBeTruthy();
       });
-
     }));
 
-  it('should disable next button if on first hit',
+  it('should disable next button if on last hit',
     inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
       pageService.setPageChange(8);
       fixture.detectChanges();
@@ -142,7 +124,6 @@ describe('ContentSearchNavigatorComponent', () => {
         const button = fixture.debugElement.query(By.css('#footerNavigateNextHitButton'));
         expect(button.nativeElement.disabled).toBeTruthy();
       });
-
     }));
 
   function createDefaultData() {
