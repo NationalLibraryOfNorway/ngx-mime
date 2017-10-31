@@ -13,7 +13,9 @@ import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { PageService } from './../../../core/page-service/page-service';
-import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import {
+  ContentSearchNavigationService
+} from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 
 describe('ContentSearchNavigatorComponent', () => {
