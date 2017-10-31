@@ -13,7 +13,6 @@ Feature: Access Keys
       | keys        |
       | PageDown    |
       | ArrowRight  |
-      | n           |
 
   Scenario Outline: Previous Page on key <keys>
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -25,7 +24,6 @@ Feature: Access Keys
       | keys      |
       | PageUp    |
       | ArrowLeft |
-      | p         |
 
   Scenario Outline: Last Page on key <keys>
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -153,3 +151,26 @@ Feature: Access Keys
       | p           |
       | Home        |
       | End         |
+
+    Scenario Outline: Next hit on <keys>
+      Given the viewer is opened with a publication with viewing hint "individuals"
+      And the content search dialog is open
+      And the user has performed a search
+      And the user hits key <keys>
+      Then the page with hit number 1 should be displayed
+
+      Examples:
+        | keys        |
+        | n           |
+
+    Scenario Outline: Previous hit on <keys>
+      Given the viewer is opened with a publication with viewing hint "individuals"
+      And the content search dialog is open
+      And the user has performed a search
+      And the user has selected the second hit
+      And the user hits key <keys>
+      Then the page with hit number 1 should be displayed
+
+      Examples:
+        | keys        |
+        | p           |
