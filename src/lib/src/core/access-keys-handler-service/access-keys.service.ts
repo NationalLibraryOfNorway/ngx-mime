@@ -62,9 +62,9 @@ export class AccessKeysService implements OnDestroy {
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
     if (this.isLetterKeysEnabled) {
-      if (accessKeys.isNextPageKeys()) {
+      if (accessKeys.isNextPageKeys() && !(this.isZoomedIn() && accessKeys.isArrowRightKeys())) {
         this.goToNextPage();
-      } else if (accessKeys.isPreviousPageKeys()) {
+      } else if (accessKeys.isPreviousPageKeys() && !(this.isZoomedIn() && accessKeys.isArrowLeftKeys())) {
         this.goToPreviousPage();
       } else if (accessKeys.isFirstPageKeys()) {
         this.goToFirstPage();
@@ -171,5 +171,9 @@ export class AccessKeysService implements OnDestroy {
 
   private searchHasFocus(): boolean {
     return false;
+  }
+
+  private isZoomedIn(): boolean {
+    return this.viewerService.getZoom() !== this.viewerService.getHomeZoomLevel(this.modeService.mode);
   }
 }

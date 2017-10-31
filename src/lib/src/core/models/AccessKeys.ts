@@ -1,6 +1,10 @@
 export class AccessKeys {
-  private static nextPageCodes = [34, 39]; // PageDown, ArrowRight
-  private static previousPageCodes = [33, 37]; // PageUp, ArrowLeft
+  private static PAGEDOWN = [34];
+  private static PAGEUP = [33];
+  private static ARROWRIGHT = [39];
+  private static ARROWLEFT = [37];
+  private static nextPageCodes = AccessKeys.PAGEDOWN.concat(AccessKeys.ARROWRIGHT);
+  private static previousPageCodes = AccessKeys.PAGEUP.concat(AccessKeys.ARROWLEFT);
   private static firstPageCodes = [36]; // Home
   private static lastPageCodes = [35]; // End
   private static zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
@@ -24,60 +28,72 @@ export class AccessKeys {
     this.ctrlkey = event.ctrlKey;
   }
 
+  public isArrowRightKeys() {
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
+  }
+
+  public isArrowLeftKeys() {
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
+  }
+
   public isNextPageKeys() {
-    return !this.isMultiKeys() && AccessKeys.nextPageCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextPageCodes);
   }
 
   public isPreviousPageKeys() {
-    return !this.isMultiKeys() && AccessKeys.previousPageCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousPageCodes);
   }
 
   public isFirstPageKeys() {
-    return !this.isMultiKeys() && AccessKeys.firstPageCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.firstPageCodes);
   }
 
   public isLastPageKeys() {
-    return !this.isMultiKeys() && AccessKeys.lastPageCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.lastPageCodes);
   }
 
   public isZoomInKeys() {
-    return !this.isMultiKeys() && AccessKeys.zoomInCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes);
   }
 
   public isZoomOutKeys() {
-    return !this.isMultiKeys() && AccessKeys.zoomOutCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes);
   }
 
   public isZoomHomeKeys() {
-    return !this.isMultiKeys() && AccessKeys.zoomHomeCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes);
   }
 
   public isNextHitKeys() {
-    return !this.isMultiKeys() && AccessKeys.nextHit.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
   }
 
   public isPreviousHitKeys() {
-    return !this.isMultiKeys() && AccessKeys.previousHit.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit);
   }
 
   public isSearchDialogKeys() {
-    return !this.isMultiKeys() && AccessKeys.toggleSearchDialogCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes);
   }
 
   public isContentsDialogKeys() {
-    return !this.isMultiKeys() && AccessKeys.toggleContentsDialogCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes);
   }
 
   public isFullscreenKeys() {
-    return !this.isMultiKeys() && AccessKeys.toggleFullscreenCodes.indexOf(this.keyCode) > -1;
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes);
   }
 
   public isResetSearchKeys() {
-    return this.isShiftPressed() && AccessKeys.resetSearch.indexOf(this.keyCode) > -1;
+    return this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch);
   }
 
   private isMultiKeys(): boolean {
     return this.altKey || this.shiftKey || this.ctrlkey;
+  }
+
+  private arrayContainsKeys(keys: number[]): boolean {
+    return keys.indexOf(this.keyCode) > -1;
   }
 
   private isShiftPressed(): boolean {

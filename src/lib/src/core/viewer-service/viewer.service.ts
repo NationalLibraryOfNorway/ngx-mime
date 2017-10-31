@@ -662,6 +662,29 @@ export class ViewerService {
     return -1;
   }
 
+  public getHomeZoomLevel(mode: ViewerMode): number {
+    if (!this.viewer || !this.pageService) {
+      return;
+    }
+
+    let pageHeight: number;
+    let pageWidth: number;
+    let viewportBounds: any;
+
+    if (mode === ViewerMode.DASHBOARD) {
+      pageHeight = this.pageService.getMaxHeight();
+      pageWidth = this.pageService.getMaxWidth();
+      viewportBounds = this.getDashboardViewportBounds();
+    } else {
+      const currentPageBounds = this.pageService.getCurrentPageRect();
+      pageHeight = currentPageBounds.height;
+      pageWidth = currentPageBounds.width;
+      viewportBounds = this.viewer.viewport.getBounds();
+    }
+
+    return this.getFittedZoomLevel(viewportBounds, pageHeight, pageWidth);
+  }
+
   private getOptions(): Options {
     const options = new Options();
     options.ajaxWithCredentials = this.config.withCredentials;
@@ -757,29 +780,6 @@ export class ViewerService {
 
   private goToHomeZoom(): void {
     this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
-  }
-
-  private getHomeZoomLevel(mode: ViewerMode): number {
-    if (!this.viewer || !this.pageService) {
-      return;
-    }
-
-    let pageHeight: number;
-    let pageWidth: number;
-    let viewportBounds: any;
-
-    if (mode === ViewerMode.DASHBOARD) {
-      pageHeight = this.pageService.getMaxHeight();
-      pageWidth = this.pageService.getMaxWidth();
-      viewportBounds = this.getDashboardViewportBounds();
-    } else {
-      const currentPageBounds = this.pageService.getCurrentPageRect();
-      pageHeight = currentPageBounds.height;
-      pageWidth = currentPageBounds.width;
-      viewportBounds = this.viewer.viewport.getBounds();
-    }
-
-    return this.getFittedZoomLevel(viewportBounds, pageHeight, pageWidth);
   }
 
   private getFittedZoomLevel(viewportBounds: any, pageHeight: number, pageWidth: number) {
