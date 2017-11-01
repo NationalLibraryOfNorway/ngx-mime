@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.8.0...v0.9.0) (2017-10-27)
+
+
+### Bug Fixes
+
+* constraining to max zoom ([#159](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/159)) ([c984534](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c984534)), closes [#158](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/158)
+* header and footer is null in ngAfterViewInit ([#164](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/164)) ([4d55e8e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4d55e8e)), closes [#161](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/161)
+* more-stable-two-up-view-test ([3973035](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3973035))
+
+
+### Features
+
+* keyboard should be closed on mobile after content search ([#154](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/154)) ([fd1685b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fd1685b)), closes [#150](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/150)
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.7.1...v0.8.0) (2017-10-20)
 
