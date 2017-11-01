@@ -11,7 +11,7 @@ import {
   ViewChildren,
   QueryList
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatCard } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -43,7 +43,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   private mimeHeight = 0;
   private subscriptions: Array<Subscription> = [];
   @ViewChild('contentSearchResult') resultContainer: ElementRef;
-  @ViewChildren(MatCard, { read: ElementRef }) hitList: QueryList<ElementRef>;
+  @ViewChildren('hitButton', { read: ElementRef }) hitList: QueryList<ElementRef>;
 
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
