@@ -157,7 +157,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
   private findSelected(selectedHit: Hit): ElementRef {
     if (this.hitList) {
-      const selectedList = this.hitList.filter((item: MatCard, index: number) => index === selectedHit.id);
+      const selectedList = this.hitList.filter((item: ElementRef, index: number) => index === selectedHit.id);
       return selectedList.length > 0 ? selectedList[0] : null;
     } else {
       return null;
