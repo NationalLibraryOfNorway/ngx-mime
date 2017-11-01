@@ -350,42 +350,53 @@ export class ViewerPage {
     const [leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc] =
       await Promise.all([leftPageMask.getSize(), leftPageMask.getLocation(), rightPageMask.getSize(), rightPageMask.getLocation()]);
 
-    const promiseArray = pages.map((page, i) => {
-      return isElementVisibleInReadersViewport(
+    const pagesArray = await pages.map((page, i) => page);
+    const promiseArray = [];
+    for  (let i = 0; i < pagesArray.length; i++) {
+      const page = pagesArray[i];
+      promiseArray.push(await this.isElementVisibleInReadersViewport(
         page,
         { size: leftPageMaskSize, location: leftPageMaskLoc },
         { size: rightPageMaskSize, location: rightPageMaskLoc }
-      );
-    });
+      ));
+    }
     return Promise.all(promiseArray);
   }
-}
 
-/**
- * Check if any part of an element is visible in the readers viewport.
- * Note that the test will not confirm that the whole element is inside the viewport.
- *
- * @param element
- * @param leftPageMask
- * @param rightPageMask
- */
-async function isElementVisibleInReadersViewport(
-  element: any,
-  leftPageMask: { size: any, location: any },
-  rightPageMask: { size: any, location: any }): Promise<boolean> {
+  /**
+   * Check if any part of an element is visible in the readers viewport.
+   * Note that the test will not confirm that the whole element is inside the viewport.
+   *
+   * @param element
+   * @param leftPageMask
+   * @param rightPageMask
+   */
+  async isElementVisibleInReadersViewport(
+    element: any,
+    leftPageMask: { size: any, location: any },
+    rightPageMask: { size: any, location: any }): Promise<boolean> {
 
-  await utils.waitForElement(element);
-  const [elementSize, elementLocation] = await Promise.all([element.getSize(), element.getLocation()]);
-  const elementCalculatedLocastion = {
-    left: elementLocation.x,
-    right: elementLocation.x + elementSize.width,
+      try {
+        console.log(1);
+        const [elementSize, elementLocation] = await Promise.all([element.getSize(), element.getLocation()]);
+        console.log(2);
+        const elementCalculatedLocastion = {
+          left: elementLocation.x,
+          right: elementLocation.x + elementSize.width,
+        }
+        console.log(3);
+        return (
+            elementCalculatedLocastion.right >= leftPageMask.size.width &&
+            elementCalculatedLocastion.left <= rightPageMask.location.x
+          );
+      } catch (e) {
+        console.log('Ooups, this should not happen', e);
+      }
+      return false;
   }
 
-  return (
-      elementCalculatedLocastion.right >= leftPageMask.size.width &&
-      elementCalculatedLocastion.left <= rightPageMask.location.x
-    );
 }
+
 
 export interface Point {
   x: number;
