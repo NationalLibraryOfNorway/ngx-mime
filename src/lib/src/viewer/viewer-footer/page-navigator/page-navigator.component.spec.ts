@@ -17,6 +17,8 @@ import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { PageService } from './../../../core/page-service/page-service';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
+import { Hit } from './../../../core/models/search-result';
+import { ViewerServiceMock } from './../../../test/viewer-service-mock';
 
 describe('PageNavigatorComponent', () => {
   let component: PageNavigatorComponent;
@@ -123,13 +125,6 @@ describe('PageNavigatorComponent', () => {
       });
     }));
 });
-
-class ViewerServiceMock {
-  public goToPreviousPage(): void { }
-
-  public goToNextPage(): void { }
-
-}
 
 class PageServiceMock {
   _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(10);

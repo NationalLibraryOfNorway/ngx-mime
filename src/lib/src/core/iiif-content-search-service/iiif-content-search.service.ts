@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { IiifSearchResult } from './../models/iiif-search-result';
 import { SearchResultBuilder } from './../builders/search-result.builder';
-import { SearchResult } from './../models/search-result';
+import { SearchResult, Hit } from './../models/search-result';
 import { Manifest } from './../models/manifest';
 
 @Injectable()
@@ -14,6 +14,7 @@ export class IiifContentSearchService {
   protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(new SearchResult({}));
   protected _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
   protected _currentQ: Subject<string> = new Subject<string>();
+  protected _selected: Subject<Hit> = new Subject<null>();
 
   constructor(private http: HttpClient) { }
 
@@ -33,8 +34,13 @@ export class IiifContentSearchService {
     return this._searching.asObservable();
   }
 
+  get onSelected(): Observable<Hit> {
+    return this._selected.asObservable();
+  }
+
   public search(manifest: Manifest, q: string): void {
     this._currentQ.next(q);
+    this._selected.next(null);
     if (!q || q === null) {
       return;
     }
@@ -49,6 +55,10 @@ export class IiifContentSearchService {
       (err: HttpErrorResponse) => this.handleError
       );
 
+  }
+
+  public selected(hit: Hit) {
+    this._selected.next(hit);
   }
 
   private extractData(q: string, manifest: Manifest, iiifSearchResult: IiifSearchResult): SearchResult {

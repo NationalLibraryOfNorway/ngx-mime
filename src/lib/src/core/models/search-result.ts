@@ -32,6 +32,7 @@ export class SearchResult {
 }
 
 export class Hit {
+  public id: string;
   public index = 0;
   public label: string;
   public match: string;
@@ -41,6 +42,7 @@ export class Hit {
 
   constructor(
     fields?: {
+      id?: string;
       index?: number;
       label?: string;
       match?: string;
@@ -50,6 +52,7 @@ export class Hit {
     }
   ) {
     if (fields) {
+      this.id = fields.id || this.id;
       this.index = fields.index || this.index;
       this.label = fields.label || this.label;
       this.match = fields.match || this.match;
