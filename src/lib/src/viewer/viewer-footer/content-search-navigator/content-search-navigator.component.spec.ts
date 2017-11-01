@@ -13,6 +13,7 @@ import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { PageService } from './../../../core/page-service/page-service';
+import { ViewerServiceMock } from './../../../test/viewer-service-mock';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
@@ -86,39 +87,39 @@ describe('ContentSearchNavigatorComponent', () => {
 
   it('should go to first hit if current canvas is 4 and user presses previous hit button',
     inject([ViewerService], (viewerService: ViewerServiceMock) => {
-      spyOn(viewerService, 'goToTile');
+      spyOn(viewerService, 'setCurrentHit');
 
       viewerService.setPageChange(4);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToPreviousHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
+        expect(viewerService.setCurrentHit).toHaveBeenCalledWith(new Hit({index: 2}));
       });
 
     }));
 
   it('should go to first hit if current canvas is 3 and user presses previous hit button',
     inject([ViewerService], (viewerService: ViewerServiceMock) => {
-      spyOn(viewerService, 'goToTile');
+      spyOn(viewerService, 'setCurrentHit');
 
       viewerService.setPageChange(3);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToPreviousHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
+        expect(viewerService.setCurrentHit).toHaveBeenCalledWith(new Hit({index: 2}));
       });
 
     }));
 
   it('should go to first hit if current canvas is 0 and user presses next hit button',
     inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
-      spyOn(viewerService, 'goToTile');
+      spyOn(viewerService, 'setCurrentHit');
 
       pageService.setPageChange(0);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToNextHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
+        expect(viewerService.setCurrentHit).toHaveBeenCalledWith(new Hit({index: 2}));
       });
 
     }));
@@ -164,20 +165,6 @@ describe('ContentSearchNavigatorComponent', () => {
   }
 
 });
-
-class ViewerServiceMock {
-  pageChanged = new Subject<number>();
-  get onPageChange(): Observable<number> {
-    return this.pageChanged.asObservable();
-  }
-
-  setPageChange(canvasIndex: number) {
-    this.pageChanged.next(canvasIndex);
-  }
-
-  goToTile(canvasIndex: number): void { }
-
-}
 
 class IiifContentSearchServiceMock {
   _onChange = new Subject<number>();

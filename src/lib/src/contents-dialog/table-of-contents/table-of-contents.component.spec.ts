@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subject } from 'rxjs/Subject';
 import { MatDialogRef } from '@angular/material';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -17,7 +16,7 @@ import { ClickService } from '../../core/click-service/click.service';
 import { PageService } from '../../core/page-service/page-service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { ContentsDialogComponent } from '../contents-dialog.component';
-
+import { ViewerServiceMock } from './../../test/viewer-service-mock';
 
 describe('TocComponent', () => {
   let component: TocComponent;
@@ -130,13 +129,4 @@ class MediaMock {
   isActive(m: string) {
     return false;
   }
-}
-
-class ViewerServiceMock {
-  pageChanged = new Subject<number>();
-  get onPageChange(): Observable<number> {
-    return this.pageChanged.asObservable();
-  }
-
-  public goToTile(index: number): void { }
 }

@@ -75,6 +75,11 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(isOpen).to.equal(false);
   });
 
+  Then(/^hit number (.*) should be marked$/, async (hitIndex: number) => {
+    const isSelected: boolean = await contentSearchPage.isSelected(hitIndex);
+    expect(isSelected).to.equal(true);
+  });
+
   async function selectHit(selected: number) {
     const hits = await contentSearchPage.getHits();
     const first = hits[selected];
