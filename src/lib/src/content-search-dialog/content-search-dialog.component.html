@@ -21,7 +21,7 @@
     <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
       <mat-form-field fxFlex>
         <button type="submit" matPrefix mat-icon-button tabindex="-1"><mat-icon>search</mat-icon></button>
-        <input matInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off" (focus)="onFocus()" (blur)="onBlur()">
+        <input matInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off">
       </mat-form-field>
     </form>
   </div>

@@ -33,7 +33,6 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   public numberOfHits = 0;
   public isSearching = false;
   public tabHeight = {};
-  public hasFocus = false;
   private manifest: Manifest;
   private mimeHeight = 0;
   private subscriptions: Array<Subscription> = [];
@@ -46,7 +45,6 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
-    private viewerService: ViewerService,
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper) {
     this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
@@ -100,14 +98,6 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     if (this.media.isActive('lt-md')) {
       this.dialogRef.close();
     }
-  }
-
-  onFocus() {
-    this.hasFocus = true;
-  }
-
-  onBlur() {
-    this.hasFocus = false;
   }
 
   private resizeTabHeight(): void {

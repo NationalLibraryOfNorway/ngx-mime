@@ -14,7 +14,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class ContentSearchDialogService {
   private _el: ElementRef;
   private _isContentSearchDialogOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private _hasFocus: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private dialogRef: MatDialogRef<ContentSearchDialogComponent>;
   private subscriptions: Array<Subscription> = [];
 
@@ -25,14 +24,6 @@ export class ContentSearchDialogService {
 
   get isContentSearchDialogOpen(): BehaviorSubject<boolean> {
     return this._isContentSearchDialogOpen;
-  }
-
-  get hasFocus(): BehaviorSubject<boolean> {
-    return this._hasFocus;
-  }
-
-  public setHasFocus(hasFocus: boolean): void {
-    this._hasFocus.next(hasFocus);
   }
 
   public initialize(): void {

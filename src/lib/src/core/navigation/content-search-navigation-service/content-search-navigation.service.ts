@@ -1,12 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ViewerService } from '../../viewer-service/viewer.service';
 import { PageService } from '../../page-service/page-service';
 import { Subscription } from 'rxjs/Subscription';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from '../../models/search-result';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Hit, SearchResult } from '../../models/search-result';
 
 @Injectable()
 export class ContentSearchNavigationService implements OnDestroy {
@@ -19,7 +15,6 @@ export class ContentSearchNavigationService implements OnDestroy {
   private subscriptions: Array<Subscription> = [];
 
   constructor(
-    private viewerService: ViewerService,
     private pageService: PageService,
     private iiifContentSearchService: IiifContentSearchService
   ) {
@@ -59,26 +54,29 @@ export class ContentSearchNavigationService implements OnDestroy {
   }
 
   public goToNextHitPage() {
-    let nextCanvasIndex: number;
-    if (this.currentIndex === -1) {
-      nextCanvasIndex = this.searchResult.get(0).index;
-    } else {
-      const current = this.searchResult.get(this.currentIndex);
-      nextCanvasIndex = this.searchResult.hits.find(h => h.index > current.index).index;
+    if (!this.isLastHitPage) {
+      let nextHit: Hit;
+      if (this.currentIndex === -1) {
+        nextHit = this.searchResult.get(0);
+      } else {
+        const current = this.searchResult.get(this.currentIndex);
+        nextHit = this.searchResult.hits.find(h => h.index > current.index);
+      }
+      this.goToCanvasIndex(nextHit);
     }
-    this.goToCanvasIndex(nextCanvasIndex);
   }
 
   public goToPreviousHitPage() {
-    const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
-    const previousCanvasIndex = this.searchResult.get(previousIndex).index;
-    this.currentIndex = previousCanvasIndex;
-    this.goToCanvasIndex(previousCanvasIndex);
+    if (!this.isFirstHitPage) {
+      const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
+      const previousHit = this.searchResult.get(previousIndex);
+      this.goToCanvasIndex(previousHit);
+    }
   }
 
-  private goToCanvasIndex(canvasIndex: number): void {
-    this.currentIndex = this.findCurrentHitIndex([canvasIndex]);
-    this.viewerService.goToTile(canvasIndex, false);
+  private goToCanvasIndex(hit: Hit): void {
+    this.currentIndex = this.findCurrentHitIndex([hit.index]);
+    this.iiifContentSearchService.selected(hit);
   }
 
   private findFirstHitPage() {

@@ -169,10 +169,6 @@ export class AccessKeysService implements OnDestroy {
     return manifest.service ? true : false;
   }
 
-  private searchHasFocus(): boolean {
-    return false;
-  }
-
   private isZoomedIn(): boolean {
     return this.viewerService.getZoom() !== this.viewerService.getHomeZoomLevel(this.modeService.mode);
   }
