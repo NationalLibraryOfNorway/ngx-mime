@@ -352,7 +352,7 @@ export class ViewerPage {
 
     const pagesArray = await pages.map((page, i) => page);
     const result = [];
-    console.log('before');
+
     for  (let i = 0; i < pagesArray.length; i++) {
       console.log('index', i);
       const page = pagesArray[i];
