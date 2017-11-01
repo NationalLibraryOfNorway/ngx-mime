@@ -376,22 +376,22 @@ export class ViewerPage {
     leftPageMask: { size: any, location: any },
     rightPageMask: { size: any, location: any }): Promise<boolean> {
 
-      let debugAction: string;
+      let lastEvent: string;
       try {
-        debugAction = 'getSize() and getLocation()';
+        lastEvent = 'getSize() and getLocation()';
         const [elementSize, elementLocation] = await Promise.all([element.getSize(), element.getLocation()]);
-        debugAction = 'elementCalculatedLocastion';
+        lastEvent = 'elementCalculatedLocastion';
         const elementCalculatedLocastion = {
           left: elementLocation.x,
           right: elementLocation.x + elementSize.width,
         }
-        debugAction = 'return';
+        lastEvent = 'return';
         return (
             elementCalculatedLocastion.right >= leftPageMask.size.width &&
             elementCalculatedLocastion.left <= rightPageMask.location.x
           );
       } catch (e) {
-        console.log(`Ooups, this should not happen. Last action is ${debugAction}`, e);
+        console.log(`Ooups, this should not happen. Last event is ${lastEvent}`, e);
       }
       return false;
   }
