@@ -238,6 +238,12 @@ export class ViewerService {
         this.manifest = manifest;
         this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.getOptions()));
+        /*
+          This disables keyboard navigation in openseadragon.
+          We use s for opening search dialog and OSD use the same key for panning.
+          Issue: https://github.com/openseadragon/openseadragon/issues/794
+         */
+        this.viewer.innerTracker.keyHandler = null;
         this.pageService.reset();
         this.pageMask = new PageMask(this.viewer);
       });
