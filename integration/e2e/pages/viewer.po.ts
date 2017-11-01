@@ -382,8 +382,10 @@ export class ViewerPage {
 
       let lastEvent: string;
       try {
-        lastEvent = 'getSize() and getLocation()';
-        const [elementSize, elementLocation] = await Promise.all([element.getSize(), element.getLocation()]);
+        lastEvent = 'getSize()';
+        const elementSize = await element.getSize();
+        lastEvent = 'getLocation()';
+        const elementLocation = await element.getLocation();
         lastEvent = 'elementCalculatedLocastion';
         const elementCalculatedLocastion = {
           left: elementLocation.x,
