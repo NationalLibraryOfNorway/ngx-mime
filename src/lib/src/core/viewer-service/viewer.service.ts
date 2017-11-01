@@ -30,6 +30,7 @@ import { PinchStatus } from '../models/pinchStatus';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
+import { Hit } from './../models/search-result';
 
 import '../ext/svg-overlay';
 import '../../rxjs-extension';
@@ -53,6 +54,7 @@ export class ViewerService {
 
   private currentCenter: Subject<Point> = new Subject();
   private currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(0);
+  private currentHit: BehaviorSubject<Hit> = new BehaviorSubject(null);
   private osdIsReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private pageMask: PageMask;
@@ -81,6 +83,10 @@ export class ViewerService {
 
   get onPageChange(): Observable<number> {
     return this.currentPageIndex.asObservable().distinctUntilChanged();
+  }
+
+  get onHitChange(): Observable<Hit> {
+    return this.currentHit.asObservable().distinctUntilChanged();
   }
 
   get onOsdReadyChange(): Observable<boolean> {
@@ -198,6 +204,7 @@ export class ViewerService {
           const width = rect.width;
           const height = rect.height;
           let currentOverlay: SVGRectElement = this.svgNode.append('rect')
+            .attr('mimeHitIndex', hit.id)
             .attr('x', x)
             .attr('y', y)
             .attr('width', width)
@@ -206,6 +213,13 @@ export class ViewerService {
         }
       };
     }
+  }
+
+  private highlightCurrentHit(hit: Hit) {
+    this.svgNode.selectAll(`g > rect.selected`)
+      .attr('class', 'hit');
+    this.svgNode.selectAll(`g > rect[mimeHitIndex='${hit.id}']`)
+      .attr('class', 'hit selected');
   }
 
   public clearHightlight(): void {
@@ -285,6 +299,16 @@ export class ViewerService {
         }
       })
     );
+
+    this.subscriptions.push(
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
+        if (hit) {
+          this.highlightCurrentHit(hit);
+          this.goToTile(hit.index, false);
+        }
+      })
+    );
+
   }
 
   addToWindow() {

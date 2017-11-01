@@ -17,6 +17,7 @@ import {
   ContentSearchNavigationService
 } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
+import { ViewerServiceMock } from './../../../test/viewer-service-mock';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
@@ -147,20 +148,6 @@ describe('ContentSearchNavigatorComponent', () => {
   }
 
 });
-
-class ViewerServiceMock {
-  pageChanged = new Subject<number>();
-  get onPageChange(): Observable<number> {
-    return this.pageChanged.asObservable();
-  }
-
-  setPageChange(canvasIndex: number) {
-    this.pageChanged.next(canvasIndex);
-  }
-
-  goToTile(canvasIndex: number): void { }
-
-}
 
 class IiifContentSearchServiceMock {
   _onChange = new Subject<number>();

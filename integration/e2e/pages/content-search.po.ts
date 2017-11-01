@@ -49,8 +49,17 @@ export class ContentSearchPage {
     return await utils.isElementInvisible(element(by.css('.content-search-container')));
   }
 
-  async getHighlighted() {
-    const el = element.all(by.css('.hit'));
-    return el;
+  async isSelected(index: number) {
+    try {
+      utils.waitForElement(element(by.css(`.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`)));
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
+
+  async getHighlighted() {
+    return element.all(by.css('.openseadragon-canvas .hit'));
+  }
+
 }
