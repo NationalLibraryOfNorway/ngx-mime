@@ -55,6 +55,10 @@
   fill: rgba(255, 255, 0, 0.6);
 }
 
+::ng-deep .viewer-container .selected {
+  fill: rgba(255, 225, 0, 0.6);
+}
+
 .navbar {
   position: absolute;
   width: 100%;
