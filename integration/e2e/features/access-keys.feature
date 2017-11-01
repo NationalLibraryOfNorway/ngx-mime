@@ -113,8 +113,8 @@ Feature: Access Keys
 
   Scenario Outline: Close Content Search Dialog when other dialog is opening
     Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside
-    And the content search dialog is open
-    And the user has performed a search
+    And the viewer is in dashboard view
+    And the user search for the word "Gjallarhorn"
     And the user hits key <keys>
     Then the content search dialog should close
     And the contents dialog should open
@@ -153,9 +153,9 @@ Feature: Access Keys
       | End         |
 
     Scenario Outline: Next hit on <keys>
-      Given the viewer is opened with a publication with viewing hint "individuals"
-      And the content search dialog is open
-      And the user has performed a search
+      Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside
+      And the viewer is in dashboard view
+      And the user search for the word "Gjallarhorn"
       And the user hits key <keys>
       Then the page with hit number 1 should be displayed
 
@@ -164,9 +164,9 @@ Feature: Access Keys
         | n           |
 
     Scenario Outline: Previous hit on <keys>
-      Given the viewer is opened with a publication with viewing hint "individuals"
-      And the content search dialog is open
-      And the user has performed a search
+      Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside
+      And the viewer is in dashboard view
+      And the user search for the word "Gjallarhorn"
       And the user has selected the second hit
       And the user hits key <keys>
       Then the page with hit number 1 should be displayed

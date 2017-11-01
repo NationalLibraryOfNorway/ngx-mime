@@ -28,11 +28,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.sendKeyboardEvent('c');
   });
 
-  Given(/^the user has performed a search$/, async () => {
-    await contentSearchPage.setSearchTerm('Gjallarhorn');
-    await page.waitForAnimation();
-  });
-
   Then(/^the viewer should go to next page$/, async () => {
     expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(previousPage + 1);
   });
