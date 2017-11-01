@@ -5,6 +5,13 @@ import { Utils } from '../helpers/utils';
 const utils = new Utils();
 export class ContentSearchPage {
 
+  async isOpen() {
+    // Wait for dialog animation
+    await browser.sleep(1000);
+    const el: ElementFinder = element(by.css('mime-search'));
+    return el.isPresent();
+  }
+
   async setSearchTerm(term: string) {
     const el: ElementFinder = await utils.waitForElement(element(by.css('.content-search-input')));
     await el.clear();

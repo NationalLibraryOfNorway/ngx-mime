@@ -3,11 +3,13 @@ import { expect } from '../helpers/chai-imports';
 import { browser } from 'protractor';
 
 import { ViewerPage } from '../pages/viewer.po';
+import { ContentsPage } from '../pages/contents.po';
 import { MetadataPage } from '../pages/metadata.po';
 import { TableOfContentsPage } from '../pages/table-of-contents.po';
 
 defineSupportCode(function ({ Given, Then, When }) {
   const page = new ViewerPage();
+  const contents = new ContentsPage();
   const metadata = new MetadataPage();
   const toc = new TableOfContentsPage();
 
@@ -39,4 +41,10 @@ defineSupportCode(function ({ Given, Then, When }) {
     const currentPageString = await page.getCurrentPageString();
     expect(currentPageString.includes(pageNumber)).to.eql(true);
   });
+
+  Then(/^the Contents dialog should be closed$/, async () => {
+    const isOpen = await contents.isOpen();
+    expect(isOpen).to.equal(false);
+  });
+
 });
