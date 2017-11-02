@@ -354,7 +354,6 @@ export class ViewerPage {
     const result = [];
 
     for  (let i = 0; i < pagesArray.length; i++) {
-      console.log('index', i);
       const page = pagesArray[i];
       const isVisible = await this.isElementVisibleInReadersViewport(
         page,
