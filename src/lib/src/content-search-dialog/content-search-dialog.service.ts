@@ -9,6 +9,7 @@ import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manife
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Manifest } from './../core/models/manifest';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ContentSearchDialogService {
@@ -22,8 +23,8 @@ export class ContentSearchDialogService {
     private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService) { }
 
-  get isContentSearchDialogOpen(): BehaviorSubject<boolean> {
-    return this._isContentSearchDialogOpen;
+  get isContentSearchDialogOpen(): Observable<boolean> {
+    return this._isContentSearchDialogOpen.asObservable();
   }
 
   public initialize(): void {
