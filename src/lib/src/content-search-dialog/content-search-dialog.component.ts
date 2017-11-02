@@ -7,9 +7,11 @@ import {
   ChangeDetectionStrategy,
   ElementRef,
   OnDestroy,
-  ViewChild
+  ViewChild,
+  ViewChildren,
+  QueryList
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatCard } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -40,6 +42,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   private mimeHeight = 0;
   private subscriptions: Array<Subscription> = [];
   @ViewChild('contentSearchResult') resultContainer: ElementRef;
+  @ViewChildren(MatCard, { read: ElementRef }) hitList: QueryList<ElementRef>;
 
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
@@ -50,8 +53,10 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private iiifContentSearchService: IiifContentSearchService,
     private viewerService: ViewerService,
     private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper) {
-    this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+    private mimeDomHelper: MimeDomHelper) { }
+
+  ngOnInit() {
+    this.subscriptions.push(this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
     }));
@@ -61,7 +66,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
         this.manifest = manifest;
       }));
 
-    this.subscriptions.push(iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+    this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
       this.hits = sr.hits;
       this.currentSearch = sr.q ? sr.q : '';
       this.q = sr.q;
@@ -71,14 +76,14 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
       }
     }));
 
-    this.subscriptions.push(iiifContentSearchService.isSearching.subscribe((s: boolean) => {
+    this.subscriptions.push(this.iiifContentSearchService.isSearching.subscribe((s: boolean) => {
       this.isSearching = s;
     }));
-
+    this.resizeTabHeight();
   }
 
-  ngOnInit() {
-    this.resizeTabHeight();
+  ngAfterViewInit() {
+    this.scrollCurrentHitIntoView();
   }
 
   ngOnDestroy() {
@@ -119,4 +124,22 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
       };
     }
   }
+
+  private scrollCurrentHitIntoView() {
+    this.iiifContentSearchService.onSelected
+      .take(1)
+      .filter(s => s !== null)
+      .subscribe((selectedHit: Hit) => {
+        const selected = this.findSelected(selectedHit);
+        if (selected) {
+          selected.nativeElement.scrollIntoView();
+        }
+      });
+  }
+
+  private findSelected(selectedHit: Hit): ElementRef {
+    const selectedList = this.hitList.filter((item: MatCard, index: number) => index === selectedHit.id);
+    return selectedList.length > 0 ? selectedList[0] : null;
+  }
+
 }

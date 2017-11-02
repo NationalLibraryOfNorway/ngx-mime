@@ -32,7 +32,7 @@ export class SearchResult {
 }
 
 export class Hit {
-  public id: string;
+  public id = 0;
   public index = 0;
   public label: string;
   public match: string;
@@ -42,7 +42,7 @@ export class Hit {
 
   constructor(
     fields?: {
-      id?: string;
+      id?: number;
       index?: number;
       label?: string;
       match?: string;
