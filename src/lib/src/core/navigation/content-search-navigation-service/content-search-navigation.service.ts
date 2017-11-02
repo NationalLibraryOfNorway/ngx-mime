@@ -1,33 +1,25 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Injectable } from '@angular/core';
 
 import { PageService } from '../../page-service/page-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
 import { Hit, SearchResult } from '../../models/search-result';
 
 @Injectable()
-export class ContentSearchNavigationService implements OnDestroy {
+export class ContentSearchNavigationService {
   private currentIndex = 0;
   private isHitOnActivePage = false;
   private isFirstHitPage = false;
   private isLastHitPage = false;
   private currentCanvasIndices = [-1];
   private searchResult: SearchResult;
-  private subscriptions: Array<Subscription> = [];
 
   constructor(
     private pageService: PageService,
     private iiifContentSearchService: IiifContentSearchService
   ) {
-    this.init();
-  }
-
-  init() {
-    this.subscriptions.push(
-      this.iiifContentSearchService.onChange.subscribe((result: SearchResult) => {
-        this.searchResult = result;
-      })
-    );
+    this.iiifContentSearchService.onChange.subscribe((result: SearchResult) => {
+      this.searchResult = result;
+    });
   }
 
   update(pageIndex: number) {
@@ -110,9 +102,5 @@ export class ContentSearchNavigationService implements OnDestroy {
       }
     }
     return this.searchResult.size() - 1;
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 }
