@@ -179,8 +179,16 @@ export class ViewerPage {
     }
   }
 
-  getAnimationTime(): promise.Promise<number> {
+  getAnimationTimeInSec(): promise.Promise<number> {
     return browser.executeScript('return window.openSeadragonViewer.animationTime;');
+  }
+
+  getAnimationTimeInMs(): promise.Promise<number> {
+    return new promise.Promise((resolve, reject) => {
+      this.getAnimationTimeInSec().then(time => {
+        resolve((time * 1000));
+      });
+    });
   }
 
   getZoomLevel(): promise.Promise<number> {
@@ -290,7 +298,7 @@ export class ViewerPage {
 
   async waitForAnimation(animationTime?: number): Promise<void> {
     if (isUndefined(animationTime)) {
-      animationTime = await this.getAnimationTime() * 1000;
+      animationTime = await this.getAnimationTimeInMs();
     }
     await browser.sleep(animationTime);
   }
@@ -383,7 +391,7 @@ export class ViewerPage {
     }
 
     await browser.actions().sendKeys(iKey).perform();
-    return await browser.sleep(await this.getAnimationTime() * 1000);
+    return await browser.sleep(await this.getAnimationTimeInMs());
   }
 
   async visiblePages(): Promise<Boolean[]> {

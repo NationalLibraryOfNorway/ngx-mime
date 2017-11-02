@@ -22,7 +22,7 @@ defineSupportCode(function ({ Given, Then, When }) {
 
   When(/^the user selects "Tittelside"$/, async () => {
     await toc.clickToc(1);
-    await browser.sleep(2000); // Waiting for animation to complete. page.getAnimationTime() wasn't enough.
+    await browser.sleep(2000); // Waiting for animation to complete. page.getAnimationTimeInSec() wasn't enough.
   });
 
   Then(/^descriptive metadata are displayed to the user$/, async () => {
