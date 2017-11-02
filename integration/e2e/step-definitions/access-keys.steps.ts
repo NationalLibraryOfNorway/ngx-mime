@@ -50,11 +50,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the content search dialog should open$/, async () => {
-    expect(await contentSearchPage.isOpen()).to.equal(true);
+    expect(await contentSearchPage.isContentSearchDialogOpen()).to.equal(true);
   });
 
   Then(/^the content search dialog should close$/, async () => {
-    expect(await contentSearchPage.isClosed()).to.equal(true);
+    expect(await contentSearchPage.isContentSearchDialogClosed()).to.equal(true);
   });
 
   Then(/^the contents dialog should open$/, async () => {

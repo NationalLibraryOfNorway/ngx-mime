@@ -48,11 +48,11 @@ export class ContentSearchPage {
     return utils.waitForElement(element(by.css('#footerNavigateNextHitButton')));
   }
 
-  async isOpen() {
+  async isContentSearchDialogOpen() {
     return await utils.isElementVisible(element(by.css('.content-search-container')));
   }
 
-  async isClosed() {
+  async isContentSearchDialogClosed() {
     return await utils.isElementInvisible(element(by.css('.content-search-container')));
   }
 
