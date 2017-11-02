@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { PageService } from '../../page-service/page-service';
 import { Subscription } from 'rxjs/Subscription';
+
+import { PageService } from '../../page-service/page-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
 import { Hit, SearchResult } from '../../models/search-result';
 
