@@ -83,7 +83,10 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.iiifContentSearchService.onSelected
       .subscribe((hit: Hit) => {
-        this.currentHit = hit;
+        if (!this.currentHit || this.currentHit.id !== hit.id) {
+          this.currentHit = hit;
+          this.scrollCurrentHitIntoView();
+        }
       }));
 
     this.resizeTabHeight();
@@ -110,6 +113,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   }
 
   goToHit(hit: Hit): void {
+    this.currentHit = hit;
     this.iiifContentSearchService.selected(hit);
     if (this.media.isActive('lt-md')) {
       this.dialogRef.close();
@@ -139,14 +143,26 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
       .subscribe((hit: Hit) => {
         const selected = this.findSelected(hit);
         if (selected) {
-          selected.nativeElement.scrollIntoView();
+          // Browser compatibility: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+          try {
+            selected.nativeElement.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });
+          } catch (e) {
+            try {
+              selected.nativeElement.scrollIntoView();
+            } catch (e) {}
+          }
         }
       });
   }
 
   private findSelected(selectedHit: Hit): ElementRef {
-    const selectedList = this.hitList.filter((item: MatCard, index: number) => index === selectedHit.id);
-    return selectedList.length > 0 ? selectedList[0] : null;
+    if (this.hitList) {
+      const selectedList = this.hitList.filter((item: MatCard, index: number) => index === selectedHit.id);
+      return selectedList.length > 0 ? selectedList[0] : null;
+    } else {
+      return null;
+    }
+
   }
 
 }
