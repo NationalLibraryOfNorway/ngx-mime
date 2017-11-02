@@ -258,12 +258,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   // ChangeDetection fix
   onModeChange() {
-    /*
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      this.contentsDialogService.destroy();
-      this.contentSearchDialogService.destroy();
+      this.contentsDialogService.close();
+      this.contentSearchDialogService.close();
     }
-    */
   }
 
   toggleToolbarsState(mode: ViewerMode): void {

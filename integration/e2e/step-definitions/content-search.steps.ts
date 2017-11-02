@@ -8,6 +8,10 @@ defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   const contentSearchPage = new ContentSearchPage();
 
+  Given(/^the search dialog is open$/, async () => {
+    await page.openContentSearchDialog();
+  });
+
   Given(/^the user has selected the second hit$/, async () => {
     await selectHit(1);
   });
@@ -64,6 +68,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^the search result toolbar should be removed$/, async () => {
     const el = await contentSearchPage.contentSearchNavigatorToolbar();
     expect(el.isPresent()).to.eql({});
+  });
+
+  Then(/^the Search dialog should be closed$/, async () => {
+    const isOpen = await contentSearchPage.isOpen();
+    expect(isOpen).to.equal(false);
   });
 
   Then(/^hit number (.*) should be marked$/, async (hitIndex: number) => {
