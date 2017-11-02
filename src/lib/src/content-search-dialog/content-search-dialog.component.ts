@@ -34,6 +34,7 @@ import { Hit } from './../core/models/search-result';
 export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   public q: string;
   public hits: Hit[] = [];
+  public currentHit: Hit;
   public currentSearch = '';
   public numberOfHits = 0;
   public isSearching = false;
@@ -79,6 +80,12 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.iiifContentSearchService.isSearching.subscribe((s: boolean) => {
       this.isSearching = s;
     }));
+
+    this.subscriptions.push(this.iiifContentSearchService.onSelected
+      .subscribe((hit: Hit) => {
+        this.currentHit = hit;
+      }));
+
     this.resizeTabHeight();
   }
 
@@ -129,8 +136,8 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     this.iiifContentSearchService.onSelected
       .take(1)
       .filter(s => s !== null)
-      .subscribe((selectedHit: Hit) => {
-        const selected = this.findSelected(selectedHit);
+      .subscribe((hit: Hit) => {
+        const selected = this.findSelected(hit);
         if (selected) {
           selected.nativeElement.scrollIntoView();
         }

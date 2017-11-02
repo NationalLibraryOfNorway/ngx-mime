@@ -32,7 +32,7 @@
         <div *ngIf="numberOfHits > 0" [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"></div>
         <div *ngIf="numberOfHits === 0" [innerHTML]="intl.noResultsFoundLabel(currentSearch)"></div>
       </div>
-      <mat-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
+      <mat-card *ngFor="let hit of hits" [ngClass]="{'selected': hit.id === currentHit?.id}" class="hit" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
         <mat-card-content fxLayout="row" fxLayoutAlign="space-between start">
           <div fxFlex class="summary">
             {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}

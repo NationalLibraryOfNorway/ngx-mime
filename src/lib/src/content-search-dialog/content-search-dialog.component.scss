@@ -41,6 +41,10 @@ em {
   cursor: pointer;
 }
 
+.hit.selected {
+  background-color:  whitesmoke;
+}
+
 .pageLabel {
   text-align: right;
   opacity: 0.54;
