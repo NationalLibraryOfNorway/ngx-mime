@@ -363,7 +363,6 @@ export class ViewerPage {
       );
       result.push(isVisible);
     }
-    console.log('after'
     return result;
   }
 
