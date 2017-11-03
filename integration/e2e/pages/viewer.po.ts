@@ -183,8 +183,8 @@ export class ViewerPage {
     return browser.executeScript('return window.openSeadragonViewer.animationTime;');
   }
 
-  getAnimationTimeInMs(): promise.Promise<number> {
-    return new promise.Promise((resolve, reject) => {
+  getAnimationTimeInMs(): Promise<number> {
+    return new Promise((resolve, reject) => {
       this.getAnimationTimeInSec().then(time => {
         resolve((time * 1000));
       });
