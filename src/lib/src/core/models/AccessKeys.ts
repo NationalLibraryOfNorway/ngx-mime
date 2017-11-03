@@ -3,8 +3,6 @@ export class AccessKeys {
   private static PAGEUP = [33];
   private static ARROWRIGHT = [39];
   private static ARROWLEFT = [37];
-  private static nextPageCodes = AccessKeys.PAGEDOWN.concat(AccessKeys.ARROWRIGHT);
-  private static previousPageCodes = AccessKeys.PAGEUP.concat(AccessKeys.ARROWLEFT);
   private static firstPageCodes = [36]; // Home
   private static lastPageCodes = [35]; // End
   private static zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
@@ -34,6 +32,14 @@ export class AccessKeys {
 
   public isArrowLeftKeys() {
     return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
+  }
+
+  public isPageUpKeys() {
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
+  }
+
+  public isPageDownKeys() {
+    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
   }
 
   public isNextPageKeys() {

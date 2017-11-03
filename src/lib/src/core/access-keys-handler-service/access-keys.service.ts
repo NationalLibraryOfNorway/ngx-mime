@@ -62,9 +62,17 @@ export class AccessKeysService implements OnDestroy {
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
     if (this.isLetterKeysEnabled) {
-      if (accessKeys.isNextPageKeys() && !(this.isZoomedIn() && accessKeys.isArrowRightKeys())) {
+      if (accessKeys.isArrowLeftKeys()) {
+        if (!this.isZoomedIn()) {
+          this.goToPreviousPage();
+        }
+      } else if (accessKeys.isArrowRightKeys()) {
+        if (!this.isZoomedIn()) {
+          this.goToNextPage();
+        }
+      } else if (accessKeys.isPageDownKeys()) {
         this.goToNextPage();
-      } else if (accessKeys.isPreviousPageKeys() && !(this.isZoomedIn() && accessKeys.isArrowLeftKeys())) {
+      } else if (accessKeys.isPageUpKeys()) {
         this.goToPreviousPage();
       } else if (accessKeys.isFirstPageKeys()) {
         this.goToFirstPage();
