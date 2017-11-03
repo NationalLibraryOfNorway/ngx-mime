@@ -71,7 +71,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^the Search dialog should be closed$/, async () => {
-    const isOpen = await contentSearchPage.isContentSearchDialogOpen();
+    const isOpen = await contentSearchPage.isOpen();
     expect(isOpen).to.equal(false);
   });
 
