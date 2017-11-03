@@ -83,9 +83,13 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.iiifContentSearchService.onSelected
       .subscribe((hit: Hit) => {
-        if (!this.currentHit || this.currentHit.id !== hit.id) {
+        if (hit === null) {
           this.currentHit = hit;
-          this.scrollCurrentHitIntoView();
+        } else {
+          if (!this.currentHit || this.currentHit.id !== hit.id) {
+            this.currentHit = hit;
+            this.scrollCurrentHitIntoView();
+          }
         }
       }));
 

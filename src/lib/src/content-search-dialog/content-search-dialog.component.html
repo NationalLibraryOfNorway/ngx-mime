@@ -33,7 +33,7 @@
         <div *ngIf="numberOfHits === 0" [innerHTML]="intl.noResultsFoundLabel(currentSearch)"></div>
       </div>
       <ng-container *ngFor="let hit of hits; let last = last">
-        <button #hitButton mat-button [color]="hit.id === currentHit?.id ? 'primary': null" color="primary" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
+        <button #hitButton mat-button [color]="currentHit && hit.id === currentHit.id ? 'primary': null" color="primary" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
           <div fxLayout="row" fxLayoutAlign="space-between start">
             <div fxFlex class="summary">
               {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
