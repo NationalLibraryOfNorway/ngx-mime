@@ -55,3 +55,4 @@ Feature: Content search
     When the user closes the search dialog
       And the user opens the search dialog
     Then hit number 1 should be marked
+      And hit number 1 should be visible

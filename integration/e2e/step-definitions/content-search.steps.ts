@@ -93,10 +93,14 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^hit number (.*) should be marked$/, async (hitIndex: number) => {
-    const isSelected: boolean = await contentSearchPage.isSelected(hitIndex);
+    const isSelected: boolean = await contentSearchPage.hitIsSelected(hitIndex);
     expect(isSelected).to.equal(true);
   });
 
+  Then(/^hit number (.*) should be visible$/, async (index: string) => {
+    const isVisible: boolean = await contentSearchPage.hitIsVisible(parseInt(index, 10));
+    expect(isVisible).to.equal(true);
+  });
 
   async function search(term: string) {
     await page.openContentSearchDialog();

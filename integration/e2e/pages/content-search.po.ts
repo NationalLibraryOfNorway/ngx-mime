@@ -1,5 +1,5 @@
 import { protractor } from 'protractor/built';
-import { browser, element, ElementFinder, by } from 'protractor';
+import { browser, element, ElementFinder, ElementArrayFinder, by } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
@@ -30,10 +30,14 @@ export class ContentSearchPage {
     return parseInt(numberOfHits, 8);
   }
 
-  async getHits() {
-    const el = element.all(by.css('.content-search-container .hit'));
-    await utils.waitForElement(el.last());
-    return el;
+  async getHits(): Promise<any> {
+    return element.all(by.css('.content-search-container .hit'));
+  }
+
+  async getHit(index: number): Promise<ElementFinder> {
+    const els = await element.all(by.css('.content-search-container .hit'));
+    const pagesArray = await els.map((page, i) => page);
+    return pagesArray[index];
   }
 
   contentSearchNavigatorToolbar() {
@@ -52,13 +56,18 @@ export class ContentSearchPage {
     return utils.waitForElement(element(by.css('#footerNavigateNextHitButton')));
   }
 
-  async isSelected(index: number) {
+  async hitIsSelected(index: number) {
     try {
       utils.waitForElement(element(by.css(`.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`)));
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  async hitIsVisible(index: number): Promise<boolean> {
+    const el = await this.getHit(index);
+    return await utils.isElementVisible(el);
   }
 
   async getHighlighted() {
