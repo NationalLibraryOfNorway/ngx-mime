@@ -42,14 +42,6 @@ export class AccessKeys {
     return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
   }
 
-  public isNextPageKeys() {
-    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextPageCodes);
-  }
-
-  public isPreviousPageKeys() {
-    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousPageCodes);
-  }
-
   public isFirstPageKeys() {
     return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.firstPageCodes);
   }
