@@ -57,12 +57,9 @@ export class ContentSearchPage {
   }
 
   async hitIsSelected(index: number) {
-    try {
-      utils.waitForElement(element(by.css(`.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`)));
-      return true;
-    } catch (e) {
-      return false;
-    }
+    const el = await this.getHit(index);
+    const classes = await el.getAttribute('class');
+    return classes.indexOf('mat-primary') !== -1;
   }
 
   async hitIsVisible(index: number): Promise<boolean> {
