@@ -12,6 +12,10 @@ export class ContentSearchPage {
     return el.isPresent();
   }
 
+  closeButton(): Promise<ElementFinder> {
+    return utils.waitForElement(element(by.css('#close-content-search-dialog-button')));
+  }
+
   async setSearchTerm(term: string) {
     const el: ElementFinder = await utils.waitForElement(element(by.css('.content-search-input')));
     await el.clear();

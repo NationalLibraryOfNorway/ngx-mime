@@ -16,10 +16,16 @@ defineSupportCode(function ({ Given, When, Then }) {
     await selectHit(1);
   });
 
+  Given(/^the user has search for the word "(.*)"$/, async (term: string) => {
+    await search(term);
+  });
+
+  Given(/^the user has selected the first hit$/, async () => {
+    await selectHit(0);
+  });
+
   When(/^the user search for the word "(.*)"$/, async (term: string) => {
-    await page.openContentSearchDialog();
-    await contentSearchPage.setSearchTerm(term);
-    await page.waitForAnimation();
+    await search(term);
   });
 
   When(/^the user selects the first hit$/, async () => {
@@ -36,6 +42,17 @@ defineSupportCode(function ({ Given, When, Then }) {
       button = await contentSearchPage.clearButton();
     }
     await button.click();
+    await page.waitForAnimation();
+  });
+
+  When(/^the user closes the search dialog$/, async () => {
+    const closeButton = await contentSearchPage.closeButton();
+    await closeButton.click();
+    await page.waitForAnimation();
+  });
+
+  When(/^the user opens the search dialog$/, async () => {
+    await page.openContentSearchDialog();
     await page.waitForAnimation();
   });
 
@@ -79,6 +96,13 @@ defineSupportCode(function ({ Given, When, Then }) {
     const isSelected: boolean = await contentSearchPage.isSelected(hitIndex);
     expect(isSelected).to.equal(true);
   });
+
+
+  async function search(term: string) {
+    await page.openContentSearchDialog();
+    await contentSearchPage.setSearchTerm(term);
+    await page.waitForAnimation();
+  }
 
   async function selectHit(selected: number) {
     const hits = await contentSearchPage.getHits();

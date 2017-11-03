@@ -46,3 +46,12 @@ Feature: Content search
     When the user search for the word "Gjallarhorn" 
       And the user selects the first hit
     Then hit number 1 should be marked
+
+  Scenario: Mark current hit when reopening search dialog
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+      And the viewer is in dashboard view
+      And the user has search for the word "Gjallarhorn" 
+      And the user has selected the first hit
+    When the user closes the search dialog
+      And the user opens the search dialog
+    Then hit number 1 should be marked
