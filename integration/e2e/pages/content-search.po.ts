@@ -1,5 +1,5 @@
 import { protractor } from 'protractor/built';
-import { browser, element, ElementFinder, ElementArrayFinder, by } from 'protractor';
+import { browser, element, ElementFinder, by } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
