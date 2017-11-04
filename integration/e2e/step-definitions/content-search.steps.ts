@@ -7,29 +7,26 @@ import { ViewerPage, Point } from '../pages/viewer.po';
 defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   const contentSearchPage = new ContentSearchPage();
+  let selectedHitIndex: number;
 
   Given(/^the search dialog is open$/, async () => {
     await page.openContentSearchDialog();
-  });
-
-  Given(/^the user has selected the second hit$/, async () => {
-    await selectHit(1);
   });
 
   Given(/^the user has search for the word "(.*)"$/, async (term: string) => {
     await search(term);
   });
 
-  Given(/^the user has selected the first hit$/, async () => {
-    await selectHit(0);
+  Given(/^the user has selected the (.*) hit$/, async (hit: string) => {
+    await selectHit(hit);
   });
 
   When(/^the user search for the word "(.*)"$/, async (term: string) => {
     await search(term);
   });
 
-  When(/^the user selects the first hit$/, async () => {
-    await selectHit(0);
+  When(/^the user selects the (.*) hit$/, async (hit: string) => {
+    await selectHit(hit);
   });
 
   When(/^the user select the (.*) hit button$/, async (action: string) => {
@@ -92,13 +89,13 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(isOpen).to.equal(false);
   });
 
-  Then(/^hit number (.*) should be marked$/, async (hitIndex: number) => {
-    const isSelected: boolean = await contentSearchPage.hitIsSelected(hitIndex);
+  Then(/^the hit should be marked$/, async () => {
+    const isSelected: boolean = await contentSearchPage.hitIsSelected(selectedHitIndex);
     expect(isSelected).to.equal(true);
   });
 
-  Then(/^hit number (.*) should be visible$/, async (index: string) => {
-    const isVisible: boolean = await contentSearchPage.hitIsVisible(parseInt(index, 10));
+  Then(/^the hit should be visible$/, async () => {
+    const isVisible: boolean = await contentSearchPage.hitIsVisible(selectedHitIndex);
     expect(isVisible).to.equal(true);
   });
 
@@ -108,10 +105,31 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.waitForAnimation();
   }
 
-  async function selectHit(selected: number) {
+  async function selectHit(hit: string) {
+    const selected = await hitStringToHitIndex(hit);
     const hits = await contentSearchPage.getHits();
     const first = hits[selected];
     await first.click();
     await page.waitForAnimation();
+    selectedHitIndex = selected;
+  }
+
+  async function hitStringToHitIndex(hit: string): Promise<number> {
+    let index: number;
+    if ('first' === hit) {
+      index = 0;
+    } else if ('second' === hit) {
+      index = 1;
+    } else if ('last' === hit) {
+      const hits = await contentSearchPage.getHits();
+      index = hits.length - 1;
+    } else {
+      try {
+        index = parseInt(hit, 10);
+      } catch (e) {
+        throw new Error(`Unrecognized value "${hit}`);
+      }
+    }
+    return index;
   }
 });

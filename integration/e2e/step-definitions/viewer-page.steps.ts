@@ -30,7 +30,7 @@ defineSupportCode(function ({ Given, Then }) {
     }
   });
 
-  Given(/^the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside$/, async () => {
+  Given(/^the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside$/, async () => {
     await page.open();
   });
 

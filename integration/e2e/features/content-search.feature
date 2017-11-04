@@ -5,10 +5,10 @@ Feature: Content search
   I want to search for text in the publication
 
   Scenario: Search with hits 
-    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside 
       And the viewer is in dashboard view
     When the user search for the word "Gjallarhorn" 
-    Then there are 5 results found 
+    Then there are 45 results found 
     And the word "Gjallarhorn" should be highlighted 
 
   Scenario: Search with no hits 
@@ -18,14 +18,14 @@ Feature: Content search
     Then there are no results found
 
   Scenario: Go to search hit
-    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside 
       And the viewer is in dashboard view
     When the user search for the word "Gjallarhorn" 
      And the user selects the first hit
     Then the page with hit number 1 should be displayed
 
   Scenario: Go to next search hit
-    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside 
       And the viewer is in dashboard view
       And the user search for the word "Gjallarhorn"
       And the user has selected the second hit
@@ -33,7 +33,7 @@ Feature: Content search
     Then the page with hit number 3 should be displayed
 
   Scenario: Go to previous search hit
-    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside 
       And the viewer is in dashboard view
       And the user search for the word "Gjallarhorn"
       And the user has selected the second hit
@@ -41,18 +41,18 @@ Feature: Content search
     Then the page with hit number 1 should be displayed
 
   Scenario: Mark selected hit
-    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside 
       And the viewer is in dashboard view
     When the user search for the word "Gjallarhorn" 
       And the user selects the first hit
-    Then hit number 0 should be marked
+    Then the hit should be marked
 
-  Scenario: Mark current hit when reopening search dialog
-    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside 
+  Scenario: Mark and scroll to current hit when reopening search dialog
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside 
       And the viewer is in dashboard view
       And the user has search for the word "Gjallarhorn" 
-      And the user has selected the first hit
+      And the user has selected the last hit
     When the user closes the search dialog
       And the user opens the search dialog
-    Then hit number 0 should be marked
-      And hit number 0 should be visible
+    Then the hit should be marked
+      And the hit should be visible
