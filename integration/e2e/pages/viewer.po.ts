@@ -21,7 +21,15 @@ export class ViewerPage {
     if (manifestName) {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
-    await browser.get(uri);
+
+    for (let retry = 0; retry < 5; retry++) {
+      try {
+        await browser.get(uri, 10000);
+        break;
+      } catch (e) {
+        console.log(`Error connecting to ${uri} (retry ${retry})`, e);
+      }
+    }
     await browser.sleep(1000);
   }
   async goToPage(pageNumber: number) {
