@@ -109,11 +109,15 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private goToNextPage() {
-    this.viewerService.goToNextPage();
+    if (this.pageService.currentPage < this.pageService.numberOfPages) {
+      this.viewerService.goToNextPage();
+    }
   }
 
   private goToPreviousPage() {
-    this.viewerService.goToPreviousPage();
+    if (this.pageService.currentPage > 0) {
+      this.viewerService.goToPreviousPage();
+    }
   }
 
   private goToFirstPage() {
