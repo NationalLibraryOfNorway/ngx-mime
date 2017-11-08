@@ -308,11 +308,11 @@ export class ViewerPage {
   async isPageMode(): Promise<boolean> {
     const header = await this.getHeader();
     const footer = await this.getFooter();
-    const headerDisplay = header.getCssValue('display');
-    const footerDisplay = footer.getCssValue('display');
+    const headerDisplay = await header.getCssValue('display');
+    const footerDisplay = await footer.getCssValue('display');
 
-    const headerisHidden = (await headerDisplay) === 'none';
-    const footerisHidden = (await footerDisplay) === 'none';
+    const headerisHidden = headerDisplay === 'none';
+    const footerisHidden = footerDisplay === 'none';
     return (headerisHidden && footerisHidden);
   }
 
@@ -354,9 +354,10 @@ export class ViewerPage {
 
     const [leftPageMask, rightPageMask] = await Promise.all([this.getLeftPageMask(), this.getRightPageMask()]);
 
-
-    const [leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc] =
-      await Promise.all([leftPageMask.getSize(), leftPageMask.getLocation(), rightPageMask.getSize(), rightPageMask.getLocation()]);
+    const leftPageMaskSize = await leftPageMask.getSize();
+    const leftPageMaskLoc = await leftPageMask.getLocation();
+    const rightPageMaskSize = await rightPageMask.getSize();
+    const rightPageMaskLoc = await rightPageMask.getLocation();
 
     const pagesArray = await pages.map((page, i) => page);
     const result = [];
@@ -377,26 +378,26 @@ export class ViewerPage {
    * Check if any part of an element is visible in the readers viewport.
    * Note that the test will not confirm that the whole element is inside the viewport.
    *
-   * @param element
+   * @param el
    * @param leftPageMask
    * @param rightPageMask
    */
   async isElementVisibleInReadersViewport(
-    element: any,
+    el: any,
     leftPageMask: { size: any, location: any },
     rightPageMask: { size: any, location: any }): Promise<boolean> {
 
       let lastEvent: string;
       try {
         lastEvent = 'getSize()';
-        const elementSize = await element.getSize();
+        const elementSize = await el.getSize();
         lastEvent = 'getLocation()';
-        const elementLocation = await element.getLocation();
+        const elementLocation = await el.getLocation();
         lastEvent = 'elementCalculatedLocastion';
         const elementCalculatedLocastion = {
           left: elementLocation.x,
           right: elementLocation.x + elementSize.width,
-        }
+        };
         lastEvent = 'return';
         return (
             elementCalculatedLocastion.right >= leftPageMask.size.width &&
