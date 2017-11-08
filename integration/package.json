@@ -84,7 +84,7 @@
     "protractor-cucumber-framework": "4.1.1",
     "protractor-multiple-cucumber-html-reporter-plugin": "^1.2.3",
     "rimraf": "^2.5.4",
-    "ts-node": "~3.0.4",
+    "ts-node": "~3.2.0",
     "tslint": "5.7.0",
     "typescript": "2.4.2"
   }

@@ -8,8 +8,6 @@ defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
 
   When(/^the user swipe (.*) and the velocity is between (.*)$/, async (direction: string, velocity: string) => {
-    console.log('direction', direction);
-    console.log('velocity', velocity);
     if (direction === 'left-to-right') {
       const start = {
         x: 200,
@@ -19,15 +17,15 @@ defineSupportCode(function ({ Given, When, Then }) {
         x: 0,
         y: 0
       };
-      page.swipe(start, end);
+      await page.swipe(start, end);
     }
   });
 
-  When(/^the user swipe (.*) and the velocity is equal or greater than (.*)$/, async (direction: string, velocity: string) => {
-    pending();
+  When('the user swipe (.*) and the velocity is equal or greater than (.*)', async (direction: string, velocity: string) => {
+    return 'pending';
   });
   When(/^the user swipe (.*) but the velocity is less than (.*)$/, async (direction: string, velocity: string) => {
-    pending();
+    return 'pending';
   });
 
   When(/^the user drags the page slider to page (.*)$/, async (pageNumber: number) => {

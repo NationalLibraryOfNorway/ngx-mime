@@ -42,7 +42,7 @@ const config = {
   onPrepare: function () {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
-    });    
+    });  
     if (config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
       const width = 1024;
       const height = 768;
