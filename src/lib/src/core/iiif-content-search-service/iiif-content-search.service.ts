@@ -14,12 +14,13 @@ export class IiifContentSearchService {
   protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(new SearchResult({}));
   protected _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
   protected _currentQ: Subject<string> = new Subject<string>();
-  protected _selected: Subject<Hit> = new Subject<null>();
+  protected _selected: Subject<Hit> = new BehaviorSubject<Hit>(null);
 
   constructor(private http: HttpClient) { }
 
   destroy() {
     this._currentSearchResult.next(new SearchResult({}));
+    this._selected.next(null);
   }
 
   get onQChange(): Observable<string> {

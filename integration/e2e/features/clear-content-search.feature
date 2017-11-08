@@ -5,7 +5,7 @@ Feature: Clear content search
   I want to remove highlighting from search results 
 
   Scenario: Clear search hits 
-    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
       And the viewer is in dashboard view
       And the user search for the word "Gjallarhorn"
       And the user selects the first hit

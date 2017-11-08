@@ -1,3 +1,4 @@
+
 import { browser, ElementFinder, protractor } from 'protractor/built';
 import { Capabilities } from 'selenium-webdriver';
 
@@ -50,5 +51,13 @@ export class Utils {
       await el.sendKeys(txt[i]);
       await browser.sleep(100);
     }
+  }
+
+  async isElementVisible(element: ElementFinder) {
+    return await EC.visibilityOf(element) ? true : false;
+  }
+
+  async isElementInvisible(element: ElementFinder) {
+    return await EC.invisibilityOf(element) ? true : false;
   }
 }

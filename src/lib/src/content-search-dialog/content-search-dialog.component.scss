@@ -28,17 +28,22 @@
   padding: 8px 16px;
 }
 
+.content-search-result .mat-button {
+  line-height: initial;
+  white-space: initial;
+  word-wrap: initial;
+  max-width: none; 
+  padding: 8px 8px; 
+  text-align: left;
+  font-size: 14px;
+}
+
 ::ng-deep .content-search-container .current-content-search {
   font-weight: 700;
 }
 
 em {
   font-weight: 700;
-}
-
-.hit {
-  margin-bottom: 4px;
-  cursor: pointer;
 }
 
 .pageLabel {
@@ -54,10 +59,6 @@ em {
 
 ::ng-deep .content-search-container > div > div > .mat-toolbar{
   padding: 0px 0px !important;
-}
-
-::ng-deep .content-search-result-container .mat-card {
-  padding: 8px;
 }
 
 input {
