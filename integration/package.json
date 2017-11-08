@@ -84,7 +84,7 @@
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3",
-    "chromedriver": "2.33.1",
+    "chromedriver": "2.33.2",
     "geckodriver": "1.9.0"
   }
 }
