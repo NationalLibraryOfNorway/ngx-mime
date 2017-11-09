@@ -23,22 +23,19 @@ const es5OutputFolder = path.join(compilationFolder, 'lib-es5');
 const es2015OutputFolder = path.join(compilationFolder, 'lib-es2015');
 
 return Promise.resolve()
-  // Copy library to temporary folder, compile sass files and inline html/css.
+  // Copy library to temporary folder and inline html/css.
   .then(() => _relativeCopy(`**/*`, srcFolder, tempLibFolder)
-    .then(() => compileSassFiles())
     .then(() => inlineResources(tempLibFolder))
     .then(() => console.log('Inlining succeeded.'))
   )
   // Compile to ES2015.
-  .then(() => ngc({ project: `${tempLibFolder}/tsconfig.lib.json` })
-    .then(exitCode => exitCode === 0 ? Promise.resolve() : Promise.reject())
-    .then(() => console.log('ES2015 compilation succeeded.'))
-  )
+  .then(() => ngc(['--project', `${tempLibFolder}/tsconfig.lib.json`]))
+  .then(exitCode => exitCode === 0 ? Promise.resolve() : Promise.reject())
+  .then(() => console.log('ES2015 compilation succeeded.'))
   // Compile to ES5.
-  .then(() => ngc({ project: `${tempLibFolder}/tsconfig.es5.json` })
-    .then(exitCode => exitCode === 0 ? Promise.resolve() : Promise.reject())
-    .then(() => console.log('ES5 compilation succeeded.'))
-  )
+  .then(() => ngc(['--project', `${tempLibFolder}/tsconfig.es5.json`]))
+  .then(exitCode => exitCode === 0 ? Promise.resolve() : Promise.reject())
+  .then(() => console.log('ES5 compilation succeeded.'))
   // Copy typings and metadata to `dist/` folder.
   .then(() => Promise.resolve()
     .then(() => _relativeCopy('**/*.d.ts', es2015OutputFolder, distFolder))
@@ -137,7 +134,9 @@ return Promise.resolve()
 function _relativeCopy(fileGlob, from, to) {
   return new Promise((resolve, reject) => {
     glob(fileGlob, { cwd: from, nodir: true }, (err, files) => {
-      if (err) reject(err);
+      if (err) {
+        reject(err);
+      }
       files.forEach(file => {
         const origin = path.join(from, file);
         const dest = path.join(to, file);

@@ -41,7 +41,7 @@ export class SwipeUtils {
 
   /**
    *
-   * @param {direction} direction Current computed direction, expressed as an
+   * @param direction Current computed direction, expressed as an
    * angle counterclockwise relative to the positive X axis (-pi to pi, in radians).
    * Only valid if speed > 0.
    */
@@ -50,7 +50,7 @@ export class SwipeUtils {
   }
 
   /**
-   * @param {direction} @see isDirectionInRightSemicircle
+   * @param direction @see isDirectionInRightSemicircle
    */
   static isDirectionInLeftSemicircle(direction: number): boolean {
     return !this.isDirectionInRightSemicircle(direction) || direction === 0; // fix for speed = 0

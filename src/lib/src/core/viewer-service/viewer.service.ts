@@ -322,7 +322,7 @@ export class ViewerService {
 
   /**
    *
-   * @param {layoutSwitch} true if switching between layouts
+   * @param layoutSwitch true if switching between layouts
    * to keep current search-state
    */
   destroy(layoutSwitch?: boolean) {
@@ -484,7 +484,7 @@ export class ViewerService {
 
   /**
    *
-   * @param {Point} point to zoom to. If not set, the viewer will zoom to center
+   * @param point to zoom to. If not set, the viewer will zoom to center
    */
   zoomInGesture(position: Point, zoomFactor?: number): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
@@ -511,7 +511,7 @@ export class ViewerService {
    *
    * Toggle to page mode and Zoom in
    *
-   * @param {any} event from pinch gesture
+   * @param event from pinch gesture
    */
   zoomInPinchGesture(event: any, zoomFactor: number): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
@@ -527,7 +527,7 @@ export class ViewerService {
    * Zoom out and toggle to dashboard when all zoomed out.
    * Stop between zooming out and toggling to dashboard.
    *
-   * @param {any} event from pinch gesture
+   * @param event from pinch gesture
    */
   zoomOutPinchGesture(event: any, zoomFactor: number): void {
     const gestureId = event.gesturePoints[0].id;
@@ -593,7 +593,7 @@ export class ViewerService {
 
   /**
    * Checks if hit element is a <rect>-element
-   * @param {HTMLElement} target
+   * @param target
    */
   isPageHit(target: HTMLElement): boolean {
     return target instanceof SVGRectElement;
