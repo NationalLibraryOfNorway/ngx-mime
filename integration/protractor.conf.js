@@ -27,12 +27,18 @@ const config = {
     require: [
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
       path.resolve(process.cwd(), './e2e/**/*.steps.ts'),
-      path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
-      path.resolve(process.cwd(), './e2e/helpers/reporter.ts')
+      path.resolve(process.cwd(), './e2e/helpers/hooks.ts')
     ],
-    format: 'pretty',
+    format: 'json:.tmp/results.json',
     tags: getTags()
   },
+  plugins: [{
+    package: require.resolve('protractor-multiple-cucumber-html-reporter-plugin'),
+    options: {
+      automaticallyGenerateReport: true,
+      removeExistingJsonReportFile: true
+    }
+  }],
   onPrepare: function () {
     if (config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
       const width = 1024;

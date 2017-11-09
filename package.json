@@ -36,7 +36,7 @@
     "test": "concurrently \"npm run build-test:watch\" \"karma start karma.conf.js\"",
     "pretest:once": "npm run build-test",
     "test:once": "karma start karma.conf.js --single-run",
-    "preintegration": "npm run build && cd integration && npm run clean && yarn install",
+    "preintegration": "npm run build && cd integration && npm run clean && yarn install --check-files",
     "integration": "cd integration && npm run e2e:all",
     "preintegration:chrome": "npm run preintegration",
     "integration:chrome": "cd integration && npm run preprotractor && npm run e2e:chrome",
