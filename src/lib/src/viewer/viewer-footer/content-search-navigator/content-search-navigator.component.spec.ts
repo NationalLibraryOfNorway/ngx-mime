@@ -14,6 +14,7 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { PageService } from './../../../core/page-service/page-service';
 import { ViewerServiceMock } from './../../../test/viewer-service-mock';
+import { IiifContentSearchServiceStub } from './../../../test/iiif-content-search-service-stub';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
@@ -29,7 +30,7 @@ describe('ContentSearchNavigatorComponent', () => {
       providers: [
         MimeViewerIntl,
         { provide: ViewerService, useClass: ViewerServiceMock },
-        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
         { provide: PageService, useClass: PageServiceMock }
       ]
 
@@ -165,19 +166,6 @@ describe('ContentSearchNavigatorComponent', () => {
   }
 
 });
-
-class IiifContentSearchServiceMock {
-  _onChange = new Subject<number>();
-  protected _selected: Subject<Hit> = new Subject<null>();
-  get onChange(): Observable<number> {
-    return this._onChange.asObservable();
-  }
-
-  public selected(hit: Hit) {
-    //this._selected.next(hit);
-  }
-
-}
 
 class PageServiceMock {
 
