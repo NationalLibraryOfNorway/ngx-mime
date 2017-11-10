@@ -18,7 +18,7 @@ const config = {
     'cucumberOpts',
     'device'
   ],
-  capabilities: getCapabilities(),
+  multiCapabilities: getMultiCapabilities(),
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -40,10 +40,7 @@ const config = {
     }
   }],
   onPrepare: function () {
-    require('ts-node').register({
-      project: 'e2e/tsconfig.e2e.json'
-    });  
-    if (config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
+    if (!config.multiCapabilities && config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
       const width = 1024;
       const height = 768;
       browser.driver.manage().window().setSize(width, height);
@@ -71,31 +68,35 @@ if (process.env.TRAVIS) {
   }
 }
 
-function getCapabilities() {
-  let capabilities = null;
+function getMultiCapabilities() {
+  let capabilities = {
+    maxInstances: 10,
+    shardTestFiles: true,
+  }
   if (argv.browser) {
     const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
-    capabilities = {
+    capabilities = (Object).assign({}, capabilities, {
       browserName: cap.browserName,
       version: cap.version,
       platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
       deviceName: cap.deviceName,
-    }
+    });
+
   } else {
-    capabilities = {
+    capabilities = (Object).assign({}, capabilities, {
       browserName: 'chrome'
-    }
+    });
   }
 
-  if (argv.browser ===  'chrome' && argv.headless) {
+  if (argv.headless) {
     capabilities.chromeOptions = {
       args: ["--headless", "--disable-gpu", "--window-size=1024x768"]
     }
   }
 
-  return capabilities;
+  return [capabilities];
 }
 
 function getTags() {

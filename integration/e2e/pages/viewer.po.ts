@@ -11,10 +11,10 @@ const bookShelf = {
 };
 
 const utils = new Utils();
+const thumbStartPosition = <any>{ x: 600, y: 300 };
+const pointerPosition1 = <any>{ x: 650, y: 275 };
+const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
-  private thumbStartPosition = { x: 600, y: 300 };
-  private pointerPosition1 = { x: 650, y: 275 };
-  private pointerPosition2 = { x: 750, y: 200 };
 
   async open(manifestName?: string) {
     let uri = '/';
@@ -207,17 +207,17 @@ export class ViewerPage {
 
   async pinchOut(): Promise<void> {
     await browser.touchActions()
-      .tapAndHold(this.thumbStartPosition)
-      .tapAndHold(this.pointerPosition1)
-      .move(this.pointerPosition2)
+      .tapAndHold(thumbStartPosition)
+      .tapAndHold(pointerPosition1)
+      .move(pointerPosition2)
       .perform();
   }
 
   async pinchIn(): Promise<void> {
     await browser.touchActions()
-      .tapAndHold(this.thumbStartPosition)
-      .tapAndHold(this.pointerPosition2)
-      .move(this.pointerPosition1)
+      .tapAndHold(thumbStartPosition)
+      .tapAndHold(pointerPosition2)
+      .move(pointerPosition1)
       .perform();
   }
 
