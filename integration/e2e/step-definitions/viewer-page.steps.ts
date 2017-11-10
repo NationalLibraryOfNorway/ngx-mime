@@ -23,12 +23,8 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.open();
   });
 
-  Given('a "{string}" publication with {int} pages', async (viewingDirection: string, pages: number) => {
-    if (viewingDirection === 'left-to-right') {
-      await page.open('a-ltr-10-pages-book');
-    } else if (viewingDirection === 'right-to-left') {
-      pending();
-    }
+  Given('a left-to-right publication with {int} pages', async (pages: number) => {
+    await page.open('a-ltr-10-pages-book');
   });
 
   Given('the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside', async () => {

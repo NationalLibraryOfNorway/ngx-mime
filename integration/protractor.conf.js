@@ -3,7 +3,6 @@
 
 const argv = require('yargs').argv;
 const path = require('path');
-const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
@@ -36,7 +35,8 @@ const config = {
     package: require.resolve('protractor-multiple-cucumber-html-reporter-plugin'),
     options: {
       automaticallyGenerateReport: true,
-      removeExistingJsonReportFile: true
+      removeExistingJsonReportFile: true,
+      removeOriginalJsonReportFile: true
     }
   }],
   onPrepare: function () {
@@ -53,26 +53,14 @@ const config = {
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-  config.capabilities = Object.assign(config.capabilities, {
-    name: 'Mime E2E Tests',
-    tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
-    build: process.env.TRAVIS_JOB_NUMBER,
-  });
-} else {
-  config.afterLaunch = function () {
-    multiCucumberHTLMReporter.generate({
-      openReportInBrowser: false,
-      jsonDir: '.tmp/json-output',
-      reportPath: './.tmp/report/'
-    });
-  }
 }
 
 function getMultiCapabilities() {
   let capabilities = {
-    maxInstances: 10,
+    name: 'Mime E2E Tests',
     shardTestFiles: true,
   }
+  capabilities.maxInstances = process.env.TRAVIS ? 2 : 10;
   if (argv.browser) {
     const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
     capabilities = (Object).assign({}, capabilities, {
@@ -83,7 +71,6 @@ function getMultiCapabilities() {
       platformVersion: cap.platformVersion,
       deviceName: cap.deviceName,
     });
-
   } else {
     capabilities = (Object).assign({}, capabilities, {
       browserName: 'chrome'
@@ -92,8 +79,13 @@ function getMultiCapabilities() {
 
   if (argv.headless) {
     capabilities.chromeOptions = {
-      args: ["--headless", "--disable-gpu", "--window-size=1024x768"]
+      args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
     }
+  }
+
+  if (process.env.TRAVIS) {
+      capabilities.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+      capabilities.build = process.env.TRAVIS_JOB_NUMBER;
   }
 
   return [capabilities];

@@ -81,7 +81,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then('the search result toolbar should be removed', async () => {
     const el = await contentSearchPage.contentSearchNavigatorToolbar();
-    expect(el.isPresent()).to.eql({});
+    expect(el.isPresent()).to.equal({});
   });
 
   Then('the Search dialog should be closed', async () => {

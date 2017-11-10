@@ -5,7 +5,7 @@ Feature: Slider navigation i dashboard view
 
   @desktop
   Scenario: Page slider navigation
-    Given a "left-to-right" publication with 10 pages
+    Given a left-to-right publication with 10 pages
       And the viewer is in dashboard view
       And the layout is two-page
     When the user drags the page slider to page 5
@@ -13,7 +13,7 @@ Feature: Slider navigation i dashboard view
 
   @desktop
   Scenario: Page slider navigation
-    Given a "left-to-right" publication with 10 pages
+    Given a left-to-right publication with 10 pages
       And the viewer is in dashboard view
       And the layout is one-page
     When the user drags the page slider to page 5
@@ -21,7 +21,7 @@ Feature: Slider navigation i dashboard view
 
   @android @iphone
   Scenario: Page slider navigation
-    Given a "left-to-right" publication with 10 pages
+    Given a left-to-right publication with 10 pages
       And the viewer is in dashboard view
       And the layout is one-page
     When the user drags the page slider to page 5
@@ -29,7 +29,7 @@ Feature: Slider navigation i dashboard view
 
   @android @iphone
   Scenario: Page slider navigation
-    Given a "left-to-right" publication with 10 pages
+    Given a left-to-right publication with 10 pages
       And the viewer is in dashboard view
       And the layout is two-page
     When the user drags the page slider to page 5
