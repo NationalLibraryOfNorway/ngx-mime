@@ -168,8 +168,13 @@ describe('ContentSearchNavigatorComponent', () => {
 
 class IiifContentSearchServiceMock {
   _onChange = new Subject<number>();
+  protected _selected: Subject<Hit> = new Subject<null>();
   get onChange(): Observable<number> {
     return this._onChange.asObservable();
+  }
+
+  public selected(hit: Hit) {
+    //this._selected.next(hit);
   }
 
 }
