@@ -63,7 +63,7 @@
     "chai": "4.1.2",
     "chai-as-promised": "7.1.1",
     "chromedriver": "2.33.2",
-    "codelyzer": "3.2.0",
+    "codelyzer": "4.0.1",
     "concurrently": "^3.4.0",
     "cucumber": "3.1.0",
     "express": "^4.16.2",
