@@ -16,6 +16,8 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { throttle } from 'rxjs/operators/throttle';
+import { interval } from 'rxjs/observable/interval';
 
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
@@ -56,7 +58,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Output('qChanged') onQChange: EventEmitter<string> = new EventEmitter();
   @Output('manifestChanged') onManifestChange: EventEmitter<Manifest> = new EventEmitter();
 
-  private subscriptions: Array<Subscription> = [];
+  private subscriptions = new Subscription;
   private isCanvasPressed = false;
   private currentManifest: Manifest;
   private viewerLayout: ViewerLayout;
@@ -110,7 +112,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.modeService.initialMode = this.config.initViewerMode;
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.iiifManifestService.currentManifest
         .subscribe((manifest: Manifest) => {
           if (manifest) {
@@ -132,7 +134,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         })
     );
 
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
         // Don't reset current page when switching layout
         if (state && this.canvasIndex && !this.pageService.currentPage) {
@@ -141,7 +143,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       })
     );
 
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.iiifManifestService.errorMessage.subscribe((error: string) => {
         this.resetCurrentManifest();
         this.errorMessage = error;
@@ -149,33 +151,33 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       })
     );
 
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.iiifContentSearchService.onQChange.subscribe((q: string) => {
         this.onQChange.emit(q);
       })
     );
 
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
         this.viewerService.highlight(sr);
       })
     );
 
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.viewerService.isCanvasPressed.subscribe((value: boolean) => {
         this.isCanvasPressed = value;
         this.changeDetectorRef.detectChanges();
       })
     );
 
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.modeService.onChange.subscribe((mode: ViewerMode) => {
         this.toggleToolbarsState(mode);
         this.onPageModeChange.emit(mode);
       })
     );
 
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.pageService.onPageChange.subscribe((pageNumber: number) => {
         const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
         if (tileIndex !== -1) {
@@ -184,15 +186,18 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       })
     );
 
-    this.subscriptions.push(
-      this.mimeService.onResize.throttle(val => Observable.interval(ViewerOptions.transitions.OSDAnimationTime)).subscribe(() => {
-        setTimeout(() => {
-          this.viewerService.home();
-        }, ViewerOptions.transitions.OSDAnimationTime);
-      })
+    this.subscriptions.add(
+      this.mimeService.onResize
+        .pipe(
+          throttle(val => interval(ViewerOptions.transitions.OSDAnimationTime))
+        ).subscribe(() => {
+          setTimeout(() => {
+            this.viewerService.home();
+          }, ViewerOptions.transitions.OSDAnimationTime);
+        })
     );
 
-    this.subscriptions.push(this.viewerLayoutService.onChange.subscribe((viewerLayout: ViewerLayout) => {
+    this.subscriptions.add(this.viewerLayoutService.onChange.subscribe((viewerLayout: ViewerLayout) => {
       this.viewerLayout = viewerLayout;
     }));
 
@@ -240,9 +245,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.subscriptions.unsubscribe();
     this.cleanup();
     this.iiifManifestService.destroy();
     this.iiifContentSearchService.destroy();

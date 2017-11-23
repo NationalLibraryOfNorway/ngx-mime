@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { finalize } from 'rxjs/operators/finalize';
 
 import { IiifSearchResult } from './../models/iiif-search-result';
 import { SearchResultBuilder } from './../builders/search-result.builder';
@@ -24,7 +26,8 @@ export class IiifContentSearchService {
   }
 
   get onQChange(): Observable<string> {
-    return this._currentQ.asObservable().distinctUntilChanged();
+    return this._currentQ.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get onChange(): Observable<SearchResult> {
@@ -50,7 +53,9 @@ export class IiifContentSearchService {
     }
     this._searching.next(true);
     this.http.get(`${manifest.service.id}?q=${q}`)
-      .finally(() => this._searching.next(false))
+      .pipe(
+        finalize(() => this._searching.next(false))
+      )
       .subscribe(
       (res: IiifSearchResult) => this._currentSearchResult.next(this.extractData(q, manifest, res)),
       (err: HttpErrorResponse) => this.handleError

@@ -1,5 +1,6 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
 import { ViewerMode } from '../models/viewer-mode';
 
@@ -12,7 +13,8 @@ export class ModeService {
   ) { }
 
   get onChange(): Observable<ViewerMode> {
-    return this.toggleModeSubject.asObservable().distinctUntilChanged();
+    return this.toggleModeSubject.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   set mode(mode: ViewerMode) {

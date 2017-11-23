@@ -14,6 +14,8 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
+import { filter } from 'rxjs/operators/filter';
+import { take } from 'rxjs/operators/take';
 
 import { MimeViewerIntl } from './../core/intl/viewer-intl';
 import { Manifest } from './../core/models/manifest';
@@ -41,7 +43,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
   private manifest: Manifest;
   private mimeHeight = 0;
-  private subscriptions: Array<Subscription> = [];
+  private subscriptions = new Subscription();
   @ViewChild('contentSearchResult') resultContainer: ElementRef;
   @ViewChildren('hitButton', { read: ElementRef }) hitList: QueryList<ElementRef>;
 
@@ -57,17 +59,17 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private mimeDomHelper: MimeDomHelper) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+    this.subscriptions.add(this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
       this.mimeHeight = dimensions.height;
       this.resizeTabHeight();
     }));
 
-    this.subscriptions.push(this.iiifManifestService.currentManifest
+    this.subscriptions.add(this.iiifManifestService.currentManifest
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
       }));
 
-    this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+    this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
       this.hits = sr.hits;
       this.currentSearch = sr.q ? sr.q : '';
       this.q = sr.q;
@@ -77,11 +79,11 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
       }
     }));
 
-    this.subscriptions.push(this.iiifContentSearchService.isSearching.subscribe((s: boolean) => {
+    this.subscriptions.add(this.iiifContentSearchService.isSearching.subscribe((s: boolean) => {
       this.isSearching = s;
     }));
 
-    this.subscriptions.push(this.iiifContentSearchService.onSelected
+    this.subscriptions.add(this.iiifContentSearchService.onSelected
       .subscribe((hit: Hit) => {
         if (hit === null) {
           this.currentHit = hit;
@@ -101,9 +103,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.subscriptions.unsubscribe();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -142,9 +142,10 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
   private scrollCurrentHitIntoView() {
     this.iiifContentSearchService.onSelected
-      .take(1)
-      .filter(s => s !== null)
-      .subscribe((hit: Hit) => {
+      .pipe(
+        take(1),
+        filter(s => s !== null)
+      ).subscribe((hit: Hit) => {
         const selected = this.findSelected(hit);
         if (selected) {
           // Browser compatibility: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView

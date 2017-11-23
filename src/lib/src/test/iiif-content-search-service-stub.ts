@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
 import { SearchResult, Hit } from './../core/models/search-result';
 
