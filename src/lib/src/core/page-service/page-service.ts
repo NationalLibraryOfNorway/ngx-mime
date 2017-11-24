@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-//import { BehaviorSubject } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
