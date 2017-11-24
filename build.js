@@ -147,6 +147,7 @@ return Promise.resolve()
         'rxjs/operators/distinctUntilChanged',
         'rxjs/operators/finalize',
         'rxjs/operators/take',
+        'rxjs/operators/takeUntil',
         'rxjs/operators/sample'
       ],
       plugins: [

@@ -14,8 +14,10 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 import { filter } from 'rxjs/operators/filter';
 import { take } from 'rxjs/operators/take';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { MimeViewerIntl } from './../core/intl/viewer-intl';
 import { Manifest } from './../core/models/manifest';
@@ -43,7 +45,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
   private manifest: Manifest;
   private mimeHeight = 0;
-  private subscriptions = new Subscription();
+  private destroyed: Subject<void> = new Subject();
   @ViewChild('contentSearchResult') resultContainer: ElementRef;
   @ViewChildren('hitButton', { read: ElementRef }) hitList: QueryList<ElementRef>;
 
@@ -59,31 +61,49 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private mimeDomHelper: MimeDomHelper) { }
 
   ngOnInit() {
-    this.subscriptions.add(this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-      this.mimeHeight = dimensions.height;
-      this.resizeTabHeight();
-    }));
+    this.mimeResizeService.onResize
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((dimensions: Dimensions) => {
+        this.mimeHeight = dimensions.height;
+        this.resizeTabHeight();
+      });
 
-    this.subscriptions.add(this.iiifManifestService.currentManifest
+    this.iiifManifestService.currentManifest
+      .pipe(
+        takeUntil(this.destroyed)
+      )
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
-      }));
+      });
 
-    this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-      this.hits = sr.hits;
-      this.currentSearch = sr.q ? sr.q : '';
-      this.q = sr.q;
-      this.numberOfHits = sr.size();
-      if (this.resultContainer && this.numberOfHits > 0) {
-        this.resultContainer.nativeElement.focus();
-      }
-    }));
+    this.iiifContentSearchService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((sr: SearchResult) => {
+        this.hits = sr.hits;
+        this.currentSearch = sr.q ? sr.q : '';
+        this.q = sr.q;
+        this.numberOfHits = sr.size();
+        if (this.resultContainer && this.numberOfHits > 0) {
+          this.resultContainer.nativeElement.focus();
+        }
+      });
 
-    this.subscriptions.add(this.iiifContentSearchService.isSearching.subscribe((s: boolean) => {
-      this.isSearching = s;
-    }));
+    this.iiifContentSearchService.isSearching
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((s: boolean) => {
+        this.isSearching = s;
+      });
 
-    this.subscriptions.add(this.iiifContentSearchService.onSelected
+    this.iiifContentSearchService.onSelected
+      .pipe(
+        takeUntil(this.destroyed)
+      )
       .subscribe((hit: Hit) => {
         if (hit === null) {
           this.currentHit = hit;
@@ -93,7 +113,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
             this.scrollCurrentHitIntoView();
           }
         }
-      }));
+      });
 
     this.resizeTabHeight();
   }
@@ -103,7 +123,8 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   @HostListener('window:resize', ['$event'])

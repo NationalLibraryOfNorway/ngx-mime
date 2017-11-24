@@ -6,6 +6,7 @@ import { sample } from 'rxjs/operators/sample';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 import { interval } from 'rxjs/observable/interval';
 
 import { Utils } from '../../core/utils';
@@ -37,7 +38,6 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { Hit } from './../models/search-result';
 
 import '../ext/svg-overlay';
-import '../../rxjs-extension';
 import * as d3 from 'd3';
 
 declare const OpenSeadragon: any;
@@ -52,7 +52,7 @@ export class ViewerService {
 
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
-  private subscriptions = new Subscription;
+  private destroyed: Subject<void> = new Subject();
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -259,23 +259,27 @@ export class ViewerService {
 
 
   addSubscriptions(): void {
-    this.subscriptions.add(this.modeService.onChange.subscribe((mode: ViewerMode) => {
-      this.modeChanged(mode);
-    }));
+    this.modeService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((mode: ViewerMode) => {
+        this.modeChanged(mode);
+      });
 
     this.zone.runOutsideAngular(() => {
-      this.subscriptions.add(this.onCenterChange
+      this.onCenterChange
         .pipe(
-          sample(interval(500))
+          sample(interval(500)),
+          takeUntil(this.destroyed)
         ).subscribe((center: Point) => {
-        this.calculateCurrentPage(center);
-        if (center && center !== null) {
-          this.osdIsReady.next(true);
-        }
-      }));
+          this.calculateCurrentPage(center);
+          if (center && center !== null) {
+            this.osdIsReady.next(true);
+          }
+        });
     });
 
-    this.subscriptions.add(
       this.pageService.onPageChange.subscribe((pageIndex: number) => {
         if (pageIndex !== -1) {
           this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
@@ -283,41 +287,46 @@ export class ViewerService {
             this.goToHomeZoom();
           }
         }
-      })
-    );
+      });
 
-    this.subscriptions.add(
-      this.onOsdReadyChange.subscribe((state: boolean) => {
-        if (state) {
-          this.initialPageLoaded();
-          this.currentCenter.next(this.viewer.viewport.getCenter(true));
-        }
-      })
-    );
-
-    this.subscriptions.add(
-      this.viewerLayoutService.onChange.subscribe((state: ViewerLayout) => {
-        if (this.osdIsReady.getValue()) {
-          const savedTile = this.pageService.currentTile;
-          this.destroy(true);
-          this.setUpViewer(this.manifest, this.config);
-          this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
-          // Recreate highlights if there is an active search going on
-          if (this.currentSearch) {
-            this.highlight(this.currentSearch);
+      this.onOsdReadyChange
+        .pipe(
+          takeUntil(this.destroyed)
+        )
+        .subscribe((state: boolean) => {
+          if (state) {
+            this.initialPageLoaded();
+            this.currentCenter.next(this.viewer.viewport.getCenter(true));
           }
-        }
-      })
-    );
+        });
 
-    this.subscriptions.add(
-      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
-        if (hit) {
-          this.highlightCurrentHit(hit);
-          this.goToTile(hit.index, false);
-        }
-      })
-    );
+      this.viewerLayoutService.onChange
+        .pipe(
+          takeUntil(this.destroyed)
+        )
+        .subscribe((state: ViewerLayout) => {
+          if (this.osdIsReady.getValue()) {
+            const savedTile = this.pageService.currentTile;
+            this.destroy(true);
+            this.setUpViewer(this.manifest, this.config);
+            this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
+            // Recreate highlights if there is an active search going on
+            if (this.currentSearch) {
+              this.highlight(this.currentSearch);
+            }
+          }
+        });
+
+      this.iiifContentSearchService.onSelected
+        .pipe(
+          takeUntil(this.destroyed)
+        )
+        .subscribe((hit: Hit) => {
+          if (hit) {
+            this.highlightCurrentHit(hit);
+            this.goToTile(hit.index, false);
+          }
+        });
 
   }
 
@@ -344,7 +353,8 @@ export class ViewerService {
       }
       this.viewer.destroy();
     }
-    this.subscriptions.unsubscribe();
+    this.destroyed.next();
+    this.destroyed.complete();
     this.overlays = null;
     this.pageService.reset();
     // Keep search-state only if layout-switch
