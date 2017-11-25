@@ -280,14 +280,18 @@ export class ViewerService {
         });
     });
 
-      this.pageService.onPageChange.subscribe((pageIndex: number) => {
-        if (pageIndex !== -1) {
-          this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
-          if (this.modeService.mode === ViewerMode.PAGE) {
-            this.goToHomeZoom();
+      this.pageService.onPageChange
+        .pipe(
+          takeUntil(this.destroyed)
+        )
+        .subscribe((pageIndex: number) => {
+          if (pageIndex !== -1) {
+            this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
+            if (this.modeService.mode === ViewerMode.PAGE) {
+              this.goToHomeZoom();
+            }
           }
-        }
-      });
+        });
 
       this.onOsdReadyChange
         .pipe(
