@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
+
 
 import { Dimensions } from './../../core/models/dimensions';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
@@ -38,8 +40,8 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   public numberOfPages: number;
   public isFirstPage: boolean;
   public isLastPage: boolean;
-  private subscriptions: Array<Subscription> = [];
   public state = 'show';
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -49,23 +51,35 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     private pageService: PageService) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
-      this.osdToolbarStyle = {
-        'top': (dimensions.top + 110) + 'px'
-      };
-      this.changeDetectorRef.detectChanges();
-    }));
+    this.mimeService.onResize
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((dimensions: Dimensions) => {
+        this.osdToolbarStyle = {
+          'top': (dimensions.top + 110) + 'px'
+        };
+        this.changeDetectorRef.detectChanges();
+      });
 
-    this.subscriptions.push(this.viewerService
+    this.viewerService
       .onPageChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
       .subscribe((currentPage: number) => {
         this.numberOfPages = this.pageService.numberOfPages;
         this.isFirstPage = this.isOnFirstPage(currentPage);
         this.isLastPage = this.isOnLastPage(currentPage);
         this.changeDetectorRef.detectChanges();
-      }));
+      });
 
-    this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
+    this.intl
+      .changes
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
   zoomIn(): void {
@@ -81,9 +95,8 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   public goToPreviousPage(): void {

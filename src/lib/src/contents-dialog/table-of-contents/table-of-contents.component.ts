@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestro
 import { Subscription } from 'rxjs/Subscription';
 import { MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
@@ -19,7 +21,7 @@ import { PageService } from '../../core/page-service/page-service';
 export class TocComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
   public currentPage: number;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     public dialogRef: MatDialogRef<ContentsDialogComponent>,
@@ -31,25 +33,31 @@ export class TocComponent implements OnInit, OnDestroy {
     private pageService: PageService) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.iiifManifestService.currentManifest
+    this.iiifManifestService
+      .currentManifest
+      .pipe(
+        takeUntil(this.destroyed)
+      )
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
         this.currentPage = this.pageService.currentPage;
         this.changeDetectorRef.detectChanges();
-      }));
+      });
 
-    this.subscriptions.push(
-      this.viewerService.onPageChange.subscribe((page: number) => {
+    this.viewerService
+      .onPageChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((page: number) => {
         this.currentPage = page;
         this.changeDetectorRef.detectChanges();
-      })
-    );
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   goToPage(page: number): void {

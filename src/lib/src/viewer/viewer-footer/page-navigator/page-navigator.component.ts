@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatSliderChange } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
@@ -22,7 +23,7 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
   public isFirstPage: boolean;
   public isLastPage: boolean;
   private currentSliderPage = -1;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -32,8 +33,11 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.pageService
+    this.pageService
       .onPageChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
       .subscribe((currentPage: number) => {
         if (this.currentSliderPage !== -1 && this.currentSliderPage === currentPage) {
           this.currentSliderPage = -1;
@@ -44,21 +48,23 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
         this.isFirstPage = this.isOnFirstPage(currentPage);
         this.isLastPage = this.isOnLastPage(currentPage);
         this.changeDetectorRef.detectChanges();
-      }));
+      });
 
-    this.subscriptions.push(this.pageService
+    this.pageService
       .onNumberOfPagesChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
       .subscribe((numberOfPages: number) => {
         this.numberOfPages = numberOfPages;
         this.numberOfTiles = this.pageService.numberOfTiles;
         this.changeDetectorRef.detectChanges();
-      }));
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   public goToPreviousPage(): void {

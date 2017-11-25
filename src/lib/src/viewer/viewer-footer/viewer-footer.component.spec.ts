@@ -14,11 +14,12 @@ import { ViewerFooterComponent } from './viewer-footer.component';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult, Hit } from './../../core/models/search-result';
 import { MediaServiceStub } from './../../test/media-service-stub';
+import { IiifContentSearchServiceStub } from './../../test/iiif-content-search-service-stub';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
   let mediaServiceStub: MediaServiceStub;
-  let iiifContentSearchServiceMock: IiifContentSearchServiceMock;
+  let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let fixture: ComponentFixture<ViewerFooterComponent>;
   let spy: any;
 
@@ -29,7 +30,7 @@ describe('ViewerFooterComponent', () => {
         imports: [NoopAnimationsModule],
         declarations: [ViewerFooterComponent],
         providers: [
-          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
+          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
           { provide: ObservableMedia, useClass: MediaServiceStub }
         ]
       }).compileComponents();
@@ -40,7 +41,7 @@ describe('ViewerFooterComponent', () => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
     cmp = fixture.componentInstance;
     mediaServiceStub = TestBed.get(ObservableMedia);
-    iiifContentSearchServiceMock = TestBed.get(IiifContentSearchService);
+    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
     fixture.detectChanges();
   });
 
@@ -100,7 +101,7 @@ describe('ViewerFooterComponent', () => {
     sr.add(new Hit());
 
     mediaServiceStub._onChange.next(new MediaChange());
-    iiifContentSearchServiceMock._onChange.next(sr);
+    iiifContentSearchServiceStub._currentSearchResult.next(sr);
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -135,12 +136,4 @@ function expectFooterToBeHidden(element: any) {
   expect(element.style.display).toBe('none');
   expect(element.style.opacity).toBe('0');
   expect(element.style.transform).toBe('translate(0px, 100%)');
-}
-
-class IiifContentSearchServiceMock {
-  _onChange = new Subject<SearchResult>();
-
-  get onChange(): Observable<SearchResult> {
-    return this._onChange.asObservable();
-  }
 }

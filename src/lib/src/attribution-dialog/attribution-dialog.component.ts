@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ElementRef, HostListener } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -14,7 +15,7 @@ import { Manifest } from '../core/models/manifest';
 })
 export class AttributionDialogComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -26,17 +27,19 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.push(this.iiifManifestService.currentManifest
+    this.iiifManifestService.currentManifest
+      .pipe(
+        takeUntil(this.destroyed)
+      )
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
         this.changeDetectorRef.markForCheck();
-      }));
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   @HostListener('window:resize', ['$event'])

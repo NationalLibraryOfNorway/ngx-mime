@@ -1,7 +1,8 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { ContentSearchDialogComponent } from './content-search-dialog.component';
 import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialog-config-strategy-factory';
@@ -14,7 +15,7 @@ export class ContentSearchDialogService {
   private _el: ElementRef;
   private isContentSearchDialogOpen = false;
   private dialogRef: MatDialogRef<ContentSearchDialogComponent>;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     private dialog: MatDialog,
@@ -22,20 +23,24 @@ export class ContentSearchDialogService {
     private mimeResizeService: MimeResizeService) { }
 
   public initialize(): void {
-    this.subscriptions.push(this.mimeResizeService.onResize.subscribe(rect => {
-      if (this.isContentSearchDialogOpen) {
-        const config = this.getDialogConfig();
-        this.dialogRef.updatePosition(config.position);
-        this.dialogRef.updateSize(config.width, config.height);
-      }
-    }));
+    this.mimeResizeService
+      .onResize
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe(rect => {
+        if (this.isContentSearchDialogOpen) {
+          const config = this.getDialogConfig();
+          this.dialogRef.updatePosition(config.position);
+          this.dialogRef.updateSize(config.width, config.height);
+        }
+      });
   }
 
   public destroy() {
     this.close();
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   set el(el: ElementRef) {
