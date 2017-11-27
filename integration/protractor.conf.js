@@ -3,7 +3,6 @@
 
 const argv = require('yargs').argv;
 const path = require('path');
-const multiCucumberHTLMReporter = require('multiple-cucumber-html-reporter');
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
@@ -18,7 +17,7 @@ const config = {
     'cucumberOpts',
     'device'
   ],
-  capabilities: getCapabilities(),
+  multiCapabilities: getMultiCapabilities(),
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -27,14 +26,21 @@ const config = {
     require: [
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
       path.resolve(process.cwd(), './e2e/**/*.steps.ts'),
-      path.resolve(process.cwd(), './e2e/helpers/after.scenario.ts'),
-      path.resolve(process.cwd(), './e2e/helpers/reporter.ts')
+      path.resolve(process.cwd(), './e2e/helpers/hooks.ts')
     ],
-    format: 'pretty',
+    format: 'json:.tmp/results.json',
     tags: getTags()
   },
+  plugins: [{
+    package: require.resolve('protractor-multiple-cucumber-html-reporter-plugin'),
+    options: {
+      automaticallyGenerateReport: true,
+      removeExistingJsonReportFile: true,
+      removeOriginalJsonReportFile: true
+    }
+  }],
   onPrepare: function () {
-    if (config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
+    if (!config.multiCapabilities && config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
       const width = 1024;
       const height = 768;
       browser.driver.manage().window().setSize(width, height);
@@ -47,46 +53,42 @@ const config = {
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-  config.capabilities = Object.assign(config.capabilities, {
-    name: 'Mime E2E Tests',
-    tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
-    build: process.env.TRAVIS_JOB_NUMBER,
-  });
-} else {
-  config.afterLaunch = function () {
-    multiCucumberHTLMReporter.generate({
-      openReportInBrowser: false,
-      jsonDir: '.tmp/json-output',
-      reportPath: './.tmp/report/'
-    });
-  }
 }
 
-function getCapabilities() {
-  let capabilities = null;
+function getMultiCapabilities() {
+  let capabilities = {
+    name: 'Mime E2E Tests',
+    shardTestFiles: true,
+  }
+  capabilities.maxInstances = process.env.TRAVIS ? 2 : 10;
   if (argv.browser) {
     const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
-    capabilities = {
+    capabilities = (Object).assign({}, capabilities, {
       browserName: cap.browserName,
       version: cap.version,
       platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
       deviceName: cap.deviceName,
-    }
+    });
   } else {
-    capabilities = {
+    capabilities = (Object).assign({}, capabilities, {
       browserName: 'chrome'
-    }
+    });
   }
 
-  if (argv.browser ===  'chrome' && argv.headless) {
+  if (argv.headless) {
     capabilities.chromeOptions = {
-      args: ["--headless", "--disable-gpu", "--window-size=1024x768"]
+      args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
     }
   }
 
-  return capabilities;
+  if (process.env.TRAVIS) {
+      capabilities.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+      capabilities.build = process.env.TRAVIS_JOB_NUMBER;
+  }
+
+  return [capabilities];
 }
 
 function getTags() {

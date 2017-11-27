@@ -1,5 +1,5 @@
 import { defineSupportCode } from 'cucumber';
-import { expect } from '../helpers/chai-imports';
+import { expect } from 'chai';
 
 import { ViewerPage } from './../pages/viewer.po';
 import { MetadataPage } from './../pages/metadata.po';
@@ -8,25 +8,24 @@ defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
   const metadata = new MetadataPage();
 
-  Given(/^the viewer is in full screen mode$/, async () => {
+  Given('the viewer is in full screen mode', async () => {
     await page.fullscreenButton().click();
   });
 
-  When(/^the user select full screen mode$/, async () => {
+  When('the user select full screen mode', async () => {
     await page.fullscreenButton().click();
   });
 
-  When(/^the user select exit full screen mode$/, async () => {
+  When('the user select exit full screen mode', async () => {
     await page.exitFullscreenButton().click();
   });
 
-  Then(/^the viewer should be presented using the entire screen$/, async () => {
+  Then('the viewer should be presented using the entire screen', async () => {
     expect(await page.isFullscreen()).to.equal(true);
   });
 
-  Then(/^the viewer should be presented normally$/, async () => {
+  Then('the viewer should be presented normally', async () => {
     expect(await page.isFullscreen()).to.equal(false);
   });
 
 });
-

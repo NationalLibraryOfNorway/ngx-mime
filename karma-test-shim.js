@@ -44,6 +44,7 @@ System.config({
   // Extend usual application package list with test folder
   packages: {
     rxjs: { defaultExtension: 'js' },
+    'rxjs/operators': { defaultExtension: 'js', main: 'index' },
     '': { defaultExtension: 'js' },
     src: {
         defaultExtension: 'js',
@@ -82,6 +83,8 @@ System.config({
     '@angular/cdk/stepper': 'npm:@angular/cdk/bundles/cdk-stepper.umd.js',
     '@angular/cdk/table': 'npm:@angular/cdk/bundles/cdk-table.umd.js',
     '@angular/cdk/testing': 'npm:@angular/cdk/bundles/cdk-testing.umd.js',
+    '@angular/cdk/accordion': 'npm:@angular/cdk/bundles/cdk-accordion.umd.js',
+    '@angular/cdk/layout': 'npm:@angular/cdk/bundles/cdk-layout.umd.js',
     '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.js',
     '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
     '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',

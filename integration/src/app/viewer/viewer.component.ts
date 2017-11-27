@@ -18,7 +18,7 @@ export class ViewerComponent implements OnInit {
       } else {
         this.manifestUri = 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest';
       }
-    })
+    });
   }
 
 }

@@ -51,9 +51,12 @@ em {
   opacity: 0.54;
 }
 
+::ng-deep .content-search-panel {
+  max-width: none !important;
+}
+
 ::ng-deep .content-search-panel > .mat-dialog-container {
   padding: 0px !important;
-  max-width: none !important;
   overflow: initial;
 }
 

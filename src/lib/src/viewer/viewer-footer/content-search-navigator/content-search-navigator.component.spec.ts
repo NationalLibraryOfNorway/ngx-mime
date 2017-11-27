@@ -14,6 +14,7 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { PageService } from './../../../core/page-service/page-service';
 import { ViewerServiceMock } from './../../../test/viewer-service-mock';
+import { IiifContentSearchServiceStub } from './../../../test/iiif-content-search-service-stub';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
@@ -29,7 +30,7 @@ describe('ContentSearchNavigatorComponent', () => {
       providers: [
         MimeViewerIntl,
         { provide: ViewerService, useClass: ViewerServiceMock },
-        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceMock },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
         { provide: PageService, useClass: PageServiceMock }
       ]
 
@@ -93,7 +94,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToPreviousHitPage();
-        expect(viewerService.setCurrentHit).toHaveBeenCalledWith(new Hit({index: 2}));
+        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
       });
 
     }));
@@ -106,7 +107,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToPreviousHitPage();
-        expect(viewerService.setCurrentHit).toHaveBeenCalledWith(new Hit({index: 2}));
+        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
       });
 
     }));
@@ -119,7 +120,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const res = component.goToNextHitPage();
-        expect(viewerService.setCurrentHit).toHaveBeenCalledWith(new Hit({index: 2}));
+        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
       });
 
     }));
@@ -165,14 +166,6 @@ describe('ContentSearchNavigatorComponent', () => {
   }
 
 });
-
-class IiifContentSearchServiceMock {
-  _onChange = new Subject<number>();
-  get onChange(): Observable<number> {
-    return this._onChange.asObservable();
-  }
-
-}
 
 class PageServiceMock {
 
