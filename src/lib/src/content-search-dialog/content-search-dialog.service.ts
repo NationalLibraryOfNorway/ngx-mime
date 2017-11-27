@@ -40,7 +40,6 @@ export class ContentSearchDialogService {
   public destroy() {
     this.close();
     this.destroyed.next();
-    this.destroyed.complete();
   }
 
   set el(el: ElementRef) {

@@ -38,6 +38,7 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { Hit } from './../models/search-result';
 
 import '../ext/svg-overlay';
+import '../../rxjs-extension';
 import * as d3 from 'd3';
 
 declare const OpenSeadragon: any;
@@ -52,6 +53,7 @@ export class ViewerService {
 
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
+  private subscriptions: Array<Subscription> = [];
   private destroyed: Subject<void> = new Subject();
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
@@ -260,77 +262,78 @@ export class ViewerService {
 
   addSubscriptions(): void {
     this.modeService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((mode: ViewerMode) => {
-        this.modeChanged(mode);
-      });
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((mode: ViewerMode) => {
+      this.modeChanged(mode);
+    });
 
     this.zone.runOutsideAngular(() => {
       this.onCenterChange
-        .pipe(
-          sample(interval(500)),
-          takeUntil(this.destroyed)
-        ).subscribe((center: Point) => {
-          this.calculateCurrentPage(center);
-          if (center && center !== null) {
-            this.osdIsReady.next(true);
-          }
-        });
+      .pipe(
+        takeUntil(this.destroyed),
+        sample(interval(500))
+      )
+      .subscribe((center: Point) => {
+        this.calculateCurrentPage(center);
+        if (center && center !== null) {
+          this.osdIsReady.next(true);
+        }
+      })
     });
 
-      this.pageService.onPageChange
-        .pipe(
-          takeUntil(this.destroyed)
-        )
-        .subscribe((pageIndex: number) => {
-          if (pageIndex !== -1) {
-            this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
-            if (this.modeService.mode === ViewerMode.PAGE) {
-              this.goToHomeZoom();
-            }
-          }
-        });
+    this.pageService.onPageChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((pageIndex: number) => {
+      if (pageIndex !== -1) {
+        this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
+        if (this.modeService.mode === ViewerMode.PAGE) {
+          this.goToHomeZoom();
+        }
+      }
+    });
 
-      this.onOsdReadyChange
-        .pipe(
-          takeUntil(this.destroyed)
-        )
-        .subscribe((state: boolean) => {
-          if (state) {
-            this.initialPageLoaded();
-            this.currentCenter.next(this.viewer.viewport.getCenter(true));
-          }
-        });
+  this.onOsdReadyChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((state: boolean) => {
+      if (state) {
+        this.initialPageLoaded();
+        this.currentCenter.next(this.viewer.viewport.getCenter(true));
+      }
+    });
 
-      this.viewerLayoutService.onChange
-        .pipe(
-          takeUntil(this.destroyed)
-        )
-        .subscribe((state: ViewerLayout) => {
-          if (this.osdIsReady.getValue()) {
-            const savedTile = this.pageService.currentTile;
-            this.destroy(true);
-            this.setUpViewer(this.manifest, this.config);
-            this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
-            // Recreate highlights if there is an active search going on
-            if (this.currentSearch) {
-              this.highlight(this.currentSearch);
-            }
-          }
-        });
+  this.viewerLayoutService.onChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((state: ViewerLayout) => {
+      if (this.osdIsReady.getValue()) {
+        const savedTile = this.pageService.currentTile;
+        this.destroy(true);
+        this.setUpViewer(this.manifest, this.config);
+        this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
+        // Recreate highlights if there is an active search going on
+        if (this.currentSearch) {
+          this.highlight(this.currentSearch);
+        }
+      }
+    });
 
-      this.iiifContentSearchService.onSelected
-        .pipe(
-          takeUntil(this.destroyed)
-        )
-        .subscribe((hit: Hit) => {
-          if (hit) {
-            this.highlightCurrentHit(hit);
-            this.goToTile(hit.index, false);
-          }
-        });
+  this.iiifContentSearchService.onSelected
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((hit: Hit) => {
+      if (hit) {
+        this.highlightCurrentHit(hit);
+        this.goToTile(hit.index, false);
+      }
+    });
 
   }
 
@@ -358,7 +361,6 @@ export class ViewerService {
       this.viewer.destroy();
     }
     this.destroyed.next();
-    this.destroyed.complete();
     this.overlays = null;
     this.pageService.reset();
     // Keep search-state only if layout-switch
