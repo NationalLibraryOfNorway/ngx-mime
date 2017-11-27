@@ -7,7 +7,6 @@ import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { testManifest } from '../../test/testManifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
-import '../../rxjs-extension';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 
 describe('IiifManifestService', () => {

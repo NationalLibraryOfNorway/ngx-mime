@@ -1,7 +1,9 @@
-import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { ObservableMedia } from '@angular/flex-layout';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerLayout } from '../models/viewer-layout';
@@ -32,7 +34,8 @@ export class ViewerLayoutService {
   }
 
   get onChange(): Observable<ViewerLayout> {
-    return this.subject.asObservable().distinctUntilChanged();
+    return this.subject.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get layout(): ViewerLayout {

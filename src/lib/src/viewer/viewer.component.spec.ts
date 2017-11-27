@@ -34,7 +34,6 @@ import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 
 import 'openseadragon';
-import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();

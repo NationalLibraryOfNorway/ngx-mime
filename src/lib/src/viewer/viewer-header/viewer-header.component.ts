@@ -11,6 +11,8 @@ import { MatDialog, MatDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
@@ -54,7 +56,6 @@ import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-ut
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('mimeHeaderBefore', {read: ViewContainerRef}) mimeHeaderBefore: ViewContainerRef;
   @ViewChild('mimeHeaderAfter', {read: ViewContainerRef}) mimeHeaderAfter: ViewContainerRef;
-  private subscriptions: Array<Subscription> = [];
   public manifest: Manifest;
   public state = 'hide';
   isContentSearchEnabled = false;
@@ -63,7 +64,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   viewerLayout: ViewerLayout;
 
   ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
-
+  private destroyed: Subject<void> = new Subject();
 
 
   constructor(
@@ -80,29 +81,44 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
 
-    this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
+    this.intl.changes
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe(() => this.changeDetectorRef.markForCheck());
 
-    this.subscriptions.push(this.fullscreenService.onChange.subscribe(() => {
-      this.changeDetectorRef.detectChanges();
-    }));
+    this.fullscreenService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe(() => {
+        this.changeDetectorRef.detectChanges();
+      });
 
-    this.subscriptions.push(this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
-      this.manifest = manifest;
-      this.isContentSearchEnabled = manifest.service ? true : false;
-      this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
-      this.changeDetectorRef.detectChanges();
-    }));
+    this.iiifManifestService.currentManifest
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((manifest: Manifest) => {
+        this.manifest = manifest;
+        this.isContentSearchEnabled = manifest.service ? true : false;
+        this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
+        this.changeDetectorRef.detectChanges();
+      });
 
-    this.subscriptions.push(this.viewerLayoutService.onChange.subscribe((viewerLayout: ViewerLayout) => {
-      this.viewerLayout = viewerLayout;
-    }));
+    this.viewerLayoutService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((viewerLayout: ViewerLayout) => {
+        this.viewerLayout = viewerLayout;
+      });
 
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   public toggleContents() {

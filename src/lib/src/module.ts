@@ -14,7 +14,6 @@ import { PageNavigatorComponent } from './viewer/viewer-footer/page-navigator/pa
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
-import './rxjs-extension';
 import 'openseadragon';
 import 'd3';
 

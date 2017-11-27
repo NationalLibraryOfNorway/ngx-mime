@@ -10,6 +10,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
 import { PageNavigatorComponent } from './page-navigator.component';
 import { SharedModule } from './../../../shared/shared.module';

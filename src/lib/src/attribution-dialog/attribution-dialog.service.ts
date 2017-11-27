@@ -2,6 +2,10 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { take } from 'rxjs/operators/take';
+import { interval } from 'rxjs/observable/interval';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { AttributionDialogComponent } from './attribution-dialog.component';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
@@ -15,7 +19,7 @@ export class AttributionDialogService {
   private dialogRef: MatDialogRef<AttributionDialogComponent>;
   private _el: ElementRef;
   private attributionDialogHeight = 0;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     private dialog: MatDialog,
@@ -25,26 +29,32 @@ export class AttributionDialogService {
   ) { }
 
   public initialize(): void {
-    this.subscriptions.push(this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-      if (this.isAttributionDialogOpen) {
-        const config = this.getDialogConfig();
-        this.dialogRef.updatePosition(config.position);
-      }
-    }));
-    this.subscriptions.push(this.attributionDialogResizeService.onResize.subscribe((dimensions: Dimensions) => {
-      if (this.isAttributionDialogOpen) {
-        this.attributionDialogHeight = dimensions.height;
-        const config = this.getDialogConfig();
-        this.dialogRef.updatePosition(config.position);
-      }
-    }));
+    this.mimeResizeService.onResize
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((dimensions: Dimensions) => {
+        if (this.isAttributionDialogOpen) {
+          const config = this.getDialogConfig();
+          this.dialogRef.updatePosition(config.position);
+        }
+      });
+    this.attributionDialogResizeService.onResize
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((dimensions: Dimensions) => {
+        if (this.isAttributionDialogOpen) {
+          this.attributionDialogHeight = dimensions.height;
+          const config = this.getDialogConfig();
+          this.dialogRef.updatePosition(config.position);
+        }
+      });
   }
 
   public destroy() {
     this.close();
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
   }
 
   set el(el: ElementRef) {
@@ -57,9 +67,10 @@ export class AttributionDialogService {
        * Sleeping for material animations to finish
        * fix: https://github.com/angular/material2/issues/7438
        */
-      this.subscriptions.push(Observable
-        .interval(1000)
-        .take(1)
+      interval(1000)
+        .pipe(
+          take(1)
+        )
         .subscribe(() => {
           const config = this.getDialogConfig();
           this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
@@ -68,7 +79,7 @@ export class AttributionDialogService {
           });
           this.isAttributionDialogOpen = true;
           this.closeDialogAfter(timeout);
-        }));
+        });
     }
   }
 
@@ -85,12 +96,13 @@ export class AttributionDialogService {
 
   private closeDialogAfter(seconds: number) {
     if (seconds > 0) {
-      this.subscriptions.push(Observable
-        .interval(seconds * 1000)
-        .take(1)
+      interval(seconds * 1000)
+        .pipe(
+          take(1)
+        )
         .subscribe(() => {
           this.close();
-        }));
+        });
     }
   }
 

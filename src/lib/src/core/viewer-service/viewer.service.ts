@@ -1,8 +1,13 @@
-import { BehaviorSubject, Subject } from 'rxjs/Rx';
+import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Injectable, NgZone, OnInit } from '@angular/core';
+import { sample } from 'rxjs/operators/sample';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { takeUntil } from 'rxjs/operators/takeUntil';
+import { interval } from 'rxjs/observable/interval';
 
 import { Utils } from '../../core/utils';
 import { ViewerOptions } from '../models/viewer-options';
@@ -49,6 +54,7 @@ export class ViewerService {
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -82,15 +88,18 @@ export class ViewerService {
   }
 
   get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable().distinctUntilChanged();
+    return this.currentPageIndex.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get onHitChange(): Observable<Hit> {
-    return this.currentHit.asObservable().distinctUntilChanged();
+    return this.currentHit.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get onOsdReadyChange(): Observable<boolean> {
-    return this.osdIsReady.asObservable().distinctUntilChanged();
+    return this.osdIsReady.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   public getViewer(): any {
@@ -252,62 +261,79 @@ export class ViewerService {
 
 
   addSubscriptions(): void {
-    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+    this.modeService.onChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((mode: ViewerMode) => {
       this.modeChanged(mode);
-    }));
+    });
 
     this.zone.runOutsideAngular(() => {
-      this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
+      this.onCenterChange
+      .pipe(
+        takeUntil(this.destroyed),
+        sample(interval(500))
+      )
+      .subscribe((center: Point) => {
         this.calculateCurrentPage(center);
         if (center && center !== null) {
           this.osdIsReady.next(true);
         }
-      }));
+      })
     });
 
-    this.subscriptions.push(
-      this.pageService.onPageChange.subscribe((pageIndex: number) => {
-        if (pageIndex !== -1) {
-          this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
-          if (this.modeService.mode === ViewerMode.PAGE) {
-            this.goToHomeZoom();
-          }
+    this.pageService.onPageChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((pageIndex: number) => {
+      if (pageIndex !== -1) {
+        this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
+        if (this.modeService.mode === ViewerMode.PAGE) {
+          this.goToHomeZoom();
         }
-      })
-    );
+      }
+    });
 
-    this.subscriptions.push(
-      this.onOsdReadyChange.subscribe((state: boolean) => {
-        if (state) {
-          this.initialPageLoaded();
-          this.currentCenter.next(this.viewer.viewport.getCenter(true));
-        }
-      })
-    );
+  this.onOsdReadyChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((state: boolean) => {
+      if (state) {
+        this.initialPageLoaded();
+        this.currentCenter.next(this.viewer.viewport.getCenter(true));
+      }
+    });
 
-    this.subscriptions.push(
-      this.viewerLayoutService.onChange.subscribe((state: ViewerLayout) => {
-        if (this.osdIsReady.getValue()) {
-          const savedTile = this.pageService.currentTile;
-          this.destroy(true);
-          this.setUpViewer(this.manifest, this.config);
-          this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
-          // Recreate highlights if there is an active search going on
-          if (this.currentSearch) {
-            this.highlight(this.currentSearch);
-          }
+  this.viewerLayoutService.onChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((state: ViewerLayout) => {
+      if (this.osdIsReady.getValue()) {
+        const savedTile = this.pageService.currentTile;
+        this.destroy(true);
+        this.setUpViewer(this.manifest, this.config);
+        this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
+        // Recreate highlights if there is an active search going on
+        if (this.currentSearch) {
+          this.highlight(this.currentSearch);
         }
-      })
-    );
+      }
+    });
 
-    this.subscriptions.push(
-      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
-        if (hit) {
-          this.highlightCurrentHit(hit);
-          this.goToTile(hit.index, false);
-        }
-      })
-    );
+  this.iiifContentSearchService.onSelected
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((hit: Hit) => {
+      if (hit) {
+        this.highlightCurrentHit(hit);
+        this.goToTile(hit.index, false);
+      }
+    });
 
   }
 
@@ -334,9 +360,7 @@ export class ViewerService {
       }
       this.viewer.destroy();
     }
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
     this.overlays = null;
     this.pageService.reset();
     // Keep search-state only if layout-switch

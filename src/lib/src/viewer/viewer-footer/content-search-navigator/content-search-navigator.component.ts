@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { SearchResult } from './../../../core/models/search-result';
 import { Hit } from './../../../core/models/search-result';
@@ -21,9 +21,9 @@ export class ContentSearchNavigatorComponent implements OnInit {
   public isHitOnActivePage = false;
   public isFirstHitPage = false;
   public isLastHitPage = false;
-  private subscriptions: Array<Subscription> = [];
   public currentIndex = 0;
   private currentCanvasIndices = [-1];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -33,10 +33,18 @@ export class ContentSearchNavigatorComponent implements OnInit {
     private iiifContentSearchService: IiifContentSearchService) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
+    this.intl
+      .changes
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe(() => this.changeDetectorRef.markForCheck());
 
-    this.subscriptions.push(this.pageService
+    this.pageService
       .onPageChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
       .subscribe((pageIndex) => {
         this.currentCanvasIndices = this.pageService.getTileArrayFromPageIndex(pageIndex);
         this.currentIndex = this.findCurrentHitIndex(this.currentCanvasIndices);
@@ -47,13 +55,12 @@ export class ContentSearchNavigatorComponent implements OnInit {
         const currentHit = this.searchResult.get(this.currentIndex);
         this.isLastHitPage = currentHit.index === lastCanvasIndex;
         this.changeDetectorRef.detectChanges();
-      }));
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   clear(): void {

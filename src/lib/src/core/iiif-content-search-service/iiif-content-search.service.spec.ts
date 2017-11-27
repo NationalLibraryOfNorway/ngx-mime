@@ -7,8 +7,6 @@ import { SearchResultBuilder } from './../builders/search-result.builder';
 import { SearchResult } from './../models/search-result';
 import { Manifest } from './../models/manifest';
 
-import './../../rxjs-extension';
-
 describe('IiifContentSearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({

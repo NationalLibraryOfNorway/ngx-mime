@@ -1,6 +1,7 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
@@ -11,7 +12,7 @@ export class ContentsDialogService {
   private _el: ElementRef;
   private isContentsDialogOpen = false;
   private dialogRef: MatDialogRef<ContentsDialogComponent>;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     private dialog: MatDialog,
@@ -20,20 +21,22 @@ export class ContentsDialogService {
   }
 
   public initialize(): void {
-    this.subscriptions.push(this.mimeResizeService.onResize.subscribe(rect => {
-      if (this.isContentsDialogOpen) {
-        const config = this.getDialogConfig();
-        this.dialogRef.updatePosition(config.position);
-        this.dialogRef.updateSize(config.width, config.height);
-      }
-    }));
+    this.mimeResizeService
+      .onResize
+      .pipe(
+        takeUntil(this.destroyed)
+      ).subscribe(rect => {
+        if (this.isContentsDialogOpen) {
+          const config = this.getDialogConfig();
+          this.dialogRef.updatePosition(config.position);
+          this.dialogRef.updateSize(config.width, config.height);
+        }
+      });
   }
 
   public destroy() {
     this.close();
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
   }
 
   set el(el: ElementRef) {

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+
 import { PageRects } from './../models/page-rects';
 import { ViewerLayout } from '../models/viewer-layout';
 import { Point } from './../models/point';
 import { Rect } from './../models/rect';
-
 
 @Injectable()
 export class PageService {
@@ -49,11 +50,13 @@ export class PageService {
   }
 
   get onPageChange(): Observable<number> {
-    return this._currentPage.asObservable().distinctUntilChanged();
+    return this._currentPage.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get onNumberOfPagesChange(): Observable<number> {
-    return this._currentNumberOfPages.asObservable().distinctUntilChanged();
+    return this._currentNumberOfPages.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get numberOfPages(): number {

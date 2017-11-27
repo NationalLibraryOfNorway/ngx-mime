@@ -14,8 +14,11 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { throttle } from 'rxjs/operators/throttle';
+import { interval } from 'rxjs/observable/interval';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
@@ -56,7 +59,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Output('qChanged') onQChange: EventEmitter<string> = new EventEmitter();
   @Output('manifestChanged') onManifestChange: EventEmitter<Manifest> = new EventEmitter();
 
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
   private isCanvasPressed = false;
   private currentManifest: Manifest;
   private viewerLayout: ViewerLayout;
@@ -110,91 +113,112 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.modeService.initialMode = this.config.initViewerMode;
-    this.subscriptions.push(
-      this.iiifManifestService.currentManifest
-        .subscribe((manifest: Manifest) => {
-          if (manifest) {
-            this.onManifestChange.next(manifest);
-            this.cleanup();
-            this.initialize();
-            this.currentManifest = manifest;
-            this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
-            this.changeDetectorRef.detectChanges();
-            this.viewerService.setUpViewer(manifest, this.config);
-            if (this.config.attributionDialogEnabled && manifest.attribution) {
-              this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
-            }
-
-            if (this.q) {
-              this.iiifContentSearchService.search(manifest, this.q);
-            }
+    this.iiifManifestService.currentManifest
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((manifest: Manifest) => {
+        if (manifest) {
+          this.onManifestChange.next(manifest);
+          this.cleanup();
+          this.initialize();
+          this.currentManifest = manifest;
+          this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
+          this.changeDetectorRef.detectChanges();
+          this.viewerService.setUpViewer(manifest, this.config);
+          if (this.config.attributionDialogEnabled && manifest.attribution) {
+            this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
           }
-        })
-    );
 
-    this.subscriptions.push(
-      this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+          if (this.q) {
+            this.iiifContentSearchService.search(manifest, this.q);
+          }
+        }
+      });
+
+    this.viewerService.onOsdReadyChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((state: boolean) => {
         // Don't reset current page when switching layout
         if (state && this.canvasIndex && !this.pageService.currentPage) {
           this.viewerService.goToTile(this.canvasIndex, false);
         }
-      })
-    );
+      });
 
-    this.subscriptions.push(
-      this.iiifManifestService.errorMessage.subscribe((error: string) => {
+    this.iiifManifestService.errorMessage
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((error: string) => {
         this.resetCurrentManifest();
         this.errorMessage = error;
         this.changeDetectorRef.detectChanges();
-      })
-    );
+      });
 
-    this.subscriptions.push(
-      this.iiifContentSearchService.onQChange.subscribe((q: string) => {
+    this.iiifContentSearchService.onQChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((q: string) => {
         this.onQChange.emit(q);
-      })
-    );
+      });
 
-    this.subscriptions.push(
-      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+    this.iiifContentSearchService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((sr: SearchResult) => {
         this.viewerService.highlight(sr);
-      })
-    );
+      });
 
-    this.subscriptions.push(
-      this.viewerService.isCanvasPressed.subscribe((value: boolean) => {
+    this.viewerService.isCanvasPressed
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((value: boolean) => {
         this.isCanvasPressed = value;
         this.changeDetectorRef.detectChanges();
-      })
-    );
+      });
 
-    this.subscriptions.push(
-      this.modeService.onChange.subscribe((mode: ViewerMode) => {
+    this.modeService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((mode: ViewerMode) => {
         this.toggleToolbarsState(mode);
         this.onPageModeChange.emit(mode);
-      })
-    );
+      });
 
-    this.subscriptions.push(
-      this.pageService.onPageChange.subscribe((pageNumber: number) => {
+    this.pageService.onPageChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((pageNumber: number) => {
         const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
         if (tileIndex !== -1) {
           this.onPageChange.emit(tileIndex);
         }
-      })
-    );
+      });
 
-    this.subscriptions.push(
-      this.mimeService.onResize.throttle(val => Observable.interval(ViewerOptions.transitions.OSDAnimationTime)).subscribe(() => {
+    this.mimeService.onResize
+      .pipe(
+        takeUntil(this.destroyed),
+        throttle(val => interval(ViewerOptions.transitions.OSDAnimationTime))
+      ).subscribe(() => {
         setTimeout(() => {
           this.viewerService.home();
         }, ViewerOptions.transitions.OSDAnimationTime);
-      })
-    );
+      });
 
-    this.subscriptions.push(this.viewerLayoutService.onChange.subscribe((viewerLayout: ViewerLayout) => {
+  this.viewerLayoutService.onChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((viewerLayout: ViewerLayout) => {
       this.viewerLayout = viewerLayout;
-    }));
+    });
 
     this.loadManifest();
   }
@@ -240,9 +264,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
     this.cleanup();
     this.iiifManifestService.destroy();
     this.iiifContentSearchService.destroy();

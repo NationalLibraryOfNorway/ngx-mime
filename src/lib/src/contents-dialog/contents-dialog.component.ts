@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, ElementRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
@@ -16,7 +17,7 @@ import { Dimensions } from '../core/models/dimensions';
 export class ContentsDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
   private mimeHeight = 0;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -24,11 +25,14 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     private mimeResizeService: MimeResizeService,
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper) {
-      this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-      this.mimeHeight = dimensions.height;
-      this.resizeTabHeight();
-    }));
-
+      mimeResizeService
+        .onResize
+        .pipe(
+          takeUntil(this.destroyed)
+        ).subscribe((dimensions: Dimensions) => {
+          this.mimeHeight = dimensions.height;
+          this.resizeTabHeight();
+        });
   }
 
   ngOnInit() {
@@ -36,9 +40,8 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   @HostListener('window:resize', ['$event'])

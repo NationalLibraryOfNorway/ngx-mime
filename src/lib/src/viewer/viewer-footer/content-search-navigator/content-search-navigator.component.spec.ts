@@ -87,43 +87,49 @@ describe('ContentSearchNavigatorComponent', () => {
   });
 
   it('should go to first hit if current canvas is 4 and user presses previous hit button',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-      spyOn(viewerService, 'setCurrentHit');
+    inject([
+      PageService, IiifContentSearchService],
+      (pageService: PageServiceMock, iiifContentSearchService: IiifContentSearchServiceStub) => {
+        spyOn(iiifContentSearchService, 'selected');
+        pageService.setPageChange(4);
 
-      viewerService.setPageChange(4);
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const res = component.goToPreviousHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
-      });
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          const res = component.goToPreviousHitPage();
+          expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ index: 2 }));
+        });
 
-    }));
+      }));
 
   it('should go to first hit if current canvas is 3 and user presses previous hit button',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-      spyOn(viewerService, 'setCurrentHit');
+    inject([
+      PageService, IiifContentSearchService],
+      (pageService: PageServiceMock, iiifContentSearchService: IiifContentSearchServiceStub) => {
+        spyOn(iiifContentSearchService, 'selected');
+        pageService.setPageChange(3);
+        fixture.detectChanges();
 
-      viewerService.setPageChange(3);
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const res = component.goToPreviousHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
-      });
+        fixture.whenStable().then(() => {
+          const res = component.goToPreviousHitPage();
+          expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ index: 2 }));
+        });
 
-    }));
+      }));
 
   it('should go to first hit if current canvas is 0 and user presses next hit button',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
-      spyOn(viewerService, 'setCurrentHit');
+    inject([
+      PageService, IiifContentSearchService],
+      (pageService: PageServiceMock, iiifContentSearchService: IiifContentSearchServiceStub) => {
+        spyOn(iiifContentSearchService, 'selected');
+        pageService.setPageChange(0);
+        fixture.detectChanges();
 
-      pageService.setPageChange(0);
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const res = component.goToNextHitPage();
-        expect(viewerService.goToTile).toHaveBeenCalledWith(2, false);
-      });
+        fixture.whenStable().then(() => {
+          const res = component.goToNextHitPage();
+          expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ index: 2 }));
+        });
 
-    }));
+      }));
 
   it('should disable previous button if on first hit',
     inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {

@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { filter } from 'rxjs/operators/filter';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { finalize } from 'rxjs/operators/finalize';
 
 import { Manifest } from '../models/manifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
@@ -21,7 +24,11 @@ export class IiifManifestService {
   ) { }
 
   get currentManifest(): Observable<Manifest> {
-    return this._currentManifest.asObservable().filter(m => m !== null).distinctUntilChanged();
+    return this._currentManifest.asObservable()
+      .pipe(
+        filter(m => m !== null),
+        distinctUntilChanged()
+      );
   }
 
   get errorMessage(): Observable<string> {
@@ -34,8 +41,9 @@ export class IiifManifestService {
     } else {
       this.spinnerService.show();
       this.http.get(manifestUri)
-        .finally(() => this.spinnerService.hide())
-        .subscribe(
+        .pipe(
+          finalize(() => this.spinnerService.hide())
+        ).subscribe(
           (response: Response) => {
             const manifest = this.extractData(response);
             if (this.isManifestValid(manifest)) {
