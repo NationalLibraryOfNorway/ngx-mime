@@ -23,6 +23,11 @@ export class ContentSearchPage {
     await el.sendKeys(protractor.Key.ENTER);
   }
 
+  async searchTerm(): Promise<string> {
+    const el = await utils.waitForElement(element(by.css('.content-search-input')));
+    return el.getText();
+  }
+
   async getNumberOfHits() {
     await browser.sleep(1000);
     const el: ElementFinder = await utils.waitForElement(element(by.css('#numberOfHits')));
@@ -42,6 +47,10 @@ export class ContentSearchPage {
 
   contentSearchNavigatorToolbar() {
     return element(by.css('#content-search-navigator-toolbar'));
+  }
+
+  clearInputButton() {
+    return utils.waitForElement(element(by.id('#clearSearchButton')));
   }
 
   clearButton() {

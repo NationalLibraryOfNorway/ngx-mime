@@ -53,6 +53,11 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.waitForAnimation();
   });
 
+  When('the user click the search inputs clear button', async () => {
+    const clearButton = await contentSearchPage.clearButton();
+    await clearButton.click();
+  });
+
   Then('there are {word} results found', async (numberOfHits: string) => {
     const expected = numberOfHits === 'no' ? 0 : parseInt(numberOfHits, 8);
     const hits = await contentSearchPage.getNumberOfHits();
@@ -97,6 +102,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then('the hit should be visible', async () => {
     const isVisible: boolean = await contentSearchPage.hitIsVisible(selectedHitIndex);
     expect(isVisible).to.equal(true);
+  });
+
+  Then('the search query should be empty', async () => {
+    const searchTerm = await contentSearchPage.searchTerm();
+    expect(searchTerm).to.equals('');
   });
 
   async function search(term: string) {
