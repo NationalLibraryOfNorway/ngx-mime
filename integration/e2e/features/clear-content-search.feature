@@ -13,7 +13,6 @@ Feature: Clear content search
     Then all highlighting should be removed 
       And the search result toolbar should be removed
 
-
   @desktop @android @iphone
   Scenario: Clear search hits from clear search input button
     Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
