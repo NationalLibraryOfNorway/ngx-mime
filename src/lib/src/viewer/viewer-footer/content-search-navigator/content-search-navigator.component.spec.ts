@@ -70,114 +70,135 @@ describe('ContentSearchNavigatorComponent', () => {
     })
   );
 
-  it('should return -1 if canvasIndex is before first hit', () => {
-    const res = component.findCurrentHitIndex([0]);
-    expect(res).toBe(-1);
-  });
+  describe('Two page display', () => {
 
-  it('should return 0 if canvasIndex is on first hit', () => {
-    const res = component.findCurrentHitIndex([1]);
-    expect(res).toBe(0);
-  });
-
-  it('should return 0 if canvasIndex is between first and second hit', () => {
-    const res = component.findCurrentHitIndex([3]);
-    expect(res).toBe(0);
-  });
-
-  it('should return 1 if canvasIndex is between second and fourth hit', () => {
-    const res = component.findCurrentHitIndex([8]);
-    expect(res).toBe(1);
-  });
-
-  it('should return 6 if canvasIndex is after last', () => {
-    const res = component.findCurrentHitIndex([110]);
-    expect(res).toBe(6);
-  });
-
-  it('should go to first hit if user is between first and second hit and presses previous hit button', () => {
-    spyOn(iiifContentSearchService, 'selected');
-    pageService.setPageChange(2);
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      component.goToPreviousHitPage();
-      expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+    it('should return -1 if canvasIndex is before first hit', () => {
+      const res = component.findCurrentHitIndex([0]);
+      expect(res).toBe(-1);
     });
 
-  });
-
-  it('should go to first hit if user is on second hit and presses previous hit button', () => {
-    spyOn(iiifContentSearchService, 'selected');
-    pageService.setPageChange(4);
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      component.goToPreviousHitPage();
-      expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+    it('should return 0 if canvasIndex is on first hit', () => {
+      const res = component.findCurrentHitIndex([1]);
+      expect(res).toBe(0);
     });
 
-  });
-
-  it('should go to first hit if user is before first hit and presses next hit button', () => {
-    spyOn(iiifContentSearchService, 'selected');
-    pageService.setPageChange(0);
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      component.goToNextHitPage();
-      expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+    it('should return 0 if canvasIndex is between first and second hit', () => {
+      const res = component.findCurrentHitIndex([3]);
+      expect(res).toBe(0);
     });
 
-  });
-
-  it('should disable previous button if on first hit', () => {
-    pageService.setPageChange(2);
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      const button = fixture.debugElement.query(By.css('#footerNavigatePreviousHitButton'));
-      expect(button.nativeElement.disabled).toBeTruthy();
+    it('should return 1 if canvasIndex is between second and fourth hit', () => {
+      const res = component.findCurrentHitIndex([8]);
+      expect(res).toBe(1);
     });
 
-  });
-
-  it('should disable next button if on last hit', () => {
-    const last = createDefaultData().last();
-    pageService.setPageChange(51);
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      const button = fixture.debugElement.query(By.css('#footerNavigateNextHitButton'));
-      expect(button.nativeElement.disabled).toBeTruthy();
+    it('should return 6 if canvasIndex is after last', () => {
+      const res = component.findCurrentHitIndex([110]);
+      expect(res).toBe(6);
     });
 
-  });
+    it('should go to first hit if user is between first and second hit and presses previous hit button', () => {
+      spyOn(iiifContentSearchService, 'selected');
+      pageService.setPageChange(2);
+      fixture.detectChanges();
 
-  it('should go to first hit on left page if user presses previous hit button', () => {
-    spyOn(iiifContentSearchService, 'selected');
-    component.searchResult = createLeftPageHit();
+      fixture.whenStable().then(() => {
+        component.goToPreviousHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+      });
 
-    pageService.setPageChange(2);
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      component.goToPreviousHitPage();
-      expect(iiifContentSearchService.selected)
-        .toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
     });
 
-  });
+    it('should go to first hit if user is on second hit and presses previous hit button', () => {
+      spyOn(iiifContentSearchService, 'selected');
+      pageService.setPageChange(4);
+      fixture.detectChanges();
 
-  fit('should go to first hit on right page if user presses previous hit button', () => {
-    spyOn(iiifContentSearchService, 'selected');
-    component.searchResult = createRightPageHit();
-    pageService.setPageChange(3);
-    fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        component.goToPreviousHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+      });
 
-    fixture.whenStable().then(() => {
-      component.goToPreviousHitPage();
-      expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 2 }));
     });
 
+    it('should go to first hit if user is before first hit and presses next hit button', () => {
+      spyOn(iiifContentSearchService, 'selected');
+      pageService.setPageChange(0);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        component.goToNextHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+      });
+
+    });
+
+    it('should disable previous button if on first hit', () => {
+      pageService.setPageChange(2);
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const button = fixture.debugElement.query(By.css('#footerNavigatePreviousHitButton'));
+        expect(button.nativeElement.disabled).toBeTruthy();
+      });
+
+    });
+
+    it('should disable next button if on last hit', () => {
+      const last = createDefaultData().last();
+      pageService.setPageChange(51);
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const button = fixture.debugElement.query(By.css('#footerNavigateNextHitButton'));
+        expect(button.nativeElement.disabled).toBeTruthy();
+      });
+
+    });
+
+    it('should go to first hit on left page if user presses previous hit button', () => {
+      spyOn(iiifContentSearchService, 'selected');
+      component.searchResult = createLeftPageHit();
+
+      pageService.setPageChange(2);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        component.goToPreviousHitPage();
+        expect(iiifContentSearchService.selected)
+          .toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+      });
+
+    });
+
+    it('should go to first hit on right page if user presses previous hit button', () => {
+      spyOn(iiifContentSearchService, 'selected');
+      component.searchResult = createRightPageHit();
+      pageService.setPageChange(3);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        component.goToPreviousHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 2 }));
+      });
+
+    });
+  });
+
+  describe('Single page display', () => {
+
+    it('should go to first hit if user presses previous hit button', () => {
+      spyOn(iiifContentSearchService, 'selected');
+      component.searchResult = createSinglePageHit();
+      pageService.reset()
+      pageService.addPages(createDefaultTileRects(102), ViewerLayout.ONE_PAGE, true);
+      pageService.setPageChange(3);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        component.goToPreviousHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 2 }));
+      });
+
+    });
   });
 
   function createDefaultTileRects(size: number): Rect[] {
@@ -239,6 +260,20 @@ describe('ContentSearchNavigatorComponent', () => {
   }
 
   function createRightPageHit() {
+    const searchResult = new SearchResult();
+    searchResult.add(new Hit({
+      id: 1,
+      index: 2
+    }));
+    searchResult.add(new Hit({
+      id: 2,
+      index: 2
+    }));
+
+    return searchResult;
+  }
+
+  function createSinglePageHit() {
     const searchResult = new SearchResult();
     searchResult.add(new Hit({
       id: 1,
