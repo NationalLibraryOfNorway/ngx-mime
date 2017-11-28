@@ -69,7 +69,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
 
   goToPreviousHitPage() {
     const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
-    let previousHit = this.findFirstHitOnPage(previousIndex)
+    const previousHit = this.findFirstHitOnPage(previousIndex)
     this.currentIndex = this.findCurrentHitIndex([previousHit.index]);
     this.iiifContentSearchService.selected(previousHit);
   }
