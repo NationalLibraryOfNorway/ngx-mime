@@ -108,10 +108,14 @@ export class ContentSearchNavigatorComponent implements OnInit {
   private findFirstHitOnPage(previousIndex: number): Hit {
     let previousHit = this.searchResult.get(previousIndex);
     const page = this.pageService.findPageByTileIndex(previousHit.index);
-    const leftPage = this.pageService.getTileArrayFromPageIndex(page)[0];
-    const previousLeftPageHit = this.searchResult.hits.find(h => h.index === leftPage);
-    if (previousLeftPageHit) {
-      previousHit = previousLeftPageHit;
+    const tiles = this.pageService.getTileArrayFromPageIndex(page);
+    const leftPage = tiles[0];
+    const leftPageHit = this.searchResult.hits.find(h => h.index === leftPage);
+    if (leftPageHit) {
+      previousHit = leftPageHit;
+    } else if (tiles.length === 2) {
+      const rightPage = tiles[1];
+      previousHit = this.searchResult.hits.find(h => h.index === rightPage);
     }
     return previousHit;
   }

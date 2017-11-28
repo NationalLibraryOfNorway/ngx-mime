@@ -167,7 +167,7 @@ describe('ContentSearchNavigatorComponent', () => {
 
   });
 
-  it('should go to first hit on right page if user presses previous hit button', () => {
+  fit('should go to first hit on right page if user presses previous hit button', () => {
     spyOn(iiifContentSearchService, 'selected');
     component.searchResult = createRightPageHit();
     pageService.setPageChange(3);
@@ -175,7 +175,7 @@ describe('ContentSearchNavigatorComponent', () => {
 
     fixture.whenStable().then(() => {
       component.goToPreviousHitPage();
-      expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+      expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 2 }));
     });
 
   });
@@ -242,11 +242,11 @@ describe('ContentSearchNavigatorComponent', () => {
     const searchResult = new SearchResult();
     searchResult.add(new Hit({
       id: 1,
-      index: 1
+      index: 2
     }));
     searchResult.add(new Hit({
       id: 2,
-      index: 1
+      index: 2
     }));
 
     return searchResult;
