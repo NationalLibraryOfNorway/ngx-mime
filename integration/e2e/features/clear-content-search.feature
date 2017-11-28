@@ -14,7 +14,7 @@ Feature: Clear content search
       And the search result toolbar should be removed
 
 
-  @desktop @android @iphone @wip
+  @desktop @android @iphone
   Scenario: Clear search hits from clear search input button
     Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
       And the viewer is in dashboard view
