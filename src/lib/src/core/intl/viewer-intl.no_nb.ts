@@ -21,6 +21,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   nextPageLabel = 'Neste side';
   homeLabel = 'Hjem';
   searchLabel = 'Søk';
+  clearSearchLabel = 'Tøm';
   previousHitLabel = 'Forrige treff';
   nextHitLabel = 'Neste treff';
 

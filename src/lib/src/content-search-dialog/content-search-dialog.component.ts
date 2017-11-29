@@ -132,7 +132,14 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     this.resizeTabHeight();
   }
 
-  onSubmit() {
+  onSubmit(event: KeyboardEvent) {
+    event.preventDefault();
+    this.currentSearch = this.q;
+    this.iiifContentSearchService.search(this.manifest, this.q);
+  }
+
+  clear() {
+    this.q = '';
     this.currentSearch = this.q;
     this.iiifContentSearchService.search(this.manifest, this.q);
   }
