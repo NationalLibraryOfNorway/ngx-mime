@@ -69,7 +69,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
 
   goToPreviousHitPage() {
     const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
-    const previousHit = this.searchResult.get(previousIndex);
+    const previousHit = this.findFirstHitOnPage(previousIndex)
     this.currentIndex = this.findCurrentHitIndex([previousHit.index]);
     this.iiifContentSearchService.selected(previousHit);
   }
@@ -82,6 +82,7 @@ export class ContentSearchNavigatorComponent implements OnInit {
       const current = this.searchResult.get(this.currentIndex);
       nextHit = this.searchResult.hits.find(h => h.index > current.index);
     }
+
     this.currentIndex = this.findCurrentHitIndex([nextHit.index]);
     this.iiifContentSearchService.selected(nextHit);
   }
@@ -102,6 +103,21 @@ export class ContentSearchNavigatorComponent implements OnInit {
       }
     }
     return this.searchResult.size() - 1;
+  }
+
+  private findFirstHitOnPage(previousIndex: number): Hit {
+    let previousHit = this.searchResult.get(previousIndex);
+    const page = this.pageService.findPageByTileIndex(previousHit.index);
+    const tiles = this.pageService.getTileArrayFromPageIndex(page);
+    const leftPage = tiles[0];
+    const leftPageHit = this.searchResult.hits.find(h => h.index === leftPage);
+    if (leftPageHit) {
+      previousHit = leftPageHit;
+    } else if (tiles.length === 2) {
+      const rightPage = tiles[1];
+      previousHit = this.searchResult.hits.find(h => h.index === rightPage);
+    }
+    return previousHit;
   }
 
 }

@@ -13,7 +13,7 @@ export class PageService {
 
   private _numberOfPages: number;
   private _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(0);
-  private _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
+  protected _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
 
   private tileRects: Rect[];
   private pageRects: PageRects = new PageRects();

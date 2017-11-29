@@ -29,6 +29,10 @@ export class SearchResult {
   public size(): number {
     return this.hits.length;
   }
+
+  public last(): Hit {
+    return this.get(this.size() - 1);
+  }
 }
 
 export class Hit {
