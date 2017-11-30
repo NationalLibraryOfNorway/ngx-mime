@@ -181,6 +181,21 @@ describe('ContentSearchNavigatorComponent', () => {
       });
 
     });
+
+    it('should skip going to right page when there is hits on both pages when user presses next hit button', () => {
+      spyOn(iiifContentSearchService, 'selected');
+      component.searchResult = createRightPageHit();
+      pageService.setPageChange(0);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        component.goToNextHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 2 }));
+        component.goToNextHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 3, index: 100 }));
+      });
+
+    });
   });
 
   describe('Single page display', () => {
@@ -199,6 +214,21 @@ describe('ContentSearchNavigatorComponent', () => {
       });
 
     });
+
+    it('should go to next hit if user presses next hit button', () => {
+      spyOn(iiifContentSearchService, 'selected');
+      pageService.setPageChange(0);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        component.goToNextHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 1, index: 1 }));
+        component.goToNextHitPage();
+        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 2, index: 8 }));
+      });
+
+    });
+
   });
 
   function createDefaultTileRects(size: number): Rect[] {
@@ -268,6 +298,10 @@ describe('ContentSearchNavigatorComponent', () => {
     searchResult.add(new Hit({
       id: 2,
       index: 2
+    }));
+    searchResult.add(new Hit({
+      id: 3,
+      index: 100
     }));
 
     return searchResult;

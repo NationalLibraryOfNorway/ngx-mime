@@ -36,14 +36,14 @@ export class ContentSearchNavigatorComponent implements OnInit {
     this.intl
       .changes
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe(() => this.changeDetectorRef.markForCheck());
 
     this.pageService
       .onPageChange
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((pageIndex) => {
         this.currentCanvasIndices = this.pageService.getTileArrayFromPageIndex(pageIndex);
@@ -80,7 +80,10 @@ export class ContentSearchNavigatorComponent implements OnInit {
       nextHit = this.searchResult.get(0);
     } else {
       const current = this.searchResult.get(this.currentIndex);
-      nextHit = this.searchResult.hits.find(h => h.index > current.index);
+      const page = this.pageService.findPageByTileIndex(current.index);
+      const tiles = this.pageService.getTileArrayFromPageIndex(page);
+      const lastPageIndex = this.getLastPageIndex(tiles);
+      nextHit = this.searchResult.hits.find(h => h.index > lastPageIndex);
     }
 
     this.currentIndex = this.findCurrentHitIndex([nextHit.index]);
@@ -118,6 +121,10 @@ export class ContentSearchNavigatorComponent implements OnInit {
       previousHit = this.searchResult.hits.find(h => h.index === rightPage);
     }
     return previousHit;
+  }
+
+  private getLastPageIndex(tiles: number[]) {
+    return tiles.length === 1 ? tiles[0] : tiles[1];
   }
 
 }
