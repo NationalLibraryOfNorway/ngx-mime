@@ -49,4 +49,24 @@ describe('IiifContentSearchService', () => {
 
   })));
 
+  it('should return a empty search result if empty q', inject([IiifContentSearchService, HttpClient, HttpTestingController],
+    fakeAsync((svc: IiifContentSearchService, http: HttpClient, httpMock: HttpTestingController) => {
+    let result: SearchResult = null;
+
+    svc.search({
+      service: {
+        id: 'dummyUrl'
+      }
+    }, '');
+    svc.onChange.subscribe((searchResult: SearchResult) => {
+      result = searchResult;
+    });
+
+    httpMock.expectNone(`dummyUrl?q=`);
+    tick();
+    httpMock.verify();
+    expect(result.size()).toBe(0);
+
+  })));
+
 });

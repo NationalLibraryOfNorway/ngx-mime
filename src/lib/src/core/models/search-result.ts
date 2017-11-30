@@ -1,7 +1,7 @@
 import { Rect } from './rect';
 
 export class SearchResult {
-  public q: string;
+  public q = '';
   public hits: Hit[] = [];
 
   constructor(
