@@ -12,7 +12,8 @@ import {
   SimpleChange,
   SimpleChanges,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
+  NgZone
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -41,6 +42,8 @@ import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
+import { ViewerState } from '../core/models/viewerState';
+import { ModeChanges } from '../core/models/modeChanges';
 
 @Component({
   selector: 'mime-viewer',
@@ -63,6 +66,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private isCanvasPressed = false;
   private currentManifest: Manifest;
   private viewerLayout: ViewerLayout;
+  private viewerState = new ViewerState();
 
   public errorMessage: string = null;
 
@@ -87,7 +91,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private modeService: ModeService,
     private pageService: PageService,
     private iiifContentSearchService: IiifContentSearchService,
-    private viewerLayoutService: ViewerLayoutService
+    private viewerLayoutService: ViewerLayoutService,
+    public zone: NgZone
   ) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
@@ -186,9 +191,27 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(
         takeUntil(this.destroyed)
       )
-      .subscribe((mode: ViewerMode) => {
-        this.toggleToolbarsState(mode);
-        this.onPageModeChange.emit(mode);
+      .subscribe((mode: ModeChanges) => {
+        this.toggleToolbarsState(mode.currentValue);
+        if (mode.previousValue === ViewerMode.DASHBOARD && mode.currentValue === ViewerMode.PAGE) {
+          this.viewerState.isContentsDialogOpen = this.contentsDialogService.isOpen();
+          this.viewerState.isContentSearchDialogOpen = this.contentSearchDialogService.isOpen();
+          this.zone.run(() => {
+            this.contentsDialogService.close();
+            this.contentSearchDialogService.close();
+          });
+        }
+        if (mode.currentValue === ViewerMode.DASHBOARD) {
+          this.zone.run(() => {
+            if (this.viewerState.isContentsDialogOpen) {
+              this.contentsDialogService.open();
+            }
+            if (this.viewerState.isContentSearchDialogOpen) {
+              this.contentSearchDialogService.open();
+            }
+          });
+        }
+        this.onPageModeChange.emit(mode.currentValue);
       });
 
     this.pageService.onPageChange
@@ -212,13 +235,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         }, ViewerOptions.transitions.OSDAnimationTime);
       });
 
-  this.viewerLayoutService.onChange
-    .pipe(
-      takeUntil(this.destroyed)
-    )
-    .subscribe((viewerLayout: ViewerLayout) => {
-      this.viewerLayout = viewerLayout;
-    });
+    this.viewerLayoutService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((viewerLayout: ViewerLayout) => {
+        this.viewerLayout = viewerLayout;
+      });
 
     this.loadManifest();
   }
@@ -269,14 +292,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.cleanup();
     this.iiifManifestService.destroy();
     this.iiifContentSearchService.destroy();
-  }
-
-  // ChangeDetection fix
-  onModeChange() {
-    if (this.modeService.mode === ViewerMode.DASHBOARD) {
-      this.contentsDialogService.close();
-      this.contentSearchDialogService.close();
-    }
   }
 
   toggleToolbarsState(mode: ViewerMode): void {

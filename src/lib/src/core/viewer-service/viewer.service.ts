@@ -12,6 +12,7 @@ import { interval } from 'rxjs/observable/interval';
 import { Utils } from '../../core/utils';
 import { ViewerOptions } from '../models/viewer-options';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { ModeChanges } from '../models/modeChanges';
 import { Dimensions } from '../models/dimensions';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
@@ -265,7 +266,7 @@ export class ViewerService {
     .pipe(
       takeUntil(this.destroyed)
     )
-    .subscribe((mode: ViewerMode) => {
+    .subscribe((mode: ModeChanges) => {
       this.modeChanged(mode);
     });
 
@@ -435,16 +436,16 @@ export class ViewerService {
    * Callback for mode-change
    * @param mode ViewerMode
    */
-  modeChanged(mode: ViewerMode): void {
-    if (mode === ViewerMode.DASHBOARD) {
+  modeChanged(mode: ModeChanges): void {
+    if (mode.currentValue === ViewerMode.DASHBOARD) {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToDashboard();
-    } else if (mode === ViewerMode.PAGE) {
+    } else if (mode.currentValue === ViewerMode.PAGE) {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToPage();
-    } else if (mode === ViewerMode.PAGE_ZOOMED) {
+    } else if (mode.currentValue === ViewerMode.PAGE_ZOOMED) {
       this.viewer.panVertical = true;
     }
   }
