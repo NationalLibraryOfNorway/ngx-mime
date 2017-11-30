@@ -54,7 +54,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When('the user click the search inputs clear button', async () => {
-    const clearButton = await contentSearchPage.clearButton();
+    const clearButton = await contentSearchPage.clearInputButton();
     await clearButton.click();
   });
 
