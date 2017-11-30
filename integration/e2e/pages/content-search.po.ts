@@ -50,7 +50,7 @@ export class ContentSearchPage {
   }
 
   clearInputButton() {
-    return utils.waitForElement(element(by.id('#clearSearchButton')));
+    return utils.waitForElement(element(by.id('clearSearchButton')));
   }
 
   clearButton() {
