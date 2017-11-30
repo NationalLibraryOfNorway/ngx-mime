@@ -89,6 +89,11 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(isOpen).to.equal(false);
   });
 
+  Then('the Search dialog should be open', async () => {
+    const isOpen = await contentSearchPage.isOpen();
+    expect(isOpen).to.equal(true);
+  });
+
   Then('the hit should be marked', async () => {
     const isSelected: boolean = await contentSearchPage.hitIsSelected(selectedHitIndex);
     expect(isSelected).to.equal(true);

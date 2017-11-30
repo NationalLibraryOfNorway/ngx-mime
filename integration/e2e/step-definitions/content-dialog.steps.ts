@@ -47,4 +47,9 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(isOpen).to.equal(false);
   });
 
+  Then('the Contents dialog should be open', async () => {
+    const isOpen = await contents.isOpen();
+    expect(isOpen).to.equal(true);
+  });
+
 });
