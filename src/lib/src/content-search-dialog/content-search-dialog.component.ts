@@ -47,6 +47,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   private mimeHeight = 0;
   private destroyed: Subject<void> = new Subject();
   @ViewChild('contentSearchResult') resultContainer: ElementRef;
+  @ViewChild('query') qEl: ElementRef;
   @ViewChildren('hitButton', { read: ElementRef }) hitList: QueryList<ElementRef>;
 
   constructor(
@@ -63,7 +64,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mimeResizeService.onResize
       .pipe(
-      takeUntil(this.destroyed)
+        takeUntil(this.destroyed)
       )
       .subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
@@ -72,7 +73,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifManifestService.currentManifest
       .pipe(
-      takeUntil(this.destroyed)
+        takeUntil(this.destroyed)
       )
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
@@ -80,21 +81,23 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifContentSearchService.onChange
       .pipe(
-      takeUntil(this.destroyed)
+        takeUntil(this.destroyed)
       )
       .subscribe((sr: SearchResult) => {
         this.hits = sr.hits;
         this.currentSearch = sr.q ? sr.q : '';
         this.q = sr.q;
         this.numberOfHits = sr.size();
-        if (this.resultContainer && this.numberOfHits > 0) {
+        if (this.resultContainer !== null && this.numberOfHits > 0) {
           this.resultContainer.nativeElement.focus();
+        } else if (this.q.length === 0 || this.numberOfHits === 0) {
+          this.qEl.nativeElement.focus();
         }
       });
 
     this.iiifContentSearchService.isSearching
       .pipe(
-      takeUntil(this.destroyed)
+        takeUntil(this.destroyed)
       )
       .subscribe((s: boolean) => {
         this.isSearching = s;
@@ -102,7 +105,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifContentSearchService.onSelected
       .pipe(
-      takeUntil(this.destroyed)
+        takeUntil(this.destroyed)
       )
       .subscribe((hit: Hit) => {
         if (hit === null) {
@@ -174,19 +177,13 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   private scrollCurrentHitIntoView() {
     this.iiifContentSearchService.onSelected
       .pipe(
-      take(1),
-      filter(s => s !== null)
-      ).subscribe((hit: Hit) => {
+        take(1),
+        filter(s => s !== null)
+      )
+      .subscribe((hit: Hit) => {
         const selected = this.findSelected(hit);
         if (selected) {
-          // Browser compatibility: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-          try {
-            selected.nativeElement.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });
-          } catch (e) {
-            try {
-              selected.nativeElement.scrollIntoView();
-            } catch (e) { }
-          }
+          selected.nativeElement.focus();
         }
       });
   }
