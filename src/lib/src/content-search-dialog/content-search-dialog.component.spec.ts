@@ -154,7 +154,7 @@ describe('ContentSearchDialogComponent', () => {
       expect(spy).not.toHaveBeenCalled();
     });
 
-    fit('should set focus on search result if content search return hits', () => {
+    it('should set focus on search result if content search return hits', () => {
       const searchInput = fixture.debugElement.query(By.css('.content-search-input'));
       const searchResultContainer = fixture.debugElement.query(By.css('.content-search-result-container'));
       const spy = spyOn(searchResultContainer.nativeElement, 'focus');
