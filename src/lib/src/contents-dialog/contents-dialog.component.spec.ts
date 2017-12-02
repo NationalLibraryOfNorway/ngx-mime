@@ -26,6 +26,7 @@ import { IiifContentSearchService } from '../core/iiif-content-search-service/ii
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
   let fixture: ComponentFixture<ContentsDialogComponent>;
+  let media: ObservableMedia;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -61,6 +62,7 @@ describe('ContentsDialogComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(ContentsDialogComponent);
     component = fixture.componentInstance;
+    media = TestBed.get(ObservableMedia);
     fixture.detectChanges();
   }));
 
@@ -68,25 +70,23 @@ describe('ContentsDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display desktop toolbar',
-    inject([ObservableMedia], (media: ObservableMedia) => {
-      spyOn(media, 'isActive').and.returnValue(false);
+  it('should display desktop toolbar', () => {
+    spyOn(media, 'isActive').and.returnValue(false);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
-      expect(heading).not.toBeNull();
-    }));
+    const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
+    expect(heading).not.toBeNull();
+  });
 
-  it('should display mobile toolbar',
-    inject([ObservableMedia], (media: ObservableMedia) => {
-      spyOn(media, 'isActive').and.returnValue(true);
+  it('should display mobile toolbar', () => {
+    spyOn(media, 'isActive').and.returnValue(true);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
-      expect(heading).toBeNull();
-    }));
+    const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
+    expect(heading).toBeNull();
+  });
 
 });
 
