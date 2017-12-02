@@ -50,7 +50,6 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
         this.showToc = this.manifest && this.manifest.structures.length > 0;
-        console.log(this.showToc);
         this.changeDetectorRef.detectChanges();
       });
 
