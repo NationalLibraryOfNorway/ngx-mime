@@ -9,7 +9,7 @@ export class Manifest {
   public logo?: string;
   public attribution?: string;
   public service?: Service;
-  public sequences?: Sequence[];
+  public sequences?: Sequence[] = [];
   public structures?: Structure[];
   public tileSource?: Service[];
 
