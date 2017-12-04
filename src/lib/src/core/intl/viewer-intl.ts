@@ -21,6 +21,7 @@ export class MimeViewerIntl {
   nextPageLabel = 'Next Page';
   homeLabel = 'Go Home';
   searchLabel = 'Search';
+  clearSearchLabel = 'Clear';
   previousHitLabel = 'Previous Hit';
   nextHitLabel = 'Next Hit';
 

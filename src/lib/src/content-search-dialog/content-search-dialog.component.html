@@ -18,10 +18,11 @@
     </div>
   </div>
   <div class="content-search-form" fxLayout="column">
-    <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
+    <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
       <mat-form-field fxFlex>
-        <button type="submit" matPrefix mat-icon-button tabindex="-1"><mat-icon>search</mat-icon></button>
+        <button type="submit" matPrefix mat-icon-button [attr.aria-label]="intl.searchLabel" [matTooltip]="intl.searchLabel" tabindex="-1"><mat-icon>search</mat-icon></button>
         <input matInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off">
+        <button id="clearSearchButton" type="button" matSuffix mat-icon-button [attr.aria-label]="intl.clearSearchLabel" [matTooltip]="intl.clearSearchLabel" tabindex="-1" (click)="clear()"><mat-icon>clear</mat-icon></button>
       </mat-form-field>
     </form>
   </div>

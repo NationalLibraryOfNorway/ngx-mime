@@ -63,7 +63,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mimeResizeService.onResize
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
@@ -72,7 +72,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifManifestService.currentManifest
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
@@ -80,7 +80,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifContentSearchService.onChange
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((sr: SearchResult) => {
         this.hits = sr.hits;
@@ -94,7 +94,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifContentSearchService.isSearching
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((s: boolean) => {
         this.isSearching = s;
@@ -102,7 +102,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifContentSearchService.onSelected
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((hit: Hit) => {
         if (hit === null) {
@@ -132,9 +132,14 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     this.resizeTabHeight();
   }
 
-  onSubmit() {
-    this.currentSearch = this.q;
-    this.iiifContentSearchService.search(this.manifest, this.q);
+  onSubmit(event: KeyboardEvent) {
+    event.preventDefault();
+    this.search();
+  }
+
+  clear() {
+    this.q = '';
+    this.search();
   }
 
   goToHit(hit: Hit): void {
@@ -143,6 +148,11 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     if (this.media.isActive('lt-md')) {
       this.dialogRef.close();
     }
+  }
+
+  private search() {
+    this.currentSearch = this.q;
+    this.iiifContentSearchService.search(this.manifest, this.q);
   }
 
   private resizeTabHeight(): void {
@@ -164,8 +174,8 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   private scrollCurrentHitIntoView() {
     this.iiifContentSearchService.onSelected
       .pipe(
-        take(1),
-        filter(s => s !== null)
+      take(1),
+      filter(s => s !== null)
       ).subscribe((hit: Hit) => {
         const selected = this.findSelected(hit);
         if (selected) {
@@ -175,7 +185,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
           } catch (e) {
             try {
               selected.nativeElement.scrollIntoView();
-            } catch (e) {}
+            } catch (e) { }
           }
         }
       });
