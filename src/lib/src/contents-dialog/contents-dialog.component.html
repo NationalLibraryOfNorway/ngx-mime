@@ -23,7 +23,7 @@
         <mime-metadata></mime-metadata>
       </div>
     </mat-tab>
-    <mat-tab [label]="intl.tocLabel">
+    <mat-tab *ngIf="showToc" [label]="intl.tocLabel">
       <div class="tab-container" [ngStyle]="tabHeight">
         <mime-toc></mime-toc>
       </div>

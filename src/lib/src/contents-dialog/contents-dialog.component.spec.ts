@@ -1,3 +1,4 @@
+import { testManifest } from './../test/testManifest';
 import { DebugElement } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
@@ -22,10 +23,15 @@ import { PageService } from '../core/page-service/page-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
+import { Manifest, Structure } from '../core/models/manifest';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
   let fixture: ComponentFixture<ContentsDialogComponent>;
+  let media: ObservableMedia;
+  let iiifManifestService: IiifManifestServiceStub;
+  let intl: MimeViewerIntl;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -45,12 +51,12 @@ describe('ContentsDialogComponent', () => {
         MimeViewerIntl,
         PageService,
         ModeService,
-        IiifManifestService,
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
         ViewerLayoutService,
         IiifContentSearchService,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: ObservableMedia, useClass: MediaServiceStub }
       ]
@@ -61,6 +67,9 @@ describe('ContentsDialogComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(ContentsDialogComponent);
     component = fixture.componentInstance;
+    media = TestBed.get(ObservableMedia);
+    iiifManifestService = TestBed.get(IiifManifestService);
+    intl = TestBed.get(MimeViewerIntl);
     fixture.detectChanges();
   }));
 
@@ -68,25 +77,54 @@ describe('ContentsDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display desktop toolbar',
-    inject([ObservableMedia], (media: ObservableMedia) => {
-      spyOn(media, 'isActive').and.returnValue(false);
+  it('should display desktop toolbar', () => {
+    spyOn(media, 'isActive').and.returnValue(false);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
-      expect(heading).not.toBeNull();
-    }));
+    const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
+    expect(heading).not.toBeNull();
+  });
 
-  it('should display mobile toolbar',
-    inject([ObservableMedia], (media: ObservableMedia) => {
-      spyOn(media, 'isActive').and.returnValue(true);
+  it('should display mobile toolbar', () => {
+    spyOn(media, 'isActive').and.returnValue(true);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
-      expect(heading).toBeNull();
-    }));
+    const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
+    expect(heading).toBeNull();
+  });
+
+  it('should show toc', () => {
+    const manifest = new Manifest({
+      structures: [
+        new Structure()
+      ]
+    });
+    iiifManifestService._currentManifest.next(manifest);
+    intl.tocLabel = 'TocTestLabel';
+
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      const tabs: NodeList = fixture.nativeElement.querySelectorAll('.mat-tab-label');
+      const tocTab = Array.from(tabs).find(t => t.textContent === intl.tocLabel);
+      expect(tocTab).toBeDefined();
+    });
+  });
+
+  it('should hide toc', () => {
+    const manifest = new Manifest();
+    iiifManifestService._currentManifest.next(manifest);
+
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      const tabs: NodeList = fixture.nativeElement.querySelectorAll('.mat-tab-label');
+      const tocTab = Array.from(tabs).find(t => t.textContent === intl.tocLabel);
+      expect(tocTab).toBeUndefined();
+    });
+  });
 
 });
 

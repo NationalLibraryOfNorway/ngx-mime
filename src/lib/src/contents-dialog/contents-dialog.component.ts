@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators/takeUntil';
@@ -7,6 +7,8 @@ import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Dimensions } from '../core/models/dimensions';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { Manifest } from './../core/models/manifest';
 
 @Component({
   selector: 'mime-contents',
@@ -15,7 +17,9 @@ import { Dimensions } from '../core/models/dimensions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentsDialogComponent implements OnInit, OnDestroy {
+  public manifest: Manifest;
   public tabHeight = {};
+  public showToc = false;
   private mimeHeight = 0;
   private destroyed: Subject<void> = new Subject();
 
@@ -24,7 +28,9 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,
     private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper) {
+    private mimeDomHelper: MimeDomHelper,
+    private changeDetectorRef: ChangeDetectorRef,
+    private iiifManifestService: IiifManifestService) {
       mimeResizeService
         .onResize
         .pipe(
@@ -36,6 +42,17 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.iiifManifestService
+      .currentManifest
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((manifest: Manifest) => {
+        this.manifest = manifest;
+        this.showToc = this.manifest && this.manifest.structures.length > 0;
+        this.changeDetectorRef.detectChanges();
+      });
+
     this.resizeTabHeight();
   }
 

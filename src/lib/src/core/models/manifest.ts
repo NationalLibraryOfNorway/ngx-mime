@@ -10,7 +10,7 @@ export class Manifest {
   public attribution?: string;
   public service?: Service;
   public sequences?: Sequence[];
-  public structures?: Structure[];
+  public structures?: Structure[] = [];
   public tileSource?: Service[];
 
   constructor(
