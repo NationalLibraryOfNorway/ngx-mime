@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.1"></a>
+## [0.10.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.10.0...v0.10.1) (2017-12-04)
+
+
+### Bug Fixes
+
+* handling npe ([#194](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/194)) ([8bf8fda](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8bf8fda))
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.9.0...v0.10.0) (2017-12-04)
 
