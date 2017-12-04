@@ -64,7 +64,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.mimeResizeService.onResize
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
@@ -73,7 +73,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifManifestService.currentManifest
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((manifest: Manifest) => {
         this.manifest = manifest;
@@ -81,7 +81,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifContentSearchService.onChange
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((sr: SearchResult) => {
         this.hits = sr.hits;
@@ -97,7 +97,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifContentSearchService.isSearching
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((s: boolean) => {
         this.isSearching = s;
@@ -105,7 +105,7 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     this.iiifContentSearchService.onSelected
       .pipe(
-        takeUntil(this.destroyed)
+      takeUntil(this.destroyed)
       )
       .subscribe((hit: Hit) => {
         if (hit === null) {
