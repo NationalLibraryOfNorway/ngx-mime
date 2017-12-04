@@ -69,6 +69,10 @@ export class ContentSearchDialogService {
     this.isContentSearchDialogOpen ? this.close() : this.open();
   }
 
+  public isOpen(): boolean {
+    return this.isContentSearchDialogOpen;
+  }
+
   private getDialogConfig(): MatDialogConfig {
     return this.contentSearchDialogConfigStrategyFactory.create().getConfig(this._el);
   }

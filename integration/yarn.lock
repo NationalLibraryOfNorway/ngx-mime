@@ -3,25 +3,25 @@
 
 
 "@angular-devkit/build-optimizer@~0.0.31":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.0.33.tgz#d040f283ed7300b5be8bc970228b835ed02df42f"
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.0.34.tgz#47a0482f5687db79d102cf9d416cf6fa6774d702"
   dependencies:
     loader-utils "^1.1.0"
     source-map "^0.5.6"
-    typescript "^2.3.3"
+    typescript "~2.6.1"
     webpack-sources "^1.0.1"
 
-"@angular-devkit/core@0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-0.0.21.tgz#e2ba4ac0a4e1156f884c083b15eb1c26ddfb2ba8"
+"@angular-devkit/core@0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-0.0.22.tgz#e90f46bf7ff47d260a767959267bc65ffee39ef1"
   dependencies:
     source-map "^0.5.6"
 
 "@angular-devkit/schematics@~0.0.34":
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-0.0.37.tgz#d86ff93b14a44b766e72bcea1569b5d36063210e"
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-0.0.38.tgz#b267141be27bb5dea4020b2bd6729db3629656ea"
   dependencies:
-    "@angular-devkit/core" "0.0.21"
+    "@angular-devkit/core" "0.0.22"
     "@ngtools/json-schema" "^1.1.0"
     minimist "^1.2.0"
     rxjs "^5.5.2"
@@ -195,10 +195,10 @@
     tree-kill "^1.0.0"
 
 "@schematics/angular@~0.1.0":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.1.7.tgz#2306aeec118ca185e180882eff54f5116de4ef05"
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.1.8.tgz#2c98cda013a2b87ff457a749775b95b3a2475698"
   dependencies:
-    "@angular-devkit/core" "0.0.21"
+    "@angular-devkit/core" "0.0.22"
 
 "@types/chai-as-promised@7.1.0":
   version "7.1.0"
@@ -3452,8 +3452,8 @@ is-path-in-cwd@^1.0.0:
     is-path-inside "^1.0.0"
 
 is-path-inside@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-1.0.0.tgz#fc06e5a1683fbda13de667aff717bbc10a48f37f"
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-1.0.1.tgz#8ef5b7de50437a3fdca6b4e865ef7aa55cb48036"
   dependencies:
     path-is-inside "^1.0.1"
 
@@ -3648,8 +3648,8 @@ js-base64@2.1.9:
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
 
 js-base64@^2.1.8, js-base64@^2.1.9:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.3.2.tgz#a79a923666372b580f8e27f51845c6f7e8fbfbaf"
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.0.tgz#9e566fee624751a1d720c966cd6226d29d4025aa"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -4155,8 +4155,8 @@ miller-rabin@^4.0.0:
     brorand "^1.0.1"
 
 "mime-db@>= 1.30.0 < 2":
-  version "1.31.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.31.0.tgz#a49cd8f3ebf3ed1a482b60561d9105ad40ca74cb"
+  version "1.32.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.32.0.tgz#485b3848b01a3cda5f968b4882c0771e58e09414"
 
 mime-db@~1.30.0:
   version "1.30.0"
@@ -6491,8 +6491,8 @@ tslint@5.7.0:
     tsutils "^2.8.1"
 
 tsutils@^2.8.1:
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.12.2.tgz#ad58a4865d17ec3ddb6631b6ca53be14a5656ff3"
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.13.0.tgz#0f52b6aabbc4216e72796b66db028c6cf173e144"
   dependencies:
     tslib "^1.7.1"
 
@@ -6533,7 +6533,7 @@ typescript@2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"
 
-typescript@^2.3.3:
+typescript@~2.6.1:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 

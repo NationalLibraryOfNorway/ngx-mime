@@ -89,9 +89,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(await el.isPresent()).to.equal(false);
   });
 
-  Then('the Search dialog should be closed', async () => {
+  Then('the Search dialog should be {word}', async (state: string) => {
     const isOpen = await contentSearchPage.isOpen();
-    expect(isOpen).to.equal(false);
+    const expectedState = state === 'closed' ? false : true;
+    expect(isOpen).to.equal(expectedState);
   });
 
   Then('the hit should be marked', async () => {

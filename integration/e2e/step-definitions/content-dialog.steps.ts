@@ -42,9 +42,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(currentPageString.includes(pageNumber)).to.eql(true);
   });
 
-  Then('the Contents dialog should be closed', async () => {
+  Then('the Contents dialog should be {word}', async (state) => {
     const isOpen = await contents.isOpen();
-    expect(isOpen).to.equal(false);
+    const expectedState = state === 'closed' ? false : true;
+    expect(isOpen).to.equal(expectedState);
   });
 
 });

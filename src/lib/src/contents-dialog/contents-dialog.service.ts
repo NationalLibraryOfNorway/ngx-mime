@@ -66,6 +66,10 @@ export class ContentsDialogService {
     this.isContentsDialogOpen ? this.close() : this.open();
   }
 
+  public isOpen(): boolean {
+    return this.isContentsDialogOpen;
+  }
+
   private getDialogConfig(): MatDialogConfig {
     return this.contentsDialogConfigStrategyFactory.create().getConfig(this._el);
   }
