@@ -86,8 +86,10 @@ export class ContentSearchNavigatorComponent implements OnInit {
       nextHit = this.searchResult.hits.find(h => h.index > lastPageIndex);
     }
 
-    this.currentIndex = this.findCurrentHitIndex([nextHit.index]);
-    this.iiifContentSearchService.selected(nextHit);
+    if (nextHit) {
+      this.currentIndex = this.findCurrentHitIndex([nextHit.index]);
+      this.iiifContentSearchService.selected(nextHit);
+    }
   }
 
   findCurrentHitIndex(canvasIndices: number[]): number {
