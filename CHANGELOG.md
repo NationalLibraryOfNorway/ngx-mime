@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.9.0...v0.10.0) (2017-12-04)
+
+
+### Bug Fixes
+
+* close dialogs when switching to page mode ([#175](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/175)) ([967dc89](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/967dc89)), closes [#172](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/172)
+
+
+### Features
+
+* button for emptying search string ([#189](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/189)) ([a1aa742](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a1aa742)), closes [#188](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/188)
+* empty search string should empty search result ([#187](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/187)) ([1f9c585](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1f9c585)), closes [#185](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/185)
+* hide empty toc ([#193](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/193)) ([06386ca](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/06386ca)), closes [#167](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/167)
+* highlighting current hit differently ([#165](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/165)) ([7ec2831](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/7ec2831)), closes [#134](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/134)
+* import individual rx operators ([#183](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/183)) ([fb16eaa](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fb16eaa)), closes [#182](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/182)
+* mark and scroll to selected hit when opening Search dialog ([#179](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/179)) ([9c868c7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9c868c7)), closes [#166](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/166)
+* mark first hit on page when navigation with previous hits ([#184](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/184)) ([1908af7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1908af7)), closes [#176](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/176)
+* search dialog should be reopened ([#190](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/190)) ([f3165ec](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f3165ec)), closes [#178](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/178)
+* Skip second page with hits when in two page display mode ([#186](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/186)) ([2f7040f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2f7040f)), closes [#177](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/177)
+* upgrade to angular 5 ([#181](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/181)) ([e85780e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e85780e))
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.8.0...v0.9.0) (2017-10-27)
 
