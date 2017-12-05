@@ -194,8 +194,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((mode: ModeChanges) => {
         this.toggleToolbarsState(mode.currentValue);
         if (mode.previousValue === ViewerMode.DASHBOARD && mode.currentValue === ViewerMode.PAGE) {
-          this.viewerState.isContentsDialogOpen = this.contentsDialogService.isOpen();
-          this.viewerState.isContentSearchDialogOpen = this.contentSearchDialogService.isOpen();
+          this.viewerState.contentDialogState.isOpen = this.contentsDialogService.isOpen();
+          this.viewerState.contentDialogState.selectedIndex = this.contentsDialogService.getSelectedIndex();
+          this.viewerState.contentsSearchDialogState.isOpen = this.contentSearchDialogService.isOpen();
           this.zone.run(() => {
             this.contentsDialogService.close();
             this.contentSearchDialogService.close();
@@ -203,10 +204,10 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         }
         if (mode.currentValue === ViewerMode.DASHBOARD) {
           this.zone.run(() => {
-            if (this.viewerState.isContentsDialogOpen) {
-              this.contentsDialogService.open();
+            if (this.viewerState.contentDialogState.isOpen) {
+              this.contentsDialogService.open(this.viewerState.contentDialogState.selectedIndex);
             }
-            if (this.viewerState.isContentSearchDialogOpen) {
+            if (this.viewerState.contentsSearchDialogState.isOpen) {
               this.contentSearchDialogService.open();
             }
           });

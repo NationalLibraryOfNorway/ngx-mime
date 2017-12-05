@@ -20,6 +20,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
   public tabHeight = {};
   public showToc = false;
+  public selectedIndex = 0;
   private mimeHeight = 0;
   private destroyed: Subject<void> = new Subject();
 

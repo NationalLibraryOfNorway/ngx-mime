@@ -17,7 +17,7 @@
       </mat-toolbar>
     </div>
   </div>
-  <mat-tab-group>
+  <mat-tab-group [(selectedIndex)]="selectedIndex">
     <mat-tab [label]="intl.metadataLabel">
       <div class="tab-container" [ngStyle]="tabHeight">
         <mime-metadata></mime-metadata>
