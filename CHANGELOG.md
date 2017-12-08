@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.10.1...v0.11.0) (2017-12-08)
+
+
+### Bug Fixes
+
+* OSD toolbar takes full width in IE11 ([#198](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/198)) ([10d4729](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/10d4729)), closes [#197](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/197)
+
+
+### Features
+
+* toc is not reopened after returning to dashboard mode ([#196](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/196)) ([b985b72](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b985b72)), closes [#195](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/195)
+
+
+
 <a name="0.10.1"></a>
 ## [0.10.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.10.0...v0.10.1) (2017-12-04)
 
