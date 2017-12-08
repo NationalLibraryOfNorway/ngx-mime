@@ -43,10 +43,15 @@ export class ContentsDialogService {
     this._el = el;
   }
 
-  public open() {
+  public open(selectedIndex?: number) {
     if (!this.isContentsDialogOpen) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
+
+      if (selectedIndex) {
+        this.dialogRef.componentInstance.selectedIndex = selectedIndex;
+      }
+
       this.dialogRef.afterClosed().subscribe(result => {
         this.isContentsDialogOpen = false;
       });
@@ -68,6 +73,10 @@ export class ContentsDialogService {
 
   public isOpen(): boolean {
     return this.isContentsDialogOpen;
+  }
+
+  public getSelectedIndex(): number {
+    return this.dialogRef ? this.dialogRef.componentInstance.selectedIndex : 0;
   }
 
   private getDialogConfig(): MatDialogConfig {
