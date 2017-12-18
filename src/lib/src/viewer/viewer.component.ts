@@ -330,6 +330,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private cleanup() {
+    this.viewerState = new ViewerState();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
