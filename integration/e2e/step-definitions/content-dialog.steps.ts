@@ -23,6 +23,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When('the user selects "Tittelside"', async () => {
+    await browser.sleep(2000);
     await toc.clickToc(1);
     await browser.sleep(2000); // Waiting for animation to complete. page.getAnimationTime() wasn't enough.
   });

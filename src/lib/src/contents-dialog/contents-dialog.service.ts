@@ -76,7 +76,7 @@ export class ContentsDialogService {
   }
 
   public getSelectedIndex(): number {
-    return this.dialogRef ? this.dialogRef.componentInstance.selectedIndex : 0;
+    return this.dialogRef && this.dialogRef.componentInstance ? this.dialogRef.componentInstance.selectedIndex : 0;
   }
 
   private getDialogConfig(): MatDialogConfig {
