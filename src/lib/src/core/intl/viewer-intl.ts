@@ -24,11 +24,14 @@ export class MimeViewerIntl {
   clearSearchLabel = 'Clear';
   previousHitLabel = 'Previous Hit';
   nextHitLabel = 'Next Hit';
+  goToPageLabel = 'Go to page';
+  enterPageNumber = 'Enter page number';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';
   manifestUriMissingLabel = 'ManifestUri is missing';
   manifestNotValidLabel = 'Manifest is not valid';
+  pageDoesNotExists = 'Sorry, that page does not exist';
 
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;

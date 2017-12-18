@@ -33,6 +33,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.slideToPage(pageNumber - 1);
   });
 
+  When('the user enters {int} in the page dialog', async (pageNumber: number) => {
+    await page.goToPageWithDialog(pageNumber);
+  });
+
   Then('page {word} is displayed', async (pageNumber: string) => {
     const currentPageString = await page.getCurrentPageString();
     expect(currentPageString.includes(pageNumber)).to.eql(true);

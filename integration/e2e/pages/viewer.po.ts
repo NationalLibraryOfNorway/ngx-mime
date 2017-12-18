@@ -54,6 +54,16 @@ export class ViewerPage {
     await this.waitForAnimation();
   }
 
+  async goToPageWithDialog(pageNumber: number) {
+    const goToPageButton = await utils.waitForElement(element(by.css('#goToPageButton')));
+    await goToPageButton.click();
+    const isTwoPageView = this.isTwoPageView();
+    const input = await utils.waitForElement(element(by.css('#goToPageInput')));
+    await input.sendKeys(pageNumber);
+    await input.sendKeys(protractor.Key.ENTER);
+    await this.waitForAnimation();
+  }
+
   async navigateToPage(pageNumber: number) {
     const isTwoPageView = this.isTwoPageView();
     if (await isTwoPageView && pageNumber > 1) {

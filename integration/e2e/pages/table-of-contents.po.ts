@@ -16,7 +16,8 @@ export class TableOfContentsPage {
   }
 
   async clickToc(index: number) {
-    await element.all(by.css('.toc-link')).get(index).click();
+    const el = await element.all(by.css('.toc-link')).get(index);
+    await el.click();
   }
 
   async getTocElement(index: number) {
