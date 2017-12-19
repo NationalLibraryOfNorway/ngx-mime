@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -21,7 +22,6 @@ import { IiifContentSearchService } from './../../../core/iiif-content-search-se
 import { Hit } from './../../../core/models/search-result';
 import { ViewerServiceMock } from './../../../test/viewer-service-mock';
 import { PageDialogService } from '../../../page-dialog/page-dialog.service';
-import { ReactiveFormsModule } from '@angular/forms';
 
 describe('PageNavigatorComponent', () => {
   let component: PageNavigatorComponent;
