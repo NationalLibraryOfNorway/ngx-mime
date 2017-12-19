@@ -3,9 +3,9 @@
     <div fxFlex>
       <mat-slider id="navigationSlider" [max]="numberOfPages - 1" [value]="currentPage" (input)="onSliderChange($event)" fxFlex></mat-slider>
     </div>
-    <div id="goToPageButton" class="pages" fxFlex="70px" (click)="openPageDialog()">
+    <button mat-button id="goToPageButton" class="pages" (click)="openPageDialog()">
       <span id="currentPageNumber">{{currentTiles}}</span>/{{numberOfTiles}}
-    </div>
+    </button>
     <div class="navigation-buttons">
       <button id="footerNavigateBeforeButton" mat-icon-button [attr.aria-label]="intl.previousPageLabel" [matTooltip]="intl.previousPageLabel"
         matTooltipPosition="above" [disabled]="isFirstPage" (click)="goToPreviousPage()">
