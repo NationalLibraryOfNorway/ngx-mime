@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.12.0"></a>
+# [0.12.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.11.0...v0.12.0) (2017-12-19)
+
+
+### Features
+
+* have a input field for going to a page ([4d2989e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4d2989e)), closes [#157](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/157)
+* upgraded to angular v5.1.1 ([163f749](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/163f749))
+
+
+
 <a name="0.11.0"></a>
 # [0.11.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.10.1...v0.11.0) (2017-12-08)
 
