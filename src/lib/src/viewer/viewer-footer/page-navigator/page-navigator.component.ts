@@ -8,6 +8,7 @@ import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { PageService } from './../../../core/page-service/page-service';
 import { SearchResult } from './../../../core/models/search-result';
+import { PageDialogService } from '../../../page-dialog/page-dialog.service';
 
 @Component({
   selector: 'mime-page-navigator',
@@ -29,7 +30,8 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,
-    private pageService: PageService
+    private pageService: PageService,
+    private pageDialogService: PageDialogService
   ) { }
 
   ngOnInit() {
@@ -81,6 +83,10 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
     this.currentTiles = this.pageService.getTilesStringFromPageIndex(this.currentPage);
     this.viewerService.goToPage(change.value, false);
     this.changeDetectorRef.detectChanges();
+  }
+
+  openPageDialog(): void {
+    this.pageDialogService.toggle();
   }
 
   private isOnFirstPage(currentPage: number): boolean {
