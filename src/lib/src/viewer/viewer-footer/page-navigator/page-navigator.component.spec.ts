@@ -7,9 +7,11 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
 import { PageNavigatorComponent } from './page-navigator.component';
 import { SharedModule } from './../../../shared/shared.module';
@@ -19,6 +21,7 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { Hit } from './../../../core/models/search-result';
 import { ViewerServiceMock } from './../../../test/viewer-service-mock';
+import { PageDialogService } from '../../../page-dialog/page-dialog.service';
 
 describe('PageNavigatorComponent', () => {
   let component: PageNavigatorComponent;
@@ -32,6 +35,7 @@ describe('PageNavigatorComponent', () => {
       declarations: [PageNavigatorComponent],
       providers: [
         MimeViewerIntl,
+        PageDialogService,
         { provide: ViewerService, useClass: ViewerServiceMock },
         { provide: PageService, useClass: PageServiceMock }
       ]

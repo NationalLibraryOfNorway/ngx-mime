@@ -12,11 +12,20 @@ export class ContentSearchPage {
     return el.isPresent();
   }
 
+  closeButton(): Promise<ElementFinder> {
+    return utils.waitForElement(element(by.css('#close-content-search-dialog-button')));
+  }
+
   async setSearchTerm(term: string) {
     const el: ElementFinder = await utils.waitForElement(element(by.css('.content-search-input')));
     await el.clear();
-    await utils.sendKeys(el, term)
+    await utils.sendKeys(el, term);
     await el.sendKeys(protractor.Key.ENTER);
+  }
+
+  async searchTerm(): Promise<string> {
+    const el = await utils.waitForElement(element(by.css('.content-search-input')));
+    return el.getText();
   }
 
   async getNumberOfHits() {
@@ -26,14 +35,22 @@ export class ContentSearchPage {
     return parseInt(numberOfHits, 8);
   }
 
-  async getHits() {
-    const el = element.all(by.css('.content-search-container .hit'));
-    await utils.waitForElement(el.last());
-    return el;
+  async getHits(): Promise<any> {
+    return element.all(by.css('.content-search-container .hit'));
+  }
+
+  async getHit(index: number): Promise<ElementFinder> {
+    const els = await element.all(by.css('.content-search-container .hit'));
+    const pagesArray = await els.map((page, i) => page);
+    return pagesArray[index];
   }
 
   contentSearchNavigatorToolbar() {
     return element(by.css('#content-search-navigator-toolbar'));
+  }
+
+  clearInputButton() {
+    return utils.waitForElement(element(by.id('clearSearchButton')));
   }
 
   clearButton() {
@@ -63,6 +80,17 @@ export class ContentSearchPage {
     } catch (e) {
       return false;
     }
+  }
+
+  async hitIsSelected(index: number) {
+    const el = await this.getHit(index);
+    const classes = await el.getAttribute('class');
+    return classes.indexOf('mat-primary') !== -1;
+  }
+
+  async hitIsVisible(index: number): Promise<boolean> {
+    const el = await this.getHit(index);
+    return await utils.isElementVisible(el);
   }
 
   async getHighlighted() {

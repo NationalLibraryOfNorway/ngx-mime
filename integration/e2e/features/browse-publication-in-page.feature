@@ -22,7 +22,7 @@ Feature: Browse through a publication in page view
   @Ignore
   @android @iphone
   Scenario Outline: Cancel swipe navigation
-    Given a <viewingDirection> publication with 10 pages
+    Given a "<viewingDirection>" publication with 10 pages
     And the zoom level is home
     And the user is on page <startPage>
     When the user swipe <swipeDirection> but the velocity is less than 200

@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { finalize } from 'rxjs/operators/finalize';
 
 import { IiifSearchResult } from './../models/iiif-search-result';
 import { SearchResultBuilder } from './../builders/search-result.builder';
@@ -14,16 +16,18 @@ export class IiifContentSearchService {
   protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(new SearchResult({}));
   protected _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
   protected _currentQ: Subject<string> = new Subject<string>();
-  protected _selected: Subject<Hit> = new Subject<null>();
+  protected _selected: Subject<Hit> = new BehaviorSubject<Hit>(null);
 
   constructor(private http: HttpClient) { }
 
   destroy() {
     this._currentSearchResult.next(new SearchResult({}));
+    this._selected.next(null);
   }
 
   get onQChange(): Observable<string> {
-    return this._currentQ.asObservable().distinctUntilChanged();
+    return this._currentQ.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get onChange(): Observable<SearchResult> {
@@ -41,7 +45,8 @@ export class IiifContentSearchService {
   public search(manifest: Manifest, q: string): void {
     this._currentQ.next(q);
     this._selected.next(null);
-    if (!q || q === null) {
+    if (q.length === 0) {
+      this._currentSearchResult.next(new SearchResult());
       return;
     }
     if (!manifest.service || manifest.service === null) {
@@ -49,7 +54,9 @@ export class IiifContentSearchService {
     }
     this._searching.next(true);
     this.http.get(`${manifest.service.id}?q=${q}`)
-      .finally(() => this._searching.next(false))
+      .pipe(
+        finalize(() => this._searching.next(false))
+      )
       .subscribe(
       (res: IiifSearchResult) => this._currentSearchResult.next(this.extractData(q, manifest, res)),
       (err: HttpErrorResponse) => this.handleError

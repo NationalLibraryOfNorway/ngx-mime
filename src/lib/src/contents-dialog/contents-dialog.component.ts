@@ -1,11 +1,14 @@
-import { Component, OnInit, HostListener, ElementRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Dimensions } from '../core/models/dimensions';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { Manifest } from './../core/models/manifest';
 
 @Component({
   selector: 'mime-contents',
@@ -14,31 +17,49 @@ import { Dimensions } from '../core/models/dimensions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentsDialogComponent implements OnInit, OnDestroy {
+  public manifest: Manifest;
   public tabHeight = {};
+  public showToc = false;
+  public selectedIndex = 0;
   private mimeHeight = 0;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     public intl: MimeViewerIntl,
     public media: ObservableMedia,
     private mimeResizeService: MimeResizeService,
     private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper) {
-      this.subscriptions.push(mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-      this.mimeHeight = dimensions.height;
-      this.resizeTabHeight();
-    }));
-
+    private mimeDomHelper: MimeDomHelper,
+    private changeDetectorRef: ChangeDetectorRef,
+    private iiifManifestService: IiifManifestService) {
+      mimeResizeService
+        .onResize
+        .pipe(
+          takeUntil(this.destroyed)
+        ).subscribe((dimensions: Dimensions) => {
+          this.mimeHeight = dimensions.height;
+          this.resizeTabHeight();
+        });
   }
 
   ngOnInit() {
+    this.iiifManifestService
+      .currentManifest
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((manifest: Manifest) => {
+        this.manifest = manifest;
+        this.showToc = this.manifest && this.manifest.structures.length > 0;
+        this.changeDetectorRef.detectChanges();
+      });
+
     this.resizeTabHeight();
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   @HostListener('window:resize', ['$event'])

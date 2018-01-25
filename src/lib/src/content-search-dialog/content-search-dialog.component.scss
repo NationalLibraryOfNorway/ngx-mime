@@ -28,6 +28,16 @@
   padding: 8px 16px;
 }
 
+.content-search-result .mat-button {
+  line-height: initial;
+  white-space: initial;
+  word-wrap: initial;
+  max-width: none; 
+  padding: 8px 8px; 
+  text-align: left;
+  font-size: 14px;
+}
+
 ::ng-deep .content-search-container .current-content-search {
   font-weight: 700;
 }
@@ -36,19 +46,17 @@ em {
   font-weight: 700;
 }
 
-.hit {
-  margin-bottom: 4px;
-  cursor: pointer;
-}
-
 .pageLabel {
   text-align: right;
   opacity: 0.54;
 }
 
+::ng-deep .content-search-panel {
+  max-width: none !important;
+}
+
 ::ng-deep .content-search-panel > .mat-dialog-container {
   padding: 0px !important;
-  max-width: none !important;
   overflow: initial;
 }
 
@@ -56,10 +64,10 @@ em {
   padding: 0px 0px !important;
 }
 
-::ng-deep .content-search-result-container .mat-card {
-  padding: 8px;
-}
-
 input {
   font-family: Roboto, "Helvetica Neue", sans-serif
+}
+
+.icon {
+  font-size: 22px !important;
 }

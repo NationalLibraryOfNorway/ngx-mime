@@ -31,7 +31,6 @@ install:
   - npm install -g webdriver-manager
   - npm install -g protractor
   - npm install -g @angular/cli
-  - npm install -g lite-server
   - npm install -g concurrently
 
 before_script:

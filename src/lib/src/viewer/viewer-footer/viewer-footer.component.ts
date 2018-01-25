@@ -10,6 +10,8 @@ import {
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';
@@ -47,7 +49,8 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   public searchResult: SearchResult = new SearchResult();
   public showPageNavigator = true;
   public showContentSearchNavigator = false;
-  private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
+  private mediaSubscription: Subscription;
 
   constructor(
     private iiifContentSearchService: IiifContentSearchService,
@@ -55,23 +58,27 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-      this.searchResult = sr;
-      this.showContentSearchNavigator = this.searchResult.size() > 0;
-      this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
-      this.changeDetectorRef.detectChanges();
-    }));
+    this.iiifContentSearchService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((sr: SearchResult) => {
+        this.searchResult = sr;
+        this.showContentSearchNavigator = this.searchResult.size() > 0;
+        this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
+        this.changeDetectorRef.detectChanges();
+      });
 
-    this.subscriptions.push(this.media.subscribe((change: MediaChange) => {
+      this.mediaSubscription = this.media.subscribe((change: MediaChange) => {
       this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
       this.changeDetectorRef.detectChanges();
-    }));
+    });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
+    this.mediaSubscription.unsubscribe();
   }
 
   private isMobile(): boolean {

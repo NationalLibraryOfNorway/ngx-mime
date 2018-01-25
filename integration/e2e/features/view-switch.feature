@@ -52,3 +52,21 @@ Feature: Page view
     When the user click in the viewer
     Then the viewer should change to page view
       And the Search dialog should be closed
+
+  @desktop
+  Scenario: Reopen "Contents" dialog
+    Given the viewer is in dashboard view
+     And the viewer is in metadata view
+    When the user click in the viewer
+     And the user click in the viewer
+    Then the viewer should change to dashboard view
+      And the Contents dialog should be open
+
+  @desktop
+  Scenario: Repoen "Search" dialog
+    Given the viewer is in dashboard view
+     And the search dialog is open
+    When the user click in the viewer
+     And the user click in the viewer
+    Then the viewer should change to dashboard view
+      And the Search dialog should be open

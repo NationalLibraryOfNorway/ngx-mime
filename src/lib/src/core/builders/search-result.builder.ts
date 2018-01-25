@@ -13,7 +13,7 @@ export class SearchResultBuilder {
     const hits: Hit[] = [];
     if (this.iiifSearchResult && this.iiifSearchResult.hits) {
       this.iiifSearchResult.hits.forEach((hit: IiifHit, index: number) => {
-        let id: string = '' + index;
+        let id: number = index;
         let canvasIndex = -1;
         let label = null;
         let rects: Rect[] = [];

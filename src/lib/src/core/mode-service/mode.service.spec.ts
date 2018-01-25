@@ -1,6 +1,7 @@
 import { ViewerMode } from '../models/viewer-mode';
 import { TestBed, inject } from '@angular/core/testing';
 import { ModeService } from './mode.service';
+import { ModeChanges } from '../models/modeChanges';
 
 
 describe('ModeService', () => {
@@ -15,11 +16,11 @@ describe('ModeService', () => {
   }));
 
   it('should emit when mode changes', inject([ModeService], (service: ModeService) => {
-      let selectedMode: ViewerMode;
-      service.onChange.subscribe((mode: ViewerMode) => selectedMode = mode);
+    let selectedMode: ViewerMode;
+    service.onChange.subscribe((mode: ModeChanges) => selectedMode = mode.currentValue);
 
-      service.mode = ViewerMode.DASHBOARD;
-      expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
+    service.mode = ViewerMode.DASHBOARD;
+    expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   }));
 
   it('should store the initial mode', inject([ModeService], (service: ModeService) => {
@@ -51,10 +52,10 @@ describe('ModeService', () => {
 
   it('should emit when mode is toggled', inject([ModeService], (service: ModeService) => {
     let selectedMode: ViewerMode;
-    service.onChange.subscribe((mode: ViewerMode) => selectedMode = mode);
+    service.onChange.subscribe((mode: ModeChanges) => selectedMode = mode.currentValue);
     service.initialMode = ViewerMode.DASHBOARD;
     service.toggleMode();
     expect(selectedMode).toEqual(ViewerMode.PAGE);
-}));
+  }));
 
 });

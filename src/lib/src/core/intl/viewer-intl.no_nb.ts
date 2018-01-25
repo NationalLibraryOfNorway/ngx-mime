@@ -21,13 +21,17 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   nextPageLabel = 'Neste side';
   homeLabel = 'Hjem';
   searchLabel = 'Søk';
+  clearSearchLabel = 'Tøm';
   previousHitLabel = 'Forrige treff';
   nextHitLabel = 'Neste treff';
+  goToPageLabel = 'Gå til side';
+  enterPageNumber = 'Skriv inn sidenummer';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';
   manifestUriMissingLabel = 'Lenke til manifest mangler';
   manifestNotValidLabel = 'Manifestet er ikke gyldig';
+  pageDoesNotExists = 'Beklager, men den siden finnes ikke';
 
   noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;

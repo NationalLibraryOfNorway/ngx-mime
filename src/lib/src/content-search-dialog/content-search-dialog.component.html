@@ -3,7 +3,7 @@
     <div *ngSwitchCase="true">
       <mat-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
+          <button id="close-content-search-dialog-button" mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
           <div class="heading">{{intl.searchLabel}}</div>
         </div>
       </mat-toolbar>
@@ -12,16 +12,17 @@
       <mat-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
           <div class="heading heading-desktop">{{intl.searchLabel}}</div>
-          <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
+          <button id="close-content-search-dialog-button" mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
         </div>
       </mat-toolbar>
     </div>
   </div>
   <div class="content-search-form" fxLayout="column">
-    <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
+    <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
       <mat-form-field fxFlex>
-        <button type="submit" matPrefix mat-icon-button tabindex="-1"><mat-icon>search</mat-icon></button>
-        <input matInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off">
+        <button type="submit" matPrefix mat-icon-button [attr.aria-label]="intl.searchLabel" [matTooltip]="intl.searchLabel" tabindex="-1"><mat-icon class="icon">search</mat-icon></button>
+        <input #query matInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off" tabindex="0">
+        <button id="clearSearchButton" type="button" matSuffix mat-icon-button [attr.aria-label]="intl.clearSearchLabel" [matTooltip]="intl.clearSearchLabel" tabindex="-1" (click)="clear()"><mat-icon class="icon">clear</mat-icon></button>
       </mat-form-field>
     </form>
   </div>
@@ -32,16 +33,19 @@
         <div *ngIf="numberOfHits > 0" [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"></div>
         <div *ngIf="numberOfHits === 0" [innerHTML]="intl.noResultsFoundLabel(currentSearch)"></div>
       </div>
-      <mat-card *ngFor="let hit of hits" class="hit" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
-        <mat-card-content fxLayout="row" fxLayoutAlign="space-between start">
-          <div fxFlex class="summary">
-            {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
+      <ng-container *ngFor="let hit of hits; let last = last">
+        <button #hitButton mat-button [color]="currentHit && hit.id === currentHit.id ? 'primary': null" [ngClass]="'hit'" (click)="goToHit(hit)" (keyup.enter)="goToHit(hit)" tabindex="0">
+          <div fxLayout="row" fxLayoutAlign="space-between start">
+            <div fxFlex class="summary">
+              {{hit.before}} <em>{{hit.match}}</em> {{hit.after}}
+            </div>
+            <div fxFlex="40px" class="pageLabel">
+              {{hit.index + 1}}
+            </div>
           </div>
-          <div fxFlex="40px" class="pageLabel">
-            {{hit.index + 1}}
-          </div>
-        </mat-card-content>
-      </mat-card>
+        </button>
+        <mat-divider *ngIf="!last"></mat-divider>
+      </ng-container>
     </div>
     <div *ngIf="isSearching" class="content-search-result" fxLayout="column">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>

@@ -38,7 +38,7 @@ describe('ViewerService', () => {
     inject([ViewerService], (viewerService: ViewerService) => {
       viewerService.currentSearch = new SearchResult({ q: 'Donald Duck', hits: new Array<Hit>() });
       viewerService.destroy(true);
-      expect(viewerService.currentSearch).not.toBeNull;
+      expect(viewerService.currentSearch).not.toBeNull();
       expect(viewerService.currentSearch.q).toEqual('Donald Duck');
     }));
 
@@ -46,6 +46,6 @@ describe('ViewerService', () => {
     inject([ViewerService], (viewerService: ViewerService) => {
       viewerService.currentSearch = new SearchResult({ q: 'Donald Duck', hits: new Array<Hit>() });
       viewerService.destroy();
-      expect(viewerService.currentSearch).toBeNull;
+      expect(viewerService.currentSearch).toBeNull();
     }));
 });

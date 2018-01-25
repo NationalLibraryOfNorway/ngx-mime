@@ -1,7 +1,7 @@
 import { Rect } from './rect';
 
 export class SearchResult {
-  public q: string;
+  public q = '';
   public hits: Hit[] = [];
 
   constructor(
@@ -29,10 +29,14 @@ export class SearchResult {
   public size(): number {
     return this.hits.length;
   }
+
+  public last(): Hit {
+    return this.get(this.size() - 1);
+  }
 }
 
 export class Hit {
-  public id: string;
+  public id = 0;
   public index = 0;
   public label: string;
   public match: string;
@@ -42,7 +46,7 @@ export class Hit {
 
   constructor(
     fields?: {
-      id?: string;
+      id?: number;
       index?: number;
       label?: string;
       match?: string;

@@ -1,5 +1,5 @@
 import { defineSupportCode } from 'cucumber';
-import { expect } from '../helpers/chai-imports';
+import { expect } from 'chai';
 
 import { ViewerPage } from './../pages/viewer.po';
 import { MetadataPage } from './../pages/metadata.po';
@@ -7,9 +7,7 @@ import { MetadataPage } from './../pages/metadata.po';
 defineSupportCode(function ({ Given, When, Then }) {
   const page = new ViewerPage();
 
-  When(/^the user swipe (.*) and the velocity is between (.*)$/, async (direction: string, velocity: string) => {
-    console.log('direction', direction);
-    console.log('velocity', velocity);
+  When('the user swipe {string} and the velocity is between {string}', async (direction: string, velocity: string) => {
     if (direction === 'left-to-right') {
       const start = {
         x: 200,
@@ -19,32 +17,38 @@ defineSupportCode(function ({ Given, When, Then }) {
         x: 0,
         y: 0
       };
-      page.swipe(start, end);
+      await page.swipe(start, end);
     }
   });
 
-  When(/^the user swipe (.*) and the velocity is equal or greater than (.*)$/, async (direction: string, velocity: string) => {
-    pending();
-  });
-  When(/^the user swipe (.*) but the velocity is less than (.*)$/, async (direction: string, velocity: string) => {
-    pending();
+  When('the user swipe {string} and the velocity is equal or greater than {string}', async (direction: string, velocity: string) => {
+    return 'pending';
   });
 
-  When(/^the user drags the page slider to page (.*)$/, async (pageNumber: number) => {
+  When('the user swipe {string} but the velocity is less than {string}', async (direction: string, velocity: string) => {
+    return 'pending';
+  });
+
+  When('the user drags the page slider to page {int}', async (pageNumber: number) => {
     await page.slideToPage(pageNumber - 1);
   });
 
-  Then(/^page (.*) is displayed$/, async (pageNumber: string) => {
+  When('the user enters {int} in the page dialog', async (pageNumber: number) => {
+    await page.goToPageWithDialog(pageNumber);
+  });
+
+  Then('page {word} is displayed', async (pageNumber: string) => {
     const currentPageString = await page.getCurrentPageString();
     expect(currentPageString.includes(pageNumber)).to.eql(true);
   });
 
 
-  When(/^the user click the (.*) button$/, async (navigationButton: string) => {
+  When('the user click the {word} button', async (navigationButton: string) => {
     if (navigationButton === 'next') {
       await page.clickNextButton();
     } else if (navigationButton === 'previous') {
       await page.clickPreviousButton();
     }
   });
+
 });

@@ -7,8 +7,6 @@ import { SearchResultBuilder } from './../builders/search-result.builder';
 import { SearchResult } from './../models/search-result';
 import { Manifest } from './../models/manifest';
 
-import './../../rxjs-extension';
-
 describe('IiifContentSearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,6 +46,26 @@ describe('IiifContentSearchService', () => {
       }).build());
     tick();
     expect(result.size()).toBe(1);
+
+  })));
+
+  it('should return a empty search result if empty q', inject([IiifContentSearchService, HttpClient, HttpTestingController],
+    fakeAsync((svc: IiifContentSearchService, http: HttpClient, httpMock: HttpTestingController) => {
+    let result: SearchResult = null;
+
+    svc.search({
+      service: {
+        id: 'dummyUrl'
+      }
+    }, '');
+    svc.onChange.subscribe((searchResult: SearchResult) => {
+      result = searchResult;
+    });
+
+    httpMock.expectNone(`dummyUrl?q=`);
+    tick();
+    httpMock.verify();
+    expect(result.size()).toBe(0);
 
   })));
 

@@ -11,17 +11,25 @@ const bookShelf = {
 };
 
 const utils = new Utils();
+const thumbStartPosition = <any>{ x: 600, y: 300 };
+const pointerPosition1 = <any>{ x: 650, y: 275 };
+const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
-  private thumbStartPosition = { x: 600, y: 300 };
-  private pointerPosition1 = { x: 650, y: 275 };
-  private pointerPosition2 = { x: 750, y: 200 };
 
   async open(manifestName?: string) {
     let uri = '/';
     if (manifestName) {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
-    await browser.get(uri);
+
+    for (let retry = 0; retry < 5; retry++) {
+      try {
+        await browser.get(uri, 10000);
+        break;
+      } catch (e) {
+        console.log(`Error connecting to ${uri} (retry ${retry})`, e);
+      }
+    }
     await browser.sleep(1000);
   }
   async goToPage(pageNumber: number) {
@@ -43,6 +51,16 @@ export class ViewerPage {
     for (let i = 0; i < pageNumber; i++) {
       await slider.sendKeys(protractor.Key.ARROW_RIGHT);
     }
+    await this.waitForAnimation();
+  }
+
+  async goToPageWithDialog(pageNumber: number) {
+    const goToPageButton = await utils.waitForElement(element(by.css('#goToPageButton')));
+    await goToPageButton.click();
+    const isTwoPageView = this.isTwoPageView();
+    const input = await utils.waitForElement(element(by.css('#goToPageInput')));
+    await input.sendKeys(pageNumber);
+    await input.sendKeys(protractor.Key.ENTER);
     await this.waitForAnimation();
   }
 
@@ -216,17 +234,17 @@ export class ViewerPage {
 
   async pinchOut(): Promise<void> {
     await browser.touchActions()
-      .tapAndHold(this.thumbStartPosition)
-      .tapAndHold(this.pointerPosition1)
-      .move(this.pointerPosition2)
+      .tapAndHold(thumbStartPosition)
+      .tapAndHold(pointerPosition1)
+      .move(pointerPosition2)
       .perform();
   }
 
   async pinchIn(): Promise<void> {
     await browser.touchActions()
-      .tapAndHold(this.thumbStartPosition)
-      .tapAndHold(this.pointerPosition2)
-      .move(this.pointerPosition1)
+      .tapAndHold(thumbStartPosition)
+      .tapAndHold(pointerPosition2)
+      .move(pointerPosition1)
       .perform();
   }
 
@@ -317,11 +335,11 @@ export class ViewerPage {
   async isPageMode(): Promise<boolean> {
     const header = await this.getHeader();
     const footer = await this.getFooter();
-    const headerDisplay = header.getCssValue('display');
-    const footerDisplay = footer.getCssValue('display');
+    const headerDisplay = await header.getCssValue('display');
+    const footerDisplay = await footer.getCssValue('display');
 
-    const headerisHidden = (await headerDisplay) === 'none';
-    const footerisHidden = (await footerDisplay) === 'none';
+    const headerisHidden = headerDisplay === 'none';
+    const footerisHidden = footerDisplay === 'none';
     return (headerisHidden && footerisHidden);
   }
 
@@ -399,9 +417,10 @@ export class ViewerPage {
 
     const [leftPageMask, rightPageMask] = await Promise.all([this.getLeftPageMask(), this.getRightPageMask()]);
 
-
-    const [leftPageMaskSize, leftPageMaskLoc, rightPageMaskSize, rightPageMaskLoc] =
-      await Promise.all([leftPageMask.getSize(), leftPageMask.getLocation(), rightPageMask.getSize(), rightPageMask.getLocation()]);
+    const leftPageMaskSize = await leftPageMask.getSize();
+    const leftPageMaskLoc = await leftPageMask.getLocation();
+    const rightPageMaskSize = await rightPageMask.getSize();
+    const rightPageMaskLoc = await rightPageMask.getLocation();
 
     const pagesArray = await pages.map((page, i) => page);
     const result = [];
@@ -422,26 +441,26 @@ export class ViewerPage {
    * Check if any part of an element is visible in the readers viewport.
    * Note that the test will not confirm that the whole element is inside the viewport.
    *
-   * @param element
+   * @param el
    * @param leftPageMask
    * @param rightPageMask
    */
   async isElementVisibleInReadersViewport(
-    element: any,
+    el: any,
     leftPageMask: { size: any, location: any },
     rightPageMask: { size: any, location: any }): Promise<boolean> {
 
       let lastEvent: string;
       try {
         lastEvent = 'getSize()';
-        const elementSize = await element.getSize();
+        const elementSize = await el.getSize();
         lastEvent = 'getLocation()';
-        const elementLocation = await element.getLocation();
+        const elementLocation = await el.getLocation();
         lastEvent = 'elementCalculatedLocastion';
         const elementCalculatedLocastion = {
           left: elementLocation.x,
           right: elementLocation.x + elementSize.width,
-        }
+        };
         lastEvent = 'return';
         return (
             elementCalculatedLocastion.right >= leftPageMask.size.width &&

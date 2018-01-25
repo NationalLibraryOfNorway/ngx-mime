@@ -1,18 +1,22 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
 import { ViewerMode } from '../models/viewer-mode';
+import { ModeChanges } from '../models/modeChanges';
 
 export class ModeService {
   private _initialMode: ViewerMode;
   private _mode: ViewerMode;
-  private toggleModeSubject: ReplaySubject<ViewerMode> = new ReplaySubject();
+  private toggleModeSubject: ReplaySubject<ModeChanges> = new ReplaySubject();
+  private modeChanges = new ModeChanges();
 
   constructor(
   ) { }
 
-  get onChange(): Observable<ViewerMode> {
-    return this.toggleModeSubject.asObservable().distinctUntilChanged();
+  get onChange(): Observable<ModeChanges> {
+    return this.toggleModeSubject.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   set mode(mode: ViewerMode) {
@@ -42,6 +46,10 @@ export class ModeService {
   }
 
   private change() {
-    this.toggleModeSubject.next(this._mode);
+    this.modeChanges.previousValue = this.modeChanges.currentValue;
+    this.modeChanges.currentValue = this._mode;
+    this.toggleModeSubject.next({
+      ...this.modeChanges
+    });
   }
 }

@@ -14,8 +14,8 @@ export class SwipeDragEndCounter {
   }
 
 /**
- * @param {Direction} direction of swipe / pan
- * @param {Side} side hit by swipe
+ * @param direction of swipe / pan
+ * @param side hit by swipe
  */
   public addHit(side: Side, dir: Direction): void {
     this.incrementSide(side);
@@ -38,7 +38,7 @@ export class SwipeDragEndCounter {
 
   /**
    * Clear opposite side if swiping in the other direction
-   * @param {Direction} Direction of swipe / pan
+   * @param Direction of swipe / pan
    */
   private clearOppositeSideOfDragDirection(dir: Direction): void {
     if (dir === Direction.LEFT) {

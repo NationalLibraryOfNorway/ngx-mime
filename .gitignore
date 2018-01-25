@@ -15,3 +15,4 @@ e2e/**/*.js
 e2e/**/*.js.map
 coverage
 .idea/
+e2e/.tmp

@@ -1,12 +1,18 @@
-import { BehaviorSubject, Subject } from 'rxjs/Rx';
+import { Injectable, NgZone, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Injectable, NgZone, OnInit } from '@angular/core';
+import { sample } from 'rxjs/operators/sample';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { takeUntil } from 'rxjs/operators/takeUntil';
+import { interval } from 'rxjs/observable/interval';
 
 import { Utils } from '../../core/utils';
 import { ViewerOptions } from '../models/viewer-options';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { ModeChanges } from '../models/modeChanges';
 import { Dimensions } from '../models/dimensions';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
@@ -49,6 +55,7 @@ export class ViewerService {
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
   private subscriptions: Array<Subscription> = [];
+  private destroyed: Subject<void> = new Subject();
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -82,15 +89,18 @@ export class ViewerService {
   }
 
   get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable().distinctUntilChanged();
+    return this.currentPageIndex.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get onHitChange(): Observable<Hit> {
-    return this.currentHit.asObservable().distinctUntilChanged();
+    return this.currentHit.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   get onOsdReadyChange(): Observable<boolean> {
-    return this.osdIsReady.asObservable().distinctUntilChanged();
+    return this.osdIsReady.asObservable()
+      .pipe(distinctUntilChanged());
   }
 
   public getViewer(): any {
@@ -258,62 +268,79 @@ export class ViewerService {
 
 
   addSubscriptions(): void {
-    this.subscriptions.push(this.modeService.onChange.subscribe((mode: ViewerMode) => {
+    this.modeService.onChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((mode: ModeChanges) => {
       this.modeChanged(mode);
-    }));
+    });
 
     this.zone.runOutsideAngular(() => {
-      this.subscriptions.push(this.onCenterChange.sample(Observable.interval(500)).subscribe((center: Point) => {
+      this.onCenterChange
+      .pipe(
+        takeUntil(this.destroyed),
+        sample(interval(500))
+      )
+      .subscribe((center: Point) => {
         this.calculateCurrentPage(center);
         if (center && center !== null) {
           this.osdIsReady.next(true);
         }
-      }));
+      })
     });
 
-    this.subscriptions.push(
-      this.pageService.onPageChange.subscribe((pageIndex: number) => {
-        if (pageIndex !== -1) {
-          this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
-          if (this.modeService.mode === ViewerMode.PAGE) {
-            this.goToHomeZoom();
-          }
+    this.pageService.onPageChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((pageIndex: number) => {
+      if (pageIndex !== -1) {
+        this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
+        if (this.modeService.mode === ViewerMode.PAGE) {
+          this.goToHomeZoom();
         }
-      })
-    );
+      }
+    });
 
-    this.subscriptions.push(
-      this.onOsdReadyChange.subscribe((state: boolean) => {
-        if (state) {
-          this.initialPageLoaded();
-          this.currentCenter.next(this.viewer.viewport.getCenter(true));
-        }
-      })
-    );
+  this.onOsdReadyChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((state: boolean) => {
+      if (state) {
+        this.initialPageLoaded();
+        this.currentCenter.next(this.viewer.viewport.getCenter(true));
+      }
+    });
 
-    this.subscriptions.push(
-      this.viewerLayoutService.onChange.subscribe((state: ViewerLayout) => {
-        if (this.osdIsReady.getValue()) {
-          const savedTile = this.pageService.currentTile;
-          this.destroy(true);
-          this.setUpViewer(this.manifest, this.config);
-          this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
-          // Recreate highlights if there is an active search going on
-          if (this.currentSearch) {
-            this.highlight(this.currentSearch);
-          }
+  this.viewerLayoutService.onChange
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((state: ViewerLayout) => {
+      if (this.osdIsReady.getValue()) {
+        const savedTile = this.pageService.currentTile;
+        this.destroy(true);
+        this.setUpViewer(this.manifest, this.config);
+        this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
+        // Recreate highlights if there is an active search going on
+        if (this.currentSearch) {
+          this.highlight(this.currentSearch);
         }
-      })
-    );
+      }
+    });
 
-    this.subscriptions.push(
-      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
-        if (hit) {
-          this.highlightCurrentHit(hit);
-          this.goToTile(hit.index, false);
-        }
-      })
-    );
+  this.iiifContentSearchService.onSelected
+    .pipe(
+      takeUntil(this.destroyed)
+    )
+    .subscribe((hit: Hit) => {
+      if (hit) {
+        this.highlightCurrentHit(hit);
+        this.goToTile(hit.index, false);
+      }
+    });
 
   }
 
@@ -328,7 +355,7 @@ export class ViewerService {
 
   /**
    *
-   * @param {layoutSwitch} true if switching between layouts
+   * @param layoutSwitch true if switching between layouts
    * to keep current search-state
    */
   destroy(layoutSwitch?: boolean) {
@@ -340,9 +367,7 @@ export class ViewerService {
       }
       this.viewer.destroy();
     }
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
     this.overlays = null;
     this.pageService.reset();
     // Keep search-state only if layout-switch
@@ -417,16 +442,16 @@ export class ViewerService {
    * Callback for mode-change
    * @param mode ViewerMode
    */
-  modeChanged(mode: ViewerMode): void {
-    if (mode === ViewerMode.DASHBOARD) {
+  modeChanged(mode: ModeChanges): void {
+    if (mode.currentValue === ViewerMode.DASHBOARD) {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToDashboard();
-    } else if (mode === ViewerMode.PAGE) {
+    } else if (mode.currentValue === ViewerMode.PAGE) {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToPage();
-    } else if (mode === ViewerMode.PAGE_ZOOMED) {
+    } else if (mode.currentValue === ViewerMode.PAGE_ZOOMED) {
       this.viewer.panVertical = true;
     }
   }
@@ -490,7 +515,7 @@ export class ViewerService {
 
   /**
    *
-   * @param {Point} point to zoom to. If not set, the viewer will zoom to center
+   * @param point to zoom to. If not set, the viewer will zoom to center
    */
   zoomInGesture(position: Point, zoomFactor?: number): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
@@ -517,7 +542,7 @@ export class ViewerService {
    *
    * Toggle to page mode and Zoom in
    *
-   * @param {any} event from pinch gesture
+   * @param event from pinch gesture
    */
   zoomInPinchGesture(event: any, zoomFactor: number): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
@@ -533,7 +558,7 @@ export class ViewerService {
    * Zoom out and toggle to dashboard when all zoomed out.
    * Stop between zooming out and toggling to dashboard.
    *
-   * @param {any} event from pinch gesture
+   * @param event from pinch gesture
    */
   zoomOutPinchGesture(event: any, zoomFactor: number): void {
     const gestureId = event.gesturePoints[0].id;
@@ -599,7 +624,7 @@ export class ViewerService {
 
   /**
    * Checks if hit element is a <rect>-element
-   * @param {HTMLElement} target
+   * @param target
    */
   isPageHit(target: HTMLElement): boolean {
     return target instanceof SVGRectElement;
@@ -672,7 +697,7 @@ export class ViewerService {
   /**
    * Sets viewer size and opacity once the first page has fully loaded
    */
-  initialPageLoaded = (): void => {
+  private initialPageLoaded(): void {
     this.home();
     this.pageMask.initialise(this.pageService.getCurrentPageRect(), this.modeService.mode !== ViewerMode.DASHBOARD);
     d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
