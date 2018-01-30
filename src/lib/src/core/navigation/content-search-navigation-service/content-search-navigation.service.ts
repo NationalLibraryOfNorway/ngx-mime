@@ -53,18 +53,21 @@ export class ContentSearchNavigationService {
         nextHit = this.searchResult.get(0);
       } else {
         const current = this.searchResult.get(this.currentIndex);
-        nextHit = this.searchResult.hits.find(h => h.index > current.index);
+        const page = this.pageService.findPageByTileIndex(current.index);
+        const tiles = this.pageService.getTileArrayFromPageIndex(page);
+        const lastPageIndex = this.getLastPageIndex(tiles);
+        nextHit = this.searchResult.hits.find(h => h.index > lastPageIndex);
       }
-      this.goToCanvasIndex(nextHit);
+      if (nextHit) {
+        this.goToCanvasIndex(nextHit);
+      }
     }
   }
 
   public goToPreviousHitPage() {
-    if (!this.isFirstHitPage) {
-      const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
-      const previousHit = this.searchResult.get(previousIndex);
-      this.goToCanvasIndex(previousHit);
-    }
+    const previousIndex = this.isHitOnActivePage ? this.currentIndex - 1 : this.currentIndex;
+    const previousHit = this.findFirstHitOnPage(previousIndex);
+    this.goToCanvasIndex(previousHit);
   }
 
   private goToCanvasIndex(hit: Hit): void {
@@ -102,5 +105,24 @@ export class ContentSearchNavigationService {
       }
     }
     return this.searchResult.size() - 1;
+  }
+
+  private findFirstHitOnPage(previousIndex: number): Hit {
+    let previousHit = this.searchResult.get(previousIndex);
+    const page = this.pageService.findPageByTileIndex(previousHit.index);
+    const tiles = this.pageService.getTileArrayFromPageIndex(page);
+    const leftPage = tiles[0];
+    const leftPageHit = this.searchResult.hits.find(h => h.index === leftPage);
+    if (leftPageHit) {
+      previousHit = leftPageHit;
+    } else if (tiles.length === 2) {
+      const rightPage = tiles[1];
+      previousHit = this.searchResult.hits.find(h => h.index === rightPage);
+    }
+    return previousHit;
+  }
+
+  private getLastPageIndex(tiles: number[]) {
+    return tiles.length === 1 ? tiles[0] : tiles[1];
   }
 }

@@ -3,21 +3,20 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
+  HostListener,
   Input,
-  Output,
+  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
-  EventEmitter,
+  Output,
   SimpleChange,
   SimpleChanges,
   ViewChild,
-  HostListener,
-  ViewContainerRef,
-  NgZone
+  ViewContainerRef
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 import { throttle } from 'rxjs/operators/throttle';
 import { interval } from 'rxjs/observable/interval';
 import { takeUntil } from 'rxjs/operators/takeUntil';
