@@ -13,15 +13,16 @@ import { MimeDomHelper } from '../mime-dom-helper';
 import { AccessKeys } from '../models/AccessKeys';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from '../../core/models/search-result';
+import { SearchResult } from '../models/search-result';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
-  private isLetterKeysEnabled = true;
   private isSearchable = false;
   private subscriptions: Array<Subscription> = [];
   private isSearchDialogOpen = false;
+  private isContentsDialogOpen = false;
   private hasHits = false;
+  private disabledKeys: number[] = [];
 
   constructor(
     private viewerService: ViewerService,
@@ -36,7 +37,13 @@ export class AccessKeysService implements OnDestroy {
   ) {
     this.subscriptions.push(
       this.contentSearchDialogService.isContentSearchDialogOpen.subscribe((open: boolean) => {
-        this.isLetterKeysEnabled = !open;
+        this.isSearchDialogOpen = open;
+      })
+    );
+
+    this.subscriptions.push(
+      this.contentsDialogService.isContentDialogOpen.subscribe((open: boolean) => {
+        this.isContentsDialogOpen = open;
       })
     );
 
@@ -61,7 +68,7 @@ export class AccessKeysService implements OnDestroy {
 
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
-    if (this.isLetterKeysEnabled) {
+    if (!this.isKeyDisabled(event.keyCode)) {
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
           this.goToPreviousPage();
@@ -70,10 +77,6 @@ export class AccessKeysService implements OnDestroy {
         if (!this.isZoomedIn()) {
           this.goToNextPage();
         }
-      } else if (accessKeys.isPageDownKeys()) {
-        this.goToNextPage();
-      } else if (accessKeys.isPageUpKeys()) {
-        this.goToPreviousPage();
       } else if (accessKeys.isFirstPageKeys()) {
         this.goToFirstPage();
       } else if (accessKeys.isLastPageKeys()) {
@@ -82,12 +85,6 @@ export class AccessKeysService implements OnDestroy {
         this.goToNextHit();
       } else if (accessKeys.isPreviousHitKeys() && this.hasHits) {
         this.goToPreviousHit();
-      } else if (accessKeys.isZoomInKeys()) {
-        this.zoomIn();
-      } else if (accessKeys.isZoomOutKeys()) {
-        this.zoomOut();
-      } else if (accessKeys.isZoomHomeKeys()) {
-        this.zoomHome();
       } else if (accessKeys.isFullscreenKeys()) {
         this.toggleFullscreen();
       } else if (accessKeys.isSearchDialogKeys()) {
@@ -96,16 +93,18 @@ export class AccessKeysService implements OnDestroy {
         this.toggleContentsDialog();
       } else if (accessKeys.isResetSearchKeys()) {
         this.resetSearch();
+      } else if (accessKeys.isPageDownKeys()) {
+        this.goToNextPage();
+      } else if (accessKeys.isPageUpKeys()) {
+        this.goToPreviousPage();
+      } else if (accessKeys.isZoomInKeys()) {
+        this.zoomIn();
+      } else if (accessKeys.isZoomOutKeys()) {
+        this.zoomOut();
+      } else if (accessKeys.isZoomHomeKeys()) {
+        this.zoomHome();
       }
     }
-  }
-
-  public disableLetterKeys() {
-    this.isLetterKeysEnabled = false;
-  }
-
-  public enableLetterKeys() {
-    this.isLetterKeysEnabled = true;
   }
 
   private goToNextPage() {
@@ -161,7 +160,6 @@ export class AccessKeysService implements OnDestroy {
   private toggleSearchDialog() {
     this.contentsDialogService.close();
     this.contentSearchDialogService.toggle();
-    this.isSearchDialogOpen = !this.isSearchDialogOpen;
   }
 
   private toggleContentsDialog() {
@@ -183,5 +181,45 @@ export class AccessKeysService implements OnDestroy {
 
   private isZoomedIn(): boolean {
     return this.viewerService.getZoom() !== this.viewerService.getHomeZoomLevel(this.modeService.mode);
+  }
+
+  private updateDisableedKeys() {
+    this.resetDisabledKeys();
+    if (this.isContentsDialogOpen) {
+      this.disableKeysForContentDialog();
+    } else if (this.isSearchDialogOpen) {
+      this.diableKeysForContentSearchDialog();
+    }
+  }
+
+  private disableKeysForContentDialog() {
+    this.disabledKeys = this.disabledKeys
+      .concat(AccessKeys.ARROWLEFT)
+      .concat(AccessKeys.ARROWRIGHT);
+  }
+
+  private diableKeysForContentSearchDialog() {
+    this.disabledKeys = this.disabledKeys
+      .concat(AccessKeys.ARROWLEFT)
+      .concat(AccessKeys.ARROWRIGHT)
+      .concat(AccessKeys.firstPageCodes)
+      .concat(AccessKeys.lastPageCodes)
+      .concat(AccessKeys.zoomInCodes)
+      .concat(AccessKeys.zoomOutCodes)
+      .concat(AccessKeys.zoomHomeCodes)
+      .concat(AccessKeys.nextHit)
+      .concat(AccessKeys.previousHit)
+      .concat(AccessKeys.toggleSearchDialogCodes)
+      .concat(AccessKeys.toggleContentsDialogCodes)
+      .concat(AccessKeys.toggleFullscreenCodes);
+  }
+
+  private resetDisabledKeys() {
+    this.disabledKeys = [];
+  }
+
+  private isKeyDisabled(keyCode: number): boolean {
+    this.updateDisableedKeys();
+    return this.disabledKeys.indexOf(keyCode) > -1;
   }
 }

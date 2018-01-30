@@ -1,19 +1,19 @@
 export class AccessKeys {
-  private static PAGEDOWN = [34];
-  private static PAGEUP = [33];
-  private static ARROWRIGHT = [39];
-  private static ARROWLEFT = [37];
-  private static firstPageCodes = [36]; // Home
-  private static lastPageCodes = [35]; // End
-  private static zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
-  private static zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
-  private static zoomHomeCodes = [96, 48]; // 0
-  private static nextHit = [78]; // n
-  private static previousHit = [80]; // p
-  private static toggleSearchDialogCodes = [83]; // s
-  private static toggleContentsDialogCodes = [67]; // C
-  private static toggleFullscreenCodes = [70]; // f
-  private static resetSearch = [83]; // s
+  public static PAGEDOWN = [34];
+  public static PAGEUP = [33];
+  public static ARROWRIGHT = [39];
+  public static ARROWLEFT = [37];
+  public static firstPageCodes = [36]; // Home
+  public static lastPageCodes = [35]; // End
+  public static zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
+  public static zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
+  public static zoomHomeCodes = [96, 48]; // 0
+  public static nextHit = [78]; // n
+  public static previousHit = [80]; // p
+  public static toggleSearchDialogCodes = [83]; // s
+  public static toggleContentsDialogCodes = [67]; // C
+  public static toggleFullscreenCodes = [70]; // f
+  public static resetSearch = [83]; // s
   private keyCode: number;
   private altKey = false;
   private shiftKey = false;
