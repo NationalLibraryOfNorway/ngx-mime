@@ -143,10 +143,8 @@ Feature: Access Keys
 
     Examples:
       | keys        |
-      | PageDown    |
       | ArrowRight  |
       | n           |
-      | PageUp      |
       | ArrowLeft   |
       | p           |
       | Home        |
