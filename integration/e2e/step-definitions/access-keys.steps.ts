@@ -1,5 +1,5 @@
 import { defineSupportCode } from 'cucumber';
-import { expect } from '../helpers/chai-imports';
+import { expect } from 'chai';
 import { ViewerPage } from '../pages/viewer.po';
 import { browser } from 'protractor';
 import { ContentSearchPage } from '../pages/content-search.po';
