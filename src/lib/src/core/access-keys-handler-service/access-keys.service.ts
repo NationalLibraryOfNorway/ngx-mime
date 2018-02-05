@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 
 import { ViewerService } from '../viewer-service/viewer.service';
 import { PageService } from '../page-service/page-service';
@@ -14,15 +13,17 @@ import { AccessKeys } from '../models/AccessKeys';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from '../models/search-result';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
   private isSearchable = false;
-  private subscriptions: Array<Subscription> = [];
   private isSearchDialogOpen = false;
   private isContentsDialogOpen = false;
   private hasHits = false;
   private disabledKeys: number[] = [];
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     private viewerService: ViewerService,
@@ -35,35 +36,42 @@ export class AccessKeysService implements OnDestroy {
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {
-    this.subscriptions.push(
-      this.contentSearchDialogService.isContentSearchDialogOpen.subscribe((open: boolean) => {
-        this.isSearchDialogOpen = open;
-      })
-    );
+    this.contentSearchDialogService.isContentSearchDialogOpen
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((open: boolean) => {
+      this.isSearchDialogOpen = open;
+    });
 
-    this.subscriptions.push(
-      this.contentsDialogService.isContentDialogOpen.subscribe((open: boolean) => {
-        this.isContentsDialogOpen = open;
-      })
-    );
+    this.contentsDialogService.isContentDialogOpen
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((open: boolean) => {
+      this.isContentsDialogOpen = open;
+    });
 
-    this.subscriptions.push(
-      this.iiifManifestService.currentManifest.subscribe((manifest: Manifest) => {
-        this.isSearchable = this.isManifestSearchable(manifest);
-      })
-    );
+    this.iiifManifestService.currentManifest
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((manifest: Manifest) => {
+      this.isSearchable = this.isManifestSearchable(manifest);
+    });
 
-    this.subscriptions.push(
-      this.iiifContentSearchService.onChange.subscribe((result: SearchResult) => {
-        this.hasHits = result.hits.length > 0;
-      })
-    );
+    this.iiifContentSearchService.onChange
+      .pipe(
+        takeUntil(this.destroyed)
+      )
+      .subscribe((result: SearchResult) => {
+      this.hasHits = result.hits.length > 0;
+    });
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   public handleKeyEvents(event: KeyboardEvent) {
