@@ -1,8 +1,6 @@
-import { Injectable, ElementRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { ContentsDialogComponent } from './contents-dialog.component';
@@ -13,7 +11,7 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 @Injectable()
 export class ContentsDialogService {
   private _el: ElementRef;
-  private _isContentsDialogOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private isContentsDialogOpen = false;
   private dialogRef: MatDialogRef<ContentsDialogComponent>;
   private destroyed: Subject<void> = new Subject();
 
@@ -23,17 +21,13 @@ export class ContentsDialogService {
     private mimeResizeService: MimeResizeService) {
   }
 
-  get isContentDialogOpen(): Observable<boolean> {
-    return this._isContentsDialogOpen.asObservable();
-  }
-
   public initialize(): void {
     this.mimeResizeService
       .onResize
       .pipe(
         takeUntil(this.destroyed)
       ).subscribe(rect => {
-        if (this._isContentsDialogOpen.getValue()) {
+        if (this.isContentsDialogOpen) {
           const config = this.getDialogConfig();
           this.dialogRef.updatePosition(config.position);
           this.dialogRef.updateSize(config.width, config.height);
@@ -51,7 +45,7 @@ export class ContentsDialogService {
   }
 
   public open(selectedIndex?: number) {
-    if (!this._isContentsDialogOpen.getValue()) {
+    if (!this.isContentsDialogOpen) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
 
@@ -60,26 +54,26 @@ export class ContentsDialogService {
       }
 
       this.dialogRef.afterClosed().subscribe(result => {
-        this._isContentsDialogOpen.next(false);
+        this.isContentsDialogOpen = false;
       });
-      this._isContentsDialogOpen.next(true);
+      this.isContentsDialogOpen = true;
     }
   }
 
   public close() {
     if (this.dialogRef) {
       this.dialogRef.close();
-      this._isContentsDialogOpen.next(false);
+      this.isContentsDialogOpen = false;
     }
-    this._isContentsDialogOpen.next(false);
+    this.isContentsDialogOpen = false;
   }
 
   public toggle() {
-    this._isContentsDialogOpen.getValue() ? this.close() : this.open();
+    this.isContentsDialogOpen ? this.close() : this.open();
   }
 
   public isOpen(): boolean {
-    return this._isContentsDialogOpen.getValue();
+    return this.isContentsDialogOpen;
   }
 
   public getSelectedIndex(): number {
