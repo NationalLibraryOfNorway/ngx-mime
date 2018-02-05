@@ -19,8 +19,6 @@ import { takeUntil } from 'rxjs/operators/takeUntil';
 @Injectable()
 export class AccessKeysService implements OnDestroy {
   private isSearchable = false;
-  private isSearchDialogOpen = false;
-  private isContentsDialogOpen = false;
   private hasHits = false;
   private disabledKeys: number[] = [];
   private destroyed: Subject<void> = new Subject();
@@ -36,22 +34,6 @@ export class AccessKeysService implements OnDestroy {
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {
-    this.contentSearchDialogService.isContentSearchDialogOpen
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((open: boolean) => {
-      this.isSearchDialogOpen = open;
-    });
-
-    this.contentsDialogService.isContentDialogOpen
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((open: boolean) => {
-      this.isContentsDialogOpen = open;
-    });
-
     this.iiifManifestService.currentManifest
       .pipe(
         takeUntil(this.destroyed)
@@ -191,11 +173,11 @@ export class AccessKeysService implements OnDestroy {
     return this.viewerService.getZoom() !== this.viewerService.getHomeZoomLevel(this.modeService.mode);
   }
 
-  private updateDisableedKeys() {
+  private updateDisabledKeys() {
     this.resetDisabledKeys();
-    if (this.isContentsDialogOpen) {
+    if (this.contentsDialogService.isOpen()) {
       this.disableKeysForContentDialog();
-    } else if (this.isSearchDialogOpen) {
+    } else if (this.contentSearchDialogService.isOpen()) {
       this.diableKeysForContentSearchDialog();
     }
   }
@@ -227,7 +209,7 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private isKeyDisabled(keyCode: number): boolean {
-    this.updateDisableedKeys();
+    this.updateDisabledKeys();
     return this.disabledKeys.indexOf(keyCode) > -1;
   }
 }
