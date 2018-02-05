@@ -1,13 +1,14 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+
 
 @Injectable()
 export class ContentsDialogService {
