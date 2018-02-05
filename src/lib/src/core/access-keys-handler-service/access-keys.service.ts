@@ -148,13 +148,32 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private toggleSearchDialog() {
+    if (this.modeService.mode === ViewerMode.PAGE || this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.modeService.mode = ViewerMode.DASHBOARD;
+      this.contentSearchDialogService.open();
+    } else {
+      if (this.contentSearchDialogService.isOpen()) {
+        this.contentSearchDialogService.close();
+      } else {
+        this.contentSearchDialogService.open();
+      }
+    }
+
     this.contentsDialogService.close();
-    this.contentSearchDialogService.toggle();
   }
 
   private toggleContentsDialog() {
+    if (this.modeService.mode === ViewerMode.PAGE || this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.modeService.mode = ViewerMode.DASHBOARD;
+      this.contentsDialogService.open();
+    } else {
+      if (this.contentsDialogService.isOpen()) {
+        this.contentsDialogService.close();
+      } else {
+        this.contentsDialogService.open();
+      }
+    }
     this.contentSearchDialogService.close();
-    this.contentsDialogService.toggle();
   }
 
   private toggleFullscreen() {
