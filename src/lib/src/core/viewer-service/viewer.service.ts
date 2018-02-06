@@ -69,6 +69,8 @@ export class ViewerService {
   private dragStartPosition: any;
   private manifest: Manifest;
   private isManifestPaged: boolean;
+  private defaultKeyDownHandler: any;
+  private defaultKeyPressHandler: any;
 
   public currentSearch: SearchResult;
 
@@ -253,6 +255,9 @@ export class ViewerService {
           We use s for opening search dialog and OSD use the same key for panning.
           Issue: https://github.com/openseadragon/openseadragon/issues/794
          */
+        this.defaultKeyDownHandler = this.viewer.innerTracker.keyDownHandler;
+        this.defaultKeyPressHandler = this.viewer.innerTracker.keyPressHandler;
+        this.disableKeyDownHandler();
         this.viewer.innerTracker.keyHandler = null;
         this.pageService.reset();
         this.pageMask = new PageMask(this.viewer);
@@ -353,6 +358,18 @@ export class ViewerService {
     this.svgNode = d3.select(this.svgOverlay.node());
   }
 
+  disableKeyDownHandler() {
+    this.viewer.innerTracker.keyDownHandler = null;
+    // this.viewer.innerTracker.keyPressHandler = null;
+    console.log('key handlers are now disabled');
+  }
+
+  resetKeyDownHandler() {
+    this.viewer.innerTracker.keyDownHandler = this.defaultKeyDownHandler;
+    // this.viewer.innerTracker.keyPressHandler = this.defaultKeyPressHandler;
+    console.log('key handlers is reset');
+  }
+
   /**
    *
    * @param layoutSwitch true if switching between layouts
@@ -418,6 +435,10 @@ export class ViewerService {
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
+
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      this.resetKeyDownHandler();
+    }
     this.zoomBy(zoomFactor, position);
   }
 
@@ -435,6 +456,10 @@ export class ViewerService {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
       this.zoomBy(zoomFactor, position);
+    }
+
+    if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
+      this.disableKeyDownHandler();
     }
   }
 
