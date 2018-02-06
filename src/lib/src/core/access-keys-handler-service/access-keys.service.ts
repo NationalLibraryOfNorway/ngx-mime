@@ -189,7 +189,7 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private isZoomedIn(): boolean {
-    return this.viewerService.getZoom() !== this.viewerService.getHomeZoomLevel(this.modeService.mode);
+    return this.modeService.mode === ViewerMode.PAGE_ZOOMED;
   }
 
   private updateDisabledKeys() {
