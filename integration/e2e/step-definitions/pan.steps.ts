@@ -13,8 +13,17 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.waitForAnimation();
   });
 
+  When('the user hits ArrowUp', async () => {
+    previousCenter = await page.getCenter();
+    await page.sendKeyboardEvent('ArrowUp');
+  });
+
   Then('the image is moved inside the view', async () => {
     expect((await page.getCenter()).x).to.be.greaterThan(previousCenter.x);
+  });
+
+  Then('the image is not moved inside the view', async () => {
+    expect((await page.getCenter()).x).to.be.equal(previousCenter.x);
   });
 
 });

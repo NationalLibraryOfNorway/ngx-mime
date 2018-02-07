@@ -382,6 +382,8 @@ export class ViewerPage {
       iKey = Key.PAGE_DOWN;
     } else if (key === 'ArrowRight') {
       iKey = Key.ARROW_RIGHT;
+    } else if (key === 'ArrowUp') {
+      iKey = Key.ARROW_UP;
     } else if (key === 'n') {
       iKey = Key.chord('n');
     } else if (key === 'PageUp') {
