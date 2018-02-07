@@ -70,7 +70,6 @@ export class ViewerService {
   private manifest: Manifest;
   private isManifestPaged: boolean;
   private defaultKeyDownHandler: any;
-  private defaultKeyPressHandler: any;
 
   public currentSearch: SearchResult;
 
@@ -256,7 +255,6 @@ export class ViewerService {
           Issue: https://github.com/openseadragon/openseadragon/issues/794
          */
         this.defaultKeyDownHandler = this.viewer.innerTracker.keyDownHandler;
-        this.defaultKeyPressHandler = this.viewer.innerTracker.keyPressHandler;
         this.disableKeyDownHandler();
         this.viewer.innerTracker.keyHandler = null;
         this.pageService.reset();
@@ -360,14 +358,10 @@ export class ViewerService {
 
   disableKeyDownHandler() {
     this.viewer.innerTracker.keyDownHandler = null;
-    // this.viewer.innerTracker.keyPressHandler = null;
-    console.log('key handlers are now disabled');
   }
 
   resetKeyDownHandler() {
     this.viewer.innerTracker.keyDownHandler = this.defaultKeyDownHandler;
-    // this.viewer.innerTracker.keyPressHandler = this.defaultKeyPressHandler;
-    console.log('key handlers is reset');
   }
 
   /**
@@ -436,9 +430,6 @@ export class ViewerService {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
 
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      this.resetKeyDownHandler();
-    }
     this.zoomBy(zoomFactor, position);
   }
 
@@ -457,10 +448,6 @@ export class ViewerService {
     } else {
       this.zoomBy(zoomFactor, position);
     }
-
-    if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
-      this.disableKeyDownHandler();
-    }
   }
 
   /**
@@ -472,12 +459,15 @@ export class ViewerService {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToDashboard();
+      this.disableKeyDownHandler();
     } else if (mode.currentValue === ViewerMode.PAGE) {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToPage();
+      this.disableKeyDownHandler();
     } else if (mode.currentValue === ViewerMode.PAGE_ZOOMED) {
       this.viewer.panVertical = true;
+      this.resetKeyDownHandler();
     }
   }
 

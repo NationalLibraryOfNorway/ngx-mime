@@ -112,7 +112,7 @@ Feature: Access Keys
       | Esc   |
 
   Scenario Outline: Close Content Search Dialog when other dialog is opening
-    Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
     And the viewer is in dashboard view
     And the user search for the word "Gjallarhorn"
     And the user hits key <keys>
@@ -151,7 +151,7 @@ Feature: Access Keys
       | End         |
 
     Scenario Outline: Next hit on <keys>
-      Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside
+      Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
       And the viewer is in dashboard view
       And the user search for the word "Gjallarhorn"
       And the user hits key <keys>
@@ -162,7 +162,7 @@ Feature: Access Keys
         | n           |
 
     Scenario Outline: Previous hit on <keys>
-      Given the viewer is opened with a publication with the word "Gjallarhorn" 5 times inside
+      Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
       And the viewer is in dashboard view
       And the user search for the word "Gjallarhorn"
       And the user has selected the second hit

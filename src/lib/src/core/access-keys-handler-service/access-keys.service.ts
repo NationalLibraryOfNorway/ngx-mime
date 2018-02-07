@@ -60,13 +60,9 @@ export class AccessKeysService implements OnDestroy {
     const accessKeys = new AccessKeys(event);
     if (!this.isKeyDisabled(event.keyCode)) {
       if (accessKeys.isArrowLeftKeys()) {
-        if (!this.isZoomedIn()) {
-          this.goToPreviousPage();
-        }
+        this.goToPreviousPage();
       } else if (accessKeys.isArrowRightKeys()) {
-        if (!this.isZoomedIn()) {
-          this.goToNextPage();
-        }
+        this.goToNextPage();
       } else if (accessKeys.isFirstPageKeys()) {
         this.goToFirstPage();
       } else if (accessKeys.isLastPageKeys()) {
@@ -98,13 +94,13 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private goToNextPage() {
-    if (this.pageService.currentPage < this.pageService.numberOfPages) {
+    if (!this.isZoomedIn() && this.pageService.currentPage < this.pageService.numberOfPages) {
       this.viewerService.goToNextPage();
     }
   }
 
   private goToPreviousPage() {
-    if (this.pageService.currentPage > 0) {
+    if (!this.isZoomedIn() && this.pageService.currentPage > 0) {
       this.viewerService.goToPreviousPage();
     }
   }
