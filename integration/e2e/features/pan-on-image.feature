@@ -26,7 +26,7 @@ Feature: Pan on image
     Then the image is not moved inside the view
 
   @Ignore-firefox
-  Scenario: Viewer should pan when user use arrow keys when viewer is zoomed in
+  Scenario: Panning should be enabled when viewer is zoomed in
     Given zoom level is home
       And the user double click
     When the user hits ArrowUp

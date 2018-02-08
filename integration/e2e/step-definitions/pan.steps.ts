@@ -15,15 +15,15 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When('the user hits ArrowUp', async () => {
     previousCenter = await page.getCenter();
-    await page.sendKeyboardEvent('ArrowUp');
+    await page.sendKeyboardEvent('ArrowRight');
   });
 
   Then('the image is moved inside the view', async () => {
-    expect((await page.getCenter()).x).to.be.greaterThan(previousCenter.x);
+    expect((await page.getCenter()).x).not.to.be.equal(previousCenter.x);
   });
 
   Then('the image is not moved inside the view', async () => {
-    expect((await page.getCenter()).x).to.be.equal(previousCenter.x);
+    expect((await page.getCenter()).y).to.be.equal(previousCenter.y);
   });
 
 });
