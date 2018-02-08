@@ -13,16 +13,19 @@ Feature: Pan on image
     When the user is dragging
     Then the image is moved inside the view
 
+  @Ignore-firefox
   Scenario: Panning should be disabled when i page mode
     Given the viewer is in page view
     When the user hits ArrowUp
     Then the image is not moved inside the view
 
+  @Ignore-firefox
   Scenario: Panning should be disabled when i dashboard mode
     Given the viewer is in dashboard view
     When the user hits ArrowUp
     Then the image is not moved inside the view
 
+  @Ignore-firefox
   Scenario: Viewer should pan when user use arrow keys when viewer is zoomed in
     Given zoom level is home
       And the user double click
