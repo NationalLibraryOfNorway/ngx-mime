@@ -13,6 +13,11 @@ defineSupportCode(function ({ Given, When, Then }) {
     await page.waitForAnimation();
   });
 
+  When('the user hits ArrowUp', async () => {
+    previousCenter = await page.getCenter();
+    await page.sendKeyboardEvent('ArrowUp');
+  });
+
   When('the user hits ArrowRight', async () => {
     previousCenter = await page.getCenter();
     await page.sendKeyboardEvent('ArrowRight');
