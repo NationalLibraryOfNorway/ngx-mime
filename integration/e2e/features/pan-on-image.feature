@@ -29,5 +29,5 @@ Feature: Pan on image
   Scenario: Panning should be enabled when viewer is zoomed in
     Given zoom level is home
       And the user double click
-    When the user hits ArrowUp
+    When the user hits ArrowRight
     Then the image is moved inside the view
