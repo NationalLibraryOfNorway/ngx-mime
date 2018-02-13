@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.13.0"></a>
+# [0.13.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.12.0...v0.13.0) (2018-02-13)
+
+
+### Features
+
+* access keys ([d20bb18](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d20bb18)), closes [#143](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/143)
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.11.0...v0.12.0) (2017-12-19)
 
