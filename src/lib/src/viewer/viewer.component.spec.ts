@@ -33,7 +33,6 @@ import { AccessKeysService } from '../core/access-keys-handler-service/access-ke
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 
 import 'openseadragon';
-import '../rxjs-extension';
 
 describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();

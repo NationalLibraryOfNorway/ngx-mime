@@ -39,7 +39,6 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { Hit } from './../models/search-result';
 
 import '../ext/svg-overlay';
-import '../../rxjs-extension';
 import * as d3 from 'd3';
 
 declare const OpenSeadragon: any;
