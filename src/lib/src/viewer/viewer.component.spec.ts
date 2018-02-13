@@ -1,5 +1,5 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Component, ViewChild, ComponentFactoryResolver } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { Component, ComponentFactoryResolver, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,8 +14,6 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
 import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
 import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
-import { testManifest } from '../test/testManifest';
-import { ManifestBuilder } from '../core/builders/manifest.builder';
 import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
@@ -29,9 +27,10 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
-import { SearchResult } from './../core/models/search-result';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 
 import 'openseadragon';
 
@@ -81,7 +80,9 @@ describe('ViewerComponent', function () {
         PageService,
         ModeService,
         FullscreenService,
+        AccessKeysService,
         ViewerLayoutService,
+        ContentSearchNavigationService
       ]
     }).overrideModule(BrowserDynamicTestingModule, {
       set: {

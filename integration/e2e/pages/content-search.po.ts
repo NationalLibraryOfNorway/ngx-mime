@@ -65,6 +65,23 @@ export class ContentSearchPage {
     return utils.waitForElement(element(by.css('#footerNavigateNextHitButton')));
   }
 
+  async isContentSearchDialogOpen() {
+    return await utils.isElementVisible(element(by.css('.content-search-container')));
+  }
+
+  async isContentSearchDialogClosed() {
+    return await utils.isElementInvisible(element(by.css('.content-search-container')));
+  }
+
+  async isSelected(index: number) {
+    try {
+      utils.waitForElement(element(by.css(`.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`)));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   async hitIsSelected(index: number) {
     const el = await this.getHit(index);
     const classes = await el.getAttribute('class');

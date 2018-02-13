@@ -3,20 +3,20 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
+  HostListener,
   Input,
-  Output,
+  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
-  EventEmitter,
+  Output,
   SimpleChange,
   SimpleChanges,
   ViewChild,
-  ViewContainerRef,
-  NgZone
+  ViewContainerRef
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 import { throttle } from 'rxjs/operators/throttle';
 import { interval } from 'rxjs/observable/interval';
 import { takeUntil } from 'rxjs/operators/takeUntil';
@@ -39,6 +39,7 @@ import { IiifContentSearchService } from './../core/iiif-content-search-service/
 import { SearchResult } from './../core/models/search-result';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
@@ -78,6 +79,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('mimeOsdToolbar')
   private osdToolbar: OsdToolbarComponent;
 
+  @HostListener('window:keyup', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
+  }
+
   constructor(
     public intl: MimeViewerIntl,
     private el: ElementRef,
@@ -89,8 +95,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private mimeService: MimeResizeService,
     private changeDetectorRef: ChangeDetectorRef,
     private modeService: ModeService,
-    private pageService: PageService,
     private iiifContentSearchService: IiifContentSearchService,
+    private accessKeysHandlerService: AccessKeysService,
+    private pageService: PageService,
     private viewerLayoutService: ViewerLayoutService,
     public zone: NgZone
   ) {

@@ -1,5 +1,5 @@
 import { browser, element, ElementFinder, by, By, protractor, ElementArrayFinder } from 'protractor';
-import { promise, WebElement } from 'selenium-webdriver';
+import { Key, promise, WebElement } from 'selenium-webdriver';
 import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
 
@@ -83,6 +83,15 @@ export class ViewerPage {
     const currentPageNumber = await el.getAttribute('textContent');
     // return parseInt(currentPageNumber, 10);
     return currentPageNumber;
+  }
+
+  async getNumberOfPages() {
+    // The footer might be hidden, but the pagenumber is still updated, so use
+    // waitForPresenceOf insted of waitForElement.
+    const el =  await utils.waitForPresenceOf(element(by.css('#numOfPages')));
+    // Not using el.getText() as it don't seem to work when element is not visible
+    const numberOfPages = await el.getAttribute('textContent');
+    return parseInt(numberOfPages, 10);
   }
 
   async openContentsDialog() {
@@ -188,8 +197,16 @@ export class ViewerPage {
     }
   }
 
-  getAnimationTime(): promise.Promise<number> {
+  getAnimationTimeInSec(): promise.Promise<number> {
     return browser.executeScript('return window.openSeadragonViewer.animationTime;');
+  }
+
+  getAnimationTimeInMs(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.getAnimationTimeInSec().then(time => {
+        resolve((time * 1000));
+      });
+    });
   }
 
   getZoomLevel(): promise.Promise<number> {
@@ -299,7 +316,7 @@ export class ViewerPage {
 
   async waitForAnimation(animationTime?: number): Promise<void> {
     if (isUndefined(animationTime)) {
-      animationTime = await this.getAnimationTime() * 1000;
+      animationTime = await this.getAnimationTimeInMs();
     }
     await browser.sleep(animationTime);
   }
@@ -357,6 +374,44 @@ export class ViewerPage {
     const overlayDimensions = await overlay.getSize();
 
     return Math.round(svgParentDimensions.height) === Math.round(overlayDimensions.height);
+  }
+
+  async sendKeyboardEvent(key: string): Promise<void> {
+    let iKey: string = null;
+    if (key === 'PageDown') {
+      iKey = Key.PAGE_DOWN;
+    } else if (key === 'ArrowRight') {
+      iKey = Key.ARROW_RIGHT;
+    } else if (key === 'ArrowUp') {
+      iKey = Key.ARROW_UP;
+    } else if (key === 'n') {
+      iKey = Key.chord('n');
+    } else if (key === 'PageUp') {
+      iKey = Key.PAGE_UP;
+    } else if (key === 'ArrowLeft') {
+      iKey = Key.ARROW_LEFT;
+    } else if (key === 'p') {
+      iKey = Key.chord('p');
+    } else if (key === 'Home') {
+      iKey = Key.HOME;
+    } else if (key === 'End') {
+      iKey = Key.END;
+    } else if (key === '+') {
+      iKey = Key.ADD;
+    } else if (key === '-') {
+      iKey = Key.SUBTRACT;
+    } else if (key === '0') {
+      iKey = Key.chord('0');
+    } else if (key === 's') {
+      iKey = Key.chord('s');
+    } else if (key === 'c') {
+      iKey = Key.chord('c');
+    } else if (key === 'Esc') {
+      iKey = Key.ESCAPE;
+    }
+
+    await browser.actions().sendKeys(iKey).perform();
+    return await browser.sleep(await this.getAnimationTimeInMs());
   }
 
   async visiblePages(): Promise<Boolean[]> {

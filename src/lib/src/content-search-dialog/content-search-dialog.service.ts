@@ -1,14 +1,11 @@
-import { Injectable, ElementRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import { ObservableMedia } from '@angular/flex-layout';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { ContentSearchDialogComponent } from './content-search-dialog.component';
 import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialog-config-strategy-factory';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { Manifest } from './../core/models/manifest';
 
 @Injectable()
 export class ContentSearchDialogService {
@@ -60,7 +57,6 @@ export class ContentSearchDialogService {
   public close() {
     if (this.dialogRef) {
       this.dialogRef.close();
-      this.isContentSearchDialogOpen = false;
     }
     this.isContentSearchDialogOpen = false;
   }

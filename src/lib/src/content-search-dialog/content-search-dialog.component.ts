@@ -1,17 +1,14 @@
 import {
   Component,
   OnInit,
-  Optional,
-  Inject,
   HostListener,
-  ChangeDetectionStrategy,
   ElementRef,
   OnDestroy,
   ViewChild,
   ViewChildren,
   QueryList
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -57,7 +54,6 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
-    private viewerService: ViewerService,
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper) { }
 

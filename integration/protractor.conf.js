@@ -92,9 +92,14 @@ function getMultiCapabilities() {
 }
 
 function getTags() {
-  let tags = ['~@Ignore']
+  let tags = ['~@Ignore'];
+  let firefoxTags = ['~@Ignore-firefox'];
+
   if (argv.tags) {
     tags = tags.concat(argv.tags.split(','));
+  }
+  if (argv.browser === 'firefox') {
+    tags = tags.concat(firefoxTags);
   }
   return tags;
 }

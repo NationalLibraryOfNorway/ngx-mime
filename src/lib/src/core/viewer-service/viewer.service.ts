@@ -39,7 +39,6 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { Hit } from './../models/search-result';
 
 import '../ext/svg-overlay';
-import '../../rxjs-extension';
 import * as d3 from 'd3';
 
 declare const OpenSeadragon: any;
@@ -69,6 +68,7 @@ export class ViewerService {
   private dragStartPosition: any;
   private manifest: Manifest;
   private isManifestPaged: boolean;
+  private defaultKeyDownHandler: any;
 
   public currentSearch: SearchResult;
 
@@ -248,6 +248,14 @@ export class ViewerService {
         this.manifest = manifest;
         this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
         this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.getOptions()));
+        /*
+          This disables keyboard navigation in openseadragon.
+          We use s for opening search dialog and OSD use the same key for panning.
+          Issue: https://github.com/openseadragon/openseadragon/issues/794
+         */
+        this.defaultKeyDownHandler = this.viewer.innerTracker.keyDownHandler;
+        this.disableKeyDownHandler();
+        this.viewer.innerTracker.keyHandler = null;
         this.pageService.reset();
         this.pageMask = new PageMask(this.viewer);
       });
@@ -347,6 +355,14 @@ export class ViewerService {
     this.svgNode = d3.select(this.svgOverlay.node());
   }
 
+  disableKeyDownHandler() {
+    this.viewer.innerTracker.keyDownHandler = null;
+  }
+
+  resetKeyDownHandler() {
+    this.viewer.innerTracker.keyDownHandler = this.defaultKeyDownHandler;
+  }
+
   /**
    *
    * @param layoutSwitch true if switching between layouts
@@ -412,6 +428,7 @@ export class ViewerService {
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
     }
+
     this.zoomBy(zoomFactor, position);
   }
 
@@ -441,12 +458,15 @@ export class ViewerService {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToDashboard();
+      this.disableKeyDownHandler();
     } else if (mode.currentValue === ViewerMode.PAGE) {
       this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToPage();
+      this.disableKeyDownHandler();
     } else if (mode.currentValue === ViewerMode.PAGE_ZOOMED) {
       this.viewer.panVertical = true;
+      this.resetKeyDownHandler();
     }
   }
 
@@ -711,6 +731,29 @@ export class ViewerService {
     return -1;
   }
 
+  public getHomeZoomLevel(mode: ViewerMode): number {
+    if (!this.viewer || !this.pageService) {
+      return;
+    }
+
+    let pageHeight: number;
+    let pageWidth: number;
+    let viewportBounds: any;
+
+    if (mode === ViewerMode.DASHBOARD) {
+      pageHeight = this.pageService.getMaxHeight();
+      pageWidth = this.pageService.getMaxWidth();
+      viewportBounds = this.getDashboardViewportBounds();
+    } else {
+      const currentPageBounds = this.pageService.getCurrentPageRect();
+      pageHeight = currentPageBounds.height;
+      pageWidth = currentPageBounds.width;
+      viewportBounds = this.viewer.viewport.getBounds();
+    }
+
+    return this.getFittedZoomLevel(viewportBounds, pageHeight, pageWidth);
+  }
+
   private getOptions(): Options {
     const options = new Options();
     options.ajaxWithCredentials = this.config.withCredentials;
@@ -806,29 +849,6 @@ export class ViewerService {
 
   private goToHomeZoom(): void {
     this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
-  }
-
-  private getHomeZoomLevel(mode: ViewerMode): number {
-    if (!this.viewer || !this.pageService) {
-      return;
-    }
-
-    let pageHeight: number;
-    let pageWidth: number;
-    let viewportBounds: any;
-
-    if (mode === ViewerMode.DASHBOARD) {
-      pageHeight = this.pageService.getMaxHeight();
-      pageWidth = this.pageService.getMaxWidth();
-      viewportBounds = this.getDashboardViewportBounds();
-    } else {
-      const currentPageBounds = this.pageService.getCurrentPageRect();
-      pageHeight = currentPageBounds.height;
-      pageWidth = currentPageBounds.width;
-      viewportBounds = this.viewer.viewport.getBounds();
-    }
-
-    return this.getFittedZoomLevel(viewportBounds, pageHeight, pageWidth);
   }
 
   private getFittedZoomLevel(viewportBounds: any, pageHeight: number, pageWidth: number) {
