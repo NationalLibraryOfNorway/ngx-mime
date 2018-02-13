@@ -73,7 +73,7 @@ export class AccessKeysService implements OnDestroy {
         this.goToPreviousHit();
       } else if (accessKeys.isFullscreenKeys()) {
         this.toggleFullscreen();
-      } else if (accessKeys.isSearchDialogKeys()) {
+      } else if (accessKeys.isSearchDialogKeys() && this.isSearchable) {
         this.toggleSearchDialog();
       } else if (accessKeys.isContentsDialogKeys()) {
         this.toggleContentsDialog();
