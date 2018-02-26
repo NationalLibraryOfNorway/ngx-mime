@@ -4,7 +4,6 @@ import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
 
 @Injectable()
 export class ManifestService {
-
   static readonly manifests: ManifestMenuItem[] = [
     {
       label: 'LTR',
@@ -44,7 +43,7 @@ export class ManifestService {
     }
   ];
 
-  constructor() { }
+  constructor() {}
 
   getManifests(): ManifestMenuItem[] {
     return ManifestService.manifests;

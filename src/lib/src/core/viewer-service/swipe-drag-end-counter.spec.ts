@@ -2,9 +2,7 @@ import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 
-
 describe('SwipeDragEndCounter ', () => {
-
   let counter: SwipeDragEndCounter;
 
   beforeEach(() => {
@@ -14,7 +12,6 @@ describe('SwipeDragEndCounter ', () => {
   it('should be no hits initially', () => {
     expect(counter.leftCount).toBe(0);
   });
-
 
   it('should increment on left/right-hits', () => {
     counter.addHit(Side.LEFT, Direction.RIGHT);
@@ -45,12 +42,10 @@ describe('SwipeDragEndCounter ', () => {
     expect(counter.leftCount).toBe(0);
     expect(counter.rightCount).toBe(1);
 
-
     counter.addHit(Side.RIGHT, undefined);
     expect(counter.leftCount).toBe(0);
     expect(counter.rightCount).toBe(2);
   });
-
 
   it('should return true when one of the counts are 2', () => {
     counter.addHit(Side.LEFT, undefined);
@@ -64,7 +59,6 @@ describe('SwipeDragEndCounter ', () => {
   });
 
   it('should clear counter of opposite side of dragging direction', () => {
-
     counter.addHit(Side.LEFT, undefined);
     expect(counter.leftCount).toBe(1);
 
@@ -77,5 +71,4 @@ describe('SwipeDragEndCounter ', () => {
     counter.addHit(undefined, Direction.LEFT);
     expect(counter.leftCount).toBe(0);
   });
-
 });

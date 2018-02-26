@@ -30,29 +30,20 @@ export class TocComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private viewerService: ViewerService,
-    private pageService: PageService) { }
+    private pageService: PageService
+  ) {}
 
   ngOnInit() {
-    this.iiifManifestService
-      .currentManifest
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.currentPage = this.pageService.currentPage;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
+      this.manifest = manifest;
+      this.currentPage = this.pageService.currentPage;
+      this.changeDetectorRef.detectChanges();
+    });
 
-    this.viewerService
-      .onPageChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((page: number) => {
-        this.currentPage = page;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.viewerService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((page: number) => {
+      this.currentPage = page;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   ngOnDestroy() {
@@ -66,5 +57,4 @@ export class TocComponent implements OnInit, OnDestroy {
       this.dialogRef.close();
     }
   }
-
 }

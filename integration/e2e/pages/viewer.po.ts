@@ -3,11 +3,10 @@ import { Key, promise, WebElement } from 'selenium-webdriver';
 import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
 
-
 const bookShelf = {
   'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
   'a-ltr-10-pages-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
-  'a-individuals-manifest': 'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
+  'a-individuals-manifest': 'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest'
 };
 
 const utils = new Utils();
@@ -15,7 +14,6 @@ const thumbStartPosition = <any>{ x: 600, y: 300 };
 const pointerPosition1 = <any>{ x: 650, y: 275 };
 const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
-
   async open(manifestName?: string) {
     let uri = '/';
     if (manifestName) {
@@ -45,7 +43,7 @@ export class ViewerPage {
   async slideToPage(pageNumber: number) {
     const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
     const isTwoPageView = this.isTwoPageView();
-    if (await isTwoPageView && pageNumber > 1) {
+    if ((await isTwoPageView) && pageNumber > 1) {
       pageNumber = Math.floor(pageNumber / 2);
     }
     for (let i = 0; i < pageNumber; i++) {
@@ -66,7 +64,7 @@ export class ViewerPage {
 
   async navigateToPage(pageNumber: number) {
     const isTwoPageView = this.isTwoPageView();
-    if (await isTwoPageView && pageNumber > 1) {
+    if ((await isTwoPageView) && pageNumber > 1) {
       pageNumber = Math.floor(pageNumber / 2);
     }
     for (let i = 0; i < pageNumber; i++) {
@@ -88,7 +86,7 @@ export class ViewerPage {
   async getNumberOfPages() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el =  await utils.waitForPresenceOf(element(by.css('#numOfPages')));
+    const el = await utils.waitForPresenceOf(element(by.css('#numOfPages')));
     // Not using el.getText() as it don't seem to work when element is not visible
     const numberOfPages = await el.getAttribute('textContent');
     return parseInt(numberOfPages, 10);
@@ -100,7 +98,10 @@ export class ViewerPage {
   }
 
   async openTableOfContentsTab() {
-    await element.all(by.css('.mat-tab-label')).get(1).click();
+    await element
+      .all(by.css('.mat-tab-label'))
+      .get(1)
+      .click();
     await utils.waitForElement(element(by.css('.toc-container')));
   }
 
@@ -128,10 +129,12 @@ export class ViewerPage {
   }
 
   isFullscreen(): promise.Promise<boolean> {
-    return browser.executeScript('return (document.fullscreenElement'
-      + ' || document.mozFullScreenElement'
-      + ' || document.webkitFullscreenElement'
-      + ' || document.msFullscreenElement) != null');
+    return browser.executeScript(
+      'return (document.fullscreenElement' +
+        ' || document.mozFullScreenElement' +
+        ' || document.webkitFullscreenElement' +
+        ' || document.msFullscreenElement) != null'
+    );
   }
 
   getHeader() {
@@ -181,7 +184,7 @@ export class ViewerPage {
 
   async getOnePageButton() {
     const el = element(by.css('#toggleSinglePageViewButton'));
-    if (await el.isPresent() && el.isDisplayed()) {
+    if ((await el.isPresent()) && el.isDisplayed()) {
       return el;
     } else {
       return false;
@@ -190,7 +193,7 @@ export class ViewerPage {
 
   async getTwoPageButton() {
     const el = element(by.css('#toggleTwoPageViewButton'));
-    if (await el.isPresent() && el.isDisplayed()) {
+    if ((await el.isPresent()) && el.isDisplayed()) {
       return el;
     } else {
       return false;
@@ -204,7 +207,7 @@ export class ViewerPage {
   getAnimationTimeInMs(): Promise<number> {
     return new Promise((resolve, reject) => {
       this.getAnimationTimeInSec().then(time => {
-        resolve((time * 1000));
+        resolve(time * 1000);
       });
     });
   }
@@ -226,14 +229,16 @@ export class ViewerPage {
   }
 
   async swipe(startPoint: Point, endPoint: Point): Promise<void> {
-    await browser.touchActions()
+    await browser
+      .touchActions()
       .tapAndHold(startPoint)
       .release(endPoint)
       .perform();
   }
 
   async pinchOut(): Promise<void> {
-    await browser.touchActions()
+    await browser
+      .touchActions()
       .tapAndHold(thumbStartPosition)
       .tapAndHold(pointerPosition1)
       .move(pointerPosition2)
@@ -241,7 +246,8 @@ export class ViewerPage {
   }
 
   async pinchIn(): Promise<void> {
-    await browser.touchActions()
+    await browser
+      .touchActions()
       .tapAndHold(thumbStartPosition)
       .tapAndHold(pointerPosition2)
       .move(pointerPosition1)
@@ -264,7 +270,8 @@ export class ViewerPage {
 
   async dblClick(): Promise<void> {
     await browser.findElement(By.css('.openseadragon-canvas > canvas')).then((canvas: WebElement) => {
-      return browser.actions()
+      return browser
+        .actions()
         .click(canvas)
         .click(canvas)
         .perform();
@@ -273,7 +280,8 @@ export class ViewerPage {
 
   async dblTap(): Promise<void> {
     await browser.findElement(By.css('.openseadragon-canvas > canvas')).then((canvas: WebElement) => {
-      return browser.touchActions()
+      return browser
+        .touchActions()
         .tap(canvas)
         .tap(canvas)
         .perform();
@@ -329,7 +337,7 @@ export class ViewerPage {
 
     const headerisPresent = (await headerDisplay) === 'block';
     const footerisPresent = (await footerDisplay) === 'block';
-    return (headerisPresent && headerisPresent);
+    return headerisPresent && headerisPresent;
   }
 
   async isPageMode(): Promise<boolean> {
@@ -340,17 +348,17 @@ export class ViewerPage {
 
     const headerisHidden = headerDisplay === 'none';
     const footerisHidden = footerDisplay === 'none';
-    return (headerisHidden && footerisHidden);
+    return headerisHidden && footerisHidden;
   }
 
   async isTwoPageView(): Promise<boolean> {
     const btn = await this.getOnePageButton();
-    return (btn) ? true : false;
+    return btn ? true : false;
   }
 
   async isOnePageView(): Promise<boolean> {
     const btn = await this.getTwoPageButton();
-    return (btn) ? true : false;
+    return btn ? true : false;
   }
 
   async isCurrentPageFittedViewport(): Promise<boolean> {
@@ -410,7 +418,10 @@ export class ViewerPage {
       iKey = Key.ESCAPE;
     }
 
-    await browser.actions().sendKeys(iKey).perform();
+    await browser
+      .actions()
+      .sendKeys(iKey)
+      .perform();
     return await browser.sleep(await this.getAnimationTimeInMs());
   }
 
@@ -427,7 +438,7 @@ export class ViewerPage {
     const pagesArray = await pages.map((page, i) => page);
     const result = [];
 
-    for  (let i = 0; i < pagesArray.length; i++) {
+    for (let i = 0; i < pagesArray.length; i++) {
       const page = pagesArray[i];
       const isVisible = await this.isElementVisibleInReadersViewport(
         page,
@@ -449,33 +460,28 @@ export class ViewerPage {
    */
   async isElementVisibleInReadersViewport(
     el: any,
-    leftPageMask: { size: any, location: any },
-    rightPageMask: { size: any, location: any }): Promise<boolean> {
-
-      let lastEvent: string;
-      try {
-        lastEvent = 'getSize()';
-        const elementSize = await el.getSize();
-        lastEvent = 'getLocation()';
-        const elementLocation = await el.getLocation();
-        lastEvent = 'elementCalculatedLocastion';
-        const elementCalculatedLocastion = {
-          left: elementLocation.x,
-          right: elementLocation.x + elementSize.width,
-        };
-        lastEvent = 'return';
-        return (
-            elementCalculatedLocastion.right >= leftPageMask.size.width &&
-            elementCalculatedLocastion.left <= rightPageMask.location.x
-          );
-      } catch (e) {
-        console.log(`Ooups, this should not happen. Last event is ${lastEvent}`, e);
-      }
-      return false;
+    leftPageMask: { size: any; location: any },
+    rightPageMask: { size: any; location: any }
+  ): Promise<boolean> {
+    let lastEvent: string;
+    try {
+      lastEvent = 'getSize()';
+      const elementSize = await el.getSize();
+      lastEvent = 'getLocation()';
+      const elementLocation = await el.getLocation();
+      lastEvent = 'elementCalculatedLocastion';
+      const elementCalculatedLocastion = {
+        left: elementLocation.x,
+        right: elementLocation.x + elementSize.width
+      };
+      lastEvent = 'return';
+      return elementCalculatedLocastion.right >= leftPageMask.size.width && elementCalculatedLocastion.left <= rightPageMask.location.x;
+    } catch (e) {
+      console.log(`Ooups, this should not happen. Last event is ${lastEvent}`, e);
+    }
+    return false;
   }
-
 }
-
 
 export interface Point {
   x: number;

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { ViewerPage } from './../pages/viewer.po';
 import { MetadataPage } from './../pages/metadata.po';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
   const metadata = new MetadataPage();
 
@@ -27,5 +27,4 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then('the viewer should be presented normally', async () => {
     expect(await page.isFullscreen()).to.equal(false);
   });
-
 });

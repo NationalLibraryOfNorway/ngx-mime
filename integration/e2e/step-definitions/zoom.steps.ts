@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { ViewerPage } from '../pages/viewer.po';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
   let previousZoomLevel = 0;
 
@@ -59,15 +59,15 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then('the current zoom level has increased', async () => {
-    expect((await page.getZoomLevel())).to.be.greaterThan(previousZoomLevel);
+    expect(await page.getZoomLevel()).to.be.greaterThan(previousZoomLevel);
   });
 
   Then('the current zoom level has decreased', async () => {
-    expect((await page.getZoomLevel())).to.be.lessThan(previousZoomLevel);
+    expect(await page.getZoomLevel()).to.be.lessThan(previousZoomLevel);
   });
 
   Then('the view should be all zoomed out', async () => {
-    expect((await page.getZoomLevel())).to.equal((await page.getMinZoom()));
+    expect(await page.getZoomLevel()).to.equal(await page.getMinZoom());
   });
 
   Then('the view should be vertically centered', async () => {
@@ -77,5 +77,4 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then('the current zoom level is home', async () => {
     expect(await page.isCurrentPageFittedViewport()).to.equal(true);
   });
-
 });

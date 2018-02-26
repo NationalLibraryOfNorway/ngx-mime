@@ -10,20 +10,15 @@ import { FullscreenService } from '../core/fullscreen-service/fullscreen.service
 describe('AttributionDialogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SharedModule
-      ],
-      providers: [
-        AttributionDialogService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        AttributionDialogResizeService
-      ]
+      imports: [SharedModule],
+      providers: [AttributionDialogService, MimeResizeService, MimeDomHelper, FullscreenService, AttributionDialogResizeService]
     });
   });
 
-  it('should be created', inject([AttributionDialogService], (service: AttributionDialogService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([AttributionDialogService], (service: AttributionDialogService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

@@ -34,19 +34,11 @@ export class AccessKeysService implements OnDestroy {
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {
-    this.iiifManifestService.currentManifest
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((manifest: Manifest) => {
+    this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
       this.isSearchable = this.isManifestSearchable(manifest);
     });
 
-    this.iiifContentSearchService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((result: SearchResult) => {
+    this.iiifContentSearchService.onChange.pipe(takeUntil(this.destroyed)).subscribe((result: SearchResult) => {
       this.hasHits = result.hits.length > 0;
     });
   }
@@ -198,9 +190,7 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private disableKeysForContentDialog() {
-    this.disabledKeys = this.disabledKeys
-      .concat(AccessKeys.ARROWLEFT)
-      .concat(AccessKeys.ARROWRIGHT);
+    this.disabledKeys = this.disabledKeys.concat(AccessKeys.ARROWLEFT).concat(AccessKeys.ARROWRIGHT);
   }
 
   private diableKeysForContentSearchDialog() {

@@ -23,7 +23,7 @@ export class PageRects {
     if (point === null) {
       return -1;
     }
-    this.pageRects.some(function (rect: Rect, index: number) {
+    this.pageRects.some(function(rect: Rect, index: number) {
       const delta = Math.abs(point.x - rect.centerX);
       if (delta >= lastDelta) {
         return true;
@@ -35,11 +35,21 @@ export class PageRects {
   }
 
   public getMaxHeight(): number {
-    return Math.max.apply(Math, this.pageRects.map(function (rect) { return rect.height; }));
+    return Math.max.apply(
+      Math,
+      this.pageRects.map(function(rect) {
+        return rect.height;
+      })
+    );
   }
 
   public getMaxWidth(): number {
-    return Math.max.apply(Math, this.pageRects.map(function (rect) { return rect.width; }));
+    return Math.max.apply(
+      Math,
+      this.pageRects.map(function(rect) {
+        return rect.width;
+      })
+    );
   }
 
   public length(): number {

@@ -35,14 +35,13 @@ export class MimeViewerIntl {
 
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;
-  }
+  };
 
   resultsFoundLabel = (numberOfHits: number, q: string) => {
     return `${numberOfHits} results found for <em class="current-search">${q}</em>`;
-  }
+  };
 
   currentHitLabel = (currentHit: number, numberOfHits: number) => {
     return `${currentHit} of ${numberOfHits} hits`;
-  }
-
+  };
 }

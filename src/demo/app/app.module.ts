@@ -13,18 +13,8 @@ import { ViewerComponent } from './viewer/viewer.component';
 import 'hammerjs';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    CoreModule,
-    SharedModule
-  ],
-  declarations: [
-    AppComponent,
-    ViewerComponent
-  ],
+  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, AppRoutingModule, CoreModule, SharedModule],
+  declarations: [AppComponent, ViewerComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

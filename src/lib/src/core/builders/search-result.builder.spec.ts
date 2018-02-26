@@ -4,7 +4,6 @@ import { SearchResult } from './../models/search-result';
 import { SearchResultBuilder } from './search-result.builder';
 
 describe('SearchResultBuilder', () => {
-
   it('should build empty search result', () => {
     const q = 'testquery';
     const manifest = new Manifest({});
@@ -17,19 +16,20 @@ describe('SearchResultBuilder', () => {
     const q = 'testquery';
     const manifest = new Manifest({
       sequences: [
-      {
-        canvases: [
-          {
-            id: 'canvasid1',
-            label: 'label1'
-          },
-          {
-            id: 'canvasid2',
-            label: 'label2'
-          }
-        ]
-      }
-    ]});
+        {
+          canvases: [
+            {
+              id: 'canvasid1',
+              label: 'label1'
+            },
+            {
+              id: 'canvasid2',
+              label: 'label2'
+            }
+          ]
+        }
+      ]
+    });
     const iiifSearchResult: IiifSearchResult = {
       resources: [
         {
@@ -43,10 +43,7 @@ describe('SearchResultBuilder', () => {
       ],
       hits: [
         {
-          annotations: [
-            'rid2#xywh=968,1062,321,78',
-            'rid2#xywh=1968,11062,1321,178'
-          ]
+          annotations: ['rid2#xywh=968,1062,321,78', 'rid2#xywh=1968,11062,1321,178']
         }
       ]
     };
@@ -61,5 +58,4 @@ describe('SearchResultBuilder', () => {
     expect(searchResult.hits[0].rects[0].centerX).toEqual(1128.5);
     expect(searchResult.hits[0].rects[0].centerY).toEqual(1101);
   });
-
 });

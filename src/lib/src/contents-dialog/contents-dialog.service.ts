@@ -7,7 +7,6 @@ import { ContentsDialogComponent } from './contents-dialog.component';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 
-
 @Injectable()
 export class ContentsDialogService {
   private _el: ElementRef;
@@ -18,21 +17,17 @@ export class ContentsDialogService {
   constructor(
     private dialog: MatDialog,
     private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService) {
-  }
+    private mimeResizeService: MimeResizeService
+  ) {}
 
   public initialize(): void {
-    this.mimeResizeService
-      .onResize
-      .pipe(
-        takeUntil(this.destroyed)
-      ).subscribe(rect => {
-        if (this.isContentsDialogOpen) {
-          const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-          this.dialogRef.updateSize(config.width, config.height);
-        }
-      });
+    this.mimeResizeService.onResize.pipe(takeUntil(this.destroyed)).subscribe(rect => {
+      if (this.isContentsDialogOpen) {
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
+        this.dialogRef.updateSize(config.width, config.height);
+      }
+    });
   }
 
   public destroy() {
@@ -83,5 +78,4 @@ export class ContentsDialogService {
   private getDialogConfig(): MatDialogConfig {
     return this.contentsDialogConfigStrategyFactory.create().getConfig(this._el);
   }
-
 }

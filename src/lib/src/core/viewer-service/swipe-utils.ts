@@ -4,17 +4,15 @@ import { Side } from '../models/side';
 import { Direction } from '../models/direction';
 import { ViewerOptions } from '../models/viewer-options';
 export class SwipeUtils {
-
-
   // Added threshold to prevent sensitive direction-calculation when zoomed in
   static getSwipeDirection(start: Point, end: Point, useThreshold?: boolean): Direction {
     let deltaX = Math.abs(start.x - end.x);
     const deltaY = Math.abs(start.y - end.y);
-    deltaX = (useThreshold) ? deltaX - ViewerOptions.pan.swipeDirectionThreshold : deltaX;
+    deltaX = useThreshold ? deltaX - ViewerOptions.pan.swipeDirectionThreshold : deltaX;
 
-    if (start.x > end.x && (deltaX >= deltaY)) {
+    if (start.x > end.x && deltaX >= deltaY) {
       return Direction.LEFT;
-    } else if (start.x < end.x && (deltaX >= deltaY)) {
+    } else if (start.x < end.x && deltaX >= deltaY) {
       return Direction.RIGHT;
     }
   }

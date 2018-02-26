@@ -9,13 +9,12 @@ import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
-
 export class SidenavComponent implements OnInit {
   @Input() sidenav: MatSidenav;
 
   manifests: ManifestMenuItem[];
 
-  constructor(private manifestService: ManifestService) { }
+  constructor(private manifestService: ManifestService) {}
 
   ngOnInit() {
     this.manifests = this.manifestService.getManifests();

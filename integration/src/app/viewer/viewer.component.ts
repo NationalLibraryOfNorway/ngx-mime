@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewerComponent implements OnInit {
   manifestUri: string;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
@@ -20,5 +20,4 @@ export class ViewerComponent implements OnInit {
       }
     });
   }
-
 }

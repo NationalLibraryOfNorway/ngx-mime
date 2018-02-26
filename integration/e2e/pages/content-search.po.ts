@@ -4,7 +4,6 @@ import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
 export class ContentSearchPage {
-
   async isOpen() {
     // Wait for dialog animation
     await browser.sleep(1000);
@@ -96,5 +95,4 @@ export class ContentSearchPage {
   async getHighlighted() {
     return element.all(by.css('.openseadragon-canvas .hit'));
   }
-
 }

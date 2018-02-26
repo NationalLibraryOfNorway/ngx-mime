@@ -9,7 +9,7 @@ export class TableOfContentsPage {
       const toc = tocLinks.get(i);
       const label = await toc.element(by.css('.label')).getText();
       const pageNumber = await toc.element(by.css('.pageNumber')).getText();
-      tocs.push(new TOC({label: label, canvasIndex: Number(pageNumber)}));
+      tocs.push(new TOC({ label: label, canvasIndex: Number(pageNumber) }));
     }
 
     return tocs;
@@ -29,10 +29,12 @@ export class TOC {
   public label?: string;
   public canvasIndex?: number;
 
-  constructor(public fields?: {
-    label?: string;
-    canvasIndex?: number;
-  }) {
+  constructor(
+    public fields?: {
+      label?: string;
+      canvasIndex?: number;
+    }
+  ) {
     if (fields) {
       this.label = fields.label || this.label;
       this.canvasIndex = fields.canvasIndex;

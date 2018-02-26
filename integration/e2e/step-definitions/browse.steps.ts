@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { ViewerPage } from './../pages/viewer.po';
 import { MetadataPage } from './../pages/metadata.po';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
 
   When('the user swipe {string} and the velocity is between {string}', async (direction: string, velocity: string) => {
@@ -42,7 +42,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(currentPageString.includes(pageNumber)).to.eql(true);
   });
 
-
   When('the user click the {word} button', async (navigationButton: string) => {
     if (navigationButton === 'next') {
       await page.clickNextButton();
@@ -50,5 +49,4 @@ defineSupportCode(function ({ Given, When, Then }) {
       await page.clickPreviousButton();
     }
   });
-
 });

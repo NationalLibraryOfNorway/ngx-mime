@@ -11,7 +11,7 @@ export class AttributionDialogResizeService {
   private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
   private dimensions = new Dimensions();
 
-  constructor(private mimeDomHelper: MimeDomHelper) { }
+  constructor(private mimeDomHelper: MimeDomHelper) {}
 
   set el(el: ElementRef) {
     this._el = el;
@@ -27,14 +27,16 @@ export class AttributionDialogResizeService {
 
   markForCheck() {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-    if (this.dimensions.bottom !== dimensions.bottom ||
+    if (
+      this.dimensions.bottom !== dimensions.bottom ||
       this.dimensions.height !== dimensions.height ||
       this.dimensions.left !== dimensions.left ||
       this.dimensions.right !== dimensions.right ||
       this.dimensions.top !== dimensions.top ||
-      this.dimensions.width !== dimensions.width) {
+      this.dimensions.width !== dimensions.width
+    ) {
       this.dimensions = dimensions;
-      this.resizeSubject.next({...this.dimensions});
+      this.resizeSubject.next({ ...this.dimensions });
     }
   }
 }

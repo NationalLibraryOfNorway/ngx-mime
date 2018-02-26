@@ -13,10 +13,10 @@ export class SwipeDragEndCounter {
     this.rightCount = 0;
   }
 
-/**
- * @param direction of swipe / pan
- * @param side hit by swipe
- */
+  /**
+   * @param direction of swipe / pan
+   * @param side hit by swipe
+   */
   public addHit(side: Side, dir: Direction): void {
     this.incrementSide(side);
     this.clearOppositeSideOfDragDirection(dir);

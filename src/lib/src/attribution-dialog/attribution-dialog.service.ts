@@ -26,30 +26,22 @@ export class AttributionDialogService {
     private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
     private mimeDomHelper: MimeDomHelper
-  ) { }
+  ) {}
 
   public initialize(): void {
-    this.mimeResizeService.onResize
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((dimensions: Dimensions) => {
-        if (this.isAttributionDialogOpen) {
-          const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-        }
-      });
-    this.attributionDialogResizeService.onResize
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((dimensions: Dimensions) => {
-        if (this.isAttributionDialogOpen) {
-          this.attributionDialogHeight = dimensions.height;
-          const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-        }
-      });
+    this.mimeResizeService.onResize.pipe(takeUntil(this.destroyed)).subscribe((dimensions: Dimensions) => {
+      if (this.isAttributionDialogOpen) {
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
+      }
+    });
+    this.attributionDialogResizeService.onResize.pipe(takeUntil(this.destroyed)).subscribe((dimensions: Dimensions) => {
+      if (this.isAttributionDialogOpen) {
+        this.attributionDialogHeight = dimensions.height;
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
+      }
+    });
   }
 
   public destroy() {
@@ -68,9 +60,7 @@ export class AttributionDialogService {
        * fix: https://github.com/angular/material2/issues/7438
        */
       interval(1000)
-        .pipe(
-          take(1)
-        )
+        .pipe(take(1))
         .subscribe(() => {
           const config = this.getDialogConfig();
           this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
@@ -97,9 +87,7 @@ export class AttributionDialogService {
   private closeDialogAfter(seconds: number) {
     if (seconds > 0) {
       interval(seconds * 1000)
-        .pipe(
-          take(1)
-        )
+        .pipe(take(1))
         .subscribe(() => {
           this.close();
         });
@@ -115,7 +103,7 @@ export class AttributionDialogService {
       panelClass: 'attribution-panel',
       position: {
         top: dimensions.top + 'px',
-        left: dimensions.left + 'px',
+        left: dimensions.left + 'px'
       }
     };
   }
@@ -128,5 +116,4 @@ export class AttributionDialogService {
       left: dimensions.left + padding
     });
   }
-
 }

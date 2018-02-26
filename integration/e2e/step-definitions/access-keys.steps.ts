@@ -5,7 +5,7 @@ import { browser } from 'protractor';
 import { ContentSearchPage } from '../pages/content-search.po';
 import { ContentsDialogPage } from '../pages/contents-dialog.po';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
   const contentSearchPage = new ContentSearchPage();
   const contentsDialogPage = new ContentsDialogPage();

@@ -7,21 +7,8 @@ import { MimeModule } from 'ngx-mime';
 import { DemoMaterialModule } from './demoMaterialModule';
 
 @NgModule({
-    imports: [
-      CommonModule,
-      FormsModule,
-      FlexLayoutModule,
-      DemoMaterialModule,
-      MimeModule
-    ],
-    declarations: [
-    ],
-    exports: [
-      CommonModule,
-      FormsModule,
-      FlexLayoutModule,
-      DemoMaterialModule,
-      MimeModule
-    ]
+  imports: [CommonModule, FormsModule, FlexLayoutModule, DemoMaterialModule, MimeModule],
+  declarations: [],
+  exports: [CommonModule, FormsModule, FlexLayoutModule, DemoMaterialModule, MimeModule]
 })
-export class SharedModule { }
+export class SharedModule {}

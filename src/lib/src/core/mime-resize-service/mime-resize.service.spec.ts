@@ -7,15 +7,14 @@ import { FullscreenService } from '../fullscreen-service/fullscreen.service';
 describe('MimeResizeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService
-      ]
+      providers: [MimeResizeService, MimeDomHelper, FullscreenService]
     });
   });
 
-  it('should be created', inject([MimeResizeService], (service: MimeResizeService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([MimeResizeService], (service: MimeResizeService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

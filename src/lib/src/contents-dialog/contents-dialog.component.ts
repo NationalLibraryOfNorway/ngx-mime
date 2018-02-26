@@ -31,28 +31,20 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper,
     private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService) {
-      mimeResizeService
-        .onResize
-        .pipe(
-          takeUntil(this.destroyed)
-        ).subscribe((dimensions: Dimensions) => {
-          this.mimeHeight = dimensions.height;
-          this.resizeTabHeight();
-        });
+    private iiifManifestService: IiifManifestService
+  ) {
+    mimeResizeService.onResize.pipe(takeUntil(this.destroyed)).subscribe((dimensions: Dimensions) => {
+      this.mimeHeight = dimensions.height;
+      this.resizeTabHeight();
+    });
   }
 
   ngOnInit() {
-    this.iiifManifestService
-      .currentManifest
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.showToc = this.manifest && this.manifest.structures.length > 0;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
+      this.manifest = manifest;
+      this.showToc = this.manifest && this.manifest.structures.length > 0;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.resizeTabHeight();
   }
@@ -74,12 +66,12 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     if (this.media.isActive('lt-md')) {
       height -= 104;
       this.tabHeight = {
-        'maxHeight': window.innerHeight - 128 + 'px'
+        maxHeight: window.innerHeight - 128 + 'px'
       };
     } else {
       height -= 208;
       this.tabHeight = {
-        'maxHeight': height + 'px'
+        maxHeight: height + 'px'
       };
     }
   }
