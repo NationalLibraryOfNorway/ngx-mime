@@ -1,11 +1,12 @@
-import { ClickService } from './click.service';
 import { fakeAsync, tick } from '@angular/core/testing';
+
+import { ClickService } from './click.service';
 
 describe('ClickService', () => {
   let service: ClickService;
   let singleClickCounter: number;
   let doubleClickCounter: number;
-  let event = {
+  const event = {
     quick: true,
     tracker: { dblClickTimeThreshold: 300 },
     preventDefaultAction: false
@@ -28,7 +29,9 @@ describe('ClickService', () => {
     expect(doubleClickCounter).toBe(0);
   });
 
-  it('only singleClickCounter should increase to 1 aftere one click', fakeAsync(() => {
+  it(
+    'only singleClickCounter should increase to 1 aftere one click',
+    fakeAsync(() => {
       service.click(event);
       tick(event.tracker.dblClickTimeThreshold);
       expect(singleClickCounter).toBe(1);
@@ -44,7 +47,9 @@ describe('ClickService', () => {
     expect(doubleClickCounter).toBe(1);
   });
 
-  it('only singleClickCounter should increase to 2 aftere two clicks', fakeAsync(() => {
+  it(
+    'only singleClickCounter should increase to 2 aftere two clicks',
+    fakeAsync(() => {
       service.click(event);
       tick(event.tracker.dblClickTimeThreshold);
       service.click(event);
@@ -54,14 +59,16 @@ describe('ClickService', () => {
     })
   );
 
-  it('both clickCounters should remain at 0 after \'slow\' clicks', fakeAsync(() => {
-    event.quick = false;
-    service.click(event);
-    tick(event.tracker.dblClickTimeThreshold);
-    expect(singleClickCounter).toBe(0);
-    service.click(event);
-    service.click(event);
-    expect(singleClickCounter).toBe(0);
-  })
-);
+  it(
+    "both clickCounters should remain at 0 after 'slow' clicks",
+    fakeAsync(() => {
+      event.quick = false;
+      service.click(event);
+      tick(event.tracker.dblClickTimeThreshold);
+      expect(singleClickCounter).toBe(0);
+      service.click(event);
+      service.click(event);
+      expect(singleClickCounter).toBe(0);
+    })
+  );
 });

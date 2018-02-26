@@ -5,7 +5,8 @@ import {
   OnDestroy,
   ChangeDetectorRef,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
+  HostBinding
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
@@ -23,27 +24,32 @@ import { ViewerOptions } from '../../core/models/viewer-options';
   styleUrls: ['./viewer-footer.component.scss'],
   animations: [
     trigger('footerState', [
-      state('hide', style({
-        opacity: 0,
-        display: 'none',
-        transform: 'translate(0, 100%)'
-      })),
-      state('show', style({
-        opacity: 1,
-        display: 'block',
-        transform: 'translate(0, 0)'
-      })),
+      state(
+        'hide',
+        style({
+          opacity: 0,
+          display: 'none',
+          transform: 'translate(0, 100%)'
+        })
+      ),
+      state(
+        'show',
+        style({
+          opacity: 1,
+          display: 'block',
+          transform: 'translate(0, 0)'
+        })
+      ),
       transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
       transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
     ])
-  ],
-  host: {
-    '[@footerState]': 'state'
-  }
+  ]
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
-  @ViewChild('mimeFooterBefore', {read: ViewContainerRef}) mimeFooterBefore: ViewContainerRef;
-  @ViewChild('mimeFooterAfter', {read: ViewContainerRef}) mimeFooterAfter: ViewContainerRef;
+  @ViewChild('mimeFooterBefore', { read: ViewContainerRef })
+  mimeFooterBefore: ViewContainerRef;
+  @ViewChild('mimeFooterAfter', { read: ViewContainerRef })
+  mimeFooterAfter: ViewContainerRef;
   public state = 'hide';
   public showNavigationToolbar = true;
   public searchResult: SearchResult = new SearchResult();
@@ -55,21 +61,23 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   constructor(
     private iiifContentSearchService: IiifContentSearchService,
     public media: ObservableMedia,
-    private changeDetectorRef: ChangeDetectorRef) { }
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
+
+  @HostBinding('@footerState')
+  get footerState() {
+    return this.state;
+  }
 
   ngOnInit() {
-    this.iiifContentSearchService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((sr: SearchResult) => {
-        this.searchResult = sr;
-        this.showContentSearchNavigator = this.searchResult.size() > 0;
-        this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
-        this.changeDetectorRef.detectChanges();
-      });
+    this.iiifContentSearchService.onChange.pipe(takeUntil(this.destroyed)).subscribe((sr: SearchResult) => {
+      this.searchResult = sr;
+      this.showContentSearchNavigator = this.searchResult.size() > 0;
+      this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
+      this.changeDetectorRef.detectChanges();
+    });
 
-      this.mediaSubscription = this.media.subscribe((change: MediaChange) => {
+    this.mediaSubscription = this.media.subscribe((change: MediaChange) => {
       this.showPageNavigator = this.searchResult.size() === 0 || !this.isMobile();
       this.changeDetectorRef.detectChanges();
     });

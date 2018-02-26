@@ -1,11 +1,11 @@
 import { Rect } from './../models/rect';
 import { Manifest } from './../models/manifest';
 import { IiifSearchResult, Hit as IiifHit, Resource as IiifResource } from './../models/iiif-search-result';
-import { SearchResult, Hit } from './../models/search-result';
+import { SearchResult } from './../models/search-result';
+import { Hit } from './../models/hit';
 
 export class SearchResultBuilder {
-
-  constructor(private q: string, private manifest: Manifest, private iiifSearchResult: IiifSearchResult) { }
+  constructor(private q: string, private manifest: Manifest, private iiifSearchResult: IiifSearchResult) {}
 
   public build(): SearchResult {
     const searchResult = new SearchResult();
@@ -13,13 +13,13 @@ export class SearchResultBuilder {
     const hits: Hit[] = [];
     if (this.iiifSearchResult && this.iiifSearchResult.hits) {
       this.iiifSearchResult.hits.forEach((hit: IiifHit, index: number) => {
-        let id: number = index;
+        const id: number = index;
         let canvasIndex = -1;
         let label = null;
-        let rects: Rect[] = [];
+        const rects: Rect[] = [];
         if (this.manifest.sequences && this.manifest.sequences[0].canvases) {
           const resources = this.findResources(hit);
-          for (let resource of resources) {
+          for (const resource of resources) {
             canvasIndex = this.findSequenceIndex(resource);
             label = this.findLabel(canvasIndex);
             const on = resource.on;
@@ -34,15 +34,17 @@ export class SearchResultBuilder {
           }
         }
 
-        searchResult.add(new Hit({
-          id: id,
-          index: canvasIndex,
-          label: label,
-          match: hit.match,
-          before: hit.before,
-          after: hit.after,
-          rects: rects
-        }));
+        searchResult.add(
+          new Hit({
+            id: id,
+            index: canvasIndex,
+            label: label,
+            match: hit.match,
+            before: hit.before,
+            after: hit.after,
+            rects: rects
+          })
+        );
       });
       return searchResult;
     }
@@ -50,7 +52,7 @@ export class SearchResultBuilder {
 
   private findResources(hit: IiifHit): IiifResource[] {
     const resources: IiifResource[] = [];
-    for (let annotation of hit.annotations) {
+    for (const annotation of hit.annotations) {
       const res = this.iiifSearchResult.resources.find((r: IiifResource) => r['@id'] === annotation);
       resources.push(res);
     }
@@ -71,5 +73,4 @@ export class SearchResultBuilder {
       return this.manifest.sequences[0].canvases[index].label;
     }
   }
-
 }

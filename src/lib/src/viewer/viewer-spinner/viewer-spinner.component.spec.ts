@@ -1,5 +1,3 @@
-import { SpinnerService } from '../../core/spinner-service/spinner.service';
-import { ViewerSpinnerComponent } from './viewer-spinner.component';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -9,22 +7,22 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from './../../shared/shared.module';
-
-
+import { SpinnerService } from '../../core/spinner-service/spinner.service';
+import { ViewerSpinnerComponent } from './viewer-spinner.component';
 
 describe('ViewerSpinnerComponent', () => {
   let component: ViewerSpinnerComponent;
   let fixture: ComponentFixture<ViewerSpinnerComponent>;
-  let spy: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [SpinnerService],
-      declarations: [ViewerSpinnerComponent],
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [SpinnerService],
+        declarations: [ViewerSpinnerComponent]
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerSpinnerComponent);
@@ -36,17 +34,19 @@ describe('ViewerSpinnerComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it(
+    'should show spinner',
+    async(
+      inject([SpinnerService], (spinnerService: SpinnerService) => {
+        let spinner: any;
 
-  it('should show spinner',
-    async(inject([SpinnerService], (spinnerService: SpinnerService) => {
-      let spinner: any;
-
-      spinnerService.show();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        spinner = fixture.debugElement.query(By.css('.mime-spinner'));
-        expect(window.getComputedStyle(spinner.nativeElement).display).toBe('block');
-      });
-    })));
-
+        spinnerService.show();
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          spinner = fixture.debugElement.query(By.css('.mime-spinner'));
+          expect(window.getComputedStyle(spinner.nativeElement).display).toBe('block');
+        });
+      })
+    )
+  );
 });

@@ -2,27 +2,13 @@ declare const OpenSeadragon: any;
 
 // OpenSeadragon SVG Overlay plugin 0.0.4
 
-(function () {
-
+(function() {
   if (!OpenSeadragon) {
     console.error('[openseadragon-svg-overlay] requires OpenSeadragon');
     return;
   }
 
   const svgNS = 'http://www.w3.org/2000/svg';
-
-  // ----------
-
-
-  // ----------
-  OpenSeadragon.Viewer.prototype.svgOverlay = function () {
-    if (this._svgOverlayInfo) {
-      return this._svgOverlayInfo;
-    }
-
-    this._svgOverlayInfo = new Overlay(this);
-    return this._svgOverlayInfo;
-  };
 
   // ----------
   class Overlay {
@@ -35,7 +21,7 @@ declare const OpenSeadragon: any;
     _node: any;
 
     constructor(viewer: any) {
-      let self = this;
+      const self = this;
 
       this._viewer = viewer;
       this._containerWidth = 0;
@@ -52,19 +38,19 @@ declare const OpenSeadragon: any;
       this._node = document.createElementNS(svgNS, 'g');
       this._svg.appendChild(this._node);
 
-      this._viewer.addHandler('animation', function () {
+      this._viewer.addHandler('animation', function() {
         self.resize();
       });
 
-      this._viewer.addHandler('open', function () {
+      this._viewer.addHandler('open', function() {
         self.resize();
       });
 
-      this._viewer.addHandler('rotate', function (evt: any) {
+      this._viewer.addHandler('rotate', function(evt: any) {
         self.resize();
       });
 
-      this._viewer.addHandler('resize', function () {
+      this._viewer.addHandler('resize', function() {
         self.resize();
       });
 
@@ -86,13 +72,12 @@ declare const OpenSeadragon: any;
         this._svg.setAttribute('height', this._containerHeight);
       }
 
-      let p = this._viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
-      let zoom = this._viewer.viewport.getZoom(true);
-      let rotation = this._viewer.viewport.getRotation();
+      const p = this._viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
+      const zoom = this._viewer.viewport.getZoom(true);
+      const rotation = this._viewer.viewport.getRotation();
       // TODO: Expose an accessor for _containerInnerSize in the OSD API so we don't have to use the private variable.
-      let scale = this._viewer.viewport._containerInnerSize.x * zoom;
-      this._node.setAttribute('transform',
-        'translate(' + p.x + ',' + p.y + ') scale(' + scale + ') rotate(' + rotation + ')');
+      const scale = this._viewer.viewport._containerInnerSize.x * zoom;
+      this._node.setAttribute('transform', 'translate(' + p.x + ',' + p.y + ') scale(' + scale + ') rotate(' + rotation + ')');
     }
 
     // ----------
@@ -104,6 +89,17 @@ declare const OpenSeadragon: any;
         clickHandler: handler
       }).setTracking(true);
     }
-  };
+  }
 
+  // ----------
+
+  // ----------
+  OpenSeadragon.Viewer.prototype.svgOverlay = function() {
+    if (this._svgOverlayInfo) {
+      return this._svgOverlayInfo;
+    }
+
+    this._svgOverlayInfo = new Overlay(this);
+    return this._svgOverlayInfo;
+  };
 })();

@@ -14,7 +14,8 @@ import {
   SimpleChange,
   SimpleChanges,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
+  AfterViewChecked
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { throttle } from 'rxjs/operators/throttle';
@@ -50,18 +51,17 @@ import { ModeChanges } from '../core/models/modeChanges';
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '(window:resize)': '[$event]' }
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
+export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
   @Input() public manifestUri: string;
   @Input() public q: string;
   @Input() public canvasIndex: number;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
-  @Output('pageModeChanged') onPageModeChange: EventEmitter<ViewerMode> = new EventEmitter();
-  @Output('pageChanged') onPageChange: EventEmitter<number> = new EventEmitter();
-  @Output('qChanged') onQChange: EventEmitter<string> = new EventEmitter();
-  @Output('manifestChanged') onManifestChange: EventEmitter<Manifest> = new EventEmitter();
+  @Output() pageModeChanged: EventEmitter<ViewerMode> = new EventEmitter();
+  @Output() pageChanged: EventEmitter<number> = new EventEmitter();
+  @Output() qChanged: EventEmitter<string> = new EventEmitter();
+  @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
 
   private destroyed: Subject<void> = new Subject();
   private isCanvasPressed = false;
@@ -72,12 +72,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   public errorMessage: string = null;
 
   // Viewchilds
-  @ViewChild('mimeHeader')
-  private header: ViewerHeaderComponent;
-  @ViewChild('mimeFooter')
-  private footer: ViewerFooterComponent;
-  @ViewChild('mimeOsdToolbar')
-  private osdToolbar: OsdToolbarComponent;
+  @ViewChild('mimeHeader') private header: ViewerHeaderComponent;
+  @ViewChild('mimeFooter') private footer: ViewerFooterComponent;
+  @ViewChild('mimeOsdToolbar') private osdToolbar: OsdToolbarComponent;
 
   @HostListener('window:keyup', ['$event'])
   handleKeys(event: KeyboardEvent) {
@@ -125,131 +122,93 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.modeService.initialMode = this.config.initViewerMode;
-    this.iiifManifestService.currentManifest
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((manifest: Manifest) => {
-        if (manifest) {
-          this.onManifestChange.next(manifest);
-          this.cleanup();
-          this.initialize();
-          this.currentManifest = manifest;
-          this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
-          this.changeDetectorRef.detectChanges();
-          this.viewerService.setUpViewer(manifest, this.config);
-          if (this.config.attributionDialogEnabled && manifest.attribution) {
-            this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
-          }
-
-          if (this.q) {
-            this.iiifContentSearchService.search(manifest, this.q);
-          }
-        }
-      });
-
-    this.viewerService.onOsdReadyChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((state: boolean) => {
-        // Don't reset current page when switching layout
-        if (state && this.canvasIndex && !this.pageService.currentPage) {
-          this.viewerService.goToTile(this.canvasIndex, false);
-        }
-      });
-
-    this.iiifManifestService.errorMessage
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((error: string) => {
-        this.resetCurrentManifest();
-        this.errorMessage = error;
+    this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
+      if (manifest) {
+        this.manifestChanged.next(manifest);
+        this.cleanup();
+        this.initialize();
+        this.currentManifest = manifest;
+        this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
         this.changeDetectorRef.detectChanges();
-      });
-
-    this.iiifContentSearchService.onQChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((q: string) => {
-        this.onQChange.emit(q);
-      });
-
-    this.iiifContentSearchService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((sr: SearchResult) => {
-        this.viewerService.highlight(sr);
-      });
-
-    this.viewerService.isCanvasPressed
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((value: boolean) => {
-        this.isCanvasPressed = value;
-        this.changeDetectorRef.detectChanges();
-      });
-
-    this.modeService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((mode: ModeChanges) => {
-        this.toggleToolbarsState(mode.currentValue);
-        if (mode.previousValue === ViewerMode.DASHBOARD && mode.currentValue === ViewerMode.PAGE) {
-          this.viewerState.contentDialogState.isOpen = this.contentsDialogService.isOpen();
-          this.viewerState.contentDialogState.selectedIndex = this.contentsDialogService.getSelectedIndex();
-          this.viewerState.contentsSearchDialogState.isOpen = this.contentSearchDialogService.isOpen();
-          this.zone.run(() => {
-            this.contentsDialogService.close();
-            this.contentSearchDialogService.close();
-          });
+        this.viewerService.setUpViewer(manifest, this.config);
+        if (this.config.attributionDialogEnabled && manifest.attribution) {
+          this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
         }
-        if (mode.currentValue === ViewerMode.DASHBOARD) {
-          this.zone.run(() => {
-            if (this.viewerState.contentDialogState.isOpen) {
-              this.contentsDialogService.open(this.viewerState.contentDialogState.selectedIndex);
-            }
-            if (this.viewerState.contentsSearchDialogState.isOpen) {
-              this.contentSearchDialogService.open();
-            }
-          });
-        }
-        this.onPageModeChange.emit(mode.currentValue);
-      });
 
-    this.pageService.onPageChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((pageNumber: number) => {
-        const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
-        if (tileIndex !== -1) {
-          this.onPageChange.emit(tileIndex);
+        if (this.q) {
+          this.iiifContentSearchService.search(manifest, this.q);
         }
-      });
+      }
+    });
+
+    this.viewerService.onOsdReadyChange.pipe(takeUntil(this.destroyed)).subscribe((state: boolean) => {
+      // Don't reset current page when switching layout
+      if (state && this.canvasIndex && !this.pageService.currentPage) {
+        this.viewerService.goToTile(this.canvasIndex, false);
+      }
+    });
+
+    this.iiifManifestService.errorMessage.pipe(takeUntil(this.destroyed)).subscribe((error: string) => {
+      this.resetCurrentManifest();
+      this.errorMessage = error;
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.iiifContentSearchService.onQChange.pipe(takeUntil(this.destroyed)).subscribe((q: string) => {
+      this.qChanged.emit(q);
+    });
+
+    this.iiifContentSearchService.onChange.pipe(takeUntil(this.destroyed)).subscribe((sr: SearchResult) => {
+      this.viewerService.highlight(sr);
+    });
+
+    this.viewerService.isCanvasPressed.pipe(takeUntil(this.destroyed)).subscribe((value: boolean) => {
+      this.isCanvasPressed = value;
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.modeService.onChange.pipe(takeUntil(this.destroyed)).subscribe((mode: ModeChanges) => {
+      this.toggleToolbarsState(mode.currentValue);
+      if (mode.previousValue === ViewerMode.DASHBOARD && mode.currentValue === ViewerMode.PAGE) {
+        this.viewerState.contentDialogState.isOpen = this.contentsDialogService.isOpen();
+        this.viewerState.contentDialogState.selectedIndex = this.contentsDialogService.getSelectedIndex();
+        this.viewerState.contentsSearchDialogState.isOpen = this.contentSearchDialogService.isOpen();
+        this.zone.run(() => {
+          this.contentsDialogService.close();
+          this.contentSearchDialogService.close();
+        });
+      }
+      if (mode.currentValue === ViewerMode.DASHBOARD) {
+        this.zone.run(() => {
+          if (this.viewerState.contentDialogState.isOpen) {
+            this.contentsDialogService.open(this.viewerState.contentDialogState.selectedIndex);
+          }
+          if (this.viewerState.contentsSearchDialogState.isOpen) {
+            this.contentSearchDialogService.open();
+          }
+        });
+      }
+      this.pageModeChanged.emit(mode.currentValue);
+    });
+
+    this.pageService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((pageNumber: number) => {
+      const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
+      if (tileIndex !== -1) {
+        this.pageChanged.emit(tileIndex);
+      }
+    });
 
     this.mimeService.onResize
-      .pipe(
-        takeUntil(this.destroyed),
-        throttle(val => interval(ViewerOptions.transitions.OSDAnimationTime))
-      ).subscribe(() => {
+      .pipe(takeUntil(this.destroyed), throttle(val => interval(ViewerOptions.transitions.OSDAnimationTime)))
+      .subscribe(() => {
         setTimeout(() => {
           this.viewerService.home();
         }, ViewerOptions.transitions.OSDAnimationTime);
       });
 
-    this.viewerLayoutService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((viewerLayout: ViewerLayout) => {
-        this.viewerLayout = viewerLayout;
-      });
+    this.viewerLayoutService.onChange.pipe(takeUntil(this.destroyed)).subscribe((viewerLayout: ViewerLayout) => {
+      this.viewerLayout = viewerLayout;
+    });
 
     this.loadManifest();
   }

@@ -16,35 +16,33 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
+import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
+import { PageServiceStub } from '../test/page-service-stub';
 
 describe('PageDialogComponent', () => {
   let component: PageDialogComponent;
   let fixture: ComponentFixture<PageDialogComponent>;
   let intl: MimeViewerIntl;
-  let pageService: PageServiceMock;
+  let pageService: PageServiceStub;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SharedModule
-      ],
-      declarations: [
-        PageDialogComponent
-      ],
-      providers: [
-        ViewerService,
-        ClickService,
-        ModeService,
-        ViewerLayoutService,
-        MimeViewerIntl,
-        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
-        { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: PageService, useClass: PageServiceMock }
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule],
+        declarations: [PageDialogComponent],
+        providers: [
+          ViewerService,
+          ClickService,
+          ModeService,
+          ViewerLayoutService,
+          MimeViewerIntl,
+          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: PageService, useClass: PageServiceStub }
+        ]
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PageDialogComponent);
@@ -69,45 +67,20 @@ describe('PageDialogComponent', () => {
   });
 
   describe('error messages', () => {
+    it(
+      'should show a error message if user enters a page number that does not exists',
+      fakeAsync(() => {
+        pageService._currentNumberOfPages.next(10);
 
-    it('should show a error message if user enters a page number that does not exists', fakeAsync(() => {
-      pageService._currentNumberOfPages.next(10);
+        component.pageNumber.setValue(11);
 
-      component.pageNumber.setValue(11);
+        component.pageNumber.markAsTouched();
+        fixture.detectChanges();
+        flush();
 
-      component.pageNumber.markAsTouched();
-      fixture.detectChanges();
-      flush();
-
-      const pageDoesNotExistsError = fixture.debugElement.query(By.css('#pageDoesNotExistsError'));
-      expect(pageDoesNotExistsError).not.toBeNull();
-    }));
-
+        const pageDoesNotExistsError = fixture.debugElement.query(By.css('#pageDoesNotExistsError'));
+        expect(pageDoesNotExistsError).not.toBeNull();
+      })
+    );
   });
-
 });
-
-class MatDialogRefMock {
-  public close(): void {}
-}
-
-class PageServiceMock {
-  _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(10);
-  _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
-
-  get onPageChange(): Observable<number> {
-    return this._currentPage.asObservable().distinctUntilChanged();
-  }
-
-  get onNumberOfPagesChange(): Observable<number> {
-    return this._currentNumberOfPages.asObservable().distinctUntilChanged();
-  }
-
-  get numberOfTiles(): number {
-    return this._currentNumberOfPages.value;
-  }
-
-  getTilesStringFromPageIndex(index: number): string {
-    return '' + index;
-  }
-}

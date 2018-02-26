@@ -1,4 +1,3 @@
-import { testManifest } from './../test/testManifest';
 import { DebugElement } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
@@ -25,6 +24,8 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { Manifest, Structure } from '../core/models/manifest';
+import { testManifest } from './../test/testManifest';
+import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
@@ -33,45 +34,40 @@ describe('ContentsDialogComponent', () => {
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        HttpClientTestingModule
-      ],
-      declarations: [
-        ContentsDialogComponent,
-        MetadataComponent,
-        TocComponent
-      ],
-      providers: [
-        ViewerService,
-        ClickService,
-        MimeViewerIntl,
-        PageService,
-        ModeService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        ViewerLayoutService,
-        IiifContentSearchService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: ObservableMedia, useClass: MediaServiceStub }
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+        declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
+        providers: [
+          ViewerService,
+          ClickService,
+          MimeViewerIntl,
+          PageService,
+          ModeService,
+          MimeResizeService,
+          MimeDomHelper,
+          FullscreenService,
+          ViewerLayoutService,
+          IiifContentSearchService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: ObservableMedia, useClass: MediaServiceStub }
+        ]
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
-  beforeEach(async(() => {
-    fixture = TestBed.createComponent(ContentsDialogComponent);
-    component = fixture.componentInstance;
-    media = TestBed.get(ObservableMedia);
-    iiifManifestService = TestBed.get(IiifManifestService);
-    intl = TestBed.get(MimeViewerIntl);
-    fixture.detectChanges();
-  }));
+  beforeEach(
+    async(() => {
+      fixture = TestBed.createComponent(ContentsDialogComponent);
+      component = fixture.componentInstance;
+      media = TestBed.get(ObservableMedia);
+      iiifManifestService = TestBed.get(IiifManifestService);
+      intl = TestBed.get(MimeViewerIntl);
+      fixture.detectChanges();
+    })
+  );
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -97,9 +93,7 @@ describe('ContentsDialogComponent', () => {
 
   it('should show toc', () => {
     const manifest = new Manifest({
-      structures: [
-        new Structure()
-      ]
+      structures: [new Structure()]
     });
     iiifManifestService._currentManifest.next(manifest);
     intl.tocLabel = 'TocTestLabel';
@@ -125,8 +119,4 @@ describe('ContentsDialogComponent', () => {
       expect(tocTab).toBeUndefined();
     });
   });
-
 });
-
-class MatDialogRefMock {
-}

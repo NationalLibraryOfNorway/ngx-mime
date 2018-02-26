@@ -9,7 +9,7 @@ export class FullscreenService {
 
   constructor() {
     this.onchange();
-   }
+  }
 
   get onChange(): Observable<boolean> {
     return this.changeSubject.asObservable();
@@ -52,22 +52,15 @@ export class FullscreenService {
   }
 
   public onchange() {
-    const func = (() => {
+    const func = () => {
       this.changeSubject.next(true);
-    });
+    };
     document.addEventListener(this.fn().fullscreenchange, func, false);
   }
 
   private fn(): any {
     const fnMap = [
-      [
-        'requestFullscreen',
-        'exitFullscreen',
-        'fullscreenElement',
-        'fullscreenEnabled',
-        'fullscreenchange',
-        'fullscreenerror'
-      ],
+      ['requestFullscreen', 'exitFullscreen', 'fullscreenElement', 'fullscreenEnabled', 'fullscreenchange', 'fullscreenerror'],
       // New WebKit
       [
         'webkitRequestFullscreen',
@@ -76,7 +69,6 @@ export class FullscreenService {
         'webkitFullscreenEnabled',
         'webkitfullscreenchange',
         'webkitfullscreenerror'
-
       ],
       // Old WebKit (Safari 5.1)
       [
@@ -86,7 +78,6 @@ export class FullscreenService {
         'webkitCancelFullScreen',
         'webkitfullscreenchange',
         'webkitfullscreenerror'
-
       ],
       [
         'mozRequestFullScreen',
@@ -96,19 +87,12 @@ export class FullscreenService {
         'mozfullscreenchange',
         'mozfullscreenerror'
       ],
-      [
-        'msRequestFullscreen',
-        'msExitFullscreen',
-        'msFullscreenElement',
-        'msFullscreenEnabled',
-        'MSFullscreenChange',
-        'MSFullscreenError'
-      ]
+      ['msRequestFullscreen', 'msExitFullscreen', 'msFullscreenElement', 'msFullscreenEnabled', 'MSFullscreenChange', 'MSFullscreenError']
     ];
 
     let i = 0;
-    let l = fnMap.length;
-    let ret = {};
+    const l = fnMap.length;
+    const ret = {};
 
     for (; i < l; i++) {
       const val = fnMap[i];

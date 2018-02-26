@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
 
-import { Hit } from './../core/models/search-result';
+import { Hit } from './../core/models/hit';
 
 export class ViewerServiceMock {
   pageChanged = new Subject<number>();
@@ -14,12 +14,11 @@ export class ViewerServiceMock {
     this.pageChanged.next(canvasIndex);
   }
 
-  public goToPreviousPage(): void { }
+  public goToPreviousPage(): void {}
 
-  public goToNextPage(): void { }
+  public goToNextPage(): void {}
 
-  public goToTile(index: number): void { }
+  public goToTile(index: number): void {}
 
-  public setCurrentHit(hit: Hit): void { }
-
+  public setCurrentHit(hit: Hit): void {}
 }

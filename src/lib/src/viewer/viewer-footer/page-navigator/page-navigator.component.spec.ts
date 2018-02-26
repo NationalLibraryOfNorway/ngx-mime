@@ -1,10 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  inject
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,29 +14,32 @@ import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { PageService } from './../../../core/page-service/page-service';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
-import { Hit } from './../../../core/models/search-result';
+import { Hit } from './../../../core/models/hit';
 import { ViewerServiceMock } from './../../../test/viewer-service-mock';
 import { PageDialogService } from '../../../page-dialog/page-dialog.service';
+import { ViewerServiceStub } from '../../../test/viewer-service-stub';
+import { PageServiceStub } from '../../../test/page-service-stub';
 
 describe('PageNavigatorComponent', () => {
   let component: PageNavigatorComponent;
   let fixture: ComponentFixture<PageNavigatorComponent>;
   let spy: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [PageNavigatorComponent],
-      providers: [
-        MimeViewerIntl,
-        PageDialogService,
-        { provide: ViewerService, useClass: ViewerServiceMock },
-        { provide: PageService, useClass: PageServiceMock }
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [NoopAnimationsModule, SharedModule],
+        declarations: [PageNavigatorComponent],
+        providers: [
+          MimeViewerIntl,
+          PageDialogService,
+          { provide: ViewerService, useClass: ViewerServiceStub },
+          { provide: PageService, useClass: PageServiceStub }
+        ]
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PageNavigatorComponent);
@@ -53,7 +51,8 @@ describe('PageNavigatorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should re-render when the i18n labels have changed',
+  it(
+    'should re-render when the i18n labels have changed',
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
       const text = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
       expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Page`);
@@ -65,8 +64,9 @@ describe('PageNavigatorComponent', () => {
     })
   );
 
-  it('should enable both navigation buttons when viewer is on second page',
-    inject([PageService], (pageService: PageServiceMock) => {
+  it(
+    'should enable both navigation buttons when viewer is on second page',
+    inject([PageService], (pageService: PageServiceStub) => {
       pageService._currentPage.next(1);
       fixture.detectChanges();
 
@@ -74,19 +74,23 @@ describe('PageNavigatorComponent', () => {
       const nextButton = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
       expect(previousButton.nativeElement.disabled).toBeFalsy();
       expect(nextButton.nativeElement.disabled).toBeFalsy();
-    }));
+    })
+  );
 
-  it('should disable previous button when viewer is on first page',
-    inject([PageService], (pageService: PageServiceMock) => {
+  it(
+    'should disable previous button when viewer is on first page',
+    inject([PageService], (pageService: PageServiceStub) => {
       pageService._currentPage.next(0);
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
       expect(button.nativeElement.disabled).toBeTruthy();
-    }));
+    })
+  );
 
-  it('should disable next button when viewer is on last page',
-    inject([PageService], (pageService: PageServiceMock) => {
+  it(
+    'should disable next button when viewer is on last page',
+    inject([PageService], (pageService: PageServiceStub) => {
       pageService._currentNumberOfPages.next(10);
 
       pageService._currentPage.next(9);
@@ -96,10 +100,12 @@ describe('PageNavigatorComponent', () => {
         const button = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
         expect(button.nativeElement.disabled).toBeTruthy();
       });
-    }));
+    })
+  );
 
-  it('should display next page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
+  it(
+    'should display next page',
+    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
       spy = spyOn(viewerService, 'goToNextPage');
 
       const button = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
@@ -109,10 +115,12 @@ describe('PageNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         expect(spy.calls.count()).toEqual(1);
       });
-    }));
+    })
+  );
 
-  it('should display previous page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
+  it(
+    'should display previous page',
+    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
       spy = spyOn(component, 'goToPreviousPage');
 
       pageService._currentPage.next(9);
@@ -127,26 +135,6 @@ describe('PageNavigatorComponent', () => {
           expect(spy.calls.count()).toEqual(1);
         });
       });
-    }));
+    })
+  );
 });
-
-class PageServiceMock {
-  _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(10);
-  _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
-
-  get onPageChange(): Observable<number> {
-    return this._currentPage.asObservable().distinctUntilChanged();
-  }
-
-  get onNumberOfPagesChange(): Observable<number> {
-    return this._currentNumberOfPages.asObservable().distinctUntilChanged();
-  }
-
-  get numberOfTiles(): number {
-    return this._currentNumberOfPages.value;
-  }
-
-  getTilesStringFromPageIndex(index: number): string {
-    return '' + index;
-  }
-}

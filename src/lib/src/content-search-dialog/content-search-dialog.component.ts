@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnInit,
-  HostListener,
-  ElementRef,
-  OnDestroy,
-  ViewChild,
-  ViewChildren,
-  QueryList
-} from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, OnDestroy, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
@@ -25,14 +16,14 @@ import { SearchResult } from './../core/models/search-result';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { ViewerService } from './../core/viewer-service/viewer.service';
-import { Hit } from './../core/models/search-result';
+import { Hit } from './../core/models/hit';
 
 @Component({
   selector: 'mime-search',
   templateUrl: './content-search-dialog.component.html',
   styleUrls: ['./content-search-dialog.component.scss']
 })
-export class ContentSearchDialogComponent implements OnInit, OnDestroy {
+export class ContentSearchDialogComponent implements OnInit, AfterViewInit, OnDestroy {
   public q: string;
   public hits: Hit[] = [];
   public currentHit: Hit;
@@ -45,7 +36,8 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
   private destroyed: Subject<void> = new Subject();
   @ViewChild('contentSearchResult') resultContainer: ElementRef;
   @ViewChild('query') qEl: ElementRef;
-  @ViewChildren('hitButton', { read: ElementRef }) hitList: QueryList<ElementRef>;
+  @ViewChildren('hitButton', { read: ElementRef })
+  hitList: QueryList<ElementRef>;
 
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
@@ -55,64 +47,45 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
     private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper) { }
+    private mimeDomHelper: MimeDomHelper
+  ) {}
 
   ngOnInit() {
-    this.mimeResizeService.onResize
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((dimensions: Dimensions) => {
-        this.mimeHeight = dimensions.height;
-        this.resizeTabHeight();
-      });
+    this.mimeResizeService.onResize.pipe(takeUntil(this.destroyed)).subscribe((dimensions: Dimensions) => {
+      this.mimeHeight = dimensions.height;
+      this.resizeTabHeight();
+    });
 
-    this.iiifManifestService.currentManifest
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-      });
+    this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
+      this.manifest = manifest;
+    });
 
-    this.iiifContentSearchService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((sr: SearchResult) => {
-        this.hits = sr.hits;
-        this.currentSearch = sr.q ? sr.q : '';
-        this.q = sr.q;
-        this.numberOfHits = sr.size();
-        if (this.resultContainer !== null && this.numberOfHits > 0) {
-          this.resultContainer.nativeElement.focus();
-        } else if (this.q.length === 0 || this.numberOfHits === 0) {
-          this.qEl.nativeElement.focus();
-        }
-      });
+    this.iiifContentSearchService.onChange.pipe(takeUntil(this.destroyed)).subscribe((sr: SearchResult) => {
+      this.hits = sr.hits;
+      this.currentSearch = sr.q ? sr.q : '';
+      this.q = sr.q;
+      this.numberOfHits = sr.size();
+      if (this.resultContainer !== null && this.numberOfHits > 0) {
+        this.resultContainer.nativeElement.focus();
+      } else if (this.q.length === 0 || this.numberOfHits === 0) {
+        this.qEl.nativeElement.focus();
+      }
+    });
 
-    this.iiifContentSearchService.isSearching
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((s: boolean) => {
-        this.isSearching = s;
-      });
+    this.iiifContentSearchService.isSearching.pipe(takeUntil(this.destroyed)).subscribe((s: boolean) => {
+      this.isSearching = s;
+    });
 
-    this.iiifContentSearchService.onSelected
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((hit: Hit) => {
-        if (hit === null) {
+    this.iiifContentSearchService.onSelected.pipe(takeUntil(this.destroyed)).subscribe((hit: Hit) => {
+      if (hit === null) {
+        this.currentHit = hit;
+      } else {
+        if (!this.currentHit || this.currentHit.id !== hit.id) {
           this.currentHit = hit;
-        } else {
-          if (!this.currentHit || this.currentHit.id !== hit.id) {
-            this.currentHit = hit;
-            this.scrollCurrentHitIntoView();
-          }
+          this.scrollCurrentHitIntoView();
         }
-      });
+      }
+    });
 
     this.resizeTabHeight();
   }
@@ -160,28 +133,23 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
 
     if (this.media.isActive('lt-md')) {
       this.tabHeight = {
-        'maxHeight': window.innerHeight - 128 + 'px'
+        maxHeight: window.innerHeight - 128 + 'px'
       };
     } else {
       height -= 272;
       this.tabHeight = {
-        'maxHeight': height + 'px'
+        maxHeight: height + 'px'
       };
     }
   }
 
   private scrollCurrentHitIntoView() {
-    this.iiifContentSearchService.onSelected
-      .pipe(
-        take(1),
-        filter(s => s !== null)
-      )
-      .subscribe((hit: Hit) => {
-        const selected = this.findSelected(hit);
-        if (selected) {
-          selected.nativeElement.focus();
-        }
-      });
+    this.iiifContentSearchService.onSelected.pipe(take(1), filter(s => s !== null)).subscribe((hit: Hit) => {
+      const selected = this.findSelected(hit);
+      if (selected) {
+        selected.nativeElement.focus();
+      }
+    });
   }
 
   private findSelected(selectedHit: Hit): ElementRef {
@@ -191,7 +159,5 @@ export class ContentSearchDialogComponent implements OnInit, OnDestroy {
     } else {
       return null;
     }
-
   }
-
 }

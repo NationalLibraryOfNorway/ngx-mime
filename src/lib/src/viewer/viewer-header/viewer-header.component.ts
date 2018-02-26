@@ -5,7 +5,8 @@ import {
   OnDestroy,
   ChangeDetectorRef,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
+  HostBinding
 } from '@angular/core';
 import { MatDialog, MatDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
@@ -34,28 +35,32 @@ import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-ut
   changeDetection: ChangeDetectionStrategy.Default,
   animations: [
     trigger('headerState', [
-      state('hide', style({
-        opacity: 0,
-        display: 'none',
-        transform: 'translate(0, -100%)'
-
-      })),
-      state('show', style({
-        opacity: 1,
-        display: 'block',
-        transform: 'translate(0, 0)'
-      })),
+      state(
+        'hide',
+        style({
+          opacity: 0,
+          display: 'none',
+          transform: 'translate(0, -100%)'
+        })
+      ),
+      state(
+        'show',
+        style({
+          opacity: 1,
+          display: 'block',
+          transform: 'translate(0, 0)'
+        })
+      ),
       transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
       transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
     ])
-  ],
-  host: {
-    '[@headerState]': 'state'
-  }
+  ]
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
-  @ViewChild('mimeHeaderBefore', {read: ViewContainerRef}) mimeHeaderBefore: ViewContainerRef;
-  @ViewChild('mimeHeaderAfter', {read: ViewContainerRef}) mimeHeaderAfter: ViewContainerRef;
+  @ViewChild('mimeHeaderBefore', { read: ViewContainerRef })
+  mimeHeaderBefore: ViewContainerRef;
+  @ViewChild('mimeHeaderAfter', { read: ViewContainerRef })
+  mimeHeaderAfter: ViewContainerRef;
   public manifest: Manifest;
   public state = 'hide';
   isContentSearchEnabled = false;
@@ -66,7 +71,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
   private destroyed: Subject<void> = new Subject();
 
-
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
@@ -76,44 +80,32 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
     private viewerLayoutService: ViewerLayoutService
-  ) { }
+  ) {}
+
+  @HostBinding('@headerState')
+  get headerState() {
+    return this.state;
+  }
 
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
 
-    this.intl.changes
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe(() => this.changeDetectorRef.markForCheck());
+    this.intl.changes.pipe(takeUntil(this.destroyed)).subscribe(() => this.changeDetectorRef.markForCheck());
 
-    this.fullscreenService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe(() => {
-        this.changeDetectorRef.detectChanges();
-      });
+    this.fullscreenService.onChange.pipe(takeUntil(this.destroyed)).subscribe(() => {
+      this.changeDetectorRef.detectChanges();
+    });
 
-    this.iiifManifestService.currentManifest
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.isContentSearchEnabled = manifest.service ? true : false;
-        this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
-        this.changeDetectorRef.detectChanges();
-      });
+    this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
+      this.manifest = manifest;
+      this.isContentSearchEnabled = manifest.service ? true : false;
+      this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
+      this.changeDetectorRef.detectChanges();
+    });
 
-    this.viewerLayoutService.onChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((viewerLayout: ViewerLayout) => {
-        this.viewerLayout = viewerLayout;
-      });
-
+    this.viewerLayoutService.onChange.pipe(takeUntil(this.destroyed)).subscribe((viewerLayout: ViewerLayout) => {
+      this.viewerLayout = viewerLayout;
+    });
   }
 
   ngOnDestroy() {
@@ -146,5 +138,4 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   public setLayoutTwoPage(): void {
     this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
   }
-
 }

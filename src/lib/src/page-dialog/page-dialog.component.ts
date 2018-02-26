@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { Subject } from 'rxjs/Subject';
@@ -9,12 +9,11 @@ import { PageService } from '../core/page-service/page-service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 
 @Component({
-  selector: 'app-page-dialog',
   templateUrl: './page-dialog.component.html',
   styleUrls: ['./page-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageDialogComponent implements OnInit {
+export class PageDialogComponent implements OnInit, OnDestroy {
   numberOfTiles: number;
   pageForm: FormGroup;
   pageNumber: FormControl;
@@ -26,28 +25,21 @@ export class PageDialogComponent implements OnInit {
     private viewerService: ViewerService,
     private pageService: PageService,
     public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef) {
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
     this.numberOfTiles = this.pageService.numberOfTiles;
     this.createForm();
   }
 
   createForm() {
-    this.pageNumber = new FormControl('', [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(this.numberOfTiles)
-    ]);
+    this.pageNumber = new FormControl('', [Validators.required, Validators.min(1), Validators.max(this.numberOfTiles)]);
     this.pageForm = this.fb.group({
-      pageNumber: this.pageNumber,
+      pageNumber: this.pageNumber
     });
   }
 
   ngOnInit() {
-    this.intl.changes
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe(() => this.changeDetectorRef.markForCheck());
+    this.intl.changes.pipe(takeUntil(this.destroyed)).subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
   ngOnDestroy(): void {
@@ -62,5 +54,4 @@ export class PageDialogComponent implements OnInit {
       this.dialogRef.close();
     }
   }
-
 }

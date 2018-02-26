@@ -3,7 +3,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
-import { SearchResult, Hit } from './../core/models/search-result';
+import { SearchResult } from './../core/models/search-result';
+import { Hit } from './../core/models/hit';
 
 export class IiifContentSearchServiceStub {
   public _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(new SearchResult({}));
@@ -12,7 +13,7 @@ export class IiifContentSearchServiceStub {
   protected _selected: Subject<Hit> = new Subject<null>();
 
   get onQChange(): Observable<string> {
-    return this._currentQ.asObservable().distinctUntilChanged();
+    return this._currentQ.asObservable().pipe(distinctUntilChanged());
   }
 
   get onChange(): Observable<SearchResult> {
@@ -31,7 +32,5 @@ export class IiifContentSearchServiceStub {
     this._selected.next(hit);
   }
 
-  destroy() {
-  }
-
+  destroy() {}
 }

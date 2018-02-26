@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Rx';
 
 import { OsdToolbarComponent } from './osd-toolbar.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -15,33 +13,32 @@ import { ClickService } from '../../core/click-service/click.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 import { ViewerServiceMock } from './../../test/viewer-service-mock';
+import { PageServiceStub } from './../../test/page-service-stub';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
   let fixture: ComponentFixture<OsdToolbarComponent>;
   let spy: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-      ],
-      declarations: [OsdToolbarComponent],
-      providers: [
-        MimeResizeService,
-        MimeViewerIntl,
-        { provide: ViewerService, useClass: ViewerServiceMock },
-        { provide: PageService, useClass: PageServiceMock },
-        ClickService,
-        PageService,
-        ModeService,
-        MimeDomHelper,
-        FullscreenService
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule],
+        declarations: [OsdToolbarComponent],
+        providers: [
+          MimeResizeService,
+          MimeViewerIntl,
+          { provide: ViewerService, useClass: ViewerServiceMock },
+          { provide: PageService, useClass: PageServiceStub },
+          ClickService,
+          PageService,
+          ModeService,
+          MimeDomHelper,
+          FullscreenService
+        ]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
@@ -53,7 +50,8 @@ describe('OsdToolbarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should re-render when the i18n labels have changed',
+  it(
+    'should re-render when the i18n labels have changed',
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
       const button = fixture.debugElement.query(By.css('#homeButton'));
 
@@ -62,40 +60,44 @@ describe('OsdToolbarComponent', () => {
       fixture.detectChanges();
 
       expect(button.nativeElement.getAttribute('aria-label')).toBe('Go home button');
-    }));
+    })
+  );
 
-  it('should not be visible when state is changed to \'hide\'', async(() => {
-    // Check initial style to make sure we later see an actual change
-    expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+  it(
+    "should not be visible when state is changed to 'hide'",
+    async(() => {
+      // Check initial style to make sure we later see an actual change
+      expectOSDToolbarToShow(fixture.debugElement.nativeElement);
 
-    component.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
-    });
-  }));
-
-  it('should be visible when state is changed to \'show\'', async(() => {
-    component.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
-
-      component.state = 'show';
+      component.state = 'hide';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
       });
+    })
+  );
 
-    });
+  it(
+    "should be visible when state is changed to 'show'",
+    async(() => {
+      component.state = 'hide';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
 
-  }));
+        component.state = 'show';
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+        });
+      });
+    })
+  );
 
-
-  it('should enable both navigation buttons when viewer is on second page',
+  it(
+    'should enable both navigation buttons when viewer is on second page',
     inject([ViewerService], (viewerService: ViewerServiceMock) => {
-
       viewerService.pageChanged.next(1);
       fixture.detectChanges();
 
@@ -103,19 +105,22 @@ describe('OsdToolbarComponent', () => {
       const nextButton = fixture.debugElement.query(By.css('#navigateNextButton'));
       expect(previousButton.nativeElement.disabled).toBeFalsy();
       expect(nextButton.nativeElement.disabled).toBeFalsy();
-    }));
+    })
+  );
 
-  it('should disable previous button when viewer is on first page',
+  it(
+    'should disable previous button when viewer is on first page',
     inject([ViewerService], (viewerService: ViewerServiceMock) => {
-
       viewerService.pageChanged.next(0);
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(By.css('#navigateBeforeButton'));
       expect(button.nativeElement.disabled).toBeTruthy();
-    }));
+    })
+  );
 
-  it('should disable next button when viewer is on last page',
+  it(
+    'should disable next button when viewer is on last page',
     inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageService) => {
       spyOnProperty(pageService, 'numberOfPages', 'get').and.returnValue(10);
 
@@ -126,10 +131,12 @@ describe('OsdToolbarComponent', () => {
         const button = fixture.debugElement.query(By.css('#navigateNextButton'));
         expect(button.nativeElement.disabled).toBeTruthy();
       });
-    }));
+    })
+  );
 
-  it('should display next page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
+  it(
+    'should display next page',
+    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
       spy = spyOn(viewerService, 'goToNextPage');
 
       const button = fixture.debugElement.query(By.css('#navigateNextButton'));
@@ -139,10 +146,12 @@ describe('OsdToolbarComponent', () => {
       fixture.whenStable().then(() => {
         expect(spy.calls.count()).toEqual(1);
       });
-    }));
+    })
+  );
 
-  it('should display previous page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceMock) => {
+  it(
+    'should display previous page',
+    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
       spy = spyOn(component, 'goToPreviousPage');
 
       const button = fixture.debugElement.query(By.css('#navigateBeforeButton'));
@@ -152,8 +161,8 @@ describe('OsdToolbarComponent', () => {
       fixture.whenStable().then(() => {
         expect(spy.calls.count()).toEqual(1);
       });
-    }));
-
+    })
+  );
 });
 
 function expectOSDToolbarToShow(element: any) {
@@ -165,20 +174,4 @@ function expectOSDToolbarToBeHidden(element: any) {
   expect(element.style.display).toBe('none');
   expect(element.style.opacity).toBe('0');
   expect(element.style.transform).toBe('translate(-100%, 0px)');
-}
-
-class PageServiceMock {
-  public _numberOfPages: number;
-
-  set numberOfPages(numberOfPages: number) {
-    this._numberOfPages = numberOfPages;
-  }
-
-  get numberOfPages(): number {
-    return this._numberOfPages;
-  }
-
-  public getZoom(): number {
-    return 0;
-  }
 }
