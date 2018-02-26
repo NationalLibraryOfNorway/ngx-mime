@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { PageService } from '../../page-service/page-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
-import { Hit, SearchResult } from '../../models/search-result';
+import { SearchResult } from '../../models/search-result';
+import { Hit } from '../../models/hit';
 
 @Injectable()
 export class ContentSearchNavigationService {
@@ -13,10 +14,7 @@ export class ContentSearchNavigationService {
   private currentCanvasIndices = [-1];
   private searchResult: SearchResult;
 
-  constructor(
-    private pageService: PageService,
-    private iiifContentSearchService: IiifContentSearchService
-  ) {
+  constructor(private pageService: PageService, private iiifContentSearchService: IiifContentSearchService) {
     this.iiifContentSearchService.onChange.subscribe((result: SearchResult) => {
       this.searchResult = result;
     });

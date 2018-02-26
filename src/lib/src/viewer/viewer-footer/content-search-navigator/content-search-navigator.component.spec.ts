@@ -5,42 +5,42 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from './../../../shared/shared.module';
 import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
-import { Hit, SearchResult } from './../../../core/models/search-result';
+import { SearchResult } from './../../../core/models/search-result';
+import { Hit } from './../../../core/models/hit';
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { PageService } from './../../../core/page-service/page-service';
-import { ContentSearchNavigationService }
-  from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { ViewerServiceMock } from './../../../test/viewer-service-mock';
 import { Rect } from '../../../core/models/rect';
 import { ViewerLayout } from '../../../core/models/viewer-layout';
+import { PageServiceStub } from '../../../test/page-service-stub';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
   let fixture: ComponentFixture<ContentSearchNavigatorComponent>;
   let iiifContentSearchService: IiifContentSearchServiceStub;
-  let pageService: PageServiceMock;
+  let pageService: PageServiceStub;
   let contentSearchNavigationService: ContentSearchNavigationService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [
-        ContentSearchNavigatorComponent
-      ],
-      providers: [
-        MimeViewerIntl,
-        ContentSearchNavigationService,
-        { provide: ViewerService, useClass: ViewerServiceMock },
-        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
-        { provide: PageService, useClass: PageServiceMock }
-      ]
-
-    }).compileComponents();
-  }));
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [NoopAnimationsModule, SharedModule],
+        declarations: [ContentSearchNavigatorComponent],
+        providers: [
+          MimeViewerIntl,
+          ContentSearchNavigationService,
+          { provide: ViewerService, useClass: ViewerServiceMock },
+          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
+          { provide: PageService, useClass: PageServiceStub }
+        ]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
@@ -59,7 +59,8 @@ describe('ContentSearchNavigatorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should re-render when the i18n labels have changed',
+  it(
+    'should re-render when the i18n labels have changed',
     inject([MimeViewerIntl], (intl: MimeViewerIntl) => {
       const text = fixture.debugElement.query(By.css('#footerNavigateNextHitButton'));
       expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Hit`);
@@ -72,7 +73,6 @@ describe('ContentSearchNavigatorComponent', () => {
   );
 
   describe('Two page display', () => {
-
     it('should go to first hit if current canvas is 4 and user presses previous hit button', () => {
       spyOn(contentSearchNavigationService, 'goToPreviousHitPage').and.callThrough();
       pageService.setPageChange(4);
@@ -172,7 +172,6 @@ describe('ContentSearchNavigatorComponent', () => {
   });
 
   describe('Single page display', () => {
-
     it('should go to first hit if user presses previous hit button', () => {
       spyOn(iiifContentSearchService, 'selected');
       component.searchResult = createSinglePageHit();
@@ -200,7 +199,6 @@ describe('ContentSearchNavigatorComponent', () => {
         expect(iiifContentSearchService.selected).toHaveBeenCalledWith(new Hit({ id: 2, index: 8 }));
       });
     });
-
   });
 
   function createDefaultTileRects(size: number): Rect[] {
@@ -213,92 +211,113 @@ describe('ContentSearchNavigatorComponent', () => {
 
   function createDefaultData() {
     const searchResult = new SearchResult();
-    searchResult.add(new Hit({
-      id: 1,
-      index: 1
-    }));
-    searchResult.add(new Hit({
-      id: 2,
-      index: 8
-    }));
-    searchResult.add(new Hit({
-      id: 3,
-      index: 10
-    }));
-    searchResult.add(new Hit({
-      id: 4,
-      index: 20
-    }));
-    searchResult.add(new Hit({
-      id: 5,
-      index: 30
-    }));
-    searchResult.add(new Hit({
-      id: 6,
-      index: 40
-    }));
-    searchResult.add(new Hit({
-      id: 7,
-      index: 100
-    }));
+    searchResult.add(
+      new Hit({
+        id: 1,
+        index: 1
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 2,
+        index: 8
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 3,
+        index: 10
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 4,
+        index: 20
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 5,
+        index: 30
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 6,
+        index: 40
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 7,
+        index: 100
+      })
+    );
     return searchResult;
   }
 
   function createLeftPageHit() {
     const searchResult = new SearchResult();
-    searchResult.add(new Hit({
-      id: 1,
-      index: 1
-    }));
-    searchResult.add(new Hit({
-      id: 2,
-      index: 1
-    }));
-    searchResult.add(new Hit({
-      index: 2
-    }));
+    searchResult.add(
+      new Hit({
+        id: 1,
+        index: 1
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 2,
+        index: 1
+      })
+    );
+    searchResult.add(
+      new Hit({
+        index: 2
+      })
+    );
 
     return searchResult;
   }
 
   function createRightPageHit() {
     const searchResult = new SearchResult();
-    searchResult.add(new Hit({
-      id: 1,
-      index: 2
-    }));
-    searchResult.add(new Hit({
-      id: 2,
-      index: 2
-    }));
-    searchResult.add(new Hit({
-      id: 3,
-      index: 100
-    }));
+    searchResult.add(
+      new Hit({
+        id: 1,
+        index: 2
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 2,
+        index: 2
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 3,
+        index: 100
+      })
+    );
 
     return searchResult;
   }
 
   function createSinglePageHit() {
     const searchResult = new SearchResult();
-    searchResult.add(new Hit({
-      id: 1,
-      index: 2
-    }));
-    searchResult.add(new Hit({
-      id: 2,
-      index: 2
-    }));
+    searchResult.add(
+      new Hit({
+        id: 1,
+        index: 2
+      })
+    );
+    searchResult.add(
+      new Hit({
+        id: 2,
+        index: 2
+      })
+    );
 
     return searchResult;
   }
-
 });
-
-class PageServiceMock extends PageService {
-
-  setPageChange(index: number) {
-    this._currentPage.next(index);
-  }
-
-}

@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -31,10 +31,12 @@ import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { TestDynamicComponent } from './test-dynamic.component';
+import { TestHostComponent } from './test-host.component';
 
 import 'openseadragon';
 
-describe('ViewerComponent', function () {
+describe('ViewerComponent', function() {
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
   let comp: ViewerComponent;
@@ -52,44 +54,42 @@ describe('ViewerComponent', function () {
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-        SharedModule,
-        ContentsDialogModule,
-        AttributionDialogModule,
-        ContentSearchDialogModule
-      ],
-      declarations: [
-        ViewerComponent,
-        TestHostComponent,
-        ViewerHeaderComponent,
-        ViewerFooterComponent,
-        TestDynamicComponent
-      ],
-      providers: [
-        ViewerService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
-        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-        MimeViewerIntl,
-        ClickService,
-        PageService,
-        ModeService,
-        FullscreenService,
-        AccessKeysService,
-        ViewerLayoutService,
-        ContentSearchNavigationService
-      ]
-    }).overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [ TestDynamicComponent ],
-      }
-    }).compileComponents();
-  }));
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          HttpClientTestingModule,
+          NoopAnimationsModule,
+          SharedModule,
+          ContentsDialogModule,
+          AttributionDialogModule,
+          ContentSearchDialogModule
+        ],
+        declarations: [ViewerComponent, TestHostComponent, ViewerHeaderComponent, ViewerFooterComponent, TestDynamicComponent],
+        providers: [
+          ViewerService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
+          { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+          MimeViewerIntl,
+          ClickService,
+          PageService,
+          ModeService,
+          FullscreenService,
+          AccessKeysService,
+          ViewerLayoutService,
+          ContentSearchNavigationService
+        ]
+      })
+        .overrideModule(BrowserDynamicTestingModule, {
+          set: {
+            entryComponents: [TestDynamicComponent]
+          }
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerComponent);
@@ -116,7 +116,7 @@ describe('ViewerComponent', function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
-  afterEach(function () {
+  afterEach(function() {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
@@ -138,7 +138,7 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should change mode to initial-mode when changing manifest', (done) => {
+  it('should change mode to initial-mode when changing manifest', done => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
@@ -199,7 +199,7 @@ describe('ViewerComponent', function () {
           const viewportWidth = Math.round(viewer.viewport.getBounds().width);
           const overlayHeight = Math.round(overlay.height.baseVal.value);
           const overlayWidth = Math.round(overlay.width.baseVal.value);
-          expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
+          expect(overlayHeight === viewportHeight || overlayWidth === viewportWidth).toEqual(true);
 
           done();
         }, 600);
@@ -224,7 +224,7 @@ describe('ViewerComponent', function () {
           overlayWidth = Math.round(overlay.width.baseVal.value);
 
           // Starting out at home
-          expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
+          expect(overlayHeight === viewportHeight || overlayWidth === viewportWidth).toEqual(true);
 
           // Resize OSD
           element.style.display = 'block';
@@ -237,12 +237,11 @@ describe('ViewerComponent', function () {
             overlayHeight = Math.round(overlay.height.baseVal.value);
             overlayWidth = Math.round(overlay.width.baseVal.value);
 
-            expect((overlayHeight !== viewportHeight) && (overlayWidth !== viewportWidth)).toEqual(true);
+            expect(overlayHeight !== viewportHeight && overlayWidth !== viewportWidth).toEqual(true);
 
             // Return to home
             mimeResizeServiceStub.triggerResize();
             setTimeout(() => {
-
               // Confirm that minimum zoom level is updated
               const endMinZoomLevel = viewer.viewport.minZoomLevel;
               expect(endMinZoomLevel).toBeGreaterThan(startMinZoomLevel);
@@ -253,13 +252,11 @@ describe('ViewerComponent', function () {
               overlayWidth = Math.round(overlay.width.baseVal.value);
 
               // Returned to home
-              expect((overlayHeight === viewportHeight) || (overlayWidth === viewportWidth)).toEqual(true);
+              expect(overlayHeight === viewportHeight || overlayWidth === viewportWidth).toEqual(true);
 
               done();
-             }, 600);
-
+            }, 600);
           }, 600);
-
         }, 600);
       }
     });
@@ -283,7 +280,6 @@ describe('ViewerComponent', function () {
     overlay = viewerService.getOverlays()[12000];
     index = viewerService.getOverlayIndexFromClickEvent(overlay);
     expect(index).toBe(-1);
-
   });
 
   it('should increase zoom level when pinching out', () => {
@@ -354,15 +350,15 @@ describe('ViewerComponent', function () {
 
   it('should emit when page mode changes', () => {
     let selectedMode: ViewerMode;
-    comp.onPageModeChange.subscribe((mode: ViewerMode) => selectedMode = mode);
+    comp.pageModeChanged.subscribe((mode: ViewerMode) => (selectedMode = mode));
 
     modeService.mode = ViewerMode.DASHBOARD;
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should emit when page number changes', (done) => {
+  it('should emit when page number changes', done => {
     let currentPageNumber: number;
-    comp.onPageChange.subscribe((pageNumber: number) => currentPageNumber = pageNumber);
+    comp.pageChanged.subscribe((pageNumber: number) => (currentPageNumber = pageNumber));
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
@@ -393,27 +389,28 @@ describe('ViewerComponent', function () {
       expect(pageService.currentTile).toEqual(7);
       done();
     }, osdAnimationTime);
-
   });
 
   it('should emit when q changes', () => {
-    comp.onQChange.subscribe((q: string) => expect(q).toEqual('dummyquery'));
+    comp.qChanged.subscribe((q: string) => expect(q).toEqual('dummyquery'));
 
     iiifContentSearchServiceStub._currentQ.next('dummyquery');
   });
 
   it('should emit when manifest changes', () => {
-    comp.onManifestChange.subscribe((m: Manifest) => expect(m.id).toEqual('dummyid'));
+    comp.manifestChanged.subscribe((m: Manifest) => expect(m.id).toEqual('dummyid'));
 
-    iiifManifestServiceStub._currentManifest.next(new Manifest({
-      id: 'dummyid'
-    }));
+    iiifManifestServiceStub._currentManifest.next(
+      new Manifest({
+        id: 'dummyid'
+      })
+    );
   });
 
-  it('should open viewer on canvas index if present', (done) => {
+  it('should open viewer on canvas index if present', done => {
     let currentPageNumber: number;
     testHostComponent.canvasIndex = 12;
-    comp.onPageChange.subscribe((pageNumber: number) => {
+    comp.pageChanged.subscribe((pageNumber: number) => {
       currentPageNumber = pageNumber;
     });
 
@@ -489,48 +486,4 @@ describe('ViewerComponent', function () {
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 50, lastDistance: 60 });
     viewerService.getViewer().raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
   }
-
 });
-
-
-@Component({
-  template: `<div id="test-dynamic-component"></div>`
-})
-export class TestDynamicComponent { }
-
-@Component({
-  selector: `test-component`,
-  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex" [config]="config"></mime-viewer>`
-})
-export class TestHostComponent {
-  @ViewChild(ViewerComponent)
-  public viewerComponent: any;
-  public manifestUri: string;
-  public canvasIndex = 0;
-  public config = new MimeViewerConfig({
-    attributionDialogHideTimeout: -1
-  });
-
-  constructor(private r: ComponentFactoryResolver) { }
-
-  addComponentToStartOfHeader() {
-    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
-    this.viewerComponent.mimeHeaderBeforeRef.createComponent(factory);
-  }
-
-  addComponentToEndOfHeader() {
-    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
-    this.viewerComponent.mimeHeaderAfterRef.createComponent(factory);
-  }
-
-  addComponentToStartOfFooter() {
-    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
-    this.viewerComponent.mimeFooterBeforeRef.createComponent(factory);
-  }
-
-  addComponentToEndOfFooter() {
-    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
-    this.viewerComponent.mimeFooterAfterRef.createComponent(factory);
-  }
-
-}

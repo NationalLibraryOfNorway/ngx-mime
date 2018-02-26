@@ -9,32 +9,27 @@ import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { MetadataComponent } from './metadata.component';
 import { Manifest, Metadata } from './../../core/models/manifest';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
+import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 
 describe('MetadataComponent', () => {
   let component: MetadataComponent;
   let fixture: ComponentFixture<MetadataComponent>;
-  let iiifManifestServiceStub: IiifManifestServiceStub;
+  let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        SharedModule,
-        HttpClientModule
-      ],
-      declarations: [
-        MetadataComponent
-      ],
-      providers: [
-        MimeViewerIntl,
-        {provide: IiifManifestService, useClass: IiifManifestServiceStub}
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [SharedModule, HttpClientModule],
+        declarations: [MetadataComponent],
+        providers: [MimeViewerIntl, { provide: IiifManifestService, useClass: IiifManifestServiceStub }]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MetadataComponent);
     component = fixture.componentInstance;
+    iiifManifestService = TestBed.get(IiifManifestService);
     fixture.detectChanges();
   });
 
@@ -43,6 +38,11 @@ describe('MetadataComponent', () => {
   });
 
   it('should display metadata', () => {
+    iiifManifestService._currentManifest.next(
+      new Manifest({
+        metadata: [new Metadata('label1', 'value1'), new Metadata('label2', 'value2')]
+      })
+    );
     fixture.detectChanges();
 
     const metadatas: DebugElement[] = fixture.debugElement.queryAll(By.css('.metadata'));
@@ -50,6 +50,11 @@ describe('MetadataComponent', () => {
   });
 
   it('should display attribution', () => {
+    iiifManifestService._currentManifest.next(
+      new Manifest({
+        attribution: 'This is a test attribution'
+      })
+    );
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(By.css('.attribution'));
@@ -57,6 +62,11 @@ describe('MetadataComponent', () => {
   });
 
   it('should display license', () => {
+    iiifManifestService._currentManifest.next(
+      new Manifest({
+        license: 'https://wiki.creativecommons.org/wiki/CC0'
+      })
+    );
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(By.css('.license'));
@@ -64,28 +74,14 @@ describe('MetadataComponent', () => {
   });
 
   it('should display logo', () => {
+    iiifManifestService._currentManifest.next(
+      new Manifest({
+        logo: 'http://example.com/dummylogo.jpg'
+      })
+    );
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(By.css('.logo'));
     expect(attribution.nativeElement.getAttribute('src')).toBe('http://example.com/dummylogo.jpg');
   });
-
 });
-
-class IiifManifestServiceStub {
-
-  get currentManifest(): Observable<Manifest> {
-    return Observable.of(new Manifest({
-      metadata: [
-        new Metadata('label1', 'value1'),
-        new Metadata('label2', 'value2')
-      ],
-      attribution: 'This is a test attribution',
-      license: 'https://wiki.creativecommons.org/wiki/CC0',
-      logo: 'http://example.com/dummylogo.jpg'
-    }));
-  }
-
-  load(manifestUri: string): void {
-  }
-}

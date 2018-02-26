@@ -8,6 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 import { takeUntil } from 'rxjs/operators/takeUntil';
 import { interval } from 'rxjs/observable/interval';
+import * as d3 from 'd3';
 
 import { Utils } from '../../core/utils';
 import { ViewerOptions } from '../models/viewer-options';
@@ -36,16 +37,13 @@ import { PinchStatus } from '../models/pinchStatus';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
-import { Hit } from './../models/search-result';
-
+import { Hit } from './../models/hit';
 import '../ext/svg-overlay';
-import * as d3 from 'd3';
 
 declare const OpenSeadragon: any;
 
 @Injectable()
 export class ViewerService {
-
   private viewer: any;
   private svgOverlay: any;
   private svgNode: any;
@@ -79,8 +77,7 @@ export class ViewerService {
     private modeService: ModeService,
     private viewerLayoutService: ViewerLayoutService,
     private iiifContentSearchService: IiifContentSearchService
-  ) { }
-
+  ) {}
 
   //#region getters / setters
 
@@ -89,18 +86,15 @@ export class ViewerService {
   }
 
   get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable()
-      .pipe(distinctUntilChanged());
+    return this.currentPageIndex.asObservable().pipe(distinctUntilChanged());
   }
 
   get onHitChange(): Observable<Hit> {
-    return this.currentHit.asObservable()
-      .pipe(distinctUntilChanged());
+    return this.currentHit.asObservable().pipe(distinctUntilChanged());
   }
 
   get onOsdReadyChange(): Observable<boolean> {
-    return this.osdIsReady.asObservable()
-      .pipe(distinctUntilChanged());
+    return this.osdIsReady.asObservable().pipe(distinctUntilChanged());
   }
 
   public getViewer(): any {
@@ -201,19 +195,21 @@ export class ViewerService {
     this.goToPage(pageIndex, immediately);
   }
 
-
   public highlight(searchResult: SearchResult): void {
     this.clearHightlight();
     if (this.viewer) {
-      if (searchResult.q) { this.currentSearch = searchResult; }
+      if (searchResult.q) {
+        this.currentSearch = searchResult;
+      }
       for (const hit of searchResult.hits) {
-        for (let rect of hit.rects) {
+        for (const rect of hit.rects) {
           const tileRect = this.pageService.getTileRect(hit.index);
           const x = tileRect.x + rect.x;
           const y = tileRect.y + rect.y;
           const width = rect.width;
           const height = rect.height;
-          let currentOverlay: SVGRectElement = this.svgNode.append('rect')
+          const currentOverlay: SVGRectElement = this.svgNode
+            .append('rect')
             .attr('mimeHitIndex', hit.id)
             .attr('x', x)
             .attr('y', y)
@@ -221,15 +217,13 @@ export class ViewerService {
             .attr('height', height)
             .attr('class', 'hit');
         }
-      };
+      }
     }
   }
 
   private highlightCurrentHit(hit: Hit) {
-    this.svgNode.selectAll(`g > rect.selected`)
-      .attr('class', 'hit');
-    this.svgNode.selectAll(`g > rect[mimeHitIndex='${hit.id}']`)
-      .attr('class', 'hit selected');
+    this.svgNode.selectAll(`g > rect.selected`).attr('class', 'hit');
+    this.svgNode.selectAll(`g > rect[mimeHitIndex='${hit.id}']`).attr('class', 'hit selected');
   }
 
   public clearHightlight(): void {
@@ -238,7 +232,6 @@ export class ViewerService {
       this.currentSearch = null;
     }
   }
-
 
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
     this.config = config;
@@ -268,35 +261,21 @@ export class ViewerService {
     }
   }
 
-
   addSubscriptions(): void {
-    this.modeService.onChange
-    .pipe(
-      takeUntil(this.destroyed)
-    )
-    .subscribe((mode: ModeChanges) => {
+    this.modeService.onChange.pipe(takeUntil(this.destroyed)).subscribe((mode: ModeChanges) => {
       this.modeChanged(mode);
     });
 
     this.zone.runOutsideAngular(() => {
-      this.onCenterChange
-      .pipe(
-        takeUntil(this.destroyed),
-        sample(interval(500))
-      )
-      .subscribe((center: Point) => {
+      this.onCenterChange.pipe(takeUntil(this.destroyed), sample(interval(500))).subscribe((center: Point) => {
         this.calculateCurrentPage(center);
         if (center && center !== null) {
           this.osdIsReady.next(true);
         }
-      })
+      });
     });
 
-    this.pageService.onPageChange
-    .pipe(
-      takeUntil(this.destroyed)
-    )
-    .subscribe((pageIndex: number) => {
+    this.pageService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((pageIndex: number) => {
       if (pageIndex !== -1) {
         this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
         if (this.modeService.mode === ViewerMode.PAGE) {
@@ -305,22 +284,14 @@ export class ViewerService {
       }
     });
 
-  this.onOsdReadyChange
-    .pipe(
-      takeUntil(this.destroyed)
-    )
-    .subscribe((state: boolean) => {
+    this.onOsdReadyChange.pipe(takeUntil(this.destroyed)).subscribe((state: boolean) => {
       if (state) {
         this.initialPageLoaded();
         this.currentCenter.next(this.viewer.viewport.getCenter(true));
       }
     });
 
-  this.viewerLayoutService.onChange
-    .pipe(
-      takeUntil(this.destroyed)
-    )
-    .subscribe((state: ViewerLayout) => {
+    this.viewerLayoutService.onChange.pipe(takeUntil(this.destroyed)).subscribe((state: ViewerLayout) => {
       if (this.osdIsReady.getValue()) {
         const savedTile = this.pageService.currentTile;
         this.destroy(true);
@@ -333,17 +304,12 @@ export class ViewerService {
       }
     });
 
-  this.iiifContentSearchService.onSelected
-    .pipe(
-      takeUntil(this.destroyed)
-    )
-    .subscribe((hit: Hit) => {
+    this.iiifContentSearchService.onSelected.pipe(takeUntil(this.destroyed)).subscribe((hit: Hit) => {
       if (hit) {
         this.highlightCurrentHit(hit);
         this.goToTile(hit.index, false);
       }
     });
-
   }
 
   addToWindow() {
@@ -395,7 +361,7 @@ export class ViewerService {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
     });
     this.viewer.addHandler('canvas-click', this.clickService.click);
-    this.viewer.addHandler('canvas-double-click', (e: any) => e.preventDefaultAction = true);
+    this.viewer.addHandler('canvas-double-click', (e: any) => (e.preventDefaultAction = true));
     this.viewer.addHandler('canvas-press', (e: any) => {
       this.pinchStatus.active = false;
       this.dragStartPosition = e.position;
@@ -413,7 +379,6 @@ export class ViewerService {
     });
   }
 
-
   zoomIn(zoomFactor?: number, position?: Point): void {
     if (typeof zoomFactor === 'undefined') {
       zoomFactor = ViewerOptions.zoom.zoomFactor;
@@ -422,7 +387,6 @@ export class ViewerService {
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
       position = ZoomUtils.constrainPositionToPage(position, this.pageService.getCurrentPageRect());
-
     }
 
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
@@ -510,7 +474,7 @@ export class ViewerService {
     } else if (event.scroll < 0) {
       this.zoomOutGesture(event.position, zoomFactor);
     }
-  }
+  };
 
   /**
    * Pinch-handler
@@ -525,7 +489,7 @@ export class ViewerService {
     } else if (event.distance + ViewerOptions.zoom.pinchZoomThreshold < event.lastDistance) {
       this.zoomOutPinchGesture(event, zoomFactor);
     }
-  }
+  };
 
   /**
    *
@@ -593,7 +557,6 @@ export class ViewerService {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
-
     const target = event.originalEvent.target;
     const tileIndex = this.getOverlayIndexFromClickEvent(target);
     const requestedPage = this.pageService.findPageByTileIndex(tileIndex);
@@ -601,7 +564,7 @@ export class ViewerService {
       this.pageService.currentPage = requestedPage;
     }
     this.modeService.toggleMode();
-  }
+  };
 
   /**
    * Double-click-handler
@@ -624,7 +587,7 @@ export class ViewerService {
         this.pageService.currentPage = requestedPage;
       }
     }
-  }
+  };
 
   isViewportLargerThanPage(): boolean {
     const pageBounds = this.pageService.getCurrentPageRect();
@@ -633,7 +596,7 @@ export class ViewerService {
     const pbHeight = Math.round(pageBounds.height);
     const vpWidth = Math.round(viewportBounds.width);
     const vpHeight = Math.round(viewportBounds.height);
-    return (vpHeight >= pbHeight || vpWidth >= pbWidth);
+    return vpHeight >= pbHeight || vpWidth >= pbWidth;
   }
 
   /**
@@ -651,16 +614,12 @@ export class ViewerService {
   createOverlays(): void {
     this.overlays = [];
     const tileRects: Rect[] = [];
-    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(
-      this.viewerLayoutService.layout,
-      this.isManifestPaged
-    );
+    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.viewerLayoutService.layout, this.isManifestPaged);
 
     const isTwoPageView: boolean = this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE;
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
-
       const position = calculatePagePositionStrategy.calculatePagePosition({
         pageIndex: i,
         pageSource: tile,
@@ -683,7 +642,8 @@ export class ViewerService {
         group = this.svgNode.append('g').attr('class', 'page-group');
       }
 
-      const currentOverlay = group.append('rect')
+      const currentOverlay = group
+        .append('rect')
         .attr('x', position.x)
         .attr('y', position.y)
         .attr('width', position.width)
@@ -693,10 +653,10 @@ export class ViewerService {
       // Make custom borders if current layout is two-paged
       if (isTwoPageView) {
         if (i % 2 === 0 && i !== 0) {
-          const noLeftStrokeStyle = Number((position.width * 2) + position.height) + ', ' + position.width * 2;
+          const noLeftStrokeStyle = Number(position.width * 2 + position.height) + ', ' + position.width * 2;
           currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
         } else if (i % 2 !== 0 && i !== 0) {
-          const noRightStrokeStyle = position.width + ', ' + position.height + ', ' + Number((position.width * 2) + position.height);
+          const noRightStrokeStyle = position.width + ', ' + position.height + ', ' + Number(position.width * 2 + position.height);
           currentOverlay.style('stroke-dasharray', noRightStrokeStyle);
         }
       }
@@ -714,7 +674,11 @@ export class ViewerService {
   private initialPageLoaded(): void {
     this.home();
     this.pageMask.initialise(this.pageService.getCurrentPageRect(), this.modeService.mode !== ViewerMode.DASHBOARD);
-    d3.select(this.viewer.container.parentNode).transition().duration(ViewerOptions.transitions.OSDAnimationTime).style('opacity', '1');
+    d3
+      .select(this.viewer.container.parentNode)
+      .transition()
+      .duration(ViewerOptions.transitions.OSDAnimationTime)
+      .style('opacity', '1');
   }
 
   /**
@@ -765,7 +729,7 @@ export class ViewerService {
 
   private calculateCurrentPage(center: Point) {
     if (center) {
-      let currentPageIndex = this.pageService.findClosestIndex(center);
+      const currentPageIndex = this.pageService.findClosestIndex(center);
       this.currentPageIndex.next(currentPageIndex);
     }
   }
@@ -789,7 +753,7 @@ export class ViewerService {
         this.viewer.panHorizontal = false;
       }
     }
-  }
+  };
 
   private swipeToPage(e: any) {
     // Don't swipe on pinch actions
@@ -828,20 +792,21 @@ export class ViewerService {
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||
       this.modeService.mode === ViewerMode.PAGE ||
-      pageEndHitCountReached && direction
+      (pageEndHitCountReached && direction)
     ) {
       this.goToPage(newPageIndex, false);
     }
-
   }
 
   private panTo(x: number, y: number, immediately: boolean): void {
-    this.viewer.viewport.panTo({
-      x: x,
-      y: y
-    }, immediately);
+    this.viewer.viewport.panTo(
+      {
+        x: x,
+        y: y
+      },
+      immediately
+    );
   }
-
 
   private setMinZoom(mode: ViewerMode): void {
     this.viewer.viewport.minZoomLevel = this.getHomeZoomLevel(mode);
@@ -868,16 +833,19 @@ export class ViewerService {
       return;
     }
 
-    const maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode).node().getBoundingClientRect());
+    const maxViewportDimensions = new Dimensions(
+      d3
+        .select(this.viewer.container.parentNode.parentNode)
+        .node()
+        .getBoundingClientRect()
+    );
     const viewportHeight = maxViewportDimensions.height - ViewerOptions.padding.header - ViewerOptions.padding.footer;
     const viewportWidth = maxViewportDimensions.width;
 
-    const viewportSizeInViewportCoordinates =
-      this.viewer.viewport.deltaPointsFromPixels(
-        new OpenSeadragon.Point(viewportWidth, viewportHeight)
-      );
+    const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(
+      new OpenSeadragon.Point(viewportWidth, viewportHeight)
+    );
 
     return new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
   }
-
 }

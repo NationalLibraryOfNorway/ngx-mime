@@ -10,9 +10,8 @@ import { Rect } from './../models/rect';
 
 @Injectable()
 export class PageService {
-
-  private _numberOfPages: number;
-  private _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(0);
+  protected _numberOfPages: number;
+  protected _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(0);
   protected _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
 
   private tileRects: Rect[];
@@ -50,13 +49,11 @@ export class PageService {
   }
 
   get onPageChange(): Observable<number> {
-    return this._currentPage.asObservable()
-      .pipe(distinctUntilChanged());
+    return this._currentPage.asObservable().pipe(distinctUntilChanged());
   }
 
   get onNumberOfPagesChange(): Observable<number> {
-    return this._currentNumberOfPages.asObservable()
-      .pipe(distinctUntilChanged());
+    return this._currentNumberOfPages.asObservable().pipe(distinctUntilChanged());
   }
 
   get numberOfPages(): number {
@@ -76,7 +73,7 @@ export class PageService {
   }
 
   isWithinBounds(page: number): boolean {
-    return (page > -1) && (page <= this.numberOfPages - 1);
+    return page > -1 && page <= this.numberOfPages - 1;
   }
 
   isCurrentPageValid(): boolean {
@@ -116,7 +113,7 @@ export class PageService {
   }
 
   findPageByTileIndex(tileIndex: number): number {
-    return this.tileIndicesPerPage.findIndex( function(tileIndicesForPage: number[]) {
+    return this.tileIndicesPerPage.findIndex(function(tileIndicesForPage: number[]) {
       return tileIndicesForPage.indexOf(tileIndex) >= 0;
     });
   }
@@ -183,15 +180,12 @@ export class PageService {
   }
 
   private initialiseWithTwoTilesPerPage() {
-
     // Single first page
     this.pageRects.add(this.tileRects[0]);
     this.tileIndicesPerPage.push([0]);
 
     for (let i = 1; i < this.tileRects.length; i = i + 2) {
-
-      if ( i + 1 < this.tileRects.length ) {
-
+      if (i + 1 < this.tileRects.length) {
         // Paired pages
         const thisRect = this.tileRects[i];
         const nextRect = this.tileRects[i + 1];
@@ -203,14 +197,11 @@ export class PageService {
         });
         this.pageRects.add(groupedRect);
         this.tileIndicesPerPage.push([i, i + 1]);
-
       } else {
-
         // Single last page, if applicable
         this.pageRects.add(this.tileRects[i]);
         this.tileIndicesPerPage.push([i]);
       }
     }
   }
-
 }

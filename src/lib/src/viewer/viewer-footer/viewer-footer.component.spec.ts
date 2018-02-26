@@ -1,10 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  inject
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +7,8 @@ import { Subject } from 'rxjs/Subject';
 
 import { ViewerFooterComponent } from './viewer-footer.component';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
-import { SearchResult, Hit } from './../../core/models/search-result';
+import { SearchResult } from './../../core/models/search-result';
+import { Hit } from './../../core/models/hit';
 import { MediaServiceStub } from './../../test/media-service-stub';
 import { IiifContentSearchServiceStub } from './../../test/iiif-content-search-service-stub';
 
@@ -21,7 +17,6 @@ describe('ViewerFooterComponent', () => {
   let mediaServiceStub: MediaServiceStub;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let fixture: ComponentFixture<ViewerFooterComponent>;
-  let spy: any;
 
   beforeEach(
     async(() => {
@@ -49,35 +44,42 @@ describe('ViewerFooterComponent', () => {
     expect(cmp).toBeTruthy();
   });
 
-  it('should start in hidden mode', async(() => {
-    expect(cmp.state).toBe('hide');
-    expectFooterToBeHidden(fixture.debugElement.nativeElement);
-  }));
-
-  it('should not be visible when state is changed to \'hide\'', async(() => {
-    cmp.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
+  it(
+    'should start in hidden mode',
+    async(() => {
+      expect(cmp.state).toBe('hide');
       expectFooterToBeHidden(fixture.debugElement.nativeElement);
-    });
-  }));
+    })
+  );
 
-  it('should be visible when state is changed to \'show\'', async(() => {
-    cmp.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expectFooterToBeHidden(fixture.debugElement.nativeElement);
-
-      cmp.state = 'show';
+  it(
+    "should not be visible when state is changed to 'hide'",
+    async(() => {
+      cmp.state = 'hide';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expectFooterToShow(fixture.debugElement.nativeElement);
+        expectFooterToBeHidden(fixture.debugElement.nativeElement);
       });
+    })
+  );
 
-    });
+  it(
+    "should be visible when state is changed to 'show'",
+    async(() => {
+      cmp.state = 'hide';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expectFooterToBeHidden(fixture.debugElement.nativeElement);
 
-  }));
+        cmp.state = 'show';
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expectFooterToShow(fixture.debugElement.nativeElement);
+        });
+      });
+    })
+  );
 
   it('should always show pageNavigator in desktop size', () => {
     spyOn(mediaServiceStub, 'isActive').and.returnValue(false);
@@ -123,7 +125,6 @@ describe('ViewerFooterComponent', () => {
       expect(cmp.showPageNavigator).toBeFalsy();
     });
   });
-
 });
 
 function expectFooterToShow(element: any) {

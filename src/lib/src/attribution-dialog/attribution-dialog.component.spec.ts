@@ -14,61 +14,55 @@ import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { Manifest } from '../core/models/manifest';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
+import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 
 describe('AttributionDialogComponent', () => {
   let component: AttributionDialogComponent;
   let fixture: ComponentFixture<AttributionDialogComponent>;
+  let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        HttpClientTestingModule
-      ],
-      declarations: [AttributionDialogComponent],
-      providers: [
-        MimeViewerIntl,
-        AttributionDialogResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: MatDialogRef, useClass: MatDialogRefMock },
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+        declarations: [AttributionDialogComponent],
+        providers: [
+          MimeViewerIntl,
+          AttributionDialogResizeService,
+          MimeDomHelper,
+          FullscreenService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          { provide: MatDialogRef, useClass: MatDialogRefStub }
+        ]
+      });
+      TestBed.compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
-  beforeEach(async(() => {
-    fixture = TestBed.createComponent(AttributionDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+  beforeEach(
+    async(() => {
+      fixture = TestBed.createComponent(AttributionDialogComponent);
+      component = fixture.componentInstance;
+      iiifManifestService = TestBed.get(IiifManifestService);
+      fixture.detectChanges();
+    })
+  );
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
   it('should display attribution', () => {
+    iiifManifestService._currentManifest.next(
+      new Manifest({
+        attribution: 'This is a test attribution'
+      })
+    );
+
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(By.css('.contents'));
     expect(attribution.nativeElement.innerText).toBe('This is a test attribution');
   });
-
 });
-
-class IiifManifestServiceStub {
-
-  get currentManifest(): Observable<Manifest> {
-    return Observable.of(new Manifest({
-      attribution: 'This is a test attribution'
-    }));
-  }
-
-  load(manifestUri: string): void {
-  }
-}
-
-class MatDialogRefMock {
-}

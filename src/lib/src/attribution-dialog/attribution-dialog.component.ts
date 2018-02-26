@@ -1,4 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  OnDestroy,
+  ElementRef,
+  HostListener,
+  AfterViewChecked
+} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators/takeUntil';
 
@@ -8,12 +17,11 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
 import { Manifest } from '../core/models/manifest';
 
 @Component({
-  selector: 'mime-attribution-dialog',
   templateUrl: './attribution-dialog.component.html',
   styleUrls: ['./attribution-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AttributionDialogComponent implements OnInit, OnDestroy {
+export class AttributionDialogComponent implements OnInit, OnDestroy, AfterViewChecked {
   public manifest: Manifest;
   private destroyed: Subject<void> = new Subject();
 
@@ -22,19 +30,16 @@ export class AttributionDialogComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    private attributionDialogResizeService: AttributionDialogResizeService) {
+    private attributionDialogResizeService: AttributionDialogResizeService
+  ) {
     attributionDialogResizeService.el = el;
   }
 
   ngOnInit() {
-    this.iiifManifestService.currentManifest
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.changeDetectorRef.markForCheck();
-      });
+    this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
+      this.manifest = manifest;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   ngOnDestroy() {

@@ -8,7 +8,8 @@ import { finalize } from 'rxjs/operators/finalize';
 
 import { IiifSearchResult } from './../models/iiif-search-result';
 import { SearchResultBuilder } from './../builders/search-result.builder';
-import { SearchResult, Hit } from './../models/search-result';
+import { SearchResult } from './../models/search-result';
+import { Hit } from './../models/hit';
 import { Manifest } from './../models/manifest';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class IiifContentSearchService {
   protected _currentQ: Subject<string> = new Subject<string>();
   protected _selected: Subject<Hit> = new BehaviorSubject<Hit>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   destroy() {
     this._currentSearchResult.next(new SearchResult({}));
@@ -26,8 +27,7 @@ export class IiifContentSearchService {
   }
 
   get onQChange(): Observable<string> {
-    return this._currentQ.asObservable()
-      .pipe(distinctUntilChanged());
+    return this._currentQ.asObservable().pipe(distinctUntilChanged());
   }
 
   get onChange(): Observable<SearchResult> {
@@ -53,15 +53,13 @@ export class IiifContentSearchService {
       return;
     }
     this._searching.next(true);
-    this.http.get(`${manifest.service.id}?q=${q}`)
-      .pipe(
-        finalize(() => this._searching.next(false))
-      )
+    this.http
+      .get(`${manifest.service.id}?q=${q}`)
+      .pipe(finalize(() => this._searching.next(false)))
       .subscribe(
-      (res: IiifSearchResult) => this._currentSearchResult.next(this.extractData(q, manifest, res)),
-      (err: HttpErrorResponse) => this.handleError
+        (res: IiifSearchResult) => this._currentSearchResult.next(this.extractData(q, manifest, res)),
+        (err: HttpErrorResponse) => this.handleError
       );
-
   }
 
   public selected(hit: Hit) {
@@ -81,5 +79,4 @@ export class IiifContentSearchService {
     }
     return Observable.throw(errMsg);
   }
-
 }

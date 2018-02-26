@@ -8,7 +8,8 @@ import { PageService } from './../page-service/page-service';
 import { ModeService } from './../mode-service/mode.service';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
-import { Hit, SearchResult } from '../models/search-result';
+import { SearchResult } from '../models/search-result';
+import { Hit } from '../models/hit';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 
 describe('ViewerService', () => {
@@ -30,22 +31,29 @@ describe('ViewerService', () => {
     });
   });
 
-  it('should be created', inject([ViewerService], (viewerService: ViewerService) => {
-    expect(viewerService).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([ViewerService], (viewerService: ViewerService) => {
+      expect(viewerService).toBeTruthy();
+    })
+  );
 
-  it('should keep state of currentSearch on destroy when layoutSwitch = true',
+  it(
+    'should keep state of currentSearch on destroy when layoutSwitch = true',
     inject([ViewerService], (viewerService: ViewerService) => {
       viewerService.currentSearch = new SearchResult({ q: 'Donald Duck', hits: new Array<Hit>() });
       viewerService.destroy(true);
       expect(viewerService.currentSearch).not.toBeNull();
       expect(viewerService.currentSearch.q).toEqual('Donald Duck');
-    }));
+    })
+  );
 
-  it('should set currentSearch to null on destroy',
+  it(
+    'should set currentSearch to null on destroy',
     inject([ViewerService], (viewerService: ViewerService) => {
       viewerService.currentSearch = new SearchResult({ q: 'Donald Duck', hits: new Array<Hit>() });
       viewerService.destroy();
       expect(viewerService.currentSearch).toBeNull();
-    }));
+    })
+  );
 });

@@ -16,8 +16,7 @@ export class ZoomUtils {
   }
 
   static constraintZoomFactor(zoomFactor: number, currentZoom: number, maxZoom: number): number {
-    let target = currentZoom * zoomFactor;
-    return target > maxZoom ? (maxZoom / target) * zoomFactor : zoomFactor;
+    const target = currentZoom * zoomFactor;
+    return target > maxZoom ? maxZoom / target * zoomFactor : zoomFactor;
   }
-
 }

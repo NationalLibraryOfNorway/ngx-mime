@@ -1,6 +1,6 @@
-import { BehaviorSubject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { testManifest } from './testManifest';
 import { ManifestBuilder } from './../core/builders/manifest.builder';
@@ -39,9 +39,7 @@ export class IiifManifestServiceStub {
     this._errorMessage.next(null);
   }
 
-  destroy(): void { }
+  destroy(): void {}
 
-  public search(manifest: Manifest, q: string): void {
-  }
-
+  public search(manifest: Manifest, q: string): void {}
 }

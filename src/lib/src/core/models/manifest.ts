@@ -1,3 +1,5 @@
+import { ViewingDirection } from './viewing-direction';
+
 export class Manifest {
   public context?: string;
   public type?: string;
@@ -13,23 +15,21 @@ export class Manifest {
   public structures?: Structure[] = [];
   public tileSource?: Service[];
 
-  constructor(
-    fields?: {
-      context?: string,
-      type?: string,
-      id?: string,
-      viewingDirection?: ViewingDirection,
-      label?: string,
-      metadata?: Metadata[],
-      license?: string,
-      logo?: string,
-      attribution?: string,
-      service?: Service,
-      sequences?: Sequence[],
-      structures?: Structure[],
-      tileSource?: Service[]
-    }
-  ) {
+  constructor(fields?: {
+    context?: string;
+    type?: string;
+    id?: string;
+    viewingDirection?: ViewingDirection;
+    label?: string;
+    metadata?: Metadata[];
+    license?: string;
+    logo?: string;
+    attribution?: string;
+    service?: Service;
+    sequences?: Sequence[];
+    structures?: Structure[];
+    tileSource?: Service[];
+  }) {
     if (fields) {
       this.context = fields.context || this.context;
       this.type = fields.type || this.type;
@@ -49,10 +49,7 @@ export class Manifest {
 }
 
 export class Metadata {
-  constructor(
-    public label: string,
-    public value: string|number
-  ) { }
+  constructor(public label: string, public value: string | number) {}
 }
 
 export class Sequence {
@@ -62,15 +59,7 @@ export class Sequence {
   public viewingHint?: string;
   public canvases?: Canvas[];
 
-  constructor(
-    fields?: {
-      id?: string,
-      type?: string,
-      label?: string,
-      viewingHint?: string,
-      canvases?: Canvas[]
-    }
-  ) {
+  constructor(fields?: { id?: string; type?: string; label?: string; viewingHint?: string; canvases?: Canvas[] }) {
     if (fields) {
       this.id = fields.id || this.id;
       this.type = fields.type || this.type;
@@ -90,17 +79,15 @@ export class Canvas {
   public width?: number;
   public images?: Images[];
 
-  constructor(
-    fields?: {
-      id?: string,
-      type?: string,
-      label?: string,
-      thumbnail?: string,
-      height?: number,
-      width?: number,
-      images?: Images[]
-    }
-  ) {
+  constructor(fields?: {
+    id?: string;
+    type?: string;
+    label?: string;
+    thumbnail?: string;
+    height?: number;
+    width?: number;
+    images?: Images[];
+  }) {
     if (fields) {
       this.id = fields.id || this.id;
       this.type = fields.type || this.type;
@@ -120,15 +107,7 @@ export class Images {
   public resource: Resource;
   public on: string;
 
-  constructor(
-    fields?: {
-      id?: string,
-      type?: string,
-      motivation?: string,
-      resource?: Resource,
-      on?: string
-    }
-  ) {
+  constructor(fields?: { id?: string; type?: string; motivation?: string; resource?: Resource; on?: string }) {
     if (fields) {
       this.id = fields.id || this.id;
       this.type = fields.type || this.type;
@@ -147,16 +126,7 @@ export class Resource {
   public height: number;
   public width: number;
 
-  constructor(
-    fields?: {
-      id?: string,
-      type?: string,
-      format?: string,
-      service?: Service,
-      height?: number,
-      width?: number
-    }
-  ) {
+  constructor(fields?: { id?: string; type?: string; format?: string; service?: Service; height?: number; width?: number }) {
     if (fields) {
       this.id = fields.id || this.id;
       this.type = fields.type || this.type;
@@ -181,21 +151,19 @@ export class Service {
   public physicalUnits?: string;
   public service?: Service;
 
-  constructor(
-    fields?: {
-      context?: string,
-      id?: string,
-      protocol?: string,
-      width?: number,
-      height?: number,
-      sizes?: Size[],
-      tiles?: Tile[],
-      profile?: string,
-      physicalScale?: number,
-      physicalUnits?: string,
-      service?: Service
-    }
-  ) {
+  constructor(fields?: {
+    context?: string;
+    id?: string;
+    protocol?: string;
+    width?: number;
+    height?: number;
+    sizes?: Size[];
+    tiles?: Tile[];
+    profile?: string;
+    physicalScale?: number;
+    physicalUnits?: string;
+    service?: Service;
+  }) {
     if (fields) {
       this.context = fields.context || this.context;
       this.id = fields.id || this.id;
@@ -213,17 +181,14 @@ export class Service {
 }
 
 export class Size {
-  constructor(
-    public width: number,
-    public height: number
-  ) { }
+  constructor(public width: number, public height: number) {}
 }
 
 export class Tile {
   public width: number;
   public scaleFactors: number[];
 
-  constructor(fields?: {width?: number, scaleFactors?: number[]}) {
+  constructor(fields?: { width?: number; scaleFactors?: number[] }) {
     if (fields) {
       this.width = fields.width || this.width;
       this.scaleFactors = fields.scaleFactors || this.scaleFactors;
@@ -238,15 +203,7 @@ export class Structure {
   public canvases: string[];
   public canvasIndex: number;
 
-  constructor(
-    fields?: {
-      id?: string,
-      type?: string,
-      label?: string,
-      canvases?: string[],
-      canvasIndex?: number
-    }
-  ) {
+  constructor(fields?: { id?: string; type?: string; label?: string; canvases?: string[]; canvasIndex?: number }) {
     if (fields) {
       this.id = fields.id || this.id;
       this.type = fields.type || this.type;
@@ -257,11 +214,4 @@ export class Structure {
   }
 }
 
-export class TileSource {
-
-}
-
-export enum ViewingDirection {
-  LTR,
-  RTL
-}
+export class TileSource {}

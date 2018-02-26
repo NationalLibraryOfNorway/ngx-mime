@@ -1,6 +1,6 @@
 import { PageService } from './page-service';
-import {Rect} from '../models/rect';
-import {ViewerLayout} from '../models/viewer-layout';
+import { Rect } from '../models/rect';
+import { ViewerLayout } from '../models/viewer-layout';
 
 describe('PageService', () => {
   let service: PageService;
@@ -8,7 +8,7 @@ describe('PageService', () => {
   beforeEach(() => {
     service = new PageService();
 
-    let pages: Rect[] = [];
+    const pages: Rect[] = [];
     for (let i = 0; i < 100; i++) {
       pages.push(new Rect());
     }
@@ -26,7 +26,6 @@ describe('PageService', () => {
     expect(service.isWithinBounds(100)).toBe(false);
     expect(service.isWithinBounds(101)).toBe(false);
     expect(service.isWithinBounds(1000)).toBe(false);
-
   });
 
   it('should set currentPage', () => {
@@ -53,7 +52,7 @@ describe('PageService', () => {
   });
 
   it('#getNextPage should get next page', () => {
-    let currentPage = service.currentPage = 0;
+    let currentPage = (service.currentPage = 0);
     expect(service.getNextPage()).toBe(currentPage + 1);
 
     currentPage = service.currentPage = 98;
@@ -61,7 +60,7 @@ describe('PageService', () => {
   });
 
   it('#getPrevPage should get previous page', () => {
-    let currentPage = service.currentPage = 2;
+    let currentPage = (service.currentPage = 2);
     expect(service.getPrevPage()).toBe(currentPage - 1);
 
     currentPage = service.currentPage = 1;
@@ -79,13 +78,11 @@ describe('PageService', () => {
   });
 
   it('should return maxPage when next page is larger than maxPage', () => {
-
     let newPage = service.constrainToRange(101);
     expect(newPage).toBe(99);
 
     newPage = service.constrainToRange(110);
     expect(newPage).toBe(99);
-
   });
 
   it('should not return index lower than 0', () => {
@@ -100,8 +97,7 @@ describe('PageService', () => {
   });
 
   it('should return 1 if tileIndicesPerPage is empty', () => {
-    let page = service.getTilesStringFromPageIndex(0);
+    const page = service.getTilesStringFromPageIndex(0);
     expect(page).toBe('1');
   });
-
 });

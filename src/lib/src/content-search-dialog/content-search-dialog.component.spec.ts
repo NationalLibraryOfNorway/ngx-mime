@@ -17,11 +17,13 @@ import { MimeDomHelper } from './../core/mime-dom-helper';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { ViewerService } from './../core/viewer-service/viewer.service';
 import { MediaServiceStub } from './../test/media-service-stub';
-import { Hit, SearchResult } from './../core/models/search-result';
+import { SearchResult } from './../core/models/search-result';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { testManifest } from './../test/testManifest';
 import { ViewerServiceMock } from './../test/viewer-service-mock';
+import { MatDialogRefStub } from './../test/mat-dialog-ref-stub';
+import { Hit } from '../core/models/hit';
 
 describe('ContentSearchDialogComponent', () => {
   let component: ContentSearchDialogComponent;
@@ -29,45 +31,43 @@ describe('ContentSearchDialogComponent', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        HttpClientTestingModule
-      ],
-      declarations: [
-        ContentSearchDialogComponent
-      ],
-      providers: [
-        MimeViewerIntl,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: ObservableMedia, useClass: MediaServiceStub },
-        { provide: ViewerService, useClass: ViewerServiceMock },
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+        declarations: [ContentSearchDialogComponent],
+        providers: [
+          MimeViewerIntl,
+          MimeResizeService,
+          MimeDomHelper,
+          FullscreenService,
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: ObservableMedia, useClass: MediaServiceStub },
+          { provide: ViewerService, useClass: ViewerServiceMock },
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
+        ]
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
-  beforeEach(async(() => {
-    fixture = TestBed.createComponent(ContentSearchDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(
+    async(() => {
+      fixture = TestBed.createComponent(ContentSearchDialogComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
 
-    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
-    iiifManifestServiceStub = TestBed.get(IiifManifestService);
-  }));
+      iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
+      iiifManifestServiceStub = TestBed.get(IiifManifestService);
+    })
+  );
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display desktop toolbar',
+  it(
+    'should display desktop toolbar',
     inject([ObservableMedia], (media: ObservableMedia) => {
       spyOn(media, 'isActive').and.returnValue(false);
 
@@ -75,9 +75,11 @@ describe('ContentSearchDialogComponent', () => {
 
       const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
       expect(heading).not.toBeNull();
-    }));
+    })
+  );
 
-  it('should display mobile toolbar',
+  it(
+    'should display mobile toolbar',
     inject([ObservableMedia], (media: ObservableMedia) => {
       spyOn(media, 'isActive').and.returnValue(true);
 
@@ -85,97 +87,104 @@ describe('ContentSearchDialogComponent', () => {
 
       const heading: DebugElement = fixture.debugElement.query(By.css('.heading-desktop'));
       expect(heading).toBeNull();
-    }));
+    })
+  );
 
-  it('should go to hit and close dialog when selected on mobile',
-    inject([ObservableMedia, ViewerService, MatDialogRef],
+  it(
+    'should go to hit and close dialog when selected on mobile',
+    inject(
+      [ObservableMedia, ViewerService, MatDialogRef],
       (media: ObservableMedia, viewerService: ViewerService, dialogRef: MatDialogRef<ContentSearchDialogComponent>) => {
-      spyOn(media, 'isActive').and.returnValue(true);
-      spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
-      spyOn(dialogRef, 'close').and.callThrough();
-      component.currentSearch = 'dummysearch';
-      component.hits = [
-        new Hit({
-          index: 0,
-          match: 'querystring'
-        })
-      ];
-      component.numberOfHits = 1;
-      fixture.detectChanges();
+        spyOn(media, 'isActive').and.returnValue(true);
+        spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
+        spyOn(dialogRef, 'close').and.callThrough();
+        component.currentSearch = 'dummysearch';
+        component.hits = [
+          new Hit({
+            index: 0,
+            match: 'querystring'
+          })
+        ];
+        component.numberOfHits = 1;
+        fixture.detectChanges();
 
-      const hits = fixture.debugElement.queryAll(By.css('.hit'));
-      hits[0].triggerEventHandler('click', null);
+        const hits = fixture.debugElement.queryAll(By.css('.hit'));
+        hits[0].triggerEventHandler('click', null);
 
-      fixture.detectChanges();
-      expect(iiifContentSearchServiceStub.selected).toHaveBeenCalled();
-      expect(dialogRef.close).toHaveBeenCalled();
-    }));
+        fixture.detectChanges();
+        expect(iiifContentSearchServiceStub.selected).toHaveBeenCalled();
+        expect(dialogRef.close).toHaveBeenCalled();
+      }
+    )
+  );
 
-    it('should go to hit and when selected on desktop',
-    inject([ObservableMedia, ViewerService, MatDialogRef],
+  it(
+    'should go to hit and when selected on desktop',
+    inject(
+      [ObservableMedia, ViewerService, MatDialogRef],
       (media: ObservableMedia, viewerService: ViewerService, dialogRef: MatDialogRef<ContentSearchDialogComponent>) => {
-      spyOn(media, 'isActive').and.returnValue(false);
-      spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
-      spyOn(dialogRef, 'close').and.callThrough();
-      component.currentSearch = 'dummysearch';
-      component.hits = [
-        new Hit({
-          index: 0,
-          match: 'querystring'
-        })
-      ];
-      component.numberOfHits = 1;
-      fixture.detectChanges();
+        spyOn(media, 'isActive').and.returnValue(false);
+        spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
+        spyOn(dialogRef, 'close').and.callThrough();
+        component.currentSearch = 'dummysearch';
+        component.hits = [
+          new Hit({
+            index: 0,
+            match: 'querystring'
+          })
+        ];
+        component.numberOfHits = 1;
+        fixture.detectChanges();
 
-      const hits = fixture.debugElement.queryAll(By.css('.hit'));
-      hits[0].triggerEventHandler('click', null);
+        const hits = fixture.debugElement.queryAll(By.css('.hit'));
+        hits[0].triggerEventHandler('click', null);
 
-      fixture.detectChanges();
-      expect(iiifContentSearchServiceStub.selected).toHaveBeenCalled();
-      expect(dialogRef.close).not.toHaveBeenCalled();
-    }));
+        fixture.detectChanges();
+        expect(iiifContentSearchServiceStub.selected).toHaveBeenCalled();
+        expect(dialogRef.close).not.toHaveBeenCalled();
+      }
+    )
+  );
 
-    it('should remain in search input if content search return zero hits', () => {
-      const searchInput = fixture.debugElement.query(By.css('.content-search-input'));
-      const searchResultContainer = fixture.debugElement.query(By.css('.content-search-result-container'));
-      const spy = spyOn(searchResultContainer.nativeElement, 'focus');
-      iiifManifestServiceStub._currentManifest.next(testManifest);
+  it('should remain in search input if content search return zero hits', () => {
+    const searchInput = fixture.debugElement.query(By.css('.content-search-input'));
+    const searchResultContainer = fixture.debugElement.query(By.css('.content-search-result-container'));
+    const spy = spyOn(searchResultContainer.nativeElement, 'focus');
+    iiifManifestServiceStub._currentManifest.next(testManifest);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      searchInput.nativeElement.setAttribute('value', 'dummyvalue');
-      const event = new KeyboardEvent('keypress', {'key': 'Enter'});
-      searchInput.nativeElement.dispatchEvent(event);
+    searchInput.nativeElement.setAttribute('value', 'dummyvalue');
+    const event = new KeyboardEvent('keypress', { key: 'Enter' });
+    searchInput.nativeElement.dispatchEvent(event);
 
-      iiifContentSearchServiceStub._currentSearchResult.next(new SearchResult());
+    iiifContentSearchServiceStub._currentSearchResult.next(new SearchResult());
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      expect(spy).not.toHaveBeenCalled();
-    });
+    expect(spy).not.toHaveBeenCalled();
+  });
 
-    it('should set focus on search result if content search return hits', () => {
-      const searchInput = fixture.debugElement.query(By.css('.content-search-input'));
-      const searchResultContainer = fixture.debugElement.query(By.css('.content-search-result-container'));
-      const spy = spyOn(searchResultContainer.nativeElement, 'focus');
-      iiifManifestServiceStub._currentManifest.next(testManifest);
+  it('should set focus on search result if content search return hits', () => {
+    const searchInput = fixture.debugElement.query(By.css('.content-search-input'));
+    const searchResultContainer = fixture.debugElement.query(By.css('.content-search-result-container'));
+    const spy = spyOn(searchResultContainer.nativeElement, 'focus');
+    iiifManifestServiceStub._currentManifest.next(testManifest);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      searchInput.nativeElement.setAttribute('value', 'dummyvalue');
-      const event = new KeyboardEvent('keypress', {'key': 'Enter'});
-      searchInput.nativeElement.dispatchEvent(event);
+    searchInput.nativeElement.setAttribute('value', 'dummyvalue');
+    const event = new KeyboardEvent('keypress', { key: 'Enter' });
+    searchInput.nativeElement.dispatchEvent(event);
 
-      iiifContentSearchServiceStub._currentSearchResult.next(new SearchResult({
+    iiifContentSearchServiceStub._currentSearchResult.next(
+      new SearchResult({
         hits: [new Hit(), new Hit()]
-      }));
+      })
+    );
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      expect(spy).toHaveBeenCalled();
-    });
+    expect(spy).toHaveBeenCalled();
+  });
 });
-
-class MatDialogRefMock {
-  close(): void {}
-}
