@@ -42,7 +42,8 @@
     "integration:chrome": "cd integration && npm run preprotractor && npm run e2e:chrome",
     "preintegration:firefox": "npm run preintegration",
     "integration:firefox": "cd integration && npm run preprotractor && npm run e2e:firefox",
-    "lint": "tslint \"src/**/*.ts\" -t verbose",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "lint": "tslint --project tsconfig.json \"src/**/*.ts\"",
     "release": "sh scripts/release/release.sh"
   },
   "peerDependencies": {
@@ -91,6 +92,7 @@
     "lite-server": "2.2.2",
     "node-sass": "^4.5.2",
     "openseadragon": "2.3.1",
+    "prettier": "1.10.2",
     "rimraf": "^2.6.1",
     "rollup": "0.42.0",
     "rollup-plugin-commonjs": "^8.0.2",
@@ -101,7 +103,8 @@
     "standard-version": "^4.0.0",
     "systemjs": "0.20.19",
     "tslib": "1.7.1",
-    "tslint": "5.8.0",
+    "tslint": "5.9.1",
+    "tslint-config-prettier": "1.9.0",
     "typescript": "2.5.3",
     "uglify-es": "^3.0.18",
     "web-animations-js": "^2.3.1",
