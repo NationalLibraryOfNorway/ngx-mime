@@ -23,10 +23,7 @@ import { ContentSearchNavigationService } from '../navigation/content-search-nav
 describe('AccessKeysService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SharedModule,
-        HttpClientTestingModule
-      ],
+      imports: [SharedModule, HttpClientTestingModule],
       providers: [
         AccessKeysService,
         ViewerService,
@@ -49,7 +46,10 @@ describe('AccessKeysService', () => {
     });
   });
 
-  it('should be created', inject([AccessKeysService], (service: AccessKeysService) => {
+  it(
+    'should be created',
+    inject([AccessKeysService], (service: AccessKeysService) => {
       expect(service).toBeTruthy();
-    }));
+    })
+  );
 });

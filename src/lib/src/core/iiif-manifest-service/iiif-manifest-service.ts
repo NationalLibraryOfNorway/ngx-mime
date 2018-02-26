@@ -17,18 +17,10 @@ export class IiifManifestService {
   protected _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(null);
   protected _errorMessage: Subject<string> = new BehaviorSubject(null);
 
-  constructor(
-    public intl: MimeViewerIntl,
-    private http: HttpClient,
-    private spinnerService: SpinnerService
-  ) { }
+  constructor(public intl: MimeViewerIntl, private http: HttpClient, private spinnerService: SpinnerService) {}
 
   get currentManifest(): Observable<Manifest> {
-    return this._currentManifest.asObservable()
-      .pipe(
-        filter(m => m !== null),
-        distinctUntilChanged()
-      );
+    return this._currentManifest.asObservable().pipe(filter(m => m !== null), distinctUntilChanged());
   }
 
   get errorMessage(): Observable<string> {
@@ -40,10 +32,10 @@ export class IiifManifestService {
       this._errorMessage.next(this.intl.manifestUriMissingLabel);
     } else {
       this.spinnerService.show();
-      this.http.get(manifestUri)
-        .pipe(
-          finalize(() => this.spinnerService.hide())
-        ).subscribe(
+      this.http
+        .get(manifestUri)
+        .pipe(finalize(() => this.spinnerService.hide()))
+        .subscribe(
           (response: Response) => {
             const manifest = this.extractData(response);
             if (this.isManifestValid(manifest)) {
@@ -77,7 +69,7 @@ export class IiifManifestService {
   }
 
   private isManifestValid(manifest: Manifest): boolean {
-    return (manifest && manifest.tileSource && manifest.tileSource.length > 0);
+    return manifest && manifest.tileSource && manifest.tileSource.length > 0;
   }
 
   private handleError(err: HttpErrorResponse): string {
@@ -89,5 +81,4 @@ export class IiifManifestService {
     }
     return errMsg;
   }
-
 }

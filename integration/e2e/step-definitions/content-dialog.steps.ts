@@ -7,7 +7,7 @@ import { ContentsPage } from '../pages/contents.po';
 import { MetadataPage } from '../pages/metadata.po';
 import { TableOfContentsPage } from '../pages/table-of-contents.po';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
   const contents = new ContentsPage();
   const metadata = new MetadataPage();
@@ -43,10 +43,9 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(currentPageString.includes(pageNumber)).to.eql(true);
   });
 
-  Then('the Contents dialog should be {word}', async (state) => {
+  Then('the Contents dialog should be {word}', async state => {
     const isOpen = await contents.isOpen();
     const expectedState = state === 'closed' ? false : true;
     expect(isOpen).to.equal(expectedState);
   });
-
 });

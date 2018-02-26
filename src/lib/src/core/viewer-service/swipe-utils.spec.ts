@@ -6,7 +6,6 @@ import { ViewerOptions } from '../models/viewer-options';
 import { SwipeUtils } from './swipe-utils';
 
 describe('SwipeUtils ', () => {
-
   const swipeDirectionThreshold = ViewerOptions.pan.swipeDirectionThreshold;
 
   it('should return right when swiping in without threshold', () => {
@@ -82,5 +81,4 @@ describe('SwipeUtils ', () => {
     direction = 0; // means speed = 0
     expect(SwipeUtils.isDirectionInLeftSemicircle(direction)).toBe(true);
   });
-
 });

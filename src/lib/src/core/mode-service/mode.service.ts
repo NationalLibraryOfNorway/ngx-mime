@@ -11,12 +11,10 @@ export class ModeService {
   private toggleModeSubject: ReplaySubject<ModeChanges> = new ReplaySubject();
   private modeChanges = new ModeChanges();
 
-  constructor(
-  ) { }
+  constructor() {}
 
   get onChange(): Observable<ModeChanges> {
-    return this.toggleModeSubject.asObservable()
-      .pipe(distinctUntilChanged());
+    return this.toggleModeSubject.asObservable().pipe(distinctUntilChanged());
   }
 
   set mode(mode: ViewerMode) {

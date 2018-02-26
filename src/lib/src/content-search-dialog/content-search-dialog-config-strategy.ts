@@ -9,7 +9,6 @@ export interface ContentSearchDialogConfigStrategy {
 }
 
 export class MobileContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
-
   public getConfig(elementRef: ElementRef): MatDialogConfig {
     return {
       hasBackdrop: false,
@@ -17,7 +16,7 @@ export class MobileContentSearchDialogConfigStrategy implements ContentSearchDia
       autoFocus: false,
       width: '100%',
       height: '100%',
-      panelClass: 'content-search-panel',
+      panelClass: 'content-search-panel'
     };
   }
 }
@@ -40,9 +39,9 @@ export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDi
       width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
-        left: dimensions.left + 'px',
+        left: dimensions.left + 'px'
       },
-      panelClass: 'content-search-panel',
+      panelClass: 'content-search-panel'
     };
   }
 
@@ -53,5 +52,4 @@ export class DesktopContentSearchDialogConfigStrategy implements ContentSearchDi
       left: dimensions.right - DesktopContentSearchDialogConfigStrategy.dialogWidth - DesktopContentSearchDialogConfigStrategy.paddingRight
     });
   }
-
 }

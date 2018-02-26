@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { ViewerPage, Point } from '../pages/viewer.po';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
   let previousCenter: Point;
 
@@ -30,5 +30,4 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then('the image is not moved inside the view', async () => {
     expect((await page.getCenter()).y).to.be.equal(previousCenter.y);
   });
-
 });

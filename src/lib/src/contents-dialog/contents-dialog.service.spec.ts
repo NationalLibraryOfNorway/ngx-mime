@@ -10,20 +10,15 @@ import { FullscreenService } from '../core/fullscreen-service/fullscreen.service
 describe('ContentsDialogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SharedModule
-      ],
-      providers: [
-        ContentsDialogService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        ContentsDialogConfigStrategyFactory
-      ]
+      imports: [SharedModule],
+      providers: [ContentsDialogService, MimeResizeService, MimeDomHelper, FullscreenService, ContentsDialogConfigStrategyFactory]
     });
   });
 
-  it('should be created', inject([ContentsDialogService], (service: ContentsDialogService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([ContentsDialogService], (service: ContentsDialogService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

@@ -19,23 +19,18 @@ export class MetadataComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService) { }
+    private iiifManifestService: IiifManifestService
+  ) {}
 
   ngOnInit() {
-    this.iiifManifestService
-      .currentManifest
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.changeDetectorRef.markForCheck();
-      });
+    this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
+      this.manifest = manifest;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
   }
-
 }

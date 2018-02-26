@@ -13,16 +13,13 @@ export class ViewerSpinnerComponent implements OnDestroy, OnInit {
   public visible = false;
   private spinnerSub: Subscription;
 
-  constructor(
-    private spinnerService: SpinnerService,
-    private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private spinnerService: SpinnerService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.spinnerSub = this.spinnerService.spinnerState
-      .subscribe((state: SpinnerState) => {
-        this.visible = state.show;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.spinnerSub = this.spinnerService.spinnerState.subscribe((state: SpinnerState) => {
+      this.visible = state.show;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   ngOnDestroy() {

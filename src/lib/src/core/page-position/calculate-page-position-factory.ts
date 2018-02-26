@@ -4,7 +4,6 @@ import { TwoPageCalculatePagePositionStrategy } from './two-page-calculate-page-
 import { ViewerLayout } from '../models/viewer-layout';
 
 export class CalculatePagePositionFactory {
-
   public static create(viewerLayout: ViewerLayout, paged: boolean): CalculatePagePositionStrategy {
     if (viewerLayout === ViewerLayout.ONE_PAGE || !paged) {
       return new OnePageCalculatePagePositionStrategy();

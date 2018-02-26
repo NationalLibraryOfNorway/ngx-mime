@@ -31,4 +31,4 @@ import { ContentSearchNavigationService } from './navigation/content-search-navi
     ContentSearchNavigationService
   ]
 })
-export class CoreModule { }
+export class CoreModule {}

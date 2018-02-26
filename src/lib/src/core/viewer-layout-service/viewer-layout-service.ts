@@ -15,16 +15,10 @@ export class ViewerLayoutService {
   private mimeConfig = new MimeViewerConfig();
   private _layout: ViewerLayout;
   private subject: BehaviorSubject<ViewerLayout> = new BehaviorSubject<ViewerLayout>(this.mimeConfig.initViewerLayout);
-  constructor(
-    private media: ObservableMedia
-  ) {
-  }
+  constructor(private media: ObservableMedia) {}
 
   init(isPagedManifest?: boolean): void {
-    if (
-      this.mimeConfig.initViewerLayout === ViewerLayout.TWO_PAGE &&
-      isPagedManifest &&
-      !this.isMobile()) {
+    if (this.mimeConfig.initViewerLayout === ViewerLayout.TWO_PAGE && isPagedManifest && !this.isMobile()) {
       this._layout = ViewerLayout.TWO_PAGE;
       this.change();
     } else {
@@ -34,8 +28,7 @@ export class ViewerLayoutService {
   }
 
   get onChange(): Observable<ViewerLayout> {
-    return this.subject.asObservable()
-      .pipe(distinctUntilChanged());
+    return this.subject.asObservable().pipe(distinctUntilChanged());
   }
 
   get layout(): ViewerLayout {
@@ -54,5 +47,4 @@ export class ViewerLayoutService {
   private isMobile(): boolean {
     return this.media.isActive('lt-md');
   }
-
 }

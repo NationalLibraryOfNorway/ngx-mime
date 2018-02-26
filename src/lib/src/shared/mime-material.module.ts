@@ -28,6 +28,6 @@ import {
     MatInputModule,
     MatProgressBarModule,
     MatCardModule
-  ],
+  ]
 })
-export class MimeMaterialModule { }
+export class MimeMaterialModule {}

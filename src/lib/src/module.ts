@@ -1,5 +1,6 @@
-
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
+import 'openseadragon';
+import 'd3';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -15,9 +16,6 @@ import { PageNavigatorComponent } from './viewer/viewer-footer/page-navigator/pa
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
-import 'openseadragon';
-import 'd3';
-
 @NgModule({
   declarations: [
     ViewerComponent,
@@ -28,16 +26,7 @@ import 'd3';
     PageNavigatorComponent,
     ViewerSpinnerComponent
   ],
-  imports: [
-    CoreModule,
-    SharedModule,
-    ContentsDialogModule,
-    AttributionDialogModule,
-    ContentSearchDialogModule,
-    PageDialogModule
-  ],
-  exports: [
-    ViewerComponent
-  ]
+  imports: [CoreModule, SharedModule, ContentsDialogModule, AttributionDialogModule, ContentSearchDialogModule, PageDialogModule],
+  exports: [ViewerComponent]
 })
-export class MimeModule { }
+export class MimeModule {}

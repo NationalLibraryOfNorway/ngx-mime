@@ -9,9 +9,7 @@ export class MediaServiceStub {
     return false;
   }
 
-  subscribe(next?: (value: MediaChange) => void,
-    error?: (error: any) => void,
-    complete?: () => void): Subscription {
+  subscribe(next?: (value: MediaChange) => void, error?: (error: any) => void, complete?: () => void): Subscription {
     return this._onChange.subscribe(next, error, complete);
   }
 }

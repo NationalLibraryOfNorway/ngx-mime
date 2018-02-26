@@ -17,21 +17,17 @@ export class ContentSearchDialogService {
   constructor(
     private dialog: MatDialog,
     private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService) { }
+    private mimeResizeService: MimeResizeService
+  ) {}
 
   public initialize(): void {
-    this.mimeResizeService
-      .onResize
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe(rect => {
-        if (this.isContentSearchDialogOpen) {
-          const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-          this.dialogRef.updateSize(config.width, config.height);
-        }
-      });
+    this.mimeResizeService.onResize.pipe(takeUntil(this.destroyed)).subscribe(rect => {
+      if (this.isContentSearchDialogOpen) {
+        const config = this.getDialogConfig();
+        this.dialogRef.updatePosition(config.position);
+        this.dialogRef.updateSize(config.width, config.height);
+      }
+    });
   }
 
   public destroy() {
@@ -72,5 +68,4 @@ export class ContentSearchDialogService {
   private getDialogConfig(): MatDialogConfig {
     return this.contentSearchDialogConfigStrategyFactory.create().getConfig(this._el);
   }
-
 }

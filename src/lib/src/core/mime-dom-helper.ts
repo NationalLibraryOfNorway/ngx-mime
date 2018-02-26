@@ -4,8 +4,7 @@ import { ElementRef, Injectable } from '@angular/core';
 
 @Injectable()
 export class MimeDomHelper {
-
-  constructor(private fullscreen: FullscreenService) { }
+  constructor(private fullscreen: FullscreenService) {}
 
   public getBoundingClientRect(el: ElementRef): Dimensions {
     try {
@@ -58,14 +57,10 @@ export class MimeDomHelper {
   }
 
   private getFullscreenWidth(): number {
-    return window.innerWidth
-      || document.documentElement.clientWidth
-      || document.body.clientWidth;
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   }
 
   private getFullscreenHeight(): number {
-    return window.innerHeight
-      || document.documentElement.clientHeight
-      || document.body.clientHeight;
+    return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   }
 }

@@ -9,26 +9,12 @@ import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 import { AppComponent } from './app.component';
 import { ViewerComponent } from './viewer/viewer.component';
 
-const appRoutes: Routes = [
-  { path: '', component: ViewerComponent },
-];
+const appRoutes: Routes = [{ path: '', component: ViewerComponent }];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ViewerComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    RouterModule.forRoot(
-      appRoutes
-    ),
-    FlexLayoutModule,
-    MimeModule
-  ],
+  declarations: [AppComponent, ViewerComponent],
+  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, RouterModule.forRoot(appRoutes), FlexLayoutModule, MimeModule],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

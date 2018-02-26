@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { ViewerPage } from '../pages/viewer.po';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
 
   Given('the viewer is opened with a publication', async () => {
@@ -46,5 +46,4 @@ defineSupportCode(function ({ Given, When, Then }) {
   Given('the viewer is opened with a publication with viewing hint "individuals"', async () => {
     await page.open('a-individuals-manifest');
   });
-
 });

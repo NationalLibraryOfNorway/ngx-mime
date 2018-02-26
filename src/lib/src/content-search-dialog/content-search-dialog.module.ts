@@ -6,18 +6,9 @@ import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialo
 import { ContentSearchDialogComponent } from './content-search-dialog.component';
 
 @NgModule({
-  imports: [
-    SharedModule
-  ],
-  declarations: [
-    ContentSearchDialogComponent
-  ],
-  providers: [
-    ContentSearchDialogService,
-    ContentSearchDialogConfigStrategyFactory
-  ],
-  entryComponents: [
-    ContentSearchDialogComponent
-  ],
+  imports: [SharedModule],
+  declarations: [ContentSearchDialogComponent],
+  providers: [ContentSearchDialogService, ContentSearchDialogConfigStrategyFactory],
+  entryComponents: [ContentSearchDialogComponent]
 })
-export class ContentSearchDialogModule { }
+export class ContentSearchDialogModule {}

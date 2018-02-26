@@ -16,7 +16,7 @@ describe('ManifestBuilder', () => {
   it('should test manifest content after build', () => {
     expect(manifest.type).toBe('sc:Manifest');
     expect(manifest.id).toBe('https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/manifest');
-    expect(manifest.label).toBe('Fjellkongen Ludvig \"Ludden\"');
+    expect(manifest.label).toBe('Fjellkongen Ludvig "Ludden"');
     expect(manifest.metadata.length).toBe(10);
     expect(manifest.license).toBe('https://beta.nb.no/lisens/copyright');
     expect(manifest.service.id).toBe('http://example.org/services/identifier/search');
@@ -66,5 +66,4 @@ describe('ManifestBuilder', () => {
   it('should have logo after build', () => {
     expect(manifest.logo).toBe('http://example.com/dummylogo.jpg');
   });
-
 });

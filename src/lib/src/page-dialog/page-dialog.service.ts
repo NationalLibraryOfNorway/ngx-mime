@@ -15,9 +15,9 @@ export class PageDialogService {
   private dialogRef: MatDialogRef<PageDialogComponent>;
   private destroyed: Subject<void> = new Subject();
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) {}
 
-  public initialize(): void { }
+  public initialize(): void {}
 
   public destroy() {
     this.close();
@@ -50,8 +50,7 @@ export class PageDialogService {
     return {
       hasBackdrop: false,
       disableClose: true,
-      panelClass: 'page-panel',
+      panelClass: 'page-panel'
     };
   }
-
 }

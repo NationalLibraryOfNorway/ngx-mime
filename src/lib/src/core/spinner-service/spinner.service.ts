@@ -11,7 +11,7 @@ export class SpinnerService {
   private spinnerSubject = new Subject<SpinnerState>();
   public spinnerState = this.spinnerSubject.asObservable();
 
-  constructor() { }
+  constructor() {}
 
   show() {
     this.spinnerSubject.next(<SpinnerState>{ show: true });

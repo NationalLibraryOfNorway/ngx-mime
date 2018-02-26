@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { ContentSearchPage } from './../pages/content-search.po';
 import { ViewerPage, Point } from '../pages/viewer.po';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
   const contentSearchPage = new ContentSearchPage();
   let selectedHitIndex: number;
@@ -70,7 +70,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(firstHit).to.contains(`${term} </em>`);
   });
 
-  Then('the page with hit number {word} should be displayed', async (hit) => {
+  Then('the page with hit number {word} should be displayed', async hit => {
     const currentPageString = await page.getCurrentPageString();
     if (hit === 1) {
       expect(currentPageString.includes('25')).to.eql(true);
@@ -143,5 +143,4 @@ defineSupportCode(function ({ Given, When, Then }) {
     }
     return index;
   }
-
 });

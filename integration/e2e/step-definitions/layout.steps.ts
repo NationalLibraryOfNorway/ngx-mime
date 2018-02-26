@@ -5,7 +5,7 @@ import { browser, by } from 'protractor';
 import { ViewerPage } from '../pages/viewer.po';
 import { Utils } from '../helpers/utils';
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
   const utils = new Utils();
   // 300ms is the time the animation is set up to use but we need some extra time
@@ -65,5 +65,4 @@ defineSupportCode(function ({ Given, When, Then }) {
     visiblePages.splice(1, 1);
     expect(visiblePages).to.not.include(true);
   });
-
 });

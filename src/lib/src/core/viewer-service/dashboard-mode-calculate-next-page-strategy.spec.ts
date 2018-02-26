@@ -73,5 +73,4 @@ describe('DashboardModeCalculateNextPageStrategy ', () => {
 
     expect(res).toBe(3);
   });
-
 });

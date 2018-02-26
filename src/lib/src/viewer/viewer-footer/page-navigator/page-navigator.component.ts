@@ -32,36 +32,26 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
     private viewerService: ViewerService,
     private pageService: PageService,
     private pageDialogService: PageDialogService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.pageService
-      .onPageChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((currentPage: number) => {
-        if (this.currentSliderPage !== -1 && this.currentSliderPage === currentPage) {
-          this.currentSliderPage = -1;
-        } else if (this.currentSliderPage === -1) {
-          this.currentPage = currentPage;
-          this.currentTiles = this.pageService.getTilesStringFromPageIndex(this.currentPage);
-        }
-        this.isFirstPage = this.isOnFirstPage(currentPage);
-        this.isLastPage = this.isOnLastPage(currentPage);
-        this.changeDetectorRef.detectChanges();
-      });
+    this.pageService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((currentPage: number) => {
+      if (this.currentSliderPage !== -1 && this.currentSliderPage === currentPage) {
+        this.currentSliderPage = -1;
+      } else if (this.currentSliderPage === -1) {
+        this.currentPage = currentPage;
+        this.currentTiles = this.pageService.getTilesStringFromPageIndex(this.currentPage);
+      }
+      this.isFirstPage = this.isOnFirstPage(currentPage);
+      this.isLastPage = this.isOnLastPage(currentPage);
+      this.changeDetectorRef.detectChanges();
+    });
 
-    this.pageService
-      .onNumberOfPagesChange
-      .pipe(
-        takeUntil(this.destroyed)
-      )
-      .subscribe((numberOfPages: number) => {
-        this.numberOfPages = numberOfPages;
-        this.numberOfTiles = this.pageService.numberOfTiles;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.pageService.onNumberOfPagesChange.pipe(takeUntil(this.destroyed)).subscribe((numberOfPages: number) => {
+      this.numberOfPages = numberOfPages;
+      this.numberOfTiles = this.pageService.numberOfTiles;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   ngOnDestroy() {
@@ -94,7 +84,6 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
   }
 
   private isOnLastPage(currentPage: number): boolean {
-    return currentPage === (this.numberOfPages - 1);
+    return currentPage === this.numberOfPages - 1;
   }
-
 }

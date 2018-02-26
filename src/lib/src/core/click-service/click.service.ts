@@ -51,5 +51,5 @@ export class ClickService {
         this.triggerDoubleClick(event);
       }
     }
-  }
+  };
 }

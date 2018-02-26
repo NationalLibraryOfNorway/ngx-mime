@@ -1,7 +1,6 @@
 import { PageRects } from './page-rects';
 
 describe('CenterPoints ', () => {
-
   it('should return closest index', () => {
     const pageRects = new PageRects();
     pageRects.add({ x: 10, y: 0 });
@@ -15,5 +14,4 @@ describe('CenterPoints ', () => {
 
     expect(index).toBe(5);
   });
-
 });

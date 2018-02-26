@@ -40,5 +40,4 @@ describe('PageZoomedModeCalculateNextPageStrategy ', () => {
 
     expect(res).toBe(1);
   });
-
 });

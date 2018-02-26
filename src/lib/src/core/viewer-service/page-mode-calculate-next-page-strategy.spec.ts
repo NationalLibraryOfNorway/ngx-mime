@@ -51,5 +51,4 @@ describe('PageModeCalculateNextPageStrategy ', () => {
 
     expect(res).toBe(2);
   });
-
 });

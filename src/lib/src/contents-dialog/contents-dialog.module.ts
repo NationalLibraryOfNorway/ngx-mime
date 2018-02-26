@@ -9,21 +9,13 @@ import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
 
 @NgModule({
-  imports: [
-    SharedModule
-  ],
-  declarations: [
-    ContentsDialogComponent,
-    MetadataComponent,
-    TocComponent
-  ],
+  imports: [SharedModule],
+  declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
   providers: [
     ContentsDialogService,
     ContentsDialogConfigStrategyFactory,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ],
-  entryComponents: [
-    ContentsDialogComponent
-  ],
+  entryComponents: [ContentsDialogComponent]
 })
-export class ContentsDialogModule { }
+export class ContentsDialogModule {}

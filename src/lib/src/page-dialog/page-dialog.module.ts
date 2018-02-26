@@ -6,17 +6,9 @@ import { PageDialogService } from './page-dialog.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 
 @NgModule({
-  imports: [
-    SharedModule
-  ],
-  declarations: [
-    PageDialogComponent
-  ],
-  providers: [
-    PageDialogService,
-  ],
-  entryComponents: [
-    PageDialogComponent
-  ],
+  imports: [SharedModule],
+  declarations: [PageDialogComponent],
+  providers: [PageDialogService],
+  entryComponents: [PageDialogComponent]
 })
-export class PageDialogModule { }
+export class PageDialogModule {}

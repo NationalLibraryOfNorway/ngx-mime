@@ -9,7 +9,6 @@ export interface ContentsDialogConfigStrategy {
 }
 
 export class MobileContentsDialogConfigStrategy implements ContentsDialogConfigStrategy {
-
   public getConfig(elementRef: ElementRef): MatDialogConfig {
     return {
       hasBackdrop: false,
@@ -38,7 +37,7 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
       width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
-        left: dimensions.left + 'px',
+        left: dimensions.left + 'px'
       },
       panelClass: 'contents-panel'
     };
@@ -51,5 +50,4 @@ export class DesktopContentsDialogConfigStrategy implements ContentsDialogConfig
       left: dimensions.right - DesktopContentsDialogConfigStrategy.dialogWidth - DesktopContentsDialogConfigStrategy.paddingRight
     });
   }
-
 }

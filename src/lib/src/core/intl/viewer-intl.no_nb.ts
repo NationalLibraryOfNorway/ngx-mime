@@ -35,14 +35,13 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
 
   noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;
-  }
+  };
 
   resultsFoundLabel = (numberOfHits: number, q: string) => {
     return `${numberOfHits} treff funnet for <em class="current-search">${q}</em>`;
-  }
+  };
 
   currentHitLabel = (currentHit: number, numberOfHits: number) => {
     return `${currentHit} av ${numberOfHits} treff`;
-  }
-
+  };
 }

@@ -6,16 +6,7 @@ export class Dimensions {
   top? = 0;
   width? = 0;
 
-  constructor(
-    fields?: {
-      bottom?: number,
-      height?: number,
-      left?: number,
-      right?: number,
-      top?: number,
-      width?: number,
-    }
-  ) {
+  constructor(fields?: { bottom?: number; height?: number; left?: number; right?: number; top?: number; width?: number }) {
     if (fields) {
       this.bottom = fields.bottom || this.bottom;
       this.height = fields.height || this.height;

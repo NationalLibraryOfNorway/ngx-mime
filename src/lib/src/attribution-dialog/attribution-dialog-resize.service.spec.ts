@@ -7,15 +7,14 @@ import { FullscreenService } from '../core/fullscreen-service/fullscreen.service
 describe('AttributionDialogResizeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        AttributionDialogResizeService,
-        MimeDomHelper,
-        FullscreenService
-      ]
+      providers: [AttributionDialogResizeService, MimeDomHelper, FullscreenService]
     });
   });
 
-  it('should be created', inject([AttributionDialogResizeService], (service: AttributionDialogResizeService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([AttributionDialogResizeService], (service: AttributionDialogResizeService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

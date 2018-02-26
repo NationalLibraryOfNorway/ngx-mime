@@ -3,9 +3,8 @@ import { PageService } from '../page-service/page-service';
 import { CalculateNextPageStrategy, NextPageCriteria } from './calculate-next-page-strategy';
 
 export class PageModeCalculateNextPageStrategy implements CalculateNextPageStrategy {
-
   calculateNextPage(criteria: NextPageCriteria): number {
-    const isNewPageInCenter = (criteria.currentPageIndex !== criteria.currentPageCenter);
+    const isNewPageInCenter = criteria.currentPageIndex !== criteria.currentPageCenter;
     const speed = criteria.speed;
     const direction = criteria.direction;
 

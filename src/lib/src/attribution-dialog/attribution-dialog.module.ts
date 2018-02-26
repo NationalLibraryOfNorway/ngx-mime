@@ -7,19 +7,9 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
 import { MimeDomHelper } from '../core/mime-dom-helper';
 
 @NgModule({
-  imports: [
-    SharedModule
-  ],
-  declarations: [
-    AttributionDialogComponent
-  ],
-  providers: [
-    AttributionDialogService,
-    AttributionDialogResizeService,
-    MimeDomHelper
-  ],
-  entryComponents: [
-    AttributionDialogComponent
-  ],
+  imports: [SharedModule],
+  declarations: [AttributionDialogComponent],
+  providers: [AttributionDialogService, AttributionDialogResizeService, MimeDomHelper],
+  entryComponents: [AttributionDialogComponent]
 })
-export class AttributionDialogModule { }
+export class AttributionDialogModule {}

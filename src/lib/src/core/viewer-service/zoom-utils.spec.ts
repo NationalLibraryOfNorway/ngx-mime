@@ -3,7 +3,6 @@ import { ZoomUtils } from './zoom-utils';
 import { Point } from '../models/point';
 
 describe('ZoomUtils ', () => {
-
   it('should constrain position to pagebounds', () => {
     const page: Rect = { x: 100, y: 100, width: 100, height: 100 };
 
@@ -28,5 +27,4 @@ describe('ZoomUtils ', () => {
     const newFactor = ZoomUtils.constraintZoomFactor(2.0, 1, 1.5);
     expect(newFactor).toBe(1.5);
   });
-
 });

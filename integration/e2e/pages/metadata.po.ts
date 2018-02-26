@@ -4,7 +4,6 @@ import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
 export class MetadataPage {
-
   async getAll() {
     const metadatas = [];
     const el = element.all(by.css('.metadata'));
@@ -14,10 +13,12 @@ export class MetadataPage {
       const metadata = el.get(i);
       const title = await metadata.element(by.css('.title')).getText();
       const content = await metadata.element(by.css('.content')).getText();
-      metadatas.push(new Metadata({
-        title: title,
-        content: content
-      }));
+      metadatas.push(
+        new Metadata({
+          title: title,
+          content: content
+        })
+      );
     }
     return metadatas;
   }
@@ -46,10 +47,12 @@ export class Metadata {
   public title?: string;
   public content?: string;
 
-  constructor(public fields?: {
-    title?: string;
-    content?: string;
-  }) {
+  constructor(
+    public fields?: {
+      title?: string;
+      content?: string;
+    }
+  ) {
     if (fields) {
       this.title = fields.title || this.title;
       this.content = fields.content || this.content;

@@ -10,20 +10,15 @@ import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialo
 describe('ContentSearchDialogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SharedModule
-      ],
-      providers: [
-        ContentSearchDialogService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        ContentSearchDialogConfigStrategyFactory
-      ]
+      imports: [SharedModule],
+      providers: [ContentSearchDialogService, MimeResizeService, MimeDomHelper, FullscreenService, ContentSearchDialogConfigStrategyFactory]
     });
   });
 
-  it('should be created', inject([ContentSearchDialogService], (service: ContentSearchDialogService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([ContentSearchDialogService], (service: ContentSearchDialogService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

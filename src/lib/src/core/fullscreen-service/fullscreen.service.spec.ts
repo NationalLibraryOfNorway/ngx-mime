@@ -9,7 +9,10 @@ describe('FullscreenService', () => {
     });
   });
 
-  it('should be created', inject([FullscreenService], (service: FullscreenService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([FullscreenService], (service: FullscreenService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

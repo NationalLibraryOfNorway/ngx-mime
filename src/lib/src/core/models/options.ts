@@ -4,7 +4,6 @@ import { ControlAnchor } from './controlAnchor';
 import { Service } from './manifest';
 import { ViewerMode } from './viewer-mode';
 
-
 export class Options {
   id = 'openseadragon';
   element: Element;

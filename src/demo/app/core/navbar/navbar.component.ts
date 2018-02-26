@@ -7,24 +7,23 @@ import { MatSidenav } from '@angular/material';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-
 export class NavbarComponent implements OnInit {
   @Input() sidenav: MatSidenav;
   public manifestUri: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   toggle() {
     this.sidenav.toggle();
   }
 
   onSubmit() {
-    this.router.navigate(['demo'], {queryParams: {
-      manifestUri: this.manifestUri
-    }
-  });
-}
-
+    this.router.navigate(['demo'], {
+      queryParams: {
+        manifestUri: this.manifestUri
+      }
+    });
+  }
 }
