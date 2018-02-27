@@ -95,6 +95,7 @@ export class ViewerPage {
   async openContentsDialog() {
     await element(by.css('#contentsDialogButton')).click();
     await utils.waitForElement(element(by.css('.contents-container')));
+    await browser.sleep(2000);
   }
 
   async openTableOfContentsTab() {
