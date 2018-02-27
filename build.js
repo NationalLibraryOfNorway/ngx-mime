@@ -51,83 +51,85 @@ return (
       const es5Entry = path.join(es5OutputFolder, `${libName}.js`);
       const es2015Entry = path.join(es2015OutputFolder, `${libName}.js`);
       const rollupBaseConfig = {
-        moduleName: camelCase(libName),
-        sourceMap: true,
+        output: {
+          name: camelCase(libName),
+          globals: {
+            // The key here is library name, and the value is the the name of the global variable name
+            // the window object.
+            // See https://github.com/rollup/rollup/wiki/JavaScript-API#globals for more.
+            tslib: 'tslib',
+            openseadragon: 'ng.opensedragon',
+            d3: 'd3',
+
+            '@angular/animations': 'ng.animations',
+            '@angular/core': 'ng.core',
+            '@angular/common': 'ng.common',
+            '@angular/forms': 'ng.forms',
+            '@angular/common/http': 'ng.common.http',
+            '@angular/router': 'ng.router',
+            '@angular/platform-browser': 'ng.platformBrowser',
+            '@angular/platform-server': 'ng.platformServer',
+            '@angular/platform-browser-dynamic': 'ng.platformBrowserDynamic',
+            '@angular/platform-browser/animations': 'ng.platformBrowser.animations',
+            '@angular/core/testing': 'ng.core.testing',
+            '@angular/common/testing': 'ng.common.testing',
+            '@angular/common/http/testing': 'ng.common.http.testing',
+            '@angular/flex-layout': 'ng.flex-layout',
+
+            // Some packages are not really needed for the UMD bundles, but for the missingRollupGlobals rule.
+            '@angular/material': 'ng.material',
+            '@angular/cdk': 'ng.cdk',
+
+            // Include secondary entry-points of the cdk and material packages
+
+            'rxjs/BehaviorSubject': 'Rx',
+            'rxjs/ReplaySubject': 'Rx',
+            'rxjs/Observable': 'Rx',
+            'rxjs/Subject': 'Rx',
+            'rxjs/Subscription': 'Rx',
+            'rxjs/Observer': 'Rx',
+            'rxjs/Subscriber': 'Rx',
+            'rxjs/Scheduler': 'Rx',
+
+            'rxjs/observable/combineLatest': 'Rx.Observable',
+            'rxjs/observable/forkJoin': 'Rx.Observable',
+            'rxjs/observable/fromEvent': 'Rx.Observable',
+            'rxjs/observable/merge': 'Rx.Observable',
+            'rxjs/observable/of': 'Rx.Observable',
+            'rxjs/observable/throw': 'Rx.Observable',
+            'rxjs/observable/defer': 'Rx.Observable',
+            'rxjs/observable/fromEventPattern': 'Rx.Observable',
+            'rxjs/observable/empty': 'Rx.Observable',
+
+            'rxjs/operators': 'Rx.Observable',
+            'rxjs/operators/debounceTime': 'Rx.Observable',
+            'rxjs/operators/takeUntil': 'Rx.Observable',
+            'rxjs/operators/first': 'Rx.Observable',
+            'rxjs/operators/filter': 'Rx.Observable',
+            'rxjs/operators/map': 'Rx.Observable',
+            'rxjs/operators/tap': 'Rx.Observable',
+            'rxjs/operators/startWith': 'Rx.Observable',
+            'rxjs/operators/auditTime': 'Rx.Observable',
+            'rxjs/operators/switchMap': 'Rx.Observable',
+            'rxjs/operators/finalize': 'Rx.Observable',
+            'rxjs/operators/catchError': 'Rx.Observable',
+            'rxjs/operators/share': 'Rx.Observable',
+            'rxjs/operators/delay': 'Rx.Observable',
+            'rxjs/operators/combineLatest': 'Rx.Observable',
+            'rxjs/operators/throttle': 'Rx.Observable',
+            'rxjs/operators/interval': 'Rx.Observable',
+            'rxjs/operators/val': 'Rx.Observable',
+            'rxjs/operators/take': 'Rx.Observable',
+            'rxjs/operators/sample': 'Rx.Observable',
+            'rxjs/operators/distinctUntilChanged': 'Rx.Observable',
+            'rxjs/operators/finally': 'Rx.Observable',
+            'rxjs/observable/interval': 'Rx.Observable'
+          },
+          sourcemap: true
+        },
         // ATTENTION:
         // Add any dependency or peer dependency your library to `globals` and `external`.
         // This is required for UMD bundle users.
-        globals: {
-          // The key here is library name, and the value is the the name of the global variable name
-          // the window object.
-          // See https://github.com/rollup/rollup/wiki/JavaScript-API#globals for more.
-          tslib: 'tslib',
-          openseadragon: 'ng.opensedragon',
-          d3: 'd3',
-
-          '@angular/animations': 'ng.animations',
-          '@angular/core': 'ng.core',
-          '@angular/common': 'ng.common',
-          '@angular/forms': 'ng.forms',
-          '@angular/common/http': 'ng.common.http',
-          '@angular/router': 'ng.router',
-          '@angular/platform-browser': 'ng.platformBrowser',
-          '@angular/platform-server': 'ng.platformServer',
-          '@angular/platform-browser-dynamic': 'ng.platformBrowserDynamic',
-          '@angular/platform-browser/animations': 'ng.platformBrowser.animations',
-          '@angular/core/testing': 'ng.core.testing',
-          '@angular/common/testing': 'ng.common.testing',
-          '@angular/common/http/testing': 'ng.common.http.testing',
-          '@angular/flex-layout': 'ng.flex-layout',
-
-          // Some packages are not really needed for the UMD bundles, but for the missingRollupGlobals rule.
-          '@angular/material': 'ng.material',
-          '@angular/cdk': 'ng.cdk',
-
-          // Include secondary entry-points of the cdk and material packages
-
-          'rxjs/BehaviorSubject': 'Rx',
-          'rxjs/ReplaySubject': 'Rx',
-          'rxjs/Observable': 'Rx',
-          'rxjs/Subject': 'Rx',
-          'rxjs/Subscription': 'Rx',
-          'rxjs/Observer': 'Rx',
-          'rxjs/Subscriber': 'Rx',
-          'rxjs/Scheduler': 'Rx',
-
-          'rxjs/observable/combineLatest': 'Rx.Observable',
-          'rxjs/observable/forkJoin': 'Rx.Observable',
-          'rxjs/observable/fromEvent': 'Rx.Observable',
-          'rxjs/observable/merge': 'Rx.Observable',
-          'rxjs/observable/of': 'Rx.Observable',
-          'rxjs/observable/throw': 'Rx.Observable',
-          'rxjs/observable/defer': 'Rx.Observable',
-          'rxjs/observable/fromEventPattern': 'Rx.Observable',
-          'rxjs/observable/empty': 'Rx.Observable',
-
-          'rxjs/operators': 'Rx.Observable',
-          'rxjs/operators/debounceTime': 'Rx.Observable',
-          'rxjs/operators/takeUntil': 'Rx.Observable',
-          'rxjs/operators/first': 'Rx.Observable',
-          'rxjs/operators/filter': 'Rx.Observable',
-          'rxjs/operators/map': 'Rx.Observable',
-          'rxjs/operators/tap': 'Rx.Observable',
-          'rxjs/operators/startWith': 'Rx.Observable',
-          'rxjs/operators/auditTime': 'Rx.Observable',
-          'rxjs/operators/switchMap': 'Rx.Observable',
-          'rxjs/operators/finalize': 'Rx.Observable',
-          'rxjs/operators/catchError': 'Rx.Observable',
-          'rxjs/operators/share': 'Rx.Observable',
-          'rxjs/operators/delay': 'Rx.Observable',
-          'rxjs/operators/combineLatest': 'Rx.Observable',
-          'rxjs/operators/throttle': 'Rx.Observable',
-          'rxjs/operators/interval': 'Rx.Observable',
-          'rxjs/operators/val': 'Rx.Observable',
-          'rxjs/operators/take': 'Rx.Observable',
-          'rxjs/operators/sample': 'Rx.Observable',
-          'rxjs/operators/distinctUntilChanged': 'Rx.Observable',
-          'rxjs/operators/finally': 'Rx.Observable',
-          'rxjs/observable/interval': 'Rx.Observable'
-        },
         external: [
           // List of dependencies
           // See https://github.com/rollup/rollup/wiki/JavaScript-API#external for more.
@@ -162,6 +164,8 @@ return (
           // should intercept ... but doesn't in some rollup versions
           if (warning.code === 'THIS_IS_UNDEFINED') {
             return;
+          } else if (warning.message.indexOf('QueryList') !== -1) {
+            return;
           }
           // console.warn everything else
           console.warn(warning.message);
@@ -170,36 +174,50 @@ return (
 
       // UMD bundle.
       const umdConfig = Object.assign({}, rollupBaseConfig, {
-        entry: es5Entry,
-        dest: path.join(distFolder, `bundles`, `${libName}.umd.js`),
-        format: 'umd'
+        input: es5Entry,
+        output: {
+          ...rollupBaseConfig.output,
+          file: path.join(distFolder, `bundles`, `${libName}.umd.js`),
+          format: 'umd'
+        }
       });
 
       // Minified UMD bundle.
       const minifiedUmdConfig = Object.assign({}, rollupBaseConfig, {
-        entry: es5Entry,
-        dest: path.join(distFolder, `bundles`, `${libName}.umd.min.js`),
-        format: 'umd',
+        input: es5Entry,
+        output: {
+          ...rollupBaseConfig.output,
+          file: path.join(distFolder, `bundles`, `${libName}.umd.min.js`),
+          format: 'umd'
+        },
         plugins: rollupBaseConfig.plugins.concat([uglify({})])
       });
 
       // ESM+ES5 flat module bundle.
       const fesm5config = Object.assign({}, rollupBaseConfig, {
-        entry: es5Entry,
-        dest: path.join(distFolder, `${libName}.es5.js`),
-        format: 'es'
+        input: es5Entry,
+        output: {
+          ...rollupBaseConfig.output,
+          file: path.join(distFolder, `${libName}.es5.js`),
+          format: 'es'
+        }
       });
 
       // ESM+ES2015 flat module bundle.
       const fesm2015config = Object.assign({}, rollupBaseConfig, {
-        entry: es2015Entry,
-        dest: path.join(distFolder, `${libName}.js`),
-        format: 'es'
+        input: es2015Entry,
+        output: {
+          ...rollupBaseConfig.output,
+          file: path.join(distFolder, `${libName}.js`),
+          format: 'es'
+        }
       });
 
-      const allBundles = [umdConfig, minifiedUmdConfig, fesm5config, fesm2015config].map(cfg =>
-        rollup.rollup(cfg).then(bundle => bundle.write(cfg))
-      );
+      const allBundles = [umdConfig, minifiedUmdConfig, fesm5config, fesm2015config].map(cfg => {
+        return rollup.rollup(cfg).then(bundle => {
+          bundle.write(cfg.output);
+        });
+      });
 
       return Promise.all(allBundles).then(() => console.log('All bundles generated successfully.'));
     })
