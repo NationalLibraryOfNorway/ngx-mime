@@ -175,42 +175,38 @@ return (
       // UMD bundle.
       const umdConfig = Object.assign({}, rollupBaseConfig, {
         input: es5Entry,
-        output: {
-          ...rollupBaseConfig.output,
+        output: Object.assign({}, rollupBaseConfig.output, {
           file: path.join(distFolder, `bundles`, `${libName}.umd.js`),
           format: 'umd'
-        }
+        })
       });
 
       // Minified UMD bundle.
       const minifiedUmdConfig = Object.assign({}, rollupBaseConfig, {
         input: es5Entry,
-        output: {
-          ...rollupBaseConfig.output,
+        output: Object.assign({}, rollupBaseConfig.output, {
           file: path.join(distFolder, `bundles`, `${libName}.umd.min.js`),
           format: 'umd'
-        },
+        }),
         plugins: rollupBaseConfig.plugins.concat([uglify({})])
       });
 
       // ESM+ES5 flat module bundle.
       const fesm5config = Object.assign({}, rollupBaseConfig, {
         input: es5Entry,
-        output: {
-          ...rollupBaseConfig.output,
+        output: Object.assign({}, rollupBaseConfig.output, {
           file: path.join(distFolder, `${libName}.es5.js`),
           format: 'es'
-        }
+        })
       });
 
       // ESM+ES2015 flat module bundle.
       const fesm2015config = Object.assign({}, rollupBaseConfig, {
         input: es2015Entry,
-        output: {
-          ...rollupBaseConfig.output,
+        output: Object.assign({}, rollupBaseConfig.output, {
           file: path.join(distFolder, `${libName}.js`),
           format: 'es'
-        }
+        })
       });
 
       const allBundles = [umdConfig, minifiedUmdConfig, fesm5config, fesm2015config].map(cfg => {
