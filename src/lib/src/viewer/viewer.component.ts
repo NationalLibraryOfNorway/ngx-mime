@@ -30,7 +30,7 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { Manifest } from '../core/models/manifest';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
-import { PageService } from '../core/page-service/page-service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
@@ -94,7 +94,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     private modeService: ModeService,
     private iiifContentSearchService: IiifContentSearchService,
     private accessKeysHandlerService: AccessKeysService,
-    private pageService: PageService,
+    private pageService: CanvasService,
     private viewerLayoutService: ViewerLayoutService,
     public zone: NgZone
   ) {
@@ -143,7 +143,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
 
     this.viewerService.onOsdReadyChange.pipe(takeUntil(this.destroyed)).subscribe((state: boolean) => {
       // Don't reset current page when switching layout
-      if (state && this.canvasIndex && !this.pageService.currentPage) {
+      if (state && this.canvasIndex && !this.pageService.currentCanvasGroupIndex) {
         this.viewerService.goToTile(this.canvasIndex, false);
       }
     });
@@ -191,8 +191,8 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
       this.pageModeChanged.emit(mode.currentValue);
     });
 
-    this.pageService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((pageNumber: number) => {
-      const tileIndex = this.pageService.findTileByPageNumber(pageNumber);
+    this.pageService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((pageNumber: number) => {
+      const tileIndex = this.pageService.findCanvasByCanvasIndex(pageNumber);
       if (tileIndex !== -1) {
         this.pageChanged.emit(tileIndex);
       }

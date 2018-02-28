@@ -1,8 +1,8 @@
-import { PageRects } from './page-rects';
+import { CanvasGroups } from './page-rects';
 
 describe('CenterPoints ', () => {
   it('should return closest index', () => {
-    const pageRects = new PageRects();
+    const pageRects = new CanvasGroups();
     pageRects.add({ x: 10, y: 0 });
     pageRects.add({ x: 20, y: 0 });
     pageRects.add({ x: 30, y: 0 });

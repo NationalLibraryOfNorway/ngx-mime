@@ -1,18 +1,18 @@
-import { PageService } from './page-service';
+import { CanvasService } from './canvas-service';
 import { Rect } from '../models/rect';
 import { ViewerLayout } from '../models/viewer-layout';
 
 describe('PageService', () => {
-  let service: PageService;
+  let service: CanvasService;
 
   beforeEach(() => {
-    service = new PageService();
+    service = new CanvasService();
 
     const pages: Rect[] = [];
     for (let i = 0; i < 100; i++) {
       pages.push(new Rect());
     }
-    service.addPages(pages, ViewerLayout.ONE_PAGE, false);
+    service.addAll(pages, ViewerLayout.ONE_PAGE);
   });
 
   it('#isWithinBounds should return true when requested page is within bounds', () => {
@@ -29,52 +29,52 @@ describe('PageService', () => {
   });
 
   it('should set currentPage', () => {
-    service.currentPage = 0;
-    expect(service.currentPage).toBe(0);
-    service.currentPage = 99;
-    expect(service.currentPage).toBe(99);
+    service.currentCanvasGroupIndex = 0;
+    expect(service.currentCanvasGroupIndex).toBe(0);
+    service.currentCanvasGroupIndex = 99;
+    expect(service.currentCanvasGroupIndex).toBe(99);
   });
 
   it('should not set currentPage if outside bounds', () => {
-    service.currentPage = 76;
+    service.currentCanvasGroupIndex = 76;
 
-    service.currentPage = -2;
-    expect(service.currentPage).toBe(76);
+    service.currentCanvasGroupIndex = -2;
+    expect(service.currentCanvasGroupIndex).toBe(76);
 
-    service.currentPage = 100;
-    expect(service.currentPage).toBe(76);
+    service.currentCanvasGroupIndex = 100;
+    expect(service.currentCanvasGroupIndex).toBe(76);
 
-    service.currentPage = 101;
-    expect(service.currentPage).toBe(76);
+    service.currentCanvasGroupIndex = 101;
+    expect(service.currentCanvasGroupIndex).toBe(76);
 
-    service.currentPage = 176;
-    expect(service.currentPage).toBe(76);
+    service.currentCanvasGroupIndex = 176;
+    expect(service.currentCanvasGroupIndex).toBe(76);
   });
 
   it('#getNextPage should get next page', () => {
-    let currentPage = (service.currentPage = 0);
-    expect(service.getNextPage()).toBe(currentPage + 1);
+    let currentPage = (service.currentCanvasGroupIndex = 0);
+    expect(service.getNextCanvasGroupIndex()).toBe(currentPage + 1);
 
-    currentPage = service.currentPage = 98;
-    expect(service.getNextPage()).toBe(currentPage + 1);
+    currentPage = service.currentCanvasGroupIndex = 98;
+    expect(service.getNextCanvasGroupIndex()).toBe(currentPage + 1);
   });
 
   it('#getPrevPage should get previous page', () => {
-    let currentPage = (service.currentPage = 2);
-    expect(service.getPrevPage()).toBe(currentPage - 1);
+    let currentPage = (service.currentCanvasGroupIndex = 2);
+    expect(service.getPrevCanvasGroupIndex()).toBe(currentPage - 1);
 
-    currentPage = service.currentPage = 1;
-    expect(service.getPrevPage()).toBe(currentPage - 1);
+    currentPage = service.currentCanvasGroupIndex = 1;
+    expect(service.getPrevCanvasGroupIndex()).toBe(currentPage - 1);
   });
 
   it('#getNextPage should return -1 when going out of bounds', () => {
-    service.currentPage = 99;
-    expect(service.getNextPage()).toBe(-1);
+    service.currentCanvasGroupIndex = 99;
+    expect(service.getNextCanvasGroupIndex()).toBe(-1);
   });
 
   it('#getPrevPage should return -1 when going out of bounds', () => {
-    service.currentPage = 0;
-    expect(service.getPrevPage()).toBe(-1);
+    service.currentCanvasGroupIndex = 0;
+    expect(service.getPrevCanvasGroupIndex()).toBe(-1);
   });
 
   it('should return maxPage when next page is larger than maxPage', () => {
@@ -97,7 +97,7 @@ describe('PageService', () => {
   });
 
   it('should return 1 if tileIndicesPerPage is empty', () => {
-    const page = service.getTilesStringFromPageIndex(0);
+    const page = service.getCanvasGroupLabel(0);
     expect(page).toBe('1');
   });
 });

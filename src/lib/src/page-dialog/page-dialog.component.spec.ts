@@ -10,7 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PageDialogComponent } from './page-dialog.component';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { PageService } from '../core/page-service/page-service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
@@ -38,7 +38,7 @@ describe('PageDialogComponent', () => {
           MimeViewerIntl,
           { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
           { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: PageService, useClass: PageServiceStub }
+          { provide: CanvasService, useClass: PageServiceStub }
         ]
       }).compileComponents();
     })
@@ -48,7 +48,7 @@ describe('PageDialogComponent', () => {
     fixture = TestBed.createComponent(PageDialogComponent);
     component = fixture.componentInstance;
     intl = TestBed.get(MimeViewerIntl);
-    pageService = TestBed.get(PageService);
+    pageService = TestBed.get(CanvasService);
     fixture.detectChanges();
   });
 
@@ -70,7 +70,7 @@ describe('PageDialogComponent', () => {
     it(
       'should show a error message if user enters a page number that does not exists',
       fakeAsync(() => {
-        pageService._currentNumberOfPages.next(10);
+        pageService._currentNumberOfCanvasGroups.next(10);
 
         component.pageNumber.setValue(11);
 

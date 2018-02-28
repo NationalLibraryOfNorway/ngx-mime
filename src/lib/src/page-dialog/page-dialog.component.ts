@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { PageService } from '../core/page-service/page-service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 
 @Component({
@@ -23,11 +23,11 @@ export class PageDialogComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<PageDialogComponent>,
     private fb: FormBuilder,
     private viewerService: ViewerService,
-    private pageService: PageService,
+    private pageService: CanvasService,
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-    this.numberOfTiles = this.pageService.numberOfTiles;
+    this.numberOfTiles = this.pageService.numberOfCanvases;
     this.createForm();
   }
 
@@ -50,7 +50,7 @@ export class PageDialogComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.pageForm.valid) {
       const pageNumber = this.pageForm.get('pageNumber').value - 1;
-      this.viewerService.goToPage(this.pageService.findPageByTileIndex(pageNumber), false);
+      this.viewerService.goToPage(this.pageService.findCanvasGroupByCanvasIndex(pageNumber), false);
       this.dialogRef.close();
     }
   }

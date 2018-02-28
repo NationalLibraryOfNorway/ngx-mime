@@ -10,7 +10,7 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ContentsDialogComponent } from '../contents-dialog.component';
-import { PageService } from '../../core/page-service/page-service';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
 
 @Component({
   selector: 'mime-toc',
@@ -30,13 +30,13 @@ export class TocComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private viewerService: ViewerService,
-    private pageService: PageService
+    private pageService: CanvasService
   ) {}
 
   ngOnInit() {
     this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
       this.manifest = manifest;
-      this.currentPage = this.pageService.currentPage;
+      this.currentPage = this.pageService.currentCanvasGroupIndex;
       this.changeDetectorRef.detectChanges();
     });
 

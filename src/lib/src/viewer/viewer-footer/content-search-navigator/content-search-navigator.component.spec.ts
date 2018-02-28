@@ -10,7 +10,7 @@ import { Hit } from './../../../core/models/hit';
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
-import { PageService } from './../../../core/page-service/page-service';
+import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { ViewerServiceMock } from './../../../test/viewer-service-mock';
@@ -36,7 +36,7 @@ describe('ContentSearchNavigatorComponent', () => {
           ContentSearchNavigationService,
           { provide: ViewerService, useClass: ViewerServiceMock },
           { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
-          { provide: PageService, useClass: PageServiceStub }
+          { provide: CanvasService, useClass: PageServiceStub }
         ]
       }).compileComponents();
     })
@@ -46,12 +46,12 @@ describe('ContentSearchNavigatorComponent', () => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
     iiifContentSearchService = TestBed.get(IiifContentSearchService);
     contentSearchNavigationService = TestBed.get(ContentSearchNavigationService);
-    pageService = TestBed.get(PageService);
+    pageService = TestBed.get(CanvasService);
 
     component = fixture.componentInstance;
     component.searchResult = createDefaultData();
     iiifContentSearchService._currentSearchResult.next(component.searchResult);
-    pageService.addPages(createDefaultTileRects(102), ViewerLayout.TWO_PAGE, true);
+    pageService.addAll(createDefaultTileRects(102), ViewerLayout.TWO_PAGE);
     fixture.detectChanges();
   });
 
@@ -177,7 +177,7 @@ describe('ContentSearchNavigatorComponent', () => {
       component.searchResult = createSinglePageHit();
       iiifContentSearchService._currentSearchResult.next(component.searchResult);
       pageService.reset();
-      pageService.addPages(createDefaultTileRects(102), ViewerLayout.ONE_PAGE, true);
+      pageService.addAll(createDefaultTileRects(102), ViewerLayout.ONE_PAGE);
       pageService.setPageChange(3);
       fixture.detectChanges();
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { PageService } from '../../page-service/page-service';
+import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from '../../models/search-result';
 import { Hit } from '../../models/hit';
@@ -14,14 +14,14 @@ export class ContentSearchNavigationService {
   private currentCanvasIndices = [-1];
   private searchResult: SearchResult;
 
-  constructor(private pageService: PageService, private iiifContentSearchService: IiifContentSearchService) {
+  constructor(private pageService: CanvasService, private iiifContentSearchService: IiifContentSearchService) {
     this.iiifContentSearchService.onChange.subscribe((result: SearchResult) => {
       this.searchResult = result;
     });
   }
 
   update(pageIndex: number) {
-    this.currentCanvasIndices = this.pageService.getTileArrayFromPageIndex(pageIndex);
+    this.currentCanvasIndices = this.pageService.getCanvasesPerCanvasGroup(pageIndex);
     this.currentIndex = this.findCurrentHitIndex(this.currentCanvasIndices);
     this.isHitOnActivePage = this.findHitOnActivePage();
     this.isFirstHitPage = this.findFirstHitPage();
@@ -51,8 +51,8 @@ export class ContentSearchNavigationService {
         nextHit = this.searchResult.get(0);
       } else {
         const current = this.searchResult.get(this.currentIndex);
-        const page = this.pageService.findPageByTileIndex(current.index);
-        const tiles = this.pageService.getTileArrayFromPageIndex(page);
+        const page = this.pageService.findCanvasGroupByCanvasIndex(current.index);
+        const tiles = this.pageService.getCanvasesPerCanvasGroup(page);
         const lastPageIndex = this.getLastPageIndex(tiles);
         nextHit = this.searchResult.hits.find(h => h.index > lastPageIndex);
       }
@@ -107,8 +107,8 @@ export class ContentSearchNavigationService {
 
   private findFirstHitOnPage(previousIndex: number): Hit {
     let previousHit = this.searchResult.get(previousIndex);
-    const page = this.pageService.findPageByTileIndex(previousHit.index);
-    const tiles = this.pageService.getTileArrayFromPageIndex(page);
+    const page = this.pageService.findCanvasGroupByCanvasIndex(previousHit.index);
+    const tiles = this.pageService.getCanvasesPerCanvasGroup(page);
     const leftPage = tiles[0];
     const leftPageHit = this.searchResult.hits.find(h => h.index === leftPage);
     if (leftPageHit) {

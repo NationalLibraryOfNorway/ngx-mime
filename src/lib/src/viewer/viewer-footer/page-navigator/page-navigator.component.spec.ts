@@ -11,7 +11,7 @@ import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 import { PageNavigatorComponent } from './page-navigator.component';
 import { SharedModule } from './../../../shared/shared.module';
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
-import { PageService } from './../../../core/page-service/page-service';
+import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { Hit } from './../../../core/models/hit';
@@ -35,7 +35,7 @@ describe('PageNavigatorComponent', () => {
           MimeViewerIntl,
           PageDialogService,
           { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: PageService, useClass: PageServiceStub }
+          { provide: CanvasService, useClass: PageServiceStub }
         ]
       }).compileComponents();
     })
@@ -66,8 +66,8 @@ describe('PageNavigatorComponent', () => {
 
   it(
     'should enable both navigation buttons when viewer is on second page',
-    inject([PageService], (pageService: PageServiceStub) => {
-      pageService._currentPage.next(1);
+    inject([CanvasService], (pageService: PageServiceStub) => {
+      pageService._currentCanvasIndex.next(1);
       fixture.detectChanges();
 
       const previousButton = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
@@ -79,8 +79,8 @@ describe('PageNavigatorComponent', () => {
 
   it(
     'should disable previous button when viewer is on first page',
-    inject([PageService], (pageService: PageServiceStub) => {
-      pageService._currentPage.next(0);
+    inject([CanvasService], (pageService: PageServiceStub) => {
+      pageService._currentCanvasIndex.next(0);
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(By.css('#footerNavigateBeforeButton'));
@@ -90,10 +90,10 @@ describe('PageNavigatorComponent', () => {
 
   it(
     'should disable next button when viewer is on last page',
-    inject([PageService], (pageService: PageServiceStub) => {
-      pageService._currentNumberOfPages.next(10);
+    inject([CanvasService], (pageService: PageServiceStub) => {
+      pageService._currentNumberOfCanvasGroups.next(10);
 
-      pageService._currentPage.next(9);
+      pageService._currentCanvasIndex.next(9);
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
@@ -105,7 +105,7 @@ describe('PageNavigatorComponent', () => {
 
   it(
     'should display next page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
       spy = spyOn(viewerService, 'goToNextPage');
 
       const button = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
@@ -120,10 +120,10 @@ describe('PageNavigatorComponent', () => {
 
   it(
     'should display previous page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
       spy = spyOn(component, 'goToPreviousPage');
 
-      pageService._currentPage.next(9);
+      pageService._currentCanvasIndex.next(9);
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {

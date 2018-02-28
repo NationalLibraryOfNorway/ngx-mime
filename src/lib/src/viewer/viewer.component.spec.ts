@@ -18,7 +18,7 @@ import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ClickService } from '../core/click-service/click.service';
-import { PageService } from '../core/page-service/page-service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
@@ -46,7 +46,7 @@ describe('ViewerComponent', function() {
   let originalTimeout: number;
 
   let viewerService: ViewerService;
-  let pageService: PageService;
+  let pageService: CanvasService;
   let clickService: ClickService;
   let modeService: ModeService;
   let mimeResizeServiceStub: MimeResizeServiceStub;
@@ -74,7 +74,7 @@ describe('ViewerComponent', function() {
           { provide: MimeResizeService, useClass: MimeResizeServiceStub },
           MimeViewerIntl,
           ClickService,
-          PageService,
+          CanvasService,
           ModeService,
           FullscreenService,
           AccessKeysService,
@@ -104,7 +104,7 @@ describe('ViewerComponent', function() {
     testHostFixture.detectChanges();
 
     viewerService = TestBed.get(ViewerService);
-    pageService = TestBed.get(PageService);
+    pageService = TestBed.get(CanvasService);
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
     mimeResizeServiceStub = TestBed.get(MimeResizeService);
@@ -378,15 +378,15 @@ describe('ViewerComponent', function() {
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
     testHostComponent.canvasIndex = 3;
     testHostFixture.detectChanges();
-    expect(pageService.currentTile).toEqual(3);
+    expect(pageService.currentCanvas).toEqual(3);
 
     viewerService.goToTile(7, false);
-    expect(pageService.currentTile).toEqual(7);
+    expect(pageService.currentCanvas).toEqual(7);
 
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
 
     setTimeout(() => {
-      expect(pageService.currentTile).toEqual(7);
+      expect(pageService.currentCanvas).toEqual(7);
       done();
     }, osdAnimationTime);
   });

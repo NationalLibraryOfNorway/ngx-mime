@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
 import { ViewerService } from '../viewer-service/viewer.service';
-import { PageService } from '../page-service/page-service';
+import { CanvasService } from '../canvas-service/canvas-service';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
 import { ModeService } from '../mode-service/mode.service';
@@ -25,7 +25,7 @@ export class AccessKeysService implements OnDestroy {
 
   constructor(
     private viewerService: ViewerService,
-    private pageService: PageService,
+    private pageService: CanvasService,
     private modeService: ModeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
@@ -86,13 +86,13 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private goToNextPage() {
-    if (!this.isZoomedIn() && this.pageService.currentPage < this.pageService.numberOfPages) {
+    if (!this.isZoomedIn() && this.pageService.currentCanvasGroupIndex < this.pageService.numberOfCanvasGroups) {
       this.viewerService.goToNextPage();
     }
   }
 
   private goToPreviousPage() {
-    if (!this.isZoomedIn() && this.pageService.currentPage > 0) {
+    if (!this.isZoomedIn() && this.pageService.currentCanvasGroupIndex > 0) {
       this.viewerService.goToPreviousPage();
     }
   }
@@ -102,7 +102,7 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private goToLastPage() {
-    this.viewerService.goToPage(this.pageService.numberOfPages - 1, false);
+    this.viewerService.goToPage(this.pageService.numberOfCanvasGroups - 1, false);
   }
 
   private goToNextHit() {

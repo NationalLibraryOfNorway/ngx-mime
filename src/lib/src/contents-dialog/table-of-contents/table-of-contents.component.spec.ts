@@ -13,7 +13,7 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { TocComponent } from './table-of-contents.component';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ClickService } from '../../core/click-service/click.service';
-import { PageService } from '../../core/page-service/page-service';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { ContentsDialogComponent } from '../contents-dialog.component';
 import { ViewerServiceMock } from './../../test/viewer-service-mock';
@@ -33,7 +33,7 @@ describe('TocComponent', () => {
         declarations: [TocComponent],
         providers: [
           ClickService,
-          PageService,
+          CanvasService,
           ModeService,
           MimeViewerIntl,
           { provide: MatDialogRef, useClass: MatDialogRefStub },

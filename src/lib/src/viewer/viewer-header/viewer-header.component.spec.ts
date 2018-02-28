@@ -15,7 +15,7 @@ import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ClickService } from '../../core/click-service/click.service';
 import { ModeService } from '../../core/mode-service/mode.service';
-import { PageService } from '../../core/page-service/page-service';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenServiceStub } from './../../test/fullscreen-service-stub';
 
@@ -31,7 +31,7 @@ describe('ViewerHeaderComponent', () => {
         providers: [
           ViewerService,
           ClickService,
-          PageService,
+          CanvasService,
           ModeService,
           MimeDomHelper,
           FullscreenService,

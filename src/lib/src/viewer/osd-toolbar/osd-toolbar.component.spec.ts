@@ -6,7 +6,7 @@ import { OsdToolbarComponent } from './osd-toolbar.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
-import { PageService } from '../../core/page-service/page-service';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { ClickService } from '../../core/click-service/click.service';
@@ -29,9 +29,9 @@ describe('OsdToolbarComponent', () => {
           MimeResizeService,
           MimeViewerIntl,
           { provide: ViewerService, useClass: ViewerServiceMock },
-          { provide: PageService, useClass: PageServiceStub },
+          { provide: CanvasService, useClass: PageServiceStub },
           ClickService,
-          PageService,
+          CanvasService,
           ModeService,
           MimeDomHelper,
           FullscreenService
@@ -121,7 +121,7 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should disable next button when viewer is on last page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageService) => {
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, pageService: CanvasService) => {
       spyOnProperty(pageService, 'numberOfPages', 'get').and.returnValue(10);
 
       viewerService.pageChanged.next(9);
@@ -136,7 +136,7 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should display next page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
       spy = spyOn(viewerService, 'goToNextPage');
 
       const button = fixture.debugElement.query(By.css('#navigateNextButton'));
@@ -151,7 +151,7 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should display previous page',
-    inject([ViewerService, PageService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
       spy = spyOn(component, 'goToPreviousPage');
 
       const button = fixture.debugElement.query(By.css('#navigateBeforeButton'));

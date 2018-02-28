@@ -18,7 +18,7 @@ import { MediaServiceStub } from './../test/media-service-stub';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { ClickService } from '../core/click-service/click.service';
-import { PageService } from '../core/page-service/page-service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
@@ -43,7 +43,7 @@ describe('ContentsDialogComponent', () => {
           ViewerService,
           ClickService,
           MimeViewerIntl,
-          PageService,
+          CanvasService,
           ModeService,
           MimeResizeService,
           MimeDomHelper,

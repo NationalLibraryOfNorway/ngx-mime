@@ -6,7 +6,7 @@ import { SearchResult } from '../../../core/models/search-result';
 import { MimeViewerIntl } from '../../../core/intl/viewer-intl';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
-import { PageService } from '../../../core/page-service/page-service';
+import { CanvasService } from '../../../core/canvas-service/canvas-service';
 
 @Component({
   selector: 'mime-content-search-navigator',
@@ -25,7 +25,7 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private pageService: PageService,
+    private pageService: CanvasService,
     private iiifContentSearchService: IiifContentSearchService,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {}
@@ -33,7 +33,7 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.intl.changes.pipe(takeUntil(this.destroyed)).subscribe(() => this.changeDetectorRef.markForCheck());
 
-    this.pageService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe(pageIndex => {
+    this.pageService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe(pageIndex => {
       this.contentSearchNavigationService.update(pageIndex);
       this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
       this.isHitOnActivePage = this.contentSearchNavigationService.getHitOnActivePage();

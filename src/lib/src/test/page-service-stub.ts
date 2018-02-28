@@ -2,34 +2,34 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { distinctUntilChanged } from 'rxjs/operators';
 
-import { PageService } from '../core/page-service/page-service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 
-export class PageServiceStub extends PageService {
-  _currentNumberOfPages: BehaviorSubject<number> = new BehaviorSubject(10);
-  _currentPage: BehaviorSubject<number> = new BehaviorSubject(0);
+export class PageServiceStub extends CanvasService {
+  _currentNumberOfCanvasGroups: BehaviorSubject<number> = new BehaviorSubject(10);
+  _currentCanvasIndex: BehaviorSubject<number> = new BehaviorSubject(0);
   public _numberOfPages: number;
 
-  get onPageChange(): Observable<number> {
-    return this._currentPage.asObservable().pipe(distinctUntilChanged());
+  get onCanvasGroupIndexChange(): Observable<number> {
+    return this._currentCanvasIndex.asObservable().pipe(distinctUntilChanged());
   }
 
-  get onNumberOfPagesChange(): Observable<number> {
-    return this._currentNumberOfPages.asObservable().pipe(distinctUntilChanged());
+  get onNumberOfCanvasGroupsChange(): Observable<number> {
+    return this._currentNumberOfCanvasGroups.asObservable().pipe(distinctUntilChanged());
   }
 
-  get numberOfTiles(): number {
-    return this._currentNumberOfPages.value;
+  get numberOfCanvases(): number {
+    return this._currentNumberOfCanvasGroups.value;
   }
 
-  getTilesStringFromPageIndex(index: number): string {
+  getCanvasGroupLabel(index: number): string {
     return '' + index;
   }
 
-  set numberOfPages(numberOfPages: number) {
+  set numberOfCanvasGroups(numberOfPages: number) {
     this._numberOfPages = numberOfPages;
   }
 
-  get numberOfPages(): number {
+  get numberOfCanvasGroups(): number {
     return this._numberOfPages;
   }
 
@@ -38,6 +38,6 @@ export class PageServiceStub extends PageService {
   }
 
   setPageChange(index: number) {
-    this._currentPage.next(index);
+    this._currentCanvasIndex.next(index);
   }
 }

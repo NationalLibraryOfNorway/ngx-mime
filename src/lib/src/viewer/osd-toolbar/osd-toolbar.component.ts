@@ -7,7 +7,7 @@ import { Dimensions } from './../../core/models/dimensions';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
-import { PageService } from './../../core/page-service/page-service';
+import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { ViewerOptions } from '../../core/models/viewer-options';
 
 @Component({
@@ -54,7 +54,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private mimeService: MimeResizeService,
     private viewerService: ViewerService,
-    private pageService: PageService
+    private pageService: CanvasService
   ) {}
 
   ngOnInit() {
@@ -66,7 +66,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     });
 
     this.viewerService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((currentPage: number) => {
-      this.numberOfPages = this.pageService.numberOfPages;
+      this.numberOfPages = this.pageService.numberOfCanvasGroups;
       this.isFirstPage = this.isOnFirstPage(currentPage);
       this.isLastPage = this.isOnLastPage(currentPage);
       this.changeDetectorRef.detectChanges();
