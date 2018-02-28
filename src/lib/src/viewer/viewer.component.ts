@@ -58,8 +58,8 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
   @Input() public q: string;
   @Input() public canvasIndex: number;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
-  @Output() pageModeChanged: EventEmitter<ViewerMode> = new EventEmitter();
-  @Output() pageChanged: EventEmitter<number> = new EventEmitter();
+  @Output() viewerModeChanged: EventEmitter<ViewerMode> = new EventEmitter();
+  @Output() canvasChanged: EventEmitter<number> = new EventEmitter();
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
 
@@ -94,7 +94,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     private modeService: ModeService,
     private iiifContentSearchService: IiifContentSearchService,
     private accessKeysHandlerService: AccessKeysService,
-    private pageService: CanvasService,
+    private canvasService: CanvasService,
     private viewerLayoutService: ViewerLayoutService,
     public zone: NgZone
   ) {
@@ -143,8 +143,8 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
 
     this.viewerService.onOsdReadyChange.pipe(takeUntil(this.destroyed)).subscribe((state: boolean) => {
       // Don't reset current page when switching layout
-      if (state && this.canvasIndex && !this.pageService.currentCanvasGroupIndex) {
-        this.viewerService.goToTile(this.canvasIndex, false);
+      if (state && this.canvasIndex && !this.canvasService.currentCanvasGroupIndex) {
+        this.viewerService.goToCanvas(this.canvasIndex, false);
       }
     });
 
@@ -188,13 +188,13 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
           }
         });
       }
-      this.pageModeChanged.emit(mode.currentValue);
+      this.viewerModeChanged.emit(mode.currentValue);
     });
 
-    this.pageService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((pageNumber: number) => {
-      const tileIndex = this.pageService.findCanvasByCanvasIndex(pageNumber);
-      if (tileIndex !== -1) {
-        this.pageChanged.emit(tileIndex);
+    this.canvasService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((canvasGroupIndex: number) => {
+      const canvasIndex = this.canvasService.findCanvasByCanvasIndex(canvasGroupIndex);
+      if (canvasIndex !== -1) {
+        this.canvasChanged.emit(canvasIndex);
       }
     });
 
@@ -248,7 +248,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
         this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
       if (canvasIndexChanged) {
-        this.viewerService.goToTile(this.canvasIndex, true);
+        this.viewerService.goToCanvas(this.canvasIndex, true);
       }
     }
   }

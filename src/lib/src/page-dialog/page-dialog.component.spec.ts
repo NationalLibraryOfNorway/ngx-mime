@@ -17,13 +17,13 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
-import { PageServiceStub } from '../test/page-service-stub';
+import { CanvasServiceStub } from '../test/canvas-service-stub';
 
 describe('PageDialogComponent', () => {
   let component: PageDialogComponent;
   let fixture: ComponentFixture<PageDialogComponent>;
   let intl: MimeViewerIntl;
-  let pageService: PageServiceStub;
+  let canvasService: CanvasServiceStub;
 
   beforeEach(
     async(() => {
@@ -38,7 +38,7 @@ describe('PageDialogComponent', () => {
           MimeViewerIntl,
           { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
           { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: CanvasService, useClass: PageServiceStub }
+          { provide: CanvasService, useClass: CanvasServiceStub }
         ]
       }).compileComponents();
     })
@@ -48,7 +48,7 @@ describe('PageDialogComponent', () => {
     fixture = TestBed.createComponent(PageDialogComponent);
     component = fixture.componentInstance;
     intl = TestBed.get(MimeViewerIntl);
-    pageService = TestBed.get(CanvasService);
+    canvasService = TestBed.get(CanvasService);
     fixture.detectChanges();
   });
 
@@ -70,7 +70,7 @@ describe('PageDialogComponent', () => {
     it(
       'should show a error message if user enters a page number that does not exists',
       fakeAsync(() => {
-        pageService._currentNumberOfCanvasGroups.next(10);
+        canvasService._currentNumberOfCanvasGroups.next(10);
 
         component.pageNumber.setValue(11);
 

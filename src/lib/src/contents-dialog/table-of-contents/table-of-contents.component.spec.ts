@@ -96,12 +96,12 @@ describe('TocComponent', () => {
   it(
     'should go to page when selecting a page in TOC',
     inject([ViewerService], (viewerService: ViewerService) => {
-      spyOn(viewerService, 'goToTile').and.callThrough();
+      spyOn(viewerService, 'goToCanvas').and.callThrough();
 
       const divs: DebugElement[] = fixture.debugElement.queryAll(By.css('.toc-link'));
       divs[2].triggerEventHandler('click', null);
 
-      expect(viewerService.goToTile).toHaveBeenCalledWith(4, false);
+      expect(viewerService.goToCanvas).toHaveBeenCalledWith(4, false);
     })
   );
 

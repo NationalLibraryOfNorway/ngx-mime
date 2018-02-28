@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestro
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { takeUntil } from 'rxjs/operators';
 
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -23,11 +23,11 @@ export class PageDialogComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<PageDialogComponent>,
     private fb: FormBuilder,
     private viewerService: ViewerService,
-    private pageService: CanvasService,
+    private canvasService: CanvasService,
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-    this.numberOfTiles = this.pageService.numberOfCanvases;
+    this.numberOfTiles = this.canvasService.numberOfCanvases;
     this.createForm();
   }
 
@@ -50,7 +50,7 @@ export class PageDialogComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.pageForm.valid) {
       const pageNumber = this.pageForm.get('pageNumber').value - 1;
-      this.viewerService.goToPage(this.pageService.findCanvasGroupByCanvasIndex(pageNumber), false);
+      this.viewerService.goToCanvasGroup(this.canvasService.findCanvasGroupByCanvasIndex(pageNumber), false);
       this.dialogRef.close();
     }
   }

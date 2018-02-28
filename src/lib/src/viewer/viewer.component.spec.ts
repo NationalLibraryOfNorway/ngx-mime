@@ -46,7 +46,7 @@ describe('ViewerComponent', function() {
   let originalTimeout: number;
 
   let viewerService: ViewerService;
-  let pageService: CanvasService;
+  let canvasService: CanvasService;
   let clickService: ClickService;
   let modeService: ModeService;
   let mimeResizeServiceStub: MimeResizeServiceStub;
@@ -104,7 +104,7 @@ describe('ViewerComponent', function() {
     testHostFixture.detectChanges();
 
     viewerService = TestBed.get(ViewerService);
-    pageService = TestBed.get(CanvasService);
+    canvasService = TestBed.get(CanvasService);
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
     mimeResizeServiceStub = TestBed.get(MimeResizeService);
@@ -350,23 +350,23 @@ describe('ViewerComponent', function() {
 
   it('should emit when page mode changes', () => {
     let selectedMode: ViewerMode;
-    comp.pageModeChanged.subscribe((mode: ViewerMode) => (selectedMode = mode));
+    comp.viewerModeChanged.subscribe((mode: ViewerMode) => (selectedMode = mode));
 
     modeService.mode = ViewerMode.DASHBOARD;
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
   it('should emit when page number changes', done => {
-    let currentPageNumber: number;
-    comp.pageChanged.subscribe((pageNumber: number) => (currentPageNumber = pageNumber));
+    let currentCanvasIndex: number;
+    comp.canvasChanged.subscribe((canvasIndex: number) => (currentCanvasIndex = canvasIndex));
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          viewerService.goToPage(1, false);
+          viewerService.goToCanvasGroup(1, false);
         }, 100);
 
         setTimeout(() => {
-          expect(currentPageNumber).toEqual(1);
+          expect(currentCanvasIndex).toEqual(1);
           done();
         }, osdAnimationTime);
       }
@@ -378,15 +378,15 @@ describe('ViewerComponent', function() {
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
     testHostComponent.canvasIndex = 3;
     testHostFixture.detectChanges();
-    expect(pageService.currentCanvas).toEqual(3);
+    expect(canvasService.currentCanvasIndex).toEqual(3);
 
-    viewerService.goToTile(7, false);
-    expect(pageService.currentCanvas).toEqual(7);
+    viewerService.goToCanvas(7, false);
+    expect(canvasService.currentCanvasIndex).toEqual(7);
 
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
 
     setTimeout(() => {
-      expect(pageService.currentCanvas).toEqual(7);
+      expect(canvasService.currentCanvasIndex).toEqual(7);
       done();
     }, osdAnimationTime);
   });
@@ -408,10 +408,10 @@ describe('ViewerComponent', function() {
   });
 
   it('should open viewer on canvas index if present', done => {
-    let currentPageNumber: number;
+    let currentCanvasIndex: number;
     testHostComponent.canvasIndex = 12;
-    comp.pageChanged.subscribe((pageNumber: number) => {
-      currentPageNumber = pageNumber;
+    comp.canvasChanged.subscribe((canvasIndex: number) => {
+      currentCanvasIndex = canvasIndex;
     });
 
     testHostFixture.detectChanges();
@@ -419,7 +419,7 @@ describe('ViewerComponent', function() {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          expect(currentPageNumber).toEqual(12);
+          expect(currentCanvasIndex).toEqual(12);
           done();
         }, osdAnimationTime);
       }
@@ -455,7 +455,7 @@ describe('ViewerComponent', function() {
   });
 
   // By.css() query does not find SVG elements https://github.com/angular/angular/pull/15372
-  xit('should add a mask around the page', (done: any) => {
+  xit('should add a mask around the canvas group', (done: any) => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {

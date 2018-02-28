@@ -56,7 +56,7 @@ export class CanvasService {
     return !this.canvasGroups.canvasRects ? 0 : this.canvasGroups.canvasRects.length;
   }
 
-  get currentCanvas(): number {
+  get currentCanvasIndex(): number {
     return this.canvasGroups.canvasesPerCanvasGroup[this.currentCanvasGroupIndex][0];
   }
 
@@ -96,7 +96,7 @@ export class CanvasService {
     }
   }
 
-  findClosestIndex(point: Point): number {
+  findClosestCanvasGroupIndex(point: Point): number {
     return this.canvasGroups.findClosestIndex(point);
   }
 

@@ -13,7 +13,7 @@ import { ClickService } from '../../core/click-service/click.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 import { ViewerServiceMock } from './../../test/viewer-service-mock';
-import { PageServiceStub } from './../../test/page-service-stub';
+import { CanvasServiceStub } from './../../test/canvas-service-stub';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
@@ -29,7 +29,7 @@ describe('OsdToolbarComponent', () => {
           MimeResizeService,
           MimeViewerIntl,
           { provide: ViewerService, useClass: ViewerServiceMock },
-          { provide: CanvasService, useClass: PageServiceStub },
+          { provide: CanvasService, useClass: CanvasServiceStub },
           ClickService,
           CanvasService,
           ModeService,
@@ -121,8 +121,8 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should disable next button when viewer is on last page',
-    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, pageService: CanvasService) => {
-      spyOnProperty(pageService, 'numberOfPages', 'get').and.returnValue(10);
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, canvasService: CanvasService) => {
+      spyOnProperty(canvasService, 'numberOfCanvasGroups', 'get').and.returnValue(10);
 
       viewerService.pageChanged.next(9);
       fixture.detectChanges();
@@ -136,7 +136,7 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should display next page',
-    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, canvasService: CanvasServiceStub) => {
       spy = spyOn(viewerService, 'goToNextPage');
 
       const button = fixture.debugElement.query(By.css('#navigateNextButton'));
@@ -151,7 +151,7 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should display previous page',
-    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, pageService: PageServiceStub) => {
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, canvasService: CanvasServiceStub) => {
       spy = spyOn(component, 'goToPreviousPage');
 
       const button = fixture.debugElement.query(By.css('#navigateBeforeButton'));

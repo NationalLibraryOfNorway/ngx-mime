@@ -44,8 +44,8 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   }
   public osdToolbarStyle = {};
   public numberOfPages: number;
-  public isFirstPage: boolean;
-  public isLastPage: boolean;
+  public isFirstCanvasGroup: boolean;
+  public isLastCanvasGroup: boolean;
   public state = 'show';
   private destroyed: Subject<void> = new Subject();
 
@@ -54,7 +54,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private mimeService: MimeResizeService,
     private viewerService: ViewerService,
-    private pageService: CanvasService
+    private canvasService: CanvasService
   ) {}
 
   ngOnInit() {
@@ -65,10 +65,10 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.viewerService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((currentPage: number) => {
-      this.numberOfPages = this.pageService.numberOfCanvasGroups;
-      this.isFirstPage = this.isOnFirstPage(currentPage);
-      this.isLastPage = this.isOnLastPage(currentPage);
+    this.viewerService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((currentPage: number) => {
+      this.numberOfPages = this.canvasService.numberOfCanvasGroups;
+      this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(currentPage);
+      this.isLastCanvasGroup = this.isOnLastCanvasGroup(currentPage);
       this.changeDetectorRef.detectChanges();
     });
 
@@ -92,19 +92,19 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  public goToPreviousPage(): void {
-    this.viewerService.goToPreviousPage();
+  public goToPreviousCanvasGroup(): void {
+    this.viewerService.goToPreviousCanvasGroup();
   }
 
-  public goToNextPage(): void {
-    this.viewerService.goToNextPage();
+  public goToNextCanvasGroup(): void {
+    this.viewerService.goToNextCanvasGroup();
   }
 
-  private isOnFirstPage(currentPage: number): boolean {
+  private isOnFirstCanvasGroup(currentPage: number): boolean {
     return currentPage === 0;
   }
 
-  private isOnLastPage(currentPage: number): boolean {
+  private isOnLastCanvasGroup(currentPage: number): boolean {
     return currentPage === this.numberOfPages - 1;
   }
 }

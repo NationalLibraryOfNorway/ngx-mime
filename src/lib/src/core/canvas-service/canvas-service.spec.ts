@@ -2,7 +2,7 @@ import { CanvasService } from './canvas-service';
 import { Rect } from '../models/rect';
 import { ViewerLayout } from '../models/viewer-layout';
 
-describe('PageService', () => {
+describe('CanvasService', () => {
   let service: CanvasService;
 
   beforeEach(() => {
@@ -15,13 +15,13 @@ describe('PageService', () => {
     service.addAll(pages, ViewerLayout.ONE_PAGE);
   });
 
-  it('#isWithinBounds should return true when requested canvas group index is within bounds', () => {
+  it('should return true when requested canvas group index is within bounds', () => {
     expect(service.isWithinBounds(0)).toBe(true);
     expect(service.isWithinBounds(10)).toBe(true);
     expect(service.isWithinBounds(99)).toBe(true);
   });
 
-  it('#isWithinBounds should return false when requested canvas group index is outside bounds', () => {
+  it('should return false when requested canvas group index is outside bounds', () => {
     expect(service.isWithinBounds(-1)).toBe(false);
     expect(service.isWithinBounds(100)).toBe(false);
     expect(service.isWithinBounds(101)).toBe(false);

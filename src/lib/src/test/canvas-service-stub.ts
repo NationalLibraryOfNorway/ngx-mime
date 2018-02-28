@@ -4,13 +4,13 @@ import { distinctUntilChanged } from 'rxjs/operators';
 
 import { CanvasService } from '../core/canvas-service/canvas-service';
 
-export class PageServiceStub extends CanvasService {
+export class CanvasServiceStub extends CanvasService {
   _currentNumberOfCanvasGroups: BehaviorSubject<number> = new BehaviorSubject(10);
-  _currentCanvasIndex: BehaviorSubject<number> = new BehaviorSubject(0);
-  public _numberOfPages: number;
+  _currentCanvasGroupIndex: BehaviorSubject<number> = new BehaviorSubject(0);
+  public _numberOfCanvasGroup: number;
 
   get onCanvasGroupIndexChange(): Observable<number> {
-    return this._currentCanvasIndex.asObservable().pipe(distinctUntilChanged());
+    return this._currentCanvasGroupIndex.asObservable().pipe(distinctUntilChanged());
   }
 
   get onNumberOfCanvasGroupsChange(): Observable<number> {
@@ -25,19 +25,19 @@ export class PageServiceStub extends CanvasService {
     return '' + index;
   }
 
-  set numberOfCanvasGroups(numberOfPages: number) {
-    this._numberOfPages = numberOfPages;
+  set numberOfCanvasGroups(numberOfCanvasGroups: number) {
+    this._numberOfCanvasGroup = numberOfCanvasGroups;
   }
 
   get numberOfCanvasGroups(): number {
-    return this._numberOfPages;
+    return this._numberOfCanvasGroup;
   }
 
   public getZoom(): number {
     return 0;
   }
 
-  setPageChange(index: number) {
-    this._currentCanvasIndex.next(index);
+  setCanvasGroupIndexChange(index: number) {
+    this._currentCanvasGroupIndex.next(index);
   }
 }

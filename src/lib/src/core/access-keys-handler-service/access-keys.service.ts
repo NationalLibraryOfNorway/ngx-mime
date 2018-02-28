@@ -25,7 +25,7 @@ export class AccessKeysService implements OnDestroy {
 
   constructor(
     private viewerService: ViewerService,
-    private pageService: CanvasService,
+    private canvasService: CanvasService,
     private modeService: ModeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
@@ -86,31 +86,31 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private goToNextPage() {
-    if (!this.isZoomedIn() && this.pageService.currentCanvasGroupIndex < this.pageService.numberOfCanvasGroups) {
-      this.viewerService.goToNextPage();
+    if (!this.isZoomedIn() && this.canvasService.currentCanvasGroupIndex < this.canvasService.numberOfCanvasGroups) {
+      this.viewerService.goToNextCanvasGroup();
     }
   }
 
   private goToPreviousPage() {
-    if (!this.isZoomedIn() && this.pageService.currentCanvasGroupIndex > 0) {
-      this.viewerService.goToPreviousPage();
+    if (!this.isZoomedIn() && this.canvasService.currentCanvasGroupIndex > 0) {
+      this.viewerService.goToPreviousCanvasGroup();
     }
   }
 
   private goToFirstPage() {
-    this.viewerService.goToPage(0, false);
+    this.viewerService.goToCanvasGroup(0, false);
   }
 
   private goToLastPage() {
-    this.viewerService.goToPage(this.pageService.numberOfCanvasGroups - 1, false);
+    this.viewerService.goToCanvasGroup(this.canvasService.numberOfCanvasGroups - 1, false);
   }
 
   private goToNextHit() {
-    this.contentSearchNavigationService.goToNextHitPage();
+    this.contentSearchNavigationService.goToNextCanvasGroupHit();
   }
 
   private goToPreviousHit() {
-    this.contentSearchNavigationService.goToPreviousHitPage();
+    this.contentSearchNavigationService.goToPreviousCanvasGroupHit();
   }
 
   private zoomIn() {

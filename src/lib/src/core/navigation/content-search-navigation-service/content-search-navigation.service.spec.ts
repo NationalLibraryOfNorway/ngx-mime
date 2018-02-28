@@ -45,13 +45,13 @@ describe('ContentSearchNavigationService', () => {
           csns: ContentSearchNavigationService,
           httpMock: HttpTestingController,
           icss: IiifContentSearchService,
-          pageService: CanvasService
+          canvasService: CanvasService
         ) => {
           iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
           iiifManifestServiceStub = TestBed.get(IiifManifestService);
           iiifManifestServiceStub._currentManifest.next(testManifest);
           iiifContentSearchServiceStub._currentSearchResult.next(createSearchResult());
-          pageService.addAll(createPages(), ViewerLayout.ONE_PAGE);
+          canvasService.addAll(createPages(), ViewerLayout.ONE_PAGE);
         }
       )
     )
@@ -72,7 +72,7 @@ describe('ContentSearchNavigationService', () => {
         csns.update(5);
         expect(csns.getCurrentIndex()).toBe(2);
 
-        csns.goToNextHitPage();
+        csns.goToNextCanvasGroupHit();
         expect(csns.getCurrentIndex()).toBe(3);
       })
     )
@@ -86,7 +86,7 @@ describe('ContentSearchNavigationService', () => {
         csns.update(4);
         expect(csns.getCurrentIndex()).toBe(1);
 
-        csns.goToPreviousHitPage();
+        csns.goToPreviousCanvasGroupHit();
         expect(csns.getCurrentIndex()).toBe(0);
       })
     )

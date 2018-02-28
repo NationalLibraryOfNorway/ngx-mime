@@ -17,12 +17,12 @@ import { PageDialogService } from '../../../page-dialog/page-dialog.service';
 })
 export class PageNavigatorComponent implements OnInit, OnDestroy {
   @Input() public searchResult: SearchResult;
-  public numberOfTiles: number;
-  public currentTiles: string;
-  public numberOfPages: number;
-  public currentPage: number;
-  public isFirstPage: boolean;
-  public isLastPage: boolean;
+  public numberOfCanvases: number;
+  public canvasGrouplabel: string;
+  public numberOfCanvasGroups: number;
+  public currentCanvasGroupIndex: number;
+  public isFirstCanvasGroup: boolean;
+  public isLastCanvasGroup: boolean;
   private currentSliderPage = -1;
   private destroyed: Subject<void> = new Subject();
 
@@ -30,26 +30,26 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,
-    private pageService: CanvasService,
+    private canvasService: CanvasService,
     private pageDialogService: PageDialogService
   ) {}
 
   ngOnInit() {
-    this.pageService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((currentPage: number) => {
-      if (this.currentSliderPage !== -1 && this.currentSliderPage === currentPage) {
+    this.canvasService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((currentCanvasGroupIndex: number) => {
+      if (this.currentSliderPage !== -1 && this.currentSliderPage === currentCanvasGroupIndex) {
         this.currentSliderPage = -1;
       } else if (this.currentSliderPage === -1) {
-        this.currentPage = currentPage;
-        this.currentTiles = this.pageService.getCanvasGroupLabel(this.currentPage);
+        this.currentCanvasGroupIndex = currentCanvasGroupIndex;
+        this.canvasGrouplabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
       }
-      this.isFirstPage = this.isOnFirstPage(currentPage);
-      this.isLastPage = this.isOnLastPage(currentPage);
+      this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(currentCanvasGroupIndex);
+      this.isLastCanvasGroup = this.isOnLastCanvasGroup(currentCanvasGroupIndex);
       this.changeDetectorRef.detectChanges();
     });
 
-    this.pageService.onNumberOfCanvasGroupsChange.pipe(takeUntil(this.destroyed)).subscribe((numberOfPages: number) => {
-      this.numberOfPages = numberOfPages;
-      this.numberOfTiles = this.pageService.numberOfCanvases;
+    this.canvasService.onNumberOfCanvasGroupsChange.pipe(takeUntil(this.destroyed)).subscribe((numberOfCanvasGroups: number) => {
+      this.numberOfCanvasGroups = numberOfCanvasGroups;
+      this.numberOfCanvases = this.canvasService.numberOfCanvases;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -59,19 +59,19 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  public goToPreviousPage(): void {
-    this.viewerService.goToPreviousPage();
+  goToPreviousCanvasGroup(): void {
+    this.viewerService.goToPreviousCanvasGroup();
   }
 
-  public goToNextPage(): void {
-    this.viewerService.goToNextPage();
+  goToNextCanvasGroup(): void {
+    this.viewerService.goToNextCanvasGroup();
   }
 
-  public onSliderChange(change: MatSliderChange): void {
+  onSliderChange(change: MatSliderChange): void {
     this.currentSliderPage = change.value;
-    this.currentPage = change.value;
-    this.currentTiles = this.pageService.getCanvasGroupLabel(this.currentPage);
-    this.viewerService.goToPage(change.value, false);
+    this.currentCanvasGroupIndex = change.value;
+    this.canvasGrouplabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
+    this.viewerService.goToCanvasGroup(change.value, false);
     this.changeDetectorRef.detectChanges();
   }
 
@@ -79,11 +79,11 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
     this.pageDialogService.toggle();
   }
 
-  private isOnFirstPage(currentPage: number): boolean {
-    return currentPage === 0;
+  private isOnFirstCanvasGroup(currentCanvasGroupIndex: number): boolean {
+    return currentCanvasGroupIndex === 0;
   }
 
-  private isOnLastPage(currentPage: number): boolean {
-    return currentPage === this.numberOfPages - 1;
+  private isOnLastCanvasGroup(currentCanvasGroupIndex: number): boolean {
+    return currentCanvasGroupIndex === this.numberOfCanvasGroups - 1;
   }
 }

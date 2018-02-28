@@ -20,7 +20,7 @@ import { CanvasService } from '../../core/canvas-service/canvas-service';
 })
 export class TocComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
-  public currentPage: number;
+  public currentCanvasGroupIndex: number;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -30,18 +30,18 @@ export class TocComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private viewerService: ViewerService,
-    private pageService: CanvasService
+    private canvasService: CanvasService
   ) {}
 
   ngOnInit() {
     this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
       this.manifest = manifest;
-      this.currentPage = this.pageService.currentCanvasGroupIndex;
+      this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
       this.changeDetectorRef.detectChanges();
     });
 
-    this.viewerService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((page: number) => {
-      this.currentPage = page;
+    this.viewerService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((canvasGroupIndex: number) => {
+      this.currentCanvasGroupIndex = canvasGroupIndex;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -51,8 +51,8 @@ export class TocComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  goToPage(page: number): void {
-    this.viewerService.goToTile(page, false);
+  goToCanvas(canvasIndex: number): void {
+    this.viewerService.goToCanvas(canvasIndex, false);
     if (this.media.isActive('lt-md')) {
       this.dialogRef.close();
     }
