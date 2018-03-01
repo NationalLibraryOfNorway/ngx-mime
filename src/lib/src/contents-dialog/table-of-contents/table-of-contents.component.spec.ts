@@ -87,7 +87,7 @@ describe('TocComponent', () => {
   });
 
   it('should display the correct canvas group number', () => {
-    const canvasGroupNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.canvasGroupNumber'));
+    const canvasGroupNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.pageNumber'));
     expect(canvasGroupNumbers[0].nativeElement.innerText).toEqual('1');
     expect(canvasGroupNumbers[1].nativeElement.innerText).toEqual('2');
     expect(canvasGroupNumbers[2].nativeElement.innerText).toEqual('5');
