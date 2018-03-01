@@ -20,8 +20,8 @@ export class ContentSearchNavigationService {
     });
   }
 
-  update(pageIndex: number) {
-    this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(pageIndex);
+  update(canvasGroupIndex: number) {
+    this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
     this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
     this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
     this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
@@ -81,15 +81,15 @@ export class ContentSearchNavigationService {
 
   private findFirstHitOnCanvasGroup(previousIndex: number): Hit {
     let previousHit = this.searchResult.get(previousIndex);
-    const page = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
-    const tiles = this.canvasService.getCanvasesPerCanvasGroup(page);
-    const leftPage = tiles[0];
-    const leftPageHit = this.searchResult.hits.find(h => h.index === leftPage);
-    if (leftPageHit) {
-      previousHit = leftPageHit;
-    } else if (tiles.length === 2) {
-      const rightPage = tiles[1];
-      previousHit = this.searchResult.hits.find(h => h.index === rightPage);
+    const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
+    const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+    const leftCanvas = canvasesPerCanvasGroup[0];
+    const leftCanvasHit = this.searchResult.hits.find(h => h.index === leftCanvas);
+    if (leftCanvasHit) {
+      previousHit = leftCanvasHit;
+    } else if (canvasesPerCanvasGroup.length === 2) {
+      const rightCanvas = canvasesPerCanvasGroup[1];
+      previousHit = this.searchResult.hits.find(h => h.index === rightCanvas);
     }
     return previousHit;
   }

@@ -96,7 +96,7 @@ describe('OsdToolbarComponent', () => {
   );
 
   it(
-    'should enable both navigation buttons when viewer is on second page',
+    'should enable both navigation buttons when viewer is on second canvas group',
     inject([ViewerService], (viewerService: ViewerServiceStub) => {
       viewerService.setCanvasGroupIndexChange(1);
       fixture.detectChanges();
@@ -109,7 +109,7 @@ describe('OsdToolbarComponent', () => {
   );
 
   it(
-    'should disable previous button when viewer is on first page',
+    'should disable previous button when viewer is on first canvas group',
     inject([ViewerService], (viewerService: ViewerServiceStub) => {
       viewerService.setCanvasGroupIndexChange(0);
       fixture.detectChanges();
@@ -120,7 +120,7 @@ describe('OsdToolbarComponent', () => {
   );
 
   it(
-    'should disable next button when viewer is on last page',
+    'should disable next button when viewer is on last canvas group',
     inject([ViewerService, CanvasService], (viewerService: ViewerServiceStub, canvasService: CanvasService) => {
       spyOnProperty(canvasService, 'numberOfCanvasGroups', 'get').and.returnValue(10);
 

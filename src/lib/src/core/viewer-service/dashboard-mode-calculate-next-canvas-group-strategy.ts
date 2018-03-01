@@ -5,19 +5,19 @@ export class DashboardModeCalculateNextCanvasGroupStrategy implements CalculateN
   calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number {
     const speed = criteria.speed;
     const direction = criteria.direction;
-    const currentPageIndex = criteria.currentCanvasGroupIndex;
-    const currentPageCenter = criteria.currentCanvasGroupCenter;
+    const currentCanvasGroupIndex = criteria.currentCanvasGroupIndex;
+    const currentCanvasGroupCenter = criteria.currentCanvasGroupCenter;
 
-    let nextPage: number;
-    let pageDelta = this.calculateNumberOfCanvasGroupsToGo(speed);
-    if (pageDelta === 0) {
-      nextPage = currentPageCenter;
+    let nextCanvasGroup: number;
+    let canvasGroupDelta = this.calculateNumberOfCanvasGroupsToGo(speed);
+    if (canvasGroupDelta === 0) {
+      nextCanvasGroup = currentCanvasGroupCenter;
     } else {
-      pageDelta = direction === Direction.LEFT ? pageDelta : pageDelta * -1;
-      nextPage = currentPageIndex + pageDelta;
+      canvasGroupDelta = direction === Direction.LEFT ? canvasGroupDelta : canvasGroupDelta * -1;
+      nextCanvasGroup = currentCanvasGroupIndex + canvasGroupDelta;
     }
 
-    return nextPage;
+    return nextCanvasGroup;
   }
 
   private calculateNumberOfCanvasGroupsToGo(speed: number): number {

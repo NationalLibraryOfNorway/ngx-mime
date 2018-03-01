@@ -51,7 +51,7 @@ describe('ContentSearchNavigationService', () => {
           iiifManifestServiceStub = TestBed.get(IiifManifestService);
           iiifManifestServiceStub._currentManifest.next(testManifest);
           iiifContentSearchServiceStub._currentSearchResult.next(createSearchResult());
-          canvasService.addAll(createPages(), ViewerLayout.ONE_PAGE);
+          canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
         }
       )
     )
@@ -147,12 +147,12 @@ describe('ContentSearchNavigationService', () => {
     )
   );
 
-  function createPages(): Rect[] {
-    const pages: Rect[] = [];
+  function createCanvasGroups(): Rect[] {
+    const canvasGroups: Rect[] = [];
     for (let i = 0; i < 100; i++) {
-      pages.push(new Rect());
+      canvasGroups.push(new Rect());
     }
-    return pages;
+    return canvasGroups;
   }
 
   function createSearchResult(): SearchResult {

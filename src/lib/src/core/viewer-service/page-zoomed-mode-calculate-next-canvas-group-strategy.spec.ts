@@ -8,12 +8,12 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
     strategy = new PageZoomedModeCalculateNextCanvasGroupStrategy();
   });
 
-  it('should stay on same canvas group when pageEndHitCountReached is false', () => {
+  it('should stay on same canvas group when canvasGroupEndHitCountReached is false', () => {
     const res = strategy.calculateNextCanvasGroup({
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
       currentCanvasGroupCenter: 1,
-      pageEndHitCountReached: false
+      canvasGroupEndHitCountReached: false
     });
 
     expect(res).toBe(1);
@@ -24,7 +24,7 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
       currentCanvasGroupCenter: 1,
-      pageEndHitCountReached: true
+      canvasGroupEndHitCountReached: true
     });
 
     expect(res).toBe(2);
@@ -35,7 +35,7 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
       direction: Direction.RIGHT,
       currentCanvasGroupIndex: 2,
       currentCanvasGroupCenter: 2,
-      pageEndHitCountReached: true
+      canvasGroupEndHitCountReached: true
     });
 
     expect(res).toBe(1);

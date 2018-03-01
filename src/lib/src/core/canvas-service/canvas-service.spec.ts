@@ -8,11 +8,11 @@ describe('CanvasService', () => {
   beforeEach(() => {
     service = new CanvasService();
 
-    const pages: Rect[] = [];
+    const canvases: Rect[] = [];
     for (let i = 0; i < 100; i++) {
-      pages.push(new Rect());
+      canvases.push(new Rect());
     }
-    service.addAll(pages, ViewerLayout.ONE_PAGE);
+    service.addAll(canvases, ViewerLayout.ONE_PAGE);
   });
 
   it('should return true when requested canvas group index is within bounds', () => {
@@ -52,19 +52,19 @@ describe('CanvasService', () => {
   });
 
   it('should get next canvas group index', () => {
-    let currentPage = (service.currentCanvasGroupIndex = 0);
-    expect(service.getNextCanvasGroupIndex()).toBe(currentPage + 1);
+    let currentCanvasGroup = (service.currentCanvasGroupIndex = 0);
+    expect(service.getNextCanvasGroupIndex()).toBe(currentCanvasGroup + 1);
 
-    currentPage = service.currentCanvasGroupIndex = 98;
-    expect(service.getNextCanvasGroupIndex()).toBe(currentPage + 1);
+    currentCanvasGroup = service.currentCanvasGroupIndex = 98;
+    expect(service.getNextCanvasGroupIndex()).toBe(currentCanvasGroup + 1);
   });
 
   it('should get previous canvas group index', () => {
-    let currentPage = (service.currentCanvasGroupIndex = 2);
-    expect(service.getPrevCanvasGroupIndex()).toBe(currentPage - 1);
+    let currentCanvasGroup = (service.currentCanvasGroupIndex = 2);
+    expect(service.getPrevCanvasGroupIndex()).toBe(currentCanvasGroup - 1);
 
-    currentPage = service.currentCanvasGroupIndex = 1;
-    expect(service.getPrevCanvasGroupIndex()).toBe(currentPage - 1);
+    currentCanvasGroup = service.currentCanvasGroupIndex = 1;
+    expect(service.getPrevCanvasGroupIndex()).toBe(currentCanvasGroup - 1);
   });
 
   it('should return -1 when next canvas group index is out of bounds', () => {

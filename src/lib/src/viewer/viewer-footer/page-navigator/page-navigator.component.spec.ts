@@ -64,7 +64,7 @@ describe('PageNavigatorComponent', () => {
   );
 
   it(
-    'should enable both navigation buttons when viewer is on second page',
+    'should enable both navigation buttons when viewer is on second canvas group',
     inject([CanvasService], (canvasService: CanvasServiceStub) => {
       canvasService._currentCanvasGroupIndex.next(1);
       fixture.detectChanges();
@@ -77,7 +77,7 @@ describe('PageNavigatorComponent', () => {
   );
 
   it(
-    'should disable previous button when viewer is on first page',
+    'should disable previous button when viewer is on first canvas group',
     inject([CanvasService], (canvasService: CanvasServiceStub) => {
       canvasService._currentCanvasGroupIndex.next(0);
       fixture.detectChanges();
@@ -88,7 +88,7 @@ describe('PageNavigatorComponent', () => {
   );
 
   it(
-    'should disable next button when viewer is on last page',
+    'should disable next button when viewer is on last canvas group',
     inject([CanvasService], (canvasService: CanvasServiceStub) => {
       canvasService._currentNumberOfCanvasGroups.next(10);
 
@@ -103,7 +103,7 @@ describe('PageNavigatorComponent', () => {
   );
 
   it(
-    'should display next page',
+    'should display next canvas group',
     inject([ViewerService, CanvasService], (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
       spy = spyOn(viewerService, 'goToNextCanvasGroup');
 
@@ -118,7 +118,7 @@ describe('PageNavigatorComponent', () => {
   );
 
   it(
-    'should display previous page',
+    'should display previous canvas group',
     inject([ViewerService, CanvasService], (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
       spy = spyOn(component, 'goToPreviousCanvasGroup');
 

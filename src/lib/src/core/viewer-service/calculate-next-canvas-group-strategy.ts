@@ -2,7 +2,7 @@ import { Direction } from '../models/direction';
 
 export interface NextCanvasGroupCriteria {
   speed?: number;
-  pageEndHitCountReached?: boolean;
+  canvasGroupEndHitCountReached?: boolean;
   direction: Direction;
   currentCanvasGroupIndex: number;
   currentCanvasGroupCenter: number;

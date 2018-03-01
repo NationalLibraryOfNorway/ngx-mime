@@ -43,7 +43,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     return this.state;
   }
   public osdToolbarStyle = {};
-  public numberOfPages: number;
+  public numberOfCanvasGroups: number;
   public isFirstCanvasGroup: boolean;
   public isLastCanvasGroup: boolean;
   public state = 'show';
@@ -65,10 +65,10 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.viewerService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((currentPage: number) => {
-      this.numberOfPages = this.canvasService.numberOfCanvasGroups;
-      this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(currentPage);
-      this.isLastCanvasGroup = this.isOnLastCanvasGroup(currentPage);
+    this.viewerService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((currentCanvasGroupIndex: number) => {
+      this.numberOfCanvasGroups = this.canvasService.numberOfCanvasGroups;
+      this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(currentCanvasGroupIndex);
+      this.isLastCanvasGroup = this.isOnLastCanvasGroup(currentCanvasGroupIndex);
       this.changeDetectorRef.detectChanges();
     });
 
@@ -100,11 +100,11 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     this.viewerService.goToNextCanvasGroup();
   }
 
-  private isOnFirstCanvasGroup(currentPage: number): boolean {
-    return currentPage === 0;
+  private isOnFirstCanvasGroup(currentCanvasGroupIndex: number): boolean {
+    return currentCanvasGroupIndex === 0;
   }
 
-  private isOnLastCanvasGroup(currentPage: number): boolean {
-    return currentPage === this.numberOfPages - 1;
+  private isOnLastCanvasGroup(currentCanvasGroupIndex: number): boolean {
+    return currentCanvasGroupIndex === this.numberOfCanvasGroups - 1;
   }
 }

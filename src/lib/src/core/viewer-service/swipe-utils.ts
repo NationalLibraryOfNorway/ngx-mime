@@ -17,24 +17,24 @@ export class SwipeUtils {
     }
   }
 
-  static getSideIfPanningPastEndOfPage(pageBounds: Rect, vpBounds: Rect): Side {
-    if (this.isPanningOutsideLeft(pageBounds, vpBounds)) {
+  static getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect: Rect, vpBounds: Rect): Side {
+    if (this.isPanningOutsideLeft(canvasGroupRect, vpBounds)) {
       return Side.LEFT;
-    } else if (this.isPanningOutsideRight(pageBounds, vpBounds)) {
+    } else if (this.isPanningOutsideRight(canvasGroupRect, vpBounds)) {
       return Side.RIGHT;
     }
   }
 
-  static isPanningOutsidePage(pageBounds: Rect, vpBounds: Rect): boolean {
-    return this.isPanningOutsideLeft(pageBounds, vpBounds) || this.isPanningOutsideRight(pageBounds, vpBounds);
+  static isPanningOutsideCanvasGroup(canvasGroupRect: Rect, vpBounds: Rect): boolean {
+    return this.isPanningOutsideLeft(canvasGroupRect, vpBounds) || this.isPanningOutsideRight(canvasGroupRect, vpBounds);
   }
 
-  static isPanningOutsideLeft(pageBounds: Rect, vpBounds: Rect): boolean {
-    return vpBounds.x < pageBounds.x;
+  static isPanningOutsideLeft(canvasGroupRect: Rect, vpBounds: Rect): boolean {
+    return vpBounds.x < canvasGroupRect.x;
   }
 
-  static isPanningOutsideRight(pageBounds: Rect, vpBounds: Rect): boolean {
-    return vpBounds.x + vpBounds.width > pageBounds.x + pageBounds.width;
+  static isPanningOutsideRight(canvasGroupRect: Rect, vpBounds: Rect): boolean {
+    return vpBounds.x + vpBounds.width > canvasGroupRect.x + canvasGroupRect.width;
   }
 
   /**

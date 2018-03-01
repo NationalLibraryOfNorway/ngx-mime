@@ -68,7 +68,7 @@ describe('PageDialogComponent', () => {
 
   describe('error messages', () => {
     it(
-      'should show a error message if user enters a page number that does not exists',
+      'should show a error message if user enters a canvas group number index that does not exists',
       fakeAsync(() => {
         canvasService._currentNumberOfCanvasGroups.next(10);
 

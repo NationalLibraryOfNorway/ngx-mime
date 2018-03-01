@@ -3,7 +3,7 @@ import { CalculateNextCanvasGroupStrategy, NextCanvasGroupCriteria } from './cal
 
 export class PageModeCalculateNextCanvasGroupStrategy implements CalculateNextCanvasGroupStrategy {
   calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number {
-    const isNewPageInCenter = criteria.currentCanvasGroupIndex !== criteria.currentCanvasGroupCenter;
+    const isNewCanvasGroupInCenter = criteria.currentCanvasGroupIndex !== criteria.currentCanvasGroupCenter;
     const speed = criteria.speed;
     const direction = criteria.direction;
 
@@ -11,7 +11,7 @@ export class PageModeCalculateNextCanvasGroupStrategy implements CalculateNextCa
     if (speed >= 200) {
       const diff = direction === Direction.LEFT ? 1 : -1;
       nextCanvasGroup = criteria.currentCanvasGroupIndex + diff;
-    } else if (isNewPageInCenter) {
+    } else if (isNewCanvasGroupInCenter) {
       nextCanvasGroup = criteria.currentCanvasGroupCenter;
     }
     return nextCanvasGroup;

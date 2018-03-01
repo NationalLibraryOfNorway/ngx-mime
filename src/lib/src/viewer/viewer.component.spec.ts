@@ -312,7 +312,7 @@ describe('ViewerComponent', function() {
     pending('Set to pending until we find a way to perform pinch event');
   });
 
-  it('#pageIsAtMinZoom should return true if page is at minimum zoom level', () => {
+  it('should return true if canvas group is at minimum zoom level', () => {
     pending('');
   });
 
@@ -328,7 +328,7 @@ describe('ViewerComponent', function() {
     pending('Set to pending until we find a way to perform pan event');
   });
 
-  it('should change page when swipeing to left', () => {
+  it('should change canvas group when swipeing to left', () => {
     // modeService.mode = ViewerMode.DASHBOARD;
     // tick();
     // const viewer = viewerService.getViewer();
@@ -348,7 +348,7 @@ describe('ViewerComponent', function() {
     pending('Set to pending until we find a way to perform swipe event');
   });
 
-  it('should emit when page mode changes', () => {
+  it('should emit when canvas group mode changes', () => {
     let selectedMode: ViewerMode;
     comp.viewerModeChanged.subscribe((mode: ViewerMode) => (selectedMode = mode));
 
@@ -356,7 +356,7 @@ describe('ViewerComponent', function() {
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should emit when page number changes', done => {
+  it('should emit when canvas group number changes', done => {
     let currentCanvasIndex: number;
     comp.canvasChanged.subscribe((canvasIndex: number) => (currentCanvasIndex = canvasIndex));
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
@@ -459,10 +459,10 @@ describe('ViewerComponent', function() {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          const leftPageMask = testHostFixture.debugElement.query(By.css('#mime-left-page-mask'));
-          const rightPageMask = testHostFixture.debugElement.query(By.css('#mime-right-page-mask'));
-          expect(leftPageMask).not.toBeNull();
-          expect(rightPageMask).not.toBeNull();
+          const leftCanvasGroupMask = testHostFixture.debugElement.query(By.css('#mime-left-page-mask'));
+          const rightCanvasGroupMask = testHostFixture.debugElement.query(By.css('#mime-right-page-mask'));
+          expect(leftCanvasGroupMask).not.toBeNull();
+          expect(rightCanvasGroupMask).not.toBeNull();
           done();
         }, 600);
       }

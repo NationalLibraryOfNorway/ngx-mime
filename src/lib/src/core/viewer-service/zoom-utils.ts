@@ -1,16 +1,17 @@
 import { Rect } from '../models/rect';
 import { Point } from '../models/point';
+
 export class ZoomUtils {
   /**
    *
    * @param Point in OSD-viewport-coordinates
-   * @param Rect pageBounds
+   * @param Rect canvasGroupBounds
    */
-  static constrainPositionToPage(point: Point, pageBounds: Rect): Point {
-    if (point.x < pageBounds.x) {
-      point.x = pageBounds.x;
-    } else if (point.x > pageBounds.x + pageBounds.width) {
-      point.x = pageBounds.x + pageBounds.width;
+  static constrainPositionToCanvasGroup(point: Point, canvasGroupBounds: Rect): Point {
+    if (point.x < canvasGroupBounds.x) {
+      point.x = canvasGroupBounds.x;
+    } else if (point.x > canvasGroupBounds.x + canvasGroupBounds.width) {
+      point.x = canvasGroupBounds.x + canvasGroupBounds.width;
     }
     return point;
   }

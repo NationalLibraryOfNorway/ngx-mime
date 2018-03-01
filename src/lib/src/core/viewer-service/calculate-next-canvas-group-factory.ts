@@ -1,5 +1,5 @@
 import { ViewerMode } from '../models/viewer-mode';
-import { NavigatorCalculateNextPageStrategy } from './navigator-calculate-next-canvas-group-strategy';
+import { NavigatorCalculateNextCanvasGroupStrategy } from './navigator-calculate-next-canvas-group-strategy';
 import { CalculateNextCanvasGroupStrategy } from './calculate-next-canvas-group-strategy';
 import { DashboardModeCalculateNextCanvasGroupStrategy } from './dashboard-mode-calculate-next-canvas-group-strategy';
 import { PageModeCalculateNextCanvasGroupStrategy } from './page-mode-calculate-next-canvas-group-strategy';
@@ -14,7 +14,7 @@ export class CalculateNextCanvasGroupFactory {
     } else if (mode === ViewerMode.PAGE_ZOOMED) {
       return new PageZoomedModeCalculateNextCanvasGroupStrategy();
     } else {
-      return new NavigatorCalculateNextPageStrategy();
+      return new NavigatorCalculateNextCanvasGroupStrategy();
     }
   }
 }

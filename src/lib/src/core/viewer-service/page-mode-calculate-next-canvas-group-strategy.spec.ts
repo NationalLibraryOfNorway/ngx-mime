@@ -1,14 +1,14 @@
 import { Direction } from '../models/direction';
 import { PageModeCalculateNextCanvasGroupStrategy } from './page-mode-calculate-next-canvas-group-strategy';
 
-describe('PageModeCalculateNextPageStrategy ', () => {
+describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
   let strategy: PageModeCalculateNextCanvasGroupStrategy;
 
   beforeEach(() => {
     strategy = new PageModeCalculateNextCanvasGroupStrategy();
   });
 
-  it('should stay on same canvas group when drag speed is low and same page is currentPageCenter', () => {
+  it('should stay on same canvas group when drag speed is low and same canvas group is currentCanvasGroupCenter', () => {
     const res = strategy.calculateNextCanvasGroup({
       speed: 199,
       direction: Direction.LEFT,
@@ -41,7 +41,7 @@ describe('PageModeCalculateNextPageStrategy ', () => {
     expect(res).toBe(1);
   });
 
-  it('should get next canvas group when next page is currentPageCenter', () => {
+  it('should get next canvas group when next page is currentCanvasGroupCenter', () => {
     const res = strategy.calculateNextCanvasGroup({
       speed: 199,
       direction: Direction.LEFT,

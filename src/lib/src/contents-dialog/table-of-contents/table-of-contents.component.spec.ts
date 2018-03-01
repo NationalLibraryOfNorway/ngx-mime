@@ -86,15 +86,15 @@ describe('TocComponent', () => {
     expect(labels[2].nativeElement.innerText).toEqual('Bakside');
   });
 
-  it('should display the correct page number', () => {
-    const pageNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.pageNumber'));
-    expect(pageNumbers[0].nativeElement.innerText).toEqual('1');
-    expect(pageNumbers[1].nativeElement.innerText).toEqual('2');
-    expect(pageNumbers[2].nativeElement.innerText).toEqual('5');
+  it('should display the correct canvas group number', () => {
+    const canvasGroupNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.canvasGroupNumber'));
+    expect(canvasGroupNumbers[0].nativeElement.innerText).toEqual('1');
+    expect(canvasGroupNumbers[1].nativeElement.innerText).toEqual('2');
+    expect(canvasGroupNumbers[2].nativeElement.innerText).toEqual('5');
   });
 
   it(
-    'should go to page when selecting a page in TOC',
+    'should go to canvas group when selecting a canvas group in TOC',
     inject([ViewerService], (viewerService: ViewerService) => {
       spyOn(viewerService, 'goToCanvas').and.callThrough();
 
@@ -106,7 +106,7 @@ describe('TocComponent', () => {
   );
 
   it(
-    'should close contents dialog when selecting a page in TOC when on mobile',
+    'should close contents dialog when selecting a canvas group in TOC when on mobile',
     inject([MatDialogRef, ObservableMedia], (dialogRef: MatDialogRef<ContentsDialogComponent>, media: ObservableMedia) => {
       spyOn(media, 'isActive').and.returnValue(true);
       spyOn(dialogRef, 'close').and.callThrough();

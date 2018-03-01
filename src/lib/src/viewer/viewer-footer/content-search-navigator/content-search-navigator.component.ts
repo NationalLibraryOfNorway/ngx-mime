@@ -16,7 +16,7 @@ import { CanvasService } from '../../../core/canvas-service/canvas-service';
 })
 export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   @Input() searchResult: SearchResult;
-  public isHitOnActivePage = false;
+  public isHitOnActiveCanvasGroup = false;
   public isFirstCanvasGroupHit = false;
   public isLastCanvasGroupHit = false;
   public currentIndex = 0;
@@ -33,10 +33,10 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.intl.changes.pipe(takeUntil(this.destroyed)).subscribe(() => this.changeDetectorRef.markForCheck());
 
-    this.canvasService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe(pageIndex => {
-      this.contentSearchNavigationService.update(pageIndex);
+    this.canvasService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe(canvasGroupIndex => {
+      this.contentSearchNavigationService.update(canvasGroupIndex);
       this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
-      this.isHitOnActivePage = this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
+      this.isHitOnActiveCanvasGroup = this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
       this.isFirstCanvasGroupHit = this.contentSearchNavigationService.getFirstHitCanvasGroup();
       this.isLastCanvasGroupHit = this.contentSearchNavigationService.getLastHitCanvasGroup();
       this.changeDetectorRef.detectChanges();

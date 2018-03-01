@@ -25,10 +25,10 @@ export const ViewerOptions = {
   },
 
   overlays: {
-    // Margin between pages in Dashboard View in OpenSeadragon viewport-coordinates
-    canvasGroupMarginDashboardView: 300,
-    // Margin between pages in Page View in OpenSeadragon viewport-coordinates
-    canvasGroupMarginPageView: 20
+    // Margin between canvas groups in Dashboard View in OpenSeadragon viewport-coordinates
+    canvasGroupMarginInDashboardView: 300,
+    // Margin between canvas groups in Page View in OpenSeadragon viewport-coordinates
+    canvasGroupMarginInPageView: 20
   },
 
   padding: {

@@ -6,7 +6,7 @@
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <div fxFlex class="current-hit-label" [ngClass]="{'not-on-page': !isHitOnActivePage}" fxFlex [innerHTML]="intl.currentHitLabel(currentIndex + 1, searchResult.size())">
+    <div fxFlex class="current-hit-label" [ngClass]="{'not-on-page': !isHitOnActiveCanvasGroup}" fxFlex [innerHTML]="intl.currentHitLabel(currentIndex + 1, searchResult.size())">
     </div>
     <div class="navigation-buttons">
       <button id="footerNavigatePreviousHitButton" mat-icon-button [attr.aria-label]="intl.previousHitLabel" [matTooltip]="intl.previousHitLabel"

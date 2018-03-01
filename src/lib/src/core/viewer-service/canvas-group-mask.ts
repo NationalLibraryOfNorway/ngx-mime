@@ -146,7 +146,7 @@ export class CanvasGroupMask {
       this.canvasGroupRect.height
     );
     const topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopLeft());
-    let width = topLeft.x - ViewerOptions.overlays.canvasGroupMarginPageView;
+    let width = topLeft.x - ViewerOptions.overlays.canvasGroupMarginInPageView;
 
     if (width < 0) {
       width = 0;
@@ -167,7 +167,7 @@ export class CanvasGroupMask {
     );
     const topRight = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopRight());
     let width = this.viewer.viewport._containerInnerSize.x - topRight.x;
-    const x = this.viewer.viewport._containerInnerSize.x - width + ViewerOptions.overlays.canvasGroupMarginPageView;
+    const x = this.viewer.viewport._containerInnerSize.x - width + ViewerOptions.overlays.canvasGroupMarginInPageView;
 
     if (width < 0) {
       width = 0;

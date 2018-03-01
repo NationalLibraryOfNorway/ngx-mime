@@ -5,9 +5,9 @@ export class PageZoomedModeCalculateNextCanvasGroupStrategy implements Calculate
   calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number {
     const direction = criteria.direction;
     const currentCanvasGroupIndex = criteria.currentCanvasGroupIndex;
-    const pageEndHitCountReached = criteria.pageEndHitCountReached;
+    const canvasGroupEndHitCountReached = criteria.canvasGroupEndHitCountReached;
 
-    let nextCanvasGroup = pageEndHitCountReached ? 1 : 0;
+    let nextCanvasGroup = canvasGroupEndHitCountReached ? 1 : 0;
 
     nextCanvasGroup = direction === Direction.LEFT ? nextCanvasGroup : nextCanvasGroup * -1;
     nextCanvasGroup = currentCanvasGroupIndex + nextCanvasGroup;
