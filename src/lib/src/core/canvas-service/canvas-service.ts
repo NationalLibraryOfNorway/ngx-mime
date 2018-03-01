@@ -101,8 +101,8 @@ export class CanvasService {
   }
 
   findCanvasGroupByCanvasIndex(canvasIndex: number): number {
-    return this.canvasGroups.canvasesPerCanvasGroup.findIndex(function(tileIndicesForPage: number[]) {
-      return tileIndicesForPage.indexOf(canvasIndex) >= 0;
+    return this.canvasGroups.canvasesPerCanvasGroup.findIndex(function(canvasForCanvasGroup: number[]) {
+      return canvasForCanvasGroup.indexOf(canvasIndex) >= 0;
     });
   }
 

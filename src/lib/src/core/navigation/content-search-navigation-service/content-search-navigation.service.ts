@@ -98,13 +98,13 @@ export class ContentSearchNavigationService {
     return this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0;
   }
 
-  private findCurrentHitIndex(canvasIndices: number[]): number {
+  private findCurrentHitIndex(canvasGroupIndexes: number[]): number {
     for (let i = 0; i < this.searchResult.size(); i++) {
       const hit = this.searchResult.get(i);
-      if (canvasIndices.indexOf(hit.index) >= 0) {
+      if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
         return i;
       }
-      if (hit.index >= canvasIndices[canvasIndices.length - 1]) {
+      if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
         if (i === 0) {
           return -1;
         } else {
