@@ -3,20 +3,20 @@ import { Subject } from 'rxjs/Subject';
 import { Hit } from '../core/models/hit';
 
 export class ViewerServiceStub {
-  pageChanged = new Subject<number>();
-  get onPageChange(): Observable<number> {
-    return this.pageChanged.asObservable();
+  canvasGroupChanged = new Subject<number>();
+  get onCanvasGroupIndexChange(): Observable<number> {
+    return this.canvasGroupChanged.asObservable();
   }
 
-  setPageChange(canvasIndex: number) {
-    this.pageChanged.next(canvasIndex);
+  setCanvasGroupIndexChange(canvasIndex: number) {
+    this.canvasGroupChanged.next(canvasIndex);
   }
 
-  public goToPreviousPage(): void {}
+  public goToPreviousCanvasGroup(): void {}
 
-  public goToNextPage(): void {}
+  public goToNextCanvasGroup(): void {}
 
-  public goToTile(index: number): void {}
+  public goToCanvas(index: number): void {}
 
   public setCurrentHit(hit: Hit): void {}
 }

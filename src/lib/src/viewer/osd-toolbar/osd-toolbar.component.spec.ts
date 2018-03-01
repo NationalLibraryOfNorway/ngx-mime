@@ -12,7 +12,7 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { ClickService } from '../../core/click-service/click.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
-import { ViewerServiceMock } from './../../test/viewer-service-mock';
+import { ViewerServiceStub } from './../../test/viewer-service-stub';
 import { CanvasServiceStub } from './../../test/canvas-service-stub';
 
 describe('OsdToolbarComponent', () => {
@@ -28,7 +28,7 @@ describe('OsdToolbarComponent', () => {
         providers: [
           MimeResizeService,
           MimeViewerIntl,
-          { provide: ViewerService, useClass: ViewerServiceMock },
+          { provide: ViewerService, useClass: ViewerServiceStub },
           { provide: CanvasService, useClass: CanvasServiceStub },
           ClickService,
           CanvasService,
@@ -97,8 +97,8 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should enable both navigation buttons when viewer is on second page',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-      viewerService.pageChanged.next(1);
+    inject([ViewerService], (viewerService: ViewerServiceStub) => {
+      viewerService.setCanvasGroupIndexChange(1);
       fixture.detectChanges();
 
       const previousButton = fixture.debugElement.query(By.css('#navigateBeforeButton'));
@@ -110,8 +110,8 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should disable previous button when viewer is on first page',
-    inject([ViewerService], (viewerService: ViewerServiceMock) => {
-      viewerService.pageChanged.next(0);
+    inject([ViewerService], (viewerService: ViewerServiceStub) => {
+      viewerService.setCanvasGroupIndexChange(0);
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(By.css('#navigateBeforeButton'));
@@ -121,10 +121,10 @@ describe('OsdToolbarComponent', () => {
 
   it(
     'should disable next button when viewer is on last page',
-    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, canvasService: CanvasService) => {
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceStub, canvasService: CanvasService) => {
       spyOnProperty(canvasService, 'numberOfCanvasGroups', 'get').and.returnValue(10);
 
-      viewerService.pageChanged.next(9);
+      viewerService.setCanvasGroupIndexChange(9);
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
@@ -135,9 +135,9 @@ describe('OsdToolbarComponent', () => {
   );
 
   it(
-    'should display next page',
-    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, canvasService: CanvasServiceStub) => {
-      spy = spyOn(viewerService, 'goToNextPage');
+    'should display next canvas group',
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
+      spy = spyOn(viewerService, 'goToNextCanvasGroup');
 
       const button = fixture.debugElement.query(By.css('#navigateNextButton'));
       button.nativeElement.click();
@@ -150,9 +150,9 @@ describe('OsdToolbarComponent', () => {
   );
 
   it(
-    'should display previous page',
-    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, canvasService: CanvasServiceStub) => {
-      spy = spyOn(component, 'goToPreviousPage');
+    'should display previous canvas group',
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
+      spy = spyOn(component, 'goToPreviousCanvasGroup');
 
       const button = fixture.debugElement.query(By.css('#navigateBeforeButton'));
       button.nativeElement.click();

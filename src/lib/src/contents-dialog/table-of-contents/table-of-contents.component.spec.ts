@@ -16,7 +16,7 @@ import { ClickService } from '../../core/click-service/click.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { ContentsDialogComponent } from '../contents-dialog.component';
-import { ViewerServiceMock } from './../../test/viewer-service-mock';
+import { ViewerServiceStub } from './../../test/viewer-service-stub';
 import { MatDialogRefStub } from '../../test/mat-dialog-ref-stub';
 import { MediaServiceStub } from '../../test/media-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
@@ -39,7 +39,7 @@ describe('TocComponent', () => {
           { provide: MatDialogRef, useClass: MatDialogRefStub },
           { provide: ObservableMedia, useClass: MediaServiceStub },
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: ViewerService, useClass: ViewerServiceMock }
+          { provide: ViewerService, useClass: ViewerServiceStub }
         ]
       }).compileComponents();
     })

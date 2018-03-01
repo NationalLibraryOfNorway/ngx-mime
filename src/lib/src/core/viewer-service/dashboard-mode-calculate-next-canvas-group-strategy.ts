@@ -1,15 +1,15 @@
 import { Direction } from '../models/direction';
-import { CalculateNextPageStrategy, NextPageCriteria } from './calculate-next-page-strategy';
+import { CalculateNextCanvasGroupStrategy, NextCanvasGroupCriteria } from './calculate-next-canvas-group-strategy';
 
-export class DashboardModeCalculateNextPageStrategy implements CalculateNextPageStrategy {
-  calculateNextPage(criteria: NextPageCriteria): number {
+export class DashboardModeCalculateNextCanvasGroupStrategy implements CalculateNextCanvasGroupStrategy {
+  calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number {
     const speed = criteria.speed;
     const direction = criteria.direction;
-    const currentPageIndex = criteria.currentPageIndex;
-    const currentPageCenter = criteria.currentPageCenter;
+    const currentPageIndex = criteria.currentCanvasGroupIndex;
+    const currentPageCenter = criteria.currentCanvasGroupCenter;
 
     let nextPage: number;
-    let pageDelta = this.calculateNumberOfpagesToGo(speed);
+    let pageDelta = this.calculateNumberOfCanvasGroupsToGo(speed);
     if (pageDelta === 0) {
       nextPage = currentPageCenter;
     } else {
@@ -20,7 +20,7 @@ export class DashboardModeCalculateNextPageStrategy implements CalculateNextPage
     return nextPage;
   }
 
-  private calculateNumberOfpagesToGo(speed: number): number {
+  private calculateNumberOfCanvasGroupsToGo(speed: number): number {
     if (speed < 500) {
       return 0;
     } else if (speed >= 500 && speed < 1500) {

@@ -11,7 +11,7 @@ export class TwoPageCalculatePagePositionStrategy implements CalculatePagePositi
       x = 0;
     } else if (criteria.pageIndex % 2) {
       // Even page numbers
-      x = criteria.previousPagePosition.x + criteria.previousPagePosition.width + ViewerOptions.overlays.pageMarginDashboardView;
+      x = criteria.previousPagePosition.x + criteria.previousPagePosition.width + ViewerOptions.overlays.canvasGroupMarginDashboardView;
     } else {
       // Odd page numbers
       x = criteria.previousPagePosition.x + criteria.previousPagePosition.width;

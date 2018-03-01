@@ -15,7 +15,6 @@ import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { Hit } from './../../../core/models/hit';
-import { ViewerServiceMock } from './../../../test/viewer-service-mock';
 import { PageDialogService } from '../../../page-dialog/page-dialog.service';
 import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
@@ -105,8 +104,8 @@ describe('PageNavigatorComponent', () => {
 
   it(
     'should display next page',
-    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, canvasService: CanvasServiceStub) => {
-      spy = spyOn(viewerService, 'goToNextPage');
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
+      spy = spyOn(viewerService, 'goToNextCanvasGroup');
 
       const button = fixture.debugElement.query(By.css('#footerNavigateNextButton'));
       button.nativeElement.click();
@@ -120,8 +119,8 @@ describe('PageNavigatorComponent', () => {
 
   it(
     'should display previous page',
-    inject([ViewerService, CanvasService], (viewerService: ViewerServiceMock, canvasService: CanvasServiceStub) => {
-      spy = spyOn(component, 'goToPreviousPage');
+    inject([ViewerService, CanvasService], (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
+      spy = spyOn(component, 'goToPreviousCanvasGroup');
 
       canvasService._currentCanvasGroupIndex.next(9);
       fixture.detectChanges();

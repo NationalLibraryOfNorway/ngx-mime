@@ -9,7 +9,7 @@ export class OnePageCalculatePagePositionStrategy implements CalculatePagePositi
     if (!criteria.pageIndex) {
       x = criteria.pageSource.width / 2 * -1;
     } else {
-      x = criteria.previousPagePosition.x + criteria.previousPagePosition.width + ViewerOptions.overlays.pageMarginDashboardView;
+      x = criteria.previousPagePosition.x + criteria.previousPagePosition.width + ViewerOptions.overlays.canvasGroupMarginDashboardView;
     }
 
     return new Rect({

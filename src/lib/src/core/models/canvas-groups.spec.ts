@@ -1,4 +1,4 @@
-import { CanvasGroups } from './page-rects';
+import { CanvasGroups } from './canvas-groups';
 
 describe('CanvasGroups', () => {
   it('should return closest index', () => {

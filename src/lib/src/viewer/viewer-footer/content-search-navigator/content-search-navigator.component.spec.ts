@@ -13,7 +13,7 @@ import { IiifContentSearchService } from './../../../core/iiif-content-search-se
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
-import { ViewerServiceMock } from './../../../test/viewer-service-mock';
+import { ViewerServiceStub } from './../../../test/viewer-service-stub';
 import { Rect } from '../../../core/models/rect';
 import { ViewerLayout } from '../../../core/models/viewer-layout';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
@@ -34,7 +34,7 @@ describe('ContentSearchNavigatorComponent', () => {
         providers: [
           MimeViewerIntl,
           ContentSearchNavigationService,
-          { provide: ViewerService, useClass: ViewerServiceMock },
+          { provide: ViewerService, useClass: ViewerServiceStub },
           { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
           { provide: CanvasService, useClass: CanvasServiceStub }
         ]

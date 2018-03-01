@@ -4,9 +4,9 @@ import { Point } from '../models/point';
 import { Rect } from '../models/rect';
 
 declare const OpenSeadragon: any;
-export class PageMask {
+export class CanvasGroupMask {
   viewer: any;
-  pageBounds: Rect;
+  canvasGroupRect: Rect;
 
   leftMask: any;
   rightMask: any;
@@ -19,9 +19,9 @@ export class PageMask {
   }
 
   public initialise(pageBounds: Rect, visible: boolean): void {
-    this.pageBounds = pageBounds;
+    this.canvasGroupRect = pageBounds;
 
-    this.addCanvasMask();
+    this.addCanvasGroupMask();
 
     this.setCenter();
     this.resize();
@@ -33,8 +33,8 @@ export class PageMask {
     }
   }
 
-  public changePage(pageBounds: Rect) {
-    this.pageBounds = pageBounds;
+  public changeCanvasGroup(pageBounds: Rect) {
+    this.canvasGroupRect = pageBounds;
     this.resize();
   }
 
@@ -61,17 +61,17 @@ export class PageMask {
   private addHandlers() {
     this.viewer.addHandler('animation', this.animationHandler);
     this.viewer.addHandler('resize', this.resizeHandler);
-    this.viewer.addHandler('canvas-pinch', this.canvasPinchHandler);
-    this.viewer.addHandler('canvas-drag', this.canvasDragHandler);
-    this.viewer.addHandler('canvas-drag-end', this.canvasDragEndHandler);
+    this.viewer.addHandler('canvas-pinch', this.canvasGroupPinchHandler);
+    this.viewer.addHandler('canvas-drag', this.canvasGreoupDragHandler);
+    this.viewer.addHandler('canvas-drag-end', this.canvasGroupDragEndHandler);
   }
 
   private removeHandlers() {
     this.viewer.removeHandler('animation', this.animationHandler);
     this.viewer.removeHandler('resize', this.resizeHandler);
-    this.viewer.removeHandler('canvas-pinch', this.canvasPinchHandler);
-    this.viewer.removeHandler('canvas-drag', this.canvasDragHandler);
-    this.viewer.removeHandler('canvas-drag-end', this.canvasDragEndHandler);
+    this.viewer.removeHandler('canvas-pinch', this.canvasGroupPinchHandler);
+    this.viewer.removeHandler('canvas-drag', this.canvasGreoupDragHandler);
+    this.viewer.removeHandler('canvas-drag-end', this.canvasGroupDragEndHandler);
   }
 
   private animationHandler = () => {
@@ -83,26 +83,26 @@ export class PageMask {
     this.resize();
   };
 
-  private canvasPinchHandler = () => {
+  private canvasGroupPinchHandler = () => {
     this.disableResize = false;
   };
 
-  private canvasDragHandler = (e: any) => {
+  private canvasGreoupDragHandler = (e: any) => {
     if ((e.delta.x || e.delta.y) && e.speed > 0 && e.direction !== 0) {
       this.disableResize = true;
     }
   };
 
-  private canvasDragEndHandler = () => {
+  private canvasGroupDragEndHandler = () => {
     this.disableResize = false;
     this.resize();
   };
 
-  private addCanvasMask() {
+  private addCanvasGroupMask() {
     d3
       .select(this.viewer.canvas)
       .select('canvas')
-      .style('background-color', ViewerOptions.colors.canvasBackgroundColor);
+      .style('background-color', ViewerOptions.colors.canvasGroupBackgroundColor);
 
     const overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
 
@@ -113,14 +113,14 @@ export class PageMask {
       .attr('id', 'mime-left-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
-      .style('fill', ViewerOptions.colors.canvasBackgroundColor);
+      .style('fill', ViewerOptions.colors.canvasGroupBackgroundColor);
 
     this.rightMask = mask
       .append('rect')
       .attr('id', 'mime-right-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
-      .style('fill', ViewerOptions.colors.canvasBackgroundColor);
+      .style('fill', ViewerOptions.colors.canvasGroupBackgroundColor);
   }
 
   private setCenter(): void {
@@ -139,9 +139,14 @@ export class PageMask {
   }
 
   private getLeftMaskRect(): Rect {
-    const imgBounds = new OpenSeadragon.Rect(this.pageBounds.x, this.pageBounds.y, this.pageBounds.width, this.pageBounds.height);
+    const imgBounds = new OpenSeadragon.Rect(
+      this.canvasGroupRect.x,
+      this.canvasGroupRect.y,
+      this.canvasGroupRect.width,
+      this.canvasGroupRect.height
+    );
     const topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopLeft());
-    let width = topLeft.x - ViewerOptions.overlays.pageMarginPageView;
+    let width = topLeft.x - ViewerOptions.overlays.canvasGroupMarginPageView;
 
     if (width < 0) {
       width = 0;
@@ -154,10 +159,15 @@ export class PageMask {
   }
 
   private getRightMaskRect(): Rect {
-    const imgBounds = new OpenSeadragon.Rect(this.pageBounds.x, this.pageBounds.y, this.pageBounds.width, this.pageBounds.height);
+    const imgBounds = new OpenSeadragon.Rect(
+      this.canvasGroupRect.x,
+      this.canvasGroupRect.y,
+      this.canvasGroupRect.width,
+      this.canvasGroupRect.height
+    );
     const topRight = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopRight());
     let width = this.viewer.viewport._containerInnerSize.x - topRight.x;
-    const x = this.viewer.viewport._containerInnerSize.x - width + ViewerOptions.overlays.pageMarginPageView;
+    const x = this.viewer.viewport._containerInnerSize.x - width + ViewerOptions.overlays.canvasGroupMarginPageView;
 
     if (width < 0) {
       width = 0;
