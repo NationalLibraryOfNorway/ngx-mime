@@ -72,14 +72,14 @@ describe('PageDialogComponent', () => {
       fakeAsync(() => {
         canvasService._currentNumberOfCanvasGroups.next(10);
 
-        component.pageNumber.setValue(11);
+        component.canvasGroupControl.setValue(11);
 
-        component.pageNumber.markAsTouched();
+        component.canvasGroupControl.markAsTouched();
         fixture.detectChanges();
         flush();
 
-        const pageDoesNotExistsError = fixture.debugElement.query(By.css('#pageDoesNotExistsError'));
-        expect(pageDoesNotExistsError).not.toBeNull();
+        const canvasGroupDoesNotExistsError = fixture.debugElement.query(By.css('#canvasGroupDoesNotExistsError'));
+        expect(canvasGroupDoesNotExistsError).not.toBeNull();
       })
     );
   });

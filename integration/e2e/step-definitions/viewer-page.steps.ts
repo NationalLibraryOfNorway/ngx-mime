@@ -36,7 +36,7 @@ defineSupportCode(function({ Given, When, Then }) {
   });
 
   Given('the user is on page {int}', async (pageNumber: number) => {
-    await page.goToPage(pageNumber - 1);
+    await page.goToCanvasGroup(pageNumber - 1);
   });
 
   Given('the viewer is opened with a publication with viewing hint "paged"', async () => {

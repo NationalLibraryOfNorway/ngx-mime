@@ -34,35 +34,35 @@ defineSupportCode(function({ Given, When, Then }) {
 
   Then('only the cover page is displayed', async () => {
     await page.waitForAnimation(switchAnimationTime);
-    const visiblePages = await page.visiblePages();
+    const visibleCanvasGroups = await page.visibleCanvasGroups();
     // Firste page visible
-    expect(visiblePages[0]).to.equal(true);
+    expect(visibleCanvasGroups[0]).to.equal(true);
     // Rest of the pages should not be visible
-    visiblePages.splice(0, 1);
-    expect(visiblePages).to.not.include(true);
+    visibleCanvasGroups.splice(0, 1);
+    expect(visibleCanvasGroups).to.not.include(true);
   });
 
   Then('page 2 and 3 are displayed', async () => {
     await page.waitForAnimation(switchAnimationTime);
 
-    const visiblePages = await page.visiblePages();
+    const visibleCanvasGroups = await page.visibleCanvasGroups();
     // Second and third pages visible
-    expect(visiblePages[1]).to.equal(true);
-    expect(visiblePages[2]).to.equal(true);
+    expect(visibleCanvasGroups[1]).to.equal(true);
+    expect(visibleCanvasGroups[2]).to.equal(true);
 
     // Rest of the pages should not be visible
-    visiblePages.splice(1, 2);
-    expect(visiblePages).to.not.include(true);
+    visibleCanvasGroups.splice(1, 2);
+    expect(visibleCanvasGroups).to.not.include(true);
   });
 
   Then('only page 2 is displayed', async () => {
     await page.waitForAnimation(switchAnimationTime);
-    const visiblePages = await page.visiblePages();
+    const visibleCanvasGroups = await page.visibleCanvasGroups();
     // Second page visible
-    expect(visiblePages[1]).to.equal(true);
+    expect(visibleCanvasGroups[1]).to.equal(true);
 
     // Rest of the pages should not be visible
-    visiblePages.splice(1, 1);
-    expect(visiblePages).to.not.include(true);
+    visibleCanvasGroups.splice(1, 1);
+    expect(visibleCanvasGroups).to.not.include(true);
   });
 });

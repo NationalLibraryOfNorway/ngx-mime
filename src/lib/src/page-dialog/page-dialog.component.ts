@@ -14,9 +14,9 @@ import { MimeViewerIntl } from '../core/intl/viewer-intl';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageDialogComponent implements OnInit, OnDestroy {
-  numberOfTiles: number;
-  pageForm: FormGroup;
-  pageNumber: FormControl;
+  numberOfCanvases: number;
+  canvasGroupForm: FormGroup;
+  canvasGroupControl: FormControl;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -27,14 +27,14 @@ export class PageDialogComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-    this.numberOfTiles = this.canvasService.numberOfCanvases;
+    this.numberOfCanvases = this.canvasService.numberOfCanvases;
     this.createForm();
   }
 
   createForm() {
-    this.pageNumber = new FormControl('', [Validators.required, Validators.min(1), Validators.max(this.numberOfTiles)]);
-    this.pageForm = this.fb.group({
-      pageNumber: this.pageNumber
+    this.canvasGroupControl = new FormControl('', [Validators.required, Validators.min(1), Validators.max(this.numberOfCanvases)]);
+    this.canvasGroupForm = this.fb.group({
+      canvasGroupControl: this.canvasGroupControl
     });
   }
 
@@ -48,8 +48,8 @@ export class PageDialogComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.pageForm.valid) {
-      const pageNumber = this.pageForm.get('pageNumber').value - 1;
+    if (this.canvasGroupForm.valid) {
+      const pageNumber = this.canvasGroupForm.get('pageNumber').value - 1;
       this.viewerService.goToCanvasGroup(this.canvasService.findCanvasGroupByCanvasIndex(pageNumber), false);
       this.dialogRef.close();
     }

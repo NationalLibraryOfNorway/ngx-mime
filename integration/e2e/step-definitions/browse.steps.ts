@@ -29,17 +29,17 @@ defineSupportCode(function({ Given, When, Then }) {
     return 'pending';
   });
 
-  When('the user drags the page slider to page {int}', async (pageNumber: number) => {
-    await page.slideToPage(pageNumber - 1);
+  When('the user drags the page slider to page {int}', async (canvasGroupIndex: number) => {
+    await page.slideToCanvasGroup(canvasGroupIndex - 1);
   });
 
-  When('the user enters {int} in the page dialog', async (pageNumber: number) => {
-    await page.goToPageWithDialog(pageNumber);
+  When('the user enters {int} in the page dialog', async (canvasGroupIndex: number) => {
+    await page.goToCanvasGroupWithDialog(canvasGroupIndex);
   });
 
-  Then('page {word} is displayed', async (pageNumber: string) => {
-    const currentPageString = await page.getCurrentPageString();
-    expect(currentPageString.includes(pageNumber)).to.eql(true);
+  Then('page {word} is displayed', async (canvasGroupIndex: string) => {
+    const currentCanvasGroupString = await page.getCurrentCanvasGroupLabel();
+    expect(currentCanvasGroupString.includes(canvasGroupIndex)).to.eql(true);
   });
 
   When('the user click the {word} button', async (navigationButton: string) => {

@@ -8,7 +8,7 @@ defineSupportCode(function({ Given, When, Then }) {
   let previousZoomLevel = 0;
 
   Given('zoom level is home', async () => {
-    expect(await page.isCurrentPageFittedViewport()).to.equal(true);
+    expect(await page.isCurrentCanvasGroupFittedViewport()).to.equal(true);
   });
 
   Given('the view is all zoomed out', async () => {
@@ -75,6 +75,6 @@ defineSupportCode(function({ Given, When, Then }) {
   });
 
   Then('the current zoom level is home', async () => {
-    expect(await page.isCurrentPageFittedViewport()).to.equal(true);
+    expect(await page.isCurrentCanvasGroupFittedViewport()).to.equal(true);
   });
 });

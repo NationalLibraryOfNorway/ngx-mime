@@ -71,7 +71,7 @@ defineSupportCode(function({ Given, When, Then }) {
   });
 
   Then('the page with hit number {word} should be displayed', async hit => {
-    const currentPageString = await page.getCurrentPageString();
+    const currentPageString = await page.getCurrentCanvasGroupLabel();
     if (hit === 1) {
       expect(currentPageString.includes('25')).to.eql(true);
     } else if (hit === 3) {

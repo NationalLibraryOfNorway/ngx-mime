@@ -86,8 +86,8 @@ describe('TocComponent', () => {
     expect(labels[2].nativeElement.innerText).toEqual('Bakside');
   });
 
-  it('should display the correct canvas group number', () => {
-    const canvasGroupNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.pageNumber'));
+  it('should display the correct canvas group index', () => {
+    const canvasGroupNumbers: DebugElement[] = fixture.debugElement.queryAll(By.css('.canvasGroupIndex'));
     expect(canvasGroupNumbers[0].nativeElement.innerText).toEqual('1');
     expect(canvasGroupNumbers[1].nativeElement.innerText).toEqual('2');
     expect(canvasGroupNumbers[2].nativeElement.innerText).toEqual('5');
