@@ -8,7 +8,7 @@ import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { SearchResult } from './../../../core/models/search-result';
-import { PageDialogService } from '../../../page-dialog/page-dialog.service';
+import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 
 @Component({
   selector: 'mime-page-navigator',
@@ -31,7 +31,7 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,
     private canvasService: CanvasService,
-    private pageDialogService: PageDialogService
+    private pageDialogService: CanvasGroupDialogService
   ) {}
 
   ngOnInit() {

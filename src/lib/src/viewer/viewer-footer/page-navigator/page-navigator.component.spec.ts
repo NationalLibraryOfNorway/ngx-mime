@@ -15,7 +15,7 @@ import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
 import { Hit } from './../../../core/models/hit';
-import { PageDialogService } from '../../../page-dialog/page-dialog.service';
+import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
 
@@ -32,7 +32,7 @@ describe('PageNavigatorComponent', () => {
         declarations: [PageNavigatorComponent],
         providers: [
           MimeViewerIntl,
-          PageDialogService,
+          CanvasGroupDialogService,
           { provide: ViewerService, useClass: ViewerServiceStub },
           { provide: CanvasService, useClass: CanvasServiceStub }
         ]

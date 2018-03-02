@@ -7,12 +7,12 @@ import { take } from 'rxjs/operators/take';
 import { interval } from 'rxjs/observable/interval';
 import { takeUntil } from 'rxjs/operators/takeUntil';
 
-import { PageDialogComponent } from './page-dialog.component';
+import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 
 @Injectable()
-export class PageDialogService {
-  private isPageDialogOpen = false;
-  private dialogRef: MatDialogRef<PageDialogComponent>;
+export class CanvasGroupDialogService {
+  private isCanvasGroupDialogOpen = false;
+  private dialogRef: MatDialogRef<CanvasGroupDialogComponent>;
   private destroyed: Subject<void> = new Subject();
 
   constructor(private dialog: MatDialog) {}
@@ -25,32 +25,32 @@ export class PageDialogService {
   }
 
   public open(timeout?: number): void {
-    if (!this.isPageDialogOpen) {
+    if (!this.isCanvasGroupDialogOpen) {
       const config = this.getDialogConfig();
-      this.dialogRef = this.dialog.open(PageDialogComponent, config);
+      this.dialogRef = this.dialog.open(CanvasGroupDialogComponent, config);
       this.dialogRef.afterClosed().subscribe(result => {
-        this.isPageDialogOpen = false;
+        this.isCanvasGroupDialogOpen = false;
       });
-      this.isPageDialogOpen = true;
+      this.isCanvasGroupDialogOpen = true;
     }
   }
 
   public close(): void {
     if (this.dialogRef) {
       this.dialogRef.close();
-      this.isPageDialogOpen = false;
+      this.isCanvasGroupDialogOpen = false;
     }
   }
 
   public toggle(): void {
-    this.isPageDialogOpen ? this.close() : this.open();
+    this.isCanvasGroupDialogOpen ? this.close() : this.open();
   }
 
   private getDialogConfig(): MatDialogConfig {
     return {
       hasBackdrop: false,
       disableClose: true,
-      panelClass: 'page-panel'
+      panelClass: 'canvas-group-panel'
     };
   }
 }

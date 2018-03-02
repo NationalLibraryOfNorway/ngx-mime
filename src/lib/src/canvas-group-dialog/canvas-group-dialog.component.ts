@@ -9,18 +9,18 @@ import { CanvasService } from '../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 
 @Component({
-  templateUrl: './page-dialog.component.html',
-  styleUrls: ['./page-dialog.component.scss'],
+  templateUrl: './canvas-group-dialog.component.html',
+  styleUrls: ['./canvas-group-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PageDialogComponent implements OnInit, OnDestroy {
+export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   numberOfCanvases: number;
   canvasGroupForm: FormGroup;
   canvasGroupControl: FormControl;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
-    private dialogRef: MatDialogRef<PageDialogComponent>,
+    private dialogRef: MatDialogRef<CanvasGroupDialogComponent>,
     private fb: FormBuilder,
     private viewerService: ViewerService,
     private canvasService: CanvasService,

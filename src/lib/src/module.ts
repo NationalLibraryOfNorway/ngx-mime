@@ -7,7 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { ContentsDialogModule } from './contents-dialog/contents-dialog.module';
 import { AttributionDialogModule } from './attribution-dialog/attribution-dialog.module';
 import { ContentSearchDialogModule } from './content-search-dialog/content-search-dialog.module';
-import { PageDialogModule } from './page-dialog/page-dialog.module';
+import { CanvasGroupDialogModule } from './canvas-group-dialog/canvas-group-dialog.module';
 import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
@@ -26,7 +26,7 @@ import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component'
     PageNavigatorComponent,
     ViewerSpinnerComponent
   ],
-  imports: [CoreModule, SharedModule, ContentsDialogModule, AttributionDialogModule, ContentSearchDialogModule, PageDialogModule],
+  imports: [CoreModule, SharedModule, ContentsDialogModule, AttributionDialogModule, ContentSearchDialogModule, CanvasGroupDialogModule],
   exports: [ViewerComponent]
 })
 export class MimeModule {}

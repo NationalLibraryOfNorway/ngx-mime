@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedModule } from '../shared/shared.module';
-import { PageDialogComponent } from './page-dialog.component';
+import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -20,8 +20,8 @@ import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { CanvasServiceStub } from '../test/canvas-service-stub';
 
 describe('PageDialogComponent', () => {
-  let component: PageDialogComponent;
-  let fixture: ComponentFixture<PageDialogComponent>;
+  let component: CanvasGroupDialogComponent;
+  let fixture: ComponentFixture<CanvasGroupDialogComponent>;
   let intl: MimeViewerIntl;
   let canvasService: CanvasServiceStub;
 
@@ -29,7 +29,7 @@ describe('PageDialogComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         imports: [NoopAnimationsModule, SharedModule],
-        declarations: [PageDialogComponent],
+        declarations: [CanvasGroupDialogComponent],
         providers: [
           ViewerService,
           ClickService,
@@ -45,7 +45,7 @@ describe('PageDialogComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageDialogComponent);
+    fixture = TestBed.createComponent(CanvasGroupDialogComponent);
     component = fixture.componentInstance;
     intl = TestBed.get(MimeViewerIntl);
     canvasService = TestBed.get(CanvasService);
@@ -57,7 +57,7 @@ describe('PageDialogComponent', () => {
   });
 
   it('should re-render when the i18n labels have changed', () => {
-    const title = fixture.debugElement.query(By.css('.page-dialog-title'));
+    const title = fixture.debugElement.query(By.css('.canvas-group-dialog-title'));
 
     intl.goToPageLabel = 'Testlabel';
     intl.changes.next();
