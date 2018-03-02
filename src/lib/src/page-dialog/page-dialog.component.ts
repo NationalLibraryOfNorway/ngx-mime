@@ -49,7 +49,7 @@ export class PageDialogComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.canvasGroupForm.valid) {
-      const pageNumber = this.canvasGroupForm.get('pageNumber').value - 1;
+      const pageNumber = this.canvasGroupForm.get('canvasGroupControl').value - 1;
       this.viewerService.goToCanvasGroup(this.canvasService.findCanvasGroupByCanvasIndex(pageNumber), false);
       this.dialogRef.close();
     }
