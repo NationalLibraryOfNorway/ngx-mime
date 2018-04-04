@@ -4,7 +4,7 @@
       <mat-slider id="navigationSlider" [max]="numberOfCanvasGroups - 1" [value]="currentCanvasGroupIndex" (input)="onSliderChange($event)"
         fxFlex></mat-slider>
     </div>
-    <button mat-button id="goToCanvasGroupButton" class="canvbasGroups" (click)="openPageDialog()">
+    <button mat-button id="goToCanvasGroupButton" class="canvasGroups" (click)="openCanvasGroupDialog()">
       <span id="currentCanvasGroupLabel">{{canvasGrouplabel}}</span>/
       <span id="numOfCanvasGroups">{{numberOfCanvases}}</span>
     </button>

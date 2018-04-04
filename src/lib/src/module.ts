@@ -12,7 +12,7 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
 import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
-import { PageNavigatorComponent } from './viewer/viewer-footer/page-navigator/page-navigator.component';
+import { CanvasGroupNavigatorComponent } from './viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 
@@ -23,7 +23,7 @@ import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component'
     ViewerFooterComponent,
     OsdToolbarComponent,
     ContentSearchNavigatorComponent,
-    PageNavigatorComponent,
+    CanvasGroupNavigatorComponent,
     ViewerSpinnerComponent
   ],
   imports: [CoreModule, SharedModule, ContentsDialogModule, AttributionDialogModule, ContentSearchDialogModule, CanvasGroupDialogModule],

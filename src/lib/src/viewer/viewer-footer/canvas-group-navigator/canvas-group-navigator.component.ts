@@ -12,18 +12,18 @@ import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-gr
 
 @Component({
   selector: 'mime-page-navigator',
-  templateUrl: './page-navigator.component.html',
-  styleUrls: ['./page-navigator.component.scss']
+  templateUrl: './canvas-group-navigator.component.html',
+  styleUrls: ['./canvas-group-navigator.component.scss']
 })
-export class PageNavigatorComponent implements OnInit, OnDestroy {
+export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   @Input() public searchResult: SearchResult;
   public numberOfCanvases: number;
-  public canvasGrouplabel: string;
+  public canvasGroupLabel: string;
   public numberOfCanvasGroups: number;
   public currentCanvasGroupIndex: number;
   public isFirstCanvasGroup: boolean;
   public isLastCanvasGroup: boolean;
-  private currentSliderPage = -1;
+  private currentSliderCanvasGroupIndex = -1;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -36,11 +36,11 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.canvasService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((currentCanvasGroupIndex: number) => {
-      if (this.currentSliderPage !== -1 && this.currentSliderPage === currentCanvasGroupIndex) {
-        this.currentSliderPage = -1;
-      } else if (this.currentSliderPage === -1) {
+      if (this.currentSliderCanvasGroupIndex !== -1 && this.currentSliderCanvasGroupIndex === currentCanvasGroupIndex) {
+        this.currentSliderCanvasGroupIndex = -1;
+      } else if (this.currentSliderCanvasGroupIndex === -1) {
         this.currentCanvasGroupIndex = currentCanvasGroupIndex;
-        this.canvasGrouplabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
+        this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
       }
       this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(currentCanvasGroupIndex);
       this.isLastCanvasGroup = this.isOnLastCanvasGroup(currentCanvasGroupIndex);
@@ -68,14 +68,14 @@ export class PageNavigatorComponent implements OnInit, OnDestroy {
   }
 
   onSliderChange(change: MatSliderChange): void {
-    this.currentSliderPage = change.value;
+    this.currentSliderCanvasGroupIndex = change.value;
     this.currentCanvasGroupIndex = change.value;
-    this.canvasGrouplabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
+    this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
     this.viewerService.goToCanvasGroup(change.value, false);
     this.changeDetectorRef.detectChanges();
   }
 
-  openPageDialog(): void {
+  openCanvasGroupDialog(): void {
     this.pageDialogService.toggle();
   }
 

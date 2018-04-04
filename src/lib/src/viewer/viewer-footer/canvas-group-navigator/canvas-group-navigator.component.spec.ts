@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
-import { PageNavigatorComponent } from './page-navigator.component';
+import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.component';
 import { SharedModule } from './../../../shared/shared.module';
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
@@ -19,9 +19,9 @@ import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-gr
 import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
 
-describe('PageNavigatorComponent', () => {
-  let component: PageNavigatorComponent;
-  let fixture: ComponentFixture<PageNavigatorComponent>;
+describe('CanvasGroupNavigatorComponent', () => {
+  let component: CanvasGroupNavigatorComponent;
+  let fixture: ComponentFixture<CanvasGroupNavigatorComponent>;
   let spy: any;
 
   beforeEach(
@@ -29,7 +29,7 @@ describe('PageNavigatorComponent', () => {
       TestBed.configureTestingModule({
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [NoopAnimationsModule, SharedModule],
-        declarations: [PageNavigatorComponent],
+        declarations: [CanvasGroupNavigatorComponent],
         providers: [
           MimeViewerIntl,
           CanvasGroupDialogService,
@@ -41,7 +41,7 @@ describe('PageNavigatorComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageNavigatorComponent);
+    fixture = TestBed.createComponent(CanvasGroupNavigatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

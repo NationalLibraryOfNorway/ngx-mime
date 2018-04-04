@@ -62,7 +62,7 @@ export class CanvasGroupMask {
     this.viewer.addHandler('animation', this.animationHandler);
     this.viewer.addHandler('resize', this.resizeHandler);
     this.viewer.addHandler('canvas-pinch', this.canvasGroupPinchHandler);
-    this.viewer.addHandler('canvas-drag', this.canvasGreoupDragHandler);
+    this.viewer.addHandler('canvas-drag', this.canvasGroupDragHandler);
     this.viewer.addHandler('canvas-drag-end', this.canvasGroupDragEndHandler);
   }
 
@@ -70,7 +70,7 @@ export class CanvasGroupMask {
     this.viewer.removeHandler('animation', this.animationHandler);
     this.viewer.removeHandler('resize', this.resizeHandler);
     this.viewer.removeHandler('canvas-pinch', this.canvasGroupPinchHandler);
-    this.viewer.removeHandler('canvas-drag', this.canvasGreoupDragHandler);
+    this.viewer.removeHandler('canvas-drag', this.canvasGroupDragHandler);
     this.viewer.removeHandler('canvas-drag-end', this.canvasGroupDragEndHandler);
   }
 
@@ -87,7 +87,7 @@ export class CanvasGroupMask {
     this.disableResize = false;
   };
 
-  private canvasGreoupDragHandler = (e: any) => {
+  private canvasGroupDragHandler = (e: any) => {
     if ((e.delta.x || e.delta.y) && e.speed > 0 && e.direction !== 0) {
       this.disableResize = true;
     }
