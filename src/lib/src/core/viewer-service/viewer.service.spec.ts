@@ -4,7 +4,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 
 import { ViewerService } from './viewer.service';
 import { ClickService } from '../click-service/click.service';
-import { PageService } from './../page-service/page-service';
+import { CanvasService } from './../canvas-service/canvas-service';
 import { ModeService } from './../mode-service/mode.service';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
@@ -19,7 +19,7 @@ describe('ViewerService', () => {
       providers: [
         ViewerService,
         ClickService,
-        PageService,
+        CanvasService,
         ModeService,
         MimeResizeService,
         ViewerLayoutService,

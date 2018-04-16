@@ -21,7 +21,7 @@ import { SearchResult } from './../core/models/search-result';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { testManifest } from './../test/testManifest';
-import { ViewerServiceMock } from './../test/viewer-service-mock';
+import { ViewerServiceStub } from './../test/viewer-service-stub';
 import { MatDialogRefStub } from './../test/mat-dialog-ref-stub';
 import { Hit } from '../core/models/hit';
 
@@ -43,7 +43,7 @@ describe('ContentSearchDialogComponent', () => {
           FullscreenService,
           { provide: MatDialogRef, useClass: MatDialogRefStub },
           { provide: ObservableMedia, useClass: MediaServiceStub },
-          { provide: ViewerService, useClass: ViewerServiceMock },
+          { provide: ViewerService, useClass: ViewerServiceStub },
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
           { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
         ]

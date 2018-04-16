@@ -40,8 +40,8 @@ export class ContentSearchPage {
 
   async getHit(index: number): Promise<ElementFinder> {
     const els = await element.all(by.css('.content-search-container .hit'));
-    const pagesArray = await els.map((page, i) => page);
-    return pagesArray[index];
+    const canvasGroupIndexes = await els.map((canvasGroupIndex, i) => canvasGroupIndex);
+    return canvasGroupIndexes[index];
   }
 
   contentSearchNavigatorToolbar() {

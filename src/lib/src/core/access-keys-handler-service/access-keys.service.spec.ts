@@ -6,7 +6,7 @@ import { MimeViewerIntl } from '../intl/viewer-intl';
 import { MimeDomHelper } from '../mime-dom-helper';
 import { ViewerService } from '../viewer-service/viewer.service';
 import { ClickService } from '../click-service/click.service';
-import { PageService } from '../page-service/page-service';
+import { CanvasService } from '../canvas-service/canvas-service';
 import { ModeService } from '../mode-service/mode.service';
 import { AccessKeysService } from './access-keys.service';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
@@ -27,7 +27,7 @@ describe('AccessKeysService', () => {
       providers: [
         AccessKeysService,
         ViewerService,
-        PageService,
+        CanvasService,
         ContentSearchDialogService,
         ContentsDialogConfigStrategyFactory,
         ContentSearchDialogConfigStrategyFactory,

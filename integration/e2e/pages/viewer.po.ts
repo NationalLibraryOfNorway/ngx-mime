@@ -30,66 +30,66 @@ export class ViewerPage {
     }
     await browser.sleep(1000);
   }
-  async goToPage(pageNumber: number) {
+  async goToCanvasGroup(canvasGroupIndex: number) {
     const isPageMode = this.isPageMode();
     const isDashboardMode = this.isDashboardMode();
     if (await isPageMode) {
-      await this.navigateToPage(pageNumber);
+      await this.navigateToCanvasGroup(canvasGroupIndex);
     } else if (await isDashboardMode) {
-      await this.slideToPage(pageNumber);
+      await this.slideToCanvasGroup(canvasGroupIndex);
     }
   }
 
-  async slideToPage(pageNumber: number) {
+  async slideToCanvasGroup(canvasGroupIndex: number) {
     const slider = await utils.waitForElement(element(by.css('#navigationSlider')));
     const isTwoPageView = this.isTwoPageView();
-    if ((await isTwoPageView) && pageNumber > 1) {
-      pageNumber = Math.floor(pageNumber / 2);
+    if ((await isTwoPageView) && canvasGroupIndex > 1) {
+      canvasGroupIndex = Math.floor(canvasGroupIndex / 2);
     }
-    for (let i = 0; i < pageNumber; i++) {
+    for (let i = 0; i < canvasGroupIndex; i++) {
       await slider.sendKeys(protractor.Key.ARROW_RIGHT);
     }
     await this.waitForAnimation();
   }
 
-  async goToPageWithDialog(pageNumber: number) {
-    const goToPageButton = await utils.waitForElement(element(by.css('#goToPageButton')));
-    await goToPageButton.click();
+  async goToCanvasGroupWithDialog(canvasGroupIndex: number) {
+    const goToCanvasGroupButton = await utils.waitForElement(element(by.css('#goToCanvasGroupButton')));
+    await goToCanvasGroupButton.click();
     const isTwoPageView = this.isTwoPageView();
-    const input = await utils.waitForElement(element(by.css('#goToPageInput')));
-    await input.sendKeys(pageNumber);
+    const input = await utils.waitForElement(element(by.css('#goToCanvasGroupInput')));
+    await input.sendKeys(canvasGroupIndex);
     await input.sendKeys(protractor.Key.ENTER);
     await this.waitForAnimation();
   }
 
-  async navigateToPage(pageNumber: number) {
+  async navigateToCanvasGroup(canvasGroupIndex: number) {
     const isTwoPageView = this.isTwoPageView();
-    if ((await isTwoPageView) && pageNumber > 1) {
-      pageNumber = Math.floor(pageNumber / 2);
+    if ((await isTwoPageView) && canvasGroupIndex > 1) {
+      canvasGroupIndex = Math.floor(canvasGroupIndex / 2);
     }
-    for (let i = 0; i < pageNumber; i++) {
+    for (let i = 0; i < canvasGroupIndex; i++) {
       await this.clickNextButton();
     }
     await this.waitForAnimation();
   }
 
-  async getCurrentPageString() {
+  async getCurrentCanvasGroupLabel() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el = await utils.waitForPresenceOf(element(by.css('#currentPageNumber')));
+    const el = await utils.waitForPresenceOf(element(by.css('#currentCanvasGroupLabel')));
     // Not using el.getText() as it don't seem to work when element is not visible
-    const currentPageNumber = await el.getAttribute('textContent');
+    const currentCanvasGroupLabel = await el.getAttribute('textContent');
     // return parseInt(currentPageNumber, 10);
-    return currentPageNumber;
+    return currentCanvasGroupLabel;
   }
 
-  async getNumberOfPages() {
+  async getNumberOfCanvasGroups() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el = await utils.waitForPresenceOf(element(by.css('#numOfPages')));
+    const el = await utils.waitForPresenceOf(element(by.css('#numOfCanvasGroups')));
     // Not using el.getText() as it don't seem to work when element is not visible
-    const numberOfPages = await el.getAttribute('textContent');
-    return parseInt(numberOfPages, 10);
+    const numberOfCanvasGroups = await el.getAttribute('textContent');
+    return parseInt(numberOfCanvasGroups, 10);
   }
 
   async openContentsDialog() {
@@ -153,32 +153,32 @@ export class ViewerPage {
     return utils.waitForElement(el);
   }
 
-  getFirstPageInFirstGroupOverlay() {
+  getFirstCanvasGroupInFirstGroupOverlay() {
     const el = element(by.css('#openseadragon svg g.page-group:first-child rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getSecondPageInFirstGroupOverlay() {
+  getSecondCanvasGroupInFirstGroupOverlay() {
     const el = element(by.css('#openseadragon svg g.page-group:nth-child(2)')).element(by.css('rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getAllPageOverlays() {
+  getAllCanvasGroupOverlays() {
     const el = element.all(by.css('#openseadragon svg g.page-group rect'));
     return el;
   }
 
-  getLeftPageMask() {
+  getLeftCanvasGroupMask() {
     const el = element(by.css('#openseadragon svg g#page-mask rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getRightPageMask() {
+  getRightCanvasGroupMask() {
     const el = element(by.css('#openseadragon svg g#page-mask rect:nth-child(2)'));
     return utils.waitForElement(el);
   }
 
-  getFirstPageOverlay() {
+  getFirstCanvasGroupOverlay() {
     const el = element.all(by.css('#openseadragon svg g rect')).first();
     return utils.waitForElement(el);
   }
@@ -362,9 +362,9 @@ export class ViewerPage {
     return btn ? true : false;
   }
 
-  async isCurrentPageFittedViewport(): Promise<boolean> {
+  async isCurrentCanvasGroupFittedViewport(): Promise<boolean> {
     const svgParent = await this.getSVGElement();
-    const overlay = await this.getFirstPageOverlay();
+    const overlay = await this.getFirstCanvasGroupOverlay();
 
     const svgParentDimensions = await svgParent.getSize();
     const overlayDimensions = await overlay.getSize();
@@ -377,7 +377,7 @@ export class ViewerPage {
 
   async isVerticallyCentered(): Promise<boolean> {
     const svgParent = await this.getSVGElement();
-    const overlay = await this.getFirstPageOverlay();
+    const overlay = await this.getFirstCanvasGroupOverlay();
 
     const svgParentDimensions = await svgParent.getSize();
     const overlayDimensions = await overlay.getSize();
@@ -426,25 +426,25 @@ export class ViewerPage {
     return await browser.sleep(await this.getAnimationTimeInMs());
   }
 
-  async visiblePages(): Promise<Boolean[]> {
-    const pages = await this.getAllPageOverlays();
+  async visibleCanvasGroups(): Promise<Boolean[]> {
+    const canvasGroupsOverlays = await this.getAllCanvasGroupOverlays();
 
-    const [leftPageMask, rightPageMask] = await Promise.all([this.getLeftPageMask(), this.getRightPageMask()]);
+    const [leftCanvasGroupMask, rightCanvasGroupMask] = await Promise.all([this.getLeftCanvasGroupMask(), this.getRightCanvasGroupMask()]);
 
-    const leftPageMaskSize = await leftPageMask.getSize();
-    const leftPageMaskLoc = await leftPageMask.getLocation();
-    const rightPageMaskSize = await rightPageMask.getSize();
-    const rightPageMaskLoc = await rightPageMask.getLocation();
+    const leftCanvasGroupMaskSize = await leftCanvasGroupMask.getSize();
+    const leftCanvasGroupMaskLoc = await leftCanvasGroupMask.getLocation();
+    const rightCanvasGroupMaskSize = await rightCanvasGroupMask.getSize();
+    const rightCanvasGroupMaskLoc = await rightCanvasGroupMask.getLocation();
 
-    const pagesArray = await pages.map((page, i) => page);
+    const canvasGroupsArray = await canvasGroupsOverlays.map((canvasGroup, i) => canvasGroup);
     const result = [];
 
-    for (let i = 0; i < pagesArray.length; i++) {
-      const page = pagesArray[i];
+    for (let i = 0; i < canvasGroupsArray.length; i++) {
+      const canvasGroup = canvasGroupsArray[i];
       const isVisible = await this.isElementVisibleInReadersViewport(
-        page,
-        { size: leftPageMaskSize, location: leftPageMaskLoc },
-        { size: rightPageMaskSize, location: rightPageMaskLoc }
+        canvasGroup,
+        { size: leftCanvasGroupMaskSize, location: leftCanvasGroupMaskLoc },
+        { size: rightCanvasGroupMaskSize, location: rightCanvasGroupMaskLoc }
       );
       result.push(isVisible);
     }
@@ -457,12 +457,12 @@ export class ViewerPage {
    *
    * @param el
    * @param leftPageMask
-   * @param rightPageMask
+   * @param rightCanvasGroupMask
    */
   async isElementVisibleInReadersViewport(
     el: any,
-    leftPageMask: { size: any; location: any },
-    rightPageMask: { size: any; location: any }
+    leftCanvasGroupMask: { size: any; location: any },
+    rightCanvasGroupMask: { size: any; location: any }
   ): Promise<boolean> {
     let lastEvent: string;
     try {
@@ -476,7 +476,10 @@ export class ViewerPage {
         right: elementLocation.x + elementSize.width
       };
       lastEvent = 'return';
-      return elementCalculatedLocastion.right >= leftPageMask.size.width && elementCalculatedLocastion.left <= rightPageMask.location.x;
+      return (
+        elementCalculatedLocastion.right >= leftCanvasGroupMask.size.width &&
+        elementCalculatedLocastion.left <= rightCanvasGroupMask.location.x
+      );
     } catch (e) {
       console.log(`Ooups, this should not happen. Last event is ${lastEvent}`, e);
     }

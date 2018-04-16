@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { MimeViewerIntl } from './intl/viewer-intl';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from './iiif-content-search-service/iiif-content-search.service';
-import { PageService } from './page-service/page-service';
+import { CanvasService } from './canvas-service/canvas-service';
 import { MimeResizeService } from './mime-resize-service/mime-resize.service';
 import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { ViewerService } from './viewer-service/viewer.service';
@@ -23,7 +23,7 @@ import { ContentSearchNavigationService } from './navigation/content-search-navi
     FullscreenService,
     ViewerService,
     ClickService,
-    PageService,
+    CanvasService,
     ModeService,
     SpinnerService,
     AccessKeysService,

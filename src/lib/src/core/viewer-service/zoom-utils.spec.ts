@@ -3,18 +3,18 @@ import { ZoomUtils } from './zoom-utils';
 import { Point } from '../models/point';
 
 describe('ZoomUtils ', () => {
-  it('should constrain position to pagebounds', () => {
-    const page: Rect = { x: 100, y: 100, width: 100, height: 100 };
+  it('should constrain position to canvasGroupRect', () => {
+    const canvasGroupRect: Rect = { x: 100, y: 100, width: 100, height: 100 };
 
     // Outside left side of page
     let pos: Point = { x: 50, y: 0 };
 
-    let newPos = ZoomUtils.constrainPositionToPage(pos, page);
+    let newPos = ZoomUtils.constrainPositionToCanvasGroup(pos, canvasGroupRect);
     expect(newPos.x).toBe(100);
 
     // Outside right side of page
     pos = { x: 210, y: 0 };
-    newPos = ZoomUtils.constrainPositionToPage(pos, page);
+    newPos = ZoomUtils.constrainPositionToCanvasGroup(pos, canvasGroupRect);
     expect(newPos.x).toBe(200);
   });
 

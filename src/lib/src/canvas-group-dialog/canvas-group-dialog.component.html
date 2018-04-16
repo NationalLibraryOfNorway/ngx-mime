@@ -1,0 +1,13 @@
+<div fxLayout="column">
+  <h1 class="canvas-group-dialog-title">{{intl.goToPageLabel}}</h1>
+  <form [formGroup]="canvasGroupForm" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+    <mat-form-field [floatLabel]="'always'">
+      <input id="goToCanvasGroupInput" type="number" matInput min="1" [placeholder]="intl.enterPageNumber" formControlName="canvasGroupControl">
+      <mat-error id="canvasGroupDoesNotExistsError" *ngIf="canvasGroupControl.errors?.max">{{intl.pageDoesNotExists}}</mat-error>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <button id="cancelButton" type="button" mat-button matDialogClose>CANCEL</button>
+      <button id="goToCanvasGroupSubmitButton" type="submit" mat-button [disabled]="canvasGroupForm.pristine || canvasGroupForm.invalid">OK</button>
+    </div>
+  </form>
+</div>

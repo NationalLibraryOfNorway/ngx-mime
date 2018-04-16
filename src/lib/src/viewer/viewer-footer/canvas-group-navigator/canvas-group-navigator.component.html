@@ -1,0 +1,22 @@
+<mat-toolbar>
+  <div fxLayout="row" fxFlex fxLayoutAlign="start center">
+    <div fxFlex>
+      <mat-slider id="navigationSlider" [max]="numberOfCanvasGroups - 1" [value]="currentCanvasGroupIndex" (input)="onSliderChange($event)"
+        fxFlex></mat-slider>
+    </div>
+    <button mat-button id="goToCanvasGroupButton" class="canvasGroups" (click)="openCanvasGroupDialog()">
+      <span id="currentCanvasGroupLabel">{{canvasGroupLabel}}</span>/
+      <span id="numOfCanvasGroups">{{numberOfCanvases}}</span>
+    </button>
+    <div class="navigation-buttons">
+      <button id="footerNavigateBeforeButton" mat-icon-button [attr.aria-label]="intl.previousPageLabel" [matTooltip]="intl.previousPageLabel"
+        matTooltipPosition="above" [disabled]="isFirstCanvasGroup" (click)="goToPreviousCanvasGroup()">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <button id="footerNavigateNextButton" mat-icon-button [attr.aria-label]="intl.nextPageLabel" [matTooltip]="intl.nextPageLabel"
+        matTooltipPosition="above" [disabled]="isLastCanvasGroup" (click)="goToNextCanvasGroup()">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>

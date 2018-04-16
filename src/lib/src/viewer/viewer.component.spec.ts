@@ -18,7 +18,7 @@ import { Manifest } from '../core/models/manifest';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ClickService } from '../core/click-service/click.service';
-import { PageService } from '../core/page-service/page-service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
@@ -46,7 +46,7 @@ describe('ViewerComponent', function() {
   let originalTimeout: number;
 
   let viewerService: ViewerService;
-  let pageService: PageService;
+  let canvasService: CanvasService;
   let clickService: ClickService;
   let modeService: ModeService;
   let mimeResizeServiceStub: MimeResizeServiceStub;
@@ -74,7 +74,7 @@ describe('ViewerComponent', function() {
           { provide: MimeResizeService, useClass: MimeResizeServiceStub },
           MimeViewerIntl,
           ClickService,
-          PageService,
+          CanvasService,
           ModeService,
           FullscreenService,
           AccessKeysService,
@@ -104,7 +104,7 @@ describe('ViewerComponent', function() {
     testHostFixture.detectChanges();
 
     viewerService = TestBed.get(ViewerService);
-    pageService = TestBed.get(PageService);
+    canvasService = TestBed.get(CanvasService);
     clickService = TestBed.get(ClickService);
     modeService = TestBed.get(ModeService);
     mimeResizeServiceStub = TestBed.get(MimeResizeService);
@@ -312,7 +312,7 @@ describe('ViewerComponent', function() {
     pending('Set to pending until we find a way to perform pinch event');
   });
 
-  it('#pageIsAtMinZoom should return true if page is at minimum zoom level', () => {
+  it('should return true if canvas group is at minimum zoom level', () => {
     pending('');
   });
 
@@ -328,7 +328,7 @@ describe('ViewerComponent', function() {
     pending('Set to pending until we find a way to perform pan event');
   });
 
-  it('should change page when swipeing to left', () => {
+  it('should change canvas group when swipeing to left', () => {
     // modeService.mode = ViewerMode.DASHBOARD;
     // tick();
     // const viewer = viewerService.getViewer();
@@ -348,25 +348,25 @@ describe('ViewerComponent', function() {
     pending('Set to pending until we find a way to perform swipe event');
   });
 
-  it('should emit when page mode changes', () => {
+  it('should emit when canvas group mode changes', () => {
     let selectedMode: ViewerMode;
-    comp.pageModeChanged.subscribe((mode: ViewerMode) => (selectedMode = mode));
+    comp.viewerModeChanged.subscribe((mode: ViewerMode) => (selectedMode = mode));
 
     modeService.mode = ViewerMode.DASHBOARD;
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should emit when page number changes', done => {
-    let currentPageNumber: number;
-    comp.pageChanged.subscribe((pageNumber: number) => (currentPageNumber = pageNumber));
+  it('should emit when canvas group number changes', done => {
+    let currentCanvasIndex: number;
+    comp.canvasChanged.subscribe((canvasIndex: number) => (currentCanvasIndex = canvasIndex));
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          viewerService.goToPage(1, false);
+          viewerService.goToCanvasGroup(1, false);
         }, 100);
 
         setTimeout(() => {
-          expect(currentPageNumber).toEqual(1);
+          expect(currentCanvasIndex).toEqual(1);
           done();
         }, osdAnimationTime);
       }
@@ -378,15 +378,15 @@ describe('ViewerComponent', function() {
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
     testHostComponent.canvasIndex = 3;
     testHostFixture.detectChanges();
-    expect(pageService.currentTile).toEqual(3);
+    expect(canvasService.currentCanvasIndex).toEqual(3);
 
-    viewerService.goToTile(7, false);
-    expect(pageService.currentTile).toEqual(7);
+    viewerService.goToCanvas(7, false);
+    expect(canvasService.currentCanvasIndex).toEqual(7);
 
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
 
     setTimeout(() => {
-      expect(pageService.currentTile).toEqual(7);
+      expect(canvasService.currentCanvasIndex).toEqual(7);
       done();
     }, osdAnimationTime);
   });
@@ -408,10 +408,10 @@ describe('ViewerComponent', function() {
   });
 
   it('should open viewer on canvas index if present', done => {
-    let currentPageNumber: number;
+    let currentCanvasIndex: number;
     testHostComponent.canvasIndex = 12;
-    comp.pageChanged.subscribe((pageNumber: number) => {
-      currentPageNumber = pageNumber;
+    comp.canvasChanged.subscribe((canvasIndex: number) => {
+      currentCanvasIndex = canvasIndex;
     });
 
     testHostFixture.detectChanges();
@@ -419,7 +419,7 @@ describe('ViewerComponent', function() {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          expect(currentPageNumber).toEqual(12);
+          expect(currentCanvasIndex).toEqual(12);
           done();
         }, osdAnimationTime);
       }
@@ -455,14 +455,14 @@ describe('ViewerComponent', function() {
   });
 
   // By.css() query does not find SVG elements https://github.com/angular/angular/pull/15372
-  xit('should add a mask around the page', (done: any) => {
+  xit('should add a mask around the canvas group', (done: any) => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
-          const leftPageMask = testHostFixture.debugElement.query(By.css('#mime-left-page-mask'));
-          const rightPageMask = testHostFixture.debugElement.query(By.css('#mime-right-page-mask'));
-          expect(leftPageMask).not.toBeNull();
-          expect(rightPageMask).not.toBeNull();
+          const leftCanvasGroupMask = testHostFixture.debugElement.query(By.css('#mime-left-page-mask'));
+          const rightCanvasGroupMask = testHostFixture.debugElement.query(By.css('#mime-right-page-mask'));
+          expect(leftCanvasGroupMask).not.toBeNull();
+          expect(rightCanvasGroupMask).not.toBeNull();
           done();
         }, 600);
       }

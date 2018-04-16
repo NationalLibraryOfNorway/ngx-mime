@@ -17,11 +17,11 @@ import { ModeChanges } from '../models/modeChanges';
 import { Dimensions } from '../models/dimensions';
 import { Manifest, Service } from '../models/manifest';
 import { Options } from '../models/options';
-import { PageService } from '../page-service/page-service';
+import { CanvasService } from '../canvas-service/canvas-service';
 import { ViewerMode } from '../models/viewer-mode';
 import { SwipeUtils } from './swipe-utils';
-import { PageMask } from './page-mask';
-import { CalculateNextPageFactory } from './calculate-next-page-factory';
+import { CanvasGroupMask } from './canvas-group-mask';
+import { CalculateNextCanvasGroupFactory } from './calculate-next-canvas-group-factory';
 import { Point } from './../models/point';
 import { ClickService } from '../click-service/click.service';
 import { SearchResult } from './../models/search-result';
@@ -31,7 +31,7 @@ import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 import { ZoomUtils } from './zoom-utils';
 import { ViewerLayout } from '../models/viewer-layout';
-import { CalculatePagePositionFactory } from '../page-position/calculate-page-position-factory';
+import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { PinchStatus } from '../models/pinchStatus';
 import { MimeViewerConfig } from '../mime-viewer-config';
@@ -57,11 +57,11 @@ export class ViewerService {
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   private currentCenter: Subject<Point> = new Subject();
-  private currentPageIndex: BehaviorSubject<number> = new BehaviorSubject(0);
+  private currentCanvasIndex: BehaviorSubject<number> = new BehaviorSubject(0);
   private currentHit: BehaviorSubject<Hit> = new BehaviorSubject(null);
   private osdIsReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
-  private pageMask: PageMask;
+  private canvasGroupMask: CanvasGroupMask;
   private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
   private manifest: Manifest;
@@ -73,20 +73,18 @@ export class ViewerService {
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
-    private pageService: PageService,
+    private canvasService: CanvasService,
     private modeService: ModeService,
     private viewerLayoutService: ViewerLayoutService,
     private iiifContentSearchService: IiifContentSearchService
   ) {}
 
-  //#region getters / setters
-
   get onCenterChange(): Observable<Point> {
     return this.currentCenter.asObservable();
   }
 
-  get onPageChange(): Observable<number> {
-    return this.currentPageIndex.asObservable().pipe(distinctUntilChanged());
+  get onCanvasGroupIndexChange(): Observable<number> {
+    return this.currentCanvasIndex.asObservable().pipe(distinctUntilChanged());
   }
 
   get onHitChange(): Observable<Hit> {
@@ -131,68 +129,62 @@ export class ViewerService {
     this.viewer.viewport.zoomBy(zoomFactor, position);
   }
 
-  private getViewportBounds(): Rect {
-    return this.viewer.viewport.getBounds();
-  }
-
-  //#endregion getters / setters
-
   public home(): void {
     if (!this.osdIsReady.getValue()) {
       return;
     }
     this.setMinZoom(this.modeService.mode);
-    this.goToPage(this.pageService.currentPage, false);
+    this.goToCanvasGroup(this.canvasService.currentCanvasGroupIndex, false);
     this.goToHomeZoom();
   }
 
-  public goToPreviousPage(): void {
+  public goToPreviousCanvasGroup(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.pageService.findClosestIndex(viewportCenter);
+    const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
 
-    const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
-    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+    const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
+    const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
       direction: Direction.PREVIOUS,
-      currentPageIndex: currentPageIndex,
-      currentPageCenter: this.currentPageIndex.getValue()
+      currentCanvasGroupIndex: currentCanvasGroupIndex,
+      currentCanvasGroupCenter: this.currentCanvasIndex.getValue()
     });
-    this.goToPage(newPageIndex, false);
+    this.goToCanvasGroup(newCanvasGroupIndex, false);
   }
 
-  public goToNextPage(): void {
+  public goToNextCanvasGroup(): void {
     const viewportCenter = this.getViewportCenter();
-    const currentPageIndex = this.pageService.findClosestIndex(viewportCenter);
+    const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
 
-    const calculateNextPageStrategy = CalculateNextPageFactory.create(null);
-    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
+    const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
+    const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
       direction: Direction.NEXT,
-      currentPageIndex: currentPageIndex,
-      currentPageCenter: this.currentPageIndex.getValue()
+      currentCanvasGroupIndex: currentCanvasGroupIndex,
+      currentCanvasGroupCenter: this.currentCanvasIndex.getValue()
     });
-    this.goToPage(newPageIndex, false);
+    this.goToCanvasGroup(newCanvasGroupIndex, false);
   }
 
-  public goToPage(pageIndex: number, immediately: boolean): void {
-    const oldIndex = this.pageService.currentPage;
-    pageIndex = this.pageService.constrainToRange(pageIndex);
-    this.pageService.currentPage = pageIndex;
-    const newPageCenter = this.pageService.getPageRect(pageIndex);
+  public goToCanvasGroup(canvasGroupIndex: number, immediately: boolean): void {
+    const oldCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
+    canvasGroupIndex = this.canvasService.constrainToRange(canvasGroupIndex);
+    this.canvasService.currentCanvasGroupIndex = canvasGroupIndex;
+    const newCanvasGroupCenter = this.canvasService.getCanvasGroupRect(canvasGroupIndex);
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      const oldPageCenter = this.pageService.getPageRect(oldIndex);
-      this.panTo(oldPageCenter.centerX, oldPageCenter.centerY, immediately);
+      const oldCanvasGroupCenter = this.canvasService.getCanvasGroupRect(oldCanvasGroupIndex);
+      this.panTo(oldCanvasGroupCenter.centerX, oldCanvasGroupCenter.centerY, immediately);
       this.goToHomeZoom();
       setTimeout(() => {
-        this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
+        this.panTo(newCanvasGroupCenter.centerX, newCanvasGroupCenter.centerY, immediately);
         this.modeService.mode = ViewerMode.PAGE;
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
-      this.panTo(newPageCenter.centerX, newPageCenter.centerY, immediately);
+      this.panTo(newCanvasGroupCenter.centerX, newCanvasGroupCenter.centerY, immediately);
     }
   }
 
-  public goToTile(tileIndex: number, immediately: boolean): void {
-    const pageIndex = this.pageService.findPageByTileIndex(tileIndex);
-    this.goToPage(pageIndex, immediately);
+  public goToCanvas(canvasIndex: number, immediately: boolean): void {
+    const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(canvasIndex);
+    this.goToCanvasGroup(canvasGroupIndex, immediately);
   }
 
   public highlight(searchResult: SearchResult): void {
@@ -203,9 +195,9 @@ export class ViewerService {
       }
       for (const hit of searchResult.hits) {
         for (const rect of hit.rects) {
-          const tileRect = this.pageService.getTileRect(hit.index);
-          const x = tileRect.x + rect.x;
-          const y = tileRect.y + rect.y;
+          const canvasRect = this.canvasService.getCanvasRect(hit.index);
+          const x = canvasRect.x + rect.x;
+          const y = canvasRect.y + rect.y;
           const width = rect.width;
           const height = rect.height;
           const currentOverlay: SVGRectElement = this.svgNode
@@ -249,8 +241,8 @@ export class ViewerService {
         this.defaultKeyDownHandler = this.viewer.innerTracker.keyDownHandler;
         this.disableKeyDownHandler();
         this.viewer.innerTracker.keyHandler = null;
-        this.pageService.reset();
-        this.pageMask = new PageMask(this.viewer);
+        this.canvasService.reset();
+        this.canvasGroupMask = new CanvasGroupMask(this.viewer);
       });
 
       this.addToWindow();
@@ -268,16 +260,16 @@ export class ViewerService {
 
     this.zone.runOutsideAngular(() => {
       this.onCenterChange.pipe(takeUntil(this.destroyed), sample(interval(500))).subscribe((center: Point) => {
-        this.calculateCurrentPage(center);
+        this.calculateCurrentCanvasGroup(center);
         if (center && center !== null) {
           this.osdIsReady.next(true);
         }
       });
     });
 
-    this.pageService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((pageIndex: number) => {
-      if (pageIndex !== -1) {
-        this.pageMask.changePage(this.pageService.getPageRect(pageIndex));
+    this.canvasService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((canvasGroupIndex: number) => {
+      if (canvasGroupIndex !== -1) {
+        this.canvasGroupMask.changeCanvasGroup(this.canvasService.getCanvasGroupRect(canvasGroupIndex));
         if (this.modeService.mode === ViewerMode.PAGE) {
           this.goToHomeZoom();
         }
@@ -286,17 +278,17 @@ export class ViewerService {
 
     this.onOsdReadyChange.pipe(takeUntil(this.destroyed)).subscribe((state: boolean) => {
       if (state) {
-        this.initialPageLoaded();
+        this.initialCanvasGroupLoaded();
         this.currentCenter.next(this.viewer.viewport.getCenter(true));
       }
     });
 
     this.viewerLayoutService.onChange.pipe(takeUntil(this.destroyed)).subscribe((state: ViewerLayout) => {
       if (this.osdIsReady.getValue()) {
-        const savedTile = this.pageService.currentTile;
+        const currentCanvasIndex = this.canvasService.currentCanvasIndex;
         this.destroy(true);
         this.setUpViewer(this.manifest, this.config);
-        this.goToPage(this.pageService.findPageByTileIndex(savedTile), false);
+        this.goToCanvasGroup(this.canvasService.findCanvasGroupByCanvasIndex(currentCanvasIndex), false);
         // Recreate highlights if there is an active search going on
         if (this.currentSearch) {
           this.highlight(this.currentSearch);
@@ -307,7 +299,7 @@ export class ViewerService {
     this.iiifContentSearchService.onSelected.pipe(takeUntil(this.destroyed)).subscribe((hit: Hit) => {
       if (hit) {
         this.highlightCurrentHit(hit);
-        this.goToTile(hit.index, false);
+        this.goToCanvas(hit.index, false);
       }
     });
   }
@@ -345,7 +337,7 @@ export class ViewerService {
     }
     this.destroyed.next();
     this.overlays = null;
-    this.pageService.reset();
+    this.canvasService.reset();
     // Keep search-state only if layout-switch
     if (!layoutSwitch) {
       this.currentSearch = null;
@@ -372,7 +364,7 @@ export class ViewerService {
     this.viewer.addHandler('canvas-pinch', this.pinchHandler);
 
     this.viewer.addHandler('canvas-drag', (e: any) => this.dragHandler(e));
-    this.viewer.addHandler('canvas-drag-end', (e: any) => this.swipeToPage(e));
+    this.viewer.addHandler('canvas-drag-end', (e: any) => this.swipeToCanvasGroup(e));
 
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer.viewport.getCenter(true));
@@ -386,7 +378,7 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToPage(position, this.pageService.getCurrentPageRect());
+      position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
     }
 
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
@@ -403,10 +395,10 @@ export class ViewerService {
 
     if (typeof position !== 'undefined') {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToPage(position, this.pageService.getCurrentPageRect());
+      position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
     }
 
-    if (this.isViewportLargerThanPage()) {
+    if (this.isViewportLargerThanCanvasGroup()) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
       this.zoomBy(zoomFactor, position);
@@ -435,28 +427,28 @@ export class ViewerService {
   }
 
   /**
-   * Switches to DASHBOARD-mode, repositions pages and removes max-width on viewer
+   * Switches to DASHBOARD-mode, repositions canvas group and removes max-width on viewer
    */
   private toggleToDashboard(): void {
-    if (!this.pageService.isCurrentPageValid()) {
+    if (!this.canvasService.isCurrentCanvasGroupValid()) {
       return;
     }
-    this.goToPage(this.pageService.currentPage, false);
-    this.pageMask.hide();
+    this.goToCanvasGroup(this.canvasService.currentCanvasGroupIndex, false);
+    this.canvasGroupMask.hide();
 
     this.setMinZoom(ViewerMode.DASHBOARD);
     this.goToHomeZoom();
   }
 
   /**
-   * Switches to PAGE-mode, centers currentPage and repositions pages other pages
+   * Switches to PAGE-mode, centers current canvas group and repositions other canvas groups
    */
   private toggleToPage(): void {
-    if (!this.pageService.isCurrentPageValid()) {
+    if (!this.canvasService.isCurrentCanvasGroupValid()) {
       return;
     }
-    this.goToPage(this.pageService.currentPage, false);
-    this.pageMask.show();
+    this.goToCanvasGroup(this.canvasService.currentCanvasGroupIndex, false);
+    this.canvasGroupMask.show();
 
     this.setMinZoom(ViewerMode.PAGE);
     this.goToHomeZoom();
@@ -559,9 +551,9 @@ export class ViewerService {
   singleClickHandler = (event: any) => {
     const target = event.originalEvent.target;
     const tileIndex = this.getOverlayIndexFromClickEvent(target);
-    const requestedPage = this.pageService.findPageByTileIndex(tileIndex);
-    if (requestedPage) {
-      this.pageService.currentPage = requestedPage;
+    const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(tileIndex);
+    if (requestedCanvasGroupIndex) {
+      this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
     }
     this.modeService.toggleMode();
   };
@@ -581,19 +573,19 @@ export class ViewerService {
       this.zoomIn(ViewerOptions.zoom.dblClickZoomFactor, event.position);
     } else {
       this.modeService.mode = ViewerMode.PAGE;
-      const tileIndex: number = this.getOverlayIndexFromClickEvent(target);
-      const requestedPage = this.pageService.findPageByTileIndex(tileIndex);
-      if (requestedPage >= 0) {
-        this.pageService.currentPage = requestedPage;
+      const canvasIndex: number = this.getOverlayIndexFromClickEvent(target);
+      const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(canvasIndex);
+      if (requestedCanvasGroupIndex >= 0) {
+        this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
       }
     }
   };
 
-  isViewportLargerThanPage(): boolean {
-    const pageBounds = this.pageService.getCurrentPageRect();
+  isViewportLargerThanCanvasGroup(): boolean {
+    const canvasGroupRec = this.canvasService.getCurrentCanvasGroupRect();
     const viewportBounds = this.viewer.viewport.getBounds();
-    const pbWidth = Math.round(pageBounds.width);
-    const pbHeight = Math.round(pageBounds.height);
+    const pbWidth = Math.round(canvasGroupRec.width);
+    const pbHeight = Math.round(canvasGroupRec.height);
     const vpWidth = Math.round(viewportBounds.width);
     const vpHeight = Math.round(viewportBounds.height);
     return vpHeight >= pbHeight || vpWidth >= pbWidth;
@@ -603,7 +595,7 @@ export class ViewerService {
    * Checks if hit element is a <rect>-element
    * @param target
    */
-  isPageHit(target: HTMLElement): boolean {
+  isCanvasGroupHit(target: HTMLElement): boolean {
     return target instanceof SVGRectElement;
   }
 
@@ -613,20 +605,23 @@ export class ViewerService {
    */
   createOverlays(): void {
     this.overlays = [];
-    const tileRects: Rect[] = [];
-    const calculatePagePositionStrategy = CalculatePagePositionFactory.create(this.viewerLayoutService.layout, this.isManifestPaged);
+    const canvasRects: Rect[] = [];
+    const calculateCanvasGroupPositionStrategy = CalculateCanvasGroupPositionFactory.create(
+      this.viewerLayoutService.layout,
+      this.isManifestPaged
+    );
 
     const isTwoPageView: boolean = this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE;
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
-      const position = calculatePagePositionStrategy.calculatePagePosition({
-        pageIndex: i,
-        pageSource: tile,
-        previousPagePosition: tileRects[i - 1]
+      const position = calculateCanvasGroupPositionStrategy.calculateCanvasGroupPosition({
+        canvasGroupIndex: i,
+        canvasSource: tile,
+        previousCanvasGroupPosition: canvasRects[i - 1]
       });
 
-      tileRects.push(position);
+      canvasRects.push(position);
 
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
@@ -665,15 +660,17 @@ export class ViewerService {
       this.overlays.push(currentOverlayNode);
     });
 
-    this.pageService.addPages(tileRects, this.viewerLayoutService.layout, this.isManifestPaged);
+    const layout =
+      this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE || !this.isManifestPaged ? ViewerLayout.ONE_PAGE : ViewerLayout.TWO_PAGE;
+    this.canvasService.addAll(canvasRects, layout);
   }
 
   /**
-   * Sets viewer size and opacity once the first page has fully loaded
+   * Sets viewer size and opacity once the first canvas group has fully loaded
    */
-  private initialPageLoaded(): void {
+  private initialCanvasGroupLoaded(): void {
     this.home();
-    this.pageMask.initialise(this.pageService.getCurrentPageRect(), this.modeService.mode !== ViewerMode.DASHBOARD);
+    this.canvasGroupMask.initialise(this.canvasService.getCurrentCanvasGroupRect(), this.modeService.mode !== ViewerMode.DASHBOARD);
     d3
       .select(this.viewer.container.parentNode)
       .transition()
@@ -686,36 +683,36 @@ export class ViewerService {
    * @param target hit <rect>
    */
   getOverlayIndexFromClickEvent(target: any) {
-    if (this.isPageHit(target)) {
-      const requestedPage: number = this.overlays.indexOf(target);
-      if (requestedPage >= 0) {
-        return requestedPage;
+    if (this.isCanvasGroupHit(target)) {
+      const requestedCanvasGroup: number = this.overlays.indexOf(target);
+      if (requestedCanvasGroup >= 0) {
+        return requestedCanvasGroup;
       }
     }
     return -1;
   }
 
   public getHomeZoomLevel(mode: ViewerMode): number {
-    if (!this.viewer || !this.pageService) {
+    if (!this.viewer || !this.canvasService) {
       return;
     }
 
-    let pageHeight: number;
-    let pageWidth: number;
+    let canvasGroupHeight: number;
+    let canvasGroupWidth: number;
     let viewportBounds: any;
 
     if (mode === ViewerMode.DASHBOARD) {
-      pageHeight = this.pageService.getMaxHeight();
-      pageWidth = this.pageService.getMaxWidth();
+      canvasGroupHeight = this.canvasService.getMaxHeight();
+      canvasGroupWidth = this.canvasService.getMaxWidth();
       viewportBounds = this.getDashboardViewportBounds();
     } else {
-      const currentPageBounds = this.pageService.getCurrentPageRect();
-      pageHeight = currentPageBounds.height;
-      pageWidth = currentPageBounds.width;
+      const currentCanvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
+      canvasGroupHeight = currentCanvasGroupRect.height;
+      canvasGroupWidth = currentCanvasGroupRect.width;
       viewportBounds = this.viewer.viewport.getBounds();
     }
 
-    return this.getFittedZoomLevel(viewportBounds, pageHeight, pageWidth);
+    return this.getFittedZoomLevel(viewportBounds, canvasGroupHeight, canvasGroupWidth);
   }
 
   private getOptions(): Options {
@@ -727,10 +724,10 @@ export class ViewerService {
     return options;
   }
 
-  private calculateCurrentPage(center: Point) {
+  private calculateCurrentCanvasGroup(center: Point) {
     if (center) {
-      const currentPageIndex = this.pageService.findClosestIndex(center);
-      this.currentPageIndex.next(currentPageIndex);
+      const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(center);
+      this.currentCanvasIndex.next(currentCanvasGroupIndex);
     }
   }
 
@@ -742,20 +739,20 @@ export class ViewerService {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const dragEndPosision: Point = e.position;
-      const pageBounds: Rect = this.pageService.getCurrentPageRect();
+      const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
-      const pannedPastSide: Side = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, vpBounds);
+      const pannedPastCanvasGroup: Side = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, vpBounds);
       const direction: number = e.direction;
       if (
-        (pannedPastSide === Side.LEFT && SwipeUtils.isDirectionInRightSemicircle(direction)) ||
-        (pannedPastSide === Side.RIGHT && SwipeUtils.isDirectionInLeftSemicircle(direction))
+        (pannedPastCanvasGroup === Side.LEFT && SwipeUtils.isDirectionInRightSemicircle(direction)) ||
+        (pannedPastCanvasGroup === Side.RIGHT && SwipeUtils.isDirectionInLeftSemicircle(direction))
       ) {
         this.viewer.panHorizontal = false;
       }
     }
   };
 
-  private swipeToPage(e: any) {
+  private swipeToCanvasGroup(e: any) {
     // Don't swipe on pinch actions
     if (this.pinchStatus.active) {
       return;
@@ -764,37 +761,37 @@ export class ViewerService {
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
-    const isPageZoomed = this.modeService.mode === ViewerMode.PAGE_ZOOMED;
+    const isCanvasGroupZoomed = this.modeService.mode === ViewerMode.PAGE_ZOOMED;
 
-    const pageBounds: Rect = this.pageService.getCurrentPageRect();
+    const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
     const viewportBounds: Rect = this.getViewportBounds();
 
-    const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, isPageZoomed);
+    const direction: Direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, isCanvasGroupZoomed);
     const viewportCenter: Point = this.getViewportCenter();
 
-    const currentPageIndex: number = this.pageService.currentPage;
-    const calculateNextPageStrategy = CalculateNextPageFactory.create(this.modeService.mode);
+    const currentCanvasGroupIndex: number = this.canvasService.currentCanvasGroupIndex;
+    const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(this.modeService.mode);
 
-    let pannedPastSide: Side, pageEndHitCountReached: boolean;
+    let pannedPastSide: Side, canvasGroupEndHitCountReached: boolean;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfPage(pageBounds, viewportBounds);
+      pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, viewportBounds);
       this.swipeDragEndCounter.addHit(pannedPastSide, direction);
-      pageEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
+      canvasGroupEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
     }
 
-    const newPageIndex = calculateNextPageStrategy.calculateNextPage({
-      currentPageCenter: this.currentPageIndex.getValue(),
+    const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
+      currentCanvasGroupCenter: this.currentCanvasIndex.getValue(),
       speed: speed,
       direction: direction,
-      currentPageIndex: currentPageIndex,
-      pageEndHitCountReached: pageEndHitCountReached
+      currentCanvasGroupIndex: currentCanvasGroupIndex,
+      canvasGroupEndHitCountReached: canvasGroupEndHitCountReached
     });
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||
       this.modeService.mode === ViewerMode.PAGE ||
-      (pageEndHitCountReached && direction)
+      (canvasGroupEndHitCountReached && direction)
     ) {
-      this.goToPage(newPageIndex, false);
+      this.goToCanvasGroup(newCanvasGroupIndex, false);
     }
   }
 
@@ -816,15 +813,15 @@ export class ViewerService {
     this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
   }
 
-  private getFittedZoomLevel(viewportBounds: any, pageHeight: number, pageWidth: number) {
+  private getFittedZoomLevel(viewportBounds: any, canvasGroupHeight: number, canvasGroupWidth: number) {
     const currentZoom: number = this.viewer.viewport.getZoom();
-    const resizeRatio: number = viewportBounds.height / pageHeight;
+    const resizeRatio: number = viewportBounds.height / canvasGroupHeight;
 
-    if (resizeRatio * pageWidth <= viewportBounds.width) {
+    if (resizeRatio * canvasGroupWidth <= viewportBounds.width) {
       return Utils.shortenDecimals(resizeRatio * currentZoom, 5);
     } else {
-      // Page at full height is wider than viewport.  Return fit by width instead.
-      return Utils.shortenDecimals(viewportBounds.width / pageWidth * currentZoom, 5);
+      // Canvas group at full height is wider than viewport.  Return fit by width instead.
+      return Utils.shortenDecimals(viewportBounds.width / canvasGroupWidth * currentZoom, 5);
     }
   }
 
@@ -847,5 +844,9 @@ export class ViewerService {
     );
 
     return new OpenSeadragon.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
+  }
+
+  private getViewportBounds(): Rect {
+    return this.viewer.viewport.getBounds();
   }
 }

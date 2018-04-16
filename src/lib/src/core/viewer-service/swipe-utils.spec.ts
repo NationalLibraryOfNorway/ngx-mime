@@ -48,7 +48,7 @@ describe('SwipeUtils ', () => {
     // Pan outside right bounds
     const viewportBounds: Rect = { x: 200, y: 0, width: 100, height: 100 };
 
-    expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(true);
+    expect(SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)).toBe(true);
   });
 
   it('should return true when panning outside left page-bounds', () => {
@@ -56,7 +56,7 @@ describe('SwipeUtils ', () => {
     // Pan outside left bounds
     const viewportBounds: Rect = { x: 99, y: 0, width: 100, height: 100 };
 
-    expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(true);
+    expect(SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)).toBe(true);
   });
 
   it('should return false when not panning outside page-bounds', () => {
@@ -64,7 +64,7 @@ describe('SwipeUtils ', () => {
     // Panning inside bounds
     const viewportBounds: Rect = { x: 60, y: 0, width: 100, height: 100 };
 
-    expect(SwipeUtils.isPanningOutsidePage(pageBounds, viewportBounds)).toBe(false);
+    expect(SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)).toBe(false);
   });
 
   it('should return true when direction is inside right semicircle', () => {

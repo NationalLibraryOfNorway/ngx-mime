@@ -39,8 +39,8 @@ defineSupportCode(function({ Given, When, Then }) {
   });
 
   Then('the viewer should go to page {word}', async (pageNumber: string) => {
-    const currentPageString = await page.getCurrentPageString();
-    expect(currentPageString.includes(pageNumber)).to.eql(true);
+    const currentCanvasGroupString = await page.getCurrentCanvasGroupLabel();
+    expect(currentCanvasGroupString.includes(pageNumber)).to.eql(true);
   });
 
   Then('the Contents dialog should be {word}', async state => {

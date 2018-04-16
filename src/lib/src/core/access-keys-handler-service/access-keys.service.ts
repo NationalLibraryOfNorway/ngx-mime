@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
 import { ViewerService } from '../viewer-service/viewer.service';
-import { PageService } from '../page-service/page-service';
+import { CanvasService } from '../canvas-service/canvas-service';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
 import { ModeService } from '../mode-service/mode.service';
@@ -25,7 +25,7 @@ export class AccessKeysService implements OnDestroy {
 
   constructor(
     private viewerService: ViewerService,
-    private pageService: PageService,
+    private canvasService: CanvasService,
     private modeService: ModeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
@@ -52,13 +52,13 @@ export class AccessKeysService implements OnDestroy {
     const accessKeys = new AccessKeys(event);
     if (!this.isKeyDisabled(event.keyCode)) {
       if (accessKeys.isArrowLeftKeys()) {
-        this.goToPreviousPage();
+        this.goToPreviousCanvasGroup();
       } else if (accessKeys.isArrowRightKeys()) {
-        this.goToNextPage();
-      } else if (accessKeys.isFirstPageKeys()) {
-        this.goToFirstPage();
-      } else if (accessKeys.isLastPageKeys()) {
-        this.goToLastPage();
+        this.goToNextCanvasGroup();
+      } else if (accessKeys.isFirstCanvasGroupKeys()) {
+        this.goToFirstCanvasGroup();
+      } else if (accessKeys.isLastCanvasGroupKeys()) {
+        this.goToLastCanvasGroup();
       } else if (accessKeys.isNextHitKeys() && this.hasHits) {
         this.goToNextHit();
       } else if (accessKeys.isPreviousHitKeys() && this.hasHits) {
@@ -72,9 +72,9 @@ export class AccessKeysService implements OnDestroy {
       } else if (accessKeys.isResetSearchKeys()) {
         this.resetSearch();
       } else if (accessKeys.isPageDownKeys()) {
-        this.goToNextPage();
+        this.goToNextCanvasGroup();
       } else if (accessKeys.isPageUpKeys()) {
-        this.goToPreviousPage();
+        this.goToPreviousCanvasGroup();
       } else if (accessKeys.isZoomInKeys()) {
         this.zoomIn();
       } else if (accessKeys.isZoomOutKeys()) {
@@ -85,32 +85,32 @@ export class AccessKeysService implements OnDestroy {
     }
   }
 
-  private goToNextPage() {
-    if (!this.isZoomedIn() && this.pageService.currentPage < this.pageService.numberOfPages) {
-      this.viewerService.goToNextPage();
+  private goToNextCanvasGroup() {
+    if (!this.isZoomedIn() && this.canvasService.currentCanvasGroupIndex < this.canvasService.numberOfCanvasGroups) {
+      this.viewerService.goToNextCanvasGroup();
     }
   }
 
-  private goToPreviousPage() {
-    if (!this.isZoomedIn() && this.pageService.currentPage > 0) {
-      this.viewerService.goToPreviousPage();
+  private goToPreviousCanvasGroup() {
+    if (!this.isZoomedIn() && this.canvasService.currentCanvasGroupIndex > 0) {
+      this.viewerService.goToPreviousCanvasGroup();
     }
   }
 
-  private goToFirstPage() {
-    this.viewerService.goToPage(0, false);
+  private goToFirstCanvasGroup() {
+    this.viewerService.goToCanvasGroup(0, false);
   }
 
-  private goToLastPage() {
-    this.viewerService.goToPage(this.pageService.numberOfPages - 1, false);
+  private goToLastCanvasGroup() {
+    this.viewerService.goToCanvasGroup(this.canvasService.numberOfCanvasGroups - 1, false);
   }
 
   private goToNextHit() {
-    this.contentSearchNavigationService.goToNextHitPage();
+    this.contentSearchNavigationService.goToNextCanvasGroupHit();
   }
 
   private goToPreviousHit() {
-    this.contentSearchNavigationService.goToPreviousHitPage();
+    this.contentSearchNavigationService.goToPreviousCanvasGroupHit();
   }
 
   private zoomIn() {
@@ -197,8 +197,8 @@ export class AccessKeysService implements OnDestroy {
     this.disabledKeys = this.disabledKeys
       .concat(AccessKeys.ARROWLEFT)
       .concat(AccessKeys.ARROWRIGHT)
-      .concat(AccessKeys.firstPageCodes)
-      .concat(AccessKeys.lastPageCodes)
+      .concat(AccessKeys.firstCanvasGroupCodes)
+      .concat(AccessKeys.lastCanvasGroupCodes)
       .concat(AccessKeys.zoomInCodes)
       .concat(AccessKeys.zoomOutCodes)
       .concat(AccessKeys.zoomHomeCodes)

@@ -10,7 +10,7 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { ContentsDialogComponent } from '../contents-dialog.component';
-import { PageService } from '../../core/page-service/page-service';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
 
 @Component({
   selector: 'mime-toc',
@@ -20,7 +20,7 @@ import { PageService } from '../../core/page-service/page-service';
 })
 export class TocComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
-  public currentPage: number;
+  public currentCanvasGroupIndex: number;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -30,18 +30,18 @@ export class TocComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private viewerService: ViewerService,
-    private pageService: PageService
+    private canvasService: CanvasService
   ) {}
 
   ngOnInit() {
     this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
       this.manifest = manifest;
-      this.currentPage = this.pageService.currentPage;
+      this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
       this.changeDetectorRef.detectChanges();
     });
 
-    this.viewerService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((page: number) => {
-      this.currentPage = page;
+    this.viewerService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((canvasGroupIndex: number) => {
+      this.currentCanvasGroupIndex = canvasGroupIndex;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -51,8 +51,8 @@ export class TocComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  goToPage(page: number): void {
-    this.viewerService.goToTile(page, false);
+  goToCanvas(canvasIndex: number): void {
+    this.viewerService.goToCanvas(canvasIndex, false);
     if (this.media.isActive('lt-md')) {
       this.dialogRef.close();
     }

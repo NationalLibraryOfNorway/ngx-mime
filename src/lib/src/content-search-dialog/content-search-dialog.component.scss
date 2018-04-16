@@ -19,7 +19,7 @@
 }
 
 .content-search-result-container {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
   overflow: auto;
   margin-bottom: 8px;
 }
@@ -32,8 +32,8 @@
   line-height: initial;
   white-space: initial;
   word-wrap: initial;
-  max-width: none; 
-  padding: 8px 8px; 
+  max-width: none;
+  padding: 8px 8px;
   text-align: left;
   font-size: 14px;
 }
@@ -46,7 +46,7 @@ em {
   font-weight: 700;
 }
 
-.pageLabel {
+.canvasGroupLabel {
   text-align: right;
   opacity: 0.54;
 }
@@ -60,12 +60,12 @@ em {
   overflow: initial;
 }
 
-::ng-deep .content-search-container > div > div > .mat-toolbar{
+::ng-deep .content-search-container > div > div > .mat-toolbar {
   padding: 0px 0px !important;
 }
 
 input {
-  font-family: Roboto, "Helvetica Neue", sans-serif
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .icon {

@@ -6,7 +6,7 @@ import { SearchResult } from '../../../core/models/search-result';
 import { MimeViewerIntl } from '../../../core/intl/viewer-intl';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
-import { PageService } from '../../../core/page-service/page-service';
+import { CanvasService } from '../../../core/canvas-service/canvas-service';
 
 @Component({
   selector: 'mime-content-search-navigator',
@@ -16,16 +16,16 @@ import { PageService } from '../../../core/page-service/page-service';
 })
 export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   @Input() searchResult: SearchResult;
-  public isHitOnActivePage = false;
-  public isFirstHitPage = false;
-  public isLastHitPage = false;
+  public isHitOnActiveCanvasGroup = false;
+  public isFirstCanvasGroupHit = false;
+  public isLastCanvasGroupHit = false;
   public currentIndex = 0;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private pageService: PageService,
+    private canvasService: CanvasService,
     private iiifContentSearchService: IiifContentSearchService,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {}
@@ -33,12 +33,12 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.intl.changes.pipe(takeUntil(this.destroyed)).subscribe(() => this.changeDetectorRef.markForCheck());
 
-    this.pageService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe(pageIndex => {
-      this.contentSearchNavigationService.update(pageIndex);
+    this.canvasService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe(canvasGroupIndex => {
+      this.contentSearchNavigationService.update(canvasGroupIndex);
       this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
-      this.isHitOnActivePage = this.contentSearchNavigationService.getHitOnActivePage();
-      this.isFirstHitPage = this.contentSearchNavigationService.getFirstHitPage();
-      this.isLastHitPage = this.contentSearchNavigationService.getLastHitPage();
+      this.isHitOnActiveCanvasGroup = this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
+      this.isFirstCanvasGroupHit = this.contentSearchNavigationService.getFirstHitCanvasGroup();
+      this.isLastCanvasGroupHit = this.contentSearchNavigationService.getLastHitCanvasGroup();
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -52,11 +52,11 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
     this.iiifContentSearchService.destroy();
   }
 
-  goToPreviousHitPage() {
-    this.contentSearchNavigationService.goToPreviousHitPage();
+  goToPreviousCanvasGroupHit() {
+    this.contentSearchNavigationService.goToPreviousCanvasGroupHit();
   }
 
-  goToNextHitPage() {
-    this.contentSearchNavigationService.goToNextHitPage();
+  goToNextCanvasGroupHit() {
+    this.contentSearchNavigationService.goToNextCanvasGroupHit();
   }
 }

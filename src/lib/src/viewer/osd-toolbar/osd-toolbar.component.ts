@@ -7,7 +7,7 @@ import { Dimensions } from './../../core/models/dimensions';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
-import { PageService } from './../../core/page-service/page-service';
+import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { ViewerOptions } from '../../core/models/viewer-options';
 
 @Component({
@@ -43,9 +43,9 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     return this.state;
   }
   public osdToolbarStyle = {};
-  public numberOfPages: number;
-  public isFirstPage: boolean;
-  public isLastPage: boolean;
+  public numberOfCanvasGroups: number;
+  public isFirstCanvasGroup: boolean;
+  public isLastCanvasGroup: boolean;
   public state = 'show';
   private destroyed: Subject<void> = new Subject();
 
@@ -54,7 +54,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private mimeService: MimeResizeService,
     private viewerService: ViewerService,
-    private pageService: PageService
+    private canvasService: CanvasService
   ) {}
 
   ngOnInit() {
@@ -65,10 +65,10 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.viewerService.onPageChange.pipe(takeUntil(this.destroyed)).subscribe((currentPage: number) => {
-      this.numberOfPages = this.pageService.numberOfPages;
-      this.isFirstPage = this.isOnFirstPage(currentPage);
-      this.isLastPage = this.isOnLastPage(currentPage);
+    this.viewerService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((currentCanvasGroupIndex: number) => {
+      this.numberOfCanvasGroups = this.canvasService.numberOfCanvasGroups;
+      this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(currentCanvasGroupIndex);
+      this.isLastCanvasGroup = this.isOnLastCanvasGroup(currentCanvasGroupIndex);
       this.changeDetectorRef.detectChanges();
     });
 
@@ -92,19 +92,19 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  public goToPreviousPage(): void {
-    this.viewerService.goToPreviousPage();
+  public goToPreviousCanvasGroup(): void {
+    this.viewerService.goToPreviousCanvasGroup();
   }
 
-  public goToNextPage(): void {
-    this.viewerService.goToNextPage();
+  public goToNextCanvasGroup(): void {
+    this.viewerService.goToNextCanvasGroup();
   }
 
-  private isOnFirstPage(currentPage: number): boolean {
-    return currentPage === 0;
+  private isOnFirstCanvasGroup(currentCanvasGroupIndex: number): boolean {
+    return currentCanvasGroupIndex === 0;
   }
 
-  private isOnLastPage(currentPage: number): boolean {
-    return currentPage === this.numberOfPages - 1;
+  private isOnLastCanvasGroup(currentCanvasGroupIndex: number): boolean {
+    return currentCanvasGroupIndex === this.numberOfCanvasGroups - 1;
   }
 }

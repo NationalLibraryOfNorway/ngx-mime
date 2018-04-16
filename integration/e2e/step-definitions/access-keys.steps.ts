@@ -9,14 +9,14 @@ defineSupportCode(function({ Given, When, Then }) {
   const page = new ViewerPage();
   const contentSearchPage = new ContentSearchPage();
   const contentsDialogPage = new ContentsDialogPage();
-  let previousPage = 1;
+  let previousCanvasGroupLabel = 1;
 
-  Given(/^the viewer is on page (.*)$/, async (pageNumber: number) => {
-    await page.goToPage(pageNumber);
+  Given(/^the viewer is on page (.*)$/, async (canvasGroupIndex: number) => {
+    await page.goToCanvasGroup(canvasGroupIndex);
   });
 
   Given(/^the user hits key (.*)$/, async (key: string) => {
-    previousPage = parseInt(await page.getCurrentPageString(), 10);
+    previousCanvasGroupLabel = parseInt(await page.getCurrentCanvasGroupLabel(), 10);
     await page.sendKeyboardEvent(key);
   });
 
@@ -29,24 +29,24 @@ defineSupportCode(function({ Given, When, Then }) {
   });
 
   Then(/^the viewer should go to next page$/, async () => {
-    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(previousPage + 1);
+    expect(parseInt(await page.getCurrentCanvasGroupLabel(), 10)).to.equal(previousCanvasGroupLabel + 1);
   });
 
   Then(/^the viewer should go to previous page$/, async () => {
-    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(previousPage - 1);
+    expect(parseInt(await page.getCurrentCanvasGroupLabel(), 10)).to.equal(previousCanvasGroupLabel - 1);
   });
 
   Then(/^the viewer should go to last page$/, async () => {
     await browser.sleep(1000);
-    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(await page.getNumberOfPages());
+    expect(parseInt(await page.getCurrentCanvasGroupLabel(), 10)).to.equal(await page.getNumberOfCanvasGroups());
   });
 
   Then(/^the viewer should go to first page$/, async () => {
-    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(1);
+    expect(parseInt(await page.getCurrentCanvasGroupLabel(), 10)).to.equal(1);
   });
 
   Then(/^the viewer should not change page$/, async () => {
-    expect(parseInt(await page.getCurrentPageString(), 10)).to.equal(previousPage);
+    expect(parseInt(await page.getCurrentCanvasGroupLabel(), 10)).to.equal(previousCanvasGroupLabel);
   });
 
   Then(/^the content search dialog should open$/, async () => {

@@ -6,7 +6,7 @@ import { Hit } from '../../models/hit';
 import { MimeViewerIntl } from '../../intl/viewer-intl';
 import { ViewerService } from '../../viewer-service/viewer.service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
-import { PageService } from '../../page-service/page-service';
+import { CanvasService } from '../../canvas-service/canvas-service';
 import { ContentSearchNavigationService } from './content-search-navigation.service';
 import { testManifest } from '../../../test/testManifest';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
@@ -28,7 +28,7 @@ describe('ContentSearchNavigationService', () => {
         providers: [
           ContentSearchNavigationService,
           MimeViewerIntl,
-          PageService,
+          CanvasService,
           { provide: ViewerService, useClass: ViewerServiceStub },
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
           { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
@@ -39,19 +39,19 @@ describe('ContentSearchNavigationService', () => {
 
   beforeEach(
     inject(
-      [ContentSearchNavigationService, HttpTestingController, IiifContentSearchService, PageService],
+      [ContentSearchNavigationService, HttpTestingController, IiifContentSearchService, CanvasService],
       fakeAsync(
         (
           csns: ContentSearchNavigationService,
           httpMock: HttpTestingController,
           icss: IiifContentSearchService,
-          pageService: PageService
+          canvasService: CanvasService
         ) => {
           iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
           iiifManifestServiceStub = TestBed.get(IiifManifestService);
           iiifManifestServiceStub._currentManifest.next(testManifest);
           iiifContentSearchServiceStub._currentSearchResult.next(createSearchResult());
-          pageService.addPages(createPages(), ViewerLayout.ONE_PAGE, false);
+          canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
         }
       )
     )
@@ -72,7 +72,7 @@ describe('ContentSearchNavigationService', () => {
         csns.update(5);
         expect(csns.getCurrentIndex()).toBe(2);
 
-        csns.goToNextHitPage();
+        csns.goToNextCanvasGroupHit();
         expect(csns.getCurrentIndex()).toBe(3);
       })
     )
@@ -86,7 +86,7 @@ describe('ContentSearchNavigationService', () => {
         csns.update(4);
         expect(csns.getCurrentIndex()).toBe(1);
 
-        csns.goToPreviousHitPage();
+        csns.goToPreviousCanvasGroupHit();
         expect(csns.getCurrentIndex()).toBe(0);
       })
     )
@@ -147,12 +147,12 @@ describe('ContentSearchNavigationService', () => {
     )
   );
 
-  function createPages(): Rect[] {
-    const pages: Rect[] = [];
+  function createCanvasGroups(): Rect[] {
+    const canvasGroups: Rect[] = [];
     for (let i = 0; i < 100; i++) {
-      pages.push(new Rect());
+      canvasGroups.push(new Rect());
     }
-    return pages;
+    return canvasGroups;
   }
 
   function createSearchResult(): SearchResult {
