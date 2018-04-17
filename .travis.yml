@@ -43,4 +43,4 @@ before_script:
  - chmod +x ./integration/scripts/protractor.sh
 
 script:
-  - travis_wait 40 ./scripts/ci/build-and-test.sh
+  - travis_wait 60 ./scripts/ci/build-and-test.sh
