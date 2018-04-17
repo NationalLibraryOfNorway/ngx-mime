@@ -54,42 +54,40 @@ describe('ViewerComponent', function() {
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          HttpClientTestingModule,
-          NoopAnimationsModule,
-          SharedModule,
-          ContentsDialogModule,
-          AttributionDialogModule,
-          ContentSearchDialogModule
-        ],
-        declarations: [ViewerComponent, TestHostComponent, ViewerHeaderComponent, ViewerFooterComponent, TestDynamicComponent],
-        providers: [
-          ViewerService,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
-          { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-          MimeViewerIntl,
-          ClickService,
-          CanvasService,
-          ModeService,
-          FullscreenService,
-          AccessKeysService,
-          ViewerLayoutService,
-          ContentSearchNavigationService
-        ]
-      })
-        .overrideModule(BrowserDynamicTestingModule, {
-          set: {
-            entryComponents: [TestDynamicComponent]
-          }
-        })
-        .compileComponents();
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        HttpClientTestingModule,
+        NoopAnimationsModule,
+        SharedModule,
+        ContentsDialogModule,
+        AttributionDialogModule,
+        ContentSearchDialogModule
+      ],
+      declarations: [ViewerComponent, TestHostComponent, ViewerHeaderComponent, ViewerFooterComponent, TestDynamicComponent],
+      providers: [
+        ViewerService,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
+        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+        MimeViewerIntl,
+        ClickService,
+        CanvasService,
+        ModeService,
+        FullscreenService,
+        AccessKeysService,
+        ViewerLayoutService,
+        ContentSearchNavigationService
+      ]
     })
-  );
+      .overrideModule(BrowserDynamicTestingModule, {
+        set: {
+          entryComponents: [TestDynamicComponent]
+        }
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerComponent);

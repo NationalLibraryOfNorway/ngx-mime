@@ -22,32 +22,28 @@ describe('AttributionDialogComponent', () => {
   let fixture: ComponentFixture<AttributionDialogComponent>;
   let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-        declarations: [AttributionDialogComponent],
-        providers: [
-          MimeViewerIntl,
-          AttributionDialogResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: MatDialogRef, useClass: MatDialogRefStub }
-        ]
-      });
-      TestBed.compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      declarations: [AttributionDialogComponent],
+      providers: [
+        MimeViewerIntl,
+        AttributionDialogResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: MatDialogRef, useClass: MatDialogRefStub }
+      ]
+    });
+    TestBed.compileComponents();
+  }));
 
-  beforeEach(
-    async(() => {
-      fixture = TestBed.createComponent(AttributionDialogComponent);
-      component = fixture.componentInstance;
-      iiifManifestService = TestBed.get(IiifManifestService);
-      fixture.detectChanges();
-    })
-  );
+  beforeEach(async(() => {
+    fixture = TestBed.createComponent(AttributionDialogComponent);
+    component = fixture.componentInstance;
+    iiifManifestService = TestBed.get(IiifManifestService);
+    fixture.detectChanges();
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();

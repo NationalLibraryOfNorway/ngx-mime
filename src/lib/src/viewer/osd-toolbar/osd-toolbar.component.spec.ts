@@ -20,25 +20,23 @@ describe('OsdToolbarComponent', () => {
   let fixture: ComponentFixture<OsdToolbarComponent>;
   let spy: any;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule],
-        declarations: [OsdToolbarComponent],
-        providers: [
-          MimeResizeService,
-          MimeViewerIntl,
-          { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: CanvasService, useClass: CanvasServiceStub },
-          ClickService,
-          CanvasService,
-          ModeService,
-          MimeDomHelper,
-          FullscreenService
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule],
+      declarations: [OsdToolbarComponent],
+      providers: [
+        MimeResizeService,
+        MimeViewerIntl,
+        { provide: ViewerService, useClass: ViewerServiceStub },
+        { provide: CanvasService, useClass: CanvasServiceStub },
+        ClickService,
+        CanvasService,
+        ModeService,
+        MimeDomHelper,
+        FullscreenService
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
@@ -63,37 +61,31 @@ describe('OsdToolbarComponent', () => {
     })
   );
 
-  it(
-    "should not be visible when state is changed to 'hide'",
-    async(() => {
-      // Check initial style to make sure we later see an actual change
-      expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+  it("should not be visible when state is changed to 'hide'", async(() => {
+    // Check initial style to make sure we later see an actual change
+    expectOSDToolbarToShow(fixture.debugElement.nativeElement);
 
-      component.state = 'hide';
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+    });
+  }));
+
+  it("should be visible when state is changed to 'show'", async(() => {
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+
+      component.state = 'show';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+        expectOSDToolbarToShow(fixture.debugElement.nativeElement);
       });
-    })
-  );
-
-  it(
-    "should be visible when state is changed to 'show'",
-    async(() => {
-      component.state = 'hide';
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
-
-        component.state = 'show';
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expectOSDToolbarToShow(fixture.debugElement.nativeElement);
-        });
-      });
-    })
-  );
+    });
+  }));
 
   it(
     'should enable both navigation buttons when viewer is on second canvas group',

@@ -22,21 +22,19 @@ describe('CanvasGroupNavigatorComponent', () => {
   let fixture: ComponentFixture<CanvasGroupNavigatorComponent>;
   let spy: any;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [NoopAnimationsModule, SharedModule],
-        declarations: [CanvasGroupNavigatorComponent],
-        providers: [
-          MimeViewerIntl,
-          CanvasGroupDialogService,
-          { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: CanvasService, useClass: CanvasServiceStub }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [NoopAnimationsModule, SharedModule],
+      declarations: [CanvasGroupNavigatorComponent],
+      providers: [
+        MimeViewerIntl,
+        CanvasGroupDialogService,
+        { provide: ViewerService, useClass: ViewerServiceStub },
+        { provide: CanvasService, useClass: CanvasServiceStub }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CanvasGroupNavigatorComponent);

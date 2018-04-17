@@ -24,24 +24,22 @@ describe('PageDialogComponent', () => {
   let intl: MimeViewerIntl;
   let canvasService: CanvasServiceStub;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule],
-        declarations: [CanvasGroupDialogComponent],
-        providers: [
-          ViewerService,
-          ClickService,
-          ModeService,
-          ViewerLayoutService,
-          MimeViewerIntl,
-          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: CanvasService, useClass: CanvasServiceStub }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule],
+      declarations: [CanvasGroupDialogComponent],
+      providers: [
+        ViewerService,
+        ClickService,
+        ModeService,
+        ViewerLayoutService,
+        MimeViewerIntl,
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+        { provide: CanvasService, useClass: CanvasServiceStub }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CanvasGroupDialogComponent);

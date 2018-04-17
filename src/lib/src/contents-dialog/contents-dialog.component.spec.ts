@@ -34,40 +34,36 @@ describe('ContentsDialogComponent', () => {
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-        declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
-        providers: [
-          ViewerService,
-          ClickService,
-          MimeViewerIntl,
-          CanvasService,
-          ModeService,
-          MimeResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          ViewerLayoutService,
-          IiifContentSearchService,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: ObservableMedia, useClass: MediaServiceStub }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
+      providers: [
+        ViewerService,
+        ClickService,
+        MimeViewerIntl,
+        CanvasService,
+        ModeService,
+        MimeResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        ViewerLayoutService,
+        IiifContentSearchService,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+        { provide: ObservableMedia, useClass: MediaServiceStub }
+      ]
+    }).compileComponents();
+  }));
 
-  beforeEach(
-    async(() => {
-      fixture = TestBed.createComponent(ContentsDialogComponent);
-      component = fixture.componentInstance;
-      media = TestBed.get(ObservableMedia);
-      iiifManifestService = TestBed.get(IiifManifestService);
-      intl = TestBed.get(MimeViewerIntl);
-      fixture.detectChanges();
-    })
-  );
+  beforeEach(async(() => {
+    fixture = TestBed.createComponent(ContentsDialogComponent);
+    component = fixture.componentInstance;
+    media = TestBed.get(ObservableMedia);
+    iiifManifestService = TestBed.get(IiifManifestService);
+    intl = TestBed.get(MimeViewerIntl);
+    fixture.detectChanges();
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();
