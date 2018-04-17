@@ -1,11 +1,7 @@
-import { Observable } from 'rxjs/Observable';
 import { Injectable, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { take } from 'rxjs/operators/take';
-import { interval } from 'rxjs/observable/interval';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Observable, Subscription, Subject, interval } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { AttributionDialogComponent } from './attribution-dialog.component';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';

@@ -1,5 +1,4 @@
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { Observable, of } from 'rxjs';
 
 export class FullscreenServiceStub {
   public isEnabled(): boolean {
@@ -7,7 +6,7 @@ export class FullscreenServiceStub {
   }
 
   get onChange(): Observable<boolean> {
-    return Observable.of(true);
+    return of(true);
   }
 
   public isFullscreen(): boolean {

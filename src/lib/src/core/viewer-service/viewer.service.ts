@@ -1,13 +1,6 @@
 import { Injectable, NgZone, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { sample } from 'rxjs/operators/sample';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
-import { takeUntil } from 'rxjs/operators/takeUntil';
-import { interval } from 'rxjs/observable/interval';
+import { Observable, Subscription, ReplaySubject, BehaviorSubject, Subject, interval } from 'rxjs';
+import { sample, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import * as d3 from 'd3';
 
 import { Utils } from '../../core/utils';
@@ -196,18 +189,20 @@ export class ViewerService {
       for (const hit of searchResult.hits) {
         for (const rect of hit.rects) {
           const canvasRect = this.canvasService.getCanvasRect(hit.index);
-          const x = canvasRect.x + rect.x;
-          const y = canvasRect.y + rect.y;
-          const width = rect.width;
-          const height = rect.height;
-          const currentOverlay: SVGRectElement = this.svgNode
-            .append('rect')
-            .attr('mimeHitIndex', hit.id)
-            .attr('x', x)
-            .attr('y', y)
-            .attr('width', width)
-            .attr('height', height)
-            .attr('class', 'hit');
+          if (canvasRect) {
+            const x = canvasRect.x + rect.x;
+            const y = canvasRect.y + rect.y;
+            const width = rect.width;
+            const height = rect.height;
+            const currentOverlay: SVGRectElement = this.svgNode
+              .append('rect')
+              .attr('mimeHitIndex', hit.id)
+              .attr('x', x)
+              .attr('y', y)
+              .attr('width', width)
+              .attr('height', height)
+              .attr('class', 'hit');
+          }
         }
       }
     }

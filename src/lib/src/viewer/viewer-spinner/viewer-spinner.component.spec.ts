@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { SharedModule } from './../../shared/shared.module';
 import { SpinnerService } from '../../core/spinner-service/spinner.service';

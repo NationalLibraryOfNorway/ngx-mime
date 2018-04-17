@@ -1,6 +1,5 @@
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Observable } from 'rxjs/Observable';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { Observable, ReplaySubject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { ViewerMode } from '../models/viewer-mode';
 import { ModeChanges } from '../models/modeChanges';

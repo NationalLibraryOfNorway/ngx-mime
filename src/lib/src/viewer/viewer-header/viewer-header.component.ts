@@ -11,9 +11,8 @@ import {
 import { MatDialog, MatDialogConfig, DialogPosition } from '@angular/material';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';

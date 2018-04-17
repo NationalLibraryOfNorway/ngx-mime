@@ -1,6 +1,4 @@
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { testManifest } from './testManifest';
 import { ManifestBuilder } from './../core/builders/manifest.builder';

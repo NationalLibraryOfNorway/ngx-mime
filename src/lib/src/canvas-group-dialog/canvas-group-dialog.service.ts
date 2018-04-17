@@ -1,11 +1,7 @@
-import { Observable } from 'rxjs/Observable';
 import { Injectable, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { take } from 'rxjs/operators/take';
-import { interval } from 'rxjs/observable/interval';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 

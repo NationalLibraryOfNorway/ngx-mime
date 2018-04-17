@@ -23,13 +23,13 @@
       </mat-toolbar>
     </div>
   </div>
-  <div class="content-search-form" fxLayout="column">
+  <div class="content-search-form">
     <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
-      <mat-form-field fxFlex>
+      <mat-form-field class="content-search-box">
         <button type="submit" matPrefix mat-icon-button [attr.aria-label]="intl.searchLabel" [matTooltip]="intl.searchLabel" tabindex="-1">
           <mat-icon class="icon">search</mat-icon>
         </button>
-        <input #query matInput fxFill class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off" tabindex="0">
+        <input #query matInput class="content-search-input" [(ngModel)]="q" name="q" autocomplete="off" tabindex="0">
         <button id="clearSearchButton" type="button" matSuffix mat-icon-button [attr.aria-label]="intl.clearSearchLabel" [matTooltip]="intl.clearSearchLabel"
           tabindex="-1" (click)="clear()">
           <mat-icon class="icon">clear</mat-icon>

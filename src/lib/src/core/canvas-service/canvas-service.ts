@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { CanvasGroups } from './../models/canvas-groups';
 import { ViewerLayout } from '../models/viewer-layout';
@@ -53,7 +52,7 @@ export class CanvasService {
   }
 
   get numberOfCanvases(): number {
-    return !this.canvasGroups.canvasRects ? 0 : this.canvasGroups.canvasRects.length;
+    return !this.canvasGroups.canvasGroupRects ? 0 : this.canvasGroups.canvasGroupRects.length;
   }
 
   get currentCanvasIndex(): number {
@@ -111,7 +110,7 @@ export class CanvasService {
   }
 
   getCanvasGroupLabel(canvasGroupIndex: number): string {
-    if (!this.canvasGroups.canvasRects || this.canvasGroups.canvasesPerCanvasGroup.length === 0) {
+    if (!this.canvasGroups.canvasGroupRects || this.canvasGroups.canvasesPerCanvasGroup.length === 0) {
       return '1';
     }
 
@@ -126,7 +125,7 @@ export class CanvasService {
   }
 
   getCanvasesPerCanvasGroup(canvasIndex: number): number[] {
-    return !this.canvasGroups.canvasRects ? [0] : this.canvasGroups.canvasesPerCanvasGroup[canvasIndex];
+    return !this.canvasGroups.canvasGroupRects ? [0] : this.canvasGroups.canvasesPerCanvasGroup[canvasIndex];
   }
 
   getCanvasRect(canvasIndex: number): Rect {

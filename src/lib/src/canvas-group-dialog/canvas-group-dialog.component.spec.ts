@@ -2,9 +2,8 @@ import { async, ComponentFixture, TestBed, fakeAsync, flush } from '@angular/cor
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { MatDialogRef, ShowOnDirtyErrorStateMatcher, ErrorStateMatcher } from '@angular/material';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { SharedModule } from '../shared/shared.module';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';

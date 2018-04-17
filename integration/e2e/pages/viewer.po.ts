@@ -2,6 +2,7 @@ import { browser, element, ElementFinder, by, By, protractor, ElementArrayFinder
 import { Key, promise, WebElement } from 'selenium-webdriver';
 import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
+import { isFulfilled } from 'q';
 
 const bookShelf = {
   'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
@@ -48,8 +49,8 @@ export class ViewerPage {
     }
     for (let i = 0; i < canvasGroupIndex; i++) {
       await slider.sendKeys(protractor.Key.ARROW_RIGHT);
+      await this.waitForAnimation();
     }
-    await this.waitForAnimation();
   }
 
   async goToCanvasGroupWithDialog(canvasGroupIndex: number) {
@@ -107,16 +108,17 @@ export class ViewerPage {
   }
 
   async openContentSearchDialog() {
-    await element(by.css('#contentSearchDialogButton')).click();
+    const contentSearchDialogButton: ElementFinder = await utils.waitForElement(element(by.css('#contentSearchDialogButton')));
+    await contentSearchDialogButton.click();
     await utils.waitForElement(element(by.css('.content-search-container')));
   }
 
-  fullscreenButton(): ElementFinder {
-    return element(by.css('#fullscreenButton'));
+  fullscreenButton(): Promise<ElementFinder> {
+    return utils.waitForElement(element(by.css('#fullscreenButton')));
   }
 
-  exitFullscreenButton(): ElementFinder {
-    return element(by.css('#exitFullscreenButton'));
+  exitFullscreenButton(): Promise<ElementFinder> {
+    return utils.waitForElement(element(by.css('#exitFullscreenButton')));
   }
 
   openSeadragonElement() {
@@ -129,13 +131,15 @@ export class ViewerPage {
     return utils.waitForElement(el);
   }
 
-  isFullscreen(): promise.Promise<boolean> {
-    return browser.executeScript(
+  async isFullscreen() {
+    await browser.sleep(2000);
+    const isFullscreen = await browser.executeScript(
       'return (document.fullscreenElement' +
         ' || document.mozFullScreenElement' +
         ' || document.webkitFullscreenElement' +
         ' || document.msFullscreenElement) != null'
     );
+    return isFullscreen;
   }
 
   getHeader() {
@@ -185,7 +189,7 @@ export class ViewerPage {
 
   async getOnePageButton() {
     const el = element(by.css('#toggleSinglePageViewButton'));
-    if ((await el.isPresent()) && el.isDisplayed()) {
+    if ((await el.isPresent()) && (await el.isDisplayed())) {
       return el;
     } else {
       return false;

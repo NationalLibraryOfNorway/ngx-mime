@@ -28,7 +28,6 @@ export class ContentSearchPage {
   }
 
   async getNumberOfHits() {
-    await browser.sleep(1000);
     const el: ElementFinder = await utils.waitForElement(element(by.css('#numberOfHits')));
     const numberOfHits = await el.getAttribute('value');
     return parseInt(numberOfHits, 8);
@@ -74,7 +73,7 @@ export class ContentSearchPage {
 
   async isSelected(index: number) {
     try {
-      utils.waitForElement(element(by.css(`.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`)));
+      await utils.waitForElement(element(by.css(`.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`)));
       return true;
     } catch (e) {
       return false;
@@ -82,7 +81,7 @@ export class ContentSearchPage {
   }
 
   async hitIsSelected(index: number) {
-    const el = await this.getHit(index);
+    const el: ElementFinder = await this.getHit(index);
     const classes = await el.getAttribute('class');
     return classes.indexOf('mat-primary') !== -1;
   }

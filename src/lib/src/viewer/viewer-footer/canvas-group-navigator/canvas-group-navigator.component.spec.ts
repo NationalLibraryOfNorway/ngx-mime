@@ -3,10 +3,8 @@ import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing'
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.component';
 import { SharedModule } from './../../../shared/shared.module';

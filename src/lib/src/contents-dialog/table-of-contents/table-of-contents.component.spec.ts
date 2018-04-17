@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { ObservableMedia } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { SharedModule } from '../../shared/shared.module';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
