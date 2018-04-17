@@ -6,6 +6,7 @@
     "integration": {
       "root": "",
       "projectType": "application",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -27,19 +28,15 @@
                 "output": "/assets"
               }
             ],
-            "styles": [
-              {
-                "input": "src/styles.scss"
-              }
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": ["../node_modules/openseadragon/build/openseadragon/openseadragon.min.js"]
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "src": "src/environments/environment.ts",
-                  "replaceWith": "src/environments/environment.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -126,6 +123,11 @@
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
     }
   }
 }
