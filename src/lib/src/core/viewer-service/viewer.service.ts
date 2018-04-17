@@ -300,7 +300,7 @@ export class ViewerService {
   }
 
   addToWindow() {
-    window.openSeadragonViewer = this.viewer;
+    (<any>window).openSeadragonViewer = this.viewer;
   }
 
   setupOverlays(): void {

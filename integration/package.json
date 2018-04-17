@@ -39,7 +39,7 @@
     "@angular/platform-browser": "6.0.0-rc.5",
     "@angular/platform-browser-dynamic": "6.0.0-rc.5",
     "@angular/router": "6.0.0-rc.5",
-    "@nationallibraryofnorway/ngx-mime": "../dist/",
+    "@nationallibraryofnorway/ngx-mime": "../dist/ngx-mime",
     "classlist.js": "^1.1.20150312",
     "core-js": "2.5.5",
     "d3": "5.0.0",

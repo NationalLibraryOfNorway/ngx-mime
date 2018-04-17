@@ -25,7 +25,7 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 webdriver-manager update
-npm run wait && protractor --browser=${BROWSER} --tags=${TAGS} > .tmp/${BROWSER}_result.txt
+npm run wait && protractor ./e2e/protractor.conf.js --browser=${BROWSER} --tags=${TAGS} > .tmp/${BROWSER}_result.txt
 
 if [ $? -eq 0 ]
 then

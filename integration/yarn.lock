@@ -215,8 +215,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@nationallibraryofnorway/ngx-mime@../dist/":
+"@nationallibraryofnorway/ngx-mime@../dist/ngx-mime":
   version "0.13.0"
+  dependencies:
+    tslib "^1.9.0"
 
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
