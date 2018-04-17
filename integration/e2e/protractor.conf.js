@@ -19,7 +19,6 @@ const config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
-    compiler: 'ts:ts-node/register',
     require: [
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
       path.resolve(process.cwd(), './e2e/**/*.steps.ts'),
@@ -39,6 +38,9 @@ const config = {
     }
   ],
   onPrepare: function() {
+    require('ts-node').register({
+      project: require('path').join(__dirname, './tsconfig.e2e.json')
+    });
     if (!config.multiCapabilities && config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
       const width = 1024;
       const height = 768;
@@ -62,7 +64,7 @@ function getMultiCapabilities() {
     name: 'Mime E2E Tests',
     shardTestFiles: true
   };
-  capabilities.maxInstances = process.env.TRAVIS ? 2 : 10;
+  capabilities.maxInstances = process.env.TRAVIS ? 4 : 10;
   if (argv.browser) {
     const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
     capabilities = Object.assign({}, capabilities, {
