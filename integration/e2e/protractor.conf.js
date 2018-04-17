@@ -64,7 +64,7 @@ function getMultiCapabilities() {
     name: 'Mime E2E Tests',
     shardTestFiles: true
   };
-  capabilities.maxInstances = process.env.TRAVIS ? 4 : 10;
+  capabilities.maxInstances = process.env.TRAVIS ? 2 : 10;
   if (argv.browser) {
     const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
     capabilities = Object.assign({}, capabilities, {
