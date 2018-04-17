@@ -42,7 +42,7 @@
     "@nationallibraryofnorway/ngx-mime": "../dist/ngx-mime",
     "classlist.js": "^1.1.20150312",
     "core-js": "2.5.5",
-    "d3": "5.0.0",
+    "d3": "4.1.0",
     "openseadragon": "2.3.1",
     "rxjs": "6.0.0-uncanny-rc.7",
     "web-animations-js": "2.3.1",

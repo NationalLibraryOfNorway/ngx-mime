@@ -98,11 +98,6 @@
     "prettier": "1.10.2",
     "pretty-quick": "^1.4.1",
     "rimraf": "^2.6.1",
-    "rollup": "0.56.3",
-    "rollup-plugin-commonjs": "8.3.0",
-    "rollup-plugin-node-resolve": "3.0.3",
-    "rollup-plugin-sourcemaps": "0.4.2",
-    "rollup-plugin-uglify": "3.0.0",
     "rxjs": "6.0.0-uncanny-rc.7",
     "standard-version": "4.3.0",
     "systemjs": "0.21.2",
@@ -110,7 +105,6 @@
     "tslint": "5.9.1",
     "tslint-config-prettier": "1.9.0",
     "typescript": "2.7.2",
-    "uglify-es": "^3.0.18",
     "web-animations-js": "^2.3.1",
     "zone.js": "0.8.26"
   }
