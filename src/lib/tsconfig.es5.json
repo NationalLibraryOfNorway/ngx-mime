@@ -6,10 +6,7 @@
     "baseUrl": "",
     "types": []
   },
-  "files": [
-    "./index.ts",
-    "./typings.d.ts"
-  ],
+  "files": ["./index.ts", "./typings.d.ts"],
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,

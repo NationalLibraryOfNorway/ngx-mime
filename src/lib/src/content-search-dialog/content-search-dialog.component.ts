@@ -1,11 +1,8 @@
 import { Component, OnInit, HostListener, ElementRef, OnDestroy, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { filter } from 'rxjs/operators/filter';
-import { take } from 'rxjs/operators/take';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subscription, Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { MimeViewerIntl } from './../core/intl/viewer-intl';
 import { Manifest } from './../core/models/manifest';

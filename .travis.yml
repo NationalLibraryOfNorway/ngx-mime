@@ -3,15 +3,13 @@ sudo: required
 language: node_js
 
 node_js:
-  - "7"
+  - "9"
 
 os:
   - linux
 
 addons:
   chrome: stable
-  jwt:
-    secure: "D9LsbX3nHLl55MXrXdLv6sJse7vEsUTHyxxxJlLwOxSUrlOLuhyE0DrvUVVvOvNjHbwgenmqdGFtQ8Gsx9q+C1psM/VtMoiEViLkxFzczAlElNqoD5nGM9/988aFzaipzvce13m5CjCaEjdZmUepc3JVgY5jFyW949JVOPLY7lZMu6jJgDXX//xZ6SqCZ+y0GSz/zE7nN8VhMceg7/elLeW63A8mROXGfwe4plssQ3JP6QoxlqBeaS97zRytX6b10oaAddtNpuHG53hIa/ZYGIfLvuVKKhdY3WhuuwF9m4/h+xgMbMjAuj1yoFdQ/2TCeORIV2/osuvkVHqZnmge523+endbnOzkaIb1q67v/t6tJ9gHrTz+8lM6Dj3A9Wj129x1fDsrEJOH74e0q+NvO0Qqz8YXLuwbh2boQYhUsgOhsFZ+MdMONa7+bqNUkX8IYyb1Xfj7WgLcuFn0RhwtTIhLFDwDWOBLhmdcvZPGbU3RrGS4m53wq/ZlMzDpwU8eFT+2s1BpYrnLFrTh9kJrL61KycvJgG7xPgS7g64rLFdtyV0wXVBqZ3XdiVzlARG9XABbCHAePPXJV6ggFPThLkU8ZKlgSc/eOTQY30lSrXj/8ws3+/pzgyzypy0Mm10LwkGmL5pBlQsT4q18l9Aj9WvzBzZbiJPukBgw5Rm9bpU="
 
 env:
   global:
@@ -30,7 +28,7 @@ install:
   - npm install -g mountebank
   - npm install -g webdriver-manager
   - npm install -g protractor
-  - npm install -g @angular/cli
+  - npm install -g @angular/cli@v6.0.0-rc.5
   - npm install -g concurrently
 
 before_script:
@@ -45,4 +43,4 @@ before_script:
  - chmod +x ./integration/scripts/protractor.sh
 
 script:
-  - travis_wait 40 ./scripts/ci/build-and-test.sh
+  - travis_wait 60 ./scripts/ci/build-and-test.sh

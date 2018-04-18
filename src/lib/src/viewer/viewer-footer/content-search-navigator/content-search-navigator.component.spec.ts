@@ -25,22 +25,20 @@ describe('ContentSearchNavigatorComponent', () => {
   let canvasService: CanvasServiceStub;
   let contentSearchNavigationService: ContentSearchNavigationService;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [NoopAnimationsModule, SharedModule],
-        declarations: [ContentSearchNavigatorComponent],
-        providers: [
-          MimeViewerIntl,
-          ContentSearchNavigationService,
-          { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
-          { provide: CanvasService, useClass: CanvasServiceStub }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [NoopAnimationsModule, SharedModule],
+      declarations: [ContentSearchNavigatorComponent],
+      providers: [
+        MimeViewerIntl,
+        ContentSearchNavigationService,
+        { provide: ViewerService, useClass: ViewerServiceStub },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
+        { provide: CanvasService, useClass: CanvasServiceStub }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);

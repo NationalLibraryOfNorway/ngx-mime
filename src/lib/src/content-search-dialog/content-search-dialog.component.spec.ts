@@ -31,36 +31,32 @@ describe('ContentSearchDialogComponent', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-        declarations: [ContentSearchDialogComponent],
-        providers: [
-          MimeViewerIntl,
-          MimeResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: ObservableMedia, useClass: MediaServiceStub },
-          { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      declarations: [ContentSearchDialogComponent],
+      providers: [
+        MimeViewerIntl,
+        MimeResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+        { provide: ObservableMedia, useClass: MediaServiceStub },
+        { provide: ViewerService, useClass: ViewerServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
+      ]
+    }).compileComponents();
+  }));
 
-  beforeEach(
-    async(() => {
-      fixture = TestBed.createComponent(ContentSearchDialogComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
+  beforeEach(async(() => {
+    fixture = TestBed.createComponent(ContentSearchDialogComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
 
-      iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
-      iiifManifestServiceStub = TestBed.get(IiifManifestService);
-    })
-  );
+    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
+    iiifManifestServiceStub = TestBed.get(IiifManifestService);
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();

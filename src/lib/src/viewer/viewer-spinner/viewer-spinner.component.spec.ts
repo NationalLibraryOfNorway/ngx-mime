@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { SharedModule } from './../../shared/shared.module';
 import { SpinnerService } from '../../core/spinner-service/spinner.service';
@@ -14,15 +14,13 @@ describe('ViewerSpinnerComponent', () => {
   let component: ViewerSpinnerComponent;
   let fixture: ComponentFixture<ViewerSpinnerComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [SpinnerService],
-        declarations: [ViewerSpinnerComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [SpinnerService],
+      declarations: [ViewerSpinnerComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerSpinnerComponent);
@@ -34,19 +32,16 @@ describe('ViewerSpinnerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(
-    'should show spinner',
-    async(
-      inject([SpinnerService], (spinnerService: SpinnerService) => {
-        let spinner: any;
+  it('should show spinner', async(
+    inject([SpinnerService], (spinnerService: SpinnerService) => {
+      let spinner: any;
 
-        spinnerService.show();
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          spinner = fixture.debugElement.query(By.css('.mime-spinner'));
-          expect(window.getComputedStyle(spinner.nativeElement).display).toBe('block');
-        });
-      })
-    )
-  );
+      spinnerService.show();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        spinner = fixture.debugElement.query(By.css('.mime-spinner'));
+        expect(window.getComputedStyle(spinner.nativeElement).display).toBe('block');
+      });
+    })
+  ));
 });

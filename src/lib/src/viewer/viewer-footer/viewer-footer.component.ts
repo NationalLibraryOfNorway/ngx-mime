@@ -10,9 +10,8 @@ import {
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';

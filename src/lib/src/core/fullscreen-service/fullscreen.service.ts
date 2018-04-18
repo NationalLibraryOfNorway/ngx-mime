@@ -1,6 +1,5 @@
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class FullscreenService {

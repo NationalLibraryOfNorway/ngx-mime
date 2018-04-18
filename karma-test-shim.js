@@ -8,10 +8,11 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is 'src/')
-var builtPaths = (__karma__.config.builtPaths || ['src/'])
-                 .map(function(p) { return '/base/'+p;});
+var builtPaths = (__karma__.config.builtPaths || ['src/']).map(function(p) {
+  return '/base/' + p;
+});
 
-__karma__.loaded = function () { };
+__karma__.loaded = function() {};
 
 function isJsFile(path) {
   return path.slice(-3) == '.js';
@@ -24,10 +25,12 @@ function isSpecFile(path) {
 
 // Is a "built" file if is JavaScript file in one of the "built" folders
 function isBuiltFile(path) {
-  return isJsFile(path) &&
-         builtPaths.reduce(function(keep, bp) {
-           return keep || (path.substr(0, bp.length) === bp);
-         }, false);
+  return (
+    isJsFile(path) &&
+    builtPaths.reduce(function(keep, bp) {
+      return keep || path.substr(0, bp.length) === bp;
+    }, false)
+  );
 }
 
 var allSpecFiles = Object.keys(window.__karma__.files)
@@ -43,17 +46,17 @@ System.config({
   baseURL: 'base/src/lib',
   // Extend usual application package list with test folder
   packages: {
-    rxjs: { defaultExtension: 'js' },
-    'rxjs/operators': { defaultExtension: 'js', main: 'index' },
+    rxjs: { main: 'index' },
+    'rxjs/operators': { main: 'index' },
     '': { defaultExtension: 'js' },
     src: {
-        defaultExtension: 'js',
-        meta: {
-          './*.js': {
-            loader: 'system-loader'
-          }
+      defaultExtension: 'js',
+      meta: {
+        './*.js': {
+          loader: 'system-loader'
         }
       }
+    }
   },
   // Map the angular umd bundles
   map: {
@@ -85,10 +88,15 @@ System.config({
     '@angular/cdk/testing': 'npm:@angular/cdk/bundles/cdk-testing.umd.js',
     '@angular/cdk/accordion': 'npm:@angular/cdk/bundles/cdk-accordion.umd.js',
     '@angular/cdk/layout': 'npm:@angular/cdk/bundles/cdk-layout.umd.js',
+    '@angular/cdk/tree': 'npm:@angular/cdk/bundles/cdk-tree.umd.js',
+    '@angular/cdk/text-field': 'npm:@angular/cdk/bundles/cdk-text-field.umd.js',
     '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.js',
     '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
     '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
-    '@angular/flex-layout' : 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
+    '@angular/flex-layout': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
+    '@angular/flex-layout/core': 'npm:@angular/flex-layout/bundles/flex-layout-core.umd.js',
+    '@angular/flex-layout/extended': 'npm:@angular/flex-layout/bundles/flex-layout-extended.umd.js',
+    '@angular/flex-layout/flex': 'npm:@angular/flex-layout/bundles/flex-layout-flex.umd.js',
     // Testing bundles
     '@angular/core/testing': 'npm:@angular/core/bundles/core-testing.umd.js',
     '@angular/common/testing': 'npm:@angular/common/bundles/common-testing.umd.js',
@@ -99,38 +107,32 @@ System.config({
     '@angular/http/testing': 'npm:@angular/http/bundles/http-testing.umd.js',
     '@angular/router/testing': 'npm:@angular/router/bundles/router-testing.umd.js',
     '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js',
-    'tslib': 'npm:tslib/tslib.js',
-    'openseadragon': 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
-    'rxjs': 'npm:rxjs',
-    'd3': 'npm:d3/build/d3.min.js',
-    'src': 'src'
+    tslib: 'npm:tslib/tslib.js',
+    openseadragon: 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
+    rxjs: 'npm:rxjs',
+    d3: 'npm:d3/build/d3.min.js',
+    src: 'src'
   }
 });
 
 initTestBed().then(initTesting);
 
-function initTestBed(){
-  return Promise.all([
-    System.import('@angular/core/testing'),
-    System.import('@angular/platform-browser-dynamic/testing')
-  ])
-
-  .then(function (providers) {
-    var coreTesting    = providers[0];
+function initTestBed() {
+  return Promise.all([System.import('@angular/core/testing'), System.import('@angular/platform-browser-dynamic/testing')]).then(function(
+    providers
+  ) {
+    var coreTesting = providers[0];
     var browserTesting = providers[1];
 
-    coreTesting.TestBed.initTestEnvironment(
-      browserTesting.BrowserDynamicTestingModule,
-      browserTesting.platformBrowserDynamicTesting());
-  })
+    coreTesting.TestBed.initTestEnvironment(browserTesting.BrowserDynamicTestingModule, browserTesting.platformBrowserDynamicTesting());
+  });
 }
 
 // Import all spec files and start karma
-function initTesting () {
+function initTesting() {
   return Promise.all(
-    allSpecFiles.map(function (moduleName) {
+    allSpecFiles.map(function(moduleName) {
       return System.import(moduleName);
     })
-  )
-  .then(__karma__.start, __karma__.error);
+  ).then(__karma__.start, __karma__.error);
 }

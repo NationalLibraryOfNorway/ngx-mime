@@ -17,10 +17,8 @@ import {
   ViewContainerRef,
   AfterViewChecked
 } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { throttle } from 'rxjs/operators/throttle';
-import { interval } from 'rxjs/observable/interval';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subject, interval } from 'rxjs';
+import { throttle, takeUntil } from 'rxjs/operators';
 
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';

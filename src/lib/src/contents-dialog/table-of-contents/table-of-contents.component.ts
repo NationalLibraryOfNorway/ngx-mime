@@ -1,9 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { MatDialogRef } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';

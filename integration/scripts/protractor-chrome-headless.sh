@@ -1,6 +1,6 @@
 #!/bin/bash
 
-npm run wait && protractor --browser=chrome --tags=@desktop --headless > .tmp/chrome_result.txt
+npm run wait && protractor ./e2e/protractor.conf.js --browser=chrome --tags=@desktop --headless > .tmp/chrome_result.txt
 
 if [ $? -eq 0 ]
 then

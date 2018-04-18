@@ -4,7 +4,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { SharedModule } from '../shared/shared.module';
 import { AttributionDialogComponent } from './attribution-dialog.component';
@@ -22,32 +22,28 @@ describe('AttributionDialogComponent', () => {
   let fixture: ComponentFixture<AttributionDialogComponent>;
   let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-        declarations: [AttributionDialogComponent],
-        providers: [
-          MimeViewerIntl,
-          AttributionDialogResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: MatDialogRef, useClass: MatDialogRefStub }
-        ]
-      });
-      TestBed.compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      declarations: [AttributionDialogComponent],
+      providers: [
+        MimeViewerIntl,
+        AttributionDialogResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: MatDialogRef, useClass: MatDialogRefStub }
+      ]
+    });
+    TestBed.compileComponents();
+  }));
 
-  beforeEach(
-    async(() => {
-      fixture = TestBed.createComponent(AttributionDialogComponent);
-      component = fixture.componentInstance;
-      iiifManifestService = TestBed.get(IiifManifestService);
-      fixture.detectChanges();
-    })
-  );
+  beforeEach(async(() => {
+    fixture = TestBed.createComponent(AttributionDialogComponent);
+    component = fixture.componentInstance;
+    iiifManifestService = TestBed.get(IiifManifestService);
+    fixture.detectChanges();
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();

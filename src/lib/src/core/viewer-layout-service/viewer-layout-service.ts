@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerLayout } from '../models/viewer-layout';

@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { SharedModule } from './../../shared/shared.module';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
@@ -16,15 +16,13 @@ describe('MetadataComponent', () => {
   let fixture: ComponentFixture<MetadataComponent>;
   let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [SharedModule, HttpClientModule],
-        declarations: [MetadataComponent],
-        providers: [MimeViewerIntl, { provide: IiifManifestService, useClass: IiifManifestServiceStub }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [SharedModule, HttpClientModule],
+      declarations: [MetadataComponent],
+      providers: [MimeViewerIntl, { provide: IiifManifestService, useClass: IiifManifestServiceStub }]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MetadataComponent);

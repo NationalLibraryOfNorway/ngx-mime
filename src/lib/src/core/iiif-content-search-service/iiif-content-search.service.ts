@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
-import { finalize } from 'rxjs/operators/finalize';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, finalize } from 'rxjs/operators';
 
 import { IiifSearchResult } from './../models/iiif-search-result';
 import { SearchResultBuilder } from './../builders/search-result.builder';

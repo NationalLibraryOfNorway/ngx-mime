@@ -9,6 +9,7 @@ export class OneCanvasPerCanvasGroupStrategy implements AbstractCanvasGroupStrat
   addAll = (canvasRects: Rect[]) => {
     const canvasGroups = new CanvasGroups();
     canvasGroups.addRange(canvasRects);
+    canvasGroups.canvasRects = canvasRects;
     for (let i = 0; i < canvasRects.length; i++) {
       canvasGroups.canvasesPerCanvasGroup.push([i]);
     }
@@ -21,6 +22,7 @@ export class TwoCanvasPerCanvasGroupStrategy implements AbstractCanvasGroupStrat
     const canvasGroups = new CanvasGroups();
     // Single first page
     canvasGroups.add(canvasRects[0]);
+    canvasGroups.canvasRects = canvasRects;
     canvasGroups.canvasesPerCanvasGroup.push([0]);
 
     for (let i = 1; i < canvasRects.length; i = i + 2) {

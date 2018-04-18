@@ -13,16 +13,12 @@ const config = {
     jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver']
   },
   specs: getFeatureFiles(),
-  unknownFlags: [
-    'cucumberOpts',
-    'device'
-  ],
+  unknownFlags: ['cucumberOpts', 'device'],
   multiCapabilities: getMultiCapabilities(),
   baseUrl: 'http://localhost:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
-    compiler: "ts:ts-node/register",
     require: [
       path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
       path.resolve(process.cwd(), './e2e/**/*.steps.ts'),
@@ -31,19 +27,27 @@ const config = {
     format: 'json:.tmp/results.json',
     tags: getTags()
   },
-  plugins: [{
-    package: require.resolve('protractor-multiple-cucumber-html-reporter-plugin'),
-    options: {
-      automaticallyGenerateReport: true,
-      removeExistingJsonReportFile: true,
-      removeOriginalJsonReportFile: true
+  plugins: [
+    {
+      package: require.resolve('protractor-multiple-cucumber-html-reporter-plugin'),
+      options: {
+        automaticallyGenerateReport: true,
+        removeExistingJsonReportFile: true,
+        removeOriginalJsonReportFile: true
+      }
     }
-  }],
-  onPrepare: function () {
+  ],
+  onPrepare: function() {
+    require('ts-node').register({
+      project: require('path').join(__dirname, './tsconfig.e2e.json')
+    });
     if (!config.multiCapabilities && config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
       const width = 1024;
       const height = 768;
-      browser.driver.manage().window().setSize(width, height);
+      browser.driver
+        .manage()
+        .window()
+        .setSize(width, height);
     }
   },
   disableChecks: true,
@@ -58,21 +62,21 @@ if (process.env.TRAVIS) {
 function getMultiCapabilities() {
   let capabilities = {
     name: 'Mime E2E Tests',
-    shardTestFiles: true,
-  }
+    shardTestFiles: true
+  };
   capabilities.maxInstances = process.env.TRAVIS ? 2 : 10;
   if (argv.browser) {
     const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
-    capabilities = (Object).assign({}, capabilities, {
+    capabilities = Object.assign({}, capabilities, {
       browserName: cap.browserName,
       version: cap.version,
       platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
-      deviceName: cap.deviceName,
+      deviceName: cap.deviceName
     });
   } else {
-    capabilities = (Object).assign({}, capabilities, {
+    capabilities = Object.assign({}, capabilities, {
       browserName: 'chrome'
     });
   }
@@ -80,12 +84,12 @@ function getMultiCapabilities() {
   if (argv.headless) {
     capabilities.chromeOptions = {
       args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
-    }
+    };
   }
 
   if (process.env.TRAVIS) {
-      capabilities.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
-      capabilities.build = process.env.TRAVIS_JOB_NUMBER;
+    capabilities.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+    capabilities.build = process.env.TRAVIS_JOB_NUMBER;
   }
 
   return [capabilities];

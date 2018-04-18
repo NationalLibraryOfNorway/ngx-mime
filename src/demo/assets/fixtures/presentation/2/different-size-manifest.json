@@ -22,7 +22,8 @@
     },
     {
       "label": "Varig lenke",
-      "value": "<a href='http://urn.nb.no/URN:NBN:no-nb_digibok_2015090327001' target='_blank'>http://urn.nb.no/URN:NBN:no-nb_digibok_2015090327001</a>"
+      "value":
+        "<a href='http://urn.nb.no/URN:NBN:no-nb_digibok_2015090327001' target='_blank'>http://urn.nb.no/URN:NBN:no-nb_digibok_2015090327001</a>"
     },
     {
       "label": "Medietype",
@@ -93,13 +94,7 @@
                   "tiles": [
                     {
                       "width": 1024,
-                      "scaleFactors": [
-                        1,
-                        2,
-                        4,
-                        8,
-                        16
-                      ]
+                      "scaleFactors": [1, 2, 4, 8, 16]
                     }
                   ],
                   "profile": "http://iiif.io/api/image/2/level1.json",
@@ -160,13 +155,7 @@
                   "tiles": [
                     {
                       "width": 1024,
-                      "scaleFactors": [
-                        1,
-                        2,
-                        4,
-                        8,
-                        16
-                      ]
+                      "scaleFactors": [1, 2, 4, 8, 16]
                     }
                   ],
                   "profile": "http://iiif.io/api/image/2/level1.json",
@@ -227,13 +216,7 @@
                   "tiles": [
                     {
                       "width": 1024,
-                      "scaleFactors": [
-                        1,
-                        2,
-                        4,
-                        8,
-                        16
-                      ]
+                      "scaleFactors": [1, 2, 4, 8, 16]
                     }
                   ],
                   "profile": "http://iiif.io/api/image/2/level1.json",
@@ -294,13 +277,7 @@
                   "tiles": [
                     {
                       "width": 1024,
-                      "scaleFactors": [
-                        1,
-                        2,
-                        4,
-                        8,
-                        16
-                      ]
+                      "scaleFactors": [1, 2, 4, 8, 16]
                     }
                   ],
                   "profile": "http://iiif.io/api/image/2/level1.json",
@@ -361,13 +338,7 @@
                   "tiles": [
                     {
                       "width": 1024,
-                      "scaleFactors": [
-                        1,
-                        2,
-                        4,
-                        8,
-                        16
-                      ]
+                      "scaleFactors": [1, 2, 4, 8, 16]
                     }
                   ],
                   "profile": "http://iiif.io/api/image/2/level1.json",
@@ -393,17 +364,13 @@
       "@id": "https://api.nb.no/catalog/v1/iiif/7942873cdc877bec870708868dfb39cd/range/r-0",
       "@type": "sc:Range",
       "label": "Framside",
-      "canvases": [
-        "https://api.nb.no/catalog/v1/iiif/7942873cdc877bec870708868dfb39cd/canvas/URN:NBN:no-nb_digibok_2015090327001_C1"
-      ]
+      "canvases": ["https://api.nb.no/catalog/v1/iiif/7942873cdc877bec870708868dfb39cd/canvas/URN:NBN:no-nb_digibok_2015090327001_C1"]
     },
     {
       "@id": "https://api.nb.no/catalog/v1/iiif/7942873cdc877bec870708868dfb39cd/range/r-1",
       "@type": "sc:Range",
       "label": "Bakside",
-      "canvases": [
-        "https://api.nb.no/catalog/v1/iiif/7942873cdc877bec870708868dfb39cd/canvas/URN:NBN:no-nb_digibok_2015090327001_C3"
-      ]
+      "canvases": ["https://api.nb.no/catalog/v1/iiif/7942873cdc877bec870708868dfb39cd/canvas/URN:NBN:no-nb_digibok_2015090327001_C3"]
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { SpinnerState, SpinnerService } from '../../core/spinner-service/spinner.service';
 

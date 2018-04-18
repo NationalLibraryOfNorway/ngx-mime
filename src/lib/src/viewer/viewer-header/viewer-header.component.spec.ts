@@ -23,26 +23,24 @@ describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [ViewerHeaderTestModule, ContentSearchDialogModule],
-        providers: [
-          ViewerService,
-          ClickService,
-          CanvasService,
-          ModeService,
-          MimeDomHelper,
-          FullscreenService,
-          ViewerLayoutService,
-          IiifContentSearchService,
-          { provide: FullscreenService, useClass: FullscreenServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ViewerHeaderTestModule, ContentSearchDialogModule],
+      providers: [
+        ViewerService,
+        ClickService,
+        CanvasService,
+        ModeService,
+        MimeDomHelper,
+        FullscreenService,
+        ViewerLayoutService,
+        IiifContentSearchService,
+        { provide: FullscreenService, useClass: FullscreenServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerHeaderComponent);
@@ -71,45 +69,36 @@ describe('ViewerHeaderComponent', () => {
     component.toggleContents();
   });
 
-  it(
-    'should start in hidden mode',
-    async(() => {
-      expect(component.state).toBe('hide');
+  it('should start in hidden mode', async(() => {
+    expect(component.state).toBe('hide');
+    expectHeaderToBeHidden(fixture.debugElement.nativeElement);
+  }));
+
+  it('should not be visible when state is changed to hide', async(() => {
+    const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
+
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
       expectHeaderToBeHidden(fixture.debugElement.nativeElement);
-    })
-  );
+    });
+  }));
 
-  it(
-    'should not be visible when state is changed to hide',
-    async(() => {
-      const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
+  it('should be visible when state is changed to show', async(() => {
+    const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
-      component.state = 'hide';
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectHeaderToBeHidden(fixture.debugElement.nativeElement);
+
+      component.state = 'show';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expectHeaderToBeHidden(fixture.debugElement.nativeElement);
+        expectHeaderToShow(fixture.debugElement.nativeElement);
       });
-    })
-  );
-
-  it(
-    'should be visible when state is changed to show',
-    async(() => {
-      const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
-
-      component.state = 'hide';
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expectHeaderToBeHidden(fixture.debugElement.nativeElement);
-
-        component.state = 'show';
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expectHeaderToShow(fixture.debugElement.nativeElement);
-        });
-      });
-    })
-  );
+    });
+  }));
 
   it(
     'should show fullscreen button if fullscreen mode is supported',

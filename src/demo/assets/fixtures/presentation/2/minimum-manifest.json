@@ -55,14 +55,7 @@
                   "tiles": [
                     {
                       "width": 1024,
-                      "scaleFactors": [
-                        1,
-                        2,
-                        4,
-                        8,
-                        16,
-                        32
-                      ]
+                      "scaleFactors": [1, 2, 4, 8, 16, 32]
                     }
                   ],
                   "profile": "http://iiif.io/api/image/2/level1.json",

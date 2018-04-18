@@ -1,4 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ViewerService } from '../viewer-service/viewer.service';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -13,8 +15,6 @@ import { AccessKeys } from '../models/AccessKeys';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from '../models/search-result';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {

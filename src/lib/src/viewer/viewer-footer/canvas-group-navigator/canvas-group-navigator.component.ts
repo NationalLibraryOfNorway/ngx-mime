@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatSliderChange } from '@angular/material';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';

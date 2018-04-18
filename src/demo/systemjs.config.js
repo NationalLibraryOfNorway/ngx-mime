@@ -2,7 +2,7 @@
  * System configuration for Angular samples
  * Adjust as necessary for your application needs.
  */
-(function (global) {
+(function(global) {
   System.config({
     paths: {
       // paths serve as alias
@@ -20,6 +20,9 @@
       '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',
       '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
       '@angular/flex-layout': 'npm:@angular/flex-layout/bundles/flex-layout.umd.js',
+      '@angular/flex-layout/core': 'npm:@angular/flex-layout/bundles/flex-layout-core.umd.js',
+      '@angular/flex-layout/extended': 'npm:@angular/flex-layout/bundles/flex-layout-extended.umd.js',
+      '@angular/flex-layout/flex': 'npm:@angular/flex-layout/bundles/flex-layout-flex.umd.js',
       '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
       '@angular/common/http': 'npm:@angular/common/bundles/common-http.umd.js',
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
@@ -45,13 +48,15 @@
       '@angular/cdk/table': 'npm:@angular/cdk/bundles/cdk-table.umd.js',
       '@angular/cdk/accordion': 'npm:@angular/cdk/bundles/cdk-accordion.umd.js',
       '@angular/cdk/layout': 'npm:@angular/cdk/bundles/cdk-layout.umd.js',
+      '@angular/cdk/tree': 'npm:@angular/cdk/bundles/cdk-tree.umd.js',
+      '@angular/cdk/text-field': 'npm:@angular/cdk/bundles/cdk-text-field.umd.js',
 
       // other libraries
-      'rxjs': 'npm:rxjs',
-      'hammerjs': 'npm:hammerjs/hammer.js',
-      'openseadragon': 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
-      'd3': 'npm:d3/build/d3.min.js',
-      'tslib': 'npm:tslib/tslib.js'
+      rxjs: 'npm:rxjs',
+      hammerjs: 'npm:hammerjs/hammer.js',
+      openseadragon: 'npm:openseadragon/build/openseadragon/openseadragon.min.js',
+      d3: 'npm:d3/build/d3.min.js',
+      tslib: 'npm:tslib/tslib.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -63,13 +68,8 @@
           }
         }
       },
-      rxjs: {
-        defaultExtension: 'js'
-      },
-      'rxjs/operators': {
-        defaultExtension: 'js',
-        main: 'index'
-      },
+      rxjs: { main: 'index' },
+      'rxjs/operators': { main: 'index' },
       'ngx-mime': {
         main: 'index.js',
         defaultExtension: 'js',
@@ -78,6 +78,9 @@
             loader: 'systemjs-angular-loader.js'
           }
         }
+      },
+      '.': {
+        defaultExtension: 'js'
       }
     }
   });

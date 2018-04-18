@@ -2,19 +2,20 @@ import { Point } from './point';
 import { Rect } from './rect';
 
 export class CanvasGroups {
+  canvasGroupRects: Rect[] = [];
   canvasRects: Rect[] = [];
   canvasesPerCanvasGroup: number[][] = [];
 
   public add(rect: Rect): void {
-    this.canvasRects.push(rect);
+    this.canvasGroupRects.push(rect);
   }
 
   public addRange(rects: Rect[]): void {
-    this.canvasRects = rects;
+    this.canvasGroupRects = rects;
   }
 
   public get(index: number): Rect {
-    return { ...this.canvasRects[index] };
+    return { ...this.canvasGroupRects[index] };
   }
 
   public findClosestIndex(point: Point): number {
@@ -24,7 +25,7 @@ export class CanvasGroups {
     if (point === null) {
       return -1;
     }
-    this.canvasRects.some(function(rect: Rect, index: number) {
+    this.canvasGroupRects.some(function(rect: Rect, index: number) {
       const delta = Math.abs(point.x - rect.centerX);
       if (delta >= lastDelta) {
         return true;
@@ -38,7 +39,7 @@ export class CanvasGroups {
   public getMaxHeight(): number {
     return Math.max.apply(
       Math,
-      this.canvasRects.map(function(rect) {
+      this.canvasGroupRects.map(function(rect) {
         return rect.height;
       })
     );
@@ -47,13 +48,13 @@ export class CanvasGroups {
   public getMaxWidth(): number {
     return Math.max.apply(
       Math,
-      this.canvasRects.map(function(rect) {
+      this.canvasGroupRects.map(function(rect) {
         return rect.width;
       })
     );
   }
 
   public length(): number {
-    return this.canvasRects.length;
+    return this.canvasGroupRects.length;
   }
 }

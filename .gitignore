@@ -16,3 +16,5 @@ e2e/**/*.js.map
 coverage
 .idea/
 e2e/.tmp
+dist.tgz
+package-lock.json

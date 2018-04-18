@@ -20,22 +20,20 @@ describe('ContentSearchNavigationService', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [],
-        providers: [
-          ContentSearchNavigationService,
-          MimeViewerIntl,
-          CanvasService,
-          { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
-        ]
-      });
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [],
+      providers: [
+        ContentSearchNavigationService,
+        MimeViewerIntl,
+        CanvasService,
+        { provide: ViewerService, useClass: ViewerServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub }
+      ]
+    });
+  }));
 
   beforeEach(
     inject(
