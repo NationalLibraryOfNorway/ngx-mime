@@ -18,7 +18,7 @@ export class ContentSearchPage {
   async setSearchTerm(term: string) {
     const el: ElementFinder = await utils.waitForElement(element(by.css('.content-search-input')));
     await el.clear();
-    await utils.sendKeys(el, term);
+    await el.sendKeys(term);
     await el.sendKeys(protractor.Key.ENTER);
   }
 

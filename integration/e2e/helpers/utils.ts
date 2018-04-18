@@ -45,13 +45,6 @@ export class Utils {
     return cap.get('browserName');
   }
 
-  async sendKeys(el: ElementFinder, txt: string) {
-    for (let i = 0; i < txt.length; i++) {
-      await el.sendKeys(txt[i]);
-      await browser.sleep(100);
-    }
-  }
-
   async isElementVisible(element: ElementFinder) {
     return (await EC.visibilityOf(element)) ? true : false;
   }
