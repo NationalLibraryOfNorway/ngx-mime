@@ -1,1800 +1,2155 @@
 {
-  "@context": [
-    "http://iiif.io/api/presentation/2/context.json",
-    "http://iiif.io/api/search/0/context.json"
-  ],
+  "@context": ["http://iiif.io/api/presentation/2/context.json", "http://iiif.io/api/search/0/context.json"],
   "@id": "https://api.nb.no/catalog/v1/contentsearch/578dffe1fd335a33693bb4261dc738b5/search?q=america",
   "@type": "sc:AnnotationList",
   "resources": [
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0003#xywh=304,1178,1024,137",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0003#xywh=304,1178,1024,137",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "AMERICA. "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003#xywh=304,1178,1024,137"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003#xywh=304,1178,1024,137"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0005#xywh=968,1062,321,78",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0005#xywh=968,1062,321,78",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005#xywh=968,1062,321,78"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005#xywh=968,1062,321,78"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0007#xywh=496,1492,214,51",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0007#xywh=496,1492,214,51",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0007#xywh=496,1492,214,51"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0007#xywh=496,1492,214,51"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0008#xywh=686,2456,220,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0008#xywh=686,2456,220,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0008#xywh=686,2456,220,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0008#xywh=686,2456,220,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0011#xywh=154,1649,217,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0011#xywh=154,1649,217,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0011#xywh=154,1649,217,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0011#xywh=154,1649,217,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0016#xywh=279,1501,219,50",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0016#xywh=279,1501,219,50",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0016#xywh=279,1501,219,50"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0016#xywh=279,1501,219,50"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0022#xywh=725,2215,222,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0022#xywh=725,2215,222,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0022#xywh=725,2215,222,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0022#xywh=725,2215,222,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0023#xywh=262,2333,215,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0023#xywh=262,2333,215,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0023#xywh=262,2333,215,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0023#xywh=262,2333,215,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0026#xywh=783,1769,219,52",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0026#xywh=783,1769,219,52",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0026#xywh=783,1769,219,52"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0026#xywh=783,1769,219,52"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1475,489,97,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1475,489,97,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1475,489,97,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1475,489,97,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=408,539,110,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=408,539,110,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=408,539,110,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=408,539,110,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1437,1863,99,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1437,1863,99,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1437,1863,99,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1437,1863,99,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=374,1920,115,52",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=374,1920,115,52",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=374,1920,115,52"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=374,1920,115,52"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=1147,737,146,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=1147,737,146,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=1147,737,146,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=1147,737,146,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=140,824,66,37",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=140,824,66,37",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=140,824,66,37"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=140,824,66,37"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=514,2607,215,51",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=514,2607,215,51",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=514,2607,215,51"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=514,2607,215,51"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0044#xywh=578,2615,219,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0044#xywh=578,2615,219,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0044#xywh=578,2615,219,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0044#xywh=578,2615,219,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=1255,341,222,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=1255,341,222,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=1255,341,222,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=1255,341,222,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=394,854,236,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=394,854,236,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=394,854,236,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=394,854,236,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=742,1744,217,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=742,1744,217,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=742,1744,217,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=742,1744,217,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=963,1941,236,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=963,1941,236,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=963,1941,236,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=963,1941,236,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=938,588,233,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=938,588,233,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=938,588,233,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=938,588,233,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=1404,2308,104,40",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=1404,2308,104,40",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=1404,2308,104,40"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=1404,2308,104,40"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=370,2373,110,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=370,2373,110,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=370,2373,110,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=370,2373,110,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0054#xywh=429,1942,219,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0054#xywh=429,1942,219,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0054#xywh=429,1942,219,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0054#xywh=429,1942,219,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0055#xywh=990,1205,321,78",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0055#xywh=990,1205,321,78",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0055#xywh=990,1205,321,78"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0055#xywh=990,1205,321,78"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0057#xywh=1043,1287,220,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0057#xywh=1043,1287,220,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0057#xywh=1043,1287,220,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0057#xywh=1043,1287,220,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0058#xywh=599,640,219,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0058#xywh=599,640,219,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America., "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0058#xywh=599,640,219,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0058#xywh=599,640,219,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=1083,548,219,51",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=1083,548,219,51",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=1083,548,219,51"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=1083,548,219,51"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=358,2259,217,51",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=358,2259,217,51",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=358,2259,217,51"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=358,2259,217,51"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=1136,1816,141,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=1136,1816,141,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=1136,1816,141,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=1136,1816,141,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=106,1878,63,37",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=106,1878,63,37",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=106,1878,63,37"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=106,1878,63,37"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=1371,449,220,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=1371,449,220,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=1371,449,220,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=1371,449,220,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=440,2313,219,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=440,2313,219,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=440,2313,219,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=440,2313,219,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0067#xywh=1050,1629,275,63",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0067#xywh=1050,1629,275,63",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "of'America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0067#xywh=1050,1629,275,63"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0067#xywh=1050,1629,275,63"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1351,615,219,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1351,615,219,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1351,615,219,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1351,615,219,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1316,2256,217,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1316,2256,217,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1316,2256,217,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1316,2256,217,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0069#xywh=348,1481,219,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0069#xywh=348,1481,219,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0069#xywh=348,1481,219,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0069#xywh=348,1481,219,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0071#xywh=1032,1802,203,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0071#xywh=1032,1802,203,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0071#xywh=1032,1802,203,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0071#xywh=1032,1802,203,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=410,653,219,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=410,653,219,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=410,653,219,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=410,653,219,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=1322,2774,217,52",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=1322,2774,217,52",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=1322,2774,217,52"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=1322,2774,217,52"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0073#xywh=273,2273,219,50",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0073#xywh=273,2273,219,50",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0073#xywh=273,2273,219,50"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0073#xywh=273,2273,219,50"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0075#xywh=167,657,198,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0075#xywh=167,657,198,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0075#xywh=167,657,198,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0075#xywh=167,657,198,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0077#xywh=235,1341,283,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0077#xywh=235,1341,283,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America*.in "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0077#xywh=235,1341,283,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0077#xywh=235,1341,283,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0085#xywh=378,2298,197,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0085#xywh=378,2298,197,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0085#xywh=378,2298,197,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0085#xywh=378,2298,197,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0088#xywh=1280,1652,275,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0088#xywh=1280,1652,275,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "of'America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0088#xywh=1280,1652,275,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0088#xywh=1280,1652,275,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0089#xywh=216,744,219,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0089#xywh=216,744,219,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0089#xywh=216,744,219,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0089#xywh=216,744,219,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0090#xywh=441,246,217,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0090#xywh=441,246,217,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0090#xywh=441,246,217,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0090#xywh=441,246,217,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1080,621,222,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1080,621,222,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1080,621,222,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1080,621,222,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1105,2289,217,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1105,2289,217,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1105,2289,217,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1105,2289,217,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0092#xywh=426,1258,220,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0092#xywh=426,1258,220,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0092#xywh=426,1258,220,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0092#xywh=426,1258,220,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0095#xywh=389,833,211,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0095#xywh=389,833,211,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0095#xywh=389,833,211,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0095#xywh=389,833,211,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0096#xywh=407,804,219,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0096#xywh=407,804,219,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0096#xywh=407,804,219,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0096#xywh=407,804,219,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0099#xywh=221,1596,206,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0099#xywh=221,1596,206,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0099#xywh=221,1596,206,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0099#xywh=221,1596,206,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0100#xywh=391,1291,220,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0100#xywh=391,1291,220,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0100#xywh=391,1291,220,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0100#xywh=391,1291,220,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0101#xywh=200,2618,208,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0101#xywh=200,2618,208,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0101#xywh=200,2618,208,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0101#xywh=200,2618,208,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0104#xywh=605,621,217,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0104#xywh=605,621,217,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0104#xywh=605,621,217,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0104#xywh=605,621,217,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0106#xywh=580,1800,222,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0106#xywh=580,1800,222,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0106#xywh=580,1800,222,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0106#xywh=580,1800,222,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0108#xywh=604,1261,220,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0108#xywh=604,1261,220,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0108#xywh=604,1261,220,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0108#xywh=604,1261,220,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0109#xywh=181,681,204,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0109#xywh=181,681,204,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0109#xywh=181,681,204,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0109#xywh=181,681,204,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0110#xywh=353,2715,215,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0110#xywh=353,2715,215,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0110#xywh=353,2715,215,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0110#xywh=353,2715,215,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0112#xywh=408,1526,217,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0112#xywh=408,1526,217,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0112#xywh=408,1526,217,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0112#xywh=408,1526,217,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0113#xywh=243,1519,214,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0113#xywh=243,1519,214,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0113#xywh=243,1519,214,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0113#xywh=243,1519,214,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0114#xywh=1302,2639,208,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0114#xywh=1302,2639,208,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0114#xywh=1302,2639,208,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0114#xywh=1302,2639,208,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0115#xywh=339,1427,200,50",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0115#xywh=339,1427,200,50",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0115#xywh=339,1427,200,50"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0115#xywh=339,1427,200,50"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0117#xywh=958,1949,275,61",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0117#xywh=958,1949,275,61",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "of'America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0117#xywh=958,1949,275,61"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0117#xywh=958,1949,275,61"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0118#xywh=575,1464,217,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0118#xywh=575,1464,217,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0118#xywh=575,1464,217,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0118#xywh=575,1464,217,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0126#xywh=1059,2119,209,50",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0126#xywh=1059,2119,209,50",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0126#xywh=1059,2119,209,50"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0126#xywh=1059,2119,209,50"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0127#xywh=186,1303,214,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0127#xywh=186,1303,214,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0127#xywh=186,1303,214,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0127#xywh=186,1303,214,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=1113,555,219,48",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=1113,555,219,48",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=1113,555,219,48"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=1113,555,219,48"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=222,2467,215,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=222,2467,215,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=222,2467,215,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=222,2467,215,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0132#xywh=415,1602,220,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0132#xywh=415,1602,220,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0132#xywh=415,1602,220,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0132#xywh=415,1602,220,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0135#xywh=194,2187,222,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0135#xywh=194,2187,222,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0135#xywh=194,2187,222,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0135#xywh=194,2187,222,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0139#xywh=216,2560,217,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0139#xywh=216,2560,217,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0139#xywh=216,2560,217,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0139#xywh=216,2560,217,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0145#xywh=246,2174,219,50",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0145#xywh=246,2174,219,50",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0145#xywh=246,2174,219,50"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0145#xywh=246,2174,219,50"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0146#xywh=1280,2243,222,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0146#xywh=1280,2243,222,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0146#xywh=1280,2243,222,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0146#xywh=1280,2243,222,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0154#xywh=421,2196,215,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0154#xywh=421,2196,215,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0154#xywh=421,2196,215,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0154#xywh=421,2196,215,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0159#xywh=188,2199,215,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0159#xywh=188,2199,215,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0159#xywh=188,2199,215,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0159#xywh=188,2199,215,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0162#xywh=392,1934,219,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0162#xywh=392,1934,219,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0162#xywh=392,1934,219,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0162#xywh=392,1934,219,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0164#xywh=419,2752,215,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0164#xywh=419,2752,215,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0164#xywh=419,2752,215,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0164#xywh=419,2752,215,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0166#xywh=408,579,219,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0166#xywh=408,579,219,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0166#xywh=408,579,219,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0166#xywh=408,579,219,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=1053,373,219,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=1053,373,219,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=1053,373,219,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=1053,373,219,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=210,1747,215,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=210,1747,215,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=210,1747,215,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=210,1747,215,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0174#xywh=399,1728,201,48",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0174#xywh=399,1728,201,48",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0174#xywh=399,1728,201,48"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0174#xywh=399,1728,201,48"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0197#xywh=378,2376,217,63",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0197#xywh=378,2376,217,63",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0197#xywh=378,2376,217,63"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0197#xywh=378,2376,217,63"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0205#xywh=153,495,214,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0205#xywh=153,495,214,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0205#xywh=153,495,214,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0205#xywh=153,495,214,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0207#xywh=1031,2623,217,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0207#xywh=1031,2623,217,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0207#xywh=1031,2623,217,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0207#xywh=1031,2623,217,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0225#xywh=194,1167,214,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0225#xywh=194,1167,214,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0225#xywh=194,1167,214,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0225#xywh=194,1167,214,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0231#xywh=194,2434,214,51",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0231#xywh=194,2434,214,51",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0231#xywh=194,2434,214,51"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0231#xywh=194,2434,214,51"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1188,1152,94,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1188,1152,94,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1188,1152,94,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1188,1152,94,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=110,1215,107,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=110,1215,107,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=110,1215,107,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=110,1215,107,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1089,2648,219,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1089,2648,219,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1089,2648,219,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1089,2648,219,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0236#xywh=408,1796,217,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0236#xywh=408,1796,217,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0236#xywh=408,1796,217,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0236#xywh=408,1796,217,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0237#xywh=1051,1498,209,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0237#xywh=1051,1498,209,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0237#xywh=1051,1498,209,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0237#xywh=1051,1498,209,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0238#xywh=416,703,215,52",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0238#xywh=416,703,215,52",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0238#xywh=416,703,215,52"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0238#xywh=416,703,215,52"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0241#xywh=1029,1832,220,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0241#xywh=1029,1832,220,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0241#xywh=1029,1832,220,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0241#xywh=1029,1832,220,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1102,581,189,44",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1102,581,189,44",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1102,581,189,44"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1102,581,189,44"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1089,2684,217,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1089,2684,217,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1089,2684,217,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1089,2684,217,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0244#xywh=1343,1934,217,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0244#xywh=1343,1934,217,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0244#xywh=1343,1934,217,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0244#xywh=1343,1934,217,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=473,397,187,48",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=473,397,187,48",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=473,397,187,48"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=473,397,187,48"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=709,750,178,42",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=709,750,178,42",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=709,750,178,42"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=709,750,178,42"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=249,1619,187,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=249,1619,187,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=249,1619,187,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=249,1619,187,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0255#xywh=1015,1197,318,74",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0255#xywh=1015,1197,318,74",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0255#xywh=1015,1197,318,74"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0255#xywh=1015,1197,318,74"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0258#xywh=344,1969,220,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0258#xywh=344,1969,220,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0258#xywh=344,1969,220,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0258#xywh=344,1969,220,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0264#xywh=344,1395,222,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0264#xywh=344,1395,222,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0264#xywh=344,1395,222,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0264#xywh=344,1395,222,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,671,222,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,671,222,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,671,222,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,671,222,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,2390,220,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,2390,220,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,2390,220,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,2390,220,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0268#xywh=396,2049,219,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0268#xywh=396,2049,219,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0268#xywh=396,2049,219,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0268#xywh=396,2049,219,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0270#xywh=391,1156,220,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0270#xywh=391,1156,220,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0270#xywh=391,1156,220,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0270#xywh=391,1156,220,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0271#xywh=186,542,215,61",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0271#xywh=186,542,215,61",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0271#xywh=186,542,215,61"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0271#xywh=186,542,215,61"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=1352,675,146,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=1352,675,146,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=1352,675,146,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=1352,675,146,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=296,766,67,37",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=296,766,67,37",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=296,766,67,37"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=296,766,67,37"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0273#xywh=134,1820,219,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0273#xywh=134,1820,219,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0273#xywh=134,1820,219,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0273#xywh=134,1820,219,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0278#xywh=556,1097,203,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0278#xywh=556,1097,203,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0278#xywh=556,1097,203,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0278#xywh=556,1097,203,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0280#xywh=1250,1750,219,52",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0280#xywh=1250,1750,219,52",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0280#xywh=1250,1750,219,52"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0280#xywh=1250,1750,219,52"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=1132,564,217,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=1132,564,217,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=1132,564,217,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=1132,564,217,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=236,2478,215,51",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=236,2478,215,51",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=236,2478,215,51"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=236,2478,215,51"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0286#xywh=392,2008,212,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0286#xywh=392,2008,212,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0286#xywh=392,2008,212,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0286#xywh=392,2008,212,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0291#xywh=156,2669,209,63",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0291#xywh=156,2669,209,63",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0291#xywh=156,2669,209,63"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0291#xywh=156,2669,209,63"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=164,614,215,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=164,614,215,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=164,614,215,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=164,614,215,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=162,2516,215,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=162,2516,215,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=162,2516,215,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=162,2516,215,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0346#xywh=298,1081,241,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0346#xywh=298,1081,241,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0346#xywh=298,1081,241,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0346#xywh=298,1081,241,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=1387,1299,104,42",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=1387,1299,104,42",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=1387,1299,104,42"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=1387,1299,104,42"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=301,1367,110,52",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=301,1367,110,52",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=301,1367,110,52"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=301,1367,110,52"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0358#xywh=597,1879,234,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0358#xywh=597,1879,234,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0358#xywh=597,1879,234,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0358#xywh=597,1879,234,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0368#xywh=541,1745,236,52",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0368#xywh=541,1745,236,52",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0368#xywh=541,1745,236,52"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0368#xywh=541,1745,236,52"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0372#xywh=407,452,239,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0372#xywh=407,452,239,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0372#xywh=407,452,239,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0372#xywh=407,452,239,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0397#xywh=1039,1478,249,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0397#xywh=1039,1478,249,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America: "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0397#xywh=1039,1478,249,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0397#xywh=1039,1478,249,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0398#xywh=326,809,241,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0398#xywh=326,809,241,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0398#xywh=326,809,241,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0398#xywh=326,809,241,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0426#xywh=971,1684,237,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0426#xywh=971,1684,237,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0426#xywh=971,1684,237,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0426#xywh=971,1684,237,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0428#xywh=946,1699,234,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0428#xywh=946,1699,234,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0428#xywh=946,1699,234,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0428#xywh=946,1699,234,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0429#xywh=933,1627,237,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0429#xywh=933,1627,237,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0429#xywh=933,1627,237,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0429#xywh=933,1627,237,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=1302,1472,237,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=1302,1472,237,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=1302,1472,237,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=1302,1472,237,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=777,2421,236,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=777,2421,236,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=777,2421,236,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=777,2421,236,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=351,851,234,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=351,851,234,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=351,851,234,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=351,851,234,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=995,2432,237,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=995,2432,237,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=995,2432,237,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=995,2432,237,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0438#xywh=772,922,233,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0438#xywh=772,922,233,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0438#xywh=772,922,233,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0438#xywh=772,922,233,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=1141,2470,105,44",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=1141,2470,105,44",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=1141,2470,105,44"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=1141,2470,105,44"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=68,2513,108,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=68,2513,108,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=68,2513,108,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=68,2513,108,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0449#xywh=501,896,236,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0449#xywh=501,896,236,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America. "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0449#xywh=501,896,236,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0449#xywh=501,896,236,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0455#xywh=355,699,242,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0455#xywh=355,699,242,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America; "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0455#xywh=355,699,242,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0455#xywh=355,699,242,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0461#xywh=117,1476,212,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0461#xywh=117,1476,212,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0461#xywh=117,1476,212,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0461#xywh=117,1476,212,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0462#xywh=574,2287,234,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0462#xywh=574,2287,234,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0462#xywh=574,2287,234,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0462#xywh=574,2287,234,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0470#xywh=408,2544,219,52",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0470#xywh=408,2544,219,52",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0470#xywh=408,2544,219,52"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0470#xywh=408,2544,219,52"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0487#xywh=1064,2675,192,48",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0487#xywh=1064,2675,192,48",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0487#xywh=1064,2675,192,48"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0487#xywh=1064,2675,192,48"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0494#xywh=1084,2259,189,42",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0494#xywh=1084,2259,189,42",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0494#xywh=1084,2259,189,42"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0494#xywh=1084,2259,189,42"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0495#xywh=1100,1489,195,50",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0495#xywh=1100,1489,195,50",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0495#xywh=1100,1489,195,50"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0495#xywh=1100,1489,195,50"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0498#xywh=306,2640,189,44",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0498#xywh=306,2640,189,44",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0498#xywh=306,2640,189,44"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0498#xywh=306,2640,189,44"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1059,758,195,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1059,758,195,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1059,758,195,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1059,758,195,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1045,2781,176,37",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1045,2781,176,37",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1045,2781,176,37"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1045,2781,176,37"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=1154,636,86,36",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=1154,636,86,36",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=1154,636,86,36"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=1154,636,86,36"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=49,676,92,48",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=49,676,92,48",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=49,676,92,48"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=49,676,92,48"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0510#xywh=1091,1917,193,48",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0510#xywh=1091,1917,193,48",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0510#xywh=1091,1917,193,48"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0510#xywh=1091,1917,193,48"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0511#xywh=1062,2024,247,51",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0511#xywh=1062,2024,247,51",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "of'America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0511#xywh=1062,2024,247,51"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0511#xywh=1062,2024,247,51"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0512#xywh=1020,1829,193,42",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0512#xywh=1020,1829,193,42",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0512#xywh=1020,1829,193,42"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0512#xywh=1020,1829,193,42"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0513#xywh=1130,540,195,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0513#xywh=1130,540,195,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0513#xywh=1130,540,195,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0513#xywh=1130,540,195,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1023,473,189,48",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1023,473,189,48",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1023,473,189,48"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1023,473,189,48"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1259,1843,201,50",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1259,1843,201,50",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1259,1843,201,50"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1259,1843,201,50"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0516#xywh=1374,2732,189,40",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0516#xywh=1374,2732,189,40",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0516#xywh=1374,2732,189,40"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0516#xywh=1374,2732,189,40"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0517#xywh=995,1908,198,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0517#xywh=995,1908,198,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0517#xywh=995,1908,198,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0517#xywh=995,1908,198,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0519#xywh=1144,1404,190,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0519#xywh=1144,1404,190,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0519#xywh=1144,1404,190,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0519#xywh=1144,1404,190,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0537#xywh=131,2697,206,58",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0537#xywh=131,2697,206,58",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0537#xywh=131,2697,206,58"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0537#xywh=131,2697,206,58"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=1351,2693,137,44",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=1351,2693,137,44",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=1351,2693,137,44"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=1351,2693,137,44"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=331,2779,63,36",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=331,2779,63,36",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=331,2779,63,36"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=331,2779,63,36"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0555#xywh=961,1971,272,59",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0555#xywh=961,1971,272,59",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "of'America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0555#xywh=961,1971,272,59"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0555#xywh=961,1971,272,59"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=1381,1089,92,44",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=1381,1089,92,44",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=1381,1089,92,44"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=1381,1089,92,44"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=328,1156,108,50",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=328,1156,108,50",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=328,1156,108,50"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=328,1156,108,50"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=827,629,330,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=827,629,330,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "AMERICA, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=827,629,330,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=827,629,330,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=322,1208,226,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=322,1208,226,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=322,1208,226,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=322,1208,226,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0574#xywh=496,984,233,53",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0574#xywh=496,984,233,53",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0574#xywh=496,984,233,53"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0574#xywh=496,984,233,53"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0577#xywh=276,1389,756,111",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0577#xywh=276,1389,756,111",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "AMERICA; "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0577#xywh=276,1389,756,111"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0577#xywh=276,1389,756,111"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0579#xywh=109,1078,318,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0579#xywh=109,1078,318,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "AMERICA. "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0579#xywh=109,1078,318,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0579#xywh=109,1078,318,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0587#xywh=761,2061,220,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0587#xywh=761,2061,220,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America. "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0587#xywh=761,2061,220,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0587#xywh=761,2061,220,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0595#xywh=125,569,236,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0595#xywh=125,569,236,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0595#xywh=125,569,236,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0595#xywh=125,569,236,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1083,1292,219,55",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1083,1292,219,55",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1083,1292,219,55"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1083,1292,219,55"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1080,1964,223,56",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1080,1964,223,56",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1080,1964,223,56"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1080,1964,223,56"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=205,1088,219,45",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=205,1088,219,45",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=205,1088,219,45"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=205,1088,219,45"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=1100,1203,231,47",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=1100,1203,231,47",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America, "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=1100,1203,231,47"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=1100,1203,231,47"
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0622#xywh=257,1876,173,33",
+      "@id":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0622#xywh=257,1876,173,33",
       "@type": "oa:Annotation",
       "motivation": "sc:painting",
       "resource": {
         "@type": "cnt:ContentAsText",
         "chars": "America "
       },
-      "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0622#xywh=257,1876,173,33"
+      "on":
+        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0622#xywh=257,1876,173,33"
     }
   ],
   "hits": [
@@ -1805,7 +2160,8 @@
       ],
       "match": "AMERICA. ",
       "before": "THE LA W S OF THE UNITED STATES OF y ",
-      "after": " IN FOUR VOLUMES. VOL, IV. PUBLISHED BT AUTHORITT. : J PHILADELPHIA: ; PRIN7ED BT RICHARD FOLWELL, No. 63, NORTH FBONT-STREET. 1799» VOL, "
+      "after":
+        " IN FOUR VOLUMES. VOL, IV. PUBLISHED BT AUTHORITT. : J PHILADELPHIA: ; PRIN7ED BT RICHARD FOLWELL, No. 63, NORTH FBONT-STREET. 1799» VOL, "
     },
     {
       "@type": "search:Hit",
@@ -1934,7 +2290,8 @@
       ],
       "match": "America, ",
       "before": "Uniled States of ",
-      "after": " And the Bev.and Subjecls OF TRI OLI, OF BARBART. ARTICLE I. rjPffERE is a finn and perpetual peace and j[ friendihip between the United States of America, and the Bey "
+      "after":
+        " And the Bev.and Subjecls OF TRI OLI, OF BARBART. ARTICLE I. rjPffERE is a finn and perpetual peace and j[ friendihip between the United States of America, and the Bey "
     },
     {
       "@type": "search:Hit",
@@ -1942,7 +2299,8 @@
         "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=394,854,236,56"
       ],
       "match": "America, ",
-      "before": "Uniled States of America, And the Bev.and Subjecls OF TRI OLI, OF BARBART. ARTICLE I. rjPffERE is a finn and perpetual peace and j[ friendihip between the United States of ",
+      "before":
+        "Uniled States of America, And the Bev.and Subjecls OF TRI OLI, OF BARBART. ARTICLE I. rjPffERE is a finn and perpetual peace and j[ friendihip between the United States of ",
       "after": " and the Bey "
     },
     {
@@ -1952,7 +2310,8 @@
       ],
       "match": "America, ",
       "before": "Agent Plenipptentiaty of the United States of ",
-      "after": " (l. s.) JOEL BARLOW. I, Joel Barlow, Agent and Conful General of the United States of America, for the City and Kingdom of Algiers, certify "
+      "after":
+        " (l. s.) JOEL BARLOW. I, Joel Barlow, Agent and Conful General of the United States of America, for the City and Kingdom of Algiers, certify "
     },
     {
       "@type": "search:Hit",
@@ -1960,7 +2319,8 @@
         "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=963,1941,236,53"
       ],
       "match": "America, ",
-      "before": "Agent Plenipptentiaty of the United States of America, (l. s.) JOEL BARLOW. I, Joel Barlow, Agent and Conful General of the United States of ",
+      "before":
+        "Agent Plenipptentiaty of the United States of America, (l. s.) JOEL BARLOW. I, Joel Barlow, Agent and Conful General of the United States of ",
       "after": " for the City and Kingdom of Algiers, certify "
     },
     {
@@ -3293,7 +3653,8 @@
       ],
       "match": "America ",
       "before": " Articles of a treaty between the United States of ",
-      "after": " and the Cherokee Indians. Conftitution of the United States of America, INDEX. ACCOUNTS FOR purchafes and contratts for fupplies, Sec. "
+      "after":
+        " and the Cherokee Indians. Conftitution of the United States of America, INDEX. ACCOUNTS FOR purchafes and contratts for fupplies, Sec. "
     },
     {
       "@type": "search:Hit",
@@ -3301,7 +3662,8 @@
         "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=1100,1203,231,47"
       ],
       "match": "America, ",
-      "before": " Articles of a treaty between the United States of America and the Cherokee Indians. Conftitution of the United States of ",
+      "before":
+        " Articles of a treaty between the United States of America and the Cherokee Indians. Conftitution of the United States of ",
       "after": " INDEX. ACCOUNTS FOR purchafes and contratts for fupplies, Sec. "
     },
     {
