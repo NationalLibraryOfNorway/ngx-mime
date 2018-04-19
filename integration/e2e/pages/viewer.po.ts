@@ -29,8 +29,9 @@ export class ViewerPage {
         console.log(`Error connecting to ${uri} (retry ${retry})`, e);
       }
     }
-    await browser.sleep(1000);
+    await this.setFocusOnViewer();
   }
+
   async goToCanvasGroup(canvasGroupIndex: number) {
     const isPageMode = this.isPageMode();
     const isDashboardMode = this.isDashboardMode();
@@ -488,6 +489,11 @@ export class ViewerPage {
       console.log(`Ooups, this should not happen. Last event is ${lastEvent}`, e);
     }
     return false;
+  }
+
+  async setFocusOnViewer() {
+    await browser.sleep(2000);
+    await browser.executeScript(`document.getElementsByClassName('openseadragon-canvas')[0].focus();`);
   }
 }
 

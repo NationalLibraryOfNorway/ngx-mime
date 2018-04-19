@@ -37,7 +37,6 @@ Then(/^the viewer should go to previous page$/, async () => {
 });
 
 Then(/^the viewer should go to last page$/, async () => {
-  await browser.sleep(1000);
   expect(parseInt(await page.getCurrentCanvasGroupLabel(), 10)).to.equal(await page.getNumberOfCanvasGroups());
 });
 

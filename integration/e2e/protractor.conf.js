@@ -105,6 +105,10 @@ function getTags() {
   if (argv.browser === 'firefox') {
     tags = tags.concat(firefoxTags);
   }
+  if (argv.headless) {
+    tags = tags.concat(`~@Fullscreen`);
+  }
+
   return tags;
 }
 
