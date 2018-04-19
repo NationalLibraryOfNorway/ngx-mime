@@ -74,7 +74,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
   @ViewChild('mimeFooter') private footer: ViewerFooterComponent;
   @ViewChild('mimeOsdToolbar') private osdToolbar: OsdToolbarComponent;
 
-  @HostListener('window:keyup', ['$event'])
+  @HostListener('keyup', ['$event'])
   handleKeys(event: KeyboardEvent) {
     this.accessKeysHandlerService.handleKeyEvents(event);
   }
