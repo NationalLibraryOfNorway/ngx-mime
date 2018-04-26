@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, throwError } from 'rxjs';
 import { distinctUntilChanged, finalize } from 'rxjs/operators';
 
 import { IiifSearchResult } from './../models/iiif-search-result';
@@ -74,6 +74,6 @@ export class IiifContentSearchService {
     } else {
       errMsg = err.error;
     }
-    return Observable.throw(errMsg);
+    return throwError(errMsg);
   }
 }
