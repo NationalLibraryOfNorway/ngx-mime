@@ -120,6 +120,7 @@ export class ViewerService {
     this.goToCanvasGroupStrategy.centerCurrentCanvas();
 
     this.zoomStrategy.goToHomeZoom();
+    this.modeService.mode = ViewerMode.PAGE;
   }
 
   public goToPreviousCanvasGroup(): void {
