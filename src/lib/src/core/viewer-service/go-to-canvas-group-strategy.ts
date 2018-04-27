@@ -26,6 +26,7 @@ export interface GoToCanvasGroupStrategy {
   goToCanvasGroup(canvasGroup: CanvasGroup): void;
   goToPreviousCanvasGroup(currentCanvasIndex: number): void;
   goToNextCanvasGroup(currentCanvasIndex: number): void;
+  centerCurrentCanvas(): void;
 }
 
 export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
@@ -95,6 +96,12 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       canvasGroupIndex: newCanvasGroupIndex,
       immediately: false
     });
+  }
+
+  public centerCurrentCanvas(): void {
+    const currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
+    const currentCanvasGroupCenter = this.canvasService.getCanvasGroupRect(currentCanvasGroupIndex);
+    this.panTo(currentCanvasGroupCenter.centerX, currentCanvasGroupCenter.centerY, false);
   }
 
   private panTo(x: number, y: number, immediately: boolean): void {

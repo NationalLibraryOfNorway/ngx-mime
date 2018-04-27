@@ -116,10 +116,8 @@ export class ViewerService {
       return;
     }
     this.zoomStrategy.setMinZoom(this.modeService.mode);
-    this.goToCanvasGroupStrategy.goToCanvasGroup({
-      canvasGroupIndex: this.canvasService.currentCanvasGroupIndex,
-      immediately: false
-    });
+
+    this.goToCanvasGroupStrategy.centerCurrentCanvas();
 
     this.zoomStrategy.goToHomeZoom();
   }
