@@ -11,6 +11,7 @@ export class MimeViewerConfig {
   public loadTilesWithAjax? = false;
   public crossOriginPolicy?: string | boolean = false;
   public ajaxHeaders?: any = null;
+  public preserveZoomOnPageChange = false;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
@@ -22,6 +23,7 @@ export class MimeViewerConfig {
     loadTilesWithAjax?: boolean;
     crossOriginPolicy?: string | boolean;
     ajaxHeaders?: any;
+    preserveZoomOnPageChange?: boolean;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -42,6 +44,9 @@ export class MimeViewerConfig {
       this.crossOriginPolicy = fields.crossOriginPolicy !== undefined ? fields.crossOriginPolicy : this.crossOriginPolicy;
 
       this.ajaxHeaders = fields.ajaxHeaders !== undefined ? fields.ajaxHeaders : this.ajaxHeaders;
+
+      this.preserveZoomOnPageChange =
+        fields.preserveZoomOnPageChange !== undefined ? fields.preserveZoomOnPageChange : this.preserveZoomOnPageChange;
     }
   }
 }

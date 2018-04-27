@@ -13,6 +13,7 @@ import { CalculateNextCanvasGroupFactory } from './calculate-next-canvas-group-f
 import { Rect } from '../models/rect';
 import { SwipeUtils } from './swipe-utils';
 import { Side } from '../models/side';
+import { MimeViewerConfig } from '../mime-viewer-config';
 
 export interface CanvasGroup {
   canvasGroupIndex: number;
@@ -32,7 +33,8 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     private viewer: any,
     private zoomStrategy: Strategy,
     private canvasService: CanvasService,
-    private modeService: ModeService
+    private modeService: ModeService,
+    private config: MimeViewerConfig
   ) {}
 
   goToCanvasGroup(canvasGroup: CanvasGroup) {
@@ -40,9 +42,16 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     const canvasGroupIndex = this.canvasService.constrainToRange(canvasGroup.canvasGroupIndex);
     this.canvasService.currentCanvasGroupIndex = canvasGroupIndex;
     const newCanvasGroupCenter = this.canvasService.getCanvasGroupRect(canvasGroupIndex);
-    const preserveZoomOnPageChange = false;
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED && preserveZoomOnPageChange) {
-      this.panTo(newCanvasGroupCenter.x, newCanvasGroupCenter.centerY, canvasGroup.immediately);
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED && this.config.preserveZoomOnPageChange) {
+      if (oldCanvasGroupIndex > canvasGroup.canvasGroupIndex) {
+        this.panTo(
+          newCanvasGroupCenter.x + newCanvasGroupCenter.width - this.getViewportBounds().width / 2,
+          this.getViewportCenter().y,
+          canvasGroup.immediately
+        );
+      } else {
+        this.panTo(newCanvasGroupCenter.x + this.getViewportBounds().width / 2, this.getViewportCenter().y, canvasGroup.immediately);
+      }
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const oldCanvasGroupCenter = this.canvasService.getCanvasGroupRect(oldCanvasGroupIndex);
       this.panTo(oldCanvasGroupCenter.centerX, oldCanvasGroupCenter.centerY, canvasGroup.immediately);
@@ -103,6 +112,6 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
   }
 
   private getViewportBounds(): Rect {
-    return this.viewer.viewport.getBounds();
+    return this.viewer.viewport.getBounds(true);
   }
 }

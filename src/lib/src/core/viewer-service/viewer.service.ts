@@ -200,7 +200,8 @@ export class ViewerService {
           this.viewer,
           this.zoomStrategy,
           this.canvasService,
-          this.modeService
+          this.modeService,
+          this.config
         );
 
         /*
@@ -238,6 +239,7 @@ export class ViewerService {
     });
 
     this.canvasService.onCanvasGroupIndexChange.pipe(takeUntil(this.destroyed)).subscribe((canvasGroupIndex: number) => {
+      this.swipeDragEndCounter.reset();
       if (canvasGroupIndex !== -1) {
         this.canvasGroupMask.changeCanvasGroup(this.canvasService.getCanvasGroupRect(canvasGroupIndex));
         if (this.modeService.mode === ViewerMode.PAGE) {
@@ -359,12 +361,10 @@ export class ViewerService {
    */
   modeChanged(mode: ModeChanges): void {
     if (mode.currentValue === ViewerMode.DASHBOARD) {
-      this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToDashboard();
       this.disableKeyDownHandler();
     } else if (mode.currentValue === ViewerMode.PAGE) {
-      this.swipeDragEndCounter.reset();
       this.viewer.panVertical = false;
       this.toggleToPage();
       this.disableKeyDownHandler();
@@ -716,7 +716,8 @@ export class ViewerService {
     ) {
       this.goToCanvasGroupStrategy.goToCanvasGroup({
         canvasGroupIndex: newCanvasGroupIndex,
-        immediately: false
+        immediately: false,
+        direction: direction
       });
     }
   }
