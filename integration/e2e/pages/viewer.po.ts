@@ -15,6 +15,26 @@ const thumbStartPosition = <any>{ x: 600, y: 300 };
 const pointerPosition1 = <any>{ x: 650, y: 275 };
 const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
+  async setDashboardMode(): Promise<void> {
+    const isDashboardMode = await this.isDashboardMode();
+
+    if (!isDashboardMode) {
+      const overlay = await this.getSVGElement();
+      await overlay.click();
+      await this.waitForAnimation();
+    }
+  }
+
+  async setPageMode(): Promise<void> {
+    const isDashboardMode = await this.isDashboardMode();
+
+    if (isDashboardMode) {
+      const overlay = await this.getSVGElement();
+      await overlay.click();
+      await this.waitForAnimation();
+    }
+  }
+
   async open(manifestName?: string) {
     let uri = '/';
     if (manifestName) {
