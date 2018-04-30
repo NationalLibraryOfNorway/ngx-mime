@@ -14,6 +14,7 @@ import { Rect } from '../models/rect';
 import { SwipeUtils } from './swipe-utils';
 import { Side } from '../models/side';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import { Options } from '../models/options';
 
 export interface CanvasGroup {
   canvasGroupIndex: number;
@@ -43,15 +44,19 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     const canvasGroupIndex = this.canvasService.constrainToRange(canvasGroup.canvasGroupIndex);
     this.canvasService.currentCanvasGroupIndex = canvasGroupIndex;
     const newCanvasGroupCenter = this.canvasService.getCanvasGroupRect(canvasGroupIndex);
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED && this.config.preserveZoomOnPageChange) {
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED && this.config.preserveZoomOnCanvasGroupChange) {
+      const y = this.config.startOnTopOnCanvasGroupChange
+        ? newCanvasGroupCenter.y + this.getViewportBounds().height / 2 - new Options().collectionTileMargin
+        : this.getViewportCenter().y;
+
       if (oldCanvasGroupIndex > canvasGroup.canvasGroupIndex) {
-        this.panTo(
-          newCanvasGroupCenter.x + newCanvasGroupCenter.width - this.getViewportBounds().width / 2,
-          this.getViewportCenter().y,
-          canvasGroup.immediately
-        );
+        const x = this.config.startOnTopOnCanvasGroupChange
+          ? newCanvasGroupCenter.x + this.getViewportBounds().width / 2
+          : newCanvasGroupCenter.x + newCanvasGroupCenter.width - this.getViewportBounds().width / 2;
+        this.panTo(x, y, canvasGroup.immediately);
       } else {
-        this.panTo(newCanvasGroupCenter.x + this.getViewportBounds().width / 2, this.getViewportCenter().y, canvasGroup.immediately);
+        const x = newCanvasGroupCenter.x + this.getViewportBounds().width / 2;
+        this.panTo(x, y, canvasGroup.immediately);
       }
     } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const oldCanvasGroupCenter = this.canvasService.getCanvasGroupRect(oldCanvasGroupIndex);

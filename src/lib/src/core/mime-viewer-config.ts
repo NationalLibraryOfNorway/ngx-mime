@@ -11,7 +11,8 @@ export class MimeViewerConfig {
   public loadTilesWithAjax? = false;
   public crossOriginPolicy?: string | boolean = false;
   public ajaxHeaders?: any = null;
-  public preserveZoomOnPageChange = false;
+  public preserveZoomOnCanvasGroupChange = false;
+  public startOnTopOnCanvasGroupChange = false;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
@@ -23,7 +24,8 @@ export class MimeViewerConfig {
     loadTilesWithAjax?: boolean;
     crossOriginPolicy?: string | boolean;
     ajaxHeaders?: any;
-    preserveZoomOnPageChange?: boolean;
+    preserveZoomOnCanvasGroupChange?: boolean;
+    startOnTopOnCanvasGroupChange?: boolean;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -45,8 +47,13 @@ export class MimeViewerConfig {
 
       this.ajaxHeaders = fields.ajaxHeaders !== undefined ? fields.ajaxHeaders : this.ajaxHeaders;
 
-      this.preserveZoomOnPageChange =
-        fields.preserveZoomOnPageChange !== undefined ? fields.preserveZoomOnPageChange : this.preserveZoomOnPageChange;
+      this.preserveZoomOnCanvasGroupChange =
+        fields.preserveZoomOnCanvasGroupChange !== undefined
+          ? fields.preserveZoomOnCanvasGroupChange
+          : this.preserveZoomOnCanvasGroupChange;
+
+      this.startOnTopOnCanvasGroupChange =
+        fields.startOnTopOnCanvasGroupChange !== undefined ? fields.startOnTopOnCanvasGroupChange : this.startOnTopOnCanvasGroupChange;
     }
   }
 }

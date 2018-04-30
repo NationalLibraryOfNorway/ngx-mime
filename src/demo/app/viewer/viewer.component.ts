@@ -13,7 +13,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public config = new MimeViewerConfig({
     attributionDialogEnabled: true,
     attributionDialogHideTimeout: -1,
-    navigationControlEnabled: true
+    navigationControlEnabled: true,
+    preserveZoomOnCanvasGroupChange: false,
+    startOnTopOnCanvasGroupChange: false
   });
   private sub: any;
 
