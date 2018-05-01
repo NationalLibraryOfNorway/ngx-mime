@@ -79,6 +79,31 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     this.accessKeysHandlerService.handleKeyEvents(event);
   }
 
+  @HostListener('window:drop', ['$event'])
+  public onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const url = event.dataTransfer.getData('URL');
+    const params = new URL(url).searchParams;
+    const manifestUri = params.get('manifest'); // "1"
+    console.log(manifestUri);
+    this.modeService.mode = this.config.initViewerMode;
+    this.manifestUri = manifestUri;
+    this.cleanup();
+    this.loadManifest();
+  }
+
+  @HostListener('window:dragover', ['$event'])
+  public onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  @HostListener('window:dragleave', ['$event'])
+  public onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
   constructor(
     public intl: MimeViewerIntl,
     private el: ElementRef,
@@ -319,5 +344,10 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
       'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
       'canvas-pressed': this.isCanvasPressed
     };
+  }
+
+  private getParameterByName(name: string) {
+    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
   }
 }
