@@ -18,7 +18,6 @@ import { Options } from '../models/options';
 
 export interface CanvasGroup {
   canvasGroupIndex: number;
-  canvasGroupEndHitCountReached?: boolean;
   direction?: Direction;
   immediately?: boolean;
 }
