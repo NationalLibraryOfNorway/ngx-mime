@@ -50,8 +50,11 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
         : this.getViewportCenter().y;
 
       if (oldCanvasGroupIndex > canvasGroup.canvasGroupIndex) {
+        const canvasGroupIndexes = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup.canvasGroupIndex);
+        const previousCanvasIndex = canvasGroupIndexes[canvasGroupIndexes.length - 1];
+        const previousCanvasRect = this.canvasService.getCanvasRect(previousCanvasIndex);
         const x = this.config.startOnTopOnCanvasGroupChange
-          ? newCanvasGroupCenter.x + this.getViewportBounds().width / 2
+          ? previousCanvasRect.x + this.getViewportBounds().width / 2
           : newCanvasGroupCenter.x + newCanvasGroupCenter.width - this.getViewportBounds().width / 2;
         this.panTo(x, y, canvasGroup.immediately);
       } else {

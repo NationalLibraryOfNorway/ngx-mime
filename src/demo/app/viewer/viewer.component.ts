@@ -14,8 +14,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     attributionDialogEnabled: true,
     attributionDialogHideTimeout: -1,
     navigationControlEnabled: true,
-    preserveZoomOnCanvasGroupChange: false,
-    startOnTopOnCanvasGroupChange: false
+    preserveZoomOnCanvasGroupChange: true,
+    startOnTopOnCanvasGroupChange: true
   });
   private sub: any;
 
