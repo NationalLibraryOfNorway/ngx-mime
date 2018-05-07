@@ -111,9 +111,7 @@ Then('the search query should be empty', async () => {
 
 async function search(term: string) {
   await page.openContentSearchDialog();
-  await page.waitForAnimation();
   await contentSearchPage.setSearchTerm(term);
-  await page.waitForAnimation();
 }
 
 async function selectHit(hit: string) {

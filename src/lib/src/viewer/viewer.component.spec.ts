@@ -186,7 +186,7 @@ describe('ViewerComponent', function() {
 
           // Make sure zooming actually works, or else test will always be true
           const startZoom = viewer.viewport.getZoom(false);
-          viewerService.zoomBy(1.5);
+          viewerService.zoomIn();
           const newZoom = viewer.viewport.getZoom(false);
           expect(newZoom).toBeGreaterThan(startZoom);
 

@@ -2,7 +2,7 @@
   <div fxLayout="row" fxFlex fxLayoutAlign="start center">
     <div fxFlex>
       <mat-slider id="navigationSlider" class="navigation-slider" [max]="numberOfCanvasGroups - 1" [value]="currentCanvasGroupIndex"
-        (input)="onSliderChange($event)" fxFlex></mat-slider>
+        (input)="onSliderChange($event)" (keyup)="$event.stopPropagation()" fxFlex></mat-slider>
     </div>
     <button mat-button id="goToCanvasGroupButton" class="canvasGroups" (click)="openCanvasGroupDialog()">
       <span id="currentCanvasGroupLabel">{{canvasGroupLabel}}</span>/

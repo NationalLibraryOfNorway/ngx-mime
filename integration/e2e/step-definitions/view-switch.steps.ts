@@ -11,13 +11,12 @@ const utils = new Utils();
 const switchAnimationTime = 1700;
 
 Given('the viewer is in dashboard view', async () => {
-  const overlay = await page.getSVGElement();
-  await overlay.click();
-  await page.waitForAnimation(switchAnimationTime);
+  await page.setDashboardMode();
   expect(await page.isDashboardMode()).to.equal(true);
 });
 
 Given('the viewer is in page view', async () => {
+  await page.setPageMode();
   expect(await page.isPageMode()).to.equal(true);
 });
 
