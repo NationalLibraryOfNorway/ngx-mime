@@ -21,7 +21,7 @@ export class ViewerPage {
     if (!isDashboardMode) {
       const overlay = await this.getSVGElement();
       await overlay.click();
-      await this.waitForAnimation();
+      await this.waitForAnimation(1000);
     }
   }
 
@@ -31,7 +31,7 @@ export class ViewerPage {
     if (isDashboardMode) {
       const overlay = await this.getSVGElement();
       await overlay.click();
-      await this.waitForAnimation();
+      await this.waitForAnimation(1000);
     }
   }
 
@@ -359,6 +359,7 @@ export class ViewerPage {
   }
 
   async isDashboardMode(): Promise<boolean> {
+    await browser.sleep(1000);
     const header = await this.getHeader();
     const footer = await this.getFooter();
     const headerDisplay = header.getCssValue('display');
