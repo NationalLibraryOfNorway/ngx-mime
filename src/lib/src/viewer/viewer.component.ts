@@ -18,7 +18,7 @@ import {
   AfterViewChecked
 } from '@angular/core';
 import { Subject, interval } from 'rxjs';
-import { throttle, takeUntil } from 'rxjs/operators';
+import { throttle, takeUntil, take } from 'rxjs/operators';
 
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
@@ -85,12 +85,22 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     event.stopPropagation();
     const url = event.dataTransfer.getData('URL');
     const params = new URL(url).searchParams;
-    const manifestUri = params.get('manifest'); // "1"
-    console.log(manifestUri);
-    this.modeService.mode = this.config.initViewerMode;
-    this.manifestUri = manifestUri;
-    this.cleanup();
-    this.loadManifest();
+    const manifestUri = params.get('manifest');
+    const startOnCanvas = params.get('canvas');
+    if (manifestUri) {
+      this.modeService.mode = this.config.initViewerMode;
+      this.manifestUri = manifestUri;
+      this.cleanup();
+      this.loadManifest();
+      this.viewerService.onOsdReadyChange.pipe(take(1)).subscribe(b => {
+        console.log('go to canvasId', startOnCanvas);
+        this.currentManifest.sequences[0].canvases.forEach((c, index) => {
+          if (c.id === startOnCanvas) {
+            this.viewerService.goToCanvas(index, false);
+          }
+        });
+      });
+    }
   }
 
   @HostListener('window:dragover', ['$event'])
