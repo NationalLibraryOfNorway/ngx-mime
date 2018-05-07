@@ -11,21 +11,35 @@ const utils = new Utils();
 const switchAnimationTime = 1700;
 
 Given('the layout is two-page', async () => {
+  const isDashboardMode = await page.isDashboardMode;
+  await page.setDashboardMode();
+
   const btn = await page.getTwoPageButton();
   // Button is present, so click to switch to two-page
   if (btn) {
     await btn.click();
     await page.waitForAnimation(switchAnimationTime);
   }
+
+  if (isDashboardMode) {
+    await page.setDashboardMode();
+  }
   expect(await page.isTwoPageView()).to.equal(true);
 });
 
 Given('the layout is one-page', async () => {
+  const isDashboardMode = await page.isDashboardMode;
+  await page.setDashboardMode();
+
   const btn = await page.getOnePageButton();
   // Button is present, so switch to one-page
   if (btn) {
     await btn.click();
     await page.waitForAnimation(switchAnimationTime);
+  }
+
+  if (isDashboardMode) {
+    await page.setDashboardMode();
   }
 
   expect(await page.isOnePageView()).to.equal(true);
