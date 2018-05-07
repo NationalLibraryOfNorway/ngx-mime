@@ -15,6 +15,26 @@ const thumbStartPosition = <any>{ x: 600, y: 300 };
 const pointerPosition1 = <any>{ x: 650, y: 275 };
 const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
+  async setDashboardMode(): Promise<void> {
+    const isDashboardMode = await this.isDashboardMode();
+
+    if (!isDashboardMode) {
+      const overlay = await this.getSVGElement();
+      await overlay.click();
+      await this.waitForAnimation(1000);
+    }
+  }
+
+  async setPageMode(): Promise<void> {
+    const isDashboardMode = await this.isDashboardMode();
+
+    if (isDashboardMode) {
+      const overlay = await this.getSVGElement();
+      await overlay.click();
+      await this.waitForAnimation(1000);
+    }
+  }
+
   async open(manifestName?: string) {
     let uri = '/';
     if (manifestName) {
@@ -112,14 +132,17 @@ export class ViewerPage {
     const contentSearchDialogButton: ElementFinder = await utils.waitForElement(element(by.css('#contentSearchDialogButton')));
     await contentSearchDialogButton.click();
     await utils.waitForElement(element(by.css('.content-search-container')));
+    await this.waitForAnimation(1000);
   }
 
-  fullscreenButton(): Promise<ElementFinder> {
-    return utils.waitForElement(element(by.css('#fullscreenButton')));
+  async fullscreenButton(): Promise<ElementFinder> {
+    const fullscreenButton: ElementFinder = await utils.waitForElement(element(by.css('#fullscreenButton')));
+    return fullscreenButton;
   }
 
-  exitFullscreenButton(): Promise<ElementFinder> {
-    return utils.waitForElement(element(by.css('#exitFullscreenButton')));
+  async exitFullscreenButton(): Promise<ElementFinder> {
+    const exitFullscreenButton: ElementFinder = await utils.waitForElement(element(by.css('#exitFullscreenButton')));
+    return exitFullscreenButton;
   }
 
   openSeadragonElement() {
@@ -336,6 +359,7 @@ export class ViewerPage {
   }
 
   async isDashboardMode(): Promise<boolean> {
+    await browser.sleep(1000);
     const header = await this.getHeader();
     const footer = await this.getFooter();
     const headerDisplay = header.getCssValue('display');

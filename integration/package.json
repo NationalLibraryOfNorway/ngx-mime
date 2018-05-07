@@ -17,7 +17,7 @@
     "preprotractor": "webdriver-manager update",
     "protractor": "npm run wait && concurrently \"npm run protractor:chrome\" \"npm run protractor:firefox\" \"npm run protractor:edge\" \"npm run protractor:android:chrome\"",
     "protractor:chrome": "./scripts/protractor.sh --browser chrome --tags @desktop",
-    "protractor:chrome:headless": "./scripts/protractor-chrome-headless.sh",
+    "protractor:chrome:headless": "./scripts/protractor-chrome-headless.sh --tags @desktop",
     "protractor:firefox": "./scripts/protractor.sh --browser firefox --tags @desktop",
     "protractor:edge": "./scripts/protractor.sh --browser MicrosoftEdge --tags @desktop",
     "protractor:ie": "./scripts/protractor.sh --browser \"internet explorer\" --tags @desktop",

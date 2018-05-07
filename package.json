@@ -100,7 +100,6 @@
     "rxjs": "6.0.0-uncanny-rc.7",
     "standard-version": "4.3.0",
     "systemjs": "0.21.2",
-    "tslib": "1.9.0",
     "tslint": "5.9.1",
     "tslint-config-prettier": "1.10.0",
     "typescript": "2.7.2",
