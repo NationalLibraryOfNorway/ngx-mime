@@ -139,9 +139,10 @@ export class ViewerService {
 
   public goToCanvas(canvasIndex: number, immediately: boolean): void {
     const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(canvasIndex);
+    console.log(canvasGroupIndex);
     this.goToCanvasGroupStrategy.goToCanvasGroup({
       canvasGroupIndex: canvasGroupIndex,
-      immediately: false
+      immediately: immediately
     });
   }
 

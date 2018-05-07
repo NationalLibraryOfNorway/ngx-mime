@@ -92,14 +92,18 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
       this.manifestUri = manifestUri;
       this.cleanup();
       this.loadManifest();
-      this.viewerService.onOsdReadyChange.pipe(take(1)).subscribe(b => {
-        console.log('go to canvasId', startOnCanvas);
-        this.currentManifest.sequences[0].canvases.forEach((c, index) => {
-          if (c.id === startOnCanvas) {
-            this.viewerService.goToCanvas(index, false);
-          }
+      if (startOnCanvas) {
+        this.manifestChanged.pipe(take(1)).subscribe(manifest => {
+          manifest.sequences[0].canvases.forEach((c, index) => {
+            if (c.id === startOnCanvas) {
+              setTimeout(() => {
+                console.log('go to canvasId', index);
+                this.viewerService.goToCanvas(index, false);
+              }, 0);
+            }
+          });
         });
-      });
+      }
     }
   }
 
@@ -157,10 +161,10 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     this.modeService.initialMode = this.config.initViewerMode;
     this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
       if (manifest) {
-        this.manifestChanged.next(manifest);
         this.cleanup();
         this.initialize();
         this.currentManifest = manifest;
+        this.manifestChanged.next(manifest);
         this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
         this.changeDetectorRef.detectChanges();
         this.viewerService.setUpViewer(manifest, this.config);
