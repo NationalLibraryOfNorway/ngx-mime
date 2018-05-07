@@ -517,6 +517,7 @@ export class ViewerPage {
 
   async setFocusOnViewer() {
     await browser.sleep(2000);
+    const canvas = await utils.waitForElement(element(by.css('.openseadragon-canvas > canvas')));
     await browser.executeScript(`document.getElementsByClassName('openseadragon-canvas')[0].focus();`);
   }
 }
