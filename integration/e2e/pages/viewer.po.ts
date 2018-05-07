@@ -134,12 +134,14 @@ export class ViewerPage {
     await utils.waitForElement(element(by.css('.content-search-container')));
   }
 
-  fullscreenButton(): Promise<ElementFinder> {
-    return utils.waitForElement(element(by.css('#fullscreenButton')));
+  async fullscreenButton(): Promise<ElementFinder> {
+    const fullscreenButton: ElementFinder = await utils.waitForElement(element(by.css('#fullscreenButton')));
+    return fullscreenButton;
   }
 
-  exitFullscreenButton(): Promise<ElementFinder> {
-    return utils.waitForElement(element(by.css('#exitFullscreenButton')));
+  async exitFullscreenButton(): Promise<ElementFinder> {
+    const exitFullscreenButton: ElementFinder = await utils.waitForElement(element(by.css('#exitFullscreenButton')));
+    return exitFullscreenButton;
   }
 
   openSeadragonElement() {
