@@ -28,7 +28,7 @@ install:
   - npm install -g mountebank
   - npm install -g webdriver-manager
   - npm install -g protractor
-  - npm install -g @angular/cli@v6.0.0-rc.5
+  - npm install -g @angular/cli@
   - npm install -g concurrently
 
 before_script:
