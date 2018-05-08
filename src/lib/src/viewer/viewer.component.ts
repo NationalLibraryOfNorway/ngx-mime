@@ -79,41 +79,39 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     this.accessKeysHandlerService.handleKeyEvents(event);
   }
 
-  @HostListener('window:drop', ['$event'])
+  @HostListener('drop', ['$event'])
   public onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    const url = event.dataTransfer.getData('URL');
-    const params = new URL(url).searchParams;
-    const manifestUri = params.get('manifest');
-    const startOnCanvas = params.get('canvas');
-    if (manifestUri) {
-      this.modeService.mode = this.config.initViewerMode;
-      this.manifestUri = manifestUri;
-      this.cleanup();
-      this.loadManifest();
-      if (startOnCanvas) {
-        this.manifestChanged.pipe(take(1)).subscribe(manifest => {
-          manifest.sequences[0].canvases.forEach((c, index) => {
-            if (c.id === startOnCanvas) {
+    if (this.config.isDropEnabled) {
+      const url = event.dataTransfer.getData('URL');
+      const params = new URL(url).searchParams;
+      const manifestUri = params.get('manifest');
+      const startCanvasId = params.get('canvas');
+      if (manifestUri) {
+        this.manifestUri = manifestUri;
+        this.loadManifest();
+        if (startCanvasId) {
+          this.manifestChanged.pipe(take(1)).subscribe(manifest => {
+            const canvasIndex = manifest.sequences[0].canvases.findIndex(c => c.id === startCanvasId);
+            if (canvasIndex !== -1) {
               setTimeout(() => {
-                console.log('go to canvasId', index);
-                this.viewerService.goToCanvas(index, false);
+                this.viewerService.goToCanvas(canvasIndex, true);
               }, 0);
             }
           });
-        });
+        }
       }
     }
   }
 
-  @HostListener('window:dragover', ['$event'])
+  @HostListener('dragover', ['$event'])
   public onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
   }
 
-  @HostListener('window:dragleave', ['$event'])
+  @HostListener('dragleave', ['$event'])
   public onDragLeave(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -161,7 +159,6 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     this.modeService.initialMode = this.config.initViewerMode;
     this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
       if (manifest) {
-        this.cleanup();
         this.initialize();
         this.currentManifest = manifest;
         this.manifestChanged.next(manifest);
@@ -278,7 +275,6 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     }
 
     if (manifestUriIsChanged) {
-      this.cleanup();
       this.loadManifest();
     } else {
       if (qIsChanged) {
@@ -323,6 +319,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
   }
 
   private loadManifest() {
+    this.cleanup();
     this.iiifManifestService.load(this.manifestUri);
   }
 
