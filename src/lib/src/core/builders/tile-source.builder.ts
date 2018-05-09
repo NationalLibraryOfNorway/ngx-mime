@@ -10,7 +10,7 @@ export class TileSourceBuilder {
       for (let i = 0; i < canvases.length; i++) {
         const canvas = canvases[i];
         if (canvas) {
-          tilesources.push(canvas.images[0].resource.service);
+          tilesources.push(canvas.images[0].resource);
         }
       }
     }
