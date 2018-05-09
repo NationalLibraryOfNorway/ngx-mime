@@ -363,9 +363,4 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
       'canvas-pressed': this.isCanvasPressed
     };
   }
-
-  private getParameterByName(name: string) {
-    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-  }
 }
