@@ -261,7 +261,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
       const manifestUri = params.get('manifest');
       const startCanvasId = params.get('canvas');
       if (manifestUri) {
-        this.manifestUri = manifestUri;
+        this.manifestUri = manifestUri.startsWith('//') ? `${location.protocol}${manifestUri}` : manifestUri;
         this.loadManifest();
         if (startCanvasId) {
           this.manifestChanged.pipe(take(1)).subscribe(manifest => {
