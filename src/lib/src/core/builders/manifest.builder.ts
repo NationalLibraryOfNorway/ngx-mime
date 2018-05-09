@@ -25,7 +25,8 @@ export class ManifestBuilder {
       service: new ServiceBuilder(this.data.service).build(),
       sequences: sequences,
       structures: new StructureBuilder(this.data.structures, sequences).build(),
-      tileSource: new TileSourceBuilder(this.data.sequences).build()
+      tileSource: new TileSourceBuilder(this.data.sequences).build(),
+      viewingHint: this.data.viewingHint
     });
   }
 }

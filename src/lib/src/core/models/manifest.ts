@@ -14,6 +14,7 @@ export class Manifest {
   public sequences?: Sequence[];
   public structures?: Structure[] = [];
   public tileSource?: Service[];
+  public viewingHint?: string;
 
   constructor(fields?: {
     context?: string;
@@ -29,6 +30,7 @@ export class Manifest {
     sequences?: Sequence[];
     structures?: Structure[];
     tileSource?: Service[];
+    viewingHint?: string;
   }) {
     if (fields) {
       this.context = fields.context || this.context;
@@ -44,6 +46,7 @@ export class Manifest {
       this.sequences = fields.sequences || this.sequences;
       this.structures = fields.structures || this.structures;
       this.tileSource = fields.tileSource || this.tileSource;
+      this.viewingHint = fields.viewingHint || this.viewingHint;
     }
   }
 }
