@@ -576,42 +576,42 @@ export class ViewerService {
       } else {
         tileSource = tile.service['@id'];
       }
+
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
           index: i,
           tileSource: tileSource,
           height: position.height,
           x: position.x,
-          y: position.y,
-          success: (event: any) => {
-            if (isTwoPageView && i % 2 !== 0) {
-              group = this.svgNode.append('g').attr('class', 'page-group');
-            }
-
-            const currentOverlay = group
-              .append('rect')
-              .attr('x', position.x)
-              .attr('y', position.y)
-              .attr('width', position.width)
-              .attr('height', position.height)
-              .attr('class', 'tile');
-
-            // Make custom borders if current layout is two-paged
-            if (isTwoPageView) {
-              if (i % 2 === 0 && i !== 0) {
-                const noLeftStrokeStyle = Number(position.width * 2 + position.height) + ', ' + position.width * 2;
-                currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
-              } else if (i % 2 !== 0 && i !== 0) {
-                const noRightStrokeStyle = position.width + ', ' + position.height + ', ' + Number(position.width * 2 + position.height);
-                currentOverlay.style('stroke-dasharray', noRightStrokeStyle);
-              }
-            }
-
-            const currentOverlayNode: SVGRectElement = currentOverlay.node();
-            this.overlays[i] = currentOverlayNode;
-          }
+          y: position.y
         });
       });
+
+      if (isTwoPageView && i % 2 !== 0) {
+        group = this.svgNode.append('g').attr('class', 'page-group');
+      }
+
+      const currentOverlay = group
+        .append('rect')
+        .attr('x', position.x)
+        .attr('y', position.y)
+        .attr('width', position.width)
+        .attr('height', position.height)
+        .attr('class', 'tile');
+
+      // Make custom borders if current layout is two-paged
+      if (isTwoPageView) {
+        if (i % 2 === 0 && i !== 0) {
+          const noLeftStrokeStyle = Number(position.width * 2 + position.height) + ', ' + position.width * 2;
+          currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
+        } else if (i % 2 !== 0 && i !== 0) {
+          const noRightStrokeStyle = position.width + ', ' + position.height + ', ' + Number(position.width * 2 + position.height);
+          currentOverlay.style('stroke-dasharray', noRightStrokeStyle);
+        }
+      }
+
+      const currentOverlayNode: SVGRectElement = currentOverlay.node();
+      this.overlays[i] = currentOverlayNode;
     });
   }
 
