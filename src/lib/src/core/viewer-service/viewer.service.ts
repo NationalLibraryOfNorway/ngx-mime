@@ -575,6 +575,8 @@ export class ViewerService {
         tileSource = tile.service;
       } else {
         tileSource = tile.service['@id'];
+        tileSource = tileSource.startsWith('//') ? `${location.protocol}${tileSource}` : tileSource;
+        tileSource = !tileSource.endsWith('/info.json') ? `${tileSource}/info.json` : tileSource;
       }
 
       this.zone.runOutsideAngular(() => {
