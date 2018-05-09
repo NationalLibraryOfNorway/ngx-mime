@@ -11,8 +11,9 @@ export class MimeViewerConfig {
   public loadTilesWithAjax? = false;
   public crossOriginPolicy?: string | boolean = false;
   public ajaxHeaders?: any = null;
-  public preserveZoomOnCanvasGroupChange = false;
-  public startOnTopOnCanvasGroupChange = false;
+  public preserveZoomOnCanvasGroupChange? = false;
+  public startOnTopOnCanvasGroupChange? = false;
+  public isDropEnabled? = false;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
@@ -26,6 +27,7 @@ export class MimeViewerConfig {
     ajaxHeaders?: any;
     preserveZoomOnCanvasGroupChange?: boolean;
     startOnTopOnCanvasGroupChange?: boolean;
+    isDropEnabled?: boolean;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -39,6 +41,7 @@ export class MimeViewerConfig {
       this.initViewerMode = fields.initViewerMode !== undefined ? fields.initViewerMode : this.initViewerMode;
 
       this.initViewerLayout = fields.initViewerLayout !== undefined ? fields.initViewerLayout : this.initViewerLayout;
+
       this.withCredentials = fields.withCredentials !== undefined ? fields.withCredentials : this.withCredentials;
 
       this.loadTilesWithAjax = fields.loadTilesWithAjax !== undefined ? fields.loadTilesWithAjax : this.loadTilesWithAjax;
@@ -54,6 +57,8 @@ export class MimeViewerConfig {
 
       this.startOnTopOnCanvasGroupChange =
         fields.startOnTopOnCanvasGroupChange !== undefined ? fields.startOnTopOnCanvasGroupChange : this.startOnTopOnCanvasGroupChange;
+
+      this.isDropEnabled = fields.isDropEnabled !== undefined ? fields.isDropEnabled : this.isDropEnabled;
     }
   }
 }

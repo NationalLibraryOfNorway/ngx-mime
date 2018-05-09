@@ -141,7 +141,7 @@ export class ViewerService {
     const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(canvasIndex);
     this.goToCanvasGroupStrategy.goToCanvasGroup({
       canvasGroupIndex: canvasGroupIndex,
-      immediately: false
+      immediately: immediately
     });
   }
 
@@ -566,11 +566,23 @@ export class ViewerService {
       });
 
       canvasRects.push(position);
+      const layout =
+        this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE || !this.isManifestPaged ? ViewerLayout.ONE_PAGE : ViewerLayout.TWO_PAGE;
+      this.canvasService.addAll(canvasRects, layout);
+
+      let tileSource: any;
+      if (tile.service.service) {
+        tileSource = tile.service;
+      } else {
+        tileSource = tile.service['@id'];
+        tileSource = tileSource.startsWith('//') ? `${location.protocol}${tileSource}` : tileSource;
+        tileSource = !tileSource.endsWith('/info.json') ? `${tileSource}/info.json` : tileSource;
+      }
 
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({
           index: i,
-          tileSource: tile,
+          tileSource: tileSource,
           height: position.height,
           x: position.x,
           y: position.y
@@ -601,12 +613,8 @@ export class ViewerService {
       }
 
       const currentOverlayNode: SVGRectElement = currentOverlay.node();
-      this.overlays.push(currentOverlayNode);
+      this.overlays[i] = currentOverlayNode;
     });
-
-    const layout =
-      this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE || !this.isManifestPaged ? ViewerLayout.ONE_PAGE : ViewerLayout.TWO_PAGE;
-    this.canvasService.addAll(canvasRects, layout);
   }
 
   /**

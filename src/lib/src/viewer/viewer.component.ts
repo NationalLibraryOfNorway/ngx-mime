@@ -17,8 +17,9 @@ import {
   ViewContainerRef,
   AfterViewChecked
 } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { Subject, interval } from 'rxjs';
-import { throttle, takeUntil } from 'rxjs/operators';
+import { throttle, takeUntil, take } from 'rxjs/operators';
 
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
@@ -74,12 +75,8 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
   @ViewChild('mimeFooter') private footer: ViewerFooterComponent;
   @ViewChild('mimeOsdToolbar') private osdToolbar: OsdToolbarComponent;
 
-  @HostListener('keyup', ['$event'])
-  handleKeys(event: KeyboardEvent) {
-    this.accessKeysHandlerService.handleKeyEvents(event);
-  }
-
   constructor(
+    public snackBar: MatSnackBar,
     public intl: MimeViewerIntl,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
@@ -122,10 +119,9 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     this.modeService.initialMode = this.config.initViewerMode;
     this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
       if (manifest) {
-        this.manifestChanged.next(manifest);
-        this.cleanup();
         this.initialize();
         this.currentManifest = manifest;
+        this.manifestChanged.next(manifest);
         this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
         this.changeDetectorRef.detectChanges();
         this.viewerService.setUpViewer(manifest, this.config);
@@ -239,7 +235,6 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     }
 
     if (manifestUriIsChanged) {
-      this.cleanup();
       this.loadManifest();
     } else {
       if (qIsChanged) {
@@ -249,6 +244,53 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
         this.viewerService.goToCanvas(this.canvasIndex, true);
       }
     }
+  }
+
+  @HostListener('keyup', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
+  }
+
+  @HostListener('drop', ['$event'])
+  public onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.config.isDropEnabled) {
+      const url = event.dataTransfer.getData('URL');
+      const params = new URL(url).searchParams;
+      const manifestUri = params.get('manifest');
+      const startCanvasId = params.get('canvas');
+      if (manifestUri) {
+        this.manifestUri = manifestUri.startsWith('//') ? `${location.protocol}${manifestUri}` : manifestUri;
+        this.loadManifest();
+        if (startCanvasId) {
+          this.manifestChanged.pipe(take(1)).subscribe(manifest => {
+            const canvasIndex = manifest.sequences[0].canvases.findIndex(c => c.id === startCanvasId);
+            if (canvasIndex !== -1) {
+              setTimeout(() => {
+                this.viewerService.goToCanvas(canvasIndex, true);
+              }, 0);
+            }
+          });
+        }
+      }
+    } else {
+      this.snackBar.open(this.intl.dropDisabled, null, {
+        duration: 3000
+      });
+    }
+  }
+
+  @HostListener('dragover', ['$event'])
+  public onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  @HostListener('dragleave', ['$event'])
+  public onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   ngOnDestroy(): void {
@@ -284,6 +326,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
   }
 
   private loadManifest() {
+    this.cleanup();
     this.iiifManifestService.load(this.manifestUri);
   }
 
