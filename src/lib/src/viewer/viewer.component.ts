@@ -17,6 +17,7 @@ import {
   ViewContainerRef,
   AfterViewChecked
 } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { Subject, interval } from 'rxjs';
 import { throttle, takeUntil, take } from 'rxjs/operators';
 
@@ -74,49 +75,8 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
   @ViewChild('mimeFooter') private footer: ViewerFooterComponent;
   @ViewChild('mimeOsdToolbar') private osdToolbar: OsdToolbarComponent;
 
-  @HostListener('keyup', ['$event'])
-  handleKeys(event: KeyboardEvent) {
-    this.accessKeysHandlerService.handleKeyEvents(event);
-  }
-
-  @HostListener('drop', ['$event'])
-  public onDrop(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (this.config.isDropEnabled) {
-      const url = event.dataTransfer.getData('URL');
-      const params = new URL(url).searchParams;
-      const manifestUri = params.get('manifest');
-      const startCanvasId = params.get('canvas');
-      if (manifestUri) {
-        this.manifestUri = manifestUri;
-        this.loadManifest();
-        if (startCanvasId) {
-          this.manifestChanged.pipe(take(1)).subscribe(manifest => {
-            const canvasIndex = manifest.sequences[0].canvases.findIndex(c => c.id === startCanvasId);
-            if (canvasIndex !== -1) {
-              setTimeout(() => {
-                this.viewerService.goToCanvas(canvasIndex, true);
-              }, 0);
-            }
-          });
-        }
-      }
-    }
-  }
-
-  @HostListener('dragover', ['$event'])
-  public onDragOver(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  @HostListener('dragleave', ['$event'])
-  public onDragLeave(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
   constructor(
+    public snackBar: MatSnackBar,
     public intl: MimeViewerIntl,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
@@ -284,6 +244,53 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
         this.viewerService.goToCanvas(this.canvasIndex, true);
       }
     }
+  }
+
+  @HostListener('keyup', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
+  }
+
+  @HostListener('drop', ['$event'])
+  public onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.config.isDropEnabled) {
+      const url = event.dataTransfer.getData('URL');
+      const params = new URL(url).searchParams;
+      const manifestUri = params.get('manifest');
+      const startCanvasId = params.get('canvas');
+      if (manifestUri) {
+        this.manifestUri = manifestUri;
+        this.loadManifest();
+        if (startCanvasId) {
+          this.manifestChanged.pipe(take(1)).subscribe(manifest => {
+            const canvasIndex = manifest.sequences[0].canvases.findIndex(c => c.id === startCanvasId);
+            if (canvasIndex !== -1) {
+              setTimeout(() => {
+                this.viewerService.goToCanvas(canvasIndex, true);
+              }, 0);
+            }
+          });
+        }
+      }
+    } else {
+      this.snackBar.open(this.intl.dropDisabled, null, {
+        duration: 3000
+      });
+    }
+  }
+
+  @HostListener('dragover', ['$event'])
+  public onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  @HostListener('dragleave', ['$event'])
+  public onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   ngOnDestroy(): void {

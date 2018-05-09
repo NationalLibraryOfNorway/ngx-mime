@@ -26,6 +26,7 @@ export class MimeViewerIntl {
   nextHitLabel = 'Next Hit';
   goToPageLabel = 'Go to page';
   enterPageNumber = 'Enter page number';
+  dropDisabled = 'Sorry, but drag and drop is disabled';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';

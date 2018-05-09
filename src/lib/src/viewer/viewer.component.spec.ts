@@ -1,42 +1,43 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material';
+import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-
-import { MimeViewerConfig } from '../core/mime-viewer-config';
-import { SharedModule } from '../shared/shared.module';
-import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
-import { ViewerComponent } from './viewer.component';
-import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
-import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
-import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
-import { Manifest } from '../core/models/manifest';
-import { ViewerService } from '../core/viewer-service/viewer.service';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
-import { ClickService } from '../core/click-service/click.service';
-import { CanvasService } from '../core/canvas-service/canvas-service';
-import { ModeService } from '../core/mode-service/mode.service';
-import { ViewerMode } from '../core/models/viewer-mode';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
-import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
-import { ViewerLayout } from '../core/models/viewer-layout';
-import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
-import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
-import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
-import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
-import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
-import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
-import { TestDynamicComponent } from './test-dynamic.component';
-import { TestHostComponent } from './test-host.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import 'openseadragon';
+import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
+import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
+import { ClickService } from '../core/click-service/click.service';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { MimeViewerConfig } from '../core/mime-viewer-config';
+import { ModeService } from '../core/mode-service/mode.service';
+import { Manifest } from '../core/models/manifest';
+import { ViewerLayout } from '../core/models/viewer-layout';
+import { ViewerMode } from '../core/models/viewer-mode';
+import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { SharedModule } from '../shared/shared.module';
+import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
+import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
+import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
+import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
+import { TestDynamicComponent } from './test-dynamic.component';
+import { TestHostComponent } from './test-host.component';
+import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
+import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
+import { ViewerComponent } from './viewer.component';
 
 describe('ViewerComponent', function() {
+  const matSnackBarSpy = jasmine.createSpy('MatSnackBar');
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
   let comp: ViewerComponent;
@@ -67,6 +68,7 @@ describe('ViewerComponent', function() {
       ],
       declarations: [ViewerComponent, TestHostComponent, ViewerHeaderComponent, ViewerFooterComponent, TestDynamicComponent],
       providers: [
+        { provide: MatSnackBar, useClass: matSnackBarSpy },
         ViewerService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
