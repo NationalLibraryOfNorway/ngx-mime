@@ -8,3 +8,27 @@
   background: #bcaaa3;
   border-color: #bcaaa3;
 }
+
+mat-icon {
+  color: white;
+}
+
+.theme-picker {
+  text-align: right;
+}
+
+mat-grid-tile.brown .mat-radio-outer-circle {
+  color: red !important;
+}
+
+mat-grid-tile.cyan {
+  color: cyan;
+}
+
+mat-grid-tile.blue {
+  color: blue;
+}
+
+mat-grid-tilen.purple {
+  color: purple;
+}

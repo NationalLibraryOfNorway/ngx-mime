@@ -7,3 +7,9 @@ mat-sidenav-container,
   width: 100%;
   height: 100%;
 }
+
+/** Material hjack **/
+.cdk-overlay-connected-position-bounding-box {
+  position: absolute;
+  width: 125px !important;
+}

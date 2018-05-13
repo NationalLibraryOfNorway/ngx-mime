@@ -7,17 +7,37 @@
   <div fxFlex="grow" fxFlex.gt-sm="500px">
     <form (ngSubmit)="onSubmit()" #form="ngForm">
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <input fxFlex
-          class="manifest-uri"
-          placeholder="Paste the URL of a IIIF manifest here"
-          autocomplete="off"
-          [(ngModel)]="manifestUri"
+        <input fxFlex class="manifest-uri" placeholder="Paste the URL of a IIIF manifest here" autocomplete="off" [(ngModel)]="manifestUri"
           name="manifestUri">
-        <button type="submit" mat-raised-button
-          color="accent">
+        <button type="submit" mat-raised-button color="accent">
           VIEW
         </button>
       </div>
     </form>
+  </div>
+  <div fxFlex="grow" class="theme-picker">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>format_color_fill</mat-icon>
+    </button>
+
+    <mat-radio-group [(ngModel)]="labelPosition">
+
+      <mat-menu #menu="matMenu">
+        <mat-grid-list cols="2" rowHeight="2:1">
+          <mat-grid-tile class="brown">
+            <mat-radio-button value="brown"></mat-radio-button>
+          </mat-grid-tile>
+          <mat-grid-tile class="cyan">
+            <mat-radio-button value="cyan"></mat-radio-button>
+          </mat-grid-tile>
+          <mat-grid-tile class="blue">
+            <mat-radio-button value="blue"></mat-radio-button>
+          </mat-grid-tile>
+          <mat-grid-tile class="purple">
+            <mat-radio-button value="purple"></mat-radio-button>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-menu>
+    </mat-radio-group>
   </div>
 </mat-toolbar>
