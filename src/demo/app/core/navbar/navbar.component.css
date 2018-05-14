@@ -16,19 +16,3 @@ mat-icon {
 .theme-picker {
   text-align: right;
 }
-
-mat-grid-tile.brown .mat-radio-outer-circle {
-  color: red !important;
-}
-
-mat-grid-tile.cyan {
-  color: cyan;
-}
-
-mat-grid-tile.blue {
-  color: blue;
-}
-
-mat-grid-tilen.purple {
-  color: purple;
-}

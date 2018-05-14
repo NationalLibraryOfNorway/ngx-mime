@@ -8,7 +8,7 @@ mat-sidenav-container,
   height: 100%;
 }
 
-/** Material hjack **/
+/** Material hack **/
 .cdk-overlay-connected-position-bounding-box {
   position: absolute;
   width: 125px !important;
