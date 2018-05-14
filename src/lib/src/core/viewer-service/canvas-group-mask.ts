@@ -99,11 +99,14 @@ export class CanvasGroupMask {
   };
 
   private addCanvasGroupMask() {
-    d3
-      .select(this.viewer.canvas)
-      .select('canvas')
-      .style('background-color', ViewerOptions.colors.canvasGroupBackgroundColor);
-
+    let background = this.getComputedBackgroundColor();
+    if (background === null) {
+      background = ViewerOptions.colors.canvasGroupBackgroundColor;
+      d3
+        .select(this.viewer.canvas)
+        .select('canvas')
+        .style('background-color', ViewerOptions.colors.canvasGroupBackgroundColor);
+    }
     const overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
 
     const mask = overlays.append('g').attr('id', 'page-mask');
@@ -113,14 +116,14 @@ export class CanvasGroupMask {
       .attr('id', 'mime-left-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
-      .style('fill', ViewerOptions.colors.canvasGroupBackgroundColor);
+      .style('fill', background);
 
     this.rightMask = mask
       .append('rect')
       .attr('id', 'mime-right-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
-      .style('fill', ViewerOptions.colors.canvasGroupBackgroundColor);
+      .style('fill', background);
   }
 
   private setCenter(): void {
@@ -177,5 +180,21 @@ export class CanvasGroupMask {
       x: x,
       width: width
     });
+  }
+
+  private getComputedBackgroundColor(): string {
+    const matAppBackground = document.getElementsByClassName('mat-app-background');
+    const matSidenavContainer = document.getElementsByTagName('mat-sidenav-container');
+    if (matAppBackground.length > 0) {
+      return this.getComputedStyle(matAppBackground[0], 'background-color');
+    } else if (matSidenavContainer.length > 0) {
+      return this.getComputedStyle(matSidenavContainer[0], 'background-color');
+    } else {
+      return null;
+    }
+  }
+
+  private getComputedStyle(el: any, property: string) {
+    return window.getComputedStyle(el, null).getPropertyValue(property);
   }
 }
