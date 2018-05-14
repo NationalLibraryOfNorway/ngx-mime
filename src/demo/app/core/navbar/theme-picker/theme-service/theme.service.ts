@@ -25,6 +25,18 @@ export class ThemeService {
       accent: '#b2ff59',
       href: 'cyan-theme.css',
       isDark: true
+    },
+    {
+      primary: '#0277bd',
+      accent: '#01579b',
+      href: 'blue-theme.css',
+      isDark: false
+    },
+    {
+      primary: '#673ab7',
+      accent: '#ffd740',
+      href: 'purple-theme.css',
+      isDark: false
     }
   ];
 

@@ -6,8 +6,7 @@ import { StyleManagerService } from './style-manager/style-manager.service';
   selector: 'demo-theme-picker',
   templateUrl: './theme-picker.component.html',
   styleUrls: ['./theme-picker.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemePickerComponent {
   currentTheme: SiteTheme;
