@@ -45,6 +45,7 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 import { ViewerState } from '../core/models/viewerState';
 import { ModeChanges } from '../core/models/modeChanges';
+import { StyleService } from '../core/style-service/style.service';
 
 @Component({
   selector: 'mime-viewer',
@@ -91,6 +92,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
     private accessKeysHandlerService: AccessKeysService,
     private canvasService: CanvasService,
     private viewerLayoutService: ViewerLayoutService,
+    private styleService: StyleService,
     public zone: NgZone
   ) {
     contentsDialogService.el = el;
@@ -116,6 +118,7 @@ export class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnC
   }
 
   ngOnInit(): void {
+    this.styleService.init();
     this.modeService.initialMode = this.config.initViewerMode;
     this.iiifManifestService.currentManifest.pipe(takeUntil(this.destroyed)).subscribe((manifest: Manifest) => {
       if (manifest) {

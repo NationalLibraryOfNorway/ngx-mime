@@ -1,4 +1,15 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, HostBinding } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  HostBinding,
+  Renderer2,
+  AfterViewInit,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -9,6 +20,7 @@ import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { ViewerOptions } from '../../core/models/viewer-options';
+import { StyleService } from '../../core/style-service/style.service';
 
 @Component({
   selector: 'mime-osd-toolbar',
@@ -20,7 +32,6 @@ import { ViewerOptions } from '../../core/models/viewer-options';
       state(
         'hide',
         style({
-          opacity: 0,
           display: 'none',
           transform: 'translate(-100%,0)'
         })
@@ -28,7 +39,6 @@ import { ViewerOptions } from '../../core/models/viewer-options';
       state(
         'show',
         style({
-          opacity: 1,
           display: 'block'
         })
       ),
@@ -37,7 +47,8 @@ import { ViewerOptions } from '../../core/models/viewer-options';
     ])
   ]
 })
-export class OsdToolbarComponent implements OnInit, OnDestroy {
+export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('container') container: ElementRef;
   @HostBinding('@osdToolbarState')
   get osdToolbarState() {
     return this.state;
@@ -51,10 +62,12 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
 
   constructor(
     public intl: MimeViewerIntl,
+    private renderer: Renderer2,
     private changeDetectorRef: ChangeDetectorRef,
     private mimeService: MimeResizeService,
     private viewerService: ViewerService,
-    private canvasService: CanvasService
+    private canvasService: CanvasService,
+    private styleService: StyleService
   ) {}
 
   ngOnInit() {
@@ -73,6 +86,14 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     });
 
     this.intl.changes.pipe(takeUntil(this.destroyed)).subscribe(() => this.changeDetectorRef.markForCheck());
+  }
+
+  ngAfterViewInit() {
+    this.styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
+      const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
+      console.log(backgroundRgbaColor);
+      this.renderer.setStyle(this.container.nativeElement, 'background-color', backgroundRgbaColor);
+    });
   }
 
   zoomIn(): void {

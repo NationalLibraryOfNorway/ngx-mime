@@ -1,8 +1,10 @@
-<div id="attribution-container" class="attribution-container">
+<div #container id="attribution-container" class="attribution-container">
   <mat-toolbar class="attribution-toolbar">
     <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
       <div>{{intl.attributionLabel}}</div>
-      <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
+      <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
   </mat-toolbar>
   <div class="contents" [innerHTML]="manifest?.attribution"></div>
