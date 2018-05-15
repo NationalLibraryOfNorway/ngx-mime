@@ -91,7 +91,6 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
       const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
-      console.log(backgroundRgbaColor);
       this.renderer.setStyle(this.container.nativeElement, 'background-color', backgroundRgbaColor);
     });
   }
