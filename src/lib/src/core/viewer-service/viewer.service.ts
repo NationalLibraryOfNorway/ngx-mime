@@ -31,6 +31,7 @@ import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { StyleService } from '../style-service/style.service';
 
 @Injectable()
 export class ViewerService {
@@ -68,7 +69,8 @@ export class ViewerService {
     private canvasService: CanvasService,
     private modeService: ModeService,
     private viewerLayoutService: ViewerLayoutService,
-    private iiifContentSearchService: IiifContentSearchService
+    private iiifContentSearchService: IiifContentSearchService,
+    private styleService: StyleService
   ) {}
 
   get onCenterChange(): Observable<Point> {
@@ -211,7 +213,7 @@ export class ViewerService {
         this.disableKeyDownHandler();
         this.viewer.innerTracker.keyHandler = null;
         this.canvasService.reset();
-        this.canvasGroupMask = new CanvasGroupMask(this.viewer);
+        this.canvasGroupMask = new CanvasGroupMask(this.viewer, this.styleService);
       });
 
       this.addToWindow();
