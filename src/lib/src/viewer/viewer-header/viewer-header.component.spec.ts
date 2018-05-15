@@ -18,6 +18,7 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenServiceStub } from './../../test/fullscreen-service-stub';
+import { IconComponent } from './icon/icon.component';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
