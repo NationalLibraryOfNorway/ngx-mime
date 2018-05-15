@@ -4,6 +4,8 @@ import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
 import { Rect } from '../models/rect';
 import { StyleService } from '../style-service/style.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 declare const OpenSeadragon: any;
 export class CanvasGroupMask {
@@ -17,10 +19,11 @@ export class CanvasGroupMask {
   center: Point;
 
   backgroundColor: string;
+  private destroyed: Subject<void> = new Subject();
 
   constructor(viewer: any, private styleService: StyleService) {
     this.viewer = viewer;
-    styleService.onChange.subscribe(c => {
+    styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
       this.backgroundColor = c;
       if (this.leftMask) {
         this.leftMask.style('fill', this.backgroundColor);
@@ -44,6 +47,11 @@ export class CanvasGroupMask {
     } else {
       this.hide();
     }
+  }
+
+  public destroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   public changeCanvasGroup(pageBounds: Rect) {

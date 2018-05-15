@@ -7,11 +7,11 @@
     <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="buttons-container">
       <button id="toggleTwoPageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.ONE_PAGE" mat-icon-button [attr.aria-label]="intl.twoPageViewLabel"
         [matTooltip]="intl.twoPageViewLabel" (click)="setLayoutTwoPage()">
-        <mat-icon aria-hidden="true" class="two_page_display"></mat-icon>
+        <mime-icon iconName="two_page_display"></mime-icon>
       </button>
       <button id="toggleSinglePageViewButton" *ngIf="isPagedManifest && viewerLayout === ViewerLayout.TWO_PAGE" mat-icon-button
         [attr.aria-label]="intl.singlePageViewLabel" [matTooltip]="intl.singlePageViewLabel" (click)="setLayoutOnePage()">
-        <mat-icon aria-hidden="true" class="single_page_display"></mat-icon>
+        <mime-icon iconName="single_page_display"></mime-icon>
       </button>
       <button id="contentsDialogButton" mat-icon-button [attr.aria-label]="intl.contentsLabel" [matTooltip]="intl.contentsLabel"
         (click)="toggleContents()">

@@ -314,6 +314,9 @@ export class ViewerService {
     this.destroyed.next();
     this.overlays = null;
     this.canvasService.reset();
+    if (this.canvasGroupMask) {
+      this.canvasGroupMask.destroy();
+    }
     // Keep search-state only if layout-switch
     if (!layoutSwitch) {
       this.currentSearch = null;

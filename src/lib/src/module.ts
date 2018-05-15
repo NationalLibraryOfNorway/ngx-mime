@@ -15,6 +15,7 @@ import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-
 import { CanvasGroupNavigatorComponent } from './viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
+import { IconComponent } from './viewer/viewer-header/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component'
     OsdToolbarComponent,
     ContentSearchNavigatorComponent,
     CanvasGroupNavigatorComponent,
-    ViewerSpinnerComponent
+    ViewerSpinnerComponent,
+    IconComponent
   ],
   imports: [CoreModule, SharedModule, ContentsDialogModule, AttributionDialogModule, ContentSearchDialogModule, CanvasGroupDialogModule],
   exports: [ViewerComponent]
