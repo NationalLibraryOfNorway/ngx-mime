@@ -52,9 +52,13 @@ export class AccessKeysService implements OnDestroy {
     const accessKeys = new AccessKeys(event);
     if (!this.isKeyDisabled(event.keyCode)) {
       if (accessKeys.isArrowLeftKeys()) {
-        this.goToPreviousCanvasGroup();
+        if (!this.isZoomedIn()) {
+          this.goToPreviousCanvasGroup();
+        }
       } else if (accessKeys.isArrowRightKeys()) {
-        this.goToNextCanvasGroup();
+        if (!this.isZoomedIn()) {
+          this.goToNextCanvasGroup();
+        }
       } else if (accessKeys.isFirstCanvasGroupKeys()) {
         this.goToFirstCanvasGroup();
       } else if (accessKeys.isLastCanvasGroupKeys()) {
@@ -86,15 +90,11 @@ export class AccessKeysService implements OnDestroy {
   }
 
   private goToNextCanvasGroup() {
-    if (!this.isZoomedIn() && this.canvasService.currentCanvasGroupIndex < this.canvasService.numberOfCanvasGroups) {
-      this.viewerService.goToNextCanvasGroup();
-    }
+    this.viewerService.goToNextCanvasGroup();
   }
 
   private goToPreviousCanvasGroup() {
-    if (!this.isZoomedIn() && this.canvasService.currentCanvasGroupIndex > 0) {
-      this.viewerService.goToPreviousCanvasGroup();
-    }
+    this.viewerService.goToPreviousCanvasGroup();
   }
 
   private goToFirstCanvasGroup() {

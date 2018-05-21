@@ -74,35 +74,39 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
   }
 
   public goToPreviousCanvasGroup(currentCanvasIndex: number): void {
-    const viewportCenter = this.getViewportCenter();
-    const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
+    if (this.canvasService.currentCanvasGroupIndex > 0) {
+      const viewportCenter = this.getViewportCenter();
+      const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
 
-    const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
-    const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
-      direction: Direction.PREVIOUS,
-      currentCanvasGroupIndex: currentCanvasGroupIndex,
-      currentCanvasGroupCenter: currentCanvasIndex
-    });
-    this.goToCanvasGroup({
-      canvasGroupIndex: newCanvasGroupIndex,
-      immediately: false
-    });
+      const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
+      const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
+        direction: Direction.PREVIOUS,
+        currentCanvasGroupIndex: currentCanvasGroupIndex,
+        currentCanvasGroupCenter: currentCanvasIndex
+      });
+      this.goToCanvasGroup({
+        canvasGroupIndex: newCanvasGroupIndex,
+        immediately: false
+      });
+    }
   }
 
   public goToNextCanvasGroup(currentCanvasIndex: number): void {
-    const viewportCenter = this.getViewportCenter();
-    const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
+    if (this.canvasService.currentCanvasGroupIndex < this.canvasService.numberOfCanvasGroups) {
+      const viewportCenter = this.getViewportCenter();
+      const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
 
-    const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
-    const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
-      direction: Direction.NEXT,
-      currentCanvasGroupIndex: currentCanvasGroupIndex,
-      currentCanvasGroupCenter: currentCanvasIndex
-    });
-    this.goToCanvasGroup({
-      canvasGroupIndex: newCanvasGroupIndex,
-      immediately: false
-    });
+      const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
+      const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
+        direction: Direction.NEXT,
+        currentCanvasGroupIndex: currentCanvasGroupIndex,
+        currentCanvasGroupCenter: currentCanvasIndex
+      });
+      this.goToCanvasGroup({
+        canvasGroupIndex: newCanvasGroupIndex,
+        immediately: false
+      });
+    }
   }
 
   public centerCurrentCanvas(): void {
