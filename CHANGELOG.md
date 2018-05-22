@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.0"></a>
+
+# [6.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v6.0.0-rc.1...v6.0.0) (2018-05-22)
+
+### Bug Fixes
+
+* constraining keyhandler to viewer component ([#210](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/210)) ([b5f30dc](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b5f30dc))
+* fixing lint error ([#211](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/211)) ([ae44e97](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ae44e97))
+* Page Up and Page Down keys should change page when zoomed in ([#218](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/218)) ([690e7a7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/690e7a7)), closes [#217](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/217)
+
+### Features
+
+* iiif drag and drop api ([#214](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/214)) ([7fbc5fe](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/7fbc5fe)), closes [#215](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/215)
+* preserve zoom level on page change ([#212](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/212)) ([277d534](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/277d534))
+* upgrade angular to v6.0.0 ([#213](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/213)) ([49a6d53](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/49a6d53))
+
 <a name="6.0.0-rc.1"></a>
 
 # [6.0.0-rc.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v0.13.0...v6.0.0-rc.1) (2018-04-18)
