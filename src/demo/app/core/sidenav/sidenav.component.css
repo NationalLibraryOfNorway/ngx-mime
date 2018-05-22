@@ -16,12 +16,7 @@ h3 {
   color: hsla(0, 0%, 100%, 0.87);
 }
 
-:host /deep/ .mat-list-item {
-  color: rgba(0, 0, 0, 0.54);
-}
-
 .active {
-  color: #795548;
   font-weight: 600;
 }
 

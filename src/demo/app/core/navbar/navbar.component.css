@@ -8,3 +8,11 @@
   background: #bcaaa3;
   border-color: #bcaaa3;
 }
+
+mat-icon {
+  color: white;
+}
+
+.theme-picker {
+  text-align: right;
+}

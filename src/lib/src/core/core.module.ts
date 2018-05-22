@@ -13,6 +13,7 @@ import { ClickService } from './click-service/click.service';
 import { ViewerLayoutService } from './viewer-layout-service/viewer-layout-service';
 import { AccessKeysService } from './access-keys-handler-service/access-keys.service';
 import { ContentSearchNavigationService } from './navigation/content-search-navigation-service/content-search-navigation.service';
+import { StyleService } from './style-service/style.service';
 
 @NgModule({
   providers: [
@@ -28,7 +29,8 @@ import { ContentSearchNavigationService } from './navigation/content-search-navi
     SpinnerService,
     AccessKeysService,
     ViewerLayoutService,
-    ContentSearchNavigationService
+    ContentSearchNavigationService,
+    StyleService
   ]
 })
 export class CoreModule {}

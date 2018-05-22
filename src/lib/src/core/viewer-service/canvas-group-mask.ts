@@ -1,7 +1,11 @@
 import * as d3 from 'd3';
+
 import { ViewerOptions } from '../models/viewer-options';
 import { Point } from '../models/point';
 import { Rect } from '../models/rect';
+import { StyleService } from '../style-service/style.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 declare const OpenSeadragon: any;
 export class CanvasGroupMask {
@@ -14,8 +18,20 @@ export class CanvasGroupMask {
   disableResize = false;
   center: Point;
 
-  constructor(viewer: any) {
+  backgroundColor: string;
+  private destroyed: Subject<void> = new Subject();
+
+  constructor(viewer: any, private styleService: StyleService) {
     this.viewer = viewer;
+    styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
+      this.backgroundColor = c;
+      if (this.leftMask) {
+        this.leftMask.style('fill', this.backgroundColor);
+      }
+      if (this.rightMask) {
+        this.rightMask.style('fill', this.backgroundColor);
+      }
+    });
   }
 
   public initialise(pageBounds: Rect, visible: boolean): void {
@@ -31,6 +47,11 @@ export class CanvasGroupMask {
     } else {
       this.hide();
     }
+  }
+
+  public destroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   public changeCanvasGroup(pageBounds: Rect) {
@@ -99,11 +120,6 @@ export class CanvasGroupMask {
   };
 
   private addCanvasGroupMask() {
-    d3
-      .select(this.viewer.canvas)
-      .select('canvas')
-      .style('background-color', ViewerOptions.colors.canvasGroupBackgroundColor);
-
     const overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
 
     const mask = overlays.append('g').attr('id', 'page-mask');
@@ -113,14 +129,14 @@ export class CanvasGroupMask {
       .attr('id', 'mime-left-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
-      .style('fill', ViewerOptions.colors.canvasGroupBackgroundColor);
+      .style('fill', this.backgroundColor);
 
     this.rightMask = mask
       .append('rect')
       .attr('id', 'mime-right-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
-      .style('fill', ViewerOptions.colors.canvasGroupBackgroundColor);
+      .style('fill', this.backgroundColor);
   }
 
   private setCenter(): void {
