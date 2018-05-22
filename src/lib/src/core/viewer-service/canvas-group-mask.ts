@@ -194,20 +194,4 @@ export class CanvasGroupMask {
       width: width
     });
   }
-
-  private getComputedBackgroundColor(): string {
-    const matAppBackground = document.getElementsByClassName('mat-app-background');
-    const matSidenavContainer = document.getElementsByTagName('mat-sidenav-container');
-    if (matAppBackground.length > 0) {
-      return this.getComputedStyle(matAppBackground[0], 'background-color');
-    } else if (matSidenavContainer.length > 0) {
-      return this.getComputedStyle(matSidenavContainer[0], 'background-color');
-    } else {
-      return null;
-    }
-  }
-
-  private getComputedStyle(el: any, property: string) {
-    return window.getComputedStyle(el, null).getPropertyValue(property);
-  }
 }
