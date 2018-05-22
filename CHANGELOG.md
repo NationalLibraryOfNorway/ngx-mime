@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.1"></a>
+
+## [6.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v6.0.0...v6.0.1) (2018-05-22)
+
 <a name="6.0.0"></a>
 
 # [6.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v6.0.0-rc.1...v6.0.0) (2018-05-22)
