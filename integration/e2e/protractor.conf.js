@@ -66,10 +66,8 @@ function getMultiCapabilities() {
   const multiCapabilities = [];
   let capabilities = {
     name: 'Mime E2E Tests',
-    shardTestFiles: true,
-    idleTimeout: 180
+    shardTestFiles: true
   };
-  capabilities.maxInstances = process.env.TRAVIS ? 1 : 10;
 
   if (argv.browser) {
     const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
@@ -99,6 +97,7 @@ function getMultiCapabilities() {
         platformVersion: cap.platformVersion,
         deviceName: cap.deviceName,
         name: 'Mime E2E Tests',
+        shardTestFiles: true,
         build: process.env.TRAVIS_JOB_NUMBER,
         tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
         maxInstances: 2
