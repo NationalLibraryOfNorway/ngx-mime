@@ -81,6 +81,12 @@ function getMultiCapabilities() {
       platformVersion: cap.platformVersion,
       deviceName: cap.deviceName
     });
+    if (argv.headless) {
+      capabilities.chromeOptions = {
+        args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
+      };
+    }
+    multiCapabilities.push(capabilities);
   } else {
     let browsers = remoteBrowsers.customLaunchers;
     for (const cap of browsers) {
@@ -100,18 +106,9 @@ function getMultiCapabilities() {
         capability.build = process.env.TRAVIS_JOB_NUMBER;
         capability.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
       }
-      capabilities.push(capability);
+      multiCapabilities.push(capability);
     }
   }
-
-  if (argv.headless) {
-    capabilities.chromeOptions = {
-      args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
-    };
-  }
-
-  multiCapabilities.push(capabilities);
-
   return multiCapabilities;
 }
 
