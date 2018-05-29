@@ -57,42 +57,69 @@ const config = {
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+  config.maxSessions = 5;
 }
 
 function getMultiCapabilities() {
+  const multiCapabilities = [];
   let capabilities = {
     name: 'Mime E2E Tests',
-    shardTestFiles: true
+    shardTestFiles: true,
+    idleTimeout: 180
   };
-  capabilities.maxInstances = process.env.TRAVIS ? 2 : 10;
-  if (argv.browser) {
-    const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
-    capabilities = Object.assign({}, capabilities, {
-      browserName: cap.browserName,
-      version: cap.version,
-      platform: cap.platform,
-      platformName: cap.platformName,
-      platformVersion: cap.platformVersion,
-      deviceName: cap.deviceName
-    });
-  } else {
-    capabilities = Object.assign({}, capabilities, {
-      browserName: 'chrome'
-    });
-  }
-
-  if (argv.headless) {
-    capabilities.chromeOptions = {
-      args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
-    };
-  }
+  capabilities.maxInstances = process.env.TRAVIS ? 1 : 10;
 
   if (process.env.TRAVIS) {
-    capabilities.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
-    capabilities.build = process.env.TRAVIS_JOB_NUMBER;
+    let browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.customMobileLaunchers);
+    if (argv.device === 'desktop') {
+      browsers = remoteBrowsers.customDesktopLaunchers;
+    } else if (argv.device === 'android') {
+      browsers = remoteBrowsers.androidLaunchers;
+    } else if (argv.device === 'iphone') {
+      browsers = remoteBrowsers.iphoneLaunchers;
+    }
+
+    for (const cap of browsers) {
+      capabilities.push({
+        browserName: cap.browserName,
+        version: cap.version,
+        platform: cap.platform,
+        platformName: cap.platformName,
+        platformVersion: cap.platformVersion,
+        deviceName: cap.deviceName,
+        name: 'Mime E2E Tests',
+        build: process.env.TRAVIS_JOB_NUMBER,
+        tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+        build: process.env.TRAVIS_JOB_NUMBER
+      });
+    }
+  } else {
+    if (argv.browser) {
+      const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
+      capabilities = Object.assign({}, capabilities, {
+        browserName: cap.browserName,
+        version: cap.version,
+        platform: cap.platform,
+        platformName: cap.platformName,
+        platformVersion: cap.platformVersion,
+        deviceName: cap.deviceName
+      });
+    } else {
+      capabilities = Object.assign({}, capabilities, {
+        browserName: 'chrome'
+      });
+    }
+
+    if (argv.headless) {
+      capabilities.chromeOptions = {
+        args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
+      };
+    }
+
+    multiCapabilities.push(capabilities);
   }
 
-  return [capabilities];
+  return multiCapabilities;
 }
 
 function getTags() {
