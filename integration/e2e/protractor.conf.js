@@ -82,7 +82,7 @@ function getMultiCapabilities() {
       deviceName: cap.deviceName
     });
   } else {
-    let browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.customMobileLaunchers);
+    let browsers = remoteBrowsers.customLaunchers;
     for (const cap of browsers) {
       const capability = {
         browserName: cap.browserName,
