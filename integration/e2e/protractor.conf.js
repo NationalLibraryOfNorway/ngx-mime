@@ -79,7 +79,8 @@ function getMultiCapabilities() {
       platform: cap.platform,
       platformName: cap.platformName,
       platformVersion: cap.platformVersion,
-      deviceName: cap.deviceName
+      deviceName: cap.deviceName,
+      maxInstances: 10
     });
     if (argv.headless) {
       capabilities.chromeOptions = {
@@ -99,7 +100,8 @@ function getMultiCapabilities() {
         deviceName: cap.deviceName,
         name: 'Mime E2E Tests',
         build: process.env.TRAVIS_JOB_NUMBER,
-        tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
+        tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+        maxInstances: 2
       };
 
       if (process.env.TRAVIS) {
