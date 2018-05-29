@@ -571,9 +571,6 @@ export class ViewerService {
       });
 
       canvasRects.push(position);
-      const layout =
-        this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE || !this.isManifestPaged ? ViewerLayout.ONE_PAGE : ViewerLayout.TWO_PAGE;
-      this.canvasService.addAll(canvasRects, layout);
 
       let tileSource: any;
       if (tile.service.service) {
@@ -620,6 +617,10 @@ export class ViewerService {
       const currentOverlayNode: SVGRectElement = currentOverlay.node();
       this.overlays[i] = currentOverlayNode;
     });
+
+    const layout =
+      this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE || !this.isManifestPaged ? ViewerLayout.ONE_PAGE : ViewerLayout.TWO_PAGE;
+    this.canvasService.addAll(canvasRects, layout);
   }
 
   /**

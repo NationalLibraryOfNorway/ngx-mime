@@ -20,6 +20,10 @@ export class CanvasServiceStub extends CanvasService {
     return this._currentNumberOfCanvasGroups.value;
   }
 
+  set numberOfCanvases(numberOfCanvases: number) {
+    this._numberOfCanvases = numberOfCanvases;
+  }
+
   getCanvasGroupLabel(index: number): string {
     return '' + index;
   }
