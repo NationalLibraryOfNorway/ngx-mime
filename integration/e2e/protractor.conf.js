@@ -60,6 +60,8 @@ if (process.env.TRAVIS) {
   config.maxSessions = 5;
 }
 
+console.log('specs', config.specs);
+
 function getMultiCapabilities() {
   const multiCapabilities = [];
   let capabilities = {
@@ -69,18 +71,19 @@ function getMultiCapabilities() {
   };
   capabilities.maxInstances = process.env.TRAVIS ? 1 : 10;
 
-  if (process.env.TRAVIS) {
-    let browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.customMobileLaunchers);
-    if (argv.device === 'desktop') {
-      browsers = remoteBrowsers.customDesktopLaunchers;
-    } else if (argv.device === 'android') {
-      browsers = remoteBrowsers.androidLaunchers;
-    } else if (argv.device === 'iphone') {
-      browsers = remoteBrowsers.iphoneLaunchers;
-    }
-
+  if (argv.browser) {
+    const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
+    capabilities = Object.assign({}, capabilities, {
+      browserName: cap.browserName,
+      version: cap.version,
+      platform: cap.platform,
+      platformName: cap.platformName,
+      platformVersion: cap.platformVersion,
+      deviceName: cap.deviceName
+    });
+  } else {
     for (const cap of browsers) {
-      capabilities.push({
+      const capability = {
         browserName: cap.browserName,
         version: cap.version,
         platform: cap.platform,
@@ -89,35 +92,24 @@ function getMultiCapabilities() {
         deviceName: cap.deviceName,
         name: 'Mime E2E Tests',
         build: process.env.TRAVIS_JOB_NUMBER,
-        tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
-        build: process.env.TRAVIS_JOB_NUMBER
-      });
-    }
-  } else {
-    if (argv.browser) {
-      const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
-      capabilities = Object.assign({}, capabilities, {
-        browserName: cap.browserName,
-        version: cap.version,
-        platform: cap.platform,
-        platformName: cap.platformName,
-        platformVersion: cap.platformVersion,
-        deviceName: cap.deviceName
-      });
-    } else {
-      capabilities = Object.assign({}, capabilities, {
-        browserName: 'chrome'
-      });
-    }
-
-    if (argv.headless) {
-      capabilities.chromeOptions = {
-        args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
+        tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
       };
-    }
 
-    multiCapabilities.push(capabilities);
+      if (process.env.TRAVIS) {
+        capability.build = process.env.TRAVIS_JOB_NUMBER;
+        capability.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+      }
+      capabilities.push(capability);
+    }
   }
+
+  if (argv.headless) {
+    capabilities.chromeOptions = {
+      args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
+    };
+  }
+
+  multiCapabilities.push(capabilities);
 
   return multiCapabilities;
 }
