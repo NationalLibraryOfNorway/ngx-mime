@@ -13,17 +13,20 @@ export class CanvasService {
   protected _currentNumberOfCanvasGroups: BehaviorSubject<number> = new BehaviorSubject(0);
   protected _currentCanvasGroupIndex: BehaviorSubject<number> = new BehaviorSubject(0);
 
-  private canvasGroups: CanvasGroups = new CanvasGroups();
+  protected canvasGroups: CanvasGroups = new CanvasGroups();
+  protected _numberOfCanvases = 0;
 
   constructor() {}
 
   addAll(canvasRects: Rect[], layout: ViewerLayout) {
+    this.numberOfCanvases = canvasRects.length;
     const canvasGroupStrategy = CanvasGroupStrategyFactory.create(layout);
     this.canvasGroups = canvasGroupStrategy.addAll(canvasRects);
     this._currentNumberOfCanvasGroups.next(this.canvasGroups.length());
   }
 
   reset() {
+    this.numberOfCanvases = 0;
     this._currentCanvasGroupIndex.next(0);
     this.canvasGroups = new CanvasGroups();
   }
@@ -47,12 +50,16 @@ export class CanvasService {
     return this._currentCanvasGroupIndex.value;
   }
 
-  get numberOfCanvasGroups(): number {
-    return this.canvasGroups.length();
+  get numberOfCanvases(): number {
+    return this._numberOfCanvases;
   }
 
-  get numberOfCanvases(): number {
-    return !this.canvasGroups.canvasGroupRects ? 0 : this.canvasGroups.canvasGroupRects.length;
+  set numberOfCanvases(numberOfCanvases: number) {
+    this._numberOfCanvases = numberOfCanvases;
+  }
+
+  get numberOfCanvasGroups(): number {
+    return this.canvasGroups.length();
   }
 
   get currentCanvasIndex(): number {
