@@ -31,5 +31,7 @@ If applicable, add screenshots to help explain your problem.
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
 
+**Which versions of NGX-Mime, Angular, Material, OS, TypeScript, browsers are affected?**
+
 **Additional context**
 Add any other context about the problem here.
