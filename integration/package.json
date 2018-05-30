@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "mountebank": "mb --port 2020 --configfile ./e2e/templates/imposters.ejs --allowInjection --nologfile",
-    "e2e:all": "concurrently \"npm run mountebank\" \"npm run start\" \"protractor:desktop && protractor:mobile\" --kill-others --success first",
+    "e2e:all": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:desktop && npm run protractor:mobile\" --kill-others --success first",
     "e2e:chrome": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:chrome:headless\" --kill-others --success first",
     "e2e:firefox": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:firefox\" --kill-others --success first",
     "wait": "sh ./scripts/wait-on.sh",
