@@ -87,7 +87,14 @@ function getMultiCapabilities() {
     }
     multiCapabilities.push(capabilities);
   } else {
-    let browsers = remoteBrowsers.customLaunchers;
+    let browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.customMobileLaunchers);
+    if (argv.device === 'desktop') {
+      browsers = remoteBrowsers.customDesktopLaunchers;
+    } else if (argv.device === 'android') {
+      browsers = remoteBrowsers.androidLaunchers;
+    } else if (argv.device === 'iphone') {
+      browsers = remoteBrowsers.iphoneLaunchers;
+    }
     for (const cap of browsers) {
       const capability = {
         browserName: cap.browserName,
