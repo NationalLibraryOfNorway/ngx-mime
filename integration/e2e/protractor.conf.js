@@ -107,7 +107,7 @@ function getMultiCapabilities() {
         shardTestFiles: true,
         build: process.env.TRAVIS_JOB_NUMBER,
         tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
-        maxInstances: 2
+        maxInstances: 5
       };
 
       if (process.env.TRAVIS) {
