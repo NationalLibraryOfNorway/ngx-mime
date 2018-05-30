@@ -64,13 +64,14 @@ console.log('specs', config.specs);
 
 function getMultiCapabilities() {
   const multiCapabilities = [];
+  let browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.androidLaunchers).concat(remoteBrowsers.iphoneLaunchers);
   let capabilities = {
     name: 'Mime E2E Tests',
     shardTestFiles: true
   };
 
   if (argv.browser) {
-    const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
+    const cap = browsers.find(l => l.browserName === argv.browser);
     capabilities = Object.assign({}, capabilities, {
       browserName: cap.browserName,
       version: cap.version,
@@ -87,7 +88,6 @@ function getMultiCapabilities() {
     }
     multiCapabilities.push(capabilities);
   } else {
-    let browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.customMobileLaunchers);
     if (argv.device === 'desktop') {
       browsers = remoteBrowsers.customDesktopLaunchers;
     } else if (argv.device === 'android') {
