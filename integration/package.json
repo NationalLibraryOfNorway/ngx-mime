@@ -20,7 +20,7 @@
     "protractor:chrome:headless": "npm run protractor --  --browser chrome --tags @desktop --headless",
     "preprotractor:firefox": "npm run preprotractor",
     "protractor:firefox": "npm run protractor -- --browser firefox --tags @desktop",
-    "protractor:desktop": "npm run protractor -- --device=desktop",
+    "protractor:desktop": "npm run protractor -- --device=desktop --tags @desktop",
     "protractor:mobile": "npm run protractor:android",
     "protractor:android": "npm run protractor --  --device=android",
     "protractor:iphone": "npm run protractor --  --device=iphone"    
