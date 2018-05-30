@@ -53,7 +53,7 @@ export class ViewerPage {
   }
 
   async goToCanvasGroup(canvasGroupIndex: number) {
-    const isPageMode = this.isPageMode();
+    const isPageMode = await this.isPageMode();
     const isDashboardMode = this.isDashboardMode();
     if (await isPageMode) {
       await this.navigateToCanvasGroup(canvasGroupIndex);
