@@ -119,7 +119,7 @@ async function selectHit(hit: string) {
   const hits = await contentSearchPage.getHits();
   const first = hits[selected];
   await first.click();
-  await page.waitForAnimation();
+  await page.waitForAnimation(1000);
   selectedHitIndex = selected;
 }
 
