@@ -12,14 +12,14 @@
     "mountebank": "mb --port 2020 --configfile ./e2e/templates/imposters.ejs --allowInjection --nologfile",
     "e2e:all": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:desktop && npm run protractor:mobile\" --kill-others --success first",
     "e2e:chrome": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:chrome:headless\" --kill-others --success first",
-    "e2e:firefox": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:firefox\" --kill-others --success first",
+    "e2e:firefox": "concurrently \"npm run mountebank\" \"npm run start\" \"npm run protractor:firefox:headless\" --kill-others --success first",
     "wait": "sh ./scripts/wait-on.sh",
     "preprotractor": "webdriver-manager update && npm run wait",
     "protractor": "protractor ./e2e/protractor.conf.js",
     "preprotractor:chrome:headless": "npm run preprotractor",
     "protractor:chrome:headless": "npm run protractor --  --browser chrome --tags @desktop --headless",
-    "preprotractor:firefox": "npm run preprotractor",
-    "protractor:firefox": "npm run protractor -- --browser firefox --tags @desktop",
+    "preprotractor:firefox:headless": "npm run preprotractor",
+    "protractor:firefox:headless": "npm run protractor -- --browser firefox --tags @desktop --headless",
     "protractor:desktop": "npm run protractor -- --device=desktop --tags @desktop",
     "protractor:mobile": "npm run protractor:android",
     "protractor:android": "npm run protractor --  --device=android",
@@ -55,7 +55,7 @@
     "@angular/language-service": "6.0.2",
     "@types/chai": "4.1.2",
     "@types/chai-as-promised": "7.1.0",
-    "@types/cucumber": "2.0.4",
+    "@types/cucumber": "4.0.4",
     "@types/fs-extra": "5.0.2",
     "@types/jasmine": "2.8.6",
     "@types/node": "9.6.5",
@@ -68,7 +68,6 @@
     "codelyzer": "4.2.1",
     "concurrently": "3.5.1",
     "cucumber": "4.2.1",
-    "express": "4.16.3",
     "fs-extra": "5.0.0",
     "geckodriver": "1.11.0",
     "jasmine-core": "3.1.0",
@@ -88,8 +87,5 @@
     "ts-node": "5.0.1",
     "tslint": "5.9.1",
     "typescript": "2.7.2"
-  },
-  "resolutions": {
-    "selenium-webdriver": "3.6.0"
   }
 }

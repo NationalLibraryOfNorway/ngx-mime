@@ -57,8 +57,9 @@ const config = {
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-  config.maxSessions = 5;
 }
+
+config.maxSessions = process.env.TRAVIS ? 5 : 10;
 
 console.log('specs', config.specs);
 
@@ -78,6 +79,8 @@ function getMultiCapabilities() {
       version: cap.version,
       platformName: cap.platformName,
       deviceName: cap.deviceName,
+      name: 'Mime E2E Tests',
+      shardTestFiles: true,
       maxInstances: 10
     };
     if (argv.headless) {
