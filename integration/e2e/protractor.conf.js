@@ -72,15 +72,14 @@ function getMultiCapabilities() {
 
   if (argv.browser) {
     const cap = browsers.find(l => l.browserName === argv.browser);
-    capabilities = Object.assign({}, capabilities, {
+    console.log('cap', cap);
+    capabilities = {
       browserName: cap.browserName,
       version: cap.version,
-      platform: cap.platform,
       platformName: cap.platformName,
-      platformVersion: cap.platformVersion,
       deviceName: cap.deviceName,
       maxInstances: 10
-    });
+    };
     if (argv.headless) {
       capabilities.chromeOptions = {
         args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
