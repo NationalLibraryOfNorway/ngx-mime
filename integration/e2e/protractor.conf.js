@@ -61,8 +61,6 @@ if (process.env.TRAVIS) {
 
 config.maxSessions = process.env.TRAVIS ? 5 : 10;
 
-console.log('specs', config.specs);
-
 function getMultiCapabilities() {
   const multiCapabilities = [];
   let browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.androidLaunchers).concat(remoteBrowsers.iphoneLaunchers);
