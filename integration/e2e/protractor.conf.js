@@ -3,64 +3,56 @@
 
 const argv = require('yargs').argv;
 const path = require('path');
-const retry = require('protractor-retry').retry;
 const remoteBrowsers = require('./remote-browsers');
 
 const config = {
-    allScriptsTimeout: 50000,
-    SELENIUM_PROMISE_MANAGER: false,
-    directConnect: false,
-    localSeleniumStandaloneOpts: {
-      jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver']
-    },
-    specs: getFeatureFiles(),
-    unknownFlags: ['cucumberOpts', 'device'],
-    multiCapabilities: getMultiCapabilities(),
-    baseUrl: 'http://localhost:8080/',
-    framework: 'custom',
-    frameworkPath: require.resolve('protractor-cucumber-framework'),
-    cucumberOpts: {
-      require: [
-        path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
-        path.resolve(process.cwd(), './e2e/**/*.steps.ts'),
-        path.resolve(process.cwd(), './e2e/helpers/hooks.ts')
-      ],
-      format: 'json:.tmp/results.json',
-      tags: getTags()
-    },
-    plugins: [
-      {
-        package: require.resolve('protractor-multiple-cucumber-html-reporter-plugin'),
-        options: {
-          automaticallyGenerateReport: true,
-          removeExistingJsonReportFile: true,
-          removeOriginalJsonReportFile: true
-        }
-      }
+  allScriptsTimeout: 50000,
+  SELENIUM_PROMISE_MANAGER: false,
+  directConnect: false,
+  localSeleniumStandaloneOpts: {
+    jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver']
+  },
+  specs: getFeatureFiles(),
+  unknownFlags: ['cucumberOpts', 'device'],
+  multiCapabilities: getMultiCapabilities(),
+  baseUrl: 'http://localhost:8080/',
+  framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  cucumberOpts: {
+    require: [
+      path.resolve(process.cwd(), './e2e/helpers/cucumber.config.ts'),
+      path.resolve(process.cwd(), './e2e/**/*.steps.ts'),
+      path.resolve(process.cwd(), './e2e/helpers/hooks.ts')
     ],
-    onPrepare: function() {
-      retry.onPrepare();
-      require('ts-node').register({
-        project: require('path').join(__dirname, './tsconfig.e2e.json')
-      });
-      if (!config.multiCapabilities && config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
-        const width = 1024;
-        const height = 768;
-        browser.driver
-          .manage()
-          .window()
-          .setSize(width, height);
+    format: 'json:.tmp/results.json',
+    tags: getTags()
+  },
+  plugins: [
+    {
+      package: require.resolve('protractor-multiple-cucumber-html-reporter-plugin'),
+      options: {
+        automaticallyGenerateReport: true,
+        removeExistingJsonReportFile: true,
+        removeOriginalJsonReportFile: true
       }
-    },
-    disableChecks: true,
-    ignoreUncaughtExceptions: true
+    }
+  ],
+  onPrepare: function() {
+    require('ts-node').register({
+      project: require('path').join(__dirname, './tsconfig.e2e.json')
+    });
+    if (!config.multiCapabilities && config.capabilities.platformName !== 'Android' && config.capabilities.platformName !== 'iOS') {
+      const width = 1024;
+      const height = 768;
+      browser.driver
+        .manage()
+        .window()
+        .setSize(width, height);
+    }
   },
-  onCleanUp = function(results) {
-    retry.onCleanUp(results);
-  },
-  afterLaunch = function() {
-    return retry.afterLaunch(2);
-  };
+  disableChecks: true,
+  ignoreUncaughtExceptions: true
+};
 
 if (process.env.TRAVIS) {
   config.sauceUser = process.env.SAUCE_USERNAME;
