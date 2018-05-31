@@ -456,7 +456,7 @@ export class ViewerPage {
   }
 
   async visibleCanvasGroups(): Promise<Boolean[]> {
-    const canvasGroupsOverlays = await this.getAllCanvasGroupOverlays();
+    const canvasGroupsOverlays = this.getAllCanvasGroupOverlays();
 
     const [leftCanvasGroupMask, rightCanvasGroupMask] = await Promise.all([this.getLeftCanvasGroupMask(), this.getRightCanvasGroupMask()]);
 

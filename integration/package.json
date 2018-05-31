@@ -58,6 +58,7 @@
     "@types/cucumber": "4.0.4",
     "@types/fs-extra": "5.0.2",
     "@types/jasmine": "2.8.7",
+    "@types/jasminewd2": "~2.0.3",
     "@types/node": "9.6.5",
     "@types/es6-promise": "3.3.0",
     "bluebird": "3.5.1",

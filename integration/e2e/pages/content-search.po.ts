@@ -37,9 +37,9 @@ export class ContentSearchPage {
     return element.all(by.css('.content-search-container .hit'));
   }
 
-  async getHit(index: number): Promise<ElementFinder> {
-    const els = await element.all(by.css('.content-search-container .hit'));
-    const canvasGroupIndexes = await els.map((canvasGroupIndex, i) => canvasGroupIndex);
+  getHit(index: number): ElementFinder {
+    const els = element.all(by.css('.content-search-container .hit'));
+    const canvasGroupIndexes = els.map((canvasGroupIndex, i) => canvasGroupIndex);
     return canvasGroupIndexes[index];
   }
 
@@ -81,13 +81,13 @@ export class ContentSearchPage {
   }
 
   async hitIsSelected(index: number) {
-    const el: ElementFinder = await this.getHit(index);
+    const el: ElementFinder = this.getHit(index);
     const classes = await el.getAttribute('class');
     return classes.indexOf('mat-primary') !== -1;
   }
 
   async hitIsVisible(index: number): Promise<boolean> {
-    const el = await this.getHit(index);
+    const el = this.getHit(index);
     return await utils.isElementVisible(el);
   }
 
