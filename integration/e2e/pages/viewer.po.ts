@@ -166,47 +166,47 @@ export class ViewerPage {
     return isFullscreen;
   }
 
-  getHeader() {
+  async getHeader() {
     const el = element(by.css('mime-viewer-header'));
     return utils.waitForElement(el);
   }
 
-  getFooter() {
+  async getFooter() {
     const el = element(by.css('mime-viewer-footer'));
     return utils.waitForElement(el);
   }
 
-  getSVGElement() {
+  async getSVGElement() {
     const el = element(by.css('#openseadragon svg'));
     return utils.waitForElement(el);
   }
 
-  getFirstCanvasGroupInFirstGroupOverlay() {
+  async getFirstCanvasGroupInFirstGroupOverlay() {
     const el = element(by.css('#openseadragon svg g.page-group:first-child rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getSecondCanvasGroupInFirstGroupOverlay() {
+  async getSecondCanvasGroupInFirstGroupOverlay() {
     const el = element(by.css('#openseadragon svg g.page-group:nth-child(2)')).element(by.css('rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getAllCanvasGroupOverlays() {
-    const el = element.all(by.css('#openseadragon svg g.page-group rect'));
+  async getAllCanvasGroupOverlays() {
+    const el = await element.all(by.css('#openseadragon svg g.page-group rect'));
     return el;
   }
 
-  getLeftCanvasGroupMask() {
+  async getLeftCanvasGroupMask() {
     const el = element(by.css('#openseadragon svg g#page-mask rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getRightCanvasGroupMask() {
+  async getRightCanvasGroupMask() {
     const el = element(by.css('#openseadragon svg g#page-mask rect:nth-child(2)'));
     return utils.waitForElement(el);
   }
 
-  getFirstCanvasGroupOverlay() {
+  async getFirstCanvasGroupOverlay() {
     const el = element.all(by.css('#openseadragon svg g rect')).first();
     return utils.waitForElement(el);
   }
@@ -298,13 +298,9 @@ export class ViewerPage {
   }
 
   async dblClick(): Promise<void> {
-    await browser.findElement(By.css('.openseadragon-canvas > canvas')).then((canvas: WebElement) => {
-      return browser
-        .actions()
-        .click(canvas)
-        .click(canvas)
-        .perform();
-    });
+    const el = await browser.findElement(By.css('.openseadragon-canvas > canvas'));
+    await el.click();
+    await el.click();
   }
 
   async dblTap(): Promise<void> {
