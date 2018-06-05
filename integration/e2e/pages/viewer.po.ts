@@ -448,15 +448,13 @@ export class ViewerPage {
       iKey = Key.ESCAPE;
     }
 
-    await browser
-      .actions()
-      .sendKeys(iKey)
-      .perform();
+    const el = browser.driver.switchTo().activeElement();
+    await el.sendKeys(iKey);
     return await browser.sleep(await this.getAnimationTimeInMs());
   }
 
   async visibleCanvasGroups(): Promise<Boolean[]> {
-    const canvasGroupsOverlays = this.getAllCanvasGroupOverlays();
+    const canvasGroupsArray = await this.getAllCanvasGroupOverlays();
 
     const [leftCanvasGroupMask, rightCanvasGroupMask] = await Promise.all([this.getLeftCanvasGroupMask(), this.getRightCanvasGroupMask()]);
 
@@ -465,9 +463,7 @@ export class ViewerPage {
     const rightCanvasGroupMaskSize = await rightCanvasGroupMask.getSize();
     const rightCanvasGroupMaskLoc = await rightCanvasGroupMask.getLocation();
 
-    const canvasGroupsArray = await canvasGroupsOverlays.map((canvasGroup, i) => canvasGroup);
     const result = [];
-
     for (let i = 0; i < canvasGroupsArray.length; i++) {
       const canvasGroup = canvasGroupsArray[i];
       const isVisible = await this.isElementVisibleInReadersViewport(
