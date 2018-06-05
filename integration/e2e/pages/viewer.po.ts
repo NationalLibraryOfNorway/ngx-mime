@@ -298,7 +298,7 @@ export class ViewerPage {
   }
 
   async dblClick(): Promise<void> {
-    const el = await browser.findElement(By.css('.openseadragon-canvas > canvas'));
+    const el = await browser.findElement(By.css('#mime-left-page-mask'));
     await el.click();
     await el.click();
   }
