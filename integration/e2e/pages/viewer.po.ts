@@ -30,7 +30,7 @@ export class ViewerPage {
 
     if (isDashboardMode) {
       const overlay = await this.getSVGElement();
-      await overlay.click();
+      await utils.clickElement(overlay);
       await this.waitForAnimation(1000);
     }
   }
@@ -43,9 +43,8 @@ export class ViewerPage {
 
     for (let retry = 0; retry < 5; retry++) {
       try {
+        await browser.restart();
         await browser.get(uri, 10000);
-        await browser.refresh(2000);
-        await browser.sleep(2000);
         break;
       } catch (e) {
         console.log(`Error connecting to ${uri} (retry ${retry})`, e);
@@ -300,9 +299,9 @@ export class ViewerPage {
   }
 
   async dblClick(): Promise<void> {
-    const el = await browser.findElement(By.css('#mime-left-page-mask'));
-    await el.click();
-    await el.click();
+    const el = await utils.waitForElement(element(By.css('#mime-left-page-mask')));
+    await utils.clickElement(el);
+    await utils.clickElement(el);
   }
 
   async dblTap(): Promise<void> {
