@@ -292,8 +292,7 @@ export class ViewerPage {
 
   async dblClick(): Promise<void> {
     const el = await utils.waitForElement(element(By.css('#mime-left-page-mask')));
-    await utils.clickElement(el);
-    await utils.clickElement(el);
+    await el.dblClick();
   }
 
   async dblTap(): Promise<void> {
