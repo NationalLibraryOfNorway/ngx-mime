@@ -293,7 +293,11 @@ export class ViewerPage {
 
   async dblClick(): Promise<void> {
     const el = await utils.waitForElement(element(By.css('.openseadragon-canvas > canvas')));
-    await el.dblClick();
+    await browser
+      .actions()
+      .mouseMove(el)
+      .doubleClick()
+      .perform();
   }
 
   async dblTap(): Promise<void> {
