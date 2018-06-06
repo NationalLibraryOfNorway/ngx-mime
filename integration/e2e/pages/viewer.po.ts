@@ -41,7 +41,15 @@ export class ViewerPage {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
 
-    await browser.get(uri);
+    for (let i = 0; i < 5; i++) {
+      await browser
+        .get(uri, 10000)
+        .then(() => (i = 100))
+        .catch(e => {
+          console.log(e);
+          i++;
+        });
+    }
     browser.waitForAngular();
     await this.setFocusOnViewer();
   }
