@@ -26,7 +26,7 @@ exports.androidLaunchers = [
   {
     browserName: 'Chrome',
     deviceName: 'Android Emulator',
-    platformVersion: '7.0',
+    platformVersion: '6.0',
     platformName: 'Android'
   }
 ];
