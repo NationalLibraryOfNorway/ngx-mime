@@ -42,6 +42,7 @@ export class ViewerPage {
     }
 
     await browser.get(uri);
+    browser.waitForAngular();
     await this.setFocusOnViewer();
   }
 
