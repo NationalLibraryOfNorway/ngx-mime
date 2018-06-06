@@ -26,6 +26,7 @@ exports.androidLaunchers = [
   {
     browserName: 'Chrome',
     deviceName: 'Android Emulator',
+    platformVersion: '7.0',
     platformName: 'Android'
   }
 ];
@@ -33,6 +34,7 @@ exports.iphoneLaunchers = [
   {
     browserName: 'Safari',
     deviceName: 'iPhone Simulator',
+    platformVersion: '10.3',
     platformName: 'iOS'
   }
 ];

@@ -100,7 +100,8 @@ export class AttributionDialogService {
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px'
-      }
+      },
+      autoFocus: false
     };
   }
 
