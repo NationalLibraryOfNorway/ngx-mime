@@ -22,8 +22,8 @@
     "protractor:firefox:headless": "npm run protractor -- --browser firefox --tags @desktop --headless",
     "protractor:desktop": "npm run protractor -- --device=desktop --tags @desktop",
     "protractor:mobile": "npm run protractor:android",
-    "protractor:android": "npm run protractor --  --device=android",
-    "protractor:iphone": "npm run protractor --  --device=iphone"
+    "protractor:android": "npm run protractor --  --device=android --tags @android",
+    "protractor:iphone": "npm run protractor --  --device=iphone --tags @iphone"
   },
   "private": true,
   "dependencies": {
