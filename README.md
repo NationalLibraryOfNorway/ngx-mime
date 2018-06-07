@@ -2,9 +2,7 @@
 [![npm version](https://badge.fury.io/js/%40nationallibraryofnorway%2Fngx-mime.svg)](https://badge.fury.io/js/%40nationallibraryofnorway%2Fngx-mime)
 [![Build Status](https://travis-ci.org/NationalLibraryOfNorway/ngx-mime.svg?branch=master)](https://travis-ci.org/NationalLibraryOfNorway/ngx-mime)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-<a href="#badge">
-  <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
-</a>
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ### Project status
 This viewer is under active development and hasn't yet reached its final form.
