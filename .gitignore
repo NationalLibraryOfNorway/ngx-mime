@@ -18,3 +18,4 @@ coverage
 e2e/.tmp
 dist.tgz
 package-lock.json
+.ng_pkg_build/

@@ -59,40 +59,65 @@ if (process.env.TRAVIS) {
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 }
 
+config.maxSessions = process.env.TRAVIS ? 5 : 10;
+
 function getMultiCapabilities() {
+  const multiCapabilities = [];
+  let browsers = remoteBrowsers.customDesktopLaunchers.concat(remoteBrowsers.androidLaunchers).concat(remoteBrowsers.iphoneLaunchers);
   let capabilities = {
     name: 'Mime E2E Tests',
     shardTestFiles: true
   };
-  capabilities.maxInstances = process.env.TRAVIS ? 2 : 10;
+
   if (argv.browser) {
-    const cap = remoteBrowsers.customLaunchers.find(l => l.browserName === argv.browser);
-    capabilities = Object.assign({}, capabilities, {
+    const cap = browsers.find(l => l.browserName === argv.browser);
+    console.log('cap', cap);
+    capabilities = {
       browserName: cap.browserName,
       version: cap.version,
-      platform: cap.platform,
       platformName: cap.platformName,
-      platformVersion: cap.platformVersion,
-      deviceName: cap.deviceName
-    });
-  } else {
-    capabilities = Object.assign({}, capabilities, {
-      browserName: 'chrome'
-    });
-  }
-
-  if (argv.headless) {
-    capabilities.chromeOptions = {
-      args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
+      deviceName: cap.deviceName,
+      name: 'Mime E2E Tests',
+      shardTestFiles: true,
+      maxInstances: 10
     };
-  }
+    if (argv.headless) {
+      capabilities.chromeOptions = {
+        args: ['disable-infobars', '--headless', '--disable-gpu', '--window-size=1024x768']
+      };
+    }
+    multiCapabilities.push(capabilities);
+  } else {
+    if (argv.device === 'desktop') {
+      browsers = remoteBrowsers.customDesktopLaunchers;
+    } else if (argv.device === 'android') {
+      browsers = remoteBrowsers.androidLaunchers;
+    } else if (argv.device === 'iphone') {
+      browsers = remoteBrowsers.iphoneLaunchers;
+    }
+    for (const cap of browsers) {
+      const capability = {
+        browserName: cap.browserName,
+        version: cap.version,
+        platform: cap.platform,
+        platformName: cap.platformName,
+        platformVersion: cap.platformVersion,
+        deviceName: cap.deviceName,
+        name: 'Mime E2E Tests',
+        shardTestFiles: true,
+        build: process.env.TRAVIS_JOB_NUMBER,
+        tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+        maxInstances: 5
+      };
 
-  if (process.env.TRAVIS) {
-    capabilities.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
-    capabilities.build = process.env.TRAVIS_JOB_NUMBER;
+      if (process.env.TRAVIS) {
+        capability.build = process.env.TRAVIS_JOB_NUMBER;
+        capability.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+      }
+      multiCapabilities.push(capability);
+    }
   }
-
-  return [capabilities];
+  return multiCapabilities;
 }
 
 function getTags() {

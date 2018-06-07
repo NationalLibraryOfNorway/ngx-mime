@@ -39,9 +39,9 @@
     "preintegration": "npm run build && cd integration && npm run clean && yarn install --check-files",
     "integration": "cd integration && npm run e2e:all",
     "preintegration:chrome": "npm run preintegration",
-    "integration:chrome": "cd integration && npm run preprotractor && npm run e2e:chrome",
+    "integration:chrome": "cd integration && npm run e2e:chrome",
     "preintegration:firefox": "npm run preintegration",
-    "integration:firefox": "cd integration && npm run preprotractor && npm run e2e:firefox",
+    "integration:firefox": "cd integration && npm run e2e:firefox",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "lint": "tslint --project tsconfig.json \"src/**/*.ts\"",
     "release": "sh scripts/release/release.sh"

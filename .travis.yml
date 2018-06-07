@@ -3,7 +3,7 @@ sudo: required
 language: node_js
 
 node_js:
-  - "9"
+  - "10"
 
 os:
   - linux
@@ -25,11 +25,6 @@ before_install:
 
 install:
   - npm install
-  - npm install -g mountebank
-  - npm install -g webdriver-manager
-  - npm install -g protractor
-  - npm install -g @angular/cli
-  - npm install -g concurrently
 
 before_script:
  - npm prune
@@ -39,8 +34,6 @@ before_script:
  - chmod +x ./scripts/saucelabs/wait-tunnel.sh
  - chmod +x ./scripts/saucelabs/stop-tunnel.sh
  - chmod +x ./integration/scripts/wait-on.sh
- - chmod +x ./integration/scripts/protractor-chrome-headless.sh
- - chmod +x ./integration/scripts/protractor.sh
 
 script:
   - travis_wait 60 ./scripts/ci/build-and-test.sh

@@ -30,7 +30,7 @@ export class ViewerPage {
 
     if (isDashboardMode) {
       const overlay = await this.getSVGElement();
-      await overlay.click();
+      await utils.clickElement(overlay);
       await this.waitForAnimation(1000);
     }
   }
@@ -41,19 +41,21 @@ export class ViewerPage {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
 
-    for (let retry = 0; retry < 5; retry++) {
-      try {
-        await browser.get(uri, 10000);
-        break;
-      } catch (e) {
-        console.log(`Error connecting to ${uri} (retry ${retry})`, e);
-      }
+    for (let i = 0; i < 5; i++) {
+      await browser
+        .get(uri, 10000)
+        .then(() => (i = 100))
+        .catch(e => {
+          console.log(e);
+          i++;
+        });
     }
+    browser.waitForAngular();
     await this.setFocusOnViewer();
   }
 
   async goToCanvasGroup(canvasGroupIndex: number) {
-    const isPageMode = this.isPageMode();
+    const isPageMode = await this.isPageMode();
     const isDashboardMode = this.isDashboardMode();
     if (await isPageMode) {
       await this.navigateToCanvasGroup(canvasGroupIndex);
@@ -166,47 +168,47 @@ export class ViewerPage {
     return isFullscreen;
   }
 
-  getHeader() {
+  async getHeader() {
     const el = element(by.css('mime-viewer-header'));
     return utils.waitForElement(el);
   }
 
-  getFooter() {
+  async getFooter() {
     const el = element(by.css('mime-viewer-footer'));
     return utils.waitForElement(el);
   }
 
-  getSVGElement() {
+  async getSVGElement() {
     const el = element(by.css('#openseadragon svg'));
     return utils.waitForElement(el);
   }
 
-  getFirstCanvasGroupInFirstGroupOverlay() {
+  async getFirstCanvasGroupInFirstGroupOverlay() {
     const el = element(by.css('#openseadragon svg g.page-group:first-child rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getSecondCanvasGroupInFirstGroupOverlay() {
+  async getSecondCanvasGroupInFirstGroupOverlay() {
     const el = element(by.css('#openseadragon svg g.page-group:nth-child(2)')).element(by.css('rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getAllCanvasGroupOverlays() {
-    const el = element.all(by.css('#openseadragon svg g.page-group rect'));
+  async getAllCanvasGroupOverlays() {
+    const el = await element.all(by.css('#openseadragon svg g.page-group rect'));
     return el;
   }
 
-  getLeftCanvasGroupMask() {
+  async getLeftCanvasGroupMask() {
     const el = element(by.css('#openseadragon svg g#page-mask rect:first-child'));
     return utils.waitForElement(el);
   }
 
-  getRightCanvasGroupMask() {
+  async getRightCanvasGroupMask() {
     const el = element(by.css('#openseadragon svg g#page-mask rect:nth-child(2)'));
     return utils.waitForElement(el);
   }
 
-  getFirstCanvasGroupOverlay() {
+  async getFirstCanvasGroupOverlay() {
     const el = element.all(by.css('#openseadragon svg g rect')).first();
     return utils.waitForElement(el);
   }
@@ -298,13 +300,9 @@ export class ViewerPage {
   }
 
   async dblClick(): Promise<void> {
-    await browser.findElement(By.css('.openseadragon-canvas > canvas')).then((canvas: WebElement) => {
-      return browser
-        .actions()
-        .click(canvas)
-        .click(canvas)
-        .perform();
-    });
+    const el: WebElement = await browser.driver.switchTo().activeElement();
+    el.click();
+    el.click();
   }
 
   async dblTap(): Promise<void> {
@@ -448,15 +446,13 @@ export class ViewerPage {
       iKey = Key.ESCAPE;
     }
 
-    await browser
-      .actions()
-      .sendKeys(iKey)
-      .perform();
+    const el = browser.driver.switchTo().activeElement();
+    await el.sendKeys(iKey);
     return await browser.sleep(await this.getAnimationTimeInMs());
   }
 
   async visibleCanvasGroups(): Promise<Boolean[]> {
-    const canvasGroupsOverlays = await this.getAllCanvasGroupOverlays();
+    const canvasGroupsArray = await this.getAllCanvasGroupOverlays();
 
     const [leftCanvasGroupMask, rightCanvasGroupMask] = await Promise.all([this.getLeftCanvasGroupMask(), this.getRightCanvasGroupMask()]);
 
@@ -465,9 +461,7 @@ export class ViewerPage {
     const rightCanvasGroupMaskSize = await rightCanvasGroupMask.getSize();
     const rightCanvasGroupMaskLoc = await rightCanvasGroupMask.getLocation();
 
-    const canvasGroupsArray = await canvasGroupsOverlays.map((canvasGroup, i) => canvasGroup);
     const result = [];
-
     for (let i = 0; i < canvasGroupsArray.length; i++) {
       const canvasGroup = canvasGroupsArray[i];
       const isVisible = await this.isElementVisibleInReadersViewport(
@@ -516,7 +510,6 @@ export class ViewerPage {
   }
 
   async setFocusOnViewer() {
-    await browser.sleep(2000);
     const canvas = await utils.waitForElement(element(by.css('.openseadragon-canvas > canvas')));
     await browser.executeScript(`document.getElementsByClassName('openseadragon-canvas')[0].focus();`);
   }
