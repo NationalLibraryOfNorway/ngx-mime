@@ -1,8 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as d3 from 'd3';
-import { BehaviorSubject, Observable, Subject, Subscription, interval } from 'rxjs';
+import { BehaviorSubject, interval, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, sample, takeUntil } from 'rxjs/operators';
-
+import { ModeService } from '../../core/mode-service/mode.service';
 import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
@@ -19,6 +19,7 @@ import { Side } from '../models/side';
 import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerMode } from '../models/viewer-mode';
 import { ViewerOptions } from '../models/viewer-options';
+import { StyleService } from '../style-service/style.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { Hit } from './../models/hit';
 import { Point } from './../models/point';
@@ -29,10 +30,8 @@ import { CanvasGroupMask } from './canvas-group-mask';
 import { DefaultGoToCanvasGroupStrategy, GoToCanvasGroupStrategy } from './go-to-canvas-group-strategy';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
-import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
-import { ModeService } from '../../core/mode-service/mode.service';
-import { StyleService } from '../style-service/style.service';
 import { TileSourceStrategyFactory } from './tile-source-strategy-factory';
+import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 
 @Injectable()
 export class ViewerService {
