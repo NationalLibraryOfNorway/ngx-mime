@@ -32,6 +32,7 @@ import { SwipeUtils } from './swipe-utils';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { StyleService } from '../style-service/style.service';
+import { TileSourceStrategyFactory } from './tile-source-strategy-factory';
 
 @Injectable()
 export class ViewerService {
@@ -572,14 +573,8 @@ export class ViewerService {
 
       canvasRects.push(position);
 
-      let tileSource: any;
-      if (tile.service.service) {
-        tileSource = tile.service;
-      } else {
-        tileSource = tile.service['@id'];
-        tileSource = tileSource.startsWith('//') ? `${location.protocol}${tileSource}` : tileSource;
-        tileSource = !tileSource.endsWith('/info.json') ? `${tileSource}/info.json` : tileSource;
-      }
+      const tileSourceStrategy = TileSourceStrategyFactory.create(tile);
+      const tileSource = tileSourceStrategy.getTileSource(tile);
 
       this.zone.runOutsideAngular(() => {
         this.viewer.addTiledImage({

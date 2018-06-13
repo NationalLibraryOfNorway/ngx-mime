@@ -40,6 +40,10 @@ export class ManifestService {
     {
       label: 'Different sizes',
       uri: 'assets/fixtures/presentation/2/different-size-manifest.json'
+    },
+    {
+      label: 'Static image',
+      uri: 'assets/fixtures/presentation/2/static-image-manifest.json'
     }
   ];
 
