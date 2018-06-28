@@ -1,0 +1,17 @@
+@import './theme.scss';
+
+html,
+body,
+demo-app,
+mat-sidenav-container,
+.demo-root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/** Material hack **/
+.cdk-overlay-connected-position-bounding-box {
+  position: absolute;
+  width: 125px !important;
+}

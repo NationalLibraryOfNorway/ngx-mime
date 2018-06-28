@@ -1,0 +1,92 @@
+.viewer-container {
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:host::ng-deep.openseadragon-container {
+  flex-grow: 1;
+}
+
+:host::ng-deep.openseadragon-canvas:focus {
+  outline: none;
+}
+
+#openseadragon {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  opacity: 0;
+  width: 100%;
+}
+
+::ng-deep .viewer-container.mode-page-zoomed .tile:hover {
+  cursor: -webkit-grab;
+}
+
+.viewer-container.canvas-pressed,
+.viewer-container.canvas-pressed::ng-deep.tile:hover {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+::ng-deep .viewer-container .tile {
+  cursor: pointer;
+  fill-opacity: 0;
+}
+
+::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,
+::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile {
+  stroke: rgba(0, 0, 0, 0.15);
+  stroke-width: 8;
+  transition: 0.25s ease stroke;
+}
+
+::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,
+::ng-deep
+  .viewer-container.mode-dashboard.layout-two-page
+  .page-group:hover
+  .tile {
+  stroke: rgba(0, 0, 0, 0.45);
+}
+
+::ng-deep .viewer-container .hit {
+  fill: rgba(255, 255, 0, 0.6);
+}
+
+::ng-deep .viewer-container .selected {
+  fill: rgba(255, 225, 0, 0.6);
+}
+
+.navbar {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.navbar-header {
+  top: 0;
+  width: 100%;
+}
+
+.navbar-footer {
+  bottom: 0;
+}
+
+::ng-deep .cdk-overlay-container {
+  z-index: 2147483647;
+}
+
+.error-container {
+  width: 100%;
+  height: 100%;
+}
+
+[hidden] {
+  display: none;
+}

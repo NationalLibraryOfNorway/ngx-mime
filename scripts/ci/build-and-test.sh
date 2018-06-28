@@ -12,7 +12,7 @@ cd $(dirname $0)/../..
 # Include sources.
 source ./scripts/ci/sources/tunnel.sh
 
-npm run lint
+yarn affected:lint --all
 npm run test:once
 npm run coverage
 
