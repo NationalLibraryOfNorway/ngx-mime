@@ -1,6 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as d3 from 'd3';
-import * as OpenSeadragon from 'openseadragon';
 import {
   BehaviorSubject,
   interval,
