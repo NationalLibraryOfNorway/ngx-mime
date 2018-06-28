@@ -1,9 +1,9 @@
-import * as openseadragon from 'openseadragon';
+declare const OpenSeadragon: any;
 
 // OpenSeadragon SVG Overlay plugin 0.0.4
 
 (function() {
-  if (!openseadragon) {
+  if (!OpenSeadragon) {
     console.error('[openseadragon-svg-overlay] requires OpenSeadragon');
     return;
   }
@@ -73,7 +73,7 @@ import * as openseadragon from 'openseadragon';
       }
 
       const p = this._viewer.viewport.pixelFromPoint(
-        new openseadragon.Point(0, 0),
+        new OpenSeadragon.Point(0, 0),
         true
       );
       const zoom = this._viewer.viewport.getZoom(true);
@@ -98,7 +98,7 @@ import * as openseadragon from 'openseadragon';
     onClick(node: any, handler: any) {
       // TODO: Fast click for mobile browsers
 
-      new openseadragon.MouseTracker({
+      new OpenSeadragon.MouseTracker({
         element: node,
         clickHandler: handler
       }).setTracking(true);
@@ -108,7 +108,7 @@ import * as openseadragon from 'openseadragon';
   // ----------
 
   // ----------
-  openseadragon.Viewer.prototype.svgOverlay = function() {
+  OpenSeadragon.Viewer.prototype.svgOverlay = function() {
     if (this._svgOverlayInfo) {
       return this._svgOverlayInfo;
     }
