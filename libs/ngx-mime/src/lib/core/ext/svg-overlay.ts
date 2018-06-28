@@ -1,9 +1,9 @@
-declare const OpenSeadragon: any;
+import * as openseadragon from 'openseadragon';
 
 // OpenSeadragon SVG Overlay plugin 0.0.4
 
 (function() {
-  if (!OpenSeadragon) {
+  if (!openseadragon) {
     console.error('[openseadragon-svg-overlay] requires OpenSeadragon');
     return;
   }
@@ -73,7 +73,7 @@ declare const OpenSeadragon: any;
       }
 
       const p = this._viewer.viewport.pixelFromPoint(
-        new OpenSeadragon.Point(0, 0),
+        new openseadragon.Point(0, 0),
         true
       );
       const zoom = this._viewer.viewport.getZoom(true);
@@ -98,7 +98,7 @@ declare const OpenSeadragon: any;
     onClick(node: any, handler: any) {
       // TODO: Fast click for mobile browsers
 
-      new OpenSeadragon.MouseTracker({
+      new openseadragon.MouseTracker({
         element: node,
         clickHandler: handler
       }).setTracking(true);
@@ -108,7 +108,7 @@ declare const OpenSeadragon: any;
   // ----------
 
   // ----------
-  OpenSeadragon.Viewer.prototype.svgOverlay = function() {
+  openseadragon.Viewer.prototype.svgOverlay = function() {
     if (this._svgOverlayInfo) {
       return this._svgOverlayInfo;
     }
