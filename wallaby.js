@@ -49,7 +49,13 @@ module.exports = function(wallaby) {
         path.join(wallaby.projectCacheDir, 'apps'),
         path.join(wallaby.projectCacheDir, 'libs'),
         'node_modules'
-      ]
+      ],
+      alias: {
+        '@nationallibraryofnorway/ngx-mime': path.join(
+          wallaby.projectCacheDir,
+          'libs/ngx-mime/src/index.ts'
+        )
+      }
     },
     node: {
       fs: 'empty',
