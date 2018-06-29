@@ -1,7 +1,8 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
   "version": "6.0.5",
-  "license": "MIT", "description": "Mime IIIF viewer",
+  "license": "MIT",
+  "description": "Mime IIIF viewer",
   "homepage": "https://github.com/NationalLibraryOfNorway/ngx-mime",
   "bugs": "https://github.com/NationalLibraryOfNorway/ngx-mime/issues",
   "repository": {
@@ -83,8 +84,8 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.6.1",
-    "@angular-devkit/build-ng-packagr": "~0.6.1",
+    "@angular-devkit/build-angular": "~0.6.8",
+    "@angular-devkit/build-ng-packagr": "~0.6.8",
     "@angular/cli": "~6.0.8",
     "@angular/compiler-cli": "^6.0.7",
     "@angular/language-service": "^6.0.7",
@@ -111,7 +112,7 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "mountebank": "^1.14.1",
-    "ng-packagr": "v4.0.0-rc.2",
+    "ng-packagr": "2.4.4",
     "prettier": "1.13.6",
     "pretty-quick": "^1.6.0",
     "protractor": "~5.3.0",
@@ -120,7 +121,7 @@
     "standard-version": "^4.4.0",
     "ts-node": "~5.0.1",
     "tsickle": ">=0.25.5",
-    "tslib": "^1.7.1",
+    "tslib": "^1.9.3",
     "tslint": "~5.9.1",
     "tslint-config-prettier": "^1.13.0",
     "typescript": "2.7.2",

@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { NxModule } from '@nrwl/nx';
 import 'hammerjs';
-import { MimeModule } from 'ngx-mime-build';
+import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 import { AppComponent } from './app.component';
 import { ViewerComponent } from './viewer/viewer.component';
 
