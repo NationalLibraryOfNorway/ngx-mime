@@ -3,7 +3,12 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/apps/integration",
     "module": "commonjs",
-    "types": ["jasmine", "node"]
+    "types": ["jasmine", "node"],
+    "paths": {
+      "@nationallibraryofnorway/ngx-mime": [
+        "../../dist/libs/@nationallibraryofnorway/ngx-mime"
+      ]
+    }
   },
   "files": ["src/test.ts", "src/polyfills.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

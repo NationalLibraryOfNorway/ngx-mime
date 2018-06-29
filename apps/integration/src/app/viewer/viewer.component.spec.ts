@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MimeModule } from 'ngx-mime-build';
 import { ViewerComponent } from './viewer.component';
 
 describe('ViewerComponent', () => {
@@ -10,7 +10,8 @@ describe('ViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MimeModule, RouterTestingModule, HttpClientTestingModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterTestingModule, HttpClientTestingModule],
       declarations: [ViewerComponent]
     }).compileComponents();
   }));
