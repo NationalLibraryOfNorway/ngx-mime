@@ -41,3 +41,4 @@ Thumbs.db
 .tmp
 mb.pid
 /**/*.log
+libs/**/.ng_pkg_build/
