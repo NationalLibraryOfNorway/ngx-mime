@@ -1,8 +1,25 @@
-import { protractor } from 'protractor/built';
-import { browser, element, ElementFinder, by } from 'protractor';
+import { by, element, ElementFinder } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
+
+export class Metadata {
+  public title?: string;
+  public content?: string;
+
+  constructor(
+    public fields?: {
+      title?: string;
+      content?: string;
+    }
+  ) {
+    if (fields) {
+      this.title = fields.title || this.title;
+      this.content = fields.content || this.content;
+    }
+  }
+}
+
 export class MetadataPage {
   async getAll() {
     const metadatas = [];
@@ -41,23 +58,6 @@ export class MetadataPage {
       return true;
     } catch (e) {
       return false;
-    }
-  }
-}
-
-export class Metadata {
-  public title?: string;
-  public content?: string;
-
-  constructor(
-    public fields?: {
-      title?: string;
-      content?: string;
-    }
-  ) {
-    if (fields) {
-      this.title = fields.title || this.title;
-      this.content = fields.content || this.content;
     }
   }
 }

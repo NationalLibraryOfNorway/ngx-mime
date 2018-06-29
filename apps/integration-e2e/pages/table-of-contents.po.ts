@@ -1,4 +1,21 @@
-import { element, by } from 'protractor';
+import { by, element } from 'protractor';
+
+export class TOC {
+  public label?: string;
+  public canvasIndex?: number;
+
+  constructor(
+    public fields?: {
+      label?: string;
+      canvasIndex?: number;
+    }
+  ) {
+    if (fields) {
+      this.label = fields.label || this.label;
+      this.canvasIndex = fields.canvasIndex;
+    }
+  }
+}
 
 export class TableOfContentsPage {
   async getAll() {
@@ -26,22 +43,5 @@ export class TableOfContentsPage {
 
   async getTocElement(index: number) {
     return await element.all(by.css('.toc-link')).get(index);
-  }
-}
-
-export class TOC {
-  public label?: string;
-  public canvasIndex?: number;
-
-  constructor(
-    public fields?: {
-      label?: string;
-      canvasIndex?: number;
-    }
-  ) {
-    if (fields) {
-      this.label = fields.label || this.label;
-      this.canvasIndex = fields.canvasIndex;
-    }
   }
 }

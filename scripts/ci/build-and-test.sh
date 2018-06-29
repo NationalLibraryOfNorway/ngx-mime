@@ -12,13 +12,13 @@ cd $(dirname $0)/../..
 # Include sources.
 source ./scripts/ci/sources/tunnel.sh
 
+yarn build:prod
 yarn affected:lint --all
-npm run test:once
-npm run coverage
+yarn affected:test --all
 
 start_tunnel
 wait_for_tunnel
 
-npm run integration
+yarn e2e
 
 teardown_tunnel
