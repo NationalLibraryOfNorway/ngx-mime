@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/apps/integration",
+    "baseUrl": ".",
+    "module": "es2015",
+    "types": [],
+    "paths": {
+      "@nationallibraryofnorway/ngx-mime": [
+        "../../dist/libs/@nationallibraryofnorway/ngx-mime"
+      ]
+    }
+  },
+  "exclude": ["src/test.ts", "**/*.spec.ts"],
+  "include": ["**/*.ts"]
+}

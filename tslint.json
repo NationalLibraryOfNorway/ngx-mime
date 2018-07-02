@@ -1,23 +1,28 @@
 {
-  "rulesDirectory": ["node_modules/codelyzer"],
+  "rulesDirectory": [
+    "node_modules/codelyzer",
+    "node_modules/@nrwl/schematics/src/tslint"
+  ],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
-    "comment-format": [true, "check-space"],
-    "curly": true,
     "deprecation": {
       "severity": "warn"
     },
     "forin": true,
     "import-blacklist": [true, "rxjs/Rx"],
     "interface-over-type-literal": true,
-    "label-position": true,
     "member-access": false,
     "member-ordering": [
       true,
       {
-        "order": ["static-field", "instance-field", "static-method", "instance-method"]
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
       }
     ],
     "no-arg": true,
@@ -46,8 +51,8 @@
     "triple-equals": [true, "allow-null-check"],
     "unified-signatures": true,
     "variable-name": false,
-    "directive-selector": [true, "attribute", "mime", "camelCase"],
-    "component-selector": [true, "element", ["mime", "demo"], "kebab-case"],
+    "directive-selector": [true, "attribute", "app", "camelCase"],
+    "component-selector": [true, "element", "app", "kebab-case"],
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
@@ -58,6 +63,15 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "extends": ["tslint:latest", "tslint-config-prettier"]
+
+    "nx-enforce-module-boundaries": [
+      true,
+      {
+        "allow": [],
+        "depConstraints": [
+          { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
+        ]
+      }
+    ]
   }
 }

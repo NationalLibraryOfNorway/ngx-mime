@@ -33,7 +33,7 @@ before_script:
  - chmod +x ./scripts/saucelabs/start-tunnel.sh
  - chmod +x ./scripts/saucelabs/wait-tunnel.sh
  - chmod +x ./scripts/saucelabs/stop-tunnel.sh
- - chmod +x ./integration/scripts/wait-on.sh
+ - chmod +x ./apps/integration-e2e/scripts/wait-on.sh
 
 script:
   - travis_wait 60 ./scripts/ci/build-and-test.sh

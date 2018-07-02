@@ -1,6 +1,0 @@
-{
-  "@context": ["http://iiif.io/api/presentation/2/context.json", "http://iiif.io/api/search/0/context.json"],
-  "@id": "https://api.nb.no/catalog/v1/contentsearch/578dffe1fd335a33693bb4261dc738b5/search?q=america",
-  "@type": "sc:AnnotationList",
-  "hits": []
-}
