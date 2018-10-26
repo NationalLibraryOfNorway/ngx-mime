@@ -54,7 +54,7 @@ export class AccessKeysService implements OnDestroy {
 
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
-    if (!this.isKeyDisabled(event.key)) {
+    if (!this.isKeyDisabled(event.code)) {
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
           this.goToPreviousCanvasGroup();

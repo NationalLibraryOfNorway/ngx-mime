@@ -5,22 +5,22 @@ export class AccessKeys {
   public static ARROWLEFT = ['ArrowLeft'];
   public static firstCanvasGroupCodes = ['Home'];
   public static lastCanvasGroupCodes = ['End'];
-  public static zoomInCodes = ['+', 'Add'];
-  public static zoomOutCodes = ['-', 'Subtract'];
-  public static zoomHomeCodes = ['Insert', '0'];
-  public static nextHit = ['n'];
-  public static previousHit = ['p'];
-  public static toggleSearchDialogCodes = ['s'];
-  public static toggleContentsDialogCodes = ['c'];
-  public static toggleFullscreenCodes = ['f'];
-  public static resetSearch = ['s'];
+  public static zoomInCodes = ['NumpadAdd'];
+  public static zoomOutCodes = ['NumpadSubtract'];
+  public static zoomHomeCodes = ['Digit0', 'Numpad0'];
+  public static nextHit = ['KeyN'];
+  public static previousHit = ['KeyP'];
+  public static toggleSearchDialogCodes = ['KeyS'];
+  public static toggleContentsDialogCodes = ['KeyC'];
+  public static toggleFullscreenCodes = ['KeyF'];
+  public static resetSearch = ['KeyS'];
   private key: string;
   private altKey = false;
   private shiftKey = false;
   private ctrlkey = false;
 
   constructor(event: KeyboardEvent) {
-    this.key = event.key;
+    this.key = event.code;
     this.altKey = event.altKey;
     this.shiftKey = event.shiftKey;
     this.ctrlkey = event.ctrlKey;
@@ -57,6 +57,7 @@ export class AccessKeys {
   }
 
   public isZoomInKeys() {
+    console.log();
     return (
       !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes)
     );
