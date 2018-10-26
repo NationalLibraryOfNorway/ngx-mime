@@ -1,26 +1,26 @@
 export class AccessKeys {
-  public static PAGEDOWN = [34];
-  public static PAGEUP = [33];
-  public static ARROWRIGHT = [39];
-  public static ARROWLEFT = [37];
-  public static firstCanvasGroupCodes = [36]; // Home
-  public static lastCanvasGroupCodes = [35]; // End
-  public static zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
-  public static zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
-  public static zoomHomeCodes = [96, 48]; // 0
-  public static nextHit = [78]; // n
-  public static previousHit = [80]; // p
-  public static toggleSearchDialogCodes = [83]; // s
-  public static toggleContentsDialogCodes = [67]; // C
-  public static toggleFullscreenCodes = [70]; // f
-  public static resetSearch = [83]; // s
-  private keyCode: number;
+  public static PAGEDOWN = ['PageDown'];
+  public static PAGEUP = ['PageUp'];
+  public static ARROWRIGHT = ['ArrowRight'];
+  public static ARROWLEFT = ['ArrowLeft'];
+  public static firstCanvasGroupCodes = ['Home'];
+  public static lastCanvasGroupCodes = ['End'];
+  public static zoomInCodes = ['+', 'Add'];
+  public static zoomOutCodes = ['-', 'Subtract'];
+  public static zoomHomeCodes = ['Insert', '0'];
+  public static nextHit = ['n'];
+  public static previousHit = ['p'];
+  public static toggleSearchDialogCodes = ['s'];
+  public static toggleContentsDialogCodes = ['c'];
+  public static toggleFullscreenCodes = ['f'];
+  public static resetSearch = ['s'];
+  private key: string;
   private altKey = false;
   private shiftKey = false;
   private ctrlkey = false;
 
   constructor(event: KeyboardEvent) {
-    this.keyCode = event.keyCode;
+    this.key = event.key;
     this.altKey = event.altKey;
     this.shiftKey = event.shiftKey;
     this.ctrlkey = event.ctrlKey;
@@ -115,8 +115,8 @@ export class AccessKeys {
     return this.altKey || this.shiftKey || this.ctrlkey;
   }
 
-  private arrayContainsKeys(keys: number[]): boolean {
-    return keys.indexOf(this.keyCode) > -1;
+  private arrayContainsKeys(keys: string[]): boolean {
+    return keys.indexOf(this.key) > -1;
   }
 
   private isShiftPressed(): boolean {

@@ -20,7 +20,7 @@ import { SearchResult } from '../models/search-result';
 export class AccessKeysService implements OnDestroy {
   private isSearchable = false;
   private hasHits = false;
-  private disabledKeys: number[] = [];
+  private disabledKeys: string[] = [];
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -54,7 +54,7 @@ export class AccessKeysService implements OnDestroy {
 
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
-    if (!this.isKeyDisabled(event.keyCode)) {
+    if (!this.isKeyDisabled(event.key)) {
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
           this.goToPreviousCanvasGroup();
@@ -228,8 +228,8 @@ export class AccessKeysService implements OnDestroy {
     this.disabledKeys = [];
   }
 
-  private isKeyDisabled(keyCode: number): boolean {
+  private isKeyDisabled(key: string): boolean {
     this.updateDisabledKeys();
-    return this.disabledKeys.indexOf(keyCode) > -1;
+    return this.disabledKeys.indexOf(key) > -1;
   }
 }
