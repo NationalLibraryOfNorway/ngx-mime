@@ -24,10 +24,9 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 install:
-  - npm install
+  - yarn install
 
 before_script:
- - npm prune
  - mkdir -p $LOGS_DIR
  - chmod +x ./scripts/ci/build-and-test.sh
  - chmod +x ./scripts/saucelabs/start-tunnel.sh
