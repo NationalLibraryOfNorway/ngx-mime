@@ -4,23 +4,9 @@ exports.customDesktopLaunchers = [
     version: 'latest'
   },
   {
-    browserName: 'firefox',
-    version: 'latest'
-  },
-  {
     browserName: 'MicrosoftEdge',
     version: 'latest'
   }
-  // {
-  //   browserName: "internet explorer",
-  //   platform: "Windows 10",
-  //   version: "latest"
-  // },
-  // {
-  //   browserName: "safari",
-  //   platform: "macOS 10.12",
-  //   version: "10.0"
-  // }
 ];
 exports.androidLaunchers = [
   {

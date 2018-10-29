@@ -75,21 +75,26 @@ function getMultiCapabilities() {
     .concat(remoteBrowsers.iphoneLaunchers);
   let capabilities = {
     name: 'Mime E2E Tests',
-    shardTestFiles: true
+    shardTestFiles: true,
   };
-
+  
   if (argv.browser) {
     const cap = browsers.find(l => l.browserName === argv.browser);
-    console.log('cap', cap);
-    capabilities = {
-      browserName: cap.browserName,
-      version: cap.version,
-      platformName: cap.platformName,
-      deviceName: cap.deviceName,
-      name: 'Mime E2E Tests',
-      shardTestFiles: true,
-      maxInstances: 10
-    };
+    if (cap) {
+      capabilities.browserName = cap.browserName;
+      capabilities.version = cap.version;
+      capabilities.platformName = cap.platformName;
+      capabilities.deviceName = cap.deviceName;
+    } else {
+      capabilities.browserName = argv.browser;
+      capabilities.version = argv.version ? argv.version : 'latest';
+      if (argv.platformName) {
+        capabilities.platformName = argv.platformName;
+      }
+      if (argv.deviceName) {
+        capabilities.deviceName = argv.deviceName;
+      }
+    }
     if (argv.headless) {
       capabilities.chromeOptions = {
         args: [
@@ -111,14 +116,13 @@ function getMultiCapabilities() {
     }
     for (const cap of browsers) {
       const capability = {
+        ...capabilities,
         browserName: cap.browserName,
         version: cap.version,
         platform: cap.platform,
         platformName: cap.platformName,
         platformVersion: cap.platformVersion,
         deviceName: cap.deviceName,
-        name: 'Mime E2E Tests',
-        shardTestFiles: true,
         build: process.env.TRAVIS_JOB_NUMBER,
         tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
         maxInstances: 5
