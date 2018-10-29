@@ -2,11 +2,11 @@
 
 set -e -o pipefail
 
-TUNNEL_FILE="sc-4.4.12-linux.tar.gz"
+TUNNEL_FILE="sc-4.5.1-linux.tar.gz"
 TUNNEL_URL="https://saucelabs.com/downloads/${TUNNEL_FILE}"
 TUNNEL_DIR="/tmp/saucelabs-connect"
 
-TUNNEL_LOG="${LOGS_DIR}/sauce-connect"
+TUNNEL_LOG="${LOGS_DIR}/saucelabs-tunnel.log"
 
 # Cleanup and create the folder structure for the tunnel connector.
 rm -rf ${TUNNEL_DIR} ${BROWSER_PROVIDER_READY_FILE}
@@ -24,11 +24,11 @@ tar --extract --file=${TUNNEL_FILE} --strip-components=1 --directory=sauce-conne
 # Cleanup the download directory.
 rm ${TUNNEL_FILE}
 
-ARGS="--no-proxy-caching"
+ARGS=""
 
 # Set tunnel-id only on Travis, to make local testing easier.
-if [ ! -z "${TRAVIS_JOB_NUMBER}" ]; then
-  ARGS="${ARGS} --tunnel-identifier ${TRAVIS_JOB_NUMBER}"
+if [ ! -z "${TRAVIS_JOB_ID}" ]; then
+  ARGS="${ARGS} --tunnel-identifier ${TRAVIS_JOB_ID}"
 fi
 if [ ! -z "${BROWSER_PROVIDER_READY_FILE}" ]; then
   ARGS="${ARGS} --readyfile ${BROWSER_PROVIDER_READY_FILE}"
@@ -36,4 +36,4 @@ fi
 
 echo "Starting Sauce Connect in the background, logging into: ${TUNNEL_LOG}"
 
-sauce-connect/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} ${ARGS} 2>&1 >> ${TUNNEL_LOG} &
+sauce-connect/bin/sc -u ${SAUCE_USERNAME} -api-key ${SAUCE_ACCESS_KEY} ${ARGS} 2>&1 >> ${TUNNEL_LOG} &
