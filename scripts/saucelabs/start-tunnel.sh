@@ -24,11 +24,11 @@ tar --extract --file=${TUNNEL_FILE} --strip-components=1 --directory=sauce-conne
 # Cleanup the download directory.
 rm ${TUNNEL_FILE}
 
-ARGS=""
+ARGS="--no-proxy-caching"
 
 # Set tunnel-id only on Travis, to make local testing easier.
-if [ ! -z "${TRAVIS_JOB_ID}" ]; then
-  ARGS="${ARGS} --tunnel-identifier ${TRAVIS_JOB_ID}"
+if [ ! -z "${TRAVIS_JOB_NUMBER}" ]; then
+  ARGS="${ARGS} --tunnel-identifier ${TRAVIS_JOB_NUMBER}"
 fi
 if [ ! -z "${BROWSER_PROVIDER_READY_FILE}" ]; then
   ARGS="${ARGS} --readyfile ${BROWSER_PROVIDER_READY_FILE}"
