@@ -51,16 +51,7 @@ export class ViewerPage {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
 
-    for (let i = 0; i < 5; i++) {
-      await browser
-        .get(uri, 10000)
-        .then(() => (i = 100))
-        .catch(e => {
-          console.log(e);
-          i++;
-        });
-    }
-    browser.waitForAngular();
+    await browser.get(uri)
     await this.setFocusOnViewer();
   }
 
@@ -585,11 +576,11 @@ export class ViewerPage {
   }
 
   async setFocusOnViewer() {
-    const canvas = await utils.waitForElement(
+    await utils.waitForElement(
       element(by.css('.openseadragon-canvas > canvas'))
     );
     await browser.executeScript(
-      `document.getElementsByClassName('openseadragon-canvas')[0].focus();`
+      `document.querySelector('.openseadragon-canvas').focus();`
     );
   }
 }
