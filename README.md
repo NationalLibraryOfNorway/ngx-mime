@@ -1,6 +1,7 @@
 # Mime IIIF Viewer for Angular
 [![npm version](https://badge.fury.io/js/%40nationallibraryofnorway%2Fngx-mime.svg)](https://badge.fury.io/js/%40nationallibraryofnorway%2Fngx-mime)
 [![Build Status](https://travis-ci.org/NationalLibraryOfNorway/ngx-mime.svg?branch=master)](https://travis-ci.org/NationalLibraryOfNorway/ngx-mime)
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=LzhQVHVzczlHbEh2YXdBUUdsa3N4cjlVS2lMTVBVZ2tGZ3dZZ1hybXFRQT0tLWpyK2phU2YvbDBmTTVTNFloMEV2ZVE9PQ==--d3b80b3c8af9897b5d33223970bf064daf51f0a5)](https://www.browserstack.com/automate/public-build/LzhQVHVzczlHbEh2YXdBUUdsa3N4cjlVS2lMTVBVZ2tGZ3dZZ1hybXFRQT0tLWpyK2phU2YvbDBmTTVTNFloMEV2ZVE9PQ==--d3b80b3c8af9897b5d33223970bf064daf51f0a5)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
