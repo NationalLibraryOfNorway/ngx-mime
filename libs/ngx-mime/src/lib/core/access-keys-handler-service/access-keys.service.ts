@@ -54,7 +54,7 @@ export class AccessKeysService implements OnDestroy {
 
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
-    if (!this.isKeyDisabled(event.code)) {
+    if (!this.isKeyDisabled(event.key)) {
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
           this.goToPreviousCanvasGroup();
@@ -214,13 +214,13 @@ export class AccessKeysService implements OnDestroy {
       .concat(AccessKeys.ARROWRIGHT)
       .concat(AccessKeys.firstCanvasGroupCodes)
       .concat(AccessKeys.lastCanvasGroupCodes)
-      .concat(AccessKeys.zoomInCodes)
-      .concat(AccessKeys.zoomOutCodes)
+      .concat(AccessKeys.zoomInKeys)
+      .concat(AccessKeys.zoomOutKeys)
       .concat(AccessKeys.zoomHomeCodes)
       .concat(AccessKeys.nextHit)
       .concat(AccessKeys.previousHit)
-      .concat(AccessKeys.toggleSearchDialogCodes)
-      .concat(AccessKeys.toggleContentsDialogCodes)
+      .concat(AccessKeys.toggleSearchDialogKeys)
+      .concat(AccessKeys.toggleContentsDialogKeys)
       .concat(AccessKeys.toggleFullscreenCodes);
   }
 

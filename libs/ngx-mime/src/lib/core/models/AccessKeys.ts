@@ -5,122 +5,82 @@ export class AccessKeys {
   public static ARROWLEFT = ['ArrowLeft'];
   public static firstCanvasGroupCodes = ['Home'];
   public static lastCanvasGroupCodes = ['End'];
-  public static zoomInCodes = ['NumpadAdd'];
-  public static zoomOutCodes = ['NumpadSubtract'];
-  public static zoomHomeCodes = ['Digit0', 'Numpad0'];
-  public static nextHit = ['KeyN'];
-  public static previousHit = ['KeyP'];
-  public static toggleSearchDialogCodes = ['KeyS'];
-  public static toggleContentsDialogCodes = ['KeyC'];
-  public static toggleFullscreenCodes = ['KeyF'];
-  public static resetSearch = ['KeyS'];
+  public static zoomInKeys = ['+'];
+  public static zoomOutKeys = ['-'];
+  public static zoomHomeCodes = ['0'];
+  public static nextHit = ['n'];
+  public static previousHit = ['p'];
+  public static toggleSearchDialogKeys = ['s'];
+  public static toggleContentsDialogKeys = ['c'];
+  public static toggleFullscreenCodes = ['f'];
+  public static resetSearch = ['s'];
   private key: string;
-  private altKey = false;
-  private shiftKey = false;
-  private ctrlkey = false;
 
   constructor(event: KeyboardEvent) {
-    this.key = event.code;
-    this.altKey = event.altKey;
-    this.shiftKey = event.shiftKey;
-    this.ctrlkey = event.ctrlKey;
+    this.key = event.key;
   }
 
   public isArrowRightKeys() {
-    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
+    return this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
   }
 
   public isArrowLeftKeys() {
-    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
+    return this.arrayContainsKeys(AccessKeys.ARROWLEFT);
   }
 
   public isPageUpKeys() {
-    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
+    return this.arrayContainsKeys(AccessKeys.PAGEUP);
   }
 
   public isPageDownKeys() {
-    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
+    return this.arrayContainsKeys(AccessKeys.PAGEDOWN);
   }
 
   public isFirstCanvasGroupKeys() {
-    return (
-      !this.isMultiKeys() &&
-      this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes)
-    );
+    return this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes);
   }
 
   public isLastCanvasGroupKeys() {
-    return (
-      !this.isMultiKeys() &&
-      this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes)
-    );
+    return this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes);
   }
 
   public isZoomInKeys() {
-    console.log();
-    return (
-      !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes)
-    );
+    return this.arrayContainsKeys(AccessKeys.zoomInKeys);
   }
 
   public isZoomOutKeys() {
-    return (
-      !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes)
-    );
+    return this.arrayContainsKeys(AccessKeys.zoomOutKeys);
   }
 
   public isZoomHomeKeys() {
-    return (
-      !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes)
-    );
+    return this.arrayContainsKeys(AccessKeys.zoomHomeCodes);
   }
 
   public isNextHitKeys() {
-    return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
+    return this.arrayContainsKeys(AccessKeys.nextHit);
   }
 
   public isPreviousHitKeys() {
-    return (
-      !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit)
-    );
+    return this.arrayContainsKeys(AccessKeys.previousHit);
   }
 
   public isSearchDialogKeys() {
-    return (
-      !this.isMultiKeys() &&
-      this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes)
-    );
+    return this.arrayContainsKeys(AccessKeys.toggleSearchDialogKeys);
   }
 
   public isContentsDialogKeys() {
-    return (
-      !this.isMultiKeys() &&
-      this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes)
-    );
+    return this.arrayContainsKeys(AccessKeys.toggleContentsDialogKeys);
   }
 
   public isFullscreenKeys() {
-    return (
-      !this.isMultiKeys() &&
-      this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes)
-    );
+    return this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes);
   }
 
   public isResetSearchKeys() {
-    return (
-      this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch)
-    );
-  }
-
-  private isMultiKeys(): boolean {
-    return this.altKey || this.shiftKey || this.ctrlkey;
+    return this.arrayContainsKeys(AccessKeys.resetSearch);
   }
 
   private arrayContainsKeys(keys: string[]): boolean {
     return keys.indexOf(this.key) > -1;
-  }
-
-  private isShiftPressed(): boolean {
-    return this.shiftKey;
   }
 }
