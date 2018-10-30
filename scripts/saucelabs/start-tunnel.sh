@@ -2,11 +2,11 @@
 
 set -e -o pipefail
 
-TUNNEL_FILE="sc-4.4.12-linux.tar.gz"
+TUNNEL_FILE="sc-4.5.1-linux.tar.gz"
 TUNNEL_URL="https://saucelabs.com/downloads/${TUNNEL_FILE}"
 TUNNEL_DIR="/tmp/saucelabs-connect"
 
-TUNNEL_LOG="${LOGS_DIR}/sauce-connect"
+TUNNEL_LOG="${LOGS_DIR}/saucelabs-tunnel.log"
 
 # Cleanup and create the folder structure for the tunnel connector.
 rm -rf ${TUNNEL_DIR} ${BROWSER_PROVIDER_READY_FILE}
@@ -36,4 +36,4 @@ fi
 
 echo "Starting Sauce Connect in the background, logging into: ${TUNNEL_LOG}"
 
-sauce-connect/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} ${ARGS} 2>&1 >> ${TUNNEL_LOG} &
+sauce-connect/bin/sc -u ${SAUCE_USERNAME} -api-key ${SAUCE_ACCESS_KEY} ${ARGS} 2>&1 >> ${TUNNEL_LOG} &
