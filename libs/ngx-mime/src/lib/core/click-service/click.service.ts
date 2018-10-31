@@ -5,7 +5,7 @@ export class ClickService {
   private singleClickHandlers: Array<(event: any) => void>;
   private doubleClickHandlers: Array<(event: any) => void>;
   private clickCount = 0;
-  private dblClickTimeOut: number;
+  private dblClickTimeOut: any;
 
   constructor() {
     this.reset();
