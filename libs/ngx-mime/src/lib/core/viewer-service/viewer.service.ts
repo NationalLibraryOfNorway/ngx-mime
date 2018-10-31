@@ -12,7 +12,7 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
-import '../ext/svg-overlay';
+import { createSvgOverlay } from '../ext/svg-overlay';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerConfig } from '../mime-viewer-config';
@@ -42,6 +42,7 @@ import { SwipeUtils } from './swipe-utils';
 import { TileSourceStrategyFactory } from './tile-source-strategy-factory';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 
+declare const OpenSeadragon: any;
 @Injectable()
 export class ViewerService {
   private viewer: any;
@@ -216,6 +217,7 @@ export class ViewerService {
         this.viewer = new OpenSeadragon.Viewer(
           Object.assign({}, this.getOptions())
         );
+        createSvgOverlay();
         this.zoomStrategy = new DefaultZoomStrategy(
           this.viewer,
           this.canvasService,

@@ -2,7 +2,7 @@ declare const OpenSeadragon: any;
 
 // OpenSeadragon SVG Overlay plugin 0.0.4
 
-(function() {
+export function createSvgOverlay() {
   if (!OpenSeadragon) {
     console.error('[openseadragon-svg-overlay] requires OpenSeadragon');
     return;
@@ -116,4 +116,4 @@ declare const OpenSeadragon: any;
     this._svgOverlayInfo = new Overlay(this);
     return this._svgOverlayInfo;
   };
-})();
+}
