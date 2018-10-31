@@ -2,7 +2,8 @@ import { browser, ElementFinder, protractor } from 'protractor/built';
 import { Capabilities } from 'selenium-webdriver';
 
 const EC = protractor.ExpectedConditions;
-const RETRY = 100;
+const TIMEOUT = 60000;
+
 export class Utils {
   static numbersAreClose(
     thing: number,
@@ -13,20 +14,8 @@ export class Utils {
   }
 
   public async waitForElement(el: ElementFinder): Promise<ElementFinder> {
-    let found = false;
-    for (let i = 0; i < RETRY; i++) {
-      await browser.sleep(10);
-      const isElementPresent = await browser.isElementPresent(el);
-      if (isElementPresent) {
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      throw Error(el.locator());
-    } else {
-      return el;
-    }
+    await browser.wait(EC.visibilityOf(el), TIMEOUT, 'element not visible');
+    return el;
   }
 
   public async waitForPresenceOf(el: ElementFinder) {
