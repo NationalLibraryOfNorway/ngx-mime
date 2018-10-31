@@ -34,7 +34,7 @@ export class ContentSearchPage {
   }
 
   async getNumberOfHits() {
-    const el: ElementFinder = await utils.waitForElement(
+    const el: ElementFinder = await utils.waitForPresenceOf(
       element(by.css('#numberOfHits'))
     );
     const numberOfHits = await el.getAttribute('value');

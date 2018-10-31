@@ -14,7 +14,7 @@ export class Utils {
   }
 
   public async waitForElement(el: ElementFinder): Promise<ElementFinder> {
-    await browser.wait(EC.presenceOf(el), TIMEOUT, 'element not visible');
+    await browser.wait(EC.visibilityOf(el), TIMEOUT, 'element not visible');
     return el;
   }
 

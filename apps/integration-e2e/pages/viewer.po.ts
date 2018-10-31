@@ -51,7 +51,7 @@ export class ViewerPage {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
 
-    await browser.get(uri)
+    await browser.get(uri);
     await this.setFocusOnViewer();
   }
 
@@ -187,12 +187,12 @@ export class ViewerPage {
 
   async getHeader() {
     const el = element(by.css('mime-viewer-header'));
-    return utils.waitForElement(el);
+    return utils.waitForPresenceOf(el);
   }
 
   async getFooter() {
     const el = element(by.css('mime-viewer-footer'));
-    return utils.waitForElement(el);
+    return utils.waitForPresenceOf(el);
   }
 
   async getSVGElement() {
