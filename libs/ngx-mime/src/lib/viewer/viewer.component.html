@@ -1,11 +1,30 @@
-<div id="mimeViewer" class="viewer-container" [ngClass]="setClasses()" [hidden]="errorMessage !== null">
+<div
+  id="mimeViewer"
+  class="viewer-container"
+  [ngClass]="setClasses()"
+  [hidden]="errorMessage !== null"
+>
   <mime-spinner></mime-spinner>
-  <mime-viewer-header class="navbar navbar-header" #mimeHeader></mime-viewer-header>
-  <mime-osd-toolbar *ngIf="config?.navigationControlEnabled" #mimeOsdToolbar></mime-osd-toolbar>
+  <mime-viewer-header
+    class="navbar navbar-header"
+    #mimeHeader
+  ></mime-viewer-header>
+  <mime-osd-toolbar
+    *ngIf="config?.navigationControlEnabled"
+    #mimeOsdToolbar
+  ></mime-osd-toolbar>
   <div id="openseadragon"></div>
-  <mime-viewer-footer class="navbar navbar-footer" #mimeFooter></mime-viewer-footer>
+  <mime-viewer-footer
+    class="navbar navbar-footer"
+    #mimeFooter
+  ></mime-viewer-footer>
 </div>
 
-<div class="error-container" *ngIf="errorMessage" fxLayout="column" fxLayoutAlign="center center">
-  <span>{{intl.somethingHasGoneWrongLabel}}</span>
+<div
+  class="error-container"
+  *ngIf="errorMessage"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+>
+  <span>{{ intl.somethingHasGoneWrongLabel }}</span>
 </div>

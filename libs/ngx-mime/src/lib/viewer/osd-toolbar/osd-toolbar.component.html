@@ -1,26 +1,60 @@
 <div #container class="osd-toolbar" [ngStyle]="osdToolbarStyle">
   <div fxHide fxShow.gt-sm="true">
-    <div class="osd-toolbar-container" fxLayout="column" fxLayoutAlign="center center">
+    <div
+      class="osd-toolbar-container"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+    >
       <div class="osd-toolbar-row">
-        <button (click)="zoomIn()" id="zoomInButton" mat-icon-button [attr.aria-label]="intl.zoomInLabel" [matTooltip]="intl.zoomInLabel">
+        <button
+          (click)="zoomIn()"
+          id="zoomInButton"
+          mat-icon-button
+          [attr.aria-label]="intl.zoomInLabel"
+          [matTooltip]="intl.zoomInLabel"
+        >
           <mat-icon>zoom_in</mat-icon>
         </button>
       </div>
       <div class="osd-toolbar-row">
-        <button id="navigateBeforeButton" mat-icon-button [attr.aria-label]="intl.previousPageLabel" [matTooltip]="intl.previousPageLabel"
-          [disabled]="isFirstCanvasGroup" (click)="goToPreviousCanvasGroup()">
+        <button
+          id="navigateBeforeButton"
+          mat-icon-button
+          [attr.aria-label]="intl.previousPageLabel"
+          [matTooltip]="intl.previousPageLabel"
+          [disabled]="isFirstCanvasGroup"
+          (click)="goToPreviousCanvasGroup()"
+        >
           <mat-icon>navigate_before</mat-icon>
         </button>
-        <button (click)="home()" id="homeButton" mat-icon-button [attr.aria-label]="intl.homeLabel" [matTooltip]="intl.homeLabel">
+        <button
+          (click)="home()"
+          id="homeButton"
+          mat-icon-button
+          [attr.aria-label]="intl.homeLabel"
+          [matTooltip]="intl.homeLabel"
+        >
           <mat-icon>home</mat-icon>
         </button>
-        <button id="navigateNextButton" mat-icon-button [attr.aria-label]="intl.nextPageLabel" [matTooltip]="intl.nextPageLabel"
-          [disabled]="isLastCanvasGroup" (click)="goToNextCanvasGroup()">
+        <button
+          id="navigateNextButton"
+          mat-icon-button
+          [attr.aria-label]="intl.nextPageLabel"
+          [matTooltip]="intl.nextPageLabel"
+          [disabled]="isLastCanvasGroup"
+          (click)="goToNextCanvasGroup()"
+        >
           <mat-icon>navigate_next</mat-icon>
         </button>
       </div>
       <div class="osd-toolbar-row">
-        <button (click)="zoomOut()" id="zoomOutButton" mat-icon-button [attr.aria-label]="intl.zoomOutLabel" [matTooltip]="intl.zoomOutLabel">
+        <button
+          (click)="zoomOut()"
+          id="zoomOutButton"
+          mat-icon-button
+          [attr.aria-label]="intl.zoomOutLabel"
+          [matTooltip]="intl.zoomOutLabel"
+        >
           <mat-icon>zoom_out</mat-icon>
         </button>
       </div>

@@ -5,7 +5,13 @@ import { ViewerComponent } from './viewer.component';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 
 @Component({
-  template: `<mime-viewer [manifestUri]="manifestUri" [canvasIndex]="canvasIndex" [config]="config"></mime-viewer>`
+  template: `
+    <mime-viewer
+      [manifestUri]="manifestUri"
+      [canvasIndex]="canvasIndex"
+      [config]="config"
+    ></mime-viewer>
+  `
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent) public viewerComponent: any;

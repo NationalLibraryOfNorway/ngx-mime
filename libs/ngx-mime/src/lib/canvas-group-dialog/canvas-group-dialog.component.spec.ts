@@ -79,22 +79,19 @@ describe('PageDialogComponent', () => {
   });
 
   describe('error messages', () => {
-    it(
-      'should show a error message if user enters a canvas group number index that does not exists',
-      fakeAsync(() => {
-        canvasService._currentNumberOfCanvasGroups.next(10);
+    it('should show a error message if user enters a canvas group number index that does not exists', fakeAsync(() => {
+      canvasService._currentNumberOfCanvasGroups.next(10);
 
-        component.canvasGroupControl.setValue(11);
+      component.canvasGroupControl.setValue(11);
 
-        component.canvasGroupControl.markAsTouched();
-        fixture.detectChanges();
-        flush();
+      component.canvasGroupControl.markAsTouched();
+      fixture.detectChanges();
+      flush();
 
-        const canvasGroupDoesNotExistsError = fixture.debugElement.query(
-          By.css('#canvasGroupDoesNotExistsError')
-        );
-        expect(canvasGroupDoesNotExistsError).not.toBeNull();
-      })
-    );
+      const canvasGroupDoesNotExistsError = fixture.debugElement.query(
+        By.css('#canvasGroupDoesNotExistsError')
+      );
+      expect(canvasGroupDoesNotExistsError).not.toBeNull();
+    }));
   });
 });
