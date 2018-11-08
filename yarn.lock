@@ -334,25 +334,25 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@ngrx/effects@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-6.1.0.tgz#3c1e1ab1e5a86c6d9c29d4f3771e42cc9bd8576c"
-  integrity sha512-euR/VHn0cEOkdZ3SqCzUvYHT0P5FcTBm4/xSE8gH85ORP0//owD3L6o8X3etfWLRS+BAELk1JcXkFeAVG9CXiQ==
+"@ngrx/effects@7.0.0-beta.0":
+  version "7.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-7.0.0-beta.0.tgz#b3985513f994d40f7c101ffc93d67e8ddb5537c7"
+  integrity sha512-yw0NXseLZltUY7ImUwPC0E9pR6FYiicY1mujjV5OdzIL1N4CMF56siuB+V9N3TzmWp61ZO2edmdECxPV3eXftg==
 
-"@ngrx/router-store@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-6.1.0.tgz#a225de3fbb262429561d722e139dde7efdcf0cea"
-  integrity sha512-uMC0TykeVi0fPuX+iwanCAX5mBrb+LHgJGtI4CL+sEjviXe9C/84UDmApoG9Goe0xuCtALqOqGDP0UoNSxVA3g==
+"@ngrx/router-store@7.0.0-beta.0":
+  version "7.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-7.0.0-beta.0.tgz#3e5dc3ff1e7d227b5cea8ac6b49aca6c63d5fe9a"
+  integrity sha512-jMutiraSDx3s9ASw1py3WApAyOPfoxBp6mxJ01/TieuUCi677zC+nWUr5SgJZnjT0a+dMnbnKC19jYaEY31q7A==
 
-"@ngrx/store-devtools@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-6.1.0.tgz#cf65a3149628dc37badd094204484dde9ba14200"
-  integrity sha512-Uc0g/NCbJIbzvIMuCy3skiZVD5hoIrOAAvaninXkVHt7bXpbsSAdvJlmnozuGQqTbC0UQhYRwAR7InRSrzIbMQ==
+"@ngrx/store-devtools@7.0.0-beta.0":
+  version "7.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-7.0.0-beta.0.tgz#849274a67fad1fca25a1a683f486b2f0e5542752"
+  integrity sha512-AZOioU7Shsiz2HHEiFHLTR5BNlD9vHuAod/Nn7gJs8hk9GXE25RtXvGP+v6el178YcErUtp6OPfr9joNVWurJg==
 
-"@ngrx/store@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-6.1.0.tgz#5b027647a797bf027912568214b10375dd75af38"
-  integrity sha512-H5BGym1WtAX84/R4pTQ2MrrP87qYfXc6CoPghCZCK9LYxCodsI7KeQfpyNCg5qapxdH2EDqlHXTBJfMTLRiRGg==
+"@ngrx/store@7.0.0-beta.0":
+  version "7.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-7.0.0-beta.0.tgz#0e174ced7aace3b6544a1f3d34ec902642e8d127"
+  integrity sha512-349HWy74Pn00x2OQTErxt7cidkw8lV7ocdbK7AFJvu/LqGVS1hzM93JJQ3qHYAbsfeeMZXsIMpyeg6LSHQjnPw==
 
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
