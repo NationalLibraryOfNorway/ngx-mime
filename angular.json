@@ -185,8 +185,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/integration/src/environments/environment.ts",
-                  "with":
-                    "apps/integration/src/environments/environment.prod.ts"
+                  "with": "apps/integration/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,

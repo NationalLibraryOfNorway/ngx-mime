@@ -3,16 +3,32 @@
     <div *ngSwitchCase="true">
       <mat-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
-          <div class="heading">{{intl.contentsLabel}}</div>
+          <button
+            mat-icon-button
+            [attr.aria-label]="intl.closeLabel"
+            [matTooltip]="intl.closeLabel"
+            [matDialogClose]="true"
+            tabindex="-1"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <div class="heading">{{ intl.contentsLabel }}</div>
         </div>
       </mat-toolbar>
     </div>
     <div *ngSwitchDefault>
       <mat-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <div class="heading heading-desktop">{{intl.contentsLabel}}</div>
-          <button mat-icon-button [attr.aria-label]="intl.closeLabel" [matTooltip]="intl.closeLabel" [matDialogClose]="true" tabindex="-1"><mat-icon>close</mat-icon></button>
+          <div class="heading heading-desktop">{{ intl.contentsLabel }}</div>
+          <button
+            mat-icon-button
+            [attr.aria-label]="intl.closeLabel"
+            [matTooltip]="intl.closeLabel"
+            [matDialogClose]="true"
+            tabindex="-1"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
         </div>
       </mat-toolbar>
     </div>
