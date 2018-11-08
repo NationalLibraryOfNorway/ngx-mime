@@ -3,6 +3,10 @@
   "dest": "../../dist/libs/@nationallibraryofnorway/ngx-mime",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "src/index.ts"
+    "entryFile": "src/index.ts",
+    "umdModuleIds": {
+      "d3": "d3",
+      "openseadragon": "OpenSeadragon"
+    }
   }
 }

@@ -160,7 +160,9 @@ describe('ViewerComponent', function() {
           }
           testHostComponent.manifestUri = 'dummyURI3';
           testHostFixture.detectChanges();
-          expect(modeService.mode).toBe(config.initViewerMode);
+          expect(modeService.mode.valueOf()).toBe(
+            config.initViewerMode.valueOf()
+          );
           done();
         }, osdAnimationTime);
       }
