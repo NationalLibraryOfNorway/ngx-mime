@@ -7,11 +7,15 @@
   <div fxFlex="grow" fxFlex.gt-sm="500px">
     <form (ngSubmit)="onSubmit()" #form="ngForm">
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <input fxFlex class="manifest-uri" placeholder="Paste the URL of a IIIF manifest here" autocomplete="off" [(ngModel)]="manifestUri"
-          name="manifestUri">
-        <button type="submit" mat-raised-button color="accent">
-          VIEW
-        </button>
+        <input
+          fxFlex
+          class="manifest-uri"
+          placeholder="Paste the URL of a IIIF manifest here"
+          autocomplete="off"
+          [(ngModel)]="manifestUri"
+          name="manifestUri"
+        />
+        <button type="submit" mat-raised-button color="accent">VIEW</button>
       </div>
     </form>
   </div>
