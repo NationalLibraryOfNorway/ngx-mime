@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v6.0.5...v7.0.0) (2018-11-09)
+
+
+### Features
+
+* support for static or non-IIIF image viewing ([c85f2e6](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c85f2e6)), closes [#223](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/223)
+* upgrade to angular 7 ([4106e7c](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4106e7c))
+
+
+
 <a name="6.1.2"></a>
 
 ## [6.1.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v6.1.1...v6.1.2) (2018-06-29)
