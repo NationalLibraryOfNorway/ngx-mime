@@ -3,8 +3,6 @@ import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class FullscreenService {
-  private keyboardAllowed =
-    typeof Element !== 'undefined' && 'ALLOW_KEYBOARD_INPUT' in Element;
   private changeSubject: ReplaySubject<boolean> = new ReplaySubject();
 
   constructor() {
@@ -16,108 +14,69 @@ export class FullscreenService {
   }
 
   public isEnabled(): boolean {
-    return Boolean(document[this.fn().fullscreenEnabled]);
+    const d: any = document;
+    return (
+      d.fullscreenEnabled ||
+      d.webkitFullscreenEnabled ||
+      d.mozFullScreenEnabled ||
+      d.msFullscreenEnabled
+    );
   }
 
   public isFullscreen(): boolean {
-    return Boolean(document[this.fn().fullscreenElement]);
+    const d: any = document;
+    return (
+      d.fullscreenElement ||
+      d.webkitFullscreenElement ||
+      d.mozFullScreenElement ||
+      d.msFullscreenElement
+    );
   }
 
   public toggle(el: HTMLElement) {
-    if (this.isFullscreen()) {
-      this.exit();
-    } else {
-      this.request(el);
-    }
-  }
-
-  public exit(): void {
-    document[this.fn().exitFullscreen]();
-  }
-
-  public request(el: HTMLElement): void {
-    const request = this.fn().requestFullscreen;
-
-    el = el || document.documentElement;
-
-    // Work around Safari 5.1 bug: reports support for
-    // keyboard in fullscreen even though it doesn't.
-    // Browser sniffing, since the alternative with
-    // setTimeout is even worse.
-    if (/5\.1[.\d]* Safari/.test(navigator.userAgent)) {
-      el[request]();
-    } else {
-      el[request](this.keyboardAllowed && (<any>Element).ALLOW_KEYBOARD_INPUT);
-    }
+    this.isFullscreen() ? this.closeFullscreen(el) : this.openFullscreen(el);
   }
 
   public onchange() {
+    const d: any = document;
+
     const func = () => {
       this.changeSubject.next(true);
     };
-    document.addEventListener(this.fn().fullscreenchange, func, false);
+
+    if (d.fullscreenEnabled) {
+      document.addEventListener('fullscreenchange', func);
+    } else if (d.webkitFullscreenEnabled) {
+      document.addEventListener('webkitfullscreenchange', func);
+    } else if (d.mozFullScreenEnabled) {
+      document.addEventListener('mozfullscreenchange', func);
+    } else if (d.msFullscreenEnabled) {
+      document.addEventListener('msfullscreenchange', func);
+    }
   }
 
-  private fn(): any {
-    const fnMap = [
-      [
-        'requestFullscreen',
-        'exitFullscreen',
-        'fullscreenElement',
-        'fullscreenEnabled',
-        'fullscreenchange',
-        'fullscreenerror'
-      ],
-      // New WebKit
-      [
-        'webkitRequestFullscreen',
-        'webkitExitFullscreen',
-        'webkitFullscreenElement',
-        'webkitFullscreenEnabled',
-        'webkitfullscreenchange',
-        'webkitfullscreenerror'
-      ],
-      // Old WebKit (Safari 5.1)
-      [
-        'webkitRequestFullScreen',
-        'webkitCancelFullScreen',
-        'webkitCurrentFullScreenElement',
-        'webkitCancelFullScreen',
-        'webkitfullscreenchange',
-        'webkitfullscreenerror'
-      ],
-      [
-        'mozRequestFullScreen',
-        'mozCancelFullScreen',
-        'mozFullScreenElement',
-        'mozFullScreenEnabled',
-        'mozfullscreenchange',
-        'mozfullscreenerror'
-      ],
-      [
-        'msRequestFullscreen',
-        'msExitFullscreen',
-        'msFullscreenElement',
-        'msFullscreenEnabled',
-        'MSFullscreenChange',
-        'MSFullscreenError'
-      ]
-    ];
-
-    let i = 0;
-    const l = fnMap.length;
-    const ret = {};
-
-    for (; i < l; i++) {
-      const val = fnMap[i];
-      if (val && val[1] in document) {
-        for (i = 0; i < val.length; i++) {
-          ret[fnMap[0][i]] = val[i];
-        }
-        return ret;
-      }
+  private openFullscreen(elem: any) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
     }
+  }
 
-    return false;
+  private closeFullscreen(elem: any) {
+    const d = <any>document;
+    if (d.exitFullscreen) {
+      d.exitFullscreen();
+    } else if (d.mozCancelFullScreen) {
+      d.mozCancelFullScreen();
+    } else if (d.webkitExitFullscreen) {
+      d.webkitExitFullscreen();
+    } else if (d.msExitFullscreen) {
+      d.msExitFullscreen();
+    }
   }
 }
