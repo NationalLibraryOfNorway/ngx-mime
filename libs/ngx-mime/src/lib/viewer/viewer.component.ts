@@ -301,7 +301,7 @@ export class ViewerComponent
   }
 
   @HostListener('drop', ['$event'])
-  public onDrop(event: DragEvent) {
+  public onDrop(event: any) {
     event.preventDefault();
     event.stopPropagation();
     if (this.config.isDropEnabled) {
@@ -335,13 +335,13 @@ export class ViewerComponent
   }
 
   @HostListener('dragover', ['$event'])
-  public onDragOver(event: DragEvent) {
+  public onDragOver(event: any) {
     event.preventDefault();
     event.stopPropagation();
   }
 
   @HostListener('dragleave', ['$event'])
-  public onDragLeave(event: DragEvent) {
+  public onDragLeave(event: any) {
     event.preventDefault();
     event.stopPropagation();
   }
