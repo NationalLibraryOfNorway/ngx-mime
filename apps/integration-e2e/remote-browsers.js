@@ -9,7 +9,7 @@ exports.customDesktopLaunchers = [
   },
   {
     browserName: 'MicrosoftEdge',
-    version: 'latest'
+    version: '17'
   }
   // {
   //   browserName: "internet explorer",
