@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="7.1.0"></a>
+# [7.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.0.0...v7.1.0) (2018-12-20)
+
+
+### Bug Fixes
+
+* fullscreen in chrome 71 ([520dc63](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/520dc63)), closes [#240](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/240)
+* Safari is missing DragEvent ([78f5049](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/78f5049)), closes [#238](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/238)
+
+
+### Features
+
+* enable polyfills for IE in demo app ([e4ba136](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e4ba136))
+
+
+
 <a name="7.0.0"></a>
 # [7.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v6.0.5...v7.0.0) (2018-11-09)
 
