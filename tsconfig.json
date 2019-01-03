@@ -14,7 +14,8 @@
     "paths": {
       "@nationallibraryofnorway/*": ["libs/*"],
       "@nationallibraryofnorway/ngx-mime": ["libs/ngx-mime/src/index.ts"]
-    }
+    },
+    "module": "es2015"
   },
   "exclude": ["node_modules", "tmp"],
   "angularCompilerOptions": {

@@ -316,25 +316,30 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@ngrx/effects@7.0.0-beta.1":
-  version "7.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-7.0.0-beta.1.tgz#021876e5b16b90540c53528fd491d27eb3b3732a"
-  integrity sha512-Uga7MLqIVifs6/WEh7w3WuJ4/KJhy7VjpNZ8K/RV7T6h/Qpxs1Kcn1OZ5HCEc8RN7EO0TXUcKF7r9n2Uit/WkA==
+"@ngrx/effects@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-7.0.0.tgz#57ea3a42ed970b748e78292e54fe02a768027b05"
+  integrity sha512-lhwt+UMDPYuxeTQ5vBw/MuKrIroHvQ6cLy0nGvNl8oPxakI2Jz/NAPuTYd+AdV/6ao9M9+kxXhQRFkAV53EEjA==
 
-"@ngrx/router-store@7.0.0-beta.1":
-  version "7.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-7.0.0-beta.1.tgz#670498514480722dc96646176e7b707f268e6189"
-  integrity sha512-PTxpjPjVrq3vFbUJOqjIa62ft87nhEpAF7mB/SVbkDZ3FfIztSQw+8yvk6Y2mYdKhs3mCKW8sWlkEvYImLNgvw==
+"@ngrx/router-store@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-7.0.0.tgz#a273fc3288a2b256b07e9014e7b87d6ebfa3641d"
+  integrity sha512-7GrNxZJpdOd34uM+9mkOZW4wPWgyGu1MEvuHFijGqpmkjEPHLYpYDMY37Igx1P6mnqtJaJeQos3dG0CESPveIw==
 
-"@ngrx/store-devtools@7.0.0-beta.1":
-  version "7.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-7.0.0-beta.1.tgz#88246cb79a9954294a16cbdd82d0b68762870595"
-  integrity sha512-jNiprxifY+eraUGsghiJ5ep8zjDdXIO3iNRTyilN4Gx3XD6WJOxXo+05URfBAKjB6zWIyYyx0vJb5bwITgfBtw==
+"@ngrx/schematics@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/schematics/-/schematics-7.0.0.tgz#065fa7383bd20e388111901d507aa7eeeb10e4a9"
+  integrity sha512-DljjU77CkCR5YpgjtHEsZrxnnKIOY3AChcmQsDbQh1OZFzCT5lMq9mjtoHxRUKsEOp2/CwKb0sFCTsQBXJIZqg==
 
-"@ngrx/store@7.0.0-beta.1":
-  version "7.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-7.0.0-beta.1.tgz#029d362a1355c1fc5badaf7f67a07fcaf3af8f38"
-  integrity sha512-sEF6nb5YRoGroW4Y+ibHQucxzWVfMJF9a4zQV/prxDPtYA2FC9h9ZY3N4TZbLNgg+MSqdThgHXl7vA+5RmIY+Q==
+"@ngrx/store-devtools@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-7.0.0.tgz#8be35ad8b455019c9ac583c92ad8f0ec0d538c37"
+  integrity sha512-VLYDIiK5uy6SfIh3PUWT8oXNSHtVefRm44h9MMDBBUQphu5fBmGB9wtkFHfVTmw5V9TdZ9KnUTvm5Dlln8VP0A==
+
+"@ngrx/store@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-7.0.0.tgz#5472000197c2a388b09afceb2d062cb37b03d334"
+  integrity sha512-fF4A4De/vtQawxGBc1jV5HiLrc/J3NS8A2UDRoD3kLdviDzAlAber6kuj5XmM+xxaI9f9qnUrwOVXr/oPfqoBg==
 
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
@@ -352,21 +357,22 @@
     tree-kill "1.2.0"
     webpack-sources "1.2.0"
 
-"@nrwl/nx@7.1.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@nrwl/nx/-/nx-7.1.1.tgz#cc0483f66024fd4854d4a14a89da6064121afae6"
-  integrity sha512-2K9WuS8MSdX/PCtUFE6ged2mnwSE1g6iS7ViGJSNAvLje7RzBDUH+9LTKYa3RKOTVO3R4kOJjKRhXed2HDAucA==
+"@nrwl/nx@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@nrwl/nx/-/nx-7.2.0.tgz#c68ddbd97e72de1672edee3605cfac538209a973"
+  integrity sha512-8mzqNJ0R3HItRto+YLQivJHQnmVJ69iaSy9QTxlw6KG3XK3wG5Ra7Ye+Bypl3mQjYzQoOIMvWjXiyMK/+Opeiw==
 
-"@nrwl/schematics@7.1.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@nrwl/schematics/-/schematics-7.1.1.tgz#1dc45fc123cb00b6ef3ca626b05881758311e937"
-  integrity sha512-w44kAAFkomcZgmscQqI0/TbN/rF0ZX2SncJjQE70cLnomWfNpD18oqVzU+8PHtbhmd2TyWZ7tcDQAn6zdioUlQ==
+"@nrwl/schematics@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@nrwl/schematics/-/schematics-7.2.0.tgz#335da8b2519b5c0f385d3440e164fc7b53afee44"
+  integrity sha512-Iz56G0s2eD+L2rYHAaHZvBpw6ZWi7d0cWJ3HJv9OjzfKWtYGOuuxKlPS3/eODYmGjjEj8YXDZQ9Bgm/X32WluQ==
   dependencies:
     "@types/yargs" "^11.0.0"
     app-root-path "^2.0.1"
     cosmiconfig "4.0.0"
     fs-extra "6.0.0"
     graphviz "0.0.8"
+    ignore "5.0.4"
     npm-run-all "4.1.5"
     opn "^5.3.0"
     semver "5.4.1"
@@ -4607,6 +4613,11 @@ ignore-walk@^3.0.1:
   integrity sha512-DTVlMx3IYPe0/JJcYP7Gxg7ttZZu3IInhuEhbchuqneY9wWe5Ojy2mXLBaQFUQmo0AW2r3qG7m1mg86js+gnlQ==
   dependencies:
     minimatch "^3.0.4"
+
+ignore@5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.0.4.tgz#33168af4a21e99b00c5d41cbadb6a6cb49903a45"
+  integrity sha512-WLsTMEhsQuXpCiG173+f3aymI43SXa+fB1rSfbzyP4GkPP+ZFVuO0/3sFUGNBtifisPeDcl/uD/Y2NxZ7xFq4g==
 
 ignore@^3.3.5, ignore@^3.3.7:
   version "3.3.10"
