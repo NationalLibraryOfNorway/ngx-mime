@@ -18,6 +18,10 @@ Feature: Browse through a publication in page view
         | left-to-right | 2  | right | 1 |
         | left-to-right | 1  | right | 1 |
         | left-to-right | 10 | left  | 10 |
+        | right-to-left | 1  | right  | 2 |
+        | right-to-left | 2  | left | 1 |
+        | right-to-left | 1  | left | 1 |
+        | right-to-left | 10 | right  | 10 |
 
   @Ignore
   @android @iphone
@@ -32,6 +36,8 @@ Feature: Browse through a publication in page view
         | viewingDirection | startPage | swipeDirection | endPage |
         | left-to-right | 1 | left  | 1 |
         | left-to-right | 2 | right | 2 |
+        | right-to-left | 1 | right  | 1 |
+        | right-to-left | 2 | left | 2 |
 
   @desktop
   Scenario Outline: Click to navigate
@@ -46,3 +52,7 @@ Feature: Browse through a publication in page view
         | left-to-right | 2  | previous | 1 |
         | left-to-right | 1  | previous | 1 |
         | left-to-right | 10 | next     | 10 |
+        | right-to-left | 1  | next     | 2 |
+        | right-to-left | 2  | previous | 1 |
+        | right-to-left | 1  | previous | 1 |
+        | right-to-left | 10 | next     | 10 |

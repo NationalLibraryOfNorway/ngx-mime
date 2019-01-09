@@ -35,7 +35,7 @@
   ],
   "service": {
     "@context": "http://iiif.io/api/search/0/context.json",
-    "@id": "http://localhost:3000/assets/fixtures/contentsearch/0/searchable-manifest-america.json",
+    "@id": "http://localhost:4200/assets/fixtures/contentsearch/0/searchable-manifest-america.json",
     "profile": "http://iiif.io/api/search/0/search"
   },
   "sequences": [

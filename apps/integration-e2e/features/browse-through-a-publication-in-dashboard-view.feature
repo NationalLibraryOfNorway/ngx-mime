@@ -16,3 +16,5 @@ Feature: Browse through a publication in dashboard view
         | viewingDirection | startPage | swipeDirection | velocity | endPage |
         |  left-to-right   |  1  |  left | 50-100 |  2  |
         |  left-to-right   |  1  |  left | 100-150 |  4  |
+        |  right-to-left   |  1  |  rigth | 50-100 |  2  |
+        |  right-to-left   |  1  |  right | 100-150 |  4  |

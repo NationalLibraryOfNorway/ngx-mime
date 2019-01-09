@@ -1,26 +1,21 @@
 import {
-  Component,
-  OnInit,
-  OnDestroy,
   ChangeDetectorRef,
-  Input
+  Component,
+  Input,
+  OnDestroy,
+  OnInit
 } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
 import { MatSliderChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
-import { ViewerService } from './../../../core/viewer-service/viewer.service';
-import { CanvasService } from './../../../core/canvas-service/canvas-service';
-import { SearchResult } from './../../../core/models/search-result';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
+import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
+import { CanvasService } from './../../../core/canvas-service/canvas-service';
+import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
+import { SearchResult } from './../../../core/models/search-result';
+import { ViewerService } from './../../../core/viewer-service/viewer.service';
+import { Manifest } from '../../../core/models/manifest';
+import { ViewingDirection } from '../../../core/models/viewing-direction';
 
 @Component({
   selector: 'mime-page-navigator',
@@ -35,6 +30,7 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   public currentCanvasGroupIndex: number;
   public isFirstCanvasGroup: boolean;
   public isLastCanvasGroup: boolean;
+  invert = false;
   private currentSliderCanvasGroupIndex = -1;
   private destroyed: Subject<void> = new Subject();
 
@@ -43,10 +39,18 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,
     private canvasService: CanvasService,
-    private pageDialogService: CanvasGroupDialogService
+    private pageDialogService: CanvasGroupDialogService,
+    private iiifManifestService: IiifManifestService
   ) {}
 
   ngOnInit() {
+    this.iiifManifestService.currentManifest
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((manifest: Manifest) => {
+        this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+        this.changeDetectorRef.detectChanges();
+      });
+
     this.canvasService.onCanvasGroupIndexChange
       .pipe(takeUntil(this.destroyed))
       .subscribe((currentCanvasGroupIndex: number) => {

@@ -32,7 +32,11 @@ Given(
 );
 
 Given('a left-to-right publication with {int} pages', async (pages: number) => {
-  await page.open('a-ltr-10-pages-book');
+  await page.open(`a-ltr-${pages}-pages-book`);
+});
+
+Given('a right-to-left publication with {int} pages', async (pages: number) => {
+  await page.open(`a-rtl-${pages}-pages-book`);
 });
 
 Given(

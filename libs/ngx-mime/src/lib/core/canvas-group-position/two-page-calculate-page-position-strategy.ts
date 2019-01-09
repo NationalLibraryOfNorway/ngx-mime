@@ -1,9 +1,10 @@
+import { Rect } from '../models/rect';
+import { ViewerOptions } from '../models/viewer-options';
+import { ViewingDirection } from '../models/viewing-direction';
 import {
   CalculateCanvasGroupPositionStrategy,
   CanvasGroupPositionCriteria
 } from './calculate-canvas-group-position-strategy';
-import { Rect } from '../models/rect';
-import { ViewerOptions } from '../models/viewer-options';
 
 export class TwoPageCalculateCanvasGroupPositionStrategy
   implements CalculateCanvasGroupPositionStrategy {
@@ -16,14 +17,15 @@ export class TwoPageCalculateCanvasGroupPositionStrategy
     } else if (criteria.canvasGroupIndex % 2) {
       // Even page numbers
       x =
-        criteria.previousCanvasGroupPosition.x +
-        criteria.previousCanvasGroupPosition.width +
-        ViewerOptions.overlays.canvasGroupMarginInDashboardView;
+        criteria.viewingDirection === ViewingDirection.LTR
+          ? this.calculateEvenLtrX(criteria)
+          : this.calculateEvenRtlX(criteria);
     } else {
       // Odd page numbers
       x =
-        criteria.previousCanvasGroupPosition.x +
-        criteria.previousCanvasGroupPosition.width;
+        criteria.viewingDirection === ViewingDirection.LTR
+          ? this.calculateOddLtrX(criteria)
+          : this.calculateOddRtlX(criteria);
     }
 
     return new Rect({
@@ -32,5 +34,32 @@ export class TwoPageCalculateCanvasGroupPositionStrategy
       x: x,
       y: (criteria.canvasSource.height / 2) * -1
     });
+  }
+
+  private calculateEvenLtrX(criteria: CanvasGroupPositionCriteria) {
+    return (
+      criteria.previousCanvasGroupPosition.x +
+      criteria.previousCanvasGroupPosition.width +
+      ViewerOptions.overlays.canvasGroupMarginInDashboardView
+    );
+  }
+
+  private calculateOddLtrX(criteria: CanvasGroupPositionCriteria) {
+    return (
+      criteria.previousCanvasGroupPosition.x +
+      criteria.previousCanvasGroupPosition.width
+    );
+  }
+
+  private calculateEvenRtlX(criteria: CanvasGroupPositionCriteria) {
+    return (
+      criteria.previousCanvasGroupPosition.x -
+      criteria.canvasSource.width -
+      ViewerOptions.overlays.canvasGroupMarginInDashboardView
+    );
+  }
+
+  private calculateOddRtlX(criteria: CanvasGroupPositionCriteria) {
+    return criteria.previousCanvasGroupPosition.x - criteria.canvasSource.width;
   }
 }

@@ -33,7 +33,7 @@ export class TwoCanvasPerCanvasGroupStrategy
         const thisRect = canvasRects[i];
         const nextRect = canvasRects[i + 1];
         const groupedRect = new Rect({
-          x: thisRect.x,
+          x: Math.min(thisRect.x, nextRect.x),
           y: Math.min(thisRect.y, nextRect.y),
           height: Math.max(thisRect.height, nextRect.height),
           width: thisRect.width + nextRect.width

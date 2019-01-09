@@ -1,32 +1,34 @@
 import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  HostBinding,
-  Renderer2,
-  AfterViewInit,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
-import {
-  trigger,
+  animate,
   state,
   style,
-  animate,
-  transition
+  transition,
+  trigger
 } from '@angular/animations';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { Dimensions } from './../../core/models/dimensions';
-import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
-import { ViewerService } from './../../core/viewer-service/viewer.service';
-import { CanvasService } from './../../core/canvas-service/canvas-service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { Manifest } from '../../core/models/manifest';
 import { ViewerOptions } from '../../core/models/viewer-options';
+import { ViewingDirection } from '../../core/models/viewing-direction';
 import { StyleService } from '../../core/style-service/style.service';
+import { CanvasService } from './../../core/canvas-service/canvas-service';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
+import { Dimensions } from './../../core/models/dimensions';
+import { ViewerService } from './../../core/viewer-service/viewer.service';
 
 @Component({
   selector: 'mime-osd-toolbar',
@@ -70,6 +72,7 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isFirstCanvasGroup: boolean;
   public isLastCanvasGroup: boolean;
   public state = 'show';
+  invert = false;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -79,10 +82,18 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private mimeService: MimeResizeService,
     private viewerService: ViewerService,
     private canvasService: CanvasService,
-    private styleService: StyleService
+    private styleService: StyleService,
+    private iiifManifestService: IiifManifestService
   ) {}
 
   ngOnInit() {
+    this.iiifManifestService.currentManifest
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((manifest: Manifest) => {
+        this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+        this.changeDetectorRef.detectChanges();
+      });
+
     this.mimeService.onResize
       .pipe(takeUntil(this.destroyed))
       .subscribe((dimensions: Dimensions) => {

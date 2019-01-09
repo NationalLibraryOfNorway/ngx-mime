@@ -1,4 +1,5 @@
 import { Direction } from '../models/direction';
+import { ViewingDirection } from '../models/viewing-direction';
 
 export interface NextCanvasGroupCriteria {
   speed?: number;
@@ -6,6 +7,7 @@ export interface NextCanvasGroupCriteria {
   direction: Direction;
   currentCanvasGroupIndex: number;
   currentCanvasGroupCenter: number;
+  viewingDirection: ViewingDirection;
 }
 
 export interface CalculateNextCanvasGroupStrategy {

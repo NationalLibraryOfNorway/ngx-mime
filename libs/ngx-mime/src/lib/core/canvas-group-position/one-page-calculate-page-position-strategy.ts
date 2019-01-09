@@ -1,9 +1,10 @@
+import { Rect } from '../models/rect';
+import { ViewerOptions } from '../models/viewer-options';
+import { ViewingDirection } from '../models/viewing-direction';
 import {
   CalculateCanvasGroupPositionStrategy,
   CanvasGroupPositionCriteria
 } from './calculate-canvas-group-position-strategy';
-import { Rect } from '../models/rect';
-import { ViewerOptions } from '../models/viewer-options';
 
 export class OnePageCalculatePagePositionStrategy
   implements CalculateCanvasGroupPositionStrategy {
@@ -14,9 +15,9 @@ export class OnePageCalculatePagePositionStrategy
       x = (criteria.canvasSource.width / 2) * -1;
     } else {
       x =
-        criteria.previousCanvasGroupPosition.x +
-        criteria.previousCanvasGroupPosition.width +
-        ViewerOptions.overlays.canvasGroupMarginInDashboardView;
+        criteria.viewingDirection === ViewingDirection.LTR
+          ? this.calculateLtrX(criteria)
+          : this.calculateRtlX(criteria);
     }
 
     return new Rect({
@@ -25,5 +26,21 @@ export class OnePageCalculatePagePositionStrategy
       x: x,
       y: (criteria.canvasSource.height / 2) * -1
     });
+  }
+
+  private calculateLtrX(criteria: CanvasGroupPositionCriteria) {
+    return (
+      criteria.previousCanvasGroupPosition.x +
+      criteria.previousCanvasGroupPosition.width +
+      ViewerOptions.overlays.canvasGroupMarginInDashboardView
+    );
+  }
+
+  private calculateRtlX(criteria: CanvasGroupPositionCriteria) {
+    return (
+      criteria.previousCanvasGroupPosition.x -
+      criteria.previousCanvasGroupPosition.width -
+      ViewerOptions.overlays.canvasGroupMarginInDashboardView
+    );
   }
 }

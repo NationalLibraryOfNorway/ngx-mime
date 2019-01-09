@@ -1,19 +1,21 @@
 import {
-  Component,
-  OnInit,
-  Input,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  OnDestroy
+  Component,
+  Input,
+  OnDestroy,
+  OnInit
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { SearchResult } from '../../../core/models/search-result';
-import { MimeViewerIntl } from '../../../core/intl/viewer-intl';
-import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
-import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
 import { CanvasService } from '../../../core/canvas-service/canvas-service';
+import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../../core/intl/viewer-intl';
+import { Manifest } from '../../../core/models/manifest';
+import { SearchResult } from '../../../core/models/search-result';
+import { ViewingDirection } from '../../../core/models/viewing-direction';
+import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 
 @Component({
   selector: 'mime-content-search-navigator',
@@ -27,6 +29,7 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   public isFirstCanvasGroupHit = false;
   public isLastCanvasGroupHit = false;
   public currentIndex = 0;
+  invert = false;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -34,10 +37,18 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private canvasService: CanvasService,
     private iiifContentSearchService: IiifContentSearchService,
-    private contentSearchNavigationService: ContentSearchNavigationService
+    private contentSearchNavigationService: ContentSearchNavigationService,
+    private iiifManifestService: IiifManifestService
   ) {}
 
   ngOnInit() {
+    this.iiifManifestService.currentManifest
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((manifest: Manifest) => {
+        this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+        this.changeDetectorRef.detectChanges();
+      });
+
     this.intl.changes
       .pipe(takeUntil(this.destroyed))
       .subscribe(() => this.changeDetectorRef.markForCheck());

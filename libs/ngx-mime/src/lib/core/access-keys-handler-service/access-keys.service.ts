@@ -15,6 +15,7 @@ import { AccessKeys } from '../models/AccessKeys';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from '../models/search-result';
+import { ViewingDirection } from '../models/viewing-direction';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
@@ -22,6 +23,7 @@ export class AccessKeysService implements OnDestroy {
   private hasHits = false;
   private disabledKeys: number[] = [];
   private destroyed: Subject<void> = new Subject();
+  private invert = false;
 
   constructor(
     private viewerService: ViewerService,
@@ -38,6 +40,7 @@ export class AccessKeysService implements OnDestroy {
       .pipe(takeUntil(this.destroyed))
       .subscribe((manifest: Manifest) => {
         this.isSearchable = this.isManifestSearchable(manifest);
+        this.invert = manifest.viewingDirection === ViewingDirection.RTL;
       });
 
     this.iiifContentSearchService.onChange
@@ -57,11 +60,15 @@ export class AccessKeysService implements OnDestroy {
     if (!this.isKeyDisabled(event.keyCode)) {
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
-          this.goToPreviousCanvasGroup();
+          this.invert
+            ? this.goToNextCanvasGroup()
+            : this.goToPreviousCanvasGroup();
         }
       } else if (accessKeys.isArrowRightKeys()) {
         if (!this.isZoomedIn()) {
-          this.goToNextCanvasGroup();
+          this.invert
+            ? this.goToPreviousCanvasGroup()
+            : this.goToNextCanvasGroup();
         }
       } else if (accessKeys.isFirstCanvasGroupKeys()) {
         this.goToFirstCanvasGroup();

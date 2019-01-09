@@ -41,7 +41,7 @@
   "attribution": "Dette verket kan ikke kopieres, spres, vises eller fremføres for allmennheten i noen form uten samtykke fra den enkelte rettighetshaver.",
   "service": {
     "@context": "http://iiif.io/api/search/0/context.json",
-    "@id": "http://localhost:3000/assets/fixtures/contentsearch/0/empty.json",
+    "@id": "http://localhost:4200/assets/fixtures/contentsearch/0/empty.json",
     "profile": "http://iiif.io/api/search/0/search"
   },
   "sequences": [
