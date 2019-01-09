@@ -1,4 +1,5 @@
 import { Direction } from '../models/direction';
+import { ViewingDirection } from '../models/viewing-direction';
 import { PageModeCalculateNextCanvasGroupStrategy } from './page-mode-calculate-next-canvas-group-strategy';
 
 describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
@@ -13,7 +14,8 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 199,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 1
+      currentCanvasGroupCenter: 1,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(1);
@@ -24,7 +26,8 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 200,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 1
+      currentCanvasGroupCenter: 1,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(2);
@@ -35,7 +38,8 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 200,
       direction: Direction.RIGHT,
       currentCanvasGroupIndex: 2,
-      currentCanvasGroupCenter: 2
+      currentCanvasGroupCenter: 2,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(1);
@@ -46,7 +50,8 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 199,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 2
+      currentCanvasGroupCenter: 2,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(2);

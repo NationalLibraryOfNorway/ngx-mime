@@ -2,6 +2,7 @@ import { Direction } from '../models/direction';
 import { DefaultGoToCanvasGroupStrategy } from './go-to-canvas-group-strategy';
 import { ViewerMode } from '../models/viewer-mode';
 import { CanvasService } from '../canvas-service/canvas-service';
+import { ViewingDirection } from '../models/viewing-direction';
 
 describe('DefaultGoToCanvasGroupStrategy ', () => {
   let strategy: DefaultGoToCanvasGroupStrategy;
@@ -25,7 +26,8 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
       zoomStrategy,
       canvasService,
       modeService,
-      config
+      config,
+      ViewingDirection.LTR
     );
   });
 

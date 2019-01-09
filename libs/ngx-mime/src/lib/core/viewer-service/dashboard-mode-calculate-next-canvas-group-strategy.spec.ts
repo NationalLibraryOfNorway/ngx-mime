@@ -1,4 +1,5 @@
 import { Direction } from '../models/direction';
+import { ViewingDirection } from '../models/viewing-direction';
 import { DashboardModeCalculateNextCanvasGroupStrategy } from './dashboard-mode-calculate-next-canvas-group-strategy';
 
 describe('DashboardModeCalculateNextCanvasGroupStrategy ', () => {
@@ -13,7 +14,8 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 400,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 1
+      currentCanvasGroupCenter: 1,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(1);
@@ -24,7 +26,8 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 1000,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 1
+      currentCanvasGroupCenter: 1,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(2);
@@ -35,7 +38,8 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 2000,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 1
+      currentCanvasGroupCenter: 1,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(4);
@@ -46,7 +50,8 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 3000,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 1
+      currentCanvasGroupCenter: 1,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(6);
@@ -57,7 +62,8 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 4000,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 1
+      currentCanvasGroupCenter: 1,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(11);
@@ -68,7 +74,8 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy ', () => {
       speed: 400,
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
-      currentCanvasGroupCenter: 3
+      currentCanvasGroupCenter: 3,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(3);
