@@ -17,8 +17,11 @@
       class="canvasGroups"
       (click)="openCanvasGroupDialog()"
     >
-      <span id="currentCanvasGroupLabel">{{ canvasGroupLabel }}</span
-      >/ <span id="numOfCanvasGroups">{{ numberOfCanvases }}</span>
+      <div fxLayout="row" fxLayoutGap="1px">
+        <span id="currentCanvasGroupLabel">{{ canvasGroupLabel }}</span
+        ><span>/</span
+        ><span id="numOfCanvasGroups">{{ numberOfCanvases }}</span>
+      </div>
     </button>
     <div class="navigation-buttons">
       <button
