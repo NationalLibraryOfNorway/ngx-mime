@@ -1,4 +1,5 @@
 import { Direction } from '../models/direction';
+import { ViewingDirection } from '../models/viewing-direction';
 import {
   CalculateNextCanvasGroupStrategy,
   NextCanvasGroupCriteria
@@ -19,7 +20,10 @@ export class DashboardModeCalculateNextCanvasGroupStrategy
     } else {
       canvasGroupDelta =
         direction === Direction.LEFT ? canvasGroupDelta : canvasGroupDelta * -1;
-      nextCanvasGroup = currentCanvasGroupIndex + canvasGroupDelta;
+      nextCanvasGroup =
+        criteria.viewingDirection === ViewingDirection.LTR
+          ? currentCanvasGroupIndex + canvasGroupDelta
+          : currentCanvasGroupIndex - canvasGroupDelta;
     }
 
     return nextCanvasGroup;

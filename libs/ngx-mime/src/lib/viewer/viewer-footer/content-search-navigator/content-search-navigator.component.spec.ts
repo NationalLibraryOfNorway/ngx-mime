@@ -7,21 +7,22 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { SharedModule } from './../../../shared/shared.module';
-import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
-import { SearchResult } from './../../../core/models/search-result';
-import { Hit } from './../../../core/models/hit';
-import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
-import { ViewerService } from './../../../core/viewer-service/viewer.service';
-import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
-import { CanvasService } from './../../../core/canvas-service/canvas-service';
-import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
-import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
-import { ViewerServiceStub } from './../../../test/viewer-service-stub';
+import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
 import { Rect } from '../../../core/models/rect';
 import { ViewerLayout } from '../../../core/models/viewer-layout';
+import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
+import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
+import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
+import { CanvasService } from './../../../core/canvas-service/canvas-service';
+import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
+import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
+import { Hit } from './../../../core/models/hit';
+import { SearchResult } from './../../../core/models/search-result';
+import { ViewerService } from './../../../core/viewer-service/viewer.service';
+import { SharedModule } from './../../../shared/shared.module';
+import { ViewerServiceStub } from './../../../test/viewer-service-stub';
+import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
@@ -43,7 +44,8 @@ describe('ContentSearchNavigatorComponent', () => {
           provide: IiifContentSearchService,
           useClass: IiifContentSearchServiceStub
         },
-        { provide: CanvasService, useClass: CanvasServiceStub }
+        { provide: CanvasService, useClass: CanvasServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
     }).compileComponents();
   }));

@@ -1,4 +1,5 @@
 import { Direction } from '../models/direction';
+import { ViewingDirection } from '../models/viewing-direction';
 import {
   CalculateNextCanvasGroupStrategy,
   NextCanvasGroupCriteria
@@ -15,7 +16,10 @@ export class PageModeCalculateNextCanvasGroupStrategy
     let nextCanvasGroup = criteria.currentCanvasGroupIndex;
     if (speed >= 200) {
       const diff = direction === Direction.LEFT ? 1 : -1;
-      nextCanvasGroup = criteria.currentCanvasGroupIndex + diff;
+      nextCanvasGroup =
+        criteria.viewingDirection === ViewingDirection.LTR
+          ? criteria.currentCanvasGroupIndex + diff
+          : criteria.currentCanvasGroupIndex - diff;
     } else if (isNewCanvasGroupInCenter) {
       nextCanvasGroup = criteria.currentCanvasGroupCenter;
     }

@@ -1,26 +1,22 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   async,
   ComponentFixture,
-  TestBed,
-  inject
+  inject,
+  TestBed
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
-
-import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.component';
-import { SharedModule } from './../../../shared/shared.module';
-import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
-import { CanvasService } from './../../../core/canvas-service/canvas-service';
-import { ViewerService } from './../../../core/viewer-service/viewer.service';
-import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
-import { Hit } from './../../../core/models/hit';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
-import { ViewerServiceStub } from '../../../test/viewer-service-stub';
+import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
+import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
+import { ViewerServiceStub } from '../../../test/viewer-service-stub';
+import { CanvasService } from './../../../core/canvas-service/canvas-service';
+import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
+import { ViewerService } from './../../../core/viewer-service/viewer.service';
+import { SharedModule } from './../../../shared/shared.module';
+import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.component';
 
 describe('CanvasGroupNavigatorComponent', () => {
   let component: CanvasGroupNavigatorComponent;
@@ -36,7 +32,8 @@ describe('CanvasGroupNavigatorComponent', () => {
         MimeViewerIntl,
         CanvasGroupDialogService,
         { provide: ViewerService, useClass: ViewerServiceStub },
-        { provide: CanvasService, useClass: CanvasServiceStub }
+        { provide: CanvasService, useClass: CanvasServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
     }).compileComponents();
   }));

@@ -1,4 +1,5 @@
 import { Direction } from '../models/direction';
+import { ViewingDirection } from '../models/viewing-direction';
 import { PageZoomedModeCalculateNextCanvasGroupStrategy } from './page-zoomed-mode-calculate-next-canvas-group-strategy';
 
 describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
@@ -13,7 +14,8 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
       currentCanvasGroupCenter: 1,
-      canvasGroupEndHitCountReached: false
+      canvasGroupEndHitCountReached: false,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(1);
@@ -24,7 +26,8 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
       direction: Direction.LEFT,
       currentCanvasGroupIndex: 1,
       currentCanvasGroupCenter: 1,
-      canvasGroupEndHitCountReached: true
+      canvasGroupEndHitCountReached: true,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(2);
@@ -35,7 +38,8 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
       direction: Direction.RIGHT,
       currentCanvasGroupIndex: 2,
       currentCanvasGroupCenter: 2,
-      canvasGroupEndHitCountReached: true
+      canvasGroupEndHitCountReached: true,
+      viewingDirection: ViewingDirection.LTR
     });
 
     expect(res).toBe(1);

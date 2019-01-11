@@ -4,10 +4,17 @@
   "stubs": [{
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-ltr-book/manifest", "method": "GET" }}]}],
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-ltr-book.ejs') %>" }}]
+  },{
+    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-rtl-book/manifest", "method": "GET" }}]}],
+    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-rtl-book.ejs') %>" }}]
   },
   {
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-ltr-10-pages-book/manifest", "method": "GET" }}]}],
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-ltr-10-pages-book.ejs') %>" }}]
+  },
+  {
+    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-rtl-10-pages-book/manifest", "method": "GET" }}]}],
+    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-rtl-10-pages-book.ejs') %>" }}]
   },
   {
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-individuals-manifest/manifest", "method": "GET" }}]}],

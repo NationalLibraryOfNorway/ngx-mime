@@ -25,28 +25,54 @@
       [innerHTML]="intl.currentHitLabel(currentIndex + 1, searchResult.size())"
     ></div>
     <div class="navigation-buttons">
-      <button
-        id="footerNavigatePreviousHitButton"
-        mat-icon-button
-        [attr.aria-label]="intl.previousHitLabel"
-        [matTooltip]="intl.previousHitLabel"
-        matTooltipPosition="above"
-        [disabled]="isFirstCanvasGroupHit"
-        (click)="goToPreviousCanvasGroupHit()"
-      >
-        <mat-icon>navigate_before</mat-icon>
-      </button>
-      <button
-        id="footerNavigateNextHitButton"
-        mat-icon-button
-        [attr.aria-label]="intl.nextHitLabel"
-        [matTooltip]="intl.nextHitLabel"
-        matTooltipPosition="above"
-        [disabled]="isLastCanvasGroupHit"
-        (click)="goToNextCanvasGroupHit()"
-      >
-        <mat-icon>navigate_next</mat-icon>
-      </button>
+      <ng-container *ngIf="invert">
+        <button
+          id="footerNavigatePreviousHitButton"
+          mat-icon-button
+          [attr.aria-label]="intl.previousHitLabel"
+          [matTooltip]="intl.previousHitLabel"
+          matTooltipPosition="above"
+          [disabled]="isFirstCanvasGroupHit"
+          (click)="goToPreviousCanvasGroupHit()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button
+          id="footerNavigateNextHitButton"
+          mat-icon-button
+          [attr.aria-label]="intl.nextHitLabel"
+          [matTooltip]="intl.nextHitLabel"
+          matTooltipPosition="above"
+          [disabled]="isLastCanvasGroupHit"
+          (click)="goToNextCanvasGroupHit()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!invert">
+        <button
+          id="footerNavigateNextHitButton"
+          mat-icon-button
+          [attr.aria-label]="intl.nextHitLabel"
+          [matTooltip]="intl.nextHitLabel"
+          matTooltipPosition="above"
+          [disabled]="isLastCanvasGroupHit"
+          (click)="goToNextCanvasGroupHit()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button
+          id="footerNavigatePreviousHitButton"
+          mat-icon-button
+          [attr.aria-label]="intl.previousHitLabel"
+          [matTooltip]="intl.previousHitLabel"
+          matTooltipPosition="above"
+          [disabled]="isFirstCanvasGroupHit"
+          (click)="goToPreviousCanvasGroupHit()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </ng-container>
     </div>
   </div>
 </mat-toolbar>

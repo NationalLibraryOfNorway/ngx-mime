@@ -1,24 +1,25 @@
 import {
   async,
   ComponentFixture,
-  TestBed,
-  inject
+  inject,
+  TestBed
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { OsdToolbarComponent } from './osd-toolbar.component';
-import { SharedModule } from '../../shared/shared.module';
-import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
-import { ViewerService } from '../../core/viewer-service/viewer.service';
-import { ModeService } from '../../core/mode-service/mode.service';
 import { ClickService } from '../../core/click-service/click.service';
-import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
-import { ViewerServiceStub } from './../../test/viewer-service-stub';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { MimeDomHelper } from '../../core/mime-dom-helper';
+import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
+import { ModeService } from '../../core/mode-service/mode.service';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { SharedModule } from '../../shared/shared.module';
+import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { CanvasServiceStub } from './../../test/canvas-service-stub';
+import { ViewerServiceStub } from './../../test/viewer-service-stub';
+import { OsdToolbarComponent } from './osd-toolbar.component';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
@@ -34,6 +35,7 @@ describe('OsdToolbarComponent', () => {
         MimeViewerIntl,
         { provide: ViewerService, useClass: ViewerServiceStub },
         { provide: CanvasService, useClass: CanvasServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         ClickService,
         CanvasService,
         ModeService,

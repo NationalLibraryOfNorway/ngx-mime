@@ -228,7 +228,8 @@ export class ViewerService {
           this.zoomStrategy,
           this.canvasService,
           this.modeService,
-          this.config
+          this.config,
+          this.manifest.viewingDirection
         );
 
         /*
@@ -641,7 +642,8 @@ export class ViewerService {
         {
           canvasGroupIndex: i,
           canvasSource: tile,
-          previousCanvasGroupPosition: canvasRects[i - 1]
+          previousCanvasGroupPosition: canvasRects[i - 1],
+          viewingDirection: this.manifest.viewingDirection
         }
       );
 
@@ -820,7 +822,8 @@ export class ViewerService {
         speed: speed,
         direction: direction,
         currentCanvasGroupIndex: currentCanvasGroupIndex,
-        canvasGroupEndHitCountReached: canvasGroupEndHitCountReached
+        canvasGroupEndHitCountReached: canvasGroupEndHitCountReached,
+        viewingDirection: this.manifest.viewingDirection
       }
     );
     if (

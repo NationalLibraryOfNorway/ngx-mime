@@ -4,6 +4,7 @@
       <mat-slider
         id="navigationSlider"
         class="navigation-slider"
+        [invert]="!invert"
         [max]="numberOfCanvasGroups - 1"
         [value]="currentCanvasGroupIndex"
         (input)="onSliderChange($event)"
@@ -21,28 +22,54 @@
       >/ <span id="numOfCanvasGroups">{{ numberOfCanvases }}</span>
     </button>
     <div class="navigation-buttons">
-      <button
-        id="footerNavigateBeforeButton"
-        mat-icon-button
-        [attr.aria-label]="intl.previousPageLabel"
-        [matTooltip]="intl.previousPageLabel"
-        matTooltipPosition="above"
-        [disabled]="isFirstCanvasGroup"
-        (click)="goToPreviousCanvasGroup()"
-      >
-        <mat-icon>navigate_before</mat-icon>
-      </button>
-      <button
-        id="footerNavigateNextButton"
-        mat-icon-button
-        [attr.aria-label]="intl.nextPageLabel"
-        [matTooltip]="intl.nextPageLabel"
-        matTooltipPosition="above"
-        [disabled]="isLastCanvasGroup"
-        (click)="goToNextCanvasGroup()"
-      >
-        <mat-icon>navigate_next</mat-icon>
-      </button>
+      <ng-container *ngIf="invert">
+        <button
+          id="footerNavigateBeforeButton"
+          mat-icon-button
+          [attr.aria-label]="intl.previousPageLabel"
+          [matTooltip]="intl.previousPageLabel"
+          matTooltipPosition="above"
+          [disabled]="isFirstCanvasGroup"
+          (click)="goToPreviousCanvasGroup()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button
+          id="footerNavigateNextButton"
+          mat-icon-button
+          [attr.aria-label]="intl.nextPageLabel"
+          [matTooltip]="intl.nextPageLabel"
+          matTooltipPosition="above"
+          [disabled]="isLastCanvasGroup"
+          (click)="goToNextCanvasGroup()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!invert">
+        <button
+          id="footerNavigateNextButton"
+          mat-icon-button
+          [attr.aria-label]="intl.nextPageLabel"
+          [matTooltip]="intl.nextPageLabel"
+          matTooltipPosition="above"
+          [disabled]="isLastCanvasGroup"
+          (click)="goToNextCanvasGroup()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button
+          id="footerNavigateBeforeButton"
+          mat-icon-button
+          [attr.aria-label]="intl.previousPageLabel"
+          [matTooltip]="intl.previousPageLabel"
+          matTooltipPosition="above"
+          [disabled]="isFirstCanvasGroup"
+          (click)="goToPreviousCanvasGroup()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </ng-container>
     </div>
   </div>
 </mat-toolbar>
