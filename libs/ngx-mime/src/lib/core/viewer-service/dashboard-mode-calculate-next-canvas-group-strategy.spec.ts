@@ -95,6 +95,8 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         currentCanvasGroupCenter: 1,
         viewingDirection: viewingDirection
       });
+
+      expect(res).toBe(1);
     });
 
     it('should go to next canvas group when drag speed is medium and canvas group is not passed center', () => {

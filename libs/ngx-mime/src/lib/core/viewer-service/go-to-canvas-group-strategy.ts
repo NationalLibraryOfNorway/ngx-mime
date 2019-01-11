@@ -36,12 +36,11 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
 
   goToCanvasGroup(canvasGroup: CanvasGroup) {
     const oldCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
-    const canvasGroupIndex = this.canvasService.constrainToRange(
+    this.canvasService.currentCanvasGroupIndex = this.canvasService.constrainToRange(
       canvasGroup.canvasGroupIndex
     );
-    this.canvasService.currentCanvasGroupIndex = canvasGroupIndex;
     const newCanvasGroup = this.canvasService.getCanvasGroupRect(
-      canvasGroupIndex
+      this.canvasService.currentCanvasGroupIndex
     );
     if (
       this.modeService.mode === ViewerMode.PAGE_ZOOMED &&
