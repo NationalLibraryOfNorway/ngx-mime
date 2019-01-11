@@ -156,11 +156,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     const currentCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
       currentCanvasGroupIndex
     );
-    this.panTo(
-      currentCanvasGroupCenter.centerX,
-      currentCanvasGroupCenter.centerY,
-      false
-    );
+    this.panToCenter(currentCanvasGroupCenter, false);
   }
 
   private leftX(canvas: Rect): number {
@@ -171,6 +167,10 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     return canvas.x + canvas.width - this.getViewportBounds().width / 2;
   }
 
+  private panToCenter(canvasGroup: Rect, immediately: boolean): void {
+    this.panTo(canvasGroup.centerX, canvasGroup.centerY, immediately);
+  }
+
   private panTo(x: number, y: number, immediately: boolean): void {
     this.viewer.viewport.panTo(
       {
@@ -179,10 +179,6 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       },
       immediately
     );
-  }
-
-  private panToCenter(canvasGroup: Rect, immediately: boolean): void {
-    this.panTo(canvasGroup.centerX, canvasGroup.centerY, immediately);
   }
 
   private getViewportCenter(): Point {
