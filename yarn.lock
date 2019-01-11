@@ -357,15 +357,15 @@
     tree-kill "1.2.0"
     webpack-sources "1.2.0"
 
-"@nrwl/nx@7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@nrwl/nx/-/nx-7.2.0.tgz#c68ddbd97e72de1672edee3605cfac538209a973"
-  integrity sha512-8mzqNJ0R3HItRto+YLQivJHQnmVJ69iaSy9QTxlw6KG3XK3wG5Ra7Ye+Bypl3mQjYzQoOIMvWjXiyMK/+Opeiw==
+"@nrwl/nx@7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@nrwl/nx/-/nx-7.3.0.tgz#17b547233b3b85b2744912866f76f7f9d272506e"
+  integrity sha512-OEN7rcWAxtEds9gsRRE5Rz0aQUdKknMoCqi9NRO/s4LxMv+chNZdVC+2s3INqiVpw+HgPW4oh8y8tUsXcjp+Lw==
 
-"@nrwl/schematics@7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@nrwl/schematics/-/schematics-7.2.0.tgz#335da8b2519b5c0f385d3440e164fc7b53afee44"
-  integrity sha512-Iz56G0s2eD+L2rYHAaHZvBpw6ZWi7d0cWJ3HJv9OjzfKWtYGOuuxKlPS3/eODYmGjjEj8YXDZQ9Bgm/X32WluQ==
+"@nrwl/schematics@7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@nrwl/schematics/-/schematics-7.3.0.tgz#f9d1299eab961f3b3e01a44a1d417a9a457f90c2"
+  integrity sha512-2pXJUWfE+q44c6p1M2YMdWpoB03tu6RL6s6ny/C7LxCEpgpCNM5IRCLp8L2PuqRjiGuDdWxaumjpcBb2hlGJBA==
   dependencies:
     "@types/yargs" "^11.0.0"
     app-root-path "^2.0.1"
