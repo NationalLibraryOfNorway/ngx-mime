@@ -221,7 +221,8 @@ export class ViewerService {
         this.zoomStrategy = new DefaultZoomStrategy(
           this.viewer,
           this.canvasService,
-          this.modeService
+          this.modeService,
+          this.viewerLayoutService
         );
         this.goToCanvasGroupStrategy = new DefaultGoToCanvasGroupStrategy(
           this.viewer,
