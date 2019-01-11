@@ -1,14 +1,15 @@
 import * as d3 from 'd3';
 import * as OpenSeadragon from 'openseadragon';
-
-import { Direction } from '../models/direction';
-import { ModeService } from '../mode-service/mode.service';
 import { CanvasService } from '../canvas-service/canvas-service';
+import { ModeService } from '../mode-service/mode.service';
+import { Dimensions } from '../models/dimensions';
+import { Direction } from '../models/direction';
+import { Point } from '../models/point';
+import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerMode } from '../models/viewer-mode';
 import { ViewerOptions } from '../models/viewer-options';
-import { Point } from '../models/point';
-import { Dimensions } from '../models/dimensions';
 import { Utils } from '../utils';
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { ZoomUtils } from './zoom-utils';
 
 export interface CanvasGroup {
@@ -33,7 +34,8 @@ export class ZoomStrategy {
   constructor(
     protected viewer: any,
     protected canvasService: CanvasService,
-    protected modeService: ModeService
+    protected modeService: ModeService,
+    protected viewerLayoutService: ViewerLayoutService
   ) {}
 
   setMinZoom(mode: ViewerMode): void {
@@ -68,6 +70,7 @@ export class ZoomStrategy {
       return;
     }
 
+    const homeZoomFactor = this.getHomeZoomFactor();
     let canvasGroupHeight: number;
     let canvasGroupWidth: number;
     let viewportBounds: any;
@@ -83,10 +86,12 @@ export class ZoomStrategy {
       viewportBounds = this.viewer.viewport.getBounds();
     }
 
-    return this.getFittedZoomLevel(
-      viewportBounds,
-      canvasGroupHeight,
-      canvasGroupWidth
+    return (
+      this.getFittedZoomLevel(
+        viewportBounds,
+        canvasGroupHeight,
+        canvasGroupWidth
+      ) * homeZoomFactor
     );
   }
 
@@ -197,14 +202,27 @@ export class ZoomStrategy {
     const vpHeight = Math.round(viewportBounds.height);
     return vpHeight >= pbHeight || vpWidth >= pbWidth;
   }
+
+  private getHomeZoomFactor() {
+    return this.modeService.mode === ViewerMode.DASHBOARD
+      ? this.getDashboardZoomHomeFactor()
+      : 1;
+  }
+
+  private getDashboardZoomHomeFactor() {
+    return this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE
+      ? 0.85
+      : 0.66;
+  }
 }
 
 export class DefaultZoomStrategy extends ZoomStrategy implements Strategy {
   constructor(
     viewer: any,
     canvasService: CanvasService,
-    modeService: ModeService
+    modeService: ModeService,
+    viewerLayoutService: ViewerLayoutService
   ) {
-    super(viewer, canvasService, modeService);
+    super(viewer, canvasService, modeService, viewerLayoutService);
   }
 }
