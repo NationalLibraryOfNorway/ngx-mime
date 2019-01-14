@@ -1,11 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
@@ -23,7 +18,6 @@ import { SharedModule } from './../shared/shared.module';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from './../test/mat-dialog-ref-stub';
-import { MediaObserverStub } from './../test/media-observer-stub';
 import { testManifest } from './../test/testManifest';
 import { ViewerServiceStub } from './../test/viewer-service-stub';
 import { ContentSearchDialogComponent } from './content-search-dialog.component';
@@ -33,6 +27,8 @@ describe('ContentSearchDialogComponent', () => {
   let fixture: ComponentFixture<ContentSearchDialogComponent>;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
+  let mediaObserver: any;
+  let dialogRef: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,7 +40,6 @@ describe('ContentSearchDialogComponent', () => {
         MimeDomHelper,
         FullscreenService,
         { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: MediaObserver, useClass: MediaObserverStub },
         { provide: ViewerService, useClass: ViewerServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         {
@@ -62,97 +57,79 @@ describe('ContentSearchDialogComponent', () => {
 
     iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
     iiifManifestServiceStub = TestBed.get(IiifManifestService);
+    mediaObserver = TestBed.get(MediaObserver);
+    dialogRef = TestBed.get(MatDialogRef);
   }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display desktop toolbar', inject(
-    [MediaObserver],
-    (media: MediaObserver) => {
-      spyOn(media, 'isActive').and.returnValue(false);
+  it('should display desktop toolbar', () => {
+    spyOn(mediaObserver, 'isActive').and.returnValue(false);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      const heading: DebugElement = fixture.debugElement.query(
-        By.css('.heading-desktop')
-      );
-      expect(heading).not.toBeNull();
-    }
-  ));
+    const heading: DebugElement = fixture.debugElement.query(
+      By.css('.heading-desktop')
+    );
+    expect(heading).not.toBeNull();
+  });
 
-  it('should display mobile toolbar', inject(
-    [MediaObserver],
-    (media: MediaObserver) => {
-      spyOn(media, 'isActive').and.returnValue(true);
+  it('should display mobile toolbar', () => {
+    spyOn(mediaObserver, 'isActive').and.returnValue(true);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      const heading: DebugElement = fixture.debugElement.query(
-        By.css('.heading-desktop')
-      );
-      expect(heading).toBeNull();
-    }
-  ));
+    const heading: DebugElement = fixture.debugElement.query(
+      By.css('.heading-desktop')
+    );
+    expect(heading).toBeNull();
+  });
 
-  it('should go to hit and close dialog when selected on mobile', inject(
-    [MediaObserver, ViewerService, MatDialogRef],
-    (
-      media: MediaObserver,
-      viewerService: ViewerService,
-      dialogRef: MatDialogRef<ContentSearchDialogComponent>
-    ) => {
-      spyOn(media, 'isActive').and.returnValue(true);
-      spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
-      spyOn(dialogRef, 'close').and.callThrough();
-      component.currentSearch = 'dummysearch';
-      component.hits = [
-        new Hit({
-          index: 0,
-          match: 'querystring'
-        })
-      ];
-      component.numberOfHits = 1;
-      fixture.detectChanges();
+  it('should go to hit and close dialog when selected on mobile', () => {
+    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+    spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
+    spyOn(dialogRef, 'close').and.callThrough();
+    component.currentSearch = 'dummysearch';
+    component.hits = [
+      new Hit({
+        index: 0,
+        match: 'querystring'
+      })
+    ];
+    component.numberOfHits = 1;
+    fixture.detectChanges();
 
-      const hits = fixture.debugElement.queryAll(By.css('.hit'));
-      hits[0].triggerEventHandler('click', null);
+    const hits = fixture.debugElement.queryAll(By.css('.hit'));
+    hits[0].triggerEventHandler('click', null);
 
-      fixture.detectChanges();
-      expect(iiifContentSearchServiceStub.selected).toHaveBeenCalled();
-      expect(dialogRef.close).toHaveBeenCalled();
-    }
-  ));
+    fixture.detectChanges();
+    expect(iiifContentSearchServiceStub.selected).toHaveBeenCalled();
+    expect(dialogRef.close).toHaveBeenCalled();
+  });
 
-  it('should go to hit and when selected on desktop', inject(
-    [MediaObserver, ViewerService, MatDialogRef],
-    (
-      media: MediaObserver,
-      viewerService: ViewerService,
-      dialogRef: MatDialogRef<ContentSearchDialogComponent>
-    ) => {
-      spyOn(media, 'isActive').and.returnValue(false);
-      spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
-      spyOn(dialogRef, 'close').and.callThrough();
-      component.currentSearch = 'dummysearch';
-      component.hits = [
-        new Hit({
-          index: 0,
-          match: 'querystring'
-        })
-      ];
-      component.numberOfHits = 1;
-      fixture.detectChanges();
+  it('should go to hit and when selected on desktop', () => {
+    spyOn(mediaObserver, 'isActive').and.returnValue(false);
+    spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
+    spyOn(dialogRef, 'close').and.callThrough();
+    component.currentSearch = 'dummysearch';
+    component.hits = [
+      new Hit({
+        index: 0,
+        match: 'querystring'
+      })
+    ];
+    component.numberOfHits = 1;
+    fixture.detectChanges();
 
-      const hits = fixture.debugElement.queryAll(By.css('.hit'));
-      hits[0].triggerEventHandler('click', null);
+    const hits = fixture.debugElement.queryAll(By.css('.hit'));
+    hits[0].triggerEventHandler('click', null);
 
-      fixture.detectChanges();
-      expect(iiifContentSearchServiceStub.selected).toHaveBeenCalled();
-      expect(dialogRef.close).not.toHaveBeenCalled();
-    }
-  ));
+    fixture.detectChanges();
+    expect(iiifContentSearchServiceStub.selected).toHaveBeenCalled();
+    expect(dialogRef.close).not.toHaveBeenCalled();
+  });
 
   it('should remain in search input if content search return zero hits', () => {
     const searchInput = fixture.debugElement.query(
