@@ -1,37 +1,33 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  ViewChild,
-  ViewContainerRef,
-  HostBinding
-} from '@angular/core';
-import { MatDialog, MatDialogConfig, DialogPosition } from '@angular/material';
-import { ObservableMedia, MediaChange } from '@angular/flex-layout';
-import {
-  trigger,
+  animate,
   state,
   style,
-  animate,
-  transition
+  transition,
+  trigger
 } from '@angular/animations';
-import { Subscription, Subject } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
+import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
+import { MimeDomHelper } from '../../core/mime-dom-helper';
+import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerOptions } from '../../core/models/viewer-options';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
+import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
+import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
+import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
-import { ContentsDialogComponent } from './../../contents-dialog/contents-dialog.component';
-import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
-import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
-import { MimeDomHelper } from '../../core/mime-dom-helper';
-import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
-import { ViewerLayout } from '../../core/models/viewer-layout';
-import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
-import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 
 @Component({
   selector: 'mime-viewer-header',
