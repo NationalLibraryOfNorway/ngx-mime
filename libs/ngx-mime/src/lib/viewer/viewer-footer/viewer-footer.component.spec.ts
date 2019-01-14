@@ -1,24 +1,17 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  inject
-} from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ObservableMedia, MediaChange } from '@angular/flex-layout';
-import { Observable, Subject } from 'rxjs';
-
-import { ViewerFooterComponent } from './viewer-footer.component';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from './../../core/models/search-result';
 import { Hit } from './../../core/models/hit';
-import { MediaServiceStub } from './../../test/media-service-stub';
+import { SearchResult } from './../../core/models/search-result';
 import { IiifContentSearchServiceStub } from './../../test/iiif-content-search-service-stub';
+import { MediaObserverStub } from '../../test/media-observer-stub';
+import { ViewerFooterComponent } from './viewer-footer.component';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
-  let mediaServiceStub: MediaServiceStub;
+  let mediaObserverStub: MediaObserverStub;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let fixture: ComponentFixture<ViewerFooterComponent>;
 
@@ -32,7 +25,7 @@ describe('ViewerFooterComponent', () => {
           provide: IiifContentSearchService,
           useClass: IiifContentSearchServiceStub
         },
-        { provide: ObservableMedia, useClass: MediaServiceStub }
+        { provide: MediaObserver, useClass: MediaObserverStub }
       ]
     }).compileComponents();
   }));
@@ -40,7 +33,7 @@ describe('ViewerFooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
     cmp = fixture.componentInstance;
-    mediaServiceStub = TestBed.get(ObservableMedia);
+    mediaObserverStub = TestBed.get(MediaObserver);
     iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
     fixture.detectChanges();
   });
@@ -78,11 +71,11 @@ describe('ViewerFooterComponent', () => {
   }));
 
   it('should always show pageNavigator in desktop size', () => {
-    spyOn(mediaServiceStub, 'isActive').and.returnValue(false);
+    spyOn(mediaObserverStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     fixture.detectChanges();
 
-    mediaServiceStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next(new MediaChange());
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -91,14 +84,14 @@ describe('ViewerFooterComponent', () => {
   });
 
   it('should show pageNavigator in desktop size and if content search navigator is displayed', () => {
-    spyOn(mediaServiceStub, 'isActive').and.returnValue(false);
+    spyOn(mediaObserverStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     cmp.showContentSearchNavigator = false;
 
     const sr = new SearchResult();
     sr.add(new Hit());
 
-    mediaServiceStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next(new MediaChange());
     iiifContentSearchServiceStub._currentSearchResult.next(sr);
 
     fixture.whenStable().then(() => {
@@ -109,12 +102,12 @@ describe('ViewerFooterComponent', () => {
   });
 
   it('should hide pageNavigator if mobile size and content search navigator is displayed', () => {
-    spyOn(mediaServiceStub, 'isActive').and.returnValue(true);
+    spyOn(mediaObserverStub, 'isActive').and.returnValue(true);
     cmp.searchResult = new SearchResult();
     cmp.searchResult.add(new Hit());
     fixture.detectChanges();
 
-    mediaServiceStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next(new MediaChange());
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();

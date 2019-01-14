@@ -1,10 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 
 import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerLayoutService } from './viewer-layout-service';
 import { MimeViewerConfig } from '../mime-viewer-config';
-import { MediaServiceStub } from '../../test/media-service-stub';
+import { MediaObserverStub } from '../../test/media-observer-stub';
 
 describe('ViewerLayoutService', () => {
   let config: MimeViewerConfig;
@@ -13,7 +13,7 @@ describe('ViewerLayoutService', () => {
     TestBed.configureTestingModule({
       providers: [
         ViewerLayoutService,
-        { provide: ObservableMedia, useClass: MediaServiceStub }
+        { provide: MediaObserver, useClass: MediaObserverStub }
       ]
     });
   });
@@ -38,10 +38,10 @@ describe('ViewerLayoutService', () => {
   ));
 
   it('should set initial layout to specified layout in mime-config', inject(
-    [ViewerLayoutService, ObservableMedia],
-    (service: ViewerLayoutService, media: ObservableMedia) => {
+    [ViewerLayoutService, MediaObserver],
+    (service: ViewerLayoutService, mediaObserver: MediaObserver) => {
       const initLayout = config.initViewerLayout;
-      spyOn(media, 'isActive').and.returnValue(false);
+      spyOn(mediaObserver, 'isActive').and.returnValue(false);
       service.init();
 
       if (initLayout === ViewerLayout.TWO_PAGE) {
@@ -54,18 +54,18 @@ describe('ViewerLayoutService', () => {
   ));
 
   it('should set initial layout to ONE_PAGE on mobile, regardless of mime-config', inject(
-    [ViewerLayoutService, ObservableMedia],
-    (service: ViewerLayoutService, media: ObservableMedia) => {
-      spyOn(media, 'isActive').and.returnValue(true);
+    [ViewerLayoutService, MediaObserver],
+    (service: ViewerLayoutService, mediaObserver: MediaObserver) => {
+      spyOn(mediaObserver, 'isActive').and.returnValue(true);
       service.init();
       expect(service.layout).toEqual(ViewerLayout.ONE_PAGE);
     }
   ));
 
   it('should set initial layout to TWO_PAGE if manifest is paged AND we are not and mobile', inject(
-    [ViewerLayoutService, ObservableMedia],
-    (service: ViewerLayoutService, media: ObservableMedia) => {
-      spyOn(media, 'isActive').and.returnValue(false);
+    [ViewerLayoutService, MediaObserver],
+    (service: ViewerLayoutService, mediaObserver: MediaObserver) => {
+      spyOn(mediaObserver, 'isActive').and.returnValue(false);
       service.init(true);
       expect(service.layout).toEqual(ViewerLayout.TWO_PAGE);
     }

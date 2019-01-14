@@ -1,29 +1,27 @@
 import {
+  AfterViewInit,
   Component,
-  OnInit,
-  HostListener,
   ElementRef,
+  HostListener,
   OnDestroy,
-  ViewChild,
-  ViewChildren,
+  OnInit,
   QueryList,
-  AfterViewInit
+  ViewChild,
+  ViewChildren
 } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material';
-import { ObservableMedia } from '@angular/flex-layout';
-import { Subscription, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
-
-import { MimeViewerIntl } from './../core/intl/viewer-intl';
-import { Manifest } from './../core/models/manifest';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { MimeDomHelper } from './../core/mime-dom-helper';
-import { Dimensions } from './../core/models/dimensions';
-import { SearchResult } from './../core/models/search-result';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { ViewerService } from './../core/viewer-service/viewer.service';
+import { MimeViewerIntl } from './../core/intl/viewer-intl';
+import { MimeDomHelper } from './../core/mime-dom-helper';
+import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { Dimensions } from './../core/models/dimensions';
 import { Hit } from './../core/models/hit';
+import { Manifest } from './../core/models/manifest';
+import { SearchResult } from './../core/models/search-result';
 
 @Component({
   selector: 'mime-search',
@@ -50,7 +48,7 @@ export class ContentSearchDialogComponent
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
     public intl: MimeViewerIntl,
-    public media: ObservableMedia,
+    public mediaObserver: MediaObserver,
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
@@ -135,7 +133,7 @@ export class ContentSearchDialogComponent
   goToHit(hit: Hit): void {
     this.currentHit = hit;
     this.iiifContentSearchService.selected(hit);
-    if (this.media.isActive('lt-md')) {
+    if (this.mediaObserver.isActive('lt-md')) {
       this.dialogRef.close();
     }
   }
@@ -149,7 +147,7 @@ export class ContentSearchDialogComponent
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
     let height = this.mimeHeight;
 
-    if (this.media.isActive('lt-md')) {
+    if (this.mediaObserver.isActive('lt-md')) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px'
       };

@@ -1,11 +1,15 @@
 import { MediaChange } from '@angular/flex-layout';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, Observable } from 'rxjs';
 
-export class MediaServiceStub {
+export class MediaObserverStub {
   _onChange = new Subject<MediaChange>();
 
   isActive(m: string) {
     return false;
+  }
+
+  get media$(): Observable<MediaChange> {
+    return this._onChange.asObservable();
   }
 
   subscribe(

@@ -1,41 +1,34 @@
-import { DebugElement } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  inject
-} from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material';
-import { ObservableMedia } from '@angular/flex-layout';
-
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CanvasService } from '../core/canvas-service/canvas-service';
+import { ClickService } from '../core/click-service/click.service';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { ModeService } from '../core/mode-service/mode.service';
+import { Manifest, Structure } from '../core/models/manifest';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ViewerService } from '../core/viewer-service/viewer.service';
 import { SharedModule } from '../shared/shared.module';
+import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
+import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
+import { MediaObserverStub } from '../test/media-observer-stub';
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
-import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { MimeDomHelper } from '../core/mime-dom-helper';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
-import { MediaServiceStub } from './../test/media-service-stub';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
-import { ViewerService } from '../core/viewer-service/viewer.service';
-import { ClickService } from '../core/click-service/click.service';
-import { CanvasService } from '../core/canvas-service/canvas-service';
-import { ModeService } from '../core/mode-service/mode.service';
-import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
-import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
-import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
-import { Manifest, Structure } from '../core/models/manifest';
-import { testManifest } from './../test/testManifest';
-import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
   let fixture: ComponentFixture<ContentsDialogComponent>;
-  let media: ObservableMedia;
+  let mediaObserver: MediaObserver;
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
 
@@ -56,7 +49,7 @@ describe('ContentsDialogComponent', () => {
         IiifContentSearchService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: ObservableMedia, useClass: MediaServiceStub }
+        { provide: MediaObserver, useClass: MediaObserverStub }
       ]
     }).compileComponents();
   }));
@@ -64,7 +57,7 @@ describe('ContentsDialogComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(ContentsDialogComponent);
     component = fixture.componentInstance;
-    media = TestBed.get(ObservableMedia);
+    mediaObserver = TestBed.get(MediaObserver);
     iiifManifestService = TestBed.get(IiifManifestService);
     intl = TestBed.get(MimeViewerIntl);
     fixture.detectChanges();
@@ -75,7 +68,7 @@ describe('ContentsDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    spyOn(media, 'isActive').and.returnValue(false);
+    spyOn(mediaObserver, 'isActive').and.returnValue(false);
 
     fixture.detectChanges();
 
@@ -86,7 +79,7 @@ describe('ContentsDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    spyOn(media, 'isActive').and.returnValue(true);
+    spyOn(mediaObserver, 'isActive').and.returnValue(true);
 
     fixture.detectChanges();
 

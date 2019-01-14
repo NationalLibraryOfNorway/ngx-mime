@@ -1,16 +1,15 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
-import { ObservableMedia } from '@angular/flex-layout';
-
-import { ViewerService } from './viewer.service';
+import { MediaObserver } from '@angular/flex-layout';
 import { ClickService } from '../click-service/click.service';
+import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
+import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
+import { Hit } from '../models/hit';
+import { SearchResult } from '../models/search-result';
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { CanvasService } from './../canvas-service/canvas-service';
 import { ModeService } from './../mode-service/mode.service';
-import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
-import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
-import { SearchResult } from '../models/search-result';
-import { Hit } from '../models/hit';
-import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
+import { ViewerService } from './viewer.service';
 
 describe('ViewerService', () => {
   beforeEach(() => {
@@ -26,7 +25,7 @@ describe('ViewerService', () => {
         IiifContentSearchService,
         HttpClient,
         HttpHandler,
-        ObservableMedia
+        MediaObserver
       ]
     });
   });

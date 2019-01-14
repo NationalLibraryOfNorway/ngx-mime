@@ -1,30 +1,28 @@
-import { DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 import {
   async,
   ComponentFixture,
   inject,
   TestBed
 } from '@angular/core/testing';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs';
-
-import { SharedModule } from '../../shared/shared.module';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
-import { Manifest, Structure } from '../../core/models/manifest';
-import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { TocComponent } from './table-of-contents.component';
-import { ViewerService } from '../../core/viewer-service/viewer.service';
-import { ClickService } from '../../core/click-service/click.service';
+import { By } from '@angular/platform-browser';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
+import { ClickService } from '../../core/click-service/click.service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { Manifest, Structure } from '../../core/models/manifest';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { SharedModule } from '../../shared/shared.module';
+import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
+import { MatDialogRefStub } from '../../test/mat-dialog-ref-stub';
+import { MediaObserverStub } from '../../test/media-observer-stub';
 import { ContentsDialogComponent } from '../contents-dialog.component';
 import { ViewerServiceStub } from './../../test/viewer-service-stub';
-import { MatDialogRefStub } from '../../test/mat-dialog-ref-stub';
-import { MediaServiceStub } from '../../test/media-service-stub';
-import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
+import { TocComponent } from './table-of-contents.component';
 
 describe('TocComponent', () => {
   let component: TocComponent;
@@ -41,7 +39,7 @@ describe('TocComponent', () => {
         ModeService,
         MimeViewerIntl,
         { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: ObservableMedia, useClass: MediaServiceStub },
+        { provide: MediaObserver, useClass: MediaObserverStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: ViewerService, useClass: ViewerServiceStub }
       ]
@@ -135,12 +133,12 @@ describe('TocComponent', () => {
   ));
 
   it('should close contents dialog when selecting a canvas group in TOC when on mobile', inject(
-    [MatDialogRef, ObservableMedia],
+    [MatDialogRef, MediaObserver],
     (
       dialogRef: MatDialogRef<ContentsDialogComponent>,
-      media: ObservableMedia
+      mediaObserver: MediaObserver
     ) => {
-      spyOn(media, 'isActive').and.returnValue(true);
+      spyOn(mediaObserver, 'isActive').and.returnValue(true);
       spyOn(dialogRef, 'close').and.callThrough();
 
       const divs: DebugElement[] = fixture.debugElement.queryAll(

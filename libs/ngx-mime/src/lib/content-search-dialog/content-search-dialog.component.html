@@ -1,5 +1,5 @@
 <div class="content-search-container">
-  <div [ngSwitch]="media.isActive('lt-md')">
+  <div [ngSwitch]="mediaObserver.isActive('lt-md')">
     <div *ngSwitchCase="true">
       <mat-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
