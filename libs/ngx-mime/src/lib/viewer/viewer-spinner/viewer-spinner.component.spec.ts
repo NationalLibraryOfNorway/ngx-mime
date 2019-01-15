@@ -1,17 +1,11 @@
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   async,
   ComponentFixture,
-  TestBed,
-  inject
+  inject,
+  TestBed
 } from '@angular/core/testing';
-import { ObservableMedia } from '@angular/flex-layout';
-import { Observable } from 'rxjs';
-
-import { SharedModule } from './../../shared/shared.module';
+import { By } from '@angular/platform-browser';
 import { SpinnerService } from '../../core/spinner-service/spinner.service';
 import { ViewerSpinnerComponent } from './viewer-spinner.component';
 
