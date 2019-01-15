@@ -1,35 +1,29 @@
-import { DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { By } from '@angular/platform-browser';
-import {
-  async,
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
-import { ObservableMedia } from '@angular/flex-layout';
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs';
-
-import { SharedModule } from '../../shared/shared.module';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
-import { Manifest, Structure } from '../../core/models/manifest';
-import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { TocComponent } from './table-of-contents.component';
-import { ViewerService } from '../../core/viewer-service/viewer.service';
-import { ClickService } from '../../core/click-service/click.service';
+import { By } from '@angular/platform-browser';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
+import { ClickService } from '../../core/click-service/click.service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { ModeService } from '../../core/mode-service/mode.service';
-import { ContentsDialogComponent } from '../contents-dialog.component';
-import { ViewerServiceStub } from './../../test/viewer-service-stub';
-import { MatDialogRefStub } from '../../test/mat-dialog-ref-stub';
-import { MediaServiceStub } from '../../test/media-service-stub';
+import { Manifest, Structure } from '../../core/models/manifest';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
+import { MatDialogRefStub } from '../../test/mat-dialog-ref-stub';
+import { ViewerServiceStub } from './../../test/viewer-service-stub';
+import { TocComponent } from './table-of-contents.component';
 
 describe('TocComponent', () => {
   let component: TocComponent;
   let fixture: ComponentFixture<TocComponent>;
   let iiifManifestService: IiifManifestServiceStub;
+  let mediaObserver: any;
+  let viewerService: ViewerService;
+  let dialogRef: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,7 +35,6 @@ describe('TocComponent', () => {
         ModeService,
         MimeViewerIntl,
         { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: ObservableMedia, useClass: MediaServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: ViewerService, useClass: ViewerServiceStub }
       ]
@@ -52,6 +45,7 @@ describe('TocComponent', () => {
     fixture = TestBed.createComponent(TocComponent);
     component = fixture.componentInstance;
     iiifManifestService = TestBed.get(IiifManifestService);
+    viewerService = TestBed.get(ViewerService);
 
     iiifManifestService._currentManifest.next(
       new Manifest({
@@ -85,6 +79,8 @@ describe('TocComponent', () => {
         ]
       })
     );
+    mediaObserver = TestBed.get(MediaObserver);
+    dialogRef = TestBed.get(MatDialogRef);
 
     fixture.detectChanges();
   });
@@ -120,35 +116,26 @@ describe('TocComponent', () => {
     expect(canvasGroupNumbers[2].nativeElement.innerText).toEqual('5');
   });
 
-  it('should go to canvas group when selecting a canvas group in TOC', inject(
-    [ViewerService],
-    (viewerService: ViewerService) => {
-      spyOn(viewerService, 'goToCanvas').and.callThrough();
+  it('should go to canvas group when selecting a canvas group in TOC', () => {
+    spyOn(viewerService, 'goToCanvas').and.callThrough();
 
-      const divs: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('.toc-link')
-      );
-      divs[2].triggerEventHandler('click', null);
+    const divs: DebugElement[] = fixture.debugElement.queryAll(
+      By.css('.toc-link')
+    );
+    divs[2].triggerEventHandler('click', null);
 
-      expect(viewerService.goToCanvas).toHaveBeenCalledWith(4, false);
-    }
-  ));
+    expect(viewerService.goToCanvas).toHaveBeenCalledWith(4, false);
+  });
 
-  it('should close contents dialog when selecting a canvas group in TOC when on mobile', inject(
-    [MatDialogRef, ObservableMedia],
-    (
-      dialogRef: MatDialogRef<ContentsDialogComponent>,
-      media: ObservableMedia
-    ) => {
-      spyOn(media, 'isActive').and.returnValue(true);
-      spyOn(dialogRef, 'close').and.callThrough();
+  it('should close contents dialog when selecting a canvas group in TOC when on mobile', () => {
+    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+    spyOn(dialogRef, 'close').and.callThrough();
 
-      const divs: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('.toc-link')
-      );
-      divs[2].triggerEventHandler('click', null);
+    const divs: DebugElement[] = fixture.debugElement.queryAll(
+      By.css('.toc-link')
+    );
+    divs[2].triggerEventHandler('click', null);
 
-      expect(dialogRef.close).toHaveBeenCalled();
-    }
-  ));
+    expect(dialogRef.close).toHaveBeenCalled();
+  });
 });

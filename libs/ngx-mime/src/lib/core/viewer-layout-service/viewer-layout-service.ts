@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { MediaObserver } from '@angular/flex-layout';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerLayout } from '../models/viewer-layout';
-import { Manifest } from '../models/manifest';
-import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 
 @Injectable()
 export class ViewerLayoutService {
@@ -15,7 +12,7 @@ export class ViewerLayoutService {
   private subject: BehaviorSubject<ViewerLayout> = new BehaviorSubject<
     ViewerLayout
   >(this.mimeConfig.initViewerLayout);
-  constructor(private media: ObservableMedia) {}
+  constructor(private mediaObserver: MediaObserver) {}
 
   init(isPagedManifest?: boolean): void {
     if (
@@ -49,6 +46,6 @@ export class ViewerLayoutService {
   }
 
   private isMobile(): boolean {
-    return this.media.isActive('lt-md');
+    return this.mediaObserver.isActive('lt-md');
   }
 }

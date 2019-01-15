@@ -1,11 +1,11 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import {
-  ThemeService,
-  SiteTheme
+  SiteTheme,
+  ThemeService
 } from './core/navbar/theme-picker/theme-service/theme.service';
-import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'demo-app',
@@ -19,15 +19,17 @@ export class AppComponent implements OnInit, OnDestroy {
   currentTheme: string;
 
   constructor(
-    private media: ObservableMedia,
+    private mediaObserver: MediaObserver,
     private overlayContainer: OverlayContainer,
     private themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
-    this.watcher = this.media.subscribe((change: MediaChange) => {
-      this.layout();
-    });
+    this.watcher = this.mediaObserver.media$.subscribe(
+      (change: MediaChange) => {
+        this.layout();
+      }
+    );
 
     this.layout();
     this.setTheme(this.themeService.getStoredTheme().name);
@@ -44,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private layout() {
-    if (this.media.isActive('lt-md')) {
+    if (this.mediaObserver.isActive('lt-md')) {
       this.sidenavMode = 'over';
       this.sidenavIsOpen = false;
     } else {

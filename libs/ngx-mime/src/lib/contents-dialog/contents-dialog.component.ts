@@ -1,21 +1,20 @@
 import {
-  Component,
-  OnInit,
-  HostListener,
-  ElementRef,
-  OnDestroy,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit
 } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { MimeDomHelper } from '../core/mime-dom-helper';
-import { Dimensions } from '../core/models/dimensions';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from './../core/models/manifest';
 
 @Component({
@@ -34,7 +33,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     public intl: MimeViewerIntl,
-    public media: ObservableMedia,
+    public mediaObserver: MediaObserver,
     private mimeResizeService: MimeResizeService,
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper,
@@ -75,7 +74,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
     let height = this.mimeHeight;
 
-    if (this.media.isActive('lt-md')) {
+    if (this.mediaObserver.isActive('lt-md')) {
       height -= 104;
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px'

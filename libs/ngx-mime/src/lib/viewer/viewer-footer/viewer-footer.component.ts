@@ -1,27 +1,25 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  ViewChild,
-  ViewContainerRef,
-  HostBinding
-} from '@angular/core';
-import {
-  trigger,
+  animate,
   state,
   style,
-  animate,
-  transition
+  transition,
+  trigger
 } from '@angular/animations';
-import { ObservableMedia, MediaChange } from '@angular/flex-layout';
-import { Subscription, Subject } from 'rxjs';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
+import { ViewerOptions } from '../../core/models/viewer-options';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';
-import { ViewerOptions } from '../../core/models/viewer-options';
 
 @Component({
   selector: 'mime-viewer-footer',
@@ -71,7 +69,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
 
   constructor(
     private iiifContentSearchService: IiifContentSearchService,
-    public media: ObservableMedia,
+    public mediaObserver: MediaObserver,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -91,11 +89,13 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.detectChanges();
       });
 
-    this.mediaSubscription = this.media.subscribe((change: MediaChange) => {
-      this.showPageNavigator =
-        this.searchResult.size() === 0 || !this.isMobile();
-      this.changeDetectorRef.detectChanges();
-    });
+    this.mediaSubscription = this.mediaObserver.media$.subscribe(
+      (change: MediaChange) => {
+        this.showPageNavigator =
+          this.searchResult.size() === 0 || !this.isMobile();
+        this.changeDetectorRef.detectChanges();
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -105,6 +105,6 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   }
 
   private isMobile(): boolean {
-    return this.media.isActive('lt-md');
+    return this.mediaObserver.isActive('lt-md');
   }
 }

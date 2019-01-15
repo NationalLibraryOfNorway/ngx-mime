@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
-
+import { MediaObserver } from '@angular/flex-layout';
+import { MimeDomHelper } from '../core/mime-dom-helper';
 import {
   ContentSearchDialogConfigStrategy,
-  MobileContentSearchDialogConfigStrategy,
-  DesktopContentSearchDialogConfigStrategy
+  DesktopContentSearchDialogConfigStrategy,
+  MobileContentSearchDialogConfigStrategy
 } from './content-search-dialog-config-strategy';
-import { MimeDomHelper } from '../core/mime-dom-helper';
 
 @Injectable()
 export class ContentSearchDialogConfigStrategyFactory {
   constructor(
-    private media: ObservableMedia,
+    private mediaObserver: MediaObserver,
     private mimeDomHelper: MimeDomHelper
   ) {}
 
   public create(): ContentSearchDialogConfigStrategy {
-    return this.media.isActive('lt-md')
+    return this.mediaObserver.isActive('lt-md')
       ? new MobileContentSearchDialogConfigStrategy()
       : new DesktopContentSearchDialogConfigStrategy(this.mimeDomHelper);
   }
