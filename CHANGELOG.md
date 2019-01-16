@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="7.2.0"></a>
+# [7.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.1.0...v7.2.0) (2019-01-16)
+
+
+### Bug Fixes
+
+* align navigation button label ([01aae15](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/01aae15))
+
+
+### Features
+
+* rigth to left viewing direction ([4f6fc2e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4f6fc2e))
+* show partial previous and next page in dashboard view ([1fccba9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1fccba9))
+
+
+
 <a name="7.1.0"></a>
 # [7.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.0.0...v7.1.0) (2018-12-20)
 
