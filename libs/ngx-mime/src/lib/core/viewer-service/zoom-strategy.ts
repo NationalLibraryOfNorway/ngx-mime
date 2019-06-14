@@ -209,10 +209,82 @@ export class ZoomStrategy {
       : 1;
   }
 
+  private getDashboardZoomHomeFactor2() {
+    console.log('*******************************************************************************************');
+    // console.log(this.viewer, this.viewer.viewport, this.viewer.world, this.viewer.source, this.viewer.canvas);
+    console.log(this.viewer, this.getTiledImage());
+
+    const minFactor = 0.66;
+    const maxFactor = 0.95;
+    let factor = maxFactor;
+    let scaleFactorIndex = 0;
+    let contentWidth = this.getContentWidth(scaleFactorIndex, 1);
+    console.log('containerWidth', this.getContainerWidth());
+    console.log('tileWidth', this.getTileWidth(scaleFactorIndex));
+    console.log('contentWidth', contentWidth);
+    // factor = 1 - (this.getContainerWidth() / contentWidth);
+
+    while (contentWidth > this.getContainerWidth()) {
+      factor = factor - 0.01;
+      contentWidth = this.getContentWidth(scaleFactorIndex, factor);
+      const newTileWidth = this.getTileWidth(scaleFactorIndex) * factor;
+      const nextTileSizeWidth = this.getTileWidth(scaleFactorIndex + 1);
+      console.log('Width of tile is too large', {contentWidth, newTileWidth, nextTileSizeWidth, factor});
+      if (nextTileSizeWidth > newTileWidth) {
+        factor = maxFactor;
+        scaleFactorIndex++;
+        console.log(`Changing to scaleFactor ${this.getScaleFactor(scaleFactorIndex)}  and factor ${factor} after finding ${newTileWidth}`);
+      }
+    }
+
+    console.log('Optimized contentWidth', contentWidth);
+    console.log('factor', factor);
+    return factor;
+  }
+
+  private getContainerWidth(): number {
+    return this.viewer.viewport.containerSize.x;
+  }
+
+  private getTiledImage() {
+    return this.viewer.world.getItemAt(this.canvasService.currentCanvasIndex);
+  }
+
+  private getTileWidth(scaleFactorIndex: number): number {
+    return this.getTiledImage().source.width / this.getScaleFactor(scaleFactorIndex);
+  }
+  
+  private getScaleFactor(index: number): number {
+    return this.getTiledImage().source.scale_factors[index];
+  }
+
+  private getPercentageOfTileWidth(scaleFactorIndex, percentage): number {
+    return (this.getTileWidth(scaleFactorIndex) * percentage) / 100;
+  }
+
+  private getMargin(): number {
+    return 75;
+  }
+
+  private getContentWidth(scaleFactorIndex: number, factor): number {
+    const tileWidth = this.getTileWidth(scaleFactorIndex) * 2;
+    const partialTileWidth = this.getPercentageOfTileWidth(scaleFactorIndex, 33) * 2;
+    const margins = this.getMargin() * 2;
+
+    return (tileWidth * factor) + (partialTileWidth * factor) + margins;
+  }
+
+  private getTargetSizesIndex(): number {
+    const index = this.viewer.source.sizes.findIndex(size => size.width < this.getContainerWidth());
+    if (index > 0) {
+      return index - 1;
+    }
+    return index;
+  }
+
   private getDashboardZoomHomeFactor() {
-    return this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE
-      ? 0.85
-      : 0.66;
+    return this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE ? 0.85 : this.getDashboardZoomHomeFactor2();
+    // return this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE ? 0.85 : 0.66;
   }
 }
 
