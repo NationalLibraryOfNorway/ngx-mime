@@ -6,6 +6,8 @@ export const ViewerOptions = {
   zoom: {
     zoomFactor: 1.15,
     dblClickZoomFactor: 2.7,
+    minZoomFactor: 0.66,
+    maxZoomFactor: 1,
     // How many pixels since lastDistance before it is considered a pinch
     pinchZoomThreshold: 3
   },
@@ -33,8 +35,8 @@ export const ViewerOptions = {
 
   padding: {
     // Padding in viewer container in pixels
-    header: 80, // Placeholder above viewer for header in Dashboard View
-    footer: 80 // Placeholder below viewer for footer in Dashboard View
+    header: 64, // Placeholder above viewer for header in Dashboard View
+    footer: 64 // Placeholder below viewer for footer in Dashboard View
   },
 
   colors: {
