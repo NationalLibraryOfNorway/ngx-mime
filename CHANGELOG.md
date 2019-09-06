@@ -1,6 +1,13 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [7.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.2.0...v7.3.0) (2019-09-06)
+
+
+### Features
+
+* better scaling in dashboard view ([#254](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/254)) ([532ead8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/532ead8))
 
 <a name="7.2.0"></a>
 # [7.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.1.0...v7.2.0) (2019-01-16)
