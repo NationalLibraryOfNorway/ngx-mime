@@ -70,7 +70,6 @@ export class ZoomStrategy {
       return;
     }
 
-    const homeZoomFactor = this.getHomeZoomFactor();
     let canvasGroupHeight: number;
     let canvasGroupWidth: number;
     let viewportBounds: any;
@@ -86,12 +85,10 @@ export class ZoomStrategy {
       viewportBounds = this.viewer.viewport.getBounds();
     }
 
-    return (
-      this.getFittedZoomLevel(
-        viewportBounds,
-        canvasGroupHeight,
-        canvasGroupWidth
-      ) * homeZoomFactor
+    return this.getFittedZoomLevel(
+      viewportBounds,
+      canvasGroupHeight,
+      canvasGroupWidth
     );
   }
 
@@ -140,6 +137,7 @@ export class ZoomStrategy {
       return;
     }
 
+    const homeZoomFactor = this.getHomeZoomFactor();
     const maxViewportDimensions = new Dimensions(
       d3
         .select(this.viewer.container.parentNode.parentNode)
@@ -150,7 +148,7 @@ export class ZoomStrategy {
       maxViewportDimensions.height -
       ViewerOptions.padding.header -
       ViewerOptions.padding.footer;
-    const viewportWidth = maxViewportDimensions.width;
+    const viewportWidth = maxViewportDimensions.width * homeZoomFactor;
 
     const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(
       new OpenSeadragon.Point(viewportWidth, viewportHeight)
