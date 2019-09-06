@@ -14,7 +14,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
   `
 })
 export class TestHostComponent {
-  @ViewChild(ViewerComponent, /* TODO: add static flag */ {})
+  @ViewChild(ViewerComponent, { static: true })
   public viewerComponent: any;
   public manifestUri: string;
   public canvasIndex = 0;
