@@ -10,7 +10,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';

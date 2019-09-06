@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher
-} from '@angular/material';
+} from '@angular/material/core';
 
 import { SharedModule } from './../shared/shared.module';
 import { ContentsDialogService } from './contents-dialog.service';

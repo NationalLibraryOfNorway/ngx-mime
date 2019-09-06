@@ -17,7 +17,7 @@ import {
   ViewContainerRef,
   AfterViewChecked
 } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, interval } from 'rxjs';
 import { throttle, takeUntil, take } from 'rxjs/operators';
 

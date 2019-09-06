@@ -8,10 +8,10 @@ import {
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import {
-  MatDialogRef,
   ShowOnDirtyErrorStateMatcher,
   ErrorStateMatcher
-} from '@angular/material';
+} from '@angular/material/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
