@@ -40,8 +40,9 @@ export class ContentSearchDialogComponent
   private manifest: Manifest;
   private mimeHeight = 0;
   private destroyed: Subject<void> = new Subject();
-  @ViewChild('contentSearchResult') resultContainer: ElementRef;
-  @ViewChild('query') qEl: ElementRef;
+  @ViewChild('contentSearchResult', { static: true })
+  resultContainer: ElementRef;
+  @ViewChild('query', { static: true }) qEl: ElementRef;
   @ViewChildren('hitButton', { read: ElementRef })
   hitList: QueryList<ElementRef>;
 

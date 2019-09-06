@@ -73,9 +73,12 @@ export class ViewerComponent
   public errorMessage: string = null;
 
   // Viewchilds
-  @ViewChild('mimeHeader') private header: ViewerHeaderComponent;
-  @ViewChild('mimeFooter') private footer: ViewerFooterComponent;
-  @ViewChild('mimeOsdToolbar') private osdToolbar: OsdToolbarComponent;
+  @ViewChild('mimeHeader', { static: true })
+  private header: ViewerHeaderComponent;
+  @ViewChild('mimeFooter', { static: true })
+  private footer: ViewerFooterComponent;
+  @ViewChild('mimeOsdToolbar', { static: false })
+  private osdToolbar: OsdToolbarComponent;
 
   constructor(
     public snackBar: MatSnackBar,

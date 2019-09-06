@@ -64,9 +64,9 @@ import { Manifest } from './../../core/models/manifest';
   ]
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
-  @ViewChild('mimeHeaderBefore', { read: ViewContainerRef })
+  @ViewChild('mimeHeaderBefore', { read: ViewContainerRef, static: true })
   mimeHeaderBefore: ViewContainerRef;
-  @ViewChild('mimeHeaderAfter', { read: ViewContainerRef })
+  @ViewChild('mimeHeaderAfter', { read: ViewContainerRef, static: true })
   mimeHeaderAfter: ViewContainerRef;
   public manifest: Manifest;
   public state = 'hide';

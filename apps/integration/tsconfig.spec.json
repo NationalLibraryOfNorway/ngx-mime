@@ -2,8 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "../../dist/out-tsc/apps/integration",
-    "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
     "types": ["jasmine", "node"],
     "paths": {
       "@nationallibraryofnorway/ngx-mime": [

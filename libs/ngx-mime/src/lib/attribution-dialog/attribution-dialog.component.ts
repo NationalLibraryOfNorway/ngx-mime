@@ -29,7 +29,7 @@ export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   public manifest: Manifest;
   private destroyed: Subject<void> = new Subject();
-  @ViewChild('container') container: ElementRef;
+  @ViewChild('container', { static: true }) container: ElementRef;
 
   constructor(
     public intl: MimeViewerIntl,

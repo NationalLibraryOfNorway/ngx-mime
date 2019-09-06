@@ -62,7 +62,7 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
   ]
 })
 export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('container') container: ElementRef;
+  @ViewChild('container', { static: true }) container: ElementRef;
   @HostBinding('@osdToolbarState')
   get osdToolbarState() {
     return this.state;

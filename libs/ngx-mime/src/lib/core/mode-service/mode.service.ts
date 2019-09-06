@@ -3,7 +3,9 @@ import { distinctUntilChanged } from 'rxjs/operators';
 
 import { ViewerMode } from '../models/viewer-mode';
 import { ModeChanges } from '../models/modeChanges';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class ModeService {
   private _initialMode: ViewerMode;
   private _mode: ViewerMode;
