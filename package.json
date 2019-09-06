@@ -118,7 +118,7 @@
     "protractor": "~5.4.2",
     "protractor-cucumber-framework": "^6.1.1",
     "protractor-multiple-cucumber-html-reporter-plugin": "^1.8.0",
-    "standard-version": "^4.4.0",
+    "standard-version": "^7.0.0",
     "ts-node": "~7.0.0",
     "tsickle": "0.34.0",
     "tslib": "^1.10.0",
