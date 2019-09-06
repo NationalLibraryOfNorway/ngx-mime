@@ -19,7 +19,7 @@
     "build": "ng build",
     "build:prod": "yarn build --prod",
     "test": "ng test",
-    "lint": "./node_modules/.bin/nx lint && ng lint",
+    "lint": "./node_modules/.bin/nx workspace-lint && ng lint",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "pree2e": "yarn install --check-files && yarn clean && yarn build:prod",
     "pree2e:chrome": "yarn pree2e",
@@ -55,7 +55,8 @@
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "help": "./node_modules/.bin/nx help",
     "release": "sh scripts/release/release.sh",
-    "affected": "./node_modules/.bin/nx affected"
+    "affected": "./node_modules/.bin/nx affected",
+    "nx": "nx"
   },
   "private": true,
   "dependencies": {
@@ -70,9 +71,9 @@
     "@angular/platform-browser": "^8.2.5",
     "@angular/platform-browser-dynamic": "^8.2.5",
     "@angular/router": "^8.2.5",
-    "@ngrx/effects": "7.2.0",
-    "@ngrx/router-store": "7.2.0",
-    "@ngrx/store": "7.2.0",
+    "@ngrx/effects": "8.1.0",
+    "@ngrx/router-store": "8.1.0",
+    "@ngrx/store": "8.1.0",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "d3": "^5.7.0",
@@ -81,15 +82,15 @@
     "rxjs": "6.5.3",
     "rxjs-compat": "6.0.0",
     "zone.js": "~0.10.2",
-    "@nrwl/angular": "8.0.0"
+    "@nrwl/angular": "8.4.13"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.800.0",
-    "@angular-devkit/build-ng-packagr": "~0.800.0",
-    "@angular/cli": "8.0.1",
+    "@angular-devkit/build-angular": "^0.801.1",
+    "@angular-devkit/build-ng-packagr": "~0.801.1",
+    "@angular/cli": "8.1.1",
     "@angular/compiler-cli": "^8.2.5",
     "@angular/language-service": "^8.2.5",
-    "@ngrx/store-devtools": "7.2.0",
+    "@ngrx/store-devtools": "8.1.0",
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.0",
     "@types/cucumber": "^4.0.4",
@@ -112,7 +113,6 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "mountebank": "^1.14.1",
     "ng-packagr": "5.5.0",
-    "ngrx-store-freeze": "0.2.4",
     "prettier": "1.15.2",
     "pretty-quick": "^1.8.0",
     "protractor": "~5.4.0",
@@ -126,8 +126,8 @@
     "tslint-config-prettier": "^1.15.0",
     "typescript": "~3.5.3",
     "wallaby-webpack": "^3.9.13",
-    "@ngrx/schematics": "7.2.0",
+    "@ngrx/schematics": "8.1.0",
     "dotenv": "6.2.0",
-    "@nrwl/workspace": "8.0.0"
+    "@nrwl/workspace": "8.4.13"
   }
 }

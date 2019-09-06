@@ -39,7 +39,7 @@
               "libs/ngx-mime/tsconfig.lib.json",
               "libs/ngx-mime/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!libs/ngx-mime/**"]
           }
         }
       }
@@ -127,7 +127,7 @@
               "apps/demo/tsconfig.app.json",
               "apps/demo/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/demo/**"]
           }
         }
       }
@@ -147,7 +147,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/demo-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/demo-e2e/**"]
           }
         }
       }
@@ -241,7 +241,7 @@
               "apps/integration/tsconfig.app.json",
               "apps/integration/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/integration/**"]
           }
         }
       }
@@ -261,7 +261,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/integration-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": ["**/node_modules/**", "!apps/integration-e2e/**"]
           }
         }
       }
