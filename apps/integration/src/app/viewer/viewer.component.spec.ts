@@ -1,9 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ViewerComponent } from './viewer.component';
-import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
+import { ViewerComponent } from './viewer.component';
 
 describe('ViewerComponent', () => {
   let component: ViewerComponent;
