@@ -327,9 +327,7 @@ export class ViewerPage {
 
   pan(point: Point): promise.Promise<any> {
     return browser.executeScript(
-      `window.openSeadragonViewer.viewport.panTo({x: ${point.x}, y: ${
-        point.y
-      }});`
+      `window.openSeadragonViewer.viewport.panTo({x: ${point.x}, y: ${point.y}});`
     );
   }
 
@@ -412,12 +410,12 @@ export class ViewerPage {
     await browser.sleep(1000);
     const header = await this.getHeader();
     const footer = await this.getFooter();
-    const headerDisplay = header.getCssValue('display');
-    const footerDisplay = footer.getCssValue('display');
+    const headerDisplay = header.getCssValue('transform');
+    const footerDisplay = footer.getCssValue('transform');
 
-    const headerisPresent = (await headerDisplay) === 'block';
-    const footerisPresent = (await footerDisplay) === 'block';
-    return headerisPresent && headerisPresent;
+    const headerisPresent = (await headerDisplay) === 'translate(0px, 0px)';
+    const footerisPresent = (await footerDisplay) === 'translate(0px, 0px)';
+    return headerisPresent && footerisPresent;
   }
 
   async isPageMode(): Promise<boolean> {

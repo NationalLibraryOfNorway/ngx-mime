@@ -17,6 +17,9 @@ const config = {
   unknownFlags: ['cucumberOpts', 'device'],
   multiCapabilities: getMultiCapabilities(),
   baseUrl: 'http://localhost:8080/',
+  localSeleniumStandaloneOpts: {
+    loopback: true
+  },
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
