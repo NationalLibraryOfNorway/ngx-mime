@@ -181,10 +181,9 @@ describe('OsdToolbarComponent', () => {
 });
 
 function expectOSDToolbarToShow(element: any) {
-  expect(element.style.display).toBe('block');
+  expect(element.style.transform).toBe('translate(0px, 0px)');
 }
 
 function expectOSDToolbarToBeHidden(element: any) {
-  expect(element.style.display).toBe('none');
-  expect(element.style.transform).toBe('translate(-100%, 0px)');
+  expect(element.style.transform).toBe('translate(-120px, 0px)');
 }

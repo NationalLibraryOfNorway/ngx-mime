@@ -40,23 +40,22 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
       state(
         'hide',
         style({
-          transform: 'translate(0px, 0px)',
-          zIndex: 1
+          transform: 'translate(-120px, 0)'
         })
       ),
       state(
         'show',
         style({
-          transform: 'translate(-100%, 0)'
+          transform: 'translate(0px, 0px)'
         })
       ),
       transition(
         'hide => show',
-        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-in')
+        animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
       ),
       transition(
         'show => hide',
-        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-out')
+        animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)
       )
     ])
   ]
