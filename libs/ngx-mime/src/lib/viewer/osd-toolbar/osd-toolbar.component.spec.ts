@@ -71,13 +71,16 @@ describe('OsdToolbarComponent', () => {
   ));
 
   it("should not be visible when state is changed to 'hide'", async(() => {
-    // Check initial style to make sure we later see an actual change
-    expectOSDToolbarToShow(fixture.debugElement.nativeElement);
-
-    component.state = 'hide';
+    component.state = 'show';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+      expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+
+      component.state = 'hide';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+      });
     });
   }));
 
