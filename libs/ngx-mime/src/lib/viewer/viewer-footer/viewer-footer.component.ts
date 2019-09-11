@@ -30,16 +30,12 @@ import { SearchResult } from './../../core/models/search-result';
       state(
         'hide',
         style({
-          opacity: 0,
-          display: 'none',
           transform: 'translate(0, 100%)'
         })
       ),
       state(
         'show',
         style({
-          opacity: 1,
-          display: 'block',
           transform: 'translate(0, 0)'
         })
       ),

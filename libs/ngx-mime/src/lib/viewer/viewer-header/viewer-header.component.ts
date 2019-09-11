@@ -39,17 +39,13 @@ import { Manifest } from './../../core/models/manifest';
       state(
         'hide',
         style({
-          opacity: 0,
-          display: 'none',
           transform: 'translate(0, -100%)'
         })
       ),
       state(
         'show',
         style({
-          opacity: 1,
-          display: 'block',
-          transform: 'translate(0, 0)'
+          transform: 'translate(0px, 0px)'
         })
       ),
       transition(
