@@ -39,9 +39,9 @@ export class ViewerPage {
   }
 
   async setPageMode(): Promise<void> {
-    const isDashboardMode = await this.isDashboardMode();
+    const isPageMode = await this.isPageMode();
 
-    if (isDashboardMode) {
+    if (!isPageMode) {
       const overlay = await this.getSVGElement();
       await utils.clickElement(overlay);
       await this.waitForAnimation(1000);
@@ -56,12 +56,13 @@ export class ViewerPage {
 
     await browser.get(uri);
     await this.setFocusOnViewer();
+    await this.waitForAnimation();
   }
 
   async goToCanvasGroup(canvasGroupIndex: number) {
     const isPageMode = await this.isPageMode();
     const isDashboardMode = this.isDashboardMode();
-    if (await isPageMode) {
+    if (isPageMode) {
       await this.navigateToCanvasGroup(canvasGroupIndex);
     } else if (await isDashboardMode) {
       await this.slideToCanvasGroup(canvasGroupIndex);
@@ -200,7 +201,7 @@ export class ViewerPage {
 
   async getSVGElement() {
     const el = element(by.css('#openseadragon svg'));
-    return utils.waitForElement(el);
+    return await utils.waitForElement(el);
   }
 
   async getFirstCanvasGroupInFirstGroupOverlay() {
@@ -407,26 +408,13 @@ export class ViewerPage {
   }
 
   async isDashboardMode(): Promise<boolean> {
-    await browser.sleep(1000);
-    const header = await this.getHeader();
-    const footer = await this.getFooter();
-    const headerDisplay = header.getCssValue('transform');
-    const footerDisplay = footer.getCssValue('transform');
-
-    const headerisPresent = (await headerDisplay) === 'translate(0px, 0px)';
-    const footerisPresent = (await footerDisplay) === 'translate(0px, 0px)';
-    return headerisPresent && footerisPresent;
+    await this.waitForAnimation(1000);
+    return element(by.css('.mode-dashboard')).isPresent();
   }
 
   async isPageMode(): Promise<boolean> {
-    const header = await this.getHeader();
-    const footer = await this.getFooter();
-    const headerDisplay = await header.getCssValue('display');
-    const footerDisplay = await footer.getCssValue('display');
-
-    const headerisHidden = headerDisplay === 'none';
-    const footerisHidden = footerDisplay === 'none';
-    return headerisHidden && footerisHidden;
+    await this.waitForAnimation(1000);
+    return element(by.css('.mode-page')).isPresent();
   }
 
   async isTwoPageView(): Promise<boolean> {
@@ -507,9 +495,10 @@ export class ViewerPage {
       iKey = Key.ESCAPE;
     }
 
-    const el = browser.driver.switchTo().activeElement();
+    await this.setFocusOnViewer();
+    const el = await browser.driver.switchTo().activeElement();
     await el.sendKeys(iKey);
-    return await browser.sleep(await this.getAnimationTimeInMs());
+    return this.waitForAnimation(5000);
   }
 
   async visibleCanvasGroups(): Promise<Boolean[]> {
