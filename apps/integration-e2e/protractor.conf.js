@@ -120,13 +120,13 @@ function getMultiCapabilities() {
         name: 'Mime E2E Tests',
         shardTestFiles: true,
         build: process.env.CIRCLE_BUILD_NUM,
-        tunnelIdentifier: process.env.CIRCLE_BUILD_NUM,
+        tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
         maxInstances: 5
       };
 
       if (process.env.CI) {
         capability.build = process.env.CIRCLE_BUILD_NUM;
-        capability.tunnelIdentifier = process.env.CIRCLE_BUILD_NUM;
+        capability.tunnelIdentifier = process.env.TUNNEL_IDENTIFIER;
       }
       multiCapabilities.push(capability);
     }
