@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:jessie-browsers
+    environment:
+      LOGS_DIR: /tmp/ngx-mime-build/logs
+      BROWSER_PROVIDER_READY_FILE: /tmp/ngx-mime-build/readyfile
+    steps:
+      - checkout
+      - run: 'mkdir -p $LOGS_DIR'
+      - run: 'chmod +x ./scripts/ci/build-and-test.sh'
+      - run: 'chmod +x ./scripts/saucelabs/start-tunnel.sh'
+      - run: 'chmod +x ./scripts/saucelabs/wait-tunnel.sh'
+      - run: 'chmod +x ./scripts/saucelabs/stop-tunnel.sh'
+      - run: 'chmod +x ./apps/integration-e2e/scripts/wait-on.sh'
+      - run: 'yarn install'
+      - run:
+          name: Build and test
+          command: './scripts/ci/build-and-test.sh'
