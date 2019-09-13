@@ -64,12 +64,12 @@ const config = {
   ignoreUncaughtExceptions: true
 };
 
-if (process.env.TRAVIS) {
+if (process.env.CI) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 }
 
-config.maxSessions = process.env.TRAVIS ? 5 : 10;
+config.maxSessions = process.env.CI ? 5 : 10;
 
 function getMultiCapabilities() {
   const multiCapabilities = [];
@@ -122,14 +122,14 @@ function getMultiCapabilities() {
         deviceName: cap.deviceName,
         name: 'Mime E2E Tests',
         shardTestFiles: true,
-        build: process.env.TRAVIS_JOB_NUMBER,
-        tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+        build: process.env.CIRCLE_BUILD_NUM,
+        tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
         maxInstances: 5
       };
 
-      if (process.env.TRAVIS) {
-        capability.build = process.env.TRAVIS_JOB_NUMBER;
-        capability.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+      if (process.env.CI) {
+        capability.build = process.env.CIRCLE_BUILD_NUM;
+        capability.tunnelIdentifier = process.env.TUNNEL_IDENTIFIER;
       }
       multiCapabilities.push(capability);
     }
