@@ -5,6 +5,12 @@ set -e
 echo ""
 echo "Building sources and running tests"
 echo ""
+export TUNNEL_IDENTIFIER="ngx-mime-${CIRCLE_BUILD_NUM}"
+export TUNNEL_DIR="/tmp/ngx-mime-saucelabs"
+
+# Cleanup and create the folder structure for the tunnel connector.
+rm -rf ${TUNNEL_DIR}
+mkdir -p ${TUNNEL_DIR}
 
 # Go to project dir
 cd $(dirname $0)/../..

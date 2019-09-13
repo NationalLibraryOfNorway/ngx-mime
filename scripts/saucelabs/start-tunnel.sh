@@ -2,38 +2,30 @@
 
 set -e -o pipefail
 
-TUNNEL_FILE="sc-4.5.1-linux.tar.gz"
-TUNNEL_URL="https://saucelabs.com/downloads/${TUNNEL_FILE}"
-TUNNEL_DIR="/tmp/saucelabs-connect"
+tunnelFileName="sc-4.5.4-linux.tar.gz"
+tunnelUrl="https://saucelabs.com/downloads/${tunnelFileName}"
 
-TUNNEL_LOG="${LOGS_DIR}/saucelabs-tunnel.log"
+tunnelReadyFile="${TUNNEL_DIR}/readyfile"
+tunnelPidFile="${TUNNEL_DIR}/pidfile"
 
-# Cleanup and create the folder structure for the tunnel connector.
-rm -rf ${TUNNEL_DIR} ${BROWSER_PROVIDER_READY_FILE}
-mkdir -p ${TUNNEL_DIR}
-
+# Go into the temporary tunnel directory.
 cd ${TUNNEL_DIR}
 
 # Download the saucelabs connect binaries.
-curl ${TUNNEL_URL} -o ${TUNNEL_FILE} 2> /dev/null 1> /dev/null
+curl ${tunnelUrl} -o ${tunnelFileName} 2> /dev/null 1> /dev/null
 
 # Extract the saucelabs connect binaries from the tarball.
 mkdir -p sauce-connect
-tar --extract --file=${TUNNEL_FILE} --strip-components=1 --directory=sauce-connect > /dev/null
+tar --extract --file=${tunnelFileName} --strip-components=1 --directory=sauce-connect > /dev/null
 
 # Cleanup the download directory.
-rm ${TUNNEL_FILE}
+rm ${tunnelFileName}
 
-ARGS="--no-proxy-caching"
+# Command arguments that will be passed to sauce-connect.
+sauceArgs="--readyfile ${tunnelReadyFile} --pidfile ${tunnelPidFile}"
 
-# Set tunnel-id only on Travis, to make local testing easier.
-if [ ! -z "${CIRCLE_BUILD_NUM}" ]; then
-  ARGS="${ARGS} --tunnel-identifier ${CIRCLE_BUILD_NUM}"
-fi
-if [ ! -z "${BROWSER_PROVIDER_READY_FILE}" ]; then
-  ARGS="${ARGS} --readyfile ${BROWSER_PROVIDER_READY_FILE}"
-fi
+sauceArgs="${sauceArgs} --tunnel-identifier ${TUNNEL_IDENTIFIER}"
 
-echo "Starting Sauce Connect in the background, logging into: ${TUNNEL_LOG}"
 
-sauce-connect/bin/sc -u ${SAUCE_USERNAME} -api-key ${SAUCE_ACCESS_KEY} ${ARGS} 2>&1 >> ${TUNNEL_LOG} &
+echo "Starting Sauce Connect in the background. Passed arguments: ${sauceArgs}"
+sauce-connect/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} ${sauceArgs}
