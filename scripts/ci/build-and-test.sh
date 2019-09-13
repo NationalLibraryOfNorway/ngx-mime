@@ -22,7 +22,7 @@ yarn build:prod
 yarn affected:lint --all
 yarn affected:test --all
 
-start_tunnel
+start_tunnel &
 wait_for_tunnel
 
 yarn e2e
