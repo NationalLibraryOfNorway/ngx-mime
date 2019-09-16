@@ -6,53 +6,44 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [7.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.2.0...v7.3.0) (2019-09-06)
 
-
 ### Features
 
-* better scaling in dashboard view ([#254](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/254)) ([532ead8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/532ead8))
+- better scaling in dashboard view ([#254](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/254)) ([532ead8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/532ead8))
 
 <a name="7.2.0"></a>
+
 # [7.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.1.0...v7.2.0) (2019-01-16)
 
-
 ### Bug Fixes
 
-* align navigation button label ([01aae15](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/01aae15))
-
+- align navigation button label ([01aae15](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/01aae15))
 
 ### Features
 
-* rigth to left viewing direction ([4f6fc2e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4f6fc2e))
-* show partial previous and next page in dashboard view ([1fccba9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1fccba9))
-
-
+- rigth to left viewing direction ([4f6fc2e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4f6fc2e))
+- show partial previous and next page in dashboard view ([1fccba9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1fccba9))
 
 <a name="7.1.0"></a>
-# [7.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.0.0...v7.1.0) (2018-12-20)
 
+# [7.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.0.0...v7.1.0) (2018-12-20)
 
 ### Bug Fixes
 
-* fullscreen in chrome 71 ([520dc63](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/520dc63)), closes [#240](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/240)
-* Safari is missing DragEvent ([78f5049](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/78f5049)), closes [#238](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/238)
-
+- fullscreen in chrome 71 ([520dc63](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/520dc63)), closes [#240](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/240)
+- Safari is missing DragEvent ([78f5049](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/78f5049)), closes [#238](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/238)
 
 ### Features
 
-* enable polyfills for IE in demo app ([e4ba136](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e4ba136))
-
-
+- enable polyfills for IE in demo app ([e4ba136](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e4ba136))
 
 <a name="7.0.0"></a>
-# [7.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v6.0.5...v7.0.0) (2018-11-09)
 
+# [7.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v6.0.5...v7.0.0) (2018-11-09)
 
 ### Features
 
-* support for static or non-IIIF image viewing ([c85f2e6](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c85f2e6)), closes [#223](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/223)
-* upgrade to angular 7 ([4106e7c](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4106e7c))
-
-
+- support for static or non-IIIF image viewing ([c85f2e6](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c85f2e6)), closes [#223](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/223)
+- upgrade to angular 7 ([4106e7c](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4106e7c))
 
 <a name="6.1.2"></a>
 

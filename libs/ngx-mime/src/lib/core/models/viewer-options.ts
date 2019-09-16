@@ -19,8 +19,8 @@ export const ViewerOptions = {
 
   // All transition times in milliseconds
   transitions: {
-    toolbarsEaseInTime: 200,
-    toolbarsEaseOutTime: 250,
+    toolbarsEaseInTime: 400,
+    toolbarsEaseOutTime: 500,
     OSDAnimationTime: 600 // Animation-time for OSD-animations
   },
 

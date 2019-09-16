@@ -71,13 +71,16 @@ describe('OsdToolbarComponent', () => {
   ));
 
   it("should not be visible when state is changed to 'hide'", async(() => {
-    // Check initial style to make sure we later see an actual change
-    expectOSDToolbarToShow(fixture.debugElement.nativeElement);
-
-    component.state = 'hide';
+    component.state = 'show';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+      expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+
+      component.state = 'hide';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+      });
     });
   }));
 
@@ -181,10 +184,9 @@ describe('OsdToolbarComponent', () => {
 });
 
 function expectOSDToolbarToShow(element: any) {
-  expect(element.style.display).toBe('block');
+  expect(element.style.transform).toBe('translate(0px, 0px)');
 }
 
 function expectOSDToolbarToBeHidden(element: any) {
-  expect(element.style.display).toBe('none');
-  expect(element.style.transform).toBe('translate(-100%, 0px)');
+  expect(element.style.transform).toBe('translate(-120px, 0px)');
 }

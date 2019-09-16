@@ -30,16 +30,12 @@ import { SearchResult } from './../../core/models/search-result';
       state(
         'hide',
         style({
-          opacity: 0,
-          display: 'none',
           transform: 'translate(0, 100%)'
         })
       ),
       state(
         'show',
         style({
-          opacity: 1,
-          display: 'block',
           transform: 'translate(0, 0)'
         })
       ),
@@ -55,9 +51,9 @@ import { SearchResult } from './../../core/models/search-result';
   ]
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
-  @ViewChild('mimeFooterBefore', { read: ViewContainerRef })
+  @ViewChild('mimeFooterBefore', { read: ViewContainerRef, static: true })
   mimeFooterBefore: ViewContainerRef;
-  @ViewChild('mimeFooterAfter', { read: ViewContainerRef })
+  @ViewChild('mimeFooterAfter', { read: ViewContainerRef, static: true })
   mimeFooterAfter: ViewContainerRef;
   public state = 'hide';
   public showNavigationToolbar = true;

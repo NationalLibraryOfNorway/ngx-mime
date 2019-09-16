@@ -1,5 +1,9 @@
 import { Injectable, ElementRef } from '@angular/core';
-import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
+import {
+  MatDialog,
+  MatDialogRef,
+  MatDialogConfig
+} from '@angular/material/dialog';
 import { Observable, Subscription, Subject, interval } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 

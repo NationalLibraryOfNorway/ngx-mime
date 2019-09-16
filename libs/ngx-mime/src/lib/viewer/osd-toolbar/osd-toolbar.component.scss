@@ -1,12 +1,16 @@
+:host {
+  z-index: 1;
+}
+
 ::ng-deep .osd-toolbar-row > .mat-toolbar-row {
   height: 40px;
 }
 
 .osd-toolbar {
   position: absolute;
+  z-index: 2;
   background: transparent;
   width: auto;
-  z-index: 2;
   border-radius: 8px;
   margin-left: 16px;
 }

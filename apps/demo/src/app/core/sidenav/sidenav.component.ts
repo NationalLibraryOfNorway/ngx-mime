@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
 import { ManifestService } from './../manifest-service/manifest.service';
 

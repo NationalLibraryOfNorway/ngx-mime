@@ -10,7 +10,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
@@ -40,8 +40,9 @@ export class ContentSearchDialogComponent
   private manifest: Manifest;
   private mimeHeight = 0;
   private destroyed: Subject<void> = new Subject();
-  @ViewChild('contentSearchResult') resultContainer: ElementRef;
-  @ViewChild('query') qEl: ElementRef;
+  @ViewChild('contentSearchResult', { static: true })
+  resultContainer: ElementRef;
+  @ViewChild('query', { static: true }) qEl: ElementRef;
   @ViewChildren('hitButton', { read: ElementRef })
   hitList: QueryList<ElementRef>;
 

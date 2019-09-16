@@ -11,7 +11,8 @@ const config = {
   SELENIUM_PROMISE_MANAGER: false,
   directConnect: false,
   localSeleniumStandaloneOpts: {
-    jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver']
+    jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver'],
+    loopback: true
   },
   specs: getFeatureFiles(),
   unknownFlags: ['cucumberOpts', 'device'],

@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MimeViewerConfig } from '@nationallibraryofnorway/ngx-mime';
+import {
+  MimeViewerConfig,
+  MimeViewerMode
+} from '@nationallibraryofnorway/ngx-mime';
 import { ManifestService } from './../core/manifest-service/manifest.service';
 
 @Component({
@@ -15,7 +18,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     navigationControlEnabled: true,
     preserveZoomOnCanvasGroupChange: true,
     startOnTopOnCanvasGroupChange: true,
-    isDropEnabled: true
+    isDropEnabled: true,
+    initViewerMode: MimeViewerMode.PAGE
   });
   private sub: any;
 

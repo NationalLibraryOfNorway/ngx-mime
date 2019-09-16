@@ -6,7 +6,7 @@ import {
   OnInit
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CanvasService } from '../../core/canvas-service/canvas-service';

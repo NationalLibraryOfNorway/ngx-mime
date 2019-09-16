@@ -40,29 +40,28 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
       state(
         'hide',
         style({
-          display: 'none',
-          transform: 'translate(-100%,0)'
+          transform: 'translate(-120px, 0)'
         })
       ),
       state(
         'show',
         style({
-          display: 'block'
+          transform: 'translate(0px, 0px)'
         })
       ),
       transition(
         'hide => show',
-        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')
+        animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
       ),
       transition(
         'show => hide',
-        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')
+        animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)
       )
     ])
   ]
 })
 export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('container') container: ElementRef;
+  @ViewChild('container', { static: true }) container: ElementRef;
   @HostBinding('@osdToolbarState')
   get osdToolbarState() {
     return this.state;
@@ -71,7 +70,7 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public numberOfCanvasGroups: number;
   public isFirstCanvasGroup: boolean;
   public isLastCanvasGroup: boolean;
-  public state = 'show';
+  public state = 'hide';
   invert = false;
   private destroyed: Subject<void> = new Subject();
 

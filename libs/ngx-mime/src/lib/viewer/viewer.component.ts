@@ -17,7 +17,7 @@ import {
   ViewContainerRef,
   AfterViewChecked
 } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, interval } from 'rxjs';
 import { throttle, takeUntil, take } from 'rxjs/operators';
 
@@ -73,9 +73,12 @@ export class ViewerComponent
   public errorMessage: string = null;
 
   // Viewchilds
-  @ViewChild('mimeHeader') private header: ViewerHeaderComponent;
-  @ViewChild('mimeFooter') private footer: ViewerFooterComponent;
-  @ViewChild('mimeOsdToolbar') private osdToolbar: OsdToolbarComponent;
+  @ViewChild('mimeHeader', { static: true })
+  private header: ViewerHeaderComponent;
+  @ViewChild('mimeFooter', { static: true })
+  private footer: ViewerFooterComponent;
+  @ViewChild('mimeOsdToolbar', { static: false })
+  private osdToolbar: OsdToolbarComponent;
 
   constructor(
     public snackBar: MatSnackBar,
