@@ -11,15 +11,13 @@ const config = {
   SELENIUM_PROMISE_MANAGER: false,
   directConnect: false,
   localSeleniumStandaloneOpts: {
-    jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver']
+    jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver'],
+    loopback: true
   },
   specs: getFeatureFiles(),
   unknownFlags: ['cucumberOpts', 'device'],
   multiCapabilities: getMultiCapabilities(),
   baseUrl: 'http://localhost:8080/',
-  localSeleniumStandaloneOpts: {
-    loopback: true
-  },
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
