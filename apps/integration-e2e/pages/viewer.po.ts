@@ -498,7 +498,7 @@ export class ViewerPage {
     await this.setFocusOnViewer();
     const el = await browser.driver.switchTo().activeElement();
     await el.sendKeys(iKey);
-    return this.waitForAnimation(5000);
+    return this.waitForAnimation();
   }
 
   async visibleCanvasGroups(): Promise<Boolean[]> {
