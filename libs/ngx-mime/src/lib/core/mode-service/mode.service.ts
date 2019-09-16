@@ -1,9 +1,8 @@
+import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-
-import { ViewerMode } from '../models/viewer-mode';
 import { ModeChanges } from '../models/modeChanges';
-import { Injectable } from '@angular/core';
+import { ViewerMode } from '../models/viewer-mode';
 
 @Injectable()
 export class ModeService {
