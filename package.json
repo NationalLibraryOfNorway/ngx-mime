@@ -83,8 +83,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.803.19",
-    "@angular-devkit/build-ng-packagr": "~0.803.19",
+    "@angular-devkit/build-angular": "^0.802.2",
+    "@angular-devkit/build-ng-packagr": "~0.802.2",
     "@angular/cli": "8.3.3",
     "@angular/compiler-cli": "^8.2.14",
     "@angular/language-service": "^8.2.14",
@@ -114,6 +114,7 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "mountebank": "^1.14.1",
     "ng-packagr": "5.7.1",
+    "node-sass": "^4.13.0",
     "prettier": "1.19.1",
     "pretty-quick": "^1.11.1",
     "protractor": "~5.4.2",
