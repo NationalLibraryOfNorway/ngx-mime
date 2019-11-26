@@ -75,7 +75,7 @@ describe('ViewerFooterComponent', () => {
     cmp.showPageNavigator = false;
     fixture.detectChanges();
 
-    mediaObserverStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next([new MediaChange()]);
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -91,7 +91,7 @@ describe('ViewerFooterComponent', () => {
     const sr = new SearchResult();
     sr.add(new Hit());
 
-    mediaObserverStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next([new MediaChange()]);
     iiifContentSearchServiceStub._currentSearchResult.next(sr);
 
     fixture.whenStable().then(() => {
@@ -107,7 +107,7 @@ describe('ViewerFooterComponent', () => {
     cmp.searchResult.add(new Hit());
     fixture.detectChanges();
 
-    mediaObserverStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next([new MediaChange()]);
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();

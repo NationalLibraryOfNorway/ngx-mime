@@ -25,8 +25,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.watcher = this.mediaObserver.media$.subscribe(
-      (change: MediaChange) => {
+    this.watcher = this.mediaObserver.asObservable().subscribe(
+      (changes: MediaChange[]) => {
         this.layout();
       }
     );

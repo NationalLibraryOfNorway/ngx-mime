@@ -85,8 +85,8 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.detectChanges();
       });
 
-    this.mediaSubscription = this.mediaObserver.media$.subscribe(
-      (change: MediaChange) => {
+    this.mediaSubscription = this.mediaObserver.asObservable().subscribe(
+      (changes: MediaChange[]) => {
         this.showPageNavigator =
           this.searchResult.size() === 0 || !this.isMobile();
         this.changeDetectorRef.detectChanges();
