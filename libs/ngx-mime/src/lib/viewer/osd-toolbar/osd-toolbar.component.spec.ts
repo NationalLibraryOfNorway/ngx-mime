@@ -129,7 +129,7 @@ describe('OsdToolbarComponent', () => {
     }
   ));
 
-  it('should disable next button when viewer is on last canvas group', inject(
+  it('should disable next button when viewer is on last canvas group', async(inject(
     [ViewerService, CanvasService],
     (viewerService: ViewerServiceStub, canvasService: CanvasService) => {
       spyOnProperty(
@@ -148,9 +148,9 @@ describe('OsdToolbarComponent', () => {
         expect(button.nativeElement.disabled).toBeTruthy();
       });
     }
-  ));
+  )));
 
-  it('should display next canvas group', inject(
+  it('should display next canvas group', async(inject(
     [ViewerService, CanvasService],
     (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
       spy = spyOn(viewerService, 'goToNextCanvasGroup');
@@ -163,9 +163,9 @@ describe('OsdToolbarComponent', () => {
         expect(spy.calls.count()).toEqual(1);
       });
     }
-  ));
+  )));
 
-  it('should display previous canvas group', inject(
+  it('should display previous canvas group', async(inject(
     [ViewerService, CanvasService],
     (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
       spy = spyOn(component, 'goToPreviousCanvasGroup');
@@ -180,7 +180,7 @@ describe('OsdToolbarComponent', () => {
         expect(spy.calls.count()).toEqual(1);
       });
     }
-  ));
+  )));
 });
 
 function expectOSDToolbarToShow(element: any) {

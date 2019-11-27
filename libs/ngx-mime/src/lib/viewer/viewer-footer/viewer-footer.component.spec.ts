@@ -70,7 +70,7 @@ describe('ViewerFooterComponent', () => {
     });
   }));
 
-  it('should always show pageNavigator in desktop size', () => {
+  it('should always show pageNavigator in desktop size', async(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     fixture.detectChanges();
@@ -81,9 +81,9 @@ describe('ViewerFooterComponent', () => {
       fixture.detectChanges();
       expect(cmp.showPageNavigator).toBeTruthy();
     });
-  });
+  }));
 
-  it('should show pageNavigator in desktop size and if content search navigator is displayed', () => {
+  it('should show pageNavigator in desktop size and if content search navigator is displayed', async(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     cmp.showContentSearchNavigator = false;
@@ -99,9 +99,9 @@ describe('ViewerFooterComponent', () => {
       expect(cmp.showPageNavigator).toBeTruthy();
       expect(cmp.showContentSearchNavigator).toBeTruthy();
     });
-  });
+  }));
 
-  it('should hide pageNavigator if mobile size and content search navigator is displayed', () => {
+  it('should hide pageNavigator if mobile size and content search navigator is displayed', async(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(true);
     cmp.searchResult = new SearchResult();
     cmp.searchResult.add(new Hit());
@@ -113,7 +113,7 @@ describe('ViewerFooterComponent', () => {
       fixture.detectChanges();
       expect(cmp.showPageNavigator).toBeFalsy();
     });
-  });
+  }));
 });
 
 function expectFooterToShow(element: any) {

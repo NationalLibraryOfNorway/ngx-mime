@@ -36,13 +36,10 @@ describe('CanvasGroupNavigatorComponent', () => {
         { provide: IiifManifestService, useClass: IiifManifestServiceStub }
       ]
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(CanvasGroupNavigatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -97,7 +94,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     }
   ));
 
-  it('should disable next button when viewer is on last canvas group', inject(
+  it('should disable next button when viewer is on last canvas group', async(inject(
     [CanvasService],
     (canvasService: CanvasServiceStub) => {
       canvasService._currentNumberOfCanvasGroups.next(10);
@@ -112,9 +109,9 @@ describe('CanvasGroupNavigatorComponent', () => {
         expect(button.nativeElement.disabled).toBeTruthy();
       });
     }
-  ));
+  )));
 
-  it('should display next canvas group', inject(
+  it('should display next canvas group', async(inject(
     [ViewerService, CanvasService],
     (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
       spy = spyOn(viewerService, 'goToNextCanvasGroup');
@@ -129,27 +126,28 @@ describe('CanvasGroupNavigatorComponent', () => {
         expect(spy.calls.count()).toEqual(1);
       });
     }
-  ));
+  )));
 
-  it('should display previous canvas group', inject(
-    [ViewerService, CanvasService],
-    (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
-      spy = spyOn(component, 'goToPreviousCanvasGroup');
+  it('should display previous canvas group', async(
+    inject(
+      [ViewerService, CanvasService],
+      (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
+        spy = spyOn(viewerService, 'goToPreviousCanvasGroup');
 
-      canvasService._currentCanvasGroupIndex.next(9);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        const button = fixture.debugElement.query(
-          By.css('#footerNavigateBeforeButton')
-        );
-        button.nativeElement.click();
-
+        canvasService._currentCanvasGroupIndex.next(9);
         fixture.detectChanges();
+
         fixture.whenStable().then(() => {
-          expect(spy.calls.count()).toEqual(1);
+          const button = fixture.debugElement.query(
+            By.css('#footerNavigateBeforeButton')
+          );
+          button.nativeElement.click();
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(spy.calls.count()).toEqual(1);
+          });
         });
-      });
-    }
+      }
+    )
   ));
 });
