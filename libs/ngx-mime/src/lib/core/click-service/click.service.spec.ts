@@ -29,7 +29,7 @@ describe('ClickService', () => {
     expect(doubleClickCounter).toBe(0);
   });
 
-  it('only singleClickCounter should increase to 1 aftere one click11', fakeAsync(() => {
+  it('only singleClickCounter should increase to 1 aftere one click', fakeAsync(() => {
     service.click(event);
     tick(event.tracker.dblClickTimeThreshold);
 
