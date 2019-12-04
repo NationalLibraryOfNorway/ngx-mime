@@ -21,23 +21,27 @@ module.exports = function(wallaby) {
           test: /\.ts$/,
           loader: '@ngtools/webpack',
           include: /node_modules/,
-          query: { tsConfigPath: 'tsconfig.json' }
+          query: { tsConfigPath: 'src/tsconfig.spec.json' }
         },
         {
           test: /\.js$/,
           loader: 'angular2-template-loader',
           exclude: /node_modules/
         },
-        { test: /\.styl$/, loaders: ['raw-loader', 'stylus-loader'] },
         {
-          test: /\.less$/,
+          test: /\.scss$|\.sass$/,
           loaders: [
             'raw-loader',
-            { loader: 'less-loader', options: { paths: [__dirname] } }
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require('sass'),
+                includePaths: ['./src/sass']
+              }
+            }
           ]
         },
-        { test: /\.scss$|\.sass$/, loaders: ['raw-loader', 'sass-loader'] },
-        { test: /\.(jpg|png|svg)$/, loader: 'url-loader?limit=128000' }
+        { test: /\.(jpg|png|svg)$/, loader: 'raw-loader' }
       ]
     },
 
@@ -110,7 +114,10 @@ module.exports = function(wallaby) {
     },
 
     env: {
-      kind: 'chrome'
+      kind: 'chrome',
+      params: {
+        runner: '--headless --disable-gpu --disable-web-security'
+      }
     },
 
     postprocessor: webpackPostprocessor,

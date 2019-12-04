@@ -70,20 +70,20 @@ describe('ViewerFooterComponent', () => {
     });
   }));
 
-  it('should always show pageNavigator in desktop size', () => {
+  it('should always show pageNavigator in desktop size', async(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     fixture.detectChanges();
 
-    mediaObserverStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next([new MediaChange()]);
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(cmp.showPageNavigator).toBeTruthy();
     });
-  });
+  }));
 
-  it('should show pageNavigator in desktop size and if content search navigator is displayed', () => {
+  it('should show pageNavigator in desktop size and if content search navigator is displayed', async(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     cmp.showContentSearchNavigator = false;
@@ -91,7 +91,7 @@ describe('ViewerFooterComponent', () => {
     const sr = new SearchResult();
     sr.add(new Hit());
 
-    mediaObserverStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next([new MediaChange()]);
     iiifContentSearchServiceStub._currentSearchResult.next(sr);
 
     fixture.whenStable().then(() => {
@@ -99,21 +99,21 @@ describe('ViewerFooterComponent', () => {
       expect(cmp.showPageNavigator).toBeTruthy();
       expect(cmp.showContentSearchNavigator).toBeTruthy();
     });
-  });
+  }));
 
-  it('should hide pageNavigator if mobile size and content search navigator is displayed', () => {
+  it('should hide pageNavigator if mobile size and content search navigator is displayed', async(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(true);
     cmp.searchResult = new SearchResult();
     cmp.searchResult.add(new Hit());
     fixture.detectChanges();
 
-    mediaObserverStub._onChange.next(new MediaChange());
+    mediaObserverStub._onChange.next([new MediaChange()]);
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(cmp.showPageNavigator).toBeFalsy();
     });
-  });
+  }));
 });
 
 function expectFooterToShow(element: any) {

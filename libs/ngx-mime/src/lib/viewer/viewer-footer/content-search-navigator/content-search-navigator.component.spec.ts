@@ -89,7 +89,7 @@ describe('ContentSearchNavigatorComponent', () => {
   ));
 
   describe('Two page display', () => {
-    it('should go to first hit if current canvas is 4 and user presses previous hit button', () => {
+    it('should go to first hit if current canvas is 4 and user presses previous hit button', async(() => {
       spyOn(
         contentSearchNavigationService,
         'goToPreviousCanvasGroupHit'
@@ -98,15 +98,15 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const res = component.goToPreviousCanvasGroupHit();
+        component.goToPreviousCanvasGroupHit();
         expect(
           contentSearchNavigationService.goToPreviousCanvasGroupHit
         ).toHaveBeenCalledTimes(1);
         expect(contentSearchNavigationService.getCurrentIndex()).toEqual(0);
       });
-    });
+    }));
 
-    it('should go to first hit if current canvas is 3 and user presses previous hit button', () => {
+    it('should go to first hit if current canvas is 3 and user presses previous hit button', async(() => {
       spyOn(
         contentSearchNavigationService,
         'goToPreviousCanvasGroupHit'
@@ -115,15 +115,15 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        const res = component.goToPreviousCanvasGroupHit();
+        component.goToPreviousCanvasGroupHit();
         expect(
           contentSearchNavigationService.goToPreviousCanvasGroupHit
         ).toHaveBeenCalledTimes(1);
         expect(contentSearchNavigationService.getCurrentIndex()).toEqual(0);
       });
-    });
+    }));
 
-    it('should go to first hit if current canvas is 0 and user presses next hit button', () => {
+    it('should go to first hit if current canvas is 0 and user presses next hit button', async(() => {
       spyOn(
         contentSearchNavigationService,
         'goToNextCanvasGroupHit'
@@ -138,9 +138,9 @@ describe('ContentSearchNavigatorComponent', () => {
         ).toHaveBeenCalledTimes(1);
         expect(contentSearchNavigationService.getCurrentIndex()).toEqual(0);
       });
-    });
+    }));
 
-    it('should disable previous button if on first hit', () => {
+    it('should disable previous button if on first hit', async(() => {
       canvasService.setCanvasGroupIndexChange(2);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -149,9 +149,9 @@ describe('ContentSearchNavigatorComponent', () => {
         );
         expect(button.nativeElement.disabled).toBeTruthy();
       });
-    });
+    }));
 
-    it('should disable next button if on last hit', () => {
+    it('should disable next button if on last hit', async(() => {
       const last = createDefaultData().last();
       canvasService.setCanvasGroupIndexChange(51);
       fixture.detectChanges();
@@ -161,9 +161,9 @@ describe('ContentSearchNavigatorComponent', () => {
         );
         expect(button.nativeElement.disabled).toBeTruthy();
       });
-    });
+    }));
 
-    it('should go to first hit on left page if user presses previous hit button', () => {
+    it('should go to first hit on left page if user presses previous hit button', async(() => {
       spyOn(iiifContentSearchService, 'selected');
 
       component.searchResult = createLeftPageHit();
@@ -179,9 +179,9 @@ describe('ContentSearchNavigatorComponent', () => {
           new Hit({ id: 1, index: 1 })
         );
       });
-    });
+    }));
 
-    it('should go to first hit on right page if user presses previous hit button', () => {
+    it('should go to first hit on right page if user presses previous hit button', async(() => {
       spyOn(iiifContentSearchService, 'selected');
       component.searchResult = createRightPageHit();
       iiifContentSearchService._currentSearchResult.next(
@@ -196,9 +196,9 @@ describe('ContentSearchNavigatorComponent', () => {
           new Hit({ id: 1, index: 2 })
         );
       });
-    });
+    }));
 
-    it('should skip going to right page when there is hits on both pages when user presses next hit button', () => {
+    it('should skip going to right page when there is hits on both pages when user presses next hit button', async(() => {
       spyOn(iiifContentSearchService, 'selected');
       component.searchResult = createRightPageHit();
       iiifContentSearchService._currentSearchResult.next(
@@ -217,11 +217,11 @@ describe('ContentSearchNavigatorComponent', () => {
           new Hit({ id: 3, index: 100 })
         );
       });
-    });
+    }));
   });
 
   describe('Single page display', () => {
-    it('should go to first hit if user presses previous hit button', () => {
+    it('should go to first hit if user presses previous hit button', async(() => {
       spyOn(iiifContentSearchService, 'selected');
       component.searchResult = createSinglePageHit();
       iiifContentSearchService._currentSearchResult.next(
@@ -238,9 +238,9 @@ describe('ContentSearchNavigatorComponent', () => {
           new Hit({ id: 1, index: 2 })
         );
       });
-    });
+    }));
 
-    it('should go to next hit if user presses next hit button', () => {
+    it('should go to next hit if user presses next hit button', async(() => {
       spyOn(iiifContentSearchService, 'selected');
       canvasService.setCanvasGroupIndexChange(0);
       fixture.detectChanges();
@@ -255,7 +255,7 @@ describe('ContentSearchNavigatorComponent', () => {
           new Hit({ id: 2, index: 8 })
         );
       });
-    });
+    }));
   });
 
   function createDefaultTileRects(size: number): Rect[] {

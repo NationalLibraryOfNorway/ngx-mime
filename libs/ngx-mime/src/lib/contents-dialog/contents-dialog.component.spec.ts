@@ -89,7 +89,7 @@ describe('ContentsDialogComponent', () => {
     expect(heading).toBeNull();
   });
 
-  it('should show toc', () => {
+  it('should show toc', async(() => {
     const manifest = new Manifest({
       structures: [new Structure()]
     });
@@ -107,9 +107,9 @@ describe('ContentsDialogComponent', () => {
       );
       expect(tocTab).toBeDefined();
     });
-  });
+  }));
 
-  it('should hide toc', () => {
+  it('should hide toc', async(() => {
     const manifest = new Manifest();
     iiifManifestService._currentManifest.next(manifest);
 
@@ -124,5 +124,5 @@ describe('ContentsDialogComponent', () => {
       );
       expect(tocTab).toBeUndefined();
     });
-  });
+  }));
 });

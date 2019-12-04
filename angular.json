@@ -28,7 +28,8 @@
             "tsConfig": "libs/ngx-mime/tsconfig.spec.json",
             "karmaConfig": "libs/ngx-mime/karma.conf.js",
             "scripts": [
-              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
+              "./node_modules/hammerjs/hammer.min.js"
             ]
           }
         },
