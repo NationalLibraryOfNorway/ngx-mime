@@ -7,6 +7,7 @@ import { MimeViewerIntl } from './viewer-intl';
 export class MimeViewerIntlNoNb extends MimeViewerIntl {
   closeLabel = 'Lukk';
   attributionLabel = 'Tillatelse';
+  attributonCloseAriaLabel = 'Steng tillatelse dialog';
   contentsLabel = 'Innhold';
   twoPageViewLabel = 'Tosidevisning';
   singlePageViewLabel = 'Enkeltsidevisning';
