@@ -1,24 +1,24 @@
 import {
-  Component,
-  OnInit,
-  ChangeDetectorRef,
+  AfterViewChecked,
+  AfterViewInit,
   ChangeDetectionStrategy,
-  OnDestroy,
+  ChangeDetectorRef,
+  Component,
   ElementRef,
   HostListener,
-  AfterViewChecked,
+  OnDestroy,
+  OnInit,
   Renderer2,
-  ViewChild,
-  AfterViewInit
+  ViewChild
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { Manifest } from '../core/models/manifest';
 import { StyleService } from '../core/style-service/style.service';
+import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 
 @Component({
   templateUrl: './attribution-dialog.component.html',
@@ -38,7 +38,8 @@ export class AttributionDialogComponent
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private attributionDialogResizeService: AttributionDialogResizeService,
-    private styleService: StyleService
+    private styleService: StyleService,
+    private accessKeysHandlerService: AccessKeysService
   ) {
     attributionDialogResizeService.el = el;
   }
@@ -66,6 +67,11 @@ export class AttributionDialogComponent
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  @HostListener('keyup', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
   }
 
   @HostListener('window:resize', ['$event'])

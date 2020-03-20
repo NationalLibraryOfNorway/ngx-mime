@@ -102,14 +102,13 @@ export class AttributionDialogService {
     const dimensions = this.getPosition(this._el);
     return {
       hasBackdrop: false,
-      disableClose: true,
       width: '170px',
       panelClass: 'attribution-panel',
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px'
       },
-      autoFocus: false
+      autoFocus: true
     };
   }
 
