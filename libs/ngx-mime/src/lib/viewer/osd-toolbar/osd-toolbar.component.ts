@@ -1,5 +1,6 @@
 import {
   animate,
+  group,
   state,
   style,
   transition,
@@ -40,18 +41,23 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
       state(
         'hide',
         style({
-          transform: 'translate(-120px, 0)'
+          transform: 'translate(-120px, 0)',
+          display: 'none'
         })
       ),
       state(
         'show',
         style({
-          transform: 'translate(0px, 0px)'
+          transform: 'translate(0px, 0px)',
+          display: 'block'
         })
       ),
       transition(
         'hide => show',
-        animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
+        [group([
+          style({display: 'block'}),
+          animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
+        ])]
       ),
       transition(
         'show => hide',
