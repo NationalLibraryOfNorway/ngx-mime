@@ -70,6 +70,7 @@ export class AttributionDialogService {
           this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
           this.dialogRef.afterClosed().subscribe(result => {
             this.isAttributionDialogOpen = false;
+            this.mimeDomHelper.setFocusOnViewer();
           });
           this.isAttributionDialogOpen = true;
           this.closeDialogAfter(timeout);
@@ -108,7 +109,8 @@ export class AttributionDialogService {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px'
       },
-      autoFocus: true
+      autoFocus: true,
+      restoreFocus: false
     };
   }
 
@@ -121,4 +123,5 @@ export class AttributionDialogService {
       left: dimensions.left + padding
     });
   }
+
 }

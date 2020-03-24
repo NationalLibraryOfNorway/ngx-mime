@@ -143,6 +143,16 @@ describe('ViewerComponent', function() {
     expect(viewerService.getViewer()).toBeDefined();
   });
 
+  it('should set tabindex', () => {
+    testHostComponent.tabIndex = 1;
+    testHostFixture.detectChanges();
+
+    const viewerDe = testHostFixture.debugElement.query(
+      By.css('#mimeViewer')
+    );
+    expect(viewerDe.nativeElement.getAttribute('tabindex')).toBe('1');
+  });
+
   it('should initially open in configs intial-mode', () => {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
