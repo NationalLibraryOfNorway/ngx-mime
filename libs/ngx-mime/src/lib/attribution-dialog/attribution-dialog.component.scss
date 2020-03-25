@@ -5,8 +5,13 @@
   padding: 8px;
 }
 
-.contents {
+.mat-dialog-title {
+  font-size: 16px;
+}
+
+.mat-dialog-content {
   padding: 8px;
+  margin: initial;
 }
 
 ::ng-deep .attribution-panel {

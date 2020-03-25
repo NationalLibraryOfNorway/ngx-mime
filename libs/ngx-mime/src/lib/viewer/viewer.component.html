@@ -3,6 +3,7 @@
   class="viewer-container"
   [ngClass]="setClasses()"
   [hidden]="errorMessage !== null"
+  [tabIndex]="tabIndex"
 >
   <mime-spinner></mime-spinner>
   <mime-viewer-header

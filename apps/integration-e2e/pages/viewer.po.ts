@@ -174,7 +174,7 @@ export class ViewerPage {
   }
 
   getAttribution() {
-    const el = element(by.css('#attribution-container > .contents'));
+    const el = element(by.css('#attribution-container > .mat-dialog-content'));
     return utils.waitForElement(el);
   }
 

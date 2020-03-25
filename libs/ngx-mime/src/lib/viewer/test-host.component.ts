@@ -10,6 +10,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
       [manifestUri]="manifestUri"
       [canvasIndex]="canvasIndex"
       [config]="config"
+      [tabIndex]="tabIndex"
     ></mime-viewer>
   `
 })
@@ -18,6 +19,7 @@ export class TestHostComponent {
   public viewerComponent: any;
   public manifestUri: string;
   public canvasIndex = 0;
+  public tabIndex = 0;
   public config = new MimeViewerConfig({
     attributionDialogHideTimeout: -1
   });

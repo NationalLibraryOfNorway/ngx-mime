@@ -59,6 +59,7 @@ export class ViewerComponent
   @Input() public q: string;
   @Input() public canvasIndex: number;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
+  @Input() public tabIndex = 0;
   @Output() viewerModeChanged: EventEmitter<ViewerMode> = new EventEmitter();
   @Output() canvasChanged: EventEmitter<number> = new EventEmitter();
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
