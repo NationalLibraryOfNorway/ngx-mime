@@ -26,6 +26,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   previousHitLabel = 'Forrige treff';
   nextHitLabel = 'Neste treff';
   goToPageLabel = 'Gå til side';
+  currentPageLabel = 'Nåværende side';
   enterPageNumber = 'Skriv inn sidenummer';
   dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
 

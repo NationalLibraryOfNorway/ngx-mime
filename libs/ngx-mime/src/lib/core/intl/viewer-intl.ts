@@ -26,6 +26,7 @@ export class MimeViewerIntl {
   previousHitLabel = 'Previous Hit';
   nextHitLabel = 'Next Hit';
   goToPageLabel = 'Go to page';
+  currentPageLabel = 'Current page';
   enterPageNumber = 'Enter page number';
   dropDisabled = 'Sorry, but drag and drop is disabled';
 
