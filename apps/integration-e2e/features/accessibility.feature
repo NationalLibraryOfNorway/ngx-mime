@@ -27,7 +27,7 @@ Feature: Accessibility
     Then the viewer should meet all accessibility criteria
 
   @Ignore
-  Scenario: Accessibility in contents dialog
+  Scenario: Accessibility in search dialog
     Given the viewer is opened with a publication
     And the viewer is in dashboard view
     And the user opens the search dialog
