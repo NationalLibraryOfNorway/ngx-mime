@@ -1,15 +1,17 @@
 <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center">
   <div>
-    <button mat-icon-button (click)="toggle()">
+    <button mat-icon-button (click)="toggle()" aria-label="Menu">
       <mat-icon class="mat-24">menu</mat-icon>
     </button>
   </div>
   <div fxFlex="grow" fxFlex.gt-sm="500px">
     <form (ngSubmit)="onSubmit()" #form="ngForm">
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <h1 class="cdk-visually-hidden">DemoWeb</h1>
         <input
           fxFlex
           class="manifest-uri"
+          aria-label="Paste the URL of a IIIF manifest here"
           placeholder="Paste the URL of a IIIF manifest here"
           autocomplete="off"
           [(ngModel)]="manifestUri"
