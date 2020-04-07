@@ -20,7 +20,9 @@ const bookShelf = {
   'a-rtl-10-pages-book':
     'http://localhost:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
   'a-individuals-manifest':
-    'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest'
+    'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
+  'a-non-attribution-manifest':
+    'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest'
 };
 
 const utils = new Utils();

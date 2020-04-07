@@ -18,6 +18,13 @@ Given(
 );
 
 Given(
+  'the viewer is opened with a publication without attribution labels',
+  async () => {
+    await page.open('a-non-attribution-manifest');
+  }
+);
+
+Given(
   'the viewer is opened with a publication with licenses associated with it',
   async () => {
     await page.open();

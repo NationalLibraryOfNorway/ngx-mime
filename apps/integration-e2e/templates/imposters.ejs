@@ -21,6 +21,10 @@
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-individuals-book.ejs') %>" }}]
   },
   {
+    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-non-attribution-manifest/manifest", "method": "GET" }}]}],
+    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-non-attribution-book.ejs') %>" }}]
+  },
+  {
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/contentsearch/iiif/search", "method": "GET", "query": { "q": "Gjallarhorn" } }}]}],
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'gjallarhorn.ejs') %>" }}]
   },
