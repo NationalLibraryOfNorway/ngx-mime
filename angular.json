@@ -176,7 +176,7 @@
               "apps/integration/src/favicon.ico",
               "apps/integration/src/assets"
             ],
-            "styles": ["apps/integration/src/styles.scss"],
+            "styles": ["apps/integration/src/styles.scss", "apps/integration/src/theme.scss"],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ]

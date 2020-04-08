@@ -1,17 +1,25 @@
-.toc-link {
-  font-size: 14px !important;
-  font-weight: 400;
-  margin-bottom: 8px;
+@import '~@angular/material/theming';
+
+// Define a mixin that accepts a theme and outputs the theme-specific styles.
+@mixin table-of-contents-theme($theme) {
+  // Extract the palettes you need from the theme definition.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  // Define any styles affected by the theme.
+    .canvasGroupIndex {
+      color: mat-color($foreground, text);
+    }
+
+    .toc-link {
+      cursor: pointer;
+      font-size: 14px !important;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .currentCanvasGroup {
+      font-weight: bold;
+    }
 }
 
-.toc-link:hover {
-  cursor: pointer;
-}
-
-.canvasGroupIndex {
-  opacity: 0.54;
-}
-
-.currentCanvasGroup {
-  font-weight: bold;
-}

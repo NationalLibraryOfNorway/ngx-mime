@@ -1,6 +1,6 @@
 <div class="contents-container">
-  <div [ngSwitch]="mediaObserver.isActive('lt-md')">
-    <div *ngSwitchCase="true">
+  <ng-container [ngSwitch]="mediaObserver.isActive('lt-md')">
+    <ng-container *ngSwitchCase="true">
       <mat-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
           <button
@@ -8,41 +8,41 @@
             [aria-label]="intl.closeLabel"
             [matTooltip]="intl.closeLabel"
             [matDialogClose]="true"
-            tabindex="-1"
           >
             <mat-icon>close</mat-icon>
           </button>
-          <div class="heading">{{ intl.contentsLabel }}</div>
+          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>
         </div>
       </mat-toolbar>
-    </div>
-    <div *ngSwitchDefault>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
       <mat-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <div class="heading heading-desktop">{{ intl.contentsLabel }}</div>
+          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>
           <button
             mat-icon-button
             [aria-label]="intl.closeLabel"
             [matTooltip]="intl.closeLabel"
             [matDialogClose]="true"
-            tabindex="-1"
           >
             <mat-icon>close</mat-icon>
           </button>
         </div>
       </mat-toolbar>
-    </div>
+    </ng-container>
+  </ng-container>
+  <div mat-dialog-content>
+    <mat-tab-group [(selectedIndex)]="selectedIndex">
+      <mat-tab [label]="intl.metadataLabel">
+        <div class="tab-container" [ngStyle]="tabHeight">
+          <mime-metadata></mime-metadata>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="showToc" [label]="intl.tocLabel">
+        <div class="tab-container" [ngStyle]="tabHeight">
+          <mime-toc></mime-toc>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
-  <mat-tab-group [(selectedIndex)]="selectedIndex">
-    <mat-tab [label]="intl.metadataLabel">
-      <div class="tab-container" [ngStyle]="tabHeight">
-        <mime-metadata></mime-metadata>
-      </div>
-    </mat-tab>
-    <mat-tab *ngIf="showToc" [label]="intl.tocLabel">
-      <div class="tab-container" [ngStyle]="tabHeight">
-        <mime-toc></mime-toc>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
 </div>
