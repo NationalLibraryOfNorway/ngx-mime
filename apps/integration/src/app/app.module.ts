@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { NxModule } from '@nrwl/angular';
@@ -16,6 +16,7 @@ const appRoutes: Routes = [{ path: '', component: ViewerComponent }];
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HammerModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     FlexLayoutModule,

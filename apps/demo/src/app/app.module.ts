@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NxModule } from '@nrwl/angular';
 import 'openseadragon';
@@ -14,6 +14,7 @@ import { ViewerComponent } from './viewer/viewer.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HammerModule,
     HttpClientModule,
     AppRoutingModule,
     CoreModule,
