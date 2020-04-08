@@ -78,7 +78,7 @@ export class ViewerComponent
   private header: ViewerHeaderComponent;
   @ViewChild('mimeFooter', { static: true })
   private footer: ViewerFooterComponent;
-  @ViewChild('mimeOsdToolbar', { static: false })
+  @ViewChild('mimeOsdToolbar')
   private osdToolbar: OsdToolbarComponent;
 
   constructor(
