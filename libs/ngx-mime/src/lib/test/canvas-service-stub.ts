@@ -1,8 +1,10 @@
+import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { CanvasService } from '../core/canvas-service/canvas-service';
 
+@Injectable()
 export class CanvasServiceStub extends CanvasService {
   _currentNumberOfCanvasGroups: BehaviorSubject<number> = new BehaviorSubject(
     10
