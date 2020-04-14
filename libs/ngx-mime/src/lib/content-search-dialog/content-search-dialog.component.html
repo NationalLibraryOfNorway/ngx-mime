@@ -37,6 +37,7 @@
     <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
       <mat-form-field class="content-search-box">
         <button
+          id="content-search-form-submit"
           type="submit"
           matPrefix
           mat-icon-button
@@ -53,7 +54,7 @@
           [(ngModel)]="q"
           name="q"
           autocomplete="off"
-          tabindex="0"
+          aria-labelledby="content-search-form-submit"
         />
         <button
           id="clearSearchButton"
