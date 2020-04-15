@@ -57,12 +57,12 @@
         id="fullscreenButton"
         *ngIf="isFullscreenEnabled"
         mat-icon-button
-        [attr.aria-label]="getFullscreenLabel()"
-        [matTooltip]="getFullscreenLabel()"
+        [attr.aria-label]="fullscreenLabel"
+        [matTooltip]="fullscreenLabel"
         (click)="toggleFullscreen()"
       >
-        <mat-icon *ngIf="isInFullScreen()" aria-hidden="true">fullscreen_exit</mat-icon>
-        <mat-icon *ngIf="!isInFullScreen()" aria-hidden="true">fullscreen</mat-icon>
+        <mat-icon *ngIf="isInFullScreen" aria-hidden="true">fullscreen_exit</mat-icon>
+        <mat-icon *ngIf="!isInFullScreen" aria-hidden="true">fullscreen</mat-icon>
       </button>
     </div>
     <div><ng-template #mimeHeaderAfter></ng-template></div>

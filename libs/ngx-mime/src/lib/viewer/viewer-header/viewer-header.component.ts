@@ -68,6 +68,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   public state = 'hide';
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
+  isInFullscreen = false;
+  fullscreenLabel = this.intl.fullScreenLabel;
   isPagedManifest = false;
   viewerLayout: ViewerLayout;
 
@@ -100,6 +102,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.fullscreenService.onChange
       .pipe(takeUntil(this.destroyed))
       .subscribe(() => {
+        this.isInFullscreen = this.fullscreenService.isFullscreen();
+        this.fullscreenLabel = this.isInFullscreen ? this.intl.exitFullScreenLabel : this.intl.fullScreenLabel;
         this.changeDetectorRef.detectChanges();
       });
 
@@ -148,9 +152,5 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public setLayoutTwoPage(): void {
     this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
-  }
-
-  public getFullscreenLabel(): string {
-    return this.fullscreenService.isFullscreen() ? this.intl.exitFullScreenLabel : this.intl.fullScreenLabel;
   }
 }
