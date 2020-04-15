@@ -18,8 +18,8 @@ When('the user select full screen mode', async () => {
 });
 
 When('the user select exit full screen mode', async () => {
-  const exitFullscreenButton = await page.exitFullscreenButton();
-  await exitFullscreenButton.click();
+  const fullscreenButton = await page.fullscreenButton();
+  await fullscreenButton.click();
 });
 
 Then('the viewer should be presented using the entire screen', async () => {
