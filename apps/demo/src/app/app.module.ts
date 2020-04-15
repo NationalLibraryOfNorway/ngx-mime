@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { ViewerComponent } from './viewer/viewer.component';
+import { FullscreenOverlayContainer, OverlayContainer } from "@angular/cdk/overlay";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ViewerComponent } from './viewer/viewer.component';
     SharedModule,
     NxModule.forRoot()
   ],
+  providers: [{provide: OverlayContainer, useClass: FullscreenOverlayContainer}],
   declarations: [AppComponent, ViewerComponent],
   bootstrap: [AppComponent]
 })
