@@ -149,4 +149,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   public setLayoutTwoPage(): void {
     this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
   }
+
+  public getFullscreenLabel(): string {
+    return this.fullscreenService.isFullscreen() ? this.intl.exitFullScreenLabel : this.intl.fullScreenLabel;
+  }
 }
