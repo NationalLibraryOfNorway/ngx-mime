@@ -180,4 +180,23 @@ describe('ContentSearchDialogComponent', () => {
 
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should only show clear button on input', () => {
+    const searchInput: DebugElement = fixture.debugElement.query(
+      By.css('.content-search-input')
+    );
+
+    expect(getClearButton()).toBeNull();
+
+    searchInput.nativeElement.value = 'dummyvalue';
+    searchInput.nativeElement.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+
+    expect(getClearButton()).not.toBeNull();
+  });
+
+  function getClearButton() {
+    return fixture.debugElement.query(By.css('#clearSearchButton'));
+  }
 });
