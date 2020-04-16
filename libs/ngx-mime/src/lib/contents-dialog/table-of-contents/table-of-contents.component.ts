@@ -2,11 +2,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   OnDestroy,
-  OnInit
+  OnInit,
+  Output
 } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -14,7 +14,6 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
-import { ContentsDialogComponent } from '../contents-dialog.component';
 
 @Component({
   selector: 'mime-toc',
@@ -23,14 +22,14 @@ import { ContentsDialogComponent } from '../contents-dialog.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TocComponent implements OnInit, OnDestroy {
+  @Output()
+  canvasChanged: EventEmitter<number> = new EventEmitter();
   public manifest: Manifest;
   public currentCanvasGroupIndex: number;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
-    public dialogRef: MatDialogRef<ContentsDialogComponent>,
     public intl: MimeViewerIntl,
-    public mediaObserver: MediaObserver,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private viewerService: ViewerService,
@@ -41,6 +40,7 @@ export class TocComponent implements OnInit, OnDestroy {
     this.iiifManifestService.currentManifest
       .pipe(takeUntil(this.destroyed))
       .subscribe((manifest: Manifest) => {
+        console.log('tester', manifest.structures);
         this.manifest = manifest;
         this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
         this.changeDetectorRef.detectChanges();
@@ -61,8 +61,6 @@ export class TocComponent implements OnInit, OnDestroy {
 
   goToCanvas(canvasIndex: number): void {
     this.viewerService.goToCanvas(canvasIndex, false);
-    if (this.mediaObserver.isActive('lt-md')) {
-      this.dialogRef.close();
-    }
+    this.canvasChanged.emit(canvasIndex);
   }
 }

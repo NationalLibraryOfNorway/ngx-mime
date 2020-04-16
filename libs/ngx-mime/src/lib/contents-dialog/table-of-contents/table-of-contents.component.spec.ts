@@ -2,7 +2,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
-import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
@@ -13,7 +12,6 @@ import { Manifest, Structure } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
-import { MatDialogRefStub } from '../../test/mat-dialog-ref-stub';
 import { ViewerServiceStub } from './../../test/viewer-service-stub';
 import { TocComponent } from './table-of-contents.component';
 
@@ -23,7 +21,6 @@ describe('TocComponent', () => {
   let iiifManifestService: IiifManifestServiceStub;
   let mediaObserver: any;
   let viewerService: ViewerService;
-  let dialogRef: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -34,7 +31,6 @@ describe('TocComponent', () => {
         CanvasService,
         ModeService,
         MimeViewerIntl,
-        { provide: MatDialogRef, useClass: MatDialogRefStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: ViewerService, useClass: ViewerServiceStub }
       ]
@@ -80,7 +76,6 @@ describe('TocComponent', () => {
       })
     );
     mediaObserver = TestBed.get(MediaObserver);
-    dialogRef = TestBed.get(MatDialogRef);
 
     fixture.detectChanges();
   });
@@ -127,15 +122,4 @@ describe('TocComponent', () => {
     expect(viewerService.goToCanvas).toHaveBeenCalledWith(4, false);
   });
 
-  it('should close contents dialog when selecting a canvas group in TOC when on mobile', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(true);
-    spyOn(dialogRef, 'close').and.callThrough();
-
-    const divs: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.toc-link')
-    );
-    divs[2].triggerEventHandler('click', null);
-
-    expect(dialogRef.close).toHaveBeenCalled();
-  });
 });

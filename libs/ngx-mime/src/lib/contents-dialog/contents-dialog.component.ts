@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -32,6 +33,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   private destroyed: Subject<void> = new Subject();
 
   constructor(
+    public dialogRef: MatDialogRef<ContentsDialogComponent>,
     public intl: MimeViewerIntl,
     public mediaObserver: MediaObserver,
     private mimeResizeService: MimeResizeService,
@@ -68,6 +70,12 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.resizeTabHeight();
+  }
+
+  close() {
+    if (this.mediaObserver.isActive('lt-md')) {
+      this.dialogRef.close();
+    }
   }
 
   private resizeTabHeight(): void {
