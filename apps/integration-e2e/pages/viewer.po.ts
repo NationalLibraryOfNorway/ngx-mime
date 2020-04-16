@@ -163,13 +163,6 @@ export class ViewerPage {
     return fullscreenButton;
   }
 
-  async exitFullscreenButton(): Promise<ElementFinder> {
-    const exitFullscreenButton: ElementFinder = await utils.waitForElement(
-      element(by.css('#exitFullscreenButton'))
-    );
-    return exitFullscreenButton;
-  }
-
   openSeadragonElement() {
     const el = element(by.css('.openseadragon-container'));
     return utils.waitForElement(el);
