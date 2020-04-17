@@ -52,11 +52,11 @@ describe('ContentSearchNavigatorComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
-    iiifContentSearchService = TestBed.get(IiifContentSearchService);
-    contentSearchNavigationService = TestBed.get(
+    iiifContentSearchService = <any>TestBed.inject(IiifContentSearchService);
+    contentSearchNavigationService = TestBed.inject(
       ContentSearchNavigationService
     );
-    canvasService = TestBed.get(CanvasService);
+    canvasService = <any>TestBed.inject(CanvasService);
 
     component = fixture.componentInstance;
     component.searchResult = createDefaultData();

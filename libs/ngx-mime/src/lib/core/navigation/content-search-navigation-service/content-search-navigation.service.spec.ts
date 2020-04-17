@@ -55,8 +55,8 @@ describe('ContentSearchNavigationService', () => {
         icss: IiifContentSearchService,
         canvasService: CanvasService
       ) => {
-        iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
-        iiifManifestServiceStub = TestBed.get(IiifManifestService);
+        iiifContentSearchServiceStub = <any>TestBed.inject(IiifContentSearchService);
+        iiifManifestServiceStub = <any>TestBed.inject(IiifManifestService);
         iiifManifestServiceStub._currentManifest.next(testManifest);
         iiifContentSearchServiceStub._currentSearchResult.next(
           createSearchResult()

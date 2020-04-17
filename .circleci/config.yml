@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:buster
+      - image: circleci/node:buster-browsers
     environment:
       LOGS_DIR: /tmp/ngx-mime-build/logs
       BROWSER_PROVIDER_READY_FILE: /tmp/ngx-mime-build/readyfile

@@ -40,8 +40,8 @@ describe('TocComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TocComponent);
     component = fixture.componentInstance;
-    iiifManifestService = TestBed.get(IiifManifestService);
-    viewerService = TestBed.get(ViewerService);
+    iiifManifestService = <any>TestBed.inject(IiifManifestService);
+    viewerService = TestBed.inject(ViewerService);
 
     iiifManifestService._currentManifest.next(
       new Manifest({
@@ -75,7 +75,7 @@ describe('TocComponent', () => {
         ]
       })
     );
-    mediaObserver = TestBed.get(MediaObserver);
+    mediaObserver = TestBed.inject(MediaObserver);
 
     fixture.detectChanges();
   });

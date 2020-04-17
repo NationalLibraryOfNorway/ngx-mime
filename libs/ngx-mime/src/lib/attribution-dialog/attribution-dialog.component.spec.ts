@@ -41,7 +41,7 @@ describe('AttributionDialogComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(AttributionDialogComponent);
     component = fixture.componentInstance;
-    iiifManifestService = TestBed.get(IiifManifestService);
+    iiifManifestService = <any>TestBed.inject(IiifManifestService);
     fixture.detectChanges();
   }));
 

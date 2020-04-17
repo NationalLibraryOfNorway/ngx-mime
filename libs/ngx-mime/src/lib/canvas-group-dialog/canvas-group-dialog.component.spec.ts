@@ -57,8 +57,8 @@ describe('PageDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CanvasGroupDialogComponent);
     component = fixture.componentInstance;
-    intl = TestBed.get(MimeViewerIntl);
-    canvasService = TestBed.get(CanvasService);
+    intl = TestBed.inject(MimeViewerIntl);
+    canvasService = <any>TestBed.inject(CanvasService);
     fixture.detectChanges();
   });
 

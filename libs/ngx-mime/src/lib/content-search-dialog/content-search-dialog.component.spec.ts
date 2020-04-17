@@ -55,10 +55,10 @@ describe('ContentSearchDialogComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
-    iiifManifestServiceStub = TestBed.get(IiifManifestService);
-    mediaObserver = TestBed.get(MediaObserver);
-    dialogRef = TestBed.get(MatDialogRef);
+    iiifContentSearchServiceStub = <any>TestBed.inject(IiifContentSearchService);
+    iiifManifestServiceStub = <any>TestBed.inject(IiifManifestService);
+    mediaObserver = TestBed.inject(MediaObserver);
+    dialogRef = TestBed.inject(MatDialogRef);
   }));
 
   it('should be created', () => {

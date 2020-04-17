@@ -112,14 +112,14 @@ describe('ViewerComponent', function() {
     testHostComponent.viewerComponent.ngOnInit();
     testHostFixture.detectChanges();
 
-    viewerService = TestBed.get(ViewerService);
-    canvasService = TestBed.get(CanvasService);
-    clickService = TestBed.get(ClickService);
-    modeService = TestBed.get(ModeService);
-    mimeResizeServiceStub = TestBed.get(MimeResizeService);
-    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
-    iiifManifestServiceStub = TestBed.get(IiifManifestService);
-    viewerLayoutService = TestBed.get(ViewerLayoutService);
+    viewerService = TestBed.inject(ViewerService);
+    canvasService = TestBed.inject(CanvasService);
+    clickService = TestBed.inject(ClickService);
+    modeService = TestBed.inject(ModeService);
+    mimeResizeServiceStub = <any>TestBed.inject(MimeResizeService);
+    iiifContentSearchServiceStub = <any>TestBed.inject(IiifContentSearchService);
+    iiifManifestServiceStub = <any>TestBed.inject(IiifManifestService);
+    viewerLayoutService = <any>TestBed.inject(ViewerLayoutService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
