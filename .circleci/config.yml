@@ -8,6 +8,12 @@ jobs:
       BROWSER_PROVIDER_READY_FILE: /tmp/ngx-mime-build/readyfile
     steps:
       - checkout
+      - run:
+          name: "Update Node.js, npm and Yarn"
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+            curl -o- -L https://yarnpkg.com/install.sh | bash
       - run: 'mkdir -p $LOGS_DIR'
       - run: 'chmod +x ./scripts/ci/build-and-test.sh'
       - run: 'chmod +x ./scripts/saucelabs/start-tunnel.sh'
