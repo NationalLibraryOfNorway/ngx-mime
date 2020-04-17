@@ -40,7 +40,6 @@ export class TocComponent implements OnInit, OnDestroy {
     this.iiifManifestService.currentManifest
       .pipe(takeUntil(this.destroyed))
       .subscribe((manifest: Manifest) => {
-        console.log('tester', manifest.structures);
         this.manifest = manifest;
         this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
         this.changeDetectorRef.detectChanges();
