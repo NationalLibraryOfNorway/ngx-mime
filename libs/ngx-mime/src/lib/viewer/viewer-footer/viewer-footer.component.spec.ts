@@ -33,8 +33,8 @@ describe('ViewerFooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
     cmp = fixture.componentInstance;
-    mediaObserverStub = TestBed.get(MediaObserver);
-    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
+    mediaObserverStub = <any>TestBed.inject(MediaObserver);
+    iiifContentSearchServiceStub = <any>TestBed.inject(IiifContentSearchService);
     fixture.detectChanges();
   });
 

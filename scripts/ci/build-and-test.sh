@@ -25,6 +25,6 @@ yarn affected:test --all
 start_tunnel &
 wait_for_tunnel
 
-yarn e2e
+yarn e2e:ci
 
 teardown_tunnel

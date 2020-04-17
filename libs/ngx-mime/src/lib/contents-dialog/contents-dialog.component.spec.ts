@@ -1,8 +1,11 @@
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatTabGroupHarness } from '@angular/material/tabs/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -14,30 +17,31 @@ import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ModeService } from '../core/mode-service/mode.service';
-import { Manifest, Structure, Metadata } from '../core/models/manifest';
+import { Manifest, Metadata, Structure } from '../core/models/manifest';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { SharedModule } from '../shared/shared.module';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
-import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { MediaObserverStub } from '../test/media-observer-stub';
+import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
-import { MimeMaterialModule } from '../shared/mime-material.module';
 
 describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
   let fixture: ComponentFixture<ContentsDialogComponent>;
+  let loader: HarnessLoader;
   let mediaObserver: MediaObserver;
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
   let dialogRef: MatDialogRef<ContentsDialogComponent>;
   let viewerService: ViewerService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule, MimeMaterialModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
       declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
       providers: [
         ViewerService,
@@ -55,18 +59,16 @@ describe('ContentsDialogComponent', () => {
         { provide: MediaObserver, useClass: MediaObserverStub }
       ]
     }).compileComponents();
-  }));
-
-  beforeEach(async(() => {
     fixture = TestBed.createComponent(ContentsDialogComponent);
     component = fixture.componentInstance;
-    mediaObserver = TestBed.get(MediaObserver);
+    loader = TestbedHarnessEnvironment.loader(fixture);
+    mediaObserver = TestBed.inject(MediaObserver);
     viewerService = TestBed.inject(ViewerService);
-    iiifManifestService = TestBed.get(IiifManifestService);
-    intl = TestBed.get(MimeViewerIntl);
+    iiifManifestService = <any>TestBed.inject(IiifManifestService);
+    intl = TestBed.inject(MimeViewerIntl);
     dialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
-  }));
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -131,7 +133,7 @@ describe('ContentsDialogComponent', () => {
     });
   }));
 
-  fit('should close contents dialog when selecting a canvas group in TOC when on mobile', async(() => {
+  it('should close contents dialog when selecting a canvas group in TOC when on mobile', async () => {
     spyOn(mediaObserver, 'isActive').and.returnValue(true);
     spyOn(viewerService, 'goToCanvas').and.stub();
     spyOn(dialogRef, 'close').and.callThrough();
@@ -175,27 +177,14 @@ describe('ContentsDialogComponent', () => {
     intl.tocLabel = 'TocTestLabel';
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      const tabs: NodeList = fixture.nativeElement.querySelectorAll(
-        '.mat-tab-label'
-      );
-      const tocTab = Array.from(tabs).find(
-        t => t.textContent === intl.tocLabel
-      );
-      expect(tocTab).toBeDefined();
-      const event = new MouseEvent("click", {
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      tocTab.dispatchEvent(event);
-      const divs: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('.toc-link')
-      );
-      divs[2].triggerEventHandler('click', null);
+    const firstButton = await loader.getHarness(MatTabGroupHarness);
+    await firstButton.selectTab({ label: intl.tocLabel });
+    const divs: DebugElement[] = fixture.debugElement.queryAll(
+      By.css('.toc-link')
+    );
 
-      expect(dialogRef.close).toHaveBeenCalled();
-    });
+    divs[2].triggerEventHandler('click', null);
 
-  }));
+    expect(dialogRef.close).toHaveBeenCalled();
+  });
 });
