@@ -177,8 +177,8 @@ describe('ContentsDialogComponent', () => {
     intl.tocLabel = 'TocTestLabel';
     fixture.detectChanges();
 
-    const firstButton = await loader.getHarness(MatTabGroupHarness);
-    await firstButton.selectTab({ label: intl.tocLabel });
+    const tabGroup = await loader.getHarness(MatTabGroupHarness);
+    await tabGroup.selectTab({ label: intl.tocLabel });
     const divs: DebugElement[] = fixture.debugElement.queryAll(
       By.css('.toc-link')
     );
