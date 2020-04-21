@@ -58,7 +58,7 @@
     "release": "sh scripts/release/release.sh",
     "affected": "./node_modules/.bin/nx affected",
     "nx": "nx",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points --async false"
   },
   "private": true,
   "dependencies": {
