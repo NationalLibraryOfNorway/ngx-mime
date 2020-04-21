@@ -1,32 +1,26 @@
 import {
   async,
   ComponentFixture,
-  TestBed,
   fakeAsync,
-  flush
+  flush,
+  TestBed
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
-import {
-  ShowOnDirtyErrorStateMatcher,
-  ErrorStateMatcher
-} from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
-
-import { SharedModule } from '../shared/shared.module';
-import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
-import { ViewerService } from '../core/viewer-service/viewer.service';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { injectedStub } from '../../testing/injected-stub';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
-import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
-import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
-import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { SharedModule } from '../shared/shared.module';
 import { CanvasServiceStub } from '../test/canvas-service-stub';
+import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
+import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
+import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 
 describe('PageDialogComponent', () => {
   let component: CanvasGroupDialogComponent;
@@ -58,7 +52,7 @@ describe('PageDialogComponent', () => {
     fixture = TestBed.createComponent(CanvasGroupDialogComponent);
     component = fixture.componentInstance;
     intl = TestBed.inject(MimeViewerIntl);
-    canvasService = <any>TestBed.inject(CanvasService);
+    canvasService = injectedStub(CanvasService);
     fixture.detectChanges();
   });
 

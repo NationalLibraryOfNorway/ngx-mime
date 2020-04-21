@@ -8,6 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatTabGroupHarness } from '@angular/material/tabs/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { injectedStub } from '../../testing/injected-stub';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
@@ -64,7 +65,7 @@ describe('ContentsDialogComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
     mediaObserver = TestBed.inject(MediaObserver);
     viewerService = TestBed.inject(ViewerService);
-    iiifManifestService = <any>TestBed.inject(IiifManifestService);
+    iiifManifestService = injectedStub(IiifManifestService);
     intl = TestBed.inject(MimeViewerIntl);
     dialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();

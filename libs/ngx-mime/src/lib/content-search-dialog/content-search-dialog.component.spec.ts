@@ -5,6 +5,7 @@ import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { injectedStub } from '../../testing/injected-stub';
 import { Hit } from '../core/models/hit';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
@@ -55,8 +56,8 @@ describe('ContentSearchDialogComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    iiifContentSearchServiceStub = <any>TestBed.inject(IiifContentSearchService);
-    iiifManifestServiceStub = <any>TestBed.inject(IiifManifestService);
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    iiifManifestServiceStub = injectedStub(IiifManifestService);
     mediaObserver = TestBed.inject(MediaObserver);
     dialogRef = TestBed.inject(MatDialogRef);
   }));

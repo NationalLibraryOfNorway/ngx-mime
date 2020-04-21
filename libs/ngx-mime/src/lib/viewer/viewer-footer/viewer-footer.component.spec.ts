@@ -2,11 +2,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { injectedStub } from '@nationallibraryofnorway/ngx-mime/src/testing/injected-stub';
+import { MediaObserverStub } from '../../test/media-observer-stub';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { Hit } from './../../core/models/hit';
 import { SearchResult } from './../../core/models/search-result';
 import { IiifContentSearchServiceStub } from './../../test/iiif-content-search-service-stub';
-import { MediaObserverStub } from '../../test/media-observer-stub';
 import { ViewerFooterComponent } from './viewer-footer.component';
 
 describe('ViewerFooterComponent', () => {
@@ -33,8 +34,8 @@ describe('ViewerFooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
     cmp = fixture.componentInstance;
-    mediaObserverStub = <any>TestBed.inject(MediaObserver);
-    iiifContentSearchServiceStub = <any>TestBed.inject(IiifContentSearchService);
+    mediaObserverStub = injectedStub(MediaObserver);
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     fixture.detectChanges();
   });
 

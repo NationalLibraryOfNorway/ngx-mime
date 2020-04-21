@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { injectedStub } from '../../testing/injected-stub';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -30,7 +31,10 @@ describe('AttributionDialogComponent', () => {
         AttributionDialogResizeService,
         MimeDomHelper,
         FullscreenService,
-        { provide: AccessKeysService, useClass: jasmine.createSpy('accessKeysService') },
+        {
+          provide: AccessKeysService,
+          useClass: jasmine.createSpy('accessKeysService')
+        },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: MatDialogRef, useClass: MatDialogRefStub }
       ]
@@ -41,7 +45,7 @@ describe('AttributionDialogComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(AttributionDialogComponent);
     component = fixture.componentInstance;
-    iiifManifestService = <any>TestBed.inject(IiifManifestService);
+    iiifManifestService = injectedStub(IiifManifestService);
     fixture.detectChanges();
   }));
 
