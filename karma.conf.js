@@ -24,7 +24,13 @@ module.exports = () => {
       fixWebpackSourcePaths: true
     },
     files: [
-      { pattern: '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css', watched: true, included: true, served: true }
+      {
+        pattern:
+          '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
+        watched: true,
+        included: true,
+        served: true
+      }
     ],
     reporters: ['progress', 'kjhtml'],
     port: 9876,
