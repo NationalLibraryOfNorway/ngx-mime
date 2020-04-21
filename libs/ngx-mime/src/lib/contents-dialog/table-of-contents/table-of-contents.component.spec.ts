@@ -3,7 +3,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { By } from '@angular/platform-browser';
-import { injectedStub } from '@nationallibraryofnorway/ngx-mime/src/testing/injected-stub';
+import { injectedStub } from '../../../testing/injected-stub';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';

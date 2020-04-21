@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { injectedStub } from '@nationallibraryofnorway/ngx-mime/src/testing/injected-stub';
+import { injectedStub } from '../../../testing/injected-stub';
 import { MediaObserverStub } from '../../test/media-observer-stub';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { Hit } from './../../core/models/hit';

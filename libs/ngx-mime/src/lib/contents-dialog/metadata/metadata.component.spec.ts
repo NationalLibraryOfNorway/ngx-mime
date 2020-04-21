@@ -2,12 +2,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { injectedStub } from '@nationallibraryofnorway/ngx-mime/src/testing/injected-stub';
+import { injectedStub } from '../../../testing/injected-stub';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { Manifest, Metadata } from '../../core/models/manifest';
+import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
-import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
-import { Manifest, Metadata } from './../../core/models/manifest';
-import { SharedModule } from './../../shared/shared.module';
 import { MetadataComponent } from './metadata.component';
 
 describe('MetadataComponent', () => {

@@ -3,7 +3,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { async, fakeAsync, inject, TestBed } from '@angular/core/testing';
-import { injectedStub } from '@nationallibraryofnorway/ngx-mime/src/testing/injected-stub';
+import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../../test/testManifest';

@@ -7,8 +7,8 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MediaObserver } from '@angular/flex-layout';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -33,14 +33,14 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   private destroyed: Subject<void> = new Subject();
 
   constructor(
-    public dialogRef: MatDialogRef<ContentsDialogComponent>,
     public intl: MimeViewerIntl,
     public mediaObserver: MediaObserver,
-    private mimeResizeService: MimeResizeService,
+    private dialogRef: MatDialogRef<ContentsDialogComponent>,
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper,
     private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService
+    private iiifManifestService: IiifManifestService,
+    mimeResizeService: MimeResizeService
   ) {
     mimeResizeService.onResize
       .pipe(takeUntil(this.destroyed))

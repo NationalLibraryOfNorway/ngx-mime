@@ -136,7 +136,7 @@ describe('ContentsDialogComponent', () => {
 
   it('should close contents dialog when selecting a canvas group in TOC when on mobile', async () => {
     spyOn(mediaObserver, 'isActive').and.returnValue(true);
-    spyOn(viewerService, 'goToCanvas').and.stub();
+    spyOn(viewerService, 'goToCanvas');
     spyOn(dialogRef, 'close').and.callThrough();
 
     iiifManifestService._currentManifest.next(
