@@ -119,7 +119,7 @@ describe('ViewerComponent', function() {
     mimeResizeServiceStub = injectedStub(MimeResizeService);
     iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
-    viewerLayoutService = injectedStub(ViewerLayoutService);
+    viewerLayoutService = TestBed.inject(ViewerLayoutService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
