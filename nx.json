@@ -15,13 +15,23 @@
       "tags": []
     },
     "demo-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["demo"]
     },
     "integration": {
       "tags": []
     },
     "integration-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["integration"]
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
     }
   }
 }

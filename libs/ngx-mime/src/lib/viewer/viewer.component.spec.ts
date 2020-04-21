@@ -1,12 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import 'openseadragon';
+import { injectedStub } from '../../testing/injected-stub';
 import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
 import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
@@ -112,14 +112,14 @@ describe('ViewerComponent', function() {
     testHostComponent.viewerComponent.ngOnInit();
     testHostFixture.detectChanges();
 
-    viewerService = TestBed.get(ViewerService);
-    canvasService = TestBed.get(CanvasService);
-    clickService = TestBed.get(ClickService);
-    modeService = TestBed.get(ModeService);
-    mimeResizeServiceStub = TestBed.get(MimeResizeService);
-    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
-    iiifManifestServiceStub = TestBed.get(IiifManifestService);
-    viewerLayoutService = TestBed.get(ViewerLayoutService);
+    viewerService = TestBed.inject(ViewerService);
+    canvasService = TestBed.inject(CanvasService);
+    clickService = TestBed.inject(ClickService);
+    modeService = TestBed.inject(ModeService);
+    mimeResizeServiceStub = injectedStub(MimeResizeService);
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    iiifManifestServiceStub = injectedStub(IiifManifestService);
+    viewerLayoutService = TestBed.inject(ViewerLayoutService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -147,9 +147,7 @@ describe('ViewerComponent', function() {
     testHostComponent.tabIndex = 1;
     testHostFixture.detectChanges();
 
-    const viewerDe = testHostFixture.debugElement.query(
-      By.css('#mimeViewer')
-    );
+    const viewerDe = testHostFixture.debugElement.query(By.css('#mimeViewer'));
     expect(viewerDe.nativeElement.getAttribute('tabindex')).toBe('1');
   });
 

@@ -1,23 +1,23 @@
-import { async, TestBed, inject, fakeAsync } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-
-import { SearchResult } from '../../models/search-result';
-import { Hit } from '../../models/hit';
-import { MimeViewerIntl } from '../../intl/viewer-intl';
-import { ViewerService } from '../../viewer-service/viewer.service';
-import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
-import { CanvasService } from '../../canvas-service/canvas-service';
-import { ContentSearchNavigationService } from './content-search-navigation.service';
-import { testManifest } from '../../../test/testManifest';
+import { async, fakeAsync, inject, TestBed } from '@angular/core/testing';
+import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
-import { IiifManifestService } from '../../iiif-manifest-service/iiif-manifest-service';
-import { Rect } from '../../models/rect';
-import { ViewerLayout } from '../../models/viewer-layout';
+import { testManifest } from '../../../test/testManifest';
 import { ViewerServiceStub } from '../../../test/viewer-service-stub';
+import { CanvasService } from '../../canvas-service/canvas-service';
+import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../../iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../intl/viewer-intl';
+import { Hit } from '../../models/hit';
+import { Rect } from '../../models/rect';
+import { SearchResult } from '../../models/search-result';
+import { ViewerLayout } from '../../models/viewer-layout';
+import { ViewerService } from '../../viewer-service/viewer.service';
+import { ContentSearchNavigationService } from './content-search-navigation.service';
 
 describe('ContentSearchNavigationService', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
@@ -55,8 +55,8 @@ describe('ContentSearchNavigationService', () => {
         icss: IiifContentSearchService,
         canvasService: CanvasService
       ) => {
-        iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
-        iiifManifestServiceStub = TestBed.get(IiifManifestService);
+        iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+        iiifManifestServiceStub = injectedStub(IiifManifestService);
         iiifManifestServiceStub._currentManifest.next(testManifest);
         iiifContentSearchServiceStub._currentSearchResult.next(
           createSearchResult()

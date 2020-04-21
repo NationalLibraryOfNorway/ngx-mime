@@ -8,6 +8,7 @@ import {
   OnInit
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -34,11 +35,12 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     public mediaObserver: MediaObserver,
-    private mimeResizeService: MimeResizeService,
+    private dialogRef: MatDialogRef<ContentsDialogComponent>,
     private el: ElementRef,
     private mimeDomHelper: MimeDomHelper,
     private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService
+    private iiifManifestService: IiifManifestService,
+    mimeResizeService: MimeResizeService
   ) {
     mimeResizeService.onResize
       .pipe(takeUntil(this.destroyed))
@@ -68,6 +70,12 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.resizeTabHeight();
+  }
+
+  close() {
+    if (this.mediaObserver.isActive('lt-md')) {
+      this.dialogRef.close();
+    }
   }
 
   private resizeTabHeight(): void {
