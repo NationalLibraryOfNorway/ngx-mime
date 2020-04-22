@@ -10,7 +10,7 @@ echo ""
 cd $(dirname $0)/../..
 
 git checkout master; git pull origin master
-yarn build:prod
+yarn build:libs
 standard-version
 
 CURRENT_VERSION=$(node -p "require('./package.json').version")
