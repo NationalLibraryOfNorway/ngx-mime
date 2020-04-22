@@ -19,6 +19,7 @@ cd $(dirname $0)/../..
 source ./scripts/ci/sources/tunnel.sh
 
 yarn build:prod
+yarn build:libs
 yarn affected:lint --all
 yarn affected:test --all
 
