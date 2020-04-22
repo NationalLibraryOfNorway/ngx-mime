@@ -58,7 +58,8 @@
     "release": "sh scripts/release/release.sh",
     "affected": "./node_modules/.bin/nx affected",
     "nx": "nx",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --async false"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --async false",
+    "build:libs": "ng-packagr -p libs/ngx-mime/ng-package.prod.json"
   },
   "private": true,
   "dependencies": {
@@ -117,7 +118,7 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
     "mountebank": "^2.1.2",
-    "ng-packagr": "^9.0.0",
+    "ng-packagr": "^9.1.1",
     "node-sass": "^4.13.0",
     "prettier": "1.19.1",
     "pretty-quick": "^2.0.1",
