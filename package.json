@@ -26,7 +26,7 @@
     "pree2e:firefox": "yarn build:libs",
     "mountebank": "mb --port 2020 --configfile ./apps/integration-e2e/templates/imposters.ejs --allowInjection --nologfile",
     "e2e": "yarn e2e:chrome",
-    "e2e:ci": "concurrently \"yarn mountebank\" \"yarn start:integration\" \"yarn protractor:desktop && yarn protractor:mobile\" --kill-other s --success first",
+    "e2e:ci": "concurrently \"yarn mountebank\" \"yarn start:integration\" \"yarn protractor:desktop && yarn protractor:mobile\" --kill-others --success first",
     "e2e:chrome": "concurrently \"yarn mountebank\" \"yarn start:integration\" \"yarn protractor:chrome:headless\" --kill-others --success first",
     "e2e:firefox": "concurrently \"yarn mountebank\" \"yarn start:integration\" \"yarn protractor:firefox:headless\" --kill-others --success first",
     "wait": "sh  ./apps/integration-e2e/scripts/wait-on.sh",
