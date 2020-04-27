@@ -9,7 +9,6 @@
             [aria-label]="intl.closeLabel"
             [matTooltip]="intl.closeLabel"
             [matDialogClose]="true"
-            tabindex="-1"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -27,7 +26,6 @@
             [aria-label]="intl.closeLabel"
             [matTooltip]="intl.closeLabel"
             [matDialogClose]="true"
-            tabindex="-1"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -39,32 +37,33 @@
     <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
       <mat-form-field class="content-search-box">
         <button
+          id="content-search-form-submit"
           type="submit"
           matPrefix
           mat-icon-button
           [attr.aria-label]="intl.searchLabel"
           [matTooltip]="intl.searchLabel"
-          tabindex="-1"
         >
           <mat-icon class="icon">search</mat-icon>
         </button>
         <input
           #query
+          cdkFocusInitial
           matInput
           class="content-search-input"
           [(ngModel)]="q"
           name="q"
           autocomplete="off"
-          tabindex="0"
+          aria-labelledby="content-search-form-submit"
         />
         <button
+          *ngIf="q"
           id="clearSearchButton"
           type="button"
           matSuffix
           mat-icon-button
           [attr.aria-label]="intl.clearSearchLabel"
           [matTooltip]="intl.clearSearchLabel"
-          tabindex="-1"
           (click)="clear()"
         >
           <mat-icon class="icon">clear</mat-icon>
@@ -76,7 +75,6 @@
     #contentSearchResult
     class="content-search-result-container"
     [ngStyle]="tabHeight"
-    tabindex="0"
   >
     <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
       <input type="hidden" id="numberOfHits" [value]="numberOfHits" />
@@ -98,7 +96,6 @@
           [ngClass]="'hit'"
           (click)="goToHit(hit)"
           (keyup.enter)="goToHit(hit)"
-          tabindex="0"
         >
           <div fxLayout="row" fxLayoutAlign="space-between start">
             <div fxFlex class="summary">

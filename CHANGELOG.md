@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.1...v9.0.2) (2020-04-22)
+
+### [9.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.0...v9.0.1) (2020-04-21)
+
+## [9.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v8.0.0...v9.0.0) (2020-04-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Require Angular 9
+
+### Bug Fixes
+
+* shortcut keys is not working when toggling fullscreen ([#275](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/275)) ([3811f44](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3811f44))
+* use fullscreenoverlaycontainer ([#273](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/273)) ([b3e2391](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b3e2391))
+* **demo:** fixed a11y issues ([#271](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/271)) ([0d7fdfc](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0d7fdfc))
+* added 'display: none' to OSD toolbar in hidden state ([ffd8a54](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ffd8a54))
+* added aria-label for pagenavigator ([#268](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/268)) ([40deb3f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/40deb3f)), closes [#260](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/260)
+* correct aria-label for dialogclose buttons ([#267](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/267)) ([cbcd65d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/cbcd65d))
+
+
+### Features
+
+* Added a11y feature ([644c0d4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/644c0d4))
+* upgrade to angular 9 ([#276](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/276)) ([e56d387](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e56d387))
+* **a11y:** fix attribute dialog ([ce416e4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ce416e4))
+
 ## [8.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.3.1...v8.0.0) (2019-09-17)
 
 

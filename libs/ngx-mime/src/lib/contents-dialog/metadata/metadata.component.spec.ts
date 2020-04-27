@@ -1,15 +1,14 @@
+import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable } from 'rxjs';
-
-import { SharedModule } from './../../shared/shared.module';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
-import { MetadataComponent } from './metadata.component';
-import { Manifest, Metadata } from './../../core/models/manifest';
-import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
+import { By } from '@angular/platform-browser';
+import { injectedStub } from '../../../testing/injected-stub';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { Manifest, Metadata } from '../../core/models/manifest';
+import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
+import { MetadataComponent } from './metadata.component';
 
 describe('MetadataComponent', () => {
   let component: MetadataComponent;
@@ -30,7 +29,7 @@ describe('MetadataComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MetadataComponent);
     component = fixture.componentInstance;
-    iiifManifestService = TestBed.get(IiifManifestService);
+    iiifManifestService = injectedStub(IiifManifestService);
     fixture.detectChanges();
   });
 

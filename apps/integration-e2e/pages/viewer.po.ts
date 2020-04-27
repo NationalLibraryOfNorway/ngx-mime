@@ -163,13 +163,6 @@ export class ViewerPage {
     return fullscreenButton;
   }
 
-  async exitFullscreenButton(): Promise<ElementFinder> {
-    const exitFullscreenButton: ElementFinder = await utils.waitForElement(
-      element(by.css('#exitFullscreenButton'))
-    );
-    return exitFullscreenButton;
-  }
-
   openSeadragonElement() {
     const el = element(by.css('.openseadragon-container'));
     return utils.waitForElement(el);
@@ -257,7 +250,7 @@ export class ViewerPage {
 
   async getTwoPageButton() {
     const el = element(by.css('#toggleTwoPageViewButton'));
-    if ((await el.isPresent()) && el.isDisplayed()) {
+    if ((await el.isPresent()) && (await el.isDisplayed())) {
       return el;
     } else {
       return false;

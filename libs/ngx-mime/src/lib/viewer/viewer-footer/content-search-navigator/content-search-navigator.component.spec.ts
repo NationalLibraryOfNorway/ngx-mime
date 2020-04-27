@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
 import { Rect } from '../../../core/models/rect';
 import { ViewerLayout } from '../../../core/models/viewer-layout';
@@ -52,11 +53,11 @@ describe('ContentSearchNavigatorComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
-    iiifContentSearchService = TestBed.get(IiifContentSearchService);
-    contentSearchNavigationService = TestBed.get(
+    iiifContentSearchService = injectedStub(IiifContentSearchService);
+    contentSearchNavigationService = TestBed.inject(
       ContentSearchNavigationService
     );
-    canvasService = TestBed.get(CanvasService);
+    canvasService = injectedStub(CanvasService);
 
     component = fixture.componentInstance;
     component.searchResult = createDefaultData();

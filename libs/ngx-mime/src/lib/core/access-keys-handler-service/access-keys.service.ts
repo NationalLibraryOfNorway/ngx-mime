@@ -186,6 +186,7 @@ export class AccessKeysService implements OnDestroy {
 
   private toggleFullscreen() {
     this.mimeDomHelper.toggleFullscreen();
+    this.mimeDomHelper.setFocusOnViewer();
   }
 
   private resetSearch() {

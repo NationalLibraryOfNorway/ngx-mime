@@ -14,8 +14,8 @@ describe('ViewerLayoutService', () => {
     TestBed.configureTestingModule({
       providers: [ViewerLayoutService]
     });
-    service = TestBed.get(ViewerLayoutService);
-    mediaObserver = TestBed.get(MediaObserver);
+    service = TestBed.inject(ViewerLayoutService);
+    mediaObserver = TestBed.inject(MediaObserver);
   });
 
   it('should be created', () => {

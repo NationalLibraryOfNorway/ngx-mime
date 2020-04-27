@@ -18,13 +18,14 @@ cd $(dirname $0)/../..
 # Include sources.
 source ./scripts/ci/sources/tunnel.sh
 
-yarn build:prod
+yarn build:libs
+
 yarn affected:lint --all
 yarn affected:test --all
 
 start_tunnel &
 wait_for_tunnel
 
-yarn e2e
+yarn e2e:ci
 
 teardown_tunnel

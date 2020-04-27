@@ -5,6 +5,7 @@ import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { injectedStub } from '../../testing/injected-stub';
 import { Hit } from '../core/models/hit';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
@@ -55,10 +56,10 @@ describe('ContentSearchDialogComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    iiifContentSearchServiceStub = TestBed.get(IiifContentSearchService);
-    iiifManifestServiceStub = TestBed.get(IiifManifestService);
-    mediaObserver = TestBed.get(MediaObserver);
-    dialogRef = TestBed.get(MatDialogRef);
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    iiifManifestServiceStub = injectedStub(IiifManifestService);
+    mediaObserver = TestBed.inject(MediaObserver);
+    dialogRef = TestBed.inject(MatDialogRef);
   }));
 
   it('should be created', () => {
@@ -180,4 +181,23 @@ describe('ContentSearchDialogComponent', () => {
 
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should only show clear button on input', () => {
+    const searchInput: DebugElement = fixture.debugElement.query(
+      By.css('.content-search-input')
+    );
+
+    expect(getClearButton()).toBeNull();
+
+    searchInput.nativeElement.value = 'dummyvalue';
+    searchInput.nativeElement.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+
+    expect(getClearButton()).not.toBeNull();
+  });
+
+  function getClearButton() {
+    return fixture.debugElement.query(By.css('#clearSearchButton'));
+  }
 });
