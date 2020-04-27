@@ -17,13 +17,13 @@
     "start:demo": "yarn start --project=demo",
     "start:integration": "yarn start --port 8080 --prod --project=integration",
     "build": "ng build",
-    "build:prod": "yarn build --prod",
+    "prebuild:libs": "yarn install --check-files && yarn clean",
+    "build:libs": "ng-packagr -p libs/ngx-mime/ng-package.prod.json",
     "test": "ng test",
     "lint": "./node_modules/.bin/nx workspace-lint && ng lint",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "pree2e": "yarn install --check-files && yarn clean && yarn build:prod",
-    "pree2e:chrome": "yarn pree2e",
-    "pree2e:firefox": "yarn pree2e",
+    "pree2e:chrome": "yarn build:libs",
+    "pree2e:firefox": "yarn build:libs",
     "mountebank": "mb --port 2020 --configfile ./apps/integration-e2e/templates/imposters.ejs --allowInjection --nologfile",
     "e2e": "yarn e2e:chrome",
     "e2e:ci": "concurrently \"yarn mountebank\" \"yarn start:integration\" \"yarn protractor:desktop && yarn protractor:mobile\" --kill-other s --success first",
@@ -58,8 +58,7 @@
     "release": "sh scripts/release/release.sh",
     "affected": "./node_modules/.bin/nx affected",
     "nx": "nx",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --async false",
-    "build:libs": "ng-packagr -p libs/ngx-mime/ng-package.prod.json"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --async false"
   },
   "private": true,
   "dependencies": {
