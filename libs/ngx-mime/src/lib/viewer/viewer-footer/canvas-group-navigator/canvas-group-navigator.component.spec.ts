@@ -9,6 +9,8 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
+import { Rect } from '../../../core/models/rect';
+import { ViewerLayout } from '../../../core/models/viewer-layout';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { ViewerServiceStub } from '../../../test/viewer-service-stub';
@@ -94,9 +96,8 @@ describe('CanvasGroupNavigatorComponent', () => {
     }
   ));
 
-  it('should disable next button when viewer is on last canvas group', async(inject(
-    [CanvasService],
-    (canvasService: CanvasServiceStub) => {
+  it('should disable next button when viewer is on last canvas group', async(
+    inject([CanvasService], (canvasService: CanvasServiceStub) => {
       canvasService._currentNumberOfCanvasGroups.next(10);
 
       canvasService._currentCanvasGroupIndex.next(9);
@@ -108,25 +109,27 @@ describe('CanvasGroupNavigatorComponent', () => {
         );
         expect(button.nativeElement.disabled).toBeTruthy();
       });
-    }
-  )));
+    })
+  ));
 
-  it('should display next canvas group', async(inject(
-    [ViewerService, CanvasService],
-    (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
-      spy = spyOn(viewerService, 'goToNextCanvasGroup');
+  it('should display next canvas group', async(
+    inject(
+      [ViewerService, CanvasService],
+      (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
+        spy = spyOn(viewerService, 'goToNextCanvasGroup');
 
-      const button = fixture.debugElement.query(
-        By.css('#footerNavigateNextButton')
-      );
-      button.nativeElement.click();
+        const button = fixture.debugElement.query(
+          By.css('#footerNavigateNextButton')
+        );
+        button.nativeElement.click();
 
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
-      });
-    }
-  )));
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(spy.calls.count()).toEqual(1);
+        });
+      }
+    )
+  ));
 
   it('should display previous canvas group', async(
     inject(
@@ -146,6 +149,28 @@ describe('CanvasGroupNavigatorComponent', () => {
           fixture.whenStable().then(() => {
             expect(spy.calls.count()).toEqual(1);
           });
+        });
+      }
+    )
+  ));
+
+  it('should disable next/previous canvas group', async(
+    inject(
+      [ViewerService, CanvasService],
+      (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
+        canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+        fixture.detectChanges();
+
+        fixture.whenStable().then(() => {
+          const previousButton = fixture.debugElement.query(
+            By.css('#footerNavigateBeforeButton')
+          );
+          const nextButton = fixture.debugElement.query(
+            By.css('#footerNavigateNextButton')
+          );
+
+          expect(nextButton.nativeElement.disabled).toBeTrue();
+          expect(previousButton.nativeElement.disabled).toBeTrue();
         });
       }
     )
