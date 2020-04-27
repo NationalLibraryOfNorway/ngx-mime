@@ -65,12 +65,6 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
             this.currentCanvasGroupIndex
           );
         }
-        this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
-          currentCanvasGroupIndex
-        );
-        this.isLastCanvasGroup = this.isOnLastCanvasGroup(
-          currentCanvasGroupIndex
-        );
         this.changeDetectorRef.detectChanges();
       });
 
@@ -110,11 +104,11 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     this.pageDialogService.toggle();
   }
 
-  private isOnFirstCanvasGroup(currentCanvasGroupIndex: number): boolean {
-    return currentCanvasGroupIndex === 0;
+  isOnFirstCanvasGroup(): boolean {
+    return this.currentCanvasGroupIndex === 0;
   }
 
-  private isOnLastCanvasGroup(currentCanvasGroupIndex: number): boolean {
-    return currentCanvasGroupIndex === this.numberOfCanvasGroups - 1;
+  isOnLastCanvasGroup(): boolean {
+    return this.currentCanvasGroupIndex === this.numberOfCanvasGroups - 1;
   }
 }

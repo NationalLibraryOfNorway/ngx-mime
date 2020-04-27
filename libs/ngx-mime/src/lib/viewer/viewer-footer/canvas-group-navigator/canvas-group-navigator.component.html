@@ -33,7 +33,7 @@
           [attr.aria-label]="intl.previousPageLabel"
           [matTooltip]="intl.previousPageLabel"
           matTooltipPosition="above"
-          [disabled]="isFirstCanvasGroup"
+          [disabled]="isOnFirstCanvasGroup()"
           (click)="goToPreviousCanvasGroup()"
         >
           <mat-icon>navigate_before</mat-icon>
@@ -44,7 +44,7 @@
           [attr.aria-label]="intl.nextPageLabel"
           [matTooltip]="intl.nextPageLabel"
           matTooltipPosition="above"
-          [disabled]="isLastCanvasGroup"
+          [disabled]="isOnLastCanvasGroup()"
           (click)="goToNextCanvasGroup()"
         >
           <mat-icon>navigate_next</mat-icon>
@@ -57,7 +57,7 @@
           [attr.aria-label]="intl.nextPageLabel"
           [matTooltip]="intl.nextPageLabel"
           matTooltipPosition="above"
-          [disabled]="isLastCanvasGroup"
+          [disabled]="isOnLastCanvasGroup()"
           (click)="goToNextCanvasGroup()"
         >
           <mat-icon>navigate_before</mat-icon>
@@ -68,7 +68,7 @@
           [attr.aria-label]="intl.previousPageLabel"
           [matTooltip]="intl.previousPageLabel"
           matTooltipPosition="above"
-          [disabled]="isFirstCanvasGroup"
+          [disabled]="isOnFirstCanvasGroup()"
           (click)="goToPreviousCanvasGroup()"
         >
           <mat-icon>navigate_next</mat-icon>
