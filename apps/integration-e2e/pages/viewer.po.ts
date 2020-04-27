@@ -250,7 +250,7 @@ export class ViewerPage {
 
   async getTwoPageButton() {
     const el = element(by.css('#toggleTwoPageViewButton'));
-    if ((await el.isPresent()) && el.isDisplayed()) {
+    if ((await el.isPresent()) && (await el.isDisplayed())) {
       return el;
     } else {
       return false;
