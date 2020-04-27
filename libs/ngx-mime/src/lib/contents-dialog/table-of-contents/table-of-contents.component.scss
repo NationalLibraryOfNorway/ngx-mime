@@ -7,19 +7,18 @@
   $accent: map-get($theme, accent);
 
   // Define any styles affected by the theme.
-    .canvasGroupIndex {
-      color: mat-color($foreground, text);
-    }
+  .canvasGroupIndex {
+    color: mat-color($foreground, text);
+  }
 
-    .toc-link {
-      cursor: pointer;
-      font-size: 14px !important;
-      font-weight: 400;
-      margin-bottom: 8px;
-    }
+  .toc-link {
+    cursor: pointer;
+    font-size: 14px !important;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
 
-    .currentCanvasGroup {
-      font-weight: bold;
-    }
+  .currentCanvasGroup {
+    font-weight: bold;
+  }
 }
-
