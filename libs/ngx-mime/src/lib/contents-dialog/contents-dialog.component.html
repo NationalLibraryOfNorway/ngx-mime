@@ -40,7 +40,7 @@
       </mat-tab>
       <mat-tab *ngIf="showToc" [label]="intl.tocLabel">
         <div class="tab-container" [ngStyle]="tabHeight">
-          <mime-toc (canvasChanged)="close()"></mime-toc>
+          <mime-toc (canvasChanged)="onCanvasChanged()"></mime-toc>
         </div>
       </mat-tab>
     </mat-tab-group>
