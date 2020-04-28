@@ -1,6 +1,24 @@
 @import '~@angular/material/theming';
 @include mat-core();
 
+$mat-light-theme-foreground: (
+  base: black,
+  divider: $dark-dividers,
+  dividers: $dark-dividers,
+  disabled: $dark-disabled-text,
+  disabled-button: rgba(black, 0.26),
+  disabled-text: $dark-disabled-text,
+  elevation: black,
+  hint-text: $dark-disabled-text,
+  secondary-text: $dark-secondary-text,
+  icon: rgba(black, 0.54),
+  icons: rgba(black, 0.54),
+  text: rgba(black, 0.9),
+  slider-min: rgba(black, 0.87),
+  slider-off: rgba(black, 0.26),
+  slider-off-active: rgba(black, 0.38)
+);
+
 $blue-primary: mat-palette($mat-light-blue, 800, 100, 700);
 $blue-accent: mat-palette($mat-light-blue, 900, 100, 700);
 $blue-theme: mat-light-theme($blue-primary, $blue-accent);
