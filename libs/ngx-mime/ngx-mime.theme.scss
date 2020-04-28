@@ -1,5 +1,7 @@
 @import 'src/lib/contents-dialog/metadata/metadata.component.theme.scss';
+@import 'src/lib/contents-dialog/table-of-contents/table-of-contents.component.theme.scss';
 
 @mixin ngx-mime-theme($test-app-theme) {
   @include metadata-component-theme($test-app-theme);
+  @include table-of-contents-theme($test-app-theme);
 }

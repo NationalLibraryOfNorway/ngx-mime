@@ -1,6 +1,7 @@
 <div class="toc-container">
   <div *ngFor="let structure of manifest?.structures">
-    <div
+    <a
+      href="javascript:void(0);"
       class="toc-link"
       [class.currentCanvasGroup]="
         currentCanvasGroupIndex === structure.canvasIndex
@@ -11,6 +12,6 @@
     >
       <span class="label">{{ structure.label }}</span>
       <span class="canvasGroupIndex">{{ structure.canvasIndex + 1 }}</span>
-    </div>
+    </a>
   </div>
 </div>
