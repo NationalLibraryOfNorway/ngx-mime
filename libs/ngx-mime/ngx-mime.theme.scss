@@ -1,0 +1,5 @@
+@import 'src/lib/contents-dialog/metadata/metadata.component.theme.scss';
+
+@mixin ngx-mime-theme($test-app-theme) {
+  @include metadata-component-theme($test-app-theme);
+}

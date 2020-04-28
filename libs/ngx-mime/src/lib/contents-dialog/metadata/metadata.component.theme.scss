@@ -1,0 +1,8 @@
+@import '~@angular/material/theming';
+@mixin metadata-component-theme($theme) {
+  $foreground: map-get($theme, foreground);
+
+  #metadata-container .content {
+    color: mat-color($foreground, secondary-text);
+  }
+}
