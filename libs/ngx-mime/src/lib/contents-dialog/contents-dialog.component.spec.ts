@@ -81,7 +81,7 @@ describe('ContentsDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
+      By.css('mat-toolbar[data-test-id="desktop-toolbar"]')
     );
     expect(heading).not.toBeNull();
   });
@@ -92,7 +92,7 @@ describe('ContentsDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
+      By.css('mat-toolbar[data-test-id="mobile-toolbar"]')
     );
     expect(heading).toBeNull();
   });
