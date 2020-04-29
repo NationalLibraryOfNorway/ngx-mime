@@ -3,11 +3,13 @@
 @mixin table-of-contents-theme($theme) {
   $foreground: map-get($theme, foreground);
 
-  .canvasGroupIndex {
-    color: mat-color($foreground, text);
-  }
+  #toc-container {
+    .canvasGroupIndex {
+      color: mat-color($foreground, text);
+    }
 
-  .toc-link {
-    color: mat-color($foreground, text);
+    .toc-link {
+      color: mat-color($foreground, text);
+    }
   }
 }
