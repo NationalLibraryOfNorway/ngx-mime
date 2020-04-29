@@ -79,6 +79,12 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
       .subscribe((numberOfCanvasGroups: number) => {
         this.numberOfCanvasGroups = numberOfCanvasGroups;
         this.numberOfCanvases = this.canvasService.numberOfCanvases;
+        this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
+          this.currentCanvasGroupIndex
+        );
+        this.isLastCanvasGroup = this.isOnLastCanvasGroup(
+          this.currentCanvasGroupIndex
+        );
         this.changeDetectorRef.detectChanges();
       });
   }
