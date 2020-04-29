@@ -1,12 +1,12 @@
 <div id="toc-container" class="toc-container">
   <div *ngFor="let structure of manifest?.structures">
     <a
-      href="javascript:void(0);"
+      href=""
       class="toc-link"
       [class.currentCanvasGroup]="
         currentCanvasGroupIndex === structure.canvasIndex
       "
-      (click)="goToCanvas(structure.canvasIndex)"
+      (click)="goToCanvas($event, structure.canvasIndex)"
       fxLayout="row"
       fxLayoutAlign="space-between center"
     >

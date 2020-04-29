@@ -58,7 +58,8 @@ export class TocComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  goToCanvas(canvasIndex: number): void {
+  goToCanvas(event: Event, canvasIndex: number): void {
+    event.preventDefault();
     this.viewerService.goToCanvas(canvasIndex, false);
     this.canvasChanged.emit(canvasIndex);
   }
