@@ -154,7 +154,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     )
   ));
 
-  it('should disable next/previous canvas group', async(
+  it('should disable previous and next button if there is only one canvas', async(
     inject(
       [ViewerService, CanvasService],
       (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
