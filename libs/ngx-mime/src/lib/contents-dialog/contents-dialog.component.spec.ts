@@ -94,7 +94,7 @@ describe('ContentsDialogComponent', () => {
     const heading: DebugElement = fixture.debugElement.query(
       By.css('mat-toolbar[data-test-id="mobile-toolbar"]')
     );
-    expect(heading).toBeNull();
+    expect(heading).not.toBeNull();
   });
 
   it('should show toc', async(() => {
