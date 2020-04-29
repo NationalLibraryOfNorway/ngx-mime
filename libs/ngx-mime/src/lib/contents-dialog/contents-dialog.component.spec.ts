@@ -184,7 +184,7 @@ describe('ContentsDialogComponent', () => {
       By.css('.toc-link')
     );
 
-    divs[2].triggerEventHandler('click', null);
+    divs[2].triggerEventHandler('click', new Event("fakeEvent"));
 
     expect(dialogRef.close).toHaveBeenCalled();
   });
