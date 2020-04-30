@@ -72,7 +72,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     this.resizeTabHeight();
   }
 
-  close() {
+  onCanvasChanged() {
     if (this.mediaObserver.isActive('lt-md')) {
       this.dialogRef.close();
     }

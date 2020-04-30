@@ -81,7 +81,7 @@ describe('ContentsDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
+      By.css('mat-toolbar[data-test-id="desktop-toolbar"]')
     );
     expect(heading).not.toBeNull();
   });
@@ -92,9 +92,9 @@ describe('ContentsDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
+      By.css('mat-toolbar[data-test-id="mobile-toolbar"]')
     );
-    expect(heading).toBeNull();
+    expect(heading).not.toBeNull();
   });
 
   it('should show toc', async(() => {
@@ -184,7 +184,7 @@ describe('ContentsDialogComponent', () => {
       By.css('.toc-link')
     );
 
-    divs[2].triggerEventHandler('click', null);
+    divs[2].triggerEventHandler('click', new Event("fakeEvent"));
 
     expect(dialogRef.close).toHaveBeenCalled();
   });

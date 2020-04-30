@@ -19,7 +19,6 @@ Feature: Accessibility
     Given the viewer is opened with a publication with attribution labels
     Then the viewer should meet all accessibility criteria
 
-  @Ignore
   Scenario: Accessibility in contents dialog
     Given the viewer is opened with a publication
     And the viewer is in dashboard view

@@ -1,16 +1,17 @@
-<div role="list" class="toc-container">
+<div id="toc-container" class="toc-container">
   <div *ngFor="let structure of manifest?.structures">
-    <div
+    <a
+      href=""
       class="toc-link"
       [class.currentCanvasGroup]="
         currentCanvasGroupIndex === structure.canvasIndex
       "
-      (click)="goToCanvas(structure.canvasIndex)"
+      (click)="goToCanvas($event, structure.canvasIndex)"
       fxLayout="row"
       fxLayoutAlign="space-between center"
     >
       <span class="label">{{ structure.label }}</span>
       <span class="canvasGroupIndex">{{ structure.canvasIndex + 1 }}</span>
-    </div>
+    </a>
   </div>
 </div>

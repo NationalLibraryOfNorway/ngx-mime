@@ -118,7 +118,7 @@ describe('TocComponent', () => {
     const divs: DebugElement[] = fixture.debugElement.queryAll(
       By.css('.toc-link')
     );
-    divs[2].triggerEventHandler('click', null);
+    divs[2].triggerEventHandler('click', new Event("fakeEvent"));
 
     expect(viewerService.goToCanvas).toHaveBeenCalledWith(4, false);
   });
