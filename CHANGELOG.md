@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.0.3](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.2...v9.0.3) (2020-04-30)
+
+
+### Bug Fixes
+
+* **a11y:** fix a11y in contents dialog ([#284](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/284)) ([4692be3](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4692be369d3af44363f58906f9680ca066a01be7))
+* disable next/previous canvas button in footer for single page ([815b1ab](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/815b1ab34bf2d7fdf7a148a6402ce104595baa56))
+* e2e is using wrong build step ([#280](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/280)) ([6980652](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6980652b52adc9b6780efda0559729f4f102acf8))
+* ie11 styling on attribution dialog ([#282](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/282)) ([6b4c42a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6b4c42aff7056fdd6c4ed9f2e7609330f63347fa))
+* override libs build ([#279](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/279)) ([5518a5a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5518a5a4b22423ea324d81e2a8fbc469ffc933dd))
+
 ### [9.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.1...v9.0.2) (2020-04-22)
 
 ### [9.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.0...v9.0.1) (2020-04-21)
