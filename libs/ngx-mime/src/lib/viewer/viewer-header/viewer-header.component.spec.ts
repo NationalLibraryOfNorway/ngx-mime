@@ -23,6 +23,7 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenServiceStub } from './../../test/fullscreen-service-stub';
+import { HelpDialogModule } from "../../help-dialog/help-dialog.module";
 import { IconComponent } from './icon/icon.component';
 
 describe('ViewerHeaderComponent', () => {
@@ -32,7 +33,7 @@ describe('ViewerHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [ViewerHeaderTestModule, ContentSearchDialogModule],
+      imports: [ViewerHeaderTestModule, ContentSearchDialogModule, HelpDialogModule],
       providers: [
         ViewerService,
         ClickService,

@@ -1,0 +1,41 @@
+<div id="help-container" class="help-container">
+  <div [ngSwitch]="mediaObserver.isActive('lt-md')">
+    <div *ngSwitchCase="true">
+      <mat-toolbar color="primary">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <button
+            mat-icon-button
+            [matDialogClose]="true"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <div class="heading">Hjelp</div>
+        </div>
+      </mat-toolbar>
+    </div>
+    <div *ngSwitchDefault>
+      <mat-toolbar>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+          <div class="heading heading-desktop">Hjelp</div>
+          <button
+            mat-icon-button
+            [matDialogClose]="true"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar>
+    </div>
+  </div>
+  <div [ngStyle]="tabHeight" class="help-content">
+    <p [innerHTML]="intl.help.line1"></p>
+    <p [innerHTML]="intl.help.line2"></p>
+    <p [innerHTML]="intl.help.line3"></p>
+    <p [innerHTML]="intl.help.line4"></p>
+    <p [innerHTML]="intl.help.line5"></p>
+    <p [innerHTML]="intl.help.line6"></p>
+    <p [innerHTML]="intl.help.line7"></p>
+    <p [innerHTML]="intl.help.line8"></p>
+    <p [innerHTML]="intl.help.line9"></p>
+  </div>
+</div>

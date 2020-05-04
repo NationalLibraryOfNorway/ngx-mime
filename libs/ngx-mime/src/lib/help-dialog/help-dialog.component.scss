@@ -1,0 +1,24 @@
+.heading {
+  font-size: 17px;
+}
+
+.heading-desktop {
+  padding-left: 16px;
+}
+
+.help-content {
+  padding: 16px;
+  overflow: auto;
+}
+::ng-deep .help-panel {
+  max-width: none !important;
+}
+
+::ng-deep .help-panel > .mat-dialog-container {
+  padding: 0px !important;
+  overflow: initial;
+}
+
+::ng-deep .help-container > div > div > .mat-toolbar {
+  padding: 0px 0px !important;
+}
