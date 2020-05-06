@@ -54,6 +54,14 @@ Feature: Page view
       And the Search dialog should be closed
 
   @desktop
+  Scenario: Close "Help" dialog
+    Given the viewer is in dashboard view
+    And the help dialog is open
+    When the user click in the viewer
+    Then the viewer should change to page view
+    And the Help dialog should be closed
+
+  @desktop
   Scenario: Reopen "Contents" dialog
     Given the viewer is in dashboard view
      And the viewer is in metadata view
@@ -70,3 +78,13 @@ Feature: Page view
      And the user click in the viewer
     Then the viewer should change to dashboard view
       And the Search dialog should be open
+
+
+  @desktop
+  Scenario: Repoen "Help" dialog
+    Given the viewer is in dashboard view
+    And the help dialog is open
+    When the user click in the viewer
+    And the user click in the viewer
+    Then the viewer should change to dashboard view
+    And the Help dialog should be open
