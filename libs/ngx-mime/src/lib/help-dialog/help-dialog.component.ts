@@ -42,7 +42,7 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
   }
 
   private resizeTabHeight() {
-    const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+    this.mimeDomHelper.getBoundingClientRect(this.el);
     let height = this.mimeHeight;
 
     if (this.mediaObserver.isActive('lt-md')) {

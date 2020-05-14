@@ -1,6 +1,7 @@
 import { HelpIntl } from "./help-intl";
 
 export class HelpIntlNoNb extends HelpIntl {
+  helpLabel = 'Hjelp';
   line1 = '<strong>PIL VENSTRE</strong> eller <strong>PAGE UP</strong>: Gå til forrige side';
   line2 = '<strong>PIL HØYRE</strong> eller <strong>PAGE DOWN</strong>: Gå til neste side';
   line3 = '<strong>HOME</strong>: Gå til første side';

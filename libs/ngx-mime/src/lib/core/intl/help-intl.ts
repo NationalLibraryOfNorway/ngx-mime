@@ -1,4 +1,5 @@
 export class HelpIntl {
+  helpLabel = 'Help';
   line1 = '<strong>ARROW LEFT</strong> or <strong>PAGE UP</strong>: Previous page';
   line2 = '<strong>ARROW RIGHT</strong> or <strong>PAGE DOWN</strong>: Next page';
   line3 = '<strong>HOME</strong>: Go to first page';

@@ -9,5 +9,5 @@ Feature: Display help
 
   Scenario: Show help
     Given the viewer is in dashboard view
-    And the viewer is in help view
+    And the help dialog is open
     Then help is displayed to the user

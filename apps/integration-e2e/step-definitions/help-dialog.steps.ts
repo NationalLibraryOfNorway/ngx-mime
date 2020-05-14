@@ -10,10 +10,6 @@ Given('the help dialog is open', async () => {
   await page.openHelpDialog();
 });
 
-Given('the viewer is in help view', async () => {
-  await page.openHelpDialog();
-});
-
 Then('help is displayed to the user', async () => {
   const isOpen = await help.isOpen();
   expect(isOpen).to.equal(true);
