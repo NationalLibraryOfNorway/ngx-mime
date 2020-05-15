@@ -175,4 +175,23 @@ describe('CanvasGroupNavigatorComponent', () => {
       }
     )
   ));
+
+  it('should check hotkeys', async(
+    inject([CanvasService], (canvasService: CanvasServiceStub) => {
+      const event: KeyboardEvent = new KeyboardEvent('keyup', {
+        code: '70' // 'f'
+      });
+
+      spy = spyOn(component, 'onSliderHotKey').and.callThrough();
+      canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const slider = fixture.debugElement.query(By.css('#navigationSlider'));
+        slider.nativeElement.dispatchEvent(event);
+        fixture.detectChanges();
+        expect(spy).toHaveBeenCalled();
+      });
+    })
+  ));
 });

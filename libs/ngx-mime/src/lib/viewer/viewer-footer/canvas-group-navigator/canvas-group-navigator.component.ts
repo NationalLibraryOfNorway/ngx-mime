@@ -1,21 +1,16 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
+import { AccessKeys } from '../../../core/models/AccessKeys';
+import { Manifest } from '../../../core/models/manifest';
+import { ViewingDirection } from '../../../core/models/viewing-direction';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { SearchResult } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
-import { Manifest } from '../../../core/models/manifest';
-import { ViewingDirection } from '../../../core/models/viewing-direction';
 
 @Component({
   selector: 'mime-page-navigator',
@@ -110,6 +105,13 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     );
     this.viewerService.goToCanvasGroup(change.value, false);
     this.changeDetectorRef.detectChanges();
+  }
+
+  onSliderHotKey(event: KeyboardEvent) {
+    const accessKeys = new AccessKeys(event);
+    if (accessKeys.isSliderKeys()) {
+       event.stopPropagation();
+    }
   }
 
   openCanvasGroupDialog(): void {

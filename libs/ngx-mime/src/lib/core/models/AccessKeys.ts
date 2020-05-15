@@ -56,6 +56,17 @@ export class AccessKeys {
     );
   }
 
+  public isSliderKeys() {
+    return (
+      this.isArrowLeftKeys() ||
+      this.isArrowRightKeys() ||
+      this.isPageDownKeys() ||
+      this.isPageUpKeys() ||
+      this.isFirstCanvasGroupKeys() ||
+      this.isLastCanvasGroupKeys()
+    );
+  }
+
   public isZoomInKeys() {
     return (
       !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes)
