@@ -46,7 +46,7 @@ import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils
 import { ViewerState } from '../core/models/viewerState';
 import { ModeChanges } from '../core/models/modeChanges';
 import { StyleService } from '../core/style-service/style.service';
-import { HelpDialogService } from "../help-dialog/help-dialog.service";
+import { HelpDialogService } from '../help-dialog/help-dialog.service';
 
 @Component({
   selector: 'mime-viewer',

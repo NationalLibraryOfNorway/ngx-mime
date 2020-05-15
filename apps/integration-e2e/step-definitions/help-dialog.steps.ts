@@ -1,7 +1,7 @@
 import { Given, Then } from "cucumber";
 const { expect } = require('chai');
-import { HelpDialogPage } from "../pages/help-dialog.po";
-import { ViewerPage } from "../pages/viewer.po";
+import { HelpDialogPage } from '../pages/help-dialog.po';
+import { ViewerPage } from '../pages/viewer.po';
 
 const page = new ViewerPage();
 const help = new HelpDialogPage();

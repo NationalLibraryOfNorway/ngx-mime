@@ -1,10 +1,10 @@
-import { ElementRef, Injectable } from "@angular/core";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { HelpDialogComponent } from "./help-dialog.component";
-import { HelpDialogConfigStrategyFactory } from "./help-dialog-config-strategy-factory";
-import { MimeResizeService } from "../core/mime-resize-service/mime-resize.service";
+import { ElementRef, Injectable } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { HelpDialogComponent } from './help-dialog.component';
+import { HelpDialogConfigStrategyFactory } from './help-dialog-config-strategy-factory';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 
 @Injectable()
 export class HelpDialogService {

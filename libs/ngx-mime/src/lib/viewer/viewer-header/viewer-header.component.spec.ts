@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import {
   async,
@@ -23,8 +23,7 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenServiceStub } from './../../test/fullscreen-service-stub';
-import { HelpDialogModule } from "../../help-dialog/help-dialog.module";
-import { IconComponent } from './icon/icon.component';
+import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;

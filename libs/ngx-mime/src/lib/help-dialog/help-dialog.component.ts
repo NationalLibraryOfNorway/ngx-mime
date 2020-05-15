@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MediaObserver } from "@angular/flex-layout";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { MimeViewerIntl } from "../core/intl/viewer-intl";
-import { MimeResizeService } from "../core/mime-resize-service/mime-resize.service";
-import { Dimensions } from "../core/models/dimensions";
-import { MimeDomHelper } from "../core/mime-dom-helper";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { Dimensions } from '../core/models/dimensions';
 
 @Component({
   selector: 'mime-help',
@@ -20,7 +19,6 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
   constructor(
     public mediaObserver: MediaObserver,
     public intl: MimeViewerIntl,
-    private mimeDomHelper: MimeDomHelper,
     private mimeResizeService: MimeResizeService
   ) {}
 

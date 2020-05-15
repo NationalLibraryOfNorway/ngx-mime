@@ -1,6 +1,6 @@
 import { ContentDialogState } from './content-dialog-state';
 import { ContentsSearchDialogState } from './contents-search-dialog-state';
-import { HelpDialogState } from "./help-dialog-state";
+import { HelpDialogState } from './help-dialog-state';
 
 export class ViewerState {
   public contentDialogState = new ContentDialogState();

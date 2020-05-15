@@ -28,7 +28,7 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
-import { HelpDialogService } from "../../help-dialog/help-dialog.service";
+import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 
 @Component({
   selector: 'mime-viewer-header',

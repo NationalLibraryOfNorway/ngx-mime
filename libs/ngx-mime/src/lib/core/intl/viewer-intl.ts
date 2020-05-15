@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { HelpIntl } from "./help-intl";
+import { HelpIntl } from './help-intl';
 
 @Injectable()
 export class MimeViewerIntl {

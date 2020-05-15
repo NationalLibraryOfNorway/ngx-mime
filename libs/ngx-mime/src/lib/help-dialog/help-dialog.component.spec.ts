@@ -1,17 +1,16 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MediaObserver } from "@angular/flex-layout";
-import { DebugElement } from "@angular/core";
-import { By } from "@angular/platform-browser";
-import { MatDialogRef } from "@angular/material/dialog";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MediaObserver } from '@angular/flex-layout';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { MatDialogRef } from '@angular/material/dialog';
 import { HelpDialogModule } from './help-dialog.module';
-import { HelpDialogComponent } from "./help-dialog.component";
-import { MimeViewerIntl } from "../core/intl/viewer-intl";
-import { MimeResizeService } from "../core/mime-resize-service/mime-resize.service";
-import { MimeDomHelper } from "../core/mime-dom-helper";
-import { FullscreenService } from "../core/fullscreen-service/fullscreen.service";
-import { MatDialogRefStub } from "../test/mat-dialog-ref-stub";
-import { ViewerService } from "../core/viewer-service/viewer.service";
-import { ViewerServiceStub } from "../test/viewer-service-stub";
+import { HelpDialogComponent } from './help-dialog.component';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { ViewerServiceStub } from '../test/viewer-service-stub';
 
 describe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
@@ -25,7 +24,6 @@ describe('HelpDialogComponent', () => {
       providers: [
         MimeViewerIntl,
         MimeResizeService,
-        MimeDomHelper,
         FullscreenService,
         { provide: MatDialogRef, useClass: MatDialogRefStub },
         { provide: ViewerService, useClass: ViewerServiceStub }

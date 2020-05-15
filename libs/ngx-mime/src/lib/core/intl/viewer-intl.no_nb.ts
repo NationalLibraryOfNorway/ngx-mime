@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MimeViewerIntl } from './viewer-intl';
-import { HelpIntlNoNb } from "./help-intl.no_nb";
+import { HelpIntlNoNb } from './help-intl.no_nb';
 
 @Injectable()
 export class MimeViewerIntlNoNb extends MimeViewerIntl {
