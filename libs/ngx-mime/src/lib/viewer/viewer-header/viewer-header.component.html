@@ -15,24 +15,31 @@
       class="buttons-container"
     >
       <button
-        id="toggleTwoPageViewButton"
-        *ngIf="isPagedManifest && viewerLayout === ViewerLayout.ONE_PAGE"
+        *ngIf="isPagedManifest"
         mat-icon-button
-        [attr.aria-label]="intl.twoPageViewLabel"
-        [matTooltip]="intl.twoPageViewLabel"
-        (click)="setLayoutTwoPage()"
+        [attr.aria-label]="
+          viewerLayout === ViewerLayout.ONE_PAGE
+            ? intl.twoPageViewLabel
+            : intl.singlePageViewLabel
+        "
+        [matTooltip]="
+          viewerLayout === ViewerLayout.ONE_PAGE
+            ? intl.twoPageViewLabel
+            : intl.singlePageViewLabel
+        "
+        (click)="toggleViewerLayout()"
       >
-        <mime-icon iconName="two_page_display"></mime-icon>
-      </button>
-      <button
-        id="toggleSinglePageViewButton"
-        *ngIf="isPagedManifest && viewerLayout === ViewerLayout.TWO_PAGE"
-        mat-icon-button
-        [attr.aria-label]="intl.singlePageViewLabel"
-        [matTooltip]="intl.singlePageViewLabel"
-        (click)="setLayoutOnePage()"
-      >
-        <mime-icon iconName="single_page_display"></mime-icon>
+        <mime-icon
+          *ngIf="viewerLayout === ViewerLayout.ONE_PAGE"
+          id="toggleTwoPageViewButton"
+          iconName="two_page_display"
+        >
+        </mime-icon>
+        <mime-icon
+          *ngIf="viewerLayout === ViewerLayout.TWO_PAGE"
+          id="toggleSinglePageViewButton"
+          iconName="single_page_display"
+        ></mime-icon>
       </button>
       <button
         id="contentsDialogButton"
@@ -71,8 +78,12 @@
         [matTooltip]="fullscreenLabel"
         (click)="toggleFullscreen()"
       >
-        <mat-icon *ngIf="isInFullScreen" aria-hidden="true">fullscreen_exit</mat-icon>
-        <mat-icon *ngIf="!isInFullScreen" aria-hidden="true">fullscreen</mat-icon>
+        <mat-icon *ngIf="isInFullScreen" aria-hidden="true"
+          >fullscreen_exit</mat-icon
+        >
+        <mat-icon *ngIf="!isInFullScreen" aria-hidden="true"
+          >fullscreen</mat-icon
+        >
       </button>
     </div>
     <div><ng-template #mimeHeaderAfter></ng-template></div>

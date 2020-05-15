@@ -105,7 +105,9 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed))
       .subscribe(() => {
         this.isInFullscreen = this.fullscreenService.isFullscreen();
-        this.fullscreenLabel = this.isInFullscreen ? this.intl.exitFullScreenLabel : this.intl.fullScreenLabel;
+        this.fullscreenLabel = this.isInFullscreen
+          ? this.intl.exitFullScreenLabel
+          : this.intl.fullScreenLabel;
         this.changeDetectorRef.detectChanges();
       });
 
@@ -154,6 +156,10 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public isInFullScreen(): boolean {
     return this.fullscreenService.isFullscreen();
+  }
+
+  public toggleViewerLayout(): void {
+    this.viewerLayoutService.toggle();
   }
 
   public setLayoutOnePage(): void {
