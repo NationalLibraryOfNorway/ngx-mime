@@ -1,4 +1,4 @@
-import { Given, Then } from "cucumber";
+import { Given, Then } from 'cucumber';
 const { expect } = require('chai');
 import { HelpDialogPage } from '../pages/help-dialog.po';
 import { ViewerPage } from '../pages/viewer.po';

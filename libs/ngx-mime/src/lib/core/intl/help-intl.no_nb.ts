@@ -1,4 +1,4 @@
-import { HelpIntl } from "./help-intl";
+import { HelpIntl } from './help-intl';
 
 export class HelpIntlNoNb extends HelpIntl {
   helpLabel = 'Hjelp';

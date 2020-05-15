@@ -5,7 +5,7 @@ import {
   DesktopHelpDialogConfigStrategy,
   HelpDialogConfigStrategy,
   MobileHelpDialogConfigStrategy
-} from "./help-dialog-config-strategy";
+} from './help-dialog-config-strategy';
 
 @Injectable()
 export class HelpDialogConfigStrategyFactory {
