@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MediaObserver } from "@angular/flex-layout";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -13,7 +13,7 @@ import { MimeDomHelper } from "../core/mime-dom-helper";
   styleUrls: ['./help-dialog.component.scss']
 })
 export class HelpDialogComponent implements OnInit, OnDestroy {
-  public tabHeight= {};
+  public tabHeight = {};
   private mimeHeight = 0;
   private destroyed: Subject<void> = new Subject();
 
@@ -21,7 +21,6 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
     public mediaObserver: MediaObserver,
     public intl: MimeViewerIntl,
     private mimeDomHelper: MimeDomHelper,
-    private el: ElementRef,
     private mimeResizeService: MimeResizeService
   ) {}
 
@@ -42,7 +41,6 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
   }
 
   private resizeTabHeight() {
-    this.mimeDomHelper.getBoundingClientRect(this.el);
     let height = this.mimeHeight;
 
     if (this.mediaObserver.isActive('lt-md')) {

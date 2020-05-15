@@ -79,7 +79,6 @@ Feature: Page view
     Then the viewer should change to dashboard view
       And the Search dialog should be open
 
-
   @desktop
   Scenario: Repoen "Help" dialog
     Given the viewer is in dashboard view
