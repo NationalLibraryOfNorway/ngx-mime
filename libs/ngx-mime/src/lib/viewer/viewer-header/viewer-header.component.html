@@ -17,6 +17,7 @@
       <button
         *ngIf="isPagedManifest"
         mat-icon-button
+        [id]="viewerLayout === ViewerLayout.ONE_PAGE ? 'toggleTwoPageViewButton' : 'toggleSinglePageViewButton'"
         [attr.aria-label]="
           viewerLayout === ViewerLayout.ONE_PAGE
             ? intl.twoPageViewLabel
@@ -30,16 +31,9 @@
         (click)="toggleViewerLayout()"
       >
         <mime-icon
-          *ngIf="viewerLayout === ViewerLayout.ONE_PAGE"
-          id="toggleTwoPageViewButton"
-          iconName="two_page_display"
+          [iconName]="viewerLayout === ViewerLayout.ONE_PAGE ? 'two_page_display' : 'single_page_display'"
         >
         </mime-icon>
-        <mime-icon
-          *ngIf="viewerLayout === ViewerLayout.TWO_PAGE"
-          id="toggleSinglePageViewButton"
-          iconName="single_page_display"
-        ></mime-icon>
       </button>
       <button
         id="contentsDialogButton"
