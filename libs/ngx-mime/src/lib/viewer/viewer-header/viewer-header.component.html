@@ -54,6 +54,16 @@
         <mat-icon aria-hidden="true">search</mat-icon>
       </button>
       <button
+        id="helpDialogButton"
+        mat-icon-button
+        [attr.aria-label]="intl.searchLabel"
+        [matTooltip]="intl.searchLabel"
+        (click)="toggleHelp()"
+      >
+        <mat-icon aria-hidden="true">help</mat-icon>
+      </button>
+
+      <button
         id="fullscreenButton"
         *ngIf="isFullscreenEnabled"
         mat-icon-button

@@ -28,6 +28,7 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
+import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -81,6 +82,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
+    private helpDialogService: HelpDialogService,
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
@@ -130,12 +132,20 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public toggleContents() {
     this.contentSearchDialogService.close();
+    this.helpDialogService.close();
     this.contentsDialogService.toggle();
   }
 
   public toggleSearch() {
     this.contentsDialogService.close();
+    this.helpDialogService.close();
     this.contentSearchDialogService.toggle();
+  }
+
+  public toggleHelp() {
+    this.contentsDialogService.close();
+    this.contentSearchDialogService.close();
+    this.helpDialogService.toggle();
   }
 
   public toggleFullscreen(): void {

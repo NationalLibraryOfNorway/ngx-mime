@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-
 import { MimeViewerIntl } from './viewer-intl';
+import { HelpIntlNoNb } from './help-intl.no_nb';
 
 @Injectable()
 export class MimeViewerIntlNoNb extends MimeViewerIntl {
+  help = new HelpIntlNoNb();
   closeLabel = 'Lukk';
   attributionLabel = 'Tillatelse';
   attributonCloseAriaLabel = 'Steng tillatelse dialog';

@@ -1,0 +1,17 @@
+.help-container {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+}
+
+.help-content {
+  padding: 16px;
+  overflow: auto;
+}
+::ng-deep .help-panel {
+  max-width: none !important;
+}
+
+::ng-deep .help-panel > .mat-dialog-container {
+  padding: 0 !important;
+  overflow: initial;
+}

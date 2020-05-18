@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HelpIntl } from './help-intl';
 
 @Injectable()
 export class MimeViewerIntl {
   changes: Subject<void> = new Subject<void>();
 
+  help: HelpIntl = new HelpIntl();
   closeLabel = 'Close';
   attributionLabel = 'Attribution';
   attributonCloseAriaLabel = 'Close attribution dialog';

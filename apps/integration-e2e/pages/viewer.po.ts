@@ -139,6 +139,12 @@ export class ViewerPage {
     await browser.sleep(2000);
   }
 
+  async openHelpDialog() {
+    await element(by.css('#helpDialogButton')).click();
+    await utils.waitForElement(element(by.css('.help-container')));
+    await browser.sleep(2000);
+  }
+
   async openTableOfContentsTab() {
     await element
       .all(by.css('.mat-tab-label'))

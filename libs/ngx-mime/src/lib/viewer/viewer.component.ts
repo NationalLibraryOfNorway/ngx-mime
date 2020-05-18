@@ -46,6 +46,7 @@ import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils
 import { ViewerState } from '../core/models/viewerState';
 import { ModeChanges } from '../core/models/modeChanges';
 import { StyleService } from '../core/style-service/style.service';
+import { HelpDialogService } from '../help-dialog/help-dialog.service';
 
 @Component({
   selector: 'mime-viewer',
@@ -89,6 +90,7 @@ export class ViewerComponent
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
+    private helpDialogService: HelpDialogService,
     private viewerService: ViewerService,
     private mimeService: MimeResizeService,
     private changeDetectorRef: ChangeDetectorRef,
@@ -103,6 +105,7 @@ export class ViewerComponent
     contentsDialogService.el = el;
     attributionDialogService.el = el;
     contentSearchDialogService.el = el;
+    helpDialogService.el = el;
     mimeService.el = el;
   }
 
@@ -200,9 +203,11 @@ export class ViewerComponent
           this.viewerState.contentDialogState.isOpen = this.contentsDialogService.isOpen();
           this.viewerState.contentDialogState.selectedIndex = this.contentsDialogService.getSelectedIndex();
           this.viewerState.contentsSearchDialogState.isOpen = this.contentSearchDialogService.isOpen();
+          this.viewerState.helpDialogState.isOpen = this.helpDialogService.isOpen();
           this.zone.run(() => {
             this.contentsDialogService.close();
             this.contentSearchDialogService.close();
+            this.helpDialogService.close();
           });
         }
         if (mode.currentValue === ViewerMode.DASHBOARD) {
@@ -214,6 +219,9 @@ export class ViewerComponent
             }
             if (this.viewerState.contentsSearchDialogState.isOpen) {
               this.contentSearchDialogService.open();
+            }
+            if (this.viewerState.helpDialogState.isOpen) {
+              this.helpDialogService.open();
             }
           });
         }
@@ -391,6 +399,7 @@ export class ViewerComponent
     this.attributionDialogService.initialize();
     this.contentsDialogService.initialize();
     this.contentSearchDialogService.initialize();
+    this.helpDialogService.initialize();
   }
 
   private cleanup() {
@@ -398,6 +407,7 @@ export class ViewerComponent
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
+    this.helpDialogService.destroy();
     this.viewerService.destroy();
     this.resetErrorMessage();
   }

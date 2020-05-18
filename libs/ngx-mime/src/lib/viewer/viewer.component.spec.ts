@@ -35,6 +35,7 @@ import { TestHostComponent } from './test-host.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerComponent } from './viewer.component';
+import { HelpDialogModule } from '../help-dialog/help-dialog.module';
 
 describe('ViewerComponent', function() {
   const matSnackBarSpy = jasmine.createSpy('MatSnackBar');
@@ -64,7 +65,8 @@ describe('ViewerComponent', function() {
         SharedModule,
         ContentsDialogModule,
         AttributionDialogModule,
-        ContentSearchDialogModule
+        ContentSearchDialogModule,
+        HelpDialogModule
       ],
       declarations: [
         ViewerComponent,
