@@ -1,16 +1,6 @@
-import {
-  browser,
-  element,
-  ElementFinder,
-  by,
-  By,
-  protractor,
-  ElementArrayFinder
-} from 'protractor';
+import { browser, by, By, element, ElementFinder, protractor } from 'protractor';
 import { Key, promise, WebElement } from 'selenium-webdriver';
-import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
-import { isFulfilled } from 'q';
 
 const bookShelf = {
   'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
@@ -402,7 +392,7 @@ export class ViewerPage {
   }
 
   async waitForAnimation(animationTime?: number): Promise<void> {
-    if (isUndefined(animationTime)) {
+    if (animationTime === undefined) {
       animationTime = await this.getAnimationTimeInMs();
     }
     await browser.sleep(animationTime);
