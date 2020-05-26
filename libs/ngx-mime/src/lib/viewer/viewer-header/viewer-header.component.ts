@@ -72,7 +72,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   isInFullscreen = false;
   fullscreenLabel = this.intl.fullScreenLabel;
   isPagedManifest = false;
-  viewerLayout: ViewerLayout;
+  viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
 
   ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
   private destroyed: Subject<void> = new Subject();
