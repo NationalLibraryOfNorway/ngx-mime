@@ -1,4 +1,11 @@
-import { browser, by, By, element, ElementFinder, protractor } from 'protractor';
+import {
+  browser,
+  by,
+  By,
+  element,
+  ElementFinder,
+  protractor
+} from 'protractor';
 import { Key, promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
 
@@ -37,6 +44,24 @@ export class ViewerPage {
       const overlay = await this.getSVGElement();
       await utils.clickElement(overlay);
       await this.waitForAnimation(1000);
+    }
+  }
+
+  async setOnePageView() {
+    const btn = await this.getOnePageButton();
+    // Button is present, so switch to one-page
+    if (btn) {
+      await btn.click();
+      await this.waitForAnimation();
+    }
+  }
+
+  async setTwoPageView() {
+    const btn = await this.getTwoPageButton();
+    // Button is present, so click to switch to two-page
+    if (btn) {
+      await btn.click();
+      await this.waitForAnimation();
     }
   }
 
