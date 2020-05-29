@@ -44,7 +44,7 @@ export class ViewerLayoutService {
   toggle() {
     if (this._layout === ViewerLayout.TWO_PAGE) {
       this.setLayout(ViewerLayout.ONE_PAGE);
-    } else if (this._layout === ViewerLayout.ONE_PAGE && !this.isMobile()) {
+    } else if (this._layout === ViewerLayout.ONE_PAGE) {
       this.setLayout(ViewerLayout.TWO_PAGE);
     }
   }
