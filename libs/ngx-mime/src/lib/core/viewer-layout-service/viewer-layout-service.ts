@@ -41,6 +41,14 @@ export class ViewerLayoutService {
     this.change();
   }
 
+  toggle() {
+    if (this._layout === ViewerLayout.TWO_PAGE) {
+      this.setLayout(ViewerLayout.ONE_PAGE);
+    } else if (this._layout === ViewerLayout.ONE_PAGE) {
+      this.setLayout(ViewerLayout.TWO_PAGE);
+    }
+  }
+
   private change() {
     this.subject.next(this._layout);
   }

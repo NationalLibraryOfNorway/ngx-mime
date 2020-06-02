@@ -1,16 +1,13 @@
 import {
   browser,
-  element,
-  ElementFinder,
   by,
   By,
-  protractor,
-  ElementArrayFinder
+  element,
+  ElementFinder,
+  protractor
 } from 'protractor';
 import { Key, promise, WebElement } from 'selenium-webdriver';
-import { isUndefined } from 'util';
 import { Utils } from '../helpers/utils';
-import { isFulfilled } from 'q';
 
 const bookShelf = {
   'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
@@ -47,6 +44,24 @@ export class ViewerPage {
       const overlay = await this.getSVGElement();
       await utils.clickElement(overlay);
       await this.waitForAnimation(1000);
+    }
+  }
+
+  async setOnePageView() {
+    const btn = await this.getOnePageButton();
+    // Button is present, so switch to one-page
+    if (btn) {
+      await btn.click();
+      await this.waitForAnimation();
+    }
+  }
+
+  async setTwoPageView() {
+    const btn = await this.getTwoPageButton();
+    // Button is present, so click to switch to two-page
+    if (btn) {
+      await btn.click();
+      await this.waitForAnimation();
     }
   }
 
@@ -402,7 +417,7 @@ export class ViewerPage {
   }
 
   async waitForAnimation(animationTime?: number): Promise<void> {
-    if (isUndefined(animationTime)) {
+    if (animationTime === undefined) {
       animationTime = await this.getAnimationTimeInMs();
     }
     await browser.sleep(animationTime);

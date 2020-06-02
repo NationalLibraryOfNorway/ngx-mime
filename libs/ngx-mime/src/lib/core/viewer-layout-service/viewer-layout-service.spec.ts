@@ -52,4 +52,17 @@ describe('ViewerLayoutService', () => {
     service.init(true);
     expect(service.layout).toEqual(ViewerLayout.TWO_PAGE);
   });
+
+  it('should toggle ViewerLayout when calling toggle()', () => {
+    let newLayout: ViewerLayout;
+    service.onChange.subscribe((state: ViewerLayout) => (newLayout = state));
+    service.setLayout(ViewerLayout.ONE_PAGE);
+    expect(newLayout).toEqual(ViewerLayout.ONE_PAGE);
+
+    service.toggle();
+    expect(newLayout).toEqual(ViewerLayout.TWO_PAGE);
+
+    service.toggle();
+    expect(newLayout).toEqual(ViewerLayout.ONE_PAGE);
+  });
 });
