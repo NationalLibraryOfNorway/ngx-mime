@@ -68,7 +68,7 @@ export class AttributionDialogService {
         .subscribe(() => {
           const config = this.getDialogConfig();
           this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
-          this.dialogRef.afterClosed().subscribe(result => {
+          this.dialogRef.afterClosed().subscribe((result) => {
             this.isAttributionDialogOpen = false;
             this.mimeDomHelper.setFocusOnViewer();
           });
@@ -103,7 +103,7 @@ export class AttributionDialogService {
     const dimensions = this.getPosition(this._el);
     return {
       hasBackdrop: false,
-      width: '170px',
+      width: '180px',
       panelClass: 'attribution-panel',
       position: {
         top: dimensions.top + 'px',
@@ -123,5 +123,4 @@ export class AttributionDialogService {
       left: dimensions.left + padding
     });
   }
-
 }
