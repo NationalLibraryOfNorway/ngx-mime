@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.3...v9.1.0) (2020-06-04)
+
+
+### Features
+
+* added lithuanian label translations ([649dd51](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/649dd5113d91d9a18d15c5f947ce1accb7199fab))
+* hotkey dialog ([#285](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/285)) ([fcc2f72](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fcc2f7290aa68dee9b8b9dae17ffa5f5347657dc))
+
+
+### Bug Fixes
+
+* avoid buttons overflowing on IE ([6555bcf](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6555bcf6b076ca4629b04d299eeb2d14d6e7f55c))
+* hotkeys ([620ed08](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/620ed0837747a1e4930989a8b5b4eb88f80848f4)), closes [#266](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/266)
+
 ### [9.0.3](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.2...v9.0.3) (2020-04-30)
 
 
