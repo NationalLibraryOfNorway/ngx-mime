@@ -34,7 +34,9 @@ export class MimeDomHelper {
 
   public setFocusOnViewer(): void {
     const el:HTMLElement = document.getElementById('mimeViewer');
-    el.focus();
+    if (el) {
+      el.focus();
+    }
   }
 
   private createFullscreenDimensions(el: ElementRef): Dimensions {
