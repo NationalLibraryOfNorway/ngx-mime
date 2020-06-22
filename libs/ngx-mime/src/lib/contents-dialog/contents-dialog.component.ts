@@ -88,7 +88,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
         maxHeight: window.innerHeight - 128 + 'px'
       };
     } else {
-      height -= 208;
+      height -= 278;
       this.tabHeight = {
         maxHeight: height + 'px'
       };
