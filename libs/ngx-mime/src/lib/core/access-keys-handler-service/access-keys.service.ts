@@ -21,7 +21,7 @@ import { ViewingDirection } from '../models/viewing-direction';
 export class AccessKeysService implements OnDestroy {
   private isSearchable = false;
   private hasHits = false;
-  private disabledKeys: number[] = [];
+  private disabledKeys: string[] = [];
   private destroyed: Subject<void> = new Subject();
   private invert = false;
 
@@ -57,7 +57,7 @@ export class AccessKeysService implements OnDestroy {
 
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
-    if (!this.isKeyDisabled(event.keyCode)) {
+    if (!this.isKeyDisabled(event.key)) {
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
           this.invert
@@ -222,13 +222,13 @@ export class AccessKeysService implements OnDestroy {
       .concat(AccessKeys.ARROWRIGHT)
       .concat(AccessKeys.firstCanvasGroupCodes)
       .concat(AccessKeys.lastCanvasGroupCodes)
-      .concat(AccessKeys.zoomInCodes)
-      .concat(AccessKeys.zoomOutCodes)
+      .concat(AccessKeys.zoomInKeys)
+      .concat(AccessKeys.zoomOutKeys)
       .concat(AccessKeys.zoomHomeCodes)
       .concat(AccessKeys.nextHit)
       .concat(AccessKeys.previousHit)
-      .concat(AccessKeys.toggleSearchDialogCodes)
-      .concat(AccessKeys.toggleContentsDialogCodes)
+      .concat(AccessKeys.toggleSearchDialogKeys)
+      .concat(AccessKeys.toggleContentsDialogKeys)
       .concat(AccessKeys.toggleFullscreenCodes);
   }
 
@@ -236,8 +236,8 @@ export class AccessKeysService implements OnDestroy {
     this.disabledKeys = [];
   }
 
-  private isKeyDisabled(keyCode: number): boolean {
+  private isKeyDisabled(key: string): boolean {
     this.updateDisabledKeys();
-    return this.disabledKeys.indexOf(keyCode) > -1;
+    return this.disabledKeys.indexOf(key) > -1;
   }
 }
