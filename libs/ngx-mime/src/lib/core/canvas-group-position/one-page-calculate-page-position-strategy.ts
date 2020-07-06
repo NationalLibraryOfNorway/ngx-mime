@@ -5,27 +5,28 @@ import {
   CalculateCanvasGroupPositionStrategy,
   CanvasGroupPositionCriteria
 } from './calculate-canvas-group-position-strategy';
+import { canvasRectFromCriteria } from './calculate-canvas-group-position-utils';
 
 export class OnePageCalculatePagePositionStrategy
   implements CalculateCanvasGroupPositionStrategy {
-  calculateCanvasGroupPosition(criteria: CanvasGroupPositionCriteria): Rect {
+  calculateCanvasGroupPosition(
+    criteria: CanvasGroupPositionCriteria,
+    rotation: number = 0
+  ): Rect {
     let x: number;
-
     if (!criteria.canvasGroupIndex) {
-      x = (criteria.canvasSource.width / 2) * -1;
+      if (rotation === 90 || rotation === 270) {
+        x = (criteria.canvasSource.height / 2) * -1;
+      } else {
+        x = (criteria.canvasSource.width / 2) * -1;
+      }
     } else {
       x =
         criteria.viewingDirection === ViewingDirection.LTR
           ? this.calculateLtrX(criteria)
           : this.calculateRtlX(criteria);
     }
-
-    return new Rect({
-      height: criteria.canvasSource.height,
-      width: criteria.canvasSource.width,
-      x: x,
-      y: (criteria.canvasSource.height / 2) * -1
-    });
+    return canvasRectFromCriteria(rotation, criteria, x);
   }
 
   private calculateLtrX(criteria: CanvasGroupPositionCriteria) {

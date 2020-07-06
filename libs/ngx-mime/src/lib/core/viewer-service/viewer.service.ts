@@ -75,6 +75,8 @@ export class ViewerService {
   private zoomStrategy: ZoomStrategy;
   private goToCanvasGroupStrategy: GoToCanvasGroupStrategy;
 
+  public rotation: number = 0;
+
   constructor(
     private zone: NgZone,
     private clickService: ClickService,
@@ -265,10 +267,7 @@ export class ViewerService {
 
     this.zone.runOutsideAngular(() => {
       this.onCenterChange
-        .pipe(
-          takeUntil(this.destroyed),
-          sample(interval(500))
-        )
+        .pipe(takeUntil(this.destroyed), sample(interval(500)))
         .subscribe((center: Point) => {
           this.calculateCurrentCanvasGroup(center);
           if (center && center !== null) {
@@ -303,22 +302,7 @@ export class ViewerService {
     this.viewerLayoutService.onChange
       .pipe(takeUntil(this.destroyed))
       .subscribe((state: ViewerLayout) => {
-        if (this.osdIsReady.getValue()) {
-          const currentCanvasIndex = this.canvasService.currentCanvasIndex;
-          this.destroy(true);
-          this.setUpViewer(this.manifest, this.config);
-          this.goToCanvasGroupStrategy.goToCanvasGroup({
-            canvasGroupIndex: this.canvasService.findCanvasGroupByCanvasIndex(
-              currentCanvasIndex
-            ),
-            immediately: false
-          });
-
-          // Recreate highlights if there is an active search going on
-          if (this.currentSearch) {
-            this.highlight(this.currentSearch);
-          }
-        }
+        this.layoutPages();
       });
 
     this.iiifContentSearchService.onSelected
@@ -329,6 +313,25 @@ export class ViewerService {
           this.goToCanvas(hit.index, false);
         }
       });
+  }
+
+  private layoutPages() {
+    if (this.osdIsReady.getValue()) {
+      const currentCanvasIndex = this.canvasService.currentCanvasIndex;
+      this.destroy(true);
+      this.setUpViewer(this.manifest, this.config);
+      this.goToCanvasGroupStrategy.goToCanvasGroup({
+        canvasGroupIndex: this.canvasService.findCanvasGroupByCanvasIndex(
+          currentCanvasIndex
+        ),
+        immediately: false
+      });
+
+      // Recreate highlights if there is an active search going on
+      if (this.currentSearch) {
+        this.highlight(this.currentSearch);
+      }
+    }
   }
 
   addToWindow() {
@@ -351,7 +354,7 @@ export class ViewerService {
   /**
    *
    * @param layoutSwitch true if switching between layouts
-   * to keep current search-state
+   * to keep current search-state and rotation
    */
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
@@ -368,10 +371,11 @@ export class ViewerService {
     if (this.canvasGroupMask) {
       this.canvasGroupMask.destroy();
     }
-    // Keep search-state only if layout-switch
+    // Keep search-state and rotation only if layout-switch
     if (!layoutSwitch) {
       this.currentSearch = null;
       this.iiifContentSearchService.destroy();
+      this.rotation = 0;
     }
   }
 
@@ -414,6 +418,11 @@ export class ViewerService {
 
   zoomOut(zoomFactor?: number, position?: Point): void {
     this.zoomStrategy.zoomOut(zoomFactor, position);
+  }
+
+  rotate(): void {
+    this.rotation = (this.rotation + 90) % 360;
+    this.layoutPages();
   }
 
   /**
@@ -645,7 +654,8 @@ export class ViewerService {
           canvasSource: tile,
           previousCanvasGroupPosition: canvasRects[i - 1],
           viewingDirection: this.manifest.viewingDirection
-        }
+        },
+        this.rotation
       );
 
       canvasRects.push(position);
@@ -654,12 +664,34 @@ export class ViewerService {
       const tileSource = tileSourceStrategy.getTileSource(tile);
 
       this.zone.runOutsideAngular(() => {
+        const rotated = this.rotation === 90 || this.rotation === 270;
+
+        let bounds;
+
+        /* Because image scaling is performed before rotation,
+         * we must invert width & height and translate position so that tile rotation ends up correct
+         */
+        if (rotated) {
+          bounds = new OpenSeadragon.Rect(
+            position.x + (position.width - position.height) / 2,
+            position.y - (position.width - position.height) / 2,
+            position.height,
+            position.width
+          );
+        } else {
+          bounds = new OpenSeadragon.Rect(
+            position.x,
+            position.y,
+            position.width,
+            position.height
+          );
+        }
+
         this.viewer.addTiledImage({
           index: i,
           tileSource: tileSource,
-          height: position.height,
-          x: position.x,
-          y: position.y
+          fitBounds: bounds,
+          degrees: this.rotation
         });
       });
 

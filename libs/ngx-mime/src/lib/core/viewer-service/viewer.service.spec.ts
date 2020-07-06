@@ -61,4 +61,21 @@ describe('ViewerService', () => {
       expect(viewerService.currentSearch).toBeNull();
     }
   ));
+  it('should keep state of rotation on destroy when layoutSwitch = true', inject(
+    [ViewerService],
+    (viewerService: ViewerService) => {
+      viewerService.rotate();
+      viewerService.destroy(true);
+      expect(viewerService.rotation).toEqual(90);
+    }
+  ));
+
+  it('should set rotation to 0 on destroy', inject(
+    [ViewerService],
+    (viewerService: ViewerService) => {
+      viewerService.rotate();
+      viewerService.destroy();
+      expect(viewerService.rotation).toEqual(0);
+    }
+  ));
 });

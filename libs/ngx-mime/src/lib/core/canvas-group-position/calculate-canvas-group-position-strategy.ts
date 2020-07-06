@@ -10,5 +10,5 @@ export interface CanvasGroupPositionCriteria {
 }
 
 export interface CalculateCanvasGroupPositionStrategy {
-  calculateCanvasGroupPosition(criteria: CanvasGroupPositionCriteria): Rect;
+  calculateCanvasGroupPosition(criteria: CanvasGroupPositionCriteria, rotation: number): Rect;
 }
