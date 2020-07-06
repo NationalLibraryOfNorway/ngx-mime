@@ -52,13 +52,12 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
           display: 'block'
         })
       ),
-      transition(
-        'hide => show',
-        [group([
-          style({display: 'block'}),
+      transition('hide => show', [
+        group([
+          style({ display: 'block' }),
           animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
-        ])]
-      ),
+        ])
+      ]),
       transition(
         'show => hide',
         animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)

@@ -13,7 +13,6 @@ export class TwoPageCalculateCanvasGroupPositionStrategy
     criteria: CanvasGroupPositionCriteria,
     rotation: number = 0
   ): Rect {
-
     let x: number;
 
     if (!criteria.canvasGroupIndex) {

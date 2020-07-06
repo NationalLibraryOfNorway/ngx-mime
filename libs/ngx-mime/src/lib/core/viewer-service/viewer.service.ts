@@ -75,7 +75,7 @@ export class ViewerService {
   private zoomStrategy: ZoomStrategy;
   private goToCanvasGroupStrategy: GoToCanvasGroupStrategy;
 
-  public rotation: number = 0;
+  public rotation = 0;
 
   constructor(
     private zone: NgZone,
