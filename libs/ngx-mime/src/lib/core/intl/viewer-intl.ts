@@ -23,6 +23,7 @@ export class MimeViewerIntl {
   previousPageLabel = 'Previous Page';
   nextPageLabel = 'Next Page';
   homeLabel = 'Go Home';
+  rotateCwLabel = 'Rotate 90°';
   searchLabel = 'Search';
   clearSearchLabel = 'Clear';
   previousHitLabel = 'Previous Hit';

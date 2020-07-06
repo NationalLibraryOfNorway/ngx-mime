@@ -149,6 +149,10 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.viewerService.home();
   }
 
+  rotate(): void {
+    this.viewerService.rotate();
+  }
+
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
