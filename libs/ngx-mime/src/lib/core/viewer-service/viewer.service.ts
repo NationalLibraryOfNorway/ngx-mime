@@ -753,10 +753,6 @@ export class ViewerService {
     }
   }
 
-  private getViewportCenter(): Point {
-    return this.viewer.viewport.getCenter(true);
-  }
-
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
@@ -799,7 +795,6 @@ export class ViewerService {
       dragEndPosision,
       isCanvasGroupZoomed
     );
-    const viewportCenter: Point = this.getViewportCenter();
 
     const currentCanvasGroupIndex: number = this.canvasService
       .currentCanvasGroupIndex;
