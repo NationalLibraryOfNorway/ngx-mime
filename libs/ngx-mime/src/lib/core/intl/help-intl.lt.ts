@@ -16,4 +16,5 @@ export class HelpIntlLt extends HelpIntl {
   line8 = '<strong>P</strong>: Buvęs rezultatas';
   line9 =
     '<strong>F</strong>: Pilno ekrano režimas (Uždaroma paspaudus <strong>F</strong> arba <strong>ESC</strong>.)';
+  line10 = '<strong>R</strong>: Pasukti 90 laipsnių';
 }
