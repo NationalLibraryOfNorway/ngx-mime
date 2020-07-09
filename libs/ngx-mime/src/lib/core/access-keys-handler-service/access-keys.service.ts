@@ -123,6 +123,7 @@ export class AccessKeysService implements OnDestroy {
 
   private rotateClockWise() {
     this.viewerService.rotate();
+    this.mimeDomHelper.setFocusOnViewer();
   }
 
   private goToNextHit() {
