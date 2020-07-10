@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.1.0...v9.2.0) (2020-07-10)
+
+
+### Features
+
+* page rotation ([3d0cc82](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3d0cc823a97d1b551df0b28981d0393e92b76364)), closes [#290](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/290)
+
+
+### Bug Fixes
+
+* cannot read property 'focus' of null ([b268f43](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b268f435df31fe89c1361563d9562695f0d7cd81))
+* changed help label ([e480951](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e4809519afce8c79aba1859e231dc9b05f8ec2ac))
+
 ## [9.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.3...v9.1.0) (2020-06-04)
 
 
