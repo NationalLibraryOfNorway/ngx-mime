@@ -9,4 +9,5 @@ export class HelpIntl {
   line7 = '<strong>N</strong>: Next result';
   line8 = '<strong>P</strong>: Previous result';
   line9 = '<strong>F</strong>: Fullscreen on/off (Close with <strong>F</strong> or <strong>ESC</strong>.)';
+  line10 = '<strong>R</strong>: Rotate 90°';
 }

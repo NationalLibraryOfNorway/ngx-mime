@@ -21,6 +21,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   previousPageLabel = 'Buvęs puslapis';
   nextPageLabel = 'Kitas puslapis';
   homeLabel = 'Grįžti į pradžią';
+  rotateCwLabel = 'Pasukti 90°';
   searchLabel = 'Paieška';
   clearSearchLabel = 'Išvalyti';
   previousHitLabel = 'Buvęs rezultatas';

@@ -96,6 +96,8 @@ export class AccessKeysService implements OnDestroy {
         this.zoomOut();
       } else if (accessKeys.isZoomHomeKeys()) {
         this.zoomHome();
+      } else if (accessKeys.isRotateKeys()) {
+        this.rotateClockWise();
       }
     }
   }
@@ -117,6 +119,11 @@ export class AccessKeysService implements OnDestroy {
       this.canvasService.numberOfCanvasGroups - 1,
       false
     );
+  }
+
+  private rotateClockWise() {
+    this.viewerService.rotate();
+    this.mimeDomHelper.setFocusOnViewer();
   }
 
   private goToNextHit() {

@@ -5,17 +5,7 @@
       fxLayout="column"
       fxLayoutAlign="center center"
     >
-      <div class="osd-toolbar-row">
-        <button
-          (click)="zoomIn()"
-          id="zoomInButton"
-          mat-icon-button
-          [attr.aria-label]="intl.zoomInLabel"
-          [matTooltip]="intl.zoomInLabel"
-        >
-          <mat-icon>zoom_in</mat-icon>
-        </button>
-      </div>
+      <div class="osd-toolbar-row"> </div>
       <div class="osd-toolbar-row">
         <ng-container *ngIf="invert">
           <button
@@ -75,7 +65,27 @@
           </button>
         </ng-container>
       </div>
+
       <div class="osd-toolbar-row">
+        <button
+          (click)="zoomIn()"
+          id="zoomInButton"
+          mat-icon-button
+          [attr.aria-label]="intl.zoomInLabel"
+          [matTooltip]="intl.zoomInLabel"
+        >
+          <mat-icon>zoom_in</mat-icon>
+        </button>
+
+        <button
+          (click)="rotate()"
+          id="rotateButton"
+          mat-icon-button
+          [attr.aria-label]="intl.rotateCwLabel"
+          [matTooltip]="intl.rotateCwLabel"
+        >
+          <mat-icon>rotate_right</mat-icon>
+        </button>
         <button
           (click)="zoomOut()"
           id="zoomOutButton"

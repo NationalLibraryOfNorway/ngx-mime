@@ -5,10 +5,14 @@ import {
   CalculateCanvasGroupPositionStrategy,
   CanvasGroupPositionCriteria
 } from './calculate-canvas-group-position-strategy';
+import { canvasRectFromCriteria } from './calculate-canvas-group-position-utils';
 
 export class TwoPageCalculateCanvasGroupPositionStrategy
   implements CalculateCanvasGroupPositionStrategy {
-  calculateCanvasGroupPosition(criteria: CanvasGroupPositionCriteria): Rect {
+  calculateCanvasGroupPosition(
+    criteria: CanvasGroupPositionCriteria,
+    rotation: number = 0
+  ): Rect {
     let x: number;
 
     if (!criteria.canvasGroupIndex) {
@@ -28,12 +32,7 @@ export class TwoPageCalculateCanvasGroupPositionStrategy
           : this.calculateOddRtlX(criteria);
     }
 
-    return new Rect({
-      height: criteria.canvasSource.height,
-      width: criteria.canvasSource.width,
-      x: x,
-      y: (criteria.canvasSource.height / 2) * -1
-    });
+    return canvasRectFromCriteria(rotation, criteria, x);
   }
 
   private calculateEvenLtrX(criteria: CanvasGroupPositionCriteria) {
