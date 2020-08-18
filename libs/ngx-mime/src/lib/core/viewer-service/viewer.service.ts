@@ -75,7 +75,7 @@ export class ViewerService {
   private zoomStrategy: ZoomStrategy;
   private goToCanvasGroupStrategy: GoToCanvasGroupStrategy;
 
-  public rotation = 0;
+  private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor(
     private zone: NgZone,
@@ -86,6 +86,10 @@ export class ViewerService {
     private iiifContentSearchService: IiifContentSearchService,
     private styleService: StyleService
   ) {}
+
+  get onRotationChange(): Observable<number> {
+    return this.rotation.asObservable().pipe(distinctUntilChanged());
+  }
 
   get onCenterChange(): Observable<Point> {
     return this.currentCenter.asObservable();
@@ -313,6 +317,12 @@ export class ViewerService {
           this.goToCanvas(hit.index, false);
         }
       });
+
+    this.onRotationChange
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((rotation: number) => {
+        this.layoutPages();
+      });
   }
 
   private layoutPages() {
@@ -375,7 +385,7 @@ export class ViewerService {
     if (!layoutSwitch) {
       this.currentSearch = null;
       this.iiifContentSearchService.destroy();
-      this.rotation = 0;
+      this.rotation.next(0);
     }
   }
 
@@ -421,8 +431,9 @@ export class ViewerService {
   }
 
   rotate(): void {
-    this.rotation = (this.rotation + 90) % 360;
-    this.layoutPages();
+    if (this.osdIsReady.getValue()) {
+      this.rotation.next((this.rotation.getValue() + 90) % 360);
+    }
   }
 
   /**
@@ -645,6 +656,7 @@ export class ViewerService {
 
     const isTwoPageView: boolean =
       this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE;
+    const rotation = this.rotation.getValue();
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
@@ -655,7 +667,7 @@ export class ViewerService {
           previousCanvasGroupPosition: canvasRects[i - 1],
           viewingDirection: this.manifest.viewingDirection
         },
-        this.rotation
+        rotation
       );
 
       canvasRects.push(position);
@@ -664,7 +676,7 @@ export class ViewerService {
       const tileSource = tileSourceStrategy.getTileSource(tile);
 
       this.zone.runOutsideAngular(() => {
-        const rotated = this.rotation === 90 || this.rotation === 270;
+        const rotated = rotation === 90 || rotation === 270;
 
         let bounds;
 
@@ -691,7 +703,7 @@ export class ViewerService {
           index: i,
           tileSource: tileSource,
           fitBounds: bounds,
-          degrees: this.rotation
+          degrees: rotation
         });
       });
 
