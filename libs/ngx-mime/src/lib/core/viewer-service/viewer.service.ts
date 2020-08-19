@@ -4,8 +4,7 @@ import {
   BehaviorSubject,
   interval,
   Observable,
-  Subject,
-  Subscription
+  Subject
 } from 'rxjs';
 import { distinctUntilChanged, sample, takeUntil } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
@@ -52,7 +51,6 @@ export class ViewerService {
 
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
-  private subscriptions: Array<Subscription> = [];
   private destroyed: Subject<void> = new Subject();
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(
@@ -177,14 +175,47 @@ export class ViewerService {
       if (searchResult.q) {
         this.currentSearch = searchResult;
       }
+
+      const rotation = this.rotation.getValue();
+
       for (const hit of searchResult.hits) {
         for (const rect of hit.rects) {
           const canvasRect = this.canvasService.getCanvasRect(hit.index);
           if (canvasRect) {
-            const x = canvasRect.x + rect.x;
-            const y = canvasRect.y + rect.y;
-            const width = rect.width;
-            const height = rect.height;
+            let width = rect.width;
+            let height = rect.height;
+            let x = canvasRect.x;
+            let y = canvasRect.y;
+
+            /* hit rect are relative to each unrotated page canvasRect so x,y must be adjusted by the remaining space */
+            switch (rotation) {
+              case 0:
+                x += rect.x;
+                y += rect.y;
+                break;
+
+              case 90:
+                x += canvasRect.width - rect.y - rect.height;
+                y += rect.x;
+                /* Flip height & width */
+                width = rect.height;
+                height = rect.width;
+                break;
+
+              case 180:
+                x += canvasRect.width - (rect.x + rect.width);
+                y += canvasRect.height - (rect.y + rect.height);
+                break;
+
+              case 270:
+                x += rect.y;
+                y += canvasRect.height - rect.x - rect.width;
+                /* Flip height & width */
+                width = rect.height;
+                height = rect.width;
+                break;
+            }
+
             const currentOverlay: SVGRectElement = this.svgNode
               .append('rect')
               .attr('mimeHitIndex', hit.id)

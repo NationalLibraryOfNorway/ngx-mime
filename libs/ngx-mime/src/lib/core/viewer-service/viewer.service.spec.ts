@@ -1,9 +1,12 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
+import { testManifest } from '../../test/testManifest';
+import { ManifestBuilder } from '../builders/manifest.builder';
 import { ClickService } from '../click-service/click.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { Hit } from '../models/hit';
 import { SearchResult } from '../models/search-result';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
@@ -64,18 +67,24 @@ describe('ViewerService', () => {
   it('should keep state of rotation on destroy when layoutSwitch = true', inject(
     [ViewerService],
     (viewerService: ViewerService) => {
+      let rotation: number;
+      viewerService.onRotationChange.subscribe((serviceRotation: number) => (rotation = serviceRotation));
+      viewerService.setUpViewer(new ManifestBuilder(testManifest).build(), new MimeViewerConfig());
       viewerService.rotate();
       viewerService.destroy(true);
-      expect(viewerService.rotation).toEqual(90);
+      expect(rotation).toEqual(90);
     }
   ));
 
   it('should set rotation to 0 on destroy', inject(
     [ViewerService],
     (viewerService: ViewerService) => {
+      let rotation: number;
+      viewerService.onRotationChange.subscribe((serviceRotation: number) => (rotation = serviceRotation));
+      viewerService.setUpViewer(new ManifestBuilder(testManifest).build(), new MimeViewerConfig());
       viewerService.rotate();
       viewerService.destroy();
-      expect(viewerService.rotation).toEqual(0);
+      expect(rotation).toEqual(0);
     }
   ));
 });
