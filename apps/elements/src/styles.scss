@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 html,
 body {
   box-sizing: border-box;
@@ -7,8 +6,7 @@ body {
   margin: 0;
 }
 
-mime-viewer,
-app-root {
+mime-viewer {
   height: 100%;
   width: 100%;
   display: flex;

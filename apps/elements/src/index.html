@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Integration</title>
+    <title>Elements</title>
     <base href="/" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,8 +11,9 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/openseadragon.min.js" ></script>
   </head>
   <body class="mat-app-background">
-    <app-root></app-root>
+    <app-mime-viewer manifest-uri="https://api.nb.no/catalog/v1/iiif/42d565dec2ab22274992c1d0ad94560c/manifest?profile=wwwnbno" config='{"initViewerMode": 0}'></app-mime-viewer>
   </body>
 </html>
