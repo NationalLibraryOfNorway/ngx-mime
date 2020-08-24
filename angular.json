@@ -377,12 +377,20 @@
           }
         },
         "test": {
-          "builder": "@nrwl/jest:jest",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "jestConfig": "apps/elements/jest.config.js",
+            "main": "apps/elements/src/test.ts",
+            "polyfills": "apps/elements/src/polyfills.ts",
             "tsConfig": "apps/elements/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/elements/src/test-setup.ts"
+            "karmaConfig": "apps/elements/karma.conf.js",
+            "styles": ["apps/elements/src/styles.scss"],
+            "scripts": [
+              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+            ],
+            "assets": [
+              "apps/elements/src/favicon.ico",
+              "apps/elements/src/assets"
+            ]
           }
         }
       }
