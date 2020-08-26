@@ -182,16 +182,25 @@
             "tsConfig": "apps/integration/tsconfig.app.json",
             "assets": [
               "apps/integration/src/favicon.ico",
-              "apps/integration/src/assets"
+              "apps/integration/src/assets",
+              "apps/integration/src/index-elements.html",
+              {
+                "glob": "**/*",
+                "input": "dist/apps/elements/",
+                "output": "elements/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/openseadragon/build/openseadragon/",
+                "output": "openseadragon/"
+              }
             ],
             "styles": [
               "apps/integration/src/styles.scss",
-              "apps/integration/src/theme.scss",
-              "./dist/apps/elements/styles.css"
+              "apps/integration/src/theme.scss"
             ],
             "scripts": [
-              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
-              "./dist/apps/elements/elements.js"
+              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ]
           },
           "configurations": {
