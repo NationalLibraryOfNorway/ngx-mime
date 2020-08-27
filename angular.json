@@ -212,10 +212,11 @@
             ],
             "styles": [
               "apps/integration/src/styles.scss",
-              "apps/integration/src/theme.scss"
+              "apps/integration/src/theme.scss",
+              "dist/apps/elements/styles.css"
             ],
             "scripts": [
-              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
+              "dist/apps/elements/scripts.js",
               "dist/apps/elements/main-es5.js"
             ]
           },
