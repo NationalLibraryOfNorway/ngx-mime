@@ -1,5 +1,0 @@
-{
-  "name": "@nationallibraryofnorway/ngx-mime-elements",
-  "version": "0.0.1",
-  "files": ["elements.js", "styles.css"]
-}
