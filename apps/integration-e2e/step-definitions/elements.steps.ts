@@ -1,18 +1,10 @@
 import { expect } from 'chai';
-import { Then, When } from 'cucumber';
+import { Given, Then, When } from 'cucumber';
+import { ElementsPage } from '../pages/elements.po';
 import { ViewerPage } from '../pages/viewer.po';
+import { browser } from 'protractor';
 
-const page = new ViewerPage();
+const elementsPage = new ElementsPage();
+const viewerPage = new ViewerPage();
 
-When(
-  'the viewer packed as custom elements is opened with a publication',
-  async () => {
-    page.setTestCustomElements(true);
-    await page.open();
-  }
-);
 
-Then('it should be displayed', async state => {
-  expect(await (await page.openSeadragonElement()).isPresent()).to.equal(true);
-  expect(await (await page.customElements()).isPresent()).to.equal(true);
-});

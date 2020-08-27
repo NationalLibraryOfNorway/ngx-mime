@@ -72,7 +72,7 @@ export class ViewerPage {
   }
 
   async open(manifestName?: string) {
-    let uri = this.isElements ? '/elements' : 'components';
+    let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     if (manifestName) {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
