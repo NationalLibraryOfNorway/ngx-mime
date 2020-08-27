@@ -21,12 +21,11 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   });
 
-
   it('should create the app', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as ngx-mime viewer`, () => {
+  it(`should have a ngx-mime viewer`, () => {
     const appDe: DebugElement = fixture.debugElement;
     const ngxMime = appDe.query(By.css('mime-viewer'));
     expect(ngxMime).toBeTruthy();

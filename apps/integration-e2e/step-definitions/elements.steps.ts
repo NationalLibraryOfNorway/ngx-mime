@@ -6,5 +6,3 @@ import { browser } from 'protractor';
 
 const elementsPage = new ElementsPage();
 const viewerPage = new ViewerPage();
-
-

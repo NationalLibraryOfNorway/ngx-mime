@@ -13,7 +13,9 @@ Given('the viewer is packed as custom elements', async () => {
 
 Given('the viewer is opened with a publication', async () => {
   await viewerPage.open();
-  expect(await (await viewerPage.openSeadragonElement()).isPresent()).to.equal(true);
+  expect(await (await viewerPage.openSeadragonElement()).isPresent()).to.equal(
+    true
+  );
 });
 
 Given(
@@ -97,4 +99,3 @@ Then('it should be displayed', async () => {
     true
   );
 });
-

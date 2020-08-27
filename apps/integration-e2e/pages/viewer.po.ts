@@ -72,7 +72,7 @@ export class ViewerPage {
   }
 
   async open(manifestName?: string) {
-    let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
+    let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     if (manifestName) {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }
@@ -83,9 +83,7 @@ export class ViewerPage {
   }
 
   async customElements(): Promise<ElementFinder> {
-    return await utils.waitForElement(
-      element(by.css('app-elements-viewer'))
-    );
+    return await utils.waitForElement(element(by.css('app-elements-viewer')));
   }
 
   async goToCanvasGroup(canvasGroupIndex: number) {

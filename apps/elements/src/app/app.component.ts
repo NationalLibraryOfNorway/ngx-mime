@@ -11,8 +11,6 @@ export class AppComponent implements OnInit {
   @Input() config: string;
   mimeConfig = new MimeViewerConfig();
 
-  constructor() {}
-
   ngOnInit() {
     if (this.config) {
       this.mimeConfig = Object.assign(this.mimeConfig, JSON.parse(this.config));

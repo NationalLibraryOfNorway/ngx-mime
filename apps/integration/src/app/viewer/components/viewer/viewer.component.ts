@@ -9,9 +9,7 @@ export class ViewerComponent implements OnInit {
   @Input()
   manifestUri: string;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
