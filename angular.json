@@ -208,11 +208,6 @@
                 "glob": "**/*",
                 "input": "dist/apps/elements/",
                 "output": "elements/"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/openseadragon/build/openseadragon/",
-                "output": "openseadragon/"
               }
             ],
             "styles": [
@@ -220,7 +215,8 @@
               "apps/integration/src/theme.scss"
             ],
             "scripts": [
-              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
+              "dist/apps/elements/main-es5.js"
             ]
           },
           "configurations": {
