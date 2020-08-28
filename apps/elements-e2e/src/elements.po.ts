@@ -1,11 +1,12 @@
 import { browser, by, element } from 'protractor';
 
 export class ElementsPage {
-  navigateTo() {
-    return browser.get('/');
+  async navigateTo() {
+    browser.waitForAngularEnabled(false);
+    await browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('demo-sidenav h3')).getText();
+  getViewer() {
+    return element(by.css('app-mime-viewer'));
   }
 }
