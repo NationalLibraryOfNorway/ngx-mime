@@ -5,7 +5,7 @@ export class AppPage {
     return browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('demo-sidenav h3')).getText();
+  async getHeadingText() {
+    return element(by.css('h1.cdk-visually-hidden')).getAttribute('textContent');
   }
 }
