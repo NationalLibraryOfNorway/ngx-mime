@@ -2,7 +2,6 @@ import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { MimeModule } from '../../../../libs/ngx-mime/src';
 
 describe('AppComponent', () => {
   let component: AppComponent;
