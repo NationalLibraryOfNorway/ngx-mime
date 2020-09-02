@@ -39,7 +39,7 @@
     "preprotractor:firefox:headless": "yarn preprotractor",
     "protractor:firefox:headless": "yarn protractor:desktop --browser firefox --headless && yarn protractor:elements --browser firefox --headless",
     "protractor:desktop": "yarn protractor --device=desktop --tags @desktop,~@elements",
-    "protractor:elements": "yarn protractor --tags @elements",
+    "protractor:elements": "yarn protractor --feature elements --tags @elements",
     "protractor:mobile": "yarn protractor:android",
     "protractor:android": "yarn protractor --device=android --tags @android && yarn protractor:elements --device=android",
     "protractor:iphone": "yarn protractor --device=iphone --tags @iphone && yarn protractor:elements --device=iphone",
