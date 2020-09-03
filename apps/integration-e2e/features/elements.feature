@@ -1,4 +1,4 @@
-@elements @desktop
+@elements
 Feature: Angular elements
   In order to use the viewer in a framework-agnostic way
   As a developer
