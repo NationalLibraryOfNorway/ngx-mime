@@ -21,8 +21,8 @@ source ./scripts/ci/sources/tunnel.sh
 yarn build:libs
 yarn build:elements
 
-# yarn affected:lint --all
-# yarn affected:test --all
+yarn affected:lint --all
+yarn affected:test --all
 
 start_tunnel &
 wait_for_tunnel
