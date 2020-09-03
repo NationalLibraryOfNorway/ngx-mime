@@ -17,7 +17,7 @@ const config = {
   specs: getFeatureFiles(),
   unknownFlags: ['cucumberOpts', 'device'],
   multiCapabilities: getMultiCapabilities(),
-  baseUrl: 'http://localhost:8080/',
+  baseUrl: 'http://lh:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {

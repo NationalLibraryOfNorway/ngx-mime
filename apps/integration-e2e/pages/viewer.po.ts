@@ -10,16 +10,16 @@ import { Key, promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
 
 const bookShelf = {
-  'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
-  'a-rtl-book': 'http://localhost:4040/catalog/v1/iiif/a-rtl-book/manifest',
+  'a-ltr-book': 'http://lh:4040/catalog/v1/iiif/a-ltr-book/manifest',
+  'a-rtl-book': 'http://lh:4040/catalog/v1/iiif/a-rtl-book/manifest',
   'a-ltr-10-pages-book':
-    'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
+    'http://lh:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
   'a-rtl-10-pages-book':
-    'http://localhost:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
+    'http://lh:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
   'a-individuals-manifest':
-    'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
+    'http://lh:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
   'a-non-attribution-manifest':
-    'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest'
+    'http://lh:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest'
 };
 
 const utils = new Utils();

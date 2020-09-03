@@ -22,7 +22,7 @@ export class ViewerComponent implements OnInit {
         this.manifestUri = params.get('manifestUri');
       } else {
         this.manifestUri =
-          'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest';
+          'http://lh:4040/catalog/v1/iiif/a-ltr-book/manifest';
       }
     });
   }
