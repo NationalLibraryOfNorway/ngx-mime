@@ -4,8 +4,7 @@ import {
   BehaviorSubject,
   interval,
   Observable,
-  Subject,
-  Subscription
+  Subject
 } from 'rxjs';
 import { distinctUntilChanged, sample, takeUntil } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
@@ -52,7 +51,6 @@ export class ViewerService {
 
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
-  private subscriptions: Array<Subscription> = [];
   private destroyed: Subject<void> = new Subject();
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(
@@ -75,7 +73,7 @@ export class ViewerService {
   private zoomStrategy: ZoomStrategy;
   private goToCanvasGroupStrategy: GoToCanvasGroupStrategy;
 
-  public rotation = 0;
+  private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor(
     private zone: NgZone,
@@ -86,6 +84,10 @@ export class ViewerService {
     private iiifContentSearchService: IiifContentSearchService,
     private styleService: StyleService
   ) {}
+
+  get onRotationChange(): Observable<number> {
+    return this.rotation.asObservable().pipe(distinctUntilChanged());
+  }
 
   get onCenterChange(): Observable<Point> {
     return this.currentCenter.asObservable();
@@ -173,14 +175,47 @@ export class ViewerService {
       if (searchResult.q) {
         this.currentSearch = searchResult;
       }
+
+      const rotation = this.rotation.getValue();
+
       for (const hit of searchResult.hits) {
         for (const rect of hit.rects) {
           const canvasRect = this.canvasService.getCanvasRect(hit.index);
           if (canvasRect) {
-            const x = canvasRect.x + rect.x;
-            const y = canvasRect.y + rect.y;
-            const width = rect.width;
-            const height = rect.height;
+            let width = rect.width;
+            let height = rect.height;
+            let x = canvasRect.x;
+            let y = canvasRect.y;
+
+            /* hit rect are relative to each unrotated page canvasRect so x,y must be adjusted by the remaining space */
+            switch (rotation) {
+              case 0:
+                x += rect.x;
+                y += rect.y;
+                break;
+
+              case 90:
+                x += canvasRect.width - rect.y - rect.height;
+                y += rect.x;
+                /* Flip height & width */
+                width = rect.height;
+                height = rect.width;
+                break;
+
+              case 180:
+                x += canvasRect.width - (rect.x + rect.width);
+                y += canvasRect.height - (rect.y + rect.height);
+                break;
+
+              case 270:
+                x += rect.y;
+                y += canvasRect.height - rect.x - rect.width;
+                /* Flip height & width */
+                width = rect.height;
+                height = rect.width;
+                break;
+            }
+
             const currentOverlay: SVGRectElement = this.svgNode
               .append('rect')
               .attr('mimeHitIndex', hit.id)
@@ -313,6 +348,12 @@ export class ViewerService {
           this.goToCanvas(hit.index, false);
         }
       });
+
+    this.onRotationChange
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((rotation: number) => {
+        this.layoutPages();
+      });
   }
 
   private layoutPages() {
@@ -375,7 +416,7 @@ export class ViewerService {
     if (!layoutSwitch) {
       this.currentSearch = null;
       this.iiifContentSearchService.destroy();
-      this.rotation = 0;
+      this.rotation.next(0);
     }
   }
 
@@ -421,8 +462,9 @@ export class ViewerService {
   }
 
   rotate(): void {
-    this.rotation = (this.rotation + 90) % 360;
-    this.layoutPages();
+    if (this.osdIsReady.getValue()) {
+      this.rotation.next((this.rotation.getValue() + 90) % 360);
+    }
   }
 
   /**
@@ -645,6 +687,7 @@ export class ViewerService {
 
     const isTwoPageView: boolean =
       this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE;
+    const rotation = this.rotation.getValue();
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
@@ -655,7 +698,7 @@ export class ViewerService {
           previousCanvasGroupPosition: canvasRects[i - 1],
           viewingDirection: this.manifest.viewingDirection
         },
-        this.rotation
+        rotation
       );
 
       canvasRects.push(position);
@@ -664,7 +707,7 @@ export class ViewerService {
       const tileSource = tileSourceStrategy.getTileSource(tile);
 
       this.zone.runOutsideAngular(() => {
-        const rotated = this.rotation === 90 || this.rotation === 270;
+        const rotated = rotation === 90 || rotation === 270;
 
         let bounds;
 
@@ -691,7 +734,7 @@ export class ViewerService {
           index: i,
           tileSource: tileSource,
           fitBounds: bounds,
-          degrees: this.rotation
+          degrees: rotation
         });
       });
 
