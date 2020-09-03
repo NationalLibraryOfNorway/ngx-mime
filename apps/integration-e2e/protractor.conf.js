@@ -17,7 +17,7 @@ const config = {
   specs: getFeatureFiles(),
   unknownFlags: ['cucumberOpts', 'device'],
   multiCapabilities: getMultiCapabilities(),
-  baseUrl: 'http://127.0.0.1:8080/',
+  baseUrl: 'http://localhost:8080/',
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
@@ -65,6 +65,7 @@ const config = {
 if (process.env.CI) {
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+  config.baseUrl = 'http://cihost:8080/';
 }
 
 config.maxSessions = process.env.CI ? 5 : 10;
