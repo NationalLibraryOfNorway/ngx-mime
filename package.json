@@ -25,7 +25,7 @@
     "lint": "./node_modules/.bin/nx workspace-lint && ng lint",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "pree2e:chrome": "yarn build:libs && yarn build:elements",
-    "pree2e:firefox": "yarn build:libs &6 yarn build:elements",
+    "pree2e:firefox": "yarn build:libs && yarn build:elements",
     "mountebank": "mb --port 2020 --configfile ./apps/integration-e2e/templates/imposters.ejs --allowInjection --nologfile",
     "e2e": "yarn e2e:chrome",
     "e2e:ci": "concurrently \"yarn mountebank\" \"yarn start:integration\" \"yarn protractor:desktop && yarn protractor:mobile\" --kill-others --success first",
