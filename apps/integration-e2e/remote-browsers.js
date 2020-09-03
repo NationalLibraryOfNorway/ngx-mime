@@ -25,8 +25,8 @@ exports.customDesktopLaunchers = [
 exports.androidLaunchers = [
   {
     browserName: 'Chrome',
-    deviceName: 'Android Emulator',
-    platformVersion: '10',
+    deviceName: 'Android GoogleAPI Emulator',
+    platformVersion: '10.0',
     platformName: 'Android'
   }
 ];
