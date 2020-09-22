@@ -9,8 +9,8 @@ describe('workspace-project Elements', () => {
 
   it('should ha a app-mime-viewer', async () => {
     await page.navigateTo();
+
     const isPresent = await page.getViewer().isPresent();
-    console.log(isPresent);
 
     expect(isPresent).toBe(true);
   });
