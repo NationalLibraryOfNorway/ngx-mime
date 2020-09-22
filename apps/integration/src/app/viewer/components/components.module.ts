@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 import { ViewerComponent } from './viewer/viewer.component';
