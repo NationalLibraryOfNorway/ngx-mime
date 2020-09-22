@@ -82,10 +82,6 @@ export class ViewerPage {
     await this.waitForAnimation();
   }
 
-  async customElements(): Promise<ElementFinder> {
-    return await utils.waitForElement(element(by.css('app-elements-viewer')));
-  }
-
   async goToCanvasGroup(canvasGroupIndex: number) {
     const isPageMode = await this.isPageMode();
     const isDashboardMode = this.isDashboardMode();
