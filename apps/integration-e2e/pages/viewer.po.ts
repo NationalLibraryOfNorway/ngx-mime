@@ -27,6 +27,8 @@ const thumbStartPosition = <any>{ x: 600, y: 300 };
 const pointerPosition1 = <any>{ x: 650, y: 275 };
 const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
+  private isElements = false;
+
   async setDashboardMode(): Promise<void> {
     const isDashboardMode = await this.isDashboardMode();
 
@@ -65,8 +67,12 @@ export class ViewerPage {
     }
   }
 
+  setTestCustomElements(isElements: boolean) {
+    this.isElements = isElements;
+  }
+
   async open(manifestName?: string) {
-    let uri = '/';
+    let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     if (manifestName) {
       uri += '?manifestUri=' + bookShelf[manifestName];
     }

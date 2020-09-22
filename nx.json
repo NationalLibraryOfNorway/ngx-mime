@@ -24,6 +24,13 @@
     "integration-e2e": {
       "tags": [],
       "implicitDependencies": ["integration"]
+    },
+    "elements": {
+      "tags": []
+    },
+    "elements-e2e": {
+      "tags": [],
+      "implicitDependencies": ["elements"]
     }
   },
   "tasksRunnerOptions": {

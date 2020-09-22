@@ -8,6 +8,8 @@ jobs:
       BROWSER_PROVIDER_READY_FILE: /tmp/ngx-mime-build/readyfile
     steps:
       - checkout
+      - run: echo 127.0.0.1 lh | sudo tee -a /etc/hosts
+      - run: find ./apps/integration* -type f -exec sed -i 's/localhost/lh/' {} \;
       - run: 'mkdir -p $LOGS_DIR'
       - run: 'chmod +x ./scripts/ci/build-and-test.sh'
       - run: 'chmod +x ./scripts/saucelabs/start-tunnel.sh'

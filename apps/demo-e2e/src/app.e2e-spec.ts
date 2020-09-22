@@ -7,8 +7,8 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should hava a h1', async () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('MANIFEST');
+    expect(await page.getHeadingText()).toEqual('DemoWeb');
   });
 });

@@ -103,12 +103,12 @@ function getMultiCapabilities() {
     }
     multiCapabilities.push(capabilities);
   } else {
-    if (argv.device === 'desktop') {
-      browsers = remoteBrowsers.customDesktopLaunchers;
-    } else if (argv.device === 'android') {
+    if (argv.device === 'android') {
       browsers = remoteBrowsers.androidLaunchers;
     } else if (argv.device === 'iphone') {
       browsers = remoteBrowsers.iphoneLaunchers;
+    } else {
+      browsers = remoteBrowsers.customDesktopLaunchers;
     }
     for (const cap of browsers) {
       const capability = {

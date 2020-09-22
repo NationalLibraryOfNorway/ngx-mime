@@ -1,5 +1,8 @@
-<mime-viewer
-  id="mime-viewer"
+<app-components-viewer
+  *ngIf="isComponent"
   [manifestUri]="manifestUri"
-  tabindex="0"
-></mime-viewer>
+></app-components-viewer>
+<app-elements-viewer
+  *ngIf="!isComponent"
+  [manifestUri]="manifestUri"
+></app-elements-viewer>

@@ -7,11 +7,16 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent implements OnInit {
+  isComponent: boolean;
   manifestUri: string;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.isComponent = params['id'] === 'components';
+    });
+
     this.route.queryParamMap.subscribe(params => {
       if (params.has('manifestUri')) {
         this.manifestUri = params.get('manifestUri');

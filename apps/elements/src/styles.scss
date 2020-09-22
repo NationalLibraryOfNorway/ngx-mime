@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+}
+
+mime-viewer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
