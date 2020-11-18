@@ -13,7 +13,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
-            "project": "libs/ngx-mime/ng-package.json"
+            "project": "libs/ngx-mime/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {
@@ -40,7 +41,7 @@
               "libs/ngx-mime/tsconfig.lib.json",
               "libs/ngx-mime/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ngx-mime/**"]
+            "exclude": ["**/node_modules/**", "!libs/ngx-mime/**/*"]
           }
         }
       }
@@ -379,7 +380,7 @@
               "apps/elements/tsconfig.app.json",
               "apps/elements/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/elements/**"]
+            "exclude": ["**/node_modules/**", "!apps/elements/**/*"]
           }
         },
         "test": {
@@ -406,7 +407,6 @@
       "sourceRoot": "apps/elements-e2e/src",
       "projectType": "application",
       "architect": {
-
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -418,7 +418,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/elements-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/elements-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/elements-e2e/**/*"]
           }
         }
       }
