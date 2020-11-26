@@ -1,0 +1,4636 @@
+{
+  "projectGraph": {
+    "nodes": {
+      "integration-e2e": {
+        "name": "integration-e2e",
+        "type": "e2e",
+        "data": {
+          "root": "apps/integration-e2e/",
+          "projectType": "application",
+          "architect": {
+            "e2e": {
+              "builder": "@angular-devkit/build-angular:protractor",
+              "options": {
+                "protractorConfig": "apps/integration-e2e/protractor.conf.js",
+                "devServerTarget": "integration:serve"
+              }
+            },
+            "lint": {
+              "builder": "@angular-devkit/build-angular:tslint",
+              "options": {
+                "tsConfig": "apps/integration-e2e/tsconfig.e2e.json",
+                "exclude": [
+                  "**/node_modules/**",
+                  "!apps/integration-e2e/**"
+                ]
+              }
+            }
+          },
+          "tags": [],
+          "files": [
+            {
+              "file": "apps/integration-e2e/features/access-keys.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/accessibility.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/browse-publication-in-page.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/browse-through-a-publication-in-dashboard-view.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/clear-content-search.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/content-search.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/display_metadata.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/fullscreen.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/logo.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/pan-on-image.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/rights-notices.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/slider-navigation-in-dashboard-view.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/table-of-contents.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/two-up-view.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/view-switch.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/features/zoom.feature",
+              "ext": ".feature",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/helpers/cucumber.config.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/helpers/hooks.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/helpers/utils.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/pages/content-search.po.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/pages/contents-dialog.po.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/pages/contents.po.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/pages/metadata.po.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/pages/table-of-contents.po.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/pages/viewer.po.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/protractor.conf.js",
+              "ext": ".js",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/remote-browsers.js",
+              "ext": ".js",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/scripts/wait-on.sh",
+              "ext": ".sh",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/access-keys.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/accessibility.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/browse.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/content-dialog.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/content-search.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/fullscreen.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/layout.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/logo.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/pan.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/rights-notices.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/view-switch.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/viewer-page.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/step-definitions/zoom.steps.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/a-individuals-book.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/a-ltr-10-pages-book.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/a-ltr-book.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/a-non-attribution-book.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/a-rtl-10-pages-book.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/a-rtl-book.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/gjallarhorn.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/imposters.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration-e2e/templates/no_hits.ejs",
+              "ext": ".ejs",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration-e2e/tsconfig.e2e.json",
+              "ext": ".json",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration-e2e/tsconfig.json",
+              "ext": ".json",
+              "mtime": 1587470797127.877
+            }
+          ]
+        }
+      },
+      "integration": {
+        "name": "integration",
+        "type": "app",
+        "data": {
+          "root": "apps/integration/",
+          "sourceRoot": "apps/integration/src",
+          "projectType": "application",
+          "prefix": "nationallibraryofnorway",
+          "schematics": {
+            "@schematics/angular:component": {
+              "styleext": "scss"
+            }
+          },
+          "architect": {
+            "build": {
+              "builder": "@angular-devkit/build-angular:browser",
+              "options": {
+                "aot": true,
+                "outputPath": "dist/apps/integration",
+                "index": "apps/integration/src/index.html",
+                "main": "apps/integration/src/main.ts",
+                "polyfills": "apps/integration/src/polyfills.ts",
+                "tsConfig": "apps/integration/tsconfig.app.json",
+                "assets": [
+                  "apps/integration/src/favicon.ico",
+                  "apps/integration/src/assets"
+                ],
+                "styles": [
+                  "apps/integration/src/styles.scss"
+                ],
+                "scripts": [
+                  "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+                ]
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "6kb"
+                    }
+                  ],
+                  "fileReplacements": [
+                    {
+                      "replace": "apps/integration/src/environments/environment.ts",
+                      "with": "apps/integration/src/environments/environment.prod.ts"
+                    }
+                  ],
+                  "optimization": true,
+                  "outputHashing": "all",
+                  "sourceMap": false,
+                  "extractCss": true,
+                  "namedChunks": false,
+                  "aot": true,
+                  "extractLicenses": true,
+                  "vendorChunk": false,
+                  "buildOptimizer": true
+                }
+              }
+            },
+            "serve": {
+              "builder": "@angular-devkit/build-angular:dev-server",
+              "options": {
+                "browserTarget": "integration:build"
+              },
+              "configurations": {
+                "production": {
+                  "browserTarget": "integration:build:production"
+                }
+              }
+            },
+            "extract-i18n": {
+              "builder": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "browserTarget": "integration:build"
+              }
+            },
+            "test": {
+              "builder": "@angular-devkit/build-angular:karma",
+              "options": {
+                "main": "apps/integration/src/test.ts",
+                "polyfills": "apps/integration/src/polyfills.ts",
+                "tsConfig": "apps/integration/tsconfig.spec.json",
+                "karmaConfig": "apps/integration/karma.conf.js",
+                "styles": [
+                  "apps/integration/src/styles.scss"
+                ],
+                "scripts": [
+                  "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+                ],
+                "assets": [
+                  "apps/integration/src/favicon.ico",
+                  "apps/integration/src/assets"
+                ]
+              }
+            },
+            "lint": {
+              "builder": "@angular-devkit/build-angular:tslint",
+              "options": {
+                "tsConfig": [
+                  "apps/integration/tsconfig.app.json",
+                  "apps/integration/tsconfig.spec.json"
+                ],
+                "exclude": [
+                  "**/node_modules/**",
+                  "!apps/integration/**"
+                ]
+              }
+            }
+          },
+          "tags": [],
+          "files": [
+            {
+              "file": "apps/integration/browserslist",
+              "ext": "",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/karma.conf.js",
+              "ext": ".js",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/app.component.html",
+              "ext": ".html",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/app.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/app.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/app.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/app.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/viewer/viewer.component.html",
+              "ext": ".html",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/viewer/viewer.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/viewer/viewer.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/app/viewer/viewer.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/assets/.gitkeep",
+              "ext": "",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/assets/NB-logo-eng-svart.png",
+              "ext": ".png",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/environments/environment.prod.ts",
+              "ext": ".ts",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/environments/environment.ts",
+              "ext": ".ts",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/favicon.ico",
+              "ext": ".ico",
+              "mtime": 1587470797127.877
+            },
+            {
+              "file": "apps/integration/src/index.html",
+              "ext": ".html",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "apps/integration/src/main.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "apps/integration/src/polyfills.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "apps/integration/src/styles.scss",
+              "ext": ".scss",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "apps/integration/src/test.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "apps/integration/tsconfig.app.json",
+              "ext": ".json",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "apps/integration/tsconfig.json",
+              "ext": ".json",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "apps/integration/tsconfig.spec.json",
+              "ext": ".json",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "apps/integration/tslint.json",
+              "ext": ".json",
+              "mtime": 1587470797131.877
+            }
+          ]
+        }
+      },
+      "demo-e2e": {
+        "name": "demo-e2e",
+        "type": "e2e",
+        "data": {
+          "root": "apps/demo-e2e/",
+          "projectType": "application",
+          "architect": {
+            "e2e": {
+              "builder": "@angular-devkit/build-angular:protractor",
+              "options": {
+                "protractorConfig": "apps/demo-e2e/protractor.conf.js",
+                "devServerTarget": "demo:serve"
+              }
+            },
+            "lint": {
+              "builder": "@angular-devkit/build-angular:tslint",
+              "options": {
+                "tsConfig": "apps/demo-e2e/tsconfig.e2e.json",
+                "exclude": [
+                  "**/node_modules/**",
+                  "!apps/demo-e2e/**"
+                ]
+              }
+            }
+          },
+          "tags": [],
+          "files": [
+            {
+              "file": "apps/demo-e2e/protractor.conf.js",
+              "ext": ".js",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo-e2e/src/app.e2e-spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo-e2e/src/app.po.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo-e2e/tsconfig.e2e.json",
+              "ext": ".json",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo-e2e/tsconfig.json",
+              "ext": ".json",
+              "mtime": 1587470797111.877
+            }
+          ]
+        }
+      },
+      "ngx-mime": {
+        "name": "ngx-mime",
+        "type": "lib",
+        "data": {
+          "root": "libs/ngx-mime",
+          "sourceRoot": "libs/ngx-mime/src",
+          "projectType": "library",
+          "prefix": "nationallibraryofnorway",
+          "architect": {
+            "build": {
+              "builder": "@nrwl/angular:package",
+              "options": {
+                "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
+                "project": "libs/ngx-mime/ng-package.json"
+              },
+              "configurations": {
+                "production": {
+                  "project": "libs/ngx-mime/ng-package.prod.json"
+                }
+              }
+            },
+            "test": {
+              "builder": "@angular-devkit/build-angular:karma",
+              "options": {
+                "main": "libs/ngx-mime/src/test.ts",
+                "tsConfig": "libs/ngx-mime/tsconfig.spec.json",
+                "karmaConfig": "libs/ngx-mime/karma.conf.js",
+                "scripts": [
+                  "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
+                  "./node_modules/hammerjs/hammer.min.js"
+                ]
+              }
+            },
+            "lint": {
+              "builder": "@angular-devkit/build-angular:tslint",
+              "options": {
+                "tsConfig": [
+                  "libs/ngx-mime/tsconfig.lib.json",
+                  "libs/ngx-mime/tsconfig.spec.json"
+                ],
+                "exclude": [
+                  "**/node_modules/**",
+                  "!libs/ngx-mime/**"
+                ]
+              }
+            }
+          },
+          "tags": [],
+          "files": [
+            {
+              "file": "libs/ngx-mime/karma.conf.js",
+              "ext": ".js",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/ng-package.json",
+              "ext": ".json",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/ng-package.prod.json",
+              "ext": ".json",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/package.json",
+              "ext": ".json",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/index.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog-resize.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog-resize.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.component.html",
+              "ext": ".html",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.component.html",
+              "ext": ".html",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog-config-strategy-factory.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog-config-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.component.html",
+              "ext": ".html",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog-config-strategy-factory.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog-config-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.component.html",
+              "ext": ".html",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/metadata/metadata.component.html",
+              "ext": ".html",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/metadata/metadata.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/metadata/metadata.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/metadata/metadata.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/table-of-contents/table-of-contents.component.html",
+              "ext": ".html",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/table-of-contents/table-of-contents.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/table-of-contents/table-of-contents.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/contents-dialog/table-of-contents/table-of-contents.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/access-keys-handler-service/access-keys.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/access-keys-handler-service/access-keys.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/builder-utils.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/canvas.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/images.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/manifest.builder.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/manifest.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/metadata.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/resource.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/search-result.builder.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/search-result.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/sequence.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/service.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/sizes.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/structure.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/tile-source.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/builders/tiles.builder.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/canvas-group-position/calculate-canvas-group-position-factory.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/canvas-group-position/calculate-canvas-group-position-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/canvas-group-position/one-page-calculate-page-position-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/canvas-group-position/two-page-calculate-page-position-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/canvas-service/canvas-group.strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/canvas-service/canvas-groups-strategy.factory.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/canvas-service/canvas-service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/canvas-service/canvas-service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/click-service/click.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/click-service/click.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/core.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/ext/svg-overlay.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/fullscreen-service/fullscreen.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/fullscreen-service/fullscreen.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/iiif-content-search-service/iiif-content-search.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/iiif-content-search-service/iiif-content-search.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/iiif-manifest-service/iiif-manifest-service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/iiif-manifest-service/iiif-manifest-service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/iiif-manifest-service/iiif-manifest-utils.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/intl/viewer-intl.no_nb.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/intl/viewer-intl.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/mime-dom-helper.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/mime-resize-service/mime-resize.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/mime-resize-service/mime-resize.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/mime-viewer-config.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/mode-service/mode.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/mode-service/mode.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/AccessKeys.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/canvas-groups.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/canvas-groups.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/content-dialog-state.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/contents-search-dialog-state.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/controlAnchor.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/dimensions.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/direction.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/gestureSettings.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/hit.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/iiif-search-result.ts",
+              "ext": ".ts",
+              "mtime": 1587470797131.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/manifest.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/modeChanges.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/options.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/pinchStatus.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/point.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/rect.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/search-result.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/side.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/viewer-layout.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/viewer-mode.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/viewer-options.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/viewerState.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/models/viewing-direction.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/navigation/content-search-navigation-service/content-search-navigation.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/navigation/content-search-navigation-service/content-search-navigation.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/spinner-service/spinner.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/spinner-service/spinner.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/style-service/style.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/style-service/style.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/utils.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-layout-service/viewer-layout-service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-layout-service/viewer-layout-service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/calculate-next-canvas-group-factory.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/calculate-next-canvas-group-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/canvas-group-mask.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/dashboard-mode-calculate-next-canvas-group-strategy.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/dashboard-mode-calculate-next-canvas-group-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/go-to-canvas-group-strategy.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/go-to-canvas-group-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/iiif-tile-source-strategy.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/iiif-tile-source-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/navigator-calculate-next-canvas-group-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/page-mode-calculate-next-canvas-group-strategy.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/page-mode-calculate-next-canvas-group-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/page-zoomed-mode-calculate-next-canvas-group-strategy.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/page-zoomed-mode-calculate-next-canvas-group-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/static-image-tile-source-strategy.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/static-image-tile-source-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/swipe-drag-end-counter.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/swipe-drag-end-counter.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/swipe-utils.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/swipe-utils.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/tile-source-strategy-factory.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/tile-source-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/viewer.service.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/viewer.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/zoom-strategy.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/zoom-utils.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/core/viewer-service/zoom-utils.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/ngx-mime.module.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/ngx-mime.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/shared/mime-material.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/shared/shared.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/canvas-service-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/fullscreen-service-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/iiif-content-search-service-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/iiif-manifest-service-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/mat-dialog-ref-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/media-observer-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/media-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/mime-resize-service-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/testManifest.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/test/viewer-service-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/osd-toolbar/osd-toolbar.component.html",
+              "ext": ".html",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/osd-toolbar/osd-toolbar.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/osd-toolbar/osd-toolbar.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/osd-toolbar/osd-toolbar.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/test-dynamic.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/test-host.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component.html",
+              "ext": ".html",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/content-search-navigator/content-search-navigator.component.html",
+              "ext": ".html",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/content-search-navigator/content-search-navigator.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/content-search-navigator/content-search-navigator.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/content-search-navigator/content-search-navigator.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/viewer-footer.component.html",
+              "ext": ".html",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/viewer-footer.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/viewer-footer.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/viewer-footer.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/icon/icon.component.html",
+              "ext": ".html",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/icon/icon.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/icon/icon.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/icon/icon.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header-test.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.html",
+              "ext": ".html",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-spinner/viewer-spinner.component.html",
+              "ext": ".html",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-spinner/viewer-spinner.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-spinner/viewer-spinner.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer-spinner/viewer-spinner.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer.component.html",
+              "ext": ".html",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer.component.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/lib/viewer/viewer.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/test.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/src/testing/injected-stub.ts",
+              "ext": ".ts",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/tsconfig.json",
+              "ext": ".json",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/tsconfig.lib.json",
+              "ext": ".json",
+              "mtime": 1587471971064.0369
+            },
+            {
+              "file": "libs/ngx-mime/tsconfig.spec.json",
+              "ext": ".json",
+              "mtime": 1587470797135.877
+            },
+            {
+              "file": "libs/ngx-mime/tslint.json",
+              "ext": ".json",
+              "mtime": 1587470797135.877
+            }
+          ]
+        }
+      },
+      "demo": {
+        "name": "demo",
+        "type": "app",
+        "data": {
+          "root": "apps/demo/",
+          "sourceRoot": "apps/demo/src",
+          "projectType": "application",
+          "prefix": "nationallibraryofnorway",
+          "schematics": {
+            "@schematics/angular:component": {
+              "styleext": "scss"
+            }
+          },
+          "architect": {
+            "build": {
+              "builder": "@angular-devkit/build-angular:browser",
+              "options": {
+                "aot": true,
+                "outputPath": "dist/apps/demo",
+                "index": "apps/demo/src/index.html",
+                "main": "apps/demo/src/main.ts",
+                "polyfills": "apps/demo/src/polyfills.ts",
+                "tsConfig": "apps/demo/tsconfig.app.json",
+                "assets": [
+                  "apps/demo/src/favicon.ico",
+                  "apps/demo/src/assets"
+                ],
+                "styles": [
+                  "apps/demo/src/styles.scss",
+                  "apps/demo/src/theme.scss"
+                ],
+                "scripts": [
+                  "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+                ]
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "6kb"
+                    }
+                  ],
+                  "fileReplacements": [
+                    {
+                      "replace": "apps/demo/src/environments/environment.ts",
+                      "with": "apps/demo/src/environments/environment.prod.ts"
+                    }
+                  ],
+                  "optimization": true,
+                  "outputHashing": "all",
+                  "sourceMap": false,
+                  "extractCss": true,
+                  "namedChunks": false,
+                  "aot": true,
+                  "extractLicenses": true,
+                  "vendorChunk": false,
+                  "buildOptimizer": true
+                }
+              }
+            },
+            "serve": {
+              "builder": "@angular-devkit/build-angular:dev-server",
+              "options": {
+                "browserTarget": "demo:build"
+              },
+              "configurations": {
+                "production": {
+                  "browserTarget": "demo:build:production"
+                }
+              }
+            },
+            "extract-i18n": {
+              "builder": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "browserTarget": "demo:build"
+              }
+            },
+            "test": {
+              "builder": "@angular-devkit/build-angular:karma",
+              "options": {
+                "main": "apps/demo/src/test.ts",
+                "polyfills": "apps/demo/src/polyfills.ts",
+                "tsConfig": "apps/demo/tsconfig.spec.json",
+                "karmaConfig": "apps/demo/karma.conf.js",
+                "styles": [
+                  "apps/demo/src/styles.scss"
+                ],
+                "scripts": [
+                  "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+                ],
+                "assets": [
+                  "apps/demo/src/favicon.ico",
+                  "apps/demo/src/assets"
+                ]
+              }
+            },
+            "lint": {
+              "builder": "@angular-devkit/build-angular:tslint",
+              "options": {
+                "tsConfig": [
+                  "apps/demo/tsconfig.app.json",
+                  "apps/demo/tsconfig.spec.json"
+                ],
+                "exclude": [
+                  "**/node_modules/**",
+                  "!apps/demo/**"
+                ]
+              }
+            }
+          },
+          "tags": [],
+          "files": [
+            {
+              "file": "apps/demo/browserslist",
+              "ext": "",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/karma.conf.js",
+              "ext": ".js",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/app-routing.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/app.component.html",
+              "ext": ".html",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/app.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/app.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/app.module.spec.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/app.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/auth.interceptor.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/core.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/manifest-service/manifest.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/navbar/navbar.component.html",
+              "ext": ".html",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/navbar/navbar.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/navbar/navbar.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/navbar/theme-picker/style-manager/style-manager.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/navbar/theme-picker/theme-picker.component.html",
+              "ext": ".html",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/navbar/theme-picker/theme-picker.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/navbar/theme-picker/theme-picker.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/navbar/theme-picker/theme-service/theme.service.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/sidenav/sidenav.component.html",
+              "ext": ".html",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/sidenav/sidenav.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/core/sidenav/sidenav.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/models/manifest-menu-item.model.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/shared/demoMaterialModule.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/shared/shared.module.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/viewer/viewer.component.html",
+              "ext": ".html",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/viewer/viewer.component.scss",
+              "ext": ".scss",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/app/viewer/viewer.component.ts",
+              "ext": ".ts",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/assets/.gitkeep",
+              "ext": "",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/contentsearch/0/empty.json",
+              "ext": ".json",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/contentsearch/0/searchable-manifest-america.json",
+              "ext": ".json",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/NB-logo-eng-svart.png",
+              "ext": ".png",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/attribution-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797111.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/different-size-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797115.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/downloadble-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797119.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/landscape-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797119.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/license-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797119.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/minimum-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797119.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/searchable-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/simple-ltr-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/simple-rtl-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/assets/fixtures/presentation/2/static-image-manifest.json",
+              "ext": ".json",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/assets/logo-iiif.png",
+              "ext": ".png",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/environments/environment.prod.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/environments/environment.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/favicon.ico",
+              "ext": ".ico",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/index.html",
+              "ext": ".html",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/main.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/polyfills.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/styles.scss",
+              "ext": ".scss",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/test.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/theme.scss",
+              "ext": ".scss",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/src/wallabyTest.ts",
+              "ext": ".ts",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/tsconfig.app.json",
+              "ext": ".json",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/tsconfig.json",
+              "ext": ".json",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/tsconfig.spec.json",
+              "ext": ".json",
+              "mtime": 1587470797123.877
+            },
+            {
+              "file": "apps/demo/tslint.json",
+              "ext": ".json",
+              "mtime": 1587470797123.877
+            }
+          ]
+        }
+      },
+      "@angular/animations": {
+        "type": "npm",
+        "name": "@angular/animations",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@angular/cdk": {
+        "type": "npm",
+        "name": "@angular/cdk",
+        "data": {
+          "version": "^9.2.0",
+          "files": []
+        }
+      },
+      "@angular/common": {
+        "type": "npm",
+        "name": "@angular/common",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@angular/compiler": {
+        "type": "npm",
+        "name": "@angular/compiler",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@angular/core": {
+        "type": "npm",
+        "name": "@angular/core",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@angular/flex-layout": {
+        "type": "npm",
+        "name": "@angular/flex-layout",
+        "data": {
+          "version": "^9.0.0-beta.29",
+          "files": []
+        }
+      },
+      "@angular/forms": {
+        "type": "npm",
+        "name": "@angular/forms",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@angular/material": {
+        "type": "npm",
+        "name": "@angular/material",
+        "data": {
+          "version": "^9.2.0",
+          "files": []
+        }
+      },
+      "@angular/platform-browser": {
+        "type": "npm",
+        "name": "@angular/platform-browser",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@angular/platform-browser-dynamic": {
+        "type": "npm",
+        "name": "@angular/platform-browser-dynamic",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@angular/router": {
+        "type": "npm",
+        "name": "@angular/router",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@ngrx/effects": {
+        "type": "npm",
+        "name": "@ngrx/effects",
+        "data": {
+          "version": "9.0.0",
+          "files": []
+        }
+      },
+      "@ngrx/router-store": {
+        "type": "npm",
+        "name": "@ngrx/router-store",
+        "data": {
+          "version": "9.0.0",
+          "files": []
+        }
+      },
+      "@ngrx/store": {
+        "type": "npm",
+        "name": "@ngrx/store",
+        "data": {
+          "version": "9.0.0",
+          "files": []
+        }
+      },
+      "@nrwl/angular": {
+        "type": "npm",
+        "name": "@nrwl/angular",
+        "data": {
+          "version": "9.2.2",
+          "files": []
+        }
+      },
+      "classlist.js": {
+        "type": "npm",
+        "name": "classlist.js",
+        "data": {
+          "version": "^1.1.20150312",
+          "files": []
+        }
+      },
+      "d3": {
+        "type": "npm",
+        "name": "d3",
+        "data": {
+          "version": "^5.7.0",
+          "files": []
+        }
+      },
+      "hammerjs": {
+        "type": "npm",
+        "name": "hammerjs",
+        "data": {
+          "version": "^2.0.8",
+          "files": []
+        }
+      },
+      "openseadragon": {
+        "type": "npm",
+        "name": "openseadragon",
+        "data": {
+          "version": "^2.4.0",
+          "files": []
+        }
+      },
+      "rxjs": {
+        "type": "npm",
+        "name": "rxjs",
+        "data": {
+          "version": "6.5.5",
+          "files": []
+        }
+      },
+      "tslib": {
+        "type": "npm",
+        "name": "tslib",
+        "data": {
+          "version": "^1.10.0",
+          "files": []
+        }
+      },
+      "zone.js": {
+        "type": "npm",
+        "name": "zone.js",
+        "data": {
+          "version": "~0.10.2",
+          "files": []
+        }
+      },
+      "@angular-devkit/build-angular": {
+        "type": "npm",
+        "name": "@angular-devkit/build-angular",
+        "data": {
+          "version": "~0.901.0",
+          "files": []
+        }
+      },
+      "@angular-devkit/build-ng-packagr": {
+        "type": "npm",
+        "name": "@angular-devkit/build-ng-packagr",
+        "data": {
+          "version": "~0.901.0",
+          "files": []
+        }
+      },
+      "@angular/cli": {
+        "type": "npm",
+        "name": "@angular/cli",
+        "data": {
+          "version": "~9.1.0",
+          "files": []
+        }
+      },
+      "@angular/compiler-cli": {
+        "type": "npm",
+        "name": "@angular/compiler-cli",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@angular/language-service": {
+        "type": "npm",
+        "name": "@angular/language-service",
+        "data": {
+          "version": "^9.1.1",
+          "files": []
+        }
+      },
+      "@ngrx/schematics": {
+        "type": "npm",
+        "name": "@ngrx/schematics",
+        "data": {
+          "version": "9.0.0",
+          "files": []
+        }
+      },
+      "@ngrx/store-devtools": {
+        "type": "npm",
+        "name": "@ngrx/store-devtools",
+        "data": {
+          "version": "9.0.0",
+          "files": []
+        }
+      },
+      "@nrwl/workspace": {
+        "type": "npm",
+        "name": "@nrwl/workspace",
+        "data": {
+          "version": "9.2.2",
+          "files": []
+        }
+      },
+      "@types/chai": {
+        "type": "npm",
+        "name": "@types/chai",
+        "data": {
+          "version": "^4.2.5",
+          "files": []
+        }
+      },
+      "@types/chai-as-promised": {
+        "type": "npm",
+        "name": "@types/chai-as-promised",
+        "data": {
+          "version": "^7.1.2",
+          "files": []
+        }
+      },
+      "@types/cucumber": {
+        "type": "npm",
+        "name": "@types/cucumber",
+        "data": {
+          "version": "^6.0.0",
+          "files": []
+        }
+      },
+      "@types/jasmine": {
+        "type": "npm",
+        "name": "@types/jasmine",
+        "data": {
+          "version": "~3.5.0",
+          "files": []
+        }
+      },
+      "@types/jasminewd2": {
+        "type": "npm",
+        "name": "@types/jasminewd2",
+        "data": {
+          "version": "~2.0.8",
+          "files": []
+        }
+      },
+      "@types/node": {
+        "type": "npm",
+        "name": "@types/node",
+        "data": {
+          "version": "^12.11.1",
+          "files": []
+        }
+      },
+      "angular2-template-loader": {
+        "type": "npm",
+        "name": "angular2-template-loader",
+        "data": {
+          "version": "^0.6.2",
+          "files": []
+        }
+      },
+      "axe-webdriverjs": {
+        "type": "npm",
+        "name": "axe-webdriverjs",
+        "data": {
+          "version": "^2.3.0",
+          "files": []
+        }
+      },
+      "chai": {
+        "type": "npm",
+        "name": "chai",
+        "data": {
+          "version": "^4.2.0",
+          "files": []
+        }
+      },
+      "chai-as-promised": {
+        "type": "npm",
+        "name": "chai-as-promised",
+        "data": {
+          "version": "^7.1.1",
+          "files": []
+        }
+      },
+      "codelyzer": {
+        "type": "npm",
+        "name": "codelyzer",
+        "data": {
+          "version": "^5.1.2",
+          "files": []
+        }
+      },
+      "concurrently": {
+        "type": "npm",
+        "name": "concurrently",
+        "data": {
+          "version": "^5.0.0",
+          "files": []
+        }
+      },
+      "cucumber": {
+        "type": "npm",
+        "name": "cucumber",
+        "data": {
+          "version": "^6.0.5",
+          "files": []
+        }
+      },
+      "dotenv": {
+        "type": "npm",
+        "name": "dotenv",
+        "data": {
+          "version": "8.2.0",
+          "files": []
+        }
+      },
+      "jasmine-core": {
+        "type": "npm",
+        "name": "jasmine-core",
+        "data": {
+          "version": "~2.99.1",
+          "files": []
+        }
+      },
+      "jasmine-marbles": {
+        "type": "npm",
+        "name": "jasmine-marbles",
+        "data": {
+          "version": "0.6.0",
+          "files": []
+        }
+      },
+      "jasmine-spec-reporter": {
+        "type": "npm",
+        "name": "jasmine-spec-reporter",
+        "data": {
+          "version": "~4.2.1",
+          "files": []
+        }
+      },
+      "karma": {
+        "type": "npm",
+        "name": "karma",
+        "data": {
+          "version": "~4.4.1",
+          "files": []
+        }
+      },
+      "karma-chrome-launcher": {
+        "type": "npm",
+        "name": "karma-chrome-launcher",
+        "data": {
+          "version": "~3.1.0",
+          "files": []
+        }
+      },
+      "karma-coverage-istanbul-reporter": {
+        "type": "npm",
+        "name": "karma-coverage-istanbul-reporter",
+        "data": {
+          "version": "~2.1.0",
+          "files": []
+        }
+      },
+      "karma-jasmine": {
+        "type": "npm",
+        "name": "karma-jasmine",
+        "data": {
+          "version": "~2.0.1",
+          "files": []
+        }
+      },
+      "karma-jasmine-html-reporter": {
+        "type": "npm",
+        "name": "karma-jasmine-html-reporter",
+        "data": {
+          "version": "^1.4.2",
+          "files": []
+        }
+      },
+      "mountebank": {
+        "type": "npm",
+        "name": "mountebank",
+        "data": {
+          "version": "^2.1.2",
+          "files": []
+        }
+      },
+      "ng-packagr": {
+        "type": "npm",
+        "name": "ng-packagr",
+        "data": {
+          "version": "^9.0.0",
+          "files": []
+        }
+      },
+      "node-sass": {
+        "type": "npm",
+        "name": "node-sass",
+        "data": {
+          "version": "^4.13.0",
+          "files": []
+        }
+      },
+      "prettier": {
+        "type": "npm",
+        "name": "prettier",
+        "data": {
+          "version": "1.19.1",
+          "files": []
+        }
+      },
+      "pretty-quick": {
+        "type": "npm",
+        "name": "pretty-quick",
+        "data": {
+          "version": "^2.0.1",
+          "files": []
+        }
+      },
+      "protractor": {
+        "type": "npm",
+        "name": "protractor",
+        "data": {
+          "version": "~5.4.2",
+          "files": []
+        }
+      },
+      "protractor-cucumber-framework": {
+        "type": "npm",
+        "name": "protractor-cucumber-framework",
+        "data": {
+          "version": "^6.2.0",
+          "files": []
+        }
+      },
+      "protractor-multiple-cucumber-html-reporter-plugin": {
+        "type": "npm",
+        "name": "protractor-multiple-cucumber-html-reporter-plugin",
+        "data": {
+          "version": "^1.8.1",
+          "files": []
+        }
+      },
+      "standard-version": {
+        "type": "npm",
+        "name": "standard-version",
+        "data": {
+          "version": "^7.0.1",
+          "files": []
+        }
+      },
+      "ts-node": {
+        "type": "npm",
+        "name": "ts-node",
+        "data": {
+          "version": "~7.0.0",
+          "files": []
+        }
+      },
+      "tsickle": {
+        "type": "npm",
+        "name": "tsickle",
+        "data": {
+          "version": "^0.38.1",
+          "files": []
+        }
+      },
+      "tslint": {
+        "type": "npm",
+        "name": "tslint",
+        "data": {
+          "version": "6.0.0",
+          "files": []
+        }
+      },
+      "tslint-config-prettier": {
+        "type": "npm",
+        "name": "tslint-config-prettier",
+        "data": {
+          "version": "^1.18.0",
+          "files": []
+        }
+      },
+      "typescript": {
+        "type": "npm",
+        "name": "typescript",
+        "data": {
+          "version": "~3.8.3",
+          "files": []
+        }
+      },
+      "wallaby-webpack": {
+        "type": "npm",
+        "name": "wallaby-webpack",
+        "data": {
+          "version": "^3.9.15",
+          "files": []
+        }
+      }
+    },
+    "dependencies": {
+      "integration-e2e": [
+        {
+          "type": "implicit",
+          "source": "integration-e2e",
+          "target": "integration"
+        },
+        {
+          "type": "static",
+          "source": "integration-e2e",
+          "target": "protractor"
+        },
+        {
+          "type": "static",
+          "source": "integration-e2e",
+          "target": "chai"
+        },
+        {
+          "type": "static",
+          "source": "integration-e2e",
+          "target": "cucumber"
+        }
+      ],
+      "integration": [
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "ngx-mime"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "@angular/core"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "@angular/common"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "@angular/flex-layout"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "@angular/platform-browser"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "@angular/router"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "@nrwl/angular"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "@angular/platform-browser-dynamic"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "classlist.js"
+        },
+        {
+          "type": "static",
+          "source": "integration",
+          "target": "zone.js"
+        }
+      ],
+      "demo-e2e": [
+        {
+          "type": "implicit",
+          "source": "demo-e2e",
+          "target": "demo"
+        },
+        {
+          "type": "static",
+          "source": "demo-e2e",
+          "target": "protractor"
+        }
+      ],
+      "ngx-mime": [
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/core"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "rxjs"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/common"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/material"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/platform-browser"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/forms"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/flex-layout"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/cdk"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "d3"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "openseadragon"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/animations"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "@angular/platform-browser-dynamic"
+        },
+        {
+          "type": "static",
+          "source": "ngx-mime",
+          "target": "zone.js"
+        }
+      ],
+      "demo": [
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "ngx-mime"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/core"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/router"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/cdk"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/flex-layout"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "rxjs"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/common"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/platform-browser"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@nrwl/angular"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "openseadragon"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/material"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/forms"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "@angular/platform-browser-dynamic"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "classlist.js"
+        },
+        {
+          "type": "static",
+          "source": "demo",
+          "target": "zone.js"
+        }
+      ],
+      "@angular/animations": [],
+      "@angular/cdk": [],
+      "@angular/common": [],
+      "@angular/compiler": [],
+      "@angular/core": [],
+      "@angular/flex-layout": [],
+      "@angular/forms": [],
+      "@angular/material": [],
+      "@angular/platform-browser": [],
+      "@angular/platform-browser-dynamic": [],
+      "@angular/router": [],
+      "@ngrx/effects": [],
+      "@ngrx/router-store": [],
+      "@ngrx/store": [],
+      "@nrwl/angular": [],
+      "classlist.js": [],
+      "d3": [],
+      "hammerjs": [],
+      "openseadragon": [],
+      "rxjs": [],
+      "tslib": [],
+      "zone.js": [],
+      "@angular-devkit/build-angular": [],
+      "@angular-devkit/build-ng-packagr": [],
+      "@angular/cli": [],
+      "@angular/compiler-cli": [],
+      "@angular/language-service": [],
+      "@ngrx/schematics": [],
+      "@ngrx/store-devtools": [],
+      "@nrwl/workspace": [],
+      "@types/chai": [],
+      "@types/chai-as-promised": [],
+      "@types/cucumber": [],
+      "@types/jasmine": [],
+      "@types/jasminewd2": [],
+      "@types/node": [],
+      "angular2-template-loader": [],
+      "axe-webdriverjs": [],
+      "chai": [],
+      "chai-as-promised": [],
+      "codelyzer": [],
+      "concurrently": [],
+      "cucumber": [],
+      "dotenv": [],
+      "jasmine-core": [],
+      "jasmine-marbles": [],
+      "jasmine-spec-reporter": [],
+      "karma": [],
+      "karma-chrome-launcher": [],
+      "karma-coverage-istanbul-reporter": [],
+      "karma-jasmine": [],
+      "karma-jasmine-html-reporter": [],
+      "mountebank": [],
+      "ng-packagr": [],
+      "node-sass": [],
+      "prettier": [],
+      "pretty-quick": [],
+      "protractor": [],
+      "protractor-cucumber-framework": [],
+      "protractor-multiple-cucumber-html-reporter-plugin": [],
+      "standard-version": [],
+      "ts-node": [],
+      "tsickle": [],
+      "tslint": [],
+      "tslint-config-prettier": [],
+      "typescript": [],
+      "wallaby-webpack": []
+    }
+  },
+  "fileMap": {
+    "integration-e2e": [
+      {
+        "file": "apps/integration-e2e/features/access-keys.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/accessibility.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/browse-publication-in-page.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/browse-through-a-publication-in-dashboard-view.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/clear-content-search.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/content-search.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/display_metadata.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/fullscreen.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/logo.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/pan-on-image.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/rights-notices.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/slider-navigation-in-dashboard-view.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/table-of-contents.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/two-up-view.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/view-switch.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/features/zoom.feature",
+        "ext": ".feature",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/helpers/cucumber.config.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/helpers/hooks.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/helpers/utils.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/pages/content-search.po.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/pages/contents-dialog.po.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/pages/contents.po.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/pages/metadata.po.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/pages/table-of-contents.po.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/pages/viewer.po.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/protractor.conf.js",
+        "ext": ".js",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/remote-browsers.js",
+        "ext": ".js",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/scripts/wait-on.sh",
+        "ext": ".sh",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/access-keys.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/accessibility.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/browse.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/content-dialog.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/content-search.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/fullscreen.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/layout.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/logo.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/pan.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/rights-notices.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/view-switch.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/viewer-page.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/step-definitions/zoom.steps.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/a-individuals-book.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/a-ltr-10-pages-book.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/a-ltr-book.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/a-non-attribution-book.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/a-rtl-10-pages-book.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/a-rtl-book.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/gjallarhorn.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/imposters.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration-e2e/templates/no_hits.ejs",
+        "ext": ".ejs",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration-e2e/tsconfig.e2e.json",
+        "ext": ".json",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration-e2e/tsconfig.json",
+        "ext": ".json",
+        "mtime": 1587470797127.877
+      }
+    ],
+    "integration": [
+      {
+        "file": "apps/integration/browserslist",
+        "ext": "",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/karma.conf.js",
+        "ext": ".js",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/app.component.html",
+        "ext": ".html",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/app.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/app.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/app.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/app.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/viewer/viewer.component.html",
+        "ext": ".html",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/viewer/viewer.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/viewer/viewer.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/app/viewer/viewer.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/assets/.gitkeep",
+        "ext": "",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/assets/NB-logo-eng-svart.png",
+        "ext": ".png",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/environments/environment.prod.ts",
+        "ext": ".ts",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/environments/environment.ts",
+        "ext": ".ts",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/favicon.ico",
+        "ext": ".ico",
+        "mtime": 1587470797127.877
+      },
+      {
+        "file": "apps/integration/src/index.html",
+        "ext": ".html",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "apps/integration/src/main.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "apps/integration/src/polyfills.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "apps/integration/src/styles.scss",
+        "ext": ".scss",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "apps/integration/src/test.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "apps/integration/tsconfig.app.json",
+        "ext": ".json",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "apps/integration/tsconfig.json",
+        "ext": ".json",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "apps/integration/tsconfig.spec.json",
+        "ext": ".json",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "apps/integration/tslint.json",
+        "ext": ".json",
+        "mtime": 1587470797131.877
+      }
+    ],
+    "demo-e2e": [
+      {
+        "file": "apps/demo-e2e/protractor.conf.js",
+        "ext": ".js",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo-e2e/src/app.e2e-spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo-e2e/src/app.po.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo-e2e/tsconfig.e2e.json",
+        "ext": ".json",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo-e2e/tsconfig.json",
+        "ext": ".json",
+        "mtime": 1587470797111.877
+      }
+    ],
+    "ngx-mime": [
+      {
+        "file": "libs/ngx-mime/karma.conf.js",
+        "ext": ".js",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/ng-package.json",
+        "ext": ".json",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/ng-package.prod.json",
+        "ext": ".json",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/package.json",
+        "ext": ".json",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/index.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog-resize.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog-resize.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.component.html",
+        "ext": ".html",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/attribution-dialog/attribution-dialog.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.component.html",
+        "ext": ".html",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/canvas-group-dialog/canvas-group-dialog.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog-config-strategy-factory.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog-config-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.component.html",
+        "ext": ".html",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/content-search-dialog/content-search-dialog.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog-config-strategy-factory.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog-config-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.component.html",
+        "ext": ".html",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/contents-dialog.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/metadata/metadata.component.html",
+        "ext": ".html",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/metadata/metadata.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/metadata/metadata.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/metadata/metadata.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/table-of-contents/table-of-contents.component.html",
+        "ext": ".html",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/table-of-contents/table-of-contents.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/table-of-contents/table-of-contents.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/contents-dialog/table-of-contents/table-of-contents.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/access-keys-handler-service/access-keys.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/access-keys-handler-service/access-keys.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/builder-utils.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/canvas.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/images.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/manifest.builder.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/manifest.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/metadata.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/resource.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/search-result.builder.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/search-result.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/sequence.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/service.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/sizes.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/structure.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/tile-source.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/builders/tiles.builder.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/canvas-group-position/calculate-canvas-group-position-factory.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/canvas-group-position/calculate-canvas-group-position-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/canvas-group-position/one-page-calculate-page-position-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/canvas-group-position/two-page-calculate-page-position-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/canvas-service/canvas-group.strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/canvas-service/canvas-groups-strategy.factory.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/canvas-service/canvas-service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/canvas-service/canvas-service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/click-service/click.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/click-service/click.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/core.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/ext/svg-overlay.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/fullscreen-service/fullscreen.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/fullscreen-service/fullscreen.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/iiif-content-search-service/iiif-content-search.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/iiif-content-search-service/iiif-content-search.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/iiif-manifest-service/iiif-manifest-service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/iiif-manifest-service/iiif-manifest-service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/iiif-manifest-service/iiif-manifest-utils.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/intl/viewer-intl.no_nb.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/intl/viewer-intl.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/mime-dom-helper.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/mime-resize-service/mime-resize.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/mime-resize-service/mime-resize.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/mime-viewer-config.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/mode-service/mode.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/mode-service/mode.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/AccessKeys.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/canvas-groups.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/canvas-groups.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/content-dialog-state.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/contents-search-dialog-state.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/controlAnchor.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/dimensions.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/direction.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/gestureSettings.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/hit.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/iiif-search-result.ts",
+        "ext": ".ts",
+        "mtime": 1587470797131.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/manifest.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/modeChanges.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/options.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/pinchStatus.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/point.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/rect.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/search-result.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/side.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/viewer-layout.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/viewer-mode.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/viewer-options.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/viewerState.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/models/viewing-direction.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/navigation/content-search-navigation-service/content-search-navigation.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/navigation/content-search-navigation-service/content-search-navigation.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/spinner-service/spinner.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/spinner-service/spinner.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/style-service/style.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/style-service/style.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/utils.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-layout-service/viewer-layout-service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-layout-service/viewer-layout-service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/calculate-next-canvas-group-factory.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/calculate-next-canvas-group-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/canvas-group-mask.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/dashboard-mode-calculate-next-canvas-group-strategy.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/dashboard-mode-calculate-next-canvas-group-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/go-to-canvas-group-strategy.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/go-to-canvas-group-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/iiif-tile-source-strategy.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/iiif-tile-source-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/navigator-calculate-next-canvas-group-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/page-mode-calculate-next-canvas-group-strategy.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/page-mode-calculate-next-canvas-group-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/page-zoomed-mode-calculate-next-canvas-group-strategy.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/page-zoomed-mode-calculate-next-canvas-group-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/static-image-tile-source-strategy.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/static-image-tile-source-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/swipe-drag-end-counter.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/swipe-drag-end-counter.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/swipe-utils.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/swipe-utils.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/tile-source-strategy-factory.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/tile-source-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/viewer.service.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/viewer.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/zoom-strategy.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/zoom-utils.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/core/viewer-service/zoom-utils.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/ngx-mime.module.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/ngx-mime.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/shared/mime-material.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/shared/shared.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/canvas-service-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/fullscreen-service-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/iiif-content-search-service-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/iiif-manifest-service-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/mat-dialog-ref-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/media-observer-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/media-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/mime-resize-service-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/testManifest.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/test/viewer-service-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/osd-toolbar/osd-toolbar.component.html",
+        "ext": ".html",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/osd-toolbar/osd-toolbar.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/osd-toolbar/osd-toolbar.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/osd-toolbar/osd-toolbar.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/test-dynamic.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/test-host.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component.html",
+        "ext": ".html",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/content-search-navigator/content-search-navigator.component.html",
+        "ext": ".html",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/content-search-navigator/content-search-navigator.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/content-search-navigator/content-search-navigator.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/content-search-navigator/content-search-navigator.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/viewer-footer.component.html",
+        "ext": ".html",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/viewer-footer.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/viewer-footer.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-footer/viewer-footer.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/icon/icon.component.html",
+        "ext": ".html",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/icon/icon.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/icon/icon.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/icon/icon.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header-test.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.html",
+        "ext": ".html",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-spinner/viewer-spinner.component.html",
+        "ext": ".html",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-spinner/viewer-spinner.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-spinner/viewer-spinner.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer-spinner/viewer-spinner.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer.component.html",
+        "ext": ".html",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer.component.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/lib/viewer/viewer.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/test.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/src/testing/injected-stub.ts",
+        "ext": ".ts",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/tsconfig.json",
+        "ext": ".json",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/tsconfig.lib.json",
+        "ext": ".json",
+        "mtime": 1587471971064.0369
+      },
+      {
+        "file": "libs/ngx-mime/tsconfig.spec.json",
+        "ext": ".json",
+        "mtime": 1587470797135.877
+      },
+      {
+        "file": "libs/ngx-mime/tslint.json",
+        "ext": ".json",
+        "mtime": 1587470797135.877
+      }
+    ],
+    "demo": [
+      {
+        "file": "apps/demo/browserslist",
+        "ext": "",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/karma.conf.js",
+        "ext": ".js",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/app-routing.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/app.component.html",
+        "ext": ".html",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/app.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/app.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/app.module.spec.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/app.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/auth.interceptor.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/core.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/manifest-service/manifest.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/navbar/navbar.component.html",
+        "ext": ".html",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/navbar/navbar.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/navbar/navbar.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/navbar/theme-picker/style-manager/style-manager.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/navbar/theme-picker/theme-picker.component.html",
+        "ext": ".html",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/navbar/theme-picker/theme-picker.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/navbar/theme-picker/theme-picker.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/navbar/theme-picker/theme-service/theme.service.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/sidenav/sidenav.component.html",
+        "ext": ".html",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/sidenav/sidenav.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/core/sidenav/sidenav.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/models/manifest-menu-item.model.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/shared/demoMaterialModule.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/shared/shared.module.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/viewer/viewer.component.html",
+        "ext": ".html",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/viewer/viewer.component.scss",
+        "ext": ".scss",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/app/viewer/viewer.component.ts",
+        "ext": ".ts",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/assets/.gitkeep",
+        "ext": "",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/contentsearch/0/empty.json",
+        "ext": ".json",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/contentsearch/0/searchable-manifest-america.json",
+        "ext": ".json",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/NB-logo-eng-svart.png",
+        "ext": ".png",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/attribution-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797111.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/different-size-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797115.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/downloadble-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797119.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/landscape-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797119.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/license-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797119.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/minimum-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797119.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/searchable-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/simple-ltr-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/simple-rtl-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/assets/fixtures/presentation/2/static-image-manifest.json",
+        "ext": ".json",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/assets/logo-iiif.png",
+        "ext": ".png",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/environments/environment.prod.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/environments/environment.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/favicon.ico",
+        "ext": ".ico",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/index.html",
+        "ext": ".html",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/main.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/polyfills.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/styles.scss",
+        "ext": ".scss",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/test.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/theme.scss",
+        "ext": ".scss",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/src/wallabyTest.ts",
+        "ext": ".ts",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/tsconfig.app.json",
+        "ext": ".json",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/tsconfig.json",
+        "ext": ".json",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/tsconfig.spec.json",
+        "ext": ".json",
+        "mtime": 1587470797123.877
+      },
+      {
+        "file": "apps/demo/tslint.json",
+        "ext": ".json",
+        "mtime": 1587470797123.877
+      }
+    ]
+  }
+}

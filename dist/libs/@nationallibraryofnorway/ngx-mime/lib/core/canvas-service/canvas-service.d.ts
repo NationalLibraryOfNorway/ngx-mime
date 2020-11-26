@@ -1,0 +1,37 @@
+import { Observable, BehaviorSubject } from 'rxjs';
+import { CanvasGroups } from './../models/canvas-groups';
+import { ViewerLayout } from '../models/viewer-layout';
+import { Point } from './../models/point';
+import { Rect } from './../models/rect';
+export declare class CanvasService {
+    protected _currentNumberOfCanvasGroups: BehaviorSubject<number>;
+    protected _currentCanvasGroupIndex: BehaviorSubject<number>;
+    protected canvasGroups: CanvasGroups;
+    protected _numberOfCanvases: number;
+    constructor();
+    addAll(canvasRects: Rect[], layout: ViewerLayout): void;
+    reset(): void;
+    get onCanvasGroupIndexChange(): Observable<number>;
+    get onNumberOfCanvasGroupsChange(): Observable<number>;
+    set currentCanvasGroupIndex(currentCanvasGroupIndex: number);
+    get currentCanvasGroupIndex(): number;
+    get numberOfCanvases(): number;
+    set numberOfCanvases(numberOfCanvases: number);
+    get numberOfCanvasGroups(): number;
+    get currentCanvasIndex(): number;
+    isWithinBounds(canvasGroupIndex: number): boolean;
+    isCurrentCanvasGroupValid(): boolean;
+    getNextCanvasGroupIndex(): number;
+    getPrevCanvasGroupIndex(): number;
+    constrainToRange(canvasGroupsIndex: number): number;
+    findClosestCanvasGroupIndex(point: Point): number;
+    findCanvasGroupByCanvasIndex(canvasIndex: number): number;
+    findCanvasByCanvasIndex(canvasIndex: number): number;
+    getCanvasGroupLabel(canvasGroupIndex: number): string;
+    getCanvasesPerCanvasGroup(canvasIndex: number): number[];
+    getCanvasRect(canvasIndex: number): Rect;
+    getCurrentCanvasGroupRect(): Rect;
+    getCanvasGroupRect(canvasGroupIndex: number): Rect;
+    getMaxHeight(): number;
+    getMaxWidth(): number;
+}

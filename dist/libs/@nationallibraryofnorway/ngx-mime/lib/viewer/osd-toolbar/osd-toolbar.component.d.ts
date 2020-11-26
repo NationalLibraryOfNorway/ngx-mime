@@ -1,0 +1,38 @@
+import { AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { StyleService } from '../../core/style-service/style.service';
+import { CanvasService } from './../../core/canvas-service/canvas-service';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
+import { ViewerService } from './../../core/viewer-service/viewer.service';
+export declare class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
+    intl: MimeViewerIntl;
+    private renderer;
+    private changeDetectorRef;
+    private mimeService;
+    private viewerService;
+    private canvasService;
+    private styleService;
+    private iiifManifestService;
+    container: ElementRef;
+    get osdToolbarState(): string;
+    osdToolbarStyle: {};
+    numberOfCanvasGroups: number;
+    isFirstCanvasGroup: boolean;
+    isLastCanvasGroup: boolean;
+    state: string;
+    invert: boolean;
+    private destroyed;
+    constructor(intl: MimeViewerIntl, renderer: Renderer2, changeDetectorRef: ChangeDetectorRef, mimeService: MimeResizeService, viewerService: ViewerService, canvasService: CanvasService, styleService: StyleService, iiifManifestService: IiifManifestService);
+    ngOnInit(): void;
+    ngAfterViewInit(): void;
+    zoomIn(): void;
+    zoomOut(): void;
+    home(): void;
+    rotate(): void;
+    ngOnDestroy(): void;
+    goToPreviousCanvasGroup(): void;
+    goToNextCanvasGroup(): void;
+    private isOnFirstCanvasGroup;
+    private isOnLastCanvasGroup;
+}

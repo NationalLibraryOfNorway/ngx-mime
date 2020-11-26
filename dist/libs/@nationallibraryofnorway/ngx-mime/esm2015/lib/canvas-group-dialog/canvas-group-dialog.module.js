@@ -1,0 +1,15 @@
+import { NgModule } from '@angular/core';
+import { SharedModule } from './../shared/shared.module';
+import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
+import { CanvasGroupDialogService } from './canvas-group-dialog.service';
+export class CanvasGroupDialogModule {
+}
+CanvasGroupDialogModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [SharedModule],
+                declarations: [CanvasGroupDialogComponent],
+                providers: [CanvasGroupDialogService],
+                entryComponents: [CanvasGroupDialogComponent]
+            },] }
+];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2FudmFzLWdyb3VwLWRpYWxvZy5tb2R1bGUuanMiLCJzb3VyY2VSb290IjoiL2hvbWUvcm9ubnltL1RlbXAvbmd4LW1pbWUvbGlicy9uZ3gtbWltZS9zcmMvIiwic291cmNlcyI6WyJsaWIvY2FudmFzLWdyb3VwLWRpYWxvZy9jYW52YXMtZ3JvdXAtZGlhbG9nLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBRXpDLE9BQU8sRUFBRSxZQUFZLEVBQUUsTUFBTSwyQkFBMkIsQ0FBQztBQUN6RCxPQUFPLEVBQUUsMEJBQTBCLEVBQUUsTUFBTSxpQ0FBaUMsQ0FBQztBQUM3RSxPQUFPLEVBQUUsd0JBQXdCLEVBQUUsTUFBTSwrQkFBK0IsQ0FBQztBQVN6RSxNQUFNLE9BQU8sdUJBQXVCOzs7WUFObkMsUUFBUSxTQUFDO2dCQUNSLE9BQU8sRUFBRSxDQUFDLFlBQVksQ0FBQztnQkFDdkIsWUFBWSxFQUFFLENBQUMsMEJBQTBCLENBQUM7Z0JBQzFDLFNBQVMsRUFBRSxDQUFDLHdCQUF3QixDQUFDO2dCQUNyQyxlQUFlLEVBQUUsQ0FBQywwQkFBMEIsQ0FBQzthQUM5QyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE5nTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5cbmltcG9ydCB7IFNoYXJlZE1vZHVsZSB9IGZyb20gJy4vLi4vc2hhcmVkL3NoYXJlZC5tb2R1bGUnO1xuaW1wb3J0IHsgQ2FudmFzR3JvdXBEaWFsb2dDb21wb25lbnQgfSBmcm9tICcuL2NhbnZhcy1ncm91cC1kaWFsb2cuY29tcG9uZW50JztcbmltcG9ydCB7IENhbnZhc0dyb3VwRGlhbG9nU2VydmljZSB9IGZyb20gJy4vY2FudmFzLWdyb3VwLWRpYWxvZy5zZXJ2aWNlJztcbmltcG9ydCB7IE1pbWVEb21IZWxwZXIgfSBmcm9tICcuLi9jb3JlL21pbWUtZG9tLWhlbHBlcic7XG5cbkBOZ01vZHVsZSh7XG4gIGltcG9ydHM6IFtTaGFyZWRNb2R1bGVdLFxuICBkZWNsYXJhdGlvbnM6IFtDYW52YXNHcm91cERpYWxvZ0NvbXBvbmVudF0sXG4gIHByb3ZpZGVyczogW0NhbnZhc0dyb3VwRGlhbG9nU2VydmljZV0sXG4gIGVudHJ5Q29tcG9uZW50czogW0NhbnZhc0dyb3VwRGlhbG9nQ29tcG9uZW50XVxufSlcbmV4cG9ydCBjbGFzcyBDYW52YXNHcm91cERpYWxvZ01vZHVsZSB7fVxuIl19

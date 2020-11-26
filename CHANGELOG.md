@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.2.0...v9.3.0) (2020-11-26)
+
+
+### Features
+
+* custom element ([2b43866](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2b43866d402d469c34fddebc95a332396b153835))
+* upgrade to angular 10 ([235f143](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/235f143ebbb25a633315630d3a1f828b86ecfe12))
+
+
+### Bug Fixes
+
+* highlight rotation ([a8cdfa0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a8cdfa03b644abfa8caabaf4b2417e61fadfe840)), closes [#298](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/298)
+
 ## [9.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.1.0...v9.2.0) (2020-07-10)
 
 

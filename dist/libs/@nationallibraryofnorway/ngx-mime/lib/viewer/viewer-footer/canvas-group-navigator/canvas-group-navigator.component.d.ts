@@ -1,0 +1,36 @@
+import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
+import { MatSliderChange } from '@angular/material/slider';
+import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
+import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
+import { CanvasService } from './../../../core/canvas-service/canvas-service';
+import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
+import { SearchResult } from './../../../core/models/search-result';
+import { ViewerService } from './../../../core/viewer-service/viewer.service';
+export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
+    intl: MimeViewerIntl;
+    private changeDetectorRef;
+    private viewerService;
+    private canvasService;
+    private pageDialogService;
+    private iiifManifestService;
+    searchResult: SearchResult;
+    numberOfCanvases: number;
+    canvasGroupLabel: string;
+    numberOfCanvasGroups: number;
+    currentCanvasGroupIndex: number;
+    isFirstCanvasGroup: boolean;
+    isLastCanvasGroup: boolean;
+    invert: boolean;
+    private currentSliderCanvasGroupIndex;
+    private destroyed;
+    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, viewerService: ViewerService, canvasService: CanvasService, pageDialogService: CanvasGroupDialogService, iiifManifestService: IiifManifestService);
+    ngOnInit(): void;
+    ngOnDestroy(): void;
+    goToPreviousCanvasGroup(): void;
+    goToNextCanvasGroup(): void;
+    onSliderChange(change: MatSliderChange): void;
+    onSliderHotKey(event: KeyboardEvent): void;
+    openCanvasGroupDialog(): void;
+    private isOnFirstCanvasGroup;
+    private isOnLastCanvasGroup;
+}

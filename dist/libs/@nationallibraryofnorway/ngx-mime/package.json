@@ -1,0 +1,23 @@
+{
+  "name": "@nationallibraryofnorway/ngx-mime",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": ">=10.0.0 <11.0.0",
+    "@angular/core": ">=10.0.0 <11.0.0",
+    "@angular/flex-layout": ">=10.0.0 <11.0.0 || >=10.0.0-beta.32 <10.0.0",
+    "@angular/material": ">=10.0.0 <11.0.0",
+    "d3": ">=5.7.0 <6.0.0",
+    "openseadragon": ">=2.4.0 <3.0.0"
+  },
+  "main": "bundles/nationallibraryofnorway-ngx-mime.umd.js",
+  "module": "fesm2015/nationallibraryofnorway-ngx-mime.js",
+  "es2015": "fesm2015/nationallibraryofnorway-ngx-mime.js",
+  "esm2015": "esm2015/nationallibraryofnorway-ngx-mime.js",
+  "fesm2015": "fesm2015/nationallibraryofnorway-ngx-mime.js",
+  "typings": "nationallibraryofnorway-ngx-mime.d.ts",
+  "metadata": "nationallibraryofnorway-ngx-mime.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}

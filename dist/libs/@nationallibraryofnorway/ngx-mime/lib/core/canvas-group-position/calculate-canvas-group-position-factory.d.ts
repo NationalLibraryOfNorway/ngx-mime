@@ -1,0 +1,5 @@
+import { CalculateCanvasGroupPositionStrategy } from './calculate-canvas-group-position-strategy';
+import { ViewerLayout } from '../models/viewer-layout';
+export declare class CalculateCanvasGroupPositionFactory {
+    static create(viewerLayout: ViewerLayout, paged: boolean): CalculateCanvasGroupPositionStrategy;
+}
