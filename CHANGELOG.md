@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v10.0.0...v10.1.0) (2020-12-08)
+
+
+### Features
+
+* dark theme for elements ([5b03ba5](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5b03ba5ba4bdd26a4bef4ef4bc1165deb32fd338))
+
 ## [10.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.3.0...v10.0.0) (2020-11-26)
 
 ## [9.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.2.0...v9.3.0) (2020-11-26)
