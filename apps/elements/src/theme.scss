@@ -1,6 +1,8 @@
 @import '~@angular/material/theming';
 @include mat-core();
 
+@import '../../../libs/ngx-mime/ngx-mime.theme.scss';
+
 $mat-light-theme-foreground: (
   base: black,
   divider: $dark-dividers,
@@ -19,8 +21,24 @@ $mat-light-theme-foreground: (
   slider-off-active: rgba(black, 0.38)
 );
 
-$blue-primary: mat-palette($mat-light-blue, 800, 100, 700);
+$blue-primary: mat-palette($mat-light-blue, 900, 100, 700);
 $blue-accent: mat-palette($mat-light-blue, 900, 100, 700);
 $blue-theme: mat-light-theme($blue-primary, $blue-accent);
 
+// Define an alternate dark theme.
+$dark-primary: mat-palette($mat-light-blue, 900, 100, 700);
+$dark-accent:  mat-palette($mat-light-blue, 300, 200, 400);
+
+$dark-theme:   mat-dark-theme((
+  color: (
+    primary: $dark-primary,
+    accent: $dark-accent,
+  )
+));
+.ngx-mime-dark-theme {
+  @include ngx-mime-theme($dark-theme);
+  @include angular-material-color($dark-theme);
+}
+
+@include ngx-mime-theme($blue-theme);
 @include angular-material-theme($blue-theme);

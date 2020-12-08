@@ -108,7 +108,7 @@ export class ContentSearchPage {
   async hitIsSelected(index: number) {
     const el: ElementFinder = await this.getHit(index);
     const classes = await el.getAttribute('class');
-    return classes.indexOf('mat-primary') !== -1;
+    return classes.indexOf('mat-accent') !== -1;
   }
 
   async hitIsVisible(index: number): Promise<boolean> {
