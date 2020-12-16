@@ -44,7 +44,7 @@ Feature: Accessibility
       | dark        |
 
   @elements
-  Scenario Outline: Accessibility in page view for elements
+  Scenario Outline: Accessibility in page view for elements in <mode> mode
     Given the viewer is opened with a publication in HTML
     And the viewer is in <mode> mode
     And the viewer is in page view
@@ -56,7 +56,7 @@ Feature: Accessibility
       | dark        |
 
   @elements
-  Scenario Outline: Accessibility in attribution dialog for elements
+  Scenario Outline: Accessibility in attribution dialog for elements in <mode> mode
     Given the viewer is opened with a publication in HTML with attribution labels
     And the viewer is in <mode> mode
     Then the viewer should meet all accessibility criteria
@@ -67,7 +67,7 @@ Feature: Accessibility
       | dark        |
 
   @elements
-  Scenario Outline: Accessibility in contents dialog for elements
+  Scenario Outline: Accessibility in contents dialog for elements in <mode> mode
     Given the viewer is opened with a publication in HTML
     And the viewer is in <mode> mode
     And the viewer is in dashboard view
@@ -80,7 +80,7 @@ Feature: Accessibility
       | dark        |
 
   @elements
-  Scenario Outline: Accessibility in search dialog for elements
+  Scenario Outline: Accessibility in search dialog for elements in <mode> mode
     Given the viewer is opened with a publication in HTML
     And the viewer is in <mode> mode
     And the viewer is in dashboard view

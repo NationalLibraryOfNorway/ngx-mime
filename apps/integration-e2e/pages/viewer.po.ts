@@ -181,7 +181,7 @@ export class ViewerPage {
     );
     await contentSearchDialogButton.click();
     await utils.waitForElement(element(by.css('#content-search-form-submit')));
-    await this.waitForAnimation(3000);
+    await this.waitForAnimation();
   }
 
   async fullscreenButton(): Promise<ElementFinder> {
