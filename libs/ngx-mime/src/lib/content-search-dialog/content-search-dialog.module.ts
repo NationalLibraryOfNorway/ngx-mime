@@ -11,7 +11,6 @@ import { ContentSearchDialogComponent } from './content-search-dialog.component'
   providers: [
     ContentSearchDialogService,
     ContentSearchDialogConfigStrategyFactory
-  ],
-  entryComponents: [ContentSearchDialogComponent]
+  ]
 })
 export class ContentSearchDialogModule {}

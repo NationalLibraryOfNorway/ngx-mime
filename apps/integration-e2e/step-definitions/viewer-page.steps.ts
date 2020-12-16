@@ -1,5 +1,5 @@
-const { Given, When, Then } = require('cucumber');
-const { expect } = require('chai');
+import { Given, When, Then } from 'cucumber';
+import { expect } from 'chai';
 
 import { ViewerPage } from '../pages/viewer.po';
 import { ElementsPage } from '../pages/elements.po';
@@ -86,6 +86,10 @@ Given(
   }
 );
 
+Given('the viewer is in {word} mode', async (mode: string) => {
+  mode === 'dark' ? elementsPage.setDarkMode() : elementsPage.setLightMode();
+});
+
 When('the viewer is opened with a publication in Angular', async () => {
   await viewerPage.open();
 });
@@ -93,6 +97,13 @@ When('the viewer is opened with a publication in Angular', async () => {
 When('the viewer is opened with a publication in HTML', async () => {
   await elementsPage.open();
 });
+
+When(
+  'the viewer is opened with a publication in HTML with attribution labels',
+  async () => {
+    await elementsPage.open();
+  }
+);
 
 Then('it should be displayed', async () => {
   expect(await (await viewerPage.openSeadragonElement()).isPresent()).to.equal(

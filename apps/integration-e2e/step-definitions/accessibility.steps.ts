@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import { Then } from 'cucumber';
 import { browser } from 'protractor';
 
-const AxeBuilder = require('axe-webdriverjs');
+const AxeBuilder = require('@axe-core/webdriverjs');
 
 Then('the viewer should meet all accessibility criteria', async () => {
-  await AxeBuilder(browser.driver)
+  await new AxeBuilder(browser.driver)
     .disableRules(['page-has-heading-one', 'landmark-one-main'])
     .analyze()
     .then(results => {

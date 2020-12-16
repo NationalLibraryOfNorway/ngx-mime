@@ -49,7 +49,6 @@ When('the user closes the search dialog', async () => {
 
 When('the user opens the search dialog', async () => {
   await page.openContentSearchDialog();
-  await page.waitForAnimation(1000);
 });
 
 When('the user click the search inputs clear button', async () => {

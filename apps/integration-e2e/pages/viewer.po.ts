@@ -9,24 +9,24 @@ import {
 import { Key, promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
 
-const bookShelf = {
-  'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
-  'a-rtl-book': 'http://localhost:4040/catalog/v1/iiif/a-rtl-book/manifest',
-  'a-ltr-10-pages-book':
-    'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
-  'a-rtl-10-pages-book':
-    'http://localhost:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
-  'a-individuals-manifest':
-    'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
-  'a-non-attribution-manifest':
-    'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest'
-};
-
 const utils = new Utils();
 const thumbStartPosition = <any>{ x: 600, y: 300 };
 const pointerPosition1 = <any>{ x: 650, y: 275 };
 const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
+  public static readonly bookShelf = {
+    'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
+    'a-rtl-book': 'http://localhost:4040/catalog/v1/iiif/a-rtl-book/manifest',
+    'a-ltr-10-pages-book':
+      'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
+    'a-rtl-10-pages-book':
+      'http://localhost:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
+    'a-individuals-manifest':
+      'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
+    'a-non-attribution-manifest':
+      'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest'
+  };
+
   private isElements = false;
 
   async setDashboardMode(): Promise<void> {
@@ -74,7 +74,7 @@ export class ViewerPage {
   async open(manifestName?: string) {
     let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     if (manifestName) {
-      uri += '?manifestUri=' + bookShelf[manifestName];
+      uri += '?manifestUri=' + ViewerPage.bookShelf[manifestName];
     }
 
     await browser.get(uri);
@@ -172,6 +172,7 @@ export class ViewerPage {
       .get(1)
       .click();
     await utils.waitForElement(element(by.css('.toc-container')));
+    await this.waitForAnimation();
   }
 
   async openContentSearchDialog() {
@@ -179,8 +180,8 @@ export class ViewerPage {
       element(by.css('#contentSearchDialogButton'))
     );
     await contentSearchDialogButton.click();
-    await utils.waitForElement(element(by.css('.content-search-container')));
-    await this.waitForAnimation(1000);
+    await utils.waitForElement(element(by.css('#content-search-form-submit')));
+    await this.waitForAnimation(3000);
   }
 
   async fullscreenButton(): Promise<ElementFinder> {
