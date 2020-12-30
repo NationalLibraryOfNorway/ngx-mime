@@ -1,9 +1,4 @@
-import {
-  async,
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -26,7 +21,7 @@ describe('OsdToolbarComponent', () => {
   let fixture: ComponentFixture<OsdToolbarComponent>;
   let spy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, SharedModule],
       declarations: [OsdToolbarComponent],
@@ -70,7 +65,7 @@ describe('OsdToolbarComponent', () => {
     }
   ));
 
-  it("should not be visible when state is changed to 'hide'", async(() => {
+  it("should not be visible when state is changed to 'hide'", waitForAsync(() => {
     component.state = 'show';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -84,7 +79,7 @@ describe('OsdToolbarComponent', () => {
     });
   }));
 
-  it("should be visible when state is changed to 'show'", async(() => {
+  it("should be visible when state is changed to 'show'", waitForAsync(() => {
     component.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -129,7 +124,7 @@ describe('OsdToolbarComponent', () => {
     }
   ));
 
-  it('should disable next button when viewer is on last canvas group', async(inject(
+  it('should disable next button when viewer is on last canvas group', waitForAsync(inject(
     [ViewerService, CanvasService],
     (viewerService: ViewerServiceStub, canvasService: CanvasService) => {
       spyOnProperty(
@@ -150,7 +145,7 @@ describe('OsdToolbarComponent', () => {
     }
   )));
 
-  it('should display next canvas group', async(inject(
+  it('should display next canvas group', waitForAsync(inject(
     [ViewerService, CanvasService],
     (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
       spy = spyOn(viewerService, 'goToNextCanvasGroup');
@@ -165,7 +160,7 @@ describe('OsdToolbarComponent', () => {
     }
   )));
 
-  it('should display previous canvas group', async(inject(
+  it('should display previous canvas group', waitForAsync(inject(
     [ViewerService, CanvasService],
     (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
       spy = spyOn(component, 'goToPreviousCanvasGroup');

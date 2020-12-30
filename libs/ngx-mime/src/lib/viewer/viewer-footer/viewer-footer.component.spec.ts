@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { injectedStub } from '../../../testing/injected-stub';
@@ -16,7 +16,7 @@ describe('ViewerFooterComponent', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let fixture: ComponentFixture<ViewerFooterComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [NoopAnimationsModule],
@@ -43,12 +43,12 @@ describe('ViewerFooterComponent', () => {
     expect(cmp).toBeTruthy();
   });
 
-  it('should start in hidden mode', async(() => {
+  it('should start in hidden mode', waitForAsync(() => {
     expect(cmp.state).toBe('hide');
     expectFooterToBeHidden(fixture.debugElement.nativeElement);
   }));
 
-  it("should not be visible when state is changed to 'hide'", async(() => {
+  it("should not be visible when state is changed to 'hide'", waitForAsync(() => {
     cmp.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -56,7 +56,7 @@ describe('ViewerFooterComponent', () => {
     });
   }));
 
-  it("should be visible when state is changed to 'show'", async(() => {
+  it("should be visible when state is changed to 'show'", waitForAsync(() => {
     cmp.state = 'hide';
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -71,7 +71,7 @@ describe('ViewerFooterComponent', () => {
     });
   }));
 
-  it('should always show pageNavigator in desktop size', async(() => {
+  it('should always show pageNavigator in desktop size', waitForAsync(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     fixture.detectChanges();
@@ -84,7 +84,7 @@ describe('ViewerFooterComponent', () => {
     });
   }));
 
-  it('should show pageNavigator in desktop size and if content search navigator is displayed', async(() => {
+  it('should show pageNavigator in desktop size and if content search navigator is displayed', waitForAsync(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(false);
     cmp.showPageNavigator = false;
     cmp.showContentSearchNavigator = false;
@@ -102,7 +102,7 @@ describe('ViewerFooterComponent', () => {
     });
   }));
 
-  it('should hide pageNavigator if mobile size and content search navigator is displayed', async(() => {
+  it('should hide pageNavigator if mobile size and content search navigator is displayed', waitForAsync(() => {
     spyOn(mediaObserverStub, 'isActive').and.returnValue(true);
     cmp.searchResult = new SearchResult();
     cmp.searchResult.add(new Hit());

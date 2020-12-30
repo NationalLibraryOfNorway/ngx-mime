@@ -1,10 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SpinnerService } from '../../core/spinner-service/spinner.service';
 import { ViewerSpinnerComponent } from './viewer-spinner.component';
@@ -13,7 +8,7 @@ describe('ViewerSpinnerComponent', () => {
   let component: ViewerSpinnerComponent;
   let fixture: ComponentFixture<ViewerSpinnerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [SpinnerService],
@@ -31,7 +26,7 @@ describe('ViewerSpinnerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show spinner', async(
+  it('should show spinner', waitForAsync(
     inject([SpinnerService], (spinnerService: SpinnerService) => {
       let spinner: any;
 

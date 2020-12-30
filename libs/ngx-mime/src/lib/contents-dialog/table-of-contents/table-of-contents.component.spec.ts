@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { By } from '@angular/platform-browser';
 import { injectedStub } from '../../../testing/injected-stub';
@@ -23,7 +23,7 @@ describe('TocComponent', () => {
   let mediaObserver: any;
   let viewerService: ViewerService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule, HttpClientModule],
       declarations: [TocComponent],

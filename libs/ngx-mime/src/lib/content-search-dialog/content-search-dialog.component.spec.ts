@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
@@ -31,7 +31,7 @@ describe('ContentSearchDialogComponent', () => {
   let mediaObserver: any;
   let dialogRef: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
       declarations: [ContentSearchDialogComponent],
@@ -51,7 +51,7 @@ describe('ContentSearchDialogComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ContentSearchDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

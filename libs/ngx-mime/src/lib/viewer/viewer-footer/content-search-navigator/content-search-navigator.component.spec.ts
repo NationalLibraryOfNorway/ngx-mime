@@ -1,10 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { injectedStub } from '../../../../testing/injected-stub';
@@ -32,7 +27,7 @@ describe('ContentSearchNavigatorComponent', () => {
   let canvasService: CanvasServiceStub;
   let contentSearchNavigationService: ContentSearchNavigationService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [NoopAnimationsModule, SharedModule],
@@ -90,7 +85,7 @@ describe('ContentSearchNavigatorComponent', () => {
   ));
 
   describe('Two page display', () => {
-    it('should go to first hit if current canvas is 4 and user presses previous hit button', async(() => {
+    it('should go to first hit if current canvas is 4 and user presses previous hit button', waitForAsync(() => {
       spyOn(
         contentSearchNavigationService,
         'goToPreviousCanvasGroupHit'
@@ -107,7 +102,7 @@ describe('ContentSearchNavigatorComponent', () => {
       });
     }));
 
-    it('should go to first hit if current canvas is 3 and user presses previous hit button', async(() => {
+    it('should go to first hit if current canvas is 3 and user presses previous hit button', waitForAsync(() => {
       spyOn(
         contentSearchNavigationService,
         'goToPreviousCanvasGroupHit'
@@ -124,7 +119,7 @@ describe('ContentSearchNavigatorComponent', () => {
       });
     }));
 
-    it('should go to first hit if current canvas is 0 and user presses next hit button', async(() => {
+    it('should go to first hit if current canvas is 0 and user presses next hit button', waitForAsync(() => {
       spyOn(
         contentSearchNavigationService,
         'goToNextCanvasGroupHit'
@@ -141,7 +136,7 @@ describe('ContentSearchNavigatorComponent', () => {
       });
     }));
 
-    it('should disable previous button if on first hit', async(() => {
+    it('should disable previous button if on first hit', waitForAsync(() => {
       canvasService.setCanvasGroupIndexChange(2);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -152,7 +147,7 @@ describe('ContentSearchNavigatorComponent', () => {
       });
     }));
 
-    it('should disable next button if on last hit', async(() => {
+    it('should disable next button if on last hit', waitForAsync(() => {
       const last = createDefaultData().last();
       canvasService.setCanvasGroupIndexChange(51);
       fixture.detectChanges();
@@ -164,7 +159,7 @@ describe('ContentSearchNavigatorComponent', () => {
       });
     }));
 
-    it('should go to first hit on left page if user presses previous hit button', async(() => {
+    it('should go to first hit on left page if user presses previous hit button', waitForAsync(() => {
       spyOn(iiifContentSearchService, 'selected');
 
       component.searchResult = createLeftPageHit();
@@ -182,7 +177,7 @@ describe('ContentSearchNavigatorComponent', () => {
       });
     }));
 
-    it('should go to first hit on right page if user presses previous hit button', async(() => {
+    it('should go to first hit on right page if user presses previous hit button', waitForAsync(() => {
       spyOn(iiifContentSearchService, 'selected');
       component.searchResult = createRightPageHit();
       iiifContentSearchService._currentSearchResult.next(
@@ -199,7 +194,7 @@ describe('ContentSearchNavigatorComponent', () => {
       });
     }));
 
-    it('should skip going to right page when there is hits on both pages when user presses next hit button', async(() => {
+    it('should skip going to right page when there is hits on both pages when user presses next hit button', waitForAsync(() => {
       spyOn(iiifContentSearchService, 'selected');
       component.searchResult = createRightPageHit();
       iiifContentSearchService._currentSearchResult.next(
@@ -222,7 +217,7 @@ describe('ContentSearchNavigatorComponent', () => {
   });
 
   describe('Single page display', () => {
-    it('should go to first hit if user presses previous hit button', async(() => {
+    it('should go to first hit if user presses previous hit button', waitForAsync(() => {
       spyOn(iiifContentSearchService, 'selected');
       component.searchResult = createSinglePageHit();
       iiifContentSearchService._currentSearchResult.next(
@@ -241,7 +236,7 @@ describe('ContentSearchNavigatorComponent', () => {
       });
     }));
 
-    it('should go to next hit if user presses next hit button', async(() => {
+    it('should go to next hit if user presses next hit button', waitForAsync(() => {
       spyOn(iiifContentSearchService, 'selected');
       canvasService.setCanvasGroupIndexChange(0);
       fixture.detectChanges();

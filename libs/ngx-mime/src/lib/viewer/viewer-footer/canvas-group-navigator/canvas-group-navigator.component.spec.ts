@@ -1,10 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
@@ -25,7 +20,7 @@ describe('CanvasGroupNavigatorComponent', () => {
   let fixture: ComponentFixture<CanvasGroupNavigatorComponent>;
   let spy: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [NoopAnimationsModule, SharedModule],
@@ -96,7 +91,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     }
   ));
 
-  it('should disable next button when viewer is on last canvas group', async(
+  it('should disable next button when viewer is on last canvas group', waitForAsync(
     inject([CanvasService], (canvasService: CanvasServiceStub) => {
       canvasService._currentNumberOfCanvasGroups.next(10);
 
@@ -112,7 +107,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     })
   ));
 
-  it('should display next canvas group', async(
+  it('should display next canvas group', waitForAsync(
     inject(
       [ViewerService, CanvasService],
       (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
@@ -131,7 +126,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     )
   ));
 
-  it('should display previous canvas group', async(
+  it('should display previous canvas group', waitForAsync(
     inject(
       [ViewerService, CanvasService],
       (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
@@ -154,7 +149,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     )
   ));
 
-  it('should disable previous and next button if there is only one canvas', async(
+  it('should disable previous and next button if there is only one canvas', waitForAsync(
     inject(
       [ViewerService, CanvasService],
       (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
@@ -176,7 +171,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     )
   ));
 
-  it('should check hotkeys', async(
+  it('should check hotkeys', waitForAsync(
     inject([CanvasService], (canvasService: CanvasServiceStub) => {
       const event: KeyboardEvent = new KeyboardEvent('keyup', {
         code: '70' // 'f'
