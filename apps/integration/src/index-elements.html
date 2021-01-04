@@ -11,15 +11,49 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <link href="assets/styles.css" rel="stylesheet" />
     <link href="elements/styles.css" rel="stylesheet" />
     <script type="text/javascript" src="elements/scripts.js"></script>
     <script type="text/javascript" src="elements/polyfills-es5.js"></script>
   </head>
   <body class="mat-app-background">
-    <app-mime-viewer
-      manifest-uri="https://api.nb.no/catalog/v1/iiif/42d565dec2ab22274992c1d0ad94560c/manifest?profile=wwwnbno"
-      config='{"initViewerMode": 0}'
-    ></app-mime-viewer>
+    <main>
+      <h1 class="visually-hidden">Viewer</h1>
+    </main>
     <script type="text/javascript" src="elements/main-es5.js"></script>
+    <script>
+      let viewerEl;
+
+      function createViewer() {
+        viewerEl = document.createElement('app-mime-viewer');
+        viewerEl.setAttribute('config', '{"initViewerMode": 0}');
+        return viewerEl;
+      }
+
+      function getManifestUriFromParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const manifestUri = urlParams.get('manifestUri');
+        return manifestUri ? manifestUri : 'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest'
+      }
+
+      function addManifestUriToViewer() {
+        viewerEl.setAttribute('manifest-uri', getManifestUriFromParams());
+      }
+
+      function addViewerToMainLandmark() {
+        document.querySelector('main').appendChild(viewerEl);
+      }
+
+      function setFocusOnViewer() {
+        viewerEl.focus();
+      }
+
+      window.onload = (event) => {
+        createViewer();
+        addManifestUriToViewer();
+        addViewerToMainLandmark();
+        setFocusOnViewer();
+      };
+    </script>
   </body>
 </html>

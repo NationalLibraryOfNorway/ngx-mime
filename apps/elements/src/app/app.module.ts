@@ -25,8 +25,7 @@ import { AppComponent } from './app.component';
   ],
   providers: [
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer }
-  ],
-  entryComponents: [AppComponent]
+  ]
 })
 export class AppModule {
   private readonly name = 'app-mime-viewer';

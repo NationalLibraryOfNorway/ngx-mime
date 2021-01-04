@@ -12,14 +12,14 @@
           >
             <mat-icon>close</mat-icon>
           </button>
-          <div class="heading">{{ intl.searchLabel }}</div>
+          <div mat-dialog-title class="heading">{{ intl.searchLabel }}</div>
         </div>
       </mat-toolbar>
     </div>
     <div *ngSwitchDefault>
       <mat-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <div class="heading heading-desktop">{{ intl.searchLabel }}</div>
+          <div mat-dialog-title class="heading heading-desktop">{{ intl.searchLabel }}</div>
           <button
             id="close-content-search-dialog-button"
             mat-icon-button
@@ -33,82 +33,84 @@
       </mat-toolbar>
     </div>
   </div>
-  <div class="content-search-form">
-    <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
-      <mat-form-field class="content-search-box">
-        <button
-          id="content-search-form-submit"
-          type="submit"
-          matPrefix
-          mat-icon-button
-          [attr.aria-label]="intl.searchLabel"
-          [matTooltip]="intl.searchLabel"
-        >
-          <mat-icon class="icon">search</mat-icon>
-        </button>
-        <input
-          #query
-          cdkFocusInitial
-          matInput
-          class="content-search-input"
-          [(ngModel)]="q"
-          name="q"
-          autocomplete="off"
-          aria-labelledby="content-search-form-submit"
-        />
-        <button
-          *ngIf="q"
-          id="clearSearchButton"
-          type="button"
-          matSuffix
-          mat-icon-button
-          [attr.aria-label]="intl.clearSearchLabel"
-          [matTooltip]="intl.clearSearchLabel"
-          (click)="clear()"
-        >
-          <mat-icon class="icon">clear</mat-icon>
-        </button>
-      </mat-form-field>
-    </form>
-  </div>
-  <div
-    #contentSearchResult
-    class="content-search-result-container"
-    [ngStyle]="tabHeight"
-  >
-    <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
-      <input type="hidden" id="numberOfHits" [value]="numberOfHits" />
-      <div *ngIf="currentSearch && currentSearch.length > 0">
-        <div
-          *ngIf="numberOfHits > 0"
-          [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"
-        ></div>
-        <div
-          *ngIf="numberOfHits === 0"
-          [innerHTML]="intl.noResultsFoundLabel(currentSearch)"
-        ></div>
-      </div>
-      <ng-container *ngFor="let hit of hits; let last = last">
-        <button
-          #hitButton
-          mat-button
-          [color]="currentHit && hit.id === currentHit.id ? 'accent' : null"
-          [ngClass]="'hit'"
-          (click)="goToHit(hit)"
-          (keyup.enter)="goToHit(hit)"
-        >
-          <div fxLayout="row" fxLayoutAlign="space-between start">
-            <div fxFlex class="summary">
-              {{ hit.before }} <em>{{ hit.match }}</em> {{ hit.after }}
+  <mat-dialog-content>
+    <div class="content-search-form">
+      <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
+        <mat-form-field class="content-search-box">
+          <button
+            id="content-search-form-submit"
+            type="submit"
+            matPrefix
+            mat-icon-button
+            [attr.aria-label]="intl.searchLabel"
+            [matTooltip]="intl.searchLabel"
+          >
+            <mat-icon class="icon">search</mat-icon>
+          </button>
+          <input
+            #query
+            cdkFocusInitial
+            matInput
+            class="content-search-input"
+            [(ngModel)]="q"
+            name="q"
+            autocomplete="off"
+            aria-labelledby="content-search-form-submit"
+          />
+          <button
+            *ngIf="q"
+            id="clearSearchButton"
+            type="button"
+            matSuffix
+            mat-icon-button
+            [attr.aria-label]="intl.clearSearchLabel"
+            [matTooltip]="intl.clearSearchLabel"
+            (click)="clear()"
+          >
+            <mat-icon class="icon">clear</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+    </div>
+    <div
+      #contentSearchResult
+      class="content-search-result-container"
+      [ngStyle]="tabHeight"
+    >
+      <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
+        <input type="hidden" id="numberOfHits" [value]="numberOfHits" />
+        <div *ngIf="currentSearch && currentSearch.length > 0">
+          <div
+            *ngIf="numberOfHits > 0"
+            [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"
+          ></div>
+          <div
+            *ngIf="numberOfHits === 0"
+            [innerHTML]="intl.noResultsFoundLabel(currentSearch)"
+          ></div>
+        </div>
+        <ng-container *ngFor="let hit of hits; let last = last">
+          <button
+            #hitButton
+            mat-button
+            [color]="currentHit && hit.id === currentHit.id ? 'accent' : null"
+            [ngClass]="'hit'"
+            (click)="goToHit(hit)"
+            (keyup.enter)="goToHit(hit)"
+          >
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <div fxFlex class="summary">
+                {{ hit.before }} <em>{{ hit.match }}</em> {{ hit.after }}
+              </div>
+              <div fxFlex="40px" class="canvasGroup">{{ hit.index + 1 }}</div>
             </div>
-            <div fxFlex="40px" class="canvasGroup">{{ hit.index + 1 }}</div>
-          </div>
-        </button>
-        <mat-divider *ngIf="!last"></mat-divider>
-      </ng-container>
+          </button>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-container>
+      </div>
+      <div *ngIf="isSearching" class="content-search-result" fxLayout="column">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
     </div>
-    <div *ngIf="isSearching" class="content-search-result" fxLayout="column">
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </div>
-  </div>
+  </mat-dialog-content>
 </div>

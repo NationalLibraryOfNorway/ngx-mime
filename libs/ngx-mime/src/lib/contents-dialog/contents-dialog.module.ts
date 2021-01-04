@@ -18,7 +18,6 @@ import { TocComponent } from './table-of-contents/table-of-contents.component';
     ContentsDialogService,
     ContentsDialogConfigStrategyFactory,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-  ],
-  entryComponents: [ContentsDialogComponent]
+  ]
 })
 export class ContentsDialogModule {}

@@ -8,7 +8,6 @@ import { MimeDomHelper } from '../core/mime-dom-helper';
 @NgModule({
   imports: [SharedModule],
   declarations: [CanvasGroupDialogComponent],
-  providers: [CanvasGroupDialogService],
-  entryComponents: [CanvasGroupDialogComponent]
+  providers: [CanvasGroupDialogService]
 })
 export class CanvasGroupDialogModule {}

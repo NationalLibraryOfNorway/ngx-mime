@@ -13,7 +13,6 @@ import { MimeDomHelper } from '../core/mime-dom-helper';
     AttributionDialogService,
     AttributionDialogResizeService,
     MimeDomHelper
-  ],
-  entryComponents: [AttributionDialogComponent]
+  ]
 })
 export class AttributionDialogModule {}
