@@ -2,7 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTabGroupHarness } from '@angular/material/tabs/testing';
@@ -97,7 +97,7 @@ describe('ContentsDialogComponent', () => {
     expect(heading).not.toBeNull();
   });
 
-  it('should show toc', async(() => {
+  it('should show toc', waitForAsync(() => {
     const manifest = new Manifest({
       structures: [new Structure()]
     });
@@ -117,7 +117,7 @@ describe('ContentsDialogComponent', () => {
     });
   }));
 
-  it('should hide toc', async(() => {
+  it('should hide toc', waitForAsync(() => {
     const manifest = new Manifest();
     iiifManifestService._currentManifest.next(manifest);
 

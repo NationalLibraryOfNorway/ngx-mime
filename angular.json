@@ -32,7 +32,10 @@
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
               "./node_modules/hammerjs/hammer.min.js"
             ]
-          }
+          },
+          "outputs": [
+            "coverage/libs/ngx-mime"
+          ]
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
@@ -41,7 +44,10 @@
               "libs/ngx-mime/tsconfig.lib.json",
               "libs/ngx-mime/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ngx-mime/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/ngx-mime/**/*"
+            ]
           }
         }
       }
@@ -66,8 +72,14 @@
             "main": "apps/demo/src/main.ts",
             "polyfills": "apps/demo/src/polyfills.ts",
             "tsConfig": "apps/demo/tsconfig.app.json",
-            "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"],
-            "styles": ["apps/demo/src/styles.scss", "apps/demo/src/theme.scss"],
+            "assets": [
+              "apps/demo/src/favicon.ico",
+              "apps/demo/src/assets"
+            ],
+            "styles": [
+              "apps/demo/src/styles.scss",
+              "apps/demo/src/theme.scss"
+            ],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ]
@@ -89,14 +101,16 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": [
+            "{options.outputPath}"
+          ]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -122,12 +136,20 @@
             "polyfills": "apps/demo/src/polyfills.ts",
             "tsConfig": "apps/demo/tsconfig.spec.json",
             "karmaConfig": "apps/demo/karma.conf.js",
-            "styles": ["apps/demo/src/styles.scss"],
+            "styles": [
+              "apps/demo/src/styles.scss"
+            ],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ],
-            "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"]
-          }
+            "assets": [
+              "apps/demo/src/favicon.ico",
+              "apps/demo/src/assets"
+            ]
+          },
+          "outputs": [
+            "coverage/apps/demo/"
+          ]
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
@@ -136,7 +158,10 @@
               "apps/demo/tsconfig.app.json",
               "apps/demo/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/demo/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/demo/**"
+            ]
           }
         }
       }
@@ -156,7 +181,10 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/demo-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**", "!apps/demo-e2e/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/demo-e2e/**"
+            ]
           }
         }
       }
@@ -218,14 +246,16 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": [
+            "{options.outputPath}"
+          ]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -251,7 +281,9 @@
             "polyfills": "apps/integration/src/polyfills.ts",
             "tsConfig": "apps/integration/tsconfig.spec.json",
             "karmaConfig": "apps/integration/karma.conf.js",
-            "styles": ["apps/integration/src/styles.scss"],
+            "styles": [
+              "apps/integration/src/styles.scss"
+            ],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ],
@@ -259,7 +291,10 @@
               "apps/integration/src/favicon.ico",
               "apps/integration/src/assets"
             ]
-          }
+          },
+          "outputs": [
+            "coverage/apps/integration/"
+          ]
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
@@ -268,7 +303,10 @@
               "apps/integration/tsconfig.app.json",
               "apps/integration/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/integration/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/integration/**"
+            ]
           }
         }
       }
@@ -288,7 +326,10 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/integration-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**", "!apps/integration-e2e/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/integration-e2e/**"
+            ]
           }
         }
       }
@@ -380,7 +421,10 @@
               "apps/elements/tsconfig.app.json",
               "apps/elements/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/elements/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/elements/**/*"
+            ]
           }
         },
         "test": {
@@ -390,7 +434,9 @@
             "polyfills": "apps/elements/src/polyfills.ts",
             "tsConfig": "apps/elements/tsconfig.spec.json",
             "karmaConfig": "apps/elements/karma.conf.js",
-            "styles": ["apps/elements/src/styles.scss"],
+            "styles": [
+              "apps/elements/src/styles.scss"
+            ],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ],
@@ -417,8 +463,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/elements-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/elements-e2e/**/*"]
+            "tsConfig": [
+              "apps/elements-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/elements-e2e/**/*"
+            ]
           }
         }
       }

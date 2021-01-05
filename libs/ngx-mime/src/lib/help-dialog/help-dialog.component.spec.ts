@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -19,7 +19,7 @@ describe('HelpDialogComponent', () => {
   let mediaObserver: any;
   let dialogRef: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HelpDialogModule],
       providers: [
@@ -33,7 +33,7 @@ describe('HelpDialogComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

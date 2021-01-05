@@ -1,11 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  inject
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
 
 import { ViewerHeaderTestModule } from './viewer-header-test.module';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
@@ -29,7 +24,7 @@ describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [ViewerHeaderTestModule, ContentSearchDialogModule, HelpDialogModule],
@@ -79,12 +74,12 @@ describe('ViewerHeaderComponent', () => {
     component.toggleContents();
   });
 
-  it('should start in hidden mode', async(() => {
+  it('should start in hidden mode', waitForAsync(() => {
     expect(component.state).toBe('hide');
     expectHeaderToBeHidden(fixture.debugElement.nativeElement);
   }));
 
-  it('should not be visible when state is changed to hide', async(() => {
+  it('should not be visible when state is changed to hide', waitForAsync(() => {
     const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
     component.state = 'hide';
@@ -94,7 +89,7 @@ describe('ViewerHeaderComponent', () => {
     });
   }));
 
-  it('should be visible when state is changed to show', async(() => {
+  it('should be visible when state is changed to show', waitForAsync(() => {
     const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
     component.state = 'hide';
