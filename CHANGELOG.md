@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v10.1.0...v11.0.0) (2021-01-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update to Angular 11
+
+### Features
+
+* nx migrate to angular 11 ([ee9a326](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ee9a3262e60eddadd9305c6f26ccdab90c697f03))
+
 ## [10.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v10.0.0...v10.1.0) (2020-12-08)
 
 
