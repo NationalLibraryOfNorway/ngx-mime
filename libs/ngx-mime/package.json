@@ -2,10 +2,10 @@
   "name": "@nationallibraryofnorway/ngx-mime",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": ">=10.0.0 <11.0.0",
-    "@angular/core": ">=10.0.0 <11.0.0",
-    "@angular/flex-layout": ">=10.0.0 <11.0.0 || >=10.0.0-beta.32 <10.0.0",
-    "@angular/material": ">=10.0.0 <11.0.0",
+    "@angular/common": ">=11.0.0 <12.0.0",
+    "@angular/core": ">=11.0.0 <12.0.0",
+    "@angular/flex-layout": ">=11.0.0 <12.0.0 || >=11.0.0-beta.33 <12.0.0",
+    "@angular/material": ">=11.0.0 <12.0.0",
     "d3": ">=5.7.0 <6.0.0",
     "openseadragon": ">=2.4.0 <3.0.0"
   }
