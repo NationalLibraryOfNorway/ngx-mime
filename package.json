@@ -70,7 +70,7 @@
     "@angular/common": "11.0.3",
     "@angular/compiler": "11.0.3",
     "@angular/core": "11.0.3",
-    "@angular/elements": "^10.0.0",
+    "@angular/elements": "11.0.7",
     "@angular/flex-layout": "^11.0.0-beta.33",
     "@angular/forms": "11.0.3",
     "@angular/material": "^11.0.3",
