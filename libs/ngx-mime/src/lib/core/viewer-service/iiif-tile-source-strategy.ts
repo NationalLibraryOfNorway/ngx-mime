@@ -6,6 +6,7 @@ export class IiifTileSourceStrategy implements TileSourceStrategy {
     let tileSource: any;
     if (resource.service.service) {
       tileSource = resource.service;
+      tileSource.tileOverlap = 0.1; // Workaround for https://github.com/openseadragon/openseadragon/issues/1722
     } else {
       tileSource = resource.service['@id'];
       tileSource = tileSource.startsWith('//')
