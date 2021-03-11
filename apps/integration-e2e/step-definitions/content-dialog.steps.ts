@@ -1,11 +1,10 @@
 const { Given, When, Then } = require('cucumber');
 const { expect } = require('chai');
 import { browser } from 'protractor';
-
-import { ViewerPage } from '../pages/viewer.po';
 import { ContentsPage } from '../pages/contents.po';
 import { MetadataPage } from '../pages/metadata.po';
 import { TableOfContentsPage } from '../pages/table-of-contents.po';
+import { ViewerPage } from '../pages/viewer.po';
 
 const page = new ViewerPage();
 const contents = new ContentsPage();
@@ -42,7 +41,7 @@ Then('the viewer should go to page {word}', async (pageNumber: string) => {
   expect(currentCanvasGroupString.includes(pageNumber)).to.eql(true);
 });
 
-Then('the Contents dialog should be {word}', async state => {
+Then('the Contents dialog should be {word}', async (state) => {
   const isOpen = await contents.isOpen();
   const expectedState = state === 'closed' ? false : true;
   expect(isOpen).to.equal(expectedState);

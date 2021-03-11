@@ -1,8 +1,7 @@
-import { Given, When, Then } from 'cucumber';
 import { expect } from 'chai';
-
-import { ViewerPage } from '../pages/viewer.po';
+import { Given, Then, When } from 'cucumber';
 import { ElementsPage } from '../pages/elements.po';
+import { ViewerPage } from '../pages/viewer.po';
 
 const viewerPage = new ViewerPage();
 const elementsPage = new ElementsPage();

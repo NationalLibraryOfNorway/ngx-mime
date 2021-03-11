@@ -1,5 +1,5 @@
+import { browser, by, element, ElementFinder } from 'protractor';
 import { protractor } from 'protractor/built';
-import { browser, element, ElementFinder, by } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
@@ -13,13 +13,13 @@ export class ContentSearchPage {
 
   closeButton(): Promise<ElementFinder> {
     return utils.waitForElement(
-      element(by.css('#close-content-search-dialog-button'))
+      element(by.css('.close-content-search-dialog-button'))
     );
   }
 
   async setSearchTerm(term: string) {
     const el: ElementFinder = await utils.waitForElement(
-      element(by.css('.content-search-input'))
+      element(by.css('input.content-search-input'))
     );
     await el.clear();
     await el.sendKeys(term);
@@ -28,14 +28,14 @@ export class ContentSearchPage {
 
   async searchTerm(): Promise<string> {
     const el = await utils.waitForElement(
-      element(by.css('.content-search-input'))
+      element(by.css('input.content-search-input'))
     );
     return el.getText();
   }
 
   async getNumberOfHits() {
     const el: ElementFinder = await utils.waitForPresenceOf(
-      element(by.css('#numberOfHits'))
+      element(by.css('.numberOfHits'))
     );
     const numberOfHits = await el.getAttribute('value');
     return parseInt(numberOfHits, 8);
@@ -53,11 +53,11 @@ export class ContentSearchPage {
   }
 
   contentSearchNavigatorToolbar() {
-    return element(by.css('#content-search-navigator-toolbar'));
+    return element(by.css('.content-search-navigator-toolbar'));
   }
 
   clearInputButton() {
-    return utils.waitForElement(element(by.id('clearSearchButton')));
+    return utils.waitForElement(element(by.css('.clearSearchButton')));
   }
 
   clearButton() {

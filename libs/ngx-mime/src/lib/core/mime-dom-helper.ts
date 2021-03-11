@@ -26,14 +26,14 @@ export class MimeDomHelper {
   }
 
   public toggleFullscreen(): void {
-    const el = <any>document.getElementById('mimeViewer');
+    const el = <any>document.getElementById('ngx-mime-mimeViewer');
     if (this.fullscreen.isEnabled()) {
       this.fullscreen.toggle(el);
     }
   }
 
   public setFocusOnViewer(): void {
-    const el: HTMLElement = document.getElementById('mimeViewer');
+    const el: HTMLElement = document.getElementById('ngx-mime-mimeViewer');
     if (el) {
       el.focus();
     }

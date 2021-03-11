@@ -1,10 +1,9 @@
 const { Given, Then } = require('cucumber');
 const { expect } = require('chai');
 
-import { ViewerPage } from '../pages/viewer.po';
-import { browser } from 'protractor';
 import { ContentSearchPage } from '../pages/content-search.po';
 import { ContentsDialogPage } from '../pages/contents-dialog.po';
+import { ViewerPage } from '../pages/viewer.po';
 
 const page = new ViewerPage();
 const contentSearchPage = new ContentSearchPage();

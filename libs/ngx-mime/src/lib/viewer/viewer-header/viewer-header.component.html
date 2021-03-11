@@ -44,7 +44,7 @@
         </mime-icon>
       </button>
       <button
-        id="contentsDialogButton"
+        id="ngx-mimeContentsDialogButton"
         mat-icon-button
         [attr.aria-label]="intl.contentsLabel"
         [matTooltip]="intl.contentsLabel"
@@ -53,7 +53,7 @@
         <mat-icon aria-hidden="true">list</mat-icon>
       </button>
       <button
-        id="contentSearchDialogButton"
+        id="ngx-mimeContentSearchDialogButton"
         *ngIf="isContentSearchEnabled"
         mat-icon-button
         [attr.aria-label]="intl.searchLabel"
@@ -63,7 +63,7 @@
         <mat-icon aria-hidden="true">search</mat-icon>
       </button>
       <button
-        id="helpDialogButton"
+        id="ngx-mimeHelpDialogButton"
         mat-icon-button
         [attr.aria-label]="intl.help.helpLabel"
         [matTooltip]="intl.help.helpLabel"
@@ -73,7 +73,7 @@
       </button>
 
       <button
-        id="fullscreenButton"
+        id="ngx-mimeFullscreenButton"
         *ngIf="isFullscreenEnabled"
         mat-icon-button
         [attr.aria-label]="fullscreenLabel"

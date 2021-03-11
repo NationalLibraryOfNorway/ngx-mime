@@ -1,7 +1,10 @@
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,41 +29,49 @@ import { ContentSearchDialogComponent } from './content-search-dialog.component'
 describe('ContentSearchDialogComponent', () => {
   let component: ContentSearchDialogComponent;
   let fixture: ComponentFixture<ContentSearchDialogComponent>;
+  let loader: HarnessLoader;
+
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let mediaObserver: any;
   let dialogRef: any;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [ContentSearchDialogComponent],
-      providers: [
-        MimeViewerIntl,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: ViewerService, useClass: ViewerServiceStub },
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub
-        }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+        declarations: [ContentSearchDialogComponent],
+        providers: [
+          MimeViewerIntl,
+          MimeResizeService,
+          MimeDomHelper,
+          FullscreenService,
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: ViewerService, useClass: ViewerServiceStub },
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          {
+            provide: IiifContentSearchService,
+            useClass: IiifContentSearchServiceStub,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
-  beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(ContentSearchDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(
+    waitForAsync(() => {
+      fixture = TestBed.createComponent(ContentSearchDialogComponent);
+      component = fixture.componentInstance;
+      loader = TestbedHarnessEnvironment.loader(fixture);
 
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-    iiifManifestServiceStub = injectedStub(IiifManifestService);
-    mediaObserver = TestBed.inject(MediaObserver);
-    dialogRef = TestBed.inject(MatDialogRef);
-  }));
+      fixture.detectChanges();
+
+      iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+      iiifManifestServiceStub = injectedStub(IiifManifestService);
+      mediaObserver = TestBed.inject(MediaObserver);
+      dialogRef = TestBed.inject(MatDialogRef);
+    })
+  );
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -96,8 +107,8 @@ describe('ContentSearchDialogComponent', () => {
     component.hits = [
       new Hit({
         index: 0,
-        match: 'querystring'
-      })
+        match: 'querystring',
+      }),
     ];
     component.numberOfHits = 1;
     fixture.detectChanges();
@@ -118,8 +129,8 @@ describe('ContentSearchDialogComponent', () => {
     component.hits = [
       new Hit({
         index: 0,
-        match: 'querystring'
-      })
+        match: 'querystring',
+      }),
     ];
     component.numberOfHits = 1;
     fixture.detectChanges();
@@ -173,7 +184,7 @@ describe('ContentSearchDialogComponent', () => {
 
     iiifContentSearchServiceStub._currentSearchResult.next(
       new SearchResult({
-        hits: [new Hit(), new Hit()]
+        hits: [new Hit(), new Hit()],
       })
     );
 
@@ -182,22 +193,23 @@ describe('ContentSearchDialogComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should only show clear button on input', () => {
+  it('should only show clear button on input', async () => {
     const searchInput: DebugElement = fixture.debugElement.query(
       By.css('.content-search-input')
     );
 
-    expect(getClearButton()).toBeNull();
+    expect(await getButtonCount()).toEqual(2);
 
     searchInput.nativeElement.value = 'dummyvalue';
     searchInput.nativeElement.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
 
-    expect(getClearButton()).not.toBeNull();
+    expect(await getButtonCount()).toBe(3);
   });
 
-  function getClearButton() {
-    return fixture.debugElement.query(By.css('#clearSearchButton'));
+  async function getButtonCount() {
+    const buttons = await loader.getAllHarnesses(MatButtonHarness);
+    return buttons.length;
   }
 });

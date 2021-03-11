@@ -4,8 +4,8 @@
       <mat-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
           <button
-            id="close-content-search-dialog-button"
             mat-icon-button
+            class="close-content-search-dialog-button"
             [aria-label]="intl.closeLabel"
             [matTooltip]="intl.closeLabel"
             [matDialogClose]="true"
@@ -19,10 +19,12 @@
     <div *ngSwitchDefault>
       <mat-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <div mat-dialog-title class="heading heading-desktop">{{ intl.searchLabel }}</div>
+          <div mat-dialog-title class="heading heading-desktop">{{
+            intl.searchLabel
+          }}</div>
           <button
-            id="close-content-search-dialog-button"
             mat-icon-button
+            class="close-content-search-dialog-button"
             [aria-label]="intl.closeLabel"
             [matTooltip]="intl.closeLabel"
             [matDialogClose]="true"
@@ -38,7 +40,6 @@
       <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
         <mat-form-field class="content-search-box">
           <button
-            id="content-search-form-submit"
             type="submit"
             matPrefix
             mat-icon-button
@@ -53,14 +54,14 @@
             matInput
             class="content-search-input"
             [(ngModel)]="q"
+            [attr.aria-label]="intl.searchLabel"
             name="q"
             autocomplete="off"
-            aria-labelledby="content-search-form-submit"
           />
           <button
             *ngIf="q"
-            id="clearSearchButton"
             type="button"
+            class="clearSearchButton"
             matSuffix
             mat-icon-button
             [attr.aria-label]="intl.clearSearchLabel"
@@ -78,7 +79,7 @@
       [ngStyle]="tabHeight"
     >
       <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
-        <input type="hidden" id="numberOfHits" [value]="numberOfHits" />
+        <input type="hidden" class="numberOfHits" [value]="numberOfHits" />
         <div *ngIf="currentSearch && currentSearch.length > 0">
           <div
             *ngIf="numberOfHits > 0"

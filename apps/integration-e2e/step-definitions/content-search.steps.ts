@@ -1,8 +1,8 @@
 const { Given, When, Then } = require('cucumber');
 const { expect } = require('chai');
 
+import { ViewerPage } from '../pages/viewer.po';
 import { ContentSearchPage } from './../pages/content-search.po';
-import { ViewerPage, Point } from '../pages/viewer.po';
 
 const page = new ViewerPage();
 const contentSearchPage = new ContentSearchPage();
@@ -68,7 +68,7 @@ Then('the word {string} should be highlighted', async (term: string) => {
   expect(firstHit).to.contains(`${term} </em>`);
 });
 
-Then('the page with hit number {word} should be displayed', async hit => {
+Then('the page with hit number {word} should be displayed', async (hit) => {
   const currentPageString = await page.getCurrentCanvasGroupLabel();
   if (hit === 1) {
     expect(currentPageString.includes('25')).to.eql(true);
