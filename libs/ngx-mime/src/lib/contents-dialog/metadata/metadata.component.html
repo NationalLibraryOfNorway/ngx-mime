@@ -1,4 +1,4 @@
-<div id="metadata-container" class="metadata-container">
+<div class="ngx-mime-metadata-container">
   <div *ngFor="let metadata of manifest?.metadata" class="metadata">
     <div class="title">{{ metadata.label }}</div>
     <span class="content" [innerHTML]="metadata.value"></span>
@@ -6,22 +6,19 @@
   <div *ngIf="manifest?.attribution">
     <div class="title">{{ intl.attributionLabel }}</div>
     <span
-      id="metadata-attribution"
       class="content attribution"
       [innerHTML]="manifest?.attribution"
     ></span>
   </div>
   <div *ngIf="manifest?.license">
     <div class="title">{{ intl.licenseLabel }}</div>
-    <span id="metadata-license" class="content license"
+    <span class="content license"
       ><a [href]="manifest?.license" target="_blank">{{
         manifest?.license
       }}</a></span
     >
   </div>
   <div *ngIf="manifest?.logo">
-    <span id="metadata-logo"
-      ><img class="content logo" [src]="manifest?.logo"
-    /></span>
+    <span><img class="content logo" [src]="manifest?.logo" /></span>
   </div>
 </div>

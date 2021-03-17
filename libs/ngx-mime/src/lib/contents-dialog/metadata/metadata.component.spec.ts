@@ -15,16 +15,18 @@ describe('MetadataComponent', () => {
   let fixture: ComponentFixture<MetadataComponent>;
   let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientModule],
-      declarations: [MetadataComponent],
-      providers: [
-        MimeViewerIntl,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [SharedModule, HttpClientModule],
+        declarations: [MetadataComponent],
+        providers: [
+          MimeViewerIntl,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MetadataComponent);
@@ -42,8 +44,8 @@ describe('MetadataComponent', () => {
       new Manifest({
         metadata: [
           new Metadata('label1', 'value1'),
-          new Metadata('label2', 'value2')
-        ]
+          new Metadata('label2', 'value2'),
+        ],
       })
     );
     fixture.detectChanges();
@@ -57,7 +59,7 @@ describe('MetadataComponent', () => {
   it('should display attribution', () => {
     iiifManifestService._currentManifest.next(
       new Manifest({
-        attribution: 'This is a test attribution'
+        attribution: 'This is a test attribution',
       })
     );
     fixture.detectChanges();
@@ -73,7 +75,7 @@ describe('MetadataComponent', () => {
   it('should display license', () => {
     iiifManifestService._currentManifest.next(
       new Manifest({
-        license: 'https://wiki.creativecommons.org/wiki/CC0'
+        license: 'https://wiki.creativecommons.org/wiki/CC0',
       })
     );
     fixture.detectChanges();
@@ -89,7 +91,7 @@ describe('MetadataComponent', () => {
   it('should display logo', () => {
     iiifManifestService._currentManifest.next(
       new Manifest({
-        logo: 'http://example.com/dummylogo.jpg'
+        logo: 'http://example.com/dummylogo.jpg',
       })
     );
     fixture.detectChanges();

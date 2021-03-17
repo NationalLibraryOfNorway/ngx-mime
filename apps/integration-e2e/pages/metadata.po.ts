@@ -33,7 +33,7 @@ export class MetadataPage {
       metadatas.push(
         new Metadata({
           title: title,
-          content: content
+          content: content,
         })
       );
     }
@@ -41,12 +41,12 @@ export class MetadataPage {
   }
 
   getAttribution() {
-    const el = element(by.css('#metadata-attribution'));
+    const el = element(by.css('.content.attribution'));
     return utils.waitForElement(el);
   }
 
   getLicense() {
-    const el = element(by.css('#metadata-license'));
+    const el = element(by.css('.content.license'));
     return utils.waitForElement(el);
   }
 

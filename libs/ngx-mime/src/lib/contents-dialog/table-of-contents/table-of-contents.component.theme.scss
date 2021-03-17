@@ -3,7 +3,7 @@
 @mixin table-of-contents-theme($theme) {
   $foreground: map-get($theme, foreground);
 
-  #toc-container {
+  .ngx-mime-toc-container {
     .canvasGroupIndex {
       color: mat-color($foreground, text);
     }

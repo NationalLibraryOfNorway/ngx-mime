@@ -3,12 +3,12 @@
   $foreground: map-get($theme, foreground);
   $accent: map-get($theme, accent);
 
-  #metadata-container .content {
-    color: mat-color($foreground, secondary-text);
+  .ngx-mime-metadata-container {
+    .content {
+      color: mat-color($foreground, secondary-text);
+    }
+    a {
+      color: mat-color($accent);
+    }
   }
-
-  #metadata-container a {
-    color: mat-color($accent);
-  }
-
 }

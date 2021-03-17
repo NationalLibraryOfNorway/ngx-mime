@@ -23,20 +23,22 @@ describe('TocComponent', () => {
   let mediaObserver: any;
   let viewerService: ViewerService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientModule],
-      declarations: [TocComponent],
-      providers: [
-        ClickService,
-        CanvasService,
-        ModeService,
-        MimeViewerIntl,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: ViewerService, useClass: ViewerServiceStub }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [SharedModule, HttpClientModule],
+        declarations: [TocComponent],
+        providers: [
+          ClickService,
+          CanvasService,
+          ModeService,
+          MimeViewerIntl,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          { provide: ViewerService, useClass: ViewerServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TocComponent);
@@ -53,27 +55,27 @@ describe('TocComponent', () => {
               { id: 'canvas2' },
               { id: 'canvas3' },
               { id: 'canvas4' },
-              { id: 'canvas5' }
-            ]
-          }
+              { id: 'canvas5' },
+            ],
+          },
         ],
         structures: [
           new Structure({
             label: 'Forside',
             canvases: ['canvas1'],
-            canvasIndex: 0
+            canvasIndex: 0,
           }),
           new Structure({
             label: 'Tittelside',
             canvases: ['canvas2'],
-            canvasIndex: 1
+            canvasIndex: 1,
           }),
           new Structure({
             label: 'Bakside',
             canvases: ['canvas5'],
-            canvasIndex: 4
-          })
-        ]
+            canvasIndex: 4,
+          }),
+        ],
       })
     );
     mediaObserver = TestBed.inject(MediaObserver);
@@ -118,7 +120,7 @@ describe('TocComponent', () => {
     const divs: DebugElement[] = fixture.debugElement.queryAll(
       By.css('.toc-link')
     );
-    divs[2].triggerEventHandler('click', new Event("fakeEvent"));
+    divs[2].triggerEventHandler('click', new Event('fakeEvent'));
 
     expect(viewerService.goToCanvas).toHaveBeenCalledWith(4, false);
   });
