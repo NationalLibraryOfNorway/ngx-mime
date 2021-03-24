@@ -11,8 +11,10 @@ const config = {
   SELENIUM_PROMISE_MANAGER: false,
   directConnect: false,
   localSeleniumStandaloneOpts: {
-    jvmArgs: ['-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver'],
-    loopback: true
+    jvmArgs: [
+      '-Dwebdriver.gecko.driver=./node_modules/geckodriver/geckodriver',
+    ],
+    loopback: true,
   },
   specs: getFeatureFiles(),
   unknownFlags: ['cucumberOpts', 'device'],
@@ -24,10 +26,10 @@ const config = {
     require: [
       path.resolve(process.cwd(), `${basePath}/helpers/cucumber.config.ts`),
       path.resolve(process.cwd(), `${basePath}/step-definitions/**/*.steps.ts`),
-      path.resolve(process.cwd(), `${basePath}./helpers/hooks.ts`)
+      path.resolve(process.cwd(), `${basePath}./helpers/hooks.ts`),
     ],
     format: 'json:.tmp/results.json',
-    tags: getTags()
+    tags: getTags(),
   },
   plugins: [
     {
@@ -37,13 +39,13 @@ const config = {
       options: {
         automaticallyGenerateReport: true,
         removeExistingJsonReportFile: true,
-        removeOriginalJsonReportFile: true
-      }
-    }
+        removeOriginalJsonReportFile: true,
+      },
+    },
   ],
-  onPrepare: function() {
+  onPrepare: function () {
     require('ts-node').register({
-      project: require('path').join(__dirname, './tsconfig.e2e.json')
+      project: require('path').join(__dirname, './tsconfig.e2e.json'),
     });
     if (
       !config.multiCapabilities &&
@@ -52,14 +54,11 @@ const config = {
     ) {
       const width = 1024;
       const height = 768;
-      browser.driver
-        .manage()
-        .window()
-        .setSize(width, height);
+      browser.driver.manage().window().setSize(width, height);
     }
   },
   disableChecks: true,
-  ignoreUncaughtExceptions: true
+  ignoreUncaughtExceptions: true,
 };
 
 if (process.env.CI) {
@@ -76,11 +75,11 @@ function getMultiCapabilities() {
     .concat(remoteBrowsers.iphoneLaunchers);
   let capabilities = {
     name: 'Mime E2E Tests',
-    shardTestFiles: true
+    shardTestFiles: true,
   };
 
   if (argv.browser) {
-    const cap = browsers.find(l => l.browserName === argv.browser);
+    const cap = browsers.find((l) => l.browserName === argv.browser);
     console.log('cap', cap);
     capabilities = {
       browserName: cap.browserName,
@@ -89,7 +88,7 @@ function getMultiCapabilities() {
       deviceName: cap.deviceName,
       name: 'Mime E2E Tests',
       shardTestFiles: true,
-      maxInstances: 10
+      maxInstances: 10,
     };
     if (argv.headless) {
       capabilities.chromeOptions = {
@@ -97,8 +96,8 @@ function getMultiCapabilities() {
           'disable-infobars',
           '--headless',
           '--disable-gpu',
-          '--window-size=1024x768'
-        ]
+          '--window-size=1024x768',
+        ],
       };
     }
     multiCapabilities.push(capabilities);
@@ -122,8 +121,14 @@ function getMultiCapabilities() {
         shardTestFiles: true,
         build: process.env.CIRCLE_BUILD_NUM,
         tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
-        maxInstances: 5
+        maxInstances: 5,
       };
+
+      if (cap.browserName === 'chrome' || argv.device === 'android') {
+        capability['goog:chromeOptions'] = {
+          w3c: false,
+        };
+      }
 
       if (process.env.CI) {
         capability.build = process.env.CIRCLE_BUILD_NUM;
@@ -157,7 +162,8 @@ function getFeatureFiles() {
     return argv.feature
       .split(',')
       .map(
-        feature => `${process.cwd()}/${basePath}/features/**/${feature}.feature`
+        (feature) =>
+          `${process.cwd()}/${basePath}/features/**/${feature}.feature`
       );
   }
 
