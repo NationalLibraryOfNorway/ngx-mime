@@ -1,11 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as d3 from 'd3';
-import {
-  BehaviorSubject,
-  interval,
-  Observable,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, sample, takeUntil } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
@@ -34,7 +29,7 @@ import { CalculateNextCanvasGroupFactory } from './calculate-next-canvas-group-f
 import { CanvasGroupMask } from './canvas-group-mask';
 import {
   DefaultGoToCanvasGroupStrategy,
-  GoToCanvasGroupStrategy
+  GoToCanvasGroupStrategy,
 } from './go-to-canvas-group-strategy';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
@@ -155,7 +150,7 @@ export class ViewerService {
   public goToCanvasGroup(canvasGroupIndex: number, immediately: boolean): void {
     this.goToCanvasGroupStrategy.goToCanvasGroup({
       canvasGroupIndex: canvasGroupIndex,
-      immediately: immediately
+      immediately: immediately,
     });
   }
 
@@ -165,7 +160,7 @@ export class ViewerService {
     );
     this.goToCanvasGroupStrategy.goToCanvasGroup({
       canvasGroupIndex: canvasGroupIndex,
-      immediately: immediately
+      immediately: immediately,
     });
   }
 
@@ -365,7 +360,7 @@ export class ViewerService {
         canvasGroupIndex: this.canvasService.findCanvasGroupByCanvasIndex(
           currentCanvasIndex
         ),
-        immediately: false
+        immediately: false,
       });
 
       // Recreate highlights if there is an active search going on
@@ -495,7 +490,7 @@ export class ViewerService {
     }
     this.goToCanvasGroupStrategy.goToCanvasGroup({
       canvasGroupIndex: this.canvasService.currentCanvasGroupIndex,
-      immediately: false
+      immediately: false,
     });
 
     this.canvasGroupMask.hide();
@@ -513,7 +508,7 @@ export class ViewerService {
     }
     this.goToCanvasGroupStrategy.goToCanvasGroup({
       canvasGroupIndex: this.canvasService.currentCanvasGroupIndex,
-      immediately: false
+      immediately: false,
     });
 
     this.canvasGroupMask.show();
@@ -633,6 +628,8 @@ export class ViewerService {
     );
     if (requestedCanvasGroupIndex) {
       this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
+    } else {
+      this.calculateCurrentCanvasGroup(this.viewer.viewport.getCenter(true));
     }
     this.modeService.toggleMode();
   };
@@ -696,7 +693,7 @@ export class ViewerService {
           canvasGroupIndex: i,
           canvasSource: tile,
           previousCanvasGroupPosition: canvasRects[i - 1],
-          viewingDirection: this.manifest.viewingDirection
+          viewingDirection: this.manifest.viewingDirection,
         },
         rotation
       );
@@ -734,7 +731,7 @@ export class ViewerService {
           index: i,
           tileSource: tileSource,
           fitBounds: bounds,
-          degrees: rotation
+          degrees: rotation,
         });
       });
 
@@ -894,7 +891,7 @@ export class ViewerService {
         direction: direction,
         currentCanvasGroupIndex: currentCanvasGroupIndex,
         canvasGroupEndHitCountReached: canvasGroupEndHitCountReached,
-        viewingDirection: this.manifest.viewingDirection
+        viewingDirection: this.manifest.viewingDirection,
       }
     );
     if (
@@ -905,7 +902,7 @@ export class ViewerService {
       this.goToCanvasGroupStrategy.goToCanvasGroup({
         canvasGroupIndex: newCanvasGroupIndex,
         immediately: false,
-        direction: direction
+        direction: direction,
       });
     }
   }
