@@ -1,7 +1,7 @@
 const { When, Then } = require('cucumber');
 const { expect } = require('chai');
 
-import { ViewerPage, Point } from '../pages/viewer.po';
+import { Point, ViewerPage } from '../pages/viewer.po';
 
 const page = new ViewerPage();
 let previousCenter: Point;

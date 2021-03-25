@@ -24,7 +24,7 @@ export class ViewerPage {
     'a-individuals-manifest':
       'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
     'a-non-attribution-manifest':
-      'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest'
+      'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest',
   };
 
   private isElements = false;
@@ -94,7 +94,7 @@ export class ViewerPage {
 
   async slideToCanvasGroup(canvasGroupIndex: number) {
     const slider = await utils.waitForElement(
-      element(by.css('#navigationSlider'))
+      element(by.css('.navigation-slider'))
     );
     const isTwoPageView = this.isTwoPageView();
     if ((await isTwoPageView) && canvasGroupIndex > 1) {
@@ -108,12 +108,12 @@ export class ViewerPage {
 
   async goToCanvasGroupWithDialog(canvasGroupIndex: number) {
     const goToCanvasGroupButton = await utils.waitForElement(
-      element(by.css('#goToCanvasGroupButton'))
+      element(by.css('button.canvasGroups'))
     );
     await goToCanvasGroupButton.click();
     const isTwoPageView = this.isTwoPageView();
     const input = await utils.waitForElement(
-      element(by.css('#goToCanvasGroupInput'))
+      element(by.css('.go-to-canvas-group-input'))
     );
     await input.sendKeys(canvasGroupIndex);
     await input.sendKeys(protractor.Key.ENTER);
@@ -155,40 +155,39 @@ export class ViewerPage {
   }
 
   async openContentsDialog() {
-    await element(by.css('#contentsDialogButton')).click();
+    await element(by.css('#ngx-mimeContentsDialogButton')).click();
     await utils.waitForElement(element(by.css('.contents-container')));
     await browser.sleep(2000);
   }
 
   async openHelpDialog() {
-    await element(by.css('#helpDialogButton')).click();
+    await element(by.css('#ngx-mimeHelpDialogButton')).click();
     await utils.waitForElement(element(by.css('.help-container')));
     await browser.sleep(2000);
   }
 
   async openTableOfContentsTab() {
-    await element
-      .all(by.css('.mat-tab-label'))
-      .get(1)
-      .click();
-    await utils.waitForElement(element(by.css('.toc-container')));
+    await element.all(by.css('.mat-tab-label')).get(1).click();
+    await utils.waitForElement(element(by.css('.ngx-mime-toc-container')));
     await this.waitForAnimation();
   }
 
   async openContentSearchDialog() {
-    const contentSearchDialogButton: ElementFinder = await utils.waitForElement(
-      element(by.css('#contentSearchDialogButton'))
+    const ngxmimeContentSearchDialogButton: ElementFinder = await utils.waitForElement(
+      element(by.css('#ngx-mimeContentSearchDialogButton'))
     );
-    await contentSearchDialogButton.click();
-    await utils.waitForElement(element(by.css('#content-search-form-submit')));
+    await ngxmimeContentSearchDialogButton.click();
+    await utils.waitForElement(
+      element(by.css('.content-search-box button[type="submit"]'))
+    );
     await this.waitForAnimation();
   }
 
   async fullscreenButton(): Promise<ElementFinder> {
-    const fullscreenButton: ElementFinder = await utils.waitForElement(
-      element(by.css('#fullscreenButton'))
+    const ngxmimeFullscreenButton: ElementFinder = await utils.waitForElement(
+      element(by.css('#ngx-mimeFullscreenButton'))
     );
-    return fullscreenButton;
+    return ngxmimeFullscreenButton;
   }
 
   openSeadragonElement() {
@@ -197,7 +196,7 @@ export class ViewerPage {
   }
 
   getAttribution() {
-    const el = element(by.css('#attribution-container > .mat-dialog-content'));
+    const el = element(by.css('.attribution-container > .mat-dialog-content'));
     return utils.waitForElement(el);
   }
 
@@ -293,7 +292,7 @@ export class ViewerPage {
 
   getAnimationTimeInMs(): Promise<number> {
     return new Promise((resolve, reject) => {
-      this.getAnimationTimeInSec().then(time => {
+      this.getAnimationTimeInSec().then((time) => {
         resolve(time * 1000);
       });
     });
@@ -379,11 +378,7 @@ export class ViewerPage {
     await browser
       .findElement(By.css('.openseadragon-canvas > canvas'))
       .then((canvas: WebElement) => {
-        return browser
-          .touchActions()
-          .tap(canvas)
-          .tap(canvas)
-          .perform();
+        return browser.touchActions().tap(canvas).tap(canvas).perform();
       });
   }
 
@@ -529,7 +524,7 @@ export class ViewerPage {
 
     const [leftCanvasGroupMask, rightCanvasGroupMask] = await Promise.all([
       this.getLeftCanvasGroupMask(),
-      this.getRightCanvasGroupMask()
+      this.getRightCanvasGroupMask(),
     ]);
 
     const leftCanvasGroupMaskSize = await leftCanvasGroupMask.getSize();
@@ -572,7 +567,7 @@ export class ViewerPage {
       lastEvent = 'elementCalculatedLocastion';
       const elementCalculatedLocastion = {
         left: elementLocation.x,
-        right: elementLocation.x + elementSize.width
+        right: elementLocation.x + elementSize.width,
       };
       lastEvent = 'return';
       return (

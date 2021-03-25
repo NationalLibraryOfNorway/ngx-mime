@@ -1,5 +1,14 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { injectedStub } from '../../testing/injected-stub';
@@ -19,32 +28,38 @@ import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 describe('PageDialogComponent', () => {
   let component: CanvasGroupDialogComponent;
   let fixture: ComponentFixture<CanvasGroupDialogComponent>;
+  let loader: HarnessLoader;
+
   let intl: MimeViewerIntl;
   let canvasService: CanvasServiceStub;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [CanvasGroupDialogComponent],
-      providers: [
-        ViewerService,
-        ClickService,
-        ModeService,
-        ViewerLayoutService,
-        MimeViewerIntl,
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub
-        },
-        { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: CanvasService, useClass: CanvasServiceStub }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule],
+        declarations: [CanvasGroupDialogComponent],
+        providers: [
+          ViewerService,
+          ClickService,
+          ModeService,
+          ViewerLayoutService,
+          MimeViewerIntl,
+          {
+            provide: IiifContentSearchService,
+            useClass: IiifContentSearchServiceStub,
+          },
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: CanvasService, useClass: CanvasServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CanvasGroupDialogComponent);
     component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
+
     intl = TestBed.inject(MimeViewerIntl);
     canvasService = injectedStub(CanvasService);
     fixture.detectChanges();
@@ -67,7 +82,7 @@ describe('PageDialogComponent', () => {
   });
 
   describe('error messages', () => {
-    it('should show a error message if user enters a canvas group number index that does not exists', fakeAsync(() => {
+    it('should show a error message if user enters a canvas group number index that does not exists', fakeAsync(async () => {
       canvasService._currentNumberOfCanvasGroups.next(10);
 
       component.canvasGroupControl.setValue(11);
@@ -76,10 +91,10 @@ describe('PageDialogComponent', () => {
       fixture.detectChanges();
       flush();
 
-      const canvasGroupDoesNotExistsError = fixture.debugElement.query(
-        By.css('#canvasGroupDoesNotExistsError')
+      const canvasGroupDoesNotExistsError = await loader.getHarness(
+        MatFormFieldHarness
       );
-      expect(canvasGroupDoesNotExistsError).not.toBeNull();
+      expect(await canvasGroupDoesNotExistsError.hasErrors()).toBeTrue();
     }));
   });
 });

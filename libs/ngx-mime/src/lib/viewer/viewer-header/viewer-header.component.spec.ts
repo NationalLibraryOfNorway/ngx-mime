@@ -1,24 +1,24 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
-
-import { ViewerHeaderTestModule } from './viewer-header-test.module';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
-import { ViewerHeaderComponent } from './viewer-header.component';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
+import { ClickService } from '../../core/click-service/click.service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
+import { ModeService } from '../../core/mode-service/mode.service';
+import { ViewerLayout } from '../../core/models/viewer-layout';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
+import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
-import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
-import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
 import { MimeDomHelper } from './../../core/mime-dom-helper';
-import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
-import { ViewerLayout } from '../../core/models/viewer-layout';
-import { ViewerService } from '../../core/viewer-service/viewer.service';
-import { ClickService } from '../../core/click-service/click.service';
-import { ModeService } from '../../core/mode-service/mode.service';
-import { CanvasService } from '../../core/canvas-service/canvas-service';
-import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { FullscreenServiceStub } from './../../test/fullscreen-service-stub';
-import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
+import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
+import { ViewerHeaderTestModule } from './viewer-header-test.module';
+import { ViewerHeaderComponent } from './viewer-header.component';
+
 
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
@@ -57,7 +57,7 @@ describe('ViewerHeaderComponent', () => {
     [MimeViewerIntl],
     (intl: MimeViewerIntl) => {
       const button = fixture.debugElement.query(
-        By.css('#contentsDialogButton')
+        By.css('#ngx-mimeContentsDialogButton')
       );
 
       intl.contentsLabel = 'Metadata of the publication';
@@ -112,7 +112,7 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('#fullscreenButton'));
+      const button = fixture.debugElement.query(By.css('#ngx-mimeFullscreenButton'));
       expect(button).not.toBeNull();
     }
   ));
@@ -124,7 +124,7 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('#fullscreenButton'));
+      const button = fixture.debugElement.query(By.css('#ngx-mimeFullscreenButton'));
       expect(button).not.toBeNull();
     }
   ));
@@ -139,7 +139,7 @@ describe('ViewerHeaderComponent', () => {
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(
-        By.css('#contentSearchDialogButton')
+        By.css('#ngx-mimeContentSearchDialogButton')
       );
       expect(button.nativeElement.getAttribute('aria-label')).toBe('Search');
     }
@@ -153,7 +153,7 @@ describe('ViewerHeaderComponent', () => {
       fixture.detectChanges();
 
       const button = fixture.debugElement.query(
-        By.css('#contentSearchDialogButton')
+        By.css('#ngx-mimeContentSearchDialogButton')
       );
       expect(button).toBeNull();
     }

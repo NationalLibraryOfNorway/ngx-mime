@@ -1,4 +1,4 @@
-import { element, by } from 'protractor';
+import { by, element } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();

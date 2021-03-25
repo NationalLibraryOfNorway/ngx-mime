@@ -1,8 +1,8 @@
 const { Given, When, Then } = require('cucumber');
 const { expect } = require('chai');
 
-import { ViewerPage } from './../pages/viewer.po';
 import { MetadataPage } from './../pages/metadata.po';
+import { ViewerPage } from './../pages/viewer.po';
 
 const viewer = new ViewerPage();
 const metadata = new MetadataPage();

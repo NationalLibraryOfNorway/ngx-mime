@@ -2,7 +2,6 @@ const { When, Then } = require('cucumber');
 const { expect } = require('chai');
 
 import { ViewerPage } from './../pages/viewer.po';
-import { MetadataPage } from './../pages/metadata.po';
 
 const page = new ViewerPage();
 
@@ -12,11 +11,11 @@ When(
     if (direction === 'left-to-right') {
       const start = {
         x: 200,
-        y: 0
+        y: 0,
       };
       const end = {
         x: 0,
-        y: 0
+        y: 0,
       };
       await page.swipe(start, end);
     }

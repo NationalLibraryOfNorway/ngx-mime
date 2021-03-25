@@ -24,6 +24,7 @@ import { ViewerMode } from '../core/models/viewer-mode';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
+import { HelpDialogModule } from '../help-dialog/help-dialog.module';
 import { SharedModule } from '../shared/shared.module';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
 import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
@@ -35,9 +36,8 @@ import { TestHostComponent } from './test-host.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerComponent } from './viewer.component';
-import { HelpDialogModule } from '../help-dialog/help-dialog.module';
 
-describe('ViewerComponent', function() {
+describe('ViewerComponent', function () {
   const matSnackBarSpy = jasmine.createSpy('MatSnackBar');
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
@@ -56,51 +56,53 @@ describe('ViewerComponent', function() {
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-        SharedModule,
-        ContentsDialogModule,
-        AttributionDialogModule,
-        ContentSearchDialogModule,
-        HelpDialogModule
-      ],
-      declarations: [
-        ViewerComponent,
-        TestHostComponent,
-        ViewerHeaderComponent,
-        ViewerFooterComponent,
-        TestDynamicComponent
-      ],
-      providers: [
-        { provide: MatSnackBar, useClass: matSnackBarSpy },
-        ViewerService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub
-        },
-        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-        MimeViewerIntl,
-        ClickService,
-        CanvasService,
-        ModeService,
-        FullscreenService,
-        AccessKeysService,
-        ViewerLayoutService,
-        ContentSearchNavigationService
-      ]
-    })
-      .overrideModule(BrowserDynamicTestingModule, {
-        set: {
-          entryComponents: [TestDynamicComponent]
-        }
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          HttpClientTestingModule,
+          NoopAnimationsModule,
+          SharedModule,
+          ContentsDialogModule,
+          AttributionDialogModule,
+          ContentSearchDialogModule,
+          HelpDialogModule,
+        ],
+        declarations: [
+          ViewerComponent,
+          TestHostComponent,
+          ViewerHeaderComponent,
+          ViewerFooterComponent,
+          TestDynamicComponent,
+        ],
+        providers: [
+          { provide: MatSnackBar, useClass: matSnackBarSpy },
+          ViewerService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          {
+            provide: IiifContentSearchService,
+            useClass: IiifContentSearchServiceStub,
+          },
+          { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+          MimeViewerIntl,
+          ClickService,
+          CanvasService,
+          ModeService,
+          FullscreenService,
+          AccessKeysService,
+          ViewerLayoutService,
+          ContentSearchNavigationService,
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideModule(BrowserDynamicTestingModule, {
+          set: {
+            entryComponents: [TestDynamicComponent],
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerComponent);
@@ -127,7 +129,7 @@ describe('ViewerComponent', function() {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
-  afterEach(function() {
+  afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
@@ -149,7 +151,9 @@ describe('ViewerComponent', function() {
     testHostComponent.tabIndex = 1;
     testHostFixture.detectChanges();
 
-    const viewerDe = testHostFixture.debugElement.query(By.css('#mimeViewer'));
+    const viewerDe = testHostFixture.debugElement.query(
+      By.css('.viewer-container')
+    );
     expect(viewerDe.nativeElement.getAttribute('tabindex')).toBe('1');
   });
 
@@ -157,7 +161,7 @@ describe('ViewerComponent', function() {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should change mode to initial-mode when changing manifest', done => {
+  it('should change mode to initial-mode when changing manifest', (done) => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
@@ -392,7 +396,7 @@ describe('ViewerComponent', function() {
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should emit when canvas group number changes', done => {
+  it('should emit when canvas group number changes', (done) => {
     let currentCanvasIndex: number;
     comp.canvasChanged.subscribe(
       (canvasIndex: number) => (currentCanvasIndex = canvasIndex)
@@ -442,12 +446,12 @@ describe('ViewerComponent', function() {
 
     iiifManifestServiceStub._currentManifest.next(
       new Manifest({
-        id: 'dummyid'
+        id: 'dummyid',
       })
     );
   });
 
-  it('should open viewer on canvas index if present', done => {
+  it('should open viewer on canvas index if present', (done) => {
     let currentCanvasIndex: number;
     testHostComponent.canvasIndex = 12;
     comp.canvasChanged.subscribe((canvasIndex: number) => {

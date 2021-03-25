@@ -1,9 +1,7 @@
 const { Given, Then } = require('cucumber');
 const { expect } = require('chai');
-import { browser, by } from 'protractor';
-
-import { ViewerPage } from '../pages/viewer.po';
 import { Utils } from '../helpers/utils';
+import { ViewerPage } from '../pages/viewer.po';
 
 const page = new ViewerPage();
 const utils = new Utils();
@@ -16,7 +14,6 @@ Given('the layout is two-page', async () => {
 
   expect(await page.isTwoPageView()).to.equal(true);
 });
-
 
 Given('the layout is one-page', async () => {
   await page.setDashboardMode();

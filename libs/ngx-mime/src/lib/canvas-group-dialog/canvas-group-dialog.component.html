@@ -8,25 +8,20 @@
   >
     <mat-form-field [floatLabel]="'always'">
       <input
-        id="goToCanvasGroupInput"
+        class="go-to-canvas-group-input"
         type="number"
         matInput
         min="1"
         [placeholder]="intl.enterPageNumber"
         formControlName="canvasGroupControl"
       />
-      <mat-error
-        id="canvasGroupDoesNotExistsError"
-        *ngIf="canvasGroupControl.errors?.max"
-        >{{ intl.pageDoesNotExists }}</mat-error
-      >
+      <mat-error *ngIf="canvasGroupControl.errors?.max">{{
+        intl.pageDoesNotExists
+      }}</mat-error>
     </mat-form-field>
     <div fxLayout="row" fxLayoutAlign="end center">
-      <button id="cancelButton" type="button" mat-button matDialogClose>
-        CANCEL
-      </button>
+      <button type="button" mat-button matDialogClose> CANCEL </button>
       <button
-        id="goToCanvasGroupSubmitButton"
         type="submit"
         mat-button
         [disabled]="canvasGroupForm.pristine || canvasGroupForm.invalid"

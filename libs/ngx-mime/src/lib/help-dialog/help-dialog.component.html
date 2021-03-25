@@ -1,26 +1,22 @@
-<div id="help-container" class="help-container">
+<div class="help-container">
   <div [ngSwitch]="mediaObserver.isActive('lt-md')">
     <div *ngSwitchCase="true">
       <mat-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <button
-            mat-icon-button
-            [matDialogClose]="true"
-          >
+          <button mat-icon-button [matDialogClose]="true">
             <mat-icon>close</mat-icon>
           </button>
-          <h1 mat-dialog-title>{{intl.help.helpLabel}}</h1>
+          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>
         </div>
       </mat-toolbar>
     </div>
     <div *ngSwitchDefault>
       <mat-toolbar>
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <h1 class="heading-desktop" mat-dialog-title>{{intl.help.helpLabel}}</h1>
-          <button
-            mat-icon-button
-            [matDialogClose]="true"
-          >
+          <h1 class="heading-desktop" mat-dialog-title>{{
+            intl.help.helpLabel
+          }}</h1>
+          <button mat-icon-button [matDialogClose]="true">
             <mat-icon>close</mat-icon>
           </button>
         </div>

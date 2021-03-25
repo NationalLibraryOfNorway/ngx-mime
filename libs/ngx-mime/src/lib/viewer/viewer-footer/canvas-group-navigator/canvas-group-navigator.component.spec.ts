@@ -182,7 +182,7 @@ describe('CanvasGroupNavigatorComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        const slider = fixture.debugElement.query(By.css('#navigationSlider'));
+        const slider = fixture.debugElement.query(By.css('.navigation-slider'));
         slider.nativeElement.dispatchEvent(event);
         fixture.detectChanges();
         expect(spy).toHaveBeenCalled();
