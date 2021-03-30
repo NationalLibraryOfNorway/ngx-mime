@@ -658,6 +658,8 @@ export class ViewerService {
       );
       if (requestedCanvasGroupIndex >= 0) {
         this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
+      } else {
+        this.calculateCurrentCanvasGroup(this.viewer.viewport.getCenter(true));
       }
     }
   };
