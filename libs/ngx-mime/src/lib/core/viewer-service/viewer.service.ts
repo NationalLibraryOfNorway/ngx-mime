@@ -39,7 +39,7 @@ import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 declare const OpenSeadragon: any;
 @Injectable()
 export class ViewerService {
-  private viewer: any;
+  private viewer?: any;
   private svgOverlay: any;
   private svgNode: any;
   private config: MimeViewerConfig;
@@ -325,7 +325,7 @@ export class ViewerService {
       .subscribe((state: boolean) => {
         if (state) {
           this.initialCanvasGroupLoaded();
-          this.currentCenter.next(this.viewer.viewport.getCenter(true));
+          this.currentCenter.next(this.viewer?.viewport.getCenter(true));
         }
       });
 
@@ -400,6 +400,7 @@ export class ViewerService {
         d3.select(this.viewer.container.parentNode).style('opacity', '0');
       }
       this.viewer.destroy();
+      this.viewer = null;
     }
     this.destroyed.next();
     this.overlays = null;
@@ -420,7 +421,7 @@ export class ViewerService {
     this.clickService.addSingleClickHandler(this.singleClickHandler);
     this.clickService.addDoubleClickHandler(this.dblClickHandler);
     this.viewer.addHandler('animation-finish', () => {
-      this.currentCenter.next(this.viewer.viewport.getCenter(true));
+      this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler(
@@ -444,7 +445,7 @@ export class ViewerService {
     );
 
     this.viewer.addHandler('animation', (e: any) => {
-      this.currentCenter.next(this.viewer.viewport.getCenter(true));
+      this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
   }
 
@@ -629,7 +630,7 @@ export class ViewerService {
     if (requestedCanvasGroupIndex) {
       this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
     } else {
-      this.calculateCurrentCanvasGroup(this.viewer.viewport.getCenter(true));
+      this.calculateCurrentCanvasGroup(this.viewer?.viewport.getCenter(true));
     }
     this.modeService.toggleMode();
   };
@@ -659,7 +660,7 @@ export class ViewerService {
       if (requestedCanvasGroupIndex >= 0) {
         this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
       } else {
-        this.calculateCurrentCanvasGroup(this.viewer.viewport.getCenter(true));
+        this.calculateCurrentCanvasGroup(this.viewer?.viewport.getCenter(true));
       }
     }
   };
@@ -910,6 +911,6 @@ export class ViewerService {
   }
 
   private getViewportBounds(): Rect {
-    return this.viewer.viewport.getBounds();
+    return this.viewer?.viewport.getBounds();
   }
 }
