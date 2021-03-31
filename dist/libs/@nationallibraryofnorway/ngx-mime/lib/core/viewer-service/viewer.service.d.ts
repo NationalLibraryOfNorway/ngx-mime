@@ -20,7 +20,7 @@ export declare class ViewerService {
     private viewerLayoutService;
     private iiifContentSearchService;
     private styleService;
-    private viewer;
+    private viewer?;
     private svgOverlay;
     private svgNode;
     private config;

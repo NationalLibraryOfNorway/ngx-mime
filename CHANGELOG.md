@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.1...v11.0.2) (2021-03-31)
+
+
+### Bug Fixes
+
+* avoid leaking generic css rules ([b5162de](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b5162de976f58d9aeb73610af5c4713fed8db5be))
+* free all OpenSeadragon resources on destroy ([b88d8c7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b88d8c7b9205fecb0c6b412c6f3db301d5cf32e9))
+* recalculate current canvas group on click outside a canvas group ([3e21034](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3e21034801f06eda782dfd8ae39edf03ab5cdb76))
+* **e2e:** disable w3c mode ([6e8eed0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6e8eed05e5d63b408e3353fa38e74157db8e0d1f))
+* setting default tileOverlap to 0.1 ([#314](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/314)) ([aefcf38](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/aefcf3899aed8228f28e356bf7ed2f9e3a31488b)), closes [#313](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/313)
+
 ### [11.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.0...v11.0.1) (2021-01-14)
 
 ## [11.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v10.1.0...v11.0.0) (2021-01-06)
