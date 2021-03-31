@@ -18,8 +18,7 @@ cd dist/libs/@nationallibraryofnorway/ngx-mime
 echo "Version: $CURRENT_VERSION"
 npm version $CURRENT_VERSION
 
-git add -f dist && standard-version -a
-
 cd ../../../..
+git add -f dist && standard-version -a
 git push --follow-tags origin master
 npm publish dist/libs/@nationallibraryofnorway/ngx-mime
