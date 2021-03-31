@@ -1,6 +1,6 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "0.0.1",
+  "version": "11.0.3",
   "peerDependencies": {
     "@angular/common": ">=11.0.0 <12.0.0",
     "@angular/core": ">=11.0.0 <12.0.0",
