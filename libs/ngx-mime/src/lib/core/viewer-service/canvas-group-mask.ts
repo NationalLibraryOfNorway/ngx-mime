@@ -1,12 +1,10 @@
 import * as d3 from 'd3';
 import * as OpenSeadragon from 'openseadragon';
-
-import { ViewerOptions } from '../models/viewer-options';
+import { Subscription } from 'rxjs';
 import { Point } from '../models/point';
 import { Rect } from '../models/rect';
+import { ViewerOptions } from '../models/viewer-options';
 import { StyleService } from '../style-service/style.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 export class CanvasGroupMask {
   viewer: any;
@@ -19,22 +17,27 @@ export class CanvasGroupMask {
   center: Point;
 
   backgroundColor: string;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions: Subscription;
 
   constructor(viewer: any, private styleService: StyleService) {
     this.viewer = viewer;
-    styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
-      this.backgroundColor = c;
-      if (this.leftMask) {
-        this.leftMask.style('fill', this.backgroundColor);
-      }
-      if (this.rightMask) {
-        this.rightMask.style('fill', this.backgroundColor);
-      }
-    });
   }
 
-  public initialise(pageBounds: Rect, visible: boolean): void {
+  public initialize(pageBounds: Rect, visible: boolean): void {
+    this.subscriptions = new Subscription();
+
+    this.subscriptions.add(
+      this.styleService.onChange.subscribe((c) => {
+        this.backgroundColor = c;
+        if (this.leftMask) {
+          this.leftMask.style('fill', this.backgroundColor);
+        }
+        if (this.rightMask) {
+          this.rightMask.style('fill', this.backgroundColor);
+        }
+      })
+    );
+
     this.canvasGroupRect = pageBounds;
 
     this.addCanvasGroupMask();
@@ -50,8 +53,9 @@ export class CanvasGroupMask {
   }
 
   public destroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 
   public changeCanvasGroup(pageBounds: Rect) {
@@ -180,7 +184,7 @@ export class CanvasGroupMask {
 
     return new Rect({
       x: 0,
-      width: width
+      width: width,
     });
   }
 
@@ -206,7 +210,7 @@ export class CanvasGroupMask {
 
     return new Rect({
       x: x,
-      width: width
+      width: width,
     });
   }
 }

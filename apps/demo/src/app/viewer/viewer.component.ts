@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   MimeViewerConfig,
-  MimeViewerMode
+  MimeViewerMode,
 } from '@nationallibraryofnorway/ngx-mime';
+import { Subscription } from 'rxjs';
 import { ManifestService } from './../core/manifest-service/manifest.service';
 
 @Component({
   templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss']
+  styleUrls: ['./viewer.component.scss'],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   public manifestUri: string;
@@ -19,9 +20,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     preserveZoomOnCanvasGroupChange: true,
     startOnTopOnCanvasGroupChange: true,
     isDropEnabled: true,
-    initViewerMode: MimeViewerMode.PAGE
+    initViewerMode: MimeViewerMode.PAGE,
   });
-  private sub: any;
+  private subscriptions = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -30,19 +31,21 @@ export class ViewerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sub = this.route.queryParams.subscribe(params => {
-      this.manifestUri = params['manifestUri'];
-      if (!this.manifestUri) {
-        this.router.navigate(['demo'], {
-          queryParams: {
-            manifestUri: this.manifestService.getManifests()[0].uri
-          }
-        });
-      }
-    });
+    this.subscriptions.add(
+      this.route.queryParams.subscribe((params) => {
+        this.manifestUri = params['manifestUri'];
+        if (!this.manifestUri) {
+          this.router.navigate(['demo'], {
+            queryParams: {
+              manifestUri: this.manifestService.getManifests()[0].uri,
+            },
+          });
+        }
+      })
+    );
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }

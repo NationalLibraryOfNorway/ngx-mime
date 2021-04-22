@@ -4,7 +4,7 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 import {
   AfterViewInit,
@@ -16,10 +16,9 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from '../../core/models/manifest';
 import { ViewerOptions } from '../../core/models/viewer-options';
@@ -42,28 +41,28 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
         'hide',
         style({
           transform: 'translate(-120px, 0)',
-          display: 'none'
+          display: 'none',
         })
       ),
       state(
         'show',
         style({
           transform: 'translate(0px, 0px)',
-          display: 'block'
+          display: 'block',
         })
       ),
       transition('hide => show', [
         group([
           style({ display: 'block' }),
-          animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
-        ])
+          animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`),
+        ]),
       ]),
       transition(
         'show => hide',
         animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)
-      )
-    ])
-  ]
+      ),
+    ]),
+  ],
 })
 export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('container', { static: true }) container: ElementRef;
@@ -77,7 +76,7 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isLastCanvasGroup: boolean;
   public state = 'hide';
   invert = false;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -91,49 +90,55 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    );
 
-    this.mimeService.onResize
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((dimensions: Dimensions) => {
+    this.subscriptions.add(
+      this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
         this.osdToolbarStyle = {
-          top: dimensions.top + 110 + 'px'
+          top: dimensions.top + 110 + 'px',
         };
         this.changeDetectorRef.detectChanges();
-      });
+      })
+    );
 
-    this.viewerService.onCanvasGroupIndexChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((currentCanvasGroupIndex: number) => {
-        this.numberOfCanvasGroups = this.canvasService.numberOfCanvasGroups;
-        this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
-          currentCanvasGroupIndex
-        );
-        this.isLastCanvasGroup = this.isOnLastCanvasGroup(
-          currentCanvasGroupIndex
-        );
-        this.changeDetectorRef.detectChanges();
-      });
+    this.subscriptions.add(
+      this.viewerService.onCanvasGroupIndexChange.subscribe(
+        (currentCanvasGroupIndex: number) => {
+          this.numberOfCanvasGroups = this.canvasService.numberOfCanvasGroups;
+          this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
+            currentCanvasGroupIndex
+          );
+          this.isLastCanvasGroup = this.isOnLastCanvasGroup(
+            currentCanvasGroupIndex
+          );
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    );
 
-    this.intl.changes
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => this.changeDetectorRef.markForCheck());
+    this.subscriptions.add(
+      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
+    );
   }
 
   ngAfterViewInit() {
-    this.styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
-      const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
-      this.renderer.setStyle(
-        this.container.nativeElement,
-        'background-color',
-        backgroundRgbaColor
-      );
-    });
+    this.subscriptions.add(
+      this.styleService.onChange.subscribe((c) => {
+        const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
+        this.renderer.setStyle(
+          this.container.nativeElement,
+          'background-color',
+          backgroundRgbaColor
+        );
+      })
+    );
   }
 
   zoomIn(): void {
@@ -153,8 +158,7 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 
   public goToPreviousCanvasGroup(): void {

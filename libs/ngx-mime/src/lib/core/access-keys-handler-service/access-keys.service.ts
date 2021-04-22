@@ -1,28 +1,26 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { ViewerService } from '../viewer-service/viewer.service';
-import { CanvasService } from '../canvas-service/canvas-service';
+import { Subscription } from 'rxjs';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
-import { ModeService } from '../mode-service/mode.service';
-import { ViewerMode } from '../models/viewer-mode';
-import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
-import { Manifest } from '../models/manifest';
-import { MimeDomHelper } from '../mime-dom-helper';
-import { AccessKeys } from '../models/AccessKeys';
-import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
+import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
+import { MimeDomHelper } from '../mime-dom-helper';
+import { ModeService } from '../mode-service/mode.service';
+import { AccessKeys } from '../models/AccessKeys';
+import { Manifest } from '../models/manifest';
 import { SearchResult } from '../models/search-result';
+import { ViewerMode } from '../models/viewer-mode';
 import { ViewingDirection } from '../models/viewing-direction';
+import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
+import { ViewerService } from '../viewer-service/viewer.service';
 
 @Injectable()
 export class AccessKeysService implements OnDestroy {
   private isSearchable = false;
   private hasHits = false;
   private disabledKeys: number[] = [];
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
   private invert = false;
 
   constructor(
@@ -36,23 +34,26 @@ export class AccessKeysService implements OnDestroy {
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.isSearchable = this.isManifestSearchable(manifest);
-        this.invert = manifest.viewingDirection === ViewingDirection.RTL;
-      });
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.isSearchable = this.isManifestSearchable(manifest);
+          this.invert = manifest.viewingDirection === ViewingDirection.RTL;
+        }
+      )
+    );
 
-    this.iiifContentSearchService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((result: SearchResult) => {
-        this.hasHits = result.hits.length > 0;
-      });
+    this.subscriptions.add(
+      this.iiifContentSearchService.onChange.subscribe(
+        (result: SearchResult) => {
+          this.hasHits = result.hits.length > 0;
+        }
+      )
+    );
   }
 
   ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 
   public handleKeyEvents(event: KeyboardEvent) {

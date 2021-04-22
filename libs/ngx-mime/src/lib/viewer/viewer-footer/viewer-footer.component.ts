@@ -3,7 +3,7 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 import {
   ChangeDetectorRef,
@@ -12,11 +12,10 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';
@@ -30,13 +29,13 @@ import { SearchResult } from './../../core/models/search-result';
       state(
         'hide',
         style({
-          transform: 'translate(0, 100%)'
+          transform: 'translate(0, 100%)',
         })
       ),
       state(
         'show',
         style({
-          transform: 'translate(0, 0)'
+          transform: 'translate(0, 0)',
         })
       ),
       transition(
@@ -46,9 +45,9 @@ import { SearchResult } from './../../core/models/search-result';
       transition(
         'show => hide',
         animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')
-      )
-    ])
-  ]
+      ),
+    ]),
+  ],
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
   @ViewChild('mimeFooterBefore', { read: ViewContainerRef, static: true })
@@ -60,8 +59,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   public searchResult: SearchResult = new SearchResult();
   public showPageNavigator = true;
   public showContentSearchNavigator = false;
-  private destroyed: Subject<void> = new Subject();
-  private mediaSubscription: Subscription;
+  private subscriptions = new Subscription();
 
   constructor(
     private iiifContentSearchService: IiifContentSearchService,
@@ -75,29 +73,27 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.iiifContentSearchService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((sr: SearchResult) => {
+    this.subscriptions.add(
+      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
         this.searchResult = sr;
         this.showContentSearchNavigator = this.searchResult.size() > 0;
         this.showPageNavigator =
           this.searchResult.size() === 0 || !this.isMobile();
         this.changeDetectorRef.detectChanges();
-      });
+      })
+    );
 
-    this.mediaSubscription = this.mediaObserver.asObservable().subscribe(
-      (changes: MediaChange[]) => {
+    this.subscriptions.add(
+      this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
         this.showPageNavigator =
           this.searchResult.size() === 0 || !this.isMobile();
         this.changeDetectorRef.detectChanges();
-      }
+      })
     );
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
-    this.mediaSubscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   private isMobile(): boolean {

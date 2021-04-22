@@ -5,12 +5,11 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeDomHelper } from '../core/mime-dom-helper';
@@ -22,7 +21,7 @@ import { Manifest } from './../core/models/manifest';
   selector: 'mime-contents',
   templateUrl: './contents-dialog.component.html',
   styleUrls: ['./contents-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentsDialogComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
@@ -30,7 +29,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   public showToc = false;
   public selectedIndex = 0;
   private mimeHeight = 0;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -42,29 +41,30 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     private iiifManifestService: IiifManifestService,
     mimeResizeService: MimeResizeService
   ) {
-    mimeResizeService.onResize
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((dimensions: Dimensions) => {
+    this.subscriptions.add(
+      mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
         this.resizeTabHeight();
-      });
+      })
+    );
   }
 
   ngOnInit() {
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.showToc = this.manifest && this.manifest.structures.length > 0;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.manifest = manifest;
+          this.showToc = this.manifest && this.manifest.structures.length > 0;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    );
 
     this.resizeTabHeight();
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -85,12 +85,12 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     if (this.mediaObserver.isActive('lt-md')) {
       height -= 104;
       this.tabHeight = {
-        maxHeight: window.innerHeight - 128 + 'px'
+        maxHeight: window.innerHeight - 128 + 'px',
       };
     } else {
       height -= 278;
       this.tabHeight = {
-        maxHeight: height + 'px'
+        maxHeight: height + 'px',
       };
     }
   }

@@ -2,21 +2,20 @@ import { ElementRef, Injectable } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
-  MatDialogRef
+  MatDialogRef,
 } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { ContentSearchDialogComponent } from './content-search-dialog.component';
-import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialog-config-strategy-factory';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
+import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialog-config-strategy-factory';
+import { ContentSearchDialogComponent } from './content-search-dialog.component';
 
 @Injectable()
 export class ContentSearchDialogService {
   private _el: ElementRef;
   private isContentSearchDialogOpen = false;
   private dialogRef: MatDialogRef<ContentSearchDialogComponent>;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -25,20 +24,21 @@ export class ContentSearchDialogService {
   ) {}
 
   public initialize(): void {
-    this.mimeResizeService.onResize
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(rect => {
+    this.subscriptions = new Subscription();
+    this.subscriptions.add(
+      this.mimeResizeService.onResize.subscribe((rect) => {
         if (this.isContentSearchDialogOpen) {
           const config = this.getDialogConfig();
           this.dialogRef.updatePosition(config.position);
           this.dialogRef.updateSize(config.width, config.height);
         }
-      });
+      })
+    );
   }
 
   public destroy() {
     this.close();
-    this.destroyed.next();
+    this.subscriptions.unsubscribe();
   }
 
   set el(el: ElementRef) {
@@ -49,9 +49,12 @@ export class ContentSearchDialogService {
     if (!this.isContentSearchDialogOpen) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(ContentSearchDialogComponent, config);
-      this.dialogRef.afterClosed().subscribe(result => {
-        this.isContentSearchDialogOpen = false;
-      });
+      this.dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((result) => {
+          this.isContentSearchDialogOpen = false;
+        });
       this.isContentSearchDialogOpen = true;
     }
   }

@@ -3,7 +3,7 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
@@ -13,22 +13,21 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
-import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -40,13 +39,13 @@ import { HelpDialogService } from '../../help-dialog/help-dialog.service';
       state(
         'hide',
         style({
-          transform: 'translate(0, -100%)'
+          transform: 'translate(0, -100%)',
         })
       ),
       state(
         'show',
         style({
-          transform: 'translate(0px, 0px)'
+          transform: 'translate(0px, 0px)',
         })
       ),
       transition(
@@ -56,9 +55,9 @@ import { HelpDialogService } from '../../help-dialog/help-dialog.service';
       transition(
         'show => hide',
         animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')
-      )
-    ])
-  ]
+      ),
+    ]),
+  ],
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('mimeHeaderBefore', { read: ViewContainerRef, static: true })
@@ -75,7 +74,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
 
   ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -97,39 +96,42 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
 
-    this.intl.changes
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => this.changeDetectorRef.markForCheck());
+    this.subscriptions.add(
+      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
+    );
 
-    this.fullscreenService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => {
+    this.subscriptions.add(
+      this.fullscreenService.onChange.subscribe(() => {
         this.isInFullscreen = this.fullscreenService.isFullscreen();
         this.fullscreenLabel = this.isInFullscreen
           ? this.intl.exitFullScreenLabel
           : this.intl.fullScreenLabel;
         this.changeDetectorRef.detectChanges();
-      });
+      })
+    );
 
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.isContentSearchEnabled = manifest.service ? true : false;
-        this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
-        this.changeDetectorRef.detectChanges();
-      });
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.manifest = manifest;
+          this.isContentSearchEnabled = manifest.service ? true : false;
+          this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    );
 
-    this.viewerLayoutService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((viewerLayout: ViewerLayout) => {
-        this.viewerLayout = viewerLayout;
-      });
+    this.subscriptions.add(
+      this.viewerLayoutService.onChange.subscribe(
+        (viewerLayout: ViewerLayout) => {
+          this.viewerLayout = viewerLayout;
+        }
+      )
+    );
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 
   public toggleContents() {

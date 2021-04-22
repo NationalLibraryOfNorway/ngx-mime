@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -15,44 +16,42 @@ import {
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
-  AfterViewChecked
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, interval } from 'rxjs';
-import { throttle, takeUntil, take } from 'rxjs/operators';
-
-import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
+import { interval, Subscription } from 'rxjs';
+import { take, throttle } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { Manifest } from '../core/models/manifest';
-import { ModeService } from '../core/mode-service/mode.service';
-import { ViewerMode } from '../core/models/viewer-mode';
+import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
-import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
-import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
-import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
-import { ViewerService } from '../core/viewer-service/viewer.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
+import { ModeService } from '../core/mode-service/mode.service';
+import { Manifest } from '../core/models/manifest';
+import { ModeChanges } from '../core/models/modeChanges';
+import { ViewerLayout } from '../core/models/viewer-layout';
+import { ViewerMode } from '../core/models/viewer-mode';
+import { ViewerOptions } from '../core/models/viewer-options';
+import { ViewerState } from '../core/models/viewerState';
+import { StyleService } from '../core/style-service/style.service';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { HelpDialogService } from '../help-dialog/help-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
-import { ViewerOptions } from '../core/models/viewer-options';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
-import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
-import { ViewerLayout } from '../core/models/viewer-layout';
-import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
-import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
-import { ViewerState } from '../core/models/viewerState';
-import { ModeChanges } from '../core/models/modeChanges';
-import { StyleService } from '../core/style-service/style.service';
-import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
+import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
+import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewerComponent
   implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
@@ -66,7 +65,7 @@ export class ViewerComponent
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
 
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
   private isCanvasPressed = false;
   private currentManifest: Manifest;
   private viewerLayout: ViewerLayout;
@@ -126,35 +125,36 @@ export class ViewerComponent
   }
 
   ngOnInit(): void {
-    this.styleService.init();
+    this.styleService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        if (manifest) {
-          this.initialize();
-          this.currentManifest = manifest;
-          this.manifestChanged.next(manifest);
-          this.viewerLayoutService.init(
-            ManifestUtils.isManifestPaged(manifest)
-          );
-          this.changeDetectorRef.detectChanges();
-          this.viewerService.setUpViewer(manifest, this.config);
-          if (this.config.attributionDialogEnabled && manifest.attribution) {
-            this.attributionDialogService.open(
-              this.config.attributionDialogHideTimeout
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          if (manifest) {
+            this.initialize();
+            this.currentManifest = manifest;
+            this.manifestChanged.next(manifest);
+            this.viewerLayoutService.init(
+              ManifestUtils.isManifestPaged(manifest)
             );
-          }
+            this.changeDetectorRef.detectChanges();
+            this.viewerService.setUpViewer(manifest, this.config);
+            if (this.config.attributionDialogEnabled && manifest.attribution) {
+              this.attributionDialogService.open(
+                this.config.attributionDialogHideTimeout
+              );
+            }
 
-          if (this.q) {
-            this.iiifContentSearchService.search(manifest, this.q);
+            if (this.q) {
+              this.iiifContentSearchService.search(manifest, this.q);
+            }
           }
         }
-      });
+      )
+    );
 
-    this.viewerService.onOsdReadyChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((state: boolean) => {
+    this.subscriptions.add(
+      this.viewerService.onOsdReadyChange.subscribe((state: boolean) => {
         // Don't reset current page when switching layout
         if (
           state &&
@@ -163,38 +163,38 @@ export class ViewerComponent
         ) {
           this.viewerService.goToCanvas(this.canvasIndex, false);
         }
-      });
+      })
+    );
 
-    this.iiifManifestService.errorMessage
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((error: string) => {
+    this.subscriptions.add(
+      this.iiifManifestService.errorMessage.subscribe((error: string) => {
         this.resetCurrentManifest();
         this.errorMessage = error;
         this.changeDetectorRef.detectChanges();
-      });
+      })
+    );
 
-    this.iiifContentSearchService.onQChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((q: string) => {
+    this.subscriptions.add(
+      this.iiifContentSearchService.onQChange.subscribe((q: string) => {
         this.qChanged.emit(q);
-      });
+      })
+    );
 
-    this.iiifContentSearchService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((sr: SearchResult) => {
+    this.subscriptions.add(
+      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
         this.viewerService.highlight(sr);
-      });
+      })
+    );
 
-    this.viewerService.isCanvasPressed
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((value: boolean) => {
+    this.subscriptions.add(
+      this.viewerService.isCanvasPressed.subscribe((value: boolean) => {
         this.isCanvasPressed = value;
         this.changeDetectorRef.detectChanges();
-      });
+      })
+    );
 
-    this.modeService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((mode: ModeChanges) => {
+    this.subscriptions.add(
+      this.modeService.onChange.subscribe((mode: ModeChanges) => {
         this.toggleToolbarsState(mode.currentValue);
         if (
           mode.previousValue === ViewerMode.DASHBOARD &&
@@ -226,35 +226,43 @@ export class ViewerComponent
           });
         }
         this.viewerModeChanged.emit(mode.currentValue);
-      });
+      })
+    );
 
-    this.canvasService.onCanvasGroupIndexChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((canvasGroupIndex: number) => {
-        const canvasIndex = this.canvasService.findCanvasByCanvasIndex(
-          canvasGroupIndex
-        );
-        if (canvasIndex !== -1) {
-          this.canvasChanged.emit(canvasIndex);
+    this.subscriptions.add(
+      this.canvasService.onCanvasGroupIndexChange.subscribe(
+        (canvasGroupIndex: number) => {
+          const canvasIndex = this.canvasService.findCanvasByCanvasIndex(
+            canvasGroupIndex
+          );
+          if (canvasIndex !== -1) {
+            this.canvasChanged.emit(canvasIndex);
+          }
         }
-      });
-
-    this.mimeService.onResize
-      .pipe(
-        takeUntil(this.destroyed),
-        throttle(val => interval(ViewerOptions.transitions.OSDAnimationTime))
       )
-      .subscribe(() => {
-        setTimeout(() => {
-          this.viewerService.home();
-        }, ViewerOptions.transitions.OSDAnimationTime);
-      });
+    );
 
-    this.viewerLayoutService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((viewerLayout: ViewerLayout) => {
-        this.viewerLayout = viewerLayout;
-      });
+    this.subscriptions.add(
+      this.mimeService.onResize
+        .pipe(
+          throttle((val) =>
+            interval(ViewerOptions.transitions.OSDAnimationTime)
+          )
+        )
+        .subscribe(() => {
+          setTimeout(() => {
+            this.viewerService.home();
+          }, ViewerOptions.transitions.OSDAnimationTime);
+        })
+    );
+
+    this.subscriptions.add(
+      this.viewerLayoutService.onChange.subscribe(
+        (viewerLayout: ViewerLayout) => {
+          this.viewerLayout = viewerLayout;
+        }
+      )
+    );
 
     this.loadManifest();
   }
@@ -296,6 +304,7 @@ export class ViewerComponent
     }
 
     if (manifestUriIsChanged) {
+      this.cleanup();
       this.loadManifest();
     } else {
       if (qIsChanged) {
@@ -325,11 +334,12 @@ export class ViewerComponent
         this.manifestUri = manifestUri.startsWith('//')
           ? `${location.protocol}${manifestUri}`
           : manifestUri;
+        this.cleanup();
         this.loadManifest();
         if (startCanvasId) {
-          this.manifestChanged.pipe(take(1)).subscribe(manifest => {
+          this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
             const canvasIndex = manifest.sequences[0].canvases.findIndex(
-              c => c.id === startCanvasId
+              (c) => c.id === startCanvasId
             );
             if (canvasIndex !== -1) {
               setTimeout(() => {
@@ -341,7 +351,7 @@ export class ViewerComponent
       }
     } else {
       this.snackBar.open(this.intl.dropDisabled, null, {
-        duration: 3000
+        duration: 3000,
       });
     }
   }
@@ -359,11 +369,11 @@ export class ViewerComponent
   }
 
   ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
     this.cleanup();
     this.iiifManifestService.destroy();
     this.iiifContentSearchService.destroy();
+    this.styleService.destroy();
   }
 
   toggleToolbarsState(mode: ViewerMode): void {
@@ -391,7 +401,6 @@ export class ViewerComponent
   }
 
   private loadManifest() {
-    this.cleanup();
     this.iiifManifestService.load(this.manifestUri);
   }
 
@@ -427,7 +436,7 @@ export class ViewerComponent
       'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
       'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
       'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
-      'canvas-pressed': this.isCanvasPressed
+      'canvas-pressed': this.isCanvasPressed,
     };
   }
 }

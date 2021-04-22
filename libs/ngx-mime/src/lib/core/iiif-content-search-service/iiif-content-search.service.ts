@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject, throwError } from 'rxjs';
-import { distinctUntilChanged, finalize } from 'rxjs/operators';
-
-import { IiifSearchResult } from './../models/iiif-search-result';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import { distinctUntilChanged, finalize, take } from 'rxjs/operators';
 import { SearchResultBuilder } from './../builders/search-result.builder';
-import { SearchResult } from './../models/search-result';
 import { Hit } from './../models/hit';
+import { IiifSearchResult } from './../models/iiif-search-result';
 import { Manifest } from './../models/manifest';
+import { SearchResult } from './../models/search-result';
 
 @Injectable()
 export class IiifContentSearchService {
-  protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<
-    SearchResult
-  >(new SearchResult({}));
+  protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(
+    new SearchResult({})
+  );
   protected _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
   protected _currentQ: Subject<string> = new Subject<string>();
   protected _selected: Subject<Hit> = new BehaviorSubject<Hit>(null);
@@ -54,7 +53,10 @@ export class IiifContentSearchService {
     this._searching.next(true);
     this.http
       .get(`${manifest.service.id}?q=${q}`)
-      .pipe(finalize(() => this._searching.next(false)))
+      .pipe(
+        finalize(() => this._searching.next(false)),
+        take(1)
+      )
       .subscribe(
         (res: IiifSearchResult) =>
           this._currentSearchResult.next(this.extractData(q, manifest, res)),

@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { interval, ReplaySubject, Observable } from 'rxjs';
+import { interval, ReplaySubject, Observable, Subscription } from 'rxjs';
 import { switchMap, tap, distinctUntilChanged, filter } from 'rxjs/operators';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { switchMap, tap, distinctUntilChanged, filter } from 'rxjs/operators';
 export class StyleService {
   private currentRgbColor: string;
   private colorSubject: ReplaySubject<string> = new ReplaySubject();
+  private subscriptions: Subscription;
 
   constructor(private zone: NgZone) {}
 
@@ -18,9 +19,10 @@ export class StyleService {
     );
   }
 
-  init() {
+  initialize() {
+    this.subscriptions = new Subscription();
     this.zone.runOutsideAngular(() => {
-      interval(1000)
+      this.subscriptions.add(interval(1000)
         .pipe(
           tap(() => {
             const previousRgbColor = this.currentRgbColor;
@@ -31,8 +33,12 @@ export class StyleService {
             }
           })
         )
-        .subscribe();
+        .subscribe());
     });
+  }
+
+  destroy() {
+    this.subscriptions.unsubscribe();
   }
 
   public convertToRgba(rgbColor: string, opacity: number) {

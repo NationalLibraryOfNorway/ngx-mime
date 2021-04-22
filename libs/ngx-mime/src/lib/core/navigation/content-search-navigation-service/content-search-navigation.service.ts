@@ -4,6 +4,7 @@ import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from '../../models/search-result';
 import { Hit } from '../../models/hit';
+import { Subscription } from 'rxjs';
 
 @Injectable()
 export class ContentSearchNavigationService {
@@ -13,14 +14,28 @@ export class ContentSearchNavigationService {
   private _isLastHitOnCanvasGroup = false;
   private canvasesPerCanvasGroup = [-1];
   private searchResult: SearchResult;
+  private subscriptions: Subscription;
 
   constructor(
     private canvasService: CanvasService,
     private iiifContentSearchService: IiifContentSearchService
   ) {
-    this.iiifContentSearchService.onChange.subscribe((result: SearchResult) => {
-      this.searchResult = result;
-    });
+    this.initialize();
+  }
+
+  initialize() {
+    this.subscriptions = new Subscription();
+    this.subscriptions.add(
+      this.iiifContentSearchService.onChange.subscribe(
+        (result: SearchResult) => {
+          this.searchResult = result;
+        }
+      )
+    );
+  }
+
+  destroy() {
+    this.subscriptions.unsubscribe();
   }
 
   update(canvasGroupIndex: number) {
@@ -66,7 +81,7 @@ export class ContentSearchNavigationService {
           canvasesPerCanvasGroup
         );
         nextHit = this.searchResult.hits.find(
-          h => h.index > lastCanvasGroupIndex
+          (h) => h.index > lastCanvasGroupIndex
         );
       }
       if (nextHit) {
@@ -105,13 +120,13 @@ export class ContentSearchNavigationService {
     );
     const leftCanvas = canvasesPerCanvasGroup[0];
     const leftCanvasHit = this.searchResult.hits.find(
-      h => h.index === leftCanvas
+      (h) => h.index === leftCanvas
     );
     if (leftCanvasHit) {
       previousHit = leftCanvasHit;
     } else if (canvasesPerCanvasGroup.length === 2) {
       const rightCanvas = canvasesPerCanvasGroup[1];
-      previousHit = this.searchResult.hits.find(h => h.index === rightCanvas);
+      previousHit = this.searchResult.hits.find((h) => h.index === rightCanvas);
     }
     return previousHit;
   }
@@ -136,7 +151,7 @@ export class ContentSearchNavigationService {
         } else {
           const phit = this.searchResult.get(i - 1);
           return this.searchResult.hits.findIndex(
-            sr => sr.index === phit.index
+            (sr) => sr.index === phit.index
           );
         }
       }
