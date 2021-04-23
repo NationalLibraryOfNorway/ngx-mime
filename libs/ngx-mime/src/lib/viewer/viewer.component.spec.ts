@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
@@ -42,88 +42,78 @@ describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
   let comp: ViewerComponent;
-  let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
   let originalTimeout: number;
 
   let viewerService: ViewerService;
   let canvasService: CanvasService;
-  let clickService: ClickService;
   let modeService: ModeService;
   let mimeResizeServiceStub: MimeResizeServiceStub;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          HttpClientTestingModule,
-          NoopAnimationsModule,
-          SharedModule,
-          ContentsDialogModule,
-          AttributionDialogModule,
-          ContentSearchDialogModule,
-          HelpDialogModule,
-        ],
-        declarations: [
-          ViewerComponent,
-          TestHostComponent,
-          ViewerHeaderComponent,
-          ViewerFooterComponent,
-          TestDynamicComponent,
-        ],
-        providers: [
-          { provide: MatSnackBar, useClass: matSnackBarSpy },
-          ViewerService,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          {
-            provide: IiifContentSearchService,
-            useClass: IiifContentSearchServiceStub,
-          },
-          { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-          MimeViewerIntl,
-          ClickService,
-          CanvasService,
-          ModeService,
-          FullscreenService,
-          AccessKeysService,
-          ViewerLayoutService,
-          ContentSearchNavigationService,
-        ],
-      })
-        .overrideModule(BrowserDynamicTestingModule, {
-          set: {
-            entryComponents: [TestDynamicComponent],
-          },
-        })
-        .compileComponents();
-    })
-  );
-
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewerComponent);
-    comp = fixture.componentInstance;
-
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        HttpClientTestingModule,
+        NoopAnimationsModule,
+        SharedModule,
+        ContentsDialogModule,
+        AttributionDialogModule,
+        ContentSearchDialogModule,
+        HelpDialogModule,
+      ],
+      declarations: [
+        ViewerComponent,
+        TestHostComponent,
+        ViewerHeaderComponent,
+        ViewerFooterComponent,
+        TestDynamicComponent,
+      ],
+      providers: [
+        { provide: MatSnackBar, useClass: matSnackBarSpy },
+        ViewerService,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        {
+          provide: IiifContentSearchService,
+          useClass: IiifContentSearchServiceStub,
+        },
+        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+        MimeViewerIntl,
+        ClickService,
+        CanvasService,
+        ModeService,
+        FullscreenService,
+        AccessKeysService,
+        ViewerLayoutService,
+        ContentSearchNavigationService,
+      ],
+    })
+      .overrideModule(BrowserDynamicTestingModule, {
+        set: {
+          entryComponents: [TestDynamicComponent],
+        },
+      })
+      .compileComponents();
 
     testHostFixture = TestBed.createComponent(TestHostComponent);
+    comp = testHostFixture.componentInstance.viewerComponent;
     testHostComponent = testHostFixture.componentInstance;
     testHostComponent.manifestUri = 'dummyURI1';
-    testHostComponent.viewerComponent.ngOnInit();
     testHostFixture.detectChanges();
 
     viewerService = TestBed.inject(ViewerService);
     canvasService = TestBed.inject(CanvasService);
-    clickService = TestBed.inject(ClickService);
     modeService = TestBed.inject(ModeService);
     mimeResizeServiceStub = injectedStub(MimeResizeService);
     iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
+
+    viewerService.initialize();
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

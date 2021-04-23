@@ -24,6 +24,7 @@ class TestHostComponent {}
 describe('ViewerService', () => {
   let hostFixture: ComponentFixture<TestHostComponent>;
   let viewerLayoutService: ViewerLayoutService;
+  let viewerService: ViewerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,8 +45,10 @@ describe('ViewerService', () => {
     });
 
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
+    viewerService = TestBed.inject(ViewerService);
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
     hostFixture = TestBed.createComponent(TestHostComponent);
+    viewerService.initialize();
     hostFixture.detectChanges();
   });
 

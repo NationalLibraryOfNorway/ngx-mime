@@ -106,6 +106,10 @@ export class ViewerService {
     return this.osdIsReady.asObservable().pipe(distinctUntilChanged());
   }
 
+  initialize() {
+    this.subscriptions = new Subscription();
+  }
+
   public getViewer(): any {
     return this.viewer;
   }
@@ -246,7 +250,6 @@ export class ViewerService {
   }
 
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
-    this.subscriptions = new Subscription();
     this.config = config;
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;

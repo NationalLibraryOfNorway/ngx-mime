@@ -91,7 +91,7 @@ export class ViewerComponent
     private contentSearchDialogService: ContentSearchDialogService,
     private helpDialogService: HelpDialogService,
     private viewerService: ViewerService,
-    private mimeService: MimeResizeService,
+    private resizeService: MimeResizeService,
     private changeDetectorRef: ChangeDetectorRef,
     private modeService: ModeService,
     private iiifContentSearchService: IiifContentSearchService,
@@ -105,7 +105,7 @@ export class ViewerComponent
     attributionDialogService.el = el;
     contentSearchDialogService.el = el;
     helpDialogService.el = el;
-    mimeService.el = el;
+    resizeService.el = el;
   }
 
   get mimeHeaderBeforeRef(): ViewContainerRef {
@@ -243,13 +243,15 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.mimeService.onResize
+      this.resizeService.onResize
         .pipe(
           throttle((val) =>
             interval(ViewerOptions.transitions.OSDAnimationTime)
           )
         )
         .subscribe(() => {
+          console.log('resize', Date.now());
+
           setTimeout(() => {
             this.viewerService.home();
           }, ViewerOptions.transitions.OSDAnimationTime);
@@ -397,7 +399,7 @@ export class ViewerComponent
   }
 
   ngAfterViewChecked() {
-    this.mimeService.markForCheck();
+    this.resizeService.markForCheck();
   }
 
   private loadManifest() {
@@ -405,13 +407,17 @@ export class ViewerComponent
   }
 
   private initialize() {
+    console.log('initialize');
+
     this.attributionDialogService.initialize();
     this.contentsDialogService.initialize();
     this.contentSearchDialogService.initialize();
     this.helpDialogService.initialize();
+    this.viewerService.initialize();
   }
 
   private cleanup() {
+    console.log('cleanup');
     this.viewerState = new ViewerState();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
