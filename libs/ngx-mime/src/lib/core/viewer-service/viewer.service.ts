@@ -409,7 +409,6 @@ export class ViewerService {
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
     this.unsubscribe();
-
     this.currentCenter.next(null);
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
