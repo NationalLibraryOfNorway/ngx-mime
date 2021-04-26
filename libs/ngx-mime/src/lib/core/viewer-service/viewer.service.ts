@@ -299,7 +299,6 @@ export class ViewerService {
   }
 
   addSubscriptions(): void {
-
     this.subscriptions.add(
       this.modeService.onChange.subscribe((mode: ModeChanges) => {
         this.modeChanged(mode);
@@ -409,6 +408,8 @@ export class ViewerService {
    */
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
+    this.unsubscribe();
+
     this.currentCenter.next(null);
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
@@ -417,7 +418,6 @@ export class ViewerService {
       this.viewer.destroy();
       this.viewer = null;
     }
-    this.subscriptions.unsubscribe();
     this.overlays = null;
     this.canvasService.reset();
     if (this.canvasGroupMask) {
@@ -927,5 +927,11 @@ export class ViewerService {
 
   private getViewportBounds(): Rect {
     return this.viewer?.viewport.getBounds();
+  }
+
+  private unsubscribe() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ModeChanges } from '../models/modeChanges';
 import { ViewerMode } from '../models/viewer-mode';
@@ -8,10 +8,12 @@ import { ViewerMode } from '../models/viewer-mode';
 export class ModeService {
   private _initialMode: ViewerMode;
   private _mode: ViewerMode;
-  private toggleModeSubject: ReplaySubject<ModeChanges> = new ReplaySubject();
+  private toggleModeSubject: BehaviorSubject<ModeChanges>;
   private modeChanges = new ModeChanges();
 
-  constructor() {}
+  constructor() {
+    this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
+  }
 
   get onChange(): Observable<ModeChanges> {
     return this.toggleModeSubject.asObservable().pipe(distinctUntilChanged());
@@ -50,7 +52,7 @@ export class ModeService {
     this.modeChanges.previousValue = this.modeChanges.currentValue;
     this.modeChanges.currentValue = this._mode;
     this.toggleModeSubject.next({
-      ...this.modeChanges
+      ...this.modeChanges,
     });
   }
 }

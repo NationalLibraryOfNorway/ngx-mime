@@ -38,7 +38,7 @@ export class ContentsDialogService {
 
   public destroy() {
     this.close();
-    this.subscriptions.unsubscribe();
+    this.unsubscribe();
   }
 
   set el(el: ElementRef) {
@@ -90,5 +90,11 @@ export class ContentsDialogService {
     return this.contentsDialogConfigStrategyFactory
       .create()
       .getConfig(this._el);
+  }
+
+  private unsubscribe() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }

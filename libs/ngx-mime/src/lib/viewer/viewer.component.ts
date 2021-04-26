@@ -250,8 +250,6 @@ export class ViewerComponent
           )
         )
         .subscribe(() => {
-          console.log('resize', Date.now());
-
           setTimeout(() => {
             this.viewerService.home();
           }, ViewerOptions.transitions.OSDAnimationTime);
@@ -295,6 +293,9 @@ export class ViewerComponent
     }
     if (changes['manifestUri']) {
       const manifestUriChanges: SimpleChange = changes['manifestUri'];
+      if (!manifestUriChanges.isFirstChange()) {
+        this.cleanup();
+      }
       if (
         !manifestUriChanges.isFirstChange() &&
         manifestUriChanges.currentValue !== manifestUriChanges.previousValue
@@ -306,7 +307,6 @@ export class ViewerComponent
     }
 
     if (manifestUriIsChanged) {
-      this.cleanup();
       this.loadManifest();
     } else {
       if (qIsChanged) {
@@ -407,8 +407,6 @@ export class ViewerComponent
   }
 
   private initialize() {
-    console.log('initialize');
-
     this.attributionDialogService.initialize();
     this.contentsDialogService.initialize();
     this.contentSearchDialogService.initialize();
@@ -417,7 +415,6 @@ export class ViewerComponent
   }
 
   private cleanup() {
-    console.log('cleanup');
     this.viewerState = new ViewerState();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();

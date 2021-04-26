@@ -20,7 +20,7 @@ export class HelpDialogService {
   ) {}
 
   public initialize(): void {
-    this.subscriptions = new Subscription()
+    this.subscriptions = new Subscription();
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe(() => {
         if (this.isHelpDialogOpen) {
@@ -34,7 +34,7 @@ export class HelpDialogService {
 
   public destroy(): void {
     this.close();
-    this.subscriptions.unsubscribe();
+    this.unsubscribe();
   }
 
   set el(el: ElementRef) {
@@ -72,5 +72,11 @@ export class HelpDialogService {
 
   private getDialogConfig() {
     return this.helpDialogConfigStrategyFactory.create().getConfig(this._el);
+  }
+
+  private unsubscribe() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }

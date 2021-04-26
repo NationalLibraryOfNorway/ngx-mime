@@ -38,6 +38,6 @@ export class MetadataComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe;
+    this.subscriptions.unsubscribe();
   }
 }

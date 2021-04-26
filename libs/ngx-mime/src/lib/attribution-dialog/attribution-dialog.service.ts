@@ -52,7 +52,7 @@ export class AttributionDialogService {
 
   public destroy() {
     this.close();
-    this.subscriptions.unsubscribe;
+    this.unsubscribe();
   }
 
   set el(el: ElementRef) {
@@ -70,10 +70,13 @@ export class AttributionDialogService {
         .subscribe(() => {
           const config = this.getDialogConfig();
           this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
-          this.dialogRef.afterClosed().pipe(take(1)).subscribe((result) => {
-            this.isAttributionDialogOpen = false;
-            this.mimeDomHelper.setFocusOnViewer();
-          });
+          this.dialogRef
+            .afterClosed()
+            .pipe(take(1))
+            .subscribe((result) => {
+              this.isAttributionDialogOpen = false;
+              this.mimeDomHelper.setFocusOnViewer();
+            });
           this.isAttributionDialogOpen = true;
           this.closeDialogAfter(timeout);
         });
@@ -124,5 +127,11 @@ export class AttributionDialogService {
         dimensions.top + dimensions.height - this.attributionDialogHeight - 68,
       left: dimensions.left + padding,
     });
+  }
+
+  private unsubscribe() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }
