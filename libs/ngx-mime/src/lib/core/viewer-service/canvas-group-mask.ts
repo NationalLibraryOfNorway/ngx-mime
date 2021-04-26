@@ -53,9 +53,7 @@ export class CanvasGroupMask {
   }
 
   public destroy() {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
+    this.unsubscribe();
   }
 
   public changeCanvasGroup(pageBounds: Rect) {
@@ -212,5 +210,11 @@ export class CanvasGroupMask {
       x: x,
       width: width,
     });
+  }
+
+  private unsubscribe() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }
