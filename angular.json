@@ -60,6 +60,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["openseadragon"],
             "aot": true,
             "outputPath": "dist/apps/demo",
             "index": "apps/demo/src/index.html",

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { testManifest } from '../../test/testManifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
@@ -52,96 +52,81 @@ describe('ViewerService', () => {
     hostFixture.detectChanges();
   });
 
-  it('should be created', inject(
-    [ViewerService],
-    (viewerService: ViewerService) => {
-      expect(viewerService).toBeTruthy();
-    }
-  ));
-
-  it('should keep state of currentSearch on destroy when layoutSwitch = true', inject(
-    [ViewerService],
-    (viewerService: ViewerService) => {
-      viewerService.currentSearch = new SearchResult({
-        q: 'Donald Duck',
-        hits: new Array<Hit>(),
-      });
-      viewerService.destroy(true);
-      expect(viewerService.currentSearch).not.toBeNull();
-      expect(viewerService.currentSearch.q).toEqual('Donald Duck');
-    }
-  ));
-
-  it('should set currentSearch to null on destroy', inject(
-    [ViewerService],
-    (viewerService: ViewerService) => {
-      viewerService.currentSearch = new SearchResult({
-        q: 'Donald Duck',
-        hits: new Array<Hit>(),
-      });
-      viewerService.destroy();
-      expect(viewerService.currentSearch).toBeNull();
-    }
-  ));
-
-  it('should keep state of rotation on destroy when layoutSwitch = true', function (done) {
-    inject([ViewerService], (viewerService: ViewerService) => {
-      let rotation: number;
-      viewerService.onRotationChange.subscribe((serviceRotation: number) => {
-        rotation = serviceRotation;
-      });
-      viewerService.setUpViewer(
-        new ManifestBuilder(testManifest).build(),
-        new MimeViewerConfig()
-      );
-
-      viewerService.onOsdReadyChange.subscribe((state) => {
-        if (state) {
-          viewerService.rotate();
-          viewerService.destroy(true);
-          expect(rotation).toEqual(90);
-          done();
-        }
-      });
-    })();
+  it('should be created', () => {
+    expect(viewerService).toBeTruthy();
   });
 
-  it('should set rotation to 0 on destroy', function (done) {
-    inject([ViewerService], (viewerService: ViewerService) => {
-      let rotation: number;
-      viewerService.onRotationChange.subscribe((serviceRotation: number) => {
-        rotation = serviceRotation;
-      });
-      viewerService.setUpViewer(
-        new ManifestBuilder(testManifest).build(),
-        new MimeViewerConfig()
-      );
-
-      viewerService.onOsdReadyChange.subscribe((state) => {
-        if (state) {
-          viewerService.rotate();
-          viewerService.destroy();
-          expect(rotation).toEqual(0);
-          done();
-        }
-      });
-    })();
+  it('should keep state of currentSearch on destroy when layoutSwitch = true', () => {
+    viewerService.currentSearch = new SearchResult({
+      q: 'Donald Duck',
+      hits: new Array<Hit>(),
+    });
+    viewerService.destroy(true);
+    expect(viewerService.currentSearch).not.toBeNull();
+    expect(viewerService.currentSearch.q).toEqual('Donald Duck');
   });
 
-  it('should set viewer to null on destroy', function (done) {
-    inject([ViewerService], (viewerService: ViewerService) => {
-      viewerService.setUpViewer(
-        new ManifestBuilder(testManifest).build(),
-        new MimeViewerConfig()
-      );
+  it('should set currentSearch to null on destroy', () => {
+    viewerService.currentSearch = new SearchResult({
+      q: 'Donald Duck',
+      hits: new Array<Hit>(),
+    });
+    viewerService.destroy();
+    expect(viewerService.currentSearch).toBeNull();
+  });
 
-      viewerService.onOsdReadyChange.subscribe((state) => {
-        if (state) {
-          viewerService.destroy();
-          expect(viewerService.getViewer()).toBeNull();
-          done();
-        }
-      });
-    })();
+  it('should keep state of rotation on destroy when layoutSwitch = true', (done) => {
+    let rotation: number;
+    viewerService.onRotationChange.subscribe((serviceRotation: number) => {
+      rotation = serviceRotation;
+    });
+    viewerService.setUpViewer(
+      new ManifestBuilder(testManifest).build(),
+      new MimeViewerConfig()
+    );
+
+    viewerService.onOsdReadyChange.subscribe((state) => {
+      if (state) {
+        viewerService.rotate();
+        viewerService.destroy(true);
+        expect(rotation).toEqual(90);
+        done();
+      }
+    });
+  });
+
+  it('should set rotation to 0 on destroy', (done) => {
+    let rotation: number;
+    viewerService.onRotationChange.subscribe((serviceRotation: number) => {
+      rotation = serviceRotation;
+    });
+    viewerService.setUpViewer(
+      new ManifestBuilder(testManifest).build(),
+      new MimeViewerConfig()
+    );
+
+    viewerService.onOsdReadyChange.subscribe((state) => {
+      if (state) {
+        viewerService.rotate();
+        viewerService.destroy();
+        expect(rotation).toEqual(0);
+        done();
+      }
+    });
+  });
+
+  it('should set viewer to null on destroy', (done) => {
+    viewerService.setUpViewer(
+      new ManifestBuilder(testManifest).build(),
+      new MimeViewerConfig()
+    );
+
+    viewerService.onOsdReadyChange.subscribe((state) => {
+      if (state) {
+        viewerService.destroy();
+        expect(viewerService.getViewer()).toBeNull();
+        done();
+      }
+    });
   });
 });
