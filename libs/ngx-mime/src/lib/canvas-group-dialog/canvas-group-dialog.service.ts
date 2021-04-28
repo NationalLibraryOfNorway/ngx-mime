@@ -1,19 +1,16 @@
-import { Injectable, ElementRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   MatDialog,
+  MatDialogConfig,
   MatDialogRef,
-  MatDialogConfig
 } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-
+import { take } from 'rxjs/operators';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 
 @Injectable()
 export class CanvasGroupDialogService {
   private isCanvasGroupDialogOpen = false;
   private dialogRef: MatDialogRef<CanvasGroupDialogComponent>;
-  private destroyed: Subject<void> = new Subject();
 
   constructor(private dialog: MatDialog) {}
 
@@ -21,16 +18,18 @@ export class CanvasGroupDialogService {
 
   public destroy() {
     this.close();
-    this.destroyed.next();
   }
 
   public open(timeout?: number): void {
     if (!this.isCanvasGroupDialogOpen) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(CanvasGroupDialogComponent, config);
-      this.dialogRef.afterClosed().subscribe(result => {
-        this.isCanvasGroupDialogOpen = false;
-      });
+      this.dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((result) => {
+          this.isCanvasGroupDialogOpen = false;
+        });
       this.isCanvasGroupDialogOpen = true;
     }
   }
@@ -50,7 +49,7 @@ export class CanvasGroupDialogService {
     return {
       hasBackdrop: false,
       disableClose: true,
-      panelClass: 'canvas-group-panel'
+      panelClass: 'canvas-group-panel',
     };
   }
 }

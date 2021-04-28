@@ -2,21 +2,20 @@ import { ElementRef, Injectable } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
-  MatDialogRef
+  MatDialogRef,
 } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { ContentsDialogComponent } from './contents-dialog.component';
-import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
+import { ContentsDialogComponent } from './contents-dialog.component';
 
 @Injectable()
 export class ContentsDialogService {
   private _el: ElementRef;
   private isContentsDialogOpen = false;
   private dialogRef: MatDialogRef<ContentsDialogComponent>;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -25,20 +24,21 @@ export class ContentsDialogService {
   ) {}
 
   public initialize(): void {
-    this.mimeResizeService.onResize
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(rect => {
+    this.subscriptions = new Subscription();
+    this.subscriptions.add(
+      this.mimeResizeService.onResize.subscribe((rect) => {
         if (this.isContentsDialogOpen) {
           const config = this.getDialogConfig();
           this.dialogRef.updatePosition(config.position);
           this.dialogRef.updateSize(config.width, config.height);
         }
-      });
+      })
+    );
   }
 
   public destroy() {
     this.close();
-    this.destroyed.next();
+    this.unsubscribe();
   }
 
   set el(el: ElementRef) {
@@ -54,9 +54,12 @@ export class ContentsDialogService {
         this.dialogRef.componentInstance.selectedIndex = selectedIndex;
       }
 
-      this.dialogRef.afterClosed().subscribe(result => {
-        this.isContentsDialogOpen = false;
-      });
+      this.dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((result) => {
+          this.isContentsDialogOpen = false;
+        });
       this.isContentsDialogOpen = true;
     }
   }
@@ -87,5 +90,11 @@ export class ContentsDialogService {
     return this.contentsDialogConfigStrategyFactory
       .create()
       .getConfig(this._el);
+  }
+
+  private unsubscribe() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }

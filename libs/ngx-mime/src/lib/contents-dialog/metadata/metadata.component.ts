@@ -1,27 +1,24 @@
 import {
-  Component,
-  OnInit,
-  Input,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  OnDestroy
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { Subscription } from 'rxjs';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
 
 @Component({
   selector: 'mime-metadata',
   templateUrl: './metadata.component.html',
   styleUrls: ['./metadata.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MetadataComponent implements OnInit, OnDestroy {
   public manifest: Manifest;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -30,16 +27,17 @@ export class MetadataComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.changeDetectorRef.markForCheck();
-      });
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.manifest = manifest;
+          this.changeDetectorRef.markForCheck();
+        }
+      )
+    );
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 }

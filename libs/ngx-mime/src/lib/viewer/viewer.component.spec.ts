@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import 'openseadragon';
 import { injectedStub } from '../../testing/injected-stub';
@@ -42,14 +41,12 @@ describe('ViewerComponent', function () {
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
   let comp: ViewerComponent;
-  let fixture: ComponentFixture<ViewerComponent>;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
   let originalTimeout: number;
 
   let viewerService: ViewerService;
   let canvasService: CanvasService;
-  let clickService: ClickService;
   let modeService: ModeService;
   let mimeResizeServiceStub: MimeResizeServiceStub;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
@@ -94,40 +91,26 @@ describe('ViewerComponent', function () {
           ViewerLayoutService,
           ContentSearchNavigationService,
         ],
-      })
-        .overrideModule(BrowserDynamicTestingModule, {
-          set: {
-            entryComponents: [TestDynamicComponent],
-          },
-        })
-        .compileComponents();
+      }).compileComponents();
+
+      testHostFixture = TestBed.createComponent(TestHostComponent);
+      comp = testHostFixture.componentInstance.viewerComponent;
+      testHostComponent = testHostFixture.componentInstance;
+      testHostComponent.manifestUri = 'dummyURI1';
+      testHostFixture.detectChanges();
+
+      viewerService = TestBed.inject(ViewerService);
+      canvasService = TestBed.inject(CanvasService);
+      modeService = TestBed.inject(ModeService);
+      mimeResizeServiceStub = injectedStub(MimeResizeService);
+      iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+      iiifManifestServiceStub = injectedStub(IiifManifestService);
+      viewerLayoutService = TestBed.inject(ViewerLayoutService);
+
+      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     })
   );
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ViewerComponent);
-    comp = fixture.componentInstance;
-
-    fixture.detectChanges();
-
-    testHostFixture = TestBed.createComponent(TestHostComponent);
-    testHostComponent = testHostFixture.componentInstance;
-    testHostComponent.manifestUri = 'dummyURI1';
-    testHostComponent.viewerComponent.ngOnInit();
-    testHostFixture.detectChanges();
-
-    viewerService = TestBed.inject(ViewerService);
-    canvasService = TestBed.inject(CanvasService);
-    clickService = TestBed.inject(ClickService);
-    modeService = TestBed.inject(ModeService);
-    mimeResizeServiceStub = injectedStub(MimeResizeService);
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-    iiifManifestServiceStub = injectedStub(IiifManifestService);
-    viewerLayoutService = TestBed.inject(ViewerLayoutService);
-
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  });
 
   afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
@@ -453,21 +436,16 @@ describe('ViewerComponent', function () {
 
   it('should open viewer on canvas index if present', (done) => {
     let currentCanvasIndex: number;
-    testHostComponent.canvasIndex = 12;
     comp.canvasChanged.subscribe((canvasIndex: number) => {
       currentCanvasIndex = canvasIndex;
     });
 
+    testHostComponent.canvasIndex = 12;
     testHostFixture.detectChanges();
-
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        setTimeout(() => {
-          expect(currentCanvasIndex).toEqual(12);
-          done();
-        }, osdAnimationTime);
-      }
-    });
+    setTimeout(() => {
+      expect(currentCanvasIndex).toBe(12);
+      done();
+    }, osdAnimationTime);
   });
 
   it('should create dynamic component to start of header', () => {

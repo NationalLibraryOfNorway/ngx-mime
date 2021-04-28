@@ -5,10 +5,9 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
@@ -19,14 +18,14 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
   selector: 'mime-toc',
   templateUrl: './table-of-contents.component.html',
   styleUrls: ['./table-of-contents.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TocComponent implements OnInit, OnDestroy {
   @Output()
   canvasChanged: EventEmitter<number> = new EventEmitter();
   public manifest: Manifest;
   public currentCanvasGroupIndex: number;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -37,25 +36,28 @@ export class TocComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.manifest = manifest;
+          this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    );
 
-    this.viewerService.onCanvasGroupIndexChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((canvasGroupIndex: number) => {
-        this.currentCanvasGroupIndex = canvasGroupIndex;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.subscriptions.add(
+      this.viewerService.onCanvasGroupIndexChange.subscribe(
+        (canvasGroupIndex: number) => {
+          this.currentCanvasGroupIndex = canvasGroupIndex;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    );
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 
   goToCanvas(event: Event, canvasIndex: number): void {

@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
-import { filter, distinctUntilChanged, finalize } from 'rxjs/operators';
-
-import { Manifest } from '../models/manifest';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, finalize, take } from 'rxjs/operators';
 import { ManifestBuilder } from '../builders/manifest.builder';
-import { SpinnerService } from '../spinner-service/spinner.service';
 import { MimeViewerIntl } from '../intl/viewer-intl';
+import { Manifest } from '../models/manifest';
+import { SpinnerService } from '../spinner-service/spinner.service';
 
 @Injectable()
 export class IiifManifestService {
@@ -23,7 +22,7 @@ export class IiifManifestService {
 
   get currentManifest(): Observable<Manifest> {
     return this._currentManifest.asObservable().pipe(
-      filter(m => m !== null),
+      filter((m) => m !== null),
       distinctUntilChanged()
     );
   }
@@ -39,7 +38,10 @@ export class IiifManifestService {
       this.spinnerService.show();
       this.http
         .get(manifestUri)
-        .pipe(finalize(() => this.spinnerService.hide()))
+        .pipe(
+          finalize(() => this.spinnerService.hide()),
+          take(1)
+        )
         .subscribe(
           (response: Response) => {
             const manifest = this.extractData(response);

@@ -1,34 +1,32 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  OnDestroy
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
-  FormBuilder,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { ViewerService } from '../core/viewer-service/viewer.service';
+import { Subscription } from 'rxjs';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { ViewerService } from '../core/viewer-service/viewer.service';
 
 @Component({
   templateUrl: './canvas-group-dialog.component.html',
   styleUrls: ['./canvas-group-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   numberOfCanvases: number;
   canvasGroupForm: FormGroup;
   canvasGroupControl: FormControl;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
 
   constructor(
     private dialogRef: MatDialogRef<CanvasGroupDialogComponent>,
@@ -46,22 +44,21 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
     this.canvasGroupControl = new FormControl('', [
       Validators.required,
       Validators.min(1),
-      Validators.max(this.numberOfCanvases)
+      Validators.max(this.numberOfCanvases),
     ]);
     this.canvasGroupForm = this.fb.group({
-      canvasGroupControl: this.canvasGroupControl
+      canvasGroupControl: this.canvasGroupControl,
     });
   }
 
   ngOnInit() {
-    this.intl.changes
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => this.changeDetectorRef.markForCheck());
+    this.subscriptions.add(
+      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
+    );
   }
 
   ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 
   onSubmit(): void {

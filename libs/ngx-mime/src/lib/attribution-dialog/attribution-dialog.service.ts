@@ -1,17 +1,16 @@
-import { Injectable, ElementRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import {
   MatDialog,
+  MatDialogConfig,
   MatDialogRef,
-  MatDialogConfig
 } from '@angular/material/dialog';
-import { Observable, Subscription, Subject, interval } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-
-import { AttributionDialogComponent } from './attribution-dialog.component';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import { interval, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { MimeDomHelper } from '../core/mime-dom-helper';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Dimensions } from '../core/models/dimensions';
+import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import { AttributionDialogComponent } from './attribution-dialog.component';
 
 @Injectable()
 export class AttributionDialogService {
@@ -19,7 +18,7 @@ export class AttributionDialogService {
   private dialogRef: MatDialogRef<AttributionDialogComponent>;
   private _el: ElementRef;
   private attributionDialogHeight = 0;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -29,28 +28,31 @@ export class AttributionDialogService {
   ) {}
 
   public initialize(): void {
-    this.mimeResizeService.onResize
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((dimensions: Dimensions) => {
+    this.subscriptions = new Subscription();
+    this.subscriptions.add(
+      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         if (this.isAttributionDialogOpen) {
           const config = this.getDialogConfig();
           this.dialogRef.updatePosition(config.position);
         }
-      });
-    this.attributionDialogResizeService.onResize
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((dimensions: Dimensions) => {
-        if (this.isAttributionDialogOpen) {
-          this.attributionDialogHeight = dimensions.height;
-          const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
+      })
+    );
+    this.subscriptions.add(
+      this.attributionDialogResizeService.onResize.subscribe(
+        (dimensions: Dimensions) => {
+          if (this.isAttributionDialogOpen) {
+            this.attributionDialogHeight = dimensions.height;
+            const config = this.getDialogConfig();
+            this.dialogRef.updatePosition(config.position);
+          }
         }
-      });
+      )
+    );
   }
 
   public destroy() {
     this.close();
-    this.destroyed.next();
+    this.unsubscribe();
   }
 
   set el(el: ElementRef) {
@@ -68,10 +70,13 @@ export class AttributionDialogService {
         .subscribe(() => {
           const config = this.getDialogConfig();
           this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
-          this.dialogRef.afterClosed().subscribe((result) => {
-            this.isAttributionDialogOpen = false;
-            this.mimeDomHelper.setFocusOnViewer();
-          });
+          this.dialogRef
+            .afterClosed()
+            .pipe(take(1))
+            .subscribe((result) => {
+              this.isAttributionDialogOpen = false;
+              this.mimeDomHelper.setFocusOnViewer();
+            });
           this.isAttributionDialogOpen = true;
           this.closeDialogAfter(timeout);
         });
@@ -107,10 +112,10 @@ export class AttributionDialogService {
       panelClass: 'attribution-panel',
       position: {
         top: dimensions.top + 'px',
-        left: dimensions.left + 'px'
+        left: dimensions.left + 'px',
       },
       autoFocus: true,
-      restoreFocus: false
+      restoreFocus: false,
     };
   }
 
@@ -120,7 +125,13 @@ export class AttributionDialogService {
     return new Dimensions({
       top:
         dimensions.top + dimensions.height - this.attributionDialogHeight - 68,
-      left: dimensions.left + padding
+      left: dimensions.left + padding,
     });
+  }
+
+  private unsubscribe() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }

@@ -4,10 +4,9 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { CanvasService } from '../../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
@@ -21,7 +20,7 @@ import { ContentSearchNavigationService } from '../../../core/navigation/content
   selector: 'mime-content-search-navigator',
   templateUrl: './content-search-navigator.component.html',
   styleUrls: ['./content-search-navigator.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   @Input() searchResult: SearchResult;
@@ -30,7 +29,7 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   public isLastCanvasGroupHit = false;
   public currentIndex = 0;
   invert = false;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
@@ -42,32 +41,37 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.contentSearchNavigationService.initialize();
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    );
 
-    this.intl.changes
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => this.changeDetectorRef.markForCheck());
+    this.subscriptions.add(
+      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
+    );
 
-    this.canvasService.onCanvasGroupIndexChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(canvasGroupIndex => {
-        this.contentSearchNavigationService.update(canvasGroupIndex);
-        this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
-        this.isHitOnActiveCanvasGroup = this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
-        this.isFirstCanvasGroupHit = this.contentSearchNavigationService.getFirstHitCanvasGroup();
-        this.isLastCanvasGroupHit = this.contentSearchNavigationService.getLastHitCanvasGroup();
-        this.changeDetectorRef.detectChanges();
-      });
+    this.subscriptions.add(
+      this.canvasService.onCanvasGroupIndexChange.subscribe(
+        (canvasGroupIndex) => {
+          this.contentSearchNavigationService.update(canvasGroupIndex);
+          this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
+          this.isHitOnActiveCanvasGroup = this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
+          this.isFirstCanvasGroupHit = this.contentSearchNavigationService.getFirstHitCanvasGroup();
+          this.isLastCanvasGroupHit = this.contentSearchNavigationService.getLastHitCanvasGroup();
+          this.changeDetectorRef.detectChanges();
+        }
+      )
+    );
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
+    this.contentSearchNavigationService.destroy();
   }
 
   clear(): void {

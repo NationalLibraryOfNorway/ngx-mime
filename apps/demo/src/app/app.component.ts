@@ -4,19 +4,19 @@ import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import {
   SiteTheme,
-  ThemeService
+  ThemeService,
 } from './core/navbar/theme-picker/theme-service/theme.service';
 
 @Component({
   selector: 'demo-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  watcher: Subscription;
   sidenavMode = 'side';
   sidenavIsOpen = false;
   currentTheme: string;
+  private subscriptions = new Subscription();
 
   constructor(
     private mediaObserver: MediaObserver,
@@ -25,10 +25,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.watcher = this.mediaObserver.asObservable().subscribe(
-      (changes: MediaChange[]) => {
+    this.subscriptions.add(
+      this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
         this.layout();
-      }
+      })
     );
 
     this.layout();
@@ -36,13 +36,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.overlayContainer
       .getContainerElement()
       .classList.add(this.currentTheme);
-    this.themeService.onThemeUpdate.subscribe((theme: SiteTheme) => {
-      this.setTheme(theme.name);
-    });
+    this.subscriptions.add(
+      this.themeService.onThemeUpdate.subscribe((theme: SiteTheme) => {
+        this.setTheme(theme.name);
+      })
+    );
   }
 
   ngOnDestroy() {
-    this.watcher.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   private layout() {

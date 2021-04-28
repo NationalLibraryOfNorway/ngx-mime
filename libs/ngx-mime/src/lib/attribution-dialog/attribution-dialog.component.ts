@@ -9,10 +9,9 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
@@ -23,12 +22,12 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
 @Component({
   templateUrl: './attribution-dialog.component.html',
   styleUrls: ['./attribution-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   public manifest: Manifest;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
   @ViewChild('container', { static: true }) container: ElementRef;
 
   constructor(
@@ -45,28 +44,31 @@ export class AttributionDialogComponent
   }
 
   ngOnInit() {
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-        this.changeDetectorRef.markForCheck();
-      });
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.manifest = manifest;
+          this.changeDetectorRef.markForCheck();
+        }
+      )
+    );
   }
 
   ngAfterViewInit() {
-    this.styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
-      const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
-      this.renderer.setStyle(
-        this.container.nativeElement,
-        'background-color',
-        backgroundRgbaColor
-      );
-    });
+    this.subscriptions.add(
+      this.styleService.onChange.subscribe((c) => {
+        const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
+        this.renderer.setStyle(
+          this.container.nativeElement,
+          'background-color',
+          backgroundRgbaColor
+        );
+      })
+    );
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 
   @HostListener('keyup', ['$event'])

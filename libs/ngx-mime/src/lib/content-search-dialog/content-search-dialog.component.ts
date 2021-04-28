@@ -7,12 +7,12 @@ import {
   OnInit,
   QueryList,
   ViewChild,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../core/intl/viewer-intl';
@@ -26,7 +26,7 @@ import { SearchResult } from './../core/models/search-result';
 @Component({
   selector: 'mime-search',
   templateUrl: './content-search-dialog.component.html',
-  styleUrls: ['./content-search-dialog.component.scss']
+  styleUrls: ['./content-search-dialog.component.scss'],
 })
 export class ContentSearchDialogComponent
   implements OnInit, AfterViewInit, OnDestroy {
@@ -39,7 +39,7 @@ export class ContentSearchDialogComponent
   public tabHeight = {};
   private manifest: Manifest;
   private mimeHeight = 0;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions = new Subscription();
   @ViewChild('contentSearchResult', { static: true })
   resultContainer: ElementRef;
   @ViewChild('query', { static: true }) qEl: ElementRef;
@@ -58,22 +58,23 @@ export class ContentSearchDialogComponent
   ) {}
 
   ngOnInit() {
-    this.mimeResizeService.onResize
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((dimensions: Dimensions) => {
+    this.subscriptions.add(
+      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
         this.resizeTabHeight();
-      });
+      })
+    );
 
-    this.iiifManifestService.currentManifest
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((manifest: Manifest) => {
-        this.manifest = manifest;
-      });
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest) => {
+          this.manifest = manifest;
+        }
+      )
+    );
 
-    this.iiifContentSearchService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((sr: SearchResult) => {
+    this.subscriptions.add(
+      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
         this.hits = sr.hits;
         this.currentSearch = sr.q ? sr.q : '';
         this.q = sr.q;
@@ -83,17 +84,17 @@ export class ContentSearchDialogComponent
         } else if (this.q.length === 0 || this.numberOfHits === 0) {
           this.qEl.nativeElement.focus();
         }
-      });
+      })
+    );
 
-    this.iiifContentSearchService.isSearching
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((s: boolean) => {
+    this.subscriptions.add(
+      this.iiifContentSearchService.isSearching.subscribe((s: boolean) => {
         this.isSearching = s;
-      });
+      })
+    );
 
-    this.iiifContentSearchService.onSelected
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((hit: Hit) => {
+    this.subscriptions.add(
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
         if (hit === null) {
           this.currentHit = hit;
         } else {
@@ -102,7 +103,8 @@ export class ContentSearchDialogComponent
             this.scrollCurrentHitIntoView();
           }
         }
-      });
+      })
+    );
 
     this.resizeTabHeight();
   }
@@ -112,8 +114,7 @@ export class ContentSearchDialogComponent
   }
 
   ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.subscriptions.unsubscribe();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -150,12 +151,12 @@ export class ContentSearchDialogComponent
 
     if (this.mediaObserver.isActive('lt-md')) {
       this.tabHeight = {
-        maxHeight: window.innerHeight - 128 + 'px'
+        maxHeight: window.innerHeight - 128 + 'px',
       };
     } else {
       height -= 272;
       this.tabHeight = {
-        maxHeight: height + 'px'
+        maxHeight: height + 'px',
       };
     }
   }
@@ -164,7 +165,7 @@ export class ContentSearchDialogComponent
     this.iiifContentSearchService.onSelected
       .pipe(
         take(1),
-        filter(s => s !== null)
+        filter((s) => s !== null)
       )
       .subscribe((hit: Hit) => {
         const selected = this.findSelected(hit);

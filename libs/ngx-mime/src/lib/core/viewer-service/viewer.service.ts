@@ -1,7 +1,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as d3 from 'd3';
-import { BehaviorSubject, interval, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, sample, takeUntil } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  interval,
+  Observable,
+  Subject,
+  Subscription,
+} from 'rxjs';
+import { distinctUntilChanged, sample } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -46,7 +52,7 @@ export class ViewerService {
 
   private overlays: Array<SVGRectElement>;
   private tileSources: Array<Service>;
-  private destroyed: Subject<void> = new Subject();
+  private subscriptions: Subscription;
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -98,6 +104,10 @@ export class ViewerService {
 
   get onOsdReadyChange(): Observable<boolean> {
     return this.osdIsReady.asObservable().pipe(distinctUntilChanged());
+  }
+
+  initialize() {
+    this.subscriptions = new Subscription();
   }
 
   public getViewer(): any {
@@ -289,66 +299,70 @@ export class ViewerService {
   }
 
   addSubscriptions(): void {
-    this.modeService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((mode: ModeChanges) => {
+    this.subscriptions.add(
+      this.modeService.onChange.subscribe((mode: ModeChanges) => {
         this.modeChanged(mode);
-      });
+      })
+    );
 
     this.zone.runOutsideAngular(() => {
-      this.onCenterChange
-        .pipe(takeUntil(this.destroyed), sample(interval(500)))
-        .subscribe((center: Point) => {
-          this.calculateCurrentCanvasGroup(center);
-          if (center && center !== null) {
-            this.osdIsReady.next(true);
-          }
-        });
+      this.subscriptions.add(
+        this.onCenterChange
+          .pipe(sample(interval(500)))
+          .subscribe((center: Point) => {
+            this.calculateCurrentCanvasGroup(center);
+            if (center && center !== null) {
+              this.osdIsReady.next(true);
+            }
+          })
+      );
     });
 
-    this.canvasService.onCanvasGroupIndexChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((canvasGroupIndex: number) => {
-        this.swipeDragEndCounter.reset();
-        if (canvasGroupIndex !== -1) {
-          this.canvasGroupMask.changeCanvasGroup(
-            this.canvasService.getCanvasGroupRect(canvasGroupIndex)
-          );
-          if (this.modeService.mode === ViewerMode.PAGE) {
-            this.zoomStrategy.goToHomeZoom();
+    this.subscriptions.add(
+      this.canvasService.onCanvasGroupIndexChange.subscribe(
+        (canvasGroupIndex: number) => {
+          this.swipeDragEndCounter.reset();
+          if (canvasGroupIndex !== -1) {
+            this.canvasGroupMask.changeCanvasGroup(
+              this.canvasService.getCanvasGroupRect(canvasGroupIndex)
+            );
+            if (this.modeService.mode === ViewerMode.PAGE) {
+              this.zoomStrategy.goToHomeZoom();
+            }
           }
         }
-      });
+      )
+    );
 
-    this.onOsdReadyChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((state: boolean) => {
+    this.subscriptions.add(
+      this.onOsdReadyChange.subscribe((state: boolean) => {
         if (state) {
           this.initialCanvasGroupLoaded();
           this.currentCenter.next(this.viewer?.viewport.getCenter(true));
         }
-      });
+      })
+    );
 
-    this.viewerLayoutService.onChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((state: ViewerLayout) => {
+    this.subscriptions.add(
+      this.viewerLayoutService.onChange.subscribe((state: ViewerLayout) => {
         this.layoutPages();
-      });
+      })
+    );
 
-    this.iiifContentSearchService.onSelected
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((hit: Hit) => {
+    this.subscriptions.add(
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
         if (hit) {
           this.highlightCurrentHit(hit);
           this.goToCanvas(hit.index, false);
         }
-      });
+      })
+    );
 
-    this.onRotationChange
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((rotation: number) => {
+    this.subscriptions.add(
+      this.onRotationChange.subscribe((rotation: number) => {
         this.layoutPages();
-      });
+      })
+    );
   }
 
   private layoutPages() {
@@ -394,6 +408,7 @@ export class ViewerService {
    */
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
+    this.unsubscribe();
     this.currentCenter.next(null);
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
@@ -402,7 +417,6 @@ export class ViewerService {
       this.viewer.destroy();
       this.viewer = null;
     }
-    this.destroyed.next();
     this.overlays = null;
     this.canvasService.reset();
     if (this.canvasGroupMask) {
@@ -786,7 +800,7 @@ export class ViewerService {
    */
   private initialCanvasGroupLoaded(): void {
     this.home();
-    this.canvasGroupMask.initialise(
+    this.canvasGroupMask.initialize(
       this.canvasService.getCurrentCanvasGroupRect(),
       this.modeService.mode !== ViewerMode.DASHBOARD
     );
@@ -912,5 +926,11 @@ export class ViewerService {
 
   private getViewportBounds(): Rect {
     return this.viewer?.viewport.getBounds();
+  }
+
+  private unsubscribe() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 }

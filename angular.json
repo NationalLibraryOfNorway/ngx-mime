@@ -12,7 +12,6 @@
         "build": {
           "builder": "@nrwl/angular:package",
           "options": {
-            "allowedCommonJsDependencies": ["openseadragon"],
             "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
             "project": "libs/ngx-mime/ng-package.json",
             "buildableProjectDepsInPackageJsonType": "dependencies"
@@ -178,7 +177,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["openseadragon"],
             "aot": true,
             "outputPath": "dist/apps/integration",
             "index": "apps/integration/src/index.html",
