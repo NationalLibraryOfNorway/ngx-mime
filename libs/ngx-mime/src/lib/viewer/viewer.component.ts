@@ -407,6 +407,7 @@ export class ViewerComponent
   }
 
   private initialize() {
+    this.accessKeysHandlerService.initialize();
     this.attributionDialogService.initialize();
     this.contentsDialogService.initialize();
     this.contentSearchDialogService.initialize();
@@ -416,6 +417,7 @@ export class ViewerComponent
 
   private cleanup() {
     this.viewerState = new ViewerState();
+    this.accessKeysHandlerService.destroy();
     this.attributionDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();

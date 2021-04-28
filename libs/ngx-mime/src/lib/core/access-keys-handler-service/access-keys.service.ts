@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
@@ -16,7 +16,7 @@ import { ContentSearchNavigationService } from '../navigation/content-search-nav
 import { ViewerService } from '../viewer-service/viewer.service';
 
 @Injectable()
-export class AccessKeysService implements OnDestroy {
+export class AccessKeysService {
   private isSearchable = false;
   private hasHits = false;
   private disabledKeys: number[] = [];
@@ -34,6 +34,10 @@ export class AccessKeysService implements OnDestroy {
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService
   ) {
+  }
+
+  initialize() {
+    this.subscriptions = new Subscription();
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest) => {
@@ -52,8 +56,8 @@ export class AccessKeysService implements OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+  destroy(): void {
+    this.unsubscribe();
   }
 
   public handleKeyEvents(event: KeyboardEvent) {
@@ -248,4 +252,11 @@ export class AccessKeysService implements OnDestroy {
     this.updateDisabledKeys();
     return this.disabledKeys.indexOf(keyCode) > -1;
   }
+
+  unsubscribe(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
+  }
+
 }
