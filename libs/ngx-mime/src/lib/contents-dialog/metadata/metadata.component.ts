@@ -17,7 +17,7 @@ import { Manifest } from './../../core/models/manifest';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MetadataComponent implements OnInit, OnDestroy {
-  public manifest: Manifest;
+  public manifest: Manifest | null = null;
   private subscriptions = new Subscription();
 
   constructor(

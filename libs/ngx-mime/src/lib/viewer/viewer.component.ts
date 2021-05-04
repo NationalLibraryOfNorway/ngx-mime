@@ -55,9 +55,9 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 })
 export class ViewerComponent
   implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
-  @Input() public manifestUri: string;
-  @Input() public q: string;
-  @Input() public canvasIndex: number;
+  @Input() public manifestUri!: string;
+  @Input() public q!: string;
+  @Input() public canvasIndex: number = 0;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   @Input() public tabIndex = 0;
   @Output() viewerModeChanged: EventEmitter<ViewerMode> = new EventEmitter();
@@ -67,19 +67,19 @@ export class ViewerComponent
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
-  private currentManifest: Manifest;
-  private viewerLayout: ViewerLayout;
+  private currentManifest!: Manifest | null;
+  private viewerLayout: ViewerLayout | null  = null;
   private viewerState = new ViewerState();
 
-  public errorMessage: string = null;
+  public errorMessage: string | null = null;
 
   // Viewchilds
   @ViewChild('mimeHeader', { static: true })
-  private header: ViewerHeaderComponent;
+  private header!: ViewerHeaderComponent;
   @ViewChild('mimeFooter', { static: true })
-  private footer: ViewerFooterComponent;
+  private footer!: ViewerFooterComponent;
   @ViewChild('mimeOsdToolbar')
-  private osdToolbar: OsdToolbarComponent;
+  private osdToolbar!: OsdToolbarComponent;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -309,7 +309,7 @@ export class ViewerComponent
     if (manifestUriIsChanged) {
       this.loadManifest();
     } else {
-      if (qIsChanged) {
+      if (qIsChanged && this.currentManifest) {
         this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
       if (canvasIndexChanged) {
@@ -340,10 +340,10 @@ export class ViewerComponent
         this.loadManifest();
         if (startCanvasId) {
           this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
-            const canvasIndex = manifest.sequences[0].canvases.findIndex(
+            const canvasIndex = manifest.sequences ? manifest.sequences[0]?.canvases?.findIndex(
               (c) => c.id === startCanvasId
-            );
-            if (canvasIndex !== -1) {
+            ) : -1;
+            if (canvasIndex && canvasIndex !== -1) {
               setTimeout(() => {
                 this.viewerService.goToCanvas(canvasIndex, true);
               }, 0);
@@ -352,7 +352,7 @@ export class ViewerComponent
         }
       }
     } else {
-      this.snackBar.open(this.intl.dropDisabled, null, {
+      this.snackBar.open(this.intl.dropDisabled, undefined, {
         duration: 3000,
       });
     }

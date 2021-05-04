@@ -15,10 +15,10 @@ import { AttributionDialogComponent } from './attribution-dialog.component';
 @Injectable()
 export class AttributionDialogService {
   private isAttributionDialogOpen = false;
-  private dialogRef: MatDialogRef<AttributionDialogComponent>;
-  private _el: ElementRef;
+  private dialogRef: MatDialogRef<AttributionDialogComponent> | null = null;
+  private _el: ElementRef | null = null;
   private attributionDialogHeight = 0;
-  private subscriptions: Subscription;
+  private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -31,7 +31,7 @@ export class AttributionDialogService {
     this.subscriptions = new Subscription();
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-        if (this.isAttributionDialogOpen) {
+        if (this.dialogRef && this.isAttributionDialogOpen) {
           const config = this.getDialogConfig();
           this.dialogRef.updatePosition(config.position);
         }
@@ -40,7 +40,7 @@ export class AttributionDialogService {
     this.subscriptions.add(
       this.attributionDialogResizeService.onResize.subscribe(
         (dimensions: Dimensions) => {
-          if (this.isAttributionDialogOpen) {
+          if (this.dialogRef && this.isAttributionDialogOpen) {
             this.attributionDialogHeight = dimensions.height;
             const config = this.getDialogConfig();
             this.dialogRef.updatePosition(config.position);
@@ -94,8 +94,8 @@ export class AttributionDialogService {
     this.isAttributionDialogOpen ? this.close() : this.open();
   }
 
-  private closeDialogAfter(seconds: number) {
-    if (seconds > 0) {
+  private closeDialogAfter(seconds: number | undefined) {
+    if (seconds && seconds > 0) {
       interval(seconds * 1000)
         .pipe(take(1))
         .subscribe(() => {
@@ -105,7 +105,7 @@ export class AttributionDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
-    const dimensions = this.getPosition(this._el);
+    const dimensions = this.getPosition();
     return {
       hasBackdrop: false,
       width: '180px',
@@ -119,9 +119,12 @@ export class AttributionDialogService {
     };
   }
 
-  private getPosition(el: ElementRef) {
+  private getPosition() {
+    if (!this._el) {
+      throw new Error(`Could not find position because element is missing`)
+    }
     const padding = 20;
-    const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(this._el);
     return new Dimensions({
       top:
         dimensions.top + dimensions.height - this.attributionDialogHeight - 68,

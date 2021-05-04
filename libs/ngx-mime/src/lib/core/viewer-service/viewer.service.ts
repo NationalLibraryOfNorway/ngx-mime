@@ -48,11 +48,11 @@ export class ViewerService {
   private viewer?: any;
   private svgOverlay: any;
   private svgNode: any;
-  private config: MimeViewerConfig;
+  private config!: MimeViewerConfig;
 
-  private overlays: Array<SVGRectElement>;
-  private tileSources: Array<Service>;
-  private subscriptions: Subscription;
+  private overlays: Array<SVGRectElement> = [];
+  private tileSources: Array<Service> = [];
+  private subscriptions!: Subscription;
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -63,16 +63,16 @@ export class ViewerService {
   private currentHit: BehaviorSubject<Hit> = new BehaviorSubject(null);
   private osdIsReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
-  private canvasGroupMask: CanvasGroupMask;
+  private canvasGroupMask!: CanvasGroupMask;
   private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
-  private manifest: Manifest;
-  private isManifestPaged: boolean;
+  private manifest!: Manifest;
+  private isManifestPaged: boolean = false;
   private defaultKeyDownHandler: any;
 
-  public currentSearch: SearchResult;
-  private zoomStrategy: ZoomStrategy;
-  private goToCanvasGroupStrategy: GoToCanvasGroupStrategy;
+  public currentSearch: SearchResult | null = null;
+  private zoomStrategy!: ZoomStrategy;
+  private goToCanvasGroupStrategy!: GoToCanvasGroupStrategy;
 
   private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
 
@@ -409,7 +409,7 @@ export class ViewerService {
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
     this.unsubscribe();
-    this.currentCenter.next(null);
+    this.currentCenter.next(undefined);
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
         d3.select(this.viewer.container.parentNode).style('opacity', '0');
@@ -417,7 +417,7 @@ export class ViewerService {
       this.viewer.destroy();
       this.viewer = null;
     }
-    this.overlays = null;
+    this.overlays = [];
     this.canvasService.reset();
     if (this.canvasGroupMask) {
       this.canvasGroupMask.destroy();
@@ -845,10 +845,9 @@ export class ViewerService {
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      const dragEndPosision: Point = e.position;
       const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
-      const pannedPastCanvasGroup: Side = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
+      const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,
         vpBounds
       );
@@ -891,7 +890,8 @@ export class ViewerService {
       this.modeService.mode
     );
 
-    let pannedPastSide: Side, canvasGroupEndHitCountReached: boolean;
+    let pannedPastSide: Side | null;
+    let canvasGroupEndHitCountReached: boolean = false;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,

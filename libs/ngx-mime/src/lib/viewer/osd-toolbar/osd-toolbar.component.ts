@@ -65,15 +65,15 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
   ],
 })
 export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('container', { static: true }) container: ElementRef;
+  @ViewChild('container', { static: true }) container!: ElementRef;
   @HostBinding('@osdToolbarState')
   get osdToolbarState() {
     return this.state;
   }
   public osdToolbarStyle = {};
-  public numberOfCanvasGroups: number;
-  public isFirstCanvasGroup: boolean;
-  public isLastCanvasGroup: boolean;
+  public numberOfCanvasGroups: number = 0;
+  public isFirstCanvasGroup: boolean = false;
+  public isLastCanvasGroup: boolean = false;
   public state = 'hide';
   invert = false;
   private subscriptions = new Subscription();
@@ -101,6 +101,7 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscriptions.add(
       this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
+        if (dimensions) {}
         this.osdToolbarStyle = {
           top: dimensions.top + 110 + 'px',
         };

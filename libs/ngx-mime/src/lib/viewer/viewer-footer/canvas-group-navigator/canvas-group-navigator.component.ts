@@ -23,15 +23,15 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
   styleUrls: ['./canvas-group-navigator.component.scss'],
 })
 export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
-  @Input() public searchResult: SearchResult;
-  public numberOfCanvases: number;
-  public canvasGroupLabel: string;
-  public numberOfCanvasGroups: number;
-  public currentCanvasGroupIndex: number;
-  public isFirstCanvasGroup: boolean;
-  public isLastCanvasGroup: boolean;
+  @Input() public searchResult!: SearchResult;
+  public numberOfCanvases: number = 0;
+  public canvasGroupLabel: string = '';
+  public numberOfCanvasGroups: number = 0;
+  public currentCanvasGroupIndex: number | null = -1;
+  public isFirstCanvasGroup: boolean = false;
+  public isLastCanvasGroup: boolean = false;
   invert = false;
-  private currentSliderCanvasGroupIndex = -1;
+  private currentSliderCanvasGroupIndex: number | null = -1;
   private subscriptions = new Subscription();
 
   constructor(
@@ -83,12 +83,14 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
         (numberOfCanvasGroups: number) => {
           this.numberOfCanvasGroups = numberOfCanvasGroups;
           this.numberOfCanvases = this.canvasService.numberOfCanvases;
-          this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
-            this.currentCanvasGroupIndex
-          );
-          this.isLastCanvasGroup = this.isOnLastCanvasGroup(
-            this.currentCanvasGroupIndex
-          );
+          if (this.currentCanvasGroupIndex !== null) {
+            this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
+              this.currentCanvasGroupIndex
+            );
+            this.isLastCanvasGroup = this.isOnLastCanvasGroup(
+              this.currentCanvasGroupIndex
+            );
+          }
           this.changeDetectorRef.detectChanges();
         }
       )
@@ -110,10 +112,12 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   onSliderChange(change: MatSliderChange): void {
     this.currentSliderCanvasGroupIndex = change.value;
     this.currentCanvasGroupIndex = change.value;
-    this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(
-      this.currentCanvasGroupIndex
-    );
-    this.viewerService.goToCanvasGroup(change.value, false);
+    if (this.currentCanvasGroupIndex) {
+      this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(
+        this.currentCanvasGroupIndex
+      );
+      this.viewerService.goToCanvasGroup(this.currentCanvasGroupIndex, false);
+    }
     this.changeDetectorRef.detectChanges();
   }
 

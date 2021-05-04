@@ -23,7 +23,7 @@ import { ContentSearchNavigationService } from '../../../core/navigation/content
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
-  @Input() searchResult: SearchResult;
+  @Input() searchResult!: SearchResult;
   public isHitOnActiveCanvasGroup = false;
   public isFirstCanvasGroupHit = false;
   public isLastCanvasGroupHit = false;

@@ -8,10 +8,8 @@ export class CanvasGroupStrategyFactory {
   public static create(layout: ViewerLayout) {
     if (layout === ViewerLayout.ONE_PAGE) {
       return new OneCanvasPerCanvasGroupStrategy();
-    } else if (layout === ViewerLayout.TWO_PAGE) {
+    } else {
       return new TwoCanvasPerCanvasGroupStrategy();
     }
-
-    return null;
   }
 }

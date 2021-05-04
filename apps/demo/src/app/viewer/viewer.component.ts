@@ -11,8 +11,8 @@ import { ManifestService } from './../core/manifest-service/manifest.service';
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
 })
-export class ViewerComponent implements OnInit, OnDestroy {
-  public manifestUri: string;
+export class ViewerComponent implements OnDestroy {
+  public manifestUri = '';
   public config = new MimeViewerConfig({
     attributionDialogEnabled: true,
     attributionDialogHideTimeout: -1,
@@ -28,9 +28,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private manifestService: ManifestService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.subscriptions.add(
       this.route.queryParams.subscribe((params) => {
         this.manifestUri = params['manifestUri'];

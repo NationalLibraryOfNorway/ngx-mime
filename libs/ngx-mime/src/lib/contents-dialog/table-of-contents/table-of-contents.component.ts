@@ -23,8 +23,8 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
 export class TocComponent implements OnInit, OnDestroy {
   @Output()
   canvasChanged: EventEmitter<number> = new EventEmitter();
-  public manifest: Manifest;
-  public currentCanvasGroupIndex: number;
+  public manifest!: Manifest;
+  public currentCanvasGroupIndex: number = 0;
   private subscriptions = new Subscription();
 
   constructor(

@@ -24,8 +24,8 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 })
 export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   numberOfCanvases: number;
-  canvasGroupForm: FormGroup;
-  canvasGroupControl: FormControl;
+  canvasGroupForm!: FormGroup;
+  canvasGroupControl!: FormControl;
   private subscriptions = new Subscription();
 
   constructor(
@@ -63,8 +63,7 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.canvasGroupForm.valid) {
-      const pageNumber =
-        this.canvasGroupForm.get('canvasGroupControl').value - 1;
+      const pageNumber = this.canvasGroupControl.value - 1;
       this.viewerService.goToCanvasGroup(
         this.canvasService.findCanvasGroupByCanvasIndex(pageNumber),
         false

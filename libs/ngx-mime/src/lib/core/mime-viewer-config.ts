@@ -5,15 +5,15 @@ export class MimeViewerConfig {
   public attributionDialogEnabled? = true;
   public attributionDialogHideTimeout? = -1;
   public navigationControlEnabled? = true;
-  public initViewerMode? = ViewerMode.PAGE;
-  public initViewerLayout? = ViewerLayout.TWO_PAGE;
-  public withCredentials? = false;
-  public loadTilesWithAjax? = false;
-  public crossOriginPolicy?: string | boolean = false;
-  public ajaxHeaders?: any = null;
-  public preserveZoomOnCanvasGroupChange? = false;
-  public startOnTopOnCanvasGroupChange? = false;
-  public isDropEnabled? = false;
+  public initViewerMode = ViewerMode.PAGE;
+  public initViewerLayout = ViewerLayout.TWO_PAGE;
+  public withCredentials = false;
+  public loadTilesWithAjax = false;
+  public crossOriginPolicy: string | boolean = false;
+  public ajaxHeaders: any = null;
+  public preserveZoomOnCanvasGroupChange = false;
+  public startOnTopOnCanvasGroupChange = false;
+  public isDropEnabled = false;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;

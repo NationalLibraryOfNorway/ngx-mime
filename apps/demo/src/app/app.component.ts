@@ -16,7 +16,7 @@ import {
 export class AppComponent implements OnInit, OnDestroy {
   sidenavMode: MatDrawerMode = 'side';
   sidenavIsOpen = false;
-  currentTheme: string;
+  currentTheme = '';
   private subscriptions = new Subscription();
 
   constructor(

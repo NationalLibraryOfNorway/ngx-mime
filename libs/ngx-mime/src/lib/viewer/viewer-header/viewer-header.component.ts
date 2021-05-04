@@ -61,10 +61,10 @@ import { Manifest } from './../../core/models/manifest';
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('mimeHeaderBefore', { read: ViewContainerRef, static: true })
-  mimeHeaderBefore: ViewContainerRef;
+  mimeHeaderBefore!: ViewContainerRef;
   @ViewChild('mimeHeaderAfter', { read: ViewContainerRef, static: true })
-  mimeHeaderAfter: ViewContainerRef;
-  public manifest: Manifest;
+  mimeHeaderAfter!: ViewContainerRef;
+  public manifest!: Manifest;
   public state = 'hide';
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
