@@ -40,7 +40,7 @@ describe('SwipeUtils ', () => {
     const start: Point = { x: 0, y: 50 };
     const end: Point = { x: 0, y: 0 };
     const direction = SwipeUtils.getSwipeDirection(start, end, true);
-    expect(direction).toBe(undefined);
+    expect(direction).toBe(Direction.UNDEFINED);
   });
 
   it('should return true when panning outside right page-bounds', () => {

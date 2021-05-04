@@ -8,5 +8,7 @@ After(function(testCase) {
       // screenShot is a base-64 encoded PNG
       world.attach(screenShot, 'image/png');
     });
+  } else {
+    return null;
   }
 });
