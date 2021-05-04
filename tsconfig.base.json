@@ -12,7 +12,7 @@
     "lib": ["es2017", "dom"],
     "baseUrl": ".",
     "strict": false,
-    "forceConsistentCasingInFileNames": false,
+    "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
