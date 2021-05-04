@@ -67,7 +67,7 @@ export class ZoomStrategy {
 
   private getHomeZoomLevel(mode: ViewerMode): number {
     if (!this.viewer || !this.canvasService) {
-      return;
+      return 1;
     }
 
     let canvasGroupHeight: number;

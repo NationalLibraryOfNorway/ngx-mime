@@ -18,7 +18,6 @@ export class SearchResultBuilder {
   public build(): SearchResult {
     const searchResult = new SearchResult();
     searchResult.q = this.q;
-    const hits: Hit[] = [];
     if (this.iiifSearchResult && this.iiifSearchResult.hits) {
       this.iiifSearchResult.hits.forEach((hit: IiifHit, index: number) => {
         const id: number = index;
@@ -54,8 +53,8 @@ export class SearchResultBuilder {
           })
         );
       });
-      return searchResult;
     }
+    return searchResult;
   }
 
   private findResources(hit: IiifHit): IiifResource[] {

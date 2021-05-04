@@ -13,8 +13,8 @@
     "baseUrl": ".",
     "strict": false,
     "forceConsistentCasingInFileNames": false,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "paths": {
       "@nationallibraryofnorway/*": ["libs/*"],
       "@nationallibraryofnorway/ngx-mime": ["libs/ngx-mime/src/index.ts"]

@@ -20,17 +20,21 @@ export class SwipeUtils {
       return Direction.LEFT;
     } else if (start.x < end.x && deltaX >= deltaY) {
       return Direction.RIGHT;
+    } else {
+      return Direction.UNDEFINED;
     }
   }
 
   static getSideIfPanningPastEndOfCanvasGroup(
     canvasGroupRect: Rect,
     vpBounds: Rect
-  ): Side {
+  ): Side | null {
     if (this.isPanningOutsideLeft(canvasGroupRect, vpBounds)) {
       return Side.LEFT;
     } else if (this.isPanningOutsideRight(canvasGroupRect, vpBounds)) {
       return Side.RIGHT;
+    } else {
+      return null;
     }
   }
 
