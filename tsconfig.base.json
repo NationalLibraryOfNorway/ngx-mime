@@ -11,10 +11,10 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
     "baseUrl": ".",
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
     "paths": {
       "@nationallibraryofnorway/*": ["libs/*"],
       "@nationallibraryofnorway/ngx-mime": ["libs/ngx-mime/src/index.ts"]
