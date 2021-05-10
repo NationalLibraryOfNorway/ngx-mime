@@ -60,8 +60,8 @@ export class ViewerService {
 
   private currentCenter: Subject<Point> = new Subject();
   private currentCanvasIndex: BehaviorSubject<number> = new BehaviorSubject(0);
-  private currentHit: BehaviorSubject<Hit> = new BehaviorSubject(null);
-  private osdIsReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private currentHit = new Subject<Hit>();
+  private osdIsReady = new BehaviorSubject<boolean>(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private canvasGroupMask!: CanvasGroupMask;
   private pinchStatus = new PinchStatus();
@@ -350,7 +350,7 @@ export class ViewerService {
     );
 
     this.subscriptions.add(
-      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
         if (hit) {
           this.highlightCurrentHit(hit);
           this.goToCanvas(hit.index, false);

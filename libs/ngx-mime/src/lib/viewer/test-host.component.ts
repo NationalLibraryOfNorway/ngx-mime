@@ -17,7 +17,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 export class TestHostComponent {
   @ViewChild(ViewerComponent, { static: true })
   public viewerComponent: any;
-  public manifestUri: string;
+  public manifestUri: string | null = null;
   public canvasIndex = 0;
   public tabIndex = 0;
   public config = new MimeViewerConfig({

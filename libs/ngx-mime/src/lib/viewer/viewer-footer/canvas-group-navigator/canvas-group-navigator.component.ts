@@ -46,9 +46,11 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
-          this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-          this.changeDetectorRef.detectChanges();
+        (manifest: Manifest | null) => {
+          if (manifest) {
+            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+            this.changeDetectorRef.detectChanges();
+          }
         }
       )
     );

@@ -9,6 +9,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostBinding,
   OnDestroy,
   OnInit,
@@ -64,7 +65,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   mimeHeaderBefore!: ViewContainerRef;
   @ViewChild('mimeHeaderAfter', { read: ViewContainerRef, static: true })
   mimeHeaderAfter!: ViewContainerRef;
-  public manifest!: Manifest;
+  public manifest: Manifest | null = null;
   public state = 'hide';
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
@@ -85,8 +86,13 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
-    private viewerLayoutService: ViewerLayoutService
-  ) {}
+    private viewerLayoutService: ViewerLayoutService,
+    private el: ElementRef
+  ) {
+    contentsDialogService.el = el;
+    contentSearchDialogService.el = el;
+    helpDialogService.el = el;
+  }
 
   @HostBinding('@headerState')
   get headerState() {
@@ -112,10 +118,13 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
+        (manifest: Manifest | null) => {
           this.manifest = manifest;
-          this.isContentSearchEnabled = manifest.service ? true : false;
-          this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
+          this.isContentSearchEnabled =
+            manifest && manifest.service ? true : false;
+          this.isPagedManifest = manifest
+            ? ManifestUtils.isManifestPaged(manifest)
+            : false;
           this.changeDetectorRef.detectChanges();
         }
       )

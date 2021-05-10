@@ -105,7 +105,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       );
 
       const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(
-        null
+        ViewerMode.NAVIGATOR
       );
       const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup(
         {
@@ -133,7 +133,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       );
 
       const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(
-        null
+        ViewerMode.NAVIGATOR
       );
       const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup(
         {
@@ -166,11 +166,11 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     return canvas.x + canvas.width - this.getViewportBounds().width / 2;
   }
 
-  private panToCenter(canvasGroup: Rect, immediately: boolean): void {
+  private panToCenter(canvasGroup: Rect, immediately = false): void {
     this.panTo(canvasGroup.centerX, canvasGroup.centerY, immediately);
   }
 
-  private panTo(x: number, y: number, immediately: boolean): void {
+  private panTo(x: number, y: number, immediately = false): void {
     this.viewer.viewport.panTo(
       {
         x: x,

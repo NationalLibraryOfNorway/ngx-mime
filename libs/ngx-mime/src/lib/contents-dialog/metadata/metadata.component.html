@@ -1,4 +1,4 @@
-<<ng-container *ngIf="manifest">
+<ng-container *ngIf="manifest">
   <div class="ngx-mime-metadata-container">
     <div *ngFor="let metadata of manifest?.metadata" class="metadata">
       <div class="title">{{ metadata.label }}</div>
@@ -22,5 +22,5 @@
     <div *ngIf="manifest?.logo">
       <span><img class="content logo" [src]="manifest?.logo" /></span>
     </div>
-</div>
+  </div>
 </ng-container>

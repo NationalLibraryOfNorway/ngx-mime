@@ -6,7 +6,7 @@ import { ModeChanges } from '../models/modeChanges';
 describe('ModeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ModeService]
+      providers: [ModeService],
     });
   });
 
@@ -17,7 +17,7 @@ describe('ModeService', () => {
   it('should emit when mode changes', inject(
     [ModeService],
     (service: ModeService) => {
-      let selectedMode: ViewerMode;
+      let selectedMode: ViewerMode | undefined;
       service.onChange.subscribe(
         (mode: ModeChanges) => (selectedMode = mode.currentValue)
       );
@@ -69,7 +69,7 @@ describe('ModeService', () => {
   it('should emit when mode is toggled', inject(
     [ModeService],
     (service: ModeService) => {
-      let selectedMode: ViewerMode;
+      let selectedMode: ViewerMode | undefined;
       service.onChange.subscribe(
         (mode: ModeChanges) => (selectedMode = mode.currentValue)
       );

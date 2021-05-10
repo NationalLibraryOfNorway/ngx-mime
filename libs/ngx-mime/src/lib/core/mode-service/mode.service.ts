@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { ModeChanges } from '../models/modeChanges';
 import { ViewerMode } from '../models/viewer-mode';
 
@@ -12,7 +13,10 @@ export class ModeService {
   private modeChanges = new ModeChanges();
 
   constructor() {
+    const mimeConfig = new MimeViewerConfig();
     this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
+    this._initialMode = mimeConfig.initViewerMode;
+    this._mode = this._initialMode;
   }
 
   get onChange(): Observable<ModeChanges> {

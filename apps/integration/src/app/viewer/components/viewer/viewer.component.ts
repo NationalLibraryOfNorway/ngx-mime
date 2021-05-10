@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class ViewerComponent {
   @Input()
-  manifestUri: string;
+  manifestUri!: string;
 }

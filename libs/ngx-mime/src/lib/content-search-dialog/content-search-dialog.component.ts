@@ -30,21 +30,21 @@ import { SearchResult } from './../core/models/search-result';
 })
 export class ContentSearchDialogComponent
   implements OnInit, AfterViewInit, OnDestroy {
-  public q: string;
+  public q: string = '';
   public hits: Hit[] = [];
-  public currentHit: Hit;
-  public currentSearch = '';
+  public currentHit: Hit | null = null;
+  public currentSearch: string | null = null;
   public numberOfHits = 0;
   public isSearching = false;
   public tabHeight = {};
-  private manifest: Manifest;
+  private manifest: Manifest | null = null;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
   @ViewChild('contentSearchResult', { static: true })
-  resultContainer: ElementRef;
-  @ViewChild('query', { static: true }) qEl: ElementRef;
+  resultContainer!: ElementRef;
+  @ViewChild('query', { static: true }) qEl!: ElementRef;
   @ViewChildren('hitButton', { read: ElementRef })
-  hitList: QueryList<ElementRef>;
+  hitList!: QueryList<ElementRef>;
 
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
@@ -67,7 +67,7 @@ export class ContentSearchDialogComponent
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
+        (manifest: Manifest | null) => {
           this.manifest = manifest;
         }
       )
@@ -94,7 +94,7 @@ export class ContentSearchDialogComponent
     );
 
     this.subscriptions.add(
-      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
         if (hit === null) {
           this.currentHit = hit;
         } else {
@@ -142,11 +142,12 @@ export class ContentSearchDialogComponent
 
   private search() {
     this.currentSearch = this.q;
-    this.iiifContentSearchService.search(this.manifest, this.q);
+    if (this.manifest) {
+      this.iiifContentSearchService.search(this.manifest, this.q);
+    }
   }
 
   private resizeTabHeight(): void {
-    const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
     let height = this.mimeHeight;
 
     if (this.mediaObserver.isActive('lt-md')) {
@@ -165,17 +166,18 @@ export class ContentSearchDialogComponent
     this.iiifContentSearchService.onSelected
       .pipe(
         take(1),
-        filter((s) => s !== null)
       )
-      .subscribe((hit: Hit) => {
-        const selected = this.findSelected(hit);
-        if (selected) {
-          selected.nativeElement.focus();
+      .subscribe((hit: Hit | null) => {
+        if (hit !== null) {
+          const selected = this.findSelected(hit);
+          if (selected) {
+            selected.nativeElement.focus();
+          }
         }
       });
   }
 
-  private findSelected(selectedHit: Hit): ElementRef {
+  private findSelected(selectedHit: Hit): ElementRef | null {
     if (this.hitList) {
       const selectedList = this.hitList.filter(
         (item: ElementRef, index: number) => index === selectedHit.id

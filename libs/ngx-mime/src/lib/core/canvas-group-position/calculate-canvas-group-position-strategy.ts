@@ -5,7 +5,7 @@ import { ViewingDirection } from '../models/viewing-direction';
 export interface CanvasGroupPositionCriteria {
   canvasGroupIndex: number;
   canvasSource: Service;
-  previousCanvasGroupPosition?: Rect;
+  previousCanvasGroupPosition: Rect;
   viewingDirection: ViewingDirection;
 }
 

@@ -1,12 +1,19 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  inject,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { Manifest, Service } from '../../core/models/manifest';
 import { ViewerLayout } from '../../core/models/viewer-layout';
+import { ViewingDirection } from '../../core/models/viewing-direction';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
@@ -19,29 +26,34 @@ import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub
 import { ViewerHeaderTestModule } from './viewer-header-test.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
 
-
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [ViewerHeaderTestModule, ContentSearchDialogModule, HelpDialogModule],
-      providers: [
-        ViewerService,
-        ClickService,
-        CanvasService,
-        ModeService,
-        MimeDomHelper,
-        FullscreenService,
-        ViewerLayoutService,
-        IiifContentSearchService,
-        { provide: FullscreenService, useClass: FullscreenServiceStub },
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          ViewerHeaderTestModule,
+          ContentSearchDialogModule,
+          HelpDialogModule,
+        ],
+        providers: [
+          ViewerService,
+          ClickService,
+          CanvasService,
+          ModeService,
+          MimeDomHelper,
+          FullscreenService,
+          ViewerLayoutService,
+          IiifContentSearchService,
+          { provide: FullscreenService, useClass: FullscreenServiceStub },
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerHeaderComponent);
@@ -74,36 +86,45 @@ describe('ViewerHeaderComponent', () => {
     component.toggleContents();
   });
 
-  it('should start in hidden mode', waitForAsync(() => {
-    expect(component.state).toBe('hide');
-    expectHeaderToBeHidden(fixture.debugElement.nativeElement);
-  }));
-
-  it('should not be visible when state is changed to hide', waitForAsync(() => {
-    const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
-
-    component.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
+  it(
+    'should start in hidden mode',
+    waitForAsync(() => {
+      expect(component.state).toBe('hide');
       expectHeaderToBeHidden(fixture.debugElement.nativeElement);
-    });
-  }));
+    })
+  );
 
-  it('should be visible when state is changed to show', waitForAsync(() => {
-    const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
+  it(
+    'should not be visible when state is changed to hide',
+    waitForAsync(() => {
+      const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
-    component.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expectHeaderToBeHidden(fixture.debugElement.nativeElement);
-
-      component.state = 'show';
+      component.state = 'hide';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expectHeaderToShow(fixture.debugElement.nativeElement);
+        expectHeaderToBeHidden(fixture.debugElement.nativeElement);
       });
-    });
-  }));
+    })
+  );
+
+  it(
+    'should be visible when state is changed to show',
+    waitForAsync(() => {
+      const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
+
+      component.state = 'hide';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expectHeaderToBeHidden(fixture.debugElement.nativeElement);
+
+        component.state = 'show';
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expectHeaderToShow(fixture.debugElement.nativeElement);
+        });
+      });
+    })
+  );
 
   it('should show fullscreen button if fullscreen mode is supported', inject(
     [FullscreenService],
@@ -112,7 +133,9 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('#ngx-mimeFullscreenButton'));
+      const button = fixture.debugElement.query(
+        By.css('#ngx-mimeFullscreenButton')
+      );
       expect(button).not.toBeNull();
     }
   ));
@@ -124,7 +147,9 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('#ngx-mimeFullscreenButton'));
+      const button = fixture.debugElement.query(
+        By.css('#ngx-mimeFullscreenButton')
+      );
       expect(button).not.toBeNull();
     }
   ));
@@ -133,7 +158,8 @@ describe('ViewerHeaderComponent', () => {
     [IiifManifestService],
     (iiifManifestService: IiifManifestServiceStub) => {
       iiifManifestService._currentManifest.next({
-        service: {}
+        ...new Manifest(),
+        service: new Service(),
       });
 
       fixture.detectChanges();
@@ -148,7 +174,7 @@ describe('ViewerHeaderComponent', () => {
   it('should hide search button if manifest does not have a search service', inject(
     [IiifManifestService],
     (iiifManifestService: IiifManifestServiceStub) => {
-      iiifManifestService._currentManifest.next({});
+      iiifManifestService._currentManifest.next(new Manifest());
 
       fixture.detectChanges();
 
@@ -220,7 +246,8 @@ describe('ViewerHeaderComponent', () => {
     [IiifManifestService],
     (iiifManifestService: IiifManifestServiceStub) => {
       iiifManifestService._currentManifest.next({
-        label: 'Testlabel'
+        label: 'Testlabel',
+        viewingDirection: ViewingDirection.LTR,
       });
 
       fixture.detectChanges();

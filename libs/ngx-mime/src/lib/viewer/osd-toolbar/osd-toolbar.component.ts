@@ -92,16 +92,19 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
-          this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-          this.changeDetectorRef.detectChanges();
+        (manifest: Manifest | null) => {
+          if (manifest) {
+            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+            this.changeDetectorRef.detectChanges();
+          }
         }
       )
     );
 
     this.subscriptions.add(
       this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
-        if (dimensions) {}
+        if (dimensions) {
+        }
         this.osdToolbarStyle = {
           top: dimensions.top + 110 + 'px',
         };

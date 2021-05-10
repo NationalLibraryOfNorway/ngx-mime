@@ -1,7 +1,7 @@
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,7 +16,7 @@ describe('IiifManifestService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [MimeViewerIntl, IiifManifestService, SpinnerService]
+      providers: [MimeViewerIntl, IiifManifestService, SpinnerService],
     });
   });
 
@@ -35,15 +35,15 @@ describe('IiifManifestService', () => {
         http: HttpClient,
         httpMock: HttpTestingController
       ) => {
-        let result: Manifest = null;
-        let error: string = null;
+        let result: Manifest | null = null;
+        let error: string | null = null;
 
         svc.load('dummyUrl');
         svc.currentManifest.subscribe(
-          (manifest: Manifest) => (result = manifest)
+          (manifest: Manifest | null) => (result = manifest)
         );
 
-        svc.errorMessage.subscribe((err: string) => (error = err));
+        svc.errorMessage.subscribe((err: string | null) => (error = err));
 
         httpMock
           .expectOne(`dummyUrl`)
@@ -51,7 +51,8 @@ describe('IiifManifestService', () => {
         tick();
         httpMock.verify();
         expect(error).toBeNull();
-        expect(result.label).toBe('Fjellkongen Ludvig "Ludden"');
+        expect(result).toBeTruthy();
+        expect(result!.label).toBe('Fjellkongen Ludvig "Ludden"');
       }
     )
   ));
@@ -64,15 +65,18 @@ describe('IiifManifestService', () => {
         http: HttpClient,
         httpMock: HttpTestingController
       ) => {
-        let result: Manifest = null;
-        let error: string = null;
+        let result: Manifest | null = null;
+        let error: string | null = null;
 
-        svc.load(null);
-        svc.currentManifest.subscribe(
-          (manifest: Manifest) => (result = manifest)
-        );
+        svc.currentManifest.subscribe((manifest: Manifest | null) => {
+          result = manifest;
+        });
 
-        svc.errorMessage.subscribe((err: string) => (error = err));
+        svc.errorMessage.subscribe((err: string | null) => {
+          error = err;
+        });
+
+        svc.load('');
 
         httpMock.expectNone('');
         httpMock.verify();
@@ -90,30 +94,32 @@ describe('IiifManifestService', () => {
         http: HttpClient,
         httpMock: HttpTestingController
       ) => {
-        let result: Manifest = null;
-        let error: string = null;
+        let result: Manifest | null = null;
+        let error: string | null = null;
 
-        svc.load('wrongManifestUrl');
         svc.currentManifest.subscribe(
-          (manifest: Manifest) => (result = manifest)
+          (manifest: Manifest | null) => (result = manifest)
         );
 
-        svc.errorMessage.subscribe((err: string) => (error = err));
+        svc.errorMessage.subscribe((err: string | null) => (error = err));
+
+        svc.load('wrongManifestUrl');
 
         httpMock
           .expectOne('wrongManifestUrl')
           .flush('Cannot /GET wrongManifestUrl', {
             status: 404,
-            statusText: 'NOT FOUND'
+            statusText: 'NOT FOUND',
           });
+
         httpMock.verify();
         expect(result).toBeNull();
-        expect(error).toBe('Cannot /GET wrongManifestUrl');
+        expect(error).toEqual('Cannot /GET wrongManifestUrl');
       }
     )
   ));
 
-  it('should return error message when manifest is not valid', inject(
+  fit('should return error message when manifest is not valid', inject(
     [IiifManifestService, HttpClient, HttpTestingController],
     fakeAsync(
       (
@@ -121,21 +127,24 @@ describe('IiifManifestService', () => {
         http: HttpClient,
         httpMock: HttpTestingController
       ) => {
-        let result: Manifest = null;
-        let error: string = null;
+        let result: Manifest | null = null;
+        let error: string | null = null;
 
-        svc.load('invalidManifest');
         svc.currentManifest.subscribe(
-          (manifest: Manifest) => (result = manifest)
+          (manifest: Manifest | null) => (result = manifest)
         );
 
-        svc.errorMessage.subscribe((err: string) => (error = err));
+        svc.errorMessage.subscribe((err: string | null) => (error = err));
 
         const invalidManifest = new ManifestBuilder(testManifest).build();
-        invalidManifest.sequences = null;
+        invalidManifest.sequences = [];
+
+        svc.load('invalidManifest');
+
         httpMock.expectOne(`invalidManifest`).flush(invalidManifest);
         httpMock.verify();
         expect(result).toBeNull();
+        console.log('error', error);
         expect(error).toBe('Manifest is not valid');
       }
     )

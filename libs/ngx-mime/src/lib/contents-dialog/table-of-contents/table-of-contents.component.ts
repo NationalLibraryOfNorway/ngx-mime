@@ -23,7 +23,7 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
 export class TocComponent implements OnInit, OnDestroy {
   @Output()
   canvasChanged: EventEmitter<number> = new EventEmitter();
-  public manifest!: Manifest;
+  public manifest: Manifest | null = null;
   public currentCanvasGroupIndex: number = 0;
   private subscriptions = new Subscription();
 
@@ -38,7 +38,7 @@ export class TocComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
+        (manifest: Manifest | null) => {
           this.manifest = manifest;
           this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
           this.changeDetectorRef.detectChanges();
@@ -60,9 +60,11 @@ export class TocComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  goToCanvas(event: Event, canvasIndex: number): void {
-    event.preventDefault();
-    this.viewerService.goToCanvas(canvasIndex, false);
-    this.canvasChanged.emit(canvasIndex);
+  goToCanvas(event: Event, canvasIndex: number | undefined): void {
+    if (canvasIndex) {
+      event.preventDefault();
+      this.viewerService.goToCanvas(canvasIndex, false);
+      this.canvasChanged.emit(canvasIndex);
+    }
   }
 }

@@ -44,9 +44,11 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
     this.contentSearchNavigationService.initialize();
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
-          this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-          this.changeDetectorRef.detectChanges();
+        (manifest: Manifest | null) => {
+          if (manifest) {
+            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+            this.changeDetectorRef.detectChanges();
+          }
         }
       )
     );

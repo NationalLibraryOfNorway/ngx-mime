@@ -9,11 +9,9 @@ describe('StaticImageTileSourceStrategy ', () => {
   });
 
   it('should return a url', () => {
-    const resource = new Service({});
+    const resource: any = new Service({});
     resource['@id'] = 'testId';
-
     const res = strategy.getTileSource(resource);
-
     expect(res.url).toBe('testId');
   });
 });

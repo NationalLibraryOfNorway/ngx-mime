@@ -6,7 +6,7 @@ import { Dimensions } from '../models/dimensions';
 
 @Injectable()
 export class MimeResizeService {
-  private _el: ElementRef;
+  private _el!: ElementRef;
   private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
   private dimensions = new Dimensions();
 
@@ -25,6 +25,9 @@ export class MimeResizeService {
   }
 
   markForCheck(): void {
+    if (!this.el) {
+      throw new Error('No element!')
+    }
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
 
     if (

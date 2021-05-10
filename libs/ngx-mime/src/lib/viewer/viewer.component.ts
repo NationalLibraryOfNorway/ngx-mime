@@ -68,7 +68,7 @@ export class ViewerComponent
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
   private currentManifest!: Manifest | null;
-  private viewerLayout: ViewerLayout | null  = null;
+  private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
   public errorMessage: string | null = null;
@@ -129,7 +129,7 @@ export class ViewerComponent
     this.modeService.initialMode = this.config.initViewerMode;
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
+        (manifest: Manifest | null) => {
           if (manifest) {
             this.initialize();
             this.currentManifest = manifest;
@@ -167,11 +167,13 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.iiifManifestService.errorMessage.subscribe((error: string) => {
-        this.resetCurrentManifest();
-        this.errorMessage = error;
-        this.changeDetectorRef.detectChanges();
-      })
+      this.iiifManifestService.errorMessage.subscribe(
+        (error: string | null) => {
+          this.resetCurrentManifest();
+          this.errorMessage = error;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
     );
 
     this.subscriptions.add(
@@ -195,7 +197,9 @@ export class ViewerComponent
 
     this.subscriptions.add(
       this.modeService.onChange.subscribe((mode: ModeChanges) => {
-        this.toggleToolbarsState(mode.currentValue);
+        if (mode.currentValue !== undefined) {
+          this.toggleToolbarsState(mode.currentValue);
+        }
         if (
           mode.previousValue === ViewerMode.DASHBOARD &&
           mode.currentValue === ViewerMode.PAGE
@@ -340,9 +344,11 @@ export class ViewerComponent
         this.loadManifest();
         if (startCanvasId) {
           this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
-            const canvasIndex = manifest.sequences ? manifest.sequences[0]?.canvases?.findIndex(
-              (c) => c.id === startCanvasId
-            ) : -1;
+            const canvasIndex = manifest.sequences
+              ? manifest.sequences[0]?.canvases?.findIndex(
+                  (c) => c.id === startCanvasId
+                )
+              : -1;
             if (canvasIndex && canvasIndex !== -1) {
               setTimeout(() => {
                 this.viewerService.goToCanvas(canvasIndex, true);

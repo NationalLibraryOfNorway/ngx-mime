@@ -93,14 +93,14 @@ export class ZoomStrategy {
   }
 
   zoomIn(zoomFactor?: number, position?: Point): void {
-    if (typeof zoomFactor === 'undefined') {
+    if (!zoomFactor) {
       zoomFactor = ViewerOptions.zoom.zoomFactor;
     }
 
-    if (typeof position !== 'undefined') {
+    if (position) {
       position = this.viewer.viewport.pointFromPixel(position);
       position = ZoomUtils.constrainPositionToCanvasGroup(
-        position,
+        position!,
         this.canvasService.getCurrentCanvasGroupRect()
       );
     }
@@ -113,14 +113,14 @@ export class ZoomStrategy {
   }
 
   zoomOut(zoomFactor?: number, position?: Point): void {
-    if (typeof zoomFactor === 'undefined') {
+    if (!zoomFactor) {
       zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, -1);
     }
 
-    if (typeof position !== 'undefined') {
+    if (position) {
       position = this.viewer.viewport.pointFromPixel(position);
       position = ZoomUtils.constrainPositionToCanvasGroup(
-        position,
+        position!,
         this.canvasService.getCurrentCanvasGroupRect()
       );
     }

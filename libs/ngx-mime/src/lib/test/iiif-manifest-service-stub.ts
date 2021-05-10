@@ -8,13 +8,13 @@ export class IiifManifestServiceStub {
   public _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(
     new Manifest()
   );
-  public _errorMessage: Subject<string> = new BehaviorSubject(null);
+  public _errorMessage = new Subject<string | null>();
 
-  get currentManifest(): Observable<Manifest> {
+  get currentManifest(): Observable<Manifest | null> {
     return this._currentManifest.asObservable();
   }
 
-  get errorMessage(): Observable<string> {
+  get errorMessage(): Observable<string | null> {
     return this._errorMessage.asObservable();
   }
 
@@ -32,11 +32,11 @@ export class IiifManifestServiceStub {
   }
 
   resetCurrentManifest() {
-    this._currentManifest.next(null);
+    this._currentManifest.next(undefined);
   }
 
   resetErrorMessage() {
-    this._errorMessage.next(null);
+    this._errorMessage.next(undefined);
   }
 
   destroy(): void {}

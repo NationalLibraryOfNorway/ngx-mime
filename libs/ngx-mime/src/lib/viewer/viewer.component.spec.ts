@@ -370,7 +370,7 @@ describe('ViewerComponent', function () {
   });
 
   it('should emit when canvas group mode changes', () => {
-    let selectedMode: ViewerMode;
+    let selectedMode: ViewerMode | undefined;
     comp.viewerModeChanged.subscribe(
       (mode: ViewerMode) => (selectedMode = mode)
     );

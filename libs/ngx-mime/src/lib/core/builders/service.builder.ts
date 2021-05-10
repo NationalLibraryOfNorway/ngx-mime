@@ -6,8 +6,10 @@ import { TilesBuilder } from './tiles.builder';
 export class ServiceBuilder {
   constructor(private service: any) {}
 
-  build(): Service {
-    if (this.service) {
+  build(): Service | undefined {
+    if (!this.service) {
+      return undefined;
+    } else {
       return new Service({
         id: BuilderUtils.extractId(this.service),
         context: BuilderUtils.extractContext(this.service),
@@ -19,9 +21,8 @@ export class ServiceBuilder {
         profile: this.service.profile,
         physicalScale: this.service.physicalScale,
         physicalUnits: this.service.physicalUnits,
-        service: new ServiceBuilder(this.service.service).build()
+        service: new ServiceBuilder(this.service.service).build(),
       });
     }
-    return null;
   }
 }

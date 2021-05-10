@@ -8,10 +8,11 @@ import { ViewingDirection } from '../models/viewing-direction';
 import { Service } from '../models/manifest';
 
 describe('canvasRectFromCriteria', () => {
-  const canvasGroupsPositionCriteria = {
+  const canvasGroupsPositionCriteria: CanvasGroupPositionCriteria = {
     canvasGroupIndex: 0,
     canvasSource: new Service({ width: 100, height: 200 }),
-    viewingDirection: ViewingDirection.LTR
+    viewingDirection: ViewingDirection.LTR,
+    previousCanvasGroupPosition: new Rect()
   };
 
   it('should return Rect', () => {

@@ -5,7 +5,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { Dimensions } from './../core/models/dimensions';
 
 export interface ContentSearchDialogConfigStrategy {
-  getConfig(elementRef?: ElementRef): MatDialogConfig;
+  getConfig(elementRef?: ElementRef | null): MatDialogConfig;
 }
 
 export class MobileContentSearchDialogConfigStrategy

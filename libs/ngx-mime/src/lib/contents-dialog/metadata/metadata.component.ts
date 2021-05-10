@@ -29,7 +29,7 @@ export class MetadataComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
+        (manifest: Manifest | null) => {
           this.manifest = manifest;
           this.changeDetectorRef.markForCheck();
         }

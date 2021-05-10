@@ -6,9 +6,9 @@ import { switchMap, tap, distinctUntilChanged, filter } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class StyleService {
-  private currentRgbColor: string;
+  private currentRgbColor: string | undefined;
   private colorSubject: ReplaySubject<string> = new ReplaySubject();
-  private subscriptions: Subscription;
+  private subscriptions!: Subscription;
 
   constructor(private zone: NgZone) {}
 
@@ -45,7 +45,7 @@ export class StyleService {
     return rgbColor.replace(/rgb/i, 'rgba').replace(/\)/i, `,${opacity})`);
   }
 
-  private getComputedBackgroundColor(opacity: number): string {
+  private getComputedBackgroundColor(opacity: number): string | undefined {
     const matAppBackground = document.getElementsByClassName(
       'mat-app-background'
     );
@@ -58,7 +58,7 @@ export class StyleService {
     } else if (matSidenavContainer.length > 0) {
       return this.getComputedStyle(matSidenavContainer[0], 'background-color');
     } else {
-      return null;
+      return undefined;
     }
   }
 

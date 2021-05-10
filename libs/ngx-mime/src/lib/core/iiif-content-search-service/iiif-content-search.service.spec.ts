@@ -1,20 +1,20 @@
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 
 import { IiifContentSearchService } from './iiif-content-search.service';
 import { SearchResultBuilder } from './../builders/search-result.builder';
 import { SearchResult } from './../models/search-result';
-import { Manifest } from './../models/manifest';
+import { Manifest, Service } from './../models/manifest';
 
 describe('IiifContentSearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [IiifContentSearchService]
+      providers: [IiifContentSearchService],
     });
   });
 
@@ -33,14 +33,10 @@ describe('IiifContentSearchService', () => {
         http: HttpClient,
         httpMock: HttpTestingController
       ) => {
-        let result: SearchResult = null;
+        let result: SearchResult = new SearchResult();
 
         svc.search(
-          {
-            service: {
-              id: 'dummyUrl'
-            }
-          },
+          { ...new Manifest(), service: { ...new Service(), id: 'dummyUrl' } },
           'query'
         );
         svc.onChange.subscribe((searchResult: SearchResult) => {
@@ -51,13 +47,13 @@ describe('IiifContentSearchService', () => {
           new SearchResultBuilder('query', new Manifest(), {
             hits: [
               {
-                match: 'querystring'
-              }
-            ]
+                match: 'querystring',
+              },
+            ],
           }).build()
         );
         tick();
-        expect(result.size()).toBe(1);
+        expect(result?.size()).toBe(1);
       }
     )
   ));
@@ -70,16 +66,9 @@ describe('IiifContentSearchService', () => {
         http: HttpClient,
         httpMock: HttpTestingController
       ) => {
-        let result: SearchResult = null;
+        let result!: SearchResult;
 
-        svc.search(
-          {
-            service: {
-              id: 'dummyUrl'
-            }
-          },
-          ''
-        );
+        svc.search(new Manifest(), '');
         svc.onChange.subscribe((searchResult: SearchResult) => {
           result = searchResult;
         });

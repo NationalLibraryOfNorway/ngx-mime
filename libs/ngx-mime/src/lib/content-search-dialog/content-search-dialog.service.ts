@@ -12,10 +12,10 @@ import { ContentSearchDialogComponent } from './content-search-dialog.component'
 
 @Injectable()
 export class ContentSearchDialogService {
-  private _el: ElementRef;
+  private _el: ElementRef | null = null;
   private isContentSearchDialogOpen = false;
-  private dialogRef: MatDialogRef<ContentSearchDialogComponent>;
-  private subscriptions: Subscription;
+  private dialogRef!: MatDialogRef<ContentSearchDialogComponent>;
+  private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
