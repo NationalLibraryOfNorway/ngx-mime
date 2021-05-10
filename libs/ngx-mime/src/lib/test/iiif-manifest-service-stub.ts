@@ -1,4 +1,4 @@
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
 
 import { testManifest } from './testManifest';
 import { ManifestBuilder } from './../core/builders/manifest.builder';
@@ -18,16 +18,19 @@ export class IiifManifestServiceStub {
     return this._errorMessage.asObservable();
   }
 
-  load(manifestUri: string): void {
+  load(manifestUri: string): Observable<boolean> {
     if (manifestUri) {
       const manifest = new ManifestBuilder(testManifest).build();
       if (manifest && manifest.tileSource) {
         this._currentManifest.next(manifest);
+        return of(true);
       } else {
         this._errorMessage.next('Manifest is not valid');
+        return of(false);
       }
     } else {
       this._errorMessage.next('ManifestUri is missing');
+      return of(false);
     }
   }
 

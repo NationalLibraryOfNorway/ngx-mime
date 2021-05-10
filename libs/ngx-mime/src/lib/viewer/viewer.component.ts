@@ -18,7 +18,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { interval, Subscription } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
@@ -268,7 +268,7 @@ export class ViewerComponent
       )
     );
 
-    this.loadManifest();
+    this.subscriptions.add(this.loadManifest().subscribe());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -408,8 +408,8 @@ export class ViewerComponent
     this.resizeService.markForCheck();
   }
 
-  private loadManifest() {
-    this.iiifManifestService.load(this.manifestUri);
+  private loadManifest(): Observable<boolean> {
+    return this.iiifManifestService.load(this.manifestUri);
   }
 
   private initialize() {

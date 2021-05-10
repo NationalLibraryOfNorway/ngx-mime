@@ -171,6 +171,7 @@ export class Service {
   public profile?: string;
   public physicalScale?: number;
   public physicalUnits?: string;
+  public tileOverlap: number = 0;
   public service?: Service;
 
   constructor(fields?: {
@@ -184,6 +185,7 @@ export class Service {
     profile?: string;
     physicalScale?: number;
     physicalUnits?: string;
+    tileOverlap?: number;
     service?: Service;
   }) {
     if (fields) {
@@ -197,6 +199,7 @@ export class Service {
       this.profile = fields.profile || this.profile;
       this.physicalScale = fields.physicalScale || this.physicalScale;
       this.physicalUnits = fields.physicalUnits || this.physicalUnits;
+      this.tileOverlap = fields.tileOverlap || this.tileOverlap;
       this.service = fields.service || this.service;
     }
   }

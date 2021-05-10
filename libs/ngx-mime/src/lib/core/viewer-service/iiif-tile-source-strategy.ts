@@ -9,10 +9,14 @@ export class IiifTileSourceStrategy implements TileSourceStrategy {
       tileSource.tileOverlap = 0.1; // Workaround for https://github.com/openseadragon/openseadragon/issues/1722
     } else {
       tileSource = (<any>resource.service)['@id'];
-      tileSource = tileSource.startsWith('//')
+      if (!tileSource) {
+        tileSource = (<any>resource)['@id'];
+      }
+
+      tileSource = tileSource && tileSource.startsWith('//')
         ? `${location.protocol}${tileSource}`
         : tileSource;
-      tileSource = !tileSource.endsWith('/info.json')
+      tileSource = tileSource && !tileSource.endsWith('/info.json')
         ? `${tileSource}/info.json`
         : tileSource;
     }
