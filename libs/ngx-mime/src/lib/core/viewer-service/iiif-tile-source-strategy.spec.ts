@@ -12,9 +12,9 @@ describe('IiifTileSourceStrategy ', () => {
     const resource = new Service({
       service: new Service({
         service: new Service({
-          id: 'testId'
-        })
-      })
+          id: 'testId',
+        }),
+      }),
     });
 
     const res = strategy.getTileSource(resource);
@@ -28,8 +28,9 @@ describe('IiifTileSourceStrategy ', () => {
     service['@id'] =
       'https://http://example.com/eb7d1d9c4b553001549d32573658c844/annotation/URN:NBN:no-nb_digibok_2009061611001_C1';
     const resource = new Service({
-      service: service
+      service: service,
     });
+
     const res = strategy.getTileSource(resource);
 
     expect(res).toBe(

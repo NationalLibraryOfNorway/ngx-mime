@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, finalize, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, finalize, take } from 'rxjs/operators';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
@@ -10,7 +10,7 @@ import { SpinnerService } from '../spinner-service/spinner.service';
 @Injectable()
 export class IiifManifestService {
   protected _currentManifest = new BehaviorSubject<Manifest | null>(null);
-  protected _errorMessage = new Subject<string | null>();
+  protected _errorMessage = new BehaviorSubject<string | null>(null);
 
   constructor(
     public intl: MimeViewerIntl,
@@ -26,31 +26,37 @@ export class IiifManifestService {
     return this._errorMessage.asObservable();
   }
 
-  load(manifestUri: string): void {
-    if (manifestUri.length === 0) {
-      this._errorMessage.next(this.intl.manifestUriMissingLabel);
-    } else {
-      this.spinnerService.show();
-      this.http
-        .get<Response>(manifestUri)
-        .pipe(
-          finalize(() => this.spinnerService.hide()),
-          take(1)
-        )
-        .subscribe(
-          (response: Response) => {
-            const manifest = this.extractData(response);
-            if (this.isManifestValid(manifest)) {
-              this._currentManifest.next(manifest);
-            } else {
-              this._errorMessage.next(this.intl.manifestNotValidLabel);
+  load(manifestUri: string): Observable<boolean> {
+    return new Observable((observer) => {
+      if (manifestUri.length === 0) {
+        this._errorMessage.next(this.intl.manifestUriMissingLabel);
+        observer.next(false)
+      } else {
+        this.spinnerService.show();
+        this.http
+          .get<Response>(manifestUri)
+          .pipe(
+            finalize(() => this.spinnerService.hide()),
+            take(1)
+          )
+          .subscribe(
+            (response: Response) => {
+              const manifest = this.extractData(response);
+              if (this.isManifestValid(manifest)) {
+                this._currentManifest.next(manifest);
+                observer.next(true)
+              } else {
+                this._errorMessage.next(this.intl.manifestNotValidLabel);
+                observer.next(false)
+              }
+            },
+            (err: HttpErrorResponse) => {
+              this._errorMessage.next(this.handleError(err));
+              observer.next(false)
             }
-          },
-          (err: HttpErrorResponse) => {
-            this._errorMessage.next(this.handleError(err));
-          }
-        );
-    }
+          );
+      }
+    });
   }
 
   destroy() {

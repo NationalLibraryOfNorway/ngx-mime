@@ -8,7 +8,7 @@ export class IiifTileSourceStrategy implements TileSourceStrategy {
       tileSource = resource.service;
       tileSource.tileOverlap = 0.1; // Workaround for https://github.com/openseadragon/openseadragon/issues/1722
     } else {
-      tileSource = (<any>resource)['@id'];
+      tileSource = (<any>resource.service)['@id'];
       tileSource = tileSource.startsWith('//')
         ? `${location.protocol}${tileSource}`
         : tileSource;
