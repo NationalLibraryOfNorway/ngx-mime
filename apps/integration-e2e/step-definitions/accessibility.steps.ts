@@ -8,8 +8,8 @@ Then('the viewer should meet all accessibility criteria', async () => {
   await new AxeBuilder(browser.driver)
     .disableRules(['page-has-heading-one', 'landmark-one-main'])
     .analyze()
-    .then(results => {
-      results.violations.forEach(v => v.nodes.forEach(n => console.log(n)));
+    .then((results: any) => {
+      results.violations.forEach((v: any) => v.nodes.forEach((n: any) => console.log(n)));
       expect(results.violations.length).to.equal(0);
     });
 });

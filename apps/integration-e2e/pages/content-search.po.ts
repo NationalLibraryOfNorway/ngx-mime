@@ -1,9 +1,31 @@
-import { browser, by, element, ElementFinder } from 'protractor';
+import {
+  browser,
+  by,
+  element,
+  ElementArrayFinder,
+  ElementFinder,
+} from 'protractor';
 import { protractor } from 'protractor/built';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
 export class ContentSearchPage {
+  private contentSearchInputEl: ElementFinder;
+  private closeContentSearchDialogButtonEl: ElementFinder;
+  private numberOfHitsEl: ElementFinder;
+  private contentSearchHitsEls: ElementArrayFinder;
+
+  constructor() {
+    this.contentSearchInputEl = element(by.css('input.content-search-input'));
+    this.closeContentSearchDialogButtonEl = element(
+      by.css('.close-content-search-dialog-button')
+    );
+    this.numberOfHitsEl = element(by.css('.numberOfHits'));
+    this.contentSearchHitsEls = element.all(
+      by.css('.content-search-container .hit')
+    );
+  }
+
   async isOpen() {
     // Wait for dialog animation
     await browser.sleep(1000);
@@ -12,44 +34,51 @@ export class ContentSearchPage {
   }
 
   closeButton(): Promise<ElementFinder> {
-    return utils.waitForElement(
-      element(by.css('.close-content-search-dialog-button'))
-    );
+    return new Promise(async (resolve) => {
+      await utils
+        .waitForElement(this.closeContentSearchDialogButtonEl)
+        .then(() => {
+          resolve(this.closeContentSearchDialogButtonEl);
+        });
+    });
   }
 
   async setSearchTerm(term: string) {
-    const el: ElementFinder = await utils.waitForElement(
-      element(by.css('input.content-search-input'))
-    );
-    await el.clear();
-    await el.sendKeys(term);
-    await el.sendKeys(protractor.Key.ENTER);
+    await this.contentSearchInput().then(async (el) => {
+      await el.clear();
+      await el.sendKeys(term);
+      await el.sendKeys(protractor.Key.ENTER);
+    });
+  }
+
+  contentSearchInput(): Promise<ElementFinder> {
+    return utils.waitForElement(this.contentSearchInputEl).then((el) => {
+      return el;
+    });
   }
 
   async searchTerm(): Promise<string> {
-    const el = await utils.waitForElement(
-      element(by.css('input.content-search-input'))
-    );
-    return el.getText();
+    return this.contentSearchInput().then((el) => {
+      return el.getText();
+    });
   }
 
   async getNumberOfHits() {
-    const el: ElementFinder = await utils.waitForPresenceOf(
-      element(by.css('.numberOfHits'))
-    );
-    const numberOfHits = await el.getAttribute('value');
-    return parseInt(numberOfHits, 8);
+    return utils.waitForPresenceOf(this.numberOfHitsEl).then(async (el) => {
+      return el.getAttribute('value').then((value: string) => {
+        return parseInt(value, 8);
+      });
+    });
   }
 
   async getHits(): Promise<any> {
-    return element.all(by.css('.content-search-container .hit'));
+    return this.contentSearchHitsEls;
   }
 
-  async getHit(index: number): Promise<ElementFinder> {
-    const canvasGroupIndexes = await element.all(
-      by.css('.content-search-container .hit')
-    );
-    return canvasGroupIndexes[index];
+  async getHit(index: number) {
+    return this.getHits().then((hits) => {
+      return hits[index];
+    });
   }
 
   contentSearchNavigatorToolbar() {
@@ -91,18 +120,20 @@ export class ContentSearchPage {
   }
 
   async isSelected(index: number) {
-    try {
-      await utils.waitForElement(
+    return utils
+      .waitForElement(
         element(
           by.css(
             `.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`
           )
         )
-      );
-      return true;
-    } catch (e) {
-      return false;
-    }
+      )
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
   }
 
   async hitIsSelected(index: number) {

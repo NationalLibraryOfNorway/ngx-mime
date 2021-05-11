@@ -13,14 +13,14 @@ export class Utils {
     return Math.abs(thing - realThing) <= epsilon;
   }
 
-  public async waitForElement(el: ElementFinder): Promise<ElementFinder> {
-    await browser.wait(EC.visibilityOf(el), TIMEOUT, 'element not visible');
-    return el;
+  public async waitForElement(el: ElementFinder) {
+    return browser
+      .wait(EC.visibilityOf(el), TIMEOUT, 'element not visible')
+      .then(() => el);
   }
 
   public async waitForPresenceOf(el: ElementFinder) {
-    await browser.wait(EC.presenceOf(el), 10000);
-    return el;
+    return browser.wait(EC.presenceOf(el), 10000).then(() => el);
   }
 
   async clickElement(el: ElementFinder) {

@@ -17,7 +17,7 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Direction } from '../models/direction';
-import { Manifest, Service } from '../models/manifest';
+import { Manifest, Resource, Service } from '../models/manifest';
 import { ModeChanges } from '../models/modeChanges';
 import { Options } from '../models/options';
 import { PinchStatus } from '../models/pinchStatus';
@@ -51,7 +51,7 @@ export class ViewerService {
   private config!: MimeViewerConfig;
 
   private overlays: Array<SVGRectElement> = [];
-  private tileSources: Array<Service> = [];
+  private tileSources: Array<Resource> = [];
   private subscriptions!: Subscription;
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(
@@ -114,7 +114,7 @@ export class ViewerService {
     return this.viewer;
   }
 
-  public getTilesources(): Service[] {
+  public getTilesources(): Resource[] {
     return this.tileSources;
   }
 

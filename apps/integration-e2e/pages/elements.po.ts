@@ -9,7 +9,7 @@ export class ElementsPage {
     await browser.waitForAngularEnabled(false);
 
     if (manifestName) {
-      uri += '?manifestUri=' + ViewerPage.bookShelf[manifestName];
+      uri += '?manifestUri=' + new ViewerPage().getBookShelfUrl(manifestName);
     }
 
     await browser.get(uri);

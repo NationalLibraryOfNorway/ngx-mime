@@ -1,4 +1,4 @@
-import { by, element } from 'protractor';
+import { by, element, ElementArrayFinder } from 'protractor';
 
 export class TOC {
   public label?: string;
@@ -18,6 +18,12 @@ export class TOC {
 }
 
 export class TableOfContentsPage {
+  private tocLinkEls: ElementArrayFinder;
+
+  constructor() {
+    this.tocLinkEls = element.all(by.css('.toc-link'));
+  }
+
   async getAll() {
     const tocs: TOC[] = [];
     const tocLinks = element.all(by.css('.toc-link'));
@@ -37,11 +43,15 @@ export class TableOfContentsPage {
   }
 
   async clickToc(index: number) {
-    const el = await element.all(by.css('.toc-link')).get(index);
-    await el.click();
+    const el = this.getTocElement(index);
+    if (el) {
+      return el.click();
+    } else {
+      throw new Error('Toc link not found');
+    }
   }
 
-  async getTocElement(index: number) {
-    return await element.all(by.css('.toc-link')).get(index);
+  getTocElement(index: number) {
+    return this.tocLinkEls.get(index);
   }
 }

@@ -13,7 +13,7 @@ export class Manifest {
   public service?: Service;
   public sequences?: Sequence[];
   public structures?: Structure[] = [];
-  public tileSource?: Service[];
+  public tileSource?: Resource[];
   public viewingHint?: string;
 
   constructor(fields?: {
@@ -29,7 +29,7 @@ export class Manifest {
     service?: Service;
     sequences?: Sequence[];
     structures?: Structure[];
-    tileSource?: Service[];
+    tileSource?: Resource[];
     viewingHint?: string;
   }) {
     if (fields) {
@@ -138,8 +138,9 @@ export class Resource {
   public type?: string;
   public format?: string;
   public service?: Service;
-  public height?: number;
-  public width?: number;
+  public height: number = 0;
+  public width: number = 0;
+  public tileOverlap: number = 0;
 
   constructor(fields?: {
     id?: string;
@@ -148,6 +149,7 @@ export class Resource {
     service?: Service;
     height?: number;
     width?: number;
+    tileOverlap?: number;
   }) {
     if (fields) {
       this.id = fields.id || this.id;
@@ -156,6 +158,7 @@ export class Resource {
       this.service = fields.service || this.service;
       this.height = fields.height || this.height;
       this.width = fields.width || this.width;
+      this.tileOverlap = fields.tileOverlap || this.tileOverlap;
     }
   }
 }
@@ -171,7 +174,6 @@ export class Service {
   public profile?: string;
   public physicalScale?: number;
   public physicalUnits?: string;
-  public tileOverlap: number = 0;
   public service?: Service;
 
   constructor(fields?: {
@@ -185,7 +187,6 @@ export class Service {
     profile?: string;
     physicalScale?: number;
     physicalUnits?: string;
-    tileOverlap?: number;
     service?: Service;
   }) {
     if (fields) {
@@ -199,7 +200,6 @@ export class Service {
       this.profile = fields.profile || this.profile;
       this.physicalScale = fields.physicalScale || this.physicalScale;
       this.physicalUnits = fields.physicalUnits || this.physicalUnits;
-      this.tileOverlap = fields.tileOverlap || this.tileOverlap;
       this.service = fields.service || this.service;
     }
   }

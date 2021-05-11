@@ -1,8 +1,10 @@
-<app-components-viewer
-  *ngIf="isComponent"
-  [manifestUri]="manifestUri"
-></app-components-viewer>
-<app-elements-viewer
-  *ngIf="!isComponent"
-  [manifestUri]="manifestUri"
-></app-elements-viewer>
+<ng-container *ngIf="manifestUri">
+  <app-components-viewer
+    *ngIf="isComponent"
+    [manifestUri]="manifestUri"
+  ></app-components-viewer>
+  <app-elements-viewer
+    *ngIf="!isComponent"
+    [manifestUri]="manifestUri"
+  ></app-elements-viewer>
+</ng-container>

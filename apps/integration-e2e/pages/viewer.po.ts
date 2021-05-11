@@ -4,7 +4,7 @@ import {
   By,
   element,
   ElementFinder,
-  protractor
+  protractor,
 } from 'protractor';
 import { Key, promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
@@ -14,20 +14,47 @@ const thumbStartPosition = <any>{ x: 600, y: 300 };
 const pointerPosition1 = <any>{ x: 650, y: 275 };
 const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
-  public static readonly bookShelf = {
-    'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
-    'a-rtl-book': 'http://localhost:4040/catalog/v1/iiif/a-rtl-book/manifest',
-    'a-ltr-10-pages-book':
-      'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
-    'a-rtl-10-pages-book':
-      'http://localhost:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
-    'a-individuals-manifest':
-      'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
-    'a-non-attribution-manifest':
-      'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest',
-  };
+  public static readonly bookShelf = [
+    {
+      manifestName: 'a-ltr-book',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
+    },
+    {
+      manifestName: 'a-rtl-book',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-rtl-book/manifest',
+    },
+    {
+      manifestName: 'a-ltr-10-pages-book',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
+    },
+    {
+      manifestName: 'a-rtl-10-pages-book',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
+    },
+    {
+      manifestName: 'a-individuals-manifest',
+      url:
+        'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
+    },
+    {
+      manifestName: 'a-non-attribution-manifest',
+      url:
+        'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest',
+    },
+  ];
 
   private isElements = false;
+
+  getBookShelfUrl(manifestName: string): string {
+    const manifest = ViewerPage.bookShelf.find(
+      (b) => (b.manifestName = manifestName)
+    );
+    if (manifest) {
+      return manifest.url;
+    } else {
+      throw new Error('Manifest url not found');
+    }
+  }
 
   async setDashboardMode(): Promise<void> {
     const isDashboardMode = await this.isDashboardMode();
@@ -74,7 +101,7 @@ export class ViewerPage {
   async open(manifestName?: string) {
     let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     if (manifestName) {
-      uri += '?manifestUri=' + ViewerPage.bookShelf[manifestName];
+      uri += '?manifestUri=' + new ViewerPage().getBookShelfUrl(manifestName);
     }
 
     await browser.get(uri);
@@ -183,11 +210,8 @@ export class ViewerPage {
     await this.waitForAnimation();
   }
 
-  async fullscreenButton(): Promise<ElementFinder> {
-    const ngxmimeFullscreenButton: ElementFinder = await utils.waitForElement(
-      element(by.css('#ngx-mimeFullscreenButton'))
-    );
-    return ngxmimeFullscreenButton;
+  async fullscreenButton() {
+    return utils.waitForElement(element(by.css('#ngx-mimeFullscreenButton')));
   }
 
   openSeadragonElement() {
@@ -223,7 +247,7 @@ export class ViewerPage {
 
   async getSVGElement() {
     const el = element(by.css('#openseadragon svg'));
-    return await utils.waitForElement(el);
+    return utils.waitForElement(el);
   }
 
   async getFirstCanvasGroupInFirstGroupOverlay() {
@@ -268,20 +292,12 @@ export class ViewerPage {
 
   async getOnePageButton() {
     const el = element(by.css('#toggleSinglePageViewButton'));
-    if ((await el.isPresent()) && (await el.isDisplayed())) {
-      return el;
-    } else {
-      return false;
-    }
+    return utils.waitForPresenceOf(el);
   }
 
   async getTwoPageButton() {
     const el = element(by.css('#toggleTwoPageViewButton'));
-    if ((await el.isPresent()) && (await el.isDisplayed())) {
-      return el;
-    } else {
-      return false;
-    }
+    return utils.waitForPresenceOf(el);
   }
 
   getAnimationTimeInSec(): promise.Promise<number> {
@@ -480,7 +496,7 @@ export class ViewerPage {
   }
 
   async sendKeyboardEvent(key: string): Promise<void> {
-    let iKey: string = null;
+    let iKey: string | null = null;
     if (key === 'PageDown') {
       iKey = Key.PAGE_DOWN;
     } else if (key === 'ArrowRight') {
@@ -515,7 +531,9 @@ export class ViewerPage {
 
     await this.setFocusOnViewer();
     const el = await browser.driver.switchTo().activeElement();
-    await el.sendKeys(iKey);
+    if (iKey) {
+      await el.sendKeys(iKey);
+    }
     return this.waitForAnimation();
   }
 
@@ -558,9 +576,8 @@ export class ViewerPage {
     leftCanvasGroupMask: { size: any; location: any },
     rightCanvasGroupMask: { size: any; location: any }
   ): Promise<boolean> {
-    let lastEvent: string;
+    let lastEvent = 'getSize()';
     try {
-      lastEvent = 'getSize()';
       const elementSize = await el.getSize();
       lastEvent = 'getLocation()';
       const elementLocation = await el.getLocation();
