@@ -268,7 +268,7 @@ export class ViewerComponent
       )
     );
 
-    this.subscriptions.add(this.loadManifest().subscribe());
+    this.loadManifest();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -408,8 +408,8 @@ export class ViewerComponent
     this.resizeService.markForCheck();
   }
 
-  private loadManifest(): Observable<boolean> {
-    return this.iiifManifestService.load(this.manifestUri);
+  private loadManifest(): void {
+    this.iiifManifestService.load(this.manifestUri).pipe(take(1)).subscribe();
   }
 
   private initialize() {
