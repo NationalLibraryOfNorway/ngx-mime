@@ -23,6 +23,18 @@ export class Utils {
     return browser.wait(EC.presenceOf(el), 10000).then(() => el);
   }
 
+  public async isPresentAndDisplayed(el: ElementFinder) {
+    return new Promise((resolve, reject) => {
+      el.isPresent().then((isPresent) => {
+        if (!isPresent) {
+          resolve(false);
+        } else {
+          el.isDisplayed().then((isDisplayed: boolean) => resolve(isDisplayed));
+        }
+      });
+    });
+  }
+
   async clickElement(el: ElementFinder) {
     const browserName = await this.getBrowserName();
     switch (browserName) {

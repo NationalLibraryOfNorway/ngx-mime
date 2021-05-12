@@ -26,7 +26,7 @@ describe('ViewerService', () => {
   let viewerLayoutService: ViewerLayoutService;
   let viewerService: ViewerService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [TestHostComponent],
@@ -122,6 +122,8 @@ describe('ViewerService', () => {
     );
 
     viewerService.onOsdReadyChange.subscribe((state) => {
+      console.log(state);
+
       if (state) {
         viewerService.destroy();
         expect(viewerService.getViewer()).toBeNull();

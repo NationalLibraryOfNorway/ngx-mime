@@ -52,8 +52,12 @@ export class ContentSearchPage {
   }
 
   contentSearchInput(): Promise<ElementFinder> {
-    return utils.waitForElement(this.contentSearchInputEl).then((el) => {
-      return el;
+    return new Promise(async (resolve) => {
+      await utils
+        .waitForElement(this.contentSearchInputEl)
+        .then(() => {
+          resolve(this.contentSearchInputEl);
+        });
     });
   }
 
@@ -71,14 +75,12 @@ export class ContentSearchPage {
     });
   }
 
-  async getHits(): Promise<any> {
+  getHits(): ElementArrayFinder {
     return this.contentSearchHitsEls;
   }
 
-  async getHit(index: number) {
-    return this.getHits().then((hits) => {
-      return hits[index];
-    });
+  getHit(index: number) {
+    return this.getHits().get(index);
   }
 
   contentSearchNavigatorToolbar() {
@@ -137,13 +139,13 @@ export class ContentSearchPage {
   }
 
   async hitIsSelected(index: number) {
-    const el: ElementFinder = await this.getHit(index);
+    const el: ElementFinder = this.getHit(index);
     const classes = await el.getAttribute('class');
     return classes.indexOf('mat-accent') !== -1;
   }
 
   async hitIsVisible(index: number): Promise<boolean> {
-    const el = await this.getHit(index);
+    const el = this.getHit(index);
     return await utils.isElementVisible(el);
   }
 

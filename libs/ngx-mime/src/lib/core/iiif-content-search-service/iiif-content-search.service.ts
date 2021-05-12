@@ -14,8 +14,8 @@ export class IiifContentSearchService {
     new SearchResult({})
   );
   protected _searching = new BehaviorSubject<boolean>(false);
-  protected _currentQ = new Subject<string>();
-  protected _selected = new Subject<Hit | null>();
+  protected _currentQ = new BehaviorSubject<string>('');
+  protected _selected = new BehaviorSubject<Hit | null>(null);
 
   constructor(private http: HttpClient) {}
 

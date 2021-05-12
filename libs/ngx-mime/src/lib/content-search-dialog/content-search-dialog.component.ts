@@ -52,9 +52,7 @@ export class ContentSearchDialogComponent
     public mediaObserver: MediaObserver,
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper
+    private iiifContentSearchService: IiifContentSearchService
   ) {}
 
   ngOnInit() {
@@ -164,9 +162,7 @@ export class ContentSearchDialogComponent
 
   private scrollCurrentHitIntoView() {
     this.iiifContentSearchService.onSelected
-      .pipe(
-        take(1),
-      )
+      .pipe(take(1))
       .subscribe((hit: Hit | null) => {
         if (hit !== null) {
           const selected = this.findSelected(hit);

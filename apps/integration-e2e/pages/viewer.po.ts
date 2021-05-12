@@ -47,7 +47,7 @@ export class ViewerPage {
 
   getBookShelfUrl(manifestName: string): string {
     const manifest = ViewerPage.bookShelf.find(
-      (b) => (b.manifestName = manifestName)
+      (b) => b.manifestName === manifestName
     );
     if (manifest) {
       return manifest.url;
@@ -61,7 +61,7 @@ export class ViewerPage {
 
     if (!isDashboardMode) {
       const overlay = await this.getSVGElement();
-      await overlay.click();
+      await utils.clickElement(overlay);
       await this.waitForAnimation(1000);
     }
   }
@@ -86,12 +86,13 @@ export class ViewerPage {
   }
 
   async setTwoPageView() {
-    const btn = await this.getTwoPageButton();
-    // Button is present, so click to switch to two-page
-    if (btn) {
-      await btn.click();
-      await this.waitForAnimation();
-    }
+    await this.getTwoPageButton().then(async (btn) => {
+      if (btn) {
+        // Button is present, so click to switch to two-page
+        await btn.click();
+        await this.waitForAnimation();
+      }
+    });
   }
 
   setTestCustomElements(isElements: boolean) {
@@ -103,7 +104,6 @@ export class ViewerPage {
     if (manifestName) {
       uri += '?manifestUri=' + new ViewerPage().getBookShelfUrl(manifestName);
     }
-
     await browser.get(uri);
     await this.setFocusOnViewer();
     await this.waitForAnimation();
@@ -292,12 +292,16 @@ export class ViewerPage {
 
   async getOnePageButton() {
     const el = element(by.css('#toggleSinglePageViewButton'));
-    return utils.waitForPresenceOf(el);
+    return utils.isPresentAndDisplayed(el).then((isPresentAndDisplayed) => {
+      return isPresentAndDisplayed ? el : undefined;
+    });
   }
 
   async getTwoPageButton() {
     const el = element(by.css('#toggleTwoPageViewButton'));
-    return utils.waitForPresenceOf(el);
+    return utils.isPresentAndDisplayed(el).then((isPresentAndDisplayed) => {
+      return isPresentAndDisplayed ? el : undefined;
+    });
   }
 
   getAnimationTimeInSec(): promise.Promise<number> {

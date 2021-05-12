@@ -113,13 +113,10 @@ describe('IiifManifestService', () => {
     });
 
     svc.errorMessage.subscribe((err: string | null) => {
-      console.log('err', err);
-      error = 'Manifest is not valid';
+      error = err;
     });
 
     expect(result).toBeNull();
-    console.log('error', error);
-
     expect(error).toBeDefined();
     expect(error!).toBe('Manifest is not valid');
   }));
