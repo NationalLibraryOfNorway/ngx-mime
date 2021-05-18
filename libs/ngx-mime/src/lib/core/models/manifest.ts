@@ -5,7 +5,7 @@ export class Manifest {
   public type?: string;
   public id?: string;
   public viewingDirection = ViewingDirection.LTR;
-  public label: string = '';
+  public label = '';
   public metadata?: Metadata[];
   public license?: string;
   public logo?: string;
@@ -138,9 +138,9 @@ export class Resource {
   public type?: string;
   public format?: string;
   public service?: Service;
-  public height: number = 0;
-  public width: number = 0;
-  public tileOverlap: number = 0;
+  public height = 0;
+  public width = 0;
+  public tileOverlap = 0;
 
   constructor(fields?: {
     id?: string;
@@ -167,8 +167,8 @@ export class Service {
   public context?: string;
   public id?: string;
   public protocol?: string;
-  public width: number = 0;
-  public height: number = 0;
+  public width = 0;
+  public height = 0;
   public sizes?: Size[];
   public tiles?: Tile[];
   public profile?: string;
@@ -223,10 +223,10 @@ export class Tile {
 
 export class Structure {
   public id?: string;
-  public type: string = '';
+  public type = '';
   public label?: string;
   public canvases: string[] = [];
-  public canvasIndex: number = 0;
+  public canvasIndex = 0;
 
   constructor(fields?: {
     id?: string;

@@ -3,10 +3,10 @@ import { Rect } from './rect';
 export class Hit {
   public id = 0;
   public index = 0;
-  public label: string = '';
-  public match: string = '';
-  public before: string = '';
-  public after: string = '';
+  public label = '';
+  public match = '';
+  public before = '';
+  public after = '';
   public rects: Rect[] = [];
 
   constructor(fields?: {

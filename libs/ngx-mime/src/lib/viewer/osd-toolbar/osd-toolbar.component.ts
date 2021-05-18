@@ -71,9 +71,9 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.state;
   }
   public osdToolbarStyle = {};
-  public numberOfCanvasGroups: number = 0;
-  public isFirstCanvasGroup: boolean = false;
-  public isLastCanvasGroup: boolean = false;
+  public numberOfCanvasGroups = 0;
+  public isFirstCanvasGroup = false;
+  public isLastCanvasGroup = false;
   public state = 'hide';
   invert = false;
   private subscriptions = new Subscription();

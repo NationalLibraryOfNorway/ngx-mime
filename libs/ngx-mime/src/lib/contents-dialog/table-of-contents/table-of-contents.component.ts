@@ -24,7 +24,7 @@ export class TocComponent implements OnInit, OnDestroy {
   @Output()
   canvasChanged: EventEmitter<number> = new EventEmitter();
   public manifest: Manifest | null = null;
-  public currentCanvasGroupIndex: number = 0;
+  public currentCanvasGroupIndex = 0;
   private subscriptions = new Subscription();
 
   constructor(

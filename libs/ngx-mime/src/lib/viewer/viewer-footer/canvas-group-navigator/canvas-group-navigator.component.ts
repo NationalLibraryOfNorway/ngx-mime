@@ -24,12 +24,12 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
 })
 export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   @Input() public searchResult!: SearchResult;
-  public numberOfCanvases: number = 0;
-  public canvasGroupLabel: string = '';
-  public numberOfCanvasGroups: number = 0;
+  public numberOfCanvases = 0;
+  public canvasGroupLabel = '';
+  public numberOfCanvasGroups = 0;
   public currentCanvasGroupIndex: number | null = -1;
-  public isFirstCanvasGroup: boolean = false;
-  public isLastCanvasGroup: boolean = false;
+  public isFirstCanvasGroup = false;
+  public isLastCanvasGroup = false;
   invert = false;
   private currentSliderCanvasGroupIndex: number | null = -1;
   private subscriptions = new Subscription();

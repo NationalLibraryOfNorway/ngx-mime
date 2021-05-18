@@ -57,7 +57,7 @@ export class ViewerComponent
   implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
   @Input() public manifestUri!: string;
   @Input() public q!: string;
-  @Input() public canvasIndex: number = 0;
+  @Input() public canvasIndex = 0;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   @Input() public tabIndex = 0;
   @Output() viewerModeChanged: EventEmitter<ViewerMode> = new EventEmitter();

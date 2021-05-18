@@ -23,9 +23,8 @@ export class Metadata {
 export class MetadataPage {
   async getAll() {
     const metadatas = [];
-    const el = await utils.waitForElement(
-      element.all(by.css('.metadata')).first()
-    );
+    const el = element.all(by.css('.metadata'));
+    await utils.waitForElement(el.first());
     const count = await el.count();
     for (let i = 0; i < count; i++) {
       const metadata = el.get(i);

@@ -67,7 +67,7 @@ export class ViewerService {
   private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
   private manifest!: Manifest;
-  private isManifestPaged: boolean = false;
+  private isManifestPaged = false;
   private defaultKeyDownHandler: any;
 
   public currentSearch: SearchResult | null = null;
@@ -891,7 +891,7 @@ export class ViewerService {
     );
 
     let pannedPastSide: Side | null;
-    let canvasGroupEndHitCountReached: boolean = false;
+    let canvasGroupEndHitCountReached = false;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,

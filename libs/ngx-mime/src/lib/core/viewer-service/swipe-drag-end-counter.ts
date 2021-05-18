@@ -1,8 +1,8 @@
 import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 export class SwipeDragEndCounter {
-  public leftCount: number = 0;
-  public rightCount: number = 0;
+  public leftCount = 0;
+  public rightCount = 0;
 
   constructor() {
     this.reset();

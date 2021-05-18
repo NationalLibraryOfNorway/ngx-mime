@@ -30,7 +30,7 @@ import { SearchResult } from './../core/models/search-result';
 })
 export class ContentSearchDialogComponent
   implements OnInit, AfterViewInit, OnDestroy {
-  public q: string = '';
+  public q = '';
   public hits: Hit[] = [];
   public currentHit: Hit | null = null;
   public currentSearch: string | null = null;
