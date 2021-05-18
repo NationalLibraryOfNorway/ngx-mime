@@ -67,8 +67,11 @@ describe('IiifManifestService', () => {
 
     httpTestingController.expectNone('');
     expect(result).toBeNull();
-    expect(error).toBeDefined();
-    expect(error?).toBe('ManifestUri is missing');
+    if (error) {
+      expect(error).toBe('ManifestUri is missing');
+    } else {
+      fail('error is null');
+    }
   }));
 
   it('should return error message if IiifManifestService could not load manifest', fakeAsync(() => {
