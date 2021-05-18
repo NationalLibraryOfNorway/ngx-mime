@@ -99,10 +99,12 @@ export class ZoomStrategy {
 
     if (position) {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToCanvasGroup(
-        position!,
-        this.canvasService.getCurrentCanvasGroupRect()
-      );
+      if (position) {
+        position = ZoomUtils.constrainPositionToCanvasGroup(
+          position,
+          this.canvasService.getCurrentCanvasGroupRect()
+        );
+      }
     }
 
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
@@ -119,10 +121,12 @@ export class ZoomStrategy {
 
     if (position) {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToCanvasGroup(
-        position!,
-        this.canvasService.getCurrentCanvasGroupRect()
-      );
+      if (position) {
+        position = ZoomUtils.constrainPositionToCanvasGroup(
+          position,
+          this.canvasService.getCurrentCanvasGroupRect()
+        );
+      }
     }
 
     if (this.isViewportLargerThanCanvasGroup()) {

@@ -48,7 +48,7 @@ describe('IiifManifestService', () => {
 
     expect(error).toBeNull();
     expect(result).toBeDefined();
-    expect(result!.label).toBe('Fjellkongen Ludvig "Ludden"');
+    expect(result?.label).toBe('Fjellkongen Ludvig "Ludden"');
   }));
 
   it('should return error message if manifest url is missing', fakeAsync(() => {
@@ -68,7 +68,7 @@ describe('IiifManifestService', () => {
     httpTestingController.expectNone('');
     expect(result).toBeNull();
     expect(error).toBeDefined();
-    expect(error!).toBe('ManifestUri is missing');
+    expect(error?).toBe('ManifestUri is missing');
   }));
 
   it('should return error message if IiifManifestService could not load manifest', fakeAsync(() => {
@@ -92,8 +92,11 @@ describe('IiifManifestService', () => {
 
     httpTestingController.verify();
     expect(result).toBeNull();
-    expect(error).toBeDefined();
-    expect(error!).toEqual('Cannot /GET wrongManifestUrl');
+    if (error) {
+      expect(error).toEqual('Cannot /GET wrongManifestUrl');
+    } else {
+      fail('error is null');
+    }
   }));
 
   it('should return error message when manifest is not valid', fakeAsync(() => {
@@ -117,7 +120,10 @@ describe('IiifManifestService', () => {
     });
 
     expect(result).toBeNull();
-    expect(error).toBeDefined();
-    expect(error!).toBe('Manifest is not valid');
+    if (error) {
+      expect(error).toBe('Manifest is not valid');
+    } else {
+      fail('error is null');
+    }
   }));
 });

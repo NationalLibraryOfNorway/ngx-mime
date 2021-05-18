@@ -59,7 +59,7 @@ export class AttributionDialogComponent
       this.styleService.onChange.subscribe((c) => {
         const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
         this.renderer.setStyle(
-          this.container!.nativeElement,
+          this.container?.nativeElement,
           'background-color',
           backgroundRgbaColor
         );

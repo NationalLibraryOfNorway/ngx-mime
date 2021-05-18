@@ -57,21 +57,21 @@ describe('ManifestBuilder', () => {
           expect(image.type).toBe('oa:Annotation');
           expect(image.motivation).toBe('sc:painting');
           expect(image.resource).toBeDefined('Image should have resource');
-          expect(image.id).toContain(image.resource!.id);
-          expect(image.resource!.height).toBeDefined('Image should have height');
-          expect(image.resource!.width).toBeDefined('Image should have width');
-          expect(image.resource!.service).toBeDefined(
+          expect(image.id).toContain(image.resource?.id);
+          expect(image.resource?.height).toBeDefined('Image should have height');
+          expect(image.resource?.width).toBeDefined('Image should have width');
+          expect(image.resource?.service).toBeDefined(
             'image resource should have service'
           );
-          const service = image.resource!.service;
+          const service = image.resource?.service;
           expect(service).toBeTruthy();
-          expect(service!.context).toBe(
+          expect(service?.context).toBe(
             'http://iiif.io/api/image/2/context.json'
           );
-          expect(service!.id).toBe(
-            'https://www.nb.no/services/image/resolver/' + image.resource!.id
+          expect(service?.id).toBe(
+            'https://www.nb.no/services/image/resolver/' + image.resource?.id
           );
-          expect(service!.service).toBeDefined(
+          expect(service?.service).toBeDefined(
             'Image service should have service'
           );
         });
