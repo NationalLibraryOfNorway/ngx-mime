@@ -43,7 +43,8 @@ export class IiifContentSearchService {
   public search(manifest: Manifest, q: string): void {
     this._currentQ.next(q);
     this._selected.next(null);
-    if (q && q.length === 0) {
+
+    if (q.length === 0) {
       this._currentSearchResult.next(new SearchResult());
       return;
     }
