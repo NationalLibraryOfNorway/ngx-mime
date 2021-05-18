@@ -122,8 +122,6 @@ describe('ViewerService', () => {
     );
 
     viewerService.onOsdReadyChange.subscribe((state) => {
-      console.log(state);
-
       if (state) {
         viewerService.destroy();
         expect(viewerService.getViewer()).toBeNull();
