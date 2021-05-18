@@ -32,7 +32,7 @@ describe('IiifManifestService', () => {
   });
 
   it('should return a Manifest', fakeAsync(() => {
-    let result: Manifest | null = null;
+    let result: Manifest | null = new Manifest();
     let error: string | null = null;
 
     svc.load('dummyUrl').subscribe();
@@ -48,7 +48,9 @@ describe('IiifManifestService', () => {
 
     expect(error).toBeNull();
     expect(result).toBeDefined();
-    expect(result?.label).toBe('Fjellkongen Ludvig "Ludden"');
+    if (result) {
+      expect(result.label).toBe('Fjellkongen Ludvig "Ludden"');
+    }
   }));
 
   it('should return error message if manifest url is missing', fakeAsync(() => {
@@ -67,10 +69,9 @@ describe('IiifManifestService', () => {
 
     httpTestingController.expectNone('');
     expect(result).toBeNull();
+    expect(error).toBeDefined();
     if (error) {
       expect(error).toBe('ManifestUri is missing');
-    } else {
-      fail('error is null');
     }
   }));
 
@@ -95,10 +96,9 @@ describe('IiifManifestService', () => {
 
     httpTestingController.verify();
     expect(result).toBeNull();
+    expect(error).toBeDefined();
     if (error) {
       expect(error).toEqual('Cannot /GET wrongManifestUrl');
-    } else {
-      fail('error is null');
     }
   }));
 
@@ -123,10 +123,9 @@ describe('IiifManifestService', () => {
     });
 
     expect(result).toBeNull();
+    expect(error).toBeDefined();
     if (error) {
       expect(error).toBe('Manifest is not valid');
-    } else {
-      fail('error is null');
     }
   }));
 });

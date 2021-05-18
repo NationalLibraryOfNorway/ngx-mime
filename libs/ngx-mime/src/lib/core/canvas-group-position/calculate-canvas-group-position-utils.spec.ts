@@ -1,18 +1,15 @@
+import { Resource } from '../models/manifest';
 import { Rect } from '../models/rect';
-import { CanvasGroupPositionCriteria } from './calculate-canvas-group-position-strategy';
-
-import { canvasRectFromCriteria } from './calculate-canvas-group-position-utils';
-
-import { ViewerOptions } from '../models/viewer-options';
 import { ViewingDirection } from '../models/viewing-direction';
-import { Service } from '../models/manifest';
+import { CanvasGroupPositionCriteria } from './calculate-canvas-group-position-strategy';
+import { canvasRectFromCriteria } from './calculate-canvas-group-position-utils';
 
 describe('canvasRectFromCriteria', () => {
   const canvasGroupsPositionCriteria: CanvasGroupPositionCriteria = {
     canvasGroupIndex: 0,
-    canvasSource: new Service({ width: 100, height: 200 }),
+    canvasSource: new Resource({ width: 100, height: 200 }),
     viewingDirection: ViewingDirection.LTR,
-    previousCanvasGroupPosition: new Rect()
+    previousCanvasGroupPosition: new Rect(),
   };
 
   it('should return Rect', () => {
