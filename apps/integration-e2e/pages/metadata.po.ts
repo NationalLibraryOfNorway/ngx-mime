@@ -23,8 +23,9 @@ export class Metadata {
 export class MetadataPage {
   async getAll() {
     const metadatas = [];
-    const el = element.all(by.css('.metadata'));
-    await utils.waitForElement(el.first());
+    const el = await utils.waitForElement(
+      element.all(by.css('.metadata')).first()
+    );
     const count = await el.count();
     for (let i = 0; i < count; i++) {
       const metadata = el.get(i);
@@ -40,21 +41,21 @@ export class MetadataPage {
     return metadatas;
   }
 
-  getAttribution() {
-    const el = element(by.css('.content.attribution'));
-    return utils.waitForElement(el);
+  async getAttribution() {
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('.content.attribution')))
+    );
   }
 
-  getLicense() {
-    const el = element(by.css('.content.license'));
-    return utils.waitForElement(el);
+  async getLicense() {
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('.content.license')))
+    );
   }
 
   async isLogoDisplayed(): Promise<boolean> {
     try {
-      const el: ElementFinder = await utils.waitForElement(
-        element(by.css('.content.logo'))
-      );
+      await utils.waitForElement(element(by.css('.content.logo')));
       return true;
     } catch (e) {
       return false;

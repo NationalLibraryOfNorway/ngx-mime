@@ -138,7 +138,6 @@ export class ViewerPage {
       element(by.css('button.canvasGroups'))
     );
     await goToCanvasGroupButton.click();
-    const isTwoPageView = this.isTwoPageView();
     const input = await utils.waitForElement(
       element(by.css('.go-to-canvas-group-input'))
     );
@@ -161,9 +160,8 @@ export class ViewerPage {
   async getCurrentCanvasGroupLabel() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el = await utils.waitForPresenceOf(
-      element(by.css('#currentCanvasGroupLabel'))
-    );
+    const el = element(by.css('#currentCanvasGroupLabel'));
+    await utils.waitForPresenceOf(el);
     // Not using el.getText() as it don't seem to work when element is not visible
     const currentCanvasGroupLabel = await el.getAttribute('textContent');
     // return parseInt(currentPageNumber, 10);
@@ -173,9 +171,8 @@ export class ViewerPage {
   async getNumberOfCanvasGroups() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el = await utils.waitForPresenceOf(
-      element(by.css('#numOfCanvasGroups'))
-    );
+    const el = element(by.css('#numOfCanvasGroups'));
+    await utils.waitForPresenceOf(el);
     // Not using el.getText() as it don't seem to work when element is not visible
     const numberOfCanvasGroups = await el.getAttribute('textContent');
     return parseInt(numberOfCanvasGroups, 10);
@@ -211,17 +208,23 @@ export class ViewerPage {
   }
 
   async fullscreenButton() {
-    return utils.waitForElement(element(by.css('#ngx-mimeFullscreenButton')));
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('#ngx-mimeFullscreenButton')))
+    );
   }
 
-  openSeadragonElement() {
-    const el = element(by.css('.openseadragon-container'));
-    return utils.waitForElement(el);
+  async openSeadragonElement() {
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('.openseadragon-container')))
+    );
   }
 
-  getAttribution() {
-    const el = element(by.css('.attribution-container > .mat-dialog-content'));
-    return utils.waitForElement(el);
+  async getAttribution() {
+    return utils.promisify(async () =>
+      utils.waitForElement(
+        element(by.css('.attribution-container > .mat-dialog-content'))
+      )
+    );
   }
 
   async isFullscreen() {
@@ -246,22 +249,29 @@ export class ViewerPage {
   }
 
   async getSVGElement() {
-    const el = element(by.css('#openseadragon svg'));
-    return utils.waitForElement(el);
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('#openseadragon svg')))
+    );
   }
 
   async getFirstCanvasGroupInFirstGroupOverlay() {
-    const el = element(
-      by.css('#openseadragon svg g.page-group:first-child rect:first-child')
+    return utils.promisify(async () =>
+      utils.waitForElement(
+        element(
+          by.css('#openseadragon svg g.page-group:first-child rect:first-child')
+        )
+      )
     );
-    return utils.waitForElement(el);
   }
 
   async getSecondCanvasGroupInFirstGroupOverlay() {
-    const el = element(
-      by.css('#openseadragon svg g.page-group:nth-child(2)')
-    ).element(by.css('rect:first-child'));
-    return utils.waitForElement(el);
+    return utils.promisify(async () =>
+      utils.waitForElement(
+        element(by.css('#openseadragon svg g.page-group:nth-child(2)')).element(
+          by.css('rect:first-child')
+        )
+      )
+    );
   }
 
   async getAllCanvasGroupOverlays() {
@@ -272,22 +282,27 @@ export class ViewerPage {
   }
 
   async getLeftCanvasGroupMask() {
-    const el = element(
-      by.css('#openseadragon svg g#page-mask rect:first-child')
+    return utils.promisify(async () =>
+      utils.waitForElement(
+        element(by.css('#openseadragon svg g#page-mask rect:first-child'))
+      )
     );
-    return utils.waitForElement(el);
   }
 
   async getRightCanvasGroupMask() {
-    const el = element(
-      by.css('#openseadragon svg g#page-mask rect:nth-child(2)')
+    return utils.promisify(async () =>
+      utils.waitForElement(
+        element(by.css('#openseadragon svg g#page-mask rect:nth-child(2)'))
+      )
     );
-    return utils.waitForElement(el);
   }
 
   async getFirstCanvasGroupOverlay() {
-    const el = element.all(by.css('#openseadragon svg g rect')).first();
-    return utils.waitForElement(el);
+    return utils.promisify(async () =>
+      utils.waitForElement(
+        element.all(by.css('#openseadragon svg g rect')).first()
+      )
+    );
   }
 
   async getOnePageButton() {

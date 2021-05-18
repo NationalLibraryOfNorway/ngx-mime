@@ -34,45 +34,27 @@ export class ContentSearchPage {
   }
 
   closeButton(): Promise<ElementFinder> {
-    return new Promise(async (resolve) => {
-      await utils
-        .waitForElement(this.closeContentSearchDialogButtonEl)
-        .then(() => {
-          resolve(this.closeContentSearchDialogButtonEl);
-        });
-    });
+    return utils.promisify(async () =>
+      utils.waitForElement(this.closeContentSearchDialogButtonEl)
+    );
   }
 
-  async setSearchTerm(term: string) {
-    await this.contentSearchInput().then(async (el) => {
-      await el.clear();
-      await el.sendKeys(term);
-      await el.sendKeys(protractor.Key.ENTER);
-    });
+  async setSearchTerm(term: string): Promise<void> {
+    const el = await this.contentSearchInput();
+    await el.clear();
+    await el.sendKeys(term);
+    await el.sendKeys(protractor.Key.ENTER);
   }
 
-  contentSearchInput(): Promise<ElementFinder> {
-    return new Promise(async (resolve) => {
-      await utils
-        .waitForElement(this.contentSearchInputEl)
-        .then(() => {
-          resolve(this.contentSearchInputEl);
-        });
-    });
-  }
-
-  async searchTerm(): Promise<string> {
-    return this.contentSearchInput().then((el) => {
-      return el.getText();
-    });
+  async searchTerm() {
+    const el: ElementFinder = await this.contentSearchInput();
+    return await el.getAttribute('value');
   }
 
   async getNumberOfHits() {
-    return utils.waitForPresenceOf(this.numberOfHitsEl).then(async (el) => {
-      return el.getAttribute('value').then((value: string) => {
-        return parseInt(value, 8);
-      });
-    });
+    await utils.waitForPresenceOf(this.numberOfHitsEl);
+    const value = await this.numberOfHitsEl.getAttribute('value');
+    return parseInt(value, 8);
   }
 
   getHits(): ElementArrayFinder {
@@ -87,25 +69,27 @@ export class ContentSearchPage {
     return element(by.css('.content-search-navigator-toolbar'));
   }
 
-  clearInputButton() {
-    return utils.waitForElement(element(by.css('.clearSearchButton')));
-  }
-
-  clearButton() {
-    return utils.waitForElement(
-      element(by.css('#footerNavigateCloseHitsButton'))
+  async clearInputButton() {
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('.clearSearchButton')))
     );
   }
 
-  previousButton() {
-    return utils.waitForElement(
-      element(by.css('#footerNavigatePreviousHitButton'))
+  async clearButton() {
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('#footerNavigateCloseHitsButton')))
     );
   }
 
-  nextButton() {
-    return utils.waitForElement(
-      element(by.css('#footerNavigateNextHitButton'))
+  async previousButton() {
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('#footerNavigatePreviousHitButton')))
+    );
+  }
+
+  async nextButton() {
+    return utils.promisify(async () =>
+      utils.waitForElement(element(by.css('#footerNavigateNextHitButton')))
     );
   }
 
@@ -151,5 +135,11 @@ export class ContentSearchPage {
 
   async getHighlighted() {
     return element.all(by.css('.openseadragon-canvas .hit'));
+  }
+
+  private async contentSearchInput() {
+    return utils.promisify(async () =>
+      utils.waitForElement(this.contentSearchInputEl)
+    );
   }
 }
