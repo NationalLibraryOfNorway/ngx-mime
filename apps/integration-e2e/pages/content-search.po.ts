@@ -13,7 +13,15 @@ export class ContentSearchPage {
   private contentSearchInputEl: ElementFinder;
   private closeContentSearchDialogButtonEl: ElementFinder;
   private numberOfHitsEl: ElementFinder;
+  private mimeSearchEl: ElementFinder;
+  private contentSearchNavigatorToolbarEl: ElementFinder;
+  private clearSearchButtonEl: ElementFinder;
+  private footerNavigateCloseHitsButtonEl: ElementFinder;
+  private footerNavigatePreviousHitButtonEl: ElementFinder;
+  private footerNavigateNextHitButtonEl: ElementFinder;
+  private contentSearchContainerEl: ElementFinder;
   private contentSearchHitsEls: ElementArrayFinder;
+  private highlightedEls: ElementArrayFinder;
 
   constructor() {
     this.contentSearchInputEl = element(by.css('input.content-search-input'));
@@ -21,19 +29,36 @@ export class ContentSearchPage {
       by.css('.close-content-search-dialog-button')
     );
     this.numberOfHitsEl = element(by.css('.numberOfHits'));
+    this.mimeSearchEl = element(by.css('mime-search'));
+    this.contentSearchNavigatorToolbarEl = element(
+      by.css('.content-search-navigator-toolbar')
+    );
+    this.clearSearchButtonEl = element(by.css('.clearSearchButton'));
+    this.footerNavigateCloseHitsButtonEl = element(
+      by.css('#footerNavigateCloseHitsButton')
+    );
+    this.footerNavigatePreviousHitButtonEl = element(
+      by.css('#footerNavigatePreviousHitButton')
+    );
+    this.footerNavigateNextHitButtonEl = element(
+      by.css('#footerNavigateNextHitButton')
+    );
+    this.contentSearchContainerEl = element(
+      by.css('.content-search-container')
+    );
     this.contentSearchHitsEls = element.all(
       by.css('.content-search-container .hit')
     );
+    this.highlightedEls = element.all(by.css('.openseadragon-canvas .hit'));
   }
 
   async isOpen() {
     // Wait for dialog animation
     await browser.sleep(1000);
-    const el: ElementFinder = element(by.css('mime-search'));
-    return el.isPresent();
+    return this.mimeSearchEl.isPresent();
   }
 
-  closeButton(): Promise<ElementFinder> {
+  closeButton() {
     return utils.promisify(async () =>
       utils.waitForElement(this.closeContentSearchDialogButtonEl)
     );
@@ -66,60 +91,54 @@ export class ContentSearchPage {
   }
 
   contentSearchNavigatorToolbar() {
-    return element(by.css('.content-search-navigator-toolbar'));
+    return this.contentSearchNavigatorToolbarEl;
   }
 
   async clearInputButton() {
     return utils.promisify(async () =>
-      utils.waitForElement(element(by.css('.clearSearchButton')))
+      utils.waitForElement(this.clearSearchButtonEl)
     );
   }
 
   async clearButton() {
     return utils.promisify(async () =>
-      utils.waitForElement(element(by.css('#footerNavigateCloseHitsButton')))
+      utils.waitForElement(this.footerNavigateCloseHitsButtonEl)
     );
   }
 
   async previousButton() {
     return utils.promisify(async () =>
-      utils.waitForElement(element(by.css('#footerNavigatePreviousHitButton')))
+      utils.waitForElement(this.footerNavigatePreviousHitButtonEl)
     );
   }
 
   async nextButton() {
     return utils.promisify(async () =>
-      utils.waitForElement(element(by.css('#footerNavigateNextHitButton')))
+      utils.waitForElement(this.footerNavigateNextHitButtonEl)
     );
   }
 
   async isContentSearchDialogOpen() {
-    return await utils.isElementVisible(
-      element(by.css('.content-search-container'))
-    );
+    return await utils.isElementVisible(this.contentSearchContainerEl);
   }
 
   async isContentSearchDialogClosed() {
-    return await utils.isElementInvisible(
-      element(by.css('.content-search-container'))
-    );
+    return await utils.isElementInvisible(this.contentSearchContainerEl);
   }
 
   async isSelected(index: number) {
-    return utils
-      .waitForElement(
+    try {
+      await utils.waitForElement(
         element(
           by.css(
             `.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`
           )
         )
-      )
-      .then(() => {
-        return true;
-      })
-      .catch(() => {
-        return false;
-      });
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   async hitIsSelected(index: number) {
@@ -134,7 +153,7 @@ export class ContentSearchPage {
   }
 
   async getHighlighted() {
-    return element.all(by.css('.openseadragon-canvas .hit'));
+    return this.highlightedEls;
   }
 
   private async contentSearchInput() {

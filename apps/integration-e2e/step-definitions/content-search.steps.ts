@@ -42,10 +42,9 @@ When('the user select the {word} hit button', async (action: string) => {
 });
 
 When('the user closes the search dialog', async () => {
-  await contentSearchPage.closeButton().then(async (closeButton) => {
-    await closeButton.click();
-    await page.waitForAnimation();
-  });
+  const closeButton = await contentSearchPage.closeButton();
+  await closeButton.click();
+  await page.waitForAnimation();
 });
 
 When('the user opens the search dialog', async () => {
@@ -87,8 +86,9 @@ Then('all highlighting should be removed', async () => {
 });
 
 Then('the search result toolbar should be removed', async () => {
-  const el = contentSearchPage.contentSearchNavigatorToolbar();
-  expect(await el.isPresent()).to.equal(false);
+  expect(
+    await contentSearchPage.contentSearchNavigatorToolbar().isPresent()
+  ).to.equal(false);
 });
 
 Then('the Search dialog should be {word}', async (state: string) => {

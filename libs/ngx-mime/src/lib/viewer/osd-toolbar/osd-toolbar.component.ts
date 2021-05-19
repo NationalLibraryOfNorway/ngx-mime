@@ -103,8 +103,6 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscriptions.add(
       this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
-        if (dimensions) {
-        }
         this.osdToolbarStyle = {
           top: dimensions.top + 110 + 'px',
         };

@@ -2,7 +2,7 @@ import { browser, ElementFinder, protractor } from 'protractor';
 import { Capabilities } from 'selenium-webdriver';
 
 const EC = protractor.ExpectedConditions;
-const TIMEOUT = 10000;
+const TIMEOUT = 60000;
 
 export class Utils {
   static numbersAreClose(

@@ -9,8 +9,8 @@ export class IiifContentSearchServiceStub {
     new SearchResult({})
   );
   public _searching = new BehaviorSubject<boolean>(false);
-  public _currentQ = new Subject<string>();
-  protected _selected = new Subject<Hit | null>();
+  public _currentQ = new BehaviorSubject<string>('');
+  protected _selected = new BehaviorSubject<Hit | null>(null);
 
   get onQChange(): Observable<string> {
     return this._currentQ.asObservable().pipe(distinctUntilChanged());
