@@ -1,9 +1,26 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "sourceMap": false,
     "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
-    "target": "es5",
-    "types": ["jasmine", "jasminewd2", "node"]
+    "allowJs": true,
+    "types": ["jasmine", "node"],
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "helpers/**/*.ts",
+    "helpers/**/*.js",
+    "pages/**/*.ts",
+    "pages/**/*.js",
+    "step-definitions/**/*.ts",
+    "step-definitions/**/*.js"
+  ],
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }

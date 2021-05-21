@@ -27,12 +27,6 @@
     },
     "@nrwl/angular:library": {
       "unitTestRunner": "jest"
-    },
-    "@nrwl/angular": {
-      "convert-tslint-to-eslint": {
-        "ignoreExistingTslintConfig": true,
-        "removeTSLintIfNoMoreTSLintTargets": true
-      }
     }
   },
   "projects": {
@@ -58,7 +52,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "libs/ngx-mime/src/test.ts",
+            "main": "libs/ngx-mime/src/test-setup.ts",
             "tsConfig": "libs/ngx-mime/tsconfig.spec.json",
             "karmaConfig": "libs/ngx-mime/karma.conf.js",
             "scripts": [
@@ -151,7 +145,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "apps/demo/src/test.ts",
+            "main": "apps/demo/src/test-setup.ts",
             "polyfills": "apps/demo/src/polyfills.ts",
             "tsConfig": "apps/demo/tsconfig.spec.json",
             "karmaConfig": "apps/demo/karma.conf.js",
@@ -167,8 +161,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "apps/demo//src/**/*.ts",
-              "apps/demo//src/**/*.html"
+              "apps/demo/src/**/*.ts",
+              "apps/demo/src/**/*.html"
             ]
           }
         }
@@ -186,10 +180,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": "apps/demo-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**", "!apps/demo-e2e/**"]
+            "lintFilePatterns": [
+              "apps/demo-e2e/src/**/*.ts",
+              "apps/demo-e2e/src/**/*.html"
+            ]
           }
         }
       }
@@ -280,7 +276,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "apps/integration/src/test.ts",
+            "main": "apps/integration/src/test-setup.ts",
             "polyfills": "apps/integration/src/polyfills.ts",
             "tsConfig": "apps/integration/tsconfig.spec.json",
             "karmaConfig": "apps/integration/karma.conf.js",
@@ -299,8 +295,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "apps/integration//src/**/*.ts",
-              "apps/integration//src/**/*.html"
+              "apps/integration/src/**/*.ts",
+              "apps/integration/src/**/*.html"
             ]
           }
         }
@@ -318,10 +314,13 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": "apps/integration-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**", "!apps/integration-e2e/**"]
+            "lintFilePatterns": [
+              "apps/integration-e2e/helpers/**/*.ts",
+              "apps/integration-e2e/pages/**/*.ts",
+              "apps/integration-e2e/step-definitions/**/*.ts"
+            ]
           }
         }
       }
@@ -419,7 +418,7 @@
         "test": {
           "builder": "ngx-build-plus:karma",
           "options": {
-            "main": "apps/elements/src/test.ts",
+            "main": "apps/elements/src/test-setup.ts",
             "polyfills": "apps/elements/src/polyfills.ts",
             "tsConfig": "apps/elements/tsconfig.spec.json",
             "karmaConfig": "apps/elements/karma.conf.js",
@@ -448,10 +447,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": ["apps/elements-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/elements-e2e/**/*"]
+            "lintFilePatterns": [
+              "apps/elements-e2e/src/**/*.ts",
+              "apps/elements-e2e/src/**/*.html"
+            ]
           }
         }
       }

@@ -8,13 +8,13 @@
         "plugin:@nrwl/nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
-      "parserOptions": { "project": ["apps/integration//tsconfig.*?.json"] },
+      "parserOptions": { "project": ["apps/integration/tsconfig.*?.json"] },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "nationallibraryofnorway",
+            "prefix": "app",
             "style": "camelCase"
           }
         ],
@@ -22,7 +22,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "nationallibraryofnorway",
+            "prefix": "app",
             "style": "kebab-case"
           }
         ]

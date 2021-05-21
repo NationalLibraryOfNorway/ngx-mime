@@ -1,43 +1,28 @@
 {
-  "extends": "../../.eslintrc.json",
-  "ignorePatterns": [
-    "!**/*"
-  ],
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
+      "files": ["*.ts"],
+      "extends": [
+        "plugin:@nrwl/nx/angular",
+        "plugin:@angular-eslint/template/process-inline-templates"
       ],
-      "parserOptions": {
-        "project": [
-          "libs/ngx-mime/tsconfig.lib.json",
-          "libs/ngx-mime/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
+      "parserOptions": { "project": ["libs/ngx-mime/tsconfig.*?.json"] },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
-          {
-            "type": "attribute",
-            "prefix": "nationallibraryofnorway",
-            "style": "camelCase"
-          }
+          { "type": "attribute", "prefix": "mime", "style": "camelCase" }
         ],
         "@angular-eslint/component-selector": [
           "error",
-          {
-            "type": "element",
-            "prefix": "nationallibraryofnorway",
-            "style": "kebab-case"
-          }
+          { "type": "element", "prefix": "mime", "style": "kebab-case" }
         ]
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@nrwl/nx/angular-template"],
       "rules": {}
     }
   ]
