@@ -1,11 +1,22 @@
 {
-  "npmScope": "nationallibraryofnorway",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": "*",
     "tslint.json": "*",
     "nx.json": "*",
     "tsconfig.base.json": "*"
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "nationallibraryofnorway",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
   },
   "projects": {
     "ngx-mime": {
@@ -32,16 +43,5 @@
       "tags": [],
       "implicitDependencies": ["elements"]
     }
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
-      }
-    }
-  },
-  "affected": {
-    "defaultBase": "master"
   }
 }
