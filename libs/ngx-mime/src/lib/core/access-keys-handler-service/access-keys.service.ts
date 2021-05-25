@@ -41,8 +41,8 @@ export class AccessKeysService {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
-          this.isSearchable = manifest ? this.isManifestSearchable(manifest) : false;
           if (manifest) {
+            this.isSearchable = this.isManifestSearchable(manifest);
             this.invert = manifest.viewingDirection === ViewingDirection.RTL;
           }
         }
