@@ -1,32 +1,23 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "importHelpers": true,
+    "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "importHelpers": true,
     "target": "es2015",
-    "typeRoots": ["node_modules/@types"],
+    "module": "esnext",
     "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
     "paths": {
       "@nationallibraryofnorway/*": ["libs/*"],
       "@nationallibraryofnorway/ngx-mime": ["libs/ngx-mime/src/index.ts"]
-    },
-    "module": "esnext",
-    "rootDir": "."
+    }
   },
-  "exclude": ["node_modules", "tmp"],
-  "angularCompilerOptions": {
-    "preserveWhitespaces": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  "exclude": ["node_modules", "tmp"]
 }
