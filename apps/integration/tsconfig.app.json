@@ -2,12 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": [],
-    "paths": {
-      "@nationallibraryofnorway/ngx-mime": [
-        "../../dist/libs/@nationallibraryofnorway/ngx-mime"
-      ]
-    }
+    "types": []
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "include": ["src/**/*.d.ts"]
