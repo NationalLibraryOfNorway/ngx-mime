@@ -1,8 +1,8 @@
 import { ViewerMode } from '../models/viewer-mode';
 
 export class ModeChanges {
-  public currentValue: ViewerMode;
-  public previousValue: ViewerMode;
+  public currentValue?: ViewerMode;
+  public previousValue?: ViewerMode;
 
   constructor(fields?: {
     currentValue?: ViewerMode;

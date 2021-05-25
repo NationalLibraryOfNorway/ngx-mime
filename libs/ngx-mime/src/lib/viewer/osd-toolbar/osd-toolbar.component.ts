@@ -65,15 +65,15 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
   ],
 })
 export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('container', { static: true }) container: ElementRef;
+  @ViewChild('container', { static: true }) container!: ElementRef;
   @HostBinding('@osdToolbarState')
   get osdToolbarState() {
     return this.state;
   }
   public osdToolbarStyle = {};
-  public numberOfCanvasGroups: number;
-  public isFirstCanvasGroup: boolean;
-  public isLastCanvasGroup: boolean;
+  public numberOfCanvasGroups = 0;
+  public isFirstCanvasGroup = false;
+  public isLastCanvasGroup = false;
   public state = 'hide';
   invert = false;
   private subscriptions = new Subscription();
@@ -92,9 +92,11 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
-          this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-          this.changeDetectorRef.detectChanges();
+        (manifest: Manifest | null) => {
+          if (manifest) {
+            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+            this.changeDetectorRef.detectChanges();
+          }
         }
       )
     );

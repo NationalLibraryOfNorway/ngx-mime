@@ -4,8 +4,8 @@ export class Manifest {
   public context?: string;
   public type?: string;
   public id?: string;
-  public viewingDirection? = ViewingDirection.LTR;
-  public label?: string;
+  public viewingDirection = ViewingDirection.LTR;
+  public label = '';
   public metadata?: Metadata[];
   public license?: string;
   public logo?: string;
@@ -13,7 +13,7 @@ export class Manifest {
   public service?: Service;
   public sequences?: Sequence[];
   public structures?: Structure[] = [];
-  public tileSource?: Service[];
+  public tileSource?: Resource[];
   public viewingHint?: string;
 
   constructor(fields?: {
@@ -29,7 +29,7 @@ export class Manifest {
     service?: Service;
     sequences?: Sequence[];
     structures?: Structure[];
-    tileSource?: Service[];
+    tileSource?: Resource[];
     viewingHint?: string;
   }) {
     if (fields) {
@@ -110,11 +110,11 @@ export class Canvas {
 }
 
 export class Images {
-  public id: string;
-  public type: string;
-  public motivation: string;
-  public resource: Resource;
-  public on: string;
+  public id?: string;
+  public type?: string;
+  public motivation?: string;
+  public resource?: Resource;
+  public on?: string;
 
   constructor(fields?: {
     id?: string;
@@ -134,12 +134,13 @@ export class Images {
 }
 
 export class Resource {
-  public id: string;
-  public type: string;
-  public format: string;
-  public service: Service;
-  public height: number;
-  public width: number;
+  public id?: string;
+  public type?: string;
+  public format?: string;
+  public service?: Service;
+  public height = 0;
+  public width = 0;
+  public tileOverlap = 0;
 
   constructor(fields?: {
     id?: string;
@@ -148,6 +149,7 @@ export class Resource {
     service?: Service;
     height?: number;
     width?: number;
+    tileOverlap?: number;
   }) {
     if (fields) {
       this.id = fields.id || this.id;
@@ -156,6 +158,7 @@ export class Resource {
       this.service = fields.service || this.service;
       this.height = fields.height || this.height;
       this.width = fields.width || this.width;
+      this.tileOverlap = fields.tileOverlap || this.tileOverlap;
     }
   }
 }
@@ -164,8 +167,8 @@ export class Service {
   public context?: string;
   public id?: string;
   public protocol?: string;
-  public width?: number;
-  public height?: number;
+  public width = 0;
+  public height = 0;
   public sizes?: Size[];
   public tiles?: Tile[];
   public profile?: string;
@@ -207,8 +210,8 @@ export class Size {
 }
 
 export class Tile {
-  public width: number;
-  public scaleFactors: number[];
+  public width?: number;
+  public scaleFactors?: number[];
 
   constructor(fields?: { width?: number; scaleFactors?: number[] }) {
     if (fields) {
@@ -219,18 +222,18 @@ export class Tile {
 }
 
 export class Structure {
-  public id: string;
-  public type: string;
-  public label: string;
-  public canvases: string[];
-  public canvasIndex: number;
+  public id?: string;
+  public type = '';
+  public label?: string;
+  public canvases: string[] = [];
+  public canvasIndex = 0;
 
   constructor(fields?: {
     id?: string;
     type?: string;
     label?: string;
     canvases?: string[];
-    canvasIndex?: number;
+    canvasIndex: number;
   }) {
     if (fields) {
       this.id = fields.id || this.id;

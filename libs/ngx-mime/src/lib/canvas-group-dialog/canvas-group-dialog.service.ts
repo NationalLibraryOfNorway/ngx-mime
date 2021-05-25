@@ -10,7 +10,7 @@ import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 @Injectable()
 export class CanvasGroupDialogService {
   private isCanvasGroupDialogOpen = false;
-  private dialogRef: MatDialogRef<CanvasGroupDialogComponent>;
+  private dialogRef: MatDialogRef<CanvasGroupDialogComponent> | null = null;
 
   constructor(private dialog: MatDialog) {}
 

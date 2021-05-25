@@ -15,10 +15,10 @@ export class BuilderUtils {
   }
 
   static extractViewingDirection(value: any): ViewingDirection {
-    if (value['viewingDirection'] === 'left-to-right') {
-      return ViewingDirection.LTR;
-    } else if (value['viewingDirection'] === 'right-to-left') {
+    if (value['viewingDirection'] === 'right-to-left') {
       return ViewingDirection.RTL;
+    } else {
+      return ViewingDirection.LTR;
     }
   }
 

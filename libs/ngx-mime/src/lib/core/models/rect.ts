@@ -1,10 +1,10 @@
 export class Rect {
-  public x? = 0;
-  public y? = 0;
-  public width? = 0;
-  public height? = 0;
-  public centerX? = 0;
-  public centerY? = 0;
+  public x = 0;
+  public y = 0;
+  public width = 0;
+  public height = 0;
+  public centerX = 0;
+  public centerY = 0;
 
   constructor(fields?: {
     x?: number;

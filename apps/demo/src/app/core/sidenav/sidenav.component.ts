@@ -8,14 +8,12 @@ import { ManifestService } from './../manifest-service/manifest.service';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit {
-  @Input() sidenav: MatSidenav;
+export class SidenavComponent {
+  @Input() sidenav!: MatSidenav;
 
   manifests: ManifestMenuItem[];
 
-  constructor(private manifestService: ManifestService) {}
-
-  ngOnInit() {
+  constructor(private manifestService: ManifestService) {
     this.manifests = this.manifestService.getManifests();
   }
 

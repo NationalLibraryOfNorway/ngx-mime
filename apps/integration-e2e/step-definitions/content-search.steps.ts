@@ -68,14 +68,17 @@ Then('the word {string} should be highlighted', async (term: string) => {
   expect(firstHit).to.contains(`${term} </em>`);
 });
 
-Then('the page with hit number {word} should be displayed', async (hit) => {
-  const currentPageString = await page.getCurrentCanvasGroupLabel();
-  if (hit === 1) {
-    expect(currentPageString.includes('25')).to.eql(true);
-  } else if (hit === 3) {
-    expect(currentPageString.includes('29')).to.eql(true);
+Then(
+  'the page with hit number {word} should be displayed',
+  async (hit: string) => {
+    const currentPageString = await page.getCurrentCanvasGroupLabel();
+    if (hit === '1') {
+      expect(currentPageString.includes('25')).to.eql(true);
+    } else if (hit === '3') {
+      expect(currentPageString.includes('29')).to.eql(true);
+    }
   }
-});
+);
 
 Then('all highlighting should be removed', async () => {
   const hits = await contentSearchPage.getHighlighted();
@@ -83,8 +86,9 @@ Then('all highlighting should be removed', async () => {
 });
 
 Then('the search result toolbar should be removed', async () => {
-  const el = await contentSearchPage.contentSearchNavigatorToolbar();
-  expect(await el.isPresent()).to.equal(false);
+  expect(
+    await contentSearchPage.contentSearchNavigatorToolbar().isPresent()
+  ).to.equal(false);
 });
 
 Then('the Search dialog should be {word}', async (state: string) => {

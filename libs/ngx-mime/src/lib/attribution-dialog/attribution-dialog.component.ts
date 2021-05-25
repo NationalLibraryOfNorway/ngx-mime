@@ -26,9 +26,9 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
 })
 export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
-  public manifest: Manifest;
+  public manifest: Manifest | null = null;
   private subscriptions = new Subscription();
-  @ViewChild('container', { static: true }) container: ElementRef;
+  @ViewChild('container', { static: true }) container?: ElementRef;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -46,7 +46,7 @@ export class AttributionDialogComponent
   ngOnInit() {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
+        (manifest: Manifest | null) => {
           this.manifest = manifest;
           this.changeDetectorRef.markForCheck();
         }
@@ -59,7 +59,7 @@ export class AttributionDialogComponent
       this.styleService.onChange.subscribe((c) => {
         const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
         this.renderer.setStyle(
-          this.container.nativeElement,
+          this.container?.nativeElement,
           'background-color',
           backgroundRgbaColor
         );

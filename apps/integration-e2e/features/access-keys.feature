@@ -154,6 +154,7 @@ Feature: Access Keys
       Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
       And the viewer is in dashboard view
       And the user search for the word "Gjallarhorn"
+      And the user closes the search dialog
       And the user hits key <keys>
       Then the page with hit number 1 should be displayed
 
@@ -166,6 +167,7 @@ Feature: Access Keys
       And the viewer is in dashboard view
       And the user search for the word "Gjallarhorn"
       And the user has selected the second hit
+      And the user closes the search dialog
       And the user hits key <keys>
       Then the page with hit number 1 should be displayed
 

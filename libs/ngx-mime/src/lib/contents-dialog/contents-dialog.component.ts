@@ -24,7 +24,7 @@ import { Manifest } from './../core/models/manifest';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentsDialogComponent implements OnInit, OnDestroy {
-  public manifest: Manifest;
+  public manifest: Manifest | null = null;
   public tabHeight = {};
   public showToc = false;
   public selectedIndex = 0;
@@ -52,9 +52,12 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
+        (manifest: Manifest | null) => {
           this.manifest = manifest;
-          this.showToc = this.manifest && this.manifest.structures.length > 0;
+          this.showToc =
+            this.manifest !== null &&
+            this.manifest.structures !== undefined &&
+            this.manifest.structures.length > 0;
           this.changeDetectorRef.detectChanges();
         }
       )

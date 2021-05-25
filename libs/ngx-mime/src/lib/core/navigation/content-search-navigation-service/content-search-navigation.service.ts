@@ -13,8 +13,8 @@ export class ContentSearchNavigationService {
   private _isFirstHitOnCanvasGroup = false;
   private _isLastHitOnCanvasGroup = false;
   private canvasesPerCanvasGroup = [-1];
-  private searchResult: SearchResult;
-  private subscriptions: Subscription;
+  private searchResult: SearchResult | null = null;
+  private subscriptions!: Subscription;
 
   constructor(
     private canvasService: CanvasService,
@@ -65,8 +65,8 @@ export class ContentSearchNavigationService {
   }
 
   goToNextCanvasGroupHit() {
-    if (!this._isLastHitOnCanvasGroup) {
-      let nextHit: Hit;
+    if (this.searchResult && !this._isLastHitOnCanvasGroup) {
+      let nextHit: Hit | undefined;
       if (this.currentIndex === -1) {
         nextHit = this.searchResult.get(0);
       } else {
@@ -95,7 +95,9 @@ export class ContentSearchNavigationService {
       ? this.currentIndex - 1
       : this.currentIndex;
     const previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
-    this.goToCanvasIndex(previousHit);
+    if (previousHit) {
+      this.goToCanvasIndex(previousHit);
+    }
   }
 
   private goToCanvasIndex(hit: Hit): void {
@@ -103,15 +105,21 @@ export class ContentSearchNavigationService {
     this.iiifContentSearchService.selected(hit);
   }
 
-  private findLastHitOnCanvasGroup() {
+  private findLastHitOnCanvasGroup(): boolean {
+    if (!this.searchResult) {
+      return false;
+    }
     const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
       .index;
     const currentHit = this.searchResult.get(this.currentIndex);
     return currentHit.index === lastCanvasIndex;
   }
 
-  private findFirstHitOnCanvasGroup(previousIndex: number): Hit {
-    let previousHit = this.searchResult.get(previousIndex);
+  private findFirstHitOnCanvasGroup(previousIndex: number): Hit | undefined {
+    if (!this.searchResult) {
+      return;
+    }
+    let previousHit: Hit | undefined = this.searchResult.get(previousIndex);
     const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
       previousHit.index
     );
@@ -131,7 +139,10 @@ export class ContentSearchNavigationService {
     return previousHit;
   }
 
-  private findHitOnActiveCanvasGroup() {
+  private findHitOnActiveCanvasGroup(): boolean {
+    if (!this.searchResult) {
+      return false;
+    }
     return (
       this.canvasesPerCanvasGroup.indexOf(
         this.searchResult.get(this.currentIndex).index
@@ -140,6 +151,10 @@ export class ContentSearchNavigationService {
   }
 
   private findCurrentHitIndex(canvasGroupIndexes: number[]): number {
+    if (!this.searchResult) {
+      return -1;
+    }
+
     for (let i = 0; i < this.searchResult.size(); i++) {
       const hit = this.searchResult.get(i);
       if (canvasGroupIndexes.indexOf(hit.index) >= 0) {

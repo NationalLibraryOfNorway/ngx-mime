@@ -67,7 +67,7 @@ export class ZoomStrategy {
 
   private getHomeZoomLevel(mode: ViewerMode): number {
     if (!this.viewer || !this.canvasService) {
-      return;
+      return 1;
     }
 
     let canvasGroupHeight: number;
@@ -93,16 +93,18 @@ export class ZoomStrategy {
   }
 
   zoomIn(zoomFactor?: number, position?: Point): void {
-    if (typeof zoomFactor === 'undefined') {
+    if (!zoomFactor) {
       zoomFactor = ViewerOptions.zoom.zoomFactor;
     }
 
-    if (typeof position !== 'undefined') {
+    if (position) {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToCanvasGroup(
-        position,
-        this.canvasService.getCurrentCanvasGroupRect()
-      );
+      if (position) {
+        position = ZoomUtils.constrainPositionToCanvasGroup(
+          position,
+          this.canvasService.getCurrentCanvasGroupRect()
+        );
+      }
     }
 
     if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
@@ -113,16 +115,18 @@ export class ZoomStrategy {
   }
 
   zoomOut(zoomFactor?: number, position?: Point): void {
-    if (typeof zoomFactor === 'undefined') {
+    if (!zoomFactor) {
       zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, -1);
     }
 
-    if (typeof position !== 'undefined') {
+    if (position) {
       position = this.viewer.viewport.pointFromPixel(position);
-      position = ZoomUtils.constrainPositionToCanvasGroup(
-        position,
-        this.canvasService.getCurrentCanvasGroupRect()
-      );
+      if (position) {
+        position = ZoomUtils.constrainPositionToCanvasGroup(
+          position,
+          this.canvasService.getCurrentCanvasGroupRect()
+        );
+      }
     }
 
     if (this.isViewportLargerThanCanvasGroup()) {

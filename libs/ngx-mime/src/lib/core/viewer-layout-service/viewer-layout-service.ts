@@ -8,7 +8,7 @@ import { ViewerLayout } from '../models/viewer-layout';
 @Injectable()
 export class ViewerLayoutService {
   private mimeConfig = new MimeViewerConfig();
-  private _layout: ViewerLayout;
+  private _layout!: ViewerLayout;
   private subject: BehaviorSubject<ViewerLayout> = new BehaviorSubject<
     ViewerLayout
   >(this.mimeConfig.initViewerLayout);

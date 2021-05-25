@@ -17,7 +17,7 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Direction } from '../models/direction';
-import { Manifest, Service } from '../models/manifest';
+import { Manifest, Resource, Service } from '../models/manifest';
 import { ModeChanges } from '../models/modeChanges';
 import { Options } from '../models/options';
 import { PinchStatus } from '../models/pinchStatus';
@@ -48,11 +48,11 @@ export class ViewerService {
   private viewer?: any;
   private svgOverlay: any;
   private svgNode: any;
-  private config: MimeViewerConfig;
+  private config!: MimeViewerConfig;
 
-  private overlays: Array<SVGRectElement>;
-  private tileSources: Array<Service>;
-  private subscriptions: Subscription;
+  private overlays: Array<SVGRectElement> = [];
+  private tileSources: Array<Resource> = [];
+  private subscriptions!: Subscription;
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -60,19 +60,19 @@ export class ViewerService {
 
   private currentCenter: Subject<Point> = new Subject();
   private currentCanvasIndex: BehaviorSubject<number> = new BehaviorSubject(0);
-  private currentHit: BehaviorSubject<Hit> = new BehaviorSubject(null);
-  private osdIsReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private currentHit = new Subject<Hit>();
+  private osdIsReady = new BehaviorSubject<boolean>(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
-  private canvasGroupMask: CanvasGroupMask;
+  private canvasGroupMask!: CanvasGroupMask;
   private pinchStatus = new PinchStatus();
   private dragStartPosition: any;
-  private manifest: Manifest;
-  private isManifestPaged: boolean;
+  private manifest!: Manifest;
+  private isManifestPaged = false;
   private defaultKeyDownHandler: any;
 
-  public currentSearch: SearchResult;
-  private zoomStrategy: ZoomStrategy;
-  private goToCanvasGroupStrategy: GoToCanvasGroupStrategy;
+  public currentSearch: SearchResult | null = null;
+  private zoomStrategy!: ZoomStrategy;
+  private goToCanvasGroupStrategy!: GoToCanvasGroupStrategy;
 
   private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
 
@@ -114,7 +114,7 @@ export class ViewerService {
     return this.viewer;
   }
 
-  public getTilesources(): Service[] {
+  public getTilesources(): Resource[] {
     return this.tileSources;
   }
 
@@ -350,7 +350,7 @@ export class ViewerService {
     );
 
     this.subscriptions.add(
-      this.iiifContentSearchService.onSelected.subscribe((hit: Hit) => {
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
         if (hit) {
           this.highlightCurrentHit(hit);
           this.goToCanvas(hit.index, false);
@@ -408,8 +408,7 @@ export class ViewerService {
    */
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
-    this.unsubscribe();
-    this.currentCenter.next(null);
+    this.currentCenter.next(undefined);
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
         d3.select(this.viewer.container.parentNode).style('opacity', '0');
@@ -417,7 +416,7 @@ export class ViewerService {
       this.viewer.destroy();
       this.viewer = null;
     }
-    this.overlays = null;
+    this.overlays = [];
     this.canvasService.reset();
     if (this.canvasGroupMask) {
       this.canvasGroupMask.destroy();
@@ -427,6 +426,7 @@ export class ViewerService {
       this.currentSearch = null;
       this.iiifContentSearchService.destroy();
       this.rotation.next(0);
+      this.unsubscribe();
     }
   }
 
@@ -845,10 +845,9 @@ export class ViewerService {
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-      const dragEndPosision: Point = e.position;
       const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
-      const pannedPastCanvasGroup: Side = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
+      const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,
         vpBounds
       );
@@ -891,7 +890,8 @@ export class ViewerService {
       this.modeService.mode
     );
 
-    let pannedPastSide: Side, canvasGroupEndHitCountReached: boolean;
+    let pannedPastSide: Side | null;
+    let canvasGroupEndHitCountReached = false;
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,

@@ -5,12 +5,12 @@ import { SearchResult } from './../core/models/search-result';
 import { Hit } from './../core/models/hit';
 
 export class IiifContentSearchServiceStub {
-  public _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<
-    SearchResult
-  >(new SearchResult({}));
-  public _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
-  public _currentQ: Subject<string> = new BehaviorSubject<string>(null);
-  protected _selected: Subject<Hit> = new Subject<null>();
+  public _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(
+    new SearchResult({})
+  );
+  public _searching = new BehaviorSubject<boolean>(false);
+  public _currentQ = new BehaviorSubject<string>('');
+  protected _selected = new BehaviorSubject<Hit | null>(null);
 
   get onQChange(): Observable<string> {
     return this._currentQ.asObservable().pipe(distinctUntilChanged());
@@ -24,7 +24,7 @@ export class IiifContentSearchServiceStub {
     return this._searching.asObservable();
   }
 
-  get onSelected(): Observable<Hit> {
+  get onSelected(): Observable<Hit | null> {
     return this._selected.asObservable();
   }
 

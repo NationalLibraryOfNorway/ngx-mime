@@ -12,10 +12,10 @@ import { ContentsDialogComponent } from './contents-dialog.component';
 
 @Injectable()
 export class ContentsDialogService {
-  private _el: ElementRef;
+  private _el: ElementRef | null = null;
   private isContentsDialogOpen = false;
-  private dialogRef: MatDialogRef<ContentsDialogComponent>;
-  private subscriptions: Subscription;
+  private dialogRef: MatDialogRef<ContentsDialogComponent> | null = null;
+  private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -29,8 +29,10 @@ export class ContentsDialogService {
       this.mimeResizeService.onResize.subscribe((rect) => {
         if (this.isContentsDialogOpen) {
           const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-          this.dialogRef.updateSize(config.width, config.height);
+          if (this.dialogRef) {
+            this.dialogRef.updatePosition(config.position);
+            this.dialogRef.updateSize(config.width, config.height);
+          }
         }
       })
     );
@@ -87,6 +89,9 @@ export class ContentsDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
+    if (!this._el) {
+      throw new Error('No element');
+    }
     return this.contentsDialogConfigStrategyFactory
       .create()
       .getConfig(this._el);

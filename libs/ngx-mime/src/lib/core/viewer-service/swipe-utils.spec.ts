@@ -40,13 +40,13 @@ describe('SwipeUtils ', () => {
     const start: Point = { x: 0, y: 50 };
     const end: Point = { x: 0, y: 0 };
     const direction = SwipeUtils.getSwipeDirection(start, end, true);
-    expect(direction).toBe(undefined);
+    expect(direction).toBe(Direction.UNDEFINED);
   });
 
   it('should return true when panning outside right page-bounds', () => {
-    const pageBounds: Rect = { x: 0, y: 0, width: 200, height: 200 };
+    const pageBounds: Rect = new Rect({ x: 0, y: 0, width: 200, height: 200 });
     // Pan outside right bounds
-    const viewportBounds: Rect = { x: 200, y: 0, width: 100, height: 100 };
+    const viewportBounds: Rect = new Rect({ x: 200, y: 0, width: 100, height: 100 });
 
     expect(
       SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)
@@ -54,9 +54,9 @@ describe('SwipeUtils ', () => {
   });
 
   it('should return true when panning outside left page-bounds', () => {
-    const pageBounds: Rect = { x: 100, y: 0, width: 200, height: 200 };
+    const pageBounds: Rect = new Rect({ x: 100, y: 0, width: 200, height: 200 });
     // Pan outside left bounds
-    const viewportBounds: Rect = { x: 99, y: 0, width: 100, height: 100 };
+    const viewportBounds: Rect = new Rect({ x: 99, y: 0, width: 100, height: 100 });
 
     expect(
       SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)
@@ -64,9 +64,9 @@ describe('SwipeUtils ', () => {
   });
 
   it('should return false when not panning outside page-bounds', () => {
-    const pageBounds: Rect = { x: 0, y: 0, width: 200, height: 200 };
+    const pageBounds: Rect = new Rect({ x: 0, y: 0, width: 200, height: 200 });
     // Panning inside bounds
-    const viewportBounds: Rect = { x: 60, y: 0, width: 100, height: 100 };
+    const viewportBounds: Rect = new Rect({ x: 60, y: 0, width: 100, height: 100 });
 
     expect(
       SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)

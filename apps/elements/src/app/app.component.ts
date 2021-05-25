@@ -7,8 +7,8 @@ import { MimeViewerConfig } from '@nationallibraryofnorway/ngx-mime';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  @Input() manifestUri: string;
-  @Input() config: string;
+  @Input() manifestUri!: string;
+  @Input() config?: string;
   mimeConfig = new MimeViewerConfig();
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { by, element, ElementFinder } from 'protractor';
+import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 import { Utils } from '../helpers/utils';
 
 const utils = new Utils();
@@ -21,9 +21,21 @@ export class Metadata {
 }
 
 export class MetadataPage {
+  private metadataEls: ElementArrayFinder;
+  private attributionEl: ElementFinder;
+  private licenseEl: ElementFinder;
+  private logoEl: ElementFinder;
+
+  constructor() {
+    this.metadataEls = element.all(by.css('.metadata'));
+    this.attributionEl = element(by.css('.content.attribution'));
+    this.licenseEl = element(by.css('.content.license'));
+    this.logoEl = element(by.css('.content.logo'));
+  }
+
   async getAll() {
     const metadatas = [];
-    const el = element.all(by.css('.metadata'));
+    const el = this.metadataEls;
     await utils.waitForElement(el.first());
     const count = await el.count();
     for (let i = 0; i < count; i++) {
@@ -40,21 +52,19 @@ export class MetadataPage {
     return metadatas;
   }
 
-  getAttribution() {
-    const el = element(by.css('.content.attribution'));
-    return utils.waitForElement(el);
+  async getAttribution() {
+    return utils.promisify(async () =>
+      utils.waitForElement(this.attributionEl)
+    );
   }
 
-  getLicense() {
-    const el = element(by.css('.content.license'));
-    return utils.waitForElement(el);
+  async getLicense() {
+    return utils.promisify(async () => utils.waitForElement(this.licenseEl));
   }
 
   async isLogoDisplayed(): Promise<boolean> {
     try {
-      const el: ElementFinder = await utils.waitForElement(
-        element(by.css('.content.logo'))
-      );
+      await utils.waitForElement(this.logoEl);
       return true;
     } catch (e) {
       return false;

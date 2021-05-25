@@ -51,9 +51,9 @@ import { SearchResult } from './../../core/models/search-result';
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
   @ViewChild('mimeFooterBefore', { read: ViewContainerRef, static: true })
-  mimeFooterBefore: ViewContainerRef;
+  mimeFooterBefore!: ViewContainerRef;
   @ViewChild('mimeFooterAfter', { read: ViewContainerRef, static: true })
-  mimeFooterAfter: ViewContainerRef;
+  mimeFooterAfter!: ViewContainerRef;
   public state = 'hide';
   public showNavigationToolbar = true;
   public searchResult: SearchResult = new SearchResult();

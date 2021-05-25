@@ -8,16 +8,16 @@ import { StyleService } from '../style-service/style.service';
 
 export class CanvasGroupMask {
   viewer: any;
-  canvasGroupRect: Rect;
+  canvasGroupRect = new Rect();
 
   leftMask: any;
   rightMask: any;
 
   disableResize = false;
-  center: Point;
+  center!: Point;
 
-  backgroundColor: string;
-  private subscriptions: Subscription;
+  backgroundColor!: string;
+  private subscriptions!: Subscription;
 
   constructor(viewer: any, private styleService: StyleService) {
     this.viewer = viewer;

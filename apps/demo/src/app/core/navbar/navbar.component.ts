@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  @Input() sidenav: MatSidenav;
-  public manifestUri: string;
+  @Input() sidenav!: MatSidenav;
+  public manifestUri = '';
 
   constructor(private router: Router) {}
 

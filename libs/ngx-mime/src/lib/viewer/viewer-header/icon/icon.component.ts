@@ -12,7 +12,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IconComponent implements OnInit {
-  @Input() iconName: string;
+  @Input() iconName = '';
 
   constructor() {}
 

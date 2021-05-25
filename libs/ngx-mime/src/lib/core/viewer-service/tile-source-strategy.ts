@@ -1,5 +1,5 @@
-import { Service } from '../models/manifest';
+import { Resource } from '../models/manifest';
 
 export interface TileSourceStrategy {
-  getTileSource(resource: Service): any;
+  getTileSource(resource: Resource): any;
 }

@@ -41,7 +41,7 @@ Then('the viewer should go to page {word}', async (pageNumber: string) => {
   expect(currentCanvasGroupString.includes(pageNumber)).to.eql(true);
 });
 
-Then('the Contents dialog should be {word}', async (state) => {
+Then('the Contents dialog should be {word}', async (state: string) => {
   const isOpen = await contents.isOpen();
   const expectedState = state === 'closed' ? false : true;
   expect(isOpen).to.equal(expectedState);

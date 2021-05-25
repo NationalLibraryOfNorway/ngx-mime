@@ -1,16 +1,21 @@
-import { Sequence, Service } from '../models/manifest';
+import { Resource, Sequence } from '../models/manifest';
 
 export class TileSourceBuilder {
   constructor(private sequences: Sequence[]) {}
 
-  build(): Service[] {
-    const tilesources: Service[] = [];
+  build(): Resource[] {
+    const tilesources: Resource[] = [];
     if (this.sequences && this.sequences.length > 0) {
       const canvases = this.sequences[0].canvases;
-      for (let i = 0; i < canvases.length; i++) {
+      for (let i = 0; canvases && i < canvases.length; i++) {
         const canvas = canvases[i];
         if (canvas) {
-          tilesources.push(canvas.images[0].resource);
+          if (canvas.images && canvas.images.length >= 0) {
+            const resource = canvas.images[0].resource;
+            if (resource) {
+              tilesources.push(resource);
+            }
+          }
         }
       }
     }

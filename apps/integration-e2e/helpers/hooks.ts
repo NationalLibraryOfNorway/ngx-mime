@@ -1,12 +1,14 @@
-const { After, Status } = require('cucumber');
-import { browser } from 'protractor/built';
+import { After, Status } from 'cucumber';
+import { browser } from 'protractor';
 
-After(function(testCase) {
+After(function (testCase: any) {
   const world = this;
   if (testCase.result.status === Status.FAILED) {
-    return browser.takeScreenshot().then(function(screenShot) {
+    return browser.takeScreenshot().then(function (screenShot) {
       // screenShot is a base-64 encoded PNG
       world.attach(screenShot, 'image/png');
     });
+  } else {
+    return null;
   }
 });

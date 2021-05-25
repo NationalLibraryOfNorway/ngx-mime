@@ -10,7 +10,7 @@ export class CanvasServiceStub extends CanvasService {
     10
   );
   _currentCanvasGroupIndex: BehaviorSubject<number> = new BehaviorSubject(0);
-  public _numberOfCanvasGroup: number;
+  public _numberOfCanvasGroup = 0;
 
   get onCanvasGroupIndexChange(): Observable<number> {
     return this._currentCanvasGroupIndex

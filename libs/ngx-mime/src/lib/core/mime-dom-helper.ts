@@ -33,7 +33,7 @@ export class MimeDomHelper {
   }
 
   public setFocusOnViewer(): void {
-    const el: HTMLElement = document.getElementById('ngx-mime-mimeViewer');
+    const el: HTMLElement | null = document.getElementById('ngx-mime-mimeViewer');
     if (el) {
       el.focus();
     }

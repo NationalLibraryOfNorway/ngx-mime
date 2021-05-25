@@ -8,10 +8,10 @@ import { HelpDialogComponent } from './help-dialog.component';
 
 @Injectable()
 export class HelpDialogService {
-  private _el: ElementRef;
+  private _el: ElementRef | null = null;
   private isHelpDialogOpen = false;
-  private dialogRef: MatDialogRef<HelpDialogComponent>;
-  private subscriptions: Subscription;
+  private dialogRef!: MatDialogRef<HelpDialogComponent>;
+  private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -71,7 +71,9 @@ export class HelpDialogService {
   }
 
   private getDialogConfig() {
-    return this.helpDialogConfigStrategyFactory.create().getConfig(this._el);
+    return this._el
+      ? this.helpDialogConfigStrategyFactory.create().getConfig(this._el)
+      : {};
   }
 
   private unsubscribe() {

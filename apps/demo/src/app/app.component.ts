@@ -1,6 +1,7 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { MatDrawerMode } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import {
   SiteTheme,
@@ -13,9 +14,9 @@ import {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  sidenavMode = 'side';
+  sidenavMode: MatDrawerMode = 'side';
   sidenavIsOpen = false;
-  currentTheme: string;
+  currentTheme = 'blue-theme';
   private subscriptions = new Subscription();
 
   constructor(

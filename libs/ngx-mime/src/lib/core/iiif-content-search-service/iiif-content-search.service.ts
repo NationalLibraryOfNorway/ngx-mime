@@ -13,9 +13,9 @@ export class IiifContentSearchService {
   protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(
     new SearchResult({})
   );
-  protected _searching: Subject<boolean> = new BehaviorSubject<boolean>(false);
-  protected _currentQ: Subject<string> = new Subject<string>();
-  protected _selected: Subject<Hit> = new BehaviorSubject<Hit>(null);
+  protected _searching = new BehaviorSubject<boolean>(false);
+  protected _currentQ = new BehaviorSubject<string>('');
+  protected _selected = new BehaviorSubject<Hit | null>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -36,13 +36,14 @@ export class IiifContentSearchService {
     return this._searching.asObservable();
   }
 
-  get onSelected(): Observable<Hit> {
+  get onSelected(): Observable<Hit | null> {
     return this._selected.asObservable();
   }
 
   public search(manifest: Manifest, q: string): void {
     this._currentQ.next(q);
     this._selected.next(null);
+
     if (q.length === 0) {
       this._currentSearchResult.next(new SearchResult());
       return;

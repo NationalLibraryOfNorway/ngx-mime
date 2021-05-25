@@ -1,11 +1,11 @@
-import { Service } from '../models/manifest';
+import { Resource, Service } from '../models/manifest';
 import { Rect } from '../models/rect';
 import { ViewingDirection } from '../models/viewing-direction';
 
 export interface CanvasGroupPositionCriteria {
   canvasGroupIndex: number;
-  canvasSource: Service;
-  previousCanvasGroupPosition?: Rect;
+  canvasSource: Resource;
+  previousCanvasGroupPosition: Rect;
   viewingDirection: ViewingDirection;
 }
 

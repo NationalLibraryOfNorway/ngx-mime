@@ -26,7 +26,7 @@ describe('ViewerService', () => {
   let viewerLayoutService: ViewerLayoutService;
   let viewerService: ViewerService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [TestHostComponent],

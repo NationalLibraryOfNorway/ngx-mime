@@ -10,7 +10,7 @@ export class CalculateCanvasGroupPositionFactory {
   ): CalculateCanvasGroupPositionStrategy {
     if (viewerLayout === ViewerLayout.ONE_PAGE || !paged) {
       return new OnePageCalculatePagePositionStrategy();
-    } else if (viewerLayout === ViewerLayout.TWO_PAGE) {
+    } else {
       return new TwoPageCalculateCanvasGroupPositionStrategy();
     }
   }

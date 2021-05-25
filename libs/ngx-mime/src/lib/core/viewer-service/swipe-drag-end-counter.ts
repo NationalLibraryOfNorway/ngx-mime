@@ -1,8 +1,8 @@
 import { Direction } from '../models/direction';
 import { Side } from '../models/side';
 export class SwipeDragEndCounter {
-  public leftCount: number;
-  public rightCount: number;
+  public leftCount = 0;
+  public rightCount = 0;
 
   constructor() {
     this.reset();
@@ -17,9 +17,13 @@ export class SwipeDragEndCounter {
    * @param direction of swipe / pan
    * @param side hit by swipe
    */
-  public addHit(side: Side, dir: Direction): void {
-    this.incrementSide(side);
-    this.clearOppositeSideOfDragDirection(dir);
+  public addHit(side: Side | null, dir: Direction | null): void {
+    if (side !== null) {
+      this.incrementSide(side);
+    }
+    if (dir !== null) {
+      this.clearOppositeSideOfDragDirection(dir);
+    }
   }
 
   public hitCountReached(): boolean {

@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ClickService {
-  private singleClickHandlers: Array<(event: any) => void>;
-  private doubleClickHandlers: Array<(event: any) => void>;
+  private singleClickHandlers: Array<(event: any) => void> = [];
+  private doubleClickHandlers: Array<(event: any) => void> = [];
   private clickCount = 0;
   private dblClickTimeOut: any;
 
-  constructor() {
-    this.reset();
-  }
+  constructor() {}
 
   reset(): void {
     this.singleClickHandlers = [];

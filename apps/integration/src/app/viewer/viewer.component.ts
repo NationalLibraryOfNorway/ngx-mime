@@ -8,8 +8,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./viewer.component.scss'],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  isComponent: boolean;
-  manifestUri: string;
+  isComponent = false;
+  manifestUri: string | null = null;
   private subscriptions = new Subscription();
 
   constructor(private route: ActivatedRoute) {}

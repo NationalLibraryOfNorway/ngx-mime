@@ -12,7 +12,7 @@ describe('ViewerLayoutService', () => {
   beforeEach(() => {
     config = new MimeViewerConfig();
     TestBed.configureTestingModule({
-      providers: [ViewerLayoutService]
+      providers: [ViewerLayoutService],
     });
     service = TestBed.inject(ViewerLayoutService);
     mediaObserver = TestBed.inject(MediaObserver);
@@ -23,10 +23,13 @@ describe('ViewerLayoutService', () => {
   });
 
   it('should emit when ViewerLayout is toggled', () => {
-    let newLayout: ViewerLayout;
+    let newLayout!: ViewerLayout;
     service.onChange.subscribe((state: ViewerLayout) => (newLayout = state));
+
     service.setLayout(ViewerLayout.ONE_PAGE);
+    expect(newLayout).toBeDefined();
     expect(newLayout).toEqual(ViewerLayout.ONE_PAGE);
+
     service.setLayout(ViewerLayout.TWO_PAGE);
     expect(newLayout).toEqual(ViewerLayout.TWO_PAGE);
   });
@@ -54,9 +57,10 @@ describe('ViewerLayoutService', () => {
   });
 
   it('should toggle ViewerLayout when calling toggle()', () => {
-    let newLayout: ViewerLayout;
+    let newLayout!: ViewerLayout;
     service.onChange.subscribe((state: ViewerLayout) => (newLayout = state));
     service.setLayout(ViewerLayout.ONE_PAGE);
+    expect(newLayout).toBeDefined();
     expect(newLayout).toEqual(ViewerLayout.ONE_PAGE);
 
     service.toggle();

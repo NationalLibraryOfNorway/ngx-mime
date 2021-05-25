@@ -3,8 +3,9 @@ import {
   by,
   By,
   element,
+  ElementArrayFinder,
   ElementFinder,
-  protractor
+  protractor,
 } from 'protractor';
 import { Key, promise, WebElement } from 'selenium-webdriver';
 import { Utils } from '../helpers/utils';
@@ -14,27 +15,142 @@ const thumbStartPosition = <any>{ x: 600, y: 300 };
 const pointerPosition1 = <any>{ x: 650, y: 275 };
 const pointerPosition2 = <any>{ x: 750, y: 200 };
 export class ViewerPage {
-  public static readonly bookShelf = {
-    'a-ltr-book': 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
-    'a-rtl-book': 'http://localhost:4040/catalog/v1/iiif/a-rtl-book/manifest',
-    'a-ltr-10-pages-book':
-      'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
-    'a-rtl-10-pages-book':
-      'http://localhost:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
-    'a-individuals-manifest':
-      'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
-    'a-non-attribution-manifest':
-      'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest',
-  };
-
+  public static readonly bookShelf = [
+    {
+      manifestName: 'a-ltr-book',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
+    },
+    {
+      manifestName: 'a-rtl-book',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-rtl-book/manifest',
+    },
+    {
+      manifestName: 'a-ltr-10-pages-book',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-ltr-10-pages-book/manifest',
+    },
+    {
+      manifestName: 'a-rtl-10-pages-book',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-rtl-10-pages-book/manifest',
+    },
+    {
+      manifestName: 'a-individuals-manifest',
+      url:
+        'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
+    },
+    {
+      manifestName: 'a-non-attribution-manifest',
+      url:
+        'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest',
+    },
+  ];
   private isElements = false;
+  private navigationSliderEl: ElementFinder;
+  private canvasGroupsButtonEl: ElementFinder;
+  private canvasGroupInputEl: ElementFinder;
+  private currentCanvasGroupLabelEl: ElementFinder;
+  private numOfCanvasGroupsEl: ElementFinder;
+  private contentsDialogButton: ElementFinder;
+  private contentsContainer: ElementFinder;
+  private helpContainer: ElementFinder;
+  private tabsEls: ElementArrayFinder;
+  private tocContainerEl: ElementFinder;
+  private helpDialogButtonEl: ElementFinder;
+  private contentSearchDialogButtonEl: ElementFinder;
+  private contentSearchSubmitButtonEl: ElementFinder;
+  private fullscreenButtonEl: ElementFinder;
+  private openseadragonContainer: ElementFinder;
+  private attributionEl: ElementFinder;
+  private headerEl: ElementFinder;
+  private footerEl: ElementFinder;
+  private svgEl: ElementFinder;
+  private firstCanvasGroupInFirstGroupOverlayEl: ElementFinder;
+  private secondCanvasGroupInFirstGroupOverlayEl: ElementFinder;
+  private canvasGroupOverlaysEls: ElementArrayFinder;
+  private leftCanvasGroupMaskEl: ElementFinder;
+  private rightCanvasGroupMaskEl: ElementFinder;
+  private canvasGroupOverlayEls: ElementArrayFinder;
+  private singlePageViewButtonEl: ElementFinder;
+  private twoPageViewButtonEl: ElementFinder;
+  private modeDashboardEl: ElementFinder;
+  private modePageEl: ElementFinder;
+  private openseadragonCanvasEl: ElementFinder;
+
+  constructor() {
+    this.navigationSliderEl = element(by.css('.navigation-slider'));
+    this.canvasGroupsButtonEl = element(by.css('button.canvasGroups'));
+    this.canvasGroupInputEl = element(by.css('.go-to-canvas-group-input'));
+    this.currentCanvasGroupLabelEl = element(
+      by.css('#currentCanvasGroupLabel')
+    );
+    this.numOfCanvasGroupsEl = element(by.css('#numOfCanvasGroups'));
+    this.contentsDialogButton = element(
+      by.css('#ngx-mimeContentsDialogButton')
+    );
+    this.contentsContainer = element(by.css('.contents-container'));
+    this.helpContainer = element(by.css('.help-container'));
+    this.tabsEls = element.all(by.css('.mat-tab-label'));
+    this.tocContainerEl = element(by.css('.ngx-mime-toc-container'));
+    this.helpDialogButtonEl = element(by.css('#ngx-mimeHelpDialogButton'));
+    this.contentSearchDialogButtonEl = element(
+      by.css('#ngx-mimeContentSearchDialogButton')
+    );
+    this.contentSearchSubmitButtonEl = element(
+      by.css('.content-search-box button[type="submit"]')
+    );
+    this.fullscreenButtonEl = element(by.css('#ngx-mimeFullscreenButton'));
+    this.openseadragonContainer = element(by.css('.openseadragon-container'));
+    this.attributionEl = element(
+      by.css('.attribution-container > .mat-dialog-content')
+    );
+    this.headerEl = element(by.css('mime-viewer-header'));
+    this.footerEl = element(by.css('mime-viewer-footer'));
+    this.svgEl = element(by.css('#openseadragon svg'));
+    this.firstCanvasGroupInFirstGroupOverlayEl = element(
+      by.css('#openseadragon svg g.page-group:first-child rect:first-child')
+    );
+    this.secondCanvasGroupInFirstGroupOverlayEl = element(
+      by.css('#openseadragon svg g.page-group:nth-child(2)')
+    ).element(by.css('rect:first-child'));
+    this.canvasGroupOverlaysEls = element.all(
+      by.css('#openseadragon svg g.page-group rect')
+    );
+    this.leftCanvasGroupMaskEl = element(
+      by.css('#openseadragon svg g#page-mask rect:first-child')
+    );
+    this.rightCanvasGroupMaskEl = element(
+      by.css('#openseadragon svg g#page-mask rect:nth-child(2)')
+    );
+    this.canvasGroupOverlayEls = element.all(
+      by.css('#openseadragon svg g rect')
+    );
+    this.singlePageViewButtonEl = element(
+      by.css('#toggleSinglePageViewButton')
+    );
+    this.twoPageViewButtonEl = element(by.css('#toggleTwoPageViewButton'));
+    this.modeDashboardEl = element(by.css('.mode-dashboard'));
+    this.modePageEl = element(by.css('.mode-page'));
+    this.openseadragonCanvasEl = element(
+      by.css('.openseadragon-canvas > canvas')
+    );
+  }
+
+  getBookShelfUrl(manifestName: string): string {
+    const manifest = ViewerPage.bookShelf.find(
+      (b) => b.manifestName === manifestName
+    );
+    if (manifest) {
+      return manifest.url;
+    } else {
+      throw new Error('Manifest url not found');
+    }
+  }
 
   async setDashboardMode(): Promise<void> {
     const isDashboardMode = await this.isDashboardMode();
 
     if (!isDashboardMode) {
       const overlay = await this.getSVGElement();
-      await overlay.click();
+      await utils.clickElement(overlay);
       await this.waitForAnimation(1000);
     }
   }
@@ -50,7 +166,7 @@ export class ViewerPage {
   }
 
   async setOnePageView() {
-    const btn = await this.getOnePageButton();
+    const btn: ElementFinder = await this.getOnePageButton();
     // Button is present, so switch to one-page
     if (btn) {
       await btn.click();
@@ -59,9 +175,9 @@ export class ViewerPage {
   }
 
   async setTwoPageView() {
-    const btn = await this.getTwoPageButton();
-    // Button is present, so click to switch to two-page
+    const btn: ElementFinder = await this.getTwoPageButton();
     if (btn) {
+      // Button is present, so click to switch to two-page
       await btn.click();
       await this.waitForAnimation();
     }
@@ -74,9 +190,8 @@ export class ViewerPage {
   async open(manifestName?: string) {
     let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     if (manifestName) {
-      uri += '?manifestUri=' + ViewerPage.bookShelf[manifestName];
+      uri += '?manifestUri=' + new ViewerPage().getBookShelfUrl(manifestName);
     }
-
     await browser.get(uri);
     await this.setFocusOnViewer();
     await this.waitForAnimation();
@@ -93,9 +208,7 @@ export class ViewerPage {
   }
 
   async slideToCanvasGroup(canvasGroupIndex: number) {
-    const slider = await utils.waitForElement(
-      element(by.css('.navigation-slider'))
-    );
+    const slider = await utils.waitForElement(this.navigationSliderEl);
     const isTwoPageView = this.isTwoPageView();
     if ((await isTwoPageView) && canvasGroupIndex > 1) {
       canvasGroupIndex = Math.floor(canvasGroupIndex / 2);
@@ -108,13 +221,10 @@ export class ViewerPage {
 
   async goToCanvasGroupWithDialog(canvasGroupIndex: number) {
     const goToCanvasGroupButton = await utils.waitForElement(
-      element(by.css('button.canvasGroups'))
+      this.canvasGroupsButtonEl
     );
     await goToCanvasGroupButton.click();
-    const isTwoPageView = this.isTwoPageView();
-    const input = await utils.waitForElement(
-      element(by.css('.go-to-canvas-group-input'))
-    );
+    const input = await utils.waitForElement(this.canvasGroupInputEl);
     await input.sendKeys(canvasGroupIndex);
     await input.sendKeys(protractor.Key.ENTER);
     await this.waitForAnimation();
@@ -134,9 +244,7 @@ export class ViewerPage {
   async getCurrentCanvasGroupLabel() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el = await utils.waitForPresenceOf(
-      element(by.css('#currentCanvasGroupLabel'))
-    );
+    const el = await utils.waitForPresenceOf(this.currentCanvasGroupLabelEl);
     // Not using el.getText() as it don't seem to work when element is not visible
     const currentCanvasGroupLabel = await el.getAttribute('textContent');
     // return parseInt(currentPageNumber, 10);
@@ -146,58 +254,55 @@ export class ViewerPage {
   async getNumberOfCanvasGroups() {
     // The footer might be hidden, but the pagenumber is still updated, so use
     // waitForPresenceOf insted of waitForElement.
-    const el = await utils.waitForPresenceOf(
-      element(by.css('#numOfCanvasGroups'))
-    );
+    const el = await utils.waitForPresenceOf(this.numOfCanvasGroupsEl);
     // Not using el.getText() as it don't seem to work when element is not visible
     const numberOfCanvasGroups = await el.getAttribute('textContent');
     return parseInt(numberOfCanvasGroups, 10);
   }
 
   async openContentsDialog() {
-    await element(by.css('#ngx-mimeContentsDialogButton')).click();
-    await utils.waitForElement(element(by.css('.contents-container')));
+    await this.contentsDialogButton.click();
+    await utils.waitForElement(this.contentsContainer);
     await browser.sleep(2000);
   }
 
   async openHelpDialog() {
-    await element(by.css('#ngx-mimeHelpDialogButton')).click();
-    await utils.waitForElement(element(by.css('.help-container')));
+    await this.helpDialogButtonEl.click();
+    await utils.waitForElement(this.helpContainer);
     await browser.sleep(2000);
   }
 
   async openTableOfContentsTab() {
-    await element.all(by.css('.mat-tab-label')).get(1).click();
-    await utils.waitForElement(element(by.css('.ngx-mime-toc-container')));
+    await this.tabsEls.get(1).click();
+    await utils.waitForElement(this.tocContainerEl);
     await this.waitForAnimation();
   }
 
   async openContentSearchDialog() {
     const ngxmimeContentSearchDialogButton: ElementFinder = await utils.waitForElement(
-      element(by.css('#ngx-mimeContentSearchDialogButton'))
+      this.contentSearchDialogButtonEl
     );
     await ngxmimeContentSearchDialogButton.click();
-    await utils.waitForElement(
-      element(by.css('.content-search-box button[type="submit"]'))
-    );
+    await utils.waitForElement(this.contentSearchSubmitButtonEl);
     await this.waitForAnimation();
   }
 
-  async fullscreenButton(): Promise<ElementFinder> {
-    const ngxmimeFullscreenButton: ElementFinder = await utils.waitForElement(
-      element(by.css('#ngx-mimeFullscreenButton'))
+  async fullscreenButton() {
+    return utils.promisify(async () =>
+      utils.waitForElement(this.fullscreenButtonEl)
     );
-    return ngxmimeFullscreenButton;
   }
 
-  openSeadragonElement() {
-    const el = element(by.css('.openseadragon-container'));
-    return utils.waitForElement(el);
+  async openSeadragonElement() {
+    return utils.promisify(async () =>
+      utils.waitForElement(this.openseadragonContainer)
+    );
   }
 
-  getAttribution() {
-    const el = element(by.css('.attribution-container > .mat-dialog-content'));
-    return utils.waitForElement(el);
+  async getAttribution() {
+    return utils.promisify(async () =>
+      utils.waitForElement(this.attributionEl)
+    );
   }
 
   async isFullscreen() {
@@ -212,76 +317,67 @@ export class ViewerPage {
   }
 
   async getHeader() {
-    const el = element(by.css('mime-viewer-header'));
-    return utils.waitForPresenceOf(el);
+    return utils.waitForPresenceOf(this.headerEl);
   }
 
   async getFooter() {
-    const el = element(by.css('mime-viewer-footer'));
-    return utils.waitForPresenceOf(el);
+    return utils.waitForPresenceOf(this.footerEl);
   }
 
   async getSVGElement() {
-    const el = element(by.css('#openseadragon svg'));
-    return await utils.waitForElement(el);
+    return utils.promisify(async () => utils.waitForElement(this.svgEl));
   }
 
   async getFirstCanvasGroupInFirstGroupOverlay() {
-    const el = element(
-      by.css('#openseadragon svg g.page-group:first-child rect:first-child')
+    return utils.promisify(async () =>
+      utils.waitForElement(this.firstCanvasGroupInFirstGroupOverlayEl)
     );
-    return utils.waitForElement(el);
   }
 
   async getSecondCanvasGroupInFirstGroupOverlay() {
-    const el = element(
-      by.css('#openseadragon svg g.page-group:nth-child(2)')
-    ).element(by.css('rect:first-child'));
-    return utils.waitForElement(el);
+    return utils.promisify(async () =>
+      utils.waitForElement(this.secondCanvasGroupInFirstGroupOverlayEl)
+    );
   }
 
-  async getAllCanvasGroupOverlays() {
-    const el = await element.all(
-      by.css('#openseadragon svg g.page-group rect')
-    );
-    return el;
+  getAllCanvasGroupOverlays() {
+    return this.canvasGroupOverlaysEls;
   }
 
   async getLeftCanvasGroupMask() {
-    const el = element(
-      by.css('#openseadragon svg g#page-mask rect:first-child')
+    return utils.promisify(async () =>
+      utils.waitForElement(this.leftCanvasGroupMaskEl)
     );
-    return utils.waitForElement(el);
   }
 
   async getRightCanvasGroupMask() {
-    const el = element(
-      by.css('#openseadragon svg g#page-mask rect:nth-child(2)')
+    return utils.promisify(async () =>
+      utils.waitForElement(this.rightCanvasGroupMaskEl)
     );
-    return utils.waitForElement(el);
   }
 
   async getFirstCanvasGroupOverlay() {
-    const el = element.all(by.css('#openseadragon svg g rect')).first();
-    return utils.waitForElement(el);
+    return utils.promisify(async () =>
+      utils.waitForElement(this.canvasGroupOverlayEls.first())
+    );
   }
 
   async getOnePageButton() {
-    const el = element(by.css('#toggleSinglePageViewButton'));
-    if ((await el.isPresent()) && (await el.isDisplayed())) {
-      return el;
-    } else {
-      return false;
-    }
+    return utils.promisify(async () => {
+      const isPresentAndDisplayed: boolean = await utils.isPresentAndDisplayed(
+        this.singlePageViewButtonEl
+      );
+      return isPresentAndDisplayed ? <any>this.singlePageViewButtonEl : undefined;
+    });
   }
 
   async getTwoPageButton() {
-    const el = element(by.css('#toggleTwoPageViewButton'));
-    if ((await el.isPresent()) && (await el.isDisplayed())) {
-      return el;
-    } else {
-      return false;
-    }
+    return utils.promisify(async () => {
+      const isPresentAndDisplayed = await utils.isPresentAndDisplayed(
+        this.twoPageViewButtonEl
+      );
+      return isPresentAndDisplayed ? <any>this.twoPageViewButtonEl : undefined;
+    });
   }
 
   getAnimationTimeInSec(): promise.Promise<number> {
@@ -427,12 +523,12 @@ export class ViewerPage {
 
   async isDashboardMode(): Promise<boolean> {
     await this.waitForAnimation(1000);
-    return element(by.css('.mode-dashboard')).isPresent();
+    return this.modeDashboardEl.isPresent();
   }
 
   async isPageMode(): Promise<boolean> {
     await this.waitForAnimation(1000);
-    return element(by.css('.mode-page')).isPresent();
+    return this.modePageEl.isPresent();
   }
 
   async isTwoPageView(): Promise<boolean> {
@@ -480,7 +576,7 @@ export class ViewerPage {
   }
 
   async sendKeyboardEvent(key: string): Promise<void> {
-    let iKey: string = null;
+    let iKey: string | null = null;
     if (key === 'PageDown') {
       iKey = Key.PAGE_DOWN;
     } else if (key === 'ArrowRight') {
@@ -515,7 +611,9 @@ export class ViewerPage {
 
     await this.setFocusOnViewer();
     const el = await browser.driver.switchTo().activeElement();
-    await el.sendKeys(iKey);
+    if (iKey) {
+      await el.sendKeys(iKey);
+    }
     return this.waitForAnimation();
   }
 
@@ -558,9 +656,8 @@ export class ViewerPage {
     leftCanvasGroupMask: { size: any; location: any },
     rightCanvasGroupMask: { size: any; location: any }
   ): Promise<boolean> {
-    let lastEvent: string;
+    let lastEvent = 'getSize()';
     try {
-      lastEvent = 'getSize()';
       const elementSize = await el.getSize();
       lastEvent = 'getLocation()';
       const elementLocation = await el.getLocation();
@@ -584,9 +681,7 @@ export class ViewerPage {
   }
 
   async setFocusOnViewer() {
-    await utils.waitForElement(
-      element(by.css('.openseadragon-canvas > canvas'))
-    );
+    await utils.waitForElement(this.openseadragonCanvasEl);
     await browser.executeScript(
       `document.querySelector('.openseadragon-canvas').focus();`
     );

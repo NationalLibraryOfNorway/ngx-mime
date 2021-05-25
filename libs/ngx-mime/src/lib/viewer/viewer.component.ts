@@ -18,7 +18,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { interval, Subscription } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
@@ -55,9 +55,9 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 })
 export class ViewerComponent
   implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
-  @Input() public manifestUri: string;
-  @Input() public q: string;
-  @Input() public canvasIndex: number;
+  @Input() public manifestUri!: string;
+  @Input() public q!: string;
+  @Input() public canvasIndex = 0;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();
   @Input() public tabIndex = 0;
   @Output() viewerModeChanged: EventEmitter<ViewerMode> = new EventEmitter();
@@ -67,19 +67,19 @@ export class ViewerComponent
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
-  private currentManifest: Manifest;
-  private viewerLayout: ViewerLayout;
+  private currentManifest!: Manifest | null;
+  private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
-  public errorMessage: string = null;
+  public errorMessage: string | null = null;
 
   // Viewchilds
   @ViewChild('mimeHeader', { static: true })
-  private header: ViewerHeaderComponent;
+  private header!: ViewerHeaderComponent;
   @ViewChild('mimeFooter', { static: true })
-  private footer: ViewerFooterComponent;
+  private footer!: ViewerFooterComponent;
   @ViewChild('mimeOsdToolbar')
-  private osdToolbar: OsdToolbarComponent;
+  private osdToolbar!: OsdToolbarComponent;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -129,7 +129,7 @@ export class ViewerComponent
     this.modeService.initialMode = this.config.initViewerMode;
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest) => {
+        (manifest: Manifest | null) => {
           if (manifest) {
             this.initialize();
             this.currentManifest = manifest;
@@ -167,11 +167,13 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.iiifManifestService.errorMessage.subscribe((error: string) => {
-        this.resetCurrentManifest();
-        this.errorMessage = error;
-        this.changeDetectorRef.detectChanges();
-      })
+      this.iiifManifestService.errorMessage.subscribe(
+        (error: string | null) => {
+          this.resetCurrentManifest();
+          this.errorMessage = error;
+          this.changeDetectorRef.detectChanges();
+        }
+      )
     );
 
     this.subscriptions.add(
@@ -195,7 +197,9 @@ export class ViewerComponent
 
     this.subscriptions.add(
       this.modeService.onChange.subscribe((mode: ModeChanges) => {
-        this.toggleToolbarsState(mode.currentValue);
+        if (mode.currentValue !== undefined) {
+          this.toggleToolbarsState(mode.currentValue);
+        }
         if (
           mode.previousValue === ViewerMode.DASHBOARD &&
           mode.currentValue === ViewerMode.PAGE
@@ -309,7 +313,7 @@ export class ViewerComponent
     if (manifestUriIsChanged) {
       this.loadManifest();
     } else {
-      if (qIsChanged) {
+      if (qIsChanged && this.currentManifest) {
         this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
       if (canvasIndexChanged) {
@@ -340,10 +344,12 @@ export class ViewerComponent
         this.loadManifest();
         if (startCanvasId) {
           this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
-            const canvasIndex = manifest.sequences[0].canvases.findIndex(
-              (c) => c.id === startCanvasId
-            );
-            if (canvasIndex !== -1) {
+            const canvasIndex = manifest.sequences
+              ? manifest.sequences[0]?.canvases?.findIndex(
+                  (c) => c.id === startCanvasId
+                )
+              : -1;
+            if (canvasIndex && canvasIndex !== -1) {
               setTimeout(() => {
                 this.viewerService.goToCanvas(canvasIndex, true);
               }, 0);
@@ -352,7 +358,7 @@ export class ViewerComponent
         }
       }
     } else {
-      this.snackBar.open(this.intl.dropDisabled, null, {
+      this.snackBar.open(this.intl.dropDisabled, undefined, {
         duration: 3000,
       });
     }
@@ -402,8 +408,8 @@ export class ViewerComponent
     this.resizeService.markForCheck();
   }
 
-  private loadManifest() {
-    this.iiifManifestService.load(this.manifestUri);
+  private loadManifest(): void {
+    this.iiifManifestService.load(this.manifestUri).pipe(take(1)).subscribe();
   }
 
   private initialize() {

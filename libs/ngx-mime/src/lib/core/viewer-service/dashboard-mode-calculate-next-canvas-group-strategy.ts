@@ -2,7 +2,7 @@ import { Direction } from '../models/direction';
 import { ViewingDirection } from '../models/viewing-direction';
 import {
   CalculateNextCanvasGroupStrategy,
-  NextCanvasGroupCriteria
+  NextCanvasGroupCriteria,
 } from './calculate-next-canvas-group-strategy';
 
 export class DashboardModeCalculateNextCanvasGroupStrategy
@@ -29,17 +29,19 @@ export class DashboardModeCalculateNextCanvasGroupStrategy
     return nextCanvasGroup;
   }
 
-  private calculateNumberOfCanvasGroupsToGo(speed: number): number {
-    if (speed < 500) {
-      return 0;
-    } else if (speed >= 500 && speed < 1500) {
-      return 1;
-    } else if (speed >= 1500 && speed < 2500) {
-      return 3;
-    } else if (speed >= 2500 && speed < 3500) {
-      return 5;
-    } else {
-      return 10;
+  private calculateNumberOfCanvasGroupsToGo(speed: number | undefined): number {
+    let canvasGroupsToGo = 10;
+    if (speed) {
+      if (speed < 500) {
+        canvasGroupsToGo = 0;
+      } else if (speed >= 500 && speed < 1500) {
+        canvasGroupsToGo = 1;
+      } else if (speed >= 1500 && speed < 2500) {
+        canvasGroupsToGo = 3;
+      } else if (speed >= 2500 && speed < 3500) {
+        canvasGroupsToGo = 5;
+      }
     }
+    return canvasGroupsToGo;
   }
 }
