@@ -16,7 +16,6 @@ jobs:
       - run: 'chmod +x ./scripts/saucelabs/wait-tunnel.sh'
       - run: 'chmod +x ./scripts/saucelabs/stop-tunnel.sh'
       - run: 'chmod +x ./apps/integration-e2e/scripts/wait-on.sh'
-      - run: 'yarn install'
       - run:
           name: Build and test
           command: './scripts/ci/build-and-test.sh'
