@@ -14,6 +14,7 @@
     "helpers/**/*.ts",
     "pages/**/*.ts",
     "step-definitions/**/*.ts",
+    "*.js",
   ],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
