@@ -4,7 +4,6 @@
     "sourceMap": false,
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
-    "allowJs": true,
     "types": ["jasmine", "node"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -13,11 +12,8 @@
   },
   "include": [
     "helpers/**/*.ts",
-    "helpers/**/*.js",
     "pages/**/*.ts",
-    "pages/**/*.js",
     "step-definitions/**/*.ts",
-    "step-definitions/**/*.js"
   ],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
