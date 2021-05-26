@@ -804,10 +804,12 @@ export class ViewerService {
       this.canvasService.getCurrentCanvasGroupRect(),
       this.modeService.mode !== ViewerMode.DASHBOARD
     );
-    d3.select(this.viewer.container.parentNode)
-      .transition()
-      .duration(ViewerOptions.transitions.OSDAnimationTime)
-      .style('opacity', '1');
+    if (this.viewer) {
+      d3.select(this.viewer.container.parentNode)
+        .transition()
+        .duration(ViewerOptions.transitions.OSDAnimationTime)
+        .style('opacity', '1');
+    }
   }
 
   /**
