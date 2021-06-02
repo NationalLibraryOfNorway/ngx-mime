@@ -5,7 +5,7 @@ import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerConfig } from '../mime-viewer-config';
-import { Manifest, Service } from '../models/manifest';
+import { Manifest, Resource } from '../models/manifest';
 import { ModeChanges } from '../models/modeChanges';
 import { StyleService } from '../style-service/style.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
@@ -26,7 +26,7 @@ export declare class ViewerService {
     private config;
     private overlays;
     private tileSources;
-    private destroyed;
+    private subscriptions;
     isCanvasPressed: Subject<boolean>;
     private currentCenter;
     private currentCanvasIndex;
@@ -39,7 +39,7 @@ export declare class ViewerService {
     private manifest;
     private isManifestPaged;
     private defaultKeyDownHandler;
-    currentSearch: SearchResult;
+    currentSearch: SearchResult | null;
     private zoomStrategy;
     private goToCanvasGroupStrategy;
     private rotation;
@@ -49,8 +49,9 @@ export declare class ViewerService {
     get onCanvasGroupIndexChange(): Observable<number>;
     get onHitChange(): Observable<Hit>;
     get onOsdReadyChange(): Observable<boolean>;
+    initialize(): void;
     getViewer(): any;
-    getTilesources(): Service[];
+    getTilesources(): Resource[];
     getOverlays(): SVGRectElement[];
     getZoom(): number;
     getMinZoom(): number;
@@ -161,4 +162,5 @@ export declare class ViewerService {
     private dragHandler;
     private swipeToCanvasGroup;
     private getViewportBounds;
+    private unsubscribe;
 }

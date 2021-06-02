@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.3...v12.0.0) (2021-06-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Upgrade to Angular v12
+feat: Migrate from TSLint to ESLint
+build: nx cloud (https://nx.app/)
+chore: update sauce-connector
+
+### Features
+
+* angular 12 ([a75baf4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a75baf42e9b19e346e5fca5f993c731638343695))
+
+
+### Bug Fixes
+
+* removed deprecated node-sass ([a3c5226](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a3c522689c8a9f08ea3cc245905ac901bfd91168))
+
 ### [11.0.3](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.2...v11.0.3) (2021-03-31)
 
 ### [11.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.1...v11.0.2) (2021-03-31)

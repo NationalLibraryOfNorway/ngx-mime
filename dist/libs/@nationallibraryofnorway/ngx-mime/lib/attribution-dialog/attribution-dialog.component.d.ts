@@ -14,9 +14,9 @@ export declare class AttributionDialogComponent implements OnInit, AfterViewInit
     private attributionDialogResizeService;
     private styleService;
     private accessKeysHandlerService;
-    manifest: Manifest;
-    private destroyed;
-    container: ElementRef;
+    manifest: Manifest | null;
+    private subscriptions;
+    container?: ElementRef;
     constructor(intl: MimeViewerIntl, renderer: Renderer2, el: ElementRef, changeDetectorRef: ChangeDetectorRef, iiifManifestService: IiifManifestService, attributionDialogResizeService: AttributionDialogResizeService, styleService: StyleService, accessKeysHandlerService: AccessKeysService);
     ngOnInit(): void;
     ngAfterViewInit(): void;

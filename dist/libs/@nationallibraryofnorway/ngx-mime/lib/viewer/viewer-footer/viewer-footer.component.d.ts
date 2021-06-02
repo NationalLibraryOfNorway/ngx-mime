@@ -13,8 +13,7 @@ export declare class ViewerFooterComponent implements OnInit, OnDestroy {
     searchResult: SearchResult;
     showPageNavigator: boolean;
     showContentSearchNavigator: boolean;
-    private destroyed;
-    private mediaSubscription;
+    private subscriptions;
     constructor(iiifContentSearchService: IiifContentSearchService, mediaObserver: MediaObserver, changeDetectorRef: ChangeDetectorRef);
     get footerState(): string;
     ngOnInit(): void;

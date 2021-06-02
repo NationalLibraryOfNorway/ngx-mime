@@ -3,8 +3,8 @@ export declare class Manifest {
     context?: string;
     type?: string;
     id?: string;
-    viewingDirection?: ViewingDirection;
-    label?: string;
+    viewingDirection: ViewingDirection;
+    label: string;
     metadata?: Metadata[];
     license?: string;
     logo?: string;
@@ -12,7 +12,7 @@ export declare class Manifest {
     service?: Service;
     sequences?: Sequence[];
     structures?: Structure[];
-    tileSource?: Service[];
+    tileSource?: Resource[];
     viewingHint?: string;
     constructor(fields?: {
         context?: string;
@@ -27,7 +27,7 @@ export declare class Manifest {
         service?: Service;
         sequences?: Sequence[];
         structures?: Structure[];
-        tileSource?: Service[];
+        tileSource?: Resource[];
         viewingHint?: string;
     });
 }
@@ -69,11 +69,11 @@ export declare class Canvas {
     });
 }
 export declare class Images {
-    id: string;
-    type: string;
-    motivation: string;
-    resource: Resource;
-    on: string;
+    id?: string;
+    type?: string;
+    motivation?: string;
+    resource?: Resource;
+    on?: string;
     constructor(fields?: {
         id?: string;
         type?: string;
@@ -83,12 +83,13 @@ export declare class Images {
     });
 }
 export declare class Resource {
-    id: string;
-    type: string;
-    format: string;
-    service: Service;
+    id?: string;
+    type?: string;
+    format?: string;
+    service?: Service;
     height: number;
     width: number;
+    tileOverlap: number;
     constructor(fields?: {
         id?: string;
         type?: string;
@@ -96,14 +97,15 @@ export declare class Resource {
         service?: Service;
         height?: number;
         width?: number;
+        tileOverlap?: number;
     });
 }
 export declare class Service {
     context?: string;
     id?: string;
     protocol?: string;
-    width?: number;
-    height?: number;
+    width: number;
+    height: number;
     sizes?: Size[];
     tiles?: Tile[];
     profile?: string;
@@ -130,17 +132,17 @@ export declare class Size {
     constructor(width: number, height: number);
 }
 export declare class Tile {
-    width: number;
-    scaleFactors: number[];
+    width?: number;
+    scaleFactors?: number[];
     constructor(fields?: {
         width?: number;
         scaleFactors?: number[];
     });
 }
 export declare class Structure {
-    id: string;
+    id?: string;
     type: string;
-    label: string;
+    label?: string;
     canvases: string[];
     canvasIndex: number;
     constructor(fields?: {
@@ -148,7 +150,7 @@ export declare class Structure {
         type?: string;
         label?: string;
         canvases?: string[];
-        canvasIndex?: number;
+        canvasIndex: number;
     });
 }
 export declare class TileSource {

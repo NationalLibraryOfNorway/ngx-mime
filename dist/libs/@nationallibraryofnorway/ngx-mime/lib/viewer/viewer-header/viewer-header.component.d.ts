@@ -1,14 +1,14 @@
-import { ChangeDetectorRef, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
-import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     private changeDetectorRef;
@@ -19,9 +19,10 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     private fullscreenService;
     private mimeDomHelper;
     private viewerLayoutService;
+    private el;
     mimeHeaderBefore: ViewContainerRef;
     mimeHeaderAfter: ViewContainerRef;
-    manifest: Manifest;
+    manifest: Manifest | null;
     state: string;
     isContentSearchEnabled: boolean;
     isFullscreenEnabled: boolean;
@@ -30,8 +31,8 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     isPagedManifest: boolean;
     viewerLayout: ViewerLayout;
     ViewerLayout: typeof ViewerLayout;
-    private destroyed;
-    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, contentsDialogService: ContentsDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, iiifManifestService: IiifManifestService, fullscreenService: FullscreenService, mimeDomHelper: MimeDomHelper, viewerLayoutService: ViewerLayoutService);
+    private subscriptions;
+    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, contentsDialogService: ContentsDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, iiifManifestService: IiifManifestService, fullscreenService: FullscreenService, mimeDomHelper: MimeDomHelper, viewerLayoutService: ViewerLayoutService, el: ElementRef);
     get headerState(): string;
     ngOnInit(): void;
     ngOnDestroy(): void;

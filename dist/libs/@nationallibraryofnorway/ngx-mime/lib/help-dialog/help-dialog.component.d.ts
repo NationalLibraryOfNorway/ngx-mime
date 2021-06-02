@@ -8,7 +8,7 @@ export declare class HelpDialogComponent implements OnInit, OnDestroy {
     private mimeResizeService;
     tabHeight: {};
     private mimeHeight;
-    private destroyed;
+    private subscriptions;
     constructor(mediaObserver: MediaObserver, intl: MimeViewerIntl, mimeResizeService: MimeResizeService);
     ngOnInit(): void;
     ngOnDestroy(): void;

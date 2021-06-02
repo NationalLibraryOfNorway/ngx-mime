@@ -4,9 +4,11 @@ export declare class StyleService {
     private zone;
     private currentRgbColor;
     private colorSubject;
+    private subscriptions;
     constructor(zone: NgZone);
     get onChange(): Observable<string>;
-    init(): void;
+    initialize(): void;
+    destroy(): void;
     convertToRgba(rgbColor: string, opacity: number): string;
     private getComputedBackgroundColor;
     private getComputedStyle;

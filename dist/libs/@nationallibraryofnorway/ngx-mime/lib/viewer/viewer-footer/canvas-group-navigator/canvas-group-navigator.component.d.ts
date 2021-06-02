@@ -17,12 +17,12 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     numberOfCanvases: number;
     canvasGroupLabel: string;
     numberOfCanvasGroups: number;
-    currentCanvasGroupIndex: number;
+    currentCanvasGroupIndex: number | null;
     isFirstCanvasGroup: boolean;
     isLastCanvasGroup: boolean;
     invert: boolean;
     private currentSliderCanvasGroupIndex;
-    private destroyed;
+    private subscriptions;
     constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, viewerService: ViewerService, canvasService: CanvasService, pageDialogService: CanvasGroupDialogService, iiifManifestService: IiifManifestService);
     ngOnInit(): void;
     ngOnDestroy(): void;

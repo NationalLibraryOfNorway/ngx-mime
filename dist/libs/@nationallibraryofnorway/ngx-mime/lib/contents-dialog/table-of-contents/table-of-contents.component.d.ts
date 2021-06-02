@@ -11,11 +11,11 @@ export declare class TocComponent implements OnInit, OnDestroy {
     private viewerService;
     private canvasService;
     canvasChanged: EventEmitter<number>;
-    manifest: Manifest;
+    manifest: Manifest | null;
     currentCanvasGroupIndex: number;
-    private destroyed;
+    private subscriptions;
     constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, iiifManifestService: IiifManifestService, viewerService: ViewerService, canvasService: CanvasService);
     ngOnInit(): void;
     ngOnDestroy(): void;
-    goToCanvas(event: Event, canvasIndex: number): void;
+    goToCanvas(event: Event, canvasIndex: number | undefined): void;
 }

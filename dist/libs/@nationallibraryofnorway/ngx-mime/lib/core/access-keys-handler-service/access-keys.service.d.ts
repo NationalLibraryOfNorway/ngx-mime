@@ -1,14 +1,13 @@
-import { OnDestroy } from '@angular/core';
-import { ViewerService } from '../viewer-service/viewer.service';
-import { CanvasService } from '../canvas-service/canvas-service';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
-import { ModeService } from '../mode-service/mode.service';
+import { CanvasService } from '../canvas-service/canvas-service';
+import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeDomHelper } from '../mime-dom-helper';
+import { ModeService } from '../mode-service/mode.service';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
-import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
-export declare class AccessKeysService implements OnDestroy {
+import { ViewerService } from '../viewer-service/viewer.service';
+export declare class AccessKeysService {
     private viewerService;
     private canvasService;
     private modeService;
@@ -21,10 +20,11 @@ export declare class AccessKeysService implements OnDestroy {
     private isSearchable;
     private hasHits;
     private disabledKeys;
-    private destroyed;
+    private subscriptions;
     private invert;
     constructor(viewerService: ViewerService, canvasService: CanvasService, modeService: ModeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchDialogService: ContentSearchDialogService, contentsDialogService: ContentsDialogService, mimeDomHelper: MimeDomHelper, contentSearchNavigationService: ContentSearchNavigationService);
-    ngOnDestroy(): void;
+    initialize(): void;
+    destroy(): void;
     handleKeyEvents(event: KeyboardEvent): void;
     private goToNextCanvasGroup;
     private goToPreviousCanvasGroup;
@@ -47,4 +47,5 @@ export declare class AccessKeysService implements OnDestroy {
     private diableKeysForContentSearchDialog;
     private resetDisabledKeys;
     private isKeyDisabled;
+    unsubscribe(): void;
 }

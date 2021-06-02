@@ -4,6 +4,30 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.nationallibraryofnorway = global.nationallibraryofnorway || {}, global.nationallibraryofnorway['ngx-mime'] = {}), global.ng.core, global.rxjs, global.d3, global.OpenSeadragon, global.ng.common, global.ng.forms, global.ng.flexLayout, global.ng.material.button, global.ng.material.card, global.ng.material.dialog, global.ng.material.icon, global.ng.material.input, global.ng.material.list, global.ng.material.progressBar, global.ng.material.progressSpinner, global.ng.material.slider, global.ng.material.snackBar, global.ng.material.tabs, global.ng.material.toolbar, global.ng.material.tooltip, global.rxjs.operators, global.ng.common.http, global.ng.material.core, global.ng.animations));
 }(this, (function (exports, i0, rxjs, d3, OpenSeadragon$1, common, forms, flexLayout, button, card, dialog, icon, input, list, progressBar, progressSpinner, slider, snackBar, tabs, toolbar, tooltip, operators, http, core, animations) { 'use strict';
 
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () {
+                            return e[k];
+                        }
+                    });
+                }
+            });
+        }
+        n['default'] = e;
+        return Object.freeze(n);
+    }
+
+    var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
+    var d3__namespace = /*#__PURE__*/_interopNamespace(d3);
+    var OpenSeadragon__namespace = /*#__PURE__*/_interopNamespace(OpenSeadragon$1);
+
     var HelpIntl = /** @class */ (function () {
         function HelpIntl() {
             this.helpLabel = 'Help';
@@ -366,24 +390,27 @@
     function __importDefault(mod) {
         return (mod && mod.__esModule) ? mod : { default: mod };
     }
-    function __classPrivateFieldGet(receiver, privateMap) {
-        if (!privateMap.has(receiver)) {
-            throw new TypeError("attempted to get private field on non-instance");
-        }
-        return privateMap.get(receiver);
+    function __classPrivateFieldGet(receiver, state, kind, f) {
+        if (kind === "a" && !f)
+            throw new TypeError("Private accessor was defined without a getter");
+        if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver))
+            throw new TypeError("Cannot read private member from an object whose class did not declare it");
+        return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
     }
-    function __classPrivateFieldSet(receiver, privateMap, value) {
-        if (!privateMap.has(receiver)) {
-            throw new TypeError("attempted to set private field on non-instance");
-        }
-        privateMap.set(receiver, value);
-        return value;
+    function __classPrivateFieldSet(receiver, state, value, kind, f) {
+        if (kind === "m")
+            throw new TypeError("Private method is not writable");
+        if (kind === "a" && !f)
+            throw new TypeError("Private accessor was defined without a setter");
+        if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver))
+            throw new TypeError("Cannot write private member to an object whose class did not declare it");
+        return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
     }
 
     var HelpIntlNoNb = /** @class */ (function (_super) {
         __extends(HelpIntlNoNb, _super);
         function HelpIntlNoNb() {
-            var _this = _super.apply(this, __spread(arguments)) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
             _this.helpLabel = 'Hjelp';
             _this.line1 = '<strong>PIL VENSTRE</strong> eller <strong>PAGE UP</strong>: Gå til forrige side';
             _this.line2 = '<strong>PIL HØYRE</strong> eller <strong>PAGE DOWN</strong>: Gå til neste side';
@@ -403,7 +430,7 @@
     var MimeViewerIntlNoNb = /** @class */ (function (_super) {
         __extends(MimeViewerIntlNoNb, _super);
         function MimeViewerIntlNoNb() {
-            var _this = _super.apply(this, __spread(arguments)) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
             _this.help = new HelpIntlNoNb();
             _this.closeLabel = 'Lukk';
             _this.attributionLabel = 'Tillatelse';
@@ -455,7 +482,7 @@
     var HelpIntlLt = /** @class */ (function (_super) {
         __extends(HelpIntlLt, _super);
         function HelpIntlLt() {
-            var _this = _super.apply(this, __spread(arguments)) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
             _this.helpLabel = 'Pagalba';
             _this.line1 = '<strong>RODYKLĖ KAIRĖN</strong> arba <strong>PAGE UP</strong>: Buvęs puslapis';
             _this.line2 = '<strong>RODYKLĖ DEŠINĖN</strong> arba <strong>PAGE DOWN</strong>: Kitas puslapis';
@@ -475,7 +502,7 @@
     var MimeViewerIntlLt = /** @class */ (function (_super) {
         __extends(MimeViewerIntlLt, _super);
         function MimeViewerIntlLt() {
-            var _this = _super.apply(this, __spread(arguments)) || this;
+            var _this = _super.apply(this, __spreadArray([], __read(arguments))) || this;
             _this.help = new HelpIntlLt();
             _this.closeLabel = 'Uždaryti';
             _this.attributionLabel = 'Teisių priskyrimas';
@@ -530,10 +557,12 @@
         ViewerLayout[ViewerLayout["TWO_PAGE"] = 1] = "TWO_PAGE";
     })(ViewerLayout || (ViewerLayout = {}));
 
+    exports.MimeViewerMode = void 0;
     (function (ViewerMode) {
         ViewerMode[ViewerMode["DASHBOARD"] = 0] = "DASHBOARD";
         ViewerMode[ViewerMode["PAGE"] = 1] = "PAGE";
         ViewerMode[ViewerMode["PAGE_ZOOMED"] = 2] = "PAGE_ZOOMED";
+        ViewerMode[ViewerMode["NAVIGATOR"] = 3] = "NAVIGATOR";
     })(exports.MimeViewerMode || (exports.MimeViewerMode = {}));
 
     var MimeViewerConfig = /** @class */ (function () {
@@ -612,6 +641,7 @@
     var Manifest = /** @class */ (function () {
         function Manifest(fields) {
             this.viewingDirection = ViewingDirection.LTR;
+            this.label = '';
             this.structures = [];
             if (fields) {
                 this.context = fields.context || this.context;
@@ -679,6 +709,9 @@
     }());
     var Resource = /** @class */ (function () {
         function Resource(fields) {
+            this.height = 0;
+            this.width = 0;
+            this.tileOverlap = 0;
             if (fields) {
                 this.id = fields.id || this.id;
                 this.type = fields.type || this.type;
@@ -686,12 +719,15 @@
                 this.service = fields.service || this.service;
                 this.height = fields.height || this.height;
                 this.width = fields.width || this.width;
+                this.tileOverlap = fields.tileOverlap || this.tileOverlap;
             }
         }
         return Resource;
     }());
     var Service = /** @class */ (function () {
         function Service(fields) {
+            this.width = 0;
+            this.height = 0;
             if (fields) {
                 this.context = fields.context || this.context;
                 this.id = fields.id || this.id;
@@ -726,6 +762,9 @@
     }());
     var Structure = /** @class */ (function () {
         function Structure(fields) {
+            this.type = '';
+            this.canvases = [];
+            this.canvasIndex = 0;
             if (fields) {
                 this.id = fields.id || this.id;
                 this.type = fields.type || this.type;
@@ -810,108 +849,314 @@
                 },] }
     ];
 
-    var ModeChanges = /** @class */ (function () {
-        function ModeChanges(fields) {
-            if (fields) {
-                this.currentValue = fields.currentValue || this.currentValue;
-                this.previousValue = fields.previousValue || this.previousValue;
-            }
+    var FullscreenService = /** @class */ (function () {
+        function FullscreenService() {
+            this.changeSubject = new rxjs.ReplaySubject();
+            this.onchange();
         }
-        return ModeChanges;
-    }());
-
-    var ModeService = /** @class */ (function () {
-        function ModeService() {
-            this.toggleModeSubject = new rxjs.ReplaySubject();
-            this.modeChanges = new ModeChanges();
-        }
-        Object.defineProperty(ModeService.prototype, "onChange", {
+        Object.defineProperty(FullscreenService.prototype, "onChange", {
             get: function () {
-                return this.toggleModeSubject.asObservable().pipe(operators.distinctUntilChanged());
+                return this.changeSubject.asObservable();
             },
             enumerable: false,
             configurable: true
         });
-        Object.defineProperty(ModeService.prototype, "mode", {
-            get: function () {
-                return this._mode;
-            },
-            set: function (mode) {
-                this._mode = mode;
-                this.change();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(ModeService.prototype, "initialMode", {
-            get: function () {
-                return this._initialMode;
-            },
-            set: function (mode) {
-                this._initialMode = mode;
-                this.mode = mode;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        ModeService.prototype.toggleMode = function () {
-            if (this.mode === exports.MimeViewerMode.DASHBOARD) {
-                this.mode = exports.MimeViewerMode.PAGE;
+        FullscreenService.prototype.isEnabled = function () {
+            var d = document;
+            return (d.fullscreenEnabled ||
+                d.webkitFullscreenEnabled ||
+                d.mozFullScreenEnabled ||
+                d.msFullscreenEnabled);
+        };
+        FullscreenService.prototype.isFullscreen = function () {
+            var d = document;
+            return (d.fullscreenElement ||
+                d.webkitFullscreenElement ||
+                d.mozFullScreenElement ||
+                d.msFullscreenElement);
+        };
+        FullscreenService.prototype.toggle = function (el) {
+            this.isFullscreen() ? this.closeFullscreen(el) : this.openFullscreen(el);
+        };
+        FullscreenService.prototype.onchange = function () {
+            var _this = this;
+            var d = document;
+            var func = function () {
+                _this.changeSubject.next(true);
+            };
+            if (d.fullscreenEnabled) {
+                document.addEventListener('fullscreenchange', func);
             }
-            else if (this.mode === exports.MimeViewerMode.PAGE ||
-                this.mode === exports.MimeViewerMode.PAGE_ZOOMED) {
-                this.mode = exports.MimeViewerMode.DASHBOARD;
+            else if (d.webkitFullscreenEnabled) {
+                document.addEventListener('webkitfullscreenchange', func);
+            }
+            else if (d.mozFullScreenEnabled) {
+                document.addEventListener('mozfullscreenchange', func);
+            }
+            else if (d.msFullscreenEnabled) {
+                document.addEventListener('msfullscreenchange', func);
             }
         };
-        ModeService.prototype.change = function () {
-            this.modeChanges.previousValue = this.modeChanges.currentValue;
-            this.modeChanges.currentValue = this._mode;
-            this.toggleModeSubject.next(Object.assign({}, this.modeChanges));
+        FullscreenService.prototype.openFullscreen = function (elem) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            }
+            else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            }
+            else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            }
+            else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
         };
-        return ModeService;
+        FullscreenService.prototype.closeFullscreen = function (elem) {
+            var d = document;
+            if (d.exitFullscreen) {
+                d.exitFullscreen();
+            }
+            else if (d.mozCancelFullScreen) {
+                d.mozCancelFullScreen();
+            }
+            else if (d.webkitExitFullscreen) {
+                d.webkitExitFullscreen();
+            }
+            else if (d.msExitFullscreen) {
+                d.msExitFullscreen();
+            }
+        };
+        return FullscreenService;
     }());
-    ModeService.decorators = [
+    FullscreenService.decorators = [
         { type: i0.Injectable }
     ];
-    ModeService.ctorParameters = function () { return []; };
+    FullscreenService.ctorParameters = function () { return []; };
 
-    /****************************************************************
-     * MIME-viewer options
-     ****************************************************************/
-    var ViewerOptions = {
-        zoom: {
-            zoomFactor: 1.15,
-            dblClickZoomFactor: 2.7,
-            // How many pixels since lastDistance before it is considered a pinch
-            pinchZoomThreshold: 3
-        },
-        pan: {
-            // Sensitivity when determining swipe-direction.
-            // Higher threshold means that swipe must be more focused in
-            // x-direction before the gesture is recognized as "left" or "right"
-            swipeDirectionThreshold: 70
-        },
-        // All transition times in milliseconds
-        transitions: {
-            toolbarsEaseInTime: 400,
-            toolbarsEaseOutTime: 500,
-            OSDAnimationTime: 600 // Animation-time for OSD-animations
-        },
-        overlays: {
-            // Margin between canvas groups in Dashboard View in OpenSeadragon viewport-coordinates
-            canvasGroupMarginInDashboardView: 300,
-            // Margin between canvas groups in Page View in OpenSeadragon viewport-coordinates
-            canvasGroupMarginInPageView: 20
-        },
-        padding: {
-            // Padding in viewer container in pixels
-            header: 80,
-            footer: 80 // Placeholder below viewer for footer in Dashboard View
-        },
-        colors: {
-            canvasGroupBackgroundColor: '#fafafa'
+    var Dimensions = /** @class */ (function () {
+        function Dimensions(fields) {
+            this.bottom = 0;
+            this.height = 0;
+            this.left = 0;
+            this.right = 0;
+            this.top = 0;
+            this.width = 0;
+            if (fields) {
+                this.bottom = fields.bottom || this.bottom;
+                this.height = fields.height || this.height;
+                this.left = fields.left || this.left;
+                this.right = fields.right || this.right;
+                this.top = fields.top || this.top;
+                this.width = fields.width || this.width;
+            }
         }
-    };
+        return Dimensions;
+    }());
+
+    var MimeDomHelper = /** @class */ (function () {
+        function MimeDomHelper(fullscreen) {
+            this.fullscreen = fullscreen;
+        }
+        MimeDomHelper.prototype.getBoundingClientRect = function (el) {
+            try {
+                if (this.isDocumentInFullScreenMode() &&
+                    el.nativeElement.nodeName === 'MIME-VIEWER') {
+                    return this.createFullscreenDimensions(el);
+                }
+                else {
+                    return this.createDimensions(el);
+                }
+            }
+            catch (e) {
+                return new Dimensions();
+            }
+        };
+        MimeDomHelper.prototype.isDocumentInFullScreenMode = function () {
+            return this.fullscreen.isFullscreen();
+        };
+        MimeDomHelper.prototype.toggleFullscreen = function () {
+            var el = document.getElementById('ngx-mime-mimeViewer');
+            if (this.fullscreen.isEnabled()) {
+                this.fullscreen.toggle(el);
+            }
+        };
+        MimeDomHelper.prototype.setFocusOnViewer = function () {
+            var el = document.getElementById('ngx-mime-mimeViewer');
+            if (el) {
+                el.focus();
+            }
+        };
+        MimeDomHelper.prototype.createFullscreenDimensions = function (el) {
+            var dimensions = el.nativeElement.getBoundingClientRect();
+            var width = this.getFullscreenWidth();
+            var height = this.getFullscreenHeight();
+            return new Dimensions(Object.assign(Object.assign({}, dimensions), { top: 0, bottom: height, width: width, height: height, left: 0, right: width }));
+        };
+        MimeDomHelper.prototype.createDimensions = function (el) {
+            var dimensions = el.nativeElement.getBoundingClientRect();
+            return new Dimensions({
+                top: dimensions.top,
+                bottom: dimensions.bottom,
+                width: dimensions.width,
+                height: dimensions.height,
+                left: dimensions.left,
+                right: dimensions.right
+            });
+        };
+        MimeDomHelper.prototype.getFullscreenWidth = function () {
+            return (window.innerWidth ||
+                document.documentElement.clientWidth ||
+                document.body.clientWidth);
+        };
+        MimeDomHelper.prototype.getFullscreenHeight = function () {
+            return (window.innerHeight ||
+                document.documentElement.clientHeight ||
+                document.body.clientHeight);
+        };
+        return MimeDomHelper;
+    }());
+    MimeDomHelper.decorators = [
+        { type: i0.Injectable }
+    ];
+    MimeDomHelper.ctorParameters = function () { return [
+        { type: FullscreenService }
+    ]; };
+
+    var MimeResizeService = /** @class */ (function () {
+        function MimeResizeService(mimeDomHelper) {
+            this.mimeDomHelper = mimeDomHelper;
+            this.resizeSubject = new rxjs.ReplaySubject();
+            this.dimensions = new Dimensions();
+        }
+        Object.defineProperty(MimeResizeService.prototype, "el", {
+            get: function () {
+                return this._el;
+            },
+            set: function (el) {
+                this._el = el;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(MimeResizeService.prototype, "onResize", {
+            get: function () {
+                return this.resizeSubject.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        MimeResizeService.prototype.markForCheck = function () {
+            if (!this.el) {
+                throw new Error('No element!');
+            }
+            var dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+            if (this.dimensions.bottom !== dimensions.bottom ||
+                this.dimensions.height !== dimensions.height ||
+                this.dimensions.left !== dimensions.left ||
+                this.dimensions.right !== dimensions.right ||
+                this.dimensions.top !== dimensions.top ||
+                this.dimensions.width !== dimensions.width) {
+                this.dimensions = dimensions;
+                this.resizeSubject.next(Object.assign({}, this.dimensions));
+            }
+        };
+        return MimeResizeService;
+    }());
+    MimeResizeService.decorators = [
+        { type: i0.Injectable }
+    ];
+    MimeResizeService.ctorParameters = function () { return [
+        { type: MimeDomHelper }
+    ]; };
+
+    var MobileContentSearchDialogConfigStrategy = /** @class */ (function () {
+        function MobileContentSearchDialogConfigStrategy() {
+        }
+        MobileContentSearchDialogConfigStrategy.prototype.getConfig = function (elementRef) {
+            return {
+                hasBackdrop: false,
+                disableClose: false,
+                autoFocus: false,
+                width: '100%',
+                height: '100%',
+                panelClass: 'content-search-panel'
+            };
+        };
+        return MobileContentSearchDialogConfigStrategy;
+    }());
+    var DesktopContentSearchDialogConfigStrategy = /** @class */ (function () {
+        function DesktopContentSearchDialogConfigStrategy(mimeDomHelper) {
+            this.mimeDomHelper = mimeDomHelper;
+        }
+        DesktopContentSearchDialogConfigStrategy.prototype.getConfig = function (el) {
+            var dimensions = this.getPosition(el);
+            return {
+                hasBackdrop: false,
+                disableClose: false,
+                autoFocus: false,
+                width: DesktopContentSearchDialogConfigStrategy.dialogWidth + "px",
+                position: {
+                    top: dimensions.top + 'px',
+                    left: dimensions.left + 'px'
+                },
+                panelClass: 'content-search-panel'
+            };
+        };
+        DesktopContentSearchDialogConfigStrategy.prototype.getPosition = function (el) {
+            var dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+            return new Dimensions({
+                top: dimensions.top + 64,
+                left: dimensions.right -
+                    DesktopContentSearchDialogConfigStrategy.dialogWidth -
+                    DesktopContentSearchDialogConfigStrategy.paddingRight
+            });
+        };
+        return DesktopContentSearchDialogConfigStrategy;
+    }());
+    DesktopContentSearchDialogConfigStrategy.dialogWidth = 350;
+    DesktopContentSearchDialogConfigStrategy.paddingRight = 20;
+
+    var ContentSearchDialogConfigStrategyFactory = /** @class */ (function () {
+        function ContentSearchDialogConfigStrategyFactory(mediaObserver, mimeDomHelper) {
+            this.mediaObserver = mediaObserver;
+            this.mimeDomHelper = mimeDomHelper;
+        }
+        ContentSearchDialogConfigStrategyFactory.prototype.create = function () {
+            return this.mediaObserver.isActive('lt-md')
+                ? new MobileContentSearchDialogConfigStrategy()
+                : new DesktopContentSearchDialogConfigStrategy(this.mimeDomHelper);
+        };
+        return ContentSearchDialogConfigStrategyFactory;
+    }());
+    ContentSearchDialogConfigStrategyFactory.decorators = [
+        { type: i0.Injectable }
+    ];
+    ContentSearchDialogConfigStrategyFactory.ctorParameters = function () { return [
+        { type: flexLayout.MediaObserver },
+        { type: MimeDomHelper }
+    ]; };
+
+    var Hit = /** @class */ (function () {
+        function Hit(fields) {
+            this.id = 0;
+            this.index = 0;
+            this.label = '';
+            this.match = '';
+            this.before = '';
+            this.after = '';
+            this.rects = [];
+            if (fields) {
+                this.id = fields.id || this.id;
+                this.index = fields.index || this.index;
+                this.label = fields.label || this.label;
+                this.match = fields.match || this.match;
+                this.before = fields.before || this.before;
+                this.after = fields.after || this.after;
+                this.rects = fields.rects || this.rects;
+            }
+        }
+        return Hit;
+    }());
 
     var Rect = /** @class */ (function () {
         function Rect(fields) {
@@ -933,121 +1178,1063 @@
         return Rect;
     }());
 
-    var canvasRectFromCriteria = function (rotation, criteria, x) {
-        var rect = {};
-        if (rotation === 90 || rotation === 270) {
-            rect = {
-                height: criteria.canvasSource.width,
-                width: criteria.canvasSource.height,
-                x: x,
-                y: (criteria.canvasSource.width / 2) * -1
-            };
+    var SearchResult = /** @class */ (function () {
+        function SearchResult(fields) {
+            this.q = '';
+            this.hits = [];
+            if (fields) {
+                this.q = fields.q || this.q;
+                this.hits = fields.hits || this.hits;
+            }
         }
-        else {
-            rect = {
-                height: criteria.canvasSource.height,
-                width: criteria.canvasSource.width,
-                x: x,
-                y: (criteria.canvasSource.height / 2) * -1
-            };
-        }
-        return new Rect(rect);
-    };
+        SearchResult.prototype.add = function (hit) {
+            this.hits.push(hit);
+        };
+        SearchResult.prototype.get = function (index) {
+            return new Hit(Object.assign({}, this.hits[index]));
+        };
+        SearchResult.prototype.size = function () {
+            return this.hits.length;
+        };
+        SearchResult.prototype.last = function () {
+            return this.get(this.size() - 1);
+        };
+        return SearchResult;
+    }());
 
-    var OnePageCalculatePagePositionStrategy = /** @class */ (function () {
-        function OnePageCalculatePagePositionStrategy() {
+    var SearchResultBuilder = /** @class */ (function () {
+        function SearchResultBuilder(q, manifest, iiifSearchResult) {
+            this.q = q;
+            this.manifest = manifest;
+            this.iiifSearchResult = iiifSearchResult;
         }
-        OnePageCalculatePagePositionStrategy.prototype.calculateCanvasGroupPosition = function (criteria, rotation) {
-            if (rotation === void 0) { rotation = 0; }
-            var x;
-            if (!criteria.canvasGroupIndex) {
-                if (rotation === 90 || rotation === 270) {
-                    x = (criteria.canvasSource.height / 2) * -1;
+        SearchResultBuilder.prototype.build = function () {
+            var _this = this;
+            var searchResult = new SearchResult();
+            searchResult.q = this.q;
+            if (this.iiifSearchResult && this.iiifSearchResult.hits) {
+                this.iiifSearchResult.hits.forEach(function (hit, index) {
+                    var e_1, _a;
+                    var id = index;
+                    var canvasIndex = -1;
+                    var label;
+                    var rects = [];
+                    if (_this.manifest.sequences && _this.manifest.sequences[0].canvases) {
+                        var resources = _this.findResources(hit);
+                        try {
+                            for (var resources_1 = __values(resources), resources_1_1 = resources_1.next(); !resources_1_1.done; resources_1_1 = resources_1.next()) {
+                                var resource = resources_1_1.value;
+                                canvasIndex = _this.findSequenceIndex(resource);
+                                label = _this.findLabel(canvasIndex);
+                                var on = resource.on;
+                                if (on) {
+                                    var coords = on.substring(on.indexOf('=') + 1).split(',');
+                                    var rect = new Rect({
+                                        x: parseInt(coords[0], 10),
+                                        y: parseInt(coords[1], 10),
+                                        width: parseInt(coords[2], 10),
+                                        height: parseInt(coords[3], 10),
+                                    });
+                                    rects.push(rect);
+                                }
+                            }
+                        }
+                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                        finally {
+                            try {
+                                if (resources_1_1 && !resources_1_1.done && (_a = resources_1.return)) _a.call(resources_1);
+                            }
+                            finally { if (e_1) throw e_1.error; }
+                        }
+                    }
+                    searchResult.add(new Hit({
+                        id: id,
+                        index: canvasIndex,
+                        label: label,
+                        match: hit.match,
+                        before: hit.before,
+                        after: hit.after,
+                        rects: rects,
+                    }));
+                });
+            }
+            return searchResult;
+        };
+        SearchResultBuilder.prototype.findResources = function (hit) {
+            var e_2, _a;
+            var resources = [];
+            if (hit.annotations) {
+                var _loop_1 = function (annotation) {
+                    if (this_1.iiifSearchResult.resources) {
+                        var res = this_1.iiifSearchResult.resources.find(function (r) { return r['@id'] === annotation; });
+                        if (res) {
+                            resources.push(res);
+                        }
+                    }
+                };
+                var this_1 = this;
+                try {
+                    for (var _b = __values(hit.annotations), _c = _b.next(); !_c.done; _c = _b.next()) {
+                        var annotation = _c.value;
+                        _loop_1(annotation);
+                    }
+                }
+                catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                finally {
+                    try {
+                        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                    }
+                    finally { if (e_2) throw e_2.error; }
+                }
+            }
+            return resources;
+        };
+        SearchResultBuilder.prototype.findSequenceIndex = function (resource) {
+            if (!this.manifest.sequences) {
+                throw new Error('No sequences found!');
+            }
+            var firstSequence = this.getFirstSequence();
+            var on = resource.on;
+            if (on && firstSequence && firstSequence.canvases) {
+                var id_1 = on.substring(0, on.indexOf('#'));
+                return firstSequence.canvases.findIndex(function (c) { return c.id === id_1; });
+            }
+            return -1;
+        };
+        SearchResultBuilder.prototype.findLabel = function (index) {
+            if (index === -1) {
+                return undefined;
+            }
+            else {
+                var canvas = this.getFirstSequenceCanvas(index);
+                return canvas ? canvas.label : undefined;
+            }
+        };
+        SearchResultBuilder.prototype.getFirstSequence = function () {
+            var sequences = this.manifest.sequences;
+            return sequences ? sequences[0] : undefined;
+        };
+        SearchResultBuilder.prototype.getFirstSequenceCanvas = function (index) {
+            var firstSequence = this.getFirstSequence();
+            return firstSequence && firstSequence.canvases !== undefined
+                ? firstSequence.canvases[index]
+                : undefined;
+        };
+        return SearchResultBuilder;
+    }());
+
+    var IiifContentSearchService = /** @class */ (function () {
+        function IiifContentSearchService(http) {
+            this.http = http;
+            this._currentSearchResult = new rxjs.BehaviorSubject(new SearchResult({}));
+            this._searching = new rxjs.BehaviorSubject(false);
+            this._currentQ = new rxjs.BehaviorSubject('');
+            this._selected = new rxjs.BehaviorSubject(null);
+        }
+        IiifContentSearchService.prototype.destroy = function () {
+            this._currentSearchResult.next(new SearchResult({}));
+            this._selected.next(null);
+        };
+        Object.defineProperty(IiifContentSearchService.prototype, "onQChange", {
+            get: function () {
+                return this._currentQ.asObservable().pipe(operators.distinctUntilChanged());
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(IiifContentSearchService.prototype, "onChange", {
+            get: function () {
+                return this._currentSearchResult.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(IiifContentSearchService.prototype, "isSearching", {
+            get: function () {
+                return this._searching.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(IiifContentSearchService.prototype, "onSelected", {
+            get: function () {
+                return this._selected.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        IiifContentSearchService.prototype.search = function (manifest, q) {
+            var _this = this;
+            this._currentQ.next(q);
+            this._selected.next(null);
+            if (q.length === 0) {
+                this._currentSearchResult.next(new SearchResult());
+                return;
+            }
+            if (!manifest.service || manifest.service === null) {
+                return;
+            }
+            this._searching.next(true);
+            this.http
+                .get(manifest.service.id + "?q=" + q)
+                .pipe(operators.finalize(function () { return _this._searching.next(false); }), operators.take(1))
+                .subscribe(function (res) { return _this._currentSearchResult.next(_this.extractData(q, manifest, res)); }, function (err) { return _this.handleError; });
+        };
+        IiifContentSearchService.prototype.selected = function (hit) {
+            this._selected.next(hit);
+        };
+        IiifContentSearchService.prototype.extractData = function (q, manifest, iiifSearchResult) {
+            return new SearchResultBuilder(q, manifest, iiifSearchResult).build();
+        };
+        IiifContentSearchService.prototype.handleError = function (err) {
+            var errMsg;
+            if (err.error instanceof Error) {
+                errMsg = err.error.message;
+            }
+            else {
+                errMsg = err.error;
+            }
+            return rxjs.throwError(errMsg);
+        };
+        return IiifContentSearchService;
+    }());
+    IiifContentSearchService.decorators = [
+        { type: i0.Injectable }
+    ];
+    IiifContentSearchService.ctorParameters = function () { return [
+        { type: http.HttpClient }
+    ]; };
+
+    var BuilderUtils = /** @class */ (function () {
+        function BuilderUtils() {
+        }
+        BuilderUtils.extractId = function (value) {
+            return value['@id'];
+        };
+        BuilderUtils.extracType = function (value) {
+            return value['@type'];
+        };
+        BuilderUtils.extractContext = function (value) {
+            return value['@context'];
+        };
+        BuilderUtils.extractViewingDirection = function (value) {
+            if (value['viewingDirection'] === 'right-to-left') {
+                return ViewingDirection.RTL;
+            }
+            else {
+                return ViewingDirection.LTR;
+            }
+        };
+        BuilderUtils.findCanvasIndex = function (canvases, sequences) {
+            var index = -1;
+            if (sequences[0] && sequences[0].canvases && canvases[0]) {
+                index = sequences[0].canvases.findIndex(function (canvas) { return canvas.id === canvases[0]; });
+            }
+            return index;
+        };
+        return BuilderUtils;
+    }());
+
+    var SizesBuilder = /** @class */ (function () {
+        function SizesBuilder(sizes) {
+            this.sizes = sizes;
+        }
+        SizesBuilder.prototype.build = function () {
+            var sizes = [];
+            if (this.sizes) {
+                for (var i = 0; i < this.sizes.length; i++) {
+                    var size = this.sizes[i];
+                    sizes.push(new Size(size.width, size.height));
+                }
+            }
+            return sizes;
+        };
+        return SizesBuilder;
+    }());
+
+    var TilesBuilder = /** @class */ (function () {
+        function TilesBuilder(tiles) {
+            this.tiles = tiles;
+        }
+        TilesBuilder.prototype.build = function () {
+            var tiles = [];
+            if (this.tiles) {
+                for (var i = 0; i < this.tiles.length; i++) {
+                    var tile = this.tiles[i];
+                    tiles.push(new Tile({
+                        width: tile.width,
+                        scaleFactors: tile.scaleFactors
+                    }));
+                }
+            }
+            return tiles;
+        };
+        return TilesBuilder;
+    }());
+
+    var ServiceBuilder = /** @class */ (function () {
+        function ServiceBuilder(service) {
+            this.service = service;
+        }
+        ServiceBuilder.prototype.build = function () {
+            if (!this.service) {
+                return undefined;
+            }
+            else {
+                return new Service({
+                    id: BuilderUtils.extractId(this.service),
+                    context: BuilderUtils.extractContext(this.service),
+                    protocol: this.service.protocol,
+                    width: this.service.width,
+                    height: this.service.height,
+                    sizes: new SizesBuilder(this.service.sizes).build(),
+                    tiles: new TilesBuilder(this.service.tiles).build(),
+                    profile: this.service.profile,
+                    physicalScale: this.service.physicalScale,
+                    physicalUnits: this.service.physicalUnits,
+                    service: new ServiceBuilder(this.service.service).build(),
+                });
+            }
+        };
+        return ServiceBuilder;
+    }());
+
+    var ResourceBuilder = /** @class */ (function () {
+        function ResourceBuilder(resource) {
+            this.resource = resource;
+        }
+        ResourceBuilder.prototype.build = function () {
+            if (!this.resource) {
+                throw new Error('No resource');
+            }
+            return new Resource({
+                id: BuilderUtils.extractId(this.resource),
+                type: BuilderUtils.extracType(this.resource),
+                format: this.resource.format,
+                service: new ServiceBuilder(this.resource.service).build(),
+                height: this.resource.height,
+                width: this.resource.width,
+            });
+        };
+        return ResourceBuilder;
+    }());
+
+    var ImagesBuilder = /** @class */ (function () {
+        function ImagesBuilder(images) {
+            this.images = images;
+        }
+        ImagesBuilder.prototype.build = function () {
+            var images = [];
+            if (this.images) {
+                for (var i = 0; i < this.images.length; i++) {
+                    var image = this.images[i];
+                    images.push(new Images({
+                        id: BuilderUtils.extractId(image),
+                        type: BuilderUtils.extracType(image),
+                        motivation: image.motivation,
+                        resource: new ResourceBuilder(image.resource).build(),
+                        on: image.on
+                    }));
+                }
+            }
+            return images;
+        };
+        return ImagesBuilder;
+    }());
+
+    var CanvasBuilder = /** @class */ (function () {
+        function CanvasBuilder(canvases) {
+            this.canvases = canvases;
+        }
+        CanvasBuilder.prototype.build = function () {
+            var canvases = [];
+            if (this.canvases) {
+                for (var i = 0; i < this.canvases.length; i++) {
+                    var canvas = this.canvases[i];
+                    canvases.push(new Canvas({
+                        id: BuilderUtils.extractId(canvas),
+                        type: BuilderUtils.extracType(canvas),
+                        label: canvas.label,
+                        thumbnail: canvas.thumbnail,
+                        height: canvas.height,
+                        width: canvas.width,
+                        images: new ImagesBuilder(canvas.images).build()
+                    }));
+                }
+            }
+            return canvases;
+        };
+        return CanvasBuilder;
+    }());
+
+    var SequenceBuilder = /** @class */ (function () {
+        function SequenceBuilder(sequences) {
+            this.sequences = sequences;
+        }
+        SequenceBuilder.prototype.build = function () {
+            var sequences = [];
+            if (this.sequences) {
+                for (var i = 0; i < this.sequences.length; i++) {
+                    var seq = this.sequences[i];
+                    sequences.push(new Sequence({
+                        id: BuilderUtils.extractId(seq),
+                        type: BuilderUtils.extracType(seq),
+                        label: seq.label,
+                        viewingHint: seq.viewingHint,
+                        canvases: new CanvasBuilder(seq.canvases).build()
+                    }));
+                }
+            }
+            return sequences;
+        };
+        return SequenceBuilder;
+    }());
+
+    var MetadataBuilder = /** @class */ (function () {
+        function MetadataBuilder(metadatas) {
+            this.metadatas = metadatas;
+        }
+        MetadataBuilder.prototype.build = function () {
+            var metadatas = [];
+            if (this.metadatas) {
+                for (var i = 0; i < this.metadatas.length; i++) {
+                    var data = this.metadatas[i];
+                    metadatas.push(new Metadata(data.label, data.value));
+                }
+            }
+            return metadatas;
+        };
+        return MetadataBuilder;
+    }());
+
+    var StructureBuilder = /** @class */ (function () {
+        function StructureBuilder(structures, sequences) {
+            this.structures = structures;
+            this.sequences = sequences;
+        }
+        StructureBuilder.prototype.build = function () {
+            var structures = [];
+            if (this.structures) {
+                for (var i = 0; i < this.structures.length; i++) {
+                    var structure = this.structures[i];
+                    structures.push(new Structure({
+                        id: BuilderUtils.extractId(structure),
+                        type: BuilderUtils.extracType(structure),
+                        label: structure.label,
+                        canvases: structure.canvases,
+                        canvasIndex: BuilderUtils.findCanvasIndex(structure.canvases, this.sequences)
+                    }));
+                }
+            }
+            return structures;
+        };
+        return StructureBuilder;
+    }());
+
+    var TileSourceBuilder = /** @class */ (function () {
+        function TileSourceBuilder(sequences) {
+            this.sequences = sequences;
+        }
+        TileSourceBuilder.prototype.build = function () {
+            var tilesources = [];
+            if (this.sequences && this.sequences.length > 0) {
+                var canvases = this.sequences[0].canvases;
+                for (var i = 0; canvases && i < canvases.length; i++) {
+                    var canvas = canvases[i];
+                    if (canvas) {
+                        if (canvas.images && canvas.images.length >= 0) {
+                            var resource = canvas.images[0].resource;
+                            if (resource) {
+                                tilesources.push(resource);
+                            }
+                        }
+                    }
+                }
+            }
+            return tilesources;
+        };
+        return TileSourceBuilder;
+    }());
+
+    var ManifestBuilder = /** @class */ (function () {
+        function ManifestBuilder(data) {
+            this.data = data;
+        }
+        ManifestBuilder.prototype.build = function () {
+            var sequences = new SequenceBuilder(this.data.sequences).build();
+            return new Manifest({
+                context: BuilderUtils.extractContext(this.data),
+                type: BuilderUtils.extracType(this.data),
+                id: BuilderUtils.extractId(this.data),
+                viewingDirection: BuilderUtils.extractViewingDirection(this.data),
+                label: this.data.label,
+                metadata: new MetadataBuilder(this.data.metadata).build(),
+                license: this.data.license,
+                logo: this.data.logo,
+                attribution: this.data.attribution,
+                service: new ServiceBuilder(this.data.service).build(),
+                sequences: sequences,
+                structures: new StructureBuilder(this.data.structures, sequences).build(),
+                tileSource: new TileSourceBuilder(this.data.sequences).build(),
+                viewingHint: this.data.viewingHint
+            });
+        };
+        return ManifestBuilder;
+    }());
+
+    var IiifManifestService = /** @class */ (function () {
+        function IiifManifestService(intl, http, spinnerService) {
+            this.intl = intl;
+            this.http = http;
+            this.spinnerService = spinnerService;
+            this._currentManifest = new rxjs.BehaviorSubject(null);
+            this._errorMessage = new rxjs.BehaviorSubject(null);
+        }
+        Object.defineProperty(IiifManifestService.prototype, "currentManifest", {
+            get: function () {
+                return this._currentManifest.asObservable().pipe(operators.distinctUntilChanged());
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(IiifManifestService.prototype, "errorMessage", {
+            get: function () {
+                return this._errorMessage.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        IiifManifestService.prototype.load = function (manifestUri) {
+            var _this = this;
+            return new rxjs.Observable(function (observer) {
+                if (manifestUri.length === 0) {
+                    _this._errorMessage.next(_this.intl.manifestUriMissingLabel);
+                    observer.next(false);
                 }
                 else {
-                    x = (criteria.canvasSource.width / 2) * -1;
+                    _this.spinnerService.show();
+                    _this.http
+                        .get(manifestUri)
+                        .pipe(operators.finalize(function () { return _this.spinnerService.hide(); }), operators.take(1))
+                        .subscribe(function (response) {
+                        var manifest = _this.extractData(response);
+                        if (_this.isManifestValid(manifest)) {
+                            _this._currentManifest.next(manifest);
+                            observer.next(true);
+                        }
+                        else {
+                            _this._errorMessage.next(_this.intl.manifestNotValidLabel);
+                            observer.next(false);
+                        }
+                    }, function (err) {
+                        _this._errorMessage.next(_this.handleError(err));
+                        observer.next(false);
+                    });
                 }
+            });
+        };
+        IiifManifestService.prototype.destroy = function () {
+            this.resetCurrentManifest();
+            this.resetErrorMessage();
+        };
+        IiifManifestService.prototype.resetCurrentManifest = function () {
+            this._currentManifest.next(null);
+        };
+        IiifManifestService.prototype.resetErrorMessage = function () {
+            this._errorMessage.next(null);
+        };
+        IiifManifestService.prototype.extractData = function (response) {
+            return new ManifestBuilder(response).build();
+        };
+        IiifManifestService.prototype.isManifestValid = function (manifest) {
+            return (manifest &&
+                manifest.tileSource !== undefined &&
+                manifest.tileSource.length > 0);
+        };
+        IiifManifestService.prototype.handleError = function (err) {
+            var errMsg;
+            if (err.error instanceof Object) {
+                errMsg = err.message;
             }
             else {
-                x =
-                    criteria.viewingDirection === ViewingDirection.LTR
-                        ? this.calculateLtrX(criteria)
-                        : this.calculateRtlX(criteria);
+                errMsg = err.error;
             }
-            return canvasRectFromCriteria(rotation, criteria, x);
+            return errMsg;
         };
-        OnePageCalculatePagePositionStrategy.prototype.calculateLtrX = function (criteria) {
-            return (criteria.previousCanvasGroupPosition.x +
-                criteria.previousCanvasGroupPosition.width +
-                ViewerOptions.overlays.canvasGroupMarginInDashboardView);
-        };
-        OnePageCalculatePagePositionStrategy.prototype.calculateRtlX = function (criteria) {
-            return (criteria.previousCanvasGroupPosition.x -
-                criteria.previousCanvasGroupPosition.width -
-                ViewerOptions.overlays.canvasGroupMarginInDashboardView);
-        };
-        return OnePageCalculatePagePositionStrategy;
+        return IiifManifestService;
     }());
+    IiifManifestService.decorators = [
+        { type: i0.Injectable }
+    ];
+    IiifManifestService.ctorParameters = function () { return [
+        { type: MimeViewerIntl },
+        { type: http.HttpClient },
+        { type: SpinnerService }
+    ]; };
 
-    var TwoPageCalculateCanvasGroupPositionStrategy = /** @class */ (function () {
-        function TwoPageCalculateCanvasGroupPositionStrategy() {
+    var ContentSearchDialogComponent = /** @class */ (function () {
+        function ContentSearchDialogComponent(dialogRef, intl, mediaObserver, mimeResizeService, iiifManifestService, iiifContentSearchService) {
+            this.dialogRef = dialogRef;
+            this.intl = intl;
+            this.mediaObserver = mediaObserver;
+            this.mimeResizeService = mimeResizeService;
+            this.iiifManifestService = iiifManifestService;
+            this.iiifContentSearchService = iiifContentSearchService;
+            this.q = '';
+            this.hits = [];
+            this.currentHit = null;
+            this.currentSearch = null;
+            this.numberOfHits = 0;
+            this.isSearching = false;
+            this.tabHeight = {};
+            this.manifest = null;
+            this.mimeHeight = 0;
+            this.subscriptions = new rxjs.Subscription();
         }
-        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateCanvasGroupPosition = function (criteria, rotation) {
-            if (rotation === void 0) { rotation = 0; }
-            var x;
-            if (!criteria.canvasGroupIndex) {
-                // First page
-                x = 0;
+        ContentSearchDialogComponent.prototype.ngOnInit = function () {
+            var _this = this;
+            this.subscriptions.add(this.mimeResizeService.onResize.subscribe(function (dimensions) {
+                _this.mimeHeight = dimensions.height;
+                _this.resizeTabHeight();
+            }));
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                _this.manifest = manifest;
+            }));
+            this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe(function (sr) {
+                _this.hits = sr.hits;
+                _this.currentSearch = sr.q ? sr.q : '';
+                _this.q = sr.q;
+                _this.numberOfHits = sr.size();
+                if (_this.resultContainer !== null && _this.numberOfHits > 0) {
+                    _this.resultContainer.nativeElement.focus();
+                }
+                else if (_this.q.length === 0 || _this.numberOfHits === 0) {
+                    _this.qEl.nativeElement.focus();
+                }
+            }));
+            this.subscriptions.add(this.iiifContentSearchService.isSearching.subscribe(function (s) {
+                _this.isSearching = s;
+            }));
+            this.subscriptions.add(this.iiifContentSearchService.onSelected.subscribe(function (hit) {
+                if (hit === null) {
+                    _this.currentHit = hit;
+                }
+                else {
+                    if (!_this.currentHit || _this.currentHit.id !== hit.id) {
+                        _this.currentHit = hit;
+                        _this.scrollCurrentHitIntoView();
+                    }
+                }
+            }));
+            this.resizeTabHeight();
+        };
+        ContentSearchDialogComponent.prototype.ngAfterViewInit = function () {
+            this.scrollCurrentHitIntoView();
+        };
+        ContentSearchDialogComponent.prototype.ngOnDestroy = function () {
+            this.subscriptions.unsubscribe();
+        };
+        ContentSearchDialogComponent.prototype.onResize = function (event) {
+            this.resizeTabHeight();
+        };
+        ContentSearchDialogComponent.prototype.onSubmit = function (event) {
+            event.preventDefault();
+            this.search();
+        };
+        ContentSearchDialogComponent.prototype.clear = function () {
+            this.q = '';
+            this.search();
+        };
+        ContentSearchDialogComponent.prototype.goToHit = function (hit) {
+            this.currentHit = hit;
+            this.iiifContentSearchService.selected(hit);
+            if (this.mediaObserver.isActive('lt-md')) {
+                this.dialogRef.close();
             }
-            else if (criteria.canvasGroupIndex % 2) {
-                // Even page numbers
-                x =
-                    criteria.viewingDirection === ViewingDirection.LTR
-                        ? this.calculateEvenLtrX(criteria)
-                        : this.calculateEvenRtlX(criteria);
+        };
+        ContentSearchDialogComponent.prototype.search = function () {
+            this.currentSearch = this.q;
+            if (this.manifest) {
+                this.iiifContentSearchService.search(this.manifest, this.q);
+            }
+        };
+        ContentSearchDialogComponent.prototype.resizeTabHeight = function () {
+            var height = this.mimeHeight;
+            if (this.mediaObserver.isActive('lt-md')) {
+                this.tabHeight = {
+                    maxHeight: window.innerHeight - 128 + 'px',
+                };
             }
             else {
-                // Odd page numbers
-                x =
-                    criteria.viewingDirection === ViewingDirection.LTR
-                        ? this.calculateOddLtrX(criteria)
-                        : this.calculateOddRtlX(criteria);
+                height -= 272;
+                this.tabHeight = {
+                    maxHeight: height + 'px',
+                };
             }
-            return canvasRectFromCriteria(rotation, criteria, x);
         };
-        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateEvenLtrX = function (criteria) {
-            return (criteria.previousCanvasGroupPosition.x +
-                criteria.previousCanvasGroupPosition.width +
-                ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+        ContentSearchDialogComponent.prototype.scrollCurrentHitIntoView = function () {
+            var _this = this;
+            this.iiifContentSearchService.onSelected
+                .pipe(operators.take(1))
+                .subscribe(function (hit) {
+                if (hit !== null) {
+                    var selected = _this.findSelected(hit);
+                    if (selected) {
+                        selected.nativeElement.focus();
+                    }
+                }
+            });
         };
-        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateOddLtrX = function (criteria) {
-            return (criteria.previousCanvasGroupPosition.x +
-                criteria.previousCanvasGroupPosition.width);
+        ContentSearchDialogComponent.prototype.findSelected = function (selectedHit) {
+            if (this.hitList) {
+                var selectedList = this.hitList.filter(function (item, index) { return index === selectedHit.id; });
+                return selectedList.length > 0 ? selectedList[0] : null;
+            }
+            else {
+                return null;
+            }
         };
-        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateEvenRtlX = function (criteria) {
-            return (criteria.previousCanvasGroupPosition.x -
-                criteria.canvasSource.width -
-                ViewerOptions.overlays.canvasGroupMarginInDashboardView);
-        };
-        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateOddRtlX = function (criteria) {
-            return criteria.previousCanvasGroupPosition.x - criteria.canvasSource.width;
-        };
-        return TwoPageCalculateCanvasGroupPositionStrategy;
+        return ContentSearchDialogComponent;
     }());
+    ContentSearchDialogComponent.decorators = [
+        { type: i0.Component, args: [{
+                    selector: 'mime-search',
+                    template: "<div class=\"content-search-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            class=\"close-content-search-dialog-button\"\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <div mat-dialog-title class=\"heading\">{{ intl.searchLabel }}</div>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <div mat-dialog-title class=\"heading heading-desktop\">{{\n            intl.searchLabel\n          }}</div>\n          <button\n            mat-icon-button\n            class=\"close-content-search-dialog-button\"\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <mat-dialog-content>\n    <div class=\"content-search-form\">\n      <form (ngSubmit)=\"onSubmit($event)\" #searchForm=\"ngForm\">\n        <mat-form-field class=\"content-search-box\">\n          <button\n            type=\"submit\"\n            matPrefix\n            mat-icon-button\n            [attr.aria-label]=\"intl.searchLabel\"\n            [matTooltip]=\"intl.searchLabel\"\n          >\n            <mat-icon class=\"icon\">search</mat-icon>\n          </button>\n          <input\n            #query\n            cdkFocusInitial\n            matInput\n            class=\"content-search-input\"\n            [(ngModel)]=\"q\"\n            [attr.aria-label]=\"intl.searchLabel\"\n            name=\"q\"\n            autocomplete=\"off\"\n          />\n          <button\n            *ngIf=\"q\"\n            type=\"button\"\n            class=\"clearSearchButton\"\n            matSuffix\n            mat-icon-button\n            [attr.aria-label]=\"intl.clearSearchLabel\"\n            [matTooltip]=\"intl.clearSearchLabel\"\n            (click)=\"clear()\"\n          >\n            <mat-icon class=\"icon\">clear</mat-icon>\n          </button>\n        </mat-form-field>\n      </form>\n    </div>\n    <div\n      #contentSearchResult\n      class=\"content-search-result-container\"\n      [ngStyle]=\"tabHeight\"\n    >\n      <div *ngIf=\"!isSearching\" class=\"content-search-result\" fxLayout=\"column\">\n        <input type=\"hidden\" class=\"numberOfHits\" [value]=\"numberOfHits\" />\n        <div *ngIf=\"currentSearch && currentSearch.length > 0\">\n          <div\n            *ngIf=\"numberOfHits > 0\"\n            [innerHTML]=\"intl.resultsFoundLabel(numberOfHits, currentSearch)\"\n          ></div>\n          <div\n            *ngIf=\"numberOfHits === 0\"\n            [innerHTML]=\"intl.noResultsFoundLabel(currentSearch)\"\n          ></div>\n        </div>\n        <ng-container *ngFor=\"let hit of hits; let last = last\">\n          <button\n            #hitButton\n            mat-button\n            [color]=\"currentHit && hit.id === currentHit.id ? 'accent' : null\"\n            [ngClass]=\"'hit'\"\n            (click)=\"goToHit(hit)\"\n            (keyup.enter)=\"goToHit(hit)\"\n          >\n            <div fxLayout=\"row\" fxLayoutAlign=\"space-between start\">\n              <div fxFlex class=\"summary\">\n                {{ hit.before }} <em>{{ hit.match }}</em> {{ hit.after }}\n              </div>\n              <div fxFlex=\"40px\" class=\"canvasGroup\">{{ hit.index + 1 }}</div>\n            </div>\n          </button>\n          <mat-divider *ngIf=\"!last\"></mat-divider>\n        </ng-container>\n      </div>\n      <div *ngIf=\"isSearching\" class=\"content-search-result\" fxLayout=\"column\">\n        <mat-progress-bar mode=\"indeterminate\"></mat-progress-bar>\n      </div>\n    </div>\n  </mat-dialog-content>\n</div>\n",
+                    styles: [".heading{font-size:17px}.heading-desktop{padding-left:16px}.label{text-decoration:underline}.content-search-form{padding:0 16px}.content-search-box{width:100%}.content-search-input{font-size:20px}.content-search-result-container{font-family:Roboto,Helvetica Neue,sans-serif;overflow:auto;margin-bottom:8px}.content-search-result{padding:8px 16px}.content-search-result .mat-button{line-height:normal;white-space:normal;word-wrap:normal;max-width:none;padding:8px;text-align:left;font-size:14px}::ng-deep .content-search-container .current-content-search{font-weight:700}em{font-weight:700}.canvasGroupLabel{text-align:right;opacity:.54}::ng-deep .content-search-panel{max-width:none!important}::ng-deep .content-search-panel>.mat-dialog-container{padding:0!important;overflow:visible;overflow:initial}::ng-deep .content-search-container>div>div>.mat-toolbar{padding:0!important}input{font-family:Roboto,Helvetica Neue,sans-serif}.icon{font-size:22px!important}"]
+                },] }
+    ];
+    ContentSearchDialogComponent.ctorParameters = function () { return [
+        { type: dialog.MatDialogRef },
+        { type: MimeViewerIntl },
+        { type: flexLayout.MediaObserver },
+        { type: MimeResizeService },
+        { type: IiifManifestService },
+        { type: IiifContentSearchService }
+    ]; };
+    ContentSearchDialogComponent.propDecorators = {
+        resultContainer: [{ type: i0.ViewChild, args: ['contentSearchResult', { static: true },] }],
+        qEl: [{ type: i0.ViewChild, args: ['query', { static: true },] }],
+        hitList: [{ type: i0.ViewChildren, args: ['hitButton', { read: i0.ElementRef },] }],
+        onResize: [{ type: i0.HostListener, args: ['window:resize', ['$event'],] }]
+    };
 
-    var CalculateCanvasGroupPositionFactory = /** @class */ (function () {
-        function CalculateCanvasGroupPositionFactory() {
+    var ContentSearchDialogService = /** @class */ (function () {
+        function ContentSearchDialogService(dialog, contentSearchDialogConfigStrategyFactory, mimeResizeService) {
+            this.dialog = dialog;
+            this.contentSearchDialogConfigStrategyFactory = contentSearchDialogConfigStrategyFactory;
+            this.mimeResizeService = mimeResizeService;
+            this._el = null;
+            this.isContentSearchDialogOpen = false;
         }
-        CalculateCanvasGroupPositionFactory.create = function (viewerLayout, paged) {
-            if (viewerLayout === ViewerLayout.ONE_PAGE || !paged) {
-                return new OnePageCalculatePagePositionStrategy();
-            }
-            else if (viewerLayout === ViewerLayout.TWO_PAGE) {
-                return new TwoPageCalculateCanvasGroupPositionStrategy();
+        ContentSearchDialogService.prototype.initialize = function () {
+            var _this = this;
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.mimeResizeService.onResize.subscribe(function (rect) {
+                if (_this.isContentSearchDialogOpen) {
+                    var config = _this.getDialogConfig();
+                    _this.dialogRef.updatePosition(config.position);
+                    _this.dialogRef.updateSize(config.width, config.height);
+                }
+            }));
+        };
+        ContentSearchDialogService.prototype.destroy = function () {
+            this.close();
+            this.unsubscribe();
+        };
+        Object.defineProperty(ContentSearchDialogService.prototype, "el", {
+            set: function (el) {
+                this._el = el;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        ContentSearchDialogService.prototype.open = function () {
+            var _this = this;
+            if (!this.isContentSearchDialogOpen) {
+                var config = this.getDialogConfig();
+                this.dialogRef = this.dialog.open(ContentSearchDialogComponent, config);
+                this.dialogRef
+                    .afterClosed()
+                    .pipe(operators.take(1))
+                    .subscribe(function (result) {
+                    _this.isContentSearchDialogOpen = false;
+                });
+                this.isContentSearchDialogOpen = true;
             }
         };
-        return CalculateCanvasGroupPositionFactory;
+        ContentSearchDialogService.prototype.close = function () {
+            if (this.dialogRef) {
+                this.dialogRef.close();
+            }
+            this.isContentSearchDialogOpen = false;
+        };
+        ContentSearchDialogService.prototype.toggle = function () {
+            this.isContentSearchDialogOpen ? this.close() : this.open();
+        };
+        ContentSearchDialogService.prototype.isOpen = function () {
+            return this.isContentSearchDialogOpen;
+        };
+        ContentSearchDialogService.prototype.getDialogConfig = function () {
+            return this.contentSearchDialogConfigStrategyFactory
+                .create()
+                .getConfig(this._el);
+        };
+        ContentSearchDialogService.prototype.unsubscribe = function () {
+            if (this.subscriptions) {
+                this.subscriptions.unsubscribe();
+            }
+        };
+        return ContentSearchDialogService;
     }());
+    ContentSearchDialogService.decorators = [
+        { type: i0.Injectable }
+    ];
+    ContentSearchDialogService.ctorParameters = function () { return [
+        { type: dialog.MatDialog },
+        { type: ContentSearchDialogConfigStrategyFactory },
+        { type: MimeResizeService }
+    ]; };
+
+    var MobileContentsDialogConfigStrategy = /** @class */ (function () {
+        function MobileContentsDialogConfigStrategy() {
+        }
+        MobileContentsDialogConfigStrategy.prototype.getConfig = function (elementRef) {
+            return {
+                hasBackdrop: false,
+                disableClose: false,
+                width: '100%',
+                height: '100%',
+                panelClass: 'contents-panel'
+            };
+        };
+        return MobileContentsDialogConfigStrategy;
+    }());
+    var DesktopContentsDialogConfigStrategy = /** @class */ (function () {
+        function DesktopContentsDialogConfigStrategy(mimeDomHelper) {
+            this.mimeDomHelper = mimeDomHelper;
+        }
+        DesktopContentsDialogConfigStrategy.prototype.getConfig = function (el) {
+            var dimensions = this.getPosition(el);
+            return {
+                hasBackdrop: false,
+                disableClose: false,
+                width: DesktopContentsDialogConfigStrategy.dialogWidth + "px",
+                position: {
+                    top: dimensions.top + 'px',
+                    left: dimensions.left + 'px'
+                },
+                panelClass: 'contents-panel'
+            };
+        };
+        DesktopContentsDialogConfigStrategy.prototype.getPosition = function (el) {
+            var dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+            return new Dimensions({
+                top: dimensions.top + 64,
+                left: dimensions.right -
+                    DesktopContentsDialogConfigStrategy.dialogWidth -
+                    DesktopContentsDialogConfigStrategy.paddingRight
+            });
+        };
+        return DesktopContentsDialogConfigStrategy;
+    }());
+    DesktopContentsDialogConfigStrategy.dialogWidth = 350;
+    DesktopContentsDialogConfigStrategy.paddingRight = 20;
+
+    var ContentsDialogConfigStrategyFactory = /** @class */ (function () {
+        function ContentsDialogConfigStrategyFactory(mediaObserver, mimeDomHelper) {
+            this.mediaObserver = mediaObserver;
+            this.mimeDomHelper = mimeDomHelper;
+        }
+        ContentsDialogConfigStrategyFactory.prototype.create = function () {
+            return this.mediaObserver.isActive('lt-md')
+                ? new MobileContentsDialogConfigStrategy()
+                : new DesktopContentsDialogConfigStrategy(this.mimeDomHelper);
+        };
+        return ContentsDialogConfigStrategyFactory;
+    }());
+    ContentsDialogConfigStrategyFactory.decorators = [
+        { type: i0.Injectable }
+    ];
+    ContentsDialogConfigStrategyFactory.ctorParameters = function () { return [
+        { type: flexLayout.MediaObserver },
+        { type: MimeDomHelper }
+    ]; };
+
+    var ContentsDialogComponent = /** @class */ (function () {
+        function ContentsDialogComponent(intl, mediaObserver, dialogRef, el, mimeDomHelper, changeDetectorRef, iiifManifestService, mimeResizeService) {
+            var _this = this;
+            this.intl = intl;
+            this.mediaObserver = mediaObserver;
+            this.dialogRef = dialogRef;
+            this.el = el;
+            this.mimeDomHelper = mimeDomHelper;
+            this.changeDetectorRef = changeDetectorRef;
+            this.iiifManifestService = iiifManifestService;
+            this.manifest = null;
+            this.tabHeight = {};
+            this.showToc = false;
+            this.selectedIndex = 0;
+            this.mimeHeight = 0;
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(mimeResizeService.onResize.subscribe(function (dimensions) {
+                _this.mimeHeight = dimensions.height;
+                _this.resizeTabHeight();
+            }));
+        }
+        ContentsDialogComponent.prototype.ngOnInit = function () {
+            var _this = this;
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                _this.manifest = manifest;
+                _this.showToc =
+                    _this.manifest !== null &&
+                        _this.manifest.structures !== undefined &&
+                        _this.manifest.structures.length > 0;
+                _this.changeDetectorRef.detectChanges();
+            }));
+            this.resizeTabHeight();
+        };
+        ContentsDialogComponent.prototype.ngOnDestroy = function () {
+            this.subscriptions.unsubscribe();
+        };
+        ContentsDialogComponent.prototype.onResize = function (event) {
+            this.resizeTabHeight();
+        };
+        ContentsDialogComponent.prototype.onCanvasChanged = function () {
+            if (this.mediaObserver.isActive('lt-md')) {
+                this.dialogRef.close();
+            }
+        };
+        ContentsDialogComponent.prototype.resizeTabHeight = function () {
+            var dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+            var height = this.mimeHeight;
+            if (this.mediaObserver.isActive('lt-md')) {
+                height -= 104;
+                this.tabHeight = {
+                    maxHeight: window.innerHeight - 128 + 'px',
+                };
+            }
+            else {
+                height -= 278;
+                this.tabHeight = {
+                    maxHeight: height + 'px',
+                };
+            }
+        };
+        return ContentsDialogComponent;
+    }());
+    ContentsDialogComponent.decorators = [
+        { type: i0.Component, args: [{
+                    selector: 'mime-contents',
+                    template: "<div class=\"contents-container\">\n  <ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <ng-container *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\" data-test-id=\"mobile-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n    <ng-container *ngSwitchDefault>\n      <mat-toolbar data-test-id=\"desktop-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n  </ng-container>\n  <div mat-dialog-content>\n    <mat-tab-group [(selectedIndex)]=\"selectedIndex\">\n      <mat-tab [label]=\"intl.metadataLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-metadata></mime-metadata>\n        </div>\n      </mat-tab>\n      <mat-tab *ngIf=\"showToc\" [label]=\"intl.tocLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-toc (canvasChanged)=\"onCanvasChanged()\"></mime-toc>\n        </div>\n      </mat-tab>\n    </mat-tab-group>\n  </div>\n</div>\n",
+                    changeDetection: i0.ChangeDetectionStrategy.OnPush,
+                    styles: [".label{text-decoration:underline}::ng-deep .contents-panel{max-width:none!important}::ng-deep .contents-panel>.mat-dialog-container{padding:0!important;overflow:visible;overflow:initial}::ng-deep .contents-container>div>div>.mat-toolbar{padding:0!important}.tab-container{overflow:auto;padding:8px 16px}.mat-dialog-content{max-height:none}"]
+                },] }
+    ];
+    ContentsDialogComponent.ctorParameters = function () { return [
+        { type: MimeViewerIntl },
+        { type: flexLayout.MediaObserver },
+        { type: dialog.MatDialogRef },
+        { type: i0.ElementRef },
+        { type: MimeDomHelper },
+        { type: i0.ChangeDetectorRef },
+        { type: IiifManifestService },
+        { type: MimeResizeService }
+    ]; };
+    ContentsDialogComponent.propDecorators = {
+        onResize: [{ type: i0.HostListener, args: ['window:resize', ['$event'],] }]
+    };
+
+    var ContentsDialogService = /** @class */ (function () {
+        function ContentsDialogService(dialog, contentsDialogConfigStrategyFactory, mimeResizeService) {
+            this.dialog = dialog;
+            this.contentsDialogConfigStrategyFactory = contentsDialogConfigStrategyFactory;
+            this.mimeResizeService = mimeResizeService;
+            this._el = null;
+            this.isContentsDialogOpen = false;
+            this.dialogRef = null;
+        }
+        ContentsDialogService.prototype.initialize = function () {
+            var _this = this;
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.mimeResizeService.onResize.subscribe(function (rect) {
+                if (_this.isContentsDialogOpen) {
+                    var config = _this.getDialogConfig();
+                    if (_this.dialogRef) {
+                        _this.dialogRef.updatePosition(config.position);
+                        _this.dialogRef.updateSize(config.width, config.height);
+                    }
+                }
+            }));
+        };
+        ContentsDialogService.prototype.destroy = function () {
+            this.close();
+            this.unsubscribe();
+        };
+        Object.defineProperty(ContentsDialogService.prototype, "el", {
+            set: function (el) {
+                this._el = el;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        ContentsDialogService.prototype.open = function (selectedIndex) {
+            var _this = this;
+            if (!this.isContentsDialogOpen) {
+                var config = this.getDialogConfig();
+                this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
+                if (selectedIndex) {
+                    this.dialogRef.componentInstance.selectedIndex = selectedIndex;
+                }
+                this.dialogRef
+                    .afterClosed()
+                    .pipe(operators.take(1))
+                    .subscribe(function (result) {
+                    _this.isContentsDialogOpen = false;
+                });
+                this.isContentsDialogOpen = true;
+            }
+        };
+        ContentsDialogService.prototype.close = function () {
+            if (this.dialogRef) {
+                this.dialogRef.close();
+                this.isContentsDialogOpen = false;
+            }
+            this.isContentsDialogOpen = false;
+        };
+        ContentsDialogService.prototype.toggle = function () {
+            this.isContentsDialogOpen ? this.close() : this.open();
+        };
+        ContentsDialogService.prototype.isOpen = function () {
+            return this.isContentsDialogOpen;
+        };
+        ContentsDialogService.prototype.getSelectedIndex = function () {
+            return this.dialogRef && this.dialogRef.componentInstance
+                ? this.dialogRef.componentInstance.selectedIndex
+                : 0;
+        };
+        ContentsDialogService.prototype.getDialogConfig = function () {
+            if (!this._el) {
+                throw new Error('No element');
+            }
+            return this.contentsDialogConfigStrategyFactory
+                .create()
+                .getConfig(this._el);
+        };
+        ContentsDialogService.prototype.unsubscribe = function () {
+            if (this.subscriptions) {
+                this.subscriptions.unsubscribe();
+            }
+        };
+        return ContentsDialogService;
+    }());
+    ContentsDialogService.decorators = [
+        { type: i0.Injectable }
+    ];
+    ContentsDialogService.ctorParameters = function () { return [
+        { type: dialog.MatDialog },
+        { type: ContentsDialogConfigStrategyFactory },
+        { type: MimeResizeService }
+    ]; };
 
     var CanvasGroups = /** @class */ (function () {
         function CanvasGroups() {
@@ -1077,6 +2264,7 @@
                 }
                 i = index;
                 lastDelta = delta;
+                return false;
             });
             return i;
         };
@@ -1151,10 +2339,9 @@
             if (layout === ViewerLayout.ONE_PAGE) {
                 return new OneCanvasPerCanvasGroupStrategy();
             }
-            else if (layout === ViewerLayout.TWO_PAGE) {
+            else {
                 return new TwoCanvasPerCanvasGroupStrategy();
             }
-            return null;
         };
         return CanvasGroupStrategyFactory;
     }());
@@ -1318,9 +2505,482 @@
     ];
     CanvasService.ctorParameters = function () { return []; };
 
+    var ModeChanges = /** @class */ (function () {
+        function ModeChanges(fields) {
+            if (fields) {
+                this.currentValue = fields.currentValue || this.currentValue;
+                this.previousValue = fields.previousValue || this.previousValue;
+            }
+        }
+        return ModeChanges;
+    }());
+
+    var ModeService = /** @class */ (function () {
+        function ModeService() {
+            this.modeChanges = new ModeChanges();
+            var mimeConfig = new MimeViewerConfig();
+            this.toggleModeSubject = new rxjs.BehaviorSubject(new ModeChanges());
+            this._initialMode = mimeConfig.initViewerMode;
+            this._mode = this._initialMode;
+        }
+        Object.defineProperty(ModeService.prototype, "onChange", {
+            get: function () {
+                return this.toggleModeSubject.asObservable().pipe(operators.distinctUntilChanged());
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ModeService.prototype, "mode", {
+            get: function () {
+                return this._mode;
+            },
+            set: function (mode) {
+                this._mode = mode;
+                this.change();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ModeService.prototype, "initialMode", {
+            get: function () {
+                return this._initialMode;
+            },
+            set: function (mode) {
+                this._initialMode = mode;
+                this.mode = mode;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        ModeService.prototype.toggleMode = function () {
+            if (this.mode === exports.MimeViewerMode.DASHBOARD) {
+                this.mode = exports.MimeViewerMode.PAGE;
+            }
+            else if (this.mode === exports.MimeViewerMode.PAGE ||
+                this.mode === exports.MimeViewerMode.PAGE_ZOOMED) {
+                this.mode = exports.MimeViewerMode.DASHBOARD;
+            }
+        };
+        ModeService.prototype.change = function () {
+            this.modeChanges.previousValue = this.modeChanges.currentValue;
+            this.modeChanges.currentValue = this._mode;
+            this.toggleModeSubject.next(Object.assign({}, this.modeChanges));
+        };
+        return ModeService;
+    }());
+    ModeService.decorators = [
+        { type: i0.Injectable }
+    ];
+    ModeService.ctorParameters = function () { return []; };
+
+    var AccessKeys = /** @class */ (function () {
+        function AccessKeys(event) {
+            this.altKey = false;
+            this.shiftKey = false;
+            this.ctrlkey = false;
+            this.keyCode = event.keyCode;
+            this.altKey = event.altKey;
+            this.shiftKey = event.shiftKey;
+            this.ctrlkey = event.ctrlKey;
+        }
+        AccessKeys.prototype.isArrowRightKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
+        };
+        AccessKeys.prototype.isArrowLeftKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
+        };
+        AccessKeys.prototype.isPageUpKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
+        };
+        AccessKeys.prototype.isPageDownKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
+        };
+        AccessKeys.prototype.isFirstCanvasGroupKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
+        };
+        AccessKeys.prototype.isLastCanvasGroupKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
+        };
+        AccessKeys.prototype.isSliderKeys = function () {
+            return (this.isArrowLeftKeys() ||
+                this.isArrowRightKeys() ||
+                this.isPageDownKeys() ||
+                this.isPageUpKeys() ||
+                this.isFirstCanvasGroupKeys() ||
+                this.isLastCanvasGroupKeys());
+        };
+        AccessKeys.prototype.isZoomInKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
+        };
+        AccessKeys.prototype.isZoomOutKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
+        };
+        AccessKeys.prototype.isZoomHomeKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
+        };
+        AccessKeys.prototype.isNextHitKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
+        };
+        AccessKeys.prototype.isPreviousHitKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
+        };
+        AccessKeys.prototype.isSearchDialogKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
+        };
+        AccessKeys.prototype.isContentsDialogKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes));
+        };
+        AccessKeys.prototype.isFullscreenKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
+        };
+        AccessKeys.prototype.isResetSearchKeys = function () {
+            return (this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch));
+        };
+        AccessKeys.prototype.isRotateKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
+        };
+        AccessKeys.prototype.isMultiKeys = function () {
+            return this.altKey || this.shiftKey || this.ctrlkey;
+        };
+        AccessKeys.prototype.arrayContainsKeys = function (keys) {
+            return keys.indexOf(this.keyCode) > -1;
+        };
+        AccessKeys.prototype.isShiftPressed = function () {
+            return this.shiftKey;
+        };
+        return AccessKeys;
+    }());
+    AccessKeys.PAGEDOWN = [34];
+    AccessKeys.PAGEUP = [33];
+    AccessKeys.ARROWRIGHT = [39];
+    AccessKeys.ARROWLEFT = [37];
+    AccessKeys.firstCanvasGroupCodes = [36]; // Home
+    AccessKeys.lastCanvasGroupCodes = [35]; // End
+    AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
+    AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
+    AccessKeys.zoomHomeCodes = [96, 48]; // 0
+    AccessKeys.nextHit = [78]; // n
+    AccessKeys.previousHit = [80]; // p
+    AccessKeys.toggleSearchDialogCodes = [83]; // s
+    AccessKeys.toggleContentsDialogCodes = [67]; // C
+    AccessKeys.toggleFullscreenCodes = [70]; // f
+    AccessKeys.resetSearch = [83]; // s
+    AccessKeys.rotateCwCodes = [82]; // r
+
+    var ContentSearchNavigationService = /** @class */ (function () {
+        function ContentSearchNavigationService(canvasService, iiifContentSearchService) {
+            this.canvasService = canvasService;
+            this.iiifContentSearchService = iiifContentSearchService;
+            this.currentIndex = 0;
+            this.isHitOnActiveCanvasGroup = false;
+            this._isFirstHitOnCanvasGroup = false;
+            this._isLastHitOnCanvasGroup = false;
+            this.canvasesPerCanvasGroup = [-1];
+            this.searchResult = null;
+            this.initialize();
+        }
+        ContentSearchNavigationService.prototype.initialize = function () {
+            var _this = this;
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe(function (result) {
+                _this.searchResult = result;
+            }));
+        };
+        ContentSearchNavigationService.prototype.destroy = function () {
+            this.subscriptions.unsubscribe();
+        };
+        ContentSearchNavigationService.prototype.update = function (canvasGroupIndex) {
+            this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+            this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
+            this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
+            this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
+            this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
+        };
+        ContentSearchNavigationService.prototype.getCurrentIndex = function () {
+            return this.currentIndex;
+        };
+        ContentSearchNavigationService.prototype.getHitOnActiveCanvasGroup = function () {
+            return this.isHitOnActiveCanvasGroup;
+        };
+        ContentSearchNavigationService.prototype.getFirstHitCanvasGroup = function () {
+            return this._isFirstHitOnCanvasGroup;
+        };
+        ContentSearchNavigationService.prototype.getLastHitCanvasGroup = function () {
+            return this._isLastHitOnCanvasGroup;
+        };
+        ContentSearchNavigationService.prototype.goToNextCanvasGroupHit = function () {
+            if (this.searchResult && !this._isLastHitOnCanvasGroup) {
+                var nextHit = void 0;
+                if (this.currentIndex === -1) {
+                    nextHit = this.searchResult.get(0);
+                }
+                else {
+                    var current = this.searchResult.get(this.currentIndex);
+                    var canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(current.index);
+                    var canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
+                    var lastCanvasGroupIndex_1 = this.getLastCanvasGroupIndex(canvasesPerCanvasGroup);
+                    nextHit = this.searchResult.hits.find(function (h) { return h.index > lastCanvasGroupIndex_1; });
+                }
+                if (nextHit) {
+                    this.goToCanvasIndex(nextHit);
+                }
+            }
+        };
+        ContentSearchNavigationService.prototype.goToPreviousCanvasGroupHit = function () {
+            var previousIndex = this.isHitOnActiveCanvasGroup
+                ? this.currentIndex - 1
+                : this.currentIndex;
+            var previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
+            if (previousHit) {
+                this.goToCanvasIndex(previousHit);
+            }
+        };
+        ContentSearchNavigationService.prototype.goToCanvasIndex = function (hit) {
+            this.currentIndex = this.findCurrentHitIndex([hit.index]);
+            this.iiifContentSearchService.selected(hit);
+        };
+        ContentSearchNavigationService.prototype.findLastHitOnCanvasGroup = function () {
+            if (!this.searchResult) {
+                return false;
+            }
+            var lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
+                .index;
+            var currentHit = this.searchResult.get(this.currentIndex);
+            return currentHit.index === lastCanvasIndex;
+        };
+        ContentSearchNavigationService.prototype.findFirstHitOnCanvasGroup = function (previousIndex) {
+            if (!this.searchResult) {
+                return;
+            }
+            var previousHit = this.searchResult.get(previousIndex);
+            var canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
+            var canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+            var leftCanvas = canvasesPerCanvasGroup[0];
+            var leftCanvasHit = this.searchResult.hits.find(function (h) { return h.index === leftCanvas; });
+            if (leftCanvasHit) {
+                previousHit = leftCanvasHit;
+            }
+            else if (canvasesPerCanvasGroup.length === 2) {
+                var rightCanvas_1 = canvasesPerCanvasGroup[1];
+                previousHit = this.searchResult.hits.find(function (h) { return h.index === rightCanvas_1; });
+            }
+            return previousHit;
+        };
+        ContentSearchNavigationService.prototype.findHitOnActiveCanvasGroup = function () {
+            if (!this.searchResult) {
+                return false;
+            }
+            return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
+        };
+        ContentSearchNavigationService.prototype.findCurrentHitIndex = function (canvasGroupIndexes) {
+            if (!this.searchResult) {
+                return -1;
+            }
+            var _loop_1 = function (i) {
+                var hit = this_1.searchResult.get(i);
+                if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
+                    return { value: i };
+                }
+                if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
+                    if (i === 0) {
+                        return { value: -1 };
+                    }
+                    else {
+                        var phit_1 = this_1.searchResult.get(i - 1);
+                        return { value: this_1.searchResult.hits.findIndex(function (sr) { return sr.index === phit_1.index; }) };
+                    }
+                }
+            };
+            var this_1 = this;
+            for (var i = 0; i < this.searchResult.size(); i++) {
+                var state_1 = _loop_1(i);
+                if (typeof state_1 === "object")
+                    return state_1.value;
+            }
+            return this.searchResult.size() - 1;
+        };
+        ContentSearchNavigationService.prototype.isFirstHitOnCanvasGroup = function () {
+            return this.currentIndex <= 0;
+        };
+        ContentSearchNavigationService.prototype.getLastCanvasGroupIndex = function (canvasesPerCanvasGroup) {
+            return canvasesPerCanvasGroup.length === 1
+                ? canvasesPerCanvasGroup[0]
+                : canvasesPerCanvasGroup[1];
+        };
+        return ContentSearchNavigationService;
+    }());
+    ContentSearchNavigationService.decorators = [
+        { type: i0.Injectable }
+    ];
+    ContentSearchNavigationService.ctorParameters = function () { return [
+        { type: CanvasService },
+        { type: IiifContentSearchService }
+    ]; };
+
+    /****************************************************************
+     * MIME-viewer options
+     ****************************************************************/
+    var ViewerOptions = {
+        zoom: {
+            zoomFactor: 1.15,
+            dblClickZoomFactor: 2.7,
+            // How many pixels since lastDistance before it is considered a pinch
+            pinchZoomThreshold: 3
+        },
+        pan: {
+            // Sensitivity when determining swipe-direction.
+            // Higher threshold means that swipe must be more focused in
+            // x-direction before the gesture is recognized as "left" or "right"
+            swipeDirectionThreshold: 70
+        },
+        // All transition times in milliseconds
+        transitions: {
+            toolbarsEaseInTime: 400,
+            toolbarsEaseOutTime: 500,
+            OSDAnimationTime: 600 // Animation-time for OSD-animations
+        },
+        overlays: {
+            // Margin between canvas groups in Dashboard View in OpenSeadragon viewport-coordinates
+            canvasGroupMarginInDashboardView: 300,
+            // Margin between canvas groups in Page View in OpenSeadragon viewport-coordinates
+            canvasGroupMarginInPageView: 20
+        },
+        padding: {
+            // Padding in viewer container in pixels
+            header: 80,
+            footer: 80 // Placeholder below viewer for footer in Dashboard View
+        },
+        colors: {
+            canvasGroupBackgroundColor: '#fafafa'
+        }
+    };
+
+    var canvasRectFromCriteria = function (rotation, criteria, x) {
+        var rect = {};
+        if (rotation === 90 || rotation === 270) {
+            rect = {
+                height: criteria.canvasSource.width,
+                width: criteria.canvasSource.height,
+                x: x,
+                y: (criteria.canvasSource.width / 2) * -1,
+            };
+        }
+        else {
+            rect = {
+                height: criteria.canvasSource.height,
+                width: criteria.canvasSource.width,
+                x: x,
+                y: (criteria.canvasSource.height / 2) * -1,
+            };
+        }
+        return new Rect(rect);
+    };
+
+    var OnePageCalculatePagePositionStrategy = /** @class */ (function () {
+        function OnePageCalculatePagePositionStrategy() {
+        }
+        OnePageCalculatePagePositionStrategy.prototype.calculateCanvasGroupPosition = function (criteria, rotation) {
+            if (rotation === void 0) { rotation = 0; }
+            var x;
+            if (!criteria.canvasGroupIndex) {
+                if (rotation === 90 || rotation === 270) {
+                    x = (criteria.canvasSource.height / 2) * -1;
+                }
+                else {
+                    x = (criteria.canvasSource.width / 2) * -1;
+                }
+            }
+            else {
+                x =
+                    criteria.viewingDirection === ViewingDirection.LTR
+                        ? this.calculateLtrX(criteria)
+                        : this.calculateRtlX(criteria);
+            }
+            return canvasRectFromCriteria(rotation, criteria, x);
+        };
+        OnePageCalculatePagePositionStrategy.prototype.calculateLtrX = function (criteria) {
+            return (criteria.previousCanvasGroupPosition.x +
+                criteria.previousCanvasGroupPosition.width +
+                ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+        };
+        OnePageCalculatePagePositionStrategy.prototype.calculateRtlX = function (criteria) {
+            return (criteria.previousCanvasGroupPosition.x -
+                criteria.previousCanvasGroupPosition.width -
+                ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+        };
+        return OnePageCalculatePagePositionStrategy;
+    }());
+
+    var TwoPageCalculateCanvasGroupPositionStrategy = /** @class */ (function () {
+        function TwoPageCalculateCanvasGroupPositionStrategy() {
+        }
+        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateCanvasGroupPosition = function (criteria, rotation) {
+            if (rotation === void 0) { rotation = 0; }
+            var x;
+            if (!criteria.canvasGroupIndex) {
+                // First page
+                x = 0;
+            }
+            else if (criteria.canvasGroupIndex % 2) {
+                // Even page numbers
+                x =
+                    criteria.viewingDirection === ViewingDirection.LTR
+                        ? this.calculateEvenLtrX(criteria)
+                        : this.calculateEvenRtlX(criteria);
+            }
+            else {
+                // Odd page numbers
+                x =
+                    criteria.viewingDirection === ViewingDirection.LTR
+                        ? this.calculateOddLtrX(criteria)
+                        : this.calculateOddRtlX(criteria);
+            }
+            return canvasRectFromCriteria(rotation, criteria, x);
+        };
+        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateEvenLtrX = function (criteria) {
+            return (criteria.previousCanvasGroupPosition.x +
+                criteria.previousCanvasGroupPosition.width +
+                ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+        };
+        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateOddLtrX = function (criteria) {
+            return (criteria.previousCanvasGroupPosition.x +
+                criteria.previousCanvasGroupPosition.width);
+        };
+        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateEvenRtlX = function (criteria) {
+            return (criteria.previousCanvasGroupPosition.x -
+                criteria.canvasSource.width -
+                ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+        };
+        TwoPageCalculateCanvasGroupPositionStrategy.prototype.calculateOddRtlX = function (criteria) {
+            return criteria.previousCanvasGroupPosition.x - criteria.canvasSource.width;
+        };
+        return TwoPageCalculateCanvasGroupPositionStrategy;
+    }());
+
+    var CalculateCanvasGroupPositionFactory = /** @class */ (function () {
+        function CalculateCanvasGroupPositionFactory() {
+        }
+        CalculateCanvasGroupPositionFactory.create = function (viewerLayout, paged) {
+            if (viewerLayout === ViewerLayout.ONE_PAGE || !paged) {
+                return new OnePageCalculatePagePositionStrategy();
+            }
+            else {
+                return new TwoPageCalculateCanvasGroupPositionStrategy();
+            }
+        };
+        return CalculateCanvasGroupPositionFactory;
+    }());
+
     var ClickService = /** @class */ (function () {
         function ClickService() {
             var _this = this;
+            this.singleClickHandlers = [];
+            this.doubleClickHandlers = [];
             this.clickCount = 0;
             this.click = function (event) {
                 event.preventDefaultAction = true;
@@ -1339,7 +2999,6 @@
                     }
                 }
             };
-            this.reset();
         }
         ClickService.prototype.reset = function () {
             this.singleClickHandlers = [];
@@ -1454,233 +3113,22 @@
         };
     }
 
-    var Hit = /** @class */ (function () {
-        function Hit(fields) {
-            this.id = 0;
-            this.index = 0;
-            if (fields) {
-                this.id = fields.id || this.id;
-                this.index = fields.index || this.index;
-                this.label = fields.label || this.label;
-                this.match = fields.match || this.match;
-                this.before = fields.before || this.before;
-                this.after = fields.after || this.after;
-                this.rects = fields.rects || this.rects;
-            }
-        }
-        return Hit;
-    }());
-
-    var SearchResult = /** @class */ (function () {
-        function SearchResult(fields) {
-            this.q = '';
-            this.hits = [];
-            if (fields) {
-                this.q = fields.q || this.q;
-                this.hits = fields.hits || this.hits;
-            }
-        }
-        SearchResult.prototype.add = function (hit) {
-            this.hits.push(hit);
-        };
-        SearchResult.prototype.get = function (index) {
-            return new Hit(Object.assign({}, this.hits[index]));
-        };
-        SearchResult.prototype.size = function () {
-            return this.hits.length;
-        };
-        SearchResult.prototype.last = function () {
-            return this.get(this.size() - 1);
-        };
-        return SearchResult;
-    }());
-
-    var SearchResultBuilder = /** @class */ (function () {
-        function SearchResultBuilder(q, manifest, iiifSearchResult) {
-            this.q = q;
-            this.manifest = manifest;
-            this.iiifSearchResult = iiifSearchResult;
-        }
-        SearchResultBuilder.prototype.build = function () {
-            var _this = this;
-            var searchResult = new SearchResult();
-            searchResult.q = this.q;
-            var hits = [];
-            if (this.iiifSearchResult && this.iiifSearchResult.hits) {
-                this.iiifSearchResult.hits.forEach(function (hit, index) {
-                    var e_1, _a;
-                    var id = index;
-                    var canvasIndex = -1;
-                    var label = null;
-                    var rects = [];
-                    if (_this.manifest.sequences && _this.manifest.sequences[0].canvases) {
-                        var resources = _this.findResources(hit);
-                        try {
-                            for (var resources_1 = __values(resources), resources_1_1 = resources_1.next(); !resources_1_1.done; resources_1_1 = resources_1.next()) {
-                                var resource = resources_1_1.value;
-                                canvasIndex = _this.findSequenceIndex(resource);
-                                label = _this.findLabel(canvasIndex);
-                                var on = resource.on;
-                                var coords = on.substring(on.indexOf('=') + 1).split(',');
-                                var rect = new Rect({
-                                    x: parseInt(coords[0], 10),
-                                    y: parseInt(coords[1], 10),
-                                    width: parseInt(coords[2], 10),
-                                    height: parseInt(coords[3], 10)
-                                });
-                                rects.push(rect);
-                            }
-                        }
-                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                        finally {
-                            try {
-                                if (resources_1_1 && !resources_1_1.done && (_a = resources_1.return)) _a.call(resources_1);
-                            }
-                            finally { if (e_1) throw e_1.error; }
-                        }
-                    }
-                    searchResult.add(new Hit({
-                        id: id,
-                        index: canvasIndex,
-                        label: label,
-                        match: hit.match,
-                        before: hit.before,
-                        after: hit.after,
-                        rects: rects
-                    }));
-                });
-                return searchResult;
-            }
-        };
-        SearchResultBuilder.prototype.findResources = function (hit) {
-            var e_2, _a;
-            var resources = [];
-            var _loop_1 = function (annotation) {
-                var res = this_1.iiifSearchResult.resources.find(function (r) { return r['@id'] === annotation; });
-                resources.push(res);
-            };
-            var this_1 = this;
-            try {
-                for (var _b = __values(hit.annotations), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var annotation = _c.value;
-                    _loop_1(annotation);
-                }
-            }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_2) throw e_2.error; }
-            }
-            return resources;
-        };
-        SearchResultBuilder.prototype.findSequenceIndex = function (resource) {
-            var firstSequence = this.manifest.sequences[0];
-            var on = resource.on;
-            var id = on.substring(0, on.indexOf('#'));
-            return firstSequence.canvases.findIndex(function (c) { return c.id === id; });
-        };
-        SearchResultBuilder.prototype.findLabel = function (index) {
-            if (index === -1) {
-                return null;
-            }
-            else {
-                return this.manifest.sequences[0].canvases[index].label;
-            }
-        };
-        return SearchResultBuilder;
-    }());
-
-    var IiifContentSearchService = /** @class */ (function () {
-        function IiifContentSearchService(http) {
-            this.http = http;
-            this._currentSearchResult = new rxjs.BehaviorSubject(new SearchResult({}));
-            this._searching = new rxjs.BehaviorSubject(false);
-            this._currentQ = new rxjs.Subject();
-            this._selected = new rxjs.BehaviorSubject(null);
-        }
-        IiifContentSearchService.prototype.destroy = function () {
-            this._currentSearchResult.next(new SearchResult({}));
-            this._selected.next(null);
-        };
-        Object.defineProperty(IiifContentSearchService.prototype, "onQChange", {
-            get: function () {
-                return this._currentQ.asObservable().pipe(operators.distinctUntilChanged());
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(IiifContentSearchService.prototype, "onChange", {
-            get: function () {
-                return this._currentSearchResult.asObservable();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(IiifContentSearchService.prototype, "isSearching", {
-            get: function () {
-                return this._searching.asObservable();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(IiifContentSearchService.prototype, "onSelected", {
-            get: function () {
-                return this._selected.asObservable();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        IiifContentSearchService.prototype.search = function (manifest, q) {
-            var _this = this;
-            this._currentQ.next(q);
-            this._selected.next(null);
-            if (q.length === 0) {
-                this._currentSearchResult.next(new SearchResult());
-                return;
-            }
-            if (!manifest.service || manifest.service === null) {
-                return;
-            }
-            this._searching.next(true);
-            this.http
-                .get(manifest.service.id + "?q=" + q)
-                .pipe(operators.finalize(function () { return _this._searching.next(false); }))
-                .subscribe(function (res) { return _this._currentSearchResult.next(_this.extractData(q, manifest, res)); }, function (err) { return _this.handleError; });
-        };
-        IiifContentSearchService.prototype.selected = function (hit) {
-            this._selected.next(hit);
-        };
-        IiifContentSearchService.prototype.extractData = function (q, manifest, iiifSearchResult) {
-            return new SearchResultBuilder(q, manifest, iiifSearchResult).build();
-        };
-        IiifContentSearchService.prototype.handleError = function (err) {
-            var errMsg;
-            if (err.error instanceof Error) {
-                errMsg = err.error.message;
-            }
-            else {
-                errMsg = err.error;
-            }
-            return rxjs.throwError(errMsg);
-        };
-        return IiifContentSearchService;
-    }());
-    IiifContentSearchService.decorators = [
-        { type: i0.Injectable }
-    ];
-    IiifContentSearchService.ctorParameters = function () { return [
-        { type: http.HttpClient }
-    ]; };
-
     var ManifestUtils = /** @class */ (function () {
         function ManifestUtils() {
         }
         ManifestUtils.isManifestPaged = function (manifest) {
-            return (manifest &&
-                (manifest.viewingHint === 'paged' ||
-                    (manifest.sequences && manifest.sequences[0].viewingHint === 'paged')));
+            return (ManifestUtils.isManifestViewingHintPaged(manifest) ||
+                ManifestUtils.isSequenceViewingHintPaged(manifest));
+        };
+        ManifestUtils.isManifestViewingHintPaged = function (manifest) {
+            return manifest && manifest.viewingHint === 'paged';
+        };
+        ManifestUtils.isSequenceViewingHintPaged = function (manifest) {
+            var firstSequence = null;
+            if (manifest && manifest.sequences && manifest.sequences.length > 0) {
+                firstSequence = manifest.sequences[0];
+            }
+            return firstSequence ? firstSequence.viewingHint === 'paged' : false;
         };
         return ManifestUtils;
     }());
@@ -1740,8 +3188,10 @@
     var Options = /** @class */ (function () {
         function Options() {
             this.id = 'openseadragon';
+            this.element = null;
             this.tileSources = [];
             this.tabIndex = 0;
+            this.overlays = [];
             this.xmlPath = null;
             this.prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
             this.debugMode = false;
@@ -1788,6 +3238,7 @@
             this.zoomPerScroll = 1.2;
             this.zoomPerSecond = 1.0;
             this.showNavigator = false;
+            this.navigatorId = null;
             this.navigatorPosition = 'TOP_RIGHT';
             this.navigatorSizeRatio = 0.2;
             this.navigatorMaintainSizeRatio = false;
@@ -1817,6 +3268,9 @@
             this.zoomInButton = null;
             this.zoomOutButton = null;
             this.homeButton = null;
+            this.fullPageButton = null;
+            this.rotateLeftButton = null;
+            this.rotateRightButton = null;
             this.previousButton = null;
             this.nextButton = null;
             this.sequenceMode = true;
@@ -1873,10 +3327,11 @@
             enumerable: false,
             configurable: true
         });
-        StyleService.prototype.init = function () {
+        StyleService.prototype.initialize = function () {
             var _this = this;
+            this.subscriptions = new rxjs.Subscription();
             this.zone.runOutsideAngular(function () {
-                rxjs.interval(1000)
+                _this.subscriptions.add(rxjs.interval(1000)
                     .pipe(operators.tap(function () {
                     var previousRgbColor = _this.currentRgbColor;
                     var currentRgbColor = _this.getComputedBackgroundColor(1);
@@ -1885,8 +3340,11 @@
                         _this.colorSubject.next(currentRgbColor);
                     }
                 }))
-                    .subscribe();
+                    .subscribe());
             });
+        };
+        StyleService.prototype.destroy = function () {
+            this.subscriptions.unsubscribe();
         };
         StyleService.prototype.convertToRgba = function (rgbColor, opacity) {
             return rgbColor.replace(/rgb/i, 'rgba').replace(/\)/i, "," + opacity + ")");
@@ -1901,7 +3359,7 @@
                 return this.getComputedStyle(matSidenavContainer[0], 'background-color');
             }
             else {
-                return null;
+                return undefined;
             }
         };
         StyleService.prototype.getComputedStyle = function (el, property) {
@@ -1909,7 +3367,7 @@
         };
         return StyleService;
     }());
-    StyleService.ɵprov = i0.ɵɵdefineInjectable({ factory: function StyleService_Factory() { return new StyleService(i0.ɵɵinject(i0.NgZone)); }, token: StyleService, providedIn: "root" });
+    StyleService.ɵprov = i0__namespace.ɵɵdefineInjectable({ factory: function StyleService_Factory() { return new StyleService(i0__namespace.ɵɵinject(i0__namespace.NgZone)); }, token: StyleService, providedIn: "root" });
     StyleService.decorators = [
         { type: i0.Injectable, args: [{
                     providedIn: 'root'
@@ -2028,21 +3486,22 @@
             return nextCanvasGroup;
         };
         DashboardModeCalculateNextCanvasGroupStrategy.prototype.calculateNumberOfCanvasGroupsToGo = function (speed) {
-            if (speed < 500) {
-                return 0;
+            var canvasGroupsToGo = 10;
+            if (speed) {
+                if (speed < 500) {
+                    canvasGroupsToGo = 0;
+                }
+                else if (speed >= 500 && speed < 1500) {
+                    canvasGroupsToGo = 1;
+                }
+                else if (speed >= 1500 && speed < 2500) {
+                    canvasGroupsToGo = 3;
+                }
+                else if (speed >= 2500 && speed < 3500) {
+                    canvasGroupsToGo = 5;
+                }
             }
-            else if (speed >= 500 && speed < 1500) {
-                return 1;
-            }
-            else if (speed >= 1500 && speed < 2500) {
-                return 3;
-            }
-            else if (speed >= 2500 && speed < 3500) {
-                return 5;
-            }
-            else {
-                return 10;
-            }
+            return canvasGroupsToGo;
         };
         return DashboardModeCalculateNextCanvasGroupStrategy;
     }());
@@ -2055,7 +3514,7 @@
             var speed = criteria.speed;
             var direction = criteria.direction;
             var nextCanvasGroup = criteria.currentCanvasGroupIndex;
-            if (speed >= 200) {
+            if (speed && speed >= 200) {
                 var diff = direction === Direction.LEFT ? 1 : -1;
                 nextCanvasGroup =
                     criteria.viewingDirection === ViewingDirection.LTR
@@ -2113,8 +3572,8 @@
         function CanvasGroupMask(viewer, styleService) {
             var _this = this;
             this.styleService = styleService;
+            this.canvasGroupRect = new Rect();
             this.disableResize = false;
-            this.destroyed = new rxjs.Subject();
             this.animationHandler = function () {
                 _this.resize();
             };
@@ -2135,7 +3594,11 @@
                 _this.resize();
             };
             this.viewer = viewer;
-            styleService.onChange.pipe(operators.takeUntil(this.destroyed)).subscribe(function (c) {
+        }
+        CanvasGroupMask.prototype.initialize = function (pageBounds, visible) {
+            var _this = this;
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.styleService.onChange.subscribe(function (c) {
                 _this.backgroundColor = c;
                 if (_this.leftMask) {
                     _this.leftMask.style('fill', _this.backgroundColor);
@@ -2143,9 +3606,7 @@
                 if (_this.rightMask) {
                     _this.rightMask.style('fill', _this.backgroundColor);
                 }
-            });
-        }
-        CanvasGroupMask.prototype.initialise = function (pageBounds, visible) {
+            }));
             this.canvasGroupRect = pageBounds;
             this.addCanvasGroupMask();
             this.setCenter();
@@ -2158,8 +3619,7 @@
             }
         };
         CanvasGroupMask.prototype.destroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.unsubscribe();
         };
         CanvasGroupMask.prototype.changeCanvasGroup = function (pageBounds) {
             this.canvasGroupRect = pageBounds;
@@ -2198,7 +3658,7 @@
             this.viewer.removeHandler('canvas-drag-end', this.canvasGroupDragEndHandler);
         };
         CanvasGroupMask.prototype.addCanvasGroupMask = function () {
-            var overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
+            var overlays = d3__namespace.select(this.viewer.svgOverlay().node().parentNode);
             var mask = overlays.append('g').attr('id', 'page-mask');
             this.leftMask = mask
                 .append('rect')
@@ -2214,7 +3674,7 @@
                 .style('fill', this.backgroundColor);
         };
         CanvasGroupMask.prototype.setCenter = function () {
-            this.center = new OpenSeadragon$1.Point(this.viewer.viewport._containerInnerSize.x / 2, this.viewer.viewport._containerInnerSize.y / 2);
+            this.center = new OpenSeadragon__namespace.Point(this.viewer.viewport._containerInnerSize.x / 2, this.viewer.viewport._containerInnerSize.y / 2);
         };
         CanvasGroupMask.prototype.resize = function () {
             if (this.disableResize || !this.leftMask || !this.rightMask) {
@@ -2228,7 +3688,7 @@
                 .attr('x', Math.round(rightMaskRect.x));
         };
         CanvasGroupMask.prototype.getLeftMaskRect = function () {
-            var imgBounds = new OpenSeadragon$1.Rect(this.canvasGroupRect.x, this.canvasGroupRect.y, this.canvasGroupRect.width, this.canvasGroupRect.height);
+            var imgBounds = new OpenSeadragon__namespace.Rect(this.canvasGroupRect.x, this.canvasGroupRect.y, this.canvasGroupRect.width, this.canvasGroupRect.height);
             var topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopLeft());
             var width = topLeft.x - ViewerOptions.overlays.canvasGroupMarginInPageView;
             if (width < 0) {
@@ -2236,11 +3696,11 @@
             }
             return new Rect({
                 x: 0,
-                width: width
+                width: width,
             });
         };
         CanvasGroupMask.prototype.getRightMaskRect = function () {
-            var imgBounds = new OpenSeadragon$1.Rect(this.canvasGroupRect.x, this.canvasGroupRect.y, this.canvasGroupRect.width, this.canvasGroupRect.height);
+            var imgBounds = new OpenSeadragon__namespace.Rect(this.canvasGroupRect.x, this.canvasGroupRect.y, this.canvasGroupRect.width, this.canvasGroupRect.height);
             var topRight = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopRight());
             var width = this.viewer.viewport._containerInnerSize.x - topRight.x;
             var x = this.viewer.viewport._containerInnerSize.x -
@@ -2251,8 +3711,13 @@
             }
             return new Rect({
                 x: x,
-                width: width
+                width: width,
             });
+        };
+        CanvasGroupMask.prototype.unsubscribe = function () {
+            if (this.subscriptions) {
+                this.subscriptions.unsubscribe();
+            }
         };
         return CanvasGroupMask;
     }());
@@ -2321,7 +3786,7 @@
             if (this.canvasService.currentCanvasGroupIndex > 0) {
                 var viewportCenter = this.getViewportCenter();
                 var currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
-                var calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
+                var calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(exports.MimeViewerMode.NAVIGATOR);
                 var newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
                     direction: Direction.PREVIOUS,
                     currentCanvasGroupIndex: currentCanvasGroupIndex,
@@ -2339,7 +3804,7 @@
                 this.canvasService.numberOfCanvasGroups) {
                 var viewportCenter = this.getViewportCenter();
                 var currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
-                var calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
+                var calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(exports.MimeViewerMode.NAVIGATOR);
                 var newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
                     direction: Direction.NEXT,
                     currentCanvasGroupIndex: currentCanvasGroupIndex,
@@ -2364,9 +3829,11 @@
             return canvas.x + canvas.width - this.getViewportBounds().width / 2;
         };
         DefaultGoToCanvasGroupStrategy.prototype.panToCenter = function (canvasGroup, immediately) {
+            if (immediately === void 0) { immediately = false; }
             this.panTo(canvasGroup.centerX, canvasGroup.centerY, immediately);
         };
         DefaultGoToCanvasGroupStrategy.prototype.panTo = function (x, y, immediately) {
+            if (immediately === void 0) { immediately = false; }
             this.viewer.viewport.panTo({
                 x: x,
                 y: y
@@ -2383,6 +3850,8 @@
 
     var SwipeDragEndCounter = /** @class */ (function () {
         function SwipeDragEndCounter() {
+            this.leftCount = 0;
+            this.rightCount = 0;
             this.reset();
         }
         SwipeDragEndCounter.prototype.reset = function () {
@@ -2394,8 +3863,12 @@
          * @param side hit by swipe
          */
         SwipeDragEndCounter.prototype.addHit = function (side, dir) {
-            this.incrementSide(side);
-            this.clearOppositeSideOfDragDirection(dir);
+            if (side !== null) {
+                this.incrementSide(side);
+            }
+            if (dir !== null) {
+                this.clearOppositeSideOfDragDirection(dir);
+            }
         };
         SwipeDragEndCounter.prototype.hitCountReached = function () {
             return this.leftCount >= 2 || this.rightCount >= 2;
@@ -2441,6 +3914,9 @@
             else if (start.x < end.x && deltaX >= deltaY) {
                 return Direction.RIGHT;
             }
+            else {
+                return Direction.UNDEFINED;
+            }
         };
         SwipeUtils.getSideIfPanningPastEndOfCanvasGroup = function (canvasGroupRect, vpBounds) {
             if (this.isPanningOutsideLeft(canvasGroupRect, vpBounds)) {
@@ -2448,6 +3924,9 @@
             }
             else if (this.isPanningOutsideRight(canvasGroupRect, vpBounds)) {
                 return Side.RIGHT;
+            }
+            else {
+                return null;
             }
         };
         SwipeUtils.isPanningOutsideCanvasGroup = function (canvasGroupRect, vpBounds) {
@@ -2482,19 +3961,25 @@
         function IiifTileSourceStrategy() {
         }
         IiifTileSourceStrategy.prototype.getTileSource = function (resource) {
+            var _a;
             var tileSource;
-            if (resource.service.service) {
+            if ((_a = resource === null || resource === void 0 ? void 0 : resource.service) === null || _a === void 0 ? void 0 : _a.service) {
                 tileSource = resource.service;
                 tileSource.tileOverlap = 0.1; // Workaround for https://github.com/openseadragon/openseadragon/issues/1722
             }
             else {
                 tileSource = resource.service['@id'];
-                tileSource = tileSource.startsWith('//')
-                    ? "" + location.protocol + tileSource
-                    : tileSource;
-                tileSource = !tileSource.endsWith('/info.json')
-                    ? tileSource + "/info.json"
-                    : tileSource;
+                if (!tileSource) {
+                    tileSource = resource['@id'];
+                }
+                tileSource =
+                    tileSource && tileSource.startsWith('//')
+                        ? "" + location.protocol + tileSource
+                        : tileSource;
+                tileSource =
+                    tileSource && !tileSource.endsWith('/info.json')
+                        ? tileSource + "/info.json"
+                        : tileSource;
             }
             return tileSource;
         };
@@ -2525,26 +4010,6 @@
             }
         };
         return TileSourceStrategyFactory;
-    }());
-
-    var Dimensions = /** @class */ (function () {
-        function Dimensions(fields) {
-            this.bottom = 0;
-            this.height = 0;
-            this.left = 0;
-            this.right = 0;
-            this.top = 0;
-            this.width = 0;
-            if (fields) {
-                this.bottom = fields.bottom || this.bottom;
-                this.height = fields.height || this.height;
-                this.left = fields.left || this.left;
-                this.right = fields.right || this.right;
-                this.top = fields.top || this.top;
-                this.width = fields.width || this.width;
-            }
-        }
-        return Dimensions;
     }());
 
     var Utils = /** @class */ (function () {
@@ -2614,7 +4079,7 @@
         };
         ZoomStrategy.prototype.getHomeZoomLevel = function (mode) {
             if (!this.viewer || !this.canvasService) {
-                return;
+                return 1;
             }
             var canvasGroupHeight;
             var canvasGroupWidth;
@@ -2633,12 +4098,14 @@
             return this.getFittedZoomLevel(viewportBounds, canvasGroupHeight, canvasGroupWidth);
         };
         ZoomStrategy.prototype.zoomIn = function (zoomFactor, position) {
-            if (typeof zoomFactor === 'undefined') {
+            if (!zoomFactor) {
                 zoomFactor = ViewerOptions.zoom.zoomFactor;
             }
-            if (typeof position !== 'undefined') {
+            if (position) {
                 position = this.viewer.viewport.pointFromPixel(position);
-                position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
+                if (position) {
+                    position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
+                }
             }
             if (this.modeService.mode !== exports.MimeViewerMode.PAGE_ZOOMED) {
                 this.modeService.mode = exports.MimeViewerMode.PAGE_ZOOMED;
@@ -2646,12 +4113,14 @@
             this.zoomBy(zoomFactor, position);
         };
         ZoomStrategy.prototype.zoomOut = function (zoomFactor, position) {
-            if (typeof zoomFactor === 'undefined') {
+            if (!zoomFactor) {
                 zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, -1);
             }
-            if (typeof position !== 'undefined') {
+            if (position) {
                 position = this.viewer.viewport.pointFromPixel(position);
-                position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
+                if (position) {
+                    position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
+                }
             }
             if (this.isViewportLargerThanCanvasGroup()) {
                 this.modeService.mode = exports.MimeViewerMode.PAGE;
@@ -2665,15 +4134,16 @@
                 return;
             }
             var homeZoomFactor = this.getHomeZoomFactor();
-            var maxViewportDimensions = new Dimensions(d3.select(this.viewer.container.parentNode.parentNode)
+            var maxViewportDimensions = new Dimensions(d3__namespace
+                .select(this.viewer.container.parentNode.parentNode)
                 .node()
                 .getBoundingClientRect());
             var viewportHeight = maxViewportDimensions.height -
                 ViewerOptions.padding.header -
                 ViewerOptions.padding.footer;
             var viewportWidth = maxViewportDimensions.width * homeZoomFactor;
-            var viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(new OpenSeadragon$1.Point(viewportWidth, viewportHeight));
-            return new OpenSeadragon$1.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
+            var viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(new OpenSeadragon__namespace.Point(viewportWidth, viewportHeight));
+            return new OpenSeadragon__namespace.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
         };
         ZoomStrategy.prototype.getFittedZoomLevel = function (viewportBounds, canvasGroupHeight, canvasGroupWidth) {
             var currentZoom = this.viewer.viewport.getZoom();
@@ -2730,14 +4200,17 @@
             this.viewerLayoutService = viewerLayoutService;
             this.iiifContentSearchService = iiifContentSearchService;
             this.styleService = styleService;
-            this.destroyed = new rxjs.Subject();
+            this.overlays = [];
+            this.tileSources = [];
             this.isCanvasPressed = new rxjs.BehaviorSubject(false);
             this.currentCenter = new rxjs.Subject();
             this.currentCanvasIndex = new rxjs.BehaviorSubject(0);
-            this.currentHit = new rxjs.BehaviorSubject(null);
+            this.currentHit = new rxjs.Subject();
             this.osdIsReady = new rxjs.BehaviorSubject(false);
             this.swipeDragEndCounter = new SwipeDragEndCounter();
             this.pinchStatus = new PinchStatus();
+            this.isManifestPaged = false;
+            this.currentSearch = null;
             this.rotation = new rxjs.BehaviorSubject(0);
             /**
              * Scroll-handler
@@ -2817,7 +4290,6 @@
             this.dragHandler = function (e) {
                 _this.viewer.panHorizontal = true;
                 if (_this.modeService.mode === exports.MimeViewerMode.PAGE_ZOOMED) {
-                    var dragEndPosision = e.position;
                     var canvasGroupRect = _this.canvasService.getCurrentCanvasGroupRect();
                     var vpBounds = _this.getViewportBounds();
                     var pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, vpBounds);
@@ -2866,6 +4338,9 @@
             enumerable: false,
             configurable: true
         });
+        ViewerService.prototype.initialize = function () {
+            this.subscriptions = new rxjs.Subscription();
+        };
         ViewerService.prototype.getViewer = function () {
             return this.viewer;
         };
@@ -3029,24 +4504,20 @@
         };
         ViewerService.prototype.addSubscriptions = function () {
             var _this = this;
-            this.modeService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (mode) {
+            this.subscriptions.add(this.modeService.onChange.subscribe(function (mode) {
                 _this.modeChanged(mode);
-            });
+            }));
             this.zone.runOutsideAngular(function () {
-                _this.onCenterChange
-                    .pipe(operators.takeUntil(_this.destroyed), operators.sample(rxjs.interval(500)))
+                _this.subscriptions.add(_this.onCenterChange
+                    .pipe(operators.sample(rxjs.interval(500)))
                     .subscribe(function (center) {
                     _this.calculateCurrentCanvasGroup(center);
                     if (center && center !== null) {
                         _this.osdIsReady.next(true);
                     }
-                });
+                }));
             });
-            this.canvasService.onCanvasGroupIndexChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (canvasGroupIndex) {
+            this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange.subscribe(function (canvasGroupIndex) {
                 _this.swipeDragEndCounter.reset();
                 if (canvasGroupIndex !== -1) {
                     _this.canvasGroupMask.changeCanvasGroup(_this.canvasService.getCanvasGroupRect(canvasGroupIndex));
@@ -3054,34 +4525,26 @@
                         _this.zoomStrategy.goToHomeZoom();
                     }
                 }
-            });
-            this.onOsdReadyChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (state) {
+            }));
+            this.subscriptions.add(this.onOsdReadyChange.subscribe(function (state) {
                 var _a;
                 if (state) {
                     _this.initialCanvasGroupLoaded();
                     _this.currentCenter.next((_a = _this.viewer) === null || _a === void 0 ? void 0 : _a.viewport.getCenter(true));
                 }
-            });
-            this.viewerLayoutService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (state) {
+            }));
+            this.subscriptions.add(this.viewerLayoutService.onChange.subscribe(function (state) {
                 _this.layoutPages();
-            });
-            this.iiifContentSearchService.onSelected
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (hit) {
+            }));
+            this.subscriptions.add(this.iiifContentSearchService.onSelected.subscribe(function (hit) {
                 if (hit) {
                     _this.highlightCurrentHit(hit);
                     _this.goToCanvas(hit.index, false);
                 }
-            });
-            this.onRotationChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (rotation) {
+            }));
+            this.subscriptions.add(this.onRotationChange.subscribe(function (rotation) {
                 _this.layoutPages();
-            });
+            }));
         };
         ViewerService.prototype.layoutPages = function () {
             if (this.osdIsReady.getValue()) {
@@ -3103,7 +4566,7 @@
         };
         ViewerService.prototype.setupOverlays = function () {
             this.svgOverlay = this.viewer.svgOverlay();
-            this.svgNode = d3.select(this.svgOverlay.node());
+            this.svgNode = d3__namespace.select(this.svgOverlay.node());
         };
         ViewerService.prototype.disableKeyDownHandler = function () {
             this.viewer.innerTracker.keyDownHandler = null;
@@ -3118,16 +4581,15 @@
          */
         ViewerService.prototype.destroy = function (layoutSwitch) {
             this.osdIsReady.next(false);
-            this.currentCenter.next(null);
+            this.currentCenter.next(undefined);
             if (this.viewer != null && this.viewer.isOpen()) {
                 if (this.viewer.container != null) {
-                    d3.select(this.viewer.container.parentNode).style('opacity', '0');
+                    d3__namespace.select(this.viewer.container.parentNode).style('opacity', '0');
                 }
                 this.viewer.destroy();
                 this.viewer = null;
             }
-            this.destroyed.next();
-            this.overlays = null;
+            this.overlays = [];
             this.canvasService.reset();
             if (this.canvasGroupMask) {
                 this.canvasGroupMask.destroy();
@@ -3137,6 +4599,7 @@
                 this.currentSearch = null;
                 this.iiifContentSearchService.destroy();
                 this.rotation.next(0);
+                this.unsubscribe();
             }
         };
         ViewerService.prototype.addEvents = function () {
@@ -3378,11 +4841,13 @@
          */
         ViewerService.prototype.initialCanvasGroupLoaded = function () {
             this.home();
-            this.canvasGroupMask.initialise(this.canvasService.getCurrentCanvasGroupRect(), this.modeService.mode !== exports.MimeViewerMode.DASHBOARD);
-            d3.select(this.viewer.container.parentNode)
-                .transition()
-                .duration(ViewerOptions.transitions.OSDAnimationTime)
-                .style('opacity', '1');
+            this.canvasGroupMask.initialize(this.canvasService.getCurrentCanvasGroupRect(), this.modeService.mode !== exports.MimeViewerMode.DASHBOARD);
+            if (this.viewer) {
+                d3__namespace.select(this.viewer.container.parentNode)
+                    .transition()
+                    .duration(ViewerOptions.transitions.OSDAnimationTime)
+                    .style('opacity', '1');
+            }
         };
         /**
          * Returns overlay-index for click-event if hit
@@ -3425,7 +4890,8 @@
             var currentCanvasGroupIndex = this.canvasService
                 .currentCanvasGroupIndex;
             var calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(this.modeService.mode);
-            var pannedPastSide, canvasGroupEndHitCountReached;
+            var pannedPastSide;
+            var canvasGroupEndHitCountReached = false;
             if (this.modeService.mode === exports.MimeViewerMode.PAGE_ZOOMED) {
                 pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, viewportBounds);
                 this.swipeDragEndCounter.addHit(pannedPastSide, direction);
@@ -3453,6 +4919,11 @@
             var _a;
             return (_a = this.viewer) === null || _a === void 0 ? void 0 : _a.viewport.getBounds();
         };
+        ViewerService.prototype.unsubscribe = function () {
+            if (this.subscriptions) {
+                this.subscriptions.unsubscribe();
+            }
+        };
         return ViewerService;
     }());
     ViewerService.decorators = [
@@ -3468,1306 +4939,8 @@
         { type: StyleService }
     ]; };
 
-    var BuilderUtils = /** @class */ (function () {
-        function BuilderUtils() {
-        }
-        BuilderUtils.extractId = function (value) {
-            return value['@id'];
-        };
-        BuilderUtils.extracType = function (value) {
-            return value['@type'];
-        };
-        BuilderUtils.extractContext = function (value) {
-            return value['@context'];
-        };
-        BuilderUtils.extractViewingDirection = function (value) {
-            if (value['viewingDirection'] === 'left-to-right') {
-                return ViewingDirection.LTR;
-            }
-            else if (value['viewingDirection'] === 'right-to-left') {
-                return ViewingDirection.RTL;
-            }
-        };
-        BuilderUtils.findCanvasIndex = function (canvases, sequences) {
-            var index = -1;
-            if (sequences[0] && sequences[0].canvases && canvases[0]) {
-                index = sequences[0].canvases.findIndex(function (canvas) { return canvas.id === canvases[0]; });
-            }
-            return index;
-        };
-        return BuilderUtils;
-    }());
-
-    var SizesBuilder = /** @class */ (function () {
-        function SizesBuilder(sizes) {
-            this.sizes = sizes;
-        }
-        SizesBuilder.prototype.build = function () {
-            var sizes = [];
-            if (this.sizes) {
-                for (var i = 0; i < this.sizes.length; i++) {
-                    var size = this.sizes[i];
-                    sizes.push(new Size(size.width, size.height));
-                }
-            }
-            return sizes;
-        };
-        return SizesBuilder;
-    }());
-
-    var TilesBuilder = /** @class */ (function () {
-        function TilesBuilder(tiles) {
-            this.tiles = tiles;
-        }
-        TilesBuilder.prototype.build = function () {
-            var tiles = [];
-            if (this.tiles) {
-                for (var i = 0; i < this.tiles.length; i++) {
-                    var tile = this.tiles[i];
-                    tiles.push(new Tile({
-                        width: tile.width,
-                        scaleFactors: tile.scaleFactors
-                    }));
-                }
-            }
-            return tiles;
-        };
-        return TilesBuilder;
-    }());
-
-    var ServiceBuilder = /** @class */ (function () {
-        function ServiceBuilder(service) {
-            this.service = service;
-        }
-        ServiceBuilder.prototype.build = function () {
-            if (this.service) {
-                return new Service({
-                    id: BuilderUtils.extractId(this.service),
-                    context: BuilderUtils.extractContext(this.service),
-                    protocol: this.service.protocol,
-                    width: this.service.width,
-                    height: this.service.height,
-                    sizes: new SizesBuilder(this.service.sizes).build(),
-                    tiles: new TilesBuilder(this.service.tiles).build(),
-                    profile: this.service.profile,
-                    physicalScale: this.service.physicalScale,
-                    physicalUnits: this.service.physicalUnits,
-                    service: new ServiceBuilder(this.service.service).build()
-                });
-            }
-            return null;
-        };
-        return ServiceBuilder;
-    }());
-
-    var ResourceBuilder = /** @class */ (function () {
-        function ResourceBuilder(resource) {
-            this.resource = resource;
-        }
-        ResourceBuilder.prototype.build = function () {
-            if (this.resource) {
-                return new Resource({
-                    id: BuilderUtils.extractId(this.resource),
-                    type: BuilderUtils.extracType(this.resource),
-                    format: this.resource.format,
-                    service: new ServiceBuilder(this.resource.service).build(),
-                    height: this.resource.height,
-                    width: this.resource.width
-                });
-            }
-            return null;
-        };
-        return ResourceBuilder;
-    }());
-
-    var ImagesBuilder = /** @class */ (function () {
-        function ImagesBuilder(images) {
-            this.images = images;
-        }
-        ImagesBuilder.prototype.build = function () {
-            var images = [];
-            if (this.images) {
-                for (var i = 0; i < this.images.length; i++) {
-                    var image = this.images[i];
-                    images.push(new Images({
-                        id: BuilderUtils.extractId(image),
-                        type: BuilderUtils.extracType(image),
-                        motivation: image.motivation,
-                        resource: new ResourceBuilder(image.resource).build(),
-                        on: image.on
-                    }));
-                }
-            }
-            return images;
-        };
-        return ImagesBuilder;
-    }());
-
-    var CanvasBuilder = /** @class */ (function () {
-        function CanvasBuilder(canvases) {
-            this.canvases = canvases;
-        }
-        CanvasBuilder.prototype.build = function () {
-            var canvases = [];
-            if (this.canvases) {
-                for (var i = 0; i < this.canvases.length; i++) {
-                    var canvas = this.canvases[i];
-                    canvases.push(new Canvas({
-                        id: BuilderUtils.extractId(canvas),
-                        type: BuilderUtils.extracType(canvas),
-                        label: canvas.label,
-                        thumbnail: canvas.thumbnail,
-                        height: canvas.height,
-                        width: canvas.width,
-                        images: new ImagesBuilder(canvas.images).build()
-                    }));
-                }
-            }
-            return canvases;
-        };
-        return CanvasBuilder;
-    }());
-
-    var SequenceBuilder = /** @class */ (function () {
-        function SequenceBuilder(sequences) {
-            this.sequences = sequences;
-        }
-        SequenceBuilder.prototype.build = function () {
-            var sequences = [];
-            if (this.sequences) {
-                for (var i = 0; i < this.sequences.length; i++) {
-                    var seq = this.sequences[i];
-                    sequences.push(new Sequence({
-                        id: BuilderUtils.extractId(seq),
-                        type: BuilderUtils.extracType(seq),
-                        label: seq.label,
-                        viewingHint: seq.viewingHint,
-                        canvases: new CanvasBuilder(seq.canvases).build()
-                    }));
-                }
-            }
-            return sequences;
-        };
-        return SequenceBuilder;
-    }());
-
-    var MetadataBuilder = /** @class */ (function () {
-        function MetadataBuilder(metadatas) {
-            this.metadatas = metadatas;
-        }
-        MetadataBuilder.prototype.build = function () {
-            var metadatas = [];
-            if (this.metadatas) {
-                for (var i = 0; i < this.metadatas.length; i++) {
-                    var data = this.metadatas[i];
-                    metadatas.push(new Metadata(data.label, data.value));
-                }
-            }
-            return metadatas;
-        };
-        return MetadataBuilder;
-    }());
-
-    var StructureBuilder = /** @class */ (function () {
-        function StructureBuilder(structures, sequences) {
-            this.structures = structures;
-            this.sequences = sequences;
-        }
-        StructureBuilder.prototype.build = function () {
-            var structures = [];
-            if (this.structures) {
-                for (var i = 0; i < this.structures.length; i++) {
-                    var structure = this.structures[i];
-                    structures.push(new Structure({
-                        id: BuilderUtils.extractId(structure),
-                        type: BuilderUtils.extracType(structure),
-                        label: structure.label,
-                        canvases: structure.canvases,
-                        canvasIndex: BuilderUtils.findCanvasIndex(structure.canvases, this.sequences)
-                    }));
-                }
-            }
-            return structures;
-        };
-        return StructureBuilder;
-    }());
-
-    var TileSourceBuilder = /** @class */ (function () {
-        function TileSourceBuilder(sequences) {
-            this.sequences = sequences;
-        }
-        TileSourceBuilder.prototype.build = function () {
-            var tilesources = [];
-            if (this.sequences && this.sequences.length > 0) {
-                var canvases = this.sequences[0].canvases;
-                for (var i = 0; i < canvases.length; i++) {
-                    var canvas = canvases[i];
-                    if (canvas) {
-                        tilesources.push(canvas.images[0].resource);
-                    }
-                }
-            }
-            return tilesources;
-        };
-        return TileSourceBuilder;
-    }());
-
-    var ManifestBuilder = /** @class */ (function () {
-        function ManifestBuilder(data) {
-            this.data = data;
-        }
-        ManifestBuilder.prototype.build = function () {
-            var sequences = new SequenceBuilder(this.data.sequences).build();
-            return new Manifest({
-                context: BuilderUtils.extractContext(this.data),
-                type: BuilderUtils.extracType(this.data),
-                id: BuilderUtils.extractId(this.data),
-                viewingDirection: BuilderUtils.extractViewingDirection(this.data),
-                label: this.data.label,
-                metadata: new MetadataBuilder(this.data.metadata).build(),
-                license: this.data.license,
-                logo: this.data.logo,
-                attribution: this.data.attribution,
-                service: new ServiceBuilder(this.data.service).build(),
-                sequences: sequences,
-                structures: new StructureBuilder(this.data.structures, sequences).build(),
-                tileSource: new TileSourceBuilder(this.data.sequences).build(),
-                viewingHint: this.data.viewingHint
-            });
-        };
-        return ManifestBuilder;
-    }());
-
-    var IiifManifestService = /** @class */ (function () {
-        function IiifManifestService(intl, http, spinnerService) {
-            this.intl = intl;
-            this.http = http;
-            this.spinnerService = spinnerService;
-            this._currentManifest = new rxjs.BehaviorSubject(null);
-            this._errorMessage = new rxjs.BehaviorSubject(null);
-        }
-        Object.defineProperty(IiifManifestService.prototype, "currentManifest", {
-            get: function () {
-                return this._currentManifest.asObservable().pipe(operators.filter(function (m) { return m !== null; }), operators.distinctUntilChanged());
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(IiifManifestService.prototype, "errorMessage", {
-            get: function () {
-                return this._errorMessage.asObservable();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        IiifManifestService.prototype.load = function (manifestUri) {
-            var _this = this;
-            if (manifestUri === null) {
-                this._errorMessage.next(this.intl.manifestUriMissingLabel);
-            }
-            else {
-                this.spinnerService.show();
-                this.http
-                    .get(manifestUri)
-                    .pipe(operators.finalize(function () { return _this.spinnerService.hide(); }))
-                    .subscribe(function (response) {
-                    var manifest = _this.extractData(response);
-                    if (_this.isManifestValid(manifest)) {
-                        _this._currentManifest.next(manifest);
-                    }
-                    else {
-                        _this._errorMessage.next(_this.intl.manifestNotValidLabel);
-                    }
-                }, function (err) {
-                    _this._errorMessage.next(_this.handleError(err));
-                });
-            }
-        };
-        IiifManifestService.prototype.destroy = function () {
-            this.resetCurrentManifest();
-            this.resetErrorMessage();
-        };
-        IiifManifestService.prototype.resetCurrentManifest = function () {
-            this._currentManifest.next(null);
-        };
-        IiifManifestService.prototype.resetErrorMessage = function () {
-            this._errorMessage.next(null);
-        };
-        IiifManifestService.prototype.extractData = function (response) {
-            return new ManifestBuilder(response).build();
-        };
-        IiifManifestService.prototype.isManifestValid = function (manifest) {
-            return manifest && manifest.tileSource && manifest.tileSource.length > 0;
-        };
-        IiifManifestService.prototype.handleError = function (err) {
-            var errMsg;
-            if (err.error instanceof Object) {
-                errMsg = err.message;
-            }
-            else {
-                errMsg = err.error;
-            }
-            return errMsg;
-        };
-        return IiifManifestService;
-    }());
-    IiifManifestService.decorators = [
-        { type: i0.Injectable }
-    ];
-    IiifManifestService.ctorParameters = function () { return [
-        { type: MimeViewerIntl },
-        { type: http.HttpClient },
-        { type: SpinnerService }
-    ]; };
-
-    var FullscreenService = /** @class */ (function () {
-        function FullscreenService() {
-            this.changeSubject = new rxjs.ReplaySubject();
-            this.onchange();
-        }
-        Object.defineProperty(FullscreenService.prototype, "onChange", {
-            get: function () {
-                return this.changeSubject.asObservable();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        FullscreenService.prototype.isEnabled = function () {
-            var d = document;
-            return (d.fullscreenEnabled ||
-                d.webkitFullscreenEnabled ||
-                d.mozFullScreenEnabled ||
-                d.msFullscreenEnabled);
-        };
-        FullscreenService.prototype.isFullscreen = function () {
-            var d = document;
-            return (d.fullscreenElement ||
-                d.webkitFullscreenElement ||
-                d.mozFullScreenElement ||
-                d.msFullscreenElement);
-        };
-        FullscreenService.prototype.toggle = function (el) {
-            this.isFullscreen() ? this.closeFullscreen(el) : this.openFullscreen(el);
-        };
-        FullscreenService.prototype.onchange = function () {
-            var _this = this;
-            var d = document;
-            var func = function () {
-                _this.changeSubject.next(true);
-            };
-            if (d.fullscreenEnabled) {
-                document.addEventListener('fullscreenchange', func);
-            }
-            else if (d.webkitFullscreenEnabled) {
-                document.addEventListener('webkitfullscreenchange', func);
-            }
-            else if (d.mozFullScreenEnabled) {
-                document.addEventListener('mozfullscreenchange', func);
-            }
-            else if (d.msFullscreenEnabled) {
-                document.addEventListener('msfullscreenchange', func);
-            }
-        };
-        FullscreenService.prototype.openFullscreen = function (elem) {
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            }
-            else if (elem.mozRequestFullScreen) {
-                elem.mozRequestFullScreen();
-            }
-            else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
-            }
-            else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            }
-        };
-        FullscreenService.prototype.closeFullscreen = function (elem) {
-            var d = document;
-            if (d.exitFullscreen) {
-                d.exitFullscreen();
-            }
-            else if (d.mozCancelFullScreen) {
-                d.mozCancelFullScreen();
-            }
-            else if (d.webkitExitFullscreen) {
-                d.webkitExitFullscreen();
-            }
-            else if (d.msExitFullscreen) {
-                d.msExitFullscreen();
-            }
-        };
-        return FullscreenService;
-    }());
-    FullscreenService.decorators = [
-        { type: i0.Injectable }
-    ];
-    FullscreenService.ctorParameters = function () { return []; };
-
-    var MimeDomHelper = /** @class */ (function () {
-        function MimeDomHelper(fullscreen) {
-            this.fullscreen = fullscreen;
-        }
-        MimeDomHelper.prototype.getBoundingClientRect = function (el) {
-            try {
-                if (this.isDocumentInFullScreenMode() &&
-                    el.nativeElement.nodeName === 'MIME-VIEWER') {
-                    return this.createFullscreenDimensions(el);
-                }
-                else {
-                    return this.createDimensions(el);
-                }
-            }
-            catch (e) {
-                return new Dimensions();
-            }
-        };
-        MimeDomHelper.prototype.isDocumentInFullScreenMode = function () {
-            return this.fullscreen.isFullscreen();
-        };
-        MimeDomHelper.prototype.toggleFullscreen = function () {
-            var el = document.getElementById('ngx-mime-mimeViewer');
-            if (this.fullscreen.isEnabled()) {
-                this.fullscreen.toggle(el);
-            }
-        };
-        MimeDomHelper.prototype.setFocusOnViewer = function () {
-            var el = document.getElementById('ngx-mime-mimeViewer');
-            if (el) {
-                el.focus();
-            }
-        };
-        MimeDomHelper.prototype.createFullscreenDimensions = function (el) {
-            var dimensions = el.nativeElement.getBoundingClientRect();
-            var width = this.getFullscreenWidth();
-            var height = this.getFullscreenHeight();
-            return new Dimensions(Object.assign(Object.assign({}, dimensions), { top: 0, bottom: height, width: width, height: height, left: 0, right: width }));
-        };
-        MimeDomHelper.prototype.createDimensions = function (el) {
-            var dimensions = el.nativeElement.getBoundingClientRect();
-            return new Dimensions({
-                top: dimensions.top,
-                bottom: dimensions.bottom,
-                width: dimensions.width,
-                height: dimensions.height,
-                left: dimensions.left,
-                right: dimensions.right
-            });
-        };
-        MimeDomHelper.prototype.getFullscreenWidth = function () {
-            return (window.innerWidth ||
-                document.documentElement.clientWidth ||
-                document.body.clientWidth);
-        };
-        MimeDomHelper.prototype.getFullscreenHeight = function () {
-            return (window.innerHeight ||
-                document.documentElement.clientHeight ||
-                document.body.clientHeight);
-        };
-        return MimeDomHelper;
-    }());
-    MimeDomHelper.decorators = [
-        { type: i0.Injectable }
-    ];
-    MimeDomHelper.ctorParameters = function () { return [
-        { type: FullscreenService }
-    ]; };
-
-    var MimeResizeService = /** @class */ (function () {
-        function MimeResizeService(mimeDomHelper) {
-            this.mimeDomHelper = mimeDomHelper;
-            this.resizeSubject = new rxjs.ReplaySubject();
-            this.dimensions = new Dimensions();
-        }
-        Object.defineProperty(MimeResizeService.prototype, "el", {
-            get: function () {
-                return this._el;
-            },
-            set: function (el) {
-                this._el = el;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(MimeResizeService.prototype, "onResize", {
-            get: function () {
-                return this.resizeSubject.asObservable();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        MimeResizeService.prototype.markForCheck = function () {
-            var dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-            if (this.dimensions.bottom !== dimensions.bottom ||
-                this.dimensions.height !== dimensions.height ||
-                this.dimensions.left !== dimensions.left ||
-                this.dimensions.right !== dimensions.right ||
-                this.dimensions.top !== dimensions.top ||
-                this.dimensions.width !== dimensions.width) {
-                this.dimensions = dimensions;
-                this.resizeSubject.next(Object.assign({}, this.dimensions));
-            }
-        };
-        return MimeResizeService;
-    }());
-    MimeResizeService.decorators = [
-        { type: i0.Injectable }
-    ];
-    MimeResizeService.ctorParameters = function () { return [
-        { type: MimeDomHelper }
-    ]; };
-
-    var ContentSearchDialogComponent = /** @class */ (function () {
-        function ContentSearchDialogComponent(dialogRef, intl, mediaObserver, mimeResizeService, iiifManifestService, iiifContentSearchService, el, mimeDomHelper) {
-            this.dialogRef = dialogRef;
-            this.intl = intl;
-            this.mediaObserver = mediaObserver;
-            this.mimeResizeService = mimeResizeService;
-            this.iiifManifestService = iiifManifestService;
-            this.iiifContentSearchService = iiifContentSearchService;
-            this.el = el;
-            this.mimeDomHelper = mimeDomHelper;
-            this.hits = [];
-            this.currentSearch = '';
-            this.numberOfHits = 0;
-            this.isSearching = false;
-            this.tabHeight = {};
-            this.mimeHeight = 0;
-            this.destroyed = new rxjs.Subject();
-        }
-        ContentSearchDialogComponent.prototype.ngOnInit = function () {
-            var _this = this;
-            this.mimeResizeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (dimensions) {
-                _this.mimeHeight = dimensions.height;
-                _this.resizeTabHeight();
-            });
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
-                _this.manifest = manifest;
-            });
-            this.iiifContentSearchService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (sr) {
-                _this.hits = sr.hits;
-                _this.currentSearch = sr.q ? sr.q : '';
-                _this.q = sr.q;
-                _this.numberOfHits = sr.size();
-                if (_this.resultContainer !== null && _this.numberOfHits > 0) {
-                    _this.resultContainer.nativeElement.focus();
-                }
-                else if (_this.q.length === 0 || _this.numberOfHits === 0) {
-                    _this.qEl.nativeElement.focus();
-                }
-            });
-            this.iiifContentSearchService.isSearching
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (s) {
-                _this.isSearching = s;
-            });
-            this.iiifContentSearchService.onSelected
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (hit) {
-                if (hit === null) {
-                    _this.currentHit = hit;
-                }
-                else {
-                    if (!_this.currentHit || _this.currentHit.id !== hit.id) {
-                        _this.currentHit = hit;
-                        _this.scrollCurrentHitIntoView();
-                    }
-                }
-            });
-            this.resizeTabHeight();
-        };
-        ContentSearchDialogComponent.prototype.ngAfterViewInit = function () {
-            this.scrollCurrentHitIntoView();
-        };
-        ContentSearchDialogComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
-        };
-        ContentSearchDialogComponent.prototype.onResize = function (event) {
-            this.resizeTabHeight();
-        };
-        ContentSearchDialogComponent.prototype.onSubmit = function (event) {
-            event.preventDefault();
-            this.search();
-        };
-        ContentSearchDialogComponent.prototype.clear = function () {
-            this.q = '';
-            this.search();
-        };
-        ContentSearchDialogComponent.prototype.goToHit = function (hit) {
-            this.currentHit = hit;
-            this.iiifContentSearchService.selected(hit);
-            if (this.mediaObserver.isActive('lt-md')) {
-                this.dialogRef.close();
-            }
-        };
-        ContentSearchDialogComponent.prototype.search = function () {
-            this.currentSearch = this.q;
-            this.iiifContentSearchService.search(this.manifest, this.q);
-        };
-        ContentSearchDialogComponent.prototype.resizeTabHeight = function () {
-            var dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-            var height = this.mimeHeight;
-            if (this.mediaObserver.isActive('lt-md')) {
-                this.tabHeight = {
-                    maxHeight: window.innerHeight - 128 + 'px'
-                };
-            }
-            else {
-                height -= 272;
-                this.tabHeight = {
-                    maxHeight: height + 'px'
-                };
-            }
-        };
-        ContentSearchDialogComponent.prototype.scrollCurrentHitIntoView = function () {
-            var _this = this;
-            this.iiifContentSearchService.onSelected
-                .pipe(operators.take(1), operators.filter(function (s) { return s !== null; }))
-                .subscribe(function (hit) {
-                var selected = _this.findSelected(hit);
-                if (selected) {
-                    selected.nativeElement.focus();
-                }
-            });
-        };
-        ContentSearchDialogComponent.prototype.findSelected = function (selectedHit) {
-            if (this.hitList) {
-                var selectedList = this.hitList.filter(function (item, index) { return index === selectedHit.id; });
-                return selectedList.length > 0 ? selectedList[0] : null;
-            }
-            else {
-                return null;
-            }
-        };
-        return ContentSearchDialogComponent;
-    }());
-    ContentSearchDialogComponent.decorators = [
-        { type: i0.Component, args: [{
-                    selector: 'mime-search',
-                    template: "<div class=\"content-search-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            class=\"close-content-search-dialog-button\"\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <div mat-dialog-title class=\"heading\">{{ intl.searchLabel }}</div>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <div mat-dialog-title class=\"heading heading-desktop\">{{\n            intl.searchLabel\n          }}</div>\n          <button\n            mat-icon-button\n            class=\"close-content-search-dialog-button\"\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <mat-dialog-content>\n    <div class=\"content-search-form\">\n      <form (ngSubmit)=\"onSubmit($event)\" #searchForm=\"ngForm\">\n        <mat-form-field class=\"content-search-box\">\n          <button\n            type=\"submit\"\n            matPrefix\n            mat-icon-button\n            [attr.aria-label]=\"intl.searchLabel\"\n            [matTooltip]=\"intl.searchLabel\"\n          >\n            <mat-icon class=\"icon\">search</mat-icon>\n          </button>\n          <input\n            #query\n            cdkFocusInitial\n            matInput\n            class=\"content-search-input\"\n            [(ngModel)]=\"q\"\n            [attr.aria-label]=\"intl.searchLabel\"\n            name=\"q\"\n            autocomplete=\"off\"\n          />\n          <button\n            *ngIf=\"q\"\n            type=\"button\"\n            class=\"clearSearchButton\"\n            matSuffix\n            mat-icon-button\n            [attr.aria-label]=\"intl.clearSearchLabel\"\n            [matTooltip]=\"intl.clearSearchLabel\"\n            (click)=\"clear()\"\n          >\n            <mat-icon class=\"icon\">clear</mat-icon>\n          </button>\n        </mat-form-field>\n      </form>\n    </div>\n    <div\n      #contentSearchResult\n      class=\"content-search-result-container\"\n      [ngStyle]=\"tabHeight\"\n    >\n      <div *ngIf=\"!isSearching\" class=\"content-search-result\" fxLayout=\"column\">\n        <input type=\"hidden\" class=\"numberOfHits\" [value]=\"numberOfHits\" />\n        <div *ngIf=\"currentSearch && currentSearch.length > 0\">\n          <div\n            *ngIf=\"numberOfHits > 0\"\n            [innerHTML]=\"intl.resultsFoundLabel(numberOfHits, currentSearch)\"\n          ></div>\n          <div\n            *ngIf=\"numberOfHits === 0\"\n            [innerHTML]=\"intl.noResultsFoundLabel(currentSearch)\"\n          ></div>\n        </div>\n        <ng-container *ngFor=\"let hit of hits; let last = last\">\n          <button\n            #hitButton\n            mat-button\n            [color]=\"currentHit && hit.id === currentHit.id ? 'accent' : null\"\n            [ngClass]=\"'hit'\"\n            (click)=\"goToHit(hit)\"\n            (keyup.enter)=\"goToHit(hit)\"\n          >\n            <div fxLayout=\"row\" fxLayoutAlign=\"space-between start\">\n              <div fxFlex class=\"summary\">\n                {{ hit.before }} <em>{{ hit.match }}</em> {{ hit.after }}\n              </div>\n              <div fxFlex=\"40px\" class=\"canvasGroup\">{{ hit.index + 1 }}</div>\n            </div>\n          </button>\n          <mat-divider *ngIf=\"!last\"></mat-divider>\n        </ng-container>\n      </div>\n      <div *ngIf=\"isSearching\" class=\"content-search-result\" fxLayout=\"column\">\n        <mat-progress-bar mode=\"indeterminate\"></mat-progress-bar>\n      </div>\n    </div>\n  </mat-dialog-content>\n</div>\n",
-                    styles: [".heading{font-size:17px}.heading-desktop{padding-left:16px}.label{text-decoration:underline}.content-search-form{padding:0 16px}.content-search-box{width:100%}.content-search-input{font-size:20px}.content-search-result-container{font-family:Roboto,Helvetica Neue,sans-serif;margin-bottom:8px;overflow:auto}.content-search-result{padding:8px 16px}.content-search-result .mat-button{font-size:14px;line-height:normal;max-width:none;padding:8px;text-align:left;white-space:normal;word-wrap:normal}::ng-deep .content-search-container .current-content-search,em{font-weight:700}.canvasGroupLabel{opacity:.54;text-align:right}::ng-deep .content-search-panel{max-width:none!important}::ng-deep .content-search-panel>.mat-dialog-container{overflow:initial;padding:0!important}::ng-deep .content-search-container>div>div>.mat-toolbar{padding:0!important}input{font-family:Roboto,Helvetica Neue,sans-serif}.icon{font-size:22px!important}"]
-                },] }
-    ];
-    ContentSearchDialogComponent.ctorParameters = function () { return [
-        { type: dialog.MatDialogRef },
-        { type: MimeViewerIntl },
-        { type: flexLayout.MediaObserver },
-        { type: MimeResizeService },
-        { type: IiifManifestService },
-        { type: IiifContentSearchService },
-        { type: i0.ElementRef },
-        { type: MimeDomHelper }
-    ]; };
-    ContentSearchDialogComponent.propDecorators = {
-        resultContainer: [{ type: i0.ViewChild, args: ['contentSearchResult', { static: true },] }],
-        qEl: [{ type: i0.ViewChild, args: ['query', { static: true },] }],
-        hitList: [{ type: i0.ViewChildren, args: ['hitButton', { read: i0.ElementRef },] }],
-        onResize: [{ type: i0.HostListener, args: ['window:resize', ['$event'],] }]
-    };
-
-    var MobileContentSearchDialogConfigStrategy = /** @class */ (function () {
-        function MobileContentSearchDialogConfigStrategy() {
-        }
-        MobileContentSearchDialogConfigStrategy.prototype.getConfig = function (elementRef) {
-            return {
-                hasBackdrop: false,
-                disableClose: false,
-                autoFocus: false,
-                width: '100%',
-                height: '100%',
-                panelClass: 'content-search-panel'
-            };
-        };
-        return MobileContentSearchDialogConfigStrategy;
-    }());
-    var DesktopContentSearchDialogConfigStrategy = /** @class */ (function () {
-        function DesktopContentSearchDialogConfigStrategy(mimeDomHelper) {
-            this.mimeDomHelper = mimeDomHelper;
-        }
-        DesktopContentSearchDialogConfigStrategy.prototype.getConfig = function (el) {
-            var dimensions = this.getPosition(el);
-            return {
-                hasBackdrop: false,
-                disableClose: false,
-                autoFocus: false,
-                width: DesktopContentSearchDialogConfigStrategy.dialogWidth + "px",
-                position: {
-                    top: dimensions.top + 'px',
-                    left: dimensions.left + 'px'
-                },
-                panelClass: 'content-search-panel'
-            };
-        };
-        DesktopContentSearchDialogConfigStrategy.prototype.getPosition = function (el) {
-            var dimensions = this.mimeDomHelper.getBoundingClientRect(el);
-            return new Dimensions({
-                top: dimensions.top + 64,
-                left: dimensions.right -
-                    DesktopContentSearchDialogConfigStrategy.dialogWidth -
-                    DesktopContentSearchDialogConfigStrategy.paddingRight
-            });
-        };
-        return DesktopContentSearchDialogConfigStrategy;
-    }());
-    DesktopContentSearchDialogConfigStrategy.dialogWidth = 350;
-    DesktopContentSearchDialogConfigStrategy.paddingRight = 20;
-
-    var ContentSearchDialogConfigStrategyFactory = /** @class */ (function () {
-        function ContentSearchDialogConfigStrategyFactory(mediaObserver, mimeDomHelper) {
-            this.mediaObserver = mediaObserver;
-            this.mimeDomHelper = mimeDomHelper;
-        }
-        ContentSearchDialogConfigStrategyFactory.prototype.create = function () {
-            return this.mediaObserver.isActive('lt-md')
-                ? new MobileContentSearchDialogConfigStrategy()
-                : new DesktopContentSearchDialogConfigStrategy(this.mimeDomHelper);
-        };
-        return ContentSearchDialogConfigStrategyFactory;
-    }());
-    ContentSearchDialogConfigStrategyFactory.decorators = [
-        { type: i0.Injectable }
-    ];
-    ContentSearchDialogConfigStrategyFactory.ctorParameters = function () { return [
-        { type: flexLayout.MediaObserver },
-        { type: MimeDomHelper }
-    ]; };
-
-    var ContentSearchDialogService = /** @class */ (function () {
-        function ContentSearchDialogService(dialog, contentSearchDialogConfigStrategyFactory, mimeResizeService) {
-            this.dialog = dialog;
-            this.contentSearchDialogConfigStrategyFactory = contentSearchDialogConfigStrategyFactory;
-            this.mimeResizeService = mimeResizeService;
-            this.isContentSearchDialogOpen = false;
-            this.destroyed = new rxjs.Subject();
-        }
-        ContentSearchDialogService.prototype.initialize = function () {
-            var _this = this;
-            this.mimeResizeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (rect) {
-                if (_this.isContentSearchDialogOpen) {
-                    var config = _this.getDialogConfig();
-                    _this.dialogRef.updatePosition(config.position);
-                    _this.dialogRef.updateSize(config.width, config.height);
-                }
-            });
-        };
-        ContentSearchDialogService.prototype.destroy = function () {
-            this.close();
-            this.destroyed.next();
-        };
-        Object.defineProperty(ContentSearchDialogService.prototype, "el", {
-            set: function (el) {
-                this._el = el;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        ContentSearchDialogService.prototype.open = function () {
-            var _this = this;
-            if (!this.isContentSearchDialogOpen) {
-                var config = this.getDialogConfig();
-                this.dialogRef = this.dialog.open(ContentSearchDialogComponent, config);
-                this.dialogRef.afterClosed().subscribe(function (result) {
-                    _this.isContentSearchDialogOpen = false;
-                });
-                this.isContentSearchDialogOpen = true;
-            }
-        };
-        ContentSearchDialogService.prototype.close = function () {
-            if (this.dialogRef) {
-                this.dialogRef.close();
-            }
-            this.isContentSearchDialogOpen = false;
-        };
-        ContentSearchDialogService.prototype.toggle = function () {
-            this.isContentSearchDialogOpen ? this.close() : this.open();
-        };
-        ContentSearchDialogService.prototype.isOpen = function () {
-            return this.isContentSearchDialogOpen;
-        };
-        ContentSearchDialogService.prototype.getDialogConfig = function () {
-            return this.contentSearchDialogConfigStrategyFactory
-                .create()
-                .getConfig(this._el);
-        };
-        return ContentSearchDialogService;
-    }());
-    ContentSearchDialogService.decorators = [
-        { type: i0.Injectable }
-    ];
-    ContentSearchDialogService.ctorParameters = function () { return [
-        { type: dialog.MatDialog },
-        { type: ContentSearchDialogConfigStrategyFactory },
-        { type: MimeResizeService }
-    ]; };
-
-    var ContentsDialogComponent = /** @class */ (function () {
-        function ContentsDialogComponent(intl, mediaObserver, dialogRef, el, mimeDomHelper, changeDetectorRef, iiifManifestService, mimeResizeService) {
-            var _this = this;
-            this.intl = intl;
-            this.mediaObserver = mediaObserver;
-            this.dialogRef = dialogRef;
-            this.el = el;
-            this.mimeDomHelper = mimeDomHelper;
-            this.changeDetectorRef = changeDetectorRef;
-            this.iiifManifestService = iiifManifestService;
-            this.tabHeight = {};
-            this.showToc = false;
-            this.selectedIndex = 0;
-            this.mimeHeight = 0;
-            this.destroyed = new rxjs.Subject();
-            mimeResizeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (dimensions) {
-                _this.mimeHeight = dimensions.height;
-                _this.resizeTabHeight();
-            });
-        }
-        ContentsDialogComponent.prototype.ngOnInit = function () {
-            var _this = this;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
-                _this.manifest = manifest;
-                _this.showToc = _this.manifest && _this.manifest.structures.length > 0;
-                _this.changeDetectorRef.detectChanges();
-            });
-            this.resizeTabHeight();
-        };
-        ContentsDialogComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
-        };
-        ContentsDialogComponent.prototype.onResize = function (event) {
-            this.resizeTabHeight();
-        };
-        ContentsDialogComponent.prototype.onCanvasChanged = function () {
-            if (this.mediaObserver.isActive('lt-md')) {
-                this.dialogRef.close();
-            }
-        };
-        ContentsDialogComponent.prototype.resizeTabHeight = function () {
-            var dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-            var height = this.mimeHeight;
-            if (this.mediaObserver.isActive('lt-md')) {
-                height -= 104;
-                this.tabHeight = {
-                    maxHeight: window.innerHeight - 128 + 'px'
-                };
-            }
-            else {
-                height -= 278;
-                this.tabHeight = {
-                    maxHeight: height + 'px'
-                };
-            }
-        };
-        return ContentsDialogComponent;
-    }());
-    ContentsDialogComponent.decorators = [
-        { type: i0.Component, args: [{
-                    selector: 'mime-contents',
-                    template: "<div class=\"contents-container\">\n  <ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <ng-container *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\" data-test-id=\"mobile-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n    <ng-container *ngSwitchDefault>\n      <mat-toolbar data-test-id=\"desktop-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n  </ng-container>\n  <div mat-dialog-content>\n    <mat-tab-group [(selectedIndex)]=\"selectedIndex\">\n      <mat-tab [label]=\"intl.metadataLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-metadata></mime-metadata>\n        </div>\n      </mat-tab>\n      <mat-tab *ngIf=\"showToc\" [label]=\"intl.tocLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-toc (canvasChanged)=\"onCanvasChanged()\"></mime-toc>\n        </div>\n      </mat-tab>\n    </mat-tab-group>\n  </div>\n</div>\n",
-                    changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".label{text-decoration:underline}::ng-deep .contents-panel{max-width:none!important}::ng-deep .contents-panel>.mat-dialog-container{overflow:initial;padding:0!important}::ng-deep .contents-container>div>div>.mat-toolbar{padding:0!important}.tab-container{overflow:auto;padding:8px 16px}.mat-dialog-content{max-height:none}"]
-                },] }
-    ];
-    ContentsDialogComponent.ctorParameters = function () { return [
-        { type: MimeViewerIntl },
-        { type: flexLayout.MediaObserver },
-        { type: dialog.MatDialogRef },
-        { type: i0.ElementRef },
-        { type: MimeDomHelper },
-        { type: i0.ChangeDetectorRef },
-        { type: IiifManifestService },
-        { type: MimeResizeService }
-    ]; };
-    ContentsDialogComponent.propDecorators = {
-        onResize: [{ type: i0.HostListener, args: ['window:resize', ['$event'],] }]
-    };
-
-    var MobileContentsDialogConfigStrategy = /** @class */ (function () {
-        function MobileContentsDialogConfigStrategy() {
-        }
-        MobileContentsDialogConfigStrategy.prototype.getConfig = function (elementRef) {
-            return {
-                hasBackdrop: false,
-                disableClose: false,
-                width: '100%',
-                height: '100%',
-                panelClass: 'contents-panel'
-            };
-        };
-        return MobileContentsDialogConfigStrategy;
-    }());
-    var DesktopContentsDialogConfigStrategy = /** @class */ (function () {
-        function DesktopContentsDialogConfigStrategy(mimeDomHelper) {
-            this.mimeDomHelper = mimeDomHelper;
-        }
-        DesktopContentsDialogConfigStrategy.prototype.getConfig = function (el) {
-            var dimensions = this.getPosition(el);
-            return {
-                hasBackdrop: false,
-                disableClose: false,
-                width: DesktopContentsDialogConfigStrategy.dialogWidth + "px",
-                position: {
-                    top: dimensions.top + 'px',
-                    left: dimensions.left + 'px'
-                },
-                panelClass: 'contents-panel'
-            };
-        };
-        DesktopContentsDialogConfigStrategy.prototype.getPosition = function (el) {
-            var dimensions = this.mimeDomHelper.getBoundingClientRect(el);
-            return new Dimensions({
-                top: dimensions.top + 64,
-                left: dimensions.right -
-                    DesktopContentsDialogConfigStrategy.dialogWidth -
-                    DesktopContentsDialogConfigStrategy.paddingRight
-            });
-        };
-        return DesktopContentsDialogConfigStrategy;
-    }());
-    DesktopContentsDialogConfigStrategy.dialogWidth = 350;
-    DesktopContentsDialogConfigStrategy.paddingRight = 20;
-
-    var ContentsDialogConfigStrategyFactory = /** @class */ (function () {
-        function ContentsDialogConfigStrategyFactory(mediaObserver, mimeDomHelper) {
-            this.mediaObserver = mediaObserver;
-            this.mimeDomHelper = mimeDomHelper;
-        }
-        ContentsDialogConfigStrategyFactory.prototype.create = function () {
-            return this.mediaObserver.isActive('lt-md')
-                ? new MobileContentsDialogConfigStrategy()
-                : new DesktopContentsDialogConfigStrategy(this.mimeDomHelper);
-        };
-        return ContentsDialogConfigStrategyFactory;
-    }());
-    ContentsDialogConfigStrategyFactory.decorators = [
-        { type: i0.Injectable }
-    ];
-    ContentsDialogConfigStrategyFactory.ctorParameters = function () { return [
-        { type: flexLayout.MediaObserver },
-        { type: MimeDomHelper }
-    ]; };
-
-    var ContentsDialogService = /** @class */ (function () {
-        function ContentsDialogService(dialog, contentsDialogConfigStrategyFactory, mimeResizeService) {
-            this.dialog = dialog;
-            this.contentsDialogConfigStrategyFactory = contentsDialogConfigStrategyFactory;
-            this.mimeResizeService = mimeResizeService;
-            this.isContentsDialogOpen = false;
-            this.destroyed = new rxjs.Subject();
-        }
-        ContentsDialogService.prototype.initialize = function () {
-            var _this = this;
-            this.mimeResizeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (rect) {
-                if (_this.isContentsDialogOpen) {
-                    var config = _this.getDialogConfig();
-                    _this.dialogRef.updatePosition(config.position);
-                    _this.dialogRef.updateSize(config.width, config.height);
-                }
-            });
-        };
-        ContentsDialogService.prototype.destroy = function () {
-            this.close();
-            this.destroyed.next();
-        };
-        Object.defineProperty(ContentsDialogService.prototype, "el", {
-            set: function (el) {
-                this._el = el;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        ContentsDialogService.prototype.open = function (selectedIndex) {
-            var _this = this;
-            if (!this.isContentsDialogOpen) {
-                var config = this.getDialogConfig();
-                this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
-                if (selectedIndex) {
-                    this.dialogRef.componentInstance.selectedIndex = selectedIndex;
-                }
-                this.dialogRef.afterClosed().subscribe(function (result) {
-                    _this.isContentsDialogOpen = false;
-                });
-                this.isContentsDialogOpen = true;
-            }
-        };
-        ContentsDialogService.prototype.close = function () {
-            if (this.dialogRef) {
-                this.dialogRef.close();
-                this.isContentsDialogOpen = false;
-            }
-            this.isContentsDialogOpen = false;
-        };
-        ContentsDialogService.prototype.toggle = function () {
-            this.isContentsDialogOpen ? this.close() : this.open();
-        };
-        ContentsDialogService.prototype.isOpen = function () {
-            return this.isContentsDialogOpen;
-        };
-        ContentsDialogService.prototype.getSelectedIndex = function () {
-            return this.dialogRef && this.dialogRef.componentInstance
-                ? this.dialogRef.componentInstance.selectedIndex
-                : 0;
-        };
-        ContentsDialogService.prototype.getDialogConfig = function () {
-            return this.contentsDialogConfigStrategyFactory
-                .create()
-                .getConfig(this._el);
-        };
-        return ContentsDialogService;
-    }());
-    ContentsDialogService.decorators = [
-        { type: i0.Injectable }
-    ];
-    ContentsDialogService.ctorParameters = function () { return [
-        { type: dialog.MatDialog },
-        { type: ContentsDialogConfigStrategyFactory },
-        { type: MimeResizeService }
-    ]; };
-
-    var AccessKeys = /** @class */ (function () {
-        function AccessKeys(event) {
-            this.altKey = false;
-            this.shiftKey = false;
-            this.ctrlkey = false;
-            this.keyCode = event.keyCode;
-            this.altKey = event.altKey;
-            this.shiftKey = event.shiftKey;
-            this.ctrlkey = event.ctrlKey;
-        }
-        AccessKeys.prototype.isArrowRightKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
-        };
-        AccessKeys.prototype.isArrowLeftKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
-        };
-        AccessKeys.prototype.isPageUpKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
-        };
-        AccessKeys.prototype.isPageDownKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
-        };
-        AccessKeys.prototype.isFirstCanvasGroupKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
-        };
-        AccessKeys.prototype.isLastCanvasGroupKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
-        };
-        AccessKeys.prototype.isSliderKeys = function () {
-            return (this.isArrowLeftKeys() ||
-                this.isArrowRightKeys() ||
-                this.isPageDownKeys() ||
-                this.isPageUpKeys() ||
-                this.isFirstCanvasGroupKeys() ||
-                this.isLastCanvasGroupKeys());
-        };
-        AccessKeys.prototype.isZoomInKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
-        };
-        AccessKeys.prototype.isZoomOutKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
-        };
-        AccessKeys.prototype.isZoomHomeKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
-        };
-        AccessKeys.prototype.isNextHitKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
-        };
-        AccessKeys.prototype.isPreviousHitKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
-        };
-        AccessKeys.prototype.isSearchDialogKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
-        };
-        AccessKeys.prototype.isContentsDialogKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes));
-        };
-        AccessKeys.prototype.isFullscreenKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
-        };
-        AccessKeys.prototype.isResetSearchKeys = function () {
-            return (this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch));
-        };
-        AccessKeys.prototype.isRotateKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
-        };
-        AccessKeys.prototype.isMultiKeys = function () {
-            return this.altKey || this.shiftKey || this.ctrlkey;
-        };
-        AccessKeys.prototype.arrayContainsKeys = function (keys) {
-            return keys.indexOf(this.keyCode) > -1;
-        };
-        AccessKeys.prototype.isShiftPressed = function () {
-            return this.shiftKey;
-        };
-        return AccessKeys;
-    }());
-    AccessKeys.PAGEDOWN = [34];
-    AccessKeys.PAGEUP = [33];
-    AccessKeys.ARROWRIGHT = [39];
-    AccessKeys.ARROWLEFT = [37];
-    AccessKeys.firstCanvasGroupCodes = [36]; // Home
-    AccessKeys.lastCanvasGroupCodes = [35]; // End
-    AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
-    AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
-    AccessKeys.zoomHomeCodes = [96, 48]; // 0
-    AccessKeys.nextHit = [78]; // n
-    AccessKeys.previousHit = [80]; // p
-    AccessKeys.toggleSearchDialogCodes = [83]; // s
-    AccessKeys.toggleContentsDialogCodes = [67]; // C
-    AccessKeys.toggleFullscreenCodes = [70]; // f
-    AccessKeys.resetSearch = [83]; // s
-    AccessKeys.rotateCwCodes = [82]; // r
-
-    var ContentSearchNavigationService = /** @class */ (function () {
-        function ContentSearchNavigationService(canvasService, iiifContentSearchService) {
-            var _this = this;
-            this.canvasService = canvasService;
-            this.iiifContentSearchService = iiifContentSearchService;
-            this.currentIndex = 0;
-            this.isHitOnActiveCanvasGroup = false;
-            this._isFirstHitOnCanvasGroup = false;
-            this._isLastHitOnCanvasGroup = false;
-            this.canvasesPerCanvasGroup = [-1];
-            this.iiifContentSearchService.onChange.subscribe(function (result) {
-                _this.searchResult = result;
-            });
-        }
-        ContentSearchNavigationService.prototype.update = function (canvasGroupIndex) {
-            this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-            this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
-            this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
-            this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
-            this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
-        };
-        ContentSearchNavigationService.prototype.getCurrentIndex = function () {
-            return this.currentIndex;
-        };
-        ContentSearchNavigationService.prototype.getHitOnActiveCanvasGroup = function () {
-            return this.isHitOnActiveCanvasGroup;
-        };
-        ContentSearchNavigationService.prototype.getFirstHitCanvasGroup = function () {
-            return this._isFirstHitOnCanvasGroup;
-        };
-        ContentSearchNavigationService.prototype.getLastHitCanvasGroup = function () {
-            return this._isLastHitOnCanvasGroup;
-        };
-        ContentSearchNavigationService.prototype.goToNextCanvasGroupHit = function () {
-            if (!this._isLastHitOnCanvasGroup) {
-                var nextHit = void 0;
-                if (this.currentIndex === -1) {
-                    nextHit = this.searchResult.get(0);
-                }
-                else {
-                    var current = this.searchResult.get(this.currentIndex);
-                    var canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(current.index);
-                    var canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
-                    var lastCanvasGroupIndex_1 = this.getLastCanvasGroupIndex(canvasesPerCanvasGroup);
-                    nextHit = this.searchResult.hits.find(function (h) { return h.index > lastCanvasGroupIndex_1; });
-                }
-                if (nextHit) {
-                    this.goToCanvasIndex(nextHit);
-                }
-            }
-        };
-        ContentSearchNavigationService.prototype.goToPreviousCanvasGroupHit = function () {
-            var previousIndex = this.isHitOnActiveCanvasGroup
-                ? this.currentIndex - 1
-                : this.currentIndex;
-            var previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
-            this.goToCanvasIndex(previousHit);
-        };
-        ContentSearchNavigationService.prototype.goToCanvasIndex = function (hit) {
-            this.currentIndex = this.findCurrentHitIndex([hit.index]);
-            this.iiifContentSearchService.selected(hit);
-        };
-        ContentSearchNavigationService.prototype.findLastHitOnCanvasGroup = function () {
-            var lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
-                .index;
-            var currentHit = this.searchResult.get(this.currentIndex);
-            return currentHit.index === lastCanvasIndex;
-        };
-        ContentSearchNavigationService.prototype.findFirstHitOnCanvasGroup = function (previousIndex) {
-            var previousHit = this.searchResult.get(previousIndex);
-            var canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
-            var canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-            var leftCanvas = canvasesPerCanvasGroup[0];
-            var leftCanvasHit = this.searchResult.hits.find(function (h) { return h.index === leftCanvas; });
-            if (leftCanvasHit) {
-                previousHit = leftCanvasHit;
-            }
-            else if (canvasesPerCanvasGroup.length === 2) {
-                var rightCanvas_1 = canvasesPerCanvasGroup[1];
-                previousHit = this.searchResult.hits.find(function (h) { return h.index === rightCanvas_1; });
-            }
-            return previousHit;
-        };
-        ContentSearchNavigationService.prototype.findHitOnActiveCanvasGroup = function () {
-            return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
-        };
-        ContentSearchNavigationService.prototype.findCurrentHitIndex = function (canvasGroupIndexes) {
-            var _loop_1 = function (i) {
-                var hit = this_1.searchResult.get(i);
-                if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
-                    return { value: i };
-                }
-                if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
-                    if (i === 0) {
-                        return { value: -1 };
-                    }
-                    else {
-                        var phit_1 = this_1.searchResult.get(i - 1);
-                        return { value: this_1.searchResult.hits.findIndex(function (sr) { return sr.index === phit_1.index; }) };
-                    }
-                }
-            };
-            var this_1 = this;
-            for (var i = 0; i < this.searchResult.size(); i++) {
-                var state_1 = _loop_1(i);
-                if (typeof state_1 === "object")
-                    return state_1.value;
-            }
-            return this.searchResult.size() - 1;
-        };
-        ContentSearchNavigationService.prototype.isFirstHitOnCanvasGroup = function () {
-            return this.currentIndex <= 0;
-        };
-        ContentSearchNavigationService.prototype.getLastCanvasGroupIndex = function (canvasesPerCanvasGroup) {
-            return canvasesPerCanvasGroup.length === 1
-                ? canvasesPerCanvasGroup[0]
-                : canvasesPerCanvasGroup[1];
-        };
-        return ContentSearchNavigationService;
-    }());
-    ContentSearchNavigationService.decorators = [
-        { type: i0.Injectable }
-    ];
-    ContentSearchNavigationService.ctorParameters = function () { return [
-        { type: CanvasService },
-        { type: IiifContentSearchService }
-    ]; };
-
     var AccessKeysService = /** @class */ (function () {
         function AccessKeysService(viewerService, canvasService, modeService, iiifManifestService, iiifContentSearchService, contentSearchDialogService, contentsDialogService, mimeDomHelper, contentSearchNavigationService) {
-            var _this = this;
             this.viewerService = viewerService;
             this.canvasService = canvasService;
             this.modeService = modeService;
@@ -4780,23 +4953,24 @@
             this.isSearchable = false;
             this.hasHits = false;
             this.disabledKeys = [];
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
             this.invert = false;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
-                _this.isSearchable = _this.isManifestSearchable(manifest);
-                _this.invert = manifest.viewingDirection === ViewingDirection.RTL;
-            });
-            this.iiifContentSearchService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (result) {
-                _this.hasHits = result.hits.length > 0;
-            });
         }
-        AccessKeysService.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+        AccessKeysService.prototype.initialize = function () {
+            var _this = this;
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                if (manifest) {
+                    _this.isSearchable = _this.isManifestSearchable(manifest);
+                    _this.invert = manifest.viewingDirection === ViewingDirection.RTL;
+                }
+            }));
+            this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe(function (result) {
+                _this.hasHits = result.hits.length > 0;
+            }));
+        };
+        AccessKeysService.prototype.destroy = function () {
+            this.unsubscribe();
         };
         AccessKeysService.prototype.handleKeyEvents = function (event) {
             var accessKeys = new AccessKeys(event);
@@ -4983,6 +5157,11 @@
             this.updateDisabledKeys();
             return this.disabledKeys.indexOf(keyCode) > -1;
         };
+        AccessKeysService.prototype.unsubscribe = function () {
+            if (this.subscriptions) {
+                this.subscriptions.unsubscribe();
+            }
+        };
         return AccessKeysService;
     }());
     AccessKeysService.decorators = [
@@ -5003,6 +5182,7 @@
     var AttributionDialogResizeService = /** @class */ (function () {
         function AttributionDialogResizeService(mimeDomHelper) {
             this.mimeDomHelper = mimeDomHelper;
+            this._el = null;
             this.resizeSubject = new rxjs.ReplaySubject();
             this.dimensions = new Dimensions();
         }
@@ -5024,15 +5204,17 @@
             configurable: true
         });
         AttributionDialogResizeService.prototype.markForCheck = function () {
-            var dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-            if (this.dimensions.bottom !== dimensions.bottom ||
-                this.dimensions.height !== dimensions.height ||
-                this.dimensions.left !== dimensions.left ||
-                this.dimensions.right !== dimensions.right ||
-                this.dimensions.top !== dimensions.top ||
-                this.dimensions.width !== dimensions.width) {
-                this.dimensions = dimensions;
-                this.resizeSubject.next(Object.assign({}, this.dimensions));
+            if (this.el) {
+                var dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+                if (this.dimensions.bottom !== dimensions.bottom ||
+                    this.dimensions.height !== dimensions.height ||
+                    this.dimensions.left !== dimensions.left ||
+                    this.dimensions.right !== dimensions.right ||
+                    this.dimensions.top !== dimensions.top ||
+                    this.dimensions.width !== dimensions.width) {
+                    this.dimensions = dimensions;
+                    this.resizeSubject.next(Object.assign({}, this.dimensions));
+                }
             }
         };
         return AttributionDialogResizeService;
@@ -5054,28 +5236,27 @@
             this.attributionDialogResizeService = attributionDialogResizeService;
             this.styleService = styleService;
             this.accessKeysHandlerService = accessKeysHandlerService;
-            this.destroyed = new rxjs.Subject();
+            this.manifest = null;
+            this.subscriptions = new rxjs.Subscription();
             attributionDialogResizeService.el = el;
         }
         AttributionDialogComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
                 _this.manifest = manifest;
                 _this.changeDetectorRef.markForCheck();
-            });
+            }));
         };
         AttributionDialogComponent.prototype.ngAfterViewInit = function () {
             var _this = this;
-            this.styleService.onChange.pipe(operators.takeUntil(this.destroyed)).subscribe(function (c) {
+            this.subscriptions.add(this.styleService.onChange.subscribe(function (c) {
+                var _a;
                 var backgroundRgbaColor = _this.styleService.convertToRgba(c, 0.3);
-                _this.renderer.setStyle(_this.container.nativeElement, 'background-color', backgroundRgbaColor);
-            });
+                _this.renderer.setStyle((_a = _this.container) === null || _a === void 0 ? void 0 : _a.nativeElement, 'background-color', backgroundRgbaColor);
+            }));
         };
         AttributionDialogComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
         };
         AttributionDialogComponent.prototype.handleKeys = function (event) {
             this.accessKeysHandlerService.handleKeyEvents(event);
@@ -5092,7 +5273,7 @@
         { type: i0.Component, args: [{
                     template: "<div #container class=\"attribution-container\">\n  <mat-toolbar class=\"attribution-toolbar\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n      <h1 mat-dialog-title>{{ intl.attributionLabel }}</h1>\n      <button\n        mat-icon-button\n        [aria-label]=\"intl.attributonCloseAriaLabel\"\n        [matTooltip]=\"intl.closeLabel\"\n        [matDialogClose]=\"true\"\n      >\n        <mat-icon>close</mat-icon>\n      </button>\n    </div>\n  </mat-toolbar>\n  <p mat-dialog-content [innerHTML]=\"manifest?.attribution\"> </p>\n</div>\n",
                     changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".attribution-toolbar{background:transparent;font-size:14px;min-height:20px!important;padding:8px}.mat-dialog-title{font-size:16px}.mat-dialog-content{margin:0;padding:8px}::ng-deep .attribution-panel{font-family:Roboto,Helvetica Neue,sans-serif}::ng-deep .attribution-panel>.mat-dialog-container{background:transparent!important;font-size:11px;padding:0}::ng-deep .attribution-toolbar>.mat-toolbar-layout>.mat-toolbar-row{height:20px}"]
+                    styles: [".attribution-toolbar{font-size:14px;background:transparent;min-height:20px!important;padding:8px}.mat-dialog-title{font-size:16px}.mat-dialog-content{padding:8px;margin:0}::ng-deep .attribution-panel{font-family:Roboto,Helvetica Neue,sans-serif}::ng-deep .attribution-panel>.mat-dialog-container{background:transparent!important;font-size:11px;padding:0}::ng-deep .attribution-toolbar>.mat-toolbar-layout>.mat-toolbar-row{height:20px}"]
                 },] }
     ];
     AttributionDialogComponent.ctorParameters = function () { return [
@@ -5118,32 +5299,30 @@
             this.attributionDialogResizeService = attributionDialogResizeService;
             this.mimeDomHelper = mimeDomHelper;
             this.isAttributionDialogOpen = false;
+            this.dialogRef = null;
+            this._el = null;
             this.attributionDialogHeight = 0;
-            this.destroyed = new rxjs.Subject();
         }
         AttributionDialogService.prototype.initialize = function () {
             var _this = this;
-            this.mimeResizeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (dimensions) {
-                if (_this.isAttributionDialogOpen) {
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.mimeResizeService.onResize.subscribe(function (dimensions) {
+                if (_this.dialogRef && _this.isAttributionDialogOpen) {
                     var config = _this.getDialogConfig();
                     _this.dialogRef.updatePosition(config.position);
                 }
-            });
-            this.attributionDialogResizeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (dimensions) {
-                if (_this.isAttributionDialogOpen) {
+            }));
+            this.subscriptions.add(this.attributionDialogResizeService.onResize.subscribe(function (dimensions) {
+                if (_this.dialogRef && _this.isAttributionDialogOpen) {
                     _this.attributionDialogHeight = dimensions.height;
                     var config = _this.getDialogConfig();
                     _this.dialogRef.updatePosition(config.position);
                 }
-            });
+            }));
         };
         AttributionDialogService.prototype.destroy = function () {
             this.close();
-            this.destroyed.next();
+            this.unsubscribe();
         };
         Object.defineProperty(AttributionDialogService.prototype, "el", {
             set: function (el) {
@@ -5164,7 +5343,10 @@
                     .subscribe(function () {
                     var config = _this.getDialogConfig();
                     _this.dialogRef = _this.dialog.open(AttributionDialogComponent, config);
-                    _this.dialogRef.afterClosed().subscribe(function (result) {
+                    _this.dialogRef
+                        .afterClosed()
+                        .pipe(operators.take(1))
+                        .subscribe(function (result) {
                         _this.isAttributionDialogOpen = false;
                         _this.mimeDomHelper.setFocusOnViewer();
                     });
@@ -5184,7 +5366,7 @@
         };
         AttributionDialogService.prototype.closeDialogAfter = function (seconds) {
             var _this = this;
-            if (seconds > 0) {
+            if (seconds && seconds > 0) {
                 rxjs.interval(seconds * 1000)
                     .pipe(operators.take(1))
                     .subscribe(function () {
@@ -5193,26 +5375,34 @@
             }
         };
         AttributionDialogService.prototype.getDialogConfig = function () {
-            var dimensions = this.getPosition(this._el);
+            var dimensions = this.getPosition();
             return {
                 hasBackdrop: false,
                 width: '180px',
                 panelClass: 'attribution-panel',
                 position: {
                     top: dimensions.top + 'px',
-                    left: dimensions.left + 'px'
+                    left: dimensions.left + 'px',
                 },
                 autoFocus: true,
-                restoreFocus: false
+                restoreFocus: false,
             };
         };
-        AttributionDialogService.prototype.getPosition = function (el) {
+        AttributionDialogService.prototype.getPosition = function () {
+            if (!this._el) {
+                throw new Error("Could not find position because element is missing");
+            }
             var padding = 20;
-            var dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+            var dimensions = this.mimeDomHelper.getBoundingClientRect(this._el);
             return new Dimensions({
                 top: dimensions.top + dimensions.height - this.attributionDialogHeight - 68,
-                left: dimensions.left + padding
+                left: dimensions.left + padding,
             });
+        };
+        AttributionDialogService.prototype.unsubscribe = function () {
+            if (this.subscriptions) {
+                this.subscriptions.unsubscribe();
+            }
         };
         return AttributionDialogService;
     }());
@@ -5251,7 +5441,7 @@
             this.canvasService = canvasService;
             this.intl = intl;
             this.changeDetectorRef = changeDetectorRef;
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
             this.numberOfCanvases = this.canvasService.numberOfCanvases;
             this.createForm();
         }
@@ -5259,25 +5449,22 @@
             this.canvasGroupControl = new forms.FormControl('', [
                 forms.Validators.required,
                 forms.Validators.min(1),
-                forms.Validators.max(this.numberOfCanvases)
+                forms.Validators.max(this.numberOfCanvases),
             ]);
             this.canvasGroupForm = this.fb.group({
-                canvasGroupControl: this.canvasGroupControl
+                canvasGroupControl: this.canvasGroupControl,
             });
         };
         CanvasGroupDialogComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.intl.changes
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function () { return _this.changeDetectorRef.markForCheck(); });
+            this.subscriptions.add(this.intl.changes.subscribe(function () { return _this.changeDetectorRef.markForCheck(); }));
         };
         CanvasGroupDialogComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
         };
         CanvasGroupDialogComponent.prototype.onSubmit = function () {
             if (this.canvasGroupForm.valid) {
-                var pageNumber = this.canvasGroupForm.get('canvasGroupControl').value - 1;
+                var pageNumber = this.canvasGroupControl.value - 1;
                 this.viewerService.goToCanvasGroup(this.canvasService.findCanvasGroupByCanvasIndex(pageNumber), false);
                 this.dialogRef.close();
             }
@@ -5288,7 +5475,7 @@
         { type: i0.Component, args: [{
                     template: "<div fxLayout=\"column\">\n  <h1 class=\"canvas-group-dialog-title\">{{ intl.goToPageLabel }}</h1>\n  <form\n    [formGroup]=\"canvasGroupForm\"\n    (ngSubmit)=\"onSubmit()\"\n    novalidate\n    autocomplete=\"off\"\n  >\n    <mat-form-field [floatLabel]=\"'always'\">\n      <input\n        class=\"go-to-canvas-group-input\"\n        type=\"number\"\n        matInput\n        min=\"1\"\n        [placeholder]=\"intl.enterPageNumber\"\n        formControlName=\"canvasGroupControl\"\n      />\n      <mat-error *ngIf=\"canvasGroupControl.errors?.max\">{{\n        intl.pageDoesNotExists\n      }}</mat-error>\n    </mat-form-field>\n    <div fxLayout=\"row\" fxLayoutAlign=\"end center\">\n      <button type=\"button\" mat-button matDialogClose> CANCEL </button>\n      <button\n        type=\"submit\"\n        mat-button\n        [disabled]=\"canvasGroupForm.pristine || canvasGroupForm.invalid\"\n      >\n        OK\n      </button>\n    </div>\n  </form>\n</div>\n",
                     changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".canvas-group-dialog-title{display:block;margin:0 0 20px}"]
+                    styles: [".canvas-group-dialog-title{margin:0 0 20px;display:block}"]
                 },] }
     ];
     CanvasGroupDialogComponent.ctorParameters = function () { return [
@@ -5304,19 +5491,21 @@
         function CanvasGroupDialogService(dialog) {
             this.dialog = dialog;
             this.isCanvasGroupDialogOpen = false;
-            this.destroyed = new rxjs.Subject();
+            this.dialogRef = null;
         }
         CanvasGroupDialogService.prototype.initialize = function () { };
         CanvasGroupDialogService.prototype.destroy = function () {
             this.close();
-            this.destroyed.next();
         };
         CanvasGroupDialogService.prototype.open = function (timeout) {
             var _this = this;
             if (!this.isCanvasGroupDialogOpen) {
                 var config = this.getDialogConfig();
                 this.dialogRef = this.dialog.open(CanvasGroupDialogComponent, config);
-                this.dialogRef.afterClosed().subscribe(function (result) {
+                this.dialogRef
+                    .afterClosed()
+                    .pipe(operators.take(1))
+                    .subscribe(function (result) {
                     _this.isCanvasGroupDialogOpen = false;
                 });
                 this.isCanvasGroupDialogOpen = true;
@@ -5335,7 +5524,7 @@
             return {
                 hasBackdrop: false,
                 disableClose: true,
-                panelClass: 'canvas-group-panel'
+                panelClass: 'canvas-group-panel',
             };
         };
         return CanvasGroupDialogService;
@@ -5383,33 +5572,30 @@
             this.mimeResizeService = mimeResizeService;
             this.tabHeight = {};
             this.mimeHeight = 0;
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
         }
         HelpDialogComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.mimeResizeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (dimensions) {
+            this.subscriptions.add(this.mimeResizeService.onResize.subscribe(function (dimensions) {
                 _this.mimeHeight = dimensions.height;
                 _this.resizeTabHeight();
-            });
+            }));
             this.resizeTabHeight();
         };
         HelpDialogComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
         };
         HelpDialogComponent.prototype.resizeTabHeight = function () {
             var height = this.mimeHeight;
             if (this.mediaObserver.isActive('lt-md')) {
                 this.tabHeight = {
-                    maxHeight: window.innerHeight - 128 + 'px'
+                    maxHeight: window.innerHeight - 128 + 'px',
                 };
             }
             else {
                 height -= 272;
                 this.tabHeight = {
-                    maxHeight: height + 'px'
+                    maxHeight: height + 'px',
                 };
             }
         };
@@ -5419,7 +5605,7 @@
         { type: i0.Component, args: [{
                     selector: 'mime-help',
                     template: "<div class=\"help-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 class=\"heading-desktop\" mat-dialog-title>{{\n            intl.help.helpLabel\n          }}</h1>\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <div [ngStyle]=\"tabHeight\" class=\"help-content\">\n    <p [innerHTML]=\"intl.help.line1\"></p>\n    <p [innerHTML]=\"intl.help.line2\"></p>\n    <p [innerHTML]=\"intl.help.line3\"></p>\n    <p [innerHTML]=\"intl.help.line4\"></p>\n    <p [innerHTML]=\"intl.help.line5\"></p>\n    <p [innerHTML]=\"intl.help.line6\"></p>\n    <p [innerHTML]=\"intl.help.line7\"></p>\n    <p [innerHTML]=\"intl.help.line8\"></p>\n    <p [innerHTML]=\"intl.help.line9\"></p>\n    <p [innerHTML]=\"intl.help.line10\"></p>\n  </div>\n</div>\n",
-                    styles: [".help-container{font-family:Roboto,Helvetica Neue,sans-serif;font-size:14px}.help-content{overflow:auto;padding:16px}::ng-deep .help-panel{max-width:none!important}::ng-deep .help-panel>.mat-dialog-container{overflow:initial;padding:0!important}"]
+                    styles: [".help-container{font-family:Roboto,Helvetica Neue,sans-serif;font-size:14px}.help-content{padding:16px;overflow:auto}::ng-deep .help-panel{max-width:none!important}::ng-deep .help-panel>.mat-dialog-container{padding:0!important;overflow:visible;overflow:initial}"]
                 },] }
     ];
     HelpDialogComponent.ctorParameters = function () { return [
@@ -5500,24 +5686,23 @@
             this.dialog = dialog;
             this.helpDialogConfigStrategyFactory = helpDialogConfigStrategyFactory;
             this.mimeResizeService = mimeResizeService;
+            this._el = null;
             this.isHelpDialogOpen = false;
-            this.destroyed = new rxjs.Subject();
         }
         HelpDialogService.prototype.initialize = function () {
             var _this = this;
-            this.mimeResizeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function () {
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.mimeResizeService.onResize.subscribe(function () {
                 if (_this.isHelpDialogOpen) {
                     var config = _this.getDialogConfig();
                     _this.dialogRef.updatePosition(config.position);
                     _this.dialogRef.updateSize(config.width, config.height);
                 }
-            });
+            }));
         };
         HelpDialogService.prototype.destroy = function () {
             this.close();
-            this.destroyed.next();
+            this.unsubscribe();
         };
         Object.defineProperty(HelpDialogService.prototype, "el", {
             set: function (el) {
@@ -5531,7 +5716,10 @@
             if (!this.isHelpDialogOpen) {
                 var config = this.getDialogConfig();
                 this.dialogRef = this.dialog.open(HelpDialogComponent, config);
-                this.dialogRef.afterClosed().subscribe(function () {
+                this.dialogRef
+                    .afterClosed()
+                    .pipe(operators.take(1))
+                    .subscribe(function () {
                     _this.isHelpDialogOpen = false;
                 });
                 this.isHelpDialogOpen = true;
@@ -5550,9 +5738,14 @@
             return this.isHelpDialogOpen;
         };
         HelpDialogService.prototype.getDialogConfig = function () {
-            return this.helpDialogConfigStrategyFactory
-                .create()
-                .getConfig(this._el);
+            return this._el
+                ? this.helpDialogConfigStrategyFactory.create().getConfig(this._el)
+                : {};
+        };
+        HelpDialogService.prototype.unsubscribe = function () {
+            if (this.subscriptions) {
+                this.subscriptions.unsubscribe();
+            }
         };
         return HelpDialogService;
     }());
@@ -5586,29 +5779,27 @@
             this.intl = intl;
             this.changeDetectorRef = changeDetectorRef;
             this.iiifManifestService = iiifManifestService;
-            this.destroyed = new rxjs.Subject();
+            this.manifest = null;
+            this.subscriptions = new rxjs.Subscription();
         }
         MetadataComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
                 _this.manifest = manifest;
                 _this.changeDetectorRef.markForCheck();
-            });
+            }));
         };
         MetadataComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
         };
         return MetadataComponent;
     }());
     MetadataComponent.decorators = [
         { type: i0.Component, args: [{
                     selector: 'mime-metadata',
-                    template: "<div class=\"ngx-mime-metadata-container\">\n  <div *ngFor=\"let metadata of manifest?.metadata\" class=\"metadata\">\n    <div class=\"title\">{{ metadata.label }}</div>\n    <span class=\"content\" [innerHTML]=\"metadata.value\"></span>\n  </div>\n  <div *ngIf=\"manifest?.attribution\">\n    <div class=\"title\">{{ intl.attributionLabel }}</div>\n    <span\n      class=\"content attribution\"\n      [innerHTML]=\"manifest?.attribution\"\n    ></span>\n  </div>\n  <div *ngIf=\"manifest?.license\">\n    <div class=\"title\">{{ intl.licenseLabel }}</div>\n    <span class=\"content license\"\n      ><a [href]=\"manifest?.license\" target=\"_blank\">{{\n        manifest?.license\n      }}</a></span\n    >\n  </div>\n  <div *ngIf=\"manifest?.logo\">\n    <span><img class=\"content logo\" [src]=\"manifest?.logo\" /></span>\n  </div>\n</div>\n",
+                    template: "<ng-container *ngIf=\"manifest\">\n  <div class=\"ngx-mime-metadata-container\">\n    <div *ngFor=\"let metadata of manifest.metadata\" class=\"metadata\">\n      <div class=\"title\">{{ metadata.label }}</div>\n      <span class=\"content\" [innerHTML]=\"metadata.value\"></span>\n    </div>\n    <div *ngIf=\"manifest.attribution\">\n      <div class=\"title\">{{ intl.attributionLabel }}</div>\n      <span\n        class=\"content attribution\"\n        [innerHTML]=\"manifest.attribution\"\n      ></span>\n    </div>\n    <div *ngIf=\"manifest.license\">\n      <div class=\"title\">{{ intl.licenseLabel }}</div>\n      <span class=\"content license\"\n        ><a [href]=\"manifest.license\" target=\"_blank\">{{\n          manifest.license\n        }}</a></span\n      >\n    </div>\n    <div *ngIf=\"manifest.logo\">\n      <span><img class=\"content logo\" [src]=\"manifest.logo\" /></span>\n    </div>\n  </div>\n</ng-container>\n",
                     changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".title{font-size:14px!important;font-weight:400;margin-bottom:4px}.content{display:block;font-size:12px;margin-bottom:8px;word-break:break-all}.logo{max-height:64px;max-width:300px}"]
+                    styles: [".title{font-size:14px!important;font-weight:400;margin-bottom:4px}.content{display:block;font-size:12px;word-break:break-all;margin-bottom:8px}.logo{max-width:300px;max-height:64px}"]
                 },] }
     ];
     MetadataComponent.ctorParameters = function () { return [
@@ -5625,32 +5816,31 @@
             this.viewerService = viewerService;
             this.canvasService = canvasService;
             this.canvasChanged = new i0.EventEmitter();
-            this.destroyed = new rxjs.Subject();
+            this.manifest = null;
+            this.currentCanvasGroupIndex = 0;
+            this.subscriptions = new rxjs.Subscription();
         }
         TocComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
                 _this.manifest = manifest;
                 _this.currentCanvasGroupIndex = _this.canvasService.currentCanvasGroupIndex;
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.viewerService.onCanvasGroupIndexChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (canvasGroupIndex) {
+            }));
+            this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe(function (canvasGroupIndex) {
                 _this.currentCanvasGroupIndex = canvasGroupIndex;
                 _this.changeDetectorRef.detectChanges();
-            });
+            }));
         };
         TocComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
         };
         TocComponent.prototype.goToCanvas = function (event, canvasIndex) {
-            event.preventDefault();
-            this.viewerService.goToCanvas(canvasIndex, false);
-            this.canvasChanged.emit(canvasIndex);
+            if (canvasIndex) {
+                event.preventDefault();
+                this.viewerService.goToCanvas(canvasIndex, false);
+                this.canvasChanged.emit(canvasIndex);
+            }
         };
         return TocComponent;
     }());
@@ -5659,7 +5849,7 @@
                     selector: 'mime-toc',
                     template: "<div class=\"ngx-mime-toc-container\">\n  <div *ngFor=\"let structure of manifest?.structures\">\n    <a\n      href=\"\"\n      class=\"toc-link\"\n      [class.currentCanvasGroup]=\"\n        currentCanvasGroupIndex === structure.canvasIndex\n      \"\n      (click)=\"goToCanvas($event, structure.canvasIndex)\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"space-between center\"\n    >\n      <span class=\"label\">{{ structure.label }}</span>\n      <span class=\"canvasGroupIndex\">{{ structure.canvasIndex + 1 }}</span>\n    </a>\n  </div>\n</div>\n",
                     changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".toc-link{font-size:14px!important;font-weight:400;margin-bottom:8px;text-decoration:none}.currentCanvasGroup{font-weight:700}"]
+                    styles: [".toc-link{text-decoration:none;font-size:14px!important;font-weight:400;margin-bottom:8px}.currentCanvasGroup{font-weight:700}"]
                 },] }
     ];
     TocComponent.ctorParameters = function () { return [
@@ -5727,9 +5917,12 @@
             this.styleService = styleService;
             this.iiifManifestService = iiifManifestService;
             this.osdToolbarStyle = {};
+            this.numberOfCanvasGroups = 0;
+            this.isFirstCanvasGroup = false;
+            this.isLastCanvasGroup = false;
             this.state = 'hide';
             this.invert = false;
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
         }
         Object.defineProperty(OsdToolbarComponent.prototype, "osdToolbarState", {
             get: function () {
@@ -5740,38 +5933,32 @@
         });
         OsdToolbarComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
-                _this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-                _this.changeDetectorRef.detectChanges();
-            });
-            this.mimeService.onResize
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (dimensions) {
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                if (manifest) {
+                    _this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+                    _this.changeDetectorRef.detectChanges();
+                }
+            }));
+            this.subscriptions.add(this.mimeService.onResize.subscribe(function (dimensions) {
                 _this.osdToolbarStyle = {
-                    top: dimensions.top + 110 + 'px'
+                    top: dimensions.top + 110 + 'px',
                 };
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.viewerService.onCanvasGroupIndexChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (currentCanvasGroupIndex) {
+            }));
+            this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe(function (currentCanvasGroupIndex) {
                 _this.numberOfCanvasGroups = _this.canvasService.numberOfCanvasGroups;
                 _this.isFirstCanvasGroup = _this.isOnFirstCanvasGroup(currentCanvasGroupIndex);
                 _this.isLastCanvasGroup = _this.isOnLastCanvasGroup(currentCanvasGroupIndex);
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.intl.changes
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function () { return _this.changeDetectorRef.markForCheck(); });
+            }));
+            this.subscriptions.add(this.intl.changes.subscribe(function () { return _this.changeDetectorRef.markForCheck(); }));
         };
         OsdToolbarComponent.prototype.ngAfterViewInit = function () {
             var _this = this;
-            this.styleService.onChange.pipe(operators.takeUntil(this.destroyed)).subscribe(function (c) {
+            this.subscriptions.add(this.styleService.onChange.subscribe(function (c) {
                 var backgroundRgbaColor = _this.styleService.convertToRgba(c, 0.3);
                 _this.renderer.setStyle(_this.container.nativeElement, 'background-color', backgroundRgbaColor);
-            });
+            }));
         };
         OsdToolbarComponent.prototype.zoomIn = function () {
             this.viewerService.zoomIn();
@@ -5786,8 +5973,7 @@
             this.viewerService.rotate();
         };
         OsdToolbarComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
         };
         OsdToolbarComponent.prototype.goToPreviousCanvasGroup = function () {
             this.viewerService.goToPreviousCanvasGroup();
@@ -5812,22 +5998,22 @@
                         animations.trigger('osdToolbarState', [
                             animations.state('hide', animations.style({
                                 transform: 'translate(-120px, 0)',
-                                display: 'none'
+                                display: 'none',
                             })),
                             animations.state('show', animations.style({
                                 transform: 'translate(0px, 0px)',
-                                display: 'block'
+                                display: 'block',
                             })),
                             animations.transition('hide => show', [
                                 animations.group([
                                     animations.style({ display: 'block' }),
-                                    animations.animate(ViewerOptions.transitions.toolbarsEaseInTime + "ms ease-out")
-                                ])
+                                    animations.animate(ViewerOptions.transitions.toolbarsEaseInTime + "ms ease-out"),
+                                ]),
                             ]),
-                            animations.transition('show => hide', animations.animate(ViewerOptions.transitions.toolbarsEaseOutTime + "ms ease-in"))
-                        ])
+                            animations.transition('show => hide', animations.animate(ViewerOptions.transitions.toolbarsEaseOutTime + "ms ease-in")),
+                        ]),
                     ],
-                    styles: [":host{z-index:1}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{background:transparent;border-radius:8px;margin-left:16px;position:absolute;width:auto;z-index:2}"]
+                    styles: [":host{z-index:1}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;z-index:2;background:transparent;width:auto;border-radius:8px;margin-left:16px}"]
                 },] }
     ];
     OsdToolbarComponent.ctorParameters = function () { return [
@@ -5853,21 +6039,25 @@
             this.canvasService = canvasService;
             this.pageDialogService = pageDialogService;
             this.iiifManifestService = iiifManifestService;
+            this.numberOfCanvases = 0;
+            this.canvasGroupLabel = '';
+            this.numberOfCanvasGroups = 0;
+            this.currentCanvasGroupIndex = -1;
+            this.isFirstCanvasGroup = false;
+            this.isLastCanvasGroup = false;
             this.invert = false;
             this.currentSliderCanvasGroupIndex = -1;
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
         }
         CanvasGroupNavigatorComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
-                _this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-                _this.changeDetectorRef.detectChanges();
-            });
-            this.canvasService.onCanvasGroupIndexChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (currentCanvasGroupIndex) {
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                if (manifest) {
+                    _this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+                    _this.changeDetectorRef.detectChanges();
+                }
+            }));
+            this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange.subscribe(function (currentCanvasGroupIndex) {
                 if (_this.currentSliderCanvasGroupIndex !== -1 &&
                     _this.currentSliderCanvasGroupIndex === currentCanvasGroupIndex) {
                     _this.currentSliderCanvasGroupIndex = -1;
@@ -5879,20 +6069,19 @@
                 _this.isFirstCanvasGroup = _this.isOnFirstCanvasGroup(currentCanvasGroupIndex);
                 _this.isLastCanvasGroup = _this.isOnLastCanvasGroup(currentCanvasGroupIndex);
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.canvasService.onNumberOfCanvasGroupsChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (numberOfCanvasGroups) {
+            }));
+            this.subscriptions.add(this.canvasService.onNumberOfCanvasGroupsChange.subscribe(function (numberOfCanvasGroups) {
                 _this.numberOfCanvasGroups = numberOfCanvasGroups;
                 _this.numberOfCanvases = _this.canvasService.numberOfCanvases;
-                _this.isFirstCanvasGroup = _this.isOnFirstCanvasGroup(_this.currentCanvasGroupIndex);
-                _this.isLastCanvasGroup = _this.isOnLastCanvasGroup(_this.currentCanvasGroupIndex);
+                if (_this.currentCanvasGroupIndex !== null) {
+                    _this.isFirstCanvasGroup = _this.isOnFirstCanvasGroup(_this.currentCanvasGroupIndex);
+                    _this.isLastCanvasGroup = _this.isOnLastCanvasGroup(_this.currentCanvasGroupIndex);
+                }
                 _this.changeDetectorRef.detectChanges();
-            });
+            }));
         };
         CanvasGroupNavigatorComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
         };
         CanvasGroupNavigatorComponent.prototype.goToPreviousCanvasGroup = function () {
             this.viewerService.goToPreviousCanvasGroup();
@@ -5903,8 +6092,10 @@
         CanvasGroupNavigatorComponent.prototype.onSliderChange = function (change) {
             this.currentSliderCanvasGroupIndex = change.value;
             this.currentCanvasGroupIndex = change.value;
-            this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
-            this.viewerService.goToCanvasGroup(change.value, false);
+            if (this.currentCanvasGroupIndex) {
+                this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
+                this.viewerService.goToCanvasGroup(this.currentCanvasGroupIndex, false);
+            }
             this.changeDetectorRef.detectChanges();
         };
         CanvasGroupNavigatorComponent.prototype.onSliderHotKey = function (event) {
@@ -5928,7 +6119,7 @@
         { type: i0.Component, args: [{
                     selector: 'mime-page-navigator',
                     template: "<mat-toolbar>\n  <div fxLayout=\"row\" fxFlex fxLayoutAlign=\"start center\">\n    <div fxFlex>\n      <mat-slider\n        class=\"navigation-slider\"\n        [invert]=\"!invert\"\n        [max]=\"numberOfCanvasGroups - 1\"\n        [value]=\"currentCanvasGroupIndex\"\n        [attr.aria-label]=\"intl.currentPageLabel\"\n        (input)=\"onSliderChange($event)\"\n        (keyup)=\"onSliderHotKey($event)\"\n        fxFlex\n      ></mat-slider>\n    </div>\n    <button mat-button class=\"canvasGroups\" (click)=\"openCanvasGroupDialog()\">\n      <div fxLayout=\"row\" fxLayoutGap=\"1px\">\n        <span id=\"currentCanvasGroupLabel\">{{ canvasGroupLabel }}</span\n        ><span>/</span\n        ><span id=\"numOfCanvasGroups\">{{ numberOfCanvases }}</span>\n      </div>\n    </button>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"invert\">\n        <button\n          id=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"!invert\">\n        <button\n          id=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n",
-                    styles: [".canvasGroups{cursor:pointer;font-size:13px;text-align:center}.navigation-slider{width:100%}"]
+                    styles: [".canvasGroups{font-size:13px;text-align:center;cursor:pointer}.navigation-slider{width:100%}"]
                 },] }
     ];
     CanvasGroupNavigatorComponent.ctorParameters = function () { return [
@@ -5956,33 +6147,30 @@
             this.isLastCanvasGroupHit = false;
             this.currentIndex = 0;
             this.invert = false;
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
         }
         ContentSearchNavigatorComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
-                _this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-                _this.changeDetectorRef.detectChanges();
-            });
-            this.intl.changes
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function () { return _this.changeDetectorRef.markForCheck(); });
-            this.canvasService.onCanvasGroupIndexChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (canvasGroupIndex) {
+            this.contentSearchNavigationService.initialize();
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                if (manifest) {
+                    _this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+                    _this.changeDetectorRef.detectChanges();
+                }
+            }));
+            this.subscriptions.add(this.intl.changes.subscribe(function () { return _this.changeDetectorRef.markForCheck(); }));
+            this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange.subscribe(function (canvasGroupIndex) {
                 _this.contentSearchNavigationService.update(canvasGroupIndex);
                 _this.currentIndex = _this.contentSearchNavigationService.getCurrentIndex();
                 _this.isHitOnActiveCanvasGroup = _this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
                 _this.isFirstCanvasGroupHit = _this.contentSearchNavigationService.getFirstHitCanvasGroup();
                 _this.isLastCanvasGroupHit = _this.contentSearchNavigationService.getLastHitCanvasGroup();
                 _this.changeDetectorRef.detectChanges();
-            });
+            }));
         };
         ContentSearchNavigatorComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
+            this.contentSearchNavigationService.destroy();
         };
         ContentSearchNavigatorComponent.prototype.clear = function () {
             this.iiifContentSearchService.destroy();
@@ -6025,7 +6213,7 @@
             this.searchResult = new SearchResult();
             this.showPageNavigator = true;
             this.showContentSearchNavigator = false;
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
         }
         Object.defineProperty(ViewerFooterComponent.prototype, "footerState", {
             get: function () {
@@ -6036,25 +6224,21 @@
         });
         ViewerFooterComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.iiifContentSearchService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (sr) {
+            this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe(function (sr) {
                 _this.searchResult = sr;
                 _this.showContentSearchNavigator = _this.searchResult.size() > 0;
                 _this.showPageNavigator =
                     _this.searchResult.size() === 0 || !_this.isMobile();
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.mediaSubscription = this.mediaObserver.asObservable().subscribe(function (changes) {
+            }));
+            this.subscriptions.add(this.mediaObserver.asObservable().subscribe(function (changes) {
                 _this.showPageNavigator =
                     _this.searchResult.size() === 0 || !_this.isMobile();
                 _this.changeDetectorRef.detectChanges();
-            });
+            }));
         };
         ViewerFooterComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
-            this.mediaSubscription.unsubscribe();
+            this.subscriptions.unsubscribe();
         };
         ViewerFooterComponent.prototype.isMobile = function () {
             return this.mediaObserver.isActive('lt-md');
@@ -6068,16 +6252,16 @@
                     animations: [
                         animations.trigger('footerState', [
                             animations.state('hide', animations.style({
-                                transform: 'translate(0, 100%)'
+                                transform: 'translate(0, 100%)',
                             })),
                             animations.state('show', animations.style({
-                                transform: 'translate(0, 0)'
+                                transform: 'translate(0, 0)',
                             })),
                             animations.transition('hide => show', animations.animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
-                            animations.transition('show => hide', animations.animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
-                        ])
+                            animations.transition('show => hide', animations.animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
+                        ]),
                     ],
-                    styles: [":host{-moz-user-select:none;-ms-user-select:none;-webkit-user-select:none;display:block;user-select:none;width:100%}.footer-toolbar{padding:0}[hidden]{display:none}"]
+                    styles: [":host{display:block;width:100%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.footer-toolbar{padding:0}[hidden]{display:none}"]
                 },] }
     ];
     ViewerFooterComponent.ctorParameters = function () { return [
@@ -6093,8 +6277,8 @@
 
     var IconComponent = /** @class */ (function () {
         function IconComponent() {
+            this.iconName = '';
         }
-        IconComponent.prototype.ngOnInit = function () { };
         return IconComponent;
     }());
     IconComponent.decorators = [
@@ -6102,16 +6286,15 @@
                     selector: 'mime-icon',
                     template: "<div class=\"mat-icon\">\n  <ng-container *ngIf=\"iconName === 'single_page_display'\">\n    <div class=\"single-page-display\">\n      <svg\n        version=\"1.1\"\n        id=\"Layer_1\"\n        xmlns=\"http://www.w3.org/2000/svg\"\n        xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n        viewBox=\"0 0 90 90\"\n        preserveAspectRatio=\"xMidYMin slice\"\n      >\n        <style type=\"text/css\">\n          .st0 {\n            clip-path: url(#SVGID_2_);\n          }\n        </style>\n        <g>\n          <defs><rect id=\"SVGID_1_\" width=\"100%\" height=\"100%\" /></defs>\n          <clipPath id=\"SVGID_2_\">\n            <use xlink:href=\"#SVGID_1_\" style=\"overflow:visible;\" />\n          </clipPath>\n          <path\n            class=\"st0\"\n            d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M26.1,31.8H4V4.1h13.6v8.4h8.5V31.8z M30,31.6\n          V11.4L18.7,0H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n          />\n        </g>\n      </svg>\n    </div>\n  </ng-container>\n  <ng-container *ngIf=\"iconName === 'two_page_display'\">\n    <svg\n      version=\"1.1\"\n      id=\"Layer_1\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n      viewBox=\"0 0 90 90\"\n      preserveAspectRatio=\"xMidYMin slice\"\n    >\n      <style type=\"text/css\">\n        .st0 {\n          clip-path: url(#SVGID_2_);\n        }\n      </style>\n      <g>\n        <defs><rect id=\"SVGID_1_\" width=\"100%\" height=\"100%\" /></defs>\n        <clipPath id=\"SVGID_2_\">\n          <use xlink:href=\"#SVGID_1_\" style=\"overflow:visible;\" />\n        </clipPath>\n        <path\n          class=\"st0\"\n          d=\"M52.5,25.2H39.1v2.7h13.4V25.2z M52.5,18.1H39.1v2.7h13.4V18.1z M56.8,31.8H34.7V4.1h13.6v8.4h8.5V31.8z\n        M60.8,31.6V11.4L49.4,0H35c0,0-4.3,0-4.3,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C56.6,35.9,60.8,35.9,60.8,31.6\"\n        />\n        <path\n          class=\"st0\"\n          d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M21.7,11.1H8.3v2.7h13.4V11.1z M26.1,31.8H4V4.1\n       h22.1V31.8z M30,31.6V4.3c0,0,0-4.3-4.3-4.3H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n        />\n      </g>\n    </svg>\n  </ng-container>\n</div>\n",
                     changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".mat-icon{left:7px;position:absolute;top:12px;vertical-align:middle}.single-page-display{margin-left:5px}svg{height:40px;width:40px}"]
+                    styles: [".mat-icon{position:absolute;top:12px;left:7px;vertical-align:middle}.single-page-display{margin-left:5px}svg{height:40px;width:40px}"]
                 },] }
     ];
-    IconComponent.ctorParameters = function () { return []; };
     IconComponent.propDecorators = {
         iconName: [{ type: i0.Input }]
     };
 
     var ViewerHeaderComponent = /** @class */ (function () {
-        function ViewerHeaderComponent(intl, changeDetectorRef, contentsDialogService, contentSearchDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, viewerLayoutService) {
+        function ViewerHeaderComponent(intl, changeDetectorRef, contentsDialogService, contentSearchDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, viewerLayoutService, el) {
             this.intl = intl;
             this.changeDetectorRef = changeDetectorRef;
             this.contentsDialogService = contentsDialogService;
@@ -6121,6 +6304,8 @@
             this.fullscreenService = fullscreenService;
             this.mimeDomHelper = mimeDomHelper;
             this.viewerLayoutService = viewerLayoutService;
+            this.el = el;
+            this.manifest = null;
             this.state = 'hide';
             this.isContentSearchEnabled = false;
             this.isFullscreenEnabled = false;
@@ -6129,7 +6314,10 @@
             this.isPagedManifest = false;
             this.viewerLayout = ViewerLayout.ONE_PAGE;
             this.ViewerLayout = ViewerLayout; // enables parsing of enum in template
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
+            contentsDialogService.el = el;
+            contentSearchDialogService.el = el;
+            helpDialogService.el = el;
         }
         Object.defineProperty(ViewerHeaderComponent.prototype, "headerState", {
             get: function () {
@@ -6141,35 +6329,29 @@
         ViewerHeaderComponent.prototype.ngOnInit = function () {
             var _this = this;
             this.isFullscreenEnabled = this.fullscreenService.isEnabled();
-            this.intl.changes
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function () { return _this.changeDetectorRef.markForCheck(); });
-            this.fullscreenService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function () {
+            this.subscriptions.add(this.intl.changes.subscribe(function () { return _this.changeDetectorRef.markForCheck(); }));
+            this.subscriptions.add(this.fullscreenService.onChange.subscribe(function () {
                 _this.isInFullscreen = _this.fullscreenService.isFullscreen();
                 _this.fullscreenLabel = _this.isInFullscreen
                     ? _this.intl.exitFullScreenLabel
                     : _this.intl.fullScreenLabel;
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
+            }));
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
                 _this.manifest = manifest;
-                _this.isContentSearchEnabled = manifest.service ? true : false;
-                _this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
+                _this.isContentSearchEnabled =
+                    manifest && manifest.service ? true : false;
+                _this.isPagedManifest = manifest
+                    ? ManifestUtils.isManifestPaged(manifest)
+                    : false;
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.viewerLayoutService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (viewerLayout) {
+            }));
+            this.subscriptions.add(this.viewerLayoutService.onChange.subscribe(function (viewerLayout) {
                 _this.viewerLayout = viewerLayout;
-            });
+            }));
         };
         ViewerHeaderComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
         };
         ViewerHeaderComponent.prototype.toggleContents = function () {
             this.contentSearchDialogService.close();
@@ -6206,19 +6388,19 @@
     ViewerHeaderComponent.decorators = [
         { type: i0.Component, args: [{
                     selector: 'mime-viewer-header',
-                    template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div fxFlexOffset=\"16px\" class=\"label\" [matTooltip]=\"manifest?.label\">{{\n      manifest?.label\n    }}</div>\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest\"\n        mat-icon-button\n        [id]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? 'toggleTwoPageViewButton'\n            : 'toggleSinglePageViewButton'\n        \"\n        [attr.aria-label]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        [matTooltip]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        (click)=\"toggleViewerLayout()\"\n      >\n        <mime-icon\n          [iconName]=\"\n            viewerLayout === ViewerLayout.ONE_PAGE\n              ? 'two_page_display'\n              : 'single_page_display'\n          \"\n        >\n        </mime-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentsDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.contentsLabel\"\n        [matTooltip]=\"intl.contentsLabel\"\n        (click)=\"toggleContents()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n",
+                    template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div *ngIf=\"manifest\" fxFlexOffset=\"16px\" class=\"label\" [matTooltip]=\"manifest.label\">{{\n      manifest.label\n    }}</div>\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest\"\n        mat-icon-button\n        [id]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? 'toggleTwoPageViewButton'\n            : 'toggleSinglePageViewButton'\n        \"\n        [attr.aria-label]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        [matTooltip]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        (click)=\"toggleViewerLayout()\"\n      >\n        <mime-icon\n          [iconName]=\"\n            viewerLayout === ViewerLayout.ONE_PAGE\n              ? 'two_page_display'\n              : 'single_page_display'\n          \"\n        >\n        </mime-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentsDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.contentsLabel\"\n        [matTooltip]=\"intl.contentsLabel\"\n        (click)=\"toggleContents()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n",
                     changeDetection: i0.ChangeDetectionStrategy.Default,
                     animations: [
                         animations.trigger('headerState', [
                             animations.state('hide', animations.style({
-                                transform: 'translate(0, -100%)'
+                                transform: 'translate(0, -100%)',
                             })),
                             animations.state('show', animations.style({
-                                transform: 'translate(0px, 0px)'
+                                transform: 'translate(0px, 0px)',
                             })),
                             animations.transition('hide => show', animations.animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
-                            animations.transition('show => hide', animations.animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
-                        ])
+                            animations.transition('show => hide', animations.animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
+                        ]),
                     ],
                     styles: [":host{max-height:64px}.header-container{width:100%}.label{font-size:17px;overflow:hidden;text-overflow:ellipsis}mat-toolbar{padding:0}.buttons-container{padding:0 16px}"]
                 },] }
@@ -6232,7 +6414,8 @@
         { type: IiifManifestService },
         { type: FullscreenService },
         { type: MimeDomHelper },
-        { type: ViewerLayoutService }
+        { type: ViewerLayoutService },
+        { type: i0.ElementRef }
     ]; };
     ViewerHeaderComponent.propDecorators = {
         mimeHeaderBefore: [{ type: i0.ViewChild, args: ['mimeHeaderBefore', { read: i0.ViewContainerRef, static: true },] }],
@@ -6245,16 +6428,17 @@
             this.spinnerService = spinnerService;
             this.changeDetectorRef = changeDetectorRef;
             this.visible = false;
+            this.subscriptions = new rxjs.Subscription();
         }
         ViewerSpinnerComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.spinnerSub = this.spinnerService.spinnerState.subscribe(function (state) {
+            this.subscriptions.add(this.spinnerService.spinnerState.subscribe(function (state) {
                 _this.visible = state.show;
                 _this.changeDetectorRef.detectChanges();
-            });
+            }));
         };
         ViewerSpinnerComponent.prototype.ngOnDestroy = function () {
-            this.spinnerSub.unsubscribe();
+            this.subscriptions.unsubscribe();
         };
         return ViewerSpinnerComponent;
     }());
@@ -6262,7 +6446,7 @@
         { type: i0.Component, args: [{
                     selector: 'mime-spinner',
                     template: "<div class=\"mime-spinner\" [class.mime-spinner--active]=\"visible\">\n  <mat-spinner></mat-spinner>\n</div>\n",
-                    styles: [".mime-spinner{display:none;left:50%;position:absolute;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}"]
+                    styles: [".mime-spinner{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}"]
                 },] }
     ];
     ViewerSpinnerComponent.ctorParameters = function () { return [
@@ -6326,7 +6510,7 @@
     }());
 
     var ViewerComponent = /** @class */ (function () {
-        function ViewerComponent(snackBar, intl, el, iiifManifestService, contentsDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, mimeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, zone) {
+        function ViewerComponent(snackBar, intl, el, iiifManifestService, contentsDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, resizeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, zone) {
             this.snackBar = snackBar;
             this.intl = intl;
             this.el = el;
@@ -6336,7 +6520,7 @@
             this.contentSearchDialogService = contentSearchDialogService;
             this.helpDialogService = helpDialogService;
             this.viewerService = viewerService;
-            this.mimeService = mimeService;
+            this.resizeService = resizeService;
             this.changeDetectorRef = changeDetectorRef;
             this.modeService = modeService;
             this.iiifContentSearchService = iiifContentSearchService;
@@ -6345,21 +6529,23 @@
             this.viewerLayoutService = viewerLayoutService;
             this.styleService = styleService;
             this.zone = zone;
+            this.canvasIndex = 0;
             this.config = new MimeViewerConfig();
             this.tabIndex = 0;
             this.viewerModeChanged = new i0.EventEmitter();
             this.canvasChanged = new i0.EventEmitter();
             this.qChanged = new i0.EventEmitter();
             this.manifestChanged = new i0.EventEmitter();
-            this.destroyed = new rxjs.Subject();
+            this.subscriptions = new rxjs.Subscription();
             this.isCanvasPressed = false;
+            this.viewerLayout = null;
             this.viewerState = new ViewerState();
             this.errorMessage = null;
             contentsDialogService.el = el;
             attributionDialogService.el = el;
             contentSearchDialogService.el = el;
             helpDialogService.el = el;
-            mimeService.el = el;
+            resizeService.el = el;
         }
         Object.defineProperty(ViewerComponent.prototype, "mimeHeaderBeforeRef", {
             get: function () {
@@ -6391,11 +6577,9 @@
         });
         ViewerComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.styleService.init();
+            this.styleService.initialize();
             this.modeService.initialMode = this.config.initViewerMode;
-            this.iiifManifestService.currentManifest
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (manifest) {
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
                 if (manifest) {
                     _this.initialize();
                     _this.currentManifest = manifest;
@@ -6410,44 +6594,34 @@
                         _this.iiifContentSearchService.search(manifest, _this.q);
                     }
                 }
-            });
-            this.viewerService.onOsdReadyChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (state) {
+            }));
+            this.subscriptions.add(this.viewerService.onOsdReadyChange.subscribe(function (state) {
                 // Don't reset current page when switching layout
                 if (state &&
                     _this.canvasIndex &&
                     !_this.canvasService.currentCanvasGroupIndex) {
                     _this.viewerService.goToCanvas(_this.canvasIndex, false);
                 }
-            });
-            this.iiifManifestService.errorMessage
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (error) {
+            }));
+            this.subscriptions.add(this.iiifManifestService.errorMessage.subscribe(function (error) {
                 _this.resetCurrentManifest();
                 _this.errorMessage = error;
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.iiifContentSearchService.onQChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (q) {
+            }));
+            this.subscriptions.add(this.iiifContentSearchService.onQChange.subscribe(function (q) {
                 _this.qChanged.emit(q);
-            });
-            this.iiifContentSearchService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (sr) {
+            }));
+            this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe(function (sr) {
                 _this.viewerService.highlight(sr);
-            });
-            this.viewerService.isCanvasPressed
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (value) {
+            }));
+            this.subscriptions.add(this.viewerService.isCanvasPressed.subscribe(function (value) {
                 _this.isCanvasPressed = value;
                 _this.changeDetectorRef.detectChanges();
-            });
-            this.modeService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (mode) {
-                _this.toggleToolbarsState(mode.currentValue);
+            }));
+            this.subscriptions.add(this.modeService.onChange.subscribe(function (mode) {
+                if (mode.currentValue !== undefined) {
+                    _this.toggleToolbarsState(mode.currentValue);
+                }
                 if (mode.previousValue === exports.MimeViewerMode.DASHBOARD &&
                     mode.currentValue === exports.MimeViewerMode.PAGE) {
                     _this.viewerState.contentDialogState.isOpen = _this.contentsDialogService.isOpen();
@@ -6474,27 +6648,23 @@
                     });
                 }
                 _this.viewerModeChanged.emit(mode.currentValue);
-            });
-            this.canvasService.onCanvasGroupIndexChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (canvasGroupIndex) {
+            }));
+            this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange.subscribe(function (canvasGroupIndex) {
                 var canvasIndex = _this.canvasService.findCanvasByCanvasIndex(canvasGroupIndex);
                 if (canvasIndex !== -1) {
                     _this.canvasChanged.emit(canvasIndex);
                 }
-            });
-            this.mimeService.onResize
-                .pipe(operators.takeUntil(this.destroyed), operators.throttle(function (val) { return rxjs.interval(ViewerOptions.transitions.OSDAnimationTime); }))
+            }));
+            this.subscriptions.add(this.resizeService.onResize
+                .pipe(operators.throttle(function (val) { return rxjs.interval(ViewerOptions.transitions.OSDAnimationTime); }))
                 .subscribe(function () {
                 setTimeout(function () {
                     _this.viewerService.home();
                 }, ViewerOptions.transitions.OSDAnimationTime);
-            });
-            this.viewerLayoutService.onChange
-                .pipe(operators.takeUntil(this.destroyed))
-                .subscribe(function (viewerLayout) {
+            }));
+            this.subscriptions.add(this.viewerLayoutService.onChange.subscribe(function (viewerLayout) {
                 _this.viewerLayout = viewerLayout;
-            });
+            }));
             this.loadManifest();
         };
         ViewerComponent.prototype.ngOnChanges = function (changes) {
@@ -6519,6 +6689,9 @@
             }
             if (changes['manifestUri']) {
                 var manifestUriChanges = changes['manifestUri'];
+                if (!manifestUriChanges.isFirstChange()) {
+                    this.cleanup();
+                }
                 if (!manifestUriChanges.isFirstChange() &&
                     manifestUriChanges.currentValue !== manifestUriChanges.previousValue) {
                     this.modeService.mode = this.config.initViewerMode;
@@ -6530,7 +6703,7 @@
                 this.loadManifest();
             }
             else {
-                if (qIsChanged) {
+                if (qIsChanged && this.currentManifest) {
                     this.iiifContentSearchService.search(this.currentManifest, this.q);
                 }
                 if (canvasIndexChanged) {
@@ -6554,11 +6727,15 @@
                     this.manifestUri = manifestUri.startsWith('//')
                         ? "" + location.protocol + manifestUri
                         : manifestUri;
+                    this.cleanup();
                     this.loadManifest();
                     if (startCanvasId_1) {
                         this.manifestChanged.pipe(operators.take(1)).subscribe(function (manifest) {
-                            var canvasIndex = manifest.sequences[0].canvases.findIndex(function (c) { return c.id === startCanvasId_1; });
-                            if (canvasIndex !== -1) {
+                            var _a, _b;
+                            var canvasIndex = manifest.sequences
+                                ? (_b = (_a = manifest.sequences[0]) === null || _a === void 0 ? void 0 : _a.canvases) === null || _b === void 0 ? void 0 : _b.findIndex(function (c) { return c.id === startCanvasId_1; })
+                                : -1;
+                            if (canvasIndex && canvasIndex !== -1) {
                                 setTimeout(function () {
                                     _this.viewerService.goToCanvas(canvasIndex, true);
                                 }, 0);
@@ -6568,8 +6745,8 @@
                 }
             }
             else {
-                this.snackBar.open(this.intl.dropDisabled, null, {
-                    duration: 3000
+                this.snackBar.open(this.intl.dropDisabled, undefined, {
+                    duration: 3000,
                 });
             }
         };
@@ -6582,11 +6759,11 @@
             event.stopPropagation();
         };
         ViewerComponent.prototype.ngOnDestroy = function () {
-            this.destroyed.next();
-            this.destroyed.complete();
+            this.subscriptions.unsubscribe();
             this.cleanup();
             this.iiifManifestService.destroy();
             this.iiifContentSearchService.destroy();
+            this.styleService.destroy();
         };
         ViewerComponent.prototype.toggleToolbarsState = function (mode) {
             if (this.header && this.footer) {
@@ -6608,20 +6785,22 @@
             }
         };
         ViewerComponent.prototype.ngAfterViewChecked = function () {
-            this.mimeService.markForCheck();
+            this.resizeService.markForCheck();
         };
         ViewerComponent.prototype.loadManifest = function () {
-            this.cleanup();
-            this.iiifManifestService.load(this.manifestUri);
+            this.iiifManifestService.load(this.manifestUri).pipe(operators.take(1)).subscribe();
         };
         ViewerComponent.prototype.initialize = function () {
+            this.accessKeysHandlerService.initialize();
             this.attributionDialogService.initialize();
             this.contentsDialogService.initialize();
             this.contentSearchDialogService.initialize();
             this.helpDialogService.initialize();
+            this.viewerService.initialize();
         };
         ViewerComponent.prototype.cleanup = function () {
             this.viewerState = new ViewerState();
+            this.accessKeysHandlerService.destroy();
             this.attributionDialogService.destroy();
             this.contentsDialogService.destroy();
             this.contentSearchDialogService.destroy();
@@ -6642,7 +6821,7 @@
                 'mode-dashboard': this.modeService.mode === exports.MimeViewerMode.DASHBOARD,
                 'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
                 'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
-                'canvas-pressed': this.isCanvasPressed
+                'canvas-pressed': this.isCanvasPressed,
             };
         };
         return ViewerComponent;
@@ -6652,7 +6831,7 @@
                     selector: 'mime-viewer',
                     template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n  <div id=\"openseadragon\"></div>\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n",
                     changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".viewer-container{box-sizing:border-box;display:flex;flex-direction:column;height:100%;overflow:hidden;position:relative;width:100%}:host::ng-deep.openseadragon-container{flex-grow:1}:host::ng-deep.openseadragon-canvas:focus{outline:none}#openseadragon{display:flex;flex-direction:column;flex-grow:1;opacity:0;width:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:rgba(0,0,0,.15);stroke-width:8;transition:stroke .25s ease}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:rgba(0,0,0,.45)}::ng-deep .viewer-container .hit{fill:rgba(255,255,0,.6)}::ng-deep .viewer-container .selected{fill:rgba(255,225,0,.6)}.navbar{overflow:hidden;position:absolute;width:100%;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{height:100%;width:100%}[hidden]{display:none}"]
+                    styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}:host::ng-deep.openseadragon-container{flex-grow:1}:host::ng-deep.openseadragon-canvas:focus{outline:none}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:rgba(0,0,0,.15);stroke-width:8;transition:stroke .25s ease}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:rgba(0,0,0,.45)}::ng-deep .viewer-container .hit{fill:rgba(255,255,0,.6)}::ng-deep .viewer-container .selected{fill:rgba(255,225,0,.6)}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{width:100%;height:100%}[hidden]{display:none}"]
                 },] }
     ];
     ViewerComponent.ctorParameters = function () { return [

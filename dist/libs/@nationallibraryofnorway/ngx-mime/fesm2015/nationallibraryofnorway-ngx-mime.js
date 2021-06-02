@@ -1,7 +1,8 @@
-import { Injectable, NgModule, ɵɵdefineInjectable, ɵɵinject, NgZone, Component, ElementRef, ViewChild, ViewChildren, HostListener, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, EventEmitter, Output, HostBinding, Input, ViewContainerRef } from '@angular/core';
-import { Subject, ReplaySubject, BehaviorSubject, throwError, interval } from 'rxjs';
-import { select } from 'd3';
-import { Point, Rect as Rect$1 } from 'openseadragon';
+import * as i0 from '@angular/core';
+import { Injectable, NgModule, Component, ViewChild, ViewChildren, ElementRef, HostListener, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, Renderer2, EventEmitter, Output, HostBinding, Input, ViewContainerRef } from '@angular/core';
+import { Subject, ReplaySubject, BehaviorSubject, throwError, Observable, Subscription, interval } from 'rxjs';
+import * as d3 from 'd3';
+import * as OpenSeadragon$1 from 'openseadragon';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { FlexLayoutModule, MediaObserver } from '@angular/flex-layout';
@@ -18,7 +19,7 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { distinctUntilChanged, finalize, filter, tap, takeUntil, sample, take, throttle } from 'rxjs/operators';
+import { distinctUntilChanged, finalize, take, filter, tap, sample, throttle } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { trigger, state, style, transition, group, animate } from '@angular/animations';
@@ -231,6 +232,7 @@ var ViewerMode;
     ViewerMode[ViewerMode["DASHBOARD"] = 0] = "DASHBOARD";
     ViewerMode[ViewerMode["PAGE"] = 1] = "PAGE";
     ViewerMode[ViewerMode["PAGE_ZOOMED"] = 2] = "PAGE_ZOOMED";
+    ViewerMode[ViewerMode["NAVIGATOR"] = 3] = "NAVIGATOR";
 })(ViewerMode || (ViewerMode = {}));
 
 class MimeViewerConfig {
@@ -308,6 +310,7 @@ var ViewingDirection;
 class Manifest {
     constructor(fields) {
         this.viewingDirection = ViewingDirection.LTR;
+        this.label = '';
         this.structures = [];
         if (fields) {
             this.context = fields.context || this.context;
@@ -370,6 +373,9 @@ class Images {
 }
 class Resource {
     constructor(fields) {
+        this.height = 0;
+        this.width = 0;
+        this.tileOverlap = 0;
         if (fields) {
             this.id = fields.id || this.id;
             this.type = fields.type || this.type;
@@ -377,11 +383,14 @@ class Resource {
             this.service = fields.service || this.service;
             this.height = fields.height || this.height;
             this.width = fields.width || this.width;
+            this.tileOverlap = fields.tileOverlap || this.tileOverlap;
         }
     }
 }
 class Service {
     constructor(fields) {
+        this.width = 0;
+        this.height = 0;
         if (fields) {
             this.context = fields.context || this.context;
             this.id = fields.id || this.id;
@@ -413,6 +422,9 @@ class Tile {
 }
 class Structure {
     constructor(fields) {
+        this.type = '';
+        this.canvases = [];
+        this.canvasIndex = 0;
         if (fields) {
             this.id = fields.id || this.id;
             this.type = fields.type || this.type;
@@ -486,94 +498,291 @@ SharedModule.decorators = [
             },] }
 ];
 
-class ModeChanges {
-    constructor(fields) {
-        if (fields) {
-            this.currentValue = fields.currentValue || this.currentValue;
-            this.previousValue = fields.previousValue || this.previousValue;
-        }
-    }
-}
-
-class ModeService {
+class FullscreenService {
     constructor() {
-        this.toggleModeSubject = new ReplaySubject();
-        this.modeChanges = new ModeChanges();
+        this.changeSubject = new ReplaySubject();
+        this.onchange();
     }
     get onChange() {
-        return this.toggleModeSubject.asObservable().pipe(distinctUntilChanged());
+        return this.changeSubject.asObservable();
     }
-    set mode(mode) {
-        this._mode = mode;
-        this.change();
+    isEnabled() {
+        const d = document;
+        return (d.fullscreenEnabled ||
+            d.webkitFullscreenEnabled ||
+            d.mozFullScreenEnabled ||
+            d.msFullscreenEnabled);
     }
-    get mode() {
-        return this._mode;
+    isFullscreen() {
+        const d = document;
+        return (d.fullscreenElement ||
+            d.webkitFullscreenElement ||
+            d.mozFullScreenElement ||
+            d.msFullscreenElement);
     }
-    set initialMode(mode) {
-        this._initialMode = mode;
-        this.mode = mode;
+    toggle(el) {
+        this.isFullscreen() ? this.closeFullscreen(el) : this.openFullscreen(el);
     }
-    get initialMode() {
-        return this._initialMode;
-    }
-    toggleMode() {
-        if (this.mode === ViewerMode.DASHBOARD) {
-            this.mode = ViewerMode.PAGE;
+    onchange() {
+        const d = document;
+        const func = () => {
+            this.changeSubject.next(true);
+        };
+        if (d.fullscreenEnabled) {
+            document.addEventListener('fullscreenchange', func);
         }
-        else if (this.mode === ViewerMode.PAGE ||
-            this.mode === ViewerMode.PAGE_ZOOMED) {
-            this.mode = ViewerMode.DASHBOARD;
+        else if (d.webkitFullscreenEnabled) {
+            document.addEventListener('webkitfullscreenchange', func);
+        }
+        else if (d.mozFullScreenEnabled) {
+            document.addEventListener('mozfullscreenchange', func);
+        }
+        else if (d.msFullscreenEnabled) {
+            document.addEventListener('msfullscreenchange', func);
         }
     }
-    change() {
-        this.modeChanges.previousValue = this.modeChanges.currentValue;
-        this.modeChanges.currentValue = this._mode;
-        this.toggleModeSubject.next(Object.assign({}, this.modeChanges));
+    openFullscreen(elem) {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        }
+        else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        }
+        else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        }
+        else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
+    }
+    closeFullscreen(elem) {
+        const d = document;
+        if (d.exitFullscreen) {
+            d.exitFullscreen();
+        }
+        else if (d.mozCancelFullScreen) {
+            d.mozCancelFullScreen();
+        }
+        else if (d.webkitExitFullscreen) {
+            d.webkitExitFullscreen();
+        }
+        else if (d.msExitFullscreen) {
+            d.msExitFullscreen();
+        }
     }
 }
-ModeService.decorators = [
+FullscreenService.decorators = [
     { type: Injectable }
 ];
-ModeService.ctorParameters = () => [];
+FullscreenService.ctorParameters = () => [];
 
-/****************************************************************
- * MIME-viewer options
- ****************************************************************/
-const ViewerOptions = {
-    zoom: {
-        zoomFactor: 1.15,
-        dblClickZoomFactor: 2.7,
-        // How many pixels since lastDistance before it is considered a pinch
-        pinchZoomThreshold: 3
-    },
-    pan: {
-        // Sensitivity when determining swipe-direction.
-        // Higher threshold means that swipe must be more focused in
-        // x-direction before the gesture is recognized as "left" or "right"
-        swipeDirectionThreshold: 70
-    },
-    // All transition times in milliseconds
-    transitions: {
-        toolbarsEaseInTime: 400,
-        toolbarsEaseOutTime: 500,
-        OSDAnimationTime: 600 // Animation-time for OSD-animations
-    },
-    overlays: {
-        // Margin between canvas groups in Dashboard View in OpenSeadragon viewport-coordinates
-        canvasGroupMarginInDashboardView: 300,
-        // Margin between canvas groups in Page View in OpenSeadragon viewport-coordinates
-        canvasGroupMarginInPageView: 20
-    },
-    padding: {
-        // Padding in viewer container in pixels
-        header: 80,
-        footer: 80 // Placeholder below viewer for footer in Dashboard View
-    },
-    colors: {
-        canvasGroupBackgroundColor: '#fafafa'
+class Dimensions {
+    constructor(fields) {
+        this.bottom = 0;
+        this.height = 0;
+        this.left = 0;
+        this.right = 0;
+        this.top = 0;
+        this.width = 0;
+        if (fields) {
+            this.bottom = fields.bottom || this.bottom;
+            this.height = fields.height || this.height;
+            this.left = fields.left || this.left;
+            this.right = fields.right || this.right;
+            this.top = fields.top || this.top;
+            this.width = fields.width || this.width;
+        }
     }
-};
+}
+
+class MimeDomHelper {
+    constructor(fullscreen) {
+        this.fullscreen = fullscreen;
+    }
+    getBoundingClientRect(el) {
+        try {
+            if (this.isDocumentInFullScreenMode() &&
+                el.nativeElement.nodeName === 'MIME-VIEWER') {
+                return this.createFullscreenDimensions(el);
+            }
+            else {
+                return this.createDimensions(el);
+            }
+        }
+        catch (e) {
+            return new Dimensions();
+        }
+    }
+    isDocumentInFullScreenMode() {
+        return this.fullscreen.isFullscreen();
+    }
+    toggleFullscreen() {
+        const el = document.getElementById('ngx-mime-mimeViewer');
+        if (this.fullscreen.isEnabled()) {
+            this.fullscreen.toggle(el);
+        }
+    }
+    setFocusOnViewer() {
+        const el = document.getElementById('ngx-mime-mimeViewer');
+        if (el) {
+            el.focus();
+        }
+    }
+    createFullscreenDimensions(el) {
+        const dimensions = el.nativeElement.getBoundingClientRect();
+        const width = this.getFullscreenWidth();
+        const height = this.getFullscreenHeight();
+        return new Dimensions(Object.assign(Object.assign({}, dimensions), { top: 0, bottom: height, width: width, height: height, left: 0, right: width }));
+    }
+    createDimensions(el) {
+        const dimensions = el.nativeElement.getBoundingClientRect();
+        return new Dimensions({
+            top: dimensions.top,
+            bottom: dimensions.bottom,
+            width: dimensions.width,
+            height: dimensions.height,
+            left: dimensions.left,
+            right: dimensions.right
+        });
+    }
+    getFullscreenWidth() {
+        return (window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth);
+    }
+    getFullscreenHeight() {
+        return (window.innerHeight ||
+            document.documentElement.clientHeight ||
+            document.body.clientHeight);
+    }
+}
+MimeDomHelper.decorators = [
+    { type: Injectable }
+];
+MimeDomHelper.ctorParameters = () => [
+    { type: FullscreenService }
+];
+
+class MimeResizeService {
+    constructor(mimeDomHelper) {
+        this.mimeDomHelper = mimeDomHelper;
+        this.resizeSubject = new ReplaySubject();
+        this.dimensions = new Dimensions();
+    }
+    set el(el) {
+        this._el = el;
+    }
+    get el() {
+        return this._el;
+    }
+    get onResize() {
+        return this.resizeSubject.asObservable();
+    }
+    markForCheck() {
+        if (!this.el) {
+            throw new Error('No element!');
+        }
+        const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+        if (this.dimensions.bottom !== dimensions.bottom ||
+            this.dimensions.height !== dimensions.height ||
+            this.dimensions.left !== dimensions.left ||
+            this.dimensions.right !== dimensions.right ||
+            this.dimensions.top !== dimensions.top ||
+            this.dimensions.width !== dimensions.width) {
+            this.dimensions = dimensions;
+            this.resizeSubject.next(Object.assign({}, this.dimensions));
+        }
+    }
+}
+MimeResizeService.decorators = [
+    { type: Injectable }
+];
+MimeResizeService.ctorParameters = () => [
+    { type: MimeDomHelper }
+];
+
+class MobileContentSearchDialogConfigStrategy {
+    getConfig(elementRef) {
+        return {
+            hasBackdrop: false,
+            disableClose: false,
+            autoFocus: false,
+            width: '100%',
+            height: '100%',
+            panelClass: 'content-search-panel'
+        };
+    }
+}
+class DesktopContentSearchDialogConfigStrategy {
+    constructor(mimeDomHelper) {
+        this.mimeDomHelper = mimeDomHelper;
+    }
+    getConfig(el) {
+        const dimensions = this.getPosition(el);
+        return {
+            hasBackdrop: false,
+            disableClose: false,
+            autoFocus: false,
+            width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
+            position: {
+                top: dimensions.top + 'px',
+                left: dimensions.left + 'px'
+            },
+            panelClass: 'content-search-panel'
+        };
+    }
+    getPosition(el) {
+        const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+        return new Dimensions({
+            top: dimensions.top + 64,
+            left: dimensions.right -
+                DesktopContentSearchDialogConfigStrategy.dialogWidth -
+                DesktopContentSearchDialogConfigStrategy.paddingRight
+        });
+    }
+}
+DesktopContentSearchDialogConfigStrategy.dialogWidth = 350;
+DesktopContentSearchDialogConfigStrategy.paddingRight = 20;
+
+class ContentSearchDialogConfigStrategyFactory {
+    constructor(mediaObserver, mimeDomHelper) {
+        this.mediaObserver = mediaObserver;
+        this.mimeDomHelper = mimeDomHelper;
+    }
+    create() {
+        return this.mediaObserver.isActive('lt-md')
+            ? new MobileContentSearchDialogConfigStrategy()
+            : new DesktopContentSearchDialogConfigStrategy(this.mimeDomHelper);
+    }
+}
+ContentSearchDialogConfigStrategyFactory.decorators = [
+    { type: Injectable }
+];
+ContentSearchDialogConfigStrategyFactory.ctorParameters = () => [
+    { type: MediaObserver },
+    { type: MimeDomHelper }
+];
+
+class Hit {
+    constructor(fields) {
+        this.id = 0;
+        this.index = 0;
+        this.label = '';
+        this.match = '';
+        this.before = '';
+        this.after = '';
+        this.rects = [];
+        if (fields) {
+            this.id = fields.id || this.id;
+            this.index = fields.index || this.index;
+            this.label = fields.label || this.label;
+            this.match = fields.match || this.match;
+            this.before = fields.before || this.before;
+            this.after = fields.after || this.after;
+            this.rects = fields.rects || this.rects;
+        }
+    }
+}
 
 class Rect {
     constructor(fields) {
@@ -594,110 +803,967 @@ class Rect {
     }
 }
 
-const canvasRectFromCriteria = (rotation, criteria, x) => {
-    let rect = {};
-    if (rotation === 90 || rotation === 270) {
-        rect = {
-            height: criteria.canvasSource.width,
-            width: criteria.canvasSource.height,
-            x: x,
-            y: (criteria.canvasSource.width / 2) * -1
-        };
+class SearchResult {
+    constructor(fields) {
+        this.q = '';
+        this.hits = [];
+        if (fields) {
+            this.q = fields.q || this.q;
+            this.hits = fields.hits || this.hits;
+        }
     }
-    else {
-        rect = {
-            height: criteria.canvasSource.height,
-            width: criteria.canvasSource.width,
-            x: x,
-            y: (criteria.canvasSource.height / 2) * -1
-        };
+    add(hit) {
+        this.hits.push(hit);
     }
-    return new Rect(rect);
-};
+    get(index) {
+        return new Hit(Object.assign({}, this.hits[index]));
+    }
+    size() {
+        return this.hits.length;
+    }
+    last() {
+        return this.get(this.size() - 1);
+    }
+}
 
-class OnePageCalculatePagePositionStrategy {
-    calculateCanvasGroupPosition(criteria, rotation = 0) {
-        let x;
-        if (!criteria.canvasGroupIndex) {
-            if (rotation === 90 || rotation === 270) {
-                x = (criteria.canvasSource.height / 2) * -1;
+class SearchResultBuilder {
+    constructor(q, manifest, iiifSearchResult) {
+        this.q = q;
+        this.manifest = manifest;
+        this.iiifSearchResult = iiifSearchResult;
+    }
+    build() {
+        const searchResult = new SearchResult();
+        searchResult.q = this.q;
+        if (this.iiifSearchResult && this.iiifSearchResult.hits) {
+            this.iiifSearchResult.hits.forEach((hit, index) => {
+                const id = index;
+                let canvasIndex = -1;
+                let label;
+                const rects = [];
+                if (this.manifest.sequences && this.manifest.sequences[0].canvases) {
+                    const resources = this.findResources(hit);
+                    for (const resource of resources) {
+                        canvasIndex = this.findSequenceIndex(resource);
+                        label = this.findLabel(canvasIndex);
+                        const on = resource.on;
+                        if (on) {
+                            const coords = on.substring(on.indexOf('=') + 1).split(',');
+                            const rect = new Rect({
+                                x: parseInt(coords[0], 10),
+                                y: parseInt(coords[1], 10),
+                                width: parseInt(coords[2], 10),
+                                height: parseInt(coords[3], 10),
+                            });
+                            rects.push(rect);
+                        }
+                    }
+                }
+                searchResult.add(new Hit({
+                    id: id,
+                    index: canvasIndex,
+                    label: label,
+                    match: hit.match,
+                    before: hit.before,
+                    after: hit.after,
+                    rects: rects,
+                }));
+            });
+        }
+        return searchResult;
+    }
+    findResources(hit) {
+        const resources = [];
+        if (hit.annotations) {
+            for (const annotation of hit.annotations) {
+                if (this.iiifSearchResult.resources) {
+                    const res = this.iiifSearchResult.resources.find((r) => r['@id'] === annotation);
+                    if (res) {
+                        resources.push(res);
+                    }
+                }
+            }
+        }
+        return resources;
+    }
+    findSequenceIndex(resource) {
+        if (!this.manifest.sequences) {
+            throw new Error('No sequences found!');
+        }
+        const firstSequence = this.getFirstSequence();
+        const on = resource.on;
+        if (on && firstSequence && firstSequence.canvases) {
+            const id = on.substring(0, on.indexOf('#'));
+            return firstSequence.canvases.findIndex((c) => c.id === id);
+        }
+        return -1;
+    }
+    findLabel(index) {
+        if (index === -1) {
+            return undefined;
+        }
+        else {
+            const canvas = this.getFirstSequenceCanvas(index);
+            return canvas ? canvas.label : undefined;
+        }
+    }
+    getFirstSequence() {
+        const sequences = this.manifest.sequences;
+        return sequences ? sequences[0] : undefined;
+    }
+    getFirstSequenceCanvas(index) {
+        const firstSequence = this.getFirstSequence();
+        return firstSequence && firstSequence.canvases !== undefined
+            ? firstSequence.canvases[index]
+            : undefined;
+    }
+}
+
+class IiifContentSearchService {
+    constructor(http) {
+        this.http = http;
+        this._currentSearchResult = new BehaviorSubject(new SearchResult({}));
+        this._searching = new BehaviorSubject(false);
+        this._currentQ = new BehaviorSubject('');
+        this._selected = new BehaviorSubject(null);
+    }
+    destroy() {
+        this._currentSearchResult.next(new SearchResult({}));
+        this._selected.next(null);
+    }
+    get onQChange() {
+        return this._currentQ.asObservable().pipe(distinctUntilChanged());
+    }
+    get onChange() {
+        return this._currentSearchResult.asObservable();
+    }
+    get isSearching() {
+        return this._searching.asObservable();
+    }
+    get onSelected() {
+        return this._selected.asObservable();
+    }
+    search(manifest, q) {
+        this._currentQ.next(q);
+        this._selected.next(null);
+        if (q.length === 0) {
+            this._currentSearchResult.next(new SearchResult());
+            return;
+        }
+        if (!manifest.service || manifest.service === null) {
+            return;
+        }
+        this._searching.next(true);
+        this.http
+            .get(`${manifest.service.id}?q=${q}`)
+            .pipe(finalize(() => this._searching.next(false)), take(1))
+            .subscribe((res) => this._currentSearchResult.next(this.extractData(q, manifest, res)), (err) => this.handleError);
+    }
+    selected(hit) {
+        this._selected.next(hit);
+    }
+    extractData(q, manifest, iiifSearchResult) {
+        return new SearchResultBuilder(q, manifest, iiifSearchResult).build();
+    }
+    handleError(err) {
+        let errMsg;
+        if (err.error instanceof Error) {
+            errMsg = err.error.message;
+        }
+        else {
+            errMsg = err.error;
+        }
+        return throwError(errMsg);
+    }
+}
+IiifContentSearchService.decorators = [
+    { type: Injectable }
+];
+IiifContentSearchService.ctorParameters = () => [
+    { type: HttpClient }
+];
+
+class BuilderUtils {
+    static extractId(value) {
+        return value['@id'];
+    }
+    static extracType(value) {
+        return value['@type'];
+    }
+    static extractContext(value) {
+        return value['@context'];
+    }
+    static extractViewingDirection(value) {
+        if (value['viewingDirection'] === 'right-to-left') {
+            return ViewingDirection.RTL;
+        }
+        else {
+            return ViewingDirection.LTR;
+        }
+    }
+    static findCanvasIndex(canvases, sequences) {
+        let index = -1;
+        if (sequences[0] && sequences[0].canvases && canvases[0]) {
+            index = sequences[0].canvases.findIndex((canvas) => canvas.id === canvases[0]);
+        }
+        return index;
+    }
+}
+
+class SizesBuilder {
+    constructor(sizes) {
+        this.sizes = sizes;
+    }
+    build() {
+        const sizes = [];
+        if (this.sizes) {
+            for (let i = 0; i < this.sizes.length; i++) {
+                const size = this.sizes[i];
+                sizes.push(new Size(size.width, size.height));
+            }
+        }
+        return sizes;
+    }
+}
+
+class TilesBuilder {
+    constructor(tiles) {
+        this.tiles = tiles;
+    }
+    build() {
+        const tiles = [];
+        if (this.tiles) {
+            for (let i = 0; i < this.tiles.length; i++) {
+                const tile = this.tiles[i];
+                tiles.push(new Tile({
+                    width: tile.width,
+                    scaleFactors: tile.scaleFactors
+                }));
+            }
+        }
+        return tiles;
+    }
+}
+
+class ServiceBuilder {
+    constructor(service) {
+        this.service = service;
+    }
+    build() {
+        if (!this.service) {
+            return undefined;
+        }
+        else {
+            return new Service({
+                id: BuilderUtils.extractId(this.service),
+                context: BuilderUtils.extractContext(this.service),
+                protocol: this.service.protocol,
+                width: this.service.width,
+                height: this.service.height,
+                sizes: new SizesBuilder(this.service.sizes).build(),
+                tiles: new TilesBuilder(this.service.tiles).build(),
+                profile: this.service.profile,
+                physicalScale: this.service.physicalScale,
+                physicalUnits: this.service.physicalUnits,
+                service: new ServiceBuilder(this.service.service).build(),
+            });
+        }
+    }
+}
+
+class ResourceBuilder {
+    constructor(resource) {
+        this.resource = resource;
+    }
+    build() {
+        if (!this.resource) {
+            throw new Error('No resource');
+        }
+        return new Resource({
+            id: BuilderUtils.extractId(this.resource),
+            type: BuilderUtils.extracType(this.resource),
+            format: this.resource.format,
+            service: new ServiceBuilder(this.resource.service).build(),
+            height: this.resource.height,
+            width: this.resource.width,
+        });
+    }
+}
+
+class ImagesBuilder {
+    constructor(images) {
+        this.images = images;
+    }
+    build() {
+        const images = [];
+        if (this.images) {
+            for (let i = 0; i < this.images.length; i++) {
+                const image = this.images[i];
+                images.push(new Images({
+                    id: BuilderUtils.extractId(image),
+                    type: BuilderUtils.extracType(image),
+                    motivation: image.motivation,
+                    resource: new ResourceBuilder(image.resource).build(),
+                    on: image.on
+                }));
+            }
+        }
+        return images;
+    }
+}
+
+class CanvasBuilder {
+    constructor(canvases) {
+        this.canvases = canvases;
+    }
+    build() {
+        const canvases = [];
+        if (this.canvases) {
+            for (let i = 0; i < this.canvases.length; i++) {
+                const canvas = this.canvases[i];
+                canvases.push(new Canvas({
+                    id: BuilderUtils.extractId(canvas),
+                    type: BuilderUtils.extracType(canvas),
+                    label: canvas.label,
+                    thumbnail: canvas.thumbnail,
+                    height: canvas.height,
+                    width: canvas.width,
+                    images: new ImagesBuilder(canvas.images).build()
+                }));
+            }
+        }
+        return canvases;
+    }
+}
+
+class SequenceBuilder {
+    constructor(sequences) {
+        this.sequences = sequences;
+    }
+    build() {
+        const sequences = [];
+        if (this.sequences) {
+            for (let i = 0; i < this.sequences.length; i++) {
+                const seq = this.sequences[i];
+                sequences.push(new Sequence({
+                    id: BuilderUtils.extractId(seq),
+                    type: BuilderUtils.extracType(seq),
+                    label: seq.label,
+                    viewingHint: seq.viewingHint,
+                    canvases: new CanvasBuilder(seq.canvases).build()
+                }));
+            }
+        }
+        return sequences;
+    }
+}
+
+class MetadataBuilder {
+    constructor(metadatas) {
+        this.metadatas = metadatas;
+    }
+    build() {
+        const metadatas = [];
+        if (this.metadatas) {
+            for (let i = 0; i < this.metadatas.length; i++) {
+                const data = this.metadatas[i];
+                metadatas.push(new Metadata(data.label, data.value));
+            }
+        }
+        return metadatas;
+    }
+}
+
+class StructureBuilder {
+    constructor(structures, sequences) {
+        this.structures = structures;
+        this.sequences = sequences;
+    }
+    build() {
+        const structures = [];
+        if (this.structures) {
+            for (let i = 0; i < this.structures.length; i++) {
+                const structure = this.structures[i];
+                structures.push(new Structure({
+                    id: BuilderUtils.extractId(structure),
+                    type: BuilderUtils.extracType(structure),
+                    label: structure.label,
+                    canvases: structure.canvases,
+                    canvasIndex: BuilderUtils.findCanvasIndex(structure.canvases, this.sequences)
+                }));
+            }
+        }
+        return structures;
+    }
+}
+
+class TileSourceBuilder {
+    constructor(sequences) {
+        this.sequences = sequences;
+    }
+    build() {
+        const tilesources = [];
+        if (this.sequences && this.sequences.length > 0) {
+            const canvases = this.sequences[0].canvases;
+            for (let i = 0; canvases && i < canvases.length; i++) {
+                const canvas = canvases[i];
+                if (canvas) {
+                    if (canvas.images && canvas.images.length >= 0) {
+                        const resource = canvas.images[0].resource;
+                        if (resource) {
+                            tilesources.push(resource);
+                        }
+                    }
+                }
+            }
+        }
+        return tilesources;
+    }
+}
+
+class ManifestBuilder {
+    constructor(data) {
+        this.data = data;
+    }
+    build() {
+        const sequences = new SequenceBuilder(this.data.sequences).build();
+        return new Manifest({
+            context: BuilderUtils.extractContext(this.data),
+            type: BuilderUtils.extracType(this.data),
+            id: BuilderUtils.extractId(this.data),
+            viewingDirection: BuilderUtils.extractViewingDirection(this.data),
+            label: this.data.label,
+            metadata: new MetadataBuilder(this.data.metadata).build(),
+            license: this.data.license,
+            logo: this.data.logo,
+            attribution: this.data.attribution,
+            service: new ServiceBuilder(this.data.service).build(),
+            sequences: sequences,
+            structures: new StructureBuilder(this.data.structures, sequences).build(),
+            tileSource: new TileSourceBuilder(this.data.sequences).build(),
+            viewingHint: this.data.viewingHint
+        });
+    }
+}
+
+class IiifManifestService {
+    constructor(intl, http, spinnerService) {
+        this.intl = intl;
+        this.http = http;
+        this.spinnerService = spinnerService;
+        this._currentManifest = new BehaviorSubject(null);
+        this._errorMessage = new BehaviorSubject(null);
+    }
+    get currentManifest() {
+        return this._currentManifest.asObservable().pipe(distinctUntilChanged());
+    }
+    get errorMessage() {
+        return this._errorMessage.asObservable();
+    }
+    load(manifestUri) {
+        return new Observable((observer) => {
+            if (manifestUri.length === 0) {
+                this._errorMessage.next(this.intl.manifestUriMissingLabel);
+                observer.next(false);
             }
             else {
-                x = (criteria.canvasSource.width / 2) * -1;
+                this.spinnerService.show();
+                this.http
+                    .get(manifestUri)
+                    .pipe(finalize(() => this.spinnerService.hide()), take(1))
+                    .subscribe((response) => {
+                    const manifest = this.extractData(response);
+                    if (this.isManifestValid(manifest)) {
+                        this._currentManifest.next(manifest);
+                        observer.next(true);
+                    }
+                    else {
+                        this._errorMessage.next(this.intl.manifestNotValidLabel);
+                        observer.next(false);
+                    }
+                }, (err) => {
+                    this._errorMessage.next(this.handleError(err));
+                    observer.next(false);
+                });
             }
+        });
+    }
+    destroy() {
+        this.resetCurrentManifest();
+        this.resetErrorMessage();
+    }
+    resetCurrentManifest() {
+        this._currentManifest.next(null);
+    }
+    resetErrorMessage() {
+        this._errorMessage.next(null);
+    }
+    extractData(response) {
+        return new ManifestBuilder(response).build();
+    }
+    isManifestValid(manifest) {
+        return (manifest &&
+            manifest.tileSource !== undefined &&
+            manifest.tileSource.length > 0);
+    }
+    handleError(err) {
+        let errMsg;
+        if (err.error instanceof Object) {
+            errMsg = err.message;
         }
         else {
-            x =
-                criteria.viewingDirection === ViewingDirection.LTR
-                    ? this.calculateLtrX(criteria)
-                    : this.calculateRtlX(criteria);
+            errMsg = err.error;
         }
-        return canvasRectFromCriteria(rotation, criteria, x);
-    }
-    calculateLtrX(criteria) {
-        return (criteria.previousCanvasGroupPosition.x +
-            criteria.previousCanvasGroupPosition.width +
-            ViewerOptions.overlays.canvasGroupMarginInDashboardView);
-    }
-    calculateRtlX(criteria) {
-        return (criteria.previousCanvasGroupPosition.x -
-            criteria.previousCanvasGroupPosition.width -
-            ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+        return errMsg;
     }
 }
+IiifManifestService.decorators = [
+    { type: Injectable }
+];
+IiifManifestService.ctorParameters = () => [
+    { type: MimeViewerIntl },
+    { type: HttpClient },
+    { type: SpinnerService }
+];
 
-class TwoPageCalculateCanvasGroupPositionStrategy {
-    calculateCanvasGroupPosition(criteria, rotation = 0) {
-        let x;
-        if (!criteria.canvasGroupIndex) {
-            // First page
-            x = 0;
+class ContentSearchDialogComponent {
+    constructor(dialogRef, intl, mediaObserver, mimeResizeService, iiifManifestService, iiifContentSearchService) {
+        this.dialogRef = dialogRef;
+        this.intl = intl;
+        this.mediaObserver = mediaObserver;
+        this.mimeResizeService = mimeResizeService;
+        this.iiifManifestService = iiifManifestService;
+        this.iiifContentSearchService = iiifContentSearchService;
+        this.q = '';
+        this.hits = [];
+        this.currentHit = null;
+        this.currentSearch = null;
+        this.numberOfHits = 0;
+        this.isSearching = false;
+        this.tabHeight = {};
+        this.manifest = null;
+        this.mimeHeight = 0;
+        this.subscriptions = new Subscription();
+    }
+    ngOnInit() {
+        this.subscriptions.add(this.mimeResizeService.onResize.subscribe((dimensions) => {
+            this.mimeHeight = dimensions.height;
+            this.resizeTabHeight();
+        }));
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            this.manifest = manifest;
+        }));
+        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((sr) => {
+            this.hits = sr.hits;
+            this.currentSearch = sr.q ? sr.q : '';
+            this.q = sr.q;
+            this.numberOfHits = sr.size();
+            if (this.resultContainer !== null && this.numberOfHits > 0) {
+                this.resultContainer.nativeElement.focus();
+            }
+            else if (this.q.length === 0 || this.numberOfHits === 0) {
+                this.qEl.nativeElement.focus();
+            }
+        }));
+        this.subscriptions.add(this.iiifContentSearchService.isSearching.subscribe((s) => {
+            this.isSearching = s;
+        }));
+        this.subscriptions.add(this.iiifContentSearchService.onSelected.subscribe((hit) => {
+            if (hit === null) {
+                this.currentHit = hit;
+            }
+            else {
+                if (!this.currentHit || this.currentHit.id !== hit.id) {
+                    this.currentHit = hit;
+                    this.scrollCurrentHitIntoView();
+                }
+            }
+        }));
+        this.resizeTabHeight();
+    }
+    ngAfterViewInit() {
+        this.scrollCurrentHitIntoView();
+    }
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+    }
+    onResize(event) {
+        this.resizeTabHeight();
+    }
+    onSubmit(event) {
+        event.preventDefault();
+        this.search();
+    }
+    clear() {
+        this.q = '';
+        this.search();
+    }
+    goToHit(hit) {
+        this.currentHit = hit;
+        this.iiifContentSearchService.selected(hit);
+        if (this.mediaObserver.isActive('lt-md')) {
+            this.dialogRef.close();
         }
-        else if (criteria.canvasGroupIndex % 2) {
-            // Even page numbers
-            x =
-                criteria.viewingDirection === ViewingDirection.LTR
-                    ? this.calculateEvenLtrX(criteria)
-                    : this.calculateEvenRtlX(criteria);
+    }
+    search() {
+        this.currentSearch = this.q;
+        if (this.manifest) {
+            this.iiifContentSearchService.search(this.manifest, this.q);
+        }
+    }
+    resizeTabHeight() {
+        let height = this.mimeHeight;
+        if (this.mediaObserver.isActive('lt-md')) {
+            this.tabHeight = {
+                maxHeight: window.innerHeight - 128 + 'px',
+            };
         }
         else {
-            // Odd page numbers
-            x =
-                criteria.viewingDirection === ViewingDirection.LTR
-                    ? this.calculateOddLtrX(criteria)
-                    : this.calculateOddRtlX(criteria);
+            height -= 272;
+            this.tabHeight = {
+                maxHeight: height + 'px',
+            };
         }
-        return canvasRectFromCriteria(rotation, criteria, x);
     }
-    calculateEvenLtrX(criteria) {
-        return (criteria.previousCanvasGroupPosition.x +
-            criteria.previousCanvasGroupPosition.width +
-            ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+    scrollCurrentHitIntoView() {
+        this.iiifContentSearchService.onSelected
+            .pipe(take(1))
+            .subscribe((hit) => {
+            if (hit !== null) {
+                const selected = this.findSelected(hit);
+                if (selected) {
+                    selected.nativeElement.focus();
+                }
+            }
+        });
     }
-    calculateOddLtrX(criteria) {
-        return (criteria.previousCanvasGroupPosition.x +
-            criteria.previousCanvasGroupPosition.width);
-    }
-    calculateEvenRtlX(criteria) {
-        return (criteria.previousCanvasGroupPosition.x -
-            criteria.canvasSource.width -
-            ViewerOptions.overlays.canvasGroupMarginInDashboardView);
-    }
-    calculateOddRtlX(criteria) {
-        return criteria.previousCanvasGroupPosition.x - criteria.canvasSource.width;
+    findSelected(selectedHit) {
+        if (this.hitList) {
+            const selectedList = this.hitList.filter((item, index) => index === selectedHit.id);
+            return selectedList.length > 0 ? selectedList[0] : null;
+        }
+        else {
+            return null;
+        }
     }
 }
+ContentSearchDialogComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'mime-search',
+                template: "<div class=\"content-search-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            class=\"close-content-search-dialog-button\"\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <div mat-dialog-title class=\"heading\">{{ intl.searchLabel }}</div>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <div mat-dialog-title class=\"heading heading-desktop\">{{\n            intl.searchLabel\n          }}</div>\n          <button\n            mat-icon-button\n            class=\"close-content-search-dialog-button\"\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <mat-dialog-content>\n    <div class=\"content-search-form\">\n      <form (ngSubmit)=\"onSubmit($event)\" #searchForm=\"ngForm\">\n        <mat-form-field class=\"content-search-box\">\n          <button\n            type=\"submit\"\n            matPrefix\n            mat-icon-button\n            [attr.aria-label]=\"intl.searchLabel\"\n            [matTooltip]=\"intl.searchLabel\"\n          >\n            <mat-icon class=\"icon\">search</mat-icon>\n          </button>\n          <input\n            #query\n            cdkFocusInitial\n            matInput\n            class=\"content-search-input\"\n            [(ngModel)]=\"q\"\n            [attr.aria-label]=\"intl.searchLabel\"\n            name=\"q\"\n            autocomplete=\"off\"\n          />\n          <button\n            *ngIf=\"q\"\n            type=\"button\"\n            class=\"clearSearchButton\"\n            matSuffix\n            mat-icon-button\n            [attr.aria-label]=\"intl.clearSearchLabel\"\n            [matTooltip]=\"intl.clearSearchLabel\"\n            (click)=\"clear()\"\n          >\n            <mat-icon class=\"icon\">clear</mat-icon>\n          </button>\n        </mat-form-field>\n      </form>\n    </div>\n    <div\n      #contentSearchResult\n      class=\"content-search-result-container\"\n      [ngStyle]=\"tabHeight\"\n    >\n      <div *ngIf=\"!isSearching\" class=\"content-search-result\" fxLayout=\"column\">\n        <input type=\"hidden\" class=\"numberOfHits\" [value]=\"numberOfHits\" />\n        <div *ngIf=\"currentSearch && currentSearch.length > 0\">\n          <div\n            *ngIf=\"numberOfHits > 0\"\n            [innerHTML]=\"intl.resultsFoundLabel(numberOfHits, currentSearch)\"\n          ></div>\n          <div\n            *ngIf=\"numberOfHits === 0\"\n            [innerHTML]=\"intl.noResultsFoundLabel(currentSearch)\"\n          ></div>\n        </div>\n        <ng-container *ngFor=\"let hit of hits; let last = last\">\n          <button\n            #hitButton\n            mat-button\n            [color]=\"currentHit && hit.id === currentHit.id ? 'accent' : null\"\n            [ngClass]=\"'hit'\"\n            (click)=\"goToHit(hit)\"\n            (keyup.enter)=\"goToHit(hit)\"\n          >\n            <div fxLayout=\"row\" fxLayoutAlign=\"space-between start\">\n              <div fxFlex class=\"summary\">\n                {{ hit.before }} <em>{{ hit.match }}</em> {{ hit.after }}\n              </div>\n              <div fxFlex=\"40px\" class=\"canvasGroup\">{{ hit.index + 1 }}</div>\n            </div>\n          </button>\n          <mat-divider *ngIf=\"!last\"></mat-divider>\n        </ng-container>\n      </div>\n      <div *ngIf=\"isSearching\" class=\"content-search-result\" fxLayout=\"column\">\n        <mat-progress-bar mode=\"indeterminate\"></mat-progress-bar>\n      </div>\n    </div>\n  </mat-dialog-content>\n</div>\n",
+                styles: [".heading{font-size:17px}.heading-desktop{padding-left:16px}.label{text-decoration:underline}.content-search-form{padding:0 16px}.content-search-box{width:100%}.content-search-input{font-size:20px}.content-search-result-container{font-family:Roboto,Helvetica Neue,sans-serif;overflow:auto;margin-bottom:8px}.content-search-result{padding:8px 16px}.content-search-result .mat-button{line-height:normal;white-space:normal;word-wrap:normal;max-width:none;padding:8px;text-align:left;font-size:14px}::ng-deep .content-search-container .current-content-search{font-weight:700}em{font-weight:700}.canvasGroupLabel{text-align:right;opacity:.54}::ng-deep .content-search-panel{max-width:none!important}::ng-deep .content-search-panel>.mat-dialog-container{padding:0!important;overflow:visible;overflow:initial}::ng-deep .content-search-container>div>div>.mat-toolbar{padding:0!important}input{font-family:Roboto,Helvetica Neue,sans-serif}.icon{font-size:22px!important}"]
+            },] }
+];
+ContentSearchDialogComponent.ctorParameters = () => [
+    { type: MatDialogRef },
+    { type: MimeViewerIntl },
+    { type: MediaObserver },
+    { type: MimeResizeService },
+    { type: IiifManifestService },
+    { type: IiifContentSearchService }
+];
+ContentSearchDialogComponent.propDecorators = {
+    resultContainer: [{ type: ViewChild, args: ['contentSearchResult', { static: true },] }],
+    qEl: [{ type: ViewChild, args: ['query', { static: true },] }],
+    hitList: [{ type: ViewChildren, args: ['hitButton', { read: ElementRef },] }],
+    onResize: [{ type: HostListener, args: ['window:resize', ['$event'],] }]
+};
 
-class CalculateCanvasGroupPositionFactory {
-    static create(viewerLayout, paged) {
-        if (viewerLayout === ViewerLayout.ONE_PAGE || !paged) {
-            return new OnePageCalculatePagePositionStrategy();
+class ContentSearchDialogService {
+    constructor(dialog, contentSearchDialogConfigStrategyFactory, mimeResizeService) {
+        this.dialog = dialog;
+        this.contentSearchDialogConfigStrategyFactory = contentSearchDialogConfigStrategyFactory;
+        this.mimeResizeService = mimeResizeService;
+        this._el = null;
+        this.isContentSearchDialogOpen = false;
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.mimeResizeService.onResize.subscribe((rect) => {
+            if (this.isContentSearchDialogOpen) {
+                const config = this.getDialogConfig();
+                this.dialogRef.updatePosition(config.position);
+                this.dialogRef.updateSize(config.width, config.height);
+            }
+        }));
+    }
+    destroy() {
+        this.close();
+        this.unsubscribe();
+    }
+    set el(el) {
+        this._el = el;
+    }
+    open() {
+        if (!this.isContentSearchDialogOpen) {
+            const config = this.getDialogConfig();
+            this.dialogRef = this.dialog.open(ContentSearchDialogComponent, config);
+            this.dialogRef
+                .afterClosed()
+                .pipe(take(1))
+                .subscribe((result) => {
+                this.isContentSearchDialogOpen = false;
+            });
+            this.isContentSearchDialogOpen = true;
         }
-        else if (viewerLayout === ViewerLayout.TWO_PAGE) {
-            return new TwoPageCalculateCanvasGroupPositionStrategy();
+    }
+    close() {
+        if (this.dialogRef) {
+            this.dialogRef.close();
+        }
+        this.isContentSearchDialogOpen = false;
+    }
+    toggle() {
+        this.isContentSearchDialogOpen ? this.close() : this.open();
+    }
+    isOpen() {
+        return this.isContentSearchDialogOpen;
+    }
+    getDialogConfig() {
+        return this.contentSearchDialogConfigStrategyFactory
+            .create()
+            .getConfig(this._el);
+    }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
         }
     }
 }
+ContentSearchDialogService.decorators = [
+    { type: Injectable }
+];
+ContentSearchDialogService.ctorParameters = () => [
+    { type: MatDialog },
+    { type: ContentSearchDialogConfigStrategyFactory },
+    { type: MimeResizeService }
+];
+
+class MobileContentsDialogConfigStrategy {
+    getConfig(elementRef) {
+        return {
+            hasBackdrop: false,
+            disableClose: false,
+            width: '100%',
+            height: '100%',
+            panelClass: 'contents-panel'
+        };
+    }
+}
+class DesktopContentsDialogConfigStrategy {
+    constructor(mimeDomHelper) {
+        this.mimeDomHelper = mimeDomHelper;
+    }
+    getConfig(el) {
+        const dimensions = this.getPosition(el);
+        return {
+            hasBackdrop: false,
+            disableClose: false,
+            width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
+            position: {
+                top: dimensions.top + 'px',
+                left: dimensions.left + 'px'
+            },
+            panelClass: 'contents-panel'
+        };
+    }
+    getPosition(el) {
+        const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+        return new Dimensions({
+            top: dimensions.top + 64,
+            left: dimensions.right -
+                DesktopContentsDialogConfigStrategy.dialogWidth -
+                DesktopContentsDialogConfigStrategy.paddingRight
+        });
+    }
+}
+DesktopContentsDialogConfigStrategy.dialogWidth = 350;
+DesktopContentsDialogConfigStrategy.paddingRight = 20;
+
+class ContentsDialogConfigStrategyFactory {
+    constructor(mediaObserver, mimeDomHelper) {
+        this.mediaObserver = mediaObserver;
+        this.mimeDomHelper = mimeDomHelper;
+    }
+    create() {
+        return this.mediaObserver.isActive('lt-md')
+            ? new MobileContentsDialogConfigStrategy()
+            : new DesktopContentsDialogConfigStrategy(this.mimeDomHelper);
+    }
+}
+ContentsDialogConfigStrategyFactory.decorators = [
+    { type: Injectable }
+];
+ContentsDialogConfigStrategyFactory.ctorParameters = () => [
+    { type: MediaObserver },
+    { type: MimeDomHelper }
+];
+
+class ContentsDialogComponent {
+    constructor(intl, mediaObserver, dialogRef, el, mimeDomHelper, changeDetectorRef, iiifManifestService, mimeResizeService) {
+        this.intl = intl;
+        this.mediaObserver = mediaObserver;
+        this.dialogRef = dialogRef;
+        this.el = el;
+        this.mimeDomHelper = mimeDomHelper;
+        this.changeDetectorRef = changeDetectorRef;
+        this.iiifManifestService = iiifManifestService;
+        this.manifest = null;
+        this.tabHeight = {};
+        this.showToc = false;
+        this.selectedIndex = 0;
+        this.mimeHeight = 0;
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(mimeResizeService.onResize.subscribe((dimensions) => {
+            this.mimeHeight = dimensions.height;
+            this.resizeTabHeight();
+        }));
+    }
+    ngOnInit() {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            this.manifest = manifest;
+            this.showToc =
+                this.manifest !== null &&
+                    this.manifest.structures !== undefined &&
+                    this.manifest.structures.length > 0;
+            this.changeDetectorRef.detectChanges();
+        }));
+        this.resizeTabHeight();
+    }
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+    }
+    onResize(event) {
+        this.resizeTabHeight();
+    }
+    onCanvasChanged() {
+        if (this.mediaObserver.isActive('lt-md')) {
+            this.dialogRef.close();
+        }
+    }
+    resizeTabHeight() {
+        const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+        let height = this.mimeHeight;
+        if (this.mediaObserver.isActive('lt-md')) {
+            height -= 104;
+            this.tabHeight = {
+                maxHeight: window.innerHeight - 128 + 'px',
+            };
+        }
+        else {
+            height -= 278;
+            this.tabHeight = {
+                maxHeight: height + 'px',
+            };
+        }
+    }
+}
+ContentsDialogComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'mime-contents',
+                template: "<div class=\"contents-container\">\n  <ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <ng-container *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\" data-test-id=\"mobile-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n    <ng-container *ngSwitchDefault>\n      <mat-toolbar data-test-id=\"desktop-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n  </ng-container>\n  <div mat-dialog-content>\n    <mat-tab-group [(selectedIndex)]=\"selectedIndex\">\n      <mat-tab [label]=\"intl.metadataLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-metadata></mime-metadata>\n        </div>\n      </mat-tab>\n      <mat-tab *ngIf=\"showToc\" [label]=\"intl.tocLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-toc (canvasChanged)=\"onCanvasChanged()\"></mime-toc>\n        </div>\n      </mat-tab>\n    </mat-tab-group>\n  </div>\n</div>\n",
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                styles: [".label{text-decoration:underline}::ng-deep .contents-panel{max-width:none!important}::ng-deep .contents-panel>.mat-dialog-container{padding:0!important;overflow:visible;overflow:initial}::ng-deep .contents-container>div>div>.mat-toolbar{padding:0!important}.tab-container{overflow:auto;padding:8px 16px}.mat-dialog-content{max-height:none}"]
+            },] }
+];
+ContentsDialogComponent.ctorParameters = () => [
+    { type: MimeViewerIntl },
+    { type: MediaObserver },
+    { type: MatDialogRef },
+    { type: ElementRef },
+    { type: MimeDomHelper },
+    { type: ChangeDetectorRef },
+    { type: IiifManifestService },
+    { type: MimeResizeService }
+];
+ContentsDialogComponent.propDecorators = {
+    onResize: [{ type: HostListener, args: ['window:resize', ['$event'],] }]
+};
+
+class ContentsDialogService {
+    constructor(dialog, contentsDialogConfigStrategyFactory, mimeResizeService) {
+        this.dialog = dialog;
+        this.contentsDialogConfigStrategyFactory = contentsDialogConfigStrategyFactory;
+        this.mimeResizeService = mimeResizeService;
+        this._el = null;
+        this.isContentsDialogOpen = false;
+        this.dialogRef = null;
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.mimeResizeService.onResize.subscribe((rect) => {
+            if (this.isContentsDialogOpen) {
+                const config = this.getDialogConfig();
+                if (this.dialogRef) {
+                    this.dialogRef.updatePosition(config.position);
+                    this.dialogRef.updateSize(config.width, config.height);
+                }
+            }
+        }));
+    }
+    destroy() {
+        this.close();
+        this.unsubscribe();
+    }
+    set el(el) {
+        this._el = el;
+    }
+    open(selectedIndex) {
+        if (!this.isContentsDialogOpen) {
+            const config = this.getDialogConfig();
+            this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
+            if (selectedIndex) {
+                this.dialogRef.componentInstance.selectedIndex = selectedIndex;
+            }
+            this.dialogRef
+                .afterClosed()
+                .pipe(take(1))
+                .subscribe((result) => {
+                this.isContentsDialogOpen = false;
+            });
+            this.isContentsDialogOpen = true;
+        }
+    }
+    close() {
+        if (this.dialogRef) {
+            this.dialogRef.close();
+            this.isContentsDialogOpen = false;
+        }
+        this.isContentsDialogOpen = false;
+    }
+    toggle() {
+        this.isContentsDialogOpen ? this.close() : this.open();
+    }
+    isOpen() {
+        return this.isContentsDialogOpen;
+    }
+    getSelectedIndex() {
+        return this.dialogRef && this.dialogRef.componentInstance
+            ? this.dialogRef.componentInstance.selectedIndex
+            : 0;
+    }
+    getDialogConfig() {
+        if (!this._el) {
+            throw new Error('No element');
+        }
+        return this.contentsDialogConfigStrategyFactory
+            .create()
+            .getConfig(this._el);
+    }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
+    }
+}
+ContentsDialogService.decorators = [
+    { type: Injectable }
+];
+ContentsDialogService.ctorParameters = () => [
+    { type: MatDialog },
+    { type: ContentsDialogConfigStrategyFactory },
+    { type: MimeResizeService }
+];
 
 class CanvasGroups {
     constructor() {
@@ -727,6 +1793,7 @@ class CanvasGroups {
             }
             i = index;
             lastDelta = delta;
+            return false;
         });
         return i;
     }
@@ -796,10 +1863,9 @@ class CanvasGroupStrategyFactory {
         if (layout === ViewerLayout.ONE_PAGE) {
             return new OneCanvasPerCanvasGroupStrategy();
         }
-        else if (layout === ViewerLayout.TWO_PAGE) {
+        else {
             return new TwoCanvasPerCanvasGroupStrategy();
         }
-        return null;
     }
 }
 
@@ -937,8 +2003,447 @@ CanvasService.decorators = [
 ];
 CanvasService.ctorParameters = () => [];
 
+class ModeChanges {
+    constructor(fields) {
+        if (fields) {
+            this.currentValue = fields.currentValue || this.currentValue;
+            this.previousValue = fields.previousValue || this.previousValue;
+        }
+    }
+}
+
+class ModeService {
+    constructor() {
+        this.modeChanges = new ModeChanges();
+        const mimeConfig = new MimeViewerConfig();
+        this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
+        this._initialMode = mimeConfig.initViewerMode;
+        this._mode = this._initialMode;
+    }
+    get onChange() {
+        return this.toggleModeSubject.asObservable().pipe(distinctUntilChanged());
+    }
+    set mode(mode) {
+        this._mode = mode;
+        this.change();
+    }
+    get mode() {
+        return this._mode;
+    }
+    set initialMode(mode) {
+        this._initialMode = mode;
+        this.mode = mode;
+    }
+    get initialMode() {
+        return this._initialMode;
+    }
+    toggleMode() {
+        if (this.mode === ViewerMode.DASHBOARD) {
+            this.mode = ViewerMode.PAGE;
+        }
+        else if (this.mode === ViewerMode.PAGE ||
+            this.mode === ViewerMode.PAGE_ZOOMED) {
+            this.mode = ViewerMode.DASHBOARD;
+        }
+    }
+    change() {
+        this.modeChanges.previousValue = this.modeChanges.currentValue;
+        this.modeChanges.currentValue = this._mode;
+        this.toggleModeSubject.next(Object.assign({}, this.modeChanges));
+    }
+}
+ModeService.decorators = [
+    { type: Injectable }
+];
+ModeService.ctorParameters = () => [];
+
+class AccessKeys {
+    constructor(event) {
+        this.altKey = false;
+        this.shiftKey = false;
+        this.ctrlkey = false;
+        this.keyCode = event.keyCode;
+        this.altKey = event.altKey;
+        this.shiftKey = event.shiftKey;
+        this.ctrlkey = event.ctrlKey;
+    }
+    isArrowRightKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
+    }
+    isArrowLeftKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
+    }
+    isPageUpKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
+    }
+    isPageDownKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
+    }
+    isFirstCanvasGroupKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
+    }
+    isLastCanvasGroupKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
+    }
+    isSliderKeys() {
+        return (this.isArrowLeftKeys() ||
+            this.isArrowRightKeys() ||
+            this.isPageDownKeys() ||
+            this.isPageUpKeys() ||
+            this.isFirstCanvasGroupKeys() ||
+            this.isLastCanvasGroupKeys());
+    }
+    isZoomInKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
+    }
+    isZoomOutKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
+    }
+    isZoomHomeKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
+    }
+    isNextHitKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
+    }
+    isPreviousHitKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
+    }
+    isSearchDialogKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
+    }
+    isContentsDialogKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes));
+    }
+    isFullscreenKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
+    }
+    isResetSearchKeys() {
+        return (this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch));
+    }
+    isRotateKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
+    }
+    isMultiKeys() {
+        return this.altKey || this.shiftKey || this.ctrlkey;
+    }
+    arrayContainsKeys(keys) {
+        return keys.indexOf(this.keyCode) > -1;
+    }
+    isShiftPressed() {
+        return this.shiftKey;
+    }
+}
+AccessKeys.PAGEDOWN = [34];
+AccessKeys.PAGEUP = [33];
+AccessKeys.ARROWRIGHT = [39];
+AccessKeys.ARROWLEFT = [37];
+AccessKeys.firstCanvasGroupCodes = [36]; // Home
+AccessKeys.lastCanvasGroupCodes = [35]; // End
+AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
+AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
+AccessKeys.zoomHomeCodes = [96, 48]; // 0
+AccessKeys.nextHit = [78]; // n
+AccessKeys.previousHit = [80]; // p
+AccessKeys.toggleSearchDialogCodes = [83]; // s
+AccessKeys.toggleContentsDialogCodes = [67]; // C
+AccessKeys.toggleFullscreenCodes = [70]; // f
+AccessKeys.resetSearch = [83]; // s
+AccessKeys.rotateCwCodes = [82]; // r
+
+class ContentSearchNavigationService {
+    constructor(canvasService, iiifContentSearchService) {
+        this.canvasService = canvasService;
+        this.iiifContentSearchService = iiifContentSearchService;
+        this.currentIndex = 0;
+        this.isHitOnActiveCanvasGroup = false;
+        this._isFirstHitOnCanvasGroup = false;
+        this._isLastHitOnCanvasGroup = false;
+        this.canvasesPerCanvasGroup = [-1];
+        this.searchResult = null;
+        this.initialize();
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((result) => {
+            this.searchResult = result;
+        }));
+    }
+    destroy() {
+        this.subscriptions.unsubscribe();
+    }
+    update(canvasGroupIndex) {
+        this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+        this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
+        this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
+        this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
+        this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
+    }
+    getCurrentIndex() {
+        return this.currentIndex;
+    }
+    getHitOnActiveCanvasGroup() {
+        return this.isHitOnActiveCanvasGroup;
+    }
+    getFirstHitCanvasGroup() {
+        return this._isFirstHitOnCanvasGroup;
+    }
+    getLastHitCanvasGroup() {
+        return this._isLastHitOnCanvasGroup;
+    }
+    goToNextCanvasGroupHit() {
+        if (this.searchResult && !this._isLastHitOnCanvasGroup) {
+            let nextHit;
+            if (this.currentIndex === -1) {
+                nextHit = this.searchResult.get(0);
+            }
+            else {
+                const current = this.searchResult.get(this.currentIndex);
+                const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(current.index);
+                const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
+                const lastCanvasGroupIndex = this.getLastCanvasGroupIndex(canvasesPerCanvasGroup);
+                nextHit = this.searchResult.hits.find((h) => h.index > lastCanvasGroupIndex);
+            }
+            if (nextHit) {
+                this.goToCanvasIndex(nextHit);
+            }
+        }
+    }
+    goToPreviousCanvasGroupHit() {
+        const previousIndex = this.isHitOnActiveCanvasGroup
+            ? this.currentIndex - 1
+            : this.currentIndex;
+        const previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
+        if (previousHit) {
+            this.goToCanvasIndex(previousHit);
+        }
+    }
+    goToCanvasIndex(hit) {
+        this.currentIndex = this.findCurrentHitIndex([hit.index]);
+        this.iiifContentSearchService.selected(hit);
+    }
+    findLastHitOnCanvasGroup() {
+        if (!this.searchResult) {
+            return false;
+        }
+        const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
+            .index;
+        const currentHit = this.searchResult.get(this.currentIndex);
+        return currentHit.index === lastCanvasIndex;
+    }
+    findFirstHitOnCanvasGroup(previousIndex) {
+        if (!this.searchResult) {
+            return;
+        }
+        let previousHit = this.searchResult.get(previousIndex);
+        const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
+        const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+        const leftCanvas = canvasesPerCanvasGroup[0];
+        const leftCanvasHit = this.searchResult.hits.find((h) => h.index === leftCanvas);
+        if (leftCanvasHit) {
+            previousHit = leftCanvasHit;
+        }
+        else if (canvasesPerCanvasGroup.length === 2) {
+            const rightCanvas = canvasesPerCanvasGroup[1];
+            previousHit = this.searchResult.hits.find((h) => h.index === rightCanvas);
+        }
+        return previousHit;
+    }
+    findHitOnActiveCanvasGroup() {
+        if (!this.searchResult) {
+            return false;
+        }
+        return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
+    }
+    findCurrentHitIndex(canvasGroupIndexes) {
+        if (!this.searchResult) {
+            return -1;
+        }
+        for (let i = 0; i < this.searchResult.size(); i++) {
+            const hit = this.searchResult.get(i);
+            if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
+                return i;
+            }
+            if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
+                if (i === 0) {
+                    return -1;
+                }
+                else {
+                    const phit = this.searchResult.get(i - 1);
+                    return this.searchResult.hits.findIndex((sr) => sr.index === phit.index);
+                }
+            }
+        }
+        return this.searchResult.size() - 1;
+    }
+    isFirstHitOnCanvasGroup() {
+        return this.currentIndex <= 0;
+    }
+    getLastCanvasGroupIndex(canvasesPerCanvasGroup) {
+        return canvasesPerCanvasGroup.length === 1
+            ? canvasesPerCanvasGroup[0]
+            : canvasesPerCanvasGroup[1];
+    }
+}
+ContentSearchNavigationService.decorators = [
+    { type: Injectable }
+];
+ContentSearchNavigationService.ctorParameters = () => [
+    { type: CanvasService },
+    { type: IiifContentSearchService }
+];
+
+/****************************************************************
+ * MIME-viewer options
+ ****************************************************************/
+const ViewerOptions = {
+    zoom: {
+        zoomFactor: 1.15,
+        dblClickZoomFactor: 2.7,
+        // How many pixels since lastDistance before it is considered a pinch
+        pinchZoomThreshold: 3
+    },
+    pan: {
+        // Sensitivity when determining swipe-direction.
+        // Higher threshold means that swipe must be more focused in
+        // x-direction before the gesture is recognized as "left" or "right"
+        swipeDirectionThreshold: 70
+    },
+    // All transition times in milliseconds
+    transitions: {
+        toolbarsEaseInTime: 400,
+        toolbarsEaseOutTime: 500,
+        OSDAnimationTime: 600 // Animation-time for OSD-animations
+    },
+    overlays: {
+        // Margin between canvas groups in Dashboard View in OpenSeadragon viewport-coordinates
+        canvasGroupMarginInDashboardView: 300,
+        // Margin between canvas groups in Page View in OpenSeadragon viewport-coordinates
+        canvasGroupMarginInPageView: 20
+    },
+    padding: {
+        // Padding in viewer container in pixels
+        header: 80,
+        footer: 80 // Placeholder below viewer for footer in Dashboard View
+    },
+    colors: {
+        canvasGroupBackgroundColor: '#fafafa'
+    }
+};
+
+const canvasRectFromCriteria = (rotation, criteria, x) => {
+    let rect = {};
+    if (rotation === 90 || rotation === 270) {
+        rect = {
+            height: criteria.canvasSource.width,
+            width: criteria.canvasSource.height,
+            x: x,
+            y: (criteria.canvasSource.width / 2) * -1,
+        };
+    }
+    else {
+        rect = {
+            height: criteria.canvasSource.height,
+            width: criteria.canvasSource.width,
+            x: x,
+            y: (criteria.canvasSource.height / 2) * -1,
+        };
+    }
+    return new Rect(rect);
+};
+
+class OnePageCalculatePagePositionStrategy {
+    calculateCanvasGroupPosition(criteria, rotation = 0) {
+        let x;
+        if (!criteria.canvasGroupIndex) {
+            if (rotation === 90 || rotation === 270) {
+                x = (criteria.canvasSource.height / 2) * -1;
+            }
+            else {
+                x = (criteria.canvasSource.width / 2) * -1;
+            }
+        }
+        else {
+            x =
+                criteria.viewingDirection === ViewingDirection.LTR
+                    ? this.calculateLtrX(criteria)
+                    : this.calculateRtlX(criteria);
+        }
+        return canvasRectFromCriteria(rotation, criteria, x);
+    }
+    calculateLtrX(criteria) {
+        return (criteria.previousCanvasGroupPosition.x +
+            criteria.previousCanvasGroupPosition.width +
+            ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+    }
+    calculateRtlX(criteria) {
+        return (criteria.previousCanvasGroupPosition.x -
+            criteria.previousCanvasGroupPosition.width -
+            ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+    }
+}
+
+class TwoPageCalculateCanvasGroupPositionStrategy {
+    calculateCanvasGroupPosition(criteria, rotation = 0) {
+        let x;
+        if (!criteria.canvasGroupIndex) {
+            // First page
+            x = 0;
+        }
+        else if (criteria.canvasGroupIndex % 2) {
+            // Even page numbers
+            x =
+                criteria.viewingDirection === ViewingDirection.LTR
+                    ? this.calculateEvenLtrX(criteria)
+                    : this.calculateEvenRtlX(criteria);
+        }
+        else {
+            // Odd page numbers
+            x =
+                criteria.viewingDirection === ViewingDirection.LTR
+                    ? this.calculateOddLtrX(criteria)
+                    : this.calculateOddRtlX(criteria);
+        }
+        return canvasRectFromCriteria(rotation, criteria, x);
+    }
+    calculateEvenLtrX(criteria) {
+        return (criteria.previousCanvasGroupPosition.x +
+            criteria.previousCanvasGroupPosition.width +
+            ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+    }
+    calculateOddLtrX(criteria) {
+        return (criteria.previousCanvasGroupPosition.x +
+            criteria.previousCanvasGroupPosition.width);
+    }
+    calculateEvenRtlX(criteria) {
+        return (criteria.previousCanvasGroupPosition.x -
+            criteria.canvasSource.width -
+            ViewerOptions.overlays.canvasGroupMarginInDashboardView);
+    }
+    calculateOddRtlX(criteria) {
+        return criteria.previousCanvasGroupPosition.x - criteria.canvasSource.width;
+    }
+}
+
+class CalculateCanvasGroupPositionFactory {
+    static create(viewerLayout, paged) {
+        if (viewerLayout === ViewerLayout.ONE_PAGE || !paged) {
+            return new OnePageCalculatePagePositionStrategy();
+        }
+        else {
+            return new TwoPageCalculateCanvasGroupPositionStrategy();
+        }
+    }
+}
+
 class ClickService {
     constructor() {
+        this.singleClickHandlers = [];
+        this.doubleClickHandlers = [];
         this.clickCount = 0;
         this.click = (event) => {
             event.preventDefaultAction = true;
@@ -957,7 +2462,6 @@ class ClickService {
                 }
             }
         };
-        this.reset();
     }
     reset() {
         this.singleClickHandlers = [];
@@ -1070,183 +2574,20 @@ function createSvgOverlay() {
     };
 }
 
-class Hit {
-    constructor(fields) {
-        this.id = 0;
-        this.index = 0;
-        if (fields) {
-            this.id = fields.id || this.id;
-            this.index = fields.index || this.index;
-            this.label = fields.label || this.label;
-            this.match = fields.match || this.match;
-            this.before = fields.before || this.before;
-            this.after = fields.after || this.after;
-            this.rects = fields.rects || this.rects;
-        }
-    }
-}
-
-class SearchResult {
-    constructor(fields) {
-        this.q = '';
-        this.hits = [];
-        if (fields) {
-            this.q = fields.q || this.q;
-            this.hits = fields.hits || this.hits;
-        }
-    }
-    add(hit) {
-        this.hits.push(hit);
-    }
-    get(index) {
-        return new Hit(Object.assign({}, this.hits[index]));
-    }
-    size() {
-        return this.hits.length;
-    }
-    last() {
-        return this.get(this.size() - 1);
-    }
-}
-
-class SearchResultBuilder {
-    constructor(q, manifest, iiifSearchResult) {
-        this.q = q;
-        this.manifest = manifest;
-        this.iiifSearchResult = iiifSearchResult;
-    }
-    build() {
-        const searchResult = new SearchResult();
-        searchResult.q = this.q;
-        const hits = [];
-        if (this.iiifSearchResult && this.iiifSearchResult.hits) {
-            this.iiifSearchResult.hits.forEach((hit, index) => {
-                const id = index;
-                let canvasIndex = -1;
-                let label = null;
-                const rects = [];
-                if (this.manifest.sequences && this.manifest.sequences[0].canvases) {
-                    const resources = this.findResources(hit);
-                    for (const resource of resources) {
-                        canvasIndex = this.findSequenceIndex(resource);
-                        label = this.findLabel(canvasIndex);
-                        const on = resource.on;
-                        const coords = on.substring(on.indexOf('=') + 1).split(',');
-                        const rect = new Rect({
-                            x: parseInt(coords[0], 10),
-                            y: parseInt(coords[1], 10),
-                            width: parseInt(coords[2], 10),
-                            height: parseInt(coords[3], 10)
-                        });
-                        rects.push(rect);
-                    }
-                }
-                searchResult.add(new Hit({
-                    id: id,
-                    index: canvasIndex,
-                    label: label,
-                    match: hit.match,
-                    before: hit.before,
-                    after: hit.after,
-                    rects: rects
-                }));
-            });
-            return searchResult;
-        }
-    }
-    findResources(hit) {
-        const resources = [];
-        for (const annotation of hit.annotations) {
-            const res = this.iiifSearchResult.resources.find((r) => r['@id'] === annotation);
-            resources.push(res);
-        }
-        return resources;
-    }
-    findSequenceIndex(resource) {
-        const firstSequence = this.manifest.sequences[0];
-        const on = resource.on;
-        const id = on.substring(0, on.indexOf('#'));
-        return firstSequence.canvases.findIndex(c => c.id === id);
-    }
-    findLabel(index) {
-        if (index === -1) {
-            return null;
-        }
-        else {
-            return this.manifest.sequences[0].canvases[index].label;
-        }
-    }
-}
-
-class IiifContentSearchService {
-    constructor(http) {
-        this.http = http;
-        this._currentSearchResult = new BehaviorSubject(new SearchResult({}));
-        this._searching = new BehaviorSubject(false);
-        this._currentQ = new Subject();
-        this._selected = new BehaviorSubject(null);
-    }
-    destroy() {
-        this._currentSearchResult.next(new SearchResult({}));
-        this._selected.next(null);
-    }
-    get onQChange() {
-        return this._currentQ.asObservable().pipe(distinctUntilChanged());
-    }
-    get onChange() {
-        return this._currentSearchResult.asObservable();
-    }
-    get isSearching() {
-        return this._searching.asObservable();
-    }
-    get onSelected() {
-        return this._selected.asObservable();
-    }
-    search(manifest, q) {
-        this._currentQ.next(q);
-        this._selected.next(null);
-        if (q.length === 0) {
-            this._currentSearchResult.next(new SearchResult());
-            return;
-        }
-        if (!manifest.service || manifest.service === null) {
-            return;
-        }
-        this._searching.next(true);
-        this.http
-            .get(`${manifest.service.id}?q=${q}`)
-            .pipe(finalize(() => this._searching.next(false)))
-            .subscribe((res) => this._currentSearchResult.next(this.extractData(q, manifest, res)), (err) => this.handleError);
-    }
-    selected(hit) {
-        this._selected.next(hit);
-    }
-    extractData(q, manifest, iiifSearchResult) {
-        return new SearchResultBuilder(q, manifest, iiifSearchResult).build();
-    }
-    handleError(err) {
-        let errMsg;
-        if (err.error instanceof Error) {
-            errMsg = err.error.message;
-        }
-        else {
-            errMsg = err.error;
-        }
-        return throwError(errMsg);
-    }
-}
-IiifContentSearchService.decorators = [
-    { type: Injectable }
-];
-IiifContentSearchService.ctorParameters = () => [
-    { type: HttpClient }
-];
-
 class ManifestUtils {
     static isManifestPaged(manifest) {
-        return (manifest &&
-            (manifest.viewingHint === 'paged' ||
-                (manifest.sequences && manifest.sequences[0].viewingHint === 'paged')));
+        return (ManifestUtils.isManifestViewingHintPaged(manifest) ||
+            ManifestUtils.isSequenceViewingHintPaged(manifest));
+    }
+    static isManifestViewingHintPaged(manifest) {
+        return manifest && manifest.viewingHint === 'paged';
+    }
+    static isSequenceViewingHintPaged(manifest) {
+        let firstSequence = null;
+        if (manifest && manifest.sequences && manifest.sequences.length > 0) {
+            firstSequence = manifest.sequences[0];
+        }
+        return firstSequence ? firstSequence.viewingHint === 'paged' : false;
     }
 }
 
@@ -1284,8 +2625,10 @@ var ControlAnchor;
 class Options {
     constructor() {
         this.id = 'openseadragon';
+        this.element = null;
         this.tileSources = [];
         this.tabIndex = 0;
+        this.overlays = [];
         this.xmlPath = null;
         this.prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
         this.debugMode = false;
@@ -1332,6 +2675,7 @@ class Options {
         this.zoomPerScroll = 1.2;
         this.zoomPerSecond = 1.0;
         this.showNavigator = false;
+        this.navigatorId = null;
         this.navigatorPosition = 'TOP_RIGHT';
         this.navigatorSizeRatio = 0.2;
         this.navigatorMaintainSizeRatio = false;
@@ -1361,6 +2705,9 @@ class Options {
         this.zoomInButton = null;
         this.zoomOutButton = null;
         this.homeButton = null;
+        this.fullPageButton = null;
+        this.rotateLeftButton = null;
+        this.rotateRightButton = null;
         this.previousButton = null;
         this.nextButton = null;
         this.sequenceMode = true;
@@ -1411,9 +2758,10 @@ class StyleService {
     get onChange() {
         return this.colorSubject.asObservable().pipe(filter(c => c !== null), distinctUntilChanged());
     }
-    init() {
+    initialize() {
+        this.subscriptions = new Subscription();
         this.zone.runOutsideAngular(() => {
-            interval(1000)
+            this.subscriptions.add(interval(1000)
                 .pipe(tap(() => {
                 const previousRgbColor = this.currentRgbColor;
                 const currentRgbColor = this.getComputedBackgroundColor(1);
@@ -1422,8 +2770,11 @@ class StyleService {
                     this.colorSubject.next(currentRgbColor);
                 }
             }))
-                .subscribe();
+                .subscribe());
         });
+    }
+    destroy() {
+        this.subscriptions.unsubscribe();
     }
     convertToRgba(rgbColor, opacity) {
         return rgbColor.replace(/rgb/i, 'rgba').replace(/\)/i, `,${opacity})`);
@@ -1438,14 +2789,14 @@ class StyleService {
             return this.getComputedStyle(matSidenavContainer[0], 'background-color');
         }
         else {
-            return null;
+            return undefined;
         }
     }
     getComputedStyle(el, property) {
         return window.getComputedStyle(el, null).getPropertyValue(property);
     }
 }
-StyleService.ɵprov = ɵɵdefineInjectable({ factory: function StyleService_Factory() { return new StyleService(ɵɵinject(NgZone)); }, token: StyleService, providedIn: "root" });
+StyleService.ɵprov = i0.ɵɵdefineInjectable({ factory: function StyleService_Factory() { return new StyleService(i0.ɵɵinject(i0.NgZone)); }, token: StyleService, providedIn: "root" });
 StyleService.decorators = [
     { type: Injectable, args: [{
                 providedIn: 'root'
@@ -1550,21 +2901,22 @@ class DashboardModeCalculateNextCanvasGroupStrategy {
         return nextCanvasGroup;
     }
     calculateNumberOfCanvasGroupsToGo(speed) {
-        if (speed < 500) {
-            return 0;
+        let canvasGroupsToGo = 10;
+        if (speed) {
+            if (speed < 500) {
+                canvasGroupsToGo = 0;
+            }
+            else if (speed >= 500 && speed < 1500) {
+                canvasGroupsToGo = 1;
+            }
+            else if (speed >= 1500 && speed < 2500) {
+                canvasGroupsToGo = 3;
+            }
+            else if (speed >= 2500 && speed < 3500) {
+                canvasGroupsToGo = 5;
+            }
         }
-        else if (speed >= 500 && speed < 1500) {
-            return 1;
-        }
-        else if (speed >= 1500 && speed < 2500) {
-            return 3;
-        }
-        else if (speed >= 2500 && speed < 3500) {
-            return 5;
-        }
-        else {
-            return 10;
-        }
+        return canvasGroupsToGo;
     }
 }
 
@@ -1574,7 +2926,7 @@ class PageModeCalculateNextCanvasGroupStrategy {
         const speed = criteria.speed;
         const direction = criteria.direction;
         let nextCanvasGroup = criteria.currentCanvasGroupIndex;
-        if (speed >= 200) {
+        if (speed && speed >= 200) {
             const diff = direction === Direction.LEFT ? 1 : -1;
             nextCanvasGroup =
                 criteria.viewingDirection === ViewingDirection.LTR
@@ -1624,8 +2976,8 @@ class CalculateNextCanvasGroupFactory {
 class CanvasGroupMask {
     constructor(viewer, styleService) {
         this.styleService = styleService;
+        this.canvasGroupRect = new Rect();
         this.disableResize = false;
-        this.destroyed = new Subject();
         this.animationHandler = () => {
             this.resize();
         };
@@ -1646,7 +2998,10 @@ class CanvasGroupMask {
             this.resize();
         };
         this.viewer = viewer;
-        styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
+    }
+    initialize(pageBounds, visible) {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.styleService.onChange.subscribe((c) => {
             this.backgroundColor = c;
             if (this.leftMask) {
                 this.leftMask.style('fill', this.backgroundColor);
@@ -1654,9 +3009,7 @@ class CanvasGroupMask {
             if (this.rightMask) {
                 this.rightMask.style('fill', this.backgroundColor);
             }
-        });
-    }
-    initialise(pageBounds, visible) {
+        }));
         this.canvasGroupRect = pageBounds;
         this.addCanvasGroupMask();
         this.setCenter();
@@ -1669,8 +3022,7 @@ class CanvasGroupMask {
         }
     }
     destroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.unsubscribe();
     }
     changeCanvasGroup(pageBounds) {
         this.canvasGroupRect = pageBounds;
@@ -1709,7 +3061,7 @@ class CanvasGroupMask {
         this.viewer.removeHandler('canvas-drag-end', this.canvasGroupDragEndHandler);
     }
     addCanvasGroupMask() {
-        const overlays = select(this.viewer.svgOverlay().node().parentNode);
+        const overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
         const mask = overlays.append('g').attr('id', 'page-mask');
         this.leftMask = mask
             .append('rect')
@@ -1725,7 +3077,7 @@ class CanvasGroupMask {
             .style('fill', this.backgroundColor);
     }
     setCenter() {
-        this.center = new Point(this.viewer.viewport._containerInnerSize.x / 2, this.viewer.viewport._containerInnerSize.y / 2);
+        this.center = new OpenSeadragon$1.Point(this.viewer.viewport._containerInnerSize.x / 2, this.viewer.viewport._containerInnerSize.y / 2);
     }
     resize() {
         if (this.disableResize || !this.leftMask || !this.rightMask) {
@@ -1739,7 +3091,7 @@ class CanvasGroupMask {
             .attr('x', Math.round(rightMaskRect.x));
     }
     getLeftMaskRect() {
-        const imgBounds = new Rect$1(this.canvasGroupRect.x, this.canvasGroupRect.y, this.canvasGroupRect.width, this.canvasGroupRect.height);
+        const imgBounds = new OpenSeadragon$1.Rect(this.canvasGroupRect.x, this.canvasGroupRect.y, this.canvasGroupRect.width, this.canvasGroupRect.height);
         const topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopLeft());
         let width = topLeft.x - ViewerOptions.overlays.canvasGroupMarginInPageView;
         if (width < 0) {
@@ -1747,11 +3099,11 @@ class CanvasGroupMask {
         }
         return new Rect({
             x: 0,
-            width: width
+            width: width,
         });
     }
     getRightMaskRect() {
-        const imgBounds = new Rect$1(this.canvasGroupRect.x, this.canvasGroupRect.y, this.canvasGroupRect.width, this.canvasGroupRect.height);
+        const imgBounds = new OpenSeadragon$1.Rect(this.canvasGroupRect.x, this.canvasGroupRect.y, this.canvasGroupRect.width, this.canvasGroupRect.height);
         const topRight = this.viewer.viewport.viewportToViewerElementCoordinates(imgBounds.getTopRight());
         let width = this.viewer.viewport._containerInnerSize.x - topRight.x;
         const x = this.viewer.viewport._containerInnerSize.x -
@@ -1762,8 +3114,13 @@ class CanvasGroupMask {
         }
         return new Rect({
             x: x,
-            width: width
+            width: width,
         });
+    }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
     }
 }
 
@@ -1830,7 +3187,7 @@ class DefaultGoToCanvasGroupStrategy {
         if (this.canvasService.currentCanvasGroupIndex > 0) {
             const viewportCenter = this.getViewportCenter();
             const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
-            const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
+            const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(ViewerMode.NAVIGATOR);
             const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
                 direction: Direction.PREVIOUS,
                 currentCanvasGroupIndex: currentCanvasGroupIndex,
@@ -1848,7 +3205,7 @@ class DefaultGoToCanvasGroupStrategy {
             this.canvasService.numberOfCanvasGroups) {
             const viewportCenter = this.getViewportCenter();
             const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(viewportCenter);
-            const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(null);
+            const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(ViewerMode.NAVIGATOR);
             const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
                 direction: Direction.NEXT,
                 currentCanvasGroupIndex: currentCanvasGroupIndex,
@@ -1872,10 +3229,10 @@ class DefaultGoToCanvasGroupStrategy {
     rightX(canvas) {
         return canvas.x + canvas.width - this.getViewportBounds().width / 2;
     }
-    panToCenter(canvasGroup, immediately) {
+    panToCenter(canvasGroup, immediately = false) {
         this.panTo(canvasGroup.centerX, canvasGroup.centerY, immediately);
     }
-    panTo(x, y, immediately) {
+    panTo(x, y, immediately = false) {
         this.viewer.viewport.panTo({
             x: x,
             y: y
@@ -1891,6 +3248,8 @@ class DefaultGoToCanvasGroupStrategy {
 
 class SwipeDragEndCounter {
     constructor() {
+        this.leftCount = 0;
+        this.rightCount = 0;
         this.reset();
     }
     reset() {
@@ -1902,8 +3261,12 @@ class SwipeDragEndCounter {
      * @param side hit by swipe
      */
     addHit(side, dir) {
-        this.incrementSide(side);
-        this.clearOppositeSideOfDragDirection(dir);
+        if (side !== null) {
+            this.incrementSide(side);
+        }
+        if (dir !== null) {
+            this.clearOppositeSideOfDragDirection(dir);
+        }
     }
     hitCountReached() {
         return this.leftCount >= 2 || this.rightCount >= 2;
@@ -1946,6 +3309,9 @@ class SwipeUtils {
         else if (start.x < end.x && deltaX >= deltaY) {
             return Direction.RIGHT;
         }
+        else {
+            return Direction.UNDEFINED;
+        }
     }
     static getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, vpBounds) {
         if (this.isPanningOutsideLeft(canvasGroupRect, vpBounds)) {
@@ -1953,6 +3319,9 @@ class SwipeUtils {
         }
         else if (this.isPanningOutsideRight(canvasGroupRect, vpBounds)) {
             return Side.RIGHT;
+        }
+        else {
+            return null;
         }
     }
     static isPanningOutsideCanvasGroup(canvasGroupRect, vpBounds) {
@@ -1984,19 +3353,25 @@ class SwipeUtils {
 
 class IiifTileSourceStrategy {
     getTileSource(resource) {
+        var _a;
         let tileSource;
-        if (resource.service.service) {
+        if ((_a = resource === null || resource === void 0 ? void 0 : resource.service) === null || _a === void 0 ? void 0 : _a.service) {
             tileSource = resource.service;
             tileSource.tileOverlap = 0.1; // Workaround for https://github.com/openseadragon/openseadragon/issues/1722
         }
         else {
             tileSource = resource.service['@id'];
-            tileSource = tileSource.startsWith('//')
-                ? `${location.protocol}${tileSource}`
-                : tileSource;
-            tileSource = !tileSource.endsWith('/info.json')
-                ? `${tileSource}/info.json`
-                : tileSource;
+            if (!tileSource) {
+                tileSource = resource['@id'];
+            }
+            tileSource =
+                tileSource && tileSource.startsWith('//')
+                    ? `${location.protocol}${tileSource}`
+                    : tileSource;
+            tileSource =
+                tileSource && !tileSource.endsWith('/info.json')
+                    ? `${tileSource}/info.json`
+                    : tileSource;
         }
         return tileSource;
     }
@@ -2018,25 +3393,6 @@ class TileSourceStrategyFactory {
         }
         else {
             return new StaticImageTileSourceStrategy();
-        }
-    }
-}
-
-class Dimensions {
-    constructor(fields) {
-        this.bottom = 0;
-        this.height = 0;
-        this.left = 0;
-        this.right = 0;
-        this.top = 0;
-        this.width = 0;
-        if (fields) {
-            this.bottom = fields.bottom || this.bottom;
-            this.height = fields.height || this.height;
-            this.left = fields.left || this.left;
-            this.right = fields.right || this.right;
-            this.top = fields.top || this.top;
-            this.width = fields.width || this.width;
         }
     }
 }
@@ -2102,7 +3458,7 @@ class ZoomStrategy {
     }
     getHomeZoomLevel(mode) {
         if (!this.viewer || !this.canvasService) {
-            return;
+            return 1;
         }
         let canvasGroupHeight;
         let canvasGroupWidth;
@@ -2121,12 +3477,14 @@ class ZoomStrategy {
         return this.getFittedZoomLevel(viewportBounds, canvasGroupHeight, canvasGroupWidth);
     }
     zoomIn(zoomFactor, position) {
-        if (typeof zoomFactor === 'undefined') {
+        if (!zoomFactor) {
             zoomFactor = ViewerOptions.zoom.zoomFactor;
         }
-        if (typeof position !== 'undefined') {
+        if (position) {
             position = this.viewer.viewport.pointFromPixel(position);
-            position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
+            if (position) {
+                position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
+            }
         }
         if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
             this.modeService.mode = ViewerMode.PAGE_ZOOMED;
@@ -2134,12 +3492,14 @@ class ZoomStrategy {
         this.zoomBy(zoomFactor, position);
     }
     zoomOut(zoomFactor, position) {
-        if (typeof zoomFactor === 'undefined') {
+        if (!zoomFactor) {
             zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, -1);
         }
-        if (typeof position !== 'undefined') {
+        if (position) {
             position = this.viewer.viewport.pointFromPixel(position);
-            position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
+            if (position) {
+                position = ZoomUtils.constrainPositionToCanvasGroup(position, this.canvasService.getCurrentCanvasGroupRect());
+            }
         }
         if (this.isViewportLargerThanCanvasGroup()) {
             this.modeService.mode = ViewerMode.PAGE;
@@ -2153,15 +3513,16 @@ class ZoomStrategy {
             return;
         }
         const homeZoomFactor = this.getHomeZoomFactor();
-        const maxViewportDimensions = new Dimensions(select(this.viewer.container.parentNode.parentNode)
+        const maxViewportDimensions = new Dimensions(d3
+            .select(this.viewer.container.parentNode.parentNode)
             .node()
             .getBoundingClientRect());
         const viewportHeight = maxViewportDimensions.height -
             ViewerOptions.padding.header -
             ViewerOptions.padding.footer;
         const viewportWidth = maxViewportDimensions.width * homeZoomFactor;
-        const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(new Point(viewportWidth, viewportHeight));
-        return new Rect$1(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
+        const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(new OpenSeadragon$1.Point(viewportWidth, viewportHeight));
+        return new OpenSeadragon$1.Rect(0, 0, viewportSizeInViewportCoordinates.x, viewportSizeInViewportCoordinates.y);
     }
     getFittedZoomLevel(viewportBounds, canvasGroupHeight, canvasGroupWidth) {
         const currentZoom = this.viewer.viewport.getZoom();
@@ -2214,14 +3575,17 @@ class ViewerService {
         this.viewerLayoutService = viewerLayoutService;
         this.iiifContentSearchService = iiifContentSearchService;
         this.styleService = styleService;
-        this.destroyed = new Subject();
+        this.overlays = [];
+        this.tileSources = [];
         this.isCanvasPressed = new BehaviorSubject(false);
         this.currentCenter = new Subject();
         this.currentCanvasIndex = new BehaviorSubject(0);
-        this.currentHit = new BehaviorSubject(null);
+        this.currentHit = new Subject();
         this.osdIsReady = new BehaviorSubject(false);
         this.swipeDragEndCounter = new SwipeDragEndCounter();
         this.pinchStatus = new PinchStatus();
+        this.isManifestPaged = false;
+        this.currentSearch = null;
         this.rotation = new BehaviorSubject(0);
         /**
          * Scroll-handler
@@ -2301,7 +3665,6 @@ class ViewerService {
         this.dragHandler = (e) => {
             this.viewer.panHorizontal = true;
             if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-                const dragEndPosision = e.position;
                 const canvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
                 const vpBounds = this.getViewportBounds();
                 const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, vpBounds);
@@ -2329,6 +3692,9 @@ class ViewerService {
     }
     get onOsdReadyChange() {
         return this.osdIsReady.asObservable().pipe(distinctUntilChanged());
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
     }
     getViewer() {
         return this.viewer;
@@ -2470,24 +3836,20 @@ class ViewerService {
         }
     }
     addSubscriptions() {
-        this.modeService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((mode) => {
+        this.subscriptions.add(this.modeService.onChange.subscribe((mode) => {
             this.modeChanged(mode);
-        });
+        }));
         this.zone.runOutsideAngular(() => {
-            this.onCenterChange
-                .pipe(takeUntil(this.destroyed), sample(interval(500)))
+            this.subscriptions.add(this.onCenterChange
+                .pipe(sample(interval(500)))
                 .subscribe((center) => {
                 this.calculateCurrentCanvasGroup(center);
                 if (center && center !== null) {
                     this.osdIsReady.next(true);
                 }
-            });
+            }));
         });
-        this.canvasService.onCanvasGroupIndexChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((canvasGroupIndex) => {
+        this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange.subscribe((canvasGroupIndex) => {
             this.swipeDragEndCounter.reset();
             if (canvasGroupIndex !== -1) {
                 this.canvasGroupMask.changeCanvasGroup(this.canvasService.getCanvasGroupRect(canvasGroupIndex));
@@ -2495,34 +3857,26 @@ class ViewerService {
                     this.zoomStrategy.goToHomeZoom();
                 }
             }
-        });
-        this.onOsdReadyChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((state) => {
+        }));
+        this.subscriptions.add(this.onOsdReadyChange.subscribe((state) => {
             var _a;
             if (state) {
                 this.initialCanvasGroupLoaded();
                 this.currentCenter.next((_a = this.viewer) === null || _a === void 0 ? void 0 : _a.viewport.getCenter(true));
             }
-        });
-        this.viewerLayoutService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((state) => {
+        }));
+        this.subscriptions.add(this.viewerLayoutService.onChange.subscribe((state) => {
             this.layoutPages();
-        });
-        this.iiifContentSearchService.onSelected
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((hit) => {
+        }));
+        this.subscriptions.add(this.iiifContentSearchService.onSelected.subscribe((hit) => {
             if (hit) {
                 this.highlightCurrentHit(hit);
                 this.goToCanvas(hit.index, false);
             }
-        });
-        this.onRotationChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((rotation) => {
+        }));
+        this.subscriptions.add(this.onRotationChange.subscribe((rotation) => {
             this.layoutPages();
-        });
+        }));
     }
     layoutPages() {
         if (this.osdIsReady.getValue()) {
@@ -2544,7 +3898,7 @@ class ViewerService {
     }
     setupOverlays() {
         this.svgOverlay = this.viewer.svgOverlay();
-        this.svgNode = select(this.svgOverlay.node());
+        this.svgNode = d3.select(this.svgOverlay.node());
     }
     disableKeyDownHandler() {
         this.viewer.innerTracker.keyDownHandler = null;
@@ -2559,16 +3913,15 @@ class ViewerService {
      */
     destroy(layoutSwitch) {
         this.osdIsReady.next(false);
-        this.currentCenter.next(null);
+        this.currentCenter.next(undefined);
         if (this.viewer != null && this.viewer.isOpen()) {
             if (this.viewer.container != null) {
-                select(this.viewer.container.parentNode).style('opacity', '0');
+                d3.select(this.viewer.container.parentNode).style('opacity', '0');
             }
             this.viewer.destroy();
             this.viewer = null;
         }
-        this.destroyed.next();
-        this.overlays = null;
+        this.overlays = [];
         this.canvasService.reset();
         if (this.canvasGroupMask) {
             this.canvasGroupMask.destroy();
@@ -2578,6 +3931,7 @@ class ViewerService {
             this.currentSearch = null;
             this.iiifContentSearchService.destroy();
             this.rotation.next(0);
+            this.unsubscribe();
         }
     }
     addEvents() {
@@ -2817,11 +4171,13 @@ class ViewerService {
      */
     initialCanvasGroupLoaded() {
         this.home();
-        this.canvasGroupMask.initialise(this.canvasService.getCurrentCanvasGroupRect(), this.modeService.mode !== ViewerMode.DASHBOARD);
-        select(this.viewer.container.parentNode)
-            .transition()
-            .duration(ViewerOptions.transitions.OSDAnimationTime)
-            .style('opacity', '1');
+        this.canvasGroupMask.initialize(this.canvasService.getCurrentCanvasGroupRect(), this.modeService.mode !== ViewerMode.DASHBOARD);
+        if (this.viewer) {
+            d3.select(this.viewer.container.parentNode)
+                .transition()
+                .duration(ViewerOptions.transitions.OSDAnimationTime)
+                .style('opacity', '1');
+        }
     }
     /**
      * Returns overlay-index for click-event if hit
@@ -2864,7 +4220,8 @@ class ViewerService {
         const currentCanvasGroupIndex = this.canvasService
             .currentCanvasGroupIndex;
         const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(this.modeService.mode);
-        let pannedPastSide, canvasGroupEndHitCountReached;
+        let pannedPastSide;
+        let canvasGroupEndHitCountReached = false;
         if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
             pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, viewportBounds);
             this.swipeDragEndCounter.addHit(pannedPastSide, direction);
@@ -2892,6 +4249,11 @@ class ViewerService {
         var _a;
         return (_a = this.viewer) === null || _a === void 0 ? void 0 : _a.viewport.getBounds();
     }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
+    }
 }
 ViewerService.decorators = [
     { type: Injectable }
@@ -2904,1224 +4266,6 @@ ViewerService.ctorParameters = () => [
     { type: ViewerLayoutService },
     { type: IiifContentSearchService },
     { type: StyleService }
-];
-
-class BuilderUtils {
-    static extractId(value) {
-        return value['@id'];
-    }
-    static extracType(value) {
-        return value['@type'];
-    }
-    static extractContext(value) {
-        return value['@context'];
-    }
-    static extractViewingDirection(value) {
-        if (value['viewingDirection'] === 'left-to-right') {
-            return ViewingDirection.LTR;
-        }
-        else if (value['viewingDirection'] === 'right-to-left') {
-            return ViewingDirection.RTL;
-        }
-    }
-    static findCanvasIndex(canvases, sequences) {
-        let index = -1;
-        if (sequences[0] && sequences[0].canvases && canvases[0]) {
-            index = sequences[0].canvases.findIndex((canvas) => canvas.id === canvases[0]);
-        }
-        return index;
-    }
-}
-
-class SizesBuilder {
-    constructor(sizes) {
-        this.sizes = sizes;
-    }
-    build() {
-        const sizes = [];
-        if (this.sizes) {
-            for (let i = 0; i < this.sizes.length; i++) {
-                const size = this.sizes[i];
-                sizes.push(new Size(size.width, size.height));
-            }
-        }
-        return sizes;
-    }
-}
-
-class TilesBuilder {
-    constructor(tiles) {
-        this.tiles = tiles;
-    }
-    build() {
-        const tiles = [];
-        if (this.tiles) {
-            for (let i = 0; i < this.tiles.length; i++) {
-                const tile = this.tiles[i];
-                tiles.push(new Tile({
-                    width: tile.width,
-                    scaleFactors: tile.scaleFactors
-                }));
-            }
-        }
-        return tiles;
-    }
-}
-
-class ServiceBuilder {
-    constructor(service) {
-        this.service = service;
-    }
-    build() {
-        if (this.service) {
-            return new Service({
-                id: BuilderUtils.extractId(this.service),
-                context: BuilderUtils.extractContext(this.service),
-                protocol: this.service.protocol,
-                width: this.service.width,
-                height: this.service.height,
-                sizes: new SizesBuilder(this.service.sizes).build(),
-                tiles: new TilesBuilder(this.service.tiles).build(),
-                profile: this.service.profile,
-                physicalScale: this.service.physicalScale,
-                physicalUnits: this.service.physicalUnits,
-                service: new ServiceBuilder(this.service.service).build()
-            });
-        }
-        return null;
-    }
-}
-
-class ResourceBuilder {
-    constructor(resource) {
-        this.resource = resource;
-    }
-    build() {
-        if (this.resource) {
-            return new Resource({
-                id: BuilderUtils.extractId(this.resource),
-                type: BuilderUtils.extracType(this.resource),
-                format: this.resource.format,
-                service: new ServiceBuilder(this.resource.service).build(),
-                height: this.resource.height,
-                width: this.resource.width
-            });
-        }
-        return null;
-    }
-}
-
-class ImagesBuilder {
-    constructor(images) {
-        this.images = images;
-    }
-    build() {
-        const images = [];
-        if (this.images) {
-            for (let i = 0; i < this.images.length; i++) {
-                const image = this.images[i];
-                images.push(new Images({
-                    id: BuilderUtils.extractId(image),
-                    type: BuilderUtils.extracType(image),
-                    motivation: image.motivation,
-                    resource: new ResourceBuilder(image.resource).build(),
-                    on: image.on
-                }));
-            }
-        }
-        return images;
-    }
-}
-
-class CanvasBuilder {
-    constructor(canvases) {
-        this.canvases = canvases;
-    }
-    build() {
-        const canvases = [];
-        if (this.canvases) {
-            for (let i = 0; i < this.canvases.length; i++) {
-                const canvas = this.canvases[i];
-                canvases.push(new Canvas({
-                    id: BuilderUtils.extractId(canvas),
-                    type: BuilderUtils.extracType(canvas),
-                    label: canvas.label,
-                    thumbnail: canvas.thumbnail,
-                    height: canvas.height,
-                    width: canvas.width,
-                    images: new ImagesBuilder(canvas.images).build()
-                }));
-            }
-        }
-        return canvases;
-    }
-}
-
-class SequenceBuilder {
-    constructor(sequences) {
-        this.sequences = sequences;
-    }
-    build() {
-        const sequences = [];
-        if (this.sequences) {
-            for (let i = 0; i < this.sequences.length; i++) {
-                const seq = this.sequences[i];
-                sequences.push(new Sequence({
-                    id: BuilderUtils.extractId(seq),
-                    type: BuilderUtils.extracType(seq),
-                    label: seq.label,
-                    viewingHint: seq.viewingHint,
-                    canvases: new CanvasBuilder(seq.canvases).build()
-                }));
-            }
-        }
-        return sequences;
-    }
-}
-
-class MetadataBuilder {
-    constructor(metadatas) {
-        this.metadatas = metadatas;
-    }
-    build() {
-        const metadatas = [];
-        if (this.metadatas) {
-            for (let i = 0; i < this.metadatas.length; i++) {
-                const data = this.metadatas[i];
-                metadatas.push(new Metadata(data.label, data.value));
-            }
-        }
-        return metadatas;
-    }
-}
-
-class StructureBuilder {
-    constructor(structures, sequences) {
-        this.structures = structures;
-        this.sequences = sequences;
-    }
-    build() {
-        const structures = [];
-        if (this.structures) {
-            for (let i = 0; i < this.structures.length; i++) {
-                const structure = this.structures[i];
-                structures.push(new Structure({
-                    id: BuilderUtils.extractId(structure),
-                    type: BuilderUtils.extracType(structure),
-                    label: structure.label,
-                    canvases: structure.canvases,
-                    canvasIndex: BuilderUtils.findCanvasIndex(structure.canvases, this.sequences)
-                }));
-            }
-        }
-        return structures;
-    }
-}
-
-class TileSourceBuilder {
-    constructor(sequences) {
-        this.sequences = sequences;
-    }
-    build() {
-        const tilesources = [];
-        if (this.sequences && this.sequences.length > 0) {
-            const canvases = this.sequences[0].canvases;
-            for (let i = 0; i < canvases.length; i++) {
-                const canvas = canvases[i];
-                if (canvas) {
-                    tilesources.push(canvas.images[0].resource);
-                }
-            }
-        }
-        return tilesources;
-    }
-}
-
-class ManifestBuilder {
-    constructor(data) {
-        this.data = data;
-    }
-    build() {
-        const sequences = new SequenceBuilder(this.data.sequences).build();
-        return new Manifest({
-            context: BuilderUtils.extractContext(this.data),
-            type: BuilderUtils.extracType(this.data),
-            id: BuilderUtils.extractId(this.data),
-            viewingDirection: BuilderUtils.extractViewingDirection(this.data),
-            label: this.data.label,
-            metadata: new MetadataBuilder(this.data.metadata).build(),
-            license: this.data.license,
-            logo: this.data.logo,
-            attribution: this.data.attribution,
-            service: new ServiceBuilder(this.data.service).build(),
-            sequences: sequences,
-            structures: new StructureBuilder(this.data.structures, sequences).build(),
-            tileSource: new TileSourceBuilder(this.data.sequences).build(),
-            viewingHint: this.data.viewingHint
-        });
-    }
-}
-
-class IiifManifestService {
-    constructor(intl, http, spinnerService) {
-        this.intl = intl;
-        this.http = http;
-        this.spinnerService = spinnerService;
-        this._currentManifest = new BehaviorSubject(null);
-        this._errorMessage = new BehaviorSubject(null);
-    }
-    get currentManifest() {
-        return this._currentManifest.asObservable().pipe(filter(m => m !== null), distinctUntilChanged());
-    }
-    get errorMessage() {
-        return this._errorMessage.asObservable();
-    }
-    load(manifestUri) {
-        if (manifestUri === null) {
-            this._errorMessage.next(this.intl.manifestUriMissingLabel);
-        }
-        else {
-            this.spinnerService.show();
-            this.http
-                .get(manifestUri)
-                .pipe(finalize(() => this.spinnerService.hide()))
-                .subscribe((response) => {
-                const manifest = this.extractData(response);
-                if (this.isManifestValid(manifest)) {
-                    this._currentManifest.next(manifest);
-                }
-                else {
-                    this._errorMessage.next(this.intl.manifestNotValidLabel);
-                }
-            }, (err) => {
-                this._errorMessage.next(this.handleError(err));
-            });
-        }
-    }
-    destroy() {
-        this.resetCurrentManifest();
-        this.resetErrorMessage();
-    }
-    resetCurrentManifest() {
-        this._currentManifest.next(null);
-    }
-    resetErrorMessage() {
-        this._errorMessage.next(null);
-    }
-    extractData(response) {
-        return new ManifestBuilder(response).build();
-    }
-    isManifestValid(manifest) {
-        return manifest && manifest.tileSource && manifest.tileSource.length > 0;
-    }
-    handleError(err) {
-        let errMsg;
-        if (err.error instanceof Object) {
-            errMsg = err.message;
-        }
-        else {
-            errMsg = err.error;
-        }
-        return errMsg;
-    }
-}
-IiifManifestService.decorators = [
-    { type: Injectable }
-];
-IiifManifestService.ctorParameters = () => [
-    { type: MimeViewerIntl },
-    { type: HttpClient },
-    { type: SpinnerService }
-];
-
-class FullscreenService {
-    constructor() {
-        this.changeSubject = new ReplaySubject();
-        this.onchange();
-    }
-    get onChange() {
-        return this.changeSubject.asObservable();
-    }
-    isEnabled() {
-        const d = document;
-        return (d.fullscreenEnabled ||
-            d.webkitFullscreenEnabled ||
-            d.mozFullScreenEnabled ||
-            d.msFullscreenEnabled);
-    }
-    isFullscreen() {
-        const d = document;
-        return (d.fullscreenElement ||
-            d.webkitFullscreenElement ||
-            d.mozFullScreenElement ||
-            d.msFullscreenElement);
-    }
-    toggle(el) {
-        this.isFullscreen() ? this.closeFullscreen(el) : this.openFullscreen(el);
-    }
-    onchange() {
-        const d = document;
-        const func = () => {
-            this.changeSubject.next(true);
-        };
-        if (d.fullscreenEnabled) {
-            document.addEventListener('fullscreenchange', func);
-        }
-        else if (d.webkitFullscreenEnabled) {
-            document.addEventListener('webkitfullscreenchange', func);
-        }
-        else if (d.mozFullScreenEnabled) {
-            document.addEventListener('mozfullscreenchange', func);
-        }
-        else if (d.msFullscreenEnabled) {
-            document.addEventListener('msfullscreenchange', func);
-        }
-    }
-    openFullscreen(elem) {
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        }
-        else if (elem.mozRequestFullScreen) {
-            elem.mozRequestFullScreen();
-        }
-        else if (elem.webkitRequestFullscreen) {
-            elem.webkitRequestFullscreen();
-        }
-        else if (elem.msRequestFullscreen) {
-            elem.msRequestFullscreen();
-        }
-    }
-    closeFullscreen(elem) {
-        const d = document;
-        if (d.exitFullscreen) {
-            d.exitFullscreen();
-        }
-        else if (d.mozCancelFullScreen) {
-            d.mozCancelFullScreen();
-        }
-        else if (d.webkitExitFullscreen) {
-            d.webkitExitFullscreen();
-        }
-        else if (d.msExitFullscreen) {
-            d.msExitFullscreen();
-        }
-    }
-}
-FullscreenService.decorators = [
-    { type: Injectable }
-];
-FullscreenService.ctorParameters = () => [];
-
-class MimeDomHelper {
-    constructor(fullscreen) {
-        this.fullscreen = fullscreen;
-    }
-    getBoundingClientRect(el) {
-        try {
-            if (this.isDocumentInFullScreenMode() &&
-                el.nativeElement.nodeName === 'MIME-VIEWER') {
-                return this.createFullscreenDimensions(el);
-            }
-            else {
-                return this.createDimensions(el);
-            }
-        }
-        catch (e) {
-            return new Dimensions();
-        }
-    }
-    isDocumentInFullScreenMode() {
-        return this.fullscreen.isFullscreen();
-    }
-    toggleFullscreen() {
-        const el = document.getElementById('ngx-mime-mimeViewer');
-        if (this.fullscreen.isEnabled()) {
-            this.fullscreen.toggle(el);
-        }
-    }
-    setFocusOnViewer() {
-        const el = document.getElementById('ngx-mime-mimeViewer');
-        if (el) {
-            el.focus();
-        }
-    }
-    createFullscreenDimensions(el) {
-        const dimensions = el.nativeElement.getBoundingClientRect();
-        const width = this.getFullscreenWidth();
-        const height = this.getFullscreenHeight();
-        return new Dimensions(Object.assign(Object.assign({}, dimensions), { top: 0, bottom: height, width: width, height: height, left: 0, right: width }));
-    }
-    createDimensions(el) {
-        const dimensions = el.nativeElement.getBoundingClientRect();
-        return new Dimensions({
-            top: dimensions.top,
-            bottom: dimensions.bottom,
-            width: dimensions.width,
-            height: dimensions.height,
-            left: dimensions.left,
-            right: dimensions.right
-        });
-    }
-    getFullscreenWidth() {
-        return (window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth);
-    }
-    getFullscreenHeight() {
-        return (window.innerHeight ||
-            document.documentElement.clientHeight ||
-            document.body.clientHeight);
-    }
-}
-MimeDomHelper.decorators = [
-    { type: Injectable }
-];
-MimeDomHelper.ctorParameters = () => [
-    { type: FullscreenService }
-];
-
-class MimeResizeService {
-    constructor(mimeDomHelper) {
-        this.mimeDomHelper = mimeDomHelper;
-        this.resizeSubject = new ReplaySubject();
-        this.dimensions = new Dimensions();
-    }
-    set el(el) {
-        this._el = el;
-    }
-    get el() {
-        return this._el;
-    }
-    get onResize() {
-        return this.resizeSubject.asObservable();
-    }
-    markForCheck() {
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-        if (this.dimensions.bottom !== dimensions.bottom ||
-            this.dimensions.height !== dimensions.height ||
-            this.dimensions.left !== dimensions.left ||
-            this.dimensions.right !== dimensions.right ||
-            this.dimensions.top !== dimensions.top ||
-            this.dimensions.width !== dimensions.width) {
-            this.dimensions = dimensions;
-            this.resizeSubject.next(Object.assign({}, this.dimensions));
-        }
-    }
-}
-MimeResizeService.decorators = [
-    { type: Injectable }
-];
-MimeResizeService.ctorParameters = () => [
-    { type: MimeDomHelper }
-];
-
-class ContentSearchDialogComponent {
-    constructor(dialogRef, intl, mediaObserver, mimeResizeService, iiifManifestService, iiifContentSearchService, el, mimeDomHelper) {
-        this.dialogRef = dialogRef;
-        this.intl = intl;
-        this.mediaObserver = mediaObserver;
-        this.mimeResizeService = mimeResizeService;
-        this.iiifManifestService = iiifManifestService;
-        this.iiifContentSearchService = iiifContentSearchService;
-        this.el = el;
-        this.mimeDomHelper = mimeDomHelper;
-        this.hits = [];
-        this.currentSearch = '';
-        this.numberOfHits = 0;
-        this.isSearching = false;
-        this.tabHeight = {};
-        this.mimeHeight = 0;
-        this.destroyed = new Subject();
-    }
-    ngOnInit() {
-        this.mimeResizeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((dimensions) => {
-            this.mimeHeight = dimensions.height;
-            this.resizeTabHeight();
-        });
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
-            this.manifest = manifest;
-        });
-        this.iiifContentSearchService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((sr) => {
-            this.hits = sr.hits;
-            this.currentSearch = sr.q ? sr.q : '';
-            this.q = sr.q;
-            this.numberOfHits = sr.size();
-            if (this.resultContainer !== null && this.numberOfHits > 0) {
-                this.resultContainer.nativeElement.focus();
-            }
-            else if (this.q.length === 0 || this.numberOfHits === 0) {
-                this.qEl.nativeElement.focus();
-            }
-        });
-        this.iiifContentSearchService.isSearching
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((s) => {
-            this.isSearching = s;
-        });
-        this.iiifContentSearchService.onSelected
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((hit) => {
-            if (hit === null) {
-                this.currentHit = hit;
-            }
-            else {
-                if (!this.currentHit || this.currentHit.id !== hit.id) {
-                    this.currentHit = hit;
-                    this.scrollCurrentHitIntoView();
-                }
-            }
-        });
-        this.resizeTabHeight();
-    }
-    ngAfterViewInit() {
-        this.scrollCurrentHitIntoView();
-    }
-    ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
-    }
-    onResize(event) {
-        this.resizeTabHeight();
-    }
-    onSubmit(event) {
-        event.preventDefault();
-        this.search();
-    }
-    clear() {
-        this.q = '';
-        this.search();
-    }
-    goToHit(hit) {
-        this.currentHit = hit;
-        this.iiifContentSearchService.selected(hit);
-        if (this.mediaObserver.isActive('lt-md')) {
-            this.dialogRef.close();
-        }
-    }
-    search() {
-        this.currentSearch = this.q;
-        this.iiifContentSearchService.search(this.manifest, this.q);
-    }
-    resizeTabHeight() {
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-        let height = this.mimeHeight;
-        if (this.mediaObserver.isActive('lt-md')) {
-            this.tabHeight = {
-                maxHeight: window.innerHeight - 128 + 'px'
-            };
-        }
-        else {
-            height -= 272;
-            this.tabHeight = {
-                maxHeight: height + 'px'
-            };
-        }
-    }
-    scrollCurrentHitIntoView() {
-        this.iiifContentSearchService.onSelected
-            .pipe(take(1), filter(s => s !== null))
-            .subscribe((hit) => {
-            const selected = this.findSelected(hit);
-            if (selected) {
-                selected.nativeElement.focus();
-            }
-        });
-    }
-    findSelected(selectedHit) {
-        if (this.hitList) {
-            const selectedList = this.hitList.filter((item, index) => index === selectedHit.id);
-            return selectedList.length > 0 ? selectedList[0] : null;
-        }
-        else {
-            return null;
-        }
-    }
-}
-ContentSearchDialogComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'mime-search',
-                template: "<div class=\"content-search-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            class=\"close-content-search-dialog-button\"\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <div mat-dialog-title class=\"heading\">{{ intl.searchLabel }}</div>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <div mat-dialog-title class=\"heading heading-desktop\">{{\n            intl.searchLabel\n          }}</div>\n          <button\n            mat-icon-button\n            class=\"close-content-search-dialog-button\"\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <mat-dialog-content>\n    <div class=\"content-search-form\">\n      <form (ngSubmit)=\"onSubmit($event)\" #searchForm=\"ngForm\">\n        <mat-form-field class=\"content-search-box\">\n          <button\n            type=\"submit\"\n            matPrefix\n            mat-icon-button\n            [attr.aria-label]=\"intl.searchLabel\"\n            [matTooltip]=\"intl.searchLabel\"\n          >\n            <mat-icon class=\"icon\">search</mat-icon>\n          </button>\n          <input\n            #query\n            cdkFocusInitial\n            matInput\n            class=\"content-search-input\"\n            [(ngModel)]=\"q\"\n            [attr.aria-label]=\"intl.searchLabel\"\n            name=\"q\"\n            autocomplete=\"off\"\n          />\n          <button\n            *ngIf=\"q\"\n            type=\"button\"\n            class=\"clearSearchButton\"\n            matSuffix\n            mat-icon-button\n            [attr.aria-label]=\"intl.clearSearchLabel\"\n            [matTooltip]=\"intl.clearSearchLabel\"\n            (click)=\"clear()\"\n          >\n            <mat-icon class=\"icon\">clear</mat-icon>\n          </button>\n        </mat-form-field>\n      </form>\n    </div>\n    <div\n      #contentSearchResult\n      class=\"content-search-result-container\"\n      [ngStyle]=\"tabHeight\"\n    >\n      <div *ngIf=\"!isSearching\" class=\"content-search-result\" fxLayout=\"column\">\n        <input type=\"hidden\" class=\"numberOfHits\" [value]=\"numberOfHits\" />\n        <div *ngIf=\"currentSearch && currentSearch.length > 0\">\n          <div\n            *ngIf=\"numberOfHits > 0\"\n            [innerHTML]=\"intl.resultsFoundLabel(numberOfHits, currentSearch)\"\n          ></div>\n          <div\n            *ngIf=\"numberOfHits === 0\"\n            [innerHTML]=\"intl.noResultsFoundLabel(currentSearch)\"\n          ></div>\n        </div>\n        <ng-container *ngFor=\"let hit of hits; let last = last\">\n          <button\n            #hitButton\n            mat-button\n            [color]=\"currentHit && hit.id === currentHit.id ? 'accent' : null\"\n            [ngClass]=\"'hit'\"\n            (click)=\"goToHit(hit)\"\n            (keyup.enter)=\"goToHit(hit)\"\n          >\n            <div fxLayout=\"row\" fxLayoutAlign=\"space-between start\">\n              <div fxFlex class=\"summary\">\n                {{ hit.before }} <em>{{ hit.match }}</em> {{ hit.after }}\n              </div>\n              <div fxFlex=\"40px\" class=\"canvasGroup\">{{ hit.index + 1 }}</div>\n            </div>\n          </button>\n          <mat-divider *ngIf=\"!last\"></mat-divider>\n        </ng-container>\n      </div>\n      <div *ngIf=\"isSearching\" class=\"content-search-result\" fxLayout=\"column\">\n        <mat-progress-bar mode=\"indeterminate\"></mat-progress-bar>\n      </div>\n    </div>\n  </mat-dialog-content>\n</div>\n",
-                styles: [".heading{font-size:17px}.heading-desktop{padding-left:16px}.label{text-decoration:underline}.content-search-form{padding:0 16px}.content-search-box{width:100%}.content-search-input{font-size:20px}.content-search-result-container{font-family:Roboto,Helvetica Neue,sans-serif;margin-bottom:8px;overflow:auto}.content-search-result{padding:8px 16px}.content-search-result .mat-button{font-size:14px;line-height:normal;max-width:none;padding:8px;text-align:left;white-space:normal;word-wrap:normal}::ng-deep .content-search-container .current-content-search,em{font-weight:700}.canvasGroupLabel{opacity:.54;text-align:right}::ng-deep .content-search-panel{max-width:none!important}::ng-deep .content-search-panel>.mat-dialog-container{overflow:initial;padding:0!important}::ng-deep .content-search-container>div>div>.mat-toolbar{padding:0!important}input{font-family:Roboto,Helvetica Neue,sans-serif}.icon{font-size:22px!important}"]
-            },] }
-];
-ContentSearchDialogComponent.ctorParameters = () => [
-    { type: MatDialogRef },
-    { type: MimeViewerIntl },
-    { type: MediaObserver },
-    { type: MimeResizeService },
-    { type: IiifManifestService },
-    { type: IiifContentSearchService },
-    { type: ElementRef },
-    { type: MimeDomHelper }
-];
-ContentSearchDialogComponent.propDecorators = {
-    resultContainer: [{ type: ViewChild, args: ['contentSearchResult', { static: true },] }],
-    qEl: [{ type: ViewChild, args: ['query', { static: true },] }],
-    hitList: [{ type: ViewChildren, args: ['hitButton', { read: ElementRef },] }],
-    onResize: [{ type: HostListener, args: ['window:resize', ['$event'],] }]
-};
-
-class MobileContentSearchDialogConfigStrategy {
-    getConfig(elementRef) {
-        return {
-            hasBackdrop: false,
-            disableClose: false,
-            autoFocus: false,
-            width: '100%',
-            height: '100%',
-            panelClass: 'content-search-panel'
-        };
-    }
-}
-class DesktopContentSearchDialogConfigStrategy {
-    constructor(mimeDomHelper) {
-        this.mimeDomHelper = mimeDomHelper;
-    }
-    getConfig(el) {
-        const dimensions = this.getPosition(el);
-        return {
-            hasBackdrop: false,
-            disableClose: false,
-            autoFocus: false,
-            width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
-            position: {
-                top: dimensions.top + 'px',
-                left: dimensions.left + 'px'
-            },
-            panelClass: 'content-search-panel'
-        };
-    }
-    getPosition(el) {
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
-        return new Dimensions({
-            top: dimensions.top + 64,
-            left: dimensions.right -
-                DesktopContentSearchDialogConfigStrategy.dialogWidth -
-                DesktopContentSearchDialogConfigStrategy.paddingRight
-        });
-    }
-}
-DesktopContentSearchDialogConfigStrategy.dialogWidth = 350;
-DesktopContentSearchDialogConfigStrategy.paddingRight = 20;
-
-class ContentSearchDialogConfigStrategyFactory {
-    constructor(mediaObserver, mimeDomHelper) {
-        this.mediaObserver = mediaObserver;
-        this.mimeDomHelper = mimeDomHelper;
-    }
-    create() {
-        return this.mediaObserver.isActive('lt-md')
-            ? new MobileContentSearchDialogConfigStrategy()
-            : new DesktopContentSearchDialogConfigStrategy(this.mimeDomHelper);
-    }
-}
-ContentSearchDialogConfigStrategyFactory.decorators = [
-    { type: Injectable }
-];
-ContentSearchDialogConfigStrategyFactory.ctorParameters = () => [
-    { type: MediaObserver },
-    { type: MimeDomHelper }
-];
-
-class ContentSearchDialogService {
-    constructor(dialog, contentSearchDialogConfigStrategyFactory, mimeResizeService) {
-        this.dialog = dialog;
-        this.contentSearchDialogConfigStrategyFactory = contentSearchDialogConfigStrategyFactory;
-        this.mimeResizeService = mimeResizeService;
-        this.isContentSearchDialogOpen = false;
-        this.destroyed = new Subject();
-    }
-    initialize() {
-        this.mimeResizeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(rect => {
-            if (this.isContentSearchDialogOpen) {
-                const config = this.getDialogConfig();
-                this.dialogRef.updatePosition(config.position);
-                this.dialogRef.updateSize(config.width, config.height);
-            }
-        });
-    }
-    destroy() {
-        this.close();
-        this.destroyed.next();
-    }
-    set el(el) {
-        this._el = el;
-    }
-    open() {
-        if (!this.isContentSearchDialogOpen) {
-            const config = this.getDialogConfig();
-            this.dialogRef = this.dialog.open(ContentSearchDialogComponent, config);
-            this.dialogRef.afterClosed().subscribe(result => {
-                this.isContentSearchDialogOpen = false;
-            });
-            this.isContentSearchDialogOpen = true;
-        }
-    }
-    close() {
-        if (this.dialogRef) {
-            this.dialogRef.close();
-        }
-        this.isContentSearchDialogOpen = false;
-    }
-    toggle() {
-        this.isContentSearchDialogOpen ? this.close() : this.open();
-    }
-    isOpen() {
-        return this.isContentSearchDialogOpen;
-    }
-    getDialogConfig() {
-        return this.contentSearchDialogConfigStrategyFactory
-            .create()
-            .getConfig(this._el);
-    }
-}
-ContentSearchDialogService.decorators = [
-    { type: Injectable }
-];
-ContentSearchDialogService.ctorParameters = () => [
-    { type: MatDialog },
-    { type: ContentSearchDialogConfigStrategyFactory },
-    { type: MimeResizeService }
-];
-
-class ContentsDialogComponent {
-    constructor(intl, mediaObserver, dialogRef, el, mimeDomHelper, changeDetectorRef, iiifManifestService, mimeResizeService) {
-        this.intl = intl;
-        this.mediaObserver = mediaObserver;
-        this.dialogRef = dialogRef;
-        this.el = el;
-        this.mimeDomHelper = mimeDomHelper;
-        this.changeDetectorRef = changeDetectorRef;
-        this.iiifManifestService = iiifManifestService;
-        this.tabHeight = {};
-        this.showToc = false;
-        this.selectedIndex = 0;
-        this.mimeHeight = 0;
-        this.destroyed = new Subject();
-        mimeResizeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((dimensions) => {
-            this.mimeHeight = dimensions.height;
-            this.resizeTabHeight();
-        });
-    }
-    ngOnInit() {
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
-            this.manifest = manifest;
-            this.showToc = this.manifest && this.manifest.structures.length > 0;
-            this.changeDetectorRef.detectChanges();
-        });
-        this.resizeTabHeight();
-    }
-    ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
-    }
-    onResize(event) {
-        this.resizeTabHeight();
-    }
-    onCanvasChanged() {
-        if (this.mediaObserver.isActive('lt-md')) {
-            this.dialogRef.close();
-        }
-    }
-    resizeTabHeight() {
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-        let height = this.mimeHeight;
-        if (this.mediaObserver.isActive('lt-md')) {
-            height -= 104;
-            this.tabHeight = {
-                maxHeight: window.innerHeight - 128 + 'px'
-            };
-        }
-        else {
-            height -= 278;
-            this.tabHeight = {
-                maxHeight: height + 'px'
-            };
-        }
-    }
-}
-ContentsDialogComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'mime-contents',
-                template: "<div class=\"contents-container\">\n  <ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <ng-container *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\" data-test-id=\"mobile-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n    <ng-container *ngSwitchDefault>\n      <mat-toolbar data-test-id=\"desktop-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n  </ng-container>\n  <div mat-dialog-content>\n    <mat-tab-group [(selectedIndex)]=\"selectedIndex\">\n      <mat-tab [label]=\"intl.metadataLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-metadata></mime-metadata>\n        </div>\n      </mat-tab>\n      <mat-tab *ngIf=\"showToc\" [label]=\"intl.tocLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-toc (canvasChanged)=\"onCanvasChanged()\"></mime-toc>\n        </div>\n      </mat-tab>\n    </mat-tab-group>\n  </div>\n</div>\n",
-                changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".label{text-decoration:underline}::ng-deep .contents-panel{max-width:none!important}::ng-deep .contents-panel>.mat-dialog-container{overflow:initial;padding:0!important}::ng-deep .contents-container>div>div>.mat-toolbar{padding:0!important}.tab-container{overflow:auto;padding:8px 16px}.mat-dialog-content{max-height:none}"]
-            },] }
-];
-ContentsDialogComponent.ctorParameters = () => [
-    { type: MimeViewerIntl },
-    { type: MediaObserver },
-    { type: MatDialogRef },
-    { type: ElementRef },
-    { type: MimeDomHelper },
-    { type: ChangeDetectorRef },
-    { type: IiifManifestService },
-    { type: MimeResizeService }
-];
-ContentsDialogComponent.propDecorators = {
-    onResize: [{ type: HostListener, args: ['window:resize', ['$event'],] }]
-};
-
-class MobileContentsDialogConfigStrategy {
-    getConfig(elementRef) {
-        return {
-            hasBackdrop: false,
-            disableClose: false,
-            width: '100%',
-            height: '100%',
-            panelClass: 'contents-panel'
-        };
-    }
-}
-class DesktopContentsDialogConfigStrategy {
-    constructor(mimeDomHelper) {
-        this.mimeDomHelper = mimeDomHelper;
-    }
-    getConfig(el) {
-        const dimensions = this.getPosition(el);
-        return {
-            hasBackdrop: false,
-            disableClose: false,
-            width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
-            position: {
-                top: dimensions.top + 'px',
-                left: dimensions.left + 'px'
-            },
-            panelClass: 'contents-panel'
-        };
-    }
-    getPosition(el) {
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
-        return new Dimensions({
-            top: dimensions.top + 64,
-            left: dimensions.right -
-                DesktopContentsDialogConfigStrategy.dialogWidth -
-                DesktopContentsDialogConfigStrategy.paddingRight
-        });
-    }
-}
-DesktopContentsDialogConfigStrategy.dialogWidth = 350;
-DesktopContentsDialogConfigStrategy.paddingRight = 20;
-
-class ContentsDialogConfigStrategyFactory {
-    constructor(mediaObserver, mimeDomHelper) {
-        this.mediaObserver = mediaObserver;
-        this.mimeDomHelper = mimeDomHelper;
-    }
-    create() {
-        return this.mediaObserver.isActive('lt-md')
-            ? new MobileContentsDialogConfigStrategy()
-            : new DesktopContentsDialogConfigStrategy(this.mimeDomHelper);
-    }
-}
-ContentsDialogConfigStrategyFactory.decorators = [
-    { type: Injectable }
-];
-ContentsDialogConfigStrategyFactory.ctorParameters = () => [
-    { type: MediaObserver },
-    { type: MimeDomHelper }
-];
-
-class ContentsDialogService {
-    constructor(dialog, contentsDialogConfigStrategyFactory, mimeResizeService) {
-        this.dialog = dialog;
-        this.contentsDialogConfigStrategyFactory = contentsDialogConfigStrategyFactory;
-        this.mimeResizeService = mimeResizeService;
-        this.isContentsDialogOpen = false;
-        this.destroyed = new Subject();
-    }
-    initialize() {
-        this.mimeResizeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(rect => {
-            if (this.isContentsDialogOpen) {
-                const config = this.getDialogConfig();
-                this.dialogRef.updatePosition(config.position);
-                this.dialogRef.updateSize(config.width, config.height);
-            }
-        });
-    }
-    destroy() {
-        this.close();
-        this.destroyed.next();
-    }
-    set el(el) {
-        this._el = el;
-    }
-    open(selectedIndex) {
-        if (!this.isContentsDialogOpen) {
-            const config = this.getDialogConfig();
-            this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
-            if (selectedIndex) {
-                this.dialogRef.componentInstance.selectedIndex = selectedIndex;
-            }
-            this.dialogRef.afterClosed().subscribe(result => {
-                this.isContentsDialogOpen = false;
-            });
-            this.isContentsDialogOpen = true;
-        }
-    }
-    close() {
-        if (this.dialogRef) {
-            this.dialogRef.close();
-            this.isContentsDialogOpen = false;
-        }
-        this.isContentsDialogOpen = false;
-    }
-    toggle() {
-        this.isContentsDialogOpen ? this.close() : this.open();
-    }
-    isOpen() {
-        return this.isContentsDialogOpen;
-    }
-    getSelectedIndex() {
-        return this.dialogRef && this.dialogRef.componentInstance
-            ? this.dialogRef.componentInstance.selectedIndex
-            : 0;
-    }
-    getDialogConfig() {
-        return this.contentsDialogConfigStrategyFactory
-            .create()
-            .getConfig(this._el);
-    }
-}
-ContentsDialogService.decorators = [
-    { type: Injectable }
-];
-ContentsDialogService.ctorParameters = () => [
-    { type: MatDialog },
-    { type: ContentsDialogConfigStrategyFactory },
-    { type: MimeResizeService }
-];
-
-class AccessKeys {
-    constructor(event) {
-        this.altKey = false;
-        this.shiftKey = false;
-        this.ctrlkey = false;
-        this.keyCode = event.keyCode;
-        this.altKey = event.altKey;
-        this.shiftKey = event.shiftKey;
-        this.ctrlkey = event.ctrlKey;
-    }
-    isArrowRightKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
-    }
-    isArrowLeftKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
-    }
-    isPageUpKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
-    }
-    isPageDownKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
-    }
-    isFirstCanvasGroupKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
-    }
-    isLastCanvasGroupKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
-    }
-    isSliderKeys() {
-        return (this.isArrowLeftKeys() ||
-            this.isArrowRightKeys() ||
-            this.isPageDownKeys() ||
-            this.isPageUpKeys() ||
-            this.isFirstCanvasGroupKeys() ||
-            this.isLastCanvasGroupKeys());
-    }
-    isZoomInKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
-    }
-    isZoomOutKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
-    }
-    isZoomHomeKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
-    }
-    isNextHitKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
-    }
-    isPreviousHitKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
-    }
-    isSearchDialogKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
-    }
-    isContentsDialogKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes));
-    }
-    isFullscreenKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
-    }
-    isResetSearchKeys() {
-        return (this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch));
-    }
-    isRotateKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
-    }
-    isMultiKeys() {
-        return this.altKey || this.shiftKey || this.ctrlkey;
-    }
-    arrayContainsKeys(keys) {
-        return keys.indexOf(this.keyCode) > -1;
-    }
-    isShiftPressed() {
-        return this.shiftKey;
-    }
-}
-AccessKeys.PAGEDOWN = [34];
-AccessKeys.PAGEUP = [33];
-AccessKeys.ARROWRIGHT = [39];
-AccessKeys.ARROWLEFT = [37];
-AccessKeys.firstCanvasGroupCodes = [36]; // Home
-AccessKeys.lastCanvasGroupCodes = [35]; // End
-AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
-AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
-AccessKeys.zoomHomeCodes = [96, 48]; // 0
-AccessKeys.nextHit = [78]; // n
-AccessKeys.previousHit = [80]; // p
-AccessKeys.toggleSearchDialogCodes = [83]; // s
-AccessKeys.toggleContentsDialogCodes = [67]; // C
-AccessKeys.toggleFullscreenCodes = [70]; // f
-AccessKeys.resetSearch = [83]; // s
-AccessKeys.rotateCwCodes = [82]; // r
-
-class ContentSearchNavigationService {
-    constructor(canvasService, iiifContentSearchService) {
-        this.canvasService = canvasService;
-        this.iiifContentSearchService = iiifContentSearchService;
-        this.currentIndex = 0;
-        this.isHitOnActiveCanvasGroup = false;
-        this._isFirstHitOnCanvasGroup = false;
-        this._isLastHitOnCanvasGroup = false;
-        this.canvasesPerCanvasGroup = [-1];
-        this.iiifContentSearchService.onChange.subscribe((result) => {
-            this.searchResult = result;
-        });
-    }
-    update(canvasGroupIndex) {
-        this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-        this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
-        this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
-        this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
-        this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
-    }
-    getCurrentIndex() {
-        return this.currentIndex;
-    }
-    getHitOnActiveCanvasGroup() {
-        return this.isHitOnActiveCanvasGroup;
-    }
-    getFirstHitCanvasGroup() {
-        return this._isFirstHitOnCanvasGroup;
-    }
-    getLastHitCanvasGroup() {
-        return this._isLastHitOnCanvasGroup;
-    }
-    goToNextCanvasGroupHit() {
-        if (!this._isLastHitOnCanvasGroup) {
-            let nextHit;
-            if (this.currentIndex === -1) {
-                nextHit = this.searchResult.get(0);
-            }
-            else {
-                const current = this.searchResult.get(this.currentIndex);
-                const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(current.index);
-                const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
-                const lastCanvasGroupIndex = this.getLastCanvasGroupIndex(canvasesPerCanvasGroup);
-                nextHit = this.searchResult.hits.find(h => h.index > lastCanvasGroupIndex);
-            }
-            if (nextHit) {
-                this.goToCanvasIndex(nextHit);
-            }
-        }
-    }
-    goToPreviousCanvasGroupHit() {
-        const previousIndex = this.isHitOnActiveCanvasGroup
-            ? this.currentIndex - 1
-            : this.currentIndex;
-        const previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
-        this.goToCanvasIndex(previousHit);
-    }
-    goToCanvasIndex(hit) {
-        this.currentIndex = this.findCurrentHitIndex([hit.index]);
-        this.iiifContentSearchService.selected(hit);
-    }
-    findLastHitOnCanvasGroup() {
-        const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
-            .index;
-        const currentHit = this.searchResult.get(this.currentIndex);
-        return currentHit.index === lastCanvasIndex;
-    }
-    findFirstHitOnCanvasGroup(previousIndex) {
-        let previousHit = this.searchResult.get(previousIndex);
-        const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
-        const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-        const leftCanvas = canvasesPerCanvasGroup[0];
-        const leftCanvasHit = this.searchResult.hits.find(h => h.index === leftCanvas);
-        if (leftCanvasHit) {
-            previousHit = leftCanvasHit;
-        }
-        else if (canvasesPerCanvasGroup.length === 2) {
-            const rightCanvas = canvasesPerCanvasGroup[1];
-            previousHit = this.searchResult.hits.find(h => h.index === rightCanvas);
-        }
-        return previousHit;
-    }
-    findHitOnActiveCanvasGroup() {
-        return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
-    }
-    findCurrentHitIndex(canvasGroupIndexes) {
-        for (let i = 0; i < this.searchResult.size(); i++) {
-            const hit = this.searchResult.get(i);
-            if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
-                return i;
-            }
-            if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
-                if (i === 0) {
-                    return -1;
-                }
-                else {
-                    const phit = this.searchResult.get(i - 1);
-                    return this.searchResult.hits.findIndex(sr => sr.index === phit.index);
-                }
-            }
-        }
-        return this.searchResult.size() - 1;
-    }
-    isFirstHitOnCanvasGroup() {
-        return this.currentIndex <= 0;
-    }
-    getLastCanvasGroupIndex(canvasesPerCanvasGroup) {
-        return canvasesPerCanvasGroup.length === 1
-            ? canvasesPerCanvasGroup[0]
-            : canvasesPerCanvasGroup[1];
-    }
-}
-ContentSearchNavigationService.decorators = [
-    { type: Injectable }
-];
-ContentSearchNavigationService.ctorParameters = () => [
-    { type: CanvasService },
-    { type: IiifContentSearchService }
 ];
 
 class AccessKeysService {
@@ -4138,23 +4282,23 @@ class AccessKeysService {
         this.isSearchable = false;
         this.hasHits = false;
         this.disabledKeys = [];
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
         this.invert = false;
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
-            this.isSearchable = this.isManifestSearchable(manifest);
-            this.invert = manifest.viewingDirection === ViewingDirection.RTL;
-        });
-        this.iiifContentSearchService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((result) => {
-            this.hasHits = result.hits.length > 0;
-        });
     }
-    ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            if (manifest) {
+                this.isSearchable = this.isManifestSearchable(manifest);
+                this.invert = manifest.viewingDirection === ViewingDirection.RTL;
+            }
+        }));
+        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((result) => {
+            this.hasHits = result.hits.length > 0;
+        }));
+    }
+    destroy() {
+        this.unsubscribe();
     }
     handleKeyEvents(event) {
         const accessKeys = new AccessKeys(event);
@@ -4341,6 +4485,11 @@ class AccessKeysService {
         this.updateDisabledKeys();
         return this.disabledKeys.indexOf(keyCode) > -1;
     }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
+    }
 }
 AccessKeysService.decorators = [
     { type: Injectable }
@@ -4360,6 +4509,7 @@ AccessKeysService.ctorParameters = () => [
 class AttributionDialogResizeService {
     constructor(mimeDomHelper) {
         this.mimeDomHelper = mimeDomHelper;
+        this._el = null;
         this.resizeSubject = new ReplaySubject();
         this.dimensions = new Dimensions();
     }
@@ -4373,15 +4523,17 @@ class AttributionDialogResizeService {
         return this.resizeSubject.asObservable();
     }
     markForCheck() {
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-        if (this.dimensions.bottom !== dimensions.bottom ||
-            this.dimensions.height !== dimensions.height ||
-            this.dimensions.left !== dimensions.left ||
-            this.dimensions.right !== dimensions.right ||
-            this.dimensions.top !== dimensions.top ||
-            this.dimensions.width !== dimensions.width) {
-            this.dimensions = dimensions;
-            this.resizeSubject.next(Object.assign({}, this.dimensions));
+        if (this.el) {
+            const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+            if (this.dimensions.bottom !== dimensions.bottom ||
+                this.dimensions.height !== dimensions.height ||
+                this.dimensions.left !== dimensions.left ||
+                this.dimensions.right !== dimensions.right ||
+                this.dimensions.top !== dimensions.top ||
+                this.dimensions.width !== dimensions.width) {
+                this.dimensions = dimensions;
+                this.resizeSubject.next(Object.assign({}, this.dimensions));
+            }
         }
     }
 }
@@ -4402,26 +4554,25 @@ class AttributionDialogComponent {
         this.attributionDialogResizeService = attributionDialogResizeService;
         this.styleService = styleService;
         this.accessKeysHandlerService = accessKeysHandlerService;
-        this.destroyed = new Subject();
+        this.manifest = null;
+        this.subscriptions = new Subscription();
         attributionDialogResizeService.el = el;
     }
     ngOnInit() {
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             this.manifest = manifest;
             this.changeDetectorRef.markForCheck();
-        });
+        }));
     }
     ngAfterViewInit() {
-        this.styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
+        this.subscriptions.add(this.styleService.onChange.subscribe((c) => {
+            var _a;
             const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
-            this.renderer.setStyle(this.container.nativeElement, 'background-color', backgroundRgbaColor);
-        });
+            this.renderer.setStyle((_a = this.container) === null || _a === void 0 ? void 0 : _a.nativeElement, 'background-color', backgroundRgbaColor);
+        }));
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
     }
     handleKeys(event) {
         this.accessKeysHandlerService.handleKeyEvents(event);
@@ -4437,7 +4588,7 @@ AttributionDialogComponent.decorators = [
     { type: Component, args: [{
                 template: "<div #container class=\"attribution-container\">\n  <mat-toolbar class=\"attribution-toolbar\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n      <h1 mat-dialog-title>{{ intl.attributionLabel }}</h1>\n      <button\n        mat-icon-button\n        [aria-label]=\"intl.attributonCloseAriaLabel\"\n        [matTooltip]=\"intl.closeLabel\"\n        [matDialogClose]=\"true\"\n      >\n        <mat-icon>close</mat-icon>\n      </button>\n    </div>\n  </mat-toolbar>\n  <p mat-dialog-content [innerHTML]=\"manifest?.attribution\"> </p>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".attribution-toolbar{background:transparent;font-size:14px;min-height:20px!important;padding:8px}.mat-dialog-title{font-size:16px}.mat-dialog-content{margin:0;padding:8px}::ng-deep .attribution-panel{font-family:Roboto,Helvetica Neue,sans-serif}::ng-deep .attribution-panel>.mat-dialog-container{background:transparent!important;font-size:11px;padding:0}::ng-deep .attribution-toolbar>.mat-toolbar-layout>.mat-toolbar-row{height:20px}"]
+                styles: [".attribution-toolbar{font-size:14px;background:transparent;min-height:20px!important;padding:8px}.mat-dialog-title{font-size:16px}.mat-dialog-content{padding:8px;margin:0}::ng-deep .attribution-panel{font-family:Roboto,Helvetica Neue,sans-serif}::ng-deep .attribution-panel>.mat-dialog-container{background:transparent!important;font-size:11px;padding:0}::ng-deep .attribution-toolbar>.mat-toolbar-layout>.mat-toolbar-row{height:20px}"]
             },] }
 ];
 AttributionDialogComponent.ctorParameters = () => [
@@ -4463,31 +4614,29 @@ class AttributionDialogService {
         this.attributionDialogResizeService = attributionDialogResizeService;
         this.mimeDomHelper = mimeDomHelper;
         this.isAttributionDialogOpen = false;
+        this.dialogRef = null;
+        this._el = null;
         this.attributionDialogHeight = 0;
-        this.destroyed = new Subject();
     }
     initialize() {
-        this.mimeResizeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((dimensions) => {
-            if (this.isAttributionDialogOpen) {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.mimeResizeService.onResize.subscribe((dimensions) => {
+            if (this.dialogRef && this.isAttributionDialogOpen) {
                 const config = this.getDialogConfig();
                 this.dialogRef.updatePosition(config.position);
             }
-        });
-        this.attributionDialogResizeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((dimensions) => {
-            if (this.isAttributionDialogOpen) {
+        }));
+        this.subscriptions.add(this.attributionDialogResizeService.onResize.subscribe((dimensions) => {
+            if (this.dialogRef && this.isAttributionDialogOpen) {
                 this.attributionDialogHeight = dimensions.height;
                 const config = this.getDialogConfig();
                 this.dialogRef.updatePosition(config.position);
             }
-        });
+        }));
     }
     destroy() {
         this.close();
-        this.destroyed.next();
+        this.unsubscribe();
     }
     set el(el) {
         this._el = el;
@@ -4503,7 +4652,10 @@ class AttributionDialogService {
                 .subscribe(() => {
                 const config = this.getDialogConfig();
                 this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
-                this.dialogRef.afterClosed().subscribe((result) => {
+                this.dialogRef
+                    .afterClosed()
+                    .pipe(take(1))
+                    .subscribe((result) => {
                     this.isAttributionDialogOpen = false;
                     this.mimeDomHelper.setFocusOnViewer();
                 });
@@ -4522,7 +4674,7 @@ class AttributionDialogService {
         this.isAttributionDialogOpen ? this.close() : this.open();
     }
     closeDialogAfter(seconds) {
-        if (seconds > 0) {
+        if (seconds && seconds > 0) {
             interval(seconds * 1000)
                 .pipe(take(1))
                 .subscribe(() => {
@@ -4531,26 +4683,34 @@ class AttributionDialogService {
         }
     }
     getDialogConfig() {
-        const dimensions = this.getPosition(this._el);
+        const dimensions = this.getPosition();
         return {
             hasBackdrop: false,
             width: '180px',
             panelClass: 'attribution-panel',
             position: {
                 top: dimensions.top + 'px',
-                left: dimensions.left + 'px'
+                left: dimensions.left + 'px',
             },
             autoFocus: true,
-            restoreFocus: false
+            restoreFocus: false,
         };
     }
-    getPosition(el) {
+    getPosition() {
+        if (!this._el) {
+            throw new Error(`Could not find position because element is missing`);
+        }
         const padding = 20;
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+        const dimensions = this.mimeDomHelper.getBoundingClientRect(this._el);
         return new Dimensions({
             top: dimensions.top + dimensions.height - this.attributionDialogHeight - 68,
-            left: dimensions.left + padding
+            left: dimensions.left + padding,
         });
+    }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
     }
 }
 AttributionDialogService.decorators = [
@@ -4585,7 +4745,7 @@ class CanvasGroupDialogComponent {
         this.canvasService = canvasService;
         this.intl = intl;
         this.changeDetectorRef = changeDetectorRef;
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
         this.numberOfCanvases = this.canvasService.numberOfCanvases;
         this.createForm();
     }
@@ -4593,24 +4753,21 @@ class CanvasGroupDialogComponent {
         this.canvasGroupControl = new FormControl('', [
             Validators.required,
             Validators.min(1),
-            Validators.max(this.numberOfCanvases)
+            Validators.max(this.numberOfCanvases),
         ]);
         this.canvasGroupForm = this.fb.group({
-            canvasGroupControl: this.canvasGroupControl
+            canvasGroupControl: this.canvasGroupControl,
         });
     }
     ngOnInit() {
-        this.intl.changes
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(() => this.changeDetectorRef.markForCheck());
+        this.subscriptions.add(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
     }
     onSubmit() {
         if (this.canvasGroupForm.valid) {
-            const pageNumber = this.canvasGroupForm.get('canvasGroupControl').value - 1;
+            const pageNumber = this.canvasGroupControl.value - 1;
             this.viewerService.goToCanvasGroup(this.canvasService.findCanvasGroupByCanvasIndex(pageNumber), false);
             this.dialogRef.close();
         }
@@ -4620,7 +4777,7 @@ CanvasGroupDialogComponent.decorators = [
     { type: Component, args: [{
                 template: "<div fxLayout=\"column\">\n  <h1 class=\"canvas-group-dialog-title\">{{ intl.goToPageLabel }}</h1>\n  <form\n    [formGroup]=\"canvasGroupForm\"\n    (ngSubmit)=\"onSubmit()\"\n    novalidate\n    autocomplete=\"off\"\n  >\n    <mat-form-field [floatLabel]=\"'always'\">\n      <input\n        class=\"go-to-canvas-group-input\"\n        type=\"number\"\n        matInput\n        min=\"1\"\n        [placeholder]=\"intl.enterPageNumber\"\n        formControlName=\"canvasGroupControl\"\n      />\n      <mat-error *ngIf=\"canvasGroupControl.errors?.max\">{{\n        intl.pageDoesNotExists\n      }}</mat-error>\n    </mat-form-field>\n    <div fxLayout=\"row\" fxLayoutAlign=\"end center\">\n      <button type=\"button\" mat-button matDialogClose> CANCEL </button>\n      <button\n        type=\"submit\"\n        mat-button\n        [disabled]=\"canvasGroupForm.pristine || canvasGroupForm.invalid\"\n      >\n        OK\n      </button>\n    </div>\n  </form>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".canvas-group-dialog-title{display:block;margin:0 0 20px}"]
+                styles: [".canvas-group-dialog-title{margin:0 0 20px;display:block}"]
             },] }
 ];
 CanvasGroupDialogComponent.ctorParameters = () => [
@@ -4636,18 +4793,20 @@ class CanvasGroupDialogService {
     constructor(dialog) {
         this.dialog = dialog;
         this.isCanvasGroupDialogOpen = false;
-        this.destroyed = new Subject();
+        this.dialogRef = null;
     }
     initialize() { }
     destroy() {
         this.close();
-        this.destroyed.next();
     }
     open(timeout) {
         if (!this.isCanvasGroupDialogOpen) {
             const config = this.getDialogConfig();
             this.dialogRef = this.dialog.open(CanvasGroupDialogComponent, config);
-            this.dialogRef.afterClosed().subscribe(result => {
+            this.dialogRef
+                .afterClosed()
+                .pipe(take(1))
+                .subscribe((result) => {
                 this.isCanvasGroupDialogOpen = false;
             });
             this.isCanvasGroupDialogOpen = true;
@@ -4666,7 +4825,7 @@ class CanvasGroupDialogService {
         return {
             hasBackdrop: false,
             disableClose: true,
-            panelClass: 'canvas-group-panel'
+            panelClass: 'canvas-group-panel',
         };
     }
 }
@@ -4707,32 +4866,29 @@ class HelpDialogComponent {
         this.mimeResizeService = mimeResizeService;
         this.tabHeight = {};
         this.mimeHeight = 0;
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
     }
     ngOnInit() {
-        this.mimeResizeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((dimensions) => {
+        this.subscriptions.add(this.mimeResizeService.onResize.subscribe((dimensions) => {
             this.mimeHeight = dimensions.height;
             this.resizeTabHeight();
-        });
+        }));
         this.resizeTabHeight();
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
     }
     resizeTabHeight() {
         let height = this.mimeHeight;
         if (this.mediaObserver.isActive('lt-md')) {
             this.tabHeight = {
-                maxHeight: window.innerHeight - 128 + 'px'
+                maxHeight: window.innerHeight - 128 + 'px',
             };
         }
         else {
             height -= 272;
             this.tabHeight = {
-                maxHeight: height + 'px'
+                maxHeight: height + 'px',
             };
         }
     }
@@ -4741,7 +4897,7 @@ HelpDialogComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-help',
                 template: "<div class=\"help-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 class=\"heading-desktop\" mat-dialog-title>{{\n            intl.help.helpLabel\n          }}</h1>\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <div [ngStyle]=\"tabHeight\" class=\"help-content\">\n    <p [innerHTML]=\"intl.help.line1\"></p>\n    <p [innerHTML]=\"intl.help.line2\"></p>\n    <p [innerHTML]=\"intl.help.line3\"></p>\n    <p [innerHTML]=\"intl.help.line4\"></p>\n    <p [innerHTML]=\"intl.help.line5\"></p>\n    <p [innerHTML]=\"intl.help.line6\"></p>\n    <p [innerHTML]=\"intl.help.line7\"></p>\n    <p [innerHTML]=\"intl.help.line8\"></p>\n    <p [innerHTML]=\"intl.help.line9\"></p>\n    <p [innerHTML]=\"intl.help.line10\"></p>\n  </div>\n</div>\n",
-                styles: [".help-container{font-family:Roboto,Helvetica Neue,sans-serif;font-size:14px}.help-content{overflow:auto;padding:16px}::ng-deep .help-panel{max-width:none!important}::ng-deep .help-panel>.mat-dialog-container{overflow:initial;padding:0!important}"]
+                styles: [".help-container{font-family:Roboto,Helvetica Neue,sans-serif;font-size:14px}.help-content{padding:16px;overflow:auto}::ng-deep .help-panel{max-width:none!important}::ng-deep .help-panel>.mat-dialog-container{padding:0!important;overflow:visible;overflow:initial}"]
             },] }
 ];
 HelpDialogComponent.ctorParameters = () => [
@@ -4817,23 +4973,22 @@ class HelpDialogService {
         this.dialog = dialog;
         this.helpDialogConfigStrategyFactory = helpDialogConfigStrategyFactory;
         this.mimeResizeService = mimeResizeService;
+        this._el = null;
         this.isHelpDialogOpen = false;
-        this.destroyed = new Subject();
     }
     initialize() {
-        this.mimeResizeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(() => {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.mimeResizeService.onResize.subscribe(() => {
             if (this.isHelpDialogOpen) {
                 const config = this.getDialogConfig();
                 this.dialogRef.updatePosition(config.position);
                 this.dialogRef.updateSize(config.width, config.height);
             }
-        });
+        }));
     }
     destroy() {
         this.close();
-        this.destroyed.next();
+        this.unsubscribe();
     }
     set el(el) {
         this._el = el;
@@ -4842,7 +4997,10 @@ class HelpDialogService {
         if (!this.isHelpDialogOpen) {
             const config = this.getDialogConfig();
             this.dialogRef = this.dialog.open(HelpDialogComponent, config);
-            this.dialogRef.afterClosed().subscribe(() => {
+            this.dialogRef
+                .afterClosed()
+                .pipe(take(1))
+                .subscribe(() => {
                 this.isHelpDialogOpen = false;
             });
             this.isHelpDialogOpen = true;
@@ -4861,9 +5019,14 @@ class HelpDialogService {
         return this.isHelpDialogOpen;
     }
     getDialogConfig() {
-        return this.helpDialogConfigStrategyFactory
-            .create()
-            .getConfig(this._el);
+        return this._el
+            ? this.helpDialogConfigStrategyFactory.create().getConfig(this._el)
+            : {};
+    }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
     }
 }
 HelpDialogService.decorators = [
@@ -4893,27 +5056,25 @@ class MetadataComponent {
         this.intl = intl;
         this.changeDetectorRef = changeDetectorRef;
         this.iiifManifestService = iiifManifestService;
-        this.destroyed = new Subject();
+        this.manifest = null;
+        this.subscriptions = new Subscription();
     }
     ngOnInit() {
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             this.manifest = manifest;
             this.changeDetectorRef.markForCheck();
-        });
+        }));
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
     }
 }
 MetadataComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-metadata',
-                template: "<div class=\"ngx-mime-metadata-container\">\n  <div *ngFor=\"let metadata of manifest?.metadata\" class=\"metadata\">\n    <div class=\"title\">{{ metadata.label }}</div>\n    <span class=\"content\" [innerHTML]=\"metadata.value\"></span>\n  </div>\n  <div *ngIf=\"manifest?.attribution\">\n    <div class=\"title\">{{ intl.attributionLabel }}</div>\n    <span\n      class=\"content attribution\"\n      [innerHTML]=\"manifest?.attribution\"\n    ></span>\n  </div>\n  <div *ngIf=\"manifest?.license\">\n    <div class=\"title\">{{ intl.licenseLabel }}</div>\n    <span class=\"content license\"\n      ><a [href]=\"manifest?.license\" target=\"_blank\">{{\n        manifest?.license\n      }}</a></span\n    >\n  </div>\n  <div *ngIf=\"manifest?.logo\">\n    <span><img class=\"content logo\" [src]=\"manifest?.logo\" /></span>\n  </div>\n</div>\n",
+                template: "<ng-container *ngIf=\"manifest\">\n  <div class=\"ngx-mime-metadata-container\">\n    <div *ngFor=\"let metadata of manifest.metadata\" class=\"metadata\">\n      <div class=\"title\">{{ metadata.label }}</div>\n      <span class=\"content\" [innerHTML]=\"metadata.value\"></span>\n    </div>\n    <div *ngIf=\"manifest.attribution\">\n      <div class=\"title\">{{ intl.attributionLabel }}</div>\n      <span\n        class=\"content attribution\"\n        [innerHTML]=\"manifest.attribution\"\n      ></span>\n    </div>\n    <div *ngIf=\"manifest.license\">\n      <div class=\"title\">{{ intl.licenseLabel }}</div>\n      <span class=\"content license\"\n        ><a [href]=\"manifest.license\" target=\"_blank\">{{\n          manifest.license\n        }}</a></span\n      >\n    </div>\n    <div *ngIf=\"manifest.logo\">\n      <span><img class=\"content logo\" [src]=\"manifest.logo\" /></span>\n    </div>\n  </div>\n</ng-container>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".title{font-size:14px!important;font-weight:400;margin-bottom:4px}.content{display:block;font-size:12px;margin-bottom:8px;word-break:break-all}.logo{max-height:64px;max-width:300px}"]
+                styles: [".title{font-size:14px!important;font-weight:400;margin-bottom:4px}.content{display:block;font-size:12px;word-break:break-all;margin-bottom:8px}.logo{max-width:300px;max-height:64px}"]
             },] }
 ];
 MetadataComponent.ctorParameters = () => [
@@ -4930,31 +5091,30 @@ class TocComponent {
         this.viewerService = viewerService;
         this.canvasService = canvasService;
         this.canvasChanged = new EventEmitter();
-        this.destroyed = new Subject();
+        this.manifest = null;
+        this.currentCanvasGroupIndex = 0;
+        this.subscriptions = new Subscription();
     }
     ngOnInit() {
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             this.manifest = manifest;
             this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
             this.changeDetectorRef.detectChanges();
-        });
-        this.viewerService.onCanvasGroupIndexChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((canvasGroupIndex) => {
+        }));
+        this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe((canvasGroupIndex) => {
             this.currentCanvasGroupIndex = canvasGroupIndex;
             this.changeDetectorRef.detectChanges();
-        });
+        }));
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
     }
     goToCanvas(event, canvasIndex) {
-        event.preventDefault();
-        this.viewerService.goToCanvas(canvasIndex, false);
-        this.canvasChanged.emit(canvasIndex);
+        if (canvasIndex) {
+            event.preventDefault();
+            this.viewerService.goToCanvas(canvasIndex, false);
+            this.canvasChanged.emit(canvasIndex);
+        }
     }
 }
 TocComponent.decorators = [
@@ -4962,7 +5122,7 @@ TocComponent.decorators = [
                 selector: 'mime-toc',
                 template: "<div class=\"ngx-mime-toc-container\">\n  <div *ngFor=\"let structure of manifest?.structures\">\n    <a\n      href=\"\"\n      class=\"toc-link\"\n      [class.currentCanvasGroup]=\"\n        currentCanvasGroupIndex === structure.canvasIndex\n      \"\n      (click)=\"goToCanvas($event, structure.canvasIndex)\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"space-between center\"\n    >\n      <span class=\"label\">{{ structure.label }}</span>\n      <span class=\"canvasGroupIndex\">{{ structure.canvasIndex + 1 }}</span>\n    </a>\n  </div>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".toc-link{font-size:14px!important;font-weight:400;margin-bottom:8px;text-decoration:none}.currentCanvasGroup{font-weight:700}"]
+                styles: [".toc-link{text-decoration:none;font-size:14px!important;font-weight:400;margin-bottom:8px}.currentCanvasGroup{font-weight:700}"]
             },] }
 ];
 TocComponent.ctorParameters = () => [
@@ -5024,45 +5184,42 @@ class OsdToolbarComponent {
         this.styleService = styleService;
         this.iiifManifestService = iiifManifestService;
         this.osdToolbarStyle = {};
+        this.numberOfCanvasGroups = 0;
+        this.isFirstCanvasGroup = false;
+        this.isLastCanvasGroup = false;
         this.state = 'hide';
         this.invert = false;
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
     }
     get osdToolbarState() {
         return this.state;
     }
     ngOnInit() {
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
-            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-            this.changeDetectorRef.detectChanges();
-        });
-        this.mimeService.onResize
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((dimensions) => {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            if (manifest) {
+                this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+                this.changeDetectorRef.detectChanges();
+            }
+        }));
+        this.subscriptions.add(this.mimeService.onResize.subscribe((dimensions) => {
             this.osdToolbarStyle = {
-                top: dimensions.top + 110 + 'px'
+                top: dimensions.top + 110 + 'px',
             };
             this.changeDetectorRef.detectChanges();
-        });
-        this.viewerService.onCanvasGroupIndexChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((currentCanvasGroupIndex) => {
+        }));
+        this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe((currentCanvasGroupIndex) => {
             this.numberOfCanvasGroups = this.canvasService.numberOfCanvasGroups;
             this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(currentCanvasGroupIndex);
             this.isLastCanvasGroup = this.isOnLastCanvasGroup(currentCanvasGroupIndex);
             this.changeDetectorRef.detectChanges();
-        });
-        this.intl.changes
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(() => this.changeDetectorRef.markForCheck());
+        }));
+        this.subscriptions.add(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
     }
     ngAfterViewInit() {
-        this.styleService.onChange.pipe(takeUntil(this.destroyed)).subscribe(c => {
+        this.subscriptions.add(this.styleService.onChange.subscribe((c) => {
             const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
             this.renderer.setStyle(this.container.nativeElement, 'background-color', backgroundRgbaColor);
-        });
+        }));
     }
     zoomIn() {
         this.viewerService.zoomIn();
@@ -5077,8 +5234,7 @@ class OsdToolbarComponent {
         this.viewerService.rotate();
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
     }
     goToPreviousCanvasGroup() {
         this.viewerService.goToPreviousCanvasGroup();
@@ -5102,22 +5258,22 @@ OsdToolbarComponent.decorators = [
                     trigger('osdToolbarState', [
                         state('hide', style({
                             transform: 'translate(-120px, 0)',
-                            display: 'none'
+                            display: 'none',
                         })),
                         state('show', style({
                             transform: 'translate(0px, 0px)',
-                            display: 'block'
+                            display: 'block',
                         })),
                         transition('hide => show', [
                             group([
                                 style({ display: 'block' }),
-                                animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
-                            ])
+                                animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`),
+                            ]),
                         ]),
-                        transition('show => hide', animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`))
-                    ])
+                        transition('show => hide', animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)),
+                    ]),
                 ],
-                styles: [":host{z-index:1}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{background:transparent;border-radius:8px;margin-left:16px;position:absolute;width:auto;z-index:2}"]
+                styles: [":host{z-index:1}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;z-index:2;background:transparent;width:auto;border-radius:8px;margin-left:16px}"]
             },] }
 ];
 OsdToolbarComponent.ctorParameters = () => [
@@ -5143,20 +5299,24 @@ class CanvasGroupNavigatorComponent {
         this.canvasService = canvasService;
         this.pageDialogService = pageDialogService;
         this.iiifManifestService = iiifManifestService;
+        this.numberOfCanvases = 0;
+        this.canvasGroupLabel = '';
+        this.numberOfCanvasGroups = 0;
+        this.currentCanvasGroupIndex = -1;
+        this.isFirstCanvasGroup = false;
+        this.isLastCanvasGroup = false;
         this.invert = false;
         this.currentSliderCanvasGroupIndex = -1;
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
     }
     ngOnInit() {
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
-            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-            this.changeDetectorRef.detectChanges();
-        });
-        this.canvasService.onCanvasGroupIndexChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((currentCanvasGroupIndex) => {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            if (manifest) {
+                this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+                this.changeDetectorRef.detectChanges();
+            }
+        }));
+        this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange.subscribe((currentCanvasGroupIndex) => {
             if (this.currentSliderCanvasGroupIndex !== -1 &&
                 this.currentSliderCanvasGroupIndex === currentCanvasGroupIndex) {
                 this.currentSliderCanvasGroupIndex = -1;
@@ -5168,20 +5328,19 @@ class CanvasGroupNavigatorComponent {
             this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(currentCanvasGroupIndex);
             this.isLastCanvasGroup = this.isOnLastCanvasGroup(currentCanvasGroupIndex);
             this.changeDetectorRef.detectChanges();
-        });
-        this.canvasService.onNumberOfCanvasGroupsChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((numberOfCanvasGroups) => {
+        }));
+        this.subscriptions.add(this.canvasService.onNumberOfCanvasGroupsChange.subscribe((numberOfCanvasGroups) => {
             this.numberOfCanvasGroups = numberOfCanvasGroups;
             this.numberOfCanvases = this.canvasService.numberOfCanvases;
-            this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(this.currentCanvasGroupIndex);
-            this.isLastCanvasGroup = this.isOnLastCanvasGroup(this.currentCanvasGroupIndex);
+            if (this.currentCanvasGroupIndex !== null) {
+                this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(this.currentCanvasGroupIndex);
+                this.isLastCanvasGroup = this.isOnLastCanvasGroup(this.currentCanvasGroupIndex);
+            }
             this.changeDetectorRef.detectChanges();
-        });
+        }));
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
     }
     goToPreviousCanvasGroup() {
         this.viewerService.goToPreviousCanvasGroup();
@@ -5192,8 +5351,10 @@ class CanvasGroupNavigatorComponent {
     onSliderChange(change) {
         this.currentSliderCanvasGroupIndex = change.value;
         this.currentCanvasGroupIndex = change.value;
-        this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
-        this.viewerService.goToCanvasGroup(change.value, false);
+        if (this.currentCanvasGroupIndex) {
+            this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
+            this.viewerService.goToCanvasGroup(this.currentCanvasGroupIndex, false);
+        }
         this.changeDetectorRef.detectChanges();
     }
     onSliderHotKey(event) {
@@ -5216,7 +5377,7 @@ CanvasGroupNavigatorComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-page-navigator',
                 template: "<mat-toolbar>\n  <div fxLayout=\"row\" fxFlex fxLayoutAlign=\"start center\">\n    <div fxFlex>\n      <mat-slider\n        class=\"navigation-slider\"\n        [invert]=\"!invert\"\n        [max]=\"numberOfCanvasGroups - 1\"\n        [value]=\"currentCanvasGroupIndex\"\n        [attr.aria-label]=\"intl.currentPageLabel\"\n        (input)=\"onSliderChange($event)\"\n        (keyup)=\"onSliderHotKey($event)\"\n        fxFlex\n      ></mat-slider>\n    </div>\n    <button mat-button class=\"canvasGroups\" (click)=\"openCanvasGroupDialog()\">\n      <div fxLayout=\"row\" fxLayoutGap=\"1px\">\n        <span id=\"currentCanvasGroupLabel\">{{ canvasGroupLabel }}</span\n        ><span>/</span\n        ><span id=\"numOfCanvasGroups\">{{ numberOfCanvases }}</span>\n      </div>\n    </button>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"invert\">\n        <button\n          id=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"!invert\">\n        <button\n          id=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n",
-                styles: [".canvasGroups{cursor:pointer;font-size:13px;text-align:center}.navigation-slider{width:100%}"]
+                styles: [".canvasGroups{font-size:13px;text-align:center;cursor:pointer}.navigation-slider{width:100%}"]
             },] }
 ];
 CanvasGroupNavigatorComponent.ctorParameters = () => [
@@ -5244,32 +5405,29 @@ class ContentSearchNavigatorComponent {
         this.isLastCanvasGroupHit = false;
         this.currentIndex = 0;
         this.invert = false;
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
     }
     ngOnInit() {
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
-            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
-            this.changeDetectorRef.detectChanges();
-        });
-        this.intl.changes
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(() => this.changeDetectorRef.markForCheck());
-        this.canvasService.onCanvasGroupIndexChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(canvasGroupIndex => {
+        this.contentSearchNavigationService.initialize();
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            if (manifest) {
+                this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+                this.changeDetectorRef.detectChanges();
+            }
+        }));
+        this.subscriptions.add(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
+        this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange.subscribe((canvasGroupIndex) => {
             this.contentSearchNavigationService.update(canvasGroupIndex);
             this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
             this.isHitOnActiveCanvasGroup = this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
             this.isFirstCanvasGroupHit = this.contentSearchNavigationService.getFirstHitCanvasGroup();
             this.isLastCanvasGroupHit = this.contentSearchNavigationService.getLastHitCanvasGroup();
             this.changeDetectorRef.detectChanges();
-        });
+        }));
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
+        this.contentSearchNavigationService.destroy();
     }
     clear() {
         this.iiifContentSearchService.destroy();
@@ -5311,31 +5469,27 @@ class ViewerFooterComponent {
         this.searchResult = new SearchResult();
         this.showPageNavigator = true;
         this.showContentSearchNavigator = false;
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
     }
     get footerState() {
         return this.state;
     }
     ngOnInit() {
-        this.iiifContentSearchService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((sr) => {
+        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((sr) => {
             this.searchResult = sr;
             this.showContentSearchNavigator = this.searchResult.size() > 0;
             this.showPageNavigator =
                 this.searchResult.size() === 0 || !this.isMobile();
             this.changeDetectorRef.detectChanges();
-        });
-        this.mediaSubscription = this.mediaObserver.asObservable().subscribe((changes) => {
+        }));
+        this.subscriptions.add(this.mediaObserver.asObservable().subscribe((changes) => {
             this.showPageNavigator =
                 this.searchResult.size() === 0 || !this.isMobile();
             this.changeDetectorRef.detectChanges();
-        });
+        }));
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
-        this.mediaSubscription.unsubscribe();
+        this.subscriptions.unsubscribe();
     }
     isMobile() {
         return this.mediaObserver.isActive('lt-md');
@@ -5348,16 +5502,16 @@ ViewerFooterComponent.decorators = [
                 animations: [
                     trigger('footerState', [
                         state('hide', style({
-                            transform: 'translate(0, 100%)'
+                            transform: 'translate(0, 100%)',
                         })),
                         state('show', style({
-                            transform: 'translate(0, 0)'
+                            transform: 'translate(0, 0)',
                         })),
                         transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
-                        transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
-                    ])
+                        transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
+                    ]),
                 ],
-                styles: [":host{-moz-user-select:none;-ms-user-select:none;-webkit-user-select:none;display:block;user-select:none;width:100%}.footer-toolbar{padding:0}[hidden]{display:none}"]
+                styles: [":host{display:block;width:100%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.footer-toolbar{padding:0}[hidden]{display:none}"]
             },] }
 ];
 ViewerFooterComponent.ctorParameters = () => [
@@ -5372,24 +5526,24 @@ ViewerFooterComponent.propDecorators = {
 };
 
 class IconComponent {
-    constructor() { }
-    ngOnInit() { }
+    constructor() {
+        this.iconName = '';
+    }
 }
 IconComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-icon',
                 template: "<div class=\"mat-icon\">\n  <ng-container *ngIf=\"iconName === 'single_page_display'\">\n    <div class=\"single-page-display\">\n      <svg\n        version=\"1.1\"\n        id=\"Layer_1\"\n        xmlns=\"http://www.w3.org/2000/svg\"\n        xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n        viewBox=\"0 0 90 90\"\n        preserveAspectRatio=\"xMidYMin slice\"\n      >\n        <style type=\"text/css\">\n          .st0 {\n            clip-path: url(#SVGID_2_);\n          }\n        </style>\n        <g>\n          <defs><rect id=\"SVGID_1_\" width=\"100%\" height=\"100%\" /></defs>\n          <clipPath id=\"SVGID_2_\">\n            <use xlink:href=\"#SVGID_1_\" style=\"overflow:visible;\" />\n          </clipPath>\n          <path\n            class=\"st0\"\n            d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M26.1,31.8H4V4.1h13.6v8.4h8.5V31.8z M30,31.6\n          V11.4L18.7,0H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n          />\n        </g>\n      </svg>\n    </div>\n  </ng-container>\n  <ng-container *ngIf=\"iconName === 'two_page_display'\">\n    <svg\n      version=\"1.1\"\n      id=\"Layer_1\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n      viewBox=\"0 0 90 90\"\n      preserveAspectRatio=\"xMidYMin slice\"\n    >\n      <style type=\"text/css\">\n        .st0 {\n          clip-path: url(#SVGID_2_);\n        }\n      </style>\n      <g>\n        <defs><rect id=\"SVGID_1_\" width=\"100%\" height=\"100%\" /></defs>\n        <clipPath id=\"SVGID_2_\">\n          <use xlink:href=\"#SVGID_1_\" style=\"overflow:visible;\" />\n        </clipPath>\n        <path\n          class=\"st0\"\n          d=\"M52.5,25.2H39.1v2.7h13.4V25.2z M52.5,18.1H39.1v2.7h13.4V18.1z M56.8,31.8H34.7V4.1h13.6v8.4h8.5V31.8z\n        M60.8,31.6V11.4L49.4,0H35c0,0-4.3,0-4.3,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C56.6,35.9,60.8,35.9,60.8,31.6\"\n        />\n        <path\n          class=\"st0\"\n          d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M21.7,11.1H8.3v2.7h13.4V11.1z M26.1,31.8H4V4.1\n       h22.1V31.8z M30,31.6V4.3c0,0,0-4.3-4.3-4.3H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n        />\n      </g>\n    </svg>\n  </ng-container>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".mat-icon{left:7px;position:absolute;top:12px;vertical-align:middle}.single-page-display{margin-left:5px}svg{height:40px;width:40px}"]
+                styles: [".mat-icon{position:absolute;top:12px;left:7px;vertical-align:middle}.single-page-display{margin-left:5px}svg{height:40px;width:40px}"]
             },] }
 ];
-IconComponent.ctorParameters = () => [];
 IconComponent.propDecorators = {
     iconName: [{ type: Input }]
 };
 
 class ViewerHeaderComponent {
-    constructor(intl, changeDetectorRef, contentsDialogService, contentSearchDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, viewerLayoutService) {
+    constructor(intl, changeDetectorRef, contentsDialogService, contentSearchDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, viewerLayoutService, el) {
         this.intl = intl;
         this.changeDetectorRef = changeDetectorRef;
         this.contentsDialogService = contentsDialogService;
@@ -5399,6 +5553,8 @@ class ViewerHeaderComponent {
         this.fullscreenService = fullscreenService;
         this.mimeDomHelper = mimeDomHelper;
         this.viewerLayoutService = viewerLayoutService;
+        this.el = el;
+        this.manifest = null;
         this.state = 'hide';
         this.isContentSearchEnabled = false;
         this.isFullscreenEnabled = false;
@@ -5407,42 +5563,39 @@ class ViewerHeaderComponent {
         this.isPagedManifest = false;
         this.viewerLayout = ViewerLayout.ONE_PAGE;
         this.ViewerLayout = ViewerLayout; // enables parsing of enum in template
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
+        contentsDialogService.el = el;
+        contentSearchDialogService.el = el;
+        helpDialogService.el = el;
     }
     get headerState() {
         return this.state;
     }
     ngOnInit() {
         this.isFullscreenEnabled = this.fullscreenService.isEnabled();
-        this.intl.changes
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(() => this.changeDetectorRef.markForCheck());
-        this.fullscreenService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(() => {
+        this.subscriptions.add(this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
+        this.subscriptions.add(this.fullscreenService.onChange.subscribe(() => {
             this.isInFullscreen = this.fullscreenService.isFullscreen();
             this.fullscreenLabel = this.isInFullscreen
                 ? this.intl.exitFullScreenLabel
                 : this.intl.fullScreenLabel;
             this.changeDetectorRef.detectChanges();
-        });
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
+        }));
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             this.manifest = manifest;
-            this.isContentSearchEnabled = manifest.service ? true : false;
-            this.isPagedManifest = ManifestUtils.isManifestPaged(manifest);
+            this.isContentSearchEnabled =
+                manifest && manifest.service ? true : false;
+            this.isPagedManifest = manifest
+                ? ManifestUtils.isManifestPaged(manifest)
+                : false;
             this.changeDetectorRef.detectChanges();
-        });
-        this.viewerLayoutService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((viewerLayout) => {
+        }));
+        this.subscriptions.add(this.viewerLayoutService.onChange.subscribe((viewerLayout) => {
             this.viewerLayout = viewerLayout;
-        });
+        }));
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
     }
     toggleContents() {
         this.contentSearchDialogService.close();
@@ -5478,19 +5631,19 @@ class ViewerHeaderComponent {
 ViewerHeaderComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-viewer-header',
-                template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div fxFlexOffset=\"16px\" class=\"label\" [matTooltip]=\"manifest?.label\">{{\n      manifest?.label\n    }}</div>\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest\"\n        mat-icon-button\n        [id]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? 'toggleTwoPageViewButton'\n            : 'toggleSinglePageViewButton'\n        \"\n        [attr.aria-label]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        [matTooltip]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        (click)=\"toggleViewerLayout()\"\n      >\n        <mime-icon\n          [iconName]=\"\n            viewerLayout === ViewerLayout.ONE_PAGE\n              ? 'two_page_display'\n              : 'single_page_display'\n          \"\n        >\n        </mime-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentsDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.contentsLabel\"\n        [matTooltip]=\"intl.contentsLabel\"\n        (click)=\"toggleContents()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n",
+                template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div *ngIf=\"manifest\" fxFlexOffset=\"16px\" class=\"label\" [matTooltip]=\"manifest.label\">{{\n      manifest.label\n    }}</div>\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest\"\n        mat-icon-button\n        [id]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? 'toggleTwoPageViewButton'\n            : 'toggleSinglePageViewButton'\n        \"\n        [attr.aria-label]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        [matTooltip]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        (click)=\"toggleViewerLayout()\"\n      >\n        <mime-icon\n          [iconName]=\"\n            viewerLayout === ViewerLayout.ONE_PAGE\n              ? 'two_page_display'\n              : 'single_page_display'\n          \"\n        >\n        </mime-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentsDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.contentsLabel\"\n        [matTooltip]=\"intl.contentsLabel\"\n        (click)=\"toggleContents()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n",
                 changeDetection: ChangeDetectionStrategy.Default,
                 animations: [
                     trigger('headerState', [
                         state('hide', style({
-                            transform: 'translate(0, -100%)'
+                            transform: 'translate(0, -100%)',
                         })),
                         state('show', style({
-                            transform: 'translate(0px, 0px)'
+                            transform: 'translate(0px, 0px)',
                         })),
                         transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
-                        transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'))
-                    ])
+                        transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
+                    ]),
                 ],
                 styles: [":host{max-height:64px}.header-container{width:100%}.label{font-size:17px;overflow:hidden;text-overflow:ellipsis}mat-toolbar{padding:0}.buttons-container{padding:0 16px}"]
             },] }
@@ -5504,7 +5657,8 @@ ViewerHeaderComponent.ctorParameters = () => [
     { type: IiifManifestService },
     { type: FullscreenService },
     { type: MimeDomHelper },
-    { type: ViewerLayoutService }
+    { type: ViewerLayoutService },
+    { type: ElementRef }
 ];
 ViewerHeaderComponent.propDecorators = {
     mimeHeaderBefore: [{ type: ViewChild, args: ['mimeHeaderBefore', { read: ViewContainerRef, static: true },] }],
@@ -5517,22 +5671,23 @@ class ViewerSpinnerComponent {
         this.spinnerService = spinnerService;
         this.changeDetectorRef = changeDetectorRef;
         this.visible = false;
+        this.subscriptions = new Subscription();
     }
     ngOnInit() {
-        this.spinnerSub = this.spinnerService.spinnerState.subscribe((state) => {
+        this.subscriptions.add(this.spinnerService.spinnerState.subscribe((state) => {
             this.visible = state.show;
             this.changeDetectorRef.detectChanges();
-        });
+        }));
     }
     ngOnDestroy() {
-        this.spinnerSub.unsubscribe();
+        this.subscriptions.unsubscribe();
     }
 }
 ViewerSpinnerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-spinner',
                 template: "<div class=\"mime-spinner\" [class.mime-spinner--active]=\"visible\">\n  <mat-spinner></mat-spinner>\n</div>\n",
-                styles: [".mime-spinner{display:none;left:50%;position:absolute;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}"]
+                styles: [".mime-spinner{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}"]
             },] }
 ];
 ViewerSpinnerComponent.ctorParameters = () => [
@@ -5592,7 +5747,7 @@ class ViewerState {
 }
 
 class ViewerComponent {
-    constructor(snackBar, intl, el, iiifManifestService, contentsDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, mimeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, zone) {
+    constructor(snackBar, intl, el, iiifManifestService, contentsDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, resizeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, zone) {
         this.snackBar = snackBar;
         this.intl = intl;
         this.el = el;
@@ -5602,7 +5757,7 @@ class ViewerComponent {
         this.contentSearchDialogService = contentSearchDialogService;
         this.helpDialogService = helpDialogService;
         this.viewerService = viewerService;
-        this.mimeService = mimeService;
+        this.resizeService = resizeService;
         this.changeDetectorRef = changeDetectorRef;
         this.modeService = modeService;
         this.iiifContentSearchService = iiifContentSearchService;
@@ -5611,21 +5766,23 @@ class ViewerComponent {
         this.viewerLayoutService = viewerLayoutService;
         this.styleService = styleService;
         this.zone = zone;
+        this.canvasIndex = 0;
         this.config = new MimeViewerConfig();
         this.tabIndex = 0;
         this.viewerModeChanged = new EventEmitter();
         this.canvasChanged = new EventEmitter();
         this.qChanged = new EventEmitter();
         this.manifestChanged = new EventEmitter();
-        this.destroyed = new Subject();
+        this.subscriptions = new Subscription();
         this.isCanvasPressed = false;
+        this.viewerLayout = null;
         this.viewerState = new ViewerState();
         this.errorMessage = null;
         contentsDialogService.el = el;
         attributionDialogService.el = el;
         contentSearchDialogService.el = el;
         helpDialogService.el = el;
-        mimeService.el = el;
+        resizeService.el = el;
     }
     get mimeHeaderBeforeRef() {
         return this.header.mimeHeaderBefore;
@@ -5640,11 +5797,9 @@ class ViewerComponent {
         return this.footer.mimeFooterAfter;
     }
     ngOnInit() {
-        this.styleService.init();
+        this.styleService.initialize();
         this.modeService.initialMode = this.config.initViewerMode;
-        this.iiifManifestService.currentManifest
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((manifest) => {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             if (manifest) {
                 this.initialize();
                 this.currentManifest = manifest;
@@ -5659,44 +5814,34 @@ class ViewerComponent {
                     this.iiifContentSearchService.search(manifest, this.q);
                 }
             }
-        });
-        this.viewerService.onOsdReadyChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((state) => {
+        }));
+        this.subscriptions.add(this.viewerService.onOsdReadyChange.subscribe((state) => {
             // Don't reset current page when switching layout
             if (state &&
                 this.canvasIndex &&
                 !this.canvasService.currentCanvasGroupIndex) {
                 this.viewerService.goToCanvas(this.canvasIndex, false);
             }
-        });
-        this.iiifManifestService.errorMessage
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((error) => {
+        }));
+        this.subscriptions.add(this.iiifManifestService.errorMessage.subscribe((error) => {
             this.resetCurrentManifest();
             this.errorMessage = error;
             this.changeDetectorRef.detectChanges();
-        });
-        this.iiifContentSearchService.onQChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((q) => {
+        }));
+        this.subscriptions.add(this.iiifContentSearchService.onQChange.subscribe((q) => {
             this.qChanged.emit(q);
-        });
-        this.iiifContentSearchService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((sr) => {
+        }));
+        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((sr) => {
             this.viewerService.highlight(sr);
-        });
-        this.viewerService.isCanvasPressed
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((value) => {
+        }));
+        this.subscriptions.add(this.viewerService.isCanvasPressed.subscribe((value) => {
             this.isCanvasPressed = value;
             this.changeDetectorRef.detectChanges();
-        });
-        this.modeService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((mode) => {
-            this.toggleToolbarsState(mode.currentValue);
+        }));
+        this.subscriptions.add(this.modeService.onChange.subscribe((mode) => {
+            if (mode.currentValue !== undefined) {
+                this.toggleToolbarsState(mode.currentValue);
+            }
             if (mode.previousValue === ViewerMode.DASHBOARD &&
                 mode.currentValue === ViewerMode.PAGE) {
                 this.viewerState.contentDialogState.isOpen = this.contentsDialogService.isOpen();
@@ -5723,27 +5868,23 @@ class ViewerComponent {
                 });
             }
             this.viewerModeChanged.emit(mode.currentValue);
-        });
-        this.canvasService.onCanvasGroupIndexChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((canvasGroupIndex) => {
+        }));
+        this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange.subscribe((canvasGroupIndex) => {
             const canvasIndex = this.canvasService.findCanvasByCanvasIndex(canvasGroupIndex);
             if (canvasIndex !== -1) {
                 this.canvasChanged.emit(canvasIndex);
             }
-        });
-        this.mimeService.onResize
-            .pipe(takeUntil(this.destroyed), throttle(val => interval(ViewerOptions.transitions.OSDAnimationTime)))
+        }));
+        this.subscriptions.add(this.resizeService.onResize
+            .pipe(throttle((val) => interval(ViewerOptions.transitions.OSDAnimationTime)))
             .subscribe(() => {
             setTimeout(() => {
                 this.viewerService.home();
             }, ViewerOptions.transitions.OSDAnimationTime);
-        });
-        this.viewerLayoutService.onChange
-            .pipe(takeUntil(this.destroyed))
-            .subscribe((viewerLayout) => {
+        }));
+        this.subscriptions.add(this.viewerLayoutService.onChange.subscribe((viewerLayout) => {
             this.viewerLayout = viewerLayout;
-        });
+        }));
         this.loadManifest();
     }
     ngOnChanges(changes) {
@@ -5768,6 +5909,9 @@ class ViewerComponent {
         }
         if (changes['manifestUri']) {
             const manifestUriChanges = changes['manifestUri'];
+            if (!manifestUriChanges.isFirstChange()) {
+                this.cleanup();
+            }
             if (!manifestUriChanges.isFirstChange() &&
                 manifestUriChanges.currentValue !== manifestUriChanges.previousValue) {
                 this.modeService.mode = this.config.initViewerMode;
@@ -5779,7 +5923,7 @@ class ViewerComponent {
             this.loadManifest();
         }
         else {
-            if (qIsChanged) {
+            if (qIsChanged && this.currentManifest) {
                 this.iiifContentSearchService.search(this.currentManifest, this.q);
             }
             if (canvasIndexChanged) {
@@ -5802,11 +5946,15 @@ class ViewerComponent {
                 this.manifestUri = manifestUri.startsWith('//')
                     ? `${location.protocol}${manifestUri}`
                     : manifestUri;
+                this.cleanup();
                 this.loadManifest();
                 if (startCanvasId) {
-                    this.manifestChanged.pipe(take(1)).subscribe(manifest => {
-                        const canvasIndex = manifest.sequences[0].canvases.findIndex(c => c.id === startCanvasId);
-                        if (canvasIndex !== -1) {
+                    this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
+                        var _a, _b;
+                        const canvasIndex = manifest.sequences
+                            ? (_b = (_a = manifest.sequences[0]) === null || _a === void 0 ? void 0 : _a.canvases) === null || _b === void 0 ? void 0 : _b.findIndex((c) => c.id === startCanvasId)
+                            : -1;
+                        if (canvasIndex && canvasIndex !== -1) {
                             setTimeout(() => {
                                 this.viewerService.goToCanvas(canvasIndex, true);
                             }, 0);
@@ -5816,8 +5964,8 @@ class ViewerComponent {
             }
         }
         else {
-            this.snackBar.open(this.intl.dropDisabled, null, {
-                duration: 3000
+            this.snackBar.open(this.intl.dropDisabled, undefined, {
+                duration: 3000,
             });
         }
     }
@@ -5830,11 +5978,11 @@ class ViewerComponent {
         event.stopPropagation();
     }
     ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
+        this.subscriptions.unsubscribe();
         this.cleanup();
         this.iiifManifestService.destroy();
         this.iiifContentSearchService.destroy();
+        this.styleService.destroy();
     }
     toggleToolbarsState(mode) {
         if (this.header && this.footer) {
@@ -5856,20 +6004,22 @@ class ViewerComponent {
         }
     }
     ngAfterViewChecked() {
-        this.mimeService.markForCheck();
+        this.resizeService.markForCheck();
     }
     loadManifest() {
-        this.cleanup();
-        this.iiifManifestService.load(this.manifestUri);
+        this.iiifManifestService.load(this.manifestUri).pipe(take(1)).subscribe();
     }
     initialize() {
+        this.accessKeysHandlerService.initialize();
         this.attributionDialogService.initialize();
         this.contentsDialogService.initialize();
         this.contentSearchDialogService.initialize();
         this.helpDialogService.initialize();
+        this.viewerService.initialize();
     }
     cleanup() {
         this.viewerState = new ViewerState();
+        this.accessKeysHandlerService.destroy();
         this.attributionDialogService.destroy();
         this.contentsDialogService.destroy();
         this.contentSearchDialogService.destroy();
@@ -5890,7 +6040,7 @@ class ViewerComponent {
             'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
             'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
             'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
-            'canvas-pressed': this.isCanvasPressed
+            'canvas-pressed': this.isCanvasPressed,
         };
     }
 }
@@ -5899,7 +6049,7 @@ ViewerComponent.decorators = [
                 selector: 'mime-viewer',
                 template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n  <div id=\"openseadragon\"></div>\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".viewer-container{box-sizing:border-box;display:flex;flex-direction:column;height:100%;overflow:hidden;position:relative;width:100%}:host::ng-deep.openseadragon-container{flex-grow:1}:host::ng-deep.openseadragon-canvas:focus{outline:none}#openseadragon{display:flex;flex-direction:column;flex-grow:1;opacity:0;width:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:rgba(0,0,0,.15);stroke-width:8;transition:stroke .25s ease}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:rgba(0,0,0,.45)}::ng-deep .viewer-container .hit{fill:rgba(255,255,0,.6)}::ng-deep .viewer-container .selected{fill:rgba(255,225,0,.6)}.navbar{overflow:hidden;position:absolute;width:100%;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{height:100%;width:100%}[hidden]{display:none}"]
+                styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}:host::ng-deep.openseadragon-container{flex-grow:1}:host::ng-deep.openseadragon-canvas:focus{outline:none}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:rgba(0,0,0,.15);stroke-width:8;transition:stroke .25s ease}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:rgba(0,0,0,.45)}::ng-deep .viewer-container .hit{fill:rgba(255,255,0,.6)}::ng-deep .viewer-container .selected{fill:rgba(255,225,0,.6)}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{width:100%;height:100%}[hidden]{display:none}"]
             },] }
 ];
 ViewerComponent.ctorParameters = () => [
