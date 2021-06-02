@@ -2,7 +2,7 @@
 
 set -e -o pipefail
 
-tunnelFileName="sc-4.5.4-linux.tar.gz"
+tunnelFileName="sc-4.6.5-linux.tar.gz"
 tunnelUrl="https://saucelabs.com/downloads/${tunnelFileName}"
 
 tunnelReadyFile="${TUNNEL_DIR}/readyfile"

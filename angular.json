@@ -1,7 +1,41 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "",
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false,
+      "packageManager": "yarn"
+    },
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "ngx-mime",
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "karma",
+      "e2eTestRunner": "protractor"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "karma"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
   "projects": {
     "ngx-mime": {
       "root": "libs/ngx-mime",
@@ -35,13 +69,12 @@
           "outputs": ["coverage/libs/ngx-mime"]
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "libs/ngx-mime/tsconfig.lib.json",
-              "libs/ngx-mime/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/ngx-mime/**/*"]
+            "lintFilePatterns": [
+              "libs/ngx-mime/**/*.ts",
+              "libs/ngx-mime/**/*.html"
+            ]
           }
         }
       }
@@ -132,13 +165,12 @@
           "outputs": ["coverage/apps/demo/"]
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "apps/demo/tsconfig.app.json",
-              "apps/demo/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/demo/**"]
+            "lintFilePatterns": [
+              "apps/demo/src/**/*.ts",
+              "apps/demo/src/**/*.html"
+            ]
           }
         }
       }
@@ -155,10 +187,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": "apps/demo-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**", "!apps/demo-e2e/**"]
+            "lintFilePatterns": [
+              "apps/demo-e2e/src/**/*.ts",
+              "apps/demo-e2e/src/**/*.html"
+            ]
           }
         }
       }
@@ -265,13 +299,12 @@
           "outputs": ["coverage/apps/integration/"]
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "apps/integration/tsconfig.app.json",
-              "apps/integration/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/integration/**"]
+            "lintFilePatterns": [
+              "apps/integration/src/**/*.ts",
+              "apps/integration/src/**/*.html"
+            ]
           }
         }
       }
@@ -288,10 +321,14 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": "apps/integration-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**", "!apps/integration-e2e/**"]
+            "lintFilePatterns": [
+              "apps/integration-e2e/helpers/**/*.ts",
+              "apps/integration-e2e/pages/**/*.ts",
+              "apps/integration-e2e/step-definitions/**/*.ts",
+              "apps/integration-e2e/*.js"
+            ]
           }
         }
       }
@@ -378,13 +415,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "apps/elements/tsconfig.app.json",
-              "apps/elements/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/elements/**/*"]
+            "lintFilePatterns": [
+              "apps/elements/src/**/*.ts",
+              "apps/elements/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -419,42 +455,15 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": ["apps/elements-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/elements-e2e/**/*"]
+            "lintFilePatterns": [
+              "apps/elements-e2e/src/**/*.ts",
+              "apps/elements-e2e/src/**/*.html"
+            ]
           }
         }
       }
-    }
-  },
-  "cli": {
-    "warnings": {
-      "typescriptMismatch": false,
-      "versionMismatch": false,
-      "packageManager": "yarn"
-    },
-    "defaultCollection": "@nrwl/angular"
-  },
-  "defaultProject": "ngx-mime",
-  "schematics": {
-    "@nrwl/schematics:library": {
-      "unitTestRunner": "karma",
-      "framework": "angular"
-    },
-    "@nrwl/schematics:application": {
-      "unitTestRunner": "karma",
-      "e2eTestRunner": "protractor"
-    },
-    "@nrwl/schematics:node-application": {
-      "framework": "express"
-    },
-    "@nrwl/angular:application": {
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "unitTestRunner": "jest"
     }
   }
 }

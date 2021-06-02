@@ -25,6 +25,7 @@ describe('ViewerService', () => {
   let hostFixture: ComponentFixture<TestHostComponent>;
   let viewerLayoutService: ViewerLayoutService;
   let viewerService: ViewerService;
+  let originalTimeout: number;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -50,6 +51,13 @@ describe('ViewerService', () => {
     hostFixture = TestBed.createComponent(TestHostComponent);
     viewerService.initialize();
     hostFixture.detectChanges();
+
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
+  afterEach(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
   it('should be created', () => {

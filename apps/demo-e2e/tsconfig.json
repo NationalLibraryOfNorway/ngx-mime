@@ -1,13 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["jasmine", "jasminewd2", "node"]
-  },
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.e2e.json"
-    }
-  ]
+    "outDir": "../../out-tsc/e2e",
+    "module": "commonjs",
+    "target": "es2018",
+    "types": ["jasmine", "node"]
+  }
 }

@@ -1,19 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'demo-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   @Input() sidenav!: MatSidenav;
   public manifestUri = '';
 
   constructor(private router: Router) {}
-
-  ngOnInit() {}
 
   toggle() {
     this.sidenav.toggle();
@@ -22,8 +20,8 @@ export class NavbarComponent implements OnInit {
   onSubmit() {
     this.router.navigate(['demo'], {
       queryParams: {
-        manifestUri: this.manifestUri
-      }
+        manifestUri: this.manifestUri,
+      },
     });
   }
 }

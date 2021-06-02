@@ -1,3 +1,5 @@
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   ComponentFixture,
@@ -5,6 +7,7 @@ import {
   TestBed,
   waitForAsync,
 } from '@angular/core/testing';
+import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -29,6 +32,7 @@ import { ViewerHeaderComponent } from './viewer-header.component';
 describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
+  let rootLoader: HarnessLoader;
 
   beforeEach(
     waitForAsync(() => {
@@ -58,6 +62,7 @@ describe('ViewerHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerHeaderComponent);
     component = fixture.componentInstance;
+    rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     fixture.detectChanges();
   });
 
@@ -82,8 +87,11 @@ describe('ViewerHeaderComponent', () => {
     }
   ));
 
-  it('should open contents dialog', () => {
+  it('should open contents dialog', async () => {
     component.toggleContents();
+
+    const dialogs = await rootLoader.getAllHarnesses(MatDialogHarness);
+    expect(dialogs.length).toEqual(1);
   });
 
   it(

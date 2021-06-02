@@ -41,6 +41,8 @@ describe('ViewerLayoutService', () => {
 
     if (initLayout === ViewerLayout.TWO_PAGE) {
       expect(service.layout === ViewerLayout.TWO_PAGE);
+    } else {
+      fail('Wrong initial layout');
     }
   });
 
