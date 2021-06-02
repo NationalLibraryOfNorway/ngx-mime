@@ -114,8 +114,6 @@ describe('ViewerService', () => {
     );
 
     viewerService.onOsdReadyChange.subscribe((state) => {
-      console.log(state);
-
       if (state) {
         viewerService.rotate();
         viewerService.destroy();
