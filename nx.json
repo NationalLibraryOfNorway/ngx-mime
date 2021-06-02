@@ -1,10 +1,10 @@
 {
   "implicitDependencies": {
-    "angular.json": "*",
-    "package.json": "*",
-    "tslint.json": "*",
-    "nx.json": "*",
-    "tsconfig.base.json": "*"
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
   },
   "affected": {
     "defaultBase": "master"
@@ -14,12 +14,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "OWM5NWUwMGItMWI2NS00OWU0LTkwZjgtYmZlNjQwMWY5YWI0fHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true
@@ -35,27 +30,21 @@
     },
     "demo-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "demo"
-      ]
+      "implicitDependencies": ["demo"]
     },
     "integration": {
       "tags": []
     },
     "integration-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "integration"
-      ]
+      "implicitDependencies": ["integration"]
     },
     "elements": {
       "tags": []
     },
     "elements-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "elements"
-      ]
+      "implicitDependencies": ["elements"]
     }
   }
 }
