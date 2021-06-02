@@ -87,7 +87,7 @@ describe('ViewerHeaderComponent', () => {
     }
   ));
 
-  fit('should open contents dialog', async () => {
+  it('should open contents dialog', async () => {
     component.toggleContents();
 
     const dialogs = await rootLoader.getAllHarnesses(MatDialogHarness);
