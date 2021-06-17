@@ -41,6 +41,10 @@ export class ManifestService {
       uri: 'assets/fixtures/presentation/2/different-size-manifest.json'
     },
     {
+      label: 'Alto+xml',
+      uri: 'assets/fixtures/presentation/2/altoxml-manifest.json'
+    },
+    {
       label: 'Static image',
       uri: 'assets/fixtures/presentation/2/static-image-manifest.json'
     }

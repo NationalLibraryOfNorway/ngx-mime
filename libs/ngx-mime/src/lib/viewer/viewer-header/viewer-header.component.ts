@@ -72,6 +72,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   isInFullscreen = false;
   fullscreenLabel = this.intl.fullScreenLabel;
   isPagedManifest = false;
+  hasAltoXml = false;
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
 
   ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
@@ -125,6 +126,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
           this.isPagedManifest = manifest
             ? ManifestUtils.isManifestPaged(manifest)
             : false;
+          this.hasAltoXml = manifest ? ManifestUtils.hasAltoXml(manifest) : false;
           this.changeDetectorRef.detectChanges();
         }
       )

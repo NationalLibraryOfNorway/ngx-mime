@@ -7,6 +7,8 @@ import {
   TestBed,
   waitForAsync,
 } from '@angular/core/testing';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonToggleHarness } from '@angular/material/button-toggle/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
@@ -33,12 +35,14 @@ describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
   let rootLoader: HarnessLoader;
+  let loader: HarnessLoader;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
+          MatButtonToggleModule,
           ViewerHeaderTestModule,
           ContentSearchDialogModule,
           HelpDialogModule,
@@ -63,6 +67,7 @@ describe('ViewerHeaderComponent', () => {
     fixture = TestBed.createComponent(ViewerHeaderComponent);
     component = fixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
   });
 
@@ -266,6 +271,16 @@ describe('ViewerHeaderComponent', () => {
       expect(label.innerHTML).toBe('Testlabel');
     }
   ));
+
+  fit('should show alto button if manifest has recognized text', async () => {
+    component.hasAltoXml = true;
+    fixture.detectChanges();
+
+    const btnText = await loader.getHarness(
+      MatButtonToggleHarness.with({ selector: '#mime-toggleTextButton' })
+    );
+    expect(btnText).not.toBeNull();
+  });
 });
 
 function expectHeaderToShow(element: any) {

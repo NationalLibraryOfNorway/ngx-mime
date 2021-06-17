@@ -14,6 +14,9 @@
       fxLayoutAlign="end center"
       class="buttons-container"
     >
+      <mat-button-toggle *ngIf="hasAltoXml" id="mime-toggleTextButton">
+        <mat-icon>notes</mat-icon>
+      </mat-button-toggle>
       <button
         *ngIf="isPagedManifest"
         mat-icon-button

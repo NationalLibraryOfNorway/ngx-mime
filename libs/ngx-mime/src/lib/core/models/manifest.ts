@@ -87,6 +87,7 @@ export class Canvas {
   public height?: number;
   public width?: number;
   public images?: Images[];
+  public altoUrl?: string;
 
   constructor(fields?: {
     id?: string;
@@ -96,6 +97,7 @@ export class Canvas {
     height?: number;
     width?: number;
     images?: Images[];
+    altoUrl?: string;
   }) {
     if (fields) {
       this.id = fields.id || this.id;
@@ -105,6 +107,7 @@ export class Canvas {
       this.height = fields.height || this.height;
       this.width = fields.width || this.width;
       this.images = fields.images || this.images;
+      this.altoUrl = fields.altoUrl || this.altoUrl;
     }
   }
 }

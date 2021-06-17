@@ -18,11 +18,22 @@ export class CanvasBuilder {
             thumbnail: canvas.thumbnail,
             height: canvas.height,
             width: canvas.width,
-            images: new ImagesBuilder(canvas.images).build()
+            images: new ImagesBuilder(canvas.images).build(),
+            altoUrl: this.extractAltoUrl(canvas.seeAlso),
           })
         );
       }
     }
     return canvases;
+  }
+
+  private extractAltoUrl(seeAlso: any[]): string | undefined {
+    if (!seeAlso) {
+      return undefined;
+    }
+    const altoService = seeAlso.find(
+      (s: any) => s.format === 'application/alto+xml'
+    );
+    return altoService ? BuilderUtils.extractId(altoService) : undefined;
   }
 }

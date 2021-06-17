@@ -8,5 +8,8 @@
     "@angular/material": ">=12.0.0 <13.0.0",
     "d3": ">=5.7.0 <6.0.0",
     "openseadragon": ">=2.4.0 <3.0.0"
+  },
+  "devDependencies": {
+    "@types/xml2js": "^0.4.8"
   }
 }
