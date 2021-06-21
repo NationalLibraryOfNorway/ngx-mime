@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -50,6 +51,23 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 
 @Component({
   selector: 'mime-viewer',
+  animations: [
+    trigger('openClose', [
+      state('open', style({
+        height: 'calc(100% - 128px)',
+        top: '64px',
+      })),
+      state('closed', style({
+        height: '100%',
+      })),
+      transition('open => closed', [
+        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')
+      ]),
+      transition('closed => open', [
+        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')
+      ]),
+    ]),
+  ],
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,6 +91,7 @@ export class ViewerComponent
   private viewerState = new ViewerState();
 
   showText = false;
+  showHeaderAndFooterState = 'hide';
   public errorMessage: string | null = null;
 
   // Viewchilds
@@ -399,13 +418,13 @@ export class ViewerComponent
     if (this.header && this.footer) {
       switch (mode) {
         case ViewerMode.DASHBOARD:
-          this.header.state = this.footer.state = 'show';
+          this.showHeaderAndFooterState = this.header.state = this.footer.state = 'show';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'hide';
           }
           break;
         case ViewerMode.PAGE:
-          this.header.state = this.footer.state = 'hide';
+          this.showHeaderAndFooterState = this.header.state = this.footer.state = 'hide';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'show';
           }

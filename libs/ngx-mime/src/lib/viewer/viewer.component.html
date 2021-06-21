@@ -16,8 +16,8 @@
   ></mime-osd-toolbar>
 
   <mat-drawer-container class="example-container">
-    <mat-drawer mode="side" position="end" [opened]="showText"
-      >Drawer</mat-drawer
+    <mat-drawer mode="side" position="end" [opened]="showText" [@openClose]="showHeaderAndFooterState === 'show' ? 'open' : 'closed'"
+      >Lorem Ipsum</mat-drawer
     >
     <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>
   </mat-drawer-container>
