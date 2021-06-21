@@ -14,7 +14,14 @@
     *ngIf="config?.navigationControlEnabled"
     #mimeOsdToolbar
   ></mime-osd-toolbar>
-  <div id="openseadragon"></div>
+
+  <mat-drawer-container class="example-container">
+    <mat-drawer mode="side" position="end" [opened]="showText"
+      >Drawer</mat-drawer
+    >
+    <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>
+  </mat-drawer-container>
+
   <mime-viewer-footer
     class="navbar navbar-footer"
     #mimeFooter

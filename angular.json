@@ -46,6 +46,7 @@
         "build": {
           "builder": "@nrwl/angular:package",
           "options": {
+            "allowedCommonJsDependencies": ["xml2js"],
             "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
             "project": "libs/ngx-mime/ng-package.json",
             "buildableProjectDepsInPackageJsonType": "dependencies"

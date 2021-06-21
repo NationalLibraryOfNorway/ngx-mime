@@ -24,6 +24,7 @@ import { AttributionDialogService } from '../attribution-dialog/attribution-dial
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
@@ -71,6 +72,7 @@ export class ViewerComponent
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
+  showText = false;
   public errorMessage: string | null = null;
 
   // Viewchilds
@@ -99,6 +101,7 @@ export class ViewerComponent
     private canvasService: CanvasService,
     private viewerLayoutService: ViewerLayoutService,
     private styleService: StyleService,
+    private altoService: AltoService,
     public zone: NgZone
   ) {
     contentsDialogService.el = el;
@@ -266,6 +269,14 @@ export class ViewerComponent
           this.viewerLayout = viewerLayout;
         }
       )
+    );
+
+    this.subscriptions.add(
+      this.altoService.onShowTextChange.subscribe((showText: boolean) => {
+        console.log('showText', showText);
+
+        this.showText = showText;
+      })
     );
 
     this.loadManifest();

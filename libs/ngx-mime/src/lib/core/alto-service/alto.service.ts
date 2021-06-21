@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
 import {
@@ -15,9 +16,20 @@ import {
   providedIn: 'root',
 })
 export class AltoService {
+  showText = false;
   private altos: Alto[] = [];
+  private _showText = new BehaviorSubject(false);
 
   constructor(private http: HttpClient) {}
+
+  get onShowTextChange(): Observable<boolean> {
+    return this._showText.asObservable();
+  }
+
+  toggle() {
+    this.showText = !this.showText;
+    this._showText.next(this.showText);
+  }
 
   add(index: number, url: string): void {
     this.http
