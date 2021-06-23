@@ -7,6 +7,10 @@ export interface Layout {
 }
 
 export interface Page {
+  topMargin: PrintSpace;
+  leftMargin: PrintSpace;
+  rightMargin: PrintSpace;
+  bottomMargin: PrintSpace;
   printSpace: PrintSpace;
 }
 
@@ -16,6 +20,7 @@ export interface PrintSpace {
 
 export interface TextBlock {
   textLines: TextLine[];
+  textStyle?: TextStyle;
 }
 
 export interface TextLine {
@@ -23,5 +28,10 @@ export interface TextLine {
 }
 
 export interface String {
-  content: string
+  content: string;
+}
+
+export interface TextStyle {
+  fontSize?: string;
+  fontStyle?: string;
 }

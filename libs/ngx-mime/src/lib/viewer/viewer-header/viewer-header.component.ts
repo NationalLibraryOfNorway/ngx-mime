@@ -159,8 +159,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   toggleShowText(): void {
-    console.log('toggleShowText()');
-
     this.altoService.toggle();
   }
 

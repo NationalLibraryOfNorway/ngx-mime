@@ -10,6 +10,8 @@ export class CanvasBuilder {
     if (this.canvases) {
       for (let i = 0; i < this.canvases.length; i++) {
         const canvas = this.canvases[i];
+        const seeAlso = canvas.seeAlso ? canvas.seeAlso : [canvas['@seeAlso']];
+
         canvases.push(
           new Canvas({
             id: BuilderUtils.extractId(canvas),
@@ -19,7 +21,7 @@ export class CanvasBuilder {
             height: canvas.height,
             width: canvas.width,
             images: new ImagesBuilder(canvas.images).build(),
-            altoUrl: this.extractAltoUrl(canvas.seeAlso),
+            altoUrl: this.extractAltoUrl(seeAlso),
           })
         );
       }

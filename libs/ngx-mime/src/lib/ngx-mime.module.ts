@@ -16,6 +16,7 @@ import { IconComponent } from './viewer/viewer-header/icon/icon.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer/viewer.component';
+import { TextComponent } from './viewer/text/text.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ViewerComponent } from './viewer/viewer.component';
     ContentSearchNavigatorComponent,
     CanvasGroupNavigatorComponent,
     ViewerSpinnerComponent,
-    IconComponent
+    IconComponent,
+    TextComponent
   ],
   imports: [
     CoreModule,

@@ -292,8 +292,6 @@ export class ViewerComponent
 
     this.subscriptions.add(
       this.altoService.onShowTextChange.subscribe((showText: boolean) => {
-        console.log('showText', showText);
-
         this.showText = showText;
       })
     );

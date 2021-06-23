@@ -9,6 +9,7 @@ import {
 } from 'rxjs';
 import { distinctUntilChanged, sample } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { AltoService } from '../alto-service/alto.service';
 import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
@@ -83,7 +84,8 @@ export class ViewerService {
     private modeService: ModeService,
     private viewerLayoutService: ViewerLayoutService,
     private iiifContentSearchService: IiifContentSearchService,
-    private styleService: StyleService
+    private styleService: StyleService,
+    private textService: AltoService
   ) {}
 
   get onRotationChange(): Observable<number> {
@@ -423,6 +425,7 @@ export class ViewerService {
     }
     // Keep search-state and rotation only if layout-switch
     if (!layoutSwitch) {
+      this.textService.destroy();
       this.currentSearch = null;
       this.iiifContentSearchService.destroy();
       this.rotation.next(0);

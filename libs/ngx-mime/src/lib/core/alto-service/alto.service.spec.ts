@@ -26,7 +26,7 @@ describe('AltoService', () => {
     service.add(0, 'dummyUrl');
     httpMock.expectOne(`dummyUrl`).flush(testAlto);
 
-    const alto = service.getAlto(0);
+    const alto = service.getHtml(0);
 
     expect(alto).toBeTruthy();
     expect(alto?.layout.page.printSpace.textBlocks.length).toBe(1);
