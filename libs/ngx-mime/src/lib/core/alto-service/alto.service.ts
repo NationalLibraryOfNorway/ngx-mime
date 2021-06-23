@@ -1,8 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  forkJoin,
+  Observable,
+  Subject,
+  Subscription,
+} from 'rxjs';
+import { debounceTime, map, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
@@ -25,6 +31,7 @@ export class AltoService {
   showText = false;
   private altos: SafeHtml[] = [];
   private _showText = new BehaviorSubject(false);
+  private _isLoading = new BehaviorSubject(false);
   private _textReady = new Subject<void>();
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
@@ -44,6 +51,10 @@ export class AltoService {
     return this._textReady.asObservable();
   }
 
+  get isLoading(): Observable<boolean> {
+    return this._isLoading.asObservable();
+  }
+
   initialize() {
     this.subscriptions = new Subscription();
 
@@ -56,8 +67,9 @@ export class AltoService {
     );
 
     this.subscriptions.add(
-      this.canvasService.onCanvasGroupIndexChange.subscribe(
-        (currentCanvasGroupIndex: number) => {
+      this.canvasService.onCanvasGroupIndexChange
+        .pipe(debounceTime(200))
+        .subscribe((currentCanvasGroupIndex: number) => {
           const canvases = this.canvasService.getCanvasesPerCanvasGroup(
             currentCanvasGroupIndex
           );
@@ -68,21 +80,28 @@ export class AltoService {
               const index0 = canvases[0];
               currentCanvases[0] = index0;
               const can1 = seq.canvases[index0];
+              const sources: Observable<void>[] = [];
               if (can1 && can1.altoUrl) {
-                this.add(index0, can1.altoUrl);
+                sources.push(this.add(index0, can1.altoUrl));
               }
               if (canvases.length === 2) {
                 const index1 = canvases[1];
                 currentCanvases[1] = index1;
                 const can2 = seq.canvases[index1];
                 if (can2 && can2.altoUrl) {
-                  this.add(index1, can2.altoUrl);
+                  sources.push(this.add(index1, can2.altoUrl));
                 }
               }
+
+              this._isLoading.next(true);
+              forkJoin(sources)
+                .pipe(take(1))
+                .subscribe((val) => {
+                  this._isLoading.next(false);
+                });
             }
           }
-        }
-      )
+        })
     );
   }
 
@@ -98,40 +117,45 @@ export class AltoService {
     this._showText.next(this.showText);
   }
 
-  add(index: number, url: string): void {
-    if (this.altos[index]) {
-      this._textReady.next();
-      return;
-    }
-    this.http
-      .get(url, {
-        headers: new HttpHeaders().set('Content-Type', 'text/xml'),
-        responseType: 'text',
-      })
-      .pipe(
-        take(1),
-        map((altoXml: any) => {
-          let alto!: Alto;
-          parseString(altoXml, {}, (error, result) => {
-            if (error) {
-              throw error;
-            } else {
-              try {
-                alto = this.extractAlto(result.alto);
-              } catch (e) {
-                console.error(e);
-                throw e;
-              }
-            }
-          });
-          return alto;
-        })
-      )
-      .subscribe((data: Alto) => {
-        const html = this.toHtml(data);
-        this.altos[index] = html;
+  add(index: number, url: string): Observable<void> {
+    return new Observable((observer) => {
+      if (this.altos[index]) {
         this._textReady.next();
-      });
+        observer.next();
+        observer.complete();
+      }
+      this.http
+        .get(url, {
+          headers: new HttpHeaders().set('Content-Type', 'text/xml'),
+          responseType: 'text',
+        })
+        .pipe(
+          take(1),
+          map((altoXml: any) => {
+            let alto!: Alto;
+            parseString(altoXml, {}, (error, result) => {
+              if (error) {
+                throw error;
+              } else {
+                try {
+                  alto = this.extractAlto(result.alto);
+                } catch (e) {
+                  console.error(e);
+                  throw e;
+                }
+              }
+            });
+            return alto;
+          })
+        )
+        .subscribe((data: Alto) => {
+          const html = this.toHtml(data);
+          this.altos[index] = html;
+          this._textReady.next();
+          observer.next();
+          observer.complete();
+        });
+    });
   }
 
   getHtml(index: number): SafeHtml | undefined {

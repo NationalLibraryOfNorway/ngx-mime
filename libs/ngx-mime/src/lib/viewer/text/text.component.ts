@@ -23,6 +23,7 @@ export class TextComponent implements OnInit, OnDestroy {
   textContainer!: ElementRef;
   text1: SafeHtml | undefined;
   text2: SafeHtml | undefined;
+  isLoading = false;
 
   private subscriptions = new Subscription();
 
@@ -48,6 +49,12 @@ export class TextComponent implements OnInit, OnDestroy {
         if (canvases.length === 2) {
           this.text2 = this.textService.getHtml(canvases[1]);
         }
+        this.cdr.detectChanges();
+      })
+    );
+    this.subscriptions.add(
+      this.textService.isLoading.subscribe((isLoading: boolean) => {
+        this.isLoading = isLoading;
         this.cdr.detectChanges();
       })
     );

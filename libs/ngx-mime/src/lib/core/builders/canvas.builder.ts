@@ -10,7 +10,10 @@ export class CanvasBuilder {
     if (this.canvases) {
       for (let i = 0; i < this.canvases.length; i++) {
         const canvas = this.canvases[i];
-        const seeAlso = canvas.seeAlso ? canvas.seeAlso : [canvas['@seeAlso']];
+        const seeAlso = canvas.seeAlso ? canvas.seeAlso : [];
+        if (canvas['@seeAlso']) {
+          seeAlso.push(canvas['@seeAlso']);
+        }
 
         canvases.push(
           new Canvas({
@@ -33,6 +36,7 @@ export class CanvasBuilder {
     if (!seeAlso) {
       return undefined;
     }
+
     const altoService = seeAlso.find(
       (s: any) => s.format === 'application/alto+xml'
     );
