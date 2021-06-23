@@ -165,9 +165,10 @@ export class AltoService {
   }
 
   private extractAlto(altoXml: any): Alto {
-    const fontStyles: Map<string, TextStyle> = this.extractTextStyles(
-      altoXml.Styles[0]
-    );
+    let fontStyles: Map<string, TextStyle> = new Map();
+    if (altoXml.Styles) {
+      this.extractTextStyles((fontStyles = altoXml.Styles[0]));
+    }
     return {
       layout: this.extractLayout(altoXml.Layout[0], fontStyles),
     };
