@@ -24,6 +24,7 @@ export class TextComponent implements OnInit, OnDestroy {
   text1: SafeHtml | undefined;
   text2: SafeHtml | undefined;
   isLoading = false;
+  error: string | undefined= undefined
 
   private subscriptions = new Subscription();
 
@@ -55,6 +56,12 @@ export class TextComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.textService.isLoading.subscribe((isLoading: boolean) => {
         this.isLoading = isLoading;
+        this.cdr.detectChanges();
+      })
+    );
+    this.subscriptions.add(
+      this.textService.hasErrors.subscribe((error: string) => {
+        this.error = error;
         this.cdr.detectChanges();
       })
     );

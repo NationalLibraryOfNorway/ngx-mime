@@ -5,13 +5,15 @@ import {
   BehaviorSubject,
   forkJoin,
   Observable,
+  of,
   Subject,
   Subscription,
 } from 'rxjs';
-import { debounceTime, map, take } from 'rxjs/operators';
+import { catchError, debounceTime, map, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import {
   Alto,
@@ -33,12 +35,14 @@ export class AltoService {
   private _showText = new BehaviorSubject(false);
   private _isLoading = new BehaviorSubject(false);
   private _textReady = new Subject<void>();
+  private _textError = new Subject<string>();
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
 
   constructor(
     private http: HttpClient,
     private sanitizer: DomSanitizer,
+    public intl: MimeViewerIntl,
     private iiifManifestService: IiifManifestService,
     private canvasService: CanvasService
   ) {}
@@ -53,6 +57,10 @@ export class AltoService {
 
   get isLoading(): Observable<boolean> {
     return this._isLoading.asObservable();
+  }
+
+  get hasErrors(): Observable<string> {
+    return this._textError.asObservable();
   }
 
   initialize() {
@@ -70,6 +78,7 @@ export class AltoService {
       this.canvasService.onCanvasGroupIndexChange
         .pipe(debounceTime(200))
         .subscribe((currentCanvasGroupIndex: number) => {
+          this._textError.next(undefined);
           const canvases = this.canvasService.getCanvasesPerCanvasGroup(
             currentCanvasGroupIndex
           );
@@ -137,21 +146,22 @@ export class AltoService {
               if (error) {
                 throw error;
               } else {
-                try {
-                  alto = this.extractAlto(result.alto);
-                } catch (e) {
-                  console.error(e);
-                  throw e;
-                }
+                alto = this.extractAlto(result.alto);
               }
             });
             return alto;
-          })
+          }),
+          catchError((err) => of({ isError: true, error: err }))
         )
-        .subscribe((data: Alto) => {
-          const html = this.toHtml(data);
-          this.altos[index] = html;
-          this._textReady.next();
+        .subscribe((data: Alto | any) => {
+          if (!data.isError) {
+            const html = this.toHtml(data);
+            this.altos[index] = html;
+            this._textReady.next();
+          } else {
+            console.log('error', data.error);
+            this._textError.next(this.intl.textErrorLabel);
+          }
           observer.next();
           observer.complete();
         });
