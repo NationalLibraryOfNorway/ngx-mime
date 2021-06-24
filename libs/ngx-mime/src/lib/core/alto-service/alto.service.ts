@@ -159,7 +159,6 @@ export class AltoService {
             this.altos[index] = html;
             this._textReady.next();
           } else {
-            console.log('error', data.error);
             this._textError.next(this.intl.textErrorLabel);
           }
           observer.next();
@@ -177,7 +176,7 @@ export class AltoService {
   private extractAlto(altoXml: any): Alto {
     let fontStyles: Map<string, TextStyle> = new Map();
     if (altoXml.Styles) {
-      this.extractTextStyles((fontStyles = altoXml.Styles[0]));
+      fontStyles = this.extractTextStyles((fontStyles = altoXml.Styles[0]));
     }
     return {
       layout: this.extractLayout(altoXml.Layout[0], fontStyles),
@@ -264,7 +263,7 @@ export class AltoService {
       ? textBlocksXml.map((textBlock: any) => {
           const styleRef = textBlock.$.STYLEREFS?.split(' ');
           let textStyle = undefined;
-          if (styleRef) {
+          if (styleRef && textStyles) {
             textStyle = textStyles.get(styleRef[0]);
           }
           return {
