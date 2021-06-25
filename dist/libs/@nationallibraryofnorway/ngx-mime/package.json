@@ -1,11 +1,11 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "11.0.3",
+  "version": "12.0.0",
   "peerDependencies": {
-    "@angular/common": ">=11.0.0 <12.0.0",
-    "@angular/core": ">=11.0.0 <12.0.0",
-    "@angular/flex-layout": ">=11.0.0 <12.0.0 || >=11.0.0-beta.33 <12.0.0",
-    "@angular/material": ">=11.0.0 <12.0.0",
+    "@angular/common": ">=12.0.0 <13.0.0",
+    "@angular/core": ">=12.0.0 <13.0.0",
+    "@angular/flex-layout": ">=12.0.0 <13.0.0 || >=12.0.0-beta.34 <13.0.0",
+    "@angular/material": ">=12.0.0 <13.0.0",
     "d3": ">=5.7.0 <6.0.0",
     "openseadragon": ">=2.4.0 <3.0.0"
   },
@@ -18,6 +18,6 @@
   "metadata": "nationallibraryofnorway-ngx-mime.metadata.json",
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.1.0"
   }
 }

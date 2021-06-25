@@ -2,7 +2,7 @@ import { MimeDomHelper } from './../core/mime-dom-helper';
 import { ElementRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
 export interface ContentSearchDialogConfigStrategy {
-    getConfig(elementRef?: ElementRef): MatDialogConfig;
+    getConfig(elementRef?: ElementRef | null): MatDialogConfig;
 }
 export declare class MobileContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
     getConfig(elementRef: ElementRef): MatDialogConfig;

@@ -9,7 +9,10 @@ export declare class ContentSearchNavigationService {
     private _isLastHitOnCanvasGroup;
     private canvasesPerCanvasGroup;
     private searchResult;
+    private subscriptions;
     constructor(canvasService: CanvasService, iiifContentSearchService: IiifContentSearchService);
+    initialize(): void;
+    destroy(): void;
     update(canvasGroupIndex: number): void;
     getCurrentIndex(): number;
     getHitOnActiveCanvasGroup(): boolean;

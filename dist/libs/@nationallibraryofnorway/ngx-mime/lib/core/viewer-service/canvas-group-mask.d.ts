@@ -10,9 +10,9 @@ export declare class CanvasGroupMask {
     disableResize: boolean;
     center: Point;
     backgroundColor: string;
-    private destroyed;
+    private subscriptions;
     constructor(viewer: any, styleService: StyleService);
-    initialise(pageBounds: Rect, visible: boolean): void;
+    initialize(pageBounds: Rect, visible: boolean): void;
     destroy(): void;
     changeCanvasGroup(pageBounds: Rect): void;
     show(): void;
@@ -29,4 +29,5 @@ export declare class CanvasGroupMask {
     private resize;
     private getLeftMaskRect;
     private getRightMaskRect;
+    private unsubscribe;
 }

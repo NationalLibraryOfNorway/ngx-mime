@@ -1,8 +1,8 @@
 import { ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import { MimeDomHelper } from '../core/mime-dom-helper';
 export declare class AttributionDialogService {
     private dialog;
     private mimeResizeService;
@@ -12,7 +12,7 @@ export declare class AttributionDialogService {
     private dialogRef;
     private _el;
     private attributionDialogHeight;
-    private destroyed;
+    private subscriptions;
     constructor(dialog: MatDialog, mimeResizeService: MimeResizeService, attributionDialogResizeService: AttributionDialogResizeService, mimeDomHelper: MimeDomHelper);
     initialize(): void;
     destroy(): void;
@@ -23,4 +23,5 @@ export declare class AttributionDialogService {
     private closeDialogAfter;
     private getDialogConfig;
     private getPosition;
+    private unsubscribe;
 }

@@ -18,7 +18,7 @@ export declare class ContentSearchNavigatorComponent implements OnInit, OnDestro
     isLastCanvasGroupHit: boolean;
     currentIndex: number;
     invert: boolean;
-    private destroyed;
+    private subscriptions;
     constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, canvasService: CanvasService, iiifContentSearchService: IiifContentSearchService, contentSearchNavigationService: ContentSearchNavigationService, iiifManifestService: IiifManifestService);
     ngOnInit(): void;
     ngOnDestroy(): void;

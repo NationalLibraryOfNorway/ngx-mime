@@ -14,12 +14,12 @@ export declare class ContentsDialogComponent implements OnInit, OnDestroy {
     private mimeDomHelper;
     private changeDetectorRef;
     private iiifManifestService;
-    manifest: Manifest;
+    manifest: Manifest | null;
     tabHeight: {};
     showToc: boolean;
     selectedIndex: number;
     private mimeHeight;
-    private destroyed;
+    private subscriptions;
     constructor(intl: MimeViewerIntl, mediaObserver: MediaObserver, dialogRef: MatDialogRef<ContentsDialogComponent>, el: ElementRef, mimeDomHelper: MimeDomHelper, changeDetectorRef: ChangeDetectorRef, iiifManifestService: IiifManifestService, mimeResizeService: MimeResizeService);
     ngOnInit(): void;
     ngOnDestroy(): void;

@@ -9,7 +9,7 @@ export declare class SwipeDragEndCounter {
      * @param direction of swipe / pan
      * @param side hit by swipe
      */
-    addHit(side: Side, dir: Direction): void;
+    addHit(side: Side | null, dir: Direction | null): void;
     hitCountReached(): boolean;
     private incrementSide;
     /**

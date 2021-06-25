@@ -3,7 +3,6 @@ export declare class CanvasGroupDialogService {
     private dialog;
     private isCanvasGroupDialogOpen;
     private dialogRef;
-    private destroyed;
     constructor(dialog: MatDialog);
     initialize(): void;
     destroy(): void;

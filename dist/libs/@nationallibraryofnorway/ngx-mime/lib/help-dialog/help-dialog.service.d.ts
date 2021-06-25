@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { HelpDialogConfigStrategyFactory } from './help-dialog-config-strategy-factory';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { HelpDialogConfigStrategyFactory } from './help-dialog-config-strategy-factory';
 export declare class HelpDialogService {
     private dialog;
     private helpDialogConfigStrategyFactory;
@@ -9,7 +9,7 @@ export declare class HelpDialogService {
     private _el;
     private isHelpDialogOpen;
     private dialogRef;
-    private destroyed;
+    private subscriptions;
     constructor(dialog: MatDialog, helpDialogConfigStrategyFactory: HelpDialogConfigStrategyFactory, mimeResizeService: MimeResizeService);
     initialize(): void;
     destroy(): void;
@@ -19,4 +19,5 @@ export declare class HelpDialogService {
     toggle(): void;
     isOpen(): boolean;
     private getDialogConfig;
+    private unsubscribe;
 }

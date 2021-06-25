@@ -1,5 +1,5 @@
-import { Manifest } from './../models/manifest';
 import { IiifSearchResult } from './../models/iiif-search-result';
+import { Manifest } from './../models/manifest';
 import { SearchResult } from './../models/search-result';
 export declare class SearchResultBuilder {
     private q;
@@ -10,4 +10,6 @@ export declare class SearchResultBuilder {
     private findResources;
     private findSequenceIndex;
     private findLabel;
+    private getFirstSequence;
+    private getFirstSequenceCanvas;
 }

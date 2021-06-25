@@ -22,7 +22,7 @@ export declare class OsdToolbarComponent implements OnInit, AfterViewInit, OnDes
     isLastCanvasGroup: boolean;
     state: string;
     invert: boolean;
-    private destroyed;
+    private subscriptions;
     constructor(intl: MimeViewerIntl, renderer: Renderer2, changeDetectorRef: ChangeDetectorRef, mimeService: MimeResizeService, viewerService: ViewerService, canvasService: CanvasService, styleService: StyleService, iiifManifestService: IiifManifestService);
     ngOnInit(): void;
     ngAfterViewInit(): void;

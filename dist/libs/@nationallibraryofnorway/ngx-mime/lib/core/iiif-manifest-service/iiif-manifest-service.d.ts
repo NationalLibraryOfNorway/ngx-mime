@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
-import { MimeViewerIntl } from '../intl/viewer-intl';
 export declare class IiifManifestService {
     intl: MimeViewerIntl;
     private http;
     private spinnerService;
-    protected _currentManifest: Subject<Manifest>;
-    protected _errorMessage: Subject<string>;
+    protected _currentManifest: BehaviorSubject<Manifest>;
+    protected _errorMessage: BehaviorSubject<string>;
     constructor(intl: MimeViewerIntl, http: HttpClient, spinnerService: SpinnerService);
-    get currentManifest(): Observable<Manifest>;
-    get errorMessage(): Observable<string>;
-    load(manifestUri: string): void;
+    get currentManifest(): Observable<Manifest | null>;
+    get errorMessage(): Observable<string | null>;
+    load(manifestUri: string): Observable<boolean>;
     destroy(): void;
     private resetCurrentManifest;
     private resetErrorMessage;

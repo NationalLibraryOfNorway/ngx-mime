@@ -1,5 +1,5 @@
-import { Service } from '../models/manifest';
+import { Resource } from '../models/manifest';
 import { TileSourceStrategy } from './tile-source-strategy';
 export declare class IiifTileSourceStrategy implements TileSourceStrategy {
-    getTileSource(resource: Service): any;
+    getTileSource(resource: Resource): any;
 }

@@ -8,8 +8,8 @@ export declare class AttributionDialogResizeService {
     private resizeSubject;
     private dimensions;
     constructor(mimeDomHelper: MimeDomHelper);
-    set el(el: ElementRef);
-    get el(): ElementRef;
+    set el(el: ElementRef | null);
+    get el(): ElementRef | null;
     get onResize(): Observable<Dimensions>;
     markForCheck(): void;
 }
