@@ -9,7 +9,7 @@
 
 This viewer is under active development and hasn't yet reached its final form.
 
-If you'd like to contribute, you must follow our [contributing guidelines](https://github.com/NationalLibraryOfNorway/ngx-mime/blob/master/CONTRIBUTING.md).
+If you'd like to contribute, you must follow our [contributing guidelines](https://github.com/NationalLibraryOfNorway/ngx-mime/blob/main/CONTRIBUTING.md).
 
 ### Installation
 

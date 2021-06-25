@@ -71,9 +71,10 @@ export class CanvasService {
   }
 
   get currentCanvasIndex(): number {
-    return this.canvasGroups.canvasesPerCanvasGroup[
+    const canvases = this.canvasGroups.canvasesPerCanvasGroup[
       this.currentCanvasGroupIndex
-    ][0];
+    ]
+    return canvases && canvases.length >= 1 ? canvases[0] : 0;
   }
 
   isWithinBounds(canvasGroupIndex: number): boolean {
