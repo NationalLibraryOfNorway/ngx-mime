@@ -74,7 +74,7 @@ export class CanvasService {
     const canvases = this.canvasGroups.canvasesPerCanvasGroup[
       this.currentCanvasGroupIndex
     ]
-    return canvases && canvases.length >= this.currentCanvasGroupIndex ? canvases[0] : 0 ;
+    return canvases && canvases.length >= 1 ? canvases[0] : 0;
   }
 
   isWithinBounds(canvasGroupIndex: number): boolean {
