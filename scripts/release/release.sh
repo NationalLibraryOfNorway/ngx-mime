@@ -9,7 +9,7 @@ echo ""
 # Go to project dir
 cd $(dirname $0)/../..
 
-git checkout master; git pull origin master
+git checkout main; git pull origin main
 yarn build:libs
 yarn build:elements
 CURRENT_VERSION=$(node -p "require('./package.json').version")
@@ -20,5 +20,5 @@ npm version $CURRENT_VERSION
 
 cd ../../../..
 git add -f dist && standard-version -a
-git push --follow-tags origin master
+git push --follow-tags origin main
 npm publish dist/libs/@nationallibraryofnorway/ngx-mime
