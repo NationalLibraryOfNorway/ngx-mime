@@ -2,6 +2,8 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { testManifest } from '../../test/testManifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { ClickService } from '../click-service/click.service';
@@ -15,6 +17,11 @@ import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-serv
 import { CanvasService } from './../canvas-service/canvas-service';
 import { ModeService } from './../mode-service/mode.service';
 import { ViewerService } from './viewer.service';
+<<<<<<< Updated upstream
+=======
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+>>>>>>> Stashed changes
 
 @Component({
   template: ` <div id="openseadragon"></div> `,
@@ -124,17 +131,21 @@ describe('ViewerService', () => {
   });
 
   it('should set viewer to null on destroy', (done) => {
+    const unsubscribe = new Subject<any>();
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
       new MimeViewerConfig()
     );
 
-    viewerService.onOsdReadyChange.subscribe((state) => {
-      if (state) {
-        viewerService.destroy();
-        expect(viewerService.getViewer()).toBeNull();
-        done();
-      }
-    });
+    viewerService.onOsdReadyChange
+      .pipe(takeUntil(unsubscribe))
+      .subscribe((state) => {
+        if (state) {
+          unsubscribe.next();
+          viewerService.destroy(false);
+          expect(viewerService.getViewer()).toBeNull();
+          done();
+        }
+      });
   });
 });
