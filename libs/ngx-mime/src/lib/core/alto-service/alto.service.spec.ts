@@ -26,12 +26,8 @@ describe('AltoService', () => {
     service.add(0, 'dummyUrl');
     httpMock.expectOne(`dummyUrl`).flush(testAlto);
 
-    const alto = service.getHtml(0);
+    const safeHtml = service.getHtml(0);
 
-    expect(alto).toBeTruthy();
-    expect(alto?.layout.page.printSpace.textBlocks.length).toBe(1);
-    expect(alto?.layout.page.printSpace.textBlocks[0].textLines.length).toBe(8);
-    expect(alto?.layout.page.printSpace.textBlocks[0].textLines[0].strings.length).toBe(12);
-    expect(alto?.layout.page.printSpace.textBlocks[0].textLines[0].strings[0].content).toBe('jeg');
+    expect(safeHtml).toBeTruthy();
   });
 });

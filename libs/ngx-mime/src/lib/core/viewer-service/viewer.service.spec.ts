@@ -17,11 +17,6 @@ import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-serv
 import { CanvasService } from './../canvas-service/canvas-service';
 import { ModeService } from './../mode-service/mode.service';
 import { ViewerService } from './viewer.service';
-<<<<<<< Updated upstream
-=======
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
->>>>>>> Stashed changes
 
 @Component({
   template: ` <div id="openseadragon"></div> `,
