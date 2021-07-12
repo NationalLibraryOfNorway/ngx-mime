@@ -36,7 +36,7 @@ describe('ManifestBuilder', () => {
     });
   });
 
-  fit('should test manifest canvas after build', () => {
+  it('should test manifest canvas after build', () => {
     manifest.sequences?.forEach((sequence: Sequence) => {
       expect(sequence.canvases?.length).toBe(85);
       sequence.canvases?.forEach((canvas: Canvas) => {
