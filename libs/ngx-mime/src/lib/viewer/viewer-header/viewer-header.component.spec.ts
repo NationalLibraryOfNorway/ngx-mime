@@ -272,7 +272,7 @@ describe('ViewerHeaderComponent', () => {
     }
   ));
 
-  fit('should show alto button if manifest has recognized text', async () => {
+  it('should show alto button if manifest has recognized text', async () => {
     component.hasAltoXml = true;
     fixture.detectChanges();
 

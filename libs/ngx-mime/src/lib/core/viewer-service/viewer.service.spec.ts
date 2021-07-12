@@ -2,8 +2,6 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { testManifest } from '../../test/testManifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
