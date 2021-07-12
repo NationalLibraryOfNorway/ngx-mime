@@ -3,10 +3,13 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
+import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../test/testManifest';
 import { ManifestBuilder } from '../builders/manifest.builder';
 import { ClickService } from '../click-service/click.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../intl/viewer-intl';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Hit } from '../models/hit';
@@ -43,6 +46,8 @@ describe('ViewerService', () => {
         HttpClient,
         HttpHandler,
         MediaObserver,
+        MimeViewerIntl,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     });
 

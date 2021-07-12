@@ -1,5 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
   ComponentFixture,
   fakeAsync,
@@ -12,15 +13,19 @@ import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { injectedStub } from '../../testing/injected-stub';
+import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { SharedModule } from '../shared/shared.module';
+import { AltoServiceStub } from '../test/alto-service-stub';
 import { CanvasServiceStub } from '../test/canvas-service-stub';
+import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
@@ -36,7 +41,7 @@ describe('PageDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule],
+        imports: [NoopAnimationsModule, HttpClientTestingModule, SharedModule],
         declarations: [CanvasGroupDialogComponent],
         providers: [
           ViewerService,
@@ -50,6 +55,8 @@ describe('PageDialogComponent', () => {
           },
           { provide: MatDialogRef, useClass: MatDialogRefStub },
           { provide: CanvasService, useClass: CanvasServiceStub },
+          { provide: AltoService, useClass: AltoServiceStub },
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         ],
       }).compileComponents();
     })

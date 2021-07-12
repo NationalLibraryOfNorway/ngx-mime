@@ -1,5 +1,11 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { AltoService } from '../../core/alto-service/alto.service';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { AltoServiceStub } from '../../test/alto-service-stub';
+import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { TextComponent } from './text.component';
 
 describe('TextComponent', () => {
@@ -8,9 +14,18 @@ describe('TextComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TextComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule],
+      declarations: [TextComponent],
+      providers: [
+        MimeViewerIntl,
+        CanvasService,
+        {
+          provide: AltoService,
+          useClass: AltoServiceStub,
+        },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
