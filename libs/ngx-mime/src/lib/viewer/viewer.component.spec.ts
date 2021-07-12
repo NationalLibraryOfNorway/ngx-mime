@@ -114,6 +114,7 @@ describe('ViewerComponent', function () {
 
   afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    viewerService.destroy();
   });
 
   it('should create component', () => expect(comp).toBeDefined());
