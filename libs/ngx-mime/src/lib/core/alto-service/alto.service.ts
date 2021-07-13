@@ -11,20 +11,12 @@ import {
 } from 'rxjs';
 import { catchError, debounceTime, map, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
+import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
-import {
-  Alto,
-  Layout,
-  Page,
-  PrintSpace,
-  String,
-  TextBlock,
-  TextLine,
-  TextStyle,
-} from './alto.model';
+import { Alto, String, TextLine } from './alto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +30,7 @@ export class AltoService {
   private _textError = new Subject<string>();
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
+  private altoBuilder = new AltoBuilder();
 
   constructor(
     private http: HttpClient,
@@ -146,7 +139,7 @@ export class AltoService {
               if (error) {
                 throw error;
               } else {
-                alto = this.extractAlto(result.alto);
+                alto = this.altoBuilder.withAltoXml(result.alto).build();
               }
             });
             return alto;
@@ -173,16 +166,6 @@ export class AltoService {
       : undefined;
   }
 
-  private extractAlto(altoXml: any): Alto {
-    let fontStyles: Map<string, TextStyle> = new Map();
-    if (altoXml.Styles) {
-      fontStyles = this.extractTextStyles((fontStyles = altoXml.Styles[0]));
-    }
-    return {
-      layout: this.extractLayout(altoXml.Layout[0], fontStyles),
-    };
-  }
-
   private toHtml(alto: Alto): SafeHtml {
     let html = '';
 
@@ -204,93 +187,8 @@ export class AltoService {
       if (textBlock?.textStyle?.fontStyle === 'bold') {
         styles.push('font-weight: bold');
       }
-      /*
-      if (textBlock?.textStyle?.fontSize) {
-        styles.push(`font-size: ${textBlock?.textStyle?.fontSize}px`);
-      }
-      */
       html += `<p style="${styles.join(';')}">${words.join(' ')}<p/>`;
     });
     return this.sanitizer.bypassSecurityTrustHtml(html);
-  }
-
-  private extractTextStyles(stylesXml: any): Map<string, TextStyle> {
-    const textStyles: Map<string, TextStyle> = new Map();
-    if (stylesXml.TextStyle) {
-      stylesXml.TextStyle.forEach((textStyle: any) => {
-        textStyles.set(textStyle.$.ID, {
-          fontSize: textStyle.$.FONTSIZE,
-          fontStyle: textStyle.$.FONTSTYLE,
-        });
-      });
-    }
-    return textStyles;
-  }
-
-  private extractLayout(
-    layoutXml: any,
-    textStyles: Map<string, TextStyle>
-  ): Layout {
-    return {
-      page: this.extractPage(layoutXml.Page[0], textStyles),
-    };
-  }
-
-  private extractPage(pageXml: any, textStyles: Map<string, TextStyle>): Page {
-    return {
-      topMargin: this.extractPrintSpace(pageXml.TopMargin[0], textStyles),
-      leftMargin: this.extractPrintSpace(pageXml.LeftMargin[0], textStyles),
-      rightMargin: this.extractPrintSpace(pageXml.RightMargin[0], textStyles),
-      bottomMargin: this.extractPrintSpace(pageXml.BottomMargin[0], textStyles),
-      printSpace: this.extractPrintSpace(pageXml.PrintSpace[0], textStyles),
-    };
-  }
-
-  private extractPrintSpace(
-    printSpaceXml: any,
-    textStyles: Map<string, TextStyle>
-  ): PrintSpace {
-    return {
-      textBlocks: this.extractTextBlocks(printSpaceXml.TextBlock, textStyles),
-    };
-  }
-
-  private extractTextBlocks(
-    textBlocksXml: any[],
-    textStyles: Map<string, TextStyle>
-  ): TextBlock[] {
-    return textBlocksXml
-      ? textBlocksXml.map((textBlock: any) => {
-          const styleRef = textBlock.$.STYLEREFS?.split(' ');
-          let textStyle = undefined;
-          if (styleRef && textStyles) {
-            textStyle = textStyles.get(styleRef[0]);
-          }
-          return {
-            textLines: this.extractTextLines(textBlock.TextLine),
-            textStyle: {
-              fontSize: textStyle?.fontSize,
-              fontStyle: textStyle?.fontStyle,
-            },
-          };
-        })
-      : [];
-  }
-
-  private extractTextLines(textLinesXml: any): TextLine[] {
-    return textLinesXml
-      ? textLinesXml.map((textLine: any) => {
-          const strings = this.extractStrings(textLine.String);
-          return { strings: strings };
-        })
-      : [];
-  }
-
-  private extractStrings(stringXml: any): String[] {
-    return stringXml
-      ? stringXml.map((string: any) => {
-          return { content: string.$.CONTENT };
-        })
-      : [];
   }
 }

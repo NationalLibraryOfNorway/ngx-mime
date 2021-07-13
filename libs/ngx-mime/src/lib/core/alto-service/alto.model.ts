@@ -32,6 +32,5 @@ export interface String {
 }
 
 export interface TextStyle {
-  fontSize?: string;
   fontStyle?: string;
 }
