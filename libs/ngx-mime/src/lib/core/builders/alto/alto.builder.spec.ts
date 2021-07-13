@@ -3,7 +3,7 @@ import { testAlto } from '../../../test/testAltos';
 import { AltoBuilder } from '../../builders/alto';
 
 describe('AltoBuilder', () => {
-  fit('should build altoxml', () => {
+  it('should build altoxml', () => {
     parseString(testAlto, {}, (error, result) => {
       const alto = new AltoBuilder().withAltoXml(result.alto).build();
       expect(alto).toBeDefined();
