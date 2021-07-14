@@ -16,7 +16,8 @@ import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
-import { Alto, String, TextLine } from './alto.model';
+import { Alto } from './alto.model';
+import { HtmlFormatter } from './html.formatter';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,7 @@ export class AltoService {
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
+  private htmlFormatter: HtmlFormatter;
 
   constructor(
     private http: HttpClient,
@@ -38,7 +40,9 @@ export class AltoService {
     public intl: MimeViewerIntl,
     private iiifManifestService: IiifManifestService,
     private canvasService: CanvasService
-  ) {}
+  ) {
+    this.htmlFormatter = new HtmlFormatter(sanitizer);
+  }
 
   get onShowTextChange(): Observable<boolean> {
     return this._showText.asObservable();
@@ -120,7 +124,6 @@ export class AltoService {
   }
 
   add(index: number, url: string): Observable<void> {
-
     return new Observable((observer) => {
       if (this.altos[index]) {
         this._textReady.next();
@@ -149,15 +152,17 @@ export class AltoService {
           catchError((err) => of({ isError: true, error: err }))
         )
         .subscribe((data: Alto | any) => {
-          if (!data.isError) {
-            const html = this.toHtml(data);
-            this.altos[index] = html;
-            this._textReady.next();
-          } else {
-            this._textError.next(this.intl.textErrorLabel);
+          try {
+            if (!data.isError) {
+              this.altos[index] = this.htmlFormatter.altoToHtml(data);
+              this._textReady.next();
+            } else {
+              this._textError.next(this.intl.textErrorLabel);
+            }
+          } finally {
+            observer.next();
+            observer.complete();
           }
-          observer.next();
-          observer.complete();
         });
     });
   }
@@ -166,31 +171,5 @@ export class AltoService {
     return this.altos && this.altos.length >= index
       ? this.altos[index]
       : undefined;
-  }
-
-  private toHtml(alto: Alto): SafeHtml {
-    let html = '';
-
-    const page = alto.layout.page;
-    const textBlocks = [
-      ...page.topMargin.textBlocks,
-      ...page.leftMargin.textBlocks,
-      ...page.printSpace.textBlocks,
-      ...page.bottomMargin.textBlocks,
-    ];
-    textBlocks.forEach((textBlock) => {
-      let words: string[] = [];
-      textBlock.textLines.forEach((textLine: TextLine) => {
-        textLine.strings.forEach((string: String) => {
-          words.push(string.content);
-        });
-      });
-      const styles: string[] = [];
-      if (textBlock?.textStyle?.fontStyle === 'bold') {
-        styles.push('font-weight: bold');
-      }
-      html += `<p style="${styles.join(';')}">${words.join(' ')}<p/>`;
-    });
-    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }

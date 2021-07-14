@@ -19,7 +19,6 @@ export class PrintSpaceBuilder {
 
   build(): PrintSpace {
     let textBlocks: any[] = [];
-    console.log('xml', this.printSpaceXml);
 
     if (this.printSpaceXml.TextBlock) {
       textBlocks = [...textBlocks, ...this.printSpaceXml.TextBlock];

@@ -15,7 +15,7 @@ export interface Page {
 }
 
 export interface PrintSpace {
-  textBlocks: TextBlock[];
+  textBlocks?: TextBlock[];
 }
 
 export interface TextBlock {
