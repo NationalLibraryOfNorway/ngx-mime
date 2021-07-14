@@ -120,12 +120,14 @@ export class AltoService {
   }
 
   add(index: number, url: string): Observable<void> {
+
     return new Observable((observer) => {
       if (this.altos[index]) {
         this._textReady.next();
         observer.next();
         observer.complete();
       }
+
       this.http
         .get(url, {
           headers: new HttpHeaders().set('Content-Type', 'text/xml'),

@@ -12,7 +12,7 @@ import { AltoService } from './alto.service';
 
 describe('AltoService', () => {
   let service: AltoService;
-  let httpMock: HttpTestingController;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,7 +24,12 @@ describe('AltoService', () => {
       ],
     });
     service = TestBed.inject(AltoService);
-    httpMock = TestBed.inject(HttpTestingController);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should be created', () => {
@@ -32,11 +37,11 @@ describe('AltoService', () => {
   });
 
   it('should add alto xml to service', () => {
-    service.add(0, 'dummyUrl');
-    httpMock.expectOne(`dummyUrl`).flush(testAlto);
+    service.add(0, 'dummyUrl').subscribe(() => {
+      const safeHtml = service.getHtml(0);
+      expect(safeHtml).toBeTruthy();
+    });
 
-    const safeHtml = service.getHtml(0);
-
-    expect(safeHtml).toBeTruthy();
+    httpTestingController.expectOne(`dummyUrl`).flush(testAlto);
   });
 });
