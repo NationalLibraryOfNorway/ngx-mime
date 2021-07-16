@@ -5,28 +5,22 @@ import {
   ComponentFixture,
   inject,
   TestBed,
-  waitForAsync,
+  waitForAsync
 } from '@angular/core/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonToggleHarness } from '@angular/material/button-toggle/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
-import { CanvasService } from '../../core/canvas-service/canvas-service';
-import { ClickService } from '../../core/click-service/click.service';
-import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
-import { ModeService } from '../../core/mode-service/mode.service';
+import { AltoService } from '../../core/alto-service/alto.service';
 import { Manifest, Service } from '../../core/models/manifest';
 import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewingDirection } from '../../core/models/viewing-direction';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
-import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
-import { MimeDomHelper } from './../../core/mime-dom-helper';
-import { FullscreenServiceStub } from './../../test/fullscreen-service-stub';
 import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
 import { ViewerHeaderTestModule } from './viewer-header-test.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
@@ -36,6 +30,7 @@ describe('ViewerHeaderComponent', () => {
   let fixture: ComponentFixture<ViewerHeaderComponent>;
   let rootLoader: HarnessLoader;
   let loader: HarnessLoader;
+  let altoService: AltoService;
 
   beforeEach(
     waitForAsync(() => {
@@ -47,29 +42,15 @@ describe('ViewerHeaderComponent', () => {
           ContentSearchDialogModule,
           HelpDialogModule,
         ],
-        providers: [
-          ViewerService,
-          ClickService,
-          CanvasService,
-          ModeService,
-          MimeDomHelper,
-          FullscreenService,
-          ViewerLayoutService,
-          IiifContentSearchService,
-          { provide: FullscreenService, useClass: FullscreenServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        ],
       }).compileComponents();
-    })
-  );
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ViewerHeaderComponent);
     component = fixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     loader = TestbedHarnessEnvironment.loader(fixture);
+    altoService = TestBed.inject(AltoService);
     fixture.detectChanges();
-  });
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -280,6 +261,19 @@ describe('ViewerHeaderComponent', () => {
       MatButtonToggleHarness.with({ selector: '#mime-toggleTextButton' })
     );
     expect(btnText).not.toBeNull();
+  });
+
+  it('should toggle show text if show text is clicked', async () => {
+    const toggleSpy = spyOn(altoService, 'toggle');
+    component.hasAltoXml = true;
+    fixture.detectChanges();
+    const btnText = await loader.getHarness(
+      MatButtonToggleHarness.with({ selector: '#mime-toggleTextButton' })
+    );
+
+    await btnText.check();
+
+    expect(toggleSpy).toHaveBeenCalled();
   });
 });
 
