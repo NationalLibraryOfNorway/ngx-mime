@@ -7,6 +7,7 @@ import {
   Observable,
   of,
   Subject,
+  Subscriber,
   Subscription,
 } from 'rxjs';
 import { catchError, debounceTime, take } from 'rxjs/operators';
@@ -131,38 +132,61 @@ export class AltoService {
 
   private add(index: number, url: string): Observable<void> {
     return new Observable((observer) => {
-      if (this.altos[index]) {
-        this._textReady.next();
-        observer.next();
-        observer.complete();
-        return;
+      if (this.isInCache(index)) {
+        this.done(observer);
+      } else {
+        this.load(observer, index, url);
       }
-
-      this.http
-        .get(url, {
-          headers: new HttpHeaders().set('Content-Type', 'text/xml'),
-          responseType: 'text',
-        })
-        .pipe(
-          take(1),
-          catchError((err) => of({ isError: true, error: err }))
-        )
-        .subscribe((data: Alto | any) => {
-          try {
-            if (!data.isError) {
-              parseString(data, {}, (error, result) => {
-                const alto = this.altoBuilder.withAltoXml(result.alto).build();
-                this.altos[index] = this.htmlFormatter.altoToHtml(alto);
-                this._textReady.next();
-              });
-            } else {
-              this._textError.next(this.intl.textErrorLabel);
-            }
-          } finally {
-            observer.next();
-            observer.complete();
-          }
-        });
     });
+  }
+
+  private isInCache(index: number) {
+    return this.altos[index];
+  }
+
+  private load(observer: Subscriber<void>, index: number, url: string) {
+    this.http
+      .get(url, {
+        headers: new HttpHeaders().set('Content-Type', 'text/xml'),
+        responseType: 'text',
+      })
+      .pipe(
+        take(1),
+        catchError((err) => of({ isError: true, error: err }))
+      )
+      .subscribe((data: Alto | any) => {
+        try {
+          if (!data.isError) {
+            parseString(data, {}, (error, result) => {
+              const alto = this.altoBuilder.withAltoXml(result.alto).build();
+              this.addToCache(index, alto);
+              this.done(observer);
+            });
+          } else {
+            throw data.err;
+          }
+        } catch {
+          this.error(observer);
+        }
+      });
+  }
+
+  private addToCache(index: number, alto: Alto) {
+    this.altos[index] = this.htmlFormatter.altoToHtml(alto);
+  }
+
+  private done(observer: Subscriber<void>) {
+    this._textReady.next();
+    this.complete(observer);
+  }
+
+  private error(observer: Subscriber<void>) {
+    this._textError.next(this.intl.textErrorLabel);
+    this.complete(observer);
+  }
+
+  private complete(observer: Subscriber<void>) {
+    observer.next();
+    observer.complete();
   }
 }
