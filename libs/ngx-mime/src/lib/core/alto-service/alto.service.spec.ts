@@ -12,11 +12,11 @@ import { testAlto } from './../../test/testAltos';
 import { AltoService } from './alto.service';
 
 describe('AltoService', () => {
+  const debounceTime = 200;
   let service: AltoService;
   let httpTestingController: HttpTestingController;
   let iiifManifestService: any;
   let canvasService: any;
-  const debounceTime = 200;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,21 +48,21 @@ describe('AltoService', () => {
     iiifManifestService.load('fakeUrl').subscribe(() => {
       waitForDebounce();
       mockAltoRequest();
-      expect(service.getHtml(0)).toBeDefined();
+      expectAltoToBeDefined();
     });
   }));
 
-  fit('should use cache if alto is already loaded', fakeAsync(() => {
+  it('should use cache if alto is already loaded', fakeAsync(() => {
     service.initialize();
     iiifManifestService.load('fakeUrl').subscribe(() => {
       waitForDebounce();
       mockAltoRequest();
-      expect(service.getHtml(0)).toBeDefined();
+      expectAltoToBeDefined();
 
       changeCanvaasGroupIndex(2);
 
       changeCanvaasGroupIndex(0);
-      expect(service.getHtml(0)).toBeDefined();
+      expectAltoToBeDefined();
     });
   }));
 
@@ -80,6 +80,11 @@ describe('AltoService', () => {
         `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1`
       )
       .flush(testAlto);
+    httpTestingController
+      .expectOne(
+        `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1`
+      )
+      .flush(testAlto);
   };
 
   const changeCanvaasGroupIndex = (index: number) => {
@@ -89,5 +94,10 @@ describe('AltoService', () => {
 
   const waitForDebounce = () => {
     tick(debounceTime);
+  };
+
+  const expectAltoToBeDefined = () => {
+    expect(service.getHtml(0)).toBeDefined();
+    expect(service.getHtml(1)).toBeDefined();
   };
 });

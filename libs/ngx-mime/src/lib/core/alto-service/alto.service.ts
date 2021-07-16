@@ -130,8 +130,6 @@ export class AltoService {
   }
 
   private add(index: number, url: string): Observable<void> {
-    console.log('tester');
-
     return new Observable((observer) => {
       if (this.altos[index]) {
         this._textReady.next();
