@@ -35,11 +35,11 @@ export class AltoService {
   private htmlFormatter: HtmlFormatter;
 
   constructor(
-    private http: HttpClient,
-    private sanitizer: DomSanitizer,
     public intl: MimeViewerIntl,
+    private http: HttpClient,
     private iiifManifestService: IiifManifestService,
-    private canvasService: CanvasService
+    private canvasService: CanvasService,
+    sanitizer: DomSanitizer
   ) {
     this.htmlFormatter = new HtmlFormatter(sanitizer);
   }
@@ -76,6 +76,7 @@ export class AltoService {
         .pipe(debounceTime(200))
         .subscribe((currentCanvasGroupIndex: number) => {
           this._textError.next(undefined);
+
           const canvases = this.canvasService.getCanvasesPerCanvasGroup(
             currentCanvasGroupIndex
           );
@@ -98,7 +99,6 @@ export class AltoService {
                   sources.push(this.add(index1, can2.altoUrl));
                 }
               }
-
               this._isLoading.next(true);
               forkJoin(sources)
                 .pipe(take(1))
@@ -123,12 +123,21 @@ export class AltoService {
     this._showText.next(this.showText);
   }
 
-  add(index: number, url: string): Observable<void> {
+  getHtml(index: number): SafeHtml | undefined {
+    return this.altos && this.altos.length >= index
+      ? this.altos[index]
+      : undefined;
+  }
+
+  private add(index: number, url: string): Observable<void> {
+    console.log('tester');
+
     return new Observable((observer) => {
       if (this.altos[index]) {
         this._textReady.next();
         observer.next();
         observer.complete();
+        return;
       }
 
       this.http
@@ -165,11 +174,5 @@ export class AltoService {
           }
         });
     });
-  }
-
-  getHtml(index: number): SafeHtml | undefined {
-    return this.altos && this.altos.length >= index
-      ? this.altos[index]
-      : undefined;
   }
 }
