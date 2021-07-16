@@ -9,7 +9,7 @@ import {
   Subject,
   Subscription,
 } from 'rxjs';
-import { catchError, debounceTime, map, take } from 'rxjs/operators';
+import { catchError, debounceTime, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -145,24 +145,16 @@ export class AltoService {
         })
         .pipe(
           take(1),
-          map((altoXml: any) => {
-            let alto!: Alto;
-            parseString(altoXml, {}, (error, result) => {
-              if (error) {
-                throw error;
-              } else {
-                alto = this.altoBuilder.withAltoXml(result.alto).build();
-              }
-            });
-            return alto;
-          }),
           catchError((err) => of({ isError: true, error: err }))
         )
         .subscribe((data: Alto | any) => {
           try {
             if (!data.isError) {
-              this.altos[index] = this.htmlFormatter.altoToHtml(data);
-              this._textReady.next();
+              parseString(data, {}, (error, result) => {
+                const alto = this.altoBuilder.withAltoXml(result.alto).build();
+                this.altos[index] = this.htmlFormatter.altoToHtml(alto);
+                this._textReady.next();
+              });
             } else {
               this._textError.next(this.intl.textErrorLabel);
             }
