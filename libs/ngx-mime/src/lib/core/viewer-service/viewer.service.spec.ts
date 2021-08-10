@@ -139,7 +139,8 @@ describe('ViewerService', () => {
       new MimeViewerConfig()
     );
 
-    const subscription = viewerService.onOsdReadyChange.subscribe((state) => {
+    let subscription: Subscription;
+    subscription = viewerService.onOsdReadyChange.subscribe((state) => {
       if (state) {
         subscription.unsubscribe();
         viewerService.destroy(false);

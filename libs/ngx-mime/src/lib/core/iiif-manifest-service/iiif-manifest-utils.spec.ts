@@ -1,7 +1,7 @@
 import { Manifest } from '../models/manifest';
 import { ManifestUtils } from './iiif-manifest-utils';
 
-describe('ViewerHeaderComponent', () => {
+describe('ManifestUtils', () => {
   it('should return true if manifest has alto url defined', () => {
     const manifest = new Manifest({
       sequences: [

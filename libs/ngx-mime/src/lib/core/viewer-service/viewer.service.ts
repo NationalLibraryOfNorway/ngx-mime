@@ -18,7 +18,7 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Direction } from '../models/direction';
-import { Manifest, Resource, Service } from '../models/manifest';
+import { Manifest, Resource } from '../models/manifest';
 import { ModeChanges } from '../models/modeChanges';
 import { Options } from '../models/options';
 import { PinchStatus } from '../models/pinchStatus';
@@ -85,7 +85,7 @@ export class ViewerService {
     private viewerLayoutService: ViewerLayoutService,
     private iiifContentSearchService: IiifContentSearchService,
     private styleService: StyleService,
-    private textService: AltoService
+    private altoService: AltoService
   ) {}
 
   get onRotationChange(): Observable<number> {
@@ -425,7 +425,7 @@ export class ViewerService {
     }
     // Keep search-state and rotation only if layout-switch
     if (!layoutSwitch) {
-      this.textService.destroy();
+      this.altoService.destroy();
       this.currentSearch = null;
       this.iiifContentSearchService.destroy();
       this.rotation.next(0);

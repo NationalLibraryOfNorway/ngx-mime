@@ -36,6 +36,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   manifestUriMissingLabel = 'Lenke til manifest mangler';
   manifestNotValidLabel = 'Manifestet er ikke gyldig';
   pageDoesNotExists = 'Beklager, men den siden finnes ikke';
+  textErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
 
   noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;
