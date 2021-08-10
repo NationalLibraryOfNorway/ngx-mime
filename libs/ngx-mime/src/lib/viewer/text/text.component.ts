@@ -24,21 +24,20 @@ export class TextComponent implements OnInit, OnDestroy {
   text1: SafeHtml | undefined;
   text2: SafeHtml | undefined;
   isLoading = false;
-  error: string | undefined= undefined
+  error: string | undefined = undefined;
 
   private subscriptions = new Subscription();
 
   constructor(
     private cdr: ChangeDetectorRef,
     private canvasService: CanvasService,
-    private textService: AltoService
+    private altoService: AltoService
   ) {}
 
   ngOnInit(): void {
-    this.textService.initialize();
-
+    this.altoService.initialize();
     this.subscriptions.add(
-      this.textService.onTextReady.subscribe(() => {
+      this.altoService.onTextReady.subscribe(() => {
         this.text1 = '';
         this.text2 = '';
 
@@ -46,21 +45,22 @@ export class TextComponent implements OnInit, OnDestroy {
         const canvases = this.canvasService.getCanvasesPerCanvasGroup(
           this.canvasService.currentCanvasGroupIndex
         );
-        this.text1 = this.textService.getHtml(canvases[0]);
+        this.text1 = this.altoService.getHtml(canvases[0]);
+
         if (canvases.length === 2) {
-          this.text2 = this.textService.getHtml(canvases[1]);
+          this.text2 = this.altoService.getHtml(canvases[1]);
         }
         this.cdr.detectChanges();
       })
     );
     this.subscriptions.add(
-      this.textService.isLoading.subscribe((isLoading: boolean) => {
+      this.altoService.isLoading.subscribe((isLoading: boolean) => {
         this.isLoading = isLoading;
         this.cdr.detectChanges();
       })
     );
     this.subscriptions.add(
-      this.textService.hasErrors.subscribe((error: string) => {
+      this.altoService.hasErrors.subscribe((error: string) => {
         this.error = error;
         this.cdr.detectChanges();
       })
@@ -68,7 +68,7 @@ export class TextComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.textService.destroy();
+    this.altoService.destroy();
     this.subscriptions.unsubscribe();
   }
 }
