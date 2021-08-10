@@ -14,7 +14,7 @@ describe('ManifestUtils', () => {
         },
       ],
     });
-    const result = ManifestUtils.hasAltoXml(manifest);
+    const result = ManifestUtils.hasAlto(manifest);
 
     expect(result).toBeTruthy();
   });
@@ -28,7 +28,7 @@ describe('ManifestUtils', () => {
       ],
     });
 
-    const result = ManifestUtils.hasAltoXml(manifest);
+    const result = ManifestUtils.hasAlto(manifest);
 
     expect(result).toBeFalsy();
   });

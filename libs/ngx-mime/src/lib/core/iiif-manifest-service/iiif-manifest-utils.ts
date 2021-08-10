@@ -20,7 +20,7 @@ export class ManifestUtils {
     return firstSequence ? firstSequence.viewingHint === 'paged' : false;
   }
 
-  static hasAltoXml(manifest: Manifest): boolean {
+  static hasAlto(manifest: Manifest): boolean {
     if (manifest.sequences && manifest.sequences.length > 0) {
       const firstSequence = manifest.sequences[0];
       if (firstSequence.canvases && firstSequence.canvases.length > 0) {

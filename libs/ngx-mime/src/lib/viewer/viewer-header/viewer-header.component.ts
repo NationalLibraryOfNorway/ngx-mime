@@ -130,7 +130,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
             ? ManifestUtils.isManifestPaged(manifest)
             : false;
           this.hasAlto = manifest
-            ? ManifestUtils.hasAltoXml(manifest)
+            ? ManifestUtils.hasAlto(manifest)
             : false;
           this.changeDetectorRef.detectChanges();
         }
