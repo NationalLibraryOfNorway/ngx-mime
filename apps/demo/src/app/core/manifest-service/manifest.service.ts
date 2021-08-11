@@ -42,7 +42,7 @@ export class ManifestService {
     },
     {
       label: 'Alto+xml',
-      uri: 'assets/fixtures/presentation/2/altoxml-manifest.json'
+      uri: 'assets/fixtures/presentation/2/recognized-text-manifest.json'
     },
     {
       label: 'Static image',
