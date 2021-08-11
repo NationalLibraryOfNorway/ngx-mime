@@ -25,16 +25,16 @@
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-non-attribution-book.ejs') %>" }}]
   },
   {
-    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-recognized-text-book/manifest", "method": "GET" }}]}],
-    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-recognized-text-book.ejs') %>" }}]
-  },
-  {
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/contentsearch/iiif/search", "method": "GET", "query": { "q": "Gjallarhorn" } }}]}],
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'gjallarhorn.ejs') %>" }}]
   },
   {
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/contentsearch/iiif/search", "method": "GET", "query": { "q": "Heimdall" } }}]}],
     "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'no_hits.ejs') %>" }}]
+  },
+  {
+    "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/iiif/a-recognized-text-book/manifest", "method": "GET" }}]}],
+    "responses": [{ "is": { "statusCode": 200, "headers": { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }, "body": "<%- stringify(filename, 'a-recognized-text-book.ejs') %>" }}]
   },
   {
     "predicates": [{ "and": [{ "equals": { "path": "/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/digimanus_14280_0001", "method": "GET" }}]}],

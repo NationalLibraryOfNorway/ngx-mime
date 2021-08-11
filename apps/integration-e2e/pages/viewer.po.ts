@@ -76,10 +76,10 @@ export class ViewerPage {
   private canvasGroupOverlayEls: ElementArrayFinder;
   private singlePageViewButtonEl: ElementFinder;
   private twoPageViewButtonEl: ElementFinder;
-  private recognizedTextDisplayToggleEl: ElementFinder;
   private modeDashboardEl: ElementFinder;
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
+  private recognizedTextDisplayToggleEl: ElementFinder;
   private leftRecognizedTextEl: ElementFinder;
   private rightRecognizedTextEl: ElementFinder;
 
