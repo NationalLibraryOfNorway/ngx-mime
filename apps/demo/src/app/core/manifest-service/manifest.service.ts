@@ -41,7 +41,7 @@ export class ManifestService {
       uri: 'assets/fixtures/presentation/2/different-size-manifest.json'
     },
     {
-      label: 'Recogized text',
+      label: 'Recognized text',
       uri: 'assets/fixtures/presentation/2/recognized-text-manifest.json'
     },
     {
