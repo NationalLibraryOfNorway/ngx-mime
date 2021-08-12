@@ -41,7 +41,7 @@ export class ManifestService {
       uri: 'assets/fixtures/presentation/2/different-size-manifest.json'
     },
     {
-      label: 'Alto+xml',
+      label: 'Recogized text',
       uri: 'assets/fixtures/presentation/2/recognized-text-manifest.json'
     },
     {
