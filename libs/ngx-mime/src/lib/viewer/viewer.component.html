@@ -16,8 +16,8 @@
   ></mime-osd-toolbar>
 
   <mat-drawer-container class="viewer-drawer-container">
-    <mat-drawer mode="side" position="end" [opened]="showText" [@openClose]="showHeaderAndFooterState === 'show' ? 'open' : 'closed'"
-      ><mime-text *ngIf="showText"></mime-text></mat-drawer
+    <mat-drawer mode="side" position="end" [opened]="textContentToggle" [@openClose]="showHeaderAndFooterState === 'show' ? 'open' : 'closed'"
+      ><mime-text *ngIf="textContentToggle"></mime-text></mat-drawer
     >
     <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>
   </mat-drawer-container>

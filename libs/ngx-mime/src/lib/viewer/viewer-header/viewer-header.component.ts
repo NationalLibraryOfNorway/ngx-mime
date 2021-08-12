@@ -68,7 +68,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   mimeHeaderAfter!: ViewContainerRef;
   public manifest: Manifest | null = null;
   public state = 'hide';
-  showText = false;
+  textContentToggle = false;
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
   isInFullscreen = false;
@@ -146,9 +146,9 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.altoService.onShowTextChange.subscribe(
-        (showText: boolean) => {
-          this.showText = showText;
+      this.altoService.onTextContentToggleChange.subscribe(
+        (textContentToggle: boolean) => {
+          this.textContentToggle = textContentToggle;
         }
       )
     );
@@ -158,7 +158,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  toggleShowText(): void {
+  toggleTextContent(): void {
     this.altoService.toggle();
   }
 

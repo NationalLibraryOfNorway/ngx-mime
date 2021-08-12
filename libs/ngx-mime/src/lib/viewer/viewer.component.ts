@@ -83,6 +83,7 @@ export class ViewerComponent
   @Output() canvasChanged: EventEmitter<number> = new EventEmitter();
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
+  @Output() textContentToggleChanged: EventEmitter<boolean> = new EventEmitter();
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
@@ -90,7 +91,7 @@ export class ViewerComponent
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
-  showText = false;
+  textContentToggle = false;
   showHeaderAndFooterState = 'hide';
   public errorMessage: string | null = null;
 
@@ -149,6 +150,8 @@ export class ViewerComponent
   ngOnInit(): void {
     this.styleService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
+    this.altoService.textContentToggle = this.config.initTextContentToggle;
+
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
@@ -159,6 +162,9 @@ export class ViewerComponent
             this.viewerLayoutService.init(
               ManifestUtils.isManifestPaged(manifest)
             );
+            this.textContentToggle = this.altoService.textContentToggle && manifest
+            ? ManifestUtils.hasAlto(manifest)
+            : false;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -291,8 +297,9 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.altoService.onShowTextChange.subscribe((showText: boolean) => {
-        this.showText = showText;
+      this.altoService.onTextContentToggleChange.subscribe((textContentToggle: boolean) => {
+        this.textContentToggle = textContentToggle;
+        this.textContentToggleChanged.emit(textContentToggle);
       })
     );
 

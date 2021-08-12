@@ -24,9 +24,8 @@ import { HtmlFormatter } from './html.formatter';
   providedIn: 'root',
 })
 export class AltoService {
-  showText = false;
   private altos: SafeHtml[] = [];
-  private _showText = new BehaviorSubject(false);
+  private _textContentToggle = new BehaviorSubject(false);
   private _isLoading = new BehaviorSubject(false);
   private _textReady = new Subject<void>();
   private _textError = new Subject<string>();
@@ -45,8 +44,8 @@ export class AltoService {
     this.htmlFormatter = new HtmlFormatter(sanitizer);
   }
 
-  get onShowTextChange(): Observable<boolean> {
-    return this._showText.asObservable();
+  get onTextContentToggleChange(): Observable<boolean> {
+    return this._textContentToggle.asObservable();
   }
 
   get onTextReady(): Observable<void> {
@@ -59,6 +58,14 @@ export class AltoService {
 
   get hasErrors(): Observable<string> {
     return this._textError.asObservable();
+  }
+
+  get textContentToggle() {
+    return this._textContentToggle.value;
+  }
+
+  set textContentToggle(value: boolean) {
+    this._textContentToggle.next(value);
   }
 
   initialize() {
@@ -113,19 +120,16 @@ export class AltoService {
   }
 
   destroy() {
-    this.showText = false;
     this.altos = [];
-    this._showText.next(false);
     this.subscriptions.unsubscribe();
   }
 
   toggle() {
-    this.showText = !this.showText;
-    this._showText.next(this.showText);
+    this.textContentToggle = !this._textContentToggle.getValue();
   }
 
   getHtml(index: number): SafeHtml | undefined {
-    return this.altos && this.altos.length >= index
+    return this.altos && this.altos.length >= index +1
       ? this.altos[index]
       : undefined;
   }

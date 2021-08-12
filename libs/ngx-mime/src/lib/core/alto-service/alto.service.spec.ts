@@ -152,6 +152,6 @@ describe('AltoService', () => {
   };
 
   const expectOnShowTextChangeToBe = (value: boolean) => {
-    expect(service.onShowTextChange).toBeObservable(cold('a', { a: value }));
+    expect(service.onTextContentToggleChange).toBeObservable(cold('a', { a: value }));
   };
 });

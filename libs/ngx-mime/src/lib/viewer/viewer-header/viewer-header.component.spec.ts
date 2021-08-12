@@ -253,7 +253,7 @@ describe('ViewerHeaderComponent', () => {
     }
   ));
 
-  it('should show alto button if manifest has recognized text', async () => {
+  it('should show alto button if manifest has recognized text content', async () => {
     component.hasAlto = true;
     fixture.detectChanges();
 
@@ -263,7 +263,7 @@ describe('ViewerHeaderComponent', () => {
     expect(btnText).not.toBeNull();
   });
 
-  it('should toggle show text if show text is clicked', async () => {
+  it('should toggle show text if show text content is clicked', async () => {
     const toggleSpy = spyOn(altoService, 'toggle');
     component.hasAlto = true;
     fixture.detectChanges();
