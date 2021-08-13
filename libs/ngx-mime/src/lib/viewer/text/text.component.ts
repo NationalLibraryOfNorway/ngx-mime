@@ -11,6 +11,7 @@ import { SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 
 @Component({
   selector: 'mime-text',
@@ -31,25 +32,24 @@ export class TextComponent implements OnInit, OnDestroy {
   constructor(
     private cdr: ChangeDetectorRef,
     private canvasService: CanvasService,
-    private altoService: AltoService
+    private altoService: AltoService,
+    private iiifManifestService: IiifManifestService
   ) {}
 
   ngOnInit(): void {
-    this.altoService.initialize();
+    this.subscriptions.add(
+      this.iiifManifestService.currentManifest.subscribe(() => {
+        this.clearText();
+        this.altoService.initialize();
+        this.cdr.detectChanges();
+      })
+    );
+
     this.subscriptions.add(
       this.altoService.onTextReady.subscribe(() => {
-        this.text1 = '';
-        this.text2 = '';
-
-        this.textContainer.nativeElement.scrollTop = 0;
-        const canvases = this.canvasService.getCanvasesPerCanvasGroup(
-          this.canvasService.currentCanvasGroupIndex
-        );
-        this.text1 = this.altoService.getHtml(canvases[0]);
-
-        if (canvases.length === 2) {
-          this.text2 = this.altoService.getHtml(canvases[1]);
-        }
+        this.clearText();
+        this.scrollToTop();
+        this.updateRecognizedText();
         this.cdr.detectChanges();
       })
     );
@@ -68,7 +68,27 @@ export class TextComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.altoService.destroy();
     this.subscriptions.unsubscribe();
+    this.altoService.destroy();
+  }
+
+  private clearText() {
+    this.text1 = '';
+    this.text2 = '';
+  }
+
+  private scrollToTop() {
+    this.textContainer.nativeElement.scrollTop = 0;
+  }
+
+  private updateRecognizedText() {
+    const canvases = this.canvasService.getCanvasesPerCanvasGroup(
+      this.canvasService.currentCanvasGroupIndex
+    );
+    this.text1 = this.altoService.getHtml(canvases[0]);
+
+    if (canvases.length === 2) {
+      this.text2 = this.altoService.getHtml(canvases[1]);
+    }
   }
 }

@@ -75,6 +75,7 @@ export class AltoService {
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           this.manifest = manifest;
+          this.clearCache();
         }
       )
     );
@@ -110,7 +111,7 @@ export class AltoService {
               this._isLoading.next(true);
               forkJoin(sources)
                 .pipe(take(1))
-                .subscribe((val) => {
+                .subscribe(() => {
                   this._isLoading.next(false);
                 });
             }
@@ -120,7 +121,7 @@ export class AltoService {
   }
 
   destroy() {
-    this.altos = [];
+    this.clearCache();
     this.subscriptions.unsubscribe();
   }
 
@@ -129,9 +130,13 @@ export class AltoService {
   }
 
   getHtml(index: number): SafeHtml | undefined {
-    return this.altos && this.altos.length >= index +1
+    return this.altos && this.altos.length >= index + 1
       ? this.altos[index]
       : undefined;
+  }
+
+  clearCache() {
+    this.altos = [];
   }
 
   private add(index: number, url: string): Observable<void> {
