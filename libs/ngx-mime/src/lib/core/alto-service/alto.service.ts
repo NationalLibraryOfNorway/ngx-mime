@@ -10,7 +10,7 @@ import {
   Subscriber,
   Subscription,
 } from 'rxjs';
-import { catchError, debounceTime, take } from 'rxjs/operators';
+import { catchError, debounceTime, finalize, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -85,44 +85,29 @@ export class AltoService {
         .pipe(debounceTime(200))
         .subscribe((currentCanvasGroupIndex: number) => {
           this._textError.next(undefined);
+          const sources: Observable<void>[] = [];
 
-          const canvases = this.canvasService.getCanvasesPerCanvasGroup(
+          const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
             currentCanvasGroupIndex
           );
-          if (this.manifest && this.manifest.sequences) {
-            const seq = this.manifest.sequences[0];
-            if (seq.canvases) {
-              const currentCanvases = [canvases.length];
-              const index0 = canvases[0];
-              currentCanvases[0] = index0;
-              const can1 = seq.canvases[index0];
-              const sources: Observable<void>[] = [];
-              if (can1 && can1.altoUrl) {
-                sources.push(this.add(index0, can1.altoUrl));
-              }
-              if (canvases.length === 2) {
-                const index1 = canvases[1];
-                currentCanvases[1] = index1;
-                const can2 = seq.canvases[index1];
-                if (can2 && can2.altoUrl) {
-                  sources.push(this.add(index1, can2.altoUrl));
-                }
-              }
-              this._isLoading.next(true);
-              forkJoin(sources)
-                .pipe(take(1))
-                .subscribe(() => {
-                  this._isLoading.next(false);
-                });
-            }
+          this.addAltoSource(canvasGroup[0], sources);
+          if (canvasGroup.length === 2) {
+            this.addAltoSource(canvasGroup[1], sources);
           }
+          this._isLoading.next(true);
+          forkJoin(sources)
+            .pipe(
+              take(1),
+              finalize(() => this._isLoading.next(false))
+            )
+            .subscribe();
         })
     );
   }
 
   destroy() {
-    this.clearCache();
     this.subscriptions.unsubscribe();
+    this.clearCache();
   }
 
   toggle() {
@@ -137,6 +122,18 @@ export class AltoService {
 
   clearCache() {
     this.altos = [];
+  }
+
+  private addAltoSource(index: number, sources: Observable<void>[]) {
+    if (this.manifest && this.manifest.sequences) {
+      const seq = this.manifest.sequences[0];
+      if (seq.canvases) {
+        const canvas = seq.canvases[index];
+        if (canvas && canvas.altoUrl) {
+          sources.push(this.add(index, canvas.altoUrl));
+        }
+      }
+    }
   }
 
   private add(index: number, url: string): Observable<void> {
