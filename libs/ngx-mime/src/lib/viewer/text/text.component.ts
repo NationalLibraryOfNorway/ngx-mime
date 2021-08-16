@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 
 @Component({
   selector: 'mime-text',
@@ -30,6 +31,7 @@ export class TextComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
+    public intl: MimeViewerIntl,
     private cdr: ChangeDetectorRef,
     private canvasService: CanvasService,
     private altoService: AltoService,

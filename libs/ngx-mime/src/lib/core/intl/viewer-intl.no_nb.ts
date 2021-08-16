@@ -30,6 +30,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   currentPageLabel = 'Nåværende side';
   enterPageNumber = 'Skriv inn sidenummer';
   dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
+  loading = 'Laster ...';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';

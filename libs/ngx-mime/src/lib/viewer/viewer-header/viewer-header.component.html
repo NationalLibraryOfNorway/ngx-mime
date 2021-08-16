@@ -18,9 +18,9 @@
       *ngIf="hasAlto"
       id="mime-toggleTextButton"
       [checked]="textContentToggle"
-      (change)="toggleTextContent()"
       [attr.aria-label]="intl.textLabel"
       [matTooltip]="intl.textLabel"
+      (change)="toggleTextContent()"
     >
         <mat-icon>notes</mat-icon>
       </mat-button-toggle>

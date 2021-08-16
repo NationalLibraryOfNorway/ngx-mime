@@ -5,11 +5,10 @@ export class HtmlFormatter {
   constructor(private sanitizer: DomSanitizer) {}
 
   altoToHtml(alto: Alto): SafeHtml {
-    let html = '';
-
     const page = alto.layout.page;
-
+    let html = '';
     let textBlocks: any[] = [];
+
     if (page.topMargin.textBlocks) {
       textBlocks = [...textBlocks, ...page.topMargin.textBlocks];
     }

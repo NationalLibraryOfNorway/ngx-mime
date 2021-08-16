@@ -24,6 +24,7 @@ describe('TextComponent', () => {
         MimeViewerIntl,
         CanvasService,
         AltoService,
+        MimeViewerIntl,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     }).compileComponents();

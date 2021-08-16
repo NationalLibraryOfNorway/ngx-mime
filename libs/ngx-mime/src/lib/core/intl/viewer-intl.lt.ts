@@ -37,6 +37,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
   pageDoesNotExists = 'Nepavyko rasti šio paslapio';
   textErrorLabel = 'Atsiprašau, nerandu jums teksto';
+  loading = 'Pakrovimas ...';
 
   noResultsFoundLabel = (q: string) => {
     return `Objekte nerasta atitikmenų <em class="current-search">${q}</em>`;

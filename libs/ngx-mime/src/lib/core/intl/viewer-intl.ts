@@ -33,6 +33,7 @@ export class MimeViewerIntl {
   currentPageLabel = 'Current page';
   enterPageNumber = 'Enter page number';
   dropDisabled = 'Sorry, but drag and drop is disabled';
+  loading = 'Loading ...';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';
