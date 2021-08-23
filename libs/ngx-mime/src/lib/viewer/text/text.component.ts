@@ -48,7 +48,7 @@ export class TextComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.altoService.onTextReady.subscribe(() => {
+      this.altoService.onTextReady$.subscribe(() => {
         this.clearText();
         this.scrollToTop();
         this.updateRecognizedText();
@@ -56,13 +56,13 @@ export class TextComponent implements OnInit, OnDestroy {
       })
     );
     this.subscriptions.add(
-      this.altoService.isLoading.subscribe((isLoading: boolean) => {
+      this.altoService.isLoading$.subscribe((isLoading: boolean) => {
         this.isLoading = isLoading;
         this.cdr.detectChanges();
       })
     );
     this.subscriptions.add(
-      this.altoService.hasErrors.subscribe((error: string) => {
+      this.altoService.hasErrors$.subscribe((error: string) => {
         this.error = error;
         this.cdr.detectChanges();
       })

@@ -150,7 +150,7 @@ export class ViewerComponent
   ngOnInit(): void {
     this.styleService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
-    this.altoService.textContentToggle = this.config.initTextContentToggle;
+    this.altoService.onTextContentToggle = this.config.initTextContentToggle;
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -162,7 +162,7 @@ export class ViewerComponent
             this.viewerLayoutService.init(
               ManifestUtils.isManifestPaged(manifest)
             );
-            this.textContentToggle = this.altoService.textContentToggle && manifest
+            this.textContentToggle = this.altoService.onTextContentToggle && manifest
             ? ManifestUtils.hasAlto(manifest)
             : false;
             this.changeDetectorRef.detectChanges();
@@ -297,7 +297,7 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.altoService.onTextContentToggleChange.subscribe((textContentToggle: boolean) => {
+      this.altoService.onTextContentToggleChange$.subscribe((textContentToggle: boolean) => {
         this.textContentToggle = textContentToggle;
         this.textContentToggleChanged.emit(textContentToggle);
       })

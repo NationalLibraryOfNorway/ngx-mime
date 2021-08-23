@@ -49,7 +49,7 @@ describe('TextComponent', () => {
       .and.returnValue(text1Content)
       .withArgs(1)
       .and.returnValue(text2Content);
-    spyOnProperty(altoService, 'onTextReady').and.returnValue(cold('x|'));
+    spyOnProperty(altoService, 'onTextReady$').and.returnValue(cold('x|'));
 
     fixture.detectChanges();
     getTestScheduler().flush();
@@ -65,7 +65,7 @@ describe('TextComponent', () => {
   });
 
   it('should show error message', () => {
-    spyOnProperty(altoService, 'hasErrors').and.returnValue(
+    spyOnProperty(altoService, 'hasErrors$').and.returnValue(
       cold('x|', { x: 'fakeError' })
     );
 

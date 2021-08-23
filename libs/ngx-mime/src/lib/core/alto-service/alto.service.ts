@@ -25,10 +25,10 @@ import { HtmlFormatter } from './html.formatter';
 })
 export class AltoService {
   private altos: SafeHtml[] = [];
-  private _textContentToggle = new BehaviorSubject(false);
-  private _isLoading = new BehaviorSubject(false);
-  private _textReady = new Subject<void>();
-  private _textError = new Subject<string>();
+  private textContentToggle = new BehaviorSubject(false);
+  private isLoading = new BehaviorSubject(false);
+  private textReady = new Subject<void>();
+  private textError = new Subject<string>();
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
@@ -44,28 +44,28 @@ export class AltoService {
     this.htmlFormatter = new HtmlFormatter(sanitizer);
   }
 
-  get onTextContentToggleChange(): Observable<boolean> {
-    return this._textContentToggle.asObservable();
+  get onTextContentToggleChange$(): Observable<boolean> {
+    return this.textContentToggle.asObservable();
   }
 
-  get onTextReady(): Observable<void> {
-    return this._textReady.asObservable();
+  get onTextReady$(): Observable<void> {
+    return this.textReady.asObservable();
   }
 
-  get isLoading(): Observable<boolean> {
-    return this._isLoading.asObservable();
+  get isLoading$(): Observable<boolean> {
+    return this.isLoading.asObservable();
   }
 
-  get hasErrors(): Observable<string> {
-    return this._textError.asObservable();
+  get hasErrors$(): Observable<string> {
+    return this.textError.asObservable();
   }
 
-  get textContentToggle() {
-    return this._textContentToggle.value;
+  get onTextContentToggle() {
+    return this.textContentToggle.value;
   }
 
-  set textContentToggle(value: boolean) {
-    this._textContentToggle.next(value);
+  set onTextContentToggle(value: boolean) {
+    this.textContentToggle.next(value);
   }
 
   initialize() {
@@ -84,7 +84,7 @@ export class AltoService {
       this.canvasService.onCanvasGroupIndexChange
         .pipe(debounceTime(200))
         .subscribe((currentCanvasGroupIndex: number) => {
-          this._textError.next(undefined);
+          this.textError.next(undefined);
           const sources: Observable<void>[] = [];
 
           const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
@@ -94,11 +94,11 @@ export class AltoService {
           if (canvasGroup.length === 2) {
             this.addAltoSource(canvasGroup[1], sources);
           }
-          this._isLoading.next(true);
+          this.isLoading.next(true);
           forkJoin(sources)
             .pipe(
               take(1),
-              finalize(() => this._isLoading.next(false))
+              finalize(() => this.isLoading.next(false))
             )
             .subscribe();
         })
@@ -111,7 +111,7 @@ export class AltoService {
   }
 
   toggle() {
-    this.textContentToggle = !this._textContentToggle.getValue();
+    this.onTextContentToggle = !this.textContentToggle.getValue();
   }
 
   getHtml(index: number): SafeHtml | undefined {
@@ -182,12 +182,12 @@ export class AltoService {
   }
 
   private done(observer: Subscriber<void>) {
-    this._textReady.next();
+    this.textReady.next();
     this.complete(observer);
   }
 
   private error(observer: Subscriber<void>) {
-    this._textError.next(this.intl.textErrorLabel);
+    this.textError.next(this.intl.textErrorLabel);
     this.complete(observer);
   }
 
