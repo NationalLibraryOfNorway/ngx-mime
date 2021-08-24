@@ -8,18 +8,18 @@ import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
-import { TextComponent } from './text.component';
+import { RecognizedTextComponent } from './recognized-text.component';
 
-describe('TextComponent', () => {
-  let component: TextComponent;
-  let fixture: ComponentFixture<TextComponent>;
+describe('RecognizedTextComponent', () => {
+  let component: RecognizedTextComponent;
+  let fixture: ComponentFixture<RecognizedTextComponent>;
   let altoService: any;
   let canvasService: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [TextComponent],
+      declarations: [RecognizedTextComponent],
       providers: [
         MimeViewerIntl,
         CanvasService,
@@ -28,7 +28,7 @@ describe('TextComponent', () => {
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     }).compileComponents();
-    fixture = TestBed.createComponent(TextComponent);
+    fixture = TestBed.createComponent(RecognizedTextComponent);
     component = fixture.componentInstance;
     altoService = TestBed.inject(AltoService);
     canvasService = TestBed.inject(CanvasService);
@@ -38,30 +38,35 @@ describe('TextComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show text', () => {
-    const text1Content = '<p>fakeText1</p>';
-    const text2Content = '<p>fakeText2</p>';
+  it('should show recognized text', () => {
+    const firstCanvasRecognizedTextContent =
+      '<p>fakefirstCanvasRecognizedText</p>';
+    const secondCanvasRecognizedTextContent = '<p>fakeSecondRecognizedText</p>';
     spyOn(canvasService, 'getCanvasesPerCanvasGroup')
       .withArgs(0)
       .and.returnValue([0, 1]);
     spyOn(altoService, 'getHtml')
       .withArgs(0)
-      .and.returnValue(text1Content)
+      .and.returnValue(firstCanvasRecognizedTextContent)
       .withArgs(1)
-      .and.returnValue(text2Content);
+      .and.returnValue(secondCanvasRecognizedTextContent);
     spyOnProperty(altoService, 'onTextReady$').and.returnValue(cold('x|'));
 
     fixture.detectChanges();
     getTestScheduler().flush();
 
-    const text1: DebugElement = fixture.debugElement.query(
-      By.css('div[data-test-id="text1"]')
+    const firstCanvasRecognizedTextDe: DebugElement = fixture.debugElement.query(
+      By.css('div[data-test-id="firstCanvasRecognizedText"]')
     );
-    const text2: DebugElement = fixture.debugElement.query(
-      By.css('div[data-test-id="text2"]')
+    const secondCanvasRecognizedTextDe: DebugElement = fixture.debugElement.query(
+      By.css('div[data-test-id="secondCanvasRecognizedText"]')
     );
-    expect(text1.nativeElement.innerHTML).toBe(text1Content);
-    expect(text2.nativeElement.innerHTML).toBe(text2Content);
+    expect(firstCanvasRecognizedTextDe.nativeElement.innerHTML).toBe(
+      firstCanvasRecognizedTextContent
+    );
+    expect(secondCanvasRecognizedTextDe.nativeElement.innerHTML).toBe(
+      secondCanvasRecognizedTextContent
+    );
   });
 
   it('should show error message', () => {

@@ -1,8 +1,0 @@
-<div #textContainer class="text-container" aria-live="polite">
-  <div *ngIf="error" data-test-id="error">{{ error }}</div>
-  <div *ngIf="!isLoading">
-    <div *ngIf="text1" data-test-id="text1" [innerHTML]="text1"> </div>
-    <div *ngIf="text2" data-test-id="text2" [innerHTML]="text2"> </div>
-  </div>
-  <div *ngIf="isLoading">{{intl.loading}}</div>
-</div>
