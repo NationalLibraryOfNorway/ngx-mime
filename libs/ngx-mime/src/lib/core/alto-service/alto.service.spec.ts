@@ -62,9 +62,9 @@ describe('AltoService', () => {
       mockAltoRequest();
       expectAltoToBeDefined();
 
-      changeCanvaasGroupIndex(2);
+      changeCanvasGroupIndex(2);
 
-      changeCanvaasGroupIndex(0);
+      changeCanvasGroupIndex(0);
       expectAltoToBeDefined();
     });
   }));
@@ -93,11 +93,11 @@ describe('AltoService', () => {
   }));
 
   it('should toggle showing text', () => {
-    expectOnShowTextChangeToBe(false);
+    onTextContentToggleChangeToBe(false);
 
     service.toggle();
 
-    expectOnShowTextChangeToBe(true);
+    onTextContentToggleChangeToBe(true);
   });
 
   const setUpSpy = () => {
@@ -120,7 +120,7 @@ describe('AltoService', () => {
     insideTestRequest().flush(emsg, body);
   };
 
-  const changeCanvaasGroupIndex = (index: number) => {
+  const changeCanvasGroupIndex = (index: number) => {
     canvasService.setCanvasGroupIndexChange(index);
     waitForDebounce();
   };
@@ -151,7 +151,7 @@ describe('AltoService', () => {
     expect(service.getHtml(1)).toBeUndefined();
   };
 
-  const expectOnShowTextChangeToBe = (value: boolean) => {
+  const onTextContentToggleChangeToBe = (value: boolean) => {
     expect(service.onTextContentToggleChange$).toBeObservable(cold('a', { a: value }));
   };
 });
