@@ -1,3 +1,5 @@
+import { String } from '../../alto-service/alto.model';
+
 export class StringsBuilder {
   private stringXml: any | undefined;
 
@@ -6,7 +8,7 @@ export class StringsBuilder {
     return this;
   }
 
-  build(): String {
+  build(): String[] {
     return this.stringXml
       ? this.stringXml.map((string: any) => {
           return { content: string.$.CONTENT };
