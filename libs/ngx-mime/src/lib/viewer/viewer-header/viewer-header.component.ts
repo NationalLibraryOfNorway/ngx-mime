@@ -158,7 +158,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  toggleTextContent(): void {
+  toggleRecognizedTextContent(): void {
     this.altoService.toggle();
   }
 
