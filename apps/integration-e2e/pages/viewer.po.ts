@@ -156,7 +156,7 @@ export class ViewerPage {
     }
   }
 
-  async haveRecognizedTextToggle(): Promise<boolean> {
+  async isRecognizedTextContentToggleButtonPresent(): Promise<boolean> {
     return utils.isPresentAndDisplayed(this.recognizedTextDisplayToggleEl);
   }
 

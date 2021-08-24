@@ -16,7 +16,7 @@ When('the user enables recognized text content display', async () => {
 });
 
 Then('the user should be able to enable recognized text content display', async () => {
-  expect(await viewerPage.haveRecognizedTextToggle()).to.be.true;
+  expect(await viewerPage.isRecognizedTextContentToggleButtonPresent()).to.be.true;
 });
 
 Then('the recognized text content should be shown', async () => {
