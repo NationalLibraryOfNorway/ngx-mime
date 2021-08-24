@@ -15,7 +15,7 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 
 @Component({
-  selector: 'mime-text',
+  selector: 'mime-recognized-text',
   templateUrl: './recognized-text.component.html',
   styleUrls: ['./recognized-text.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

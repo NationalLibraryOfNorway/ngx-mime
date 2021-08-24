@@ -21,7 +21,9 @@
       position="end"
       [opened]="recognizedTextContentToggle"
       [@openClose]="showHeaderAndFooterState === 'show' ? 'open' : 'closed'"
-      ><mime-text *ngIf="recognizedTextContentToggle"></mime-text
+      ><mime-recognized-text
+        *ngIf="recognizedTextContentToggle"
+      ></mime-recognized-text
     ></mat-drawer>
     <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>
   </mat-drawer-container>
