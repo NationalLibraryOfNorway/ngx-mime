@@ -17,7 +17,7 @@
       <mat-button-toggle
       *ngIf="hasAlto"
       id="mime-toggleTextButton"
-      [checked]="textContentToggle"
+      [checked]="recognizedTextContentToggle"
       [attr.aria-label]="intl.recognizedTextLabel"
       [matTooltip]="intl.recognizedTextLabel"
       (change)="toggleTextContent()"
