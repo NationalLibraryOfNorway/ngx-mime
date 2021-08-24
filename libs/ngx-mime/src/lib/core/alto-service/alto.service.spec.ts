@@ -46,10 +46,10 @@ describe('AltoService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load current alto on canvas change', fakeAsync(() => {
+  it('should load alto on canvas change', fakeAsync(() => {
     service.initialize();
     iiifManifestService.load('fakeUrl').subscribe(() => {
-      waitForDebounce();
+      changeCanvasGroupIndex(2);
       mockAltoRequest();
       expectAltoToBeDefined();
     });
@@ -92,7 +92,7 @@ describe('AltoService', () => {
     });
   }));
 
-  it('should toggle showing text', () => {
+  it('should toggle showing recognized text', () => {
     expectOnRecognizedTextContentToggleChangeToBe(false);
 
     service.toggle();
