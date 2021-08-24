@@ -15,15 +15,15 @@
       class="buttons-container"
     >
       <button
-      *ngIf="hasAlto"
-      id="mime-toggleRecognizedTextButton"
-      mat-icon-button
-      [attr.aria-label]="intl.recognizedTextLabel"
-      [matTooltip]="intl.recognizedTextLabel"
-      (click)="toggleRecognizedTextContent()"
-    >
+        *ngIf="hasAlto"
+        id="mime-toggleRecognizedTextButton"
+        mat-icon-button
+        [attr.aria-label]="intl.recognizedTextLabel"
+        [matTooltip]="intl.recognizedTextLabel"
+        (click)="toggleRecognizedTextContent()"
+      >
         <mat-icon>notes</mat-icon>
-  </button>
+      </button>
       <button
         *ngIf="isPagedManifest"
         mat-icon-button
