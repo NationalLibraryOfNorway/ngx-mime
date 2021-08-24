@@ -4,11 +4,12 @@ import 'openseadragon';
 import { AttributionDialogModule } from './attribution-dialog/attribution-dialog.module';
 import { CanvasGroupDialogModule } from './canvas-group-dialog/canvas-group-dialog.module';
 import { ContentSearchDialogModule } from './content-search-dialog/content-search-dialog.module';
-import { HelpDialogModule } from './help-dialog/help-dialog.module';
 import { ContentsDialogModule } from './contents-dialog/contents-dialog.module';
 import { CoreModule } from './core/core.module';
+import { HelpDialogModule } from './help-dialog/help-dialog.module';
 import { SharedModule } from './shared/shared.module';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
+import { RecognizedTextComponent } from './viewer/recognized-text/recognized-text.component';
 import { CanvasGroupNavigatorComponent } from './viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component';
 import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
@@ -16,7 +17,6 @@ import { IconComponent } from './viewer/viewer-header/icon/icon.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer/viewer.component';
-import { TextComponent } from './viewer/text/text.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { TextComponent } from './viewer/text/text.component';
     CanvasGroupNavigatorComponent,
     ViewerSpinnerComponent,
     IconComponent,
-    TextComponent
+    RecognizedTextComponent,
   ],
   imports: [
     CoreModule,
@@ -37,8 +37,8 @@ import { TextComponent } from './viewer/text/text.component';
     AttributionDialogModule,
     HelpDialogModule,
     ContentSearchDialogModule,
-    CanvasGroupDialogModule
+    CanvasGroupDialogModule,
   ],
-  exports: [ViewerComponent]
+  exports: [ViewerComponent],
 })
 export class MimeModule {}

@@ -80,8 +80,8 @@ export class ViewerPage {
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
   private recognizedTextDisplayToggleEl: ElementFinder;
-  private leftRecognizedTextEl: ElementFinder;
-  private rightRecognizedTextEl: ElementFinder;
+  private firstCanvasRecognizedTextEl: ElementFinder;
+  private secondCanvasRecognizedTextEl: ElementFinder;
 
   constructor() {
     this.navigationSliderEl = element(by.css('.navigation-slider'));
@@ -141,8 +141,8 @@ export class ViewerPage {
     this.openseadragonCanvasEl = element(
       by.css('.openseadragon-canvas > canvas')
     );
-    this.leftRecognizedTextEl = element(by.css('div[data-test-id="text1"]'));
-    this.rightRecognizedTextEl = element(by.css('div[data-test-id="text2"]'));
+    this.firstCanvasRecognizedTextEl = element(by.css('div[data-test-id="firstCanvasRecognizedText"]'));
+    this.secondCanvasRecognizedTextEl = element(by.css('div[data-test-id="secondCanvasRecognizedText"]'));
   }
 
   getBookShelfUrl(manifestName: string): string {
@@ -170,11 +170,11 @@ export class ViewerPage {
 
   async getRecognizedText(): Promise<string> {
     let text = '';
-    if (await utils.isPresentAndDisplayed(this.leftRecognizedTextEl)) {
-      text = await this.leftRecognizedTextEl.getText();
+    if (await utils.isPresentAndDisplayed(this.firstCanvasRecognizedTextEl)) {
+      text = await this.firstCanvasRecognizedTextEl.getText();
     }
-    if (await utils.isPresentAndDisplayed(this.rightRecognizedTextEl)) {
-      text += await this.rightRecognizedTextEl.getText();
+    if (await utils.isPresentAndDisplayed(this.secondCanvasRecognizedTextEl)) {
+      text += await this.secondCanvasRecognizedTextEl.getText();
     }
     return text;
   }
