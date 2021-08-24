@@ -14,16 +14,16 @@
       fxLayoutAlign="end center"
       class="buttons-container"
     >
-      <mat-button-toggle
+      <button
       *ngIf="hasAlto"
       id="mime-toggleRecognizedTextButton"
-      [checked]="recognizedTextContentToggle"
+      mat-icon-button
       [attr.aria-label]="intl.recognizedTextLabel"
       [matTooltip]="intl.recognizedTextLabel"
-      (change)="toggleRecognizedTextContent()"
+      (click)="toggleRecognizedTextContent()"
     >
         <mat-icon>notes</mat-icon>
-      </mat-button-toggle>
+  </button>
       <button
         *ngIf="isPagedManifest"
         mat-icon-button
