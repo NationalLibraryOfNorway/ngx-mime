@@ -79,7 +79,7 @@ export class ViewerPage {
   private modeDashboardEl: ElementFinder;
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
-  private recognizedTextDisplayToggleEl: ElementFinder;
+  private recognizedTextContentToggleButtonEl: ElementFinder;
   private firstCanvasRecognizedTextEl: ElementFinder;
   private secondCanvasRecognizedTextEl: ElementFinder;
 
@@ -135,7 +135,7 @@ export class ViewerPage {
       by.css('#toggleSinglePageViewButton')
     );
     this.twoPageViewButtonEl = element(by.css('#toggleTwoPageViewButton'));
-    this.recognizedTextDisplayToggleEl = element(by.css('button[data-test-id="mime-toggleRecognizedTextButton"]'));
+    this.recognizedTextContentToggleButtonEl = element(by.css('button[data-test-id="mime-toggleRecognizedTextButton"]'));
     this.modeDashboardEl = element(by.css('.mode-dashboard'));
     this.modePageEl = element(by.css('.mode-page'));
     this.openseadragonCanvasEl = element(
@@ -157,13 +157,13 @@ export class ViewerPage {
   }
 
   async isRecognizedTextContentToggleButtonPresent(): Promise<boolean> {
-    return utils.isPresentAndDisplayed(this.recognizedTextDisplayToggleEl);
+    return utils.isPresentAndDisplayed(this.recognizedTextContentToggleButtonEl);
   }
 
   async enableRecognizedTextDisplay(): Promise<void> {
-    const isSelected = await this.recognizedTextDisplayToggleEl.isSelected();
+    const isSelected = await this.recognizedTextContentToggleButtonEl.isSelected();
     if (!isSelected) {
-      await this.recognizedTextDisplayToggleEl.click();
+      await this.recognizedTextContentToggleButtonEl.click();
       await this.waitForAnimation();
     }
   }
