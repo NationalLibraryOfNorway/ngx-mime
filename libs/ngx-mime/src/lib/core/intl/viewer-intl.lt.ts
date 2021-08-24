@@ -8,7 +8,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   closeLabel = 'Uždaryti';
   attributionLabel = 'Teisių priskyrimas';
   attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
-  recognizedTextLabel = 'Parādīt tekstu';
+  recognizedTextLabel = 'Atpazīts teksts';
   contentsLabel = 'Informacija apie objektą';
   twoPageViewLabel = 'Atvaizduoti po du puslapius';
   singlePageViewLabel = 'Atvaizduoti po vieną puslapį';

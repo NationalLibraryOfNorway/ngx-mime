@@ -5,10 +5,9 @@ import {
   ComponentFixture,
   inject,
   TestBed,
-  waitForAsync
+  waitForAsync,
 } from '@angular/core/testing';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatButtonToggleHarness } from '@angular/material/button-toggle/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
@@ -37,20 +36,20 @@ describe('ViewerHeaderComponent', () => {
       TestBed.configureTestingModule({
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
-          MatButtonToggleModule,
           ViewerHeaderTestModule,
           ContentSearchDialogModule,
           HelpDialogModule,
         ],
       }).compileComponents();
 
-    fixture = TestBed.createComponent(ViewerHeaderComponent);
-    component = fixture.componentInstance;
-    rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-    loader = TestbedHarnessEnvironment.loader(fixture);
-    altoService = TestBed.inject(AltoService);
-    fixture.detectChanges();
-  }));
+      fixture = TestBed.createComponent(ViewerHeaderComponent);
+      component = fixture.componentInstance;
+      rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+      loader = TestbedHarnessEnvironment.loader(fixture);
+      altoService = TestBed.inject(AltoService);
+      fixture.detectChanges();
+    })
+  );
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -258,7 +257,7 @@ describe('ViewerHeaderComponent', () => {
     fixture.detectChanges();
 
     const btnText = await loader.getHarness(
-      MatButtonToggleHarness.with({ selector: '#mime-toggleRecognizedTextButton' })
+      MatButtonHarness.with({ selector: '#mime-toggleRecognizedTextButton' })
     );
     expect(btnText).not.toBeNull();
   });
@@ -268,10 +267,10 @@ describe('ViewerHeaderComponent', () => {
     component.hasAlto = true;
     fixture.detectChanges();
     const btnText = await loader.getHarness(
-      MatButtonToggleHarness.with({ selector: '#mime-toggleRecognizedTextButton' })
+      MatButtonHarness.with({ selector: '#mime-toggleRecognizedTextButton' })
     );
 
-    await btnText.check();
+    await btnText.click();
 
     expect(toggleSpy).toHaveBeenCalled();
   });
