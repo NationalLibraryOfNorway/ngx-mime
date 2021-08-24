@@ -68,7 +68,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   mimeHeaderAfter!: ViewContainerRef;
   public manifest: Manifest | null = null;
   public state = 'hide';
-  recognizedTextContentToggle = false;
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
   isInFullscreen = false;
@@ -129,9 +128,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
           this.isPagedManifest = manifest
             ? ManifestUtils.isManifestPaged(manifest)
             : false;
-          this.hasAlto = manifest
-            ? ManifestUtils.hasAlto(manifest)
-            : false;
+          this.hasAlto = manifest ? ManifestUtils.hasAlto(manifest) : false;
           this.changeDetectorRef.detectChanges();
         }
       )
@@ -141,14 +138,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
       this.viewerLayoutService.onChange.subscribe(
         (viewerLayout: ViewerLayout) => {
           this.viewerLayout = viewerLayout;
-        }
-      )
-    );
-
-    this.subscriptions.add(
-      this.altoService.onRecognizedTextContentToggleChange$.subscribe(
-        (recognizedTextContentToggle: boolean) => {
-          this.recognizedTextContentToggle = recognizedTextContentToggle;
         }
       )
     );

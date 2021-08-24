@@ -90,6 +90,7 @@ export class MimeViewerConfig {
         fields.isDropEnabled !== undefined
           ? fields.isDropEnabled
           : this.isDropEnabled;
+
       this.initRecognizedTextContentToggle =
         fields.initRecognizedTextContentToggle !== undefined
           ? fields.initRecognizedTextContentToggle
