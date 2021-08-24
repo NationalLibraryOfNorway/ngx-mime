@@ -11,15 +11,15 @@ Given(
   }
 );
 
-When('the user enables text content display', async () => {
+When('the user enables recognized text content display', async () => {
   await viewerPage.enableRecognizedTextDisplay();
 });
 
-Then('the user should be able to enable text content display', async () => {
+Then('the user should be able to enable recognized text content display', async () => {
   expect(await viewerPage.haveRecognizedTextToggle()).to.be.true;
 });
 
-Then('the text content should be shown', async () => {
+Then('the recognized text content should be shown', async () => {
   const text = await viewerPage.getRecognizedText();
 
   expect(text).not.to.be.undefined;
