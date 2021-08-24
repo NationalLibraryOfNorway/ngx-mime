@@ -25,7 +25,7 @@ import { HtmlFormatter } from './html.formatter';
 })
 export class AltoService {
   private altos: SafeHtml[] = [];
-  private textContentToggle = new BehaviorSubject(false);
+  private recognizedTextContentToggle = new BehaviorSubject(false);
   private isLoading = new BehaviorSubject(false);
   private textReady = new Subject<void>();
   private textError = new Subject<string>();
@@ -44,8 +44,8 @@ export class AltoService {
     this.htmlFormatter = new HtmlFormatter(sanitizer);
   }
 
-  get onTextContentToggleChange$(): Observable<boolean> {
-    return this.textContentToggle.asObservable();
+  get onRecognizedTextContentToggleChange$(): Observable<boolean> {
+    return this.recognizedTextContentToggle.asObservable();
   }
 
   get onTextReady$(): Observable<void> {
@@ -60,12 +60,12 @@ export class AltoService {
     return this.textError.asObservable();
   }
 
-  get onTextContentToggle() {
-    return this.textContentToggle.value;
+  get onRecognizedTextContentToggle() {
+    return this.recognizedTextContentToggle.value;
   }
 
-  set onTextContentToggle(value: boolean) {
-    this.textContentToggle.next(value);
+  set onRecognizedTextContentToggle(value: boolean) {
+    this.recognizedTextContentToggle.next(value);
   }
 
   initialize() {
@@ -111,7 +111,7 @@ export class AltoService {
   }
 
   toggle() {
-    this.onTextContentToggle = !this.textContentToggle.getValue();
+    this.onRecognizedTextContentToggle = !this.recognizedTextContentToggle.getValue();
   }
 
   getHtml(index: number): SafeHtml | undefined {

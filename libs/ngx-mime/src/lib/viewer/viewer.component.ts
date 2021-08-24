@@ -83,7 +83,7 @@ export class ViewerComponent
   @Output() canvasChanged: EventEmitter<number> = new EventEmitter();
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
-  @Output() textContentToggleChanged: EventEmitter<boolean> = new EventEmitter();
+  @Output() recognizedTextContentToggleChanged: EventEmitter<boolean> = new EventEmitter();
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
@@ -91,7 +91,7 @@ export class ViewerComponent
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
-  textContentToggle = false;
+  recognizedTextContentToggle = false;
   showHeaderAndFooterState = 'hide';
   public errorMessage: string | null = null;
 
@@ -150,7 +150,7 @@ export class ViewerComponent
   ngOnInit(): void {
     this.styleService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
-    this.altoService.onTextContentToggle = this.config.initTextContentToggle;
+    this.altoService.onRecognizedTextContentToggle = this.config.initRecognizedTextContentToggle;
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -162,7 +162,7 @@ export class ViewerComponent
             this.viewerLayoutService.init(
               ManifestUtils.isManifestPaged(manifest)
             );
-            this.textContentToggle = this.altoService.onTextContentToggle && manifest
+            this.recognizedTextContentToggle = this.altoService.onRecognizedTextContentToggle && manifest
             ? ManifestUtils.hasAlto(manifest)
             : false;
             this.changeDetectorRef.detectChanges();
@@ -297,9 +297,9 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.altoService.onTextContentToggleChange$.subscribe((textContentToggle: boolean) => {
-        this.textContentToggle = textContentToggle;
-        this.textContentToggleChanged.emit(textContentToggle);
+      this.altoService.onRecognizedTextContentToggleChange$.subscribe((recognizedTextContentToggle: boolean) => {
+        this.recognizedTextContentToggle = recognizedTextContentToggle;
+        this.recognizedTextContentToggleChanged.emit(recognizedTextContentToggle);
       })
     );
 

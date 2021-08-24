@@ -93,11 +93,11 @@ describe('AltoService', () => {
   }));
 
   it('should toggle showing text', () => {
-    expectOnTextContentToggleChangeToBe(false);
+    expectOnRecognizedTextContentToggleChangeToBe(false);
 
     service.toggle();
 
-    expectOnTextContentToggleChangeToBe(true);
+    expectOnRecognizedTextContentToggleChangeToBe(true);
   });
 
   const setUpSpy = () => {
@@ -151,7 +151,7 @@ describe('AltoService', () => {
     expect(service.getHtml(1)).toBeUndefined();
   };
 
-  const expectOnTextContentToggleChangeToBe = (value: boolean) => {
-    expect(service.onTextContentToggleChange$).toBeObservable(cold('a', { a: value }));
+  const expectOnRecognizedTextContentToggleChangeToBe = (value: boolean) => {
+    expect(service.onRecognizedTextContentToggleChange$).toBeObservable(cold('a', { a: value }));
   };
 });
