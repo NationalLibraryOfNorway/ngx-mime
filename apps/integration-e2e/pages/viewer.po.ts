@@ -135,7 +135,7 @@ export class ViewerPage {
       by.css('#toggleSinglePageViewButton')
     );
     this.twoPageViewButtonEl = element(by.css('#toggleTwoPageViewButton'));
-    this.recognizedTextDisplayToggleEl = element(by.css('#mime-toggleRecognizedTextButton'));
+    this.recognizedTextDisplayToggleEl = element(by.css('button[data-test-id="mime-toggleRecognizedTextButton"]'));
     this.modeDashboardEl = element(by.css('.mode-dashboard'));
     this.modePageEl = element(by.css('.mode-page'));
     this.openseadragonCanvasEl = element(

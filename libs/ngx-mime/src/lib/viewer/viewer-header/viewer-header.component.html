@@ -16,8 +16,8 @@
     >
       <button
         *ngIf="hasAlto"
-        id="mime-toggleRecognizedTextButton"
         mat-icon-button
+        data-test-id="mime-toggleRecognizedTextButton"
         [attr.aria-label]="intl.recognizedTextLabel"
         [matTooltip]="intl.recognizedTextLabel"
         (click)="toggleRecognizedTextContent()"

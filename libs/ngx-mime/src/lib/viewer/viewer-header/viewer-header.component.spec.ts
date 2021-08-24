@@ -257,7 +257,7 @@ describe('ViewerHeaderComponent', () => {
     fixture.detectChanges();
 
     const btnText = await loader.getHarness(
-      MatButtonHarness.with({ selector: '#mime-toggleRecognizedTextButton' })
+      MatButtonHarness.with({ selector: 'button[data-test-id="mime-toggleRecognizedTextButton"]' })
     );
     expect(btnText).not.toBeNull();
   });
@@ -267,7 +267,7 @@ describe('ViewerHeaderComponent', () => {
     component.hasAlto = true;
     fixture.detectChanges();
     const btnText = await loader.getHarness(
-      MatButtonHarness.with({ selector: '#mime-toggleRecognizedTextButton' })
+      MatButtonHarness.with({ selector: 'button[data-test-id="mime-toggleRecognizedTextButton"]' })
     );
 
     await btnText.click();
