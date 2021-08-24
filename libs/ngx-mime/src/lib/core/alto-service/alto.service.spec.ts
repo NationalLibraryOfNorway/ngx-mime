@@ -12,7 +12,7 @@ import { MimeViewerIntl } from '../intl/viewer-intl';
 import { testAlto } from './../../test/testAltos';
 import { AltoService } from './alto.service';
 
-describe('AltoService', () => {
+fdescribe('AltoService', () => {
   const debounceTime = 200;
   let service: AltoService;
   let httpTestingController: HttpTestingController;
@@ -46,11 +46,25 @@ describe('AltoService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should load alto on load', fakeAsync(() => {
+    service.initialize();
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      mockFirstCanvasGroupRequest();
+
+      expectAltoToBeDefined();
+    });
+  }));
+
   it('should load alto on canvas change', fakeAsync(() => {
     service.initialize();
     iiifManifestService.load('fakeUrl').subscribe(() => {
-      changeCanvasGroupIndex(2);
-      mockAltoRequest();
+      waitForDebounce();
+      mockFirstCanvasGroupRequest();
+
+      changeCanvasGroupIndex(1);
+      mockSecondCanvasGroupRequest();
+
       expectAltoToBeDefined();
     });
   }));
@@ -59,12 +73,13 @@ describe('AltoService', () => {
     service.initialize();
     iiifManifestService.load('fakeUrl').subscribe(() => {
       waitForDebounce();
-      mockAltoRequest();
-      expectAltoToBeDefined();
+      mockFirstCanvasGroupRequest();
 
-      changeCanvasGroupIndex(2);
+      changeCanvasGroupIndex(1);
+      mockSecondCanvasGroupRequest();
 
       changeCanvasGroupIndex(0);
+
       expectAltoToBeDefined();
     });
   }));
@@ -104,13 +119,18 @@ describe('AltoService', () => {
     spyOn(canvasService, 'getCanvasesPerCanvasGroup')
       .withArgs(0)
       .and.returnValue([0, 1])
-      .withArgs(2)
+      .withArgs(1)
       .and.returnValue([2, 3]);
   };
 
-  const mockAltoRequest = () => {
+  const mockFirstCanvasGroupRequest = () => {
     coverTestRequest().flush(testAlto);
     insideTestRequest().flush(testAlto);
+  };
+
+  const mockSecondCanvasGroupRequest = () => {
+    firstPageTestRequest().flush(testAlto);
+    secondPageTestRequest().flush(testAlto);
   };
 
   const mockFailedAltoRequest = () => {
@@ -141,6 +161,18 @@ describe('AltoService', () => {
     );
   };
 
+  const firstPageTestRequest = () => {
+    return httpTestingController.expectOne(
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_001`
+    );
+  };
+
+  const secondPageTestRequest = () => {
+    return httpTestingController.expectOne(
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_002`
+    );
+  };
+
   const expectAltoToBeDefined = () => {
     expect(service.getHtml(0)).toBeDefined();
     expect(service.getHtml(1)).toBeDefined();
@@ -152,6 +184,8 @@ describe('AltoService', () => {
   };
 
   const expectOnRecognizedTextContentToggleChangeToBe = (value: boolean) => {
-    expect(service.onRecognizedTextContentToggleChange$).toBeObservable(cold('a', { a: value }));
+    expect(service.onRecognizedTextContentToggleChange$).toBeObservable(
+      cold('a', { a: value })
+    );
   };
 });
