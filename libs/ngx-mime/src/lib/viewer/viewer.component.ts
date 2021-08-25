@@ -163,7 +163,7 @@ export class ViewerComponent
               ManifestUtils.isManifestPaged(manifest)
             );
             this.recognizedTextContentToggle = this.altoService.onRecognizedTextContentToggle && manifest
-            ? ManifestUtils.hasAlto(manifest)
+            ? ManifestUtils.hasRecognizedTextContent(manifest)
             : false;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
