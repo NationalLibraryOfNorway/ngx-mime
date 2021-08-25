@@ -8,6 +8,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   closeLabel = 'Lukk';
   attributionLabel = 'Tillatelse';
   attributonCloseAriaLabel = 'Steng tillatelse dialog';
+  recognizedTextContentLabel = 'Gjenkjent tekst';
   contentsLabel = 'Innhold';
   twoPageViewLabel = 'Tosidevisning';
   singlePageViewLabel = 'Enkeltsidevisning';
@@ -30,12 +31,14 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   currentPageLabel = 'Nåværende side';
   enterPageNumber = 'Skriv inn sidenummer';
   dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
+  loading = 'Laster ...';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';
   manifestUriMissingLabel = 'Lenke til manifest mangler';
   manifestNotValidLabel = 'Manifestet er ikke gyldig';
   pageDoesNotExists = 'Beklager, men den siden finnes ikke';
+  textContentErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
 
   noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;

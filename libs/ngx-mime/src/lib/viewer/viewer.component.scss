@@ -16,12 +16,26 @@
   outline: none;
 }
 
+.viewer-drawer-container {
+  width: 100%;
+  height: 100%;
+}
+
+mat-drawer {
+  width: 25%;
+
+  @media only screen and (max-width: 599px) {
+    width: 33%;
+  }
+}
+
 #openseadragon {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
   opacity: 0;
   width: 100%;
+  height: 100%;
 }
 
 ::ng-deep .viewer-container.mode-page-zoomed .tile:hover {
@@ -89,4 +103,14 @@
 
 [hidden] {
   display: none;
+}
+
+.open {
+  height: calc(100% - 128px) !important;
+  top: 64px;
+
+  @media only screen and (max-width: 599px) {
+    height: calc(100% - 112px) !important;
+    top: 56px;
+  }
 }

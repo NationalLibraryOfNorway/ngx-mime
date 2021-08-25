@@ -21,6 +21,7 @@ export class ViewerComponent implements OnDestroy {
     startOnTopOnCanvasGroupChange: true,
     isDropEnabled: true,
     initViewerMode: MimeViewerMode.PAGE,
+    initRecognizedTextContentToggle: false,
   });
   private subscriptions = new Subscription();
 

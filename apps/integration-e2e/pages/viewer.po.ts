@@ -42,6 +42,11 @@ export class ViewerPage {
       url:
         'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest',
     },
+    {
+      manifestName: 'a-recognized-text-book',
+      url:
+        'http://localhost:4040/catalog/v1/iiif/a-recognized-text-book/manifest',
+    },
   ];
   private isElements = false;
   private navigationSliderEl: ElementFinder;
@@ -74,6 +79,9 @@ export class ViewerPage {
   private modeDashboardEl: ElementFinder;
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
+  private recognizedTextContentButtonEl: ElementFinder;
+  private firstCanvasRecognizedTextContentEl: ElementFinder;
+  private secondCanvasRecognizedTextContentEl: ElementFinder;
 
   constructor() {
     this.navigationSliderEl = element(by.css('.navigation-slider'));
@@ -127,11 +135,14 @@ export class ViewerPage {
       by.css('#toggleSinglePageViewButton')
     );
     this.twoPageViewButtonEl = element(by.css('#toggleTwoPageViewButton'));
+    this.recognizedTextContentButtonEl = element(by.css('button[data-test-id="ngx-mimeRecognizedTextContentButton"]'));
     this.modeDashboardEl = element(by.css('.mode-dashboard'));
     this.modePageEl = element(by.css('.mode-page'));
     this.openseadragonCanvasEl = element(
       by.css('.openseadragon-canvas > canvas')
     );
+    this.firstCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="firstCanvasRecognizedTextContent"]'));
+    this.secondCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="secondCanvasRecognizedTextContent"]'));
   }
 
   getBookShelfUrl(manifestName: string): string {
@@ -143,6 +154,29 @@ export class ViewerPage {
     } else {
       throw new Error('Manifest url not found');
     }
+  }
+
+  async isRecognizedTextContentButtonPresent(): Promise<boolean> {
+    return utils.isPresentAndDisplayed(this.recognizedTextContentButtonEl);
+  }
+
+  async enableRecognizedTextContent(): Promise<void> {
+    const isSelected = await this.recognizedTextContentButtonEl.isSelected();
+    if (!isSelected) {
+      await this.recognizedTextContentButtonEl.click();
+      await this.waitForAnimation();
+    }
+  }
+
+  async getRecognizedTextContent(): Promise<string> {
+    let text = '';
+    if (await utils.isPresentAndDisplayed(this.firstCanvasRecognizedTextContentEl)) {
+      text = await this.firstCanvasRecognizedTextContentEl.getText();
+    }
+    if (await utils.isPresentAndDisplayed(this.secondCanvasRecognizedTextContentEl)) {
+      text += await this.secondCanvasRecognizedTextContentEl.getText();
+    }
+    return text;
   }
 
   async setDashboardMode(): Promise<void> {
@@ -367,7 +401,9 @@ export class ViewerPage {
       const isPresentAndDisplayed: boolean = await utils.isPresentAndDisplayed(
         this.singlePageViewButtonEl
       );
-      return isPresentAndDisplayed ? <any>this.singlePageViewButtonEl : undefined;
+      return isPresentAndDisplayed
+        ? <any>this.singlePageViewButtonEl
+        : undefined;
     });
   }
 

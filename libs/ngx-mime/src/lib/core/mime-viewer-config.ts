@@ -14,6 +14,7 @@ export class MimeViewerConfig {
   public preserveZoomOnCanvasGroupChange = false;
   public startOnTopOnCanvasGroupChange = false;
   public isDropEnabled = false;
+  public initRecognizedTextContentToggle = false;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
@@ -28,6 +29,7 @@ export class MimeViewerConfig {
     preserveZoomOnCanvasGroupChange?: boolean;
     startOnTopOnCanvasGroupChange?: boolean;
     isDropEnabled?: boolean;
+    initRecognizedTextContentToggle?: boolean;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -88,6 +90,11 @@ export class MimeViewerConfig {
         fields.isDropEnabled !== undefined
           ? fields.isDropEnabled
           : this.isDropEnabled;
+
+      this.initRecognizedTextContentToggle =
+        fields.initRecognizedTextContentToggle !== undefined
+          ? fields.initRecognizedTextContentToggle
+          : this.initRecognizedTextContentToggle;
     }
   }
 }

@@ -72,6 +72,11 @@ export let testManifest: any = {
           '@id':
             'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C1',
           '@type': 'sc:Canvas',
+          seeAlso: [{
+            '@id': "https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1",
+            format: "application/alto+xml",
+            profile: "http://www.loc.gov/standards/alto"
+          }],
           label: '81',
           thumbnail:
             'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2008020404020_C1/full/72,0/0/native.jpg',
@@ -139,6 +144,11 @@ export let testManifest: any = {
           '@id':
             'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I1',
           '@type': 'sc:Canvas',
+          seeAlso: [{
+            '@id': "https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1",
+            format: "application/alto+xml",
+            profile: "http://www.loc.gov/standards/alto"
+          }],
           label: '84',
           thumbnail:
             'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2008020404020_I1/full/72,0/0/native.jpg',
@@ -206,6 +216,11 @@ export let testManifest: any = {
           '@id':
             'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0001',
           '@type': 'sc:Canvas',
+          seeAlso: [{
+            '@id': "https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_001",
+            format: "application/alto+xml",
+            profile: "http://www.loc.gov/standards/alto"
+          }],
           label: '1',
           thumbnail:
             'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2008020404020_0001/full/72,0/0/native.jpg',
@@ -278,6 +293,11 @@ export let testManifest: any = {
           '@id':
             'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0002',
           '@type': 'sc:Canvas',
+          seeAlso: [{
+            '@id': "https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_002",
+            format: "application/alto+xml",
+            profile: "http://www.loc.gov/standards/alto"
+          }],
           label: '2',
           thumbnail:
             'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2008020404020_0002/full/72,0/0/native.jpg',

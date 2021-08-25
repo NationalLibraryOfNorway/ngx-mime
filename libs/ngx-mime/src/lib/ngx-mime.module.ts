@@ -4,11 +4,12 @@ import 'openseadragon';
 import { AttributionDialogModule } from './attribution-dialog/attribution-dialog.module';
 import { CanvasGroupDialogModule } from './canvas-group-dialog/canvas-group-dialog.module';
 import { ContentSearchDialogModule } from './content-search-dialog/content-search-dialog.module';
-import { HelpDialogModule } from './help-dialog/help-dialog.module';
 import { ContentsDialogModule } from './contents-dialog/contents-dialog.module';
 import { CoreModule } from './core/core.module';
+import { HelpDialogModule } from './help-dialog/help-dialog.module';
 import { SharedModule } from './shared/shared.module';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
+import { RecognizedTextContentComponent } from './viewer/recognized-text-content/recognized-text-content.component';
 import { CanvasGroupNavigatorComponent } from './viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component';
 import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
@@ -26,7 +27,8 @@ import { ViewerComponent } from './viewer/viewer.component';
     ContentSearchNavigatorComponent,
     CanvasGroupNavigatorComponent,
     ViewerSpinnerComponent,
-    IconComponent
+    IconComponent,
+    RecognizedTextContentComponent,
   ],
   imports: [
     CoreModule,
@@ -35,8 +37,8 @@ import { ViewerComponent } from './viewer/viewer.component';
     AttributionDialogModule,
     HelpDialogModule,
     ContentSearchDialogModule,
-    CanvasGroupDialogModule
+    CanvasGroupDialogModule,
   ],
-  exports: [ViewerComponent]
+  exports: [ViewerComponent],
 })
 export class MimeModule {}

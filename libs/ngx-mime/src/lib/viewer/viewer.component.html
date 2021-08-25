@@ -14,7 +14,20 @@
     *ngIf="config?.navigationControlEnabled"
     #mimeOsdToolbar
   ></mime-osd-toolbar>
-  <div id="openseadragon"></div>
+
+  <mat-drawer-container class="viewer-drawer-container">
+    <mat-drawer
+      mode="side"
+      position="end"
+      [opened]="isRecognizedTextContentToggled"
+      [ngClass]="{'open': showHeaderAndFooterState === 'show'}"
+      ><mime-recognized-text-content
+        *ngIf="isRecognizedTextContentToggled"
+      ></mime-recognized-text-content
+    ></mat-drawer>
+    <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>
+  </mat-drawer-container>
+
   <mime-viewer-footer
     class="navbar navbar-footer"
     #mimeFooter

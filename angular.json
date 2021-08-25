@@ -46,6 +46,7 @@
         "build": {
           "builder": "@nrwl/angular:package",
           "options": {
+            "allowedCommonJsDependencies": ["xml2js"],
             "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
             "project": "libs/ngx-mime/ng-package.json",
             "buildableProjectDepsInPackageJsonType": "dependencies"
@@ -266,7 +267,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "integration:build"
+            "browserTarget": "integration:build",
+            "proxyConfig": "apps/integration/src/proxy.conf.json"
           },
           "configurations": {
             "production": {

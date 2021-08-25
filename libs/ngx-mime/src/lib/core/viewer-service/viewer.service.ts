@@ -9,6 +9,7 @@ import {
 } from 'rxjs';
 import { distinctUntilChanged, sample } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { AltoService } from '../alto-service/alto.service';
 import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
@@ -17,7 +18,7 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Direction } from '../models/direction';
-import { Manifest, Resource, Service } from '../models/manifest';
+import { Manifest, Resource } from '../models/manifest';
 import { ModeChanges } from '../models/modeChanges';
 import { Options } from '../models/options';
 import { PinchStatus } from '../models/pinchStatus';
@@ -83,7 +84,8 @@ export class ViewerService {
     private modeService: ModeService,
     private viewerLayoutService: ViewerLayoutService,
     private iiifContentSearchService: IiifContentSearchService,
-    private styleService: StyleService
+    private styleService: StyleService,
+    private altoService: AltoService
   ) {}
 
   get onRotationChange(): Observable<number> {
@@ -423,6 +425,7 @@ export class ViewerService {
     }
     // Keep search-state and rotation only if layout-switch
     if (!layoutSwitch) {
+      this.altoService.destroy();
       this.currentSearch = null;
       this.iiifContentSearchService.destroy();
       this.rotation.next(0);

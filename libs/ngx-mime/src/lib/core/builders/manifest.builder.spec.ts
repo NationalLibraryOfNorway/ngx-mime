@@ -1,6 +1,6 @@
-import { ManifestBuilder } from './manifest.builder';
 import { testManifest } from '../../test/testManifest';
 import { Canvas, Images, Manifest, Sequence } from '../models/manifest';
+import { ManifestBuilder } from './manifest.builder';
 
 describe('ManifestBuilder', () => {
   let manifest!: Manifest;
@@ -47,6 +47,13 @@ describe('ManifestBuilder', () => {
         expect(canvas.width).toBeDefined('Canvas should have width');
       });
     });
+    if (manifest.sequences && manifest.sequences.length > 0) {
+      const firstSequence = manifest.sequences[0];
+      if (firstSequence.canvases && firstSequence.canvases.length > 0) {
+        const firstCanvas = firstSequence.canvases[0];
+        expect(firstCanvas.altoUrl).toBeDefined('First canvas should have altoUrl');
+      }
+    }
   });
 
   it('should test manifest image after build', () => {
@@ -58,7 +65,9 @@ describe('ManifestBuilder', () => {
           expect(image.motivation).toBe('sc:painting');
           expect(image.resource).toBeDefined('Image should have resource');
           expect(image.id).toContain(image.resource?.id);
-          expect(image.resource?.height).toBeDefined('Image should have height');
+          expect(image.resource?.height).toBeDefined(
+            'Image should have height'
+          );
           expect(image.resource?.width).toBeDefined('Image should have width');
           expect(image.resource?.service).toBeDefined(
             'image resource should have service'

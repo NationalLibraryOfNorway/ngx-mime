@@ -15,6 +15,16 @@
       class="buttons-container"
     >
       <button
+        *ngIf="hasRecognizedTextContent"
+        mat-icon-button
+        data-test-id="ngx-mimeRecognizedTextContentButton"
+        [attr.aria-label]="intl.recognizedTextContentLabel"
+        [matTooltip]="intl.recognizedTextContentLabel"
+        (click)="toggleRecognizedTextContent()"
+      >
+        <mat-icon>notes</mat-icon>
+      </button>
+      <button
         *ngIf="isPagedManifest"
         mat-icon-button
         [id]="

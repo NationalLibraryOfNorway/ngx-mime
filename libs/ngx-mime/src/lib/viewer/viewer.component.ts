@@ -18,12 +18,13 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { interval, Observable, Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
@@ -64,6 +65,8 @@ export class ViewerComponent
   @Output() canvasChanged: EventEmitter<number> = new EventEmitter();
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
+  @Output()
+  recognizedTextContentToggleChanged: EventEmitter<boolean> = new EventEmitter();
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
@@ -71,6 +74,8 @@ export class ViewerComponent
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
+  isRecognizedTextContentToggled = false;
+  showHeaderAndFooterState = 'hide';
   public errorMessage: string | null = null;
 
   // Viewchilds
@@ -99,6 +104,7 @@ export class ViewerComponent
     private canvasService: CanvasService,
     private viewerLayoutService: ViewerLayoutService,
     private styleService: StyleService,
+    private altoService: AltoService,
     public zone: NgZone
   ) {
     contentsDialogService.el = el;
@@ -127,6 +133,8 @@ export class ViewerComponent
   ngOnInit(): void {
     this.styleService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
+    this.altoService.onRecognizedTextContentToggle = this.config.initRecognizedTextContentToggle;
+
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
@@ -137,6 +145,10 @@ export class ViewerComponent
             this.viewerLayoutService.init(
               ManifestUtils.isManifestPaged(manifest)
             );
+            this.isRecognizedTextContentToggled =
+              this.altoService.onRecognizedTextContentToggle && manifest
+                ? ManifestUtils.hasRecognizedTextContent(manifest)
+                : false;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -268,6 +280,17 @@ export class ViewerComponent
       )
     );
 
+    this.subscriptions.add(
+      this.altoService.onRecognizedTextContentToggleChange$.subscribe(
+        (isRecognizedTextContentToggled: boolean) => {
+          this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
+          this.recognizedTextContentToggleChanged.emit(
+            isRecognizedTextContentToggled
+          );
+        }
+      )
+    );
+
     this.loadManifest();
   }
 
@@ -388,13 +411,15 @@ export class ViewerComponent
     if (this.header && this.footer) {
       switch (mode) {
         case ViewerMode.DASHBOARD:
-          this.header.state = this.footer.state = 'show';
+          this.showHeaderAndFooterState = this.header.state = this.footer.state =
+            'show';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'hide';
           }
           break;
         case ViewerMode.PAGE:
-          this.header.state = this.footer.state = 'hide';
+          this.showHeaderAndFooterState = this.header.state = this.footer.state =
+            'hide';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'show';
           }

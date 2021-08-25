@@ -17,6 +17,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AltoService } from '../../core/alto-service/alto.service';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { ViewerLayout } from '../../core/models/viewer-layout';
@@ -72,6 +73,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   isInFullscreen = false;
   fullscreenLabel = this.intl.fullScreenLabel;
   isPagedManifest = false;
+  hasRecognizedTextContent = false;
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
 
   ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
@@ -87,7 +89,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
     private viewerLayoutService: ViewerLayoutService,
-    private el: ElementRef
+    private altoService: AltoService,
+    el: ElementRef
   ) {
     contentsDialogService.el = el;
     contentSearchDialogService.el = el;
@@ -125,6 +128,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
           this.isPagedManifest = manifest
             ? ManifestUtils.isManifestPaged(manifest)
             : false;
+          this.hasRecognizedTextContent = manifest ? ManifestUtils.hasRecognizedTextContent(manifest) : false;
           this.changeDetectorRef.detectChanges();
         }
       )
@@ -141,6 +145,10 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  toggleRecognizedTextContent(): void {
+    this.altoService.toggle();
   }
 
   public toggleContents() {

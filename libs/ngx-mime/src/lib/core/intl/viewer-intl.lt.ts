@@ -8,6 +8,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   closeLabel = 'Uždaryti';
   attributionLabel = 'Teisių priskyrimas';
   attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
+  recognizedTextContentLabel = 'Atpazīts teksts';
   contentsLabel = 'Informacija apie objektą';
   twoPageViewLabel = 'Atvaizduoti po du puslapius';
   singlePageViewLabel = 'Atvaizduoti po vieną puslapį';
@@ -30,12 +31,14 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   currentPageLabel = 'Dabartinis puslapis';
   enterPageNumber = 'Įveskite puslapio numerį';
   dropDisabled = 'Atleiskite, bet veiksmas negalimas';
+  loading = 'Pakrovimas ...';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Objekto atvaizduoti nepavyko...';
   manifestUriMissingLabel = 'Nerastas objektų sąrašo identifikatorius (ManifestUri)';
   manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
   pageDoesNotExists = 'Nepavyko rasti šio paslapio';
+  textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
 
   noResultsFoundLabel = (q: string) => {
     return `Objekte nerasta atitikmenų <em class="current-search">${q}</em>`;
