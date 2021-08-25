@@ -50,7 +50,7 @@ describe('RecognizedTextContentComponent', () => {
       .and.returnValue(firstCanvasRecognizedTextContent)
       .withArgs(1)
       .and.returnValue(secondCanvasRecognizedTextContent);
-    spyOnProperty(altoService, 'onTextReady$').and.returnValue(cold('x|'));
+    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(cold('x|'));
 
     fixture.detectChanges();
     getTestScheduler().flush();
