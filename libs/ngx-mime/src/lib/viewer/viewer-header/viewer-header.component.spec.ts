@@ -253,7 +253,7 @@ describe('ViewerHeaderComponent', () => {
   ));
 
   it('should show alto button if manifest has recognized text content', async () => {
-    component.hasAlto = true;
+    component.hasRecognizedTextContent = true;
     fixture.detectChanges();
 
     const btnText = await loader.getHarness(
@@ -264,7 +264,7 @@ describe('ViewerHeaderComponent', () => {
 
   it('should toggle show text if show text content is clicked', async () => {
     const toggleSpy = spyOn(altoService, 'toggle');
-    component.hasAlto = true;
+    component.hasRecognizedTextContent = true;
     fixture.detectChanges();
     const btnText = await loader.getHarness(
       MatButtonHarness.with({ selector: 'button[data-test-id="ngx-mimeRecognizedTextContentButton"]' })
