@@ -1,15 +1,15 @@
 Feature: Show recognized text content
     To make it easier to read content when handwriting or font is difficult to read
     As a person
-    Then I want the recognized text to appear
+    Then I want the recognized text content to appear
 
   Scenario: Enable recognized text content
-    Given the viewer is opened with a publication with recognized text
+    Given the viewer is opened with a publication with recognized text content
     When the viewer is in dashboard view
     Then the user should be able to enable recognized text content
 
   Scenario: Show recognized text content
-    Given the viewer is opened with a publication with recognized text
+    Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view
     When the user enables recognized text content
     Then the recognized text content should be shown

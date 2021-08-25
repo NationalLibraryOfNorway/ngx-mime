@@ -5,7 +5,7 @@ import { ViewerPage } from '../pages/viewer.po';
 const viewerPage = new ViewerPage();
 
 Given(
-  'the viewer is opened with a publication with recognized text',
+  'the viewer is opened with a publication with recognized text content',
   async () => {
     await viewerPage.open('a-recognized-text-book');
   }
