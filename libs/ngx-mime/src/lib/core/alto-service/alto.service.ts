@@ -27,7 +27,7 @@ export class AltoService {
   private altos: SafeHtml[] = [];
   private recognizedTextContentToggle = new BehaviorSubject(false);
   private isLoading = new BehaviorSubject(false);
-  private textReady = new Subject<void>();
+  private textContentReady = new Subject<void>();
   private textError = new Subject<string>();
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
@@ -48,8 +48,8 @@ export class AltoService {
     return this.recognizedTextContentToggle.asObservable();
   }
 
-  get onTextReady$(): Observable<void> {
-    return this.textReady.asObservable();
+  get onTextContentReady$(): Observable<void> {
+    return this.textContentReady.asObservable();
   }
 
   get isLoading$(): Observable<boolean> {
@@ -182,7 +182,7 @@ export class AltoService {
   }
 
   private done(observer: Subscriber<void>) {
-    this.textReady.next();
+    this.textContentReady.next();
     this.complete(observer);
   }
 

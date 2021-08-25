@@ -48,7 +48,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.altoService.onTextReady$.subscribe(() => {
+      this.altoService.onTextContentReady$.subscribe(() => {
         this.clearRecognizedText();
         this.scrollToTop();
         this.updateRecognizedText();
