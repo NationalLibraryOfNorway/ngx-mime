@@ -21,10 +21,10 @@ import { MimeViewerIntl } from '../../core/intl/viewer-intl';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecognizedTextComponent implements OnInit, OnDestroy {
-  @ViewChild('recognizedTextContainer', { read: ElementRef })
-  recognizedTextContainer!: ElementRef;
-  firstCanvasRecognizedText: SafeHtml | undefined;
-  secondCanvasRecognizedText: SafeHtml | undefined;
+  @ViewChild('recognizedTextContentContainer', { read: ElementRef })
+  recognizedTextContentContainer!: ElementRef;
+  firstCanvasRecognizedTextContent: SafeHtml | undefined;
+  secondCanvasRecognizedTextContent: SafeHtml | undefined;
   isLoading = false;
   error: string | undefined = undefined;
 
@@ -75,22 +75,22 @@ export class RecognizedTextComponent implements OnInit, OnDestroy {
   }
 
   private clearRecognizedText() {
-    this.firstCanvasRecognizedText = '';
-    this.secondCanvasRecognizedText = '';
+    this.firstCanvasRecognizedTextContent = '';
+    this.secondCanvasRecognizedTextContent = '';
   }
 
   private scrollToTop() {
-    this.recognizedTextContainer.nativeElement.scrollTop = 0;
+    this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
   }
 
   private updateRecognizedText() {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex
     );
-    this.firstCanvasRecognizedText = this.altoService.getHtml(canvases[0]);
+    this.firstCanvasRecognizedTextContent = this.altoService.getHtml(canvases[0]);
 
     if (canvases.length === 2) {
-      this.secondCanvasRecognizedText = this.altoService.getHtml(canvases[1]);
+      this.secondCanvasRecognizedTextContent = this.altoService.getHtml(canvases[1]);
     }
   }
 }

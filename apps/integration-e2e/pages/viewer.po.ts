@@ -79,9 +79,9 @@ export class ViewerPage {
   private modeDashboardEl: ElementFinder;
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
-  private recognizedTextContentToggleButtonEl: ElementFinder;
-  private firstCanvasRecognizedTextEl: ElementFinder;
-  private secondCanvasRecognizedTextEl: ElementFinder;
+  private recognizedTextContentButtonEl: ElementFinder;
+  private firstCanvasRecognizedTextContentEl: ElementFinder;
+  private secondCanvasRecognizedTextContentEl: ElementFinder;
 
   constructor() {
     this.navigationSliderEl = element(by.css('.navigation-slider'));
@@ -135,14 +135,14 @@ export class ViewerPage {
       by.css('#toggleSinglePageViewButton')
     );
     this.twoPageViewButtonEl = element(by.css('#toggleTwoPageViewButton'));
-    this.recognizedTextContentToggleButtonEl = element(by.css('button[data-test-id="mime-toggleRecognizedTextButton"]'));
+    this.recognizedTextContentButtonEl = element(by.css('button[data-test-id="ngx-mimeRecognizedTextButton"]'));
     this.modeDashboardEl = element(by.css('.mode-dashboard'));
     this.modePageEl = element(by.css('.mode-page'));
     this.openseadragonCanvasEl = element(
       by.css('.openseadragon-canvas > canvas')
     );
-    this.firstCanvasRecognizedTextEl = element(by.css('div[data-test-id="firstCanvasRecognizedText"]'));
-    this.secondCanvasRecognizedTextEl = element(by.css('div[data-test-id="secondCanvasRecognizedText"]'));
+    this.firstCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="firstCanvasRecognizedTextContent"]'));
+    this.secondCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="secondCanvasRecognizedTextContent"]'));
   }
 
   getBookShelfUrl(manifestName: string): string {
@@ -156,25 +156,25 @@ export class ViewerPage {
     }
   }
 
-  async isRecognizedTextContentToggleButtonPresent(): Promise<boolean> {
-    return utils.isPresentAndDisplayed(this.recognizedTextContentToggleButtonEl);
+  async isRecognizedTextContentButtonPresent(): Promise<boolean> {
+    return utils.isPresentAndDisplayed(this.recognizedTextContentButtonEl);
   }
 
   async enableRecognizedTextDisplay(): Promise<void> {
-    const isSelected = await this.recognizedTextContentToggleButtonEl.isSelected();
+    const isSelected = await this.recognizedTextContentButtonEl.isSelected();
     if (!isSelected) {
-      await this.recognizedTextContentToggleButtonEl.click();
+      await this.recognizedTextContentButtonEl.click();
       await this.waitForAnimation();
     }
   }
 
-  async getRecognizedText(): Promise<string> {
+  async getRecognizedTextContent(): Promise<string> {
     let text = '';
-    if (await utils.isPresentAndDisplayed(this.firstCanvasRecognizedTextEl)) {
-      text = await this.firstCanvasRecognizedTextEl.getText();
+    if (await utils.isPresentAndDisplayed(this.firstCanvasRecognizedTextContentEl)) {
+      text = await this.firstCanvasRecognizedTextContentEl.getText();
     }
-    if (await utils.isPresentAndDisplayed(this.secondCanvasRecognizedTextEl)) {
-      text += await this.secondCanvasRecognizedTextEl.getText();
+    if (await utils.isPresentAndDisplayed(this.secondCanvasRecognizedTextContentEl)) {
+      text += await this.secondCanvasRecognizedTextContentEl.getText();
     }
     return text;
   }

@@ -12,7 +12,7 @@ import { MimeViewerIntl } from '../intl/viewer-intl';
 import { testAlto } from './../../test/testAltos';
 import { AltoService } from './alto.service';
 
-fdescribe('AltoService', () => {
+describe('AltoService', () => {
   const debounceTime = 200;
   let service: AltoService;
   let httpTestingController: HttpTestingController;
