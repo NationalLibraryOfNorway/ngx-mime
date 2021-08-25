@@ -91,7 +91,7 @@ export class ViewerComponent
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
-  recognizedTextContentToggle = false;
+  isRecognizedTextContentToggled = false;
   showHeaderAndFooterState = 'hide';
   public errorMessage: string | null = null;
 
@@ -162,7 +162,7 @@ export class ViewerComponent
             this.viewerLayoutService.init(
               ManifestUtils.isManifestPaged(manifest)
             );
-            this.recognizedTextContentToggle = this.altoService.onRecognizedTextContentToggle && manifest
+            this.isRecognizedTextContentToggled = this.altoService.onRecognizedTextContentToggle && manifest
             ? ManifestUtils.hasRecognizedTextContent(manifest)
             : false;
             this.changeDetectorRef.detectChanges();
@@ -298,7 +298,7 @@ export class ViewerComponent
 
     this.subscriptions.add(
       this.altoService.onRecognizedTextContentToggleChange$.subscribe((recognizedTextContentToggle: boolean) => {
-        this.recognizedTextContentToggle = recognizedTextContentToggle;
+        this.isRecognizedTextContentToggled = recognizedTextContentToggle;
         this.recognizedTextContentToggleChanged.emit(recognizedTextContentToggle);
       })
     );

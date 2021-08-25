@@ -19,10 +19,10 @@
     <mat-drawer
       mode="side"
       position="end"
-      [opened]="recognizedTextContentToggle"
+      [opened]="isRecognizedTextContentToggled"
       [@openClose]="showHeaderAndFooterState === 'show' ? 'open' : 'closed'"
       ><mime-recognized-text-content
-        *ngIf="recognizedTextContentToggle"
+        *ngIf="isRecognizedTextContentToggled"
       ></mime-recognized-text-content
     ></mat-drawer>
     <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>
