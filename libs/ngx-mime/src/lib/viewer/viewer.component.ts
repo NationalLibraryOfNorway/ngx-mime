@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -19,7 +18,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { interval, Observable, Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
@@ -66,7 +65,8 @@ export class ViewerComponent
   @Output() canvasChanged: EventEmitter<number> = new EventEmitter();
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
-  @Output() recognizedTextContentToggleChanged: EventEmitter<boolean> = new EventEmitter();
+  @Output()
+  recognizedTextContentToggleChanged: EventEmitter<boolean> = new EventEmitter();
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
@@ -145,9 +145,10 @@ export class ViewerComponent
             this.viewerLayoutService.init(
               ManifestUtils.isManifestPaged(manifest)
             );
-            this.isRecognizedTextContentToggled = this.altoService.onRecognizedTextContentToggle && manifest
-            ? ManifestUtils.hasRecognizedTextContent(manifest)
-            : false;
+            this.isRecognizedTextContentToggled =
+              this.altoService.onRecognizedTextContentToggle && manifest
+                ? ManifestUtils.hasRecognizedTextContent(manifest)
+                : false;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -280,10 +281,14 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.altoService.onRecognizedTextContentToggleChange$.subscribe((isRecognizedTextContentToggled: boolean) => {
-        this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
-        this.recognizedTextContentToggleChanged.emit(isRecognizedTextContentToggled);
-      })
+      this.altoService.onRecognizedTextContentToggleChange$.subscribe(
+        (isRecognizedTextContentToggled: boolean) => {
+          this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
+          this.recognizedTextContentToggleChanged.emit(
+            isRecognizedTextContentToggled
+          );
+        }
+      )
     );
 
     this.loadManifest();
@@ -406,13 +411,15 @@ export class ViewerComponent
     if (this.header && this.footer) {
       switch (mode) {
         case ViewerMode.DASHBOARD:
-          this.showHeaderAndFooterState = this.header.state = this.footer.state = 'show';
+          this.showHeaderAndFooterState = this.header.state = this.footer.state =
+            'show';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'hide';
           }
           break;
         case ViewerMode.PAGE:
-          this.showHeaderAndFooterState = this.header.state = this.footer.state = 'hide';
+          this.showHeaderAndFooterState = this.header.state = this.footer.state =
+            'hide';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'show';
           }
