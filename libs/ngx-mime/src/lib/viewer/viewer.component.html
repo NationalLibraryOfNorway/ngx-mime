@@ -21,7 +21,6 @@
       position="end"
       [opened]="isRecognizedTextContentToggled"
       [ngClass]="{'open': showHeaderAndFooterState === 'show'}"
-      [ngClass.lt-sm]="{'open-mobile': showHeaderAndFooterState === 'show'}"
       ><mime-recognized-text-content
         *ngIf="isRecognizedTextContentToggled"
       ></mime-recognized-text-content
