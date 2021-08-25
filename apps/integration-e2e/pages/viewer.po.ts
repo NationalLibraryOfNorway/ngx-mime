@@ -160,7 +160,7 @@ export class ViewerPage {
     return utils.isPresentAndDisplayed(this.recognizedTextContentButtonEl);
   }
 
-  async enableRecognizedTextDisplay(): Promise<void> {
+  async enableRecognizedTextContent(): Promise<void> {
     const isSelected = await this.recognizedTextContentButtonEl.isSelected();
     if (!isSelected) {
       await this.recognizedTextContentButtonEl.click();

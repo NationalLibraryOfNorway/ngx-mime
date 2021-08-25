@@ -8,7 +8,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   closeLabel = 'Lukk';
   attributionLabel = 'Tillatelse';
   attributonCloseAriaLabel = 'Steng tillatelse dialog';
-  recognizedTextLabel = 'Gjenkjent tekst';
+  recognizedTextContentLabel = 'Gjenkjent tekst';
   contentsLabel = 'Innhold';
   twoPageViewLabel = 'Tosidevisning';
   singlePageViewLabel = 'Enkeltsidevisning';
@@ -38,7 +38,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   manifestUriMissingLabel = 'Lenke til manifest mangler';
   manifestNotValidLabel = 'Manifestet er ikke gyldig';
   pageDoesNotExists = 'Beklager, men den siden finnes ikke';
-  textErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
+  textContentErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
 
   noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;

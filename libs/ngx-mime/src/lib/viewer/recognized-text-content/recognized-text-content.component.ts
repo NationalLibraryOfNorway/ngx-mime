@@ -15,12 +15,12 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 
 @Component({
-  selector: 'mime-recognized-text',
-  templateUrl: './recognized-text.component.html',
-  styleUrls: ['./recognized-text.component.scss'],
+  selector: 'mime-recognized-text-content',
+  templateUrl: './recognized-text-content.component.html',
+  styleUrls: ['./recognized-text-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecognizedTextComponent implements OnInit, OnDestroy {
+export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   @ViewChild('recognizedTextContentContainer', { read: ElementRef })
   recognizedTextContentContainer!: ElementRef;
   firstCanvasRecognizedTextContent: SafeHtml | undefined;

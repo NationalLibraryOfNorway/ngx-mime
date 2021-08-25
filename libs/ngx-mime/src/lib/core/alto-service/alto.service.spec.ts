@@ -93,7 +93,7 @@ describe('AltoService', () => {
 
       mockFailedAltoRequest();
 
-      expect(errorMessage).toBe(intl.textErrorLabel);
+      expect(errorMessage).toBe(intl.textContentErrorLabel);
     });
   }));
 

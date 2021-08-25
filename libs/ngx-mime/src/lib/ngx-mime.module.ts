@@ -9,7 +9,7 @@ import { CoreModule } from './core/core.module';
 import { HelpDialogModule } from './help-dialog/help-dialog.module';
 import { SharedModule } from './shared/shared.module';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
-import { RecognizedTextComponent } from './viewer/recognized-text/recognized-text.component';
+import { RecognizedTextContentComponent } from './viewer/recognized-text-content/recognized-text-content.component';
 import { CanvasGroupNavigatorComponent } from './viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component';
 import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
@@ -28,7 +28,7 @@ import { ViewerComponent } from './viewer/viewer.component';
     CanvasGroupNavigatorComponent,
     ViewerSpinnerComponent,
     IconComponent,
-    RecognizedTextComponent,
+    RecognizedTextContentComponent,
   ],
   imports: [
     CoreModule,

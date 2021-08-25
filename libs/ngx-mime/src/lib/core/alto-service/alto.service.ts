@@ -187,7 +187,7 @@ export class AltoService {
   }
 
   private error(observer: Subscriber<void>) {
-    this.textError.next(this.intl.textErrorLabel);
+    this.textError.next(this.intl.textContentErrorLabel);
     this.complete(observer);
   }
 

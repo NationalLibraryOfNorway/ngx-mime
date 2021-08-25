@@ -10,7 +10,7 @@ export class MimeViewerIntl {
   closeLabel = 'Close';
   attributionLabel = 'Attribution';
   attributonCloseAriaLabel = 'Close attribution dialog';
-  recognizedTextLabel = 'Recognized text';
+  recognizedTextContentLabel = 'Recognized text';
   contentsLabel = 'Contents';
   twoPageViewLabel = 'Two page display';
   singlePageViewLabel = 'Single page display';
@@ -40,7 +40,7 @@ export class MimeViewerIntl {
   manifestUriMissingLabel = 'ManifestUri is missing';
   manifestNotValidLabel = 'Manifest is not valid';
   pageDoesNotExists = 'Sorry, that page does not exist';
-  textErrorLabel = 'Oh dear, i can\'t find the text for you';
+  textContentErrorLabel = 'Oh dear, i can\'t find the text for you';
 
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;

@@ -11,11 +11,11 @@ Given(
   }
 );
 
-When('the user enables recognized text content display', async () => {
-  await viewerPage.enableRecognizedTextDisplay();
+When('the user enables recognized text content', async () => {
+  await viewerPage.enableRecognizedTextContent();
 });
 
-Then('the user should be able to enable recognized text content display', async () => {
+Then('the user should be able to enable recognized text content', async () => {
   expect(await viewerPage.isRecognizedTextContentButtonPresent()).to.be.true;
 });
 

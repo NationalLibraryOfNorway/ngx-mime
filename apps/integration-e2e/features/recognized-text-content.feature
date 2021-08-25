@@ -3,13 +3,13 @@ Feature: Show recognized text content
     As a person
     Then I want the recognized text to appear
 
-  Scenario: Enable recognized text content display
+  Scenario: Enable recognized text content
     Given the viewer is opened with a publication with recognized text
     When the viewer is in dashboard view
-    Then the user should be able to enable recognized text content display
+    Then the user should be able to enable recognized text content
 
   Scenario: Show recognized text content
     Given the viewer is opened with a publication with recognized text
     And the viewer is in dashboard view
-    When the user enables recognized text content display
+    When the user enables recognized text content
     Then the recognized text content should be shown

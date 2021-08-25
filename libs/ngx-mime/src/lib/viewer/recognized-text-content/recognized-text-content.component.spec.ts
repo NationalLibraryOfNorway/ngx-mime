@@ -8,18 +8,18 @@ import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
-import { RecognizedTextComponent } from './recognized-text.component';
+import { RecognizedTextContentComponent } from './recognized-text-content.component';
 
-describe('RecognizedTextComponent', () => {
-  let component: RecognizedTextComponent;
-  let fixture: ComponentFixture<RecognizedTextComponent>;
+describe('RecognizedTextContentComponent', () => {
+  let component: RecognizedTextContentComponent;
+  let fixture: ComponentFixture<RecognizedTextContentComponent>;
   let altoService: any;
   let canvasService: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [RecognizedTextComponent],
+      declarations: [RecognizedTextContentComponent],
       providers: [
         MimeViewerIntl,
         CanvasService,
@@ -28,7 +28,7 @@ describe('RecognizedTextComponent', () => {
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     }).compileComponents();
-    fixture = TestBed.createComponent(RecognizedTextComponent);
+    fixture = TestBed.createComponent(RecognizedTextContentComponent);
     component = fixture.componentInstance;
     altoService = TestBed.inject(AltoService);
     canvasService = TestBed.inject(CanvasService);
@@ -41,7 +41,7 @@ describe('RecognizedTextComponent', () => {
   it('should show recognized text', () => {
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
-    const secondCanvasRecognizedTextContent = '<p>fakeSecondRecognizedText</p>';
+    const secondCanvasRecognizedTextContent = '<p>fakeSecondRecognizedTextContent</p>';
     spyOn(canvasService, 'getCanvasesPerCanvasGroup')
       .withArgs(0)
       .and.returnValue([0, 1]);
