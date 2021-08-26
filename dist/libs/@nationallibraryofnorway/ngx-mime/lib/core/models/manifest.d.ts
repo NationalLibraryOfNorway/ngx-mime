@@ -58,6 +58,7 @@ export declare class Canvas {
     height?: number;
     width?: number;
     images?: Images[];
+    altoUrl?: string;
     constructor(fields?: {
         id?: string;
         type?: string;
@@ -66,6 +67,7 @@ export declare class Canvas {
         height?: number;
         width?: number;
         images?: Images[];
+        altoUrl?: string;
     });
 }
 export declare class Images {

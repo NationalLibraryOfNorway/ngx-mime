@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, ElementRef, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { AltoService } from '../../core/alto-service/alto.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
@@ -19,7 +20,7 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     private fullscreenService;
     private mimeDomHelper;
     private viewerLayoutService;
-    private el;
+    private altoService;
     mimeHeaderBefore: ViewContainerRef;
     mimeHeaderAfter: ViewContainerRef;
     manifest: Manifest | null;
@@ -29,13 +30,15 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     isInFullscreen: boolean;
     fullscreenLabel: string;
     isPagedManifest: boolean;
+    hasRecognizedTextContent: boolean;
     viewerLayout: ViewerLayout;
     ViewerLayout: typeof ViewerLayout;
     private subscriptions;
-    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, contentsDialogService: ContentsDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, iiifManifestService: IiifManifestService, fullscreenService: FullscreenService, mimeDomHelper: MimeDomHelper, viewerLayoutService: ViewerLayoutService, el: ElementRef);
+    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, contentsDialogService: ContentsDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, iiifManifestService: IiifManifestService, fullscreenService: FullscreenService, mimeDomHelper: MimeDomHelper, viewerLayoutService: ViewerLayoutService, altoService: AltoService, el: ElementRef);
     get headerState(): string;
     ngOnInit(): void;
     ngOnDestroy(): void;
+    toggleRecognizedTextContent(): void;
     toggleContents(): void;
     toggleSearch(): void;
     toggleHelp(): void;

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.0.0...v12.1.0) (2021-08-26)
+
+
+### Features
+
+* show recognized text content ([3fb5982](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3fb5982734738e478fb75a91c0ccf99566b9c33c))
+
+
+### Bug Fixes
+
+* wallabyjs ([4956c69](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4956c691db3db46af60eaf19f66aaecb97099389))
+
 ## [12.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.3...v12.0.0) (2021-06-02)
 
 

@@ -1,6 +1,6 @@
 import * as i0 from '@angular/core';
 import { Injectable, NgModule, Component, ViewChild, ViewChildren, ElementRef, HostListener, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, Renderer2, EventEmitter, Output, HostBinding, Input, ViewContainerRef } from '@angular/core';
-import { Subject, ReplaySubject, BehaviorSubject, throwError, Observable, Subscription, interval } from 'rxjs';
+import { Subject, ReplaySubject, BehaviorSubject, throwError, Observable, Subscription, forkJoin, of, interval } from 'rxjs';
 import * as d3 from 'd3';
 import * as OpenSeadragon$1 from 'openseadragon';
 import { CommonModule } from '@angular/common';
@@ -14,13 +14,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { distinctUntilChanged, finalize, take, filter, tap, sample, throttle } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { distinctUntilChanged, finalize, take, debounceTime, catchError, filter, tap, sample, throttle } from 'rxjs/operators';
+import * as i2 from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as i5 from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+import { parseString } from 'xml2js';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { trigger, state, style, transition, group, animate } from '@angular/animations';
 
@@ -47,6 +52,7 @@ class MimeViewerIntl {
         this.closeLabel = 'Close';
         this.attributionLabel = 'Attribution';
         this.attributonCloseAriaLabel = 'Close attribution dialog';
+        this.recognizedTextContentLabel = 'Recognized text';
         this.contentsLabel = 'Contents';
         this.twoPageViewLabel = 'Two page display';
         this.singlePageViewLabel = 'Single page display';
@@ -69,11 +75,13 @@ class MimeViewerIntl {
         this.currentPageLabel = 'Current page';
         this.enterPageNumber = 'Enter page number';
         this.dropDisabled = 'Sorry, but drag and drop is disabled';
+        this.loading = 'Loading ...';
         // ERRORS
         this.somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';
         this.manifestUriMissingLabel = 'ManifestUri is missing';
         this.manifestNotValidLabel = 'Manifest is not valid';
         this.pageDoesNotExists = 'Sorry, that page does not exist';
+        this.textContentErrorLabel = 'Oh dear, i can\'t find the text for you';
         this.noResultsFoundLabel = (q) => {
             return `No results found for <em class="current-search">${q}</em>`;
         };
@@ -113,6 +121,7 @@ class MimeViewerIntlNoNb extends MimeViewerIntl {
         this.closeLabel = 'Lukk';
         this.attributionLabel = 'Tillatelse';
         this.attributonCloseAriaLabel = 'Steng tillatelse dialog';
+        this.recognizedTextContentLabel = 'Gjenkjent tekst';
         this.contentsLabel = 'Innhold';
         this.twoPageViewLabel = 'Tosidevisning';
         this.singlePageViewLabel = 'Enkeltsidevisning';
@@ -135,11 +144,13 @@ class MimeViewerIntlNoNb extends MimeViewerIntl {
         this.currentPageLabel = 'Nåværende side';
         this.enterPageNumber = 'Skriv inn sidenummer';
         this.dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
+        this.loading = 'Laster ...';
         // ERRORS
         this.somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';
         this.manifestUriMissingLabel = 'Lenke til manifest mangler';
         this.manifestNotValidLabel = 'Manifestet er ikke gyldig';
         this.pageDoesNotExists = 'Beklager, men den siden finnes ikke';
+        this.textContentErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
         this.noResultsFoundLabel = (q) => {
             return `Ingen treff funnet for <em class="current-search">${q}</em>`;
         };
@@ -179,6 +190,7 @@ class MimeViewerIntlLt extends MimeViewerIntl {
         this.closeLabel = 'Uždaryti';
         this.attributionLabel = 'Teisių priskyrimas';
         this.attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
+        this.recognizedTextContentLabel = 'Atpazīts teksts';
         this.contentsLabel = 'Informacija apie objektą';
         this.twoPageViewLabel = 'Atvaizduoti po du puslapius';
         this.singlePageViewLabel = 'Atvaizduoti po vieną puslapį';
@@ -201,11 +213,13 @@ class MimeViewerIntlLt extends MimeViewerIntl {
         this.currentPageLabel = 'Dabartinis puslapis';
         this.enterPageNumber = 'Įveskite puslapio numerį';
         this.dropDisabled = 'Atleiskite, bet veiksmas negalimas';
+        this.loading = 'Pakrovimas ...';
         // ERRORS
         this.somethingHasGoneWrongLabel = 'Objekto atvaizduoti nepavyko...';
         this.manifestUriMissingLabel = 'Nerastas objektų sąrašo identifikatorius (ManifestUri)';
         this.manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
         this.pageDoesNotExists = 'Nepavyko rasti šio paslapio';
+        this.textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
         this.noResultsFoundLabel = (q) => {
             return `Objekte nerasta atitikmenų <em class="current-search">${q}</em>`;
         };
@@ -249,6 +263,7 @@ class MimeViewerConfig {
         this.preserveZoomOnCanvasGroupChange = false;
         this.startOnTopOnCanvasGroupChange = false;
         this.isDropEnabled = false;
+        this.initRecognizedTextContentToggle = false;
         if (fields) {
             this.attributionDialogEnabled =
                 fields.attributionDialogEnabled !== undefined
@@ -297,6 +312,10 @@ class MimeViewerConfig {
                 fields.isDropEnabled !== undefined
                     ? fields.isDropEnabled
                     : this.isDropEnabled;
+            this.initRecognizedTextContentToggle =
+                fields.initRecognizedTextContentToggle !== undefined
+                    ? fields.initRecognizedTextContentToggle
+                    : this.initRecognizedTextContentToggle;
         }
     }
 }
@@ -357,6 +376,7 @@ class Canvas {
             this.height = fields.height || this.height;
             this.width = fields.width || this.width;
             this.images = fields.images || this.images;
+            this.altoUrl = fields.altoUrl || this.altoUrl;
         }
     }
 }
@@ -454,8 +474,9 @@ MimeMaterialModule.decorators = [
                     MatInputModule,
                     MatProgressBarModule,
                     MatCardModule,
-                    MatSnackBarModule
-                ]
+                    MatSnackBarModule,
+                    MatSidenavModule,
+                ],
             },] }
 ];
 
@@ -1121,6 +1142,10 @@ class CanvasBuilder {
         if (this.canvases) {
             for (let i = 0; i < this.canvases.length; i++) {
                 const canvas = this.canvases[i];
+                const seeAlso = canvas.seeAlso ? canvas.seeAlso : [];
+                if (canvas['@seeAlso']) {
+                    seeAlso.push(canvas['@seeAlso']);
+                }
                 canvases.push(new Canvas({
                     id: BuilderUtils.extractId(canvas),
                     type: BuilderUtils.extracType(canvas),
@@ -1128,11 +1153,19 @@ class CanvasBuilder {
                     thumbnail: canvas.thumbnail,
                     height: canvas.height,
                     width: canvas.width,
-                    images: new ImagesBuilder(canvas.images).build()
+                    images: new ImagesBuilder(canvas.images).build(),
+                    altoUrl: this.extractAltoUrl(seeAlso),
                 }));
             }
         }
         return canvases;
+    }
+    extractAltoUrl(seeAlso) {
+        if (!seeAlso) {
+            return undefined;
+        }
+        const altoService = seeAlso.find((s) => s.format === 'application/alto+xml');
+        return altoService ? BuilderUtils.extractId(altoService) : undefined;
     }
 }
 
@@ -1916,7 +1949,8 @@ class CanvasService {
         return this.canvasGroups.length();
     }
     get currentCanvasIndex() {
-        return this.canvasGroups.canvasesPerCanvasGroup[this.currentCanvasGroupIndex][0];
+        const canvases = this.canvasGroups.canvasesPerCanvasGroup[this.currentCanvasGroupIndex];
+        return canvases && canvases.length >= 1 ? canvases[0] : 0;
     }
     isWithinBounds(canvasGroupIndex) {
         return (canvasGroupIndex > -1 && canvasGroupIndex <= this.numberOfCanvasGroups - 1);
@@ -2297,6 +2331,382 @@ ContentSearchNavigationService.ctorParameters = () => [
     { type: IiifContentSearchService }
 ];
 
+class StringsBuilder {
+    withStringXml(stringXml) {
+        this.stringXml = stringXml;
+        return this;
+    }
+    build() {
+        return this.stringXml
+            ? this.stringXml.map((string) => {
+                return { content: string.$.CONTENT };
+            })
+            : [];
+    }
+}
+
+class TextLinesBuilder {
+    constructor() {
+        this.stringBuilder = new StringsBuilder();
+    }
+    withTextLinesXml(textLinesXml) {
+        this.textLinesXml = textLinesXml;
+        return this;
+    }
+    build() {
+        return this.textLinesXml
+            ? this.textLinesXml.map((textLine) => {
+                return {
+                    strings: this.stringBuilder.withStringXml(textLine.String).build(),
+                };
+            })
+            : [];
+    }
+}
+
+class TextBlocksBuilder {
+    constructor() {
+        this.textLinesBuilder = new TextLinesBuilder();
+    }
+    withTextBlocksXml(textBlocksXml) {
+        this.textBlocksXml = textBlocksXml;
+        return this;
+    }
+    withTextStyles(textStyles) {
+        this.textStyles = textStyles;
+        return this;
+    }
+    build() {
+        return this.textBlocksXml
+            ? this.textBlocksXml.map((textBlock) => {
+                var _a;
+                const styleRef = (_a = textBlock.$.STYLEREFS) === null || _a === void 0 ? void 0 : _a.split(' ');
+                let textStyle = undefined;
+                if (styleRef && this.textStyles) {
+                    textStyle = this.textStyles.get(styleRef[0]);
+                }
+                return {
+                    textLines: this.textLinesBuilder
+                        .withTextLinesXml(textBlock.TextLine)
+                        .build(),
+                    textStyle: {
+                        fontStyle: textStyle === null || textStyle === void 0 ? void 0 : textStyle.fontStyle,
+                    },
+                };
+            })
+            : [];
+    }
+}
+
+class PrintSpaceBuilder {
+    withPrintSpaceXml(printSpaceXml) {
+        this.printSpaceXml = printSpaceXml;
+        return this;
+    }
+    withTextStyles(textStyles) {
+        this.textStyles = textStyles;
+        return this;
+    }
+    build() {
+        let textBlocks = [];
+        if (this.printSpaceXml.TextBlock) {
+            textBlocks = [...textBlocks, ...this.printSpaceXml.TextBlock];
+        }
+        if (this.printSpaceXml.ComposedBlock) {
+            textBlocks = [
+                ...textBlocks,
+                ...this.printSpaceXml.ComposedBlock.filter((t) => t.TextBlock !== undefined).flatMap((t) => t.TextBlock),
+            ];
+        }
+        return {
+            textBlocks: new TextBlocksBuilder()
+                .withTextBlocksXml(textBlocks)
+                .withTextStyles(this.textStyles)
+                .build(),
+        };
+    }
+}
+
+class PageBuilder {
+    constructor() {
+        this.printSpaceBuilder = new PrintSpaceBuilder();
+    }
+    withPageXml(pageXml) {
+        this.pageXml = pageXml;
+        return this;
+    }
+    withTextStyles(textStyles) {
+        this.printSpaceBuilder.withTextStyles(textStyles);
+        return this;
+    }
+    build() {
+        return {
+            topMargin: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.TopMargin[0])
+                .build(),
+            leftMargin: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.LeftMargin[0])
+                .build(),
+            rightMargin: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.RightMargin[0])
+                .build(),
+            bottomMargin: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.BottomMargin[0])
+                .build(),
+            printSpace: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.PrintSpace[0])
+                .build(),
+        };
+    }
+}
+
+class LayoutBuilder {
+    constructor() {
+        this.pageBuilder = new PageBuilder();
+    }
+    withLayoutXml(layoutXml) {
+        this.pageBuilder.withPageXml(layoutXml.Page[0]);
+        return this;
+    }
+    withTextStyles(textStyles) {
+        this.pageBuilder.withTextStyles(textStyles);
+        return this;
+    }
+    build() {
+        return {
+            page: this.pageBuilder.build(),
+        };
+    }
+}
+
+class StylesBuilder {
+    constructor(stylesXml) {
+        this.stylesXml = stylesXml;
+    }
+    build() {
+        const textStyles = new Map();
+        if (this.stylesXml.TextStyle) {
+            this.stylesXml.TextStyle.forEach((textStyle) => {
+                textStyles.set(textStyle.$.ID, {
+                    fontStyle: textStyle.$.FONTSTYLE,
+                });
+            });
+        }
+        return textStyles;
+    }
+}
+
+class AltoBuilder {
+    constructor() {
+        this.layoutBuilder = new LayoutBuilder();
+    }
+    withAltoXml(altoXml) {
+        this.altoXml = altoXml;
+        return this;
+    }
+    build() {
+        if (this.altoXml.Styles) {
+            this.layoutBuilder.withTextStyles(new StylesBuilder(this.altoXml.Styles[0]).build());
+        }
+        this.layoutBuilder.withLayoutXml(this.altoXml.Layout[0]);
+        return {
+            layout: this.layoutBuilder.build(),
+        };
+    }
+}
+
+class HtmlFormatter {
+    constructor(sanitizer) {
+        this.sanitizer = sanitizer;
+    }
+    altoToHtml(alto) {
+        const page = alto.layout.page;
+        let html = '';
+        let textBlocks = [];
+        if (page.topMargin.textBlocks) {
+            textBlocks = [...textBlocks, ...page.topMargin.textBlocks];
+        }
+        if (page.leftMargin.textBlocks) {
+            textBlocks = [...textBlocks, ...page.leftMargin.textBlocks];
+        }
+        if (page.printSpace.textBlocks) {
+            textBlocks = [...textBlocks, ...page.printSpace.textBlocks];
+        }
+        if (page.bottomMargin.textBlocks) {
+            textBlocks = [...textBlocks, ...page.bottomMargin.textBlocks];
+        }
+        textBlocks.forEach((textBlock) => {
+            var _a;
+            let words = [];
+            textBlock.textLines.forEach((textLine) => {
+                textLine.strings.forEach((string) => {
+                    words.push(string.content);
+                });
+            });
+            const styles = [];
+            if (((_a = textBlock === null || textBlock === void 0 ? void 0 : textBlock.textStyle) === null || _a === void 0 ? void 0 : _a.fontStyle) === 'bold') {
+                styles.push('font-weight: bold');
+            }
+            html += '<p';
+            if (styles && styles.length > 0) {
+                html += ` style="${styles.join(';')}"`;
+            }
+            html += `>${words.join(' ')}<p/>`;
+        });
+        return this.sanitizer.bypassSecurityTrustHtml(html);
+    }
+}
+
+class AltoService {
+    constructor(intl, http, iiifManifestService, canvasService, sanitizer) {
+        this.intl = intl;
+        this.http = http;
+        this.iiifManifestService = iiifManifestService;
+        this.canvasService = canvasService;
+        this.altos = [];
+        this.recognizedTextContentToggle = new BehaviorSubject(false);
+        this.isLoading = new BehaviorSubject(false);
+        this.textContentReady = new Subject();
+        this.textError = new Subject();
+        this.manifest = null;
+        this.subscriptions = new Subscription();
+        this.altoBuilder = new AltoBuilder();
+        this.htmlFormatter = new HtmlFormatter(sanitizer);
+    }
+    get onRecognizedTextContentToggleChange$() {
+        return this.recognizedTextContentToggle.asObservable();
+    }
+    get onTextContentReady$() {
+        return this.textContentReady.asObservable();
+    }
+    get isLoading$() {
+        return this.isLoading.asObservable();
+    }
+    get hasErrors$() {
+        return this.textError.asObservable();
+    }
+    get onRecognizedTextContentToggle() {
+        return this.recognizedTextContentToggle.value;
+    }
+    set onRecognizedTextContentToggle(value) {
+        this.recognizedTextContentToggle.next(value);
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            this.manifest = manifest;
+            this.clearCache();
+        }));
+        this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange
+            .pipe(debounceTime(200))
+            .subscribe((currentCanvasGroupIndex) => {
+            this.textError.next(undefined);
+            const sources = [];
+            const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(currentCanvasGroupIndex);
+            this.addAltoSource(canvasGroup[0], sources);
+            if (canvasGroup.length === 2) {
+                this.addAltoSource(canvasGroup[1], sources);
+            }
+            this.isLoading.next(true);
+            forkJoin(sources)
+                .pipe(take(1), finalize(() => this.isLoading.next(false)))
+                .subscribe();
+        }));
+    }
+    destroy() {
+        this.subscriptions.unsubscribe();
+        this.clearCache();
+    }
+    toggle() {
+        this.onRecognizedTextContentToggle = !this.recognizedTextContentToggle.getValue();
+    }
+    getHtml(index) {
+        return this.altos && this.altos.length >= index + 1
+            ? this.altos[index]
+            : undefined;
+    }
+    clearCache() {
+        this.altos = [];
+    }
+    addAltoSource(index, sources) {
+        if (this.manifest && this.manifest.sequences) {
+            const seq = this.manifest.sequences[0];
+            if (seq.canvases) {
+                const canvas = seq.canvases[index];
+                if (canvas && canvas.altoUrl) {
+                    sources.push(this.add(index, canvas.altoUrl));
+                }
+            }
+        }
+    }
+    add(index, url) {
+        return new Observable((observer) => {
+            if (this.isInCache(index)) {
+                this.done(observer);
+            }
+            else {
+                this.load(observer, index, url);
+            }
+        });
+    }
+    isInCache(index) {
+        return this.altos[index];
+    }
+    load(observer, index, url) {
+        this.http
+            .get(url, {
+            headers: new HttpHeaders().set('Content-Type', 'text/xml'),
+            responseType: 'text',
+        })
+            .pipe(take(1), catchError((err) => of({ isError: true, error: err })))
+            .subscribe((data) => {
+            try {
+                if (!data.isError) {
+                    parseString(data, {}, (error, result) => {
+                        const alto = this.altoBuilder.withAltoXml(result.alto).build();
+                        this.addToCache(index, alto);
+                        this.done(observer);
+                    });
+                }
+                else {
+                    throw data.err;
+                }
+            }
+            catch (_a) {
+                this.error(observer);
+            }
+        });
+    }
+    addToCache(index, alto) {
+        this.altos[index] = this.htmlFormatter.altoToHtml(alto);
+    }
+    done(observer) {
+        this.textContentReady.next();
+        this.complete(observer);
+    }
+    error(observer) {
+        this.textError.next(this.intl.textContentErrorLabel);
+        this.complete(observer);
+    }
+    complete(observer) {
+        observer.next();
+        observer.complete();
+    }
+}
+AltoService.ɵprov = i0.ɵɵdefineInjectable({ factory: function AltoService_Factory() { return new AltoService(i0.ɵɵinject(MimeViewerIntl), i0.ɵɵinject(i2.HttpClient), i0.ɵɵinject(IiifManifestService), i0.ɵɵinject(CanvasService), i0.ɵɵinject(i5.DomSanitizer)); }, token: AltoService, providedIn: "root" });
+AltoService.decorators = [
+    { type: Injectable, args: [{
+                providedIn: 'root',
+            },] }
+];
+AltoService.ctorParameters = () => [
+    { type: MimeViewerIntl },
+    { type: HttpClient },
+    { type: IiifManifestService },
+    { type: CanvasService },
+    { type: DomSanitizer }
+];
+
 /****************************************************************
  * MIME-viewer options
  ****************************************************************/
@@ -2588,6 +2998,15 @@ class ManifestUtils {
             firstSequence = manifest.sequences[0];
         }
         return firstSequence ? firstSequence.viewingHint === 'paged' : false;
+    }
+    static hasRecognizedTextContent(manifest) {
+        if (manifest.sequences && manifest.sequences.length > 0) {
+            const firstSequence = manifest.sequences[0];
+            if (firstSequence.canvases && firstSequence.canvases.length > 0) {
+                return firstSequence.canvases.find((c) => c.altoUrl) !== undefined;
+            }
+        }
+        return false;
     }
 }
 
@@ -3567,7 +3986,7 @@ class DefaultZoomStrategy extends ZoomStrategy {
 }
 
 class ViewerService {
-    constructor(zone, clickService, canvasService, modeService, viewerLayoutService, iiifContentSearchService, styleService) {
+    constructor(zone, clickService, canvasService, modeService, viewerLayoutService, iiifContentSearchService, styleService, altoService) {
         this.zone = zone;
         this.clickService = clickService;
         this.canvasService = canvasService;
@@ -3575,6 +3994,7 @@ class ViewerService {
         this.viewerLayoutService = viewerLayoutService;
         this.iiifContentSearchService = iiifContentSearchService;
         this.styleService = styleService;
+        this.altoService = altoService;
         this.overlays = [];
         this.tileSources = [];
         this.isCanvasPressed = new BehaviorSubject(false);
@@ -3928,6 +4348,7 @@ class ViewerService {
         }
         // Keep search-state and rotation only if layout-switch
         if (!layoutSwitch) {
+            this.altoService.destroy();
             this.currentSearch = null;
             this.iiifContentSearchService.destroy();
             this.rotation.next(0);
@@ -4265,7 +4686,8 @@ ViewerService.ctorParameters = () => [
     { type: ModeService },
     { type: ViewerLayoutService },
     { type: IiifContentSearchService },
-    { type: StyleService }
+    { type: StyleService },
+    { type: AltoService }
 ];
 
 class AccessKeysService {
@@ -4859,6 +5281,129 @@ ContentSearchDialogModule.decorators = [
             },] }
 ];
 
+class MetadataComponent {
+    constructor(intl, changeDetectorRef, iiifManifestService) {
+        this.intl = intl;
+        this.changeDetectorRef = changeDetectorRef;
+        this.iiifManifestService = iiifManifestService;
+        this.manifest = null;
+        this.subscriptions = new Subscription();
+    }
+    ngOnInit() {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            this.manifest = manifest;
+            this.changeDetectorRef.markForCheck();
+        }));
+    }
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+    }
+}
+MetadataComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'mime-metadata',
+                template: "<ng-container *ngIf=\"manifest\">\n  <div class=\"ngx-mime-metadata-container\">\n    <div *ngFor=\"let metadata of manifest.metadata\" class=\"metadata\">\n      <div class=\"title\">{{ metadata.label }}</div>\n      <span class=\"content\" [innerHTML]=\"metadata.value\"></span>\n    </div>\n    <div *ngIf=\"manifest.attribution\">\n      <div class=\"title\">{{ intl.attributionLabel }}</div>\n      <span\n        class=\"content attribution\"\n        [innerHTML]=\"manifest.attribution\"\n      ></span>\n    </div>\n    <div *ngIf=\"manifest.license\">\n      <div class=\"title\">{{ intl.licenseLabel }}</div>\n      <span class=\"content license\"\n        ><a [href]=\"manifest.license\" target=\"_blank\">{{\n          manifest.license\n        }}</a></span\n      >\n    </div>\n    <div *ngIf=\"manifest.logo\">\n      <span><img class=\"content logo\" [src]=\"manifest.logo\" /></span>\n    </div>\n  </div>\n</ng-container>\n",
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                styles: [".title{font-size:14px!important;font-weight:400;margin-bottom:4px}.content{display:block;font-size:12px;word-break:break-all;margin-bottom:8px}.logo{max-width:300px;max-height:64px}"]
+            },] }
+];
+MetadataComponent.ctorParameters = () => [
+    { type: MimeViewerIntl },
+    { type: ChangeDetectorRef },
+    { type: IiifManifestService }
+];
+
+class TocComponent {
+    constructor(intl, changeDetectorRef, iiifManifestService, viewerService, canvasService) {
+        this.intl = intl;
+        this.changeDetectorRef = changeDetectorRef;
+        this.iiifManifestService = iiifManifestService;
+        this.viewerService = viewerService;
+        this.canvasService = canvasService;
+        this.canvasChanged = new EventEmitter();
+        this.manifest = null;
+        this.currentCanvasGroupIndex = 0;
+        this.subscriptions = new Subscription();
+    }
+    ngOnInit() {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            this.manifest = manifest;
+            this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
+            this.changeDetectorRef.detectChanges();
+        }));
+        this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe((canvasGroupIndex) => {
+            this.currentCanvasGroupIndex = canvasGroupIndex;
+            this.changeDetectorRef.detectChanges();
+        }));
+    }
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+    }
+    goToCanvas(event, canvasIndex) {
+        if (canvasIndex) {
+            event.preventDefault();
+            this.viewerService.goToCanvas(canvasIndex, false);
+            this.canvasChanged.emit(canvasIndex);
+        }
+    }
+}
+TocComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'mime-toc',
+                template: "<div class=\"ngx-mime-toc-container\">\n  <div *ngFor=\"let structure of manifest?.structures\">\n    <a\n      href=\"\"\n      class=\"toc-link\"\n      [class.currentCanvasGroup]=\"\n        currentCanvasGroupIndex === structure.canvasIndex\n      \"\n      (click)=\"goToCanvas($event, structure.canvasIndex)\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"space-between center\"\n    >\n      <span class=\"label\">{{ structure.label }}</span>\n      <span class=\"canvasGroupIndex\">{{ structure.canvasIndex + 1 }}</span>\n    </a>\n  </div>\n</div>\n",
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                styles: [".toc-link{text-decoration:none;font-size:14px!important;font-weight:400;margin-bottom:8px}.currentCanvasGroup{font-weight:700}"]
+            },] }
+];
+TocComponent.ctorParameters = () => [
+    { type: MimeViewerIntl },
+    { type: ChangeDetectorRef },
+    { type: IiifManifestService },
+    { type: ViewerService },
+    { type: CanvasService }
+];
+TocComponent.propDecorators = {
+    canvasChanged: [{ type: Output }]
+};
+
+class ContentsDialogModule {
+}
+ContentsDialogModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [SharedModule],
+                declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
+                providers: [
+                    ContentsDialogService,
+                    ContentsDialogConfigStrategyFactory,
+                    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+                ]
+            },] }
+];
+
+class CoreModule {
+}
+CoreModule.decorators = [
+    { type: NgModule, args: [{
+                providers: [
+                    MimeViewerIntl,
+                    IiifManifestService,
+                    IiifContentSearchService,
+                    MimeResizeService,
+                    FullscreenService,
+                    ViewerService,
+                    ClickService,
+                    CanvasService,
+                    ModeService,
+                    SpinnerService,
+                    AccessKeysService,
+                    ViewerLayoutService,
+                    ContentSearchNavigationService,
+                    StyleService,
+                    AltoService,
+                ],
+            },] }
+];
+
 class HelpDialogComponent {
     constructor(mediaObserver, intl, mimeResizeService) {
         this.mediaObserver = mediaObserver;
@@ -5051,128 +5596,6 @@ HelpDialogModule.decorators = [
             },] }
 ];
 
-class MetadataComponent {
-    constructor(intl, changeDetectorRef, iiifManifestService) {
-        this.intl = intl;
-        this.changeDetectorRef = changeDetectorRef;
-        this.iiifManifestService = iiifManifestService;
-        this.manifest = null;
-        this.subscriptions = new Subscription();
-    }
-    ngOnInit() {
-        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
-            this.manifest = manifest;
-            this.changeDetectorRef.markForCheck();
-        }));
-    }
-    ngOnDestroy() {
-        this.subscriptions.unsubscribe();
-    }
-}
-MetadataComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'mime-metadata',
-                template: "<ng-container *ngIf=\"manifest\">\n  <div class=\"ngx-mime-metadata-container\">\n    <div *ngFor=\"let metadata of manifest.metadata\" class=\"metadata\">\n      <div class=\"title\">{{ metadata.label }}</div>\n      <span class=\"content\" [innerHTML]=\"metadata.value\"></span>\n    </div>\n    <div *ngIf=\"manifest.attribution\">\n      <div class=\"title\">{{ intl.attributionLabel }}</div>\n      <span\n        class=\"content attribution\"\n        [innerHTML]=\"manifest.attribution\"\n      ></span>\n    </div>\n    <div *ngIf=\"manifest.license\">\n      <div class=\"title\">{{ intl.licenseLabel }}</div>\n      <span class=\"content license\"\n        ><a [href]=\"manifest.license\" target=\"_blank\">{{\n          manifest.license\n        }}</a></span\n      >\n    </div>\n    <div *ngIf=\"manifest.logo\">\n      <span><img class=\"content logo\" [src]=\"manifest.logo\" /></span>\n    </div>\n  </div>\n</ng-container>\n",
-                changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".title{font-size:14px!important;font-weight:400;margin-bottom:4px}.content{display:block;font-size:12px;word-break:break-all;margin-bottom:8px}.logo{max-width:300px;max-height:64px}"]
-            },] }
-];
-MetadataComponent.ctorParameters = () => [
-    { type: MimeViewerIntl },
-    { type: ChangeDetectorRef },
-    { type: IiifManifestService }
-];
-
-class TocComponent {
-    constructor(intl, changeDetectorRef, iiifManifestService, viewerService, canvasService) {
-        this.intl = intl;
-        this.changeDetectorRef = changeDetectorRef;
-        this.iiifManifestService = iiifManifestService;
-        this.viewerService = viewerService;
-        this.canvasService = canvasService;
-        this.canvasChanged = new EventEmitter();
-        this.manifest = null;
-        this.currentCanvasGroupIndex = 0;
-        this.subscriptions = new Subscription();
-    }
-    ngOnInit() {
-        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
-            this.manifest = manifest;
-            this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
-            this.changeDetectorRef.detectChanges();
-        }));
-        this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe((canvasGroupIndex) => {
-            this.currentCanvasGroupIndex = canvasGroupIndex;
-            this.changeDetectorRef.detectChanges();
-        }));
-    }
-    ngOnDestroy() {
-        this.subscriptions.unsubscribe();
-    }
-    goToCanvas(event, canvasIndex) {
-        if (canvasIndex) {
-            event.preventDefault();
-            this.viewerService.goToCanvas(canvasIndex, false);
-            this.canvasChanged.emit(canvasIndex);
-        }
-    }
-}
-TocComponent.decorators = [
-    { type: Component, args: [{
-                selector: 'mime-toc',
-                template: "<div class=\"ngx-mime-toc-container\">\n  <div *ngFor=\"let structure of manifest?.structures\">\n    <a\n      href=\"\"\n      class=\"toc-link\"\n      [class.currentCanvasGroup]=\"\n        currentCanvasGroupIndex === structure.canvasIndex\n      \"\n      (click)=\"goToCanvas($event, structure.canvasIndex)\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"space-between center\"\n    >\n      <span class=\"label\">{{ structure.label }}</span>\n      <span class=\"canvasGroupIndex\">{{ structure.canvasIndex + 1 }}</span>\n    </a>\n  </div>\n</div>\n",
-                changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".toc-link{text-decoration:none;font-size:14px!important;font-weight:400;margin-bottom:8px}.currentCanvasGroup{font-weight:700}"]
-            },] }
-];
-TocComponent.ctorParameters = () => [
-    { type: MimeViewerIntl },
-    { type: ChangeDetectorRef },
-    { type: IiifManifestService },
-    { type: ViewerService },
-    { type: CanvasService }
-];
-TocComponent.propDecorators = {
-    canvasChanged: [{ type: Output }]
-};
-
-class ContentsDialogModule {
-}
-ContentsDialogModule.decorators = [
-    { type: NgModule, args: [{
-                imports: [SharedModule],
-                declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
-                providers: [
-                    ContentsDialogService,
-                    ContentsDialogConfigStrategyFactory,
-                    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-                ]
-            },] }
-];
-
-class CoreModule {
-}
-CoreModule.decorators = [
-    { type: NgModule, args: [{
-                providers: [
-                    MimeViewerIntl,
-                    IiifManifestService,
-                    IiifContentSearchService,
-                    MimeResizeService,
-                    FullscreenService,
-                    ViewerService,
-                    ClickService,
-                    CanvasService,
-                    ModeService,
-                    SpinnerService,
-                    AccessKeysService,
-                    ViewerLayoutService,
-                    ContentSearchNavigationService,
-                    StyleService
-                ]
-            },] }
-];
-
 class OsdToolbarComponent {
     constructor(intl, renderer, changeDetectorRef, mimeService, viewerService, canvasService, styleService, iiifManifestService) {
         this.intl = intl;
@@ -5273,7 +5696,7 @@ OsdToolbarComponent.decorators = [
                         transition('show => hide', animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)),
                     ]),
                 ],
-                styles: [":host{z-index:1}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;z-index:2;background:transparent;width:auto;border-radius:8px;margin-left:16px}"]
+                styles: [":host{z-index:2}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;background:transparent;width:auto;border-radius:8px;margin-left:16px}"]
             },] }
 ];
 OsdToolbarComponent.ctorParameters = () => [
@@ -5289,6 +5712,76 @@ OsdToolbarComponent.ctorParameters = () => [
 OsdToolbarComponent.propDecorators = {
     container: [{ type: ViewChild, args: ['container', { static: true },] }],
     osdToolbarState: [{ type: HostBinding, args: ['@osdToolbarState',] }]
+};
+
+class RecognizedTextContentComponent {
+    constructor(intl, cdr, canvasService, altoService, iiifManifestService) {
+        this.intl = intl;
+        this.cdr = cdr;
+        this.canvasService = canvasService;
+        this.altoService = altoService;
+        this.iiifManifestService = iiifManifestService;
+        this.isLoading = false;
+        this.error = undefined;
+        this.subscriptions = new Subscription();
+    }
+    ngOnInit() {
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(() => {
+            this.clearRecognizedText();
+            this.altoService.initialize();
+            this.cdr.detectChanges();
+        }));
+        this.subscriptions.add(this.altoService.onTextContentReady$.subscribe(() => {
+            this.clearRecognizedText();
+            this.scrollToTop();
+            this.updateRecognizedText();
+            this.cdr.detectChanges();
+        }));
+        this.subscriptions.add(this.altoService.isLoading$.subscribe((isLoading) => {
+            this.isLoading = isLoading;
+            this.cdr.detectChanges();
+        }));
+        this.subscriptions.add(this.altoService.hasErrors$.subscribe((error) => {
+            this.error = error;
+            this.cdr.detectChanges();
+        }));
+    }
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+        this.altoService.destroy();
+    }
+    clearRecognizedText() {
+        this.firstCanvasRecognizedTextContent = '';
+        this.secondCanvasRecognizedTextContent = '';
+    }
+    scrollToTop() {
+        this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
+    }
+    updateRecognizedText() {
+        const canvases = this.canvasService.getCanvasesPerCanvasGroup(this.canvasService.currentCanvasGroupIndex);
+        this.firstCanvasRecognizedTextContent = this.altoService.getHtml(canvases[0]);
+        if (canvases.length === 2) {
+            this.secondCanvasRecognizedTextContent = this.altoService.getHtml(canvases[1]);
+        }
+    }
+}
+RecognizedTextContentComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'mime-recognized-text-content',
+                template: "<div #recognizedTextContentContainer class=\"recognized-text-content-container\" aria-live=\"polite\">\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <div *ngIf=\"!isLoading\">\n    <div *ngIf=\"firstCanvasRecognizedTextContent\" data-test-id=\"firstCanvasRecognizedTextContent\" [innerHTML]=\"firstCanvasRecognizedTextContent\"> </div>\n    <div *ngIf=\"secondCanvasRecognizedTextContent\" data-test-id=\"secondCanvasRecognizedTextContent\" [innerHTML]=\"secondCanvasRecognizedTextContent\"> </div>\n  </div>\n  <div *ngIf=\"isLoading\">{{intl.loading}}</div>\n</div>\n",
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                styles: [".recognized-text-content-container{padding:0 1em;height:100%;overflow:auto}"]
+            },] }
+];
+RecognizedTextContentComponent.ctorParameters = () => [
+    { type: MimeViewerIntl },
+    { type: ChangeDetectorRef },
+    { type: CanvasService },
+    { type: AltoService },
+    { type: IiifManifestService }
+];
+RecognizedTextContentComponent.propDecorators = {
+    recognizedTextContentContainer: [{ type: ViewChild, args: ['recognizedTextContentContainer', { read: ElementRef },] }]
 };
 
 class CanvasGroupNavigatorComponent {
@@ -5543,7 +6036,7 @@ IconComponent.propDecorators = {
 };
 
 class ViewerHeaderComponent {
-    constructor(intl, changeDetectorRef, contentsDialogService, contentSearchDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, viewerLayoutService, el) {
+    constructor(intl, changeDetectorRef, contentsDialogService, contentSearchDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, viewerLayoutService, altoService, el) {
         this.intl = intl;
         this.changeDetectorRef = changeDetectorRef;
         this.contentsDialogService = contentsDialogService;
@@ -5553,7 +6046,7 @@ class ViewerHeaderComponent {
         this.fullscreenService = fullscreenService;
         this.mimeDomHelper = mimeDomHelper;
         this.viewerLayoutService = viewerLayoutService;
-        this.el = el;
+        this.altoService = altoService;
         this.manifest = null;
         this.state = 'hide';
         this.isContentSearchEnabled = false;
@@ -5561,6 +6054,7 @@ class ViewerHeaderComponent {
         this.isInFullscreen = false;
         this.fullscreenLabel = this.intl.fullScreenLabel;
         this.isPagedManifest = false;
+        this.hasRecognizedTextContent = false;
         this.viewerLayout = ViewerLayout.ONE_PAGE;
         this.ViewerLayout = ViewerLayout; // enables parsing of enum in template
         this.subscriptions = new Subscription();
@@ -5588,6 +6082,7 @@ class ViewerHeaderComponent {
             this.isPagedManifest = manifest
                 ? ManifestUtils.isManifestPaged(manifest)
                 : false;
+            this.hasRecognizedTextContent = manifest ? ManifestUtils.hasRecognizedTextContent(manifest) : false;
             this.changeDetectorRef.detectChanges();
         }));
         this.subscriptions.add(this.viewerLayoutService.onChange.subscribe((viewerLayout) => {
@@ -5596,6 +6091,9 @@ class ViewerHeaderComponent {
     }
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
+    }
+    toggleRecognizedTextContent() {
+        this.altoService.toggle();
     }
     toggleContents() {
         this.contentSearchDialogService.close();
@@ -5631,7 +6129,7 @@ class ViewerHeaderComponent {
 ViewerHeaderComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-viewer-header',
-                template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div *ngIf=\"manifest\" fxFlexOffset=\"16px\" class=\"label\" [matTooltip]=\"manifest.label\">{{\n      manifest.label\n    }}</div>\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest\"\n        mat-icon-button\n        [id]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? 'toggleTwoPageViewButton'\n            : 'toggleSinglePageViewButton'\n        \"\n        [attr.aria-label]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        [matTooltip]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        (click)=\"toggleViewerLayout()\"\n      >\n        <mime-icon\n          [iconName]=\"\n            viewerLayout === ViewerLayout.ONE_PAGE\n              ? 'two_page_display'\n              : 'single_page_display'\n          \"\n        >\n        </mime-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentsDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.contentsLabel\"\n        [matTooltip]=\"intl.contentsLabel\"\n        (click)=\"toggleContents()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n",
+                template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div *ngIf=\"manifest\" fxFlexOffset=\"16px\" class=\"label\" [matTooltip]=\"manifest.label\">{{\n      manifest.label\n    }}</div>\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"hasRecognizedTextContent\"\n        mat-icon-button\n        data-test-id=\"ngx-mimeRecognizedTextContentButton\"\n        [attr.aria-label]=\"intl.recognizedTextContentLabel\"\n        [matTooltip]=\"intl.recognizedTextContentLabel\"\n        (click)=\"toggleRecognizedTextContent()\"\n      >\n        <mat-icon>notes</mat-icon>\n      </button>\n      <button\n        *ngIf=\"isPagedManifest\"\n        mat-icon-button\n        [id]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? 'toggleTwoPageViewButton'\n            : 'toggleSinglePageViewButton'\n        \"\n        [attr.aria-label]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        [matTooltip]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        (click)=\"toggleViewerLayout()\"\n      >\n        <mime-icon\n          [iconName]=\"\n            viewerLayout === ViewerLayout.ONE_PAGE\n              ? 'two_page_display'\n              : 'single_page_display'\n          \"\n        >\n        </mime-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentsDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.contentsLabel\"\n        [matTooltip]=\"intl.contentsLabel\"\n        (click)=\"toggleContents()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n",
                 changeDetection: ChangeDetectionStrategy.Default,
                 animations: [
                     trigger('headerState', [
@@ -5658,6 +6156,7 @@ ViewerHeaderComponent.ctorParameters = () => [
     { type: FullscreenService },
     { type: MimeDomHelper },
     { type: ViewerLayoutService },
+    { type: AltoService },
     { type: ElementRef }
 ];
 ViewerHeaderComponent.propDecorators = {
@@ -5747,7 +6246,7 @@ class ViewerState {
 }
 
 class ViewerComponent {
-    constructor(snackBar, intl, el, iiifManifestService, contentsDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, resizeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, zone) {
+    constructor(snackBar, intl, el, iiifManifestService, contentsDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, resizeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, altoService, zone) {
         this.snackBar = snackBar;
         this.intl = intl;
         this.el = el;
@@ -5765,6 +6264,7 @@ class ViewerComponent {
         this.canvasService = canvasService;
         this.viewerLayoutService = viewerLayoutService;
         this.styleService = styleService;
+        this.altoService = altoService;
         this.zone = zone;
         this.canvasIndex = 0;
         this.config = new MimeViewerConfig();
@@ -5773,10 +6273,13 @@ class ViewerComponent {
         this.canvasChanged = new EventEmitter();
         this.qChanged = new EventEmitter();
         this.manifestChanged = new EventEmitter();
+        this.recognizedTextContentToggleChanged = new EventEmitter();
         this.subscriptions = new Subscription();
         this.isCanvasPressed = false;
         this.viewerLayout = null;
         this.viewerState = new ViewerState();
+        this.isRecognizedTextContentToggled = false;
+        this.showHeaderAndFooterState = 'hide';
         this.errorMessage = null;
         contentsDialogService.el = el;
         attributionDialogService.el = el;
@@ -5799,12 +6302,17 @@ class ViewerComponent {
     ngOnInit() {
         this.styleService.initialize();
         this.modeService.initialMode = this.config.initViewerMode;
+        this.altoService.onRecognizedTextContentToggle = this.config.initRecognizedTextContentToggle;
         this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             if (manifest) {
                 this.initialize();
                 this.currentManifest = manifest;
                 this.manifestChanged.next(manifest);
                 this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
+                this.isRecognizedTextContentToggled =
+                    this.altoService.onRecognizedTextContentToggle && manifest
+                        ? ManifestUtils.hasRecognizedTextContent(manifest)
+                        : false;
                 this.changeDetectorRef.detectChanges();
                 this.viewerService.setUpViewer(manifest, this.config);
                 if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -5884,6 +6392,10 @@ class ViewerComponent {
         }));
         this.subscriptions.add(this.viewerLayoutService.onChange.subscribe((viewerLayout) => {
             this.viewerLayout = viewerLayout;
+        }));
+        this.subscriptions.add(this.altoService.onRecognizedTextContentToggleChange$.subscribe((isRecognizedTextContentToggled) => {
+            this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
+            this.recognizedTextContentToggleChanged.emit(isRecognizedTextContentToggled);
         }));
         this.loadManifest();
     }
@@ -5988,13 +6500,15 @@ class ViewerComponent {
         if (this.header && this.footer) {
             switch (mode) {
                 case ViewerMode.DASHBOARD:
-                    this.header.state = this.footer.state = 'show';
+                    this.showHeaderAndFooterState = this.header.state = this.footer.state =
+                        'show';
                     if (this.config.navigationControlEnabled && this.osdToolbar) {
                         this.osdToolbar.state = 'hide';
                     }
                     break;
                 case ViewerMode.PAGE:
-                    this.header.state = this.footer.state = 'hide';
+                    this.showHeaderAndFooterState = this.header.state = this.footer.state =
+                        'hide';
                     if (this.config.navigationControlEnabled && this.osdToolbar) {
                         this.osdToolbar.state = 'show';
                     }
@@ -6047,9 +6561,9 @@ class ViewerComponent {
 ViewerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-viewer',
-                template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n  <div id=\"openseadragon\"></div>\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n",
+                template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n\n  <mat-drawer-container class=\"viewer-drawer-container\">\n    <mat-drawer\n      mode=\"side\"\n      position=\"end\"\n      [opened]=\"isRecognizedTextContentToggled\"\n      [ngClass]=\"{'open': showHeaderAndFooterState === 'show'}\"\n      ><mime-recognized-text-content\n        *ngIf=\"isRecognizedTextContentToggled\"\n      ></mime-recognized-text-content\n    ></mat-drawer>\n    <mat-drawer-content><div id=\"openseadragon\"></div></mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}:host::ng-deep.openseadragon-container{flex-grow:1}:host::ng-deep.openseadragon-canvas:focus{outline:none}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:rgba(0,0,0,.15);stroke-width:8;transition:stroke .25s ease}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:rgba(0,0,0,.45)}::ng-deep .viewer-container .hit{fill:rgba(255,255,0,.6)}::ng-deep .viewer-container .selected{fill:rgba(255,225,0,.6)}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{width:100%;height:100%}[hidden]{display:none}"]
+                styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}:host::ng-deep.openseadragon-container{flex-grow:1}:host::ng-deep.openseadragon-canvas:focus{outline:none}.viewer-drawer-container{width:100%;height:100%}mat-drawer{width:25%}@media only screen and (max-width:599px){mat-drawer{width:33%}}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:rgba(0,0,0,.15);stroke-width:8;transition:stroke .25s ease}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:rgba(0,0,0,.45)}::ng-deep .viewer-container .hit{fill:rgba(255,255,0,.6)}::ng-deep .viewer-container .selected{fill:rgba(255,225,0,.6)}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{width:100%;height:100%}[hidden]{display:none}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}"]
             },] }
 ];
 ViewerComponent.ctorParameters = () => [
@@ -6070,6 +6584,7 @@ ViewerComponent.ctorParameters = () => [
     { type: CanvasService },
     { type: ViewerLayoutService },
     { type: StyleService },
+    { type: AltoService },
     { type: NgZone }
 ];
 ViewerComponent.propDecorators = {
@@ -6082,6 +6597,7 @@ ViewerComponent.propDecorators = {
     canvasChanged: [{ type: Output }],
     qChanged: [{ type: Output }],
     manifestChanged: [{ type: Output }],
+    recognizedTextContentToggleChanged: [{ type: Output }],
     header: [{ type: ViewChild, args: ['mimeHeader', { static: true },] }],
     footer: [{ type: ViewChild, args: ['mimeFooter', { static: true },] }],
     osdToolbar: [{ type: ViewChild, args: ['mimeOsdToolbar',] }],
@@ -6103,7 +6619,8 @@ MimeModule.decorators = [
                     ContentSearchNavigatorComponent,
                     CanvasGroupNavigatorComponent,
                     ViewerSpinnerComponent,
-                    IconComponent
+                    IconComponent,
+                    RecognizedTextContentComponent,
                 ],
                 imports: [
                     CoreModule,
@@ -6112,9 +6629,9 @@ MimeModule.decorators = [
                     AttributionDialogModule,
                     HelpDialogModule,
                     ContentSearchDialogModule,
-                    CanvasGroupDialogModule
+                    CanvasGroupDialogModule,
                 ],
-                exports: [ViewerComponent]
+                exports: [ViewerComponent],
             },] }
 ];
 
@@ -6122,5 +6639,5 @@ MimeModule.decorators = [
  * Generated bundle index. Do not edit.
  */
 
-export { Manifest as MimeManifest, MimeModule, ViewerComponent as MimeViewerComponent, MimeViewerConfig, MimeViewerIntl, MimeViewerIntlLt, MimeViewerIntlNoNb, ViewerMode as MimeViewerMode, IiifManifestService as ɵa, SpinnerService as ɵb, ContentSearchNavigatorComponent as ɵba, CanvasGroupNavigatorComponent as ɵbb, CanvasGroupDialogService as ɵbc, ViewerSpinnerComponent as ɵbd, IconComponent as ɵbe, CoreModule as ɵbf, SharedModule as ɵbg, MimeMaterialModule as ɵbh, ContentsDialogModule as ɵbi, ContentsDialogComponent as ɵbj, MetadataComponent as ɵbk, TocComponent as ɵbl, AttributionDialogModule as ɵbm, AttributionDialogComponent as ɵbn, HelpDialogModule as ɵbo, HelpDialogComponent as ɵbp, ContentSearchDialogModule as ɵbq, ContentSearchDialogComponent as ɵbr, CanvasGroupDialogModule as ɵbs, CanvasGroupDialogComponent as ɵbt, ContentsDialogService as ɵc, ContentsDialogConfigStrategyFactory as ɵd, MimeDomHelper as ɵe, FullscreenService as ɵf, MimeResizeService as ɵg, AttributionDialogService as ɵh, AttributionDialogResizeService as ɵi, ContentSearchDialogService as ɵj, ContentSearchDialogConfigStrategyFactory as ɵk, HelpDialogService as ɵl, HelpDialogConfigStrategyFactory as ɵm, ViewerService as ɵn, ClickService as ɵo, CanvasService as ɵp, ModeService as ɵq, ViewerLayoutService as ɵr, IiifContentSearchService as ɵs, StyleService as ɵt, AccessKeysService as ɵu, ContentSearchNavigationService as ɵv, ViewerHeaderComponent as ɵw, ViewerOptions as ɵx, ViewerFooterComponent as ɵy, OsdToolbarComponent as ɵz };
+export { Manifest as MimeManifest, MimeModule, ViewerComponent as MimeViewerComponent, MimeViewerConfig, MimeViewerIntl, MimeViewerIntlLt, MimeViewerIntlNoNb, ViewerMode as MimeViewerMode, IiifManifestService as ɵa, SpinnerService as ɵb, OsdToolbarComponent as ɵba, ContentSearchNavigatorComponent as ɵbb, CanvasGroupNavigatorComponent as ɵbc, CanvasGroupDialogService as ɵbd, ViewerSpinnerComponent as ɵbe, IconComponent as ɵbf, RecognizedTextContentComponent as ɵbg, CoreModule as ɵbh, SharedModule as ɵbi, MimeMaterialModule as ɵbj, ContentsDialogModule as ɵbk, ContentsDialogComponent as ɵbl, MetadataComponent as ɵbm, TocComponent as ɵbn, AttributionDialogModule as ɵbo, AttributionDialogComponent as ɵbp, HelpDialogModule as ɵbq, HelpDialogComponent as ɵbr, ContentSearchDialogModule as ɵbs, ContentSearchDialogComponent as ɵbt, CanvasGroupDialogModule as ɵbu, CanvasGroupDialogComponent as ɵbv, ContentsDialogService as ɵc, ContentsDialogConfigStrategyFactory as ɵd, MimeDomHelper as ɵe, FullscreenService as ɵf, MimeResizeService as ɵg, AttributionDialogService as ɵh, AttributionDialogResizeService as ɵi, ContentSearchDialogService as ɵj, ContentSearchDialogConfigStrategyFactory as ɵk, HelpDialogService as ɵl, HelpDialogConfigStrategyFactory as ɵm, ViewerService as ɵn, ClickService as ɵo, CanvasService as ɵp, ModeService as ɵq, ViewerLayoutService as ɵr, IiifContentSearchService as ɵs, StyleService as ɵt, AltoService as ɵu, AccessKeysService as ɵv, ContentSearchNavigationService as ɵw, ViewerHeaderComponent as ɵx, ViewerOptions as ɵy, ViewerFooterComponent as ɵz };
 //# sourceMappingURL=nationallibraryofnorway-ngx-mime.js.map

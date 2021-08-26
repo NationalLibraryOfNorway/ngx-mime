@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('d3'), require('openseadragon'), require('@angular/common'), require('@angular/forms'), require('@angular/flex-layout'), require('@angular/material/button'), require('@angular/material/card'), require('@angular/material/dialog'), require('@angular/material/icon'), require('@angular/material/input'), require('@angular/material/list'), require('@angular/material/progress-bar'), require('@angular/material/progress-spinner'), require('@angular/material/slider'), require('@angular/material/snack-bar'), require('@angular/material/tabs'), require('@angular/material/toolbar'), require('@angular/material/tooltip'), require('rxjs/operators'), require('@angular/common/http'), require('@angular/material/core'), require('@angular/animations')) :
-    typeof define === 'function' && define.amd ? define('@nationallibraryofnorway/ngx-mime', ['exports', '@angular/core', 'rxjs', 'd3', 'openseadragon', '@angular/common', '@angular/forms', '@angular/flex-layout', '@angular/material/button', '@angular/material/card', '@angular/material/dialog', '@angular/material/icon', '@angular/material/input', '@angular/material/list', '@angular/material/progress-bar', '@angular/material/progress-spinner', '@angular/material/slider', '@angular/material/snack-bar', '@angular/material/tabs', '@angular/material/toolbar', '@angular/material/tooltip', 'rxjs/operators', '@angular/common/http', '@angular/material/core', '@angular/animations'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.nationallibraryofnorway = global.nationallibraryofnorway || {}, global.nationallibraryofnorway['ngx-mime'] = {}), global.ng.core, global.rxjs, global.d3, global.OpenSeadragon, global.ng.common, global.ng.forms, global.ng.flexLayout, global.ng.material.button, global.ng.material.card, global.ng.material.dialog, global.ng.material.icon, global.ng.material.input, global.ng.material.list, global.ng.material.progressBar, global.ng.material.progressSpinner, global.ng.material.slider, global.ng.material.snackBar, global.ng.material.tabs, global.ng.material.toolbar, global.ng.material.tooltip, global.rxjs.operators, global.ng.common.http, global.ng.material.core, global.ng.animations));
-}(this, (function (exports, i0, rxjs, d3, OpenSeadragon$1, common, forms, flexLayout, button, card, dialog, icon, input, list, progressBar, progressSpinner, slider, snackBar, tabs, toolbar, tooltip, operators, http, core, animations) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs'), require('d3'), require('openseadragon'), require('@angular/common'), require('@angular/forms'), require('@angular/flex-layout'), require('@angular/material/button'), require('@angular/material/card'), require('@angular/material/dialog'), require('@angular/material/icon'), require('@angular/material/input'), require('@angular/material/list'), require('@angular/material/progress-bar'), require('@angular/material/progress-spinner'), require('@angular/material/sidenav'), require('@angular/material/slider'), require('@angular/material/snack-bar'), require('@angular/material/tabs'), require('@angular/material/toolbar'), require('@angular/material/tooltip'), require('rxjs/operators'), require('@angular/common/http'), require('@angular/platform-browser'), require('xml2js'), require('@angular/material/core'), require('@angular/animations')) :
+    typeof define === 'function' && define.amd ? define('@nationallibraryofnorway/ngx-mime', ['exports', '@angular/core', 'rxjs', 'd3', 'openseadragon', '@angular/common', '@angular/forms', '@angular/flex-layout', '@angular/material/button', '@angular/material/card', '@angular/material/dialog', '@angular/material/icon', '@angular/material/input', '@angular/material/list', '@angular/material/progress-bar', '@angular/material/progress-spinner', '@angular/material/sidenav', '@angular/material/slider', '@angular/material/snack-bar', '@angular/material/tabs', '@angular/material/toolbar', '@angular/material/tooltip', 'rxjs/operators', '@angular/common/http', '@angular/platform-browser', 'xml2js', '@angular/material/core', '@angular/animations'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.nationallibraryofnorway = global.nationallibraryofnorway || {}, global.nationallibraryofnorway['ngx-mime'] = {}), global.ng.core, global.rxjs, global.d3, global.OpenSeadragon, global.ng.common, global.ng.forms, global.ng.flexLayout, global.ng.material.button, global.ng.material.card, global.ng.material.dialog, global.ng.material.icon, global.ng.material.input, global.ng.material.list, global.ng.material.progressBar, global.ng.material.progressSpinner, global.ng.material.sidenav, global.ng.material.slider, global.ng.material.snackBar, global.ng.material.tabs, global.ng.material.toolbar, global.ng.material.tooltip, global.rxjs.operators, global.ng.common.http, global.ng.platformBrowser, global.xml2js, global.ng.material.core, global.ng.animations));
+}(this, (function (exports, i0, rxjs, d3, OpenSeadragon$1, common, forms, flexLayout, button, card, dialog, icon, input, list, progressBar, progressSpinner, sidenav, slider, snackBar, tabs, toolbar, tooltip, operators, i2, i5, xml2js, core, animations) { 'use strict';
 
     function _interopNamespace(e) {
         if (e && e.__esModule) return e;
@@ -27,6 +27,8 @@
     var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
     var d3__namespace = /*#__PURE__*/_interopNamespace(d3);
     var OpenSeadragon__namespace = /*#__PURE__*/_interopNamespace(OpenSeadragon$1);
+    var i2__namespace = /*#__PURE__*/_interopNamespace(i2);
+    var i5__namespace = /*#__PURE__*/_interopNamespace(i5);
 
     var HelpIntl = /** @class */ (function () {
         function HelpIntl() {
@@ -52,6 +54,7 @@
             this.closeLabel = 'Close';
             this.attributionLabel = 'Attribution';
             this.attributonCloseAriaLabel = 'Close attribution dialog';
+            this.recognizedTextContentLabel = 'Recognized text';
             this.contentsLabel = 'Contents';
             this.twoPageViewLabel = 'Two page display';
             this.singlePageViewLabel = 'Single page display';
@@ -74,11 +77,13 @@
             this.currentPageLabel = 'Current page';
             this.enterPageNumber = 'Enter page number';
             this.dropDisabled = 'Sorry, but drag and drop is disabled';
+            this.loading = 'Loading ...';
             // ERRORS
             this.somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';
             this.manifestUriMissingLabel = 'ManifestUri is missing';
             this.manifestNotValidLabel = 'Manifest is not valid';
             this.pageDoesNotExists = 'Sorry, that page does not exist';
+            this.textContentErrorLabel = 'Oh dear, i can\'t find the text for you';
             this.noResultsFoundLabel = function (q) {
                 return "No results found for <em class=\"current-search\">" + q + "</em>";
             };
@@ -435,6 +440,7 @@
             _this.closeLabel = 'Lukk';
             _this.attributionLabel = 'Tillatelse';
             _this.attributonCloseAriaLabel = 'Steng tillatelse dialog';
+            _this.recognizedTextContentLabel = 'Gjenkjent tekst';
             _this.contentsLabel = 'Innhold';
             _this.twoPageViewLabel = 'Tosidevisning';
             _this.singlePageViewLabel = 'Enkeltsidevisning';
@@ -457,11 +463,13 @@
             _this.currentPageLabel = 'Nåværende side';
             _this.enterPageNumber = 'Skriv inn sidenummer';
             _this.dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
+            _this.loading = 'Laster ...';
             // ERRORS
             _this.somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';
             _this.manifestUriMissingLabel = 'Lenke til manifest mangler';
             _this.manifestNotValidLabel = 'Manifestet er ikke gyldig';
             _this.pageDoesNotExists = 'Beklager, men den siden finnes ikke';
+            _this.textContentErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
             _this.noResultsFoundLabel = function (q) {
                 return "Ingen treff funnet for <em class=\"current-search\">" + q + "</em>";
             };
@@ -507,6 +515,7 @@
             _this.closeLabel = 'Uždaryti';
             _this.attributionLabel = 'Teisių priskyrimas';
             _this.attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
+            _this.recognizedTextContentLabel = 'Atpazīts teksts';
             _this.contentsLabel = 'Informacija apie objektą';
             _this.twoPageViewLabel = 'Atvaizduoti po du puslapius';
             _this.singlePageViewLabel = 'Atvaizduoti po vieną puslapį';
@@ -529,11 +538,13 @@
             _this.currentPageLabel = 'Dabartinis puslapis';
             _this.enterPageNumber = 'Įveskite puslapio numerį';
             _this.dropDisabled = 'Atleiskite, bet veiksmas negalimas';
+            _this.loading = 'Pakrovimas ...';
             // ERRORS
             _this.somethingHasGoneWrongLabel = 'Objekto atvaizduoti nepavyko...';
             _this.manifestUriMissingLabel = 'Nerastas objektų sąrašo identifikatorius (ManifestUri)';
             _this.manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
             _this.pageDoesNotExists = 'Nepavyko rasti šio paslapio';
+            _this.textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
             _this.noResultsFoundLabel = function (q) {
                 return "Objekte nerasta atitikmen\u0173 <em class=\"current-search\">" + q + "</em>";
             };
@@ -579,6 +590,7 @@
             this.preserveZoomOnCanvasGroupChange = false;
             this.startOnTopOnCanvasGroupChange = false;
             this.isDropEnabled = false;
+            this.initRecognizedTextContentToggle = false;
             if (fields) {
                 this.attributionDialogEnabled =
                     fields.attributionDialogEnabled !== undefined
@@ -627,6 +639,10 @@
                     fields.isDropEnabled !== undefined
                         ? fields.isDropEnabled
                         : this.isDropEnabled;
+                this.initRecognizedTextContentToggle =
+                    fields.initRecognizedTextContentToggle !== undefined
+                        ? fields.initRecognizedTextContentToggle
+                        : this.initRecognizedTextContentToggle;
             }
         }
         return MimeViewerConfig;
@@ -691,6 +707,7 @@
                 this.height = fields.height || this.height;
                 this.width = fields.width || this.width;
                 this.images = fields.images || this.images;
+                this.altoUrl = fields.altoUrl || this.altoUrl;
             }
         }
         return Canvas;
@@ -801,8 +818,9 @@
                         input.MatInputModule,
                         progressBar.MatProgressBarModule,
                         card.MatCardModule,
-                        snackBar.MatSnackBarModule
-                    ]
+                        snackBar.MatSnackBarModule,
+                        sidenav.MatSidenavModule,
+                    ],
                 },] }
     ];
 
@@ -1402,7 +1420,7 @@
         { type: i0.Injectable }
     ];
     IiifContentSearchService.ctorParameters = function () { return [
-        { type: http.HttpClient }
+        { type: i2.HttpClient }
     ]; };
 
     var BuilderUtils = /** @class */ (function () {
@@ -1551,6 +1569,10 @@
             if (this.canvases) {
                 for (var i = 0; i < this.canvases.length; i++) {
                     var canvas = this.canvases[i];
+                    var seeAlso = canvas.seeAlso ? canvas.seeAlso : [];
+                    if (canvas['@seeAlso']) {
+                        seeAlso.push(canvas['@seeAlso']);
+                    }
                     canvases.push(new Canvas({
                         id: BuilderUtils.extractId(canvas),
                         type: BuilderUtils.extracType(canvas),
@@ -1558,11 +1580,19 @@
                         thumbnail: canvas.thumbnail,
                         height: canvas.height,
                         width: canvas.width,
-                        images: new ImagesBuilder(canvas.images).build()
+                        images: new ImagesBuilder(canvas.images).build(),
+                        altoUrl: this.extractAltoUrl(seeAlso),
                     }));
                 }
             }
             return canvases;
+        };
+        CanvasBuilder.prototype.extractAltoUrl = function (seeAlso) {
+            if (!seeAlso) {
+                return undefined;
+            }
+            var altoService = seeAlso.find(function (s) { return s.format === 'application/alto+xml'; });
+            return altoService ? BuilderUtils.extractId(altoService) : undefined;
         };
         return CanvasBuilder;
     }());
@@ -1768,7 +1798,7 @@
     ];
     IiifManifestService.ctorParameters = function () { return [
         { type: MimeViewerIntl },
-        { type: http.HttpClient },
+        { type: i2.HttpClient },
         { type: SpinnerService }
     ]; };
 
@@ -2414,7 +2444,8 @@
         });
         Object.defineProperty(CanvasService.prototype, "currentCanvasIndex", {
             get: function () {
-                return this.canvasGroups.canvasesPerCanvasGroup[this.currentCanvasGroupIndex][0];
+                var canvases = this.canvasGroups.canvasesPerCanvasGroup[this.currentCanvasGroupIndex];
+                return canvases && canvases.length >= 1 ? canvases[0] : 0;
             },
             enumerable: false,
             configurable: true
@@ -2822,6 +2853,418 @@
         { type: IiifContentSearchService }
     ]; };
 
+    var StringsBuilder = /** @class */ (function () {
+        function StringsBuilder() {
+        }
+        StringsBuilder.prototype.withStringXml = function (stringXml) {
+            this.stringXml = stringXml;
+            return this;
+        };
+        StringsBuilder.prototype.build = function () {
+            return this.stringXml
+                ? this.stringXml.map(function (string) {
+                    return { content: string.$.CONTENT };
+                })
+                : [];
+        };
+        return StringsBuilder;
+    }());
+
+    var TextLinesBuilder = /** @class */ (function () {
+        function TextLinesBuilder() {
+            this.stringBuilder = new StringsBuilder();
+        }
+        TextLinesBuilder.prototype.withTextLinesXml = function (textLinesXml) {
+            this.textLinesXml = textLinesXml;
+            return this;
+        };
+        TextLinesBuilder.prototype.build = function () {
+            var _this = this;
+            return this.textLinesXml
+                ? this.textLinesXml.map(function (textLine) {
+                    return {
+                        strings: _this.stringBuilder.withStringXml(textLine.String).build(),
+                    };
+                })
+                : [];
+        };
+        return TextLinesBuilder;
+    }());
+
+    var TextBlocksBuilder = /** @class */ (function () {
+        function TextBlocksBuilder() {
+            this.textLinesBuilder = new TextLinesBuilder();
+        }
+        TextBlocksBuilder.prototype.withTextBlocksXml = function (textBlocksXml) {
+            this.textBlocksXml = textBlocksXml;
+            return this;
+        };
+        TextBlocksBuilder.prototype.withTextStyles = function (textStyles) {
+            this.textStyles = textStyles;
+            return this;
+        };
+        TextBlocksBuilder.prototype.build = function () {
+            var _this = this;
+            return this.textBlocksXml
+                ? this.textBlocksXml.map(function (textBlock) {
+                    var _a;
+                    var styleRef = (_a = textBlock.$.STYLEREFS) === null || _a === void 0 ? void 0 : _a.split(' ');
+                    var textStyle = undefined;
+                    if (styleRef && _this.textStyles) {
+                        textStyle = _this.textStyles.get(styleRef[0]);
+                    }
+                    return {
+                        textLines: _this.textLinesBuilder
+                            .withTextLinesXml(textBlock.TextLine)
+                            .build(),
+                        textStyle: {
+                            fontStyle: textStyle === null || textStyle === void 0 ? void 0 : textStyle.fontStyle,
+                        },
+                    };
+                })
+                : [];
+        };
+        return TextBlocksBuilder;
+    }());
+
+    var PrintSpaceBuilder = /** @class */ (function () {
+        function PrintSpaceBuilder() {
+        }
+        PrintSpaceBuilder.prototype.withPrintSpaceXml = function (printSpaceXml) {
+            this.printSpaceXml = printSpaceXml;
+            return this;
+        };
+        PrintSpaceBuilder.prototype.withTextStyles = function (textStyles) {
+            this.textStyles = textStyles;
+            return this;
+        };
+        PrintSpaceBuilder.prototype.build = function () {
+            var textBlocks = [];
+            if (this.printSpaceXml.TextBlock) {
+                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(this.printSpaceXml.TextBlock));
+            }
+            if (this.printSpaceXml.ComposedBlock) {
+                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(this.printSpaceXml.ComposedBlock.filter(function (t) { return t.TextBlock !== undefined; }).flatMap(function (t) { return t.TextBlock; })));
+            }
+            return {
+                textBlocks: new TextBlocksBuilder()
+                    .withTextBlocksXml(textBlocks)
+                    .withTextStyles(this.textStyles)
+                    .build(),
+            };
+        };
+        return PrintSpaceBuilder;
+    }());
+
+    var PageBuilder = /** @class */ (function () {
+        function PageBuilder() {
+            this.printSpaceBuilder = new PrintSpaceBuilder();
+        }
+        PageBuilder.prototype.withPageXml = function (pageXml) {
+            this.pageXml = pageXml;
+            return this;
+        };
+        PageBuilder.prototype.withTextStyles = function (textStyles) {
+            this.printSpaceBuilder.withTextStyles(textStyles);
+            return this;
+        };
+        PageBuilder.prototype.build = function () {
+            return {
+                topMargin: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.TopMargin[0])
+                    .build(),
+                leftMargin: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.LeftMargin[0])
+                    .build(),
+                rightMargin: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.RightMargin[0])
+                    .build(),
+                bottomMargin: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.BottomMargin[0])
+                    .build(),
+                printSpace: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.PrintSpace[0])
+                    .build(),
+            };
+        };
+        return PageBuilder;
+    }());
+
+    var LayoutBuilder = /** @class */ (function () {
+        function LayoutBuilder() {
+            this.pageBuilder = new PageBuilder();
+        }
+        LayoutBuilder.prototype.withLayoutXml = function (layoutXml) {
+            this.pageBuilder.withPageXml(layoutXml.Page[0]);
+            return this;
+        };
+        LayoutBuilder.prototype.withTextStyles = function (textStyles) {
+            this.pageBuilder.withTextStyles(textStyles);
+            return this;
+        };
+        LayoutBuilder.prototype.build = function () {
+            return {
+                page: this.pageBuilder.build(),
+            };
+        };
+        return LayoutBuilder;
+    }());
+
+    var StylesBuilder = /** @class */ (function () {
+        function StylesBuilder(stylesXml) {
+            this.stylesXml = stylesXml;
+        }
+        StylesBuilder.prototype.build = function () {
+            var textStyles = new Map();
+            if (this.stylesXml.TextStyle) {
+                this.stylesXml.TextStyle.forEach(function (textStyle) {
+                    textStyles.set(textStyle.$.ID, {
+                        fontStyle: textStyle.$.FONTSTYLE,
+                    });
+                });
+            }
+            return textStyles;
+        };
+        return StylesBuilder;
+    }());
+
+    var AltoBuilder = /** @class */ (function () {
+        function AltoBuilder() {
+            this.layoutBuilder = new LayoutBuilder();
+        }
+        AltoBuilder.prototype.withAltoXml = function (altoXml) {
+            this.altoXml = altoXml;
+            return this;
+        };
+        AltoBuilder.prototype.build = function () {
+            if (this.altoXml.Styles) {
+                this.layoutBuilder.withTextStyles(new StylesBuilder(this.altoXml.Styles[0]).build());
+            }
+            this.layoutBuilder.withLayoutXml(this.altoXml.Layout[0]);
+            return {
+                layout: this.layoutBuilder.build(),
+            };
+        };
+        return AltoBuilder;
+    }());
+
+    var HtmlFormatter = /** @class */ (function () {
+        function HtmlFormatter(sanitizer) {
+            this.sanitizer = sanitizer;
+        }
+        HtmlFormatter.prototype.altoToHtml = function (alto) {
+            var page = alto.layout.page;
+            var html = '';
+            var textBlocks = [];
+            if (page.topMargin.textBlocks) {
+                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(page.topMargin.textBlocks));
+            }
+            if (page.leftMargin.textBlocks) {
+                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(page.leftMargin.textBlocks));
+            }
+            if (page.printSpace.textBlocks) {
+                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(page.printSpace.textBlocks));
+            }
+            if (page.bottomMargin.textBlocks) {
+                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(page.bottomMargin.textBlocks));
+            }
+            textBlocks.forEach(function (textBlock) {
+                var _a;
+                var words = [];
+                textBlock.textLines.forEach(function (textLine) {
+                    textLine.strings.forEach(function (string) {
+                        words.push(string.content);
+                    });
+                });
+                var styles = [];
+                if (((_a = textBlock === null || textBlock === void 0 ? void 0 : textBlock.textStyle) === null || _a === void 0 ? void 0 : _a.fontStyle) === 'bold') {
+                    styles.push('font-weight: bold');
+                }
+                html += '<p';
+                if (styles && styles.length > 0) {
+                    html += " style=\"" + styles.join(';') + "\"";
+                }
+                html += ">" + words.join(' ') + "<p/>";
+            });
+            return this.sanitizer.bypassSecurityTrustHtml(html);
+        };
+        return HtmlFormatter;
+    }());
+
+    var AltoService = /** @class */ (function () {
+        function AltoService(intl, http, iiifManifestService, canvasService, sanitizer) {
+            this.intl = intl;
+            this.http = http;
+            this.iiifManifestService = iiifManifestService;
+            this.canvasService = canvasService;
+            this.altos = [];
+            this.recognizedTextContentToggle = new rxjs.BehaviorSubject(false);
+            this.isLoading = new rxjs.BehaviorSubject(false);
+            this.textContentReady = new rxjs.Subject();
+            this.textError = new rxjs.Subject();
+            this.manifest = null;
+            this.subscriptions = new rxjs.Subscription();
+            this.altoBuilder = new AltoBuilder();
+            this.htmlFormatter = new HtmlFormatter(sanitizer);
+        }
+        Object.defineProperty(AltoService.prototype, "onRecognizedTextContentToggleChange$", {
+            get: function () {
+                return this.recognizedTextContentToggle.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(AltoService.prototype, "onTextContentReady$", {
+            get: function () {
+                return this.textContentReady.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(AltoService.prototype, "isLoading$", {
+            get: function () {
+                return this.isLoading.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(AltoService.prototype, "hasErrors$", {
+            get: function () {
+                return this.textError.asObservable();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(AltoService.prototype, "onRecognizedTextContentToggle", {
+            get: function () {
+                return this.recognizedTextContentToggle.value;
+            },
+            set: function (value) {
+                this.recognizedTextContentToggle.next(value);
+            },
+            enumerable: false,
+            configurable: true
+        });
+        AltoService.prototype.initialize = function () {
+            var _this = this;
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                _this.manifest = manifest;
+                _this.clearCache();
+            }));
+            this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange
+                .pipe(operators.debounceTime(200))
+                .subscribe(function (currentCanvasGroupIndex) {
+                _this.textError.next(undefined);
+                var sources = [];
+                var canvasGroup = _this.canvasService.getCanvasesPerCanvasGroup(currentCanvasGroupIndex);
+                _this.addAltoSource(canvasGroup[0], sources);
+                if (canvasGroup.length === 2) {
+                    _this.addAltoSource(canvasGroup[1], sources);
+                }
+                _this.isLoading.next(true);
+                rxjs.forkJoin(sources)
+                    .pipe(operators.take(1), operators.finalize(function () { return _this.isLoading.next(false); }))
+                    .subscribe();
+            }));
+        };
+        AltoService.prototype.destroy = function () {
+            this.subscriptions.unsubscribe();
+            this.clearCache();
+        };
+        AltoService.prototype.toggle = function () {
+            this.onRecognizedTextContentToggle = !this.recognizedTextContentToggle.getValue();
+        };
+        AltoService.prototype.getHtml = function (index) {
+            return this.altos && this.altos.length >= index + 1
+                ? this.altos[index]
+                : undefined;
+        };
+        AltoService.prototype.clearCache = function () {
+            this.altos = [];
+        };
+        AltoService.prototype.addAltoSource = function (index, sources) {
+            if (this.manifest && this.manifest.sequences) {
+                var seq = this.manifest.sequences[0];
+                if (seq.canvases) {
+                    var canvas = seq.canvases[index];
+                    if (canvas && canvas.altoUrl) {
+                        sources.push(this.add(index, canvas.altoUrl));
+                    }
+                }
+            }
+        };
+        AltoService.prototype.add = function (index, url) {
+            var _this = this;
+            return new rxjs.Observable(function (observer) {
+                if (_this.isInCache(index)) {
+                    _this.done(observer);
+                }
+                else {
+                    _this.load(observer, index, url);
+                }
+            });
+        };
+        AltoService.prototype.isInCache = function (index) {
+            return this.altos[index];
+        };
+        AltoService.prototype.load = function (observer, index, url) {
+            var _this = this;
+            this.http
+                .get(url, {
+                headers: new i2.HttpHeaders().set('Content-Type', 'text/xml'),
+                responseType: 'text',
+            })
+                .pipe(operators.take(1), operators.catchError(function (err) { return rxjs.of({ isError: true, error: err }); }))
+                .subscribe(function (data) {
+                try {
+                    if (!data.isError) {
+                        xml2js.parseString(data, {}, function (error, result) {
+                            var alto = _this.altoBuilder.withAltoXml(result.alto).build();
+                            _this.addToCache(index, alto);
+                            _this.done(observer);
+                        });
+                    }
+                    else {
+                        throw data.err;
+                    }
+                }
+                catch (_a) {
+                    _this.error(observer);
+                }
+            });
+        };
+        AltoService.prototype.addToCache = function (index, alto) {
+            this.altos[index] = this.htmlFormatter.altoToHtml(alto);
+        };
+        AltoService.prototype.done = function (observer) {
+            this.textContentReady.next();
+            this.complete(observer);
+        };
+        AltoService.prototype.error = function (observer) {
+            this.textError.next(this.intl.textContentErrorLabel);
+            this.complete(observer);
+        };
+        AltoService.prototype.complete = function (observer) {
+            observer.next();
+            observer.complete();
+        };
+        return AltoService;
+    }());
+    AltoService.ɵprov = i0__namespace.ɵɵdefineInjectable({ factory: function AltoService_Factory() { return new AltoService(i0__namespace.ɵɵinject(MimeViewerIntl), i0__namespace.ɵɵinject(i2__namespace.HttpClient), i0__namespace.ɵɵinject(IiifManifestService), i0__namespace.ɵɵinject(CanvasService), i0__namespace.ɵɵinject(i5__namespace.DomSanitizer)); }, token: AltoService, providedIn: "root" });
+    AltoService.decorators = [
+        { type: i0.Injectable, args: [{
+                    providedIn: 'root',
+                },] }
+    ];
+    AltoService.ctorParameters = function () { return [
+        { type: MimeViewerIntl },
+        { type: i2.HttpClient },
+        { type: IiifManifestService },
+        { type: CanvasService },
+        { type: i5.DomSanitizer }
+    ]; };
+
     /****************************************************************
      * MIME-viewer options
      ****************************************************************/
@@ -3129,6 +3572,15 @@
                 firstSequence = manifest.sequences[0];
             }
             return firstSequence ? firstSequence.viewingHint === 'paged' : false;
+        };
+        ManifestUtils.hasRecognizedTextContent = function (manifest) {
+            if (manifest.sequences && manifest.sequences.length > 0) {
+                var firstSequence = manifest.sequences[0];
+                if (firstSequence.canvases && firstSequence.canvases.length > 0) {
+                    return firstSequence.canvases.find(function (c) { return c.altoUrl; }) !== undefined;
+                }
+            }
+            return false;
         };
         return ManifestUtils;
     }());
@@ -4191,7 +4643,7 @@
     }(ZoomStrategy));
 
     var ViewerService = /** @class */ (function () {
-        function ViewerService(zone, clickService, canvasService, modeService, viewerLayoutService, iiifContentSearchService, styleService) {
+        function ViewerService(zone, clickService, canvasService, modeService, viewerLayoutService, iiifContentSearchService, styleService, altoService) {
             var _this = this;
             this.zone = zone;
             this.clickService = clickService;
@@ -4200,6 +4652,7 @@
             this.viewerLayoutService = viewerLayoutService;
             this.iiifContentSearchService = iiifContentSearchService;
             this.styleService = styleService;
+            this.altoService = altoService;
             this.overlays = [];
             this.tileSources = [];
             this.isCanvasPressed = new rxjs.BehaviorSubject(false);
@@ -4596,6 +5049,7 @@
             }
             // Keep search-state and rotation only if layout-switch
             if (!layoutSwitch) {
+                this.altoService.destroy();
                 this.currentSearch = null;
                 this.iiifContentSearchService.destroy();
                 this.rotation.next(0);
@@ -4936,7 +5390,8 @@
         { type: ModeService },
         { type: ViewerLayoutService },
         { type: IiifContentSearchService },
-        { type: StyleService }
+        { type: StyleService },
+        { type: AltoService }
     ]; };
 
     var AccessKeysService = /** @class */ (function () {
@@ -5565,6 +6020,139 @@
                 },] }
     ];
 
+    var MetadataComponent = /** @class */ (function () {
+        function MetadataComponent(intl, changeDetectorRef, iiifManifestService) {
+            this.intl = intl;
+            this.changeDetectorRef = changeDetectorRef;
+            this.iiifManifestService = iiifManifestService;
+            this.manifest = null;
+            this.subscriptions = new rxjs.Subscription();
+        }
+        MetadataComponent.prototype.ngOnInit = function () {
+            var _this = this;
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                _this.manifest = manifest;
+                _this.changeDetectorRef.markForCheck();
+            }));
+        };
+        MetadataComponent.prototype.ngOnDestroy = function () {
+            this.subscriptions.unsubscribe();
+        };
+        return MetadataComponent;
+    }());
+    MetadataComponent.decorators = [
+        { type: i0.Component, args: [{
+                    selector: 'mime-metadata',
+                    template: "<ng-container *ngIf=\"manifest\">\n  <div class=\"ngx-mime-metadata-container\">\n    <div *ngFor=\"let metadata of manifest.metadata\" class=\"metadata\">\n      <div class=\"title\">{{ metadata.label }}</div>\n      <span class=\"content\" [innerHTML]=\"metadata.value\"></span>\n    </div>\n    <div *ngIf=\"manifest.attribution\">\n      <div class=\"title\">{{ intl.attributionLabel }}</div>\n      <span\n        class=\"content attribution\"\n        [innerHTML]=\"manifest.attribution\"\n      ></span>\n    </div>\n    <div *ngIf=\"manifest.license\">\n      <div class=\"title\">{{ intl.licenseLabel }}</div>\n      <span class=\"content license\"\n        ><a [href]=\"manifest.license\" target=\"_blank\">{{\n          manifest.license\n        }}</a></span\n      >\n    </div>\n    <div *ngIf=\"manifest.logo\">\n      <span><img class=\"content logo\" [src]=\"manifest.logo\" /></span>\n    </div>\n  </div>\n</ng-container>\n",
+                    changeDetection: i0.ChangeDetectionStrategy.OnPush,
+                    styles: [".title{font-size:14px!important;font-weight:400;margin-bottom:4px}.content{display:block;font-size:12px;word-break:break-all;margin-bottom:8px}.logo{max-width:300px;max-height:64px}"]
+                },] }
+    ];
+    MetadataComponent.ctorParameters = function () { return [
+        { type: MimeViewerIntl },
+        { type: i0.ChangeDetectorRef },
+        { type: IiifManifestService }
+    ]; };
+
+    var TocComponent = /** @class */ (function () {
+        function TocComponent(intl, changeDetectorRef, iiifManifestService, viewerService, canvasService) {
+            this.intl = intl;
+            this.changeDetectorRef = changeDetectorRef;
+            this.iiifManifestService = iiifManifestService;
+            this.viewerService = viewerService;
+            this.canvasService = canvasService;
+            this.canvasChanged = new i0.EventEmitter();
+            this.manifest = null;
+            this.currentCanvasGroupIndex = 0;
+            this.subscriptions = new rxjs.Subscription();
+        }
+        TocComponent.prototype.ngOnInit = function () {
+            var _this = this;
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
+                _this.manifest = manifest;
+                _this.currentCanvasGroupIndex = _this.canvasService.currentCanvasGroupIndex;
+                _this.changeDetectorRef.detectChanges();
+            }));
+            this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe(function (canvasGroupIndex) {
+                _this.currentCanvasGroupIndex = canvasGroupIndex;
+                _this.changeDetectorRef.detectChanges();
+            }));
+        };
+        TocComponent.prototype.ngOnDestroy = function () {
+            this.subscriptions.unsubscribe();
+        };
+        TocComponent.prototype.goToCanvas = function (event, canvasIndex) {
+            if (canvasIndex) {
+                event.preventDefault();
+                this.viewerService.goToCanvas(canvasIndex, false);
+                this.canvasChanged.emit(canvasIndex);
+            }
+        };
+        return TocComponent;
+    }());
+    TocComponent.decorators = [
+        { type: i0.Component, args: [{
+                    selector: 'mime-toc',
+                    template: "<div class=\"ngx-mime-toc-container\">\n  <div *ngFor=\"let structure of manifest?.structures\">\n    <a\n      href=\"\"\n      class=\"toc-link\"\n      [class.currentCanvasGroup]=\"\n        currentCanvasGroupIndex === structure.canvasIndex\n      \"\n      (click)=\"goToCanvas($event, structure.canvasIndex)\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"space-between center\"\n    >\n      <span class=\"label\">{{ structure.label }}</span>\n      <span class=\"canvasGroupIndex\">{{ structure.canvasIndex + 1 }}</span>\n    </a>\n  </div>\n</div>\n",
+                    changeDetection: i0.ChangeDetectionStrategy.OnPush,
+                    styles: [".toc-link{text-decoration:none;font-size:14px!important;font-weight:400;margin-bottom:8px}.currentCanvasGroup{font-weight:700}"]
+                },] }
+    ];
+    TocComponent.ctorParameters = function () { return [
+        { type: MimeViewerIntl },
+        { type: i0.ChangeDetectorRef },
+        { type: IiifManifestService },
+        { type: ViewerService },
+        { type: CanvasService }
+    ]; };
+    TocComponent.propDecorators = {
+        canvasChanged: [{ type: i0.Output }]
+    };
+
+    var ContentsDialogModule = /** @class */ (function () {
+        function ContentsDialogModule() {
+        }
+        return ContentsDialogModule;
+    }());
+    ContentsDialogModule.decorators = [
+        { type: i0.NgModule, args: [{
+                    imports: [SharedModule],
+                    declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
+                    providers: [
+                        ContentsDialogService,
+                        ContentsDialogConfigStrategyFactory,
+                        { provide: core.ErrorStateMatcher, useClass: core.ShowOnDirtyErrorStateMatcher }
+                    ]
+                },] }
+    ];
+
+    var CoreModule = /** @class */ (function () {
+        function CoreModule() {
+        }
+        return CoreModule;
+    }());
+    CoreModule.decorators = [
+        { type: i0.NgModule, args: [{
+                    providers: [
+                        MimeViewerIntl,
+                        IiifManifestService,
+                        IiifContentSearchService,
+                        MimeResizeService,
+                        FullscreenService,
+                        ViewerService,
+                        ClickService,
+                        CanvasService,
+                        ModeService,
+                        SpinnerService,
+                        AccessKeysService,
+                        ViewerLayoutService,
+                        ContentSearchNavigationService,
+                        StyleService,
+                        AltoService,
+                    ],
+                },] }
+    ];
+
     var HelpDialogComponent = /** @class */ (function () {
         function HelpDialogComponent(mediaObserver, intl, mimeResizeService) {
             this.mediaObserver = mediaObserver;
@@ -5774,138 +6362,6 @@
                 },] }
     ];
 
-    var MetadataComponent = /** @class */ (function () {
-        function MetadataComponent(intl, changeDetectorRef, iiifManifestService) {
-            this.intl = intl;
-            this.changeDetectorRef = changeDetectorRef;
-            this.iiifManifestService = iiifManifestService;
-            this.manifest = null;
-            this.subscriptions = new rxjs.Subscription();
-        }
-        MetadataComponent.prototype.ngOnInit = function () {
-            var _this = this;
-            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
-                _this.manifest = manifest;
-                _this.changeDetectorRef.markForCheck();
-            }));
-        };
-        MetadataComponent.prototype.ngOnDestroy = function () {
-            this.subscriptions.unsubscribe();
-        };
-        return MetadataComponent;
-    }());
-    MetadataComponent.decorators = [
-        { type: i0.Component, args: [{
-                    selector: 'mime-metadata',
-                    template: "<ng-container *ngIf=\"manifest\">\n  <div class=\"ngx-mime-metadata-container\">\n    <div *ngFor=\"let metadata of manifest.metadata\" class=\"metadata\">\n      <div class=\"title\">{{ metadata.label }}</div>\n      <span class=\"content\" [innerHTML]=\"metadata.value\"></span>\n    </div>\n    <div *ngIf=\"manifest.attribution\">\n      <div class=\"title\">{{ intl.attributionLabel }}</div>\n      <span\n        class=\"content attribution\"\n        [innerHTML]=\"manifest.attribution\"\n      ></span>\n    </div>\n    <div *ngIf=\"manifest.license\">\n      <div class=\"title\">{{ intl.licenseLabel }}</div>\n      <span class=\"content license\"\n        ><a [href]=\"manifest.license\" target=\"_blank\">{{\n          manifest.license\n        }}</a></span\n      >\n    </div>\n    <div *ngIf=\"manifest.logo\">\n      <span><img class=\"content logo\" [src]=\"manifest.logo\" /></span>\n    </div>\n  </div>\n</ng-container>\n",
-                    changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".title{font-size:14px!important;font-weight:400;margin-bottom:4px}.content{display:block;font-size:12px;word-break:break-all;margin-bottom:8px}.logo{max-width:300px;max-height:64px}"]
-                },] }
-    ];
-    MetadataComponent.ctorParameters = function () { return [
-        { type: MimeViewerIntl },
-        { type: i0.ChangeDetectorRef },
-        { type: IiifManifestService }
-    ]; };
-
-    var TocComponent = /** @class */ (function () {
-        function TocComponent(intl, changeDetectorRef, iiifManifestService, viewerService, canvasService) {
-            this.intl = intl;
-            this.changeDetectorRef = changeDetectorRef;
-            this.iiifManifestService = iiifManifestService;
-            this.viewerService = viewerService;
-            this.canvasService = canvasService;
-            this.canvasChanged = new i0.EventEmitter();
-            this.manifest = null;
-            this.currentCanvasGroupIndex = 0;
-            this.subscriptions = new rxjs.Subscription();
-        }
-        TocComponent.prototype.ngOnInit = function () {
-            var _this = this;
-            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
-                _this.manifest = manifest;
-                _this.currentCanvasGroupIndex = _this.canvasService.currentCanvasGroupIndex;
-                _this.changeDetectorRef.detectChanges();
-            }));
-            this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe(function (canvasGroupIndex) {
-                _this.currentCanvasGroupIndex = canvasGroupIndex;
-                _this.changeDetectorRef.detectChanges();
-            }));
-        };
-        TocComponent.prototype.ngOnDestroy = function () {
-            this.subscriptions.unsubscribe();
-        };
-        TocComponent.prototype.goToCanvas = function (event, canvasIndex) {
-            if (canvasIndex) {
-                event.preventDefault();
-                this.viewerService.goToCanvas(canvasIndex, false);
-                this.canvasChanged.emit(canvasIndex);
-            }
-        };
-        return TocComponent;
-    }());
-    TocComponent.decorators = [
-        { type: i0.Component, args: [{
-                    selector: 'mime-toc',
-                    template: "<div class=\"ngx-mime-toc-container\">\n  <div *ngFor=\"let structure of manifest?.structures\">\n    <a\n      href=\"\"\n      class=\"toc-link\"\n      [class.currentCanvasGroup]=\"\n        currentCanvasGroupIndex === structure.canvasIndex\n      \"\n      (click)=\"goToCanvas($event, structure.canvasIndex)\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"space-between center\"\n    >\n      <span class=\"label\">{{ structure.label }}</span>\n      <span class=\"canvasGroupIndex\">{{ structure.canvasIndex + 1 }}</span>\n    </a>\n  </div>\n</div>\n",
-                    changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".toc-link{text-decoration:none;font-size:14px!important;font-weight:400;margin-bottom:8px}.currentCanvasGroup{font-weight:700}"]
-                },] }
-    ];
-    TocComponent.ctorParameters = function () { return [
-        { type: MimeViewerIntl },
-        { type: i0.ChangeDetectorRef },
-        { type: IiifManifestService },
-        { type: ViewerService },
-        { type: CanvasService }
-    ]; };
-    TocComponent.propDecorators = {
-        canvasChanged: [{ type: i0.Output }]
-    };
-
-    var ContentsDialogModule = /** @class */ (function () {
-        function ContentsDialogModule() {
-        }
-        return ContentsDialogModule;
-    }());
-    ContentsDialogModule.decorators = [
-        { type: i0.NgModule, args: [{
-                    imports: [SharedModule],
-                    declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
-                    providers: [
-                        ContentsDialogService,
-                        ContentsDialogConfigStrategyFactory,
-                        { provide: core.ErrorStateMatcher, useClass: core.ShowOnDirtyErrorStateMatcher }
-                    ]
-                },] }
-    ];
-
-    var CoreModule = /** @class */ (function () {
-        function CoreModule() {
-        }
-        return CoreModule;
-    }());
-    CoreModule.decorators = [
-        { type: i0.NgModule, args: [{
-                    providers: [
-                        MimeViewerIntl,
-                        IiifManifestService,
-                        IiifContentSearchService,
-                        MimeResizeService,
-                        FullscreenService,
-                        ViewerService,
-                        ClickService,
-                        CanvasService,
-                        ModeService,
-                        SpinnerService,
-                        AccessKeysService,
-                        ViewerLayoutService,
-                        ContentSearchNavigationService,
-                        StyleService
-                    ]
-                },] }
-    ];
-
     var OsdToolbarComponent = /** @class */ (function () {
         function OsdToolbarComponent(intl, renderer, changeDetectorRef, mimeService, viewerService, canvasService, styleService, iiifManifestService) {
             this.intl = intl;
@@ -6013,7 +6469,7 @@
                             animations.transition('show => hide', animations.animate(ViewerOptions.transitions.toolbarsEaseOutTime + "ms ease-in")),
                         ]),
                     ],
-                    styles: [":host{z-index:1}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;z-index:2;background:transparent;width:auto;border-radius:8px;margin-left:16px}"]
+                    styles: [":host{z-index:2}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;background:transparent;width:auto;border-radius:8px;margin-left:16px}"]
                 },] }
     ];
     OsdToolbarComponent.ctorParameters = function () { return [
@@ -6029,6 +6485,78 @@
     OsdToolbarComponent.propDecorators = {
         container: [{ type: i0.ViewChild, args: ['container', { static: true },] }],
         osdToolbarState: [{ type: i0.HostBinding, args: ['@osdToolbarState',] }]
+    };
+
+    var RecognizedTextContentComponent = /** @class */ (function () {
+        function RecognizedTextContentComponent(intl, cdr, canvasService, altoService, iiifManifestService) {
+            this.intl = intl;
+            this.cdr = cdr;
+            this.canvasService = canvasService;
+            this.altoService = altoService;
+            this.iiifManifestService = iiifManifestService;
+            this.isLoading = false;
+            this.error = undefined;
+            this.subscriptions = new rxjs.Subscription();
+        }
+        RecognizedTextContentComponent.prototype.ngOnInit = function () {
+            var _this = this;
+            this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function () {
+                _this.clearRecognizedText();
+                _this.altoService.initialize();
+                _this.cdr.detectChanges();
+            }));
+            this.subscriptions.add(this.altoService.onTextContentReady$.subscribe(function () {
+                _this.clearRecognizedText();
+                _this.scrollToTop();
+                _this.updateRecognizedText();
+                _this.cdr.detectChanges();
+            }));
+            this.subscriptions.add(this.altoService.isLoading$.subscribe(function (isLoading) {
+                _this.isLoading = isLoading;
+                _this.cdr.detectChanges();
+            }));
+            this.subscriptions.add(this.altoService.hasErrors$.subscribe(function (error) {
+                _this.error = error;
+                _this.cdr.detectChanges();
+            }));
+        };
+        RecognizedTextContentComponent.prototype.ngOnDestroy = function () {
+            this.subscriptions.unsubscribe();
+            this.altoService.destroy();
+        };
+        RecognizedTextContentComponent.prototype.clearRecognizedText = function () {
+            this.firstCanvasRecognizedTextContent = '';
+            this.secondCanvasRecognizedTextContent = '';
+        };
+        RecognizedTextContentComponent.prototype.scrollToTop = function () {
+            this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
+        };
+        RecognizedTextContentComponent.prototype.updateRecognizedText = function () {
+            var canvases = this.canvasService.getCanvasesPerCanvasGroup(this.canvasService.currentCanvasGroupIndex);
+            this.firstCanvasRecognizedTextContent = this.altoService.getHtml(canvases[0]);
+            if (canvases.length === 2) {
+                this.secondCanvasRecognizedTextContent = this.altoService.getHtml(canvases[1]);
+            }
+        };
+        return RecognizedTextContentComponent;
+    }());
+    RecognizedTextContentComponent.decorators = [
+        { type: i0.Component, args: [{
+                    selector: 'mime-recognized-text-content',
+                    template: "<div #recognizedTextContentContainer class=\"recognized-text-content-container\" aria-live=\"polite\">\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <div *ngIf=\"!isLoading\">\n    <div *ngIf=\"firstCanvasRecognizedTextContent\" data-test-id=\"firstCanvasRecognizedTextContent\" [innerHTML]=\"firstCanvasRecognizedTextContent\"> </div>\n    <div *ngIf=\"secondCanvasRecognizedTextContent\" data-test-id=\"secondCanvasRecognizedTextContent\" [innerHTML]=\"secondCanvasRecognizedTextContent\"> </div>\n  </div>\n  <div *ngIf=\"isLoading\">{{intl.loading}}</div>\n</div>\n",
+                    changeDetection: i0.ChangeDetectionStrategy.OnPush,
+                    styles: [".recognized-text-content-container{padding:0 1em;height:100%;overflow:auto}"]
+                },] }
+    ];
+    RecognizedTextContentComponent.ctorParameters = function () { return [
+        { type: MimeViewerIntl },
+        { type: i0.ChangeDetectorRef },
+        { type: CanvasService },
+        { type: AltoService },
+        { type: IiifManifestService }
+    ]; };
+    RecognizedTextContentComponent.propDecorators = {
+        recognizedTextContentContainer: [{ type: i0.ViewChild, args: ['recognizedTextContentContainer', { read: i0.ElementRef },] }]
     };
 
     var CanvasGroupNavigatorComponent = /** @class */ (function () {
@@ -6294,7 +6822,7 @@
     };
 
     var ViewerHeaderComponent = /** @class */ (function () {
-        function ViewerHeaderComponent(intl, changeDetectorRef, contentsDialogService, contentSearchDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, viewerLayoutService, el) {
+        function ViewerHeaderComponent(intl, changeDetectorRef, contentsDialogService, contentSearchDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, viewerLayoutService, altoService, el) {
             this.intl = intl;
             this.changeDetectorRef = changeDetectorRef;
             this.contentsDialogService = contentsDialogService;
@@ -6304,7 +6832,7 @@
             this.fullscreenService = fullscreenService;
             this.mimeDomHelper = mimeDomHelper;
             this.viewerLayoutService = viewerLayoutService;
-            this.el = el;
+            this.altoService = altoService;
             this.manifest = null;
             this.state = 'hide';
             this.isContentSearchEnabled = false;
@@ -6312,6 +6840,7 @@
             this.isInFullscreen = false;
             this.fullscreenLabel = this.intl.fullScreenLabel;
             this.isPagedManifest = false;
+            this.hasRecognizedTextContent = false;
             this.viewerLayout = ViewerLayout.ONE_PAGE;
             this.ViewerLayout = ViewerLayout; // enables parsing of enum in template
             this.subscriptions = new rxjs.Subscription();
@@ -6344,6 +6873,7 @@
                 _this.isPagedManifest = manifest
                     ? ManifestUtils.isManifestPaged(manifest)
                     : false;
+                _this.hasRecognizedTextContent = manifest ? ManifestUtils.hasRecognizedTextContent(manifest) : false;
                 _this.changeDetectorRef.detectChanges();
             }));
             this.subscriptions.add(this.viewerLayoutService.onChange.subscribe(function (viewerLayout) {
@@ -6352,6 +6882,9 @@
         };
         ViewerHeaderComponent.prototype.ngOnDestroy = function () {
             this.subscriptions.unsubscribe();
+        };
+        ViewerHeaderComponent.prototype.toggleRecognizedTextContent = function () {
+            this.altoService.toggle();
         };
         ViewerHeaderComponent.prototype.toggleContents = function () {
             this.contentSearchDialogService.close();
@@ -6388,7 +6921,7 @@
     ViewerHeaderComponent.decorators = [
         { type: i0.Component, args: [{
                     selector: 'mime-viewer-header',
-                    template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div *ngIf=\"manifest\" fxFlexOffset=\"16px\" class=\"label\" [matTooltip]=\"manifest.label\">{{\n      manifest.label\n    }}</div>\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest\"\n        mat-icon-button\n        [id]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? 'toggleTwoPageViewButton'\n            : 'toggleSinglePageViewButton'\n        \"\n        [attr.aria-label]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        [matTooltip]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        (click)=\"toggleViewerLayout()\"\n      >\n        <mime-icon\n          [iconName]=\"\n            viewerLayout === ViewerLayout.ONE_PAGE\n              ? 'two_page_display'\n              : 'single_page_display'\n          \"\n        >\n        </mime-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentsDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.contentsLabel\"\n        [matTooltip]=\"intl.contentsLabel\"\n        (click)=\"toggleContents()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n",
+                    template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div *ngIf=\"manifest\" fxFlexOffset=\"16px\" class=\"label\" [matTooltip]=\"manifest.label\">{{\n      manifest.label\n    }}</div>\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"hasRecognizedTextContent\"\n        mat-icon-button\n        data-test-id=\"ngx-mimeRecognizedTextContentButton\"\n        [attr.aria-label]=\"intl.recognizedTextContentLabel\"\n        [matTooltip]=\"intl.recognizedTextContentLabel\"\n        (click)=\"toggleRecognizedTextContent()\"\n      >\n        <mat-icon>notes</mat-icon>\n      </button>\n      <button\n        *ngIf=\"isPagedManifest\"\n        mat-icon-button\n        [id]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? 'toggleTwoPageViewButton'\n            : 'toggleSinglePageViewButton'\n        \"\n        [attr.aria-label]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        [matTooltip]=\"\n          viewerLayout === ViewerLayout.ONE_PAGE\n            ? intl.twoPageViewLabel\n            : intl.singlePageViewLabel\n        \"\n        (click)=\"toggleViewerLayout()\"\n      >\n        <mime-icon\n          [iconName]=\"\n            viewerLayout === ViewerLayout.ONE_PAGE\n              ? 'two_page_display'\n              : 'single_page_display'\n          \"\n        >\n        </mime-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentsDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.contentsLabel\"\n        [matTooltip]=\"intl.contentsLabel\"\n        (click)=\"toggleContents()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n",
                     changeDetection: i0.ChangeDetectionStrategy.Default,
                     animations: [
                         animations.trigger('headerState', [
@@ -6415,6 +6948,7 @@
         { type: FullscreenService },
         { type: MimeDomHelper },
         { type: ViewerLayoutService },
+        { type: AltoService },
         { type: i0.ElementRef }
     ]; };
     ViewerHeaderComponent.propDecorators = {
@@ -6510,7 +7044,7 @@
     }());
 
     var ViewerComponent = /** @class */ (function () {
-        function ViewerComponent(snackBar, intl, el, iiifManifestService, contentsDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, resizeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, zone) {
+        function ViewerComponent(snackBar, intl, el, iiifManifestService, contentsDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, resizeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, altoService, zone) {
             this.snackBar = snackBar;
             this.intl = intl;
             this.el = el;
@@ -6528,6 +7062,7 @@
             this.canvasService = canvasService;
             this.viewerLayoutService = viewerLayoutService;
             this.styleService = styleService;
+            this.altoService = altoService;
             this.zone = zone;
             this.canvasIndex = 0;
             this.config = new MimeViewerConfig();
@@ -6536,10 +7071,13 @@
             this.canvasChanged = new i0.EventEmitter();
             this.qChanged = new i0.EventEmitter();
             this.manifestChanged = new i0.EventEmitter();
+            this.recognizedTextContentToggleChanged = new i0.EventEmitter();
             this.subscriptions = new rxjs.Subscription();
             this.isCanvasPressed = false;
             this.viewerLayout = null;
             this.viewerState = new ViewerState();
+            this.isRecognizedTextContentToggled = false;
+            this.showHeaderAndFooterState = 'hide';
             this.errorMessage = null;
             contentsDialogService.el = el;
             attributionDialogService.el = el;
@@ -6579,12 +7117,17 @@
             var _this = this;
             this.styleService.initialize();
             this.modeService.initialMode = this.config.initViewerMode;
+            this.altoService.onRecognizedTextContentToggle = this.config.initRecognizedTextContentToggle;
             this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(function (manifest) {
                 if (manifest) {
                     _this.initialize();
                     _this.currentManifest = manifest;
                     _this.manifestChanged.next(manifest);
                     _this.viewerLayoutService.init(ManifestUtils.isManifestPaged(manifest));
+                    _this.isRecognizedTextContentToggled =
+                        _this.altoService.onRecognizedTextContentToggle && manifest
+                            ? ManifestUtils.hasRecognizedTextContent(manifest)
+                            : false;
                     _this.changeDetectorRef.detectChanges();
                     _this.viewerService.setUpViewer(manifest, _this.config);
                     if (_this.config.attributionDialogEnabled && manifest.attribution) {
@@ -6664,6 +7207,10 @@
             }));
             this.subscriptions.add(this.viewerLayoutService.onChange.subscribe(function (viewerLayout) {
                 _this.viewerLayout = viewerLayout;
+            }));
+            this.subscriptions.add(this.altoService.onRecognizedTextContentToggleChange$.subscribe(function (isRecognizedTextContentToggled) {
+                _this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
+                _this.recognizedTextContentToggleChanged.emit(isRecognizedTextContentToggled);
             }));
             this.loadManifest();
         };
@@ -6769,13 +7316,15 @@
             if (this.header && this.footer) {
                 switch (mode) {
                     case exports.MimeViewerMode.DASHBOARD:
-                        this.header.state = this.footer.state = 'show';
+                        this.showHeaderAndFooterState = this.header.state = this.footer.state =
+                            'show';
                         if (this.config.navigationControlEnabled && this.osdToolbar) {
                             this.osdToolbar.state = 'hide';
                         }
                         break;
                     case exports.MimeViewerMode.PAGE:
-                        this.header.state = this.footer.state = 'hide';
+                        this.showHeaderAndFooterState = this.header.state = this.footer.state =
+                            'hide';
                         if (this.config.navigationControlEnabled && this.osdToolbar) {
                             this.osdToolbar.state = 'show';
                         }
@@ -6829,9 +7378,9 @@
     ViewerComponent.decorators = [
         { type: i0.Component, args: [{
                     selector: 'mime-viewer',
-                    template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n  <div id=\"openseadragon\"></div>\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n",
+                    template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n\n  <mat-drawer-container class=\"viewer-drawer-container\">\n    <mat-drawer\n      mode=\"side\"\n      position=\"end\"\n      [opened]=\"isRecognizedTextContentToggled\"\n      [ngClass]=\"{'open': showHeaderAndFooterState === 'show'}\"\n      ><mime-recognized-text-content\n        *ngIf=\"isRecognizedTextContentToggled\"\n      ></mime-recognized-text-content\n    ></mat-drawer>\n    <mat-drawer-content><div id=\"openseadragon\"></div></mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n",
                     changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}:host::ng-deep.openseadragon-container{flex-grow:1}:host::ng-deep.openseadragon-canvas:focus{outline:none}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:rgba(0,0,0,.15);stroke-width:8;transition:stroke .25s ease}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:rgba(0,0,0,.45)}::ng-deep .viewer-container .hit{fill:rgba(255,255,0,.6)}::ng-deep .viewer-container .selected{fill:rgba(255,225,0,.6)}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{width:100%;height:100%}[hidden]{display:none}"]
+                    styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}:host::ng-deep.openseadragon-container{flex-grow:1}:host::ng-deep.openseadragon-canvas:focus{outline:none}.viewer-drawer-container{width:100%;height:100%}mat-drawer{width:25%}@media only screen and (max-width:599px){mat-drawer{width:33%}}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep.tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:rgba(0,0,0,.15);stroke-width:8;transition:stroke .25s ease}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:rgba(0,0,0,.45)}::ng-deep .viewer-container .hit{fill:rgba(255,255,0,.6)}::ng-deep .viewer-container .selected{fill:rgba(255,225,0,.6)}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{width:100%;height:100%}[hidden]{display:none}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}"]
                 },] }
     ];
     ViewerComponent.ctorParameters = function () { return [
@@ -6852,6 +7401,7 @@
         { type: CanvasService },
         { type: ViewerLayoutService },
         { type: StyleService },
+        { type: AltoService },
         { type: i0.NgZone }
     ]; };
     ViewerComponent.propDecorators = {
@@ -6864,6 +7414,7 @@
         canvasChanged: [{ type: i0.Output }],
         qChanged: [{ type: i0.Output }],
         manifestChanged: [{ type: i0.Output }],
+        recognizedTextContentToggleChanged: [{ type: i0.Output }],
         header: [{ type: i0.ViewChild, args: ['mimeHeader', { static: true },] }],
         footer: [{ type: i0.ViewChild, args: ['mimeFooter', { static: true },] }],
         osdToolbar: [{ type: i0.ViewChild, args: ['mimeOsdToolbar',] }],
@@ -6888,7 +7439,8 @@
                         ContentSearchNavigatorComponent,
                         CanvasGroupNavigatorComponent,
                         ViewerSpinnerComponent,
-                        IconComponent
+                        IconComponent,
+                        RecognizedTextContentComponent,
                     ],
                     imports: [
                         CoreModule,
@@ -6897,9 +7449,9 @@
                         AttributionDialogModule,
                         HelpDialogModule,
                         ContentSearchDialogModule,
-                        CanvasGroupDialogModule
+                        CanvasGroupDialogModule,
                     ],
-                    exports: [ViewerComponent]
+                    exports: [ViewerComponent],
                 },] }
     ];
 
@@ -6916,26 +7468,28 @@
     exports.MimeViewerIntlNoNb = MimeViewerIntlNoNb;
     exports.ɵa = IiifManifestService;
     exports.ɵb = SpinnerService;
-    exports.ɵba = ContentSearchNavigatorComponent;
-    exports.ɵbb = CanvasGroupNavigatorComponent;
-    exports.ɵbc = CanvasGroupDialogService;
-    exports.ɵbd = ViewerSpinnerComponent;
-    exports.ɵbe = IconComponent;
-    exports.ɵbf = CoreModule;
-    exports.ɵbg = SharedModule;
-    exports.ɵbh = MimeMaterialModule;
-    exports.ɵbi = ContentsDialogModule;
-    exports.ɵbj = ContentsDialogComponent;
-    exports.ɵbk = MetadataComponent;
-    exports.ɵbl = TocComponent;
-    exports.ɵbm = AttributionDialogModule;
-    exports.ɵbn = AttributionDialogComponent;
-    exports.ɵbo = HelpDialogModule;
-    exports.ɵbp = HelpDialogComponent;
-    exports.ɵbq = ContentSearchDialogModule;
-    exports.ɵbr = ContentSearchDialogComponent;
-    exports.ɵbs = CanvasGroupDialogModule;
-    exports.ɵbt = CanvasGroupDialogComponent;
+    exports.ɵba = OsdToolbarComponent;
+    exports.ɵbb = ContentSearchNavigatorComponent;
+    exports.ɵbc = CanvasGroupNavigatorComponent;
+    exports.ɵbd = CanvasGroupDialogService;
+    exports.ɵbe = ViewerSpinnerComponent;
+    exports.ɵbf = IconComponent;
+    exports.ɵbg = RecognizedTextContentComponent;
+    exports.ɵbh = CoreModule;
+    exports.ɵbi = SharedModule;
+    exports.ɵbj = MimeMaterialModule;
+    exports.ɵbk = ContentsDialogModule;
+    exports.ɵbl = ContentsDialogComponent;
+    exports.ɵbm = MetadataComponent;
+    exports.ɵbn = TocComponent;
+    exports.ɵbo = AttributionDialogModule;
+    exports.ɵbp = AttributionDialogComponent;
+    exports.ɵbq = HelpDialogModule;
+    exports.ɵbr = HelpDialogComponent;
+    exports.ɵbs = ContentSearchDialogModule;
+    exports.ɵbt = ContentSearchDialogComponent;
+    exports.ɵbu = CanvasGroupDialogModule;
+    exports.ɵbv = CanvasGroupDialogComponent;
     exports.ɵc = ContentsDialogService;
     exports.ɵd = ContentsDialogConfigStrategyFactory;
     exports.ɵe = MimeDomHelper;
@@ -6954,12 +7508,12 @@
     exports.ɵr = ViewerLayoutService;
     exports.ɵs = IiifContentSearchService;
     exports.ɵt = StyleService;
-    exports.ɵu = AccessKeysService;
-    exports.ɵv = ContentSearchNavigationService;
-    exports.ɵw = ViewerHeaderComponent;
-    exports.ɵx = ViewerOptions;
-    exports.ɵy = ViewerFooterComponent;
-    exports.ɵz = OsdToolbarComponent;
+    exports.ɵu = AltoService;
+    exports.ɵv = AccessKeysService;
+    exports.ɵw = ContentSearchNavigationService;
+    exports.ɵx = ViewerHeaderComponent;
+    exports.ɵy = ViewerOptions;
+    exports.ɵz = ViewerFooterComponent;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

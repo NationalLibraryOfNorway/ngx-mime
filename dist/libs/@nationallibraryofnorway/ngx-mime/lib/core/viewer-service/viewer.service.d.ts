@@ -1,6 +1,7 @@
 import { NgZone } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
@@ -20,6 +21,7 @@ export declare class ViewerService {
     private viewerLayoutService;
     private iiifContentSearchService;
     private styleService;
+    private altoService;
     private viewer?;
     private svgOverlay;
     private svgNode;
@@ -43,7 +45,7 @@ export declare class ViewerService {
     private zoomStrategy;
     private goToCanvasGroupStrategy;
     private rotation;
-    constructor(zone: NgZone, clickService: ClickService, canvasService: CanvasService, modeService: ModeService, viewerLayoutService: ViewerLayoutService, iiifContentSearchService: IiifContentSearchService, styleService: StyleService);
+    constructor(zone: NgZone, clickService: ClickService, canvasService: CanvasService, modeService: ModeService, viewerLayoutService: ViewerLayoutService, iiifContentSearchService: IiifContentSearchService, styleService: StyleService, altoService: AltoService);
     get onRotationChange(): Observable<number>;
     get onCenterChange(): Observable<Point>;
     get onCanvasGroupIndexChange(): Observable<number>;

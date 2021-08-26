@@ -6,6 +6,7 @@ export declare class MimeViewerIntl {
     closeLabel: string;
     attributionLabel: string;
     attributonCloseAriaLabel: string;
+    recognizedTextContentLabel: string;
     contentsLabel: string;
     twoPageViewLabel: string;
     singlePageViewLabel: string;
@@ -28,10 +29,12 @@ export declare class MimeViewerIntl {
     currentPageLabel: string;
     enterPageNumber: string;
     dropDisabled: string;
+    loading: string;
     somethingHasGoneWrongLabel: string;
     manifestUriMissingLabel: string;
     manifestNotValidLabel: string;
     pageDoesNotExists: string;
+    textContentErrorLabel: string;
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;

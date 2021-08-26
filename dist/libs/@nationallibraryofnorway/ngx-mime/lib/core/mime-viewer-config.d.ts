@@ -13,6 +13,7 @@ export declare class MimeViewerConfig {
     preserveZoomOnCanvasGroupChange: boolean;
     startOnTopOnCanvasGroupChange: boolean;
     isDropEnabled: boolean;
+    initRecognizedTextContentToggle: boolean;
     constructor(fields?: {
         attributionDialogEnabled?: boolean;
         attributionDialogHideTimeout?: number;
@@ -26,5 +27,6 @@ export declare class MimeViewerConfig {
         preserveZoomOnCanvasGroupChange?: boolean;
         startOnTopOnCanvasGroupChange?: boolean;
         isDropEnabled?: boolean;
+        initRecognizedTextContentToggle?: boolean;
     });
 }
