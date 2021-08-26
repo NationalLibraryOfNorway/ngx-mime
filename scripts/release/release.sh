@@ -19,6 +19,7 @@ echo "Version: $CURRENT_VERSION"
 npm version $CURRENT_VERSION
 
 cd ../../../..
+cp README.md dist/libs/@nationallibraryofnorway/ngx-mime
 git add -f dist && standard-version -a
 git push --follow-tags origin main
 npm publish dist/libs/@nationallibraryofnorway/ngx-mime
