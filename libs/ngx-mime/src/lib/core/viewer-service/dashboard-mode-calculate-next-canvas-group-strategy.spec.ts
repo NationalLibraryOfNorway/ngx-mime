@@ -12,6 +12,18 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
   describe('LTR', () => {
     const viewingDirection = ViewingDirection.LTR;
 
+    it('should stay on same canvas group when drag speed zero', () => {
+      const res = strategy.calculateNextCanvasGroup({
+        speed: 0,
+        direction: Direction.LEFT,
+        currentCanvasGroupIndex: 1,
+        currentCanvasGroupCenter: 1,
+        viewingDirection: viewingDirection
+      });
+
+      expect(res).toBe(1);
+    });
+
     it('should stay on same canvas group when drag speed is low and canvas group is not passed center', () => {
       const res = strategy.calculateNextCanvasGroup({
         speed: 400,
