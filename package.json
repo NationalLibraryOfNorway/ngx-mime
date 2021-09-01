@@ -20,7 +20,7 @@
     "build": "ng build",
     "prebuild:libs": "yarn install --check-files && yarn clean",
     "build:libs": "ng-packagr -p libs/ngx-mime/ng-package.prod.json",
-    "build:elements": "yarn build --prod --project elements --output-hashing none --single-bundle",
+    "build:elements": "yarn build --prod --project elements --output-hashing none --single-bundle --max_old_space_size=4048",
     "test": "ng test",
     "lint": "./node_modules/.bin/nx workspace-lint && ng lint",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
