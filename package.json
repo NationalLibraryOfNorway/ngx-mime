@@ -17,7 +17,7 @@
     "start:demo": "yarn start --project=demo",
     "start:elements": "yarn start --project=elements",
     "start:integration": "yarn start --port 8080 --prod --project=integration",
-    "build": "node --max_old_space_size=4048 && ng build",
+    "build": "node --max_old_space_size=4048 ./node_modules/.bin/ng build",
     "prebuild:libs": "yarn install --check-files && yarn clean",
     "build:libs": "ng-packagr -p libs/ngx-mime/ng-package.prod.json",
     "build:elements": "yarn build --prod --project elements --output-hashing none --single-bundle",
