@@ -22,7 +22,7 @@ ViewerSpinnerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-spinner',
                 template: "<div class=\"mime-spinner\" [class.mime-spinner--active]=\"visible\">\n  <mat-spinner></mat-spinner>\n</div>\n",
-                styles: [".mime-spinner{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}"]
+                styles: [".mime-spinner{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}\n"]
             },] }
 ];
 ViewerSpinnerComponent.ctorParameters = () => [

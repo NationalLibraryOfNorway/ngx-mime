@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.1.0...v12.1.1) (2021-09-02)
+
+
+### Bug Fixes
+
+* return 0 canvas groups to if speed is 0 ([#339](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/339)) ([4a3f970](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4a3f9707e2b7a5801b6956084dfc1c0be5826f62))
+
 ## [12.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.0.0...v12.1.0) (2021-08-26)
 
 
