@@ -31,7 +31,7 @@ export class DashboardModeCalculateNextCanvasGroupStrategy
 
   private calculateNumberOfCanvasGroupsToGo(speed: number | undefined): number {
     let canvasGroupsToGo = 10;
-    if (speed) {
+    if (speed !== undefined) {
       if (speed < 500) {
         canvasGroupsToGo = 0;
       } else if (speed >= 500 && speed < 1500) {
