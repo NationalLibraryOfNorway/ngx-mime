@@ -46,7 +46,6 @@
         "build": {
           "builder": "@nrwl/angular:package",
           "options": {
-            "allowedCommonJsDependencies": ["xml2js"],
             "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
             "project": "libs/ngx-mime/ng-package.json",
             "buildableProjectDepsInPackageJsonType": "dependencies"
@@ -94,7 +93,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["openseadragon"],
+            "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
             "aot": true,
             "outputPath": "dist/apps/demo",
             "index": "apps/demo/src/index.html",
@@ -212,6 +211,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
             "aot": true,
             "outputPath": "dist/apps/integration",
             "index": "apps/integration/src/index.html",
@@ -349,7 +349,7 @@
         "build": {
           "builder": "ngx-build-plus:browser",
           "options": {
-            "allowedCommonJsDependencies": ["openseadragon"],
+            "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
             "outputPath": "dist/apps/elements",
             "index": "apps/elements/src/index.html",
             "main": "apps/elements/src/main.ts",
