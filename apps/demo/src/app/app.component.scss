@@ -8,6 +8,10 @@ mat-sidenav {
 
 .demo-content {
   width: 100%;
-  height: calc(100% - 64px);
   box-sizing: border-box;
+  height: calc(100% - 64px);
+
+  @media only screen and (max-width: 599px) {
+    height: calc(100% - 54px);
+  }
 }
