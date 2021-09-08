@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
+import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
@@ -32,7 +33,8 @@ export class AccessKeysService {
     private contentSearchDialogService: ContentSearchDialogService,
     private contentsDialogService: ContentsDialogService,
     private mimeDomHelper: MimeDomHelper,
-    private contentSearchNavigationService: ContentSearchNavigationService
+    private contentSearchNavigationService: ContentSearchNavigationService,
+    private altoService: AltoService
   ) {
   }
 
@@ -105,6 +107,8 @@ export class AccessKeysService {
         this.zoomHome();
       } else if (accessKeys.isRotateKeys()) {
         this.rotateClockWise();
+      } else if (accessKeys.isRecogizedTextContentKeys()) {
+        this.toggleRecognizedTextContent();
       }
     }
   }
@@ -131,6 +135,10 @@ export class AccessKeysService {
   private rotateClockWise() {
     this.viewerService.rotate();
     this.mimeDomHelper.setFocusOnViewer();
+  }
+
+  private toggleRecognizedTextContent() {
+    this.altoService.toggle();
   }
 
   private goToNextHit() {
