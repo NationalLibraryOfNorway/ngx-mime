@@ -15,7 +15,7 @@ export class AccessKeys {
   public static toggleFullscreenCodes = [70]; // f
   public static resetSearch = [83]; // s
   public static rotateCwCodes = [82]; // r
-  public static recognizedTextContentCwCodes = [84]; // t
+  public static recognizedTextContentCodes = [84]; // t
   private keyCode: number;
   private altKey = false;
   private shiftKey = false;
@@ -132,7 +132,7 @@ export class AccessKeys {
 
   public isRecogizedTextContentKeys() {
     return (
-      !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.recognizedTextContentCwCodes)
+      !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes)
     );
   }
 
