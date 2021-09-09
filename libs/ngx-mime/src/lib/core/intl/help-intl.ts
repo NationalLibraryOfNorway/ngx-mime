@@ -10,5 +10,5 @@ export class HelpIntl {
   line8 = '<strong>P</strong>: Previous result';
   line9 = '<strong>F</strong>: Fullscreen on/off (Close with <strong>F</strong> or <strong>ESC</strong>.)';
   line10 = '<strong>R</strong>: Rotate 90°';
-  line11 = '<strong>T</strong>: Show/hide recognized text content';
+  line11 = '<strong>T</strong>:  Show/hide optically recognized text (for content that can be displayed)';
 }
