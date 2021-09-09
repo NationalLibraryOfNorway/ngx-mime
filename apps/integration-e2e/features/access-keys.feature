@@ -175,11 +175,11 @@ Feature: Access Keys
         | keys        |
         | p           |
 
-  Scenario Outline: Open recognized text content
-    Given the viewer is opened with a publication with recognized text content
-    And the user hits key <keys>
-    Then the recognized text content should be shown
+    Scenario Outline: Open recognized text content
+      Given the viewer is opened with a publication with recognized text content
+      And the user hits key <keys>
+      Then the recognized text content should be shown
 
-    Examples:
-      | keys  |
-      | t     |
+      Examples:
+        | keys  |
+        | t     |
