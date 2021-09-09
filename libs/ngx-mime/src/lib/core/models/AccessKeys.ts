@@ -130,7 +130,7 @@ export class AccessKeys {
     );
   }
 
-  public isRecogizedTextContentKeys() {
+  public isRecognizedTextContentKeys() {
     return (
       !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes)
     );

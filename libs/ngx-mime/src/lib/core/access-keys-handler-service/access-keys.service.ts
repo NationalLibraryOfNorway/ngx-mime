@@ -107,7 +107,7 @@ export class AccessKeysService {
         this.zoomHome();
       } else if (accessKeys.isRotateKeys()) {
         this.rotateClockWise();
-      } else if (accessKeys.isRecogizedTextContentKeys()) {
+      } else if (accessKeys.isRecognizedTextContentKeys()) {
         this.toggleRecognizedTextContent();
       }
     }
