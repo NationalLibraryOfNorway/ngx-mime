@@ -176,7 +176,6 @@ export class ViewerPage {
     if (await utils.isPresentAndDisplayed(this.secondCanvasRecognizedTextContentEl.element(by.css('p')))) {
       text += await this.secondCanvasRecognizedTextContentEl.getText();
     }
-    console.log('TEXT', text);
     return text;
   }
 
@@ -642,6 +641,8 @@ export class ViewerPage {
       iKey = Key.chord('s');
     } else if (key === 'c') {
       iKey = Key.chord('c');
+    } else if (key === 't') {
+      iKey = Key.chord('t');
     } else if (key === 'Esc') {
       iKey = Key.ESCAPE;
     }
