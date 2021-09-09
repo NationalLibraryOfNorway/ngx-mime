@@ -170,12 +170,13 @@ export class ViewerPage {
 
   async getRecognizedTextContent(): Promise<string> {
     let text = '';
-    if (await utils.isPresentAndDisplayed(this.firstCanvasRecognizedTextContentEl)) {
+    if (await utils.isPresentAndDisplayed(this.firstCanvasRecognizedTextContentEl.element(by.css('p')))) {
       text = await this.firstCanvasRecognizedTextContentEl.getText();
     }
-    if (await utils.isPresentAndDisplayed(this.secondCanvasRecognizedTextContentEl)) {
+    if (await utils.isPresentAndDisplayed(this.secondCanvasRecognizedTextContentEl.element(by.css('p')))) {
       text += await this.secondCanvasRecognizedTextContentEl.getText();
     }
+    console.log('TEXT', text);
     return text;
   }
 
