@@ -17,5 +17,5 @@ export class HelpIntlLt extends HelpIntl {
   line9 =
     '<strong>F</strong>: Pilno ekrano režimas (Uždaroma paspaudus <strong>F</strong> arba <strong>ESC</strong>.)';
   line10 = '<strong>R</strong>: Pasukti 90 laipsnių';
-  line11 = '<strong>T</strong>:  Rodyti/slėpti optiškai atpažįstamą tekstą (turiniui, kurį galima rodyti)';
+  line11 = '<strong>T</strong>:  Rodyti/slėpti optiškai atpažįstamą tekstą (turiniui, kurį galima rodyti).';
 }
