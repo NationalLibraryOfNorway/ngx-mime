@@ -150,36 +150,36 @@ Feature: Access Keys
       | Home        |
       | End         |
 
-    Scenario Outline: Next hit on <keys>
-      Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
-      And the viewer is in dashboard view
-      And the user search for the word "Gjallarhorn"
-      And the user closes the search dialog
-      And the user hits key <keys>
-      Then the page with hit number 1 should be displayed
+  Scenario Outline: Next hit on <keys>
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
+    And the viewer is in dashboard view
+    And the user search for the word "Gjallarhorn"
+    And the user closes the search dialog
+    And the user hits key <keys>
+    Then the page with hit number 1 should be displayed
 
-      Examples:
-        | keys        |
-        | n           |
+    Examples:
+      | keys        |
+      | n           |
 
-    Scenario Outline: Previous hit on <keys>
-      Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
-      And the viewer is in dashboard view
-      And the user search for the word "Gjallarhorn"
-      And the user has selected the second hit
-      And the user closes the search dialog
-      And the user hits key <keys>
-      Then the page with hit number 1 should be displayed
+  Scenario Outline: Previous hit on <keys>
+    Given the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside
+    And the viewer is in dashboard view
+    And the user search for the word "Gjallarhorn"
+    And the user has selected the second hit
+    And the user closes the search dialog
+    And the user hits key <keys>
+    Then the page with hit number 1 should be displayed
 
-      Examples:
-        | keys        |
-        | p           |
+    Examples:
+      | keys        |
+      | p           |
 
-    Scenario Outline: Open recognized text content
-      Given the viewer is opened with a publication with recognized text content
-      And the user hits key <keys>
-      Then the recognized text content should be shown
+  Scenario Outline: Open recognized text content
+    Given the viewer is opened with a publication with recognized text content
+    And the user hits key <keys>
+    Then the recognized text content should be shown
 
-      Examples:
-        | keys  |
-        | t     |
+    Examples:
+      | keys  |
+      | t     |
