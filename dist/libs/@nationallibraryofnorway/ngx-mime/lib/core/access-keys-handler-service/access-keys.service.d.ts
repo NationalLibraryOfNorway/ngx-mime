@@ -1,5 +1,6 @@
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
+import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
@@ -17,12 +18,13 @@ export declare class AccessKeysService {
     private contentsDialogService;
     private mimeDomHelper;
     private contentSearchNavigationService;
+    private altoService;
     private isSearchable;
     private hasHits;
     private disabledKeys;
     private subscriptions;
     private invert;
-    constructor(viewerService: ViewerService, canvasService: CanvasService, modeService: ModeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchDialogService: ContentSearchDialogService, contentsDialogService: ContentsDialogService, mimeDomHelper: MimeDomHelper, contentSearchNavigationService: ContentSearchNavigationService);
+    constructor(viewerService: ViewerService, canvasService: CanvasService, modeService: ModeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchDialogService: ContentSearchDialogService, contentsDialogService: ContentsDialogService, mimeDomHelper: MimeDomHelper, contentSearchNavigationService: ContentSearchNavigationService, altoService: AltoService);
     initialize(): void;
     destroy(): void;
     handleKeyEvents(event: KeyboardEvent): void;
@@ -31,6 +33,7 @@ export declare class AccessKeysService {
     private goToFirstCanvasGroup;
     private goToLastCanvasGroup;
     private rotateClockWise;
+    private toggleRecognizedTextContent;
     private goToNextHit;
     private goToPreviousHit;
     private zoomIn;

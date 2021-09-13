@@ -15,6 +15,7 @@ export declare class AccessKeys {
     static toggleFullscreenCodes: number[];
     static resetSearch: number[];
     static rotateCwCodes: number[];
+    static recognizedTextContentCodes: number[];
     private keyCode;
     private altKey;
     private shiftKey;
@@ -37,6 +38,7 @@ export declare class AccessKeys {
     isFullscreenKeys(): boolean;
     isResetSearchKeys(): boolean;
     isRotateKeys(): boolean;
+    isRecognizedTextContentKeys(): boolean;
     private isMultiKeys;
     private arrayContainsKeys;
     private isShiftPressed;

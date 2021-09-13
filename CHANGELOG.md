@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.1.1...v12.2.0) (2021-09-13)
+
+
+### Features
+
+* access key for recognized text content ([0fc3cb0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0fc3cb0603c3a5a2cdda5c702b12f403bfcc16a1))
+
+
+### Bug Fixes
+
+*  “extractCss is deprecated” ([88d39d8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/88d39d8171cd50ae01cbd488097d316c723d541c))
+*  karma-coverage instead of karma-coverage-istanbul-reporter ([142238a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/142238ad2df316251efd2d3fba453deb409d92c3))
+* apps is missing material typography styles ([a19294a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a19294a6f6dd61f9e5e3721b8ae54fe4907168d7))
+* **demo:** correct header size on mobile devices ([8e756aa](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8e756aa33f6955d5b503d8005d2680bf2cbcbdbc))
+* padding on top and bottom on recognized text container ([828bd67](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/828bd678167bb4876072f667424e73717758ceeb))
+* xml2js changed to peerDependency ([2331808](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/23318089ba474e4f7038a7f7d4b55c2b4dbd6a3e))
+
 ### [12.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.1.0...v12.1.1) (2021-09-02)
 
 

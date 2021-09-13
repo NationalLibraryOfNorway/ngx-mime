@@ -42,6 +42,7 @@ class HelpIntl {
         this.line8 = '<strong>P</strong>: Previous result';
         this.line9 = '<strong>F</strong>: Fullscreen on/off (Close with <strong>F</strong> or <strong>ESC</strong>.)';
         this.line10 = '<strong>R</strong>: Rotate 90°';
+        this.line11 = '<strong>T</strong>:  Show/hide optically recognized text (for content that can be displayed).';
     }
 }
 
@@ -111,6 +112,7 @@ class HelpIntlNoNb extends HelpIntl {
         this.line8 = '<strong>P</strong>: Går til forrige treff i objektet';
         this.line9 = '<strong>F</strong>: Fullskjerm av og på (Lukk med <strong>F</strong> eller <strong>ESC</strong>-tasten.)';
         this.line10 = '<strong>R</strong>: Rotér 90°';
+        this.line11 = '<strong>T</strong>: Vis/skjul optisk gjenkjent tekst (for innhold som kan vises).';
     }
 }
 
@@ -180,6 +182,7 @@ class HelpIntlLt extends HelpIntl {
         this.line8 = '<strong>P</strong>: Buvęs rezultatas';
         this.line9 = '<strong>F</strong>: Pilno ekrano režimas (Uždaroma paspaudus <strong>F</strong> arba <strong>ESC</strong>.)';
         this.line10 = '<strong>R</strong>: Pasukti 90 laipsnių';
+        this.line11 = '<strong>T</strong>:  Rodyti/slėpti optiškai atpažįstamą tekstą (turiniui, kurį galima rodyti).';
     }
 }
 
@@ -1798,6 +1801,190 @@ ContentsDialogService.ctorParameters = () => [
     { type: MimeResizeService }
 ];
 
+class StringsBuilder {
+    withStringXml(stringXml) {
+        this.stringXml = stringXml;
+        return this;
+    }
+    build() {
+        return this.stringXml
+            ? this.stringXml.map((string) => {
+                return { content: string.$.CONTENT };
+            })
+            : [];
+    }
+}
+
+class TextLinesBuilder {
+    constructor() {
+        this.stringBuilder = new StringsBuilder();
+    }
+    withTextLinesXml(textLinesXml) {
+        this.textLinesXml = textLinesXml;
+        return this;
+    }
+    build() {
+        return this.textLinesXml
+            ? this.textLinesXml.map((textLine) => {
+                return {
+                    strings: this.stringBuilder.withStringXml(textLine.String).build(),
+                };
+            })
+            : [];
+    }
+}
+
+class TextBlocksBuilder {
+    constructor() {
+        this.textLinesBuilder = new TextLinesBuilder();
+    }
+    withTextBlocksXml(textBlocksXml) {
+        this.textBlocksXml = textBlocksXml;
+        return this;
+    }
+    withTextStyles(textStyles) {
+        this.textStyles = textStyles;
+        return this;
+    }
+    build() {
+        return this.textBlocksXml
+            ? this.textBlocksXml.map((textBlock) => {
+                var _a;
+                const styleRef = (_a = textBlock.$.STYLEREFS) === null || _a === void 0 ? void 0 : _a.split(' ');
+                let textStyle = undefined;
+                if (styleRef && this.textStyles) {
+                    textStyle = this.textStyles.get(styleRef[0]);
+                }
+                return {
+                    textLines: this.textLinesBuilder
+                        .withTextLinesXml(textBlock.TextLine)
+                        .build(),
+                    textStyle: {
+                        fontStyle: textStyle === null || textStyle === void 0 ? void 0 : textStyle.fontStyle,
+                    },
+                };
+            })
+            : [];
+    }
+}
+
+class PrintSpaceBuilder {
+    withPrintSpaceXml(printSpaceXml) {
+        this.printSpaceXml = printSpaceXml;
+        return this;
+    }
+    withTextStyles(textStyles) {
+        this.textStyles = textStyles;
+        return this;
+    }
+    build() {
+        let textBlocks = [];
+        if (this.printSpaceXml.TextBlock) {
+            textBlocks = [...textBlocks, ...this.printSpaceXml.TextBlock];
+        }
+        if (this.printSpaceXml.ComposedBlock) {
+            textBlocks = [
+                ...textBlocks,
+                ...this.printSpaceXml.ComposedBlock.filter((t) => t.TextBlock !== undefined).flatMap((t) => t.TextBlock),
+            ];
+        }
+        return {
+            textBlocks: new TextBlocksBuilder()
+                .withTextBlocksXml(textBlocks)
+                .withTextStyles(this.textStyles)
+                .build(),
+        };
+    }
+}
+
+class PageBuilder {
+    constructor() {
+        this.printSpaceBuilder = new PrintSpaceBuilder();
+    }
+    withPageXml(pageXml) {
+        this.pageXml = pageXml;
+        return this;
+    }
+    withTextStyles(textStyles) {
+        this.printSpaceBuilder.withTextStyles(textStyles);
+        return this;
+    }
+    build() {
+        return {
+            topMargin: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.TopMargin[0])
+                .build(),
+            leftMargin: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.LeftMargin[0])
+                .build(),
+            rightMargin: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.RightMargin[0])
+                .build(),
+            bottomMargin: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.BottomMargin[0])
+                .build(),
+            printSpace: this.printSpaceBuilder
+                .withPrintSpaceXml(this.pageXml.PrintSpace[0])
+                .build(),
+        };
+    }
+}
+
+class LayoutBuilder {
+    constructor() {
+        this.pageBuilder = new PageBuilder();
+    }
+    withLayoutXml(layoutXml) {
+        this.pageBuilder.withPageXml(layoutXml.Page[0]);
+        return this;
+    }
+    withTextStyles(textStyles) {
+        this.pageBuilder.withTextStyles(textStyles);
+        return this;
+    }
+    build() {
+        return {
+            page: this.pageBuilder.build(),
+        };
+    }
+}
+
+class StylesBuilder {
+    constructor(stylesXml) {
+        this.stylesXml = stylesXml;
+    }
+    build() {
+        const textStyles = new Map();
+        if (this.stylesXml.TextStyle) {
+            this.stylesXml.TextStyle.forEach((textStyle) => {
+                textStyles.set(textStyle.$.ID, {
+                    fontStyle: textStyle.$.FONTSTYLE,
+                });
+            });
+        }
+        return textStyles;
+    }
+}
+
+class AltoBuilder {
+    constructor() {
+        this.layoutBuilder = new LayoutBuilder();
+    }
+    withAltoXml(altoXml) {
+        this.altoXml = altoXml;
+        return this;
+    }
+    build() {
+        if (this.altoXml.Styles) {
+            this.layoutBuilder.withTextStyles(new StylesBuilder(this.altoXml.Styles[0]).build());
+        }
+        this.layoutBuilder.withLayoutXml(this.altoXml.Layout[0]);
+        return {
+            layout: this.layoutBuilder.build(),
+        };
+    }
+}
+
 class CanvasGroups {
     constructor() {
         this.canvasGroupRects = [];
@@ -2037,484 +2224,6 @@ CanvasService.decorators = [
 ];
 CanvasService.ctorParameters = () => [];
 
-class ModeChanges {
-    constructor(fields) {
-        if (fields) {
-            this.currentValue = fields.currentValue || this.currentValue;
-            this.previousValue = fields.previousValue || this.previousValue;
-        }
-    }
-}
-
-class ModeService {
-    constructor() {
-        this.modeChanges = new ModeChanges();
-        const mimeConfig = new MimeViewerConfig();
-        this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
-        this._initialMode = mimeConfig.initViewerMode;
-        this._mode = this._initialMode;
-    }
-    get onChange() {
-        return this.toggleModeSubject.asObservable().pipe(distinctUntilChanged());
-    }
-    set mode(mode) {
-        this._mode = mode;
-        this.change();
-    }
-    get mode() {
-        return this._mode;
-    }
-    set initialMode(mode) {
-        this._initialMode = mode;
-        this.mode = mode;
-    }
-    get initialMode() {
-        return this._initialMode;
-    }
-    toggleMode() {
-        if (this.mode === ViewerMode.DASHBOARD) {
-            this.mode = ViewerMode.PAGE;
-        }
-        else if (this.mode === ViewerMode.PAGE ||
-            this.mode === ViewerMode.PAGE_ZOOMED) {
-            this.mode = ViewerMode.DASHBOARD;
-        }
-    }
-    change() {
-        this.modeChanges.previousValue = this.modeChanges.currentValue;
-        this.modeChanges.currentValue = this._mode;
-        this.toggleModeSubject.next(Object.assign({}, this.modeChanges));
-    }
-}
-ModeService.decorators = [
-    { type: Injectable }
-];
-ModeService.ctorParameters = () => [];
-
-class AccessKeys {
-    constructor(event) {
-        this.altKey = false;
-        this.shiftKey = false;
-        this.ctrlkey = false;
-        this.keyCode = event.keyCode;
-        this.altKey = event.altKey;
-        this.shiftKey = event.shiftKey;
-        this.ctrlkey = event.ctrlKey;
-    }
-    isArrowRightKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
-    }
-    isArrowLeftKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
-    }
-    isPageUpKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
-    }
-    isPageDownKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
-    }
-    isFirstCanvasGroupKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
-    }
-    isLastCanvasGroupKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
-    }
-    isSliderKeys() {
-        return (this.isArrowLeftKeys() ||
-            this.isArrowRightKeys() ||
-            this.isPageDownKeys() ||
-            this.isPageUpKeys() ||
-            this.isFirstCanvasGroupKeys() ||
-            this.isLastCanvasGroupKeys());
-    }
-    isZoomInKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
-    }
-    isZoomOutKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
-    }
-    isZoomHomeKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
-    }
-    isNextHitKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
-    }
-    isPreviousHitKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
-    }
-    isSearchDialogKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
-    }
-    isContentsDialogKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes));
-    }
-    isFullscreenKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
-    }
-    isResetSearchKeys() {
-        return (this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch));
-    }
-    isRotateKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
-    }
-    isMultiKeys() {
-        return this.altKey || this.shiftKey || this.ctrlkey;
-    }
-    arrayContainsKeys(keys) {
-        return keys.indexOf(this.keyCode) > -1;
-    }
-    isShiftPressed() {
-        return this.shiftKey;
-    }
-}
-AccessKeys.PAGEDOWN = [34];
-AccessKeys.PAGEUP = [33];
-AccessKeys.ARROWRIGHT = [39];
-AccessKeys.ARROWLEFT = [37];
-AccessKeys.firstCanvasGroupCodes = [36]; // Home
-AccessKeys.lastCanvasGroupCodes = [35]; // End
-AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
-AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
-AccessKeys.zoomHomeCodes = [96, 48]; // 0
-AccessKeys.nextHit = [78]; // n
-AccessKeys.previousHit = [80]; // p
-AccessKeys.toggleSearchDialogCodes = [83]; // s
-AccessKeys.toggleContentsDialogCodes = [67]; // C
-AccessKeys.toggleFullscreenCodes = [70]; // f
-AccessKeys.resetSearch = [83]; // s
-AccessKeys.rotateCwCodes = [82]; // r
-
-class ContentSearchNavigationService {
-    constructor(canvasService, iiifContentSearchService) {
-        this.canvasService = canvasService;
-        this.iiifContentSearchService = iiifContentSearchService;
-        this.currentIndex = 0;
-        this.isHitOnActiveCanvasGroup = false;
-        this._isFirstHitOnCanvasGroup = false;
-        this._isLastHitOnCanvasGroup = false;
-        this.canvasesPerCanvasGroup = [-1];
-        this.searchResult = null;
-        this.initialize();
-    }
-    initialize() {
-        this.subscriptions = new Subscription();
-        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((result) => {
-            this.searchResult = result;
-        }));
-    }
-    destroy() {
-        this.subscriptions.unsubscribe();
-    }
-    update(canvasGroupIndex) {
-        this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-        this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
-        this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
-        this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
-        this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
-    }
-    getCurrentIndex() {
-        return this.currentIndex;
-    }
-    getHitOnActiveCanvasGroup() {
-        return this.isHitOnActiveCanvasGroup;
-    }
-    getFirstHitCanvasGroup() {
-        return this._isFirstHitOnCanvasGroup;
-    }
-    getLastHitCanvasGroup() {
-        return this._isLastHitOnCanvasGroup;
-    }
-    goToNextCanvasGroupHit() {
-        if (this.searchResult && !this._isLastHitOnCanvasGroup) {
-            let nextHit;
-            if (this.currentIndex === -1) {
-                nextHit = this.searchResult.get(0);
-            }
-            else {
-                const current = this.searchResult.get(this.currentIndex);
-                const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(current.index);
-                const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
-                const lastCanvasGroupIndex = this.getLastCanvasGroupIndex(canvasesPerCanvasGroup);
-                nextHit = this.searchResult.hits.find((h) => h.index > lastCanvasGroupIndex);
-            }
-            if (nextHit) {
-                this.goToCanvasIndex(nextHit);
-            }
-        }
-    }
-    goToPreviousCanvasGroupHit() {
-        const previousIndex = this.isHitOnActiveCanvasGroup
-            ? this.currentIndex - 1
-            : this.currentIndex;
-        const previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
-        if (previousHit) {
-            this.goToCanvasIndex(previousHit);
-        }
-    }
-    goToCanvasIndex(hit) {
-        this.currentIndex = this.findCurrentHitIndex([hit.index]);
-        this.iiifContentSearchService.selected(hit);
-    }
-    findLastHitOnCanvasGroup() {
-        if (!this.searchResult) {
-            return false;
-        }
-        const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
-            .index;
-        const currentHit = this.searchResult.get(this.currentIndex);
-        return currentHit.index === lastCanvasIndex;
-    }
-    findFirstHitOnCanvasGroup(previousIndex) {
-        if (!this.searchResult) {
-            return;
-        }
-        let previousHit = this.searchResult.get(previousIndex);
-        const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
-        const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-        const leftCanvas = canvasesPerCanvasGroup[0];
-        const leftCanvasHit = this.searchResult.hits.find((h) => h.index === leftCanvas);
-        if (leftCanvasHit) {
-            previousHit = leftCanvasHit;
-        }
-        else if (canvasesPerCanvasGroup.length === 2) {
-            const rightCanvas = canvasesPerCanvasGroup[1];
-            previousHit = this.searchResult.hits.find((h) => h.index === rightCanvas);
-        }
-        return previousHit;
-    }
-    findHitOnActiveCanvasGroup() {
-        if (!this.searchResult) {
-            return false;
-        }
-        return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
-    }
-    findCurrentHitIndex(canvasGroupIndexes) {
-        if (!this.searchResult) {
-            return -1;
-        }
-        for (let i = 0; i < this.searchResult.size(); i++) {
-            const hit = this.searchResult.get(i);
-            if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
-                return i;
-            }
-            if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
-                if (i === 0) {
-                    return -1;
-                }
-                else {
-                    const phit = this.searchResult.get(i - 1);
-                    return this.searchResult.hits.findIndex((sr) => sr.index === phit.index);
-                }
-            }
-        }
-        return this.searchResult.size() - 1;
-    }
-    isFirstHitOnCanvasGroup() {
-        return this.currentIndex <= 0;
-    }
-    getLastCanvasGroupIndex(canvasesPerCanvasGroup) {
-        return canvasesPerCanvasGroup.length === 1
-            ? canvasesPerCanvasGroup[0]
-            : canvasesPerCanvasGroup[1];
-    }
-}
-ContentSearchNavigationService.decorators = [
-    { type: Injectable }
-];
-ContentSearchNavigationService.ctorParameters = () => [
-    { type: CanvasService },
-    { type: IiifContentSearchService }
-];
-
-class StringsBuilder {
-    withStringXml(stringXml) {
-        this.stringXml = stringXml;
-        return this;
-    }
-    build() {
-        return this.stringXml
-            ? this.stringXml.map((string) => {
-                return { content: string.$.CONTENT };
-            })
-            : [];
-    }
-}
-
-class TextLinesBuilder {
-    constructor() {
-        this.stringBuilder = new StringsBuilder();
-    }
-    withTextLinesXml(textLinesXml) {
-        this.textLinesXml = textLinesXml;
-        return this;
-    }
-    build() {
-        return this.textLinesXml
-            ? this.textLinesXml.map((textLine) => {
-                return {
-                    strings: this.stringBuilder.withStringXml(textLine.String).build(),
-                };
-            })
-            : [];
-    }
-}
-
-class TextBlocksBuilder {
-    constructor() {
-        this.textLinesBuilder = new TextLinesBuilder();
-    }
-    withTextBlocksXml(textBlocksXml) {
-        this.textBlocksXml = textBlocksXml;
-        return this;
-    }
-    withTextStyles(textStyles) {
-        this.textStyles = textStyles;
-        return this;
-    }
-    build() {
-        return this.textBlocksXml
-            ? this.textBlocksXml.map((textBlock) => {
-                var _a;
-                const styleRef = (_a = textBlock.$.STYLEREFS) === null || _a === void 0 ? void 0 : _a.split(' ');
-                let textStyle = undefined;
-                if (styleRef && this.textStyles) {
-                    textStyle = this.textStyles.get(styleRef[0]);
-                }
-                return {
-                    textLines: this.textLinesBuilder
-                        .withTextLinesXml(textBlock.TextLine)
-                        .build(),
-                    textStyle: {
-                        fontStyle: textStyle === null || textStyle === void 0 ? void 0 : textStyle.fontStyle,
-                    },
-                };
-            })
-            : [];
-    }
-}
-
-class PrintSpaceBuilder {
-    withPrintSpaceXml(printSpaceXml) {
-        this.printSpaceXml = printSpaceXml;
-        return this;
-    }
-    withTextStyles(textStyles) {
-        this.textStyles = textStyles;
-        return this;
-    }
-    build() {
-        let textBlocks = [];
-        if (this.printSpaceXml.TextBlock) {
-            textBlocks = [...textBlocks, ...this.printSpaceXml.TextBlock];
-        }
-        if (this.printSpaceXml.ComposedBlock) {
-            textBlocks = [
-                ...textBlocks,
-                ...this.printSpaceXml.ComposedBlock.filter((t) => t.TextBlock !== undefined).flatMap((t) => t.TextBlock),
-            ];
-        }
-        return {
-            textBlocks: new TextBlocksBuilder()
-                .withTextBlocksXml(textBlocks)
-                .withTextStyles(this.textStyles)
-                .build(),
-        };
-    }
-}
-
-class PageBuilder {
-    constructor() {
-        this.printSpaceBuilder = new PrintSpaceBuilder();
-    }
-    withPageXml(pageXml) {
-        this.pageXml = pageXml;
-        return this;
-    }
-    withTextStyles(textStyles) {
-        this.printSpaceBuilder.withTextStyles(textStyles);
-        return this;
-    }
-    build() {
-        return {
-            topMargin: this.printSpaceBuilder
-                .withPrintSpaceXml(this.pageXml.TopMargin[0])
-                .build(),
-            leftMargin: this.printSpaceBuilder
-                .withPrintSpaceXml(this.pageXml.LeftMargin[0])
-                .build(),
-            rightMargin: this.printSpaceBuilder
-                .withPrintSpaceXml(this.pageXml.RightMargin[0])
-                .build(),
-            bottomMargin: this.printSpaceBuilder
-                .withPrintSpaceXml(this.pageXml.BottomMargin[0])
-                .build(),
-            printSpace: this.printSpaceBuilder
-                .withPrintSpaceXml(this.pageXml.PrintSpace[0])
-                .build(),
-        };
-    }
-}
-
-class LayoutBuilder {
-    constructor() {
-        this.pageBuilder = new PageBuilder();
-    }
-    withLayoutXml(layoutXml) {
-        this.pageBuilder.withPageXml(layoutXml.Page[0]);
-        return this;
-    }
-    withTextStyles(textStyles) {
-        this.pageBuilder.withTextStyles(textStyles);
-        return this;
-    }
-    build() {
-        return {
-            page: this.pageBuilder.build(),
-        };
-    }
-}
-
-class StylesBuilder {
-    constructor(stylesXml) {
-        this.stylesXml = stylesXml;
-    }
-    build() {
-        const textStyles = new Map();
-        if (this.stylesXml.TextStyle) {
-            this.stylesXml.TextStyle.forEach((textStyle) => {
-                textStyles.set(textStyle.$.ID, {
-                    fontStyle: textStyle.$.FONTSTYLE,
-                });
-            });
-        }
-        return textStyles;
-    }
-}
-
-class AltoBuilder {
-    constructor() {
-        this.layoutBuilder = new LayoutBuilder();
-    }
-    withAltoXml(altoXml) {
-        this.altoXml = altoXml;
-        return this;
-    }
-    build() {
-        if (this.altoXml.Styles) {
-            this.layoutBuilder.withTextStyles(new StylesBuilder(this.altoXml.Styles[0]).build());
-        }
-        this.layoutBuilder.withLayoutXml(this.altoXml.Layout[0]);
-        return {
-            layout: this.layoutBuilder.build(),
-        };
-    }
-}
-
 class HtmlFormatter {
     constructor(sanitizer) {
         this.sanitizer = sanitizer;
@@ -2705,6 +2414,304 @@ AltoService.ctorParameters = () => [
     { type: IiifManifestService },
     { type: CanvasService },
     { type: DomSanitizer }
+];
+
+class ModeChanges {
+    constructor(fields) {
+        if (fields) {
+            this.currentValue = fields.currentValue || this.currentValue;
+            this.previousValue = fields.previousValue || this.previousValue;
+        }
+    }
+}
+
+class ModeService {
+    constructor() {
+        this.modeChanges = new ModeChanges();
+        const mimeConfig = new MimeViewerConfig();
+        this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
+        this._initialMode = mimeConfig.initViewerMode;
+        this._mode = this._initialMode;
+    }
+    get onChange() {
+        return this.toggleModeSubject.asObservable().pipe(distinctUntilChanged());
+    }
+    set mode(mode) {
+        this._mode = mode;
+        this.change();
+    }
+    get mode() {
+        return this._mode;
+    }
+    set initialMode(mode) {
+        this._initialMode = mode;
+        this.mode = mode;
+    }
+    get initialMode() {
+        return this._initialMode;
+    }
+    toggleMode() {
+        if (this.mode === ViewerMode.DASHBOARD) {
+            this.mode = ViewerMode.PAGE;
+        }
+        else if (this.mode === ViewerMode.PAGE ||
+            this.mode === ViewerMode.PAGE_ZOOMED) {
+            this.mode = ViewerMode.DASHBOARD;
+        }
+    }
+    change() {
+        this.modeChanges.previousValue = this.modeChanges.currentValue;
+        this.modeChanges.currentValue = this._mode;
+        this.toggleModeSubject.next(Object.assign({}, this.modeChanges));
+    }
+}
+ModeService.decorators = [
+    { type: Injectable }
+];
+ModeService.ctorParameters = () => [];
+
+class AccessKeys {
+    constructor(event) {
+        this.altKey = false;
+        this.shiftKey = false;
+        this.ctrlkey = false;
+        this.keyCode = event.keyCode;
+        this.altKey = event.altKey;
+        this.shiftKey = event.shiftKey;
+        this.ctrlkey = event.ctrlKey;
+    }
+    isArrowRightKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
+    }
+    isArrowLeftKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
+    }
+    isPageUpKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
+    }
+    isPageDownKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
+    }
+    isFirstCanvasGroupKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
+    }
+    isLastCanvasGroupKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
+    }
+    isSliderKeys() {
+        return (this.isArrowLeftKeys() ||
+            this.isArrowRightKeys() ||
+            this.isPageDownKeys() ||
+            this.isPageUpKeys() ||
+            this.isFirstCanvasGroupKeys() ||
+            this.isLastCanvasGroupKeys());
+    }
+    isZoomInKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
+    }
+    isZoomOutKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
+    }
+    isZoomHomeKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
+    }
+    isNextHitKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
+    }
+    isPreviousHitKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
+    }
+    isSearchDialogKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
+    }
+    isContentsDialogKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes));
+    }
+    isFullscreenKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
+    }
+    isResetSearchKeys() {
+        return (this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch));
+    }
+    isRotateKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
+    }
+    isRecognizedTextContentKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes));
+    }
+    isMultiKeys() {
+        return this.altKey || this.shiftKey || this.ctrlkey;
+    }
+    arrayContainsKeys(keys) {
+        return keys.indexOf(this.keyCode) > -1;
+    }
+    isShiftPressed() {
+        return this.shiftKey;
+    }
+}
+AccessKeys.PAGEDOWN = [34];
+AccessKeys.PAGEUP = [33];
+AccessKeys.ARROWRIGHT = [39];
+AccessKeys.ARROWLEFT = [37];
+AccessKeys.firstCanvasGroupCodes = [36]; // Home
+AccessKeys.lastCanvasGroupCodes = [35]; // End
+AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
+AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
+AccessKeys.zoomHomeCodes = [96, 48]; // 0
+AccessKeys.nextHit = [78]; // n
+AccessKeys.previousHit = [80]; // p
+AccessKeys.toggleSearchDialogCodes = [83]; // s
+AccessKeys.toggleContentsDialogCodes = [67]; // C
+AccessKeys.toggleFullscreenCodes = [70]; // f
+AccessKeys.resetSearch = [83]; // s
+AccessKeys.rotateCwCodes = [82]; // r
+AccessKeys.recognizedTextContentCodes = [84]; // t
+
+class ContentSearchNavigationService {
+    constructor(canvasService, iiifContentSearchService) {
+        this.canvasService = canvasService;
+        this.iiifContentSearchService = iiifContentSearchService;
+        this.currentIndex = 0;
+        this.isHitOnActiveCanvasGroup = false;
+        this._isFirstHitOnCanvasGroup = false;
+        this._isLastHitOnCanvasGroup = false;
+        this.canvasesPerCanvasGroup = [-1];
+        this.searchResult = null;
+        this.initialize();
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((result) => {
+            this.searchResult = result;
+        }));
+    }
+    destroy() {
+        this.subscriptions.unsubscribe();
+    }
+    update(canvasGroupIndex) {
+        this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+        this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
+        this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
+        this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
+        this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
+    }
+    getCurrentIndex() {
+        return this.currentIndex;
+    }
+    getHitOnActiveCanvasGroup() {
+        return this.isHitOnActiveCanvasGroup;
+    }
+    getFirstHitCanvasGroup() {
+        return this._isFirstHitOnCanvasGroup;
+    }
+    getLastHitCanvasGroup() {
+        return this._isLastHitOnCanvasGroup;
+    }
+    goToNextCanvasGroupHit() {
+        if (this.searchResult && !this._isLastHitOnCanvasGroup) {
+            let nextHit;
+            if (this.currentIndex === -1) {
+                nextHit = this.searchResult.get(0);
+            }
+            else {
+                const current = this.searchResult.get(this.currentIndex);
+                const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(current.index);
+                const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
+                const lastCanvasGroupIndex = this.getLastCanvasGroupIndex(canvasesPerCanvasGroup);
+                nextHit = this.searchResult.hits.find((h) => h.index > lastCanvasGroupIndex);
+            }
+            if (nextHit) {
+                this.goToCanvasIndex(nextHit);
+            }
+        }
+    }
+    goToPreviousCanvasGroupHit() {
+        const previousIndex = this.isHitOnActiveCanvasGroup
+            ? this.currentIndex - 1
+            : this.currentIndex;
+        const previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
+        if (previousHit) {
+            this.goToCanvasIndex(previousHit);
+        }
+    }
+    goToCanvasIndex(hit) {
+        this.currentIndex = this.findCurrentHitIndex([hit.index]);
+        this.iiifContentSearchService.selected(hit);
+    }
+    findLastHitOnCanvasGroup() {
+        if (!this.searchResult) {
+            return false;
+        }
+        const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
+            .index;
+        const currentHit = this.searchResult.get(this.currentIndex);
+        return currentHit.index === lastCanvasIndex;
+    }
+    findFirstHitOnCanvasGroup(previousIndex) {
+        if (!this.searchResult) {
+            return;
+        }
+        let previousHit = this.searchResult.get(previousIndex);
+        const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
+        const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+        const leftCanvas = canvasesPerCanvasGroup[0];
+        const leftCanvasHit = this.searchResult.hits.find((h) => h.index === leftCanvas);
+        if (leftCanvasHit) {
+            previousHit = leftCanvasHit;
+        }
+        else if (canvasesPerCanvasGroup.length === 2) {
+            const rightCanvas = canvasesPerCanvasGroup[1];
+            previousHit = this.searchResult.hits.find((h) => h.index === rightCanvas);
+        }
+        return previousHit;
+    }
+    findHitOnActiveCanvasGroup() {
+        if (!this.searchResult) {
+            return false;
+        }
+        return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
+    }
+    findCurrentHitIndex(canvasGroupIndexes) {
+        if (!this.searchResult) {
+            return -1;
+        }
+        for (let i = 0; i < this.searchResult.size(); i++) {
+            const hit = this.searchResult.get(i);
+            if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
+                return i;
+            }
+            if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
+                if (i === 0) {
+                    return -1;
+                }
+                else {
+                    const phit = this.searchResult.get(i - 1);
+                    return this.searchResult.hits.findIndex((sr) => sr.index === phit.index);
+                }
+            }
+        }
+        return this.searchResult.size() - 1;
+    }
+    isFirstHitOnCanvasGroup() {
+        return this.currentIndex <= 0;
+    }
+    getLastCanvasGroupIndex(canvasesPerCanvasGroup) {
+        return canvasesPerCanvasGroup.length === 1
+            ? canvasesPerCanvasGroup[0]
+            : canvasesPerCanvasGroup[1];
+    }
+}
+ContentSearchNavigationService.decorators = [
+    { type: Injectable }
+];
+ContentSearchNavigationService.ctorParameters = () => [
+    { type: CanvasService },
+    { type: IiifContentSearchService }
 ];
 
 /****************************************************************
@@ -4691,7 +4698,7 @@ ViewerService.ctorParameters = () => [
 ];
 
 class AccessKeysService {
-    constructor(viewerService, canvasService, modeService, iiifManifestService, iiifContentSearchService, contentSearchDialogService, contentsDialogService, mimeDomHelper, contentSearchNavigationService) {
+    constructor(viewerService, canvasService, modeService, iiifManifestService, iiifContentSearchService, contentSearchDialogService, contentsDialogService, mimeDomHelper, contentSearchNavigationService, altoService) {
         this.viewerService = viewerService;
         this.canvasService = canvasService;
         this.modeService = modeService;
@@ -4701,6 +4708,7 @@ class AccessKeysService {
         this.contentsDialogService = contentsDialogService;
         this.mimeDomHelper = mimeDomHelper;
         this.contentSearchNavigationService = contentSearchNavigationService;
+        this.altoService = altoService;
         this.isSearchable = false;
         this.hasHits = false;
         this.disabledKeys = [];
@@ -4781,6 +4789,9 @@ class AccessKeysService {
             else if (accessKeys.isRotateKeys()) {
                 this.rotateClockWise();
             }
+            else if (accessKeys.isRecognizedTextContentKeys()) {
+                this.toggleRecognizedTextContent();
+            }
         }
     }
     goToNextCanvasGroup() {
@@ -4798,6 +4809,9 @@ class AccessKeysService {
     rotateClockWise() {
         this.viewerService.rotate();
         this.mimeDomHelper.setFocusOnViewer();
+    }
+    toggleRecognizedTextContent() {
+        this.altoService.toggle();
     }
     goToNextHit() {
         this.contentSearchNavigationService.goToNextCanvasGroupHit();
@@ -4925,7 +4939,8 @@ AccessKeysService.ctorParameters = () => [
     { type: ContentSearchDialogService },
     { type: ContentsDialogService },
     { type: MimeDomHelper },
-    { type: ContentSearchNavigationService }
+    { type: ContentSearchNavigationService },
+    { type: AltoService }
 ];
 
 class AttributionDialogResizeService {
@@ -5441,7 +5456,7 @@ class HelpDialogComponent {
 HelpDialogComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-help',
-                template: "<div class=\"help-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 class=\"heading-desktop\" mat-dialog-title>{{\n            intl.help.helpLabel\n          }}</h1>\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <div [ngStyle]=\"tabHeight\" class=\"help-content\">\n    <p [innerHTML]=\"intl.help.line1\"></p>\n    <p [innerHTML]=\"intl.help.line2\"></p>\n    <p [innerHTML]=\"intl.help.line3\"></p>\n    <p [innerHTML]=\"intl.help.line4\"></p>\n    <p [innerHTML]=\"intl.help.line5\"></p>\n    <p [innerHTML]=\"intl.help.line6\"></p>\n    <p [innerHTML]=\"intl.help.line7\"></p>\n    <p [innerHTML]=\"intl.help.line8\"></p>\n    <p [innerHTML]=\"intl.help.line9\"></p>\n    <p [innerHTML]=\"intl.help.line10\"></p>\n  </div>\n</div>\n",
+                template: "<div class=\"help-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 class=\"heading-desktop\" mat-dialog-title>{{\n            intl.help.helpLabel\n          }}</h1>\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <div [ngStyle]=\"tabHeight\" class=\"help-content\">\n    <p [innerHTML]=\"intl.help.line1\"></p>\n    <p [innerHTML]=\"intl.help.line2\"></p>\n    <p [innerHTML]=\"intl.help.line3\"></p>\n    <p [innerHTML]=\"intl.help.line4\"></p>\n    <p [innerHTML]=\"intl.help.line5\"></p>\n    <p [innerHTML]=\"intl.help.line6\"></p>\n    <p [innerHTML]=\"intl.help.line7\"></p>\n    <p [innerHTML]=\"intl.help.line8\"></p>\n    <p [innerHTML]=\"intl.help.line9\"></p>\n    <p [innerHTML]=\"intl.help.line10\"></p>\n    <p [innerHTML]=\"intl.help.line11\"></p>\n  </div>\n</div>\n",
                 styles: [".help-container{font-family:Roboto,\"Helvetica Neue\",sans-serif;font-size:14px}.help-content{padding:16px;overflow:auto}::ng-deep .help-panel{max-width:none!important}::ng-deep .help-panel>.mat-dialog-container{padding:0!important;overflow:visible;overflow:initial}\n"]
             },] }
 ];
@@ -5770,7 +5785,7 @@ RecognizedTextContentComponent.decorators = [
                 selector: 'mime-recognized-text-content',
                 template: "<div #recognizedTextContentContainer class=\"recognized-text-content-container\" aria-live=\"polite\">\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <div *ngIf=\"!isLoading\">\n    <div *ngIf=\"firstCanvasRecognizedTextContent\" data-test-id=\"firstCanvasRecognizedTextContent\" [innerHTML]=\"firstCanvasRecognizedTextContent\"> </div>\n    <div *ngIf=\"secondCanvasRecognizedTextContent\" data-test-id=\"secondCanvasRecognizedTextContent\" [innerHTML]=\"secondCanvasRecognizedTextContent\"> </div>\n  </div>\n  <div *ngIf=\"isLoading\">{{intl.loading}}</div>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".recognized-text-content-container{padding:0 1em;height:100%;overflow:auto}\n"]
+                styles: [".recognized-text-content-container{padding:1em;height:100%;overflow:auto}\n"]
             },] }
 ];
 RecognizedTextContentComponent.ctorParameters = () => [

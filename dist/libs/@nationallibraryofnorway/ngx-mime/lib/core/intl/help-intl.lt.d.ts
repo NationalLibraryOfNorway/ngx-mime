@@ -11,4 +11,5 @@ export declare class HelpIntlLt extends HelpIntl {
     line8: string;
     line9: string;
     line10: string;
+    line11: string;
 }

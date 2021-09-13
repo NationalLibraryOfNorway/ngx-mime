@@ -43,6 +43,7 @@
             this.line8 = '<strong>P</strong>: Previous result';
             this.line9 = '<strong>F</strong>: Fullscreen on/off (Close with <strong>F</strong> or <strong>ESC</strong>.)';
             this.line10 = '<strong>R</strong>: Rotate 90°';
+            this.line11 = '<strong>T</strong>:  Show/hide optically recognized text (for content that can be displayed).';
         }
         return HelpIntl;
     }());
@@ -433,6 +434,7 @@
             _this.line8 = '<strong>P</strong>: Går til forrige treff i objektet';
             _this.line9 = '<strong>F</strong>: Fullskjerm av og på (Lukk med <strong>F</strong> eller <strong>ESC</strong>-tasten.)';
             _this.line10 = '<strong>R</strong>: Rotér 90°';
+            _this.line11 = '<strong>T</strong>: Vis/skjul optisk gjenkjent tekst (for innhold som kan vises).';
             return _this;
         }
         return HelpIntlNoNb;
@@ -508,6 +510,7 @@
             _this.line8 = '<strong>P</strong>: Buvęs rezultatas';
             _this.line9 = '<strong>F</strong>: Pilno ekrano režimas (Uždaroma paspaudus <strong>F</strong> arba <strong>ESC</strong>.)';
             _this.line10 = '<strong>R</strong>: Pasukti 90 laipsnių';
+            _this.line11 = '<strong>T</strong>:  Rodyti/slėpti optiškai atpažįstamą tekstą (turiniui, kurį galima rodyti).';
             return _this;
         }
         return HelpIntlLt;
@@ -2272,6 +2275,201 @@
         { type: MimeResizeService }
     ]; };
 
+    var StringsBuilder = /** @class */ (function () {
+        function StringsBuilder() {
+        }
+        StringsBuilder.prototype.withStringXml = function (stringXml) {
+            this.stringXml = stringXml;
+            return this;
+        };
+        StringsBuilder.prototype.build = function () {
+            return this.stringXml
+                ? this.stringXml.map(function (string) {
+                    return { content: string.$.CONTENT };
+                })
+                : [];
+        };
+        return StringsBuilder;
+    }());
+
+    var TextLinesBuilder = /** @class */ (function () {
+        function TextLinesBuilder() {
+            this.stringBuilder = new StringsBuilder();
+        }
+        TextLinesBuilder.prototype.withTextLinesXml = function (textLinesXml) {
+            this.textLinesXml = textLinesXml;
+            return this;
+        };
+        TextLinesBuilder.prototype.build = function () {
+            var _this = this;
+            return this.textLinesXml
+                ? this.textLinesXml.map(function (textLine) {
+                    return {
+                        strings: _this.stringBuilder.withStringXml(textLine.String).build(),
+                    };
+                })
+                : [];
+        };
+        return TextLinesBuilder;
+    }());
+
+    var TextBlocksBuilder = /** @class */ (function () {
+        function TextBlocksBuilder() {
+            this.textLinesBuilder = new TextLinesBuilder();
+        }
+        TextBlocksBuilder.prototype.withTextBlocksXml = function (textBlocksXml) {
+            this.textBlocksXml = textBlocksXml;
+            return this;
+        };
+        TextBlocksBuilder.prototype.withTextStyles = function (textStyles) {
+            this.textStyles = textStyles;
+            return this;
+        };
+        TextBlocksBuilder.prototype.build = function () {
+            var _this = this;
+            return this.textBlocksXml
+                ? this.textBlocksXml.map(function (textBlock) {
+                    var _a;
+                    var styleRef = (_a = textBlock.$.STYLEREFS) === null || _a === void 0 ? void 0 : _a.split(' ');
+                    var textStyle = undefined;
+                    if (styleRef && _this.textStyles) {
+                        textStyle = _this.textStyles.get(styleRef[0]);
+                    }
+                    return {
+                        textLines: _this.textLinesBuilder
+                            .withTextLinesXml(textBlock.TextLine)
+                            .build(),
+                        textStyle: {
+                            fontStyle: textStyle === null || textStyle === void 0 ? void 0 : textStyle.fontStyle,
+                        },
+                    };
+                })
+                : [];
+        };
+        return TextBlocksBuilder;
+    }());
+
+    var PrintSpaceBuilder = /** @class */ (function () {
+        function PrintSpaceBuilder() {
+        }
+        PrintSpaceBuilder.prototype.withPrintSpaceXml = function (printSpaceXml) {
+            this.printSpaceXml = printSpaceXml;
+            return this;
+        };
+        PrintSpaceBuilder.prototype.withTextStyles = function (textStyles) {
+            this.textStyles = textStyles;
+            return this;
+        };
+        PrintSpaceBuilder.prototype.build = function () {
+            var textBlocks = [];
+            if (this.printSpaceXml.TextBlock) {
+                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(this.printSpaceXml.TextBlock));
+            }
+            if (this.printSpaceXml.ComposedBlock) {
+                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(this.printSpaceXml.ComposedBlock.filter(function (t) { return t.TextBlock !== undefined; }).flatMap(function (t) { return t.TextBlock; })));
+            }
+            return {
+                textBlocks: new TextBlocksBuilder()
+                    .withTextBlocksXml(textBlocks)
+                    .withTextStyles(this.textStyles)
+                    .build(),
+            };
+        };
+        return PrintSpaceBuilder;
+    }());
+
+    var PageBuilder = /** @class */ (function () {
+        function PageBuilder() {
+            this.printSpaceBuilder = new PrintSpaceBuilder();
+        }
+        PageBuilder.prototype.withPageXml = function (pageXml) {
+            this.pageXml = pageXml;
+            return this;
+        };
+        PageBuilder.prototype.withTextStyles = function (textStyles) {
+            this.printSpaceBuilder.withTextStyles(textStyles);
+            return this;
+        };
+        PageBuilder.prototype.build = function () {
+            return {
+                topMargin: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.TopMargin[0])
+                    .build(),
+                leftMargin: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.LeftMargin[0])
+                    .build(),
+                rightMargin: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.RightMargin[0])
+                    .build(),
+                bottomMargin: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.BottomMargin[0])
+                    .build(),
+                printSpace: this.printSpaceBuilder
+                    .withPrintSpaceXml(this.pageXml.PrintSpace[0])
+                    .build(),
+            };
+        };
+        return PageBuilder;
+    }());
+
+    var LayoutBuilder = /** @class */ (function () {
+        function LayoutBuilder() {
+            this.pageBuilder = new PageBuilder();
+        }
+        LayoutBuilder.prototype.withLayoutXml = function (layoutXml) {
+            this.pageBuilder.withPageXml(layoutXml.Page[0]);
+            return this;
+        };
+        LayoutBuilder.prototype.withTextStyles = function (textStyles) {
+            this.pageBuilder.withTextStyles(textStyles);
+            return this;
+        };
+        LayoutBuilder.prototype.build = function () {
+            return {
+                page: this.pageBuilder.build(),
+            };
+        };
+        return LayoutBuilder;
+    }());
+
+    var StylesBuilder = /** @class */ (function () {
+        function StylesBuilder(stylesXml) {
+            this.stylesXml = stylesXml;
+        }
+        StylesBuilder.prototype.build = function () {
+            var textStyles = new Map();
+            if (this.stylesXml.TextStyle) {
+                this.stylesXml.TextStyle.forEach(function (textStyle) {
+                    textStyles.set(textStyle.$.ID, {
+                        fontStyle: textStyle.$.FONTSTYLE,
+                    });
+                });
+            }
+            return textStyles;
+        };
+        return StylesBuilder;
+    }());
+
+    var AltoBuilder = /** @class */ (function () {
+        function AltoBuilder() {
+            this.layoutBuilder = new LayoutBuilder();
+        }
+        AltoBuilder.prototype.withAltoXml = function (altoXml) {
+            this.altoXml = altoXml;
+            return this;
+        };
+        AltoBuilder.prototype.build = function () {
+            if (this.altoXml.Styles) {
+                this.layoutBuilder.withTextStyles(new StylesBuilder(this.altoXml.Styles[0]).build());
+            }
+            this.layoutBuilder.withLayoutXml(this.altoXml.Layout[0]);
+            return {
+                layout: this.layoutBuilder.build(),
+            };
+        };
+        return AltoBuilder;
+    }());
+
     var CanvasGroups = /** @class */ (function () {
         function CanvasGroups() {
             this.canvasGroupRects = [];
@@ -2542,518 +2740,6 @@
     ];
     CanvasService.ctorParameters = function () { return []; };
 
-    var ModeChanges = /** @class */ (function () {
-        function ModeChanges(fields) {
-            if (fields) {
-                this.currentValue = fields.currentValue || this.currentValue;
-                this.previousValue = fields.previousValue || this.previousValue;
-            }
-        }
-        return ModeChanges;
-    }());
-
-    var ModeService = /** @class */ (function () {
-        function ModeService() {
-            this.modeChanges = new ModeChanges();
-            var mimeConfig = new MimeViewerConfig();
-            this.toggleModeSubject = new rxjs.BehaviorSubject(new ModeChanges());
-            this._initialMode = mimeConfig.initViewerMode;
-            this._mode = this._initialMode;
-        }
-        Object.defineProperty(ModeService.prototype, "onChange", {
-            get: function () {
-                return this.toggleModeSubject.asObservable().pipe(operators.distinctUntilChanged());
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(ModeService.prototype, "mode", {
-            get: function () {
-                return this._mode;
-            },
-            set: function (mode) {
-                this._mode = mode;
-                this.change();
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(ModeService.prototype, "initialMode", {
-            get: function () {
-                return this._initialMode;
-            },
-            set: function (mode) {
-                this._initialMode = mode;
-                this.mode = mode;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        ModeService.prototype.toggleMode = function () {
-            if (this.mode === exports.MimeViewerMode.DASHBOARD) {
-                this.mode = exports.MimeViewerMode.PAGE;
-            }
-            else if (this.mode === exports.MimeViewerMode.PAGE ||
-                this.mode === exports.MimeViewerMode.PAGE_ZOOMED) {
-                this.mode = exports.MimeViewerMode.DASHBOARD;
-            }
-        };
-        ModeService.prototype.change = function () {
-            this.modeChanges.previousValue = this.modeChanges.currentValue;
-            this.modeChanges.currentValue = this._mode;
-            this.toggleModeSubject.next(Object.assign({}, this.modeChanges));
-        };
-        return ModeService;
-    }());
-    ModeService.decorators = [
-        { type: i0.Injectable }
-    ];
-    ModeService.ctorParameters = function () { return []; };
-
-    var AccessKeys = /** @class */ (function () {
-        function AccessKeys(event) {
-            this.altKey = false;
-            this.shiftKey = false;
-            this.ctrlkey = false;
-            this.keyCode = event.keyCode;
-            this.altKey = event.altKey;
-            this.shiftKey = event.shiftKey;
-            this.ctrlkey = event.ctrlKey;
-        }
-        AccessKeys.prototype.isArrowRightKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
-        };
-        AccessKeys.prototype.isArrowLeftKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
-        };
-        AccessKeys.prototype.isPageUpKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
-        };
-        AccessKeys.prototype.isPageDownKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
-        };
-        AccessKeys.prototype.isFirstCanvasGroupKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
-        };
-        AccessKeys.prototype.isLastCanvasGroupKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
-        };
-        AccessKeys.prototype.isSliderKeys = function () {
-            return (this.isArrowLeftKeys() ||
-                this.isArrowRightKeys() ||
-                this.isPageDownKeys() ||
-                this.isPageUpKeys() ||
-                this.isFirstCanvasGroupKeys() ||
-                this.isLastCanvasGroupKeys());
-        };
-        AccessKeys.prototype.isZoomInKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
-        };
-        AccessKeys.prototype.isZoomOutKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
-        };
-        AccessKeys.prototype.isZoomHomeKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
-        };
-        AccessKeys.prototype.isNextHitKeys = function () {
-            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
-        };
-        AccessKeys.prototype.isPreviousHitKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
-        };
-        AccessKeys.prototype.isSearchDialogKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
-        };
-        AccessKeys.prototype.isContentsDialogKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes));
-        };
-        AccessKeys.prototype.isFullscreenKeys = function () {
-            return (!this.isMultiKeys() &&
-                this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
-        };
-        AccessKeys.prototype.isResetSearchKeys = function () {
-            return (this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch));
-        };
-        AccessKeys.prototype.isRotateKeys = function () {
-            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
-        };
-        AccessKeys.prototype.isMultiKeys = function () {
-            return this.altKey || this.shiftKey || this.ctrlkey;
-        };
-        AccessKeys.prototype.arrayContainsKeys = function (keys) {
-            return keys.indexOf(this.keyCode) > -1;
-        };
-        AccessKeys.prototype.isShiftPressed = function () {
-            return this.shiftKey;
-        };
-        return AccessKeys;
-    }());
-    AccessKeys.PAGEDOWN = [34];
-    AccessKeys.PAGEUP = [33];
-    AccessKeys.ARROWRIGHT = [39];
-    AccessKeys.ARROWLEFT = [37];
-    AccessKeys.firstCanvasGroupCodes = [36]; // Home
-    AccessKeys.lastCanvasGroupCodes = [35]; // End
-    AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
-    AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
-    AccessKeys.zoomHomeCodes = [96, 48]; // 0
-    AccessKeys.nextHit = [78]; // n
-    AccessKeys.previousHit = [80]; // p
-    AccessKeys.toggleSearchDialogCodes = [83]; // s
-    AccessKeys.toggleContentsDialogCodes = [67]; // C
-    AccessKeys.toggleFullscreenCodes = [70]; // f
-    AccessKeys.resetSearch = [83]; // s
-    AccessKeys.rotateCwCodes = [82]; // r
-
-    var ContentSearchNavigationService = /** @class */ (function () {
-        function ContentSearchNavigationService(canvasService, iiifContentSearchService) {
-            this.canvasService = canvasService;
-            this.iiifContentSearchService = iiifContentSearchService;
-            this.currentIndex = 0;
-            this.isHitOnActiveCanvasGroup = false;
-            this._isFirstHitOnCanvasGroup = false;
-            this._isLastHitOnCanvasGroup = false;
-            this.canvasesPerCanvasGroup = [-1];
-            this.searchResult = null;
-            this.initialize();
-        }
-        ContentSearchNavigationService.prototype.initialize = function () {
-            var _this = this;
-            this.subscriptions = new rxjs.Subscription();
-            this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe(function (result) {
-                _this.searchResult = result;
-            }));
-        };
-        ContentSearchNavigationService.prototype.destroy = function () {
-            this.subscriptions.unsubscribe();
-        };
-        ContentSearchNavigationService.prototype.update = function (canvasGroupIndex) {
-            this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-            this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
-            this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
-            this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
-            this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
-        };
-        ContentSearchNavigationService.prototype.getCurrentIndex = function () {
-            return this.currentIndex;
-        };
-        ContentSearchNavigationService.prototype.getHitOnActiveCanvasGroup = function () {
-            return this.isHitOnActiveCanvasGroup;
-        };
-        ContentSearchNavigationService.prototype.getFirstHitCanvasGroup = function () {
-            return this._isFirstHitOnCanvasGroup;
-        };
-        ContentSearchNavigationService.prototype.getLastHitCanvasGroup = function () {
-            return this._isLastHitOnCanvasGroup;
-        };
-        ContentSearchNavigationService.prototype.goToNextCanvasGroupHit = function () {
-            if (this.searchResult && !this._isLastHitOnCanvasGroup) {
-                var nextHit = void 0;
-                if (this.currentIndex === -1) {
-                    nextHit = this.searchResult.get(0);
-                }
-                else {
-                    var current = this.searchResult.get(this.currentIndex);
-                    var canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(current.index);
-                    var canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
-                    var lastCanvasGroupIndex_1 = this.getLastCanvasGroupIndex(canvasesPerCanvasGroup);
-                    nextHit = this.searchResult.hits.find(function (h) { return h.index > lastCanvasGroupIndex_1; });
-                }
-                if (nextHit) {
-                    this.goToCanvasIndex(nextHit);
-                }
-            }
-        };
-        ContentSearchNavigationService.prototype.goToPreviousCanvasGroupHit = function () {
-            var previousIndex = this.isHitOnActiveCanvasGroup
-                ? this.currentIndex - 1
-                : this.currentIndex;
-            var previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
-            if (previousHit) {
-                this.goToCanvasIndex(previousHit);
-            }
-        };
-        ContentSearchNavigationService.prototype.goToCanvasIndex = function (hit) {
-            this.currentIndex = this.findCurrentHitIndex([hit.index]);
-            this.iiifContentSearchService.selected(hit);
-        };
-        ContentSearchNavigationService.prototype.findLastHitOnCanvasGroup = function () {
-            if (!this.searchResult) {
-                return false;
-            }
-            var lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
-                .index;
-            var currentHit = this.searchResult.get(this.currentIndex);
-            return currentHit.index === lastCanvasIndex;
-        };
-        ContentSearchNavigationService.prototype.findFirstHitOnCanvasGroup = function (previousIndex) {
-            if (!this.searchResult) {
-                return;
-            }
-            var previousHit = this.searchResult.get(previousIndex);
-            var canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
-            var canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-            var leftCanvas = canvasesPerCanvasGroup[0];
-            var leftCanvasHit = this.searchResult.hits.find(function (h) { return h.index === leftCanvas; });
-            if (leftCanvasHit) {
-                previousHit = leftCanvasHit;
-            }
-            else if (canvasesPerCanvasGroup.length === 2) {
-                var rightCanvas_1 = canvasesPerCanvasGroup[1];
-                previousHit = this.searchResult.hits.find(function (h) { return h.index === rightCanvas_1; });
-            }
-            return previousHit;
-        };
-        ContentSearchNavigationService.prototype.findHitOnActiveCanvasGroup = function () {
-            if (!this.searchResult) {
-                return false;
-            }
-            return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
-        };
-        ContentSearchNavigationService.prototype.findCurrentHitIndex = function (canvasGroupIndexes) {
-            if (!this.searchResult) {
-                return -1;
-            }
-            var _loop_1 = function (i) {
-                var hit = this_1.searchResult.get(i);
-                if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
-                    return { value: i };
-                }
-                if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
-                    if (i === 0) {
-                        return { value: -1 };
-                    }
-                    else {
-                        var phit_1 = this_1.searchResult.get(i - 1);
-                        return { value: this_1.searchResult.hits.findIndex(function (sr) { return sr.index === phit_1.index; }) };
-                    }
-                }
-            };
-            var this_1 = this;
-            for (var i = 0; i < this.searchResult.size(); i++) {
-                var state_1 = _loop_1(i);
-                if (typeof state_1 === "object")
-                    return state_1.value;
-            }
-            return this.searchResult.size() - 1;
-        };
-        ContentSearchNavigationService.prototype.isFirstHitOnCanvasGroup = function () {
-            return this.currentIndex <= 0;
-        };
-        ContentSearchNavigationService.prototype.getLastCanvasGroupIndex = function (canvasesPerCanvasGroup) {
-            return canvasesPerCanvasGroup.length === 1
-                ? canvasesPerCanvasGroup[0]
-                : canvasesPerCanvasGroup[1];
-        };
-        return ContentSearchNavigationService;
-    }());
-    ContentSearchNavigationService.decorators = [
-        { type: i0.Injectable }
-    ];
-    ContentSearchNavigationService.ctorParameters = function () { return [
-        { type: CanvasService },
-        { type: IiifContentSearchService }
-    ]; };
-
-    var StringsBuilder = /** @class */ (function () {
-        function StringsBuilder() {
-        }
-        StringsBuilder.prototype.withStringXml = function (stringXml) {
-            this.stringXml = stringXml;
-            return this;
-        };
-        StringsBuilder.prototype.build = function () {
-            return this.stringXml
-                ? this.stringXml.map(function (string) {
-                    return { content: string.$.CONTENT };
-                })
-                : [];
-        };
-        return StringsBuilder;
-    }());
-
-    var TextLinesBuilder = /** @class */ (function () {
-        function TextLinesBuilder() {
-            this.stringBuilder = new StringsBuilder();
-        }
-        TextLinesBuilder.prototype.withTextLinesXml = function (textLinesXml) {
-            this.textLinesXml = textLinesXml;
-            return this;
-        };
-        TextLinesBuilder.prototype.build = function () {
-            var _this = this;
-            return this.textLinesXml
-                ? this.textLinesXml.map(function (textLine) {
-                    return {
-                        strings: _this.stringBuilder.withStringXml(textLine.String).build(),
-                    };
-                })
-                : [];
-        };
-        return TextLinesBuilder;
-    }());
-
-    var TextBlocksBuilder = /** @class */ (function () {
-        function TextBlocksBuilder() {
-            this.textLinesBuilder = new TextLinesBuilder();
-        }
-        TextBlocksBuilder.prototype.withTextBlocksXml = function (textBlocksXml) {
-            this.textBlocksXml = textBlocksXml;
-            return this;
-        };
-        TextBlocksBuilder.prototype.withTextStyles = function (textStyles) {
-            this.textStyles = textStyles;
-            return this;
-        };
-        TextBlocksBuilder.prototype.build = function () {
-            var _this = this;
-            return this.textBlocksXml
-                ? this.textBlocksXml.map(function (textBlock) {
-                    var _a;
-                    var styleRef = (_a = textBlock.$.STYLEREFS) === null || _a === void 0 ? void 0 : _a.split(' ');
-                    var textStyle = undefined;
-                    if (styleRef && _this.textStyles) {
-                        textStyle = _this.textStyles.get(styleRef[0]);
-                    }
-                    return {
-                        textLines: _this.textLinesBuilder
-                            .withTextLinesXml(textBlock.TextLine)
-                            .build(),
-                        textStyle: {
-                            fontStyle: textStyle === null || textStyle === void 0 ? void 0 : textStyle.fontStyle,
-                        },
-                    };
-                })
-                : [];
-        };
-        return TextBlocksBuilder;
-    }());
-
-    var PrintSpaceBuilder = /** @class */ (function () {
-        function PrintSpaceBuilder() {
-        }
-        PrintSpaceBuilder.prototype.withPrintSpaceXml = function (printSpaceXml) {
-            this.printSpaceXml = printSpaceXml;
-            return this;
-        };
-        PrintSpaceBuilder.prototype.withTextStyles = function (textStyles) {
-            this.textStyles = textStyles;
-            return this;
-        };
-        PrintSpaceBuilder.prototype.build = function () {
-            var textBlocks = [];
-            if (this.printSpaceXml.TextBlock) {
-                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(this.printSpaceXml.TextBlock));
-            }
-            if (this.printSpaceXml.ComposedBlock) {
-                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(this.printSpaceXml.ComposedBlock.filter(function (t) { return t.TextBlock !== undefined; }).flatMap(function (t) { return t.TextBlock; })));
-            }
-            return {
-                textBlocks: new TextBlocksBuilder()
-                    .withTextBlocksXml(textBlocks)
-                    .withTextStyles(this.textStyles)
-                    .build(),
-            };
-        };
-        return PrintSpaceBuilder;
-    }());
-
-    var PageBuilder = /** @class */ (function () {
-        function PageBuilder() {
-            this.printSpaceBuilder = new PrintSpaceBuilder();
-        }
-        PageBuilder.prototype.withPageXml = function (pageXml) {
-            this.pageXml = pageXml;
-            return this;
-        };
-        PageBuilder.prototype.withTextStyles = function (textStyles) {
-            this.printSpaceBuilder.withTextStyles(textStyles);
-            return this;
-        };
-        PageBuilder.prototype.build = function () {
-            return {
-                topMargin: this.printSpaceBuilder
-                    .withPrintSpaceXml(this.pageXml.TopMargin[0])
-                    .build(),
-                leftMargin: this.printSpaceBuilder
-                    .withPrintSpaceXml(this.pageXml.LeftMargin[0])
-                    .build(),
-                rightMargin: this.printSpaceBuilder
-                    .withPrintSpaceXml(this.pageXml.RightMargin[0])
-                    .build(),
-                bottomMargin: this.printSpaceBuilder
-                    .withPrintSpaceXml(this.pageXml.BottomMargin[0])
-                    .build(),
-                printSpace: this.printSpaceBuilder
-                    .withPrintSpaceXml(this.pageXml.PrintSpace[0])
-                    .build(),
-            };
-        };
-        return PageBuilder;
-    }());
-
-    var LayoutBuilder = /** @class */ (function () {
-        function LayoutBuilder() {
-            this.pageBuilder = new PageBuilder();
-        }
-        LayoutBuilder.prototype.withLayoutXml = function (layoutXml) {
-            this.pageBuilder.withPageXml(layoutXml.Page[0]);
-            return this;
-        };
-        LayoutBuilder.prototype.withTextStyles = function (textStyles) {
-            this.pageBuilder.withTextStyles(textStyles);
-            return this;
-        };
-        LayoutBuilder.prototype.build = function () {
-            return {
-                page: this.pageBuilder.build(),
-            };
-        };
-        return LayoutBuilder;
-    }());
-
-    var StylesBuilder = /** @class */ (function () {
-        function StylesBuilder(stylesXml) {
-            this.stylesXml = stylesXml;
-        }
-        StylesBuilder.prototype.build = function () {
-            var textStyles = new Map();
-            if (this.stylesXml.TextStyle) {
-                this.stylesXml.TextStyle.forEach(function (textStyle) {
-                    textStyles.set(textStyle.$.ID, {
-                        fontStyle: textStyle.$.FONTSTYLE,
-                    });
-                });
-            }
-            return textStyles;
-        };
-        return StylesBuilder;
-    }());
-
-    var AltoBuilder = /** @class */ (function () {
-        function AltoBuilder() {
-            this.layoutBuilder = new LayoutBuilder();
-        }
-        AltoBuilder.prototype.withAltoXml = function (altoXml) {
-            this.altoXml = altoXml;
-            return this;
-        };
-        AltoBuilder.prototype.build = function () {
-            if (this.altoXml.Styles) {
-                this.layoutBuilder.withTextStyles(new StylesBuilder(this.altoXml.Styles[0]).build());
-            }
-            this.layoutBuilder.withLayoutXml(this.altoXml.Layout[0]);
-            return {
-                layout: this.layoutBuilder.build(),
-            };
-        };
-        return AltoBuilder;
-    }());
-
     var HtmlFormatter = /** @class */ (function () {
         function HtmlFormatter(sanitizer) {
             this.sanitizer = sanitizer;
@@ -3269,6 +2955,327 @@
         { type: IiifManifestService },
         { type: CanvasService },
         { type: i5.DomSanitizer }
+    ]; };
+
+    var ModeChanges = /** @class */ (function () {
+        function ModeChanges(fields) {
+            if (fields) {
+                this.currentValue = fields.currentValue || this.currentValue;
+                this.previousValue = fields.previousValue || this.previousValue;
+            }
+        }
+        return ModeChanges;
+    }());
+
+    var ModeService = /** @class */ (function () {
+        function ModeService() {
+            this.modeChanges = new ModeChanges();
+            var mimeConfig = new MimeViewerConfig();
+            this.toggleModeSubject = new rxjs.BehaviorSubject(new ModeChanges());
+            this._initialMode = mimeConfig.initViewerMode;
+            this._mode = this._initialMode;
+        }
+        Object.defineProperty(ModeService.prototype, "onChange", {
+            get: function () {
+                return this.toggleModeSubject.asObservable().pipe(operators.distinctUntilChanged());
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ModeService.prototype, "mode", {
+            get: function () {
+                return this._mode;
+            },
+            set: function (mode) {
+                this._mode = mode;
+                this.change();
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(ModeService.prototype, "initialMode", {
+            get: function () {
+                return this._initialMode;
+            },
+            set: function (mode) {
+                this._initialMode = mode;
+                this.mode = mode;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        ModeService.prototype.toggleMode = function () {
+            if (this.mode === exports.MimeViewerMode.DASHBOARD) {
+                this.mode = exports.MimeViewerMode.PAGE;
+            }
+            else if (this.mode === exports.MimeViewerMode.PAGE ||
+                this.mode === exports.MimeViewerMode.PAGE_ZOOMED) {
+                this.mode = exports.MimeViewerMode.DASHBOARD;
+            }
+        };
+        ModeService.prototype.change = function () {
+            this.modeChanges.previousValue = this.modeChanges.currentValue;
+            this.modeChanges.currentValue = this._mode;
+            this.toggleModeSubject.next(Object.assign({}, this.modeChanges));
+        };
+        return ModeService;
+    }());
+    ModeService.decorators = [
+        { type: i0.Injectable }
+    ];
+    ModeService.ctorParameters = function () { return []; };
+
+    var AccessKeys = /** @class */ (function () {
+        function AccessKeys(event) {
+            this.altKey = false;
+            this.shiftKey = false;
+            this.ctrlkey = false;
+            this.keyCode = event.keyCode;
+            this.altKey = event.altKey;
+            this.shiftKey = event.shiftKey;
+            this.ctrlkey = event.ctrlKey;
+        }
+        AccessKeys.prototype.isArrowRightKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
+        };
+        AccessKeys.prototype.isArrowLeftKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
+        };
+        AccessKeys.prototype.isPageUpKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
+        };
+        AccessKeys.prototype.isPageDownKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
+        };
+        AccessKeys.prototype.isFirstCanvasGroupKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
+        };
+        AccessKeys.prototype.isLastCanvasGroupKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
+        };
+        AccessKeys.prototype.isSliderKeys = function () {
+            return (this.isArrowLeftKeys() ||
+                this.isArrowRightKeys() ||
+                this.isPageDownKeys() ||
+                this.isPageUpKeys() ||
+                this.isFirstCanvasGroupKeys() ||
+                this.isLastCanvasGroupKeys());
+        };
+        AccessKeys.prototype.isZoomInKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
+        };
+        AccessKeys.prototype.isZoomOutKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
+        };
+        AccessKeys.prototype.isZoomHomeKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
+        };
+        AccessKeys.prototype.isNextHitKeys = function () {
+            return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
+        };
+        AccessKeys.prototype.isPreviousHitKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
+        };
+        AccessKeys.prototype.isSearchDialogKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
+        };
+        AccessKeys.prototype.isContentsDialogKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes));
+        };
+        AccessKeys.prototype.isFullscreenKeys = function () {
+            return (!this.isMultiKeys() &&
+                this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
+        };
+        AccessKeys.prototype.isResetSearchKeys = function () {
+            return (this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch));
+        };
+        AccessKeys.prototype.isRotateKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
+        };
+        AccessKeys.prototype.isRecognizedTextContentKeys = function () {
+            return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes));
+        };
+        AccessKeys.prototype.isMultiKeys = function () {
+            return this.altKey || this.shiftKey || this.ctrlkey;
+        };
+        AccessKeys.prototype.arrayContainsKeys = function (keys) {
+            return keys.indexOf(this.keyCode) > -1;
+        };
+        AccessKeys.prototype.isShiftPressed = function () {
+            return this.shiftKey;
+        };
+        return AccessKeys;
+    }());
+    AccessKeys.PAGEDOWN = [34];
+    AccessKeys.PAGEUP = [33];
+    AccessKeys.ARROWRIGHT = [39];
+    AccessKeys.ARROWLEFT = [37];
+    AccessKeys.firstCanvasGroupCodes = [36]; // Home
+    AccessKeys.lastCanvasGroupCodes = [35]; // End
+    AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
+    AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
+    AccessKeys.zoomHomeCodes = [96, 48]; // 0
+    AccessKeys.nextHit = [78]; // n
+    AccessKeys.previousHit = [80]; // p
+    AccessKeys.toggleSearchDialogCodes = [83]; // s
+    AccessKeys.toggleContentsDialogCodes = [67]; // C
+    AccessKeys.toggleFullscreenCodes = [70]; // f
+    AccessKeys.resetSearch = [83]; // s
+    AccessKeys.rotateCwCodes = [82]; // r
+    AccessKeys.recognizedTextContentCodes = [84]; // t
+
+    var ContentSearchNavigationService = /** @class */ (function () {
+        function ContentSearchNavigationService(canvasService, iiifContentSearchService) {
+            this.canvasService = canvasService;
+            this.iiifContentSearchService = iiifContentSearchService;
+            this.currentIndex = 0;
+            this.isHitOnActiveCanvasGroup = false;
+            this._isFirstHitOnCanvasGroup = false;
+            this._isLastHitOnCanvasGroup = false;
+            this.canvasesPerCanvasGroup = [-1];
+            this.searchResult = null;
+            this.initialize();
+        }
+        ContentSearchNavigationService.prototype.initialize = function () {
+            var _this = this;
+            this.subscriptions = new rxjs.Subscription();
+            this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe(function (result) {
+                _this.searchResult = result;
+            }));
+        };
+        ContentSearchNavigationService.prototype.destroy = function () {
+            this.subscriptions.unsubscribe();
+        };
+        ContentSearchNavigationService.prototype.update = function (canvasGroupIndex) {
+            this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+            this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
+            this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
+            this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
+            this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
+        };
+        ContentSearchNavigationService.prototype.getCurrentIndex = function () {
+            return this.currentIndex;
+        };
+        ContentSearchNavigationService.prototype.getHitOnActiveCanvasGroup = function () {
+            return this.isHitOnActiveCanvasGroup;
+        };
+        ContentSearchNavigationService.prototype.getFirstHitCanvasGroup = function () {
+            return this._isFirstHitOnCanvasGroup;
+        };
+        ContentSearchNavigationService.prototype.getLastHitCanvasGroup = function () {
+            return this._isLastHitOnCanvasGroup;
+        };
+        ContentSearchNavigationService.prototype.goToNextCanvasGroupHit = function () {
+            if (this.searchResult && !this._isLastHitOnCanvasGroup) {
+                var nextHit = void 0;
+                if (this.currentIndex === -1) {
+                    nextHit = this.searchResult.get(0);
+                }
+                else {
+                    var current = this.searchResult.get(this.currentIndex);
+                    var canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(current.index);
+                    var canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
+                    var lastCanvasGroupIndex_1 = this.getLastCanvasGroupIndex(canvasesPerCanvasGroup);
+                    nextHit = this.searchResult.hits.find(function (h) { return h.index > lastCanvasGroupIndex_1; });
+                }
+                if (nextHit) {
+                    this.goToCanvasIndex(nextHit);
+                }
+            }
+        };
+        ContentSearchNavigationService.prototype.goToPreviousCanvasGroupHit = function () {
+            var previousIndex = this.isHitOnActiveCanvasGroup
+                ? this.currentIndex - 1
+                : this.currentIndex;
+            var previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
+            if (previousHit) {
+                this.goToCanvasIndex(previousHit);
+            }
+        };
+        ContentSearchNavigationService.prototype.goToCanvasIndex = function (hit) {
+            this.currentIndex = this.findCurrentHitIndex([hit.index]);
+            this.iiifContentSearchService.selected(hit);
+        };
+        ContentSearchNavigationService.prototype.findLastHitOnCanvasGroup = function () {
+            if (!this.searchResult) {
+                return false;
+            }
+            var lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
+                .index;
+            var currentHit = this.searchResult.get(this.currentIndex);
+            return currentHit.index === lastCanvasIndex;
+        };
+        ContentSearchNavigationService.prototype.findFirstHitOnCanvasGroup = function (previousIndex) {
+            if (!this.searchResult) {
+                return;
+            }
+            var previousHit = this.searchResult.get(previousIndex);
+            var canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(previousHit.index);
+            var canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+            var leftCanvas = canvasesPerCanvasGroup[0];
+            var leftCanvasHit = this.searchResult.hits.find(function (h) { return h.index === leftCanvas; });
+            if (leftCanvasHit) {
+                previousHit = leftCanvasHit;
+            }
+            else if (canvasesPerCanvasGroup.length === 2) {
+                var rightCanvas_1 = canvasesPerCanvasGroup[1];
+                previousHit = this.searchResult.hits.find(function (h) { return h.index === rightCanvas_1; });
+            }
+            return previousHit;
+        };
+        ContentSearchNavigationService.prototype.findHitOnActiveCanvasGroup = function () {
+            if (!this.searchResult) {
+                return false;
+            }
+            return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
+        };
+        ContentSearchNavigationService.prototype.findCurrentHitIndex = function (canvasGroupIndexes) {
+            if (!this.searchResult) {
+                return -1;
+            }
+            var _loop_1 = function (i) {
+                var hit = this_1.searchResult.get(i);
+                if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
+                    return { value: i };
+                }
+                if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
+                    if (i === 0) {
+                        return { value: -1 };
+                    }
+                    else {
+                        var phit_1 = this_1.searchResult.get(i - 1);
+                        return { value: this_1.searchResult.hits.findIndex(function (sr) { return sr.index === phit_1.index; }) };
+                    }
+                }
+            };
+            var this_1 = this;
+            for (var i = 0; i < this.searchResult.size(); i++) {
+                var state_1 = _loop_1(i);
+                if (typeof state_1 === "object")
+                    return state_1.value;
+            }
+            return this.searchResult.size() - 1;
+        };
+        ContentSearchNavigationService.prototype.isFirstHitOnCanvasGroup = function () {
+            return this.currentIndex <= 0;
+        };
+        ContentSearchNavigationService.prototype.getLastCanvasGroupIndex = function (canvasesPerCanvasGroup) {
+            return canvasesPerCanvasGroup.length === 1
+                ? canvasesPerCanvasGroup[0]
+                : canvasesPerCanvasGroup[1];
+        };
+        return ContentSearchNavigationService;
+    }());
+    ContentSearchNavigationService.decorators = [
+        { type: i0.Injectable }
+    ];
+    ContentSearchNavigationService.ctorParameters = function () { return [
+        { type: CanvasService },
+        { type: IiifContentSearchService }
     ]; };
 
     /****************************************************************
@@ -5401,7 +5408,7 @@
     ]; };
 
     var AccessKeysService = /** @class */ (function () {
-        function AccessKeysService(viewerService, canvasService, modeService, iiifManifestService, iiifContentSearchService, contentSearchDialogService, contentsDialogService, mimeDomHelper, contentSearchNavigationService) {
+        function AccessKeysService(viewerService, canvasService, modeService, iiifManifestService, iiifContentSearchService, contentSearchDialogService, contentsDialogService, mimeDomHelper, contentSearchNavigationService, altoService) {
             this.viewerService = viewerService;
             this.canvasService = canvasService;
             this.modeService = modeService;
@@ -5411,6 +5418,7 @@
             this.contentsDialogService = contentsDialogService;
             this.mimeDomHelper = mimeDomHelper;
             this.contentSearchNavigationService = contentSearchNavigationService;
+            this.altoService = altoService;
             this.isSearchable = false;
             this.hasHits = false;
             this.disabledKeys = [];
@@ -5492,6 +5500,9 @@
                 else if (accessKeys.isRotateKeys()) {
                     this.rotateClockWise();
                 }
+                else if (accessKeys.isRecognizedTextContentKeys()) {
+                    this.toggleRecognizedTextContent();
+                }
             }
         };
         AccessKeysService.prototype.goToNextCanvasGroup = function () {
@@ -5509,6 +5520,9 @@
         AccessKeysService.prototype.rotateClockWise = function () {
             this.viewerService.rotate();
             this.mimeDomHelper.setFocusOnViewer();
+        };
+        AccessKeysService.prototype.toggleRecognizedTextContent = function () {
+            this.altoService.toggle();
         };
         AccessKeysService.prototype.goToNextHit = function () {
             this.contentSearchNavigationService.goToNextCanvasGroupHit();
@@ -5637,7 +5651,8 @@
         { type: ContentSearchDialogService },
         { type: ContentsDialogService },
         { type: MimeDomHelper },
-        { type: ContentSearchNavigationService }
+        { type: ContentSearchNavigationService },
+        { type: AltoService }
     ]; };
 
     var AttributionDialogResizeService = /** @class */ (function () {
@@ -6198,7 +6213,7 @@
     HelpDialogComponent.decorators = [
         { type: i0.Component, args: [{
                     selector: 'mime-help',
-                    template: "<div class=\"help-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 class=\"heading-desktop\" mat-dialog-title>{{\n            intl.help.helpLabel\n          }}</h1>\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <div [ngStyle]=\"tabHeight\" class=\"help-content\">\n    <p [innerHTML]=\"intl.help.line1\"></p>\n    <p [innerHTML]=\"intl.help.line2\"></p>\n    <p [innerHTML]=\"intl.help.line3\"></p>\n    <p [innerHTML]=\"intl.help.line4\"></p>\n    <p [innerHTML]=\"intl.help.line5\"></p>\n    <p [innerHTML]=\"intl.help.line6\"></p>\n    <p [innerHTML]=\"intl.help.line7\"></p>\n    <p [innerHTML]=\"intl.help.line8\"></p>\n    <p [innerHTML]=\"intl.help.line9\"></p>\n    <p [innerHTML]=\"intl.help.line10\"></p>\n  </div>\n</div>\n",
+                    template: "<div class=\"help-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 class=\"heading-desktop\" mat-dialog-title>{{\n            intl.help.helpLabel\n          }}</h1>\n          <button mat-icon-button [matDialogClose]=\"true\">\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <div [ngStyle]=\"tabHeight\" class=\"help-content\">\n    <p [innerHTML]=\"intl.help.line1\"></p>\n    <p [innerHTML]=\"intl.help.line2\"></p>\n    <p [innerHTML]=\"intl.help.line3\"></p>\n    <p [innerHTML]=\"intl.help.line4\"></p>\n    <p [innerHTML]=\"intl.help.line5\"></p>\n    <p [innerHTML]=\"intl.help.line6\"></p>\n    <p [innerHTML]=\"intl.help.line7\"></p>\n    <p [innerHTML]=\"intl.help.line8\"></p>\n    <p [innerHTML]=\"intl.help.line9\"></p>\n    <p [innerHTML]=\"intl.help.line10\"></p>\n    <p [innerHTML]=\"intl.help.line11\"></p>\n  </div>\n</div>\n",
                     styles: [".help-container{font-family:Roboto,\"Helvetica Neue\",sans-serif;font-size:14px}.help-content{padding:16px;overflow:auto}::ng-deep .help-panel{max-width:none!important}::ng-deep .help-panel>.mat-dialog-container{padding:0!important;overflow:visible;overflow:initial}\n"]
                 },] }
     ];
@@ -6551,7 +6566,7 @@
                     selector: 'mime-recognized-text-content',
                     template: "<div #recognizedTextContentContainer class=\"recognized-text-content-container\" aria-live=\"polite\">\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <div *ngIf=\"!isLoading\">\n    <div *ngIf=\"firstCanvasRecognizedTextContent\" data-test-id=\"firstCanvasRecognizedTextContent\" [innerHTML]=\"firstCanvasRecognizedTextContent\"> </div>\n    <div *ngIf=\"secondCanvasRecognizedTextContent\" data-test-id=\"secondCanvasRecognizedTextContent\" [innerHTML]=\"secondCanvasRecognizedTextContent\"> </div>\n  </div>\n  <div *ngIf=\"isLoading\">{{intl.loading}}</div>\n</div>\n",
                     changeDetection: i0.ChangeDetectionStrategy.OnPush,
-                    styles: [".recognized-text-content-container{padding:0 1em;height:100%;overflow:auto}\n"]
+                    styles: [".recognized-text-content-container{padding:1em;height:100%;overflow:auto}\n"]
                 },] }
     ];
     RecognizedTextContentComponent.ctorParameters = function () { return [
