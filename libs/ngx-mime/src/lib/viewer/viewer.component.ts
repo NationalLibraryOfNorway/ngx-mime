@@ -287,6 +287,7 @@ export class ViewerComponent
           this.recognizedTextContentToggleChanged.emit(
             isRecognizedTextContentToggled
           );
+          this.changeDetectorRef.markForCheck();
         }
       )
     );
