@@ -50,17 +50,19 @@ export let testAlto = `<?xml version="1.0" encoding="UTF-8"?>
 						<String ID="P31_ST00004" HPOS="617" VPOS="1337" WIDTH="238" HEIGHT="38" CONTENT="skadetrygd" WC="0.71" CC="4005006056"/>
 					</TextLine>
 				</TextBlock>
-				<ComposedBlock ID="P31_CB00001" HPOS="164" VPOS="730" WIDTH="745" HEIGHT="270" TYPE="Formula">
-					<TextBlock ID="P31_TB00002" HPOS="164" VPOS="730" WIDTH="745" HEIGHT="270" STYLEREFS="TXT_1 PAR_LEFT">
-						<TextLine ID="P31_TL00002" HPOS="164" VPOS="850" WIDTH="745" HEIGHT="97">
-							<String ID="P31_ST00005" HPOS="164" VPOS="850" WIDTH="745" HEIGHT="97" CONTENT="Itorøts^Jnmnftassr" WC="0.23" CC="777778788887667788"/>
-						</TextLine>
-						<TextLine ID="P31_TL00003" HPOS="441" VPOS="973" WIDTH="196" HEIGHT="27">
-							<String ID="P31_ST00006" HPOS="441" VPOS="973" WIDTH="128" HEIGHT="27" CONTENT="Grunnlagt" WC="1.00" CC="030520000" STYLEREFS="TXT_2"/>
-							<SP ID="P31_SP00004" HPOS="569" VPOS="1000" WIDTH="14"/>
-							<String ID="P31_ST00007" HPOS="583" VPOS="973" WIDTH="54" HEIGHT="23" CONTENT="1767" WC="0.97" CC="0000" STYLEREFS="TXT_2"/>
-						</TextLine>
-					</TextBlock>
+				<ComposedBlock>
+          <ComposedBlock ID="P31_CB00001" HPOS="164" VPOS="730" WIDTH="745" HEIGHT="270" TYPE="Formula">
+            <TextBlock ID="P31_TB00002" HPOS="164" VPOS="730" WIDTH="745" HEIGHT="270" STYLEREFS="TXT_1 PAR_LEFT">
+              <TextLine ID="P31_TL00002" HPOS="164" VPOS="850" WIDTH="745" HEIGHT="97">
+                <String ID="P31_ST00005" HPOS="164" VPOS="850" WIDTH="745" HEIGHT="97" CONTENT="Itorøts^Jnmnftassr" WC="0.23" CC="777778788887667788"/>
+              </TextLine>
+              <TextLine ID="P31_TL00003" HPOS="441" VPOS="973" WIDTH="196" HEIGHT="27">
+                <String ID="P31_ST00006" HPOS="441" VPOS="973" WIDTH="128" HEIGHT="27" CONTENT="Grunnlagt" WC="1.00" CC="030520000" STYLEREFS="TXT_2"/>
+                <SP ID="P31_SP00004" HPOS="569" VPOS="1000" WIDTH="14"/>
+                <String ID="P31_ST00007" HPOS="583" VPOS="973" WIDTH="54" HEIGHT="23" CONTENT="1767" WC="0.97" CC="0000" STYLEREFS="TXT_2"/>
+              </TextLine>
+            </TextBlock>
+          </ComposedBlock>
 				</ComposedBlock>
 				<ComposedBlock ID="P31_CB00002" HPOS="189" VPOS="1033" WIDTH="699" HEIGHT="27" TYPE="Formula">
 					<TextBlock ID="P31_TB00003" HPOS="189" VPOS="1033" WIDTH="699" HEIGHT="27" STYLEREFS="TXT_2 PAR_LEFT">
