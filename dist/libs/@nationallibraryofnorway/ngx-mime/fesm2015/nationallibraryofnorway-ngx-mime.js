@@ -6411,6 +6411,7 @@ class ViewerComponent {
         this.subscriptions.add(this.altoService.onRecognizedTextContentToggleChange$.subscribe((isRecognizedTextContentToggled) => {
             this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
             this.recognizedTextContentToggleChanged.emit(isRecognizedTextContentToggled);
+            this.changeDetectorRef.markForCheck();
         }));
         this.loadManifest();
     }

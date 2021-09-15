@@ -7232,6 +7232,7 @@
             this.subscriptions.add(this.altoService.onRecognizedTextContentToggleChange$.subscribe(function (isRecognizedTextContentToggled) {
                 _this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
                 _this.recognizedTextContentToggleChanged.emit(isRecognizedTextContentToggled);
+                _this.changeDetectorRef.markForCheck();
             }));
             this.loadManifest();
         };

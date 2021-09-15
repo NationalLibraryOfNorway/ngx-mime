@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.2.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.0...v12.2.1) (2021-09-15)
+
+
+### Bug Fixes
+
+* recognized text content is not opened ([bd066f5](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bd066f574824b1411bd54341b14ece3b23dd5623)), closes [#349](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/349)
+
 ## [12.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.1.1...v12.2.0) (2021-09-13)
 
 
