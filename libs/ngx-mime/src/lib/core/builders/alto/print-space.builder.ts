@@ -20,16 +20,8 @@ export class PrintSpaceBuilder {
   build(): PrintSpace {
     let textBlocks: any[] = [];
 
-    if (this.printSpaceXml.TextBlock) {
-      textBlocks = [...textBlocks, ...this.printSpaceXml.TextBlock];
-    }
-    if (this.printSpaceXml.ComposedBlock) {
-      textBlocks = [
-        ...textBlocks,
-        ...this.printSpaceXml.ComposedBlock.filter(
-          (t: any) => t.TextBlock !== undefined
-        ).flatMap((t: any) => t.TextBlock),
-      ];
+    if (this.printSpaceXml.$$) {
+      textBlocks = this.extractTextBlocks(this.printSpaceXml.$$);
     }
     return {
       textBlocks: new TextBlocksBuilder()
@@ -37,5 +29,27 @@ export class PrintSpaceBuilder {
         .withTextStyles(this.textStyles)
         .build(),
     };
+  }
+
+  private extractTextBlocks(node: any): any[] {
+    let blocks: any[] = [];
+    node.forEach((n: any) => {
+      if (this.isTextBlock(n)) {
+        blocks = [...blocks, n];
+      } else if (this.isComposedBlock(n)) {
+        if (n.$$) {
+          blocks = [...blocks, ...this.extractTextBlocks(n.$$)];
+        }
+      }
+    });
+    return blocks;
+  }
+
+  private isTextBlock(n: any): boolean {
+    return n['#name'] && n['#name'] === 'TextBlock';
+  }
+
+  private isComposedBlock(n: any): boolean {
+    return n['#name'] && n['#name'] === 'ComposedBlock';
   }
 }

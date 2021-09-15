@@ -163,7 +163,7 @@ export class AltoService {
       .subscribe((data: Alto | any) => {
         try {
           if (!data.isError) {
-            parseString(data, {}, (error, result) => {
+            parseString(data, { explicitChildren: true, preserveChildrenOrder: true}, (error, result) => {
               const alto = this.altoBuilder.withAltoXml(result.alto).build();
               this.addToCache(index, alto);
               this.done(observer);
