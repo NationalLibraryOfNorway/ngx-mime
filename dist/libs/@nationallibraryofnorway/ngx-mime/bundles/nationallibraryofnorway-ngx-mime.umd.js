@@ -2362,11 +2362,8 @@
         };
         PrintSpaceBuilder.prototype.build = function () {
             var textBlocks = [];
-            if (this.printSpaceXml.TextBlock) {
-                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(this.printSpaceXml.TextBlock));
-            }
-            if (this.printSpaceXml.ComposedBlock) {
-                textBlocks = __spreadArray(__spreadArray([], __read(textBlocks)), __read(this.printSpaceXml.ComposedBlock.filter(function (t) { return t.TextBlock !== undefined; }).flatMap(function (t) { return t.TextBlock; })));
+            if (this.printSpaceXml.$$) {
+                textBlocks = this.extractTextBlocks(this.printSpaceXml.$$);
             }
             return {
                 textBlocks: new TextBlocksBuilder()
@@ -2374,6 +2371,27 @@
                     .withTextStyles(this.textStyles)
                     .build(),
             };
+        };
+        PrintSpaceBuilder.prototype.extractTextBlocks = function (node) {
+            var _this = this;
+            var blocks = [];
+            node.forEach(function (n) {
+                if (_this.isTextBlock(n)) {
+                    blocks = __spreadArray(__spreadArray([], __read(blocks)), [n]);
+                }
+                else if (_this.isComposedBlock(n)) {
+                    if (n.$$) {
+                        blocks = __spreadArray(__spreadArray([], __read(blocks)), __read(_this.extractTextBlocks(n.$$)));
+                    }
+                }
+            });
+            return blocks;
+        };
+        PrintSpaceBuilder.prototype.isTextBlock = function (n) {
+            return n['#name'] && n['#name'] === 'TextBlock';
+        };
+        PrintSpaceBuilder.prototype.isComposedBlock = function (n) {
+            return n['#name'] && n['#name'] === 'ComposedBlock';
         };
         return PrintSpaceBuilder;
     }());
@@ -2911,7 +2929,7 @@
                 .subscribe(function (data) {
                 try {
                     if (!data.isError) {
-                        xml2js.parseString(data, {}, function (error, result) {
+                        xml2js.parseString(data, { explicitChildren: true, preserveChildrenOrder: true }, function (error, result) {
                             var alto = _this.altoBuilder.withAltoXml(result.alto).build();
                             _this.addToCache(index, alto);
                             _this.done(observer);

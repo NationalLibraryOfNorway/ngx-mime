@@ -1879,14 +1879,8 @@ class PrintSpaceBuilder {
     }
     build() {
         let textBlocks = [];
-        if (this.printSpaceXml.TextBlock) {
-            textBlocks = [...textBlocks, ...this.printSpaceXml.TextBlock];
-        }
-        if (this.printSpaceXml.ComposedBlock) {
-            textBlocks = [
-                ...textBlocks,
-                ...this.printSpaceXml.ComposedBlock.filter((t) => t.TextBlock !== undefined).flatMap((t) => t.TextBlock),
-            ];
+        if (this.printSpaceXml.$$) {
+            textBlocks = this.extractTextBlocks(this.printSpaceXml.$$);
         }
         return {
             textBlocks: new TextBlocksBuilder()
@@ -1894,6 +1888,26 @@ class PrintSpaceBuilder {
                 .withTextStyles(this.textStyles)
                 .build(),
         };
+    }
+    extractTextBlocks(node) {
+        let blocks = [];
+        node.forEach((n) => {
+            if (this.isTextBlock(n)) {
+                blocks = [...blocks, n];
+            }
+            else if (this.isComposedBlock(n)) {
+                if (n.$$) {
+                    blocks = [...blocks, ...this.extractTextBlocks(n.$$)];
+                }
+            }
+        });
+        return blocks;
+    }
+    isTextBlock(n) {
+        return n['#name'] && n['#name'] === 'TextBlock';
+    }
+    isComposedBlock(n) {
+        return n['#name'] && n['#name'] === 'ComposedBlock';
     }
 }
 
@@ -2371,7 +2385,7 @@ class AltoService {
             .subscribe((data) => {
             try {
                 if (!data.isError) {
-                    parseString(data, {}, (error, result) => {
+                    parseString(data, { explicitChildren: true, preserveChildrenOrder: true }, (error, result) => {
                         const alto = this.altoBuilder.withAltoXml(result.alto).build();
                         this.addToCache(index, alto);
                         this.done(observer);

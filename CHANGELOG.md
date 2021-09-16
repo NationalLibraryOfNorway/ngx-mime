@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.2.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.1...v12.2.2) (2021-09-16)
+
+
+### Bug Fixes
+
+* Traversing nested ComposeBlocks to get all TextBlocks ([#352](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/352)) ([9139c94](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9139c940301e0fe0c9d7ca4db173641311a2545e)), closes [#351](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/351)
+
 ### [12.2.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.0...v12.2.1) (2021-09-15)
 
 

@@ -5,4 +5,7 @@ export declare class PrintSpaceBuilder {
     withPrintSpaceXml(printSpaceXml: any): this;
     withTextStyles(textStyles: Map<string, TextStyle> | undefined): PrintSpaceBuilder;
     build(): PrintSpace;
+    private extractTextBlocks;
+    private isTextBlock;
+    private isComposedBlock;
 }
