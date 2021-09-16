@@ -14,6 +14,8 @@ yarn build:libs
 yarn build:elements
 
 cp README.md dist/libs/@nationallibraryofnorway/ngx-mime
+
+standard-version -a
 CURRENT_VERSION=$(node -p "require('./package.json').version")
 echo "Version: $CURRENT_VERSION"
 
@@ -21,7 +23,7 @@ cd dist/libs/@nationallibraryofnorway/ngx-mime
 npm version $CURRENT_VERSION
 cd ../../../..
 
-git add -f dist && standard-version -a
+git add -f dist
 git push --follow-tags origin main
 
 npm login
