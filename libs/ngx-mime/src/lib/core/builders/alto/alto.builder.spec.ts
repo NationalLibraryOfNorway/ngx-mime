@@ -4,7 +4,7 @@ import { AltoBuilder } from '../../builders/alto';
 
 describe('AltoBuilder', () => {
   it('should build altoxml', () => {
-    parseString(testAlto, {}, (error, result) => {
+    parseString(testAlto, { preserveChildrenOrder: true, explicitChildren: true}, (error, result) => {
       const alto = new AltoBuilder().withAltoXml(result.alto).build();
 
       const textBlocks = alto.layout.page.printSpace.textBlocks;
