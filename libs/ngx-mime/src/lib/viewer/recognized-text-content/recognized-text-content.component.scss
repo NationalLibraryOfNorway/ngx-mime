@@ -1,5 +1,8 @@
 .recognized-text-content-container {
-  padding: 1em 1em;
   height: 100%;
   overflow: auto;
+
+  & > div {
+    padding: 1em 1em;
+  }
 }
