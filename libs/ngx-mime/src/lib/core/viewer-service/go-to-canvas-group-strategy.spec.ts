@@ -1,4 +1,3 @@
-import { Direction } from '../models/direction';
 import { DefaultGoToCanvasGroupStrategy } from './go-to-canvas-group-strategy';
 import { ViewerMode } from '../models/viewer-mode';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -12,7 +11,8 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
     panTo: {}
   };
   const viewer: any = {
-    viewport: viewport
+    viewport: viewport,
+    collectionTileMargin: 80,
   };
   const zoomStrategy: any = {};
   const canvasService: CanvasService = new CanvasService();

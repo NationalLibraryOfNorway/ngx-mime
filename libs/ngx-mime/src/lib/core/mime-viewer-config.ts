@@ -9,7 +9,7 @@ export class MimeViewerConfig {
   public initViewerLayout = ViewerLayout.TWO_PAGE;
   public withCredentials = false;
   public loadTilesWithAjax = false;
-  public crossOriginPolicy: string | boolean = false;
+  public crossOriginPolicy: 'Anonymous' | 'use-credentials' | false | undefined = false;
   public ajaxHeaders: any = null;
   public preserveZoomOnCanvasGroupChange = false;
   public startOnTopOnCanvasGroupChange = false;
@@ -24,7 +24,7 @@ export class MimeViewerConfig {
     initViewerLayout?: ViewerLayout;
     withCredentials?: boolean;
     loadTilesWithAjax?: boolean;
-    crossOriginPolicy?: string | boolean;
+    crossOriginPolicy?: 'Anonymous' | 'use-credentials' | false | undefined;
     ajaxHeaders?: any;
     preserveZoomOnCanvasGroupChange?: boolean;
     startOnTopOnCanvasGroupChange?: boolean;
