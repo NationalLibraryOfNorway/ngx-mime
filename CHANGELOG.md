@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.2.8](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.7...v12.2.8) (2021-09-23)
+
+
+### Bug Fixes
+
+* double scrollbar for recognized-text ([da93d5f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/da93d5f9b579ce9ae881b48a91f3756f590e41e0)), closes [#355](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/355)
+* useCanvas set to false for iOS devices ([#358](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/358)) ([c1bb0b9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c1bb0b989d3b357ee1090d58b4b18c244579239d)), closes [#357](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/357)
+
 ### [12.2.7](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.6...v12.2.7) (2021-09-16)
 
 ### [12.2.6](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.3...v12.2.6) (2021-09-16)
