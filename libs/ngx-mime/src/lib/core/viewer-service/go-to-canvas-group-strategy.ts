@@ -2,7 +2,6 @@ import { CanvasService } from '../canvas-service/canvas-service';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ModeService } from '../mode-service/mode.service';
 import { Direction } from '../models/direction';
-import { Options } from '../models/options';
 import { Point } from '../models/point';
 import { Rect } from '../models/rect';
 import { ViewerMode } from '../models/viewer-mode';
@@ -78,7 +77,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       const y = this.config.startOnTopOnCanvasGroupChange
         ? newCanvasGroup.y +
           this.getViewportBounds().height / 2 -
-          new Options().collectionTileMargin
+          this.viewer.collectionTileMargin
         : this.getViewportCenter().y;
 
       this.panTo(x, y, canvasGroup.immediately);

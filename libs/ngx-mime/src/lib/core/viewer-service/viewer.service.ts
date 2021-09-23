@@ -20,7 +20,6 @@ import { MimeViewerConfig } from '../mime-viewer-config';
 import { Direction } from '../models/direction';
 import { Manifest, Resource } from '../models/manifest';
 import { ModeChanges } from '../models/modeChanges';
-import { Options } from '../models/options';
 import { PinchStatus } from '../models/pinchStatus';
 import { Side } from '../models/side';
 import { ViewerLayout } from '../models/viewer-layout';
@@ -42,8 +41,10 @@ import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
 import { TileSourceStrategyFactory } from './tile-source-strategy-factory';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
+import { OptionsFactory } from './options.factory';
 
 declare const OpenSeadragon: any;
+
 @Injectable()
 export class ViewerService {
   private viewer?: any;
@@ -259,7 +260,7 @@ export class ViewerService {
         this.manifest = manifest;
         this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
         this.viewer = new OpenSeadragon.Viewer(
-          Object.assign({}, this.getOptions())
+          OptionsFactory.create(this.config)
         );
         createSvgOverlay();
         this.zoomStrategy = new DefaultZoomStrategy(
@@ -827,15 +828,6 @@ export class ViewerService {
       }
     }
     return -1;
-  }
-
-  private getOptions(): Options {
-    const options = new Options();
-    options.ajaxWithCredentials = this.config.withCredentials;
-    options.loadTilesWithAjax = this.config.loadTilesWithAjax;
-    options.crossOriginPolicy = this.config.crossOriginPolicy;
-    options.ajaxHeaders = this.config.ajaxHeaders;
-    return options;
   }
 
   private calculateCurrentCanvasGroup(center: Point) {
