@@ -24,6 +24,7 @@ export class CanvasGroupMask {
   }
 
   public initialize(pageBounds: Rect, visible: boolean): void {
+    this.unsubscribe();
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(
