@@ -110,6 +110,7 @@ export class ViewerService {
   }
 
   initialize() {
+    this.unsubscribe();
     this.subscriptions = new Subscription();
   }
 
@@ -302,6 +303,7 @@ export class ViewerService {
   }
 
   addSubscriptions(): void {
+    this.initialize();
     this.subscriptions.add(
       this.modeService.onChange.subscribe((mode: ModeChanges) => {
         this.modeChanged(mode);
