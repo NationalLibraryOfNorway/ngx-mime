@@ -19,6 +19,7 @@
     <mat-drawer
       mode="side"
       position="end"
+      (openedChange)="goToHomeZoom()"
       [opened]="isRecognizedTextContentToggled"
       [ngClass]="{'open': showHeaderAndFooterState === 'show'}"
       ><mime-recognized-text-content

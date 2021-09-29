@@ -635,6 +635,10 @@ export class ViewerService {
     }
   }
 
+  goToHomeZoom(): void {
+    this.zoomStrategy.goToHomeZoom();
+  }
+
   /**
    * Single-click-handler
    * Single-click toggles between page/dashboard-mode if a page is hit

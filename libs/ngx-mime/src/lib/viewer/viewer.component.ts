@@ -466,6 +466,10 @@ export class ViewerComponent
     this.errorMessage = null;
   }
 
+  goToHomeZoom(): void {
+    this.viewerService.goToHomeZoom();
+  }
+
   setClasses() {
     return {
       'mode-page': this.modeService.mode === ViewerMode.PAGE,
