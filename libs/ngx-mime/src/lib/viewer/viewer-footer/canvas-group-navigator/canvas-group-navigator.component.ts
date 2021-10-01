@@ -114,7 +114,7 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   onSliderChange(change: MatSliderChange): void {
     this.currentSliderCanvasGroupIndex = change.value;
     this.currentCanvasGroupIndex = change.value;
-    if (this.currentCanvasGroupIndex) {
+    if (this.currentCanvasGroupIndex !== null) {
       this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(
         this.currentCanvasGroupIndex
       );

@@ -55,6 +55,7 @@ export class ZoomStrategy {
   }
 
   goToHomeZoom(): void {
+    console.log('goToHomeZoom', this.getHomeZoomLevel(this.modeService.mode));
     this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       this.modeService.mode = ViewerMode.PAGE;
@@ -62,6 +63,7 @@ export class ZoomStrategy {
   }
 
   zoomTo(level: number, position?: Point): void {
+    console.log('zoomTo', { level, position });
     this.viewer.viewport.zoomTo(level, position);
   }
 

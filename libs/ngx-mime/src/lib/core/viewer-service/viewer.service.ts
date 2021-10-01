@@ -443,6 +443,7 @@ export class ViewerService {
     this.viewer.addHandler('animation-finish', () => {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
+
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler(
       'canvas-double-click',
@@ -467,7 +468,7 @@ export class ViewerService {
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
-  }
+ }
 
   zoomIn(zoomFactor?: number, position?: Point): void {
     this.zoomStrategy.zoomIn(zoomFactor, position);
@@ -642,12 +643,12 @@ export class ViewerService {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
-    const target = event.originalEvent.target;
+    const target = event.originalTarget ? event.originalTarget : event.originalEvent.target;
     const tileIndex = this.getOverlayIndexFromClickEvent(target);
     const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
       tileIndex
     );
-    if (requestedCanvasGroupIndex) {
+    if (requestedCanvasGroupIndex !== undefined) {
       this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
     } else {
       this.calculateCurrentCanvasGroup(this.viewer?.viewport.getCenter(true));
@@ -663,7 +664,7 @@ export class ViewerService {
    *    b) Fit vertically if page is already zoomed in
    */
   dblClickHandler = (event: any) => {
-    const target = event.originalEvent.target;
+    const target = event.originalTarget ? event.originalTarget : event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
