@@ -77,6 +77,7 @@ export class ViewerService {
   private goToCanvasGroupStrategy!: GoToCanvasGroupStrategy;
 
   private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
+  private dragStatus = false;
 
   constructor(
     private zone: NgZone,
@@ -444,7 +445,17 @@ export class ViewerService {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
 
-    this.viewer.addHandler('canvas-click', this.clickService.click);
+    this.viewer.addHandler('canvas-click', (event: any) => {
+      this.viewer.panHorizontal = false;
+      console.log('canvas-click');
+      const getCurrentCanvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
+      const target = {x: getCurrentCanvasGroupRect.centerX, y: getCurrentCanvasGroupRect.centerY};
+      console.log('target', target);
+
+      this.viewer.viewport.panTo(target, false);
+      this.clickService.click(event);
+    });
+
     this.viewer.addHandler(
       'canvas-double-click',
       (e: any) => (e.preventDefaultAction = true)
@@ -460,13 +471,25 @@ export class ViewerService {
     this.viewer.addHandler('canvas-scroll', this.scrollHandler);
     this.viewer.addHandler('canvas-pinch', this.pinchHandler);
 
-    this.viewer.addHandler('canvas-drag', (e: any) => this.dragHandler(e));
-    this.viewer.addHandler('canvas-drag-end', (e: any) =>
-      this.swipeToCanvasGroup(e)
-    );
+    this.viewer.addHandler('canvas-drag', (e: any) => {
+      this.dragStatus = true;
+      this.dragHandler(e);
+    });
+    this.viewer.addHandler('canvas-drag-end', (e: any) => {
+      console.log('canvas-drag-end', e);
 
+      if (this.dragStatus) {
+        console.log('swipeToCanvasGroup');
+        this.swipeToCanvasGroup(e);
+      }
+      this.dragStatus = false;
+    });
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
+    });
+    this.viewer.addHandler('animation-start', (e: any) => {
+      console.log('animation-start', e);
+
     });
  }
 
@@ -847,6 +870,8 @@ export class ViewerService {
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
+      console.log('vpBounds', vpBounds);
+
       const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,
         vpBounds
@@ -916,6 +941,7 @@ export class ViewerService {
       this.modeService.mode === ViewerMode.PAGE ||
       (canvasGroupEndHitCountReached && direction)
     ) {
+      console.log('swipeToCanvasGroup', newCanvasGroupIndex);
       this.goToCanvasGroupStrategy.goToCanvasGroup({
         canvasGroupIndex: newCanvasGroupIndex,
         immediately: false,

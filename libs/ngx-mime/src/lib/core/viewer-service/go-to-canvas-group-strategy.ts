@@ -34,6 +34,9 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
   ) {}
 
   goToCanvasGroup(canvasGroup: CanvasGroup) {
+    if (canvasGroup.canvasGroupIndex < 0) {
+      return;
+    }
     const oldCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
     this.canvasService.currentCanvasGroupIndex = this.canvasService.constrainToRange(
       canvasGroup.canvasGroupIndex
