@@ -479,6 +479,7 @@ export class ViewerService {
     });
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
       console.log('canvas-drag-end', e);
+      console.log('this.viewer.panHorizontal', this.viewer.panHorizontal);
 
       if (this.dragStatus) {
         const vpBounds: Rect = this.getViewportBounds();
@@ -972,6 +973,9 @@ export class ViewerService {
       );
       this.swipeDragEndCounter.addHit(pannedPastSide, direction);
       canvasGroupEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
+      if (this.canvasService.currentCanvasGroupIndex === 0 && direction === Direction.RIGHT) {
+        canvasGroupEndHitCountReached = false;
+      }
     }
 
     const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup(
@@ -984,6 +988,9 @@ export class ViewerService {
         viewingDirection: this.manifest.viewingDirection,
       }
     );
+
+    console.log('canvasGroupEndHitCountReached', canvasGroupEndHitCountReached);
+
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||
       this.modeService.mode === ViewerMode.PAGE ||
@@ -995,6 +1002,9 @@ export class ViewerService {
         immediately: false,
         direction: direction,
       });
+    } else {
+      console.log('center?');
+      //this.goToCanvasGroupStrategy.centerCurrentCanvas();
     }
   }
 

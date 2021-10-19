@@ -35,7 +35,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
 
   goToCanvasGroup(canvasGroup: CanvasGroup) {
     if (canvasGroup.canvasGroupIndex < 0) {
-      return;
+      canvasGroup.canvasGroupIndex = 0;
     }
     const oldCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
     this.canvasService.currentCanvasGroupIndex = this.canvasService.constrainToRange(
@@ -88,6 +88,8 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       const oldCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
         oldCanvasGroupIndex
       );
+      console.log('oldCanvasGroupCenter', oldCanvasGroupCenter);
+
       this.panToCenter(oldCanvasGroupCenter, canvasGroup.immediately);
       this.zoomStrategy.goToHomeZoom();
       setTimeout(() => {
