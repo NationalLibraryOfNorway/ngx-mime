@@ -446,6 +446,7 @@ export class ViewerService {
     });
 
     this.viewer.addHandler('canvas-click', (event: any) => {
+      /*
       this.viewer.panHorizontal = false;
       console.log('canvas-click');
       const getCurrentCanvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
@@ -453,6 +454,7 @@ export class ViewerService {
       console.log('target', target);
 
       this.viewer.viewport.panTo(target, false);
+      */
       this.clickService.click(event);
     });
 
@@ -479,6 +481,46 @@ export class ViewerService {
       console.log('canvas-drag-end', e);
 
       if (this.dragStatus) {
+        const vpBounds: Rect = this.getViewportBounds();
+        console.log('vpBounds', vpBounds);
+        const tiledImage = this.viewer.world.getItemAt(this.canvasService.currentCanvasGroupIndex);
+        const imageBounds = tiledImage.getBounds();
+        const currentCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
+          this.canvasService.currentCanvasGroupIndex
+        );
+
+        console.log('tiledImage', tiledImage);
+        console.log('imageBounds', imageBounds);
+        console.log('currentCanvasGroupCenter', currentCanvasGroupCenter);
+
+
+        if (vpBounds.y  < imageBounds.y) {
+          console.log('To mutch! Going up');
+          this.viewer.viewport.panTo(
+            {
+              x: vpBounds.x + (vpBounds.width / 2),
+              y: imageBounds.y + (vpBounds.height/2)
+            },
+            false
+          );
+        }
+
+        console.log('imageBounds.y + imageBounds.height', imageBounds.y + imageBounds.height);
+        console.log('vpBounds.y + vpBounds.height', vpBounds.y + vpBounds.height);
+
+        if (imageBounds.y + imageBounds.height < vpBounds.y + vpBounds.height) {
+          console.log('To mutch! Going down');
+
+          this.viewer.viewport.panTo(
+            {
+              x: vpBounds.x + (vpBounds.width / 2),
+              y: imageBounds.y + imageBounds.height - (vpBounds.height / 2)
+            },
+            false
+          );
+        }
+
+
         console.log('swipeToCanvasGroup');
         this.swipeToCanvasGroup(e);
       }
@@ -874,7 +916,6 @@ export class ViewerService {
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
-      console.log('vpBounds', vpBounds);
 
       const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,
@@ -887,7 +928,10 @@ export class ViewerService {
         (pannedPastCanvasGroup === Side.RIGHT &&
           SwipeUtils.isDirectionInLeftSemicircle(direction))
       ) {
+        console.log('stop');
         this.viewer.panHorizontal = false;
+      } else {
+        console.log('Its all ok');
       }
     }
   };

@@ -16,7 +16,7 @@ export class OptionsFactory {
       maxZoomPixelRatio: 1,
       smoothTileEdgesMinZoom: 1,
       preserveImageSizeOnResize: true,
-      visibilityRatio: 1,
+      visibilityRatio: 0,
       showNavigationControl: false,
       animationTime: ViewerOptions.transitions.OSDAnimationTime / 1000,
       ajaxWithCredentials: mimeViewerConfig.withCredentials,
