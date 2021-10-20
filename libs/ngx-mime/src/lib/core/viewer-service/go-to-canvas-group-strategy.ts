@@ -77,6 +77,8 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
             : this.rightX(newCanvasGroup);
       }
 
+      console.log('this.config.startOnTopOnCanvasGroupChange', this.config.startOnTopOnCanvasGroupChange);
+
       const y = this.config.startOnTopOnCanvasGroupChange
         ? newCanvasGroup.y +
           this.getViewportBounds().height / 2 -
@@ -175,6 +177,11 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
   }
 
   private panTo(x: number, y: number, immediately = false): void {
+    console.log('panTo', {
+      x: x,
+      y: y
+    });
+
     this.viewer.viewport.panTo(
       {
         x: x,

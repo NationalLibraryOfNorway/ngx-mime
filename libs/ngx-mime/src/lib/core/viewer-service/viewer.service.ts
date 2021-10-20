@@ -484,7 +484,9 @@ export class ViewerService {
       if (this.dragStatus) {
         const vpBounds: Rect = this.getViewportBounds();
         console.log('vpBounds', vpBounds);
-        const tiledImage = this.viewer.world.getItemAt(this.canvasService.currentCanvasGroupIndex);
+        const tiledImage = this.viewer.world.getItemAt(
+          this.canvasService.currentCanvasGroupIndex
+        );
         const imageBounds = tiledImage.getBounds();
         const currentCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
           this.canvasService.currentCanvasGroupIndex
@@ -494,33 +496,50 @@ export class ViewerService {
         console.log('imageBounds', imageBounds);
         console.log('currentCanvasGroupCenter', currentCanvasGroupCenter);
 
+        if (vpBounds.height < imageBounds.height) {
+          if (vpBounds.y < imageBounds.y) {
+            console.log('To mutch! Going up');
+            this.viewer.viewport.panTo(
+              {
+                x: vpBounds.x + vpBounds.width / 2,
+                y: imageBounds.y + vpBounds.height / 2,
+              },
+              false
+            );
+          }
 
-        if (vpBounds.y  < imageBounds.y) {
-          console.log('To mutch! Going up');
+          console.log(
+            'imageBounds.y + imageBounds.height',
+            imageBounds.y + imageBounds.height
+          );
+          console.log(
+            'vpBounds.y + vpBounds.height',
+            vpBounds.y + vpBounds.height
+          );
+
+          if (
+            imageBounds.y + imageBounds.height <
+            vpBounds.y + vpBounds.height
+          ) {
+            console.log('To mutch! Going down');
+
+            this.viewer.viewport.panTo(
+              {
+                x: vpBounds.x + vpBounds.width / 2,
+                y: imageBounds.y + imageBounds.height - vpBounds.height / 2,
+              },
+              false
+            );
+          }
+        } else {
           this.viewer.viewport.panTo(
             {
-              x: vpBounds.x + (vpBounds.width / 2),
-              y: imageBounds.y + (vpBounds.height/2)
+              x: vpBounds.x + vpBounds.width / 2,
+              y: currentCanvasGroupCenter.centerY,
             },
             false
           );
-        }
-
-        console.log('imageBounds.y + imageBounds.height', imageBounds.y + imageBounds.height);
-        console.log('vpBounds.y + vpBounds.height', vpBounds.y + vpBounds.height);
-
-        if (imageBounds.y + imageBounds.height < vpBounds.y + vpBounds.height) {
-          console.log('To mutch! Going down');
-
-          this.viewer.viewport.panTo(
-            {
-              x: vpBounds.x + (vpBounds.width / 2),
-              y: imageBounds.y + imageBounds.height - (vpBounds.height / 2)
-            },
-            false
-          );
-        }
-
+      }
 
         console.log('swipeToCanvasGroup');
         this.swipeToCanvasGroup(e);
@@ -532,9 +551,8 @@ export class ViewerService {
     });
     this.viewer.addHandler('animation-start', (e: any) => {
       console.log('animation-start', e);
-
     });
- }
+  }
 
   zoomIn(zoomFactor?: number, position?: Point): void {
     this.zoomStrategy.zoomIn(zoomFactor, position);
@@ -713,7 +731,9 @@ export class ViewerService {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
-    const target = event.originalTarget ? event.originalTarget : event.originalEvent.target;
+    const target = event.originalTarget
+      ? event.originalTarget
+      : event.originalEvent.target;
     const tileIndex = this.getOverlayIndexFromClickEvent(target);
     const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
       tileIndex
@@ -734,7 +754,9 @@ export class ViewerService {
    *    b) Fit vertically if page is already zoomed in
    */
   dblClickHandler = (event: any) => {
-    const target = event.originalTarget ? event.originalTarget : event.originalEvent.target;
+    const target = event.originalTarget
+      ? event.originalTarget
+      : event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
@@ -973,7 +995,10 @@ export class ViewerService {
       );
       this.swipeDragEndCounter.addHit(pannedPastSide, direction);
       canvasGroupEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
-      if (this.canvasService.currentCanvasGroupIndex === 0 && direction === Direction.RIGHT) {
+      if (
+        this.canvasService.currentCanvasGroupIndex === 0 &&
+        direction === Direction.RIGHT
+      ) {
         canvasGroupEndHitCountReached = false;
       }
     }
