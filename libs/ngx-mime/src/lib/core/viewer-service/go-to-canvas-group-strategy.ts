@@ -60,17 +60,20 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
           const previousCanvasRect = this.canvasService.getCanvasRect(
             previousCanvasIndex
           );
+          console.log(1);
           x =
             this.viewingDirection === ViewingDirection.LTR
               ? this.leftX(previousCanvasRect)
               : this.rightX(newCanvasGroup);
         } else {
+          console.log(2);
           x =
             this.viewingDirection === ViewingDirection.LTR
               ? this.rightX(newCanvasGroup)
               : this.leftX(newCanvasGroup);
         }
       } else {
+        console.log(3);
         x =
           this.viewingDirection === ViewingDirection.LTR
             ? this.leftX(newCanvasGroup)

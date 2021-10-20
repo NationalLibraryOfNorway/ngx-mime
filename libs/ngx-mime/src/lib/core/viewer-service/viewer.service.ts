@@ -495,53 +495,58 @@ export class ViewerService {
         console.log('tiledImage', tiledImage);
         console.log('imageBounds', imageBounds);
         console.log('currentCanvasGroupCenter', currentCanvasGroupCenter);
+        console.log('swipeToCanvasGroup');
 
-        if (vpBounds.height < imageBounds.height) {
-          if (vpBounds.y < imageBounds.y) {
-            console.log('To mutch! Going up');
-            this.viewer.viewport.panTo(
-              {
+        if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+          if (vpBounds.height < imageBounds.height) {
+            if (vpBounds.y < imageBounds.y) {
+              const coords = {
                 x: vpBounds.x + vpBounds.width / 2,
                 y: imageBounds.y + vpBounds.height / 2,
-              },
-              false
+              }
+              console.log('To mutch! Going up', coords);
+              this.viewer.viewport.panTo(
+                {
+                  x: vpBounds.x + vpBounds.width / 2,
+                  y: imageBounds.y + vpBounds.height / 2,
+                },
+                true
+              );
+            }
+
+            console.log(
+              'imageBounds.y + imageBounds.height',
+              imageBounds.y + imageBounds.height
             );
-          }
+            console.log(
+              'vpBounds.y + vpBounds.height',
+              vpBounds.y + vpBounds.height
+            );
 
-          console.log(
-            'imageBounds.y + imageBounds.height',
-            imageBounds.y + imageBounds.height
-          );
-          console.log(
-            'vpBounds.y + vpBounds.height',
-            vpBounds.y + vpBounds.height
-          );
+            if (
+              imageBounds.y + imageBounds.height <
+              vpBounds.y + vpBounds.height
+            ) {
+              console.log('To mutch! Going down');
 
-          if (
-            imageBounds.y + imageBounds.height <
-            vpBounds.y + vpBounds.height
-          ) {
-            console.log('To mutch! Going down');
-
+              this.viewer.viewport.panTo(
+                {
+                  x: vpBounds.x + vpBounds.width / 2,
+                  y: imageBounds.y + imageBounds.height - vpBounds.height / 2,
+                },
+                true
+              );
+            }
+          } else {
             this.viewer.viewport.panTo(
               {
                 x: vpBounds.x + vpBounds.width / 2,
-                y: imageBounds.y + imageBounds.height - vpBounds.height / 2,
+                y: currentCanvasGroupCenter.centerY,
               },
-              false
+              true
             );
           }
-        } else {
-          this.viewer.viewport.panTo(
-            {
-              x: vpBounds.x + vpBounds.width / 2,
-              y: currentCanvasGroupCenter.centerY,
-            },
-            false
-          );
-      }
-
-        console.log('swipeToCanvasGroup');
+        }
         this.swipeToCanvasGroup(e);
       }
       this.dragStatus = false;
@@ -998,6 +1003,12 @@ export class ViewerService {
       if (
         this.canvasService.currentCanvasGroupIndex === 0 &&
         direction === Direction.RIGHT
+      ) {
+        canvasGroupEndHitCountReached = false;
+      } else if (
+        this.canvasService.currentCanvasGroupIndex ===
+          this.canvasService.numberOfCanvasGroups - 1 &&
+        direction === Direction.LEFT
       ) {
         canvasGroupEndHitCountReached = false;
       }
