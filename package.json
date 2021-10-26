@@ -84,7 +84,7 @@
     "@ungap/custom-elements": "^0.1.9",
     "classlist.js": "^1.1.20150312",
     "d3": "^5.7.0",
-    "openseadragon": "../../Temp/openseadragon/",
+    "openseadragon": "git://github.com/openseadragon/openseadragon#master",
     "rxjs": "6.5.5",
     "stream": "^0.0.2",
     "timers": "^0.1.1",

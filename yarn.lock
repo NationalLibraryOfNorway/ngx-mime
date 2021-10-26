@@ -10954,8 +10954,9 @@ open@^7.0.2, open@^7.4.2:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
 
-openseadragon@../../Temp/openseadragon/:
+"openseadragon@git://github.com/openseadragon/openseadragon#master":
   version "2.4.2"
+  resolved "git://github.com/openseadragon/openseadragon#d1a5e926c6b3d0e380855c07bd667d75463c110b"
 
 opn@^5.5.0:
   version "5.5.0"
