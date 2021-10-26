@@ -444,20 +444,7 @@ export class ViewerService {
     this.viewer.addHandler('animation-finish', () => {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
-
-    this.viewer.addHandler('canvas-click', (event: any) => {
-      /*
-      this.viewer.panHorizontal = false;
-      console.log('canvas-click');
-      const getCurrentCanvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
-      const target = {x: getCurrentCanvasGroupRect.centerX, y: getCurrentCanvasGroupRect.centerY};
-      console.log('target', target);
-
-      this.viewer.viewport.panTo(target, false);
-      */
-      this.clickService.click(event);
-    });
-
+    this.viewer.addHandler('canvas-click', (event: any) => this.clickService.click(event));
     this.viewer.addHandler(
       'canvas-double-click',
       (e: any) => (e.preventDefaultAction = true)
@@ -478,12 +465,8 @@ export class ViewerService {
       this.dragHandler(e);
     });
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
-      console.log('canvas-drag-end', e);
-      console.log('this.viewer.panHorizontal', this.viewer.panHorizontal);
-
       if (this.dragStatus) {
         const vpBounds: Rect = this.getViewportBounds();
-        console.log('vpBounds', vpBounds);
         const tiledImage = this.viewer.world.getItemAt(
           this.canvasService.currentCanvasGroupIndex
         );
@@ -491,12 +474,6 @@ export class ViewerService {
         const currentCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
           this.canvasService.currentCanvasGroupIndex
         );
-
-        console.log('tiledImage', tiledImage);
-        console.log('imageBounds', imageBounds);
-        console.log('currentCanvasGroupCenter', currentCanvasGroupCenter);
-        console.log('swipeToCanvasGroup');
-
         if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
           if (vpBounds.height < imageBounds.height) {
             if (vpBounds.y < imageBounds.y) {
@@ -513,15 +490,6 @@ export class ViewerService {
                 true
               );
             }
-
-            console.log(
-              'imageBounds.y + imageBounds.height',
-              imageBounds.y + imageBounds.height
-            );
-            console.log(
-              'vpBounds.y + vpBounds.height',
-              vpBounds.y + vpBounds.height
-            );
 
             if (
               imageBounds.y + imageBounds.height <
@@ -553,9 +521,6 @@ export class ViewerService {
     });
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
-    });
-    this.viewer.addHandler('animation-start', (e: any) => {
-      console.log('animation-start', e);
     });
   }
 
@@ -743,7 +708,7 @@ export class ViewerService {
     const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
       tileIndex
     );
-    if (requestedCanvasGroupIndex !== undefined) {
+    if (requestedCanvasGroupIndex !== -1) {
       this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
     } else {
       this.calculateCurrentCanvasGroup(this.viewer?.viewport.getCenter(true));
@@ -823,6 +788,7 @@ export class ViewerService {
 
       const tileSourceStrategy = TileSourceStrategyFactory.create(tile);
       const tileSource = tileSourceStrategy.getTileSource(tile);
+      console.log('position',position);
 
       this.zone.runOutsideAngular(() => {
         const rotated = rotation === 90 || rotation === 270;
@@ -944,7 +910,6 @@ export class ViewerService {
     if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
       const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
-
       const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,
         vpBounds
@@ -956,10 +921,7 @@ export class ViewerService {
         (pannedPastCanvasGroup === Side.RIGHT &&
           SwipeUtils.isDirectionInLeftSemicircle(direction))
       ) {
-        console.log('stop');
         this.viewer.panHorizontal = false;
-      } else {
-        console.log('Its all ok');
       }
     }
   };
@@ -1024,23 +986,16 @@ export class ViewerService {
         viewingDirection: this.manifest.viewingDirection,
       }
     );
-
-    console.log('canvasGroupEndHitCountReached', canvasGroupEndHitCountReached);
-
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||
       this.modeService.mode === ViewerMode.PAGE ||
       (canvasGroupEndHitCountReached && direction)
     ) {
-      console.log('swipeToCanvasGroup', newCanvasGroupIndex);
       this.goToCanvasGroupStrategy.goToCanvasGroup({
         canvasGroupIndex: newCanvasGroupIndex,
         immediately: false,
         direction: direction,
       });
-    } else {
-      console.log('center?');
-      //this.goToCanvasGroupStrategy.centerCurrentCanvas();
     }
   }
 

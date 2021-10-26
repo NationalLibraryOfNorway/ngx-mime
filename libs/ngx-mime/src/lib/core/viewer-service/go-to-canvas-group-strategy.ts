@@ -34,9 +34,6 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
   ) {}
 
   goToCanvasGroup(canvasGroup: CanvasGroup) {
-    if (canvasGroup.canvasGroupIndex < 0) {
-      canvasGroup.canvasGroupIndex = 0;
-    }
     const oldCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
     this.canvasService.currentCanvasGroupIndex = this.canvasService.constrainToRange(
       canvasGroup.canvasGroupIndex
@@ -60,27 +57,22 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
           const previousCanvasRect = this.canvasService.getCanvasRect(
             previousCanvasIndex
           );
-          console.log(1);
           x =
             this.viewingDirection === ViewingDirection.LTR
               ? this.leftX(previousCanvasRect)
               : this.rightX(newCanvasGroup);
         } else {
-          console.log(2);
           x =
             this.viewingDirection === ViewingDirection.LTR
               ? this.rightX(newCanvasGroup)
               : this.leftX(newCanvasGroup);
         }
       } else {
-        console.log(3);
         x =
           this.viewingDirection === ViewingDirection.LTR
             ? this.leftX(newCanvasGroup)
             : this.rightX(newCanvasGroup);
       }
-
-      console.log('this.config.startOnTopOnCanvasGroupChange', this.config.startOnTopOnCanvasGroupChange);
 
       const y = this.config.startOnTopOnCanvasGroupChange
         ? newCanvasGroup.y +
@@ -93,8 +85,6 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       const oldCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
         oldCanvasGroupIndex
       );
-      console.log('oldCanvasGroupCenter', oldCanvasGroupCenter);
-
       this.panToCenter(oldCanvasGroupCenter, canvasGroup.immediately);
       this.zoomStrategy.goToHomeZoom();
       setTimeout(() => {
@@ -180,11 +170,6 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
   }
 
   private panTo(x: number, y: number, immediately = false): void {
-    console.log('panTo', {
-      x: x,
-      y: y
-    });
-
     this.viewer.viewport.panTo(
       {
         x: x,
