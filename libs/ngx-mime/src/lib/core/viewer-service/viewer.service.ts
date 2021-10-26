@@ -703,10 +703,7 @@ export class ViewerService {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
-    const target = event.originalTarget
-      ? event.originalTarget
-      : event.originalEvent.target;
-    const tileIndex = this.getOverlayIndexFromClickEvent(target);
+    const tileIndex = this.getOverlayIndexFromClickEvent(event);
     const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
       tileIndex
     );
@@ -726,9 +723,6 @@ export class ViewerService {
    *    b) Fit vertically if page is already zoomed in
    */
   dblClickHandler = (event: any) => {
-    const target = event.originalTarget
-      ? event.originalTarget
-      : event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
@@ -738,7 +732,7 @@ export class ViewerService {
       );
     } else {
       this.modeService.mode = ViewerMode.PAGE;
-      const canvasIndex: number = this.getOverlayIndexFromClickEvent(target);
+      const canvasIndex: number = this.getOverlayIndexFromClickEvent(event);
       const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
         canvasIndex
       );
@@ -887,7 +881,8 @@ export class ViewerService {
    * Returns overlay-index for click-event if hit
    * @param target hit <rect>
    */
-  getOverlayIndexFromClickEvent(target: any) {
+  getOverlayIndexFromClickEvent(event: any) {
+    const target = this.getOriginalTarget(event);
     if (this.isCanvasGroupHit(target)) {
       const requestedCanvasGroup: number = this.overlays.indexOf(target);
       if (requestedCanvasGroup >= 0) {
@@ -990,6 +985,12 @@ export class ViewerService {
 
   private getViewportBounds(): Rect {
     return this.viewer?.viewport.getBounds();
+  }
+
+  private getOriginalTarget(event: any) {
+    return event.originalTarget
+      ? event.originalTarget
+      : event.originalEvent.target
   }
 
   private unsubscribe() {
