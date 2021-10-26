@@ -1,4 +1,4 @@
-import { Resource } from '../models/manifest';
+import { Resource, Service } from '../models/manifest';
 import { Rect } from '../models/rect';
 import { ViewingDirection } from '../models/viewing-direction';
 import { CanvasGroupPositionCriteria } from './calculate-canvas-group-position-strategy';
@@ -7,7 +7,17 @@ import { canvasRectFromCriteria } from './calculate-canvas-group-position-utils'
 describe('canvasRectFromCriteria', () => {
   const canvasGroupsPositionCriteria: CanvasGroupPositionCriteria = {
     canvasGroupIndex: 0,
-    canvasSource: new Resource({ width: 100, height: 200 }),
+    canvasSource: new Resource({
+      width: 100,
+      height: 200,
+      service: new Service({
+        service: new Service({
+          width: 100,
+          height: 100,
+          physicalScale: 0.0025,
+        }),
+      }),
+    }),
     viewingDirection: ViewingDirection.LTR,
     previousCanvasGroupPosition: new Rect(),
   };
