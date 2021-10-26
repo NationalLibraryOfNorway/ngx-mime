@@ -444,9 +444,7 @@ export class ViewerService {
     this.viewer.addHandler('animation-finish', () => {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
-    this.viewer.addHandler('canvas-click', (event: any) =>
-      this.clickService.click(event)
-    );
+    this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler(
       'canvas-double-click',
       (e: any) => (e.preventDefaultAction = true)
