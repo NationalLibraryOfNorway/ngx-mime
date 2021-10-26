@@ -21,6 +21,6 @@ export class PageZoomedModeCalculateNextCanvasGroupStrategy
       criteria.viewingDirection === ViewingDirection.LTR
         ? currentCanvasGroupIndex + nextCanvasGroup
         : currentCanvasGroupIndex - nextCanvasGroup;
-    return nextCanvasGroup;
+        return nextCanvasGroup >= 0 ?  nextCanvasGroup : 0;
   }
 }

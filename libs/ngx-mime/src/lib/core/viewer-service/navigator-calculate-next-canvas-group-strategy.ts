@@ -14,6 +14,6 @@ export class NavigatorCalculateNextCanvasGroupStrategy
     nextCanvasGroup =
       direction === Direction.NEXT ? nextCanvasGroup : nextCanvasGroup * -1;
     nextCanvasGroup = currentCanvasGroupIndex + nextCanvasGroup;
-    return nextCanvasGroup;
+    return nextCanvasGroup >= 0 ?  nextCanvasGroup : 0;
   }
 }

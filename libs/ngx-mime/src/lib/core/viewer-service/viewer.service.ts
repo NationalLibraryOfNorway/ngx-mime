@@ -444,7 +444,9 @@ export class ViewerService {
     this.viewer.addHandler('animation-finish', () => {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
-    this.viewer.addHandler('canvas-click', (event: any) => this.clickService.click(event));
+    this.viewer.addHandler('canvas-click', (event: any) =>
+      this.clickService.click(event)
+    );
     this.viewer.addHandler(
       'canvas-double-click',
       (e: any) => (e.preventDefaultAction = true)
@@ -480,7 +482,7 @@ export class ViewerService {
               const coords = {
                 x: vpBounds.x + vpBounds.width / 2,
                 y: imageBounds.y + vpBounds.height / 2,
-              }
+              };
               console.log('To mutch! Going up', coords);
               this.viewer.viewport.panTo(
                 {
@@ -788,7 +790,6 @@ export class ViewerService {
 
       const tileSourceStrategy = TileSourceStrategyFactory.create(tile);
       const tileSource = tileSourceStrategy.getTileSource(tile);
-      console.log('position',position);
 
       this.zone.runOutsideAngular(() => {
         const rotated = rotation === 90 || rotation === 270;
@@ -962,18 +963,6 @@ export class ViewerService {
       );
       this.swipeDragEndCounter.addHit(pannedPastSide, direction);
       canvasGroupEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
-      if (
-        this.canvasService.currentCanvasGroupIndex === 0 &&
-        direction === Direction.RIGHT
-      ) {
-        canvasGroupEndHitCountReached = false;
-      } else if (
-        this.canvasService.currentCanvasGroupIndex ===
-          this.canvasService.numberOfCanvasGroups - 1 &&
-        direction === Direction.LEFT
-      ) {
-        canvasGroupEndHitCountReached = false;
-      }
     }
 
     const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup(
