@@ -52,7 +52,7 @@ export class ModeService {
     }
   }
 
-  isPageZoomed() {
+  isPageZoomed(): boolean {
     return this.mode  === ViewerMode.PAGE_ZOOMED
   }
 
