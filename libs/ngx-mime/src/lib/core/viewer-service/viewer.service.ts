@@ -597,7 +597,7 @@ export class ViewerService {
   }
 
   zoomOutGesture(position: Point, zoomFactor?: number): void {
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       this.zoomStrategy.zoomOut(zoomFactor, position);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.DASHBOARD;
@@ -629,7 +629,7 @@ export class ViewerService {
    */
   zoomOutPinchGesture(event: any, zoomFactor: number): void {
     const gestureId = event.gesturePoints[0].id;
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       this.pinchStatus.shouldStop = true;
       this.zoomStrategy.zoomOut(zoomFactor, event.center);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
@@ -853,7 +853,7 @@ export class ViewerService {
 
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
       const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
@@ -873,41 +873,65 @@ export class ViewerService {
   };
 
   private constrainIntoViewport() {
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       const viewportBounds: Rect = this.getViewportBounds();
-      const item = this.viewer.world.getItemAt(
-        this.canvasService.currentCanvasGroupIndex
-      );
-      const itemBounds = item.getBounds();
-      let coords: Rect | undefined = undefined;
-      if (viewportBounds.height < itemBounds.height) {
-        if (viewportBounds.y < itemBounds.y) {
-          coords = new Rect({
+      const itemBounds = this.viewer.world
+        .getItemAt(this.canvasService.currentCanvasGroupIndex)
+        .getBounds();
+      let rect: Rect | undefined = undefined;
+      if (this.isCanvasInsideViewport(viewportBounds, itemBounds)) {
+        console.log('isCanvasInsideViewport');
+        if (this.isCanvasBelowViewportTop(viewportBounds, itemBounds)) {
+          console.log('isCanvasBelowViewportTop');
+          rect = new Rect({
             x: viewportBounds.x + viewportBounds.width / 2,
             y: itemBounds.y + viewportBounds.height / 2,
           });
         } else if (
-          itemBounds.y + itemBounds.height <
-          viewportBounds.y + viewportBounds.height
+          this.isCanvasAbowViewportBottom(viewportBounds, itemBounds)
         ) {
-          coords = new Rect({
+          console.log('isCanvasAbowViewportBottom');
+          rect = new Rect({
             x: viewportBounds.x + viewportBounds.width / 2,
             y: itemBounds.y + itemBounds.height - viewportBounds.height / 2,
           });
         }
       } else {
+        console.log('isCanvasInsideViewport NOT');
         const canvasGroupRect = this.canvasService.getCanvasGroupRect(
           this.canvasService.currentCanvasGroupIndex
         );
-        coords = new Rect({
+        rect = new Rect({
           x: viewportBounds.x + viewportBounds.width / 2,
           y: canvasGroupRect.centerY,
         });
       }
-      if (coords) {
-        this.viewer.viewport.panTo(coords, true);
-      }
+      this.panTo(rect, true);
     }
+  }
+
+  private isCanvasInsideViewport(
+    viewportBounds: Rect,
+    itemBounds: Rect
+  ): boolean {
+    return viewportBounds.height < itemBounds.height;
+  }
+
+  private isCanvasBelowViewportTop(
+    viewportBounds: Rect,
+    itemBounds: Rect
+  ): boolean {
+    return viewportBounds.y < itemBounds.y;
+  }
+
+  private isCanvasAbowViewportBottom(
+    viewportBounds: Rect,
+    itemBounds: Rect
+  ): boolean {
+    return (
+      itemBounds.y + itemBounds.height <
+      viewportBounds.y + viewportBounds.height
+    );
   }
 
   private swipeToCanvasGroup(e: any) {
@@ -919,16 +943,13 @@ export class ViewerService {
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
-    const isCanvasGroupZoomed =
-      this.modeService.mode === ViewerMode.PAGE_ZOOMED;
-
     const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
     const viewportBounds: Rect = this.getViewportBounds();
 
     const direction: Direction = SwipeUtils.getSwipeDirection(
       this.dragStartPosition,
       dragEndPosision,
-      isCanvasGroupZoomed
+      this.modeService.isPageZoomed()
     );
 
     const currentCanvasGroupIndex: number = this.canvasService
@@ -939,7 +960,7 @@ export class ViewerService {
 
     let pannedPastSide: Side | null;
     let canvasGroupEndHitCountReached = false;
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,
         viewportBounds
@@ -979,6 +1000,18 @@ export class ViewerService {
     return event.originalTarget
       ? event.originalTarget
       : event.originalEvent.target;
+  }
+
+  private panTo(rect: Rect | undefined, immediately = false): void {
+    if (rect) {
+      this.viewer.viewport.panTo(
+        {
+          x: rect.x,
+          y: rect.y,
+        },
+        immediately
+      );
+    }
   }
 
   private unsubscribe() {

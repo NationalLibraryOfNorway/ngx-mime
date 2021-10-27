@@ -52,6 +52,10 @@ export class ModeService {
     }
   }
 
+  isPageZoomed() {
+    return this.mode  === ViewerMode.PAGE_ZOOMED
+  }
+
   private change() {
     this.modeChanges.previousValue = this.modeChanges.currentValue;
     this.modeChanges.currentValue = this._mode;

@@ -160,13 +160,13 @@ export class AccessKeysService {
   private zoomOut() {
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.toggleMode();
-    } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    } else if (this.modeService.isPageZoomed()) {
       this.viewerService.zoomOut();
     }
   }
 
   private zoomHome() {
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       this.viewerService.home();
     }
   }
@@ -174,7 +174,7 @@ export class AccessKeysService {
   private toggleSearchDialog() {
     if (
       this.modeService.mode === ViewerMode.PAGE ||
-      this.modeService.mode === ViewerMode.PAGE_ZOOMED
+      this.modeService.isPageZoomed()
     ) {
       this.modeService.mode = ViewerMode.DASHBOARD;
       this.contentSearchDialogService.open();
@@ -192,7 +192,7 @@ export class AccessKeysService {
   private toggleContentsDialog() {
     if (
       this.modeService.mode === ViewerMode.PAGE ||
-      this.modeService.mode === ViewerMode.PAGE_ZOOMED
+      this.modeService.isPageZoomed()
     ) {
       this.modeService.mode = ViewerMode.DASHBOARD;
       this.contentsDialogService.open();
@@ -220,7 +220,7 @@ export class AccessKeysService {
   }
 
   private isZoomedIn(): boolean {
-    return this.modeService.mode === ViewerMode.PAGE_ZOOMED;
+    return this.modeService.isPageZoomed();
   }
 
   private updateDisabledKeys() {

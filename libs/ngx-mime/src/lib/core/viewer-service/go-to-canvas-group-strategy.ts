@@ -42,7 +42,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       this.canvasService.currentCanvasGroupIndex
     );
     if (
-      this.modeService.mode === ViewerMode.PAGE_ZOOMED &&
+      this.modeService.isPageZoomed() &&
       this.config.preserveZoomOnCanvasGroupChange
     ) {
       let x: number;
@@ -81,7 +81,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
         : this.getViewportCenter().y;
 
       this.panTo(x, y, canvasGroup.immediately);
-    } else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    } else if (this.modeService.isPageZoomed()) {
       const oldCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
         oldCanvasGroupIndex
       );

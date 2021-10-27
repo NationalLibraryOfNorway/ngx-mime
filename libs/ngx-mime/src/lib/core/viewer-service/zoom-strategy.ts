@@ -56,7 +56,7 @@ export class ZoomStrategy {
 
   goToHomeZoom(): void {
     this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       this.modeService.mode = ViewerMode.PAGE;
     }
   }
