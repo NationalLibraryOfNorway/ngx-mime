@@ -466,55 +466,7 @@ export class ViewerService {
     });
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
       if (this.dragStatus) {
-        const vpBounds: Rect = this.getViewportBounds();
-        const tiledImage = this.viewer.world.getItemAt(
-          this.canvasService.currentCanvasGroupIndex
-        );
-        const imageBounds = tiledImage.getBounds();
-        const currentCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
-          this.canvasService.currentCanvasGroupIndex
-        );
-        if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
-          if (vpBounds.height < imageBounds.height) {
-            if (vpBounds.y < imageBounds.y) {
-              const coords = {
-                x: vpBounds.x + vpBounds.width / 2,
-                y: imageBounds.y + vpBounds.height / 2,
-              };
-              console.log('To mutch! Going up', coords);
-              this.viewer.viewport.panTo(
-                {
-                  x: vpBounds.x + vpBounds.width / 2,
-                  y: imageBounds.y + vpBounds.height / 2,
-                },
-                true
-              );
-            }
-
-            if (
-              imageBounds.y + imageBounds.height <
-              vpBounds.y + vpBounds.height
-            ) {
-              console.log('To mutch! Going down');
-
-              this.viewer.viewport.panTo(
-                {
-                  x: vpBounds.x + vpBounds.width / 2,
-                  y: imageBounds.y + imageBounds.height - vpBounds.height / 2,
-                },
-                true
-              );
-            }
-          } else {
-            this.viewer.viewport.panTo(
-              {
-                x: vpBounds.x + vpBounds.width / 2,
-                y: currentCanvasGroupCenter.centerY,
-              },
-              true
-            );
-          }
-        }
+        this.constrainIntoViewport();
         this.swipeToCanvasGroup(e);
       }
       this.dragStatus = false;
@@ -920,6 +872,44 @@ export class ViewerService {
     }
   };
 
+  private constrainIntoViewport() {
+    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+      const viewportBounds: Rect = this.getViewportBounds();
+      const item = this.viewer.world.getItemAt(
+        this.canvasService.currentCanvasGroupIndex
+      );
+      const itemBounds = item.getBounds();
+      let coords: Rect | undefined = undefined;
+      if (viewportBounds.height < itemBounds.height) {
+        if (viewportBounds.y < itemBounds.y) {
+          coords = new Rect({
+            x: viewportBounds.x + viewportBounds.width / 2,
+            y: itemBounds.y + viewportBounds.height / 2,
+          });
+        } else if (
+          itemBounds.y + itemBounds.height <
+          viewportBounds.y + viewportBounds.height
+        ) {
+          coords = new Rect({
+            x: viewportBounds.x + viewportBounds.width / 2,
+            y: itemBounds.y + itemBounds.height - viewportBounds.height / 2,
+          });
+        }
+      } else {
+        const canvasGroupRect = this.canvasService.getCanvasGroupRect(
+          this.canvasService.currentCanvasGroupIndex
+        );
+        coords = new Rect({
+          x: viewportBounds.x + viewportBounds.width / 2,
+          y: canvasGroupRect.centerY,
+        });
+      }
+      if (coords) {
+        this.viewer.viewport.panTo(coords, true);
+      }
+    }
+  }
+
   private swipeToCanvasGroup(e: any) {
     // Don't swipe on pinch actions
     if (this.pinchStatus.active) {
@@ -988,7 +978,7 @@ export class ViewerService {
   private getOriginalTarget(event: any) {
     return event.originalTarget
       ? event.originalTarget
-      : event.originalEvent.target
+      : event.originalEvent.target;
   }
 
   private unsubscribe() {
