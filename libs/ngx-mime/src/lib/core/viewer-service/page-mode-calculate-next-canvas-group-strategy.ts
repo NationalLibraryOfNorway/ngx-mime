@@ -22,6 +22,6 @@ export class PageModeCalculateNextCanvasGroupStrategy
     } else if (isNewCanvasGroupInCenter) {
       nextCanvasGroup = criteria.currentCanvasGroupCenter;
     }
-    return nextCanvasGroup >= 0 ?  nextCanvasGroup : 0;
+    return nextCanvasGroup;
   }
 }

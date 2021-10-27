@@ -948,15 +948,15 @@ export class ViewerService {
       canvasGroupEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
     }
 
-    const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup(
-      {
+    const newCanvasGroupIndex = this.canvasService.constrainToRange(
+      calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
         currentCanvasGroupCenter: this.currentCanvasIndex.getValue(),
         speed: speed,
         direction: direction,
         currentCanvasGroupIndex: currentCanvasGroupIndex,
         canvasGroupEndHitCountReached: canvasGroupEndHitCountReached,
         viewingDirection: this.manifest.viewingDirection,
-      }
+      })
     );
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||

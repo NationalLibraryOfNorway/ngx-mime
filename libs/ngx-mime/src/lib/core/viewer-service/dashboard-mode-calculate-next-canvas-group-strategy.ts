@@ -25,7 +25,7 @@ export class DashboardModeCalculateNextCanvasGroupStrategy
           ? currentCanvasGroupIndex + canvasGroupDelta
           : currentCanvasGroupIndex - canvasGroupDelta;
     }
-    return nextCanvasGroup >= 0 ?  nextCanvasGroup : 0;
+    return nextCanvasGroup;
   }
 
   private calculateNumberOfCanvasGroupsToGo(speed: number | undefined): number {
