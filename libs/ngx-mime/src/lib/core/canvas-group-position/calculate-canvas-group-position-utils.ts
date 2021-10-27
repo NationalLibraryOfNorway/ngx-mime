@@ -7,19 +7,24 @@ export const canvasRectFromCriteria = (
   x: number
 ) => {
   let rect = {};
+  const scale =
+    (criteria.canvasSource.service?.service?.physicalScale
+      ? criteria.canvasSource.service?.service?.physicalScale
+      : 1) * 400;
+
   if (rotation === 90 || rotation === 270) {
     rect = {
-      height: criteria.canvasSource.width,
-      width: criteria.canvasSource.height,
+      height: Math.trunc(criteria.canvasSource.width * scale),
+      width: Math.trunc(criteria.canvasSource.height * scale),
       x: x,
-      y: (criteria.canvasSource.width / 2) * -1,
+      y: Math.trunc((criteria.canvasSource.width * scale) / 2) * -1,
     };
   } else {
     rect = {
-      height: criteria.canvasSource.height,
-      width: criteria.canvasSource.width,
+      height: Math.trunc(criteria.canvasSource.height * scale),
+      width: Math.trunc(criteria.canvasSource.width * scale),
       x: x,
-      y: (criteria.canvasSource.height / 2) * -1,
+      y: Math.trunc((criteria.canvasSource.height * scale) / 2) * -1,
     };
   }
   return new Rect(rect);
