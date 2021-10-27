@@ -285,22 +285,28 @@ describe('ViewerComponent', function () {
   });
 
   it('should return overlay-index if target is an overlay', () => {
-    let overlay, index;
-    overlay = viewerService.getOverlays()[0];
-    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    let index;
+    const event = {
+      originalEvent: {
+        target: viewerService.getOverlays()[0],
+      },
+    };
+    console.log(event);
+
+    index = viewerService.getOverlayIndexFromClickEvent(event);
     expect(index).toBe(0);
 
-    overlay = viewerService.getOverlays()[1];
-    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    event.originalEvent.target = viewerService.getOverlays()[1];
+    index = viewerService.getOverlayIndexFromClickEvent(event);
     expect(index).toBe(1);
 
-    overlay = viewerService.getOverlays()[12];
-    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    event.originalEvent.target = viewerService.getOverlays()[12];
+    index = viewerService.getOverlayIndexFromClickEvent(event);
     expect(index).toBe(12);
 
     // Should return -1 for nonsense overlay
-    overlay = viewerService.getOverlays()[12000];
-    index = viewerService.getOverlayIndexFromClickEvent(overlay);
+    event.originalEvent.target = viewerService.getOverlays()[12000];
+    index = viewerService.getOverlayIndexFromClickEvent(event);
     expect(index).toBe(-1);
   });
 
