@@ -291,7 +291,6 @@ describe('ViewerComponent', function () {
         target: viewerService.getOverlays()[0],
       },
     };
-    console.log(event);
 
     index = viewerService.getOverlayIndexFromClickEvent(event);
     expect(index).toBe(0);

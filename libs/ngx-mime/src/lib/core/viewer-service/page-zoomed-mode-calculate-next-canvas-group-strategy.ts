@@ -2,7 +2,7 @@ import { Direction } from '../models/direction';
 import { ViewingDirection } from '../models/viewing-direction';
 import {
   CalculateNextCanvasGroupStrategy,
-  NextCanvasGroupCriteria
+  NextCanvasGroupCriteria,
 } from './calculate-next-canvas-group-strategy';
 
 export class PageZoomedModeCalculateNextCanvasGroupStrategy
@@ -21,6 +21,6 @@ export class PageZoomedModeCalculateNextCanvasGroupStrategy
       criteria.viewingDirection === ViewingDirection.LTR
         ? currentCanvasGroupIndex + nextCanvasGroup
         : currentCanvasGroupIndex - nextCanvasGroup;
-        return nextCanvasGroup;
+    return nextCanvasGroup;
   }
 }

@@ -10954,9 +10954,10 @@ open@^7.0.2, open@^7.4.2:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
 
-"openseadragon@git://github.com/openseadragon/openseadragon#master":
+openseadragon@^2.4.0:
   version "2.4.2"
-  resolved "git://github.com/openseadragon/openseadragon#d1a5e926c6b3d0e380855c07bd667d75463c110b"
+  resolved "https://registry.yarnpkg.com/openseadragon/-/openseadragon-2.4.2.tgz#f25d833d0ab9941599d65a3e2b44bec546c9f15c"
+  integrity sha512-398KbZwRtOYA6OmeWRY4Q0737NTacQ9Q6whmr9Lp1MNQO3p0eBz5LIASRne+4gwequcSM1vcHcjfy3dIndQziw==
 
 opn@^5.5.0:
   version "5.5.0"
