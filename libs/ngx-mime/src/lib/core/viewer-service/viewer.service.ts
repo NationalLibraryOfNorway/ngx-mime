@@ -37,11 +37,11 @@ import {
   DefaultGoToCanvasGroupStrategy,
   GoToCanvasGroupStrategy,
 } from './go-to-canvas-group-strategy';
+import { OptionsFactory } from './options.factory';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
 import { TileSourceStrategyFactory } from './tile-source-strategy-factory';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
-import { OptionsFactory } from './options.factory';
 
 declare const OpenSeadragon: any;
 
@@ -466,7 +466,7 @@ export class ViewerService {
     });
     this.viewer.addHandler('canvas-drag-end', (e: any) => {
       if (this.dragStatus) {
-        this.constrainIntoViewport();
+        this.constraintCanvas();
         this.swipeToCanvasGroup(e);
       }
       this.dragStatus = false;
@@ -872,64 +872,75 @@ export class ViewerService {
     }
   };
 
-  private constrainIntoViewport() {
+  private constraintCanvas() {
     if (this.modeService.isPageZoomed()) {
       const viewportBounds: Rect = this.getViewportBounds();
-      const itemBounds = this.viewer.world
-        .getItemAt(this.canvasService.currentCanvasGroupIndex)
-        .getBounds();
-      let rect: Rect | undefined = undefined;
-      if (this.isCanvasInsideViewport(viewportBounds, itemBounds)) {
-        console.log('isCanvasInsideViewport');
-        if (this.isCanvasBelowViewportTop(viewportBounds, itemBounds)) {
-          console.log('isCanvasBelowViewportTop');
-          rect = new Rect({
-            x: viewportBounds.x + viewportBounds.width / 2,
-            y: itemBounds.y + viewportBounds.height / 2,
-          });
-        } else if (
-          this.isCanvasAbowViewportBottom(viewportBounds, itemBounds)
-        ) {
-          console.log('isCanvasAbowViewportBottom');
-          rect = new Rect({
-            x: viewportBounds.x + viewportBounds.width / 2,
-            y: itemBounds.y + itemBounds.height - viewportBounds.height / 2,
-          });
-        }
-      } else {
-        console.log('isCanvasInsideViewport NOT');
-        const canvasGroupRect = this.canvasService.getCanvasGroupRect(
-          this.canvasService.currentCanvasGroupIndex
-        );
-        rect = new Rect({
-          x: viewportBounds.x + viewportBounds.width / 2,
-          y: canvasGroupRect.centerY,
-        });
-      }
-      this.panTo(rect, true);
+      const currentCanvasBounds = this.getCurrentCanvasBounds();
+      this.isCanvasOutsideViewport(viewportBounds, currentCanvasBounds)
+        ? this.constraintCanvasOutsideViewport(
+            viewportBounds,
+            currentCanvasBounds
+          )
+        : this.constraintCanvasInsideViewport(viewportBounds);
     }
   }
 
-  private isCanvasInsideViewport(
+  private getCurrentCanvasBounds(): Rect {
+    return this.viewer.world
+      .getItemAt(this.canvasService.currentCanvasGroupIndex)
+      .getBounds();
+  }
+
+  private isCanvasOutsideViewport(
     viewportBounds: Rect,
-    itemBounds: Rect
+    canvasBounds: Rect
   ): boolean {
-    return viewportBounds.height < itemBounds.height;
+    return viewportBounds.height < canvasBounds.height;
+  }
+
+  private constraintCanvasOutsideViewport(
+    viewportBounds: Rect,
+    canvasBounds: Rect
+  ): void {
+    let rect: Rect | undefined = undefined;
+    if (this.isCanvasBelowViewportTop(viewportBounds, canvasBounds)) {
+      rect = new Rect({
+        x: viewportBounds.x + viewportBounds.width / 2,
+        y: canvasBounds.y + viewportBounds.height / 2,
+      });
+    } else if (this.isCanvasAboveViewportBottom(viewportBounds, canvasBounds)) {
+      rect = new Rect({
+        x: viewportBounds.x + viewportBounds.width / 2,
+        y: canvasBounds.y + canvasBounds.height - viewportBounds.height / 2,
+      });
+    }
+    this.panTo(rect, true);
+  }
+
+  private constraintCanvasInsideViewport(viewportBounds: Rect): void {
+    const canvasGroupRect = this.canvasService.getCanvasGroupRect(
+      this.canvasService.currentCanvasGroupIndex
+    );
+    const rect = new Rect({
+      x: viewportBounds.x + viewportBounds.width / 2,
+      y: canvasGroupRect.centerY,
+    });
+    this.panTo(rect, true);
   }
 
   private isCanvasBelowViewportTop(
     viewportBounds: Rect,
-    itemBounds: Rect
+    canvasBounds: Rect
   ): boolean {
-    return viewportBounds.y < itemBounds.y;
+    return viewportBounds.y < canvasBounds.y;
   }
 
-  private isCanvasAbowViewportBottom(
+  private isCanvasAboveViewportBottom(
     viewportBounds: Rect,
-    itemBounds: Rect
+    canvasBounds: Rect
   ): boolean {
     return (
-      itemBounds.y + itemBounds.height <
+      canvasBounds.y + canvasBounds.height <
       viewportBounds.y + viewportBounds.height
     );
   }
