@@ -12,7 +12,6 @@ export class PageModeCalculateNextCanvasGroupStrategy
       criteria.currentCanvasGroupIndex !== criteria.currentCanvasGroupCenter;
     const speed = criteria.speed;
     const direction = criteria.direction;
-
     let nextCanvasGroup = criteria.currentCanvasGroupIndex;
     if (speed && speed >= 200) {
       const diff = direction === Direction.LEFT ? 1 : -1;

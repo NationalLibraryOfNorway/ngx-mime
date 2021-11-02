@@ -37,11 +37,11 @@ import {
   DefaultGoToCanvasGroupStrategy,
   GoToCanvasGroupStrategy,
 } from './go-to-canvas-group-strategy';
+import { OptionsFactory } from './options.factory';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
 import { TileSourceStrategyFactory } from './tile-source-strategy-factory';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
-import { OptionsFactory } from './options.factory';
 
 declare const OpenSeadragon: any;
 
@@ -77,6 +77,7 @@ export class ViewerService {
   private goToCanvasGroupStrategy!: GoToCanvasGroupStrategy;
 
   private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
+  private dragStatus = false;
 
   constructor(
     private zone: NgZone,
@@ -459,11 +460,17 @@ export class ViewerService {
     this.viewer.addHandler('canvas-scroll', this.scrollHandler);
     this.viewer.addHandler('canvas-pinch', this.pinchHandler);
 
-    this.viewer.addHandler('canvas-drag', (e: any) => this.dragHandler(e));
-    this.viewer.addHandler('canvas-drag-end', (e: any) =>
-      this.swipeToCanvasGroup(e)
-    );
-
+    this.viewer.addHandler('canvas-drag', (e: any) => {
+      this.dragStatus = true;
+      this.dragHandler(e);
+    });
+    this.viewer.addHandler('canvas-drag-end', (e: any) => {
+      if (this.dragStatus) {
+        this.constraintCanvas();
+        this.swipeToCanvasGroup(e);
+      }
+      this.dragStatus = false;
+    });
     this.viewer.addHandler('animation', (e: any) => {
       this.currentCenter.next(this.viewer?.viewport.getCenter(true));
     });
@@ -590,7 +597,7 @@ export class ViewerService {
   }
 
   zoomOutGesture(position: Point, zoomFactor?: number): void {
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       this.zoomStrategy.zoomOut(zoomFactor, position);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.DASHBOARD;
@@ -622,7 +629,7 @@ export class ViewerService {
    */
   zoomOutPinchGesture(event: any, zoomFactor: number): void {
     const gestureId = event.gesturePoints[0].id;
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       this.pinchStatus.shouldStop = true;
       this.zoomStrategy.zoomOut(zoomFactor, event.center);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
@@ -646,12 +653,11 @@ export class ViewerService {
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
   singleClickHandler = (event: any) => {
-    const target = event.originalEvent.target;
-    const tileIndex = this.getOverlayIndexFromClickEvent(target);
+    const tileIndex = this.getOverlayIndexFromClickEvent(event);
     const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
       tileIndex
     );
-    if (requestedCanvasGroupIndex) {
+    if (requestedCanvasGroupIndex !== -1) {
       this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
     } else {
       this.calculateCurrentCanvasGroup(this.viewer?.viewport.getCenter(true));
@@ -667,7 +673,6 @@ export class ViewerService {
    *    b) Fit vertically if page is already zoomed in
    */
   dblClickHandler = (event: any) => {
-    const target = event.originalEvent.target;
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
@@ -677,7 +682,7 @@ export class ViewerService {
       );
     } else {
       this.modeService.mode = ViewerMode.PAGE;
-      const canvasIndex: number = this.getOverlayIndexFromClickEvent(target);
+      const canvasIndex: number = this.getOverlayIndexFromClickEvent(event);
       const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
         canvasIndex
       );
@@ -826,7 +831,8 @@ export class ViewerService {
    * Returns overlay-index for click-event if hit
    * @param target hit <rect>
    */
-  getOverlayIndexFromClickEvent(target: any) {
+  getOverlayIndexFromClickEvent(event: any) {
+    const target = this.getOriginalTarget(event);
     if (this.isCanvasGroupHit(target)) {
       const requestedCanvasGroup: number = this.overlays.indexOf(target);
       if (requestedCanvasGroup >= 0) {
@@ -847,7 +853,7 @@ export class ViewerService {
 
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
       const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
@@ -866,6 +872,79 @@ export class ViewerService {
     }
   };
 
+  private constraintCanvas() {
+    if (this.modeService.isPageZoomed()) {
+      const viewportBounds: Rect = this.getViewportBounds();
+      const currentCanvasBounds = this.getCurrentCanvasBounds();
+      this.isCanvasOutsideViewport(viewportBounds, currentCanvasBounds)
+        ? this.constraintCanvasOutsideViewport(
+            viewportBounds,
+            currentCanvasBounds
+          )
+        : this.constraintCanvasInsideViewport(viewportBounds);
+    }
+  }
+
+  private getCurrentCanvasBounds(): Rect {
+    return this.viewer.world
+      .getItemAt(this.canvasService.currentCanvasGroupIndex)
+      .getBounds();
+  }
+
+  private isCanvasOutsideViewport(
+    viewportBounds: Rect,
+    canvasBounds: Rect
+  ): boolean {
+    return viewportBounds.height < canvasBounds.height;
+  }
+
+  private constraintCanvasOutsideViewport(
+    viewportBounds: Rect,
+    canvasBounds: Rect
+  ): void {
+    let rect: Rect | undefined = undefined;
+    if (this.isCanvasBelowViewportTop(viewportBounds, canvasBounds)) {
+      rect = new Rect({
+        x: viewportBounds.x + viewportBounds.width / 2,
+        y: canvasBounds.y + viewportBounds.height / 2,
+      });
+    } else if (this.isCanvasAboveViewportBottom(viewportBounds, canvasBounds)) {
+      rect = new Rect({
+        x: viewportBounds.x + viewportBounds.width / 2,
+        y: canvasBounds.y + canvasBounds.height - viewportBounds.height / 2,
+      });
+    }
+    this.panTo(rect, true);
+  }
+
+  private constraintCanvasInsideViewport(viewportBounds: Rect): void {
+    const canvasGroupRect = this.canvasService.getCanvasGroupRect(
+      this.canvasService.currentCanvasGroupIndex
+    );
+    const rect = new Rect({
+      x: viewportBounds.x + viewportBounds.width / 2,
+      y: canvasGroupRect.centerY,
+    });
+    this.panTo(rect, true);
+  }
+
+  private isCanvasBelowViewportTop(
+    viewportBounds: Rect,
+    canvasBounds: Rect
+  ): boolean {
+    return viewportBounds.y < canvasBounds.y;
+  }
+
+  private isCanvasAboveViewportBottom(
+    viewportBounds: Rect,
+    canvasBounds: Rect
+  ): boolean {
+    return (
+      canvasBounds.y + canvasBounds.height <
+      viewportBounds.y + viewportBounds.height
+    );
+  }
+
   private swipeToCanvasGroup(e: any) {
     // Don't swipe on pinch actions
     if (this.pinchStatus.active) {
@@ -875,16 +954,13 @@ export class ViewerService {
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
-    const isCanvasGroupZoomed =
-      this.modeService.mode === ViewerMode.PAGE_ZOOMED;
-
     const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
     const viewportBounds: Rect = this.getViewportBounds();
 
     const direction: Direction = SwipeUtils.getSwipeDirection(
       this.dragStartPosition,
       dragEndPosision,
-      isCanvasGroupZoomed
+      this.modeService.isPageZoomed()
     );
 
     const currentCanvasGroupIndex: number = this.canvasService
@@ -895,7 +971,7 @@ export class ViewerService {
 
     let pannedPastSide: Side | null;
     let canvasGroupEndHitCountReached = false;
-    if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+    if (this.modeService.isPageZoomed()) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,
         viewportBounds
@@ -904,15 +980,15 @@ export class ViewerService {
       canvasGroupEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
     }
 
-    const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup(
-      {
+    const newCanvasGroupIndex = this.canvasService.constrainToRange(
+      calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
         currentCanvasGroupCenter: this.currentCanvasIndex.getValue(),
         speed: speed,
         direction: direction,
         currentCanvasGroupIndex: currentCanvasGroupIndex,
         canvasGroupEndHitCountReached: canvasGroupEndHitCountReached,
         viewingDirection: this.manifest.viewingDirection,
-      }
+      })
     );
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||
@@ -929,6 +1005,24 @@ export class ViewerService {
 
   private getViewportBounds(): Rect {
     return this.viewer?.viewport.getBounds();
+  }
+
+  private getOriginalTarget(event: any) {
+    return event.originalTarget
+      ? event.originalTarget
+      : event.originalEvent.target;
+  }
+
+  private panTo(rect: Rect | undefined, immediately = false): void {
+    if (rect) {
+      this.viewer.viewport.panTo(
+        {
+          x: rect.x,
+          y: rect.y,
+        },
+        immediately
+      );
+    }
   }
 
   private unsubscribe() {

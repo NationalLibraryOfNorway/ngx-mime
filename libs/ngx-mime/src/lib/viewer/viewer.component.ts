@@ -473,7 +473,7 @@ export class ViewerComponent
   setClasses() {
     return {
       'mode-page': this.modeService.mode === ViewerMode.PAGE,
-      'mode-page-zoomed': this.modeService.mode === ViewerMode.PAGE_ZOOMED,
+      'mode-page-zoomed': this.modeService.isPageZoomed(),
       'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
       'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
       'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
