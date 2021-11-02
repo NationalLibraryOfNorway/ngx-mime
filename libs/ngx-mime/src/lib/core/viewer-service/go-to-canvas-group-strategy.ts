@@ -74,11 +74,13 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
             : this.rightX(newCanvasGroup);
       }
 
-      const y = this.config.startOnTopOnCanvasGroupChange
-        ? newCanvasGroup.y +
-          this.getViewportBounds().height / 2 -
-          this.viewer.collectionTileMargin
-        : this.getViewportCenter().y;
+      const y =
+        this.config.startOnTopOnCanvasGroupChange &&
+        oldCanvasGroupIndex !== canvasGroup.canvasGroupIndex
+          ? newCanvasGroup.y +
+            this.getViewportBounds().height / 2 -
+            this.viewer.collectionTileMargin
+          : this.getViewportCenter().y;
 
       this.panTo(x, y, canvasGroup.immediately);
     } else if (this.modeService.isPageZoomed()) {
@@ -111,12 +113,12 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
           direction: Direction.PREVIOUS,
           currentCanvasGroupIndex: currentCanvasGroupIndex,
           currentCanvasGroupCenter: currentCanvasIndex,
-          viewingDirection: this.viewingDirection
+          viewingDirection: this.viewingDirection,
         }
       );
       this.goToCanvasGroup({
         canvasGroupIndex: newCanvasGroupIndex,
-        immediately: false
+        immediately: false,
       });
     }
   }
@@ -139,12 +141,12 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
           direction: Direction.NEXT,
           currentCanvasGroupIndex: currentCanvasGroupIndex,
           currentCanvasGroupCenter: currentCanvasIndex,
-          viewingDirection: this.viewingDirection
+          viewingDirection: this.viewingDirection,
         }
       );
       this.goToCanvasGroup({
         canvasGroupIndex: newCanvasGroupIndex,
-        immediately: false
+        immediately: false,
       });
     }
   }
@@ -173,7 +175,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     this.viewer.viewport.panTo(
       {
         x: x,
-        y: y
+        y: y,
       },
       immediately
     );
