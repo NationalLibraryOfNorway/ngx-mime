@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.8...v12.3.0) (2021-11-02)
+
+
+### Features
+
+* openseadragon v3 support ([91d9df7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/91d9df73caec8ffdd7e5b147838d14c1f07b283e))
+
+
+### Bug Fixes
+
+* physicalScale ([bfb5126](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bfb5126a31cb2d7fc6006ed66642b4a6e6151b9c))
+* re-initialize subscriptions before adding ([#360](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/360)) ([1bb493d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1bb493d4c4aafecc8b5fc5fed115806fbb0d372a))
+
 ### [12.2.8](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.7...v12.2.8) (2021-09-23)
 
 
