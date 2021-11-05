@@ -10,9 +10,14 @@ export class StringsBuilder {
 
   build(): String[] {
     return this.stringXml
-      ? this.stringXml.map((string: any) => {
-          return { content: string.$.CONTENT };
-        })
+      ? this.stringXml
+          .filter(
+            (string: any) =>
+              !string.$.SUBS_CONTENT || string.$.SUBS_TYPE === 'HypPart1'
+          )
+          .map((string: any) => {
+            return { content: string.$.SUBS_CONTENT || string.$.CONTENT };
+          })
       : [];
   }
 }
