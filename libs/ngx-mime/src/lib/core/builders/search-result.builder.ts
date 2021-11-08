@@ -1,3 +1,4 @@
+import { Utils } from '../utils';
 import { Hit } from './../models/hit';
 import {
   Hit as IiifHit,
@@ -28,15 +29,17 @@ export class SearchResultBuilder {
           const resources = this.findResources(hit);
           for (const resource of resources) {
             canvasIndex = this.findSequenceIndex(resource);
+            const physicalScale = this.getPhysicalScale(canvasIndex);
+            const scale = Utils.getScaleFactor(physicalScale);
             label = this.findLabel(canvasIndex);
             const on = resource.on;
             if (on) {
               const coords = on.substring(on.indexOf('=') + 1).split(',');
               const rect = new Rect({
-                x: parseInt(coords[0], 10),
-                y: parseInt(coords[1], 10),
-                width: parseInt(coords[2], 10),
-                height: parseInt(coords[3], 10),
+                x: Math.trunc(parseInt(coords[0], 10) * scale),
+                y: Math.trunc(parseInt(coords[1], 10) * scale),
+                width: Math.trunc(parseInt(coords[2], 10) * scale),
+                height: Math.trunc(parseInt(coords[3], 10) * scale),
               });
               rects.push(rect);
             }
@@ -108,5 +111,10 @@ export class SearchResultBuilder {
     return firstSequence && firstSequence.canvases !== undefined
       ? firstSequence.canvases[index]
       : undefined;
+  }
+
+  private getPhysicalScale(index: number): number | undefined {
+    const canvas = this.getFirstSequenceCanvas(index);
+    return canvas?.images?.[0].resource?.service?.service?.physicalScale;
   }
 }

@@ -10,4 +10,8 @@ export class Utils {
     const short = Number(zoom).toPrecision(precision);
     return Number(short);
   }
+
+  static getScaleFactor(physicalScale: number | undefined): number {
+    return (physicalScale ? physicalScale : 1) * 400
+  }
 }
