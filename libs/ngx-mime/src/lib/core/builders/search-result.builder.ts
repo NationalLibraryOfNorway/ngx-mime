@@ -29,17 +29,16 @@ export class SearchResultBuilder {
           const resources = this.findResources(hit);
           for (const resource of resources) {
             canvasIndex = this.findSequenceIndex(resource);
-            const physicalScale = this.getPhysicalScale(canvasIndex);
-            const scale = Utils.getScaleFactor(physicalScale);
             label = this.findLabel(canvasIndex);
             const on = resource.on;
             if (on) {
+              const scale = this.getScale(canvasIndex);
               const coords = on.substring(on.indexOf('=') + 1).split(',');
               const rect = new Rect({
-                x: Math.trunc(parseInt(coords[0], 10) * scale),
-                y: Math.trunc(parseInt(coords[1], 10) * scale),
-                width: Math.trunc(parseInt(coords[2], 10) * scale),
-                height: Math.trunc(parseInt(coords[3], 10) * scale),
+                x: this.scaleValue(coords[0], scale),
+                y: this.scaleValue(coords[1], scale),
+                width: this.scaleValue(coords[2], scale),
+                height: this.scaleValue(coords[3], scale),
               });
               rects.push(rect);
             }
@@ -113,8 +112,17 @@ export class SearchResultBuilder {
       : undefined;
   }
 
+  private getScale(index: number): number {
+    const physicalScale = this.getPhysicalScale(index);
+    return Utils.getScaleFactor(physicalScale);
+  }
+
   private getPhysicalScale(index: number): number | undefined {
     const canvas = this.getFirstSequenceCanvas(index);
     return canvas?.images?.[0].resource?.service?.service?.physicalScale;
+  }
+
+  private scaleValue(value: string, scale: number): number {
+    return Math.trunc(parseInt(value, 10) * scale)
   }
 }
