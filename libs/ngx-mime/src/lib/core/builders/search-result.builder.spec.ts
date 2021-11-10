@@ -1,7 +1,9 @@
+import { ManifestBuilder } from './manifest.builder';
 import { IiifSearchResult } from './../models/iiif-search-result';
 import { Manifest } from './../models/manifest';
-import { SearchResult } from './../models/search-result';
 import { SearchResultBuilder } from './search-result.builder';
+import { a300dpiManifest, a400dpiManifest } from '../../test/testManifest';
+import { testSearchResult } from '../../test/testSearchResult';
 
 describe('SearchResultBuilder', () => {
   it('should build empty search result', () => {
@@ -16,57 +18,43 @@ describe('SearchResultBuilder', () => {
     expect(searchResult).not.toBeNull();
   });
 
-  it('should return search result', () => {
-    const q = 'testquery';
-    const manifest = new Manifest({
-      sequences: [
-        {
-          canvases: [
-            {
-              id: 'canvasid1',
-              label: 'label1'
-            },
-            {
-              id: 'canvasid2',
-              label: 'label2'
-            }
-          ]
-        }
-      ]
-    });
-    const iiifSearchResult: IiifSearchResult = {
-      resources: [
-        {
-          '@id': 'rid2#xywh=968,1062,321,78',
-          on: 'canvasid2#xywh=968,1062,321,78'
-        },
-        {
-          '@id': 'rid2#xywh=1968,11062,1321,178',
-          on: 'canvasid2#xywh=1968,11062,1321,178'
-        }
-      ],
-      hits: [
-        {
-          annotations: [
-            'rid2#xywh=968,1062,321,78',
-            'rid2#xywh=1968,11062,1321,178'
-          ]
-        }
-      ]
-    };
+  it('should return search result for 400 dpi manifest', () => {
+    const q = 'america';
+    const manifest = new ManifestBuilder(a400dpiManifest).build();
     const searchResult = new SearchResultBuilder(
       q,
       manifest,
-      iiifSearchResult
+      testSearchResult
     ).build();
-    expect(searchResult.hits[0].rects.length).toEqual(2);
-    expect(searchResult.hits[0].index).toEqual(1);
-    expect(searchResult.hits[0].label).toEqual('label2');
-    expect(searchResult.hits[0].rects[0].x).toEqual(968);
-    expect(searchResult.hits[0].rects[0].y).toEqual(1062);
-    expect(searchResult.hits[0].rects[0].width).toEqual(321);
-    expect(searchResult.hits[0].rects[0].height).toEqual(78);
-    expect(searchResult.hits[0].rects[0].centerX).toEqual(1128.5);
-    expect(searchResult.hits[0].rects[0].centerY).toEqual(1101);
+
+    expect(searchResult.hits.length).toEqual(2);
+    expect(searchResult.hits[0].index).toEqual(0);
+    expect(searchResult.hits[0].label).toEqual('label1');
+    expect(searchResult.hits[0].rects[0].x).toEqual(304);
+    expect(searchResult.hits[0].rects[0].y).toEqual(1178);
+    expect(searchResult.hits[0].rects[0].width).toEqual(1024);
+    expect(searchResult.hits[0].rects[0].height).toEqual(137);
+    expect(searchResult.hits[0].rects[0].centerX).toEqual(816);
+    expect(searchResult.hits[0].rects[0].centerY).toEqual(1246.5);
+  });
+
+  it('should return search result for 300 dpi manifest', () => {
+    const q = 'america';
+    const manifest = new ManifestBuilder(a300dpiManifest).build();
+    const searchResult = new SearchResultBuilder(
+      q,
+      manifest,
+      testSearchResult
+    ).build();
+
+    expect(searchResult.hits.length).toEqual(2);
+    expect(searchResult.hits[0].index).toEqual(0);
+    expect(searchResult.hits[0].label).toEqual('label1');
+    expect(searchResult.hits[0].rects[0].x).toEqual(405);
+    expect(searchResult.hits[0].rects[0].y).toEqual(1570);
+    expect(searchResult.hits[0].rects[0].width).toEqual(1365);
+    expect(searchResult.hits[0].rects[0].height).toEqual(182);
+    expect(searchResult.hits[0].rects[0].centerX).toEqual(1087.5);
+    expect(searchResult.hits[0].rects[0].centerY).toEqual(1661);
   });
 });
