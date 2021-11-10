@@ -6,47 +6,47 @@ export let testManifest: any = {
   metadata: [
     {
       label: 'Tittel',
-      value: 'Fjellkongen Ludvig "Ludden"'
+      value: 'Fjellkongen Ludvig "Ludden"',
     },
     {
       label: 'Forfatter',
-      value: 'Skanche, Kari'
+      value: 'Skanche, Kari',
     },
     {
       label: 'Omhandler',
-      value: 'Olestadengen, Ludvig Simensen'
+      value: 'Olestadengen, Ludvig Simensen',
     },
     {
       label: 'Publisert',
-      value: 'Lillehammer: Thorsrud, Lokalhistorisk forl., 1994'
+      value: 'Lillehammer: Thorsrud, Lokalhistorisk forl., 1994',
     },
     {
       label: 'Emne',
-      value: 'ringsaker | originaler'
+      value: 'ringsaker | originaler',
     },
     {
       label: 'Språk',
-      value: 'Norsk (Bokmål)'
+      value: 'Norsk (Bokmål)',
     },
     {
       label: 'ISBN',
-      value: '8290439857'
+      value: '8290439857',
     },
     {
       label: 'Varig lenke',
       value:
         "<a href='http://urn.nb.no/URN:NBN:no-nb_digibok_2008020404020' target='_blank'>" +
         'http://urn.nb.no/URN:NBN:no-nb_digibok_2008020404020' +
-        '</a>'
+        '</a>',
     },
     {
       label: 'Medietype',
-      value: 'Bøker'
+      value: 'Bøker',
     },
     {
       label: 'Dewey',
-      value: '920.71'
-    }
+      value: '920.71',
+    },
   ],
   license: 'https://beta.nb.no/lisens/copyright',
   attribution:
@@ -56,7 +56,7 @@ export let testManifest: any = {
   service: {
     '@context': 'http://iiif.io/api/search/0/context.json',
     '@id': 'http://example.org/services/identifier/search',
-    profile: 'http://iiif.io/api/search/0/search'
+    profile: 'http://iiif.io/api/search/0/search',
   },
   sequences: [
     {
@@ -70,11 +70,14 @@ export let testManifest: any = {
           '@id':
             'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C1',
           '@type': 'sc:Canvas',
-          seeAlso: [{
-            '@id': "https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1",
-            format: "application/alto+xml",
-            profile: "http://www.loc.gov/standards/alto"
-          }],
+          seeAlso: [
+            {
+              '@id':
+                'https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1',
+              format: 'application/alto+xml',
+              profile: 'http://www.loc.gov/standards/alto',
+            },
+          ],
           label: '81',
           thumbnail:
             'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2008020404020_C1/full/72,0/0/native.jpg',
@@ -100,26 +103,26 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 919,
-                      height: 1282
+                      height: 1282,
                     },
                     {
                       width: 459,
-                      height: 641
+                      height: 641,
                     },
                     {
                       width: 229,
-                      height: 320
+                      height: 320,
                     },
                     {
                       width: 114,
-                      height: 160
-                    }
+                      height: 160,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -127,26 +130,29 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.003333333333333333,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 2564,
-                width: 1839
+                width: 1839,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C1'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C1',
+            },
+          ],
         },
         {
           '@id':
             'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I1',
           '@type': 'sc:Canvas',
-          seeAlso: [{
-            '@id': "https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1",
-            format: "application/alto+xml",
-            profile: "http://www.loc.gov/standards/alto"
-          }],
+          seeAlso: [
+            {
+              '@id':
+                'https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1',
+              format: 'application/alto+xml',
+              profile: 'http://www.loc.gov/standards/alto',
+            },
+          ],
           label: '84',
           thumbnail:
             'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2008020404020_I1/full/72,0/0/native.jpg',
@@ -172,26 +178,26 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 909,
-                      height: 1296
+                      height: 1296,
                     },
                     {
                       width: 454,
-                      height: 648
+                      height: 648,
                     },
                     {
                       width: 227,
-                      height: 324
+                      height: 324,
                     },
                     {
                       width: 113,
-                      height: 162
-                    }
+                      height: 162,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -199,26 +205,29 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.003333333333333333,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 2592,
-                width: 1818
+                width: 1818,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I1'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I1',
+            },
+          ],
         },
         {
           '@id':
             'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0001',
           '@type': 'sc:Canvas',
-          seeAlso: [{
-            '@id': "https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_001",
-            format: "application/alto+xml",
-            profile: "http://www.loc.gov/standards/alto"
-          }],
+          seeAlso: [
+            {
+              '@id':
+                'https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_001',
+              format: 'application/alto+xml',
+              profile: 'http://www.loc.gov/standards/alto',
+            },
+          ],
           label: '1',
           thumbnail:
             'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2008020404020_0001/full/72,0/0/native.jpg',
@@ -245,30 +254,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1184,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 592,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 296,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 148,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 74,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -276,26 +285,29 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2368
+                width: 2368,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0001'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0001',
+            },
+          ],
         },
         {
           '@id':
             'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0002',
           '@type': 'sc:Canvas',
-          seeAlso: [{
-            '@id': "https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_002",
-            format: "application/alto+xml",
-            profile: "http://www.loc.gov/standards/alto"
-          }],
+          seeAlso: [
+            {
+              '@id':
+                'https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_002',
+              format: 'application/alto+xml',
+              profile: 'http://www.loc.gov/standards/alto',
+            },
+          ],
           label: '2',
           thumbnail:
             'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2008020404020_0002/full/72,0/0/native.jpg',
@@ -322,30 +334,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1184,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 592,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 296,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 148,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 74,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -353,16 +365,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2368
+                width: 2368,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0002'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0002',
+            },
+          ],
         },
         {
           '@id':
@@ -394,30 +406,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1184,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 592,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 296,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 148,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 74,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -425,16 +437,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2368
+                width: 2368,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0003'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0003',
+            },
+          ],
         },
         {
           '@id':
@@ -466,30 +478,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1184,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 592,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 296,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 148,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 74,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -497,16 +509,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2368
+                width: 2368,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0004'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0004',
+            },
+          ],
         },
         {
           '@id':
@@ -538,30 +550,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1180,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 590,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 295,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -569,16 +581,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2360
+                width: 2360,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0005'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0005',
+            },
+          ],
         },
         {
           '@id':
@@ -610,30 +622,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1180,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 590,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 295,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 147,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -641,16 +653,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2360
+                width: 2360,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0006'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0006',
+            },
+          ],
         },
         {
           '@id':
@@ -682,30 +694,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1180,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 590,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 295,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -713,16 +725,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2360
+                width: 2360,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0007'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0007',
+            },
+          ],
         },
         {
           '@id':
@@ -754,30 +766,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1180,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 590,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 295,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 147,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -785,16 +797,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2360
+                width: 2360,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0008'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0008',
+            },
+          ],
         },
         {
           '@id':
@@ -826,30 +838,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1180,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 590,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 295,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -857,16 +869,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2360
+                width: 2360,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0009'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0009',
+            },
+          ],
         },
         {
           '@id':
@@ -898,30 +910,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1180,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 590,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 295,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 147,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -929,16 +941,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2360
+                width: 2360,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0010'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0010',
+            },
+          ],
         },
         {
           '@id':
@@ -970,30 +982,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 588,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 294,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1001,16 +1013,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0011'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0011',
+            },
+          ],
         },
         {
           '@id':
@@ -1042,30 +1054,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 588,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 294,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 147,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1073,16 +1085,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0012'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0012',
+            },
+          ],
         },
         {
           '@id':
@@ -1114,30 +1126,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1180,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 590,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 295,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1145,16 +1157,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2360
+                width: 2360,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0013'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0013',
+            },
+          ],
         },
         {
           '@id':
@@ -1186,30 +1198,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1180,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 590,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 295,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 147,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1217,16 +1229,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2360
+                width: 2360,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0014'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0014',
+            },
+          ],
         },
         {
           '@id':
@@ -1258,30 +1270,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 588,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 294,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1289,16 +1301,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0015'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0015',
+            },
+          ],
         },
         {
           '@id':
@@ -1330,30 +1342,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 588,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 294,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 147,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1361,16 +1373,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0016'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0016',
+            },
+          ],
         },
         {
           '@id':
@@ -1402,30 +1414,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 588,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 294,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1433,16 +1445,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0017'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0017',
+            },
+          ],
         },
         {
           '@id':
@@ -1474,30 +1486,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 588,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 294,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 147,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1505,16 +1517,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0018'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0018',
+            },
+          ],
         },
         {
           '@id':
@@ -1546,30 +1558,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 588,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 294,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1577,16 +1589,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0019'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0019',
+            },
+          ],
         },
         {
           '@id':
@@ -1618,30 +1630,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 588,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 294,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 147,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1649,16 +1661,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0020'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0020',
+            },
+          ],
         },
         {
           '@id':
@@ -1690,30 +1702,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 586,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 293,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1721,16 +1733,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0021'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0021',
+            },
+          ],
         },
         {
           '@id':
@@ -1762,30 +1774,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 586,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 293,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 146,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1793,16 +1805,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0022'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0022',
+            },
+          ],
         },
         {
           '@id':
@@ -1834,30 +1846,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 586,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 293,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1865,16 +1877,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0023'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0023',
+            },
+          ],
         },
         {
           '@id':
@@ -1906,30 +1918,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 586,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 293,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -1937,16 +1949,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0024'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0024',
+            },
+          ],
         },
         {
           '@id':
@@ -1978,30 +1990,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 588,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 294,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2009,16 +2021,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0025'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0025',
+            },
+          ],
         },
         {
           '@id':
@@ -2050,30 +2062,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 588,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 294,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 147,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2081,16 +2093,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0026'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0026',
+            },
+          ],
         },
         {
           '@id':
@@ -2122,30 +2134,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 588,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 294,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2153,16 +2165,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0027'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0027',
+            },
+          ],
         },
         {
           '@id':
@@ -2194,30 +2206,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 588,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 294,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 147,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2225,16 +2237,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0028'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0028',
+            },
+          ],
         },
         {
           '@id':
@@ -2266,30 +2278,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2297,16 +2309,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0029'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0029',
+            },
+          ],
         },
         {
           '@id':
@@ -2338,30 +2350,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 586,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 293,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 146,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2369,16 +2381,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0030'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0030',
+            },
+          ],
         },
         {
           '@id':
@@ -2410,30 +2422,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2441,16 +2453,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0031'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0031',
+            },
+          ],
         },
         {
           '@id':
@@ -2482,30 +2494,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2513,16 +2525,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0032'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0032',
+            },
+          ],
         },
         {
           '@id':
@@ -2554,30 +2566,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 588,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 294,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2585,16 +2597,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0033'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0033',
+            },
+          ],
         },
         {
           '@id':
@@ -2626,30 +2638,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 586,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 293,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 146,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2657,16 +2669,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0034'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0034',
+            },
+          ],
         },
         {
           '@id':
@@ -2698,30 +2710,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 588,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 294,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 147,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2729,16 +2741,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0035'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0035',
+            },
+          ],
         },
         {
           '@id':
@@ -2770,30 +2782,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1176,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 588,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 294,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 147,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2801,16 +2813,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2352
+                width: 2352,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0036'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0036',
+            },
+          ],
         },
         {
           '@id':
@@ -2842,30 +2854,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2873,16 +2885,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0037'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0037',
+            },
+          ],
         },
         {
           '@id':
@@ -2914,30 +2926,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -2945,16 +2957,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0038'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0038',
+            },
+          ],
         },
         {
           '@id':
@@ -2986,30 +2998,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3017,16 +3029,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0039'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0039',
+            },
+          ],
         },
         {
           '@id':
@@ -3058,30 +3070,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3089,16 +3101,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0040'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0040',
+            },
+          ],
         },
         {
           '@id':
@@ -3130,30 +3142,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 586,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 293,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3161,16 +3173,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0041'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0041',
+            },
+          ],
         },
         {
           '@id':
@@ -3202,30 +3214,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 586,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 293,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 146,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3233,16 +3245,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0042'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0042',
+            },
+          ],
         },
         {
           '@id':
@@ -3274,30 +3286,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3305,16 +3317,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0043'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0043',
+            },
+          ],
         },
         {
           '@id':
@@ -3346,30 +3358,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3377,16 +3389,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0044'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0044',
+            },
+          ],
         },
         {
           '@id':
@@ -3418,30 +3430,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3449,16 +3461,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0045'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0045',
+            },
+          ],
         },
         {
           '@id':
@@ -3490,30 +3502,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 582,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 291,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 145,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 72,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3521,16 +3533,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0046'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0046',
+            },
+          ],
         },
         {
           '@id':
@@ -3562,30 +3574,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 582,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 291,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 145,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 72,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3593,16 +3605,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0047'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0047',
+            },
+          ],
         },
         {
           '@id':
@@ -3634,30 +3646,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 582,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 291,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 145,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 72,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3665,16 +3677,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0048'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0048',
+            },
+          ],
         },
         {
           '@id':
@@ -3706,30 +3718,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 586,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 293,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3737,16 +3749,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0049'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0049',
+            },
+          ],
         },
         {
           '@id':
@@ -3778,30 +3790,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 586,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 293,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3809,16 +3821,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0050'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0050',
+            },
+          ],
         },
         {
           '@id':
@@ -3850,30 +3862,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3881,16 +3893,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0051'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0051',
+            },
+          ],
         },
         {
           '@id':
@@ -3922,30 +3934,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -3953,16 +3965,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0052'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0052',
+            },
+          ],
         },
         {
           '@id':
@@ -3994,30 +4006,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4025,16 +4037,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0053'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0053',
+            },
+          ],
         },
         {
           '@id':
@@ -4066,30 +4078,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4097,16 +4109,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0054'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0054',
+            },
+          ],
         },
         {
           '@id':
@@ -4138,30 +4150,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 582,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 291,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 145,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 72,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4169,16 +4181,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0055'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0055',
+            },
+          ],
         },
         {
           '@id':
@@ -4210,30 +4222,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4241,16 +4253,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0056'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0056',
+            },
+          ],
         },
         {
           '@id':
@@ -4282,30 +4294,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4313,16 +4325,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0057'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0057',
+            },
+          ],
         },
         {
           '@id':
@@ -4354,30 +4366,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1656
+                      height: 1656,
                     },
                     {
                       width: 584,
-                      height: 828
+                      height: 828,
                     },
                     {
                       width: 292,
-                      height: 414
+                      height: 414,
                     },
                     {
                       width: 146,
-                      height: 207
+                      height: 207,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4385,16 +4397,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3312,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0058'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0058',
+            },
+          ],
         },
         {
           '@id':
@@ -4426,30 +4438,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4457,16 +4469,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0059'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0059',
+            },
+          ],
         },
         {
           '@id':
@@ -4498,30 +4510,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4529,16 +4541,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0060'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0060',
+            },
+          ],
         },
         {
           '@id':
@@ -4570,30 +4582,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 582,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 291,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 145,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 72,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4601,16 +4613,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0061'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0061',
+            },
+          ],
         },
         {
           '@id':
@@ -4642,30 +4654,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4673,16 +4685,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0062'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0062',
+            },
+          ],
         },
         {
           '@id':
@@ -4714,30 +4726,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 582,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 291,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 145,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 72,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4745,16 +4757,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0063'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0063',
+            },
+          ],
         },
         {
           '@id':
@@ -4786,30 +4798,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1160,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 580,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 290,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 145,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 72,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4817,16 +4829,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2320
+                width: 2320,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0064'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0064',
+            },
+          ],
         },
         {
           '@id':
@@ -4858,30 +4870,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4889,16 +4901,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0065'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0065',
+            },
+          ],
         },
         {
           '@id':
@@ -4930,30 +4942,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -4961,16 +4973,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0066'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0066',
+            },
+          ],
         },
         {
           '@id':
@@ -5002,30 +5014,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5033,16 +5045,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0067'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0067',
+            },
+          ],
         },
         {
           '@id':
@@ -5074,30 +5086,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5105,16 +5117,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0068'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0068',
+            },
+          ],
         },
         {
           '@id':
@@ -5146,30 +5158,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 582,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 291,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 145,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 72,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5177,16 +5189,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0069'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0069',
+            },
+          ],
         },
         {
           '@id':
@@ -5218,30 +5230,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 582,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 291,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 145,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 72,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5249,16 +5261,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0070'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0070',
+            },
+          ],
         },
         {
           '@id':
@@ -5290,30 +5302,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 582,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 291,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 145,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 72,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5321,16 +5333,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0071'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0071',
+            },
+          ],
         },
         {
           '@id':
@@ -5362,30 +5374,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5393,16 +5405,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0072'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0072',
+            },
+          ],
         },
         {
           '@id':
@@ -5434,30 +5446,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 586,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 293,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5465,16 +5477,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0073'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0073',
+            },
+          ],
         },
         {
           '@id':
@@ -5506,30 +5518,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1172,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 586,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 293,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5537,16 +5549,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2344
+                width: 2344,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0074'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0074',
+            },
+          ],
         },
         {
           '@id':
@@ -5578,30 +5590,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 584,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 292,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 146,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 73,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5609,16 +5621,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0075'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0075',
+            },
+          ],
         },
         {
           '@id':
@@ -5650,30 +5662,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1168,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 584,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 292,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 146,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 73,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5681,16 +5693,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2336
+                width: 2336,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0076'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0076',
+            },
+          ],
         },
         {
           '@id':
@@ -5722,30 +5734,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 582,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 291,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 145,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 72,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5753,16 +5765,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0077'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0077',
+            },
+          ],
         },
         {
           '@id':
@@ -5794,30 +5806,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 582,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 291,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 145,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 72,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5825,16 +5837,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0078'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0078',
+            },
+          ],
         },
         {
           '@id':
@@ -5866,30 +5878,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1636
+                      height: 1636,
                     },
                     {
                       width: 582,
-                      height: 818
+                      height: 818,
                     },
                     {
                       width: 291,
-                      height: 409
+                      height: 409,
                     },
                     {
                       width: 145,
-                      height: 204
+                      height: 204,
                     },
                     {
                       width: 72,
-                      height: 102
-                    }
+                      height: 102,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5897,16 +5909,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3272,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0079'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0079',
+            },
+          ],
         },
         {
           '@id':
@@ -5938,30 +5950,30 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 1164,
-                      height: 1652
+                      height: 1652,
                     },
                     {
                       width: 582,
-                      height: 826
+                      height: 826,
                     },
                     {
                       width: 291,
-                      height: 413
+                      height: 413,
                     },
                     {
                       width: 145,
-                      height: 206
+                      height: 206,
                     },
                     {
                       width: 72,
-                      height: 103
-                    }
+                      height: 103,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16, 32]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -5969,16 +5981,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0025,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 3304,
-                width: 2328
+                width: 2328,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0080'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0080',
+            },
+          ],
         },
         {
           '@id':
@@ -6010,26 +6022,26 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 929,
-                      height: 1296
+                      height: 1296,
                     },
                     {
                       width: 464,
-                      height: 648
+                      height: 648,
                     },
                     {
                       width: 232,
-                      height: 324
+                      height: 324,
                     },
                     {
                       width: 116,
-                      height: 162
-                    }
+                      height: 162,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -6037,16 +6049,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.003333333333333333,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 2592,
-                width: 1859
+                width: 1859,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I3'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I3',
+            },
+          ],
         },
         {
           '@id':
@@ -6078,26 +6090,26 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 922,
-                      height: 1282
+                      height: 1282,
                     },
                     {
                       width: 461,
-                      height: 641
+                      height: 641,
                     },
                     {
                       width: 230,
-                      height: 320
+                      height: 320,
                     },
                     {
                       width: 115,
-                      height: 160
-                    }
+                      height: 160,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -6105,16 +6117,16 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0033333333333333335,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 2564,
-                width: 1845
+                width: 1845,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C3'
-            }
-          ]
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C3',
+            },
+          ],
         },
         {
           '@id':
@@ -6146,26 +6158,26 @@ export let testManifest: any = {
                   sizes: [
                     {
                       width: 81,
-                      height: 1282
+                      height: 1282,
                     },
                     {
                       width: 40,
-                      height: 641
+                      height: 641,
                     },
                     {
                       width: 20,
-                      height: 320
+                      height: 320,
                     },
                     {
                       width: 10,
-                      height: 160
-                    }
+                      height: 160,
+                    },
                   ],
                   tiles: [
                     {
                       width: 1024,
-                      scaleFactors: [1, 2, 4, 8, 16]
-                    }
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
                   ],
                   profile: 'http://iiif.io/api/image/2/level1.json',
                   service: {
@@ -6173,19 +6185,19 @@ export let testManifest: any = {
                       'http://iiif.io/api/annex/service/physdim/1/context.json',
                     profile: 'http://iiif.io/api/annex/service/physdim',
                     physicalScale: 0.0033333333333333335,
-                    physicalUnits: 'in'
-                  }
+                    physicalUnits: 'in',
+                  },
                 },
                 height: 2564,
-                width: 163
+                width: 163,
               },
               on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C2'
-            }
-          ]
-        }
-      ]
-    }
+                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C2',
+            },
+          ],
+        },
+      ],
+    },
   ],
   structures: [
     {
@@ -6194,8 +6206,8 @@ export let testManifest: any = {
       '@type': 'sc:Range',
       label: 'Framside',
       canvases: [
-        'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C1'
-      ]
+        'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C1',
+      ],
     },
     {
       '@id':
@@ -6203,8 +6215,8 @@ export let testManifest: any = {
       '@type': 'sc:Range',
       label: 'Tittelside',
       canvases: [
-        'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0003'
-      ]
+        'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0003',
+      ],
     },
     {
       '@id':
@@ -6212,372 +6224,384 @@ export let testManifest: any = {
       '@type': 'sc:Range',
       label: 'Bakside',
       canvases: [
-        'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C3'
-      ]
-    }
-  ]
+        'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C3',
+      ],
+    },
+  ],
 };
 
 export let a300dpiManifest: any = {
-  "@context": "http://iiif.io/api/presentation/2/context.json",
-  "@type": "sc:Manifest",
-  "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/manifest",
-  "label": "The laws of the United States of America : in three volumes. Vol. 4",
-  "service": {
-    "@context": "http://iiif.io/api/search/0/context.json",
-    "@id": "http://localhost:4200/assets/fixtures/contentsearch/0/searchable-manifest-america.json",
-    "profile": "http://iiif.io/api/search/0/search"
+  '@context': 'http://iiif.io/api/presentation/2/context.json',
+  '@type': 'sc:Manifest',
+  '@id':
+    'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/manifest',
+  label: 'The laws of the United States of America : in three volumes. Vol. 4',
+  service: {
+    '@context': 'http://iiif.io/api/search/0/context.json',
+    '@id':
+      'http://localhost:4200/assets/fixtures/contentsearch/0/searchable-manifest-america.json',
+    profile: 'http://iiif.io/api/search/0/search',
   },
-  "sequences": [
+  sequences: [
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/sequence/normal",
-      "@type": "sc:Sequence",
-      "label": "Current Page Order",
-      "viewingHint": "paged",
-      "canvases": [
+      '@id':
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/sequence/normal',
+      '@type': 'sc:Sequence',
+      label: 'Current Page Order',
+      viewingHint: 'paged',
+      canvases: [
         {
-          "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003",
-          "@type": "sc:Canvas",
-          "label": "label1",
-          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0003/full/72,0/0/native.jpg",
-          "height": 2979,
-          "width": 1636,
-          "images": [
+          '@id':
+            'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
+          '@type': 'sc:Canvas',
+          label: 'label1',
+          thumbnail:
+            'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0003/full/72,0/0/native.jpg',
+          height: 2979,
+          width: 1636,
+          images: [
             {
-              "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0003",
-              "@type": "oa:Annotation",
-              "motivation": "sc:painting",
-              "resource": {
-                "@id": "URN:NBN:no-nb_digibok_2013072924008_0003",
-                "@type": "dctypes:Image",
-                "format": "image/jpeg",
-                "service": {
-                  "@context": "http://iiif.io/api/image/2/context.json",
-                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0003",
-                  "protocol": "http://iiif.io/api/image",
-                  "width": 1636,
-                  "height": 2979,
-                  "sizes": [
+              '@id':
+                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0003',
+              '@type': 'oa:Annotation',
+              motivation: 'sc:painting',
+              resource: {
+                '@id': 'URN:NBN:no-nb_digibok_2013072924008_0003',
+                '@type': 'dctypes:Image',
+                format: 'image/jpeg',
+                service: {
+                  '@context': 'http://iiif.io/api/image/2/context.json',
+                  '@id':
+                    'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0003',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 1636,
+                  height: 2979,
+                  sizes: [
                     {
-                      "width": 818,
-                      "height": 1489
+                      width: 818,
+                      height: 1489,
                     },
                     {
-                      "width": 409,
-                      "height": 744
+                      width: 409,
+                      height: 744,
                     },
                     {
-                      "width": 204,
-                      "height": 372
+                      width: 204,
+                      height: 372,
                     },
                     {
-                      "width": 102,
-                      "height": 186
-                    }
+                      width: 102,
+                      height: 186,
+                    },
                   ],
-                  "tiles": [
+                  tiles: [
                     {
-                      "width": 1024,
-                      "scaleFactors": [
-                        1,
-                        2,
-                        4,
-                        8,
-                        16
-                      ]
-                    }
+                      width: 1024,
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
                   ],
-                  "profile": "http://iiif.io/api/image/2/level1.json",
-                  "service": {
-                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
-                    "profile": "http://iiif.io/api/annex/service/physdim",
-                    "physicalScale": 0.003333333333333333,
-                    "physicalUnits": "in"
-                  }
+                  profile: 'http://iiif.io/api/image/2/level1.json',
+                  service: {
+                    '@context':
+                      'http://iiif.io/api/annex/service/physdim/1/context.json',
+                    profile: 'http://iiif.io/api/annex/service/physdim',
+                    physicalScale: 0.003333333333333333,
+                    physicalUnits: 'in',
+                  },
                 },
-                "height": 2979,
-                "width": 1636
+                height: 2979,
+                width: 1636,
               },
-              "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003"
-            }
-          ]
+              on:
+                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
+            },
+          ],
         },
         {
-          "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005",
-          "@type": "sc:Canvas",
-          "label": "label2",
-          "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0005/full/72,0/0/native.jpg",
-          "height": 2979,
-          "width": 1636,
-          "images": [
+          '@id':
+            'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005',
+          '@type': 'sc:Canvas',
+          label: 'label2',
+          thumbnail:
+            'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0005/full/72,0/0/native.jpg',
+          height: 2979,
+          width: 1636,
+          images: [
             {
-              "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0005",
-              "@type": "oa:Annotation",
-              "motivation": "sc:painting",
-              "resource": {
-                "@id": "URN:NBN:no-nb_digibok_2013072924008_0005",
-                "@type": "dctypes:Image",
-                "format": "image/jpeg",
-                "service": {
-                  "@context": "http://iiif.io/api/image/2/context.json",
-                  "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0005",
-                  "protocol": "http://iiif.io/api/image",
-                  "width": 1636,
-                  "height": 2979,
-                  "sizes": [
+              '@id':
+                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0005',
+              '@type': 'oa:Annotation',
+              motivation: 'sc:painting',
+              resource: {
+                '@id': 'URN:NBN:no-nb_digibok_2013072924008_0005',
+                '@type': 'dctypes:Image',
+                format: 'image/jpeg',
+                service: {
+                  '@context': 'http://iiif.io/api/image/2/context.json',
+                  '@id':
+                    'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0005',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 1636,
+                  height: 2979,
+                  sizes: [
                     {
-                      "width": 818,
-                      "height": 1489
+                      width: 818,
+                      height: 1489,
                     },
                     {
-                      "width": 409,
-                      "height": 744
+                      width: 409,
+                      height: 744,
                     },
                     {
-                      "width": 204,
-                      "height": 372
+                      width: 204,
+                      height: 372,
                     },
                     {
-                      "width": 102,
-                      "height": 186
-                    }
+                      width: 102,
+                      height: 186,
+                    },
                   ],
-                  "tiles": [
+                  tiles: [
                     {
-                      "width": 1024,
-                      "scaleFactors": [
-                        1,
-                        2,
-                        4,
-                        8,
-                        16
-                      ]
-                    }
+                      width: 1024,
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
                   ],
-                  "profile": "http://iiif.io/api/image/2/level1.json",
-                  "service": {
-                    "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
-                    "profile": "http://iiif.io/api/annex/service/physdim",
-                    "physicalScale": 0.003333333333333333,
-                    "physicalUnits": "in"
-                  }
+                  profile: 'http://iiif.io/api/image/2/level1.json',
+                  service: {
+                    '@context':
+                      'http://iiif.io/api/annex/service/physdim/1/context.json',
+                    profile: 'http://iiif.io/api/annex/service/physdim',
+                    physicalScale: 0.003333333333333333,
+                    physicalUnits: 'in',
+                  },
                 },
-                "height": 2979,
-                "width": 1636
+                height: 2979,
+                width: 1636,
               },
-              "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005"
-            }
-          ]
+              on:
+                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005',
+            },
+          ],
         },
-      ]
-    }
+      ],
+    },
   ],
-  "structures": [
+  structures: [
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-0",
-      "@type": "sc:Range",
-      "label": "Framside",
-      "canvases": [
-        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_C1"
-      ]
+      '@id':
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-0',
+      '@type': 'sc:Range',
+      label: 'Framside',
+      canvases: [
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_C1',
+      ],
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-1",
-      "@type": "sc:Range",
-      "label": "Tittelside",
-      "canvases": [
-        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003"
-      ]
+      '@id':
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-1',
+      '@type': 'sc:Range',
+      label: 'Tittelside',
+      canvases: [
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
+      ],
     },
     {
-      "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-2",
-      "@type": "sc:Range",
-      "label": "Bakside",
-      "canvases": [
-        "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_C3"
-      ]
-    }
-  ]
-}
+      '@id':
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-2',
+      '@type': 'sc:Range',
+      label: 'Bakside',
+      canvases: [
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_C3',
+      ],
+    },
+  ],
+};
 
 export let a400dpiManifest: any = {
-    "@context": "http://iiif.io/api/presentation/2/context.json",
-    "@type": "sc:Manifest",
-    "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/manifest",
-    "label": "The laws of the United States of America : in three volumes. Vol. 4",
-    "service": {
-      "@context": "http://iiif.io/api/search/0/context.json",
-      "@id": "http://localhost:4200/assets/fixtures/contentsearch/0/searchable-manifest-america.json",
-      "profile": "http://iiif.io/api/search/0/search"
+  '@context': 'http://iiif.io/api/presentation/2/context.json',
+  '@type': 'sc:Manifest',
+  '@id':
+    'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/manifest',
+  label: 'The laws of the United States of America : in three volumes. Vol. 4',
+  service: {
+    '@context': 'http://iiif.io/api/search/0/context.json',
+    '@id':
+      'http://localhost:4200/assets/fixtures/contentsearch/0/searchable-manifest-america.json',
+    profile: 'http://iiif.io/api/search/0/search',
+  },
+  sequences: [
+    {
+      '@id':
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/sequence/normal',
+      '@type': 'sc:Sequence',
+      label: 'Current Page Order',
+      viewingHint: 'paged',
+      canvases: [
+        {
+          '@id':
+            'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
+          '@type': 'sc:Canvas',
+          label: 'label1',
+          thumbnail:
+            'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0003/full/72,0/0/native.jpg',
+          height: 2979,
+          width: 1636,
+          images: [
+            {
+              '@id':
+                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0003',
+              '@type': 'oa:Annotation',
+              motivation: 'sc:painting',
+              resource: {
+                '@id': 'URN:NBN:no-nb_digibok_2013072924008_0003',
+                '@type': 'dctypes:Image',
+                format: 'image/jpeg',
+                service: {
+                  '@context': 'http://iiif.io/api/image/2/context.json',
+                  '@id':
+                    'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0003',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 1636,
+                  height: 2979,
+                  sizes: [
+                    {
+                      width: 818,
+                      height: 1489,
+                    },
+                    {
+                      width: 409,
+                      height: 744,
+                    },
+                    {
+                      width: 204,
+                      height: 372,
+                    },
+                    {
+                      width: 102,
+                      height: 186,
+                    },
+                  ],
+                  tiles: [
+                    {
+                      width: 1024,
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
+                  ],
+                  profile: 'http://iiif.io/api/image/2/level1.json',
+                  service: {
+                    '@context':
+                      'http://iiif.io/api/annex/service/physdim/1/context.json',
+                    profile: 'http://iiif.io/api/annex/service/physdim',
+                    physicalScale: 0.0025,
+                    physicalUnits: 'in',
+                  },
+                },
+                height: 2979,
+                width: 1636,
+              },
+              on:
+                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
+            },
+          ],
+        },
+        {
+          '@id':
+            'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005',
+          '@type': 'sc:Canvas',
+          label: 'label2',
+          thumbnail:
+            'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0005/full/72,0/0/native.jpg',
+          height: 2979,
+          width: 1636,
+          images: [
+            {
+              '@id':
+                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0005',
+              '@type': 'oa:Annotation',
+              motivation: 'sc:painting',
+              resource: {
+                '@id': 'URN:NBN:no-nb_digibok_2013072924008_0005',
+                '@type': 'dctypes:Image',
+                format: 'image/jpeg',
+                service: {
+                  '@context': 'http://iiif.io/api/image/2/context.json',
+                  '@id':
+                    'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0005',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 1636,
+                  height: 2979,
+                  sizes: [
+                    {
+                      width: 818,
+                      height: 1489,
+                    },
+                    {
+                      width: 409,
+                      height: 744,
+                    },
+                    {
+                      width: 204,
+                      height: 372,
+                    },
+                    {
+                      width: 102,
+                      height: 186,
+                    },
+                  ],
+                  tiles: [
+                    {
+                      width: 1024,
+                      scaleFactors: [1, 2, 4, 8, 16],
+                    },
+                  ],
+                  profile: 'http://iiif.io/api/image/2/level1.json',
+                  service: {
+                    '@context':
+                      'http://iiif.io/api/annex/service/physdim/1/context.json',
+                    profile: 'http://iiif.io/api/annex/service/physdim',
+                    physicalScale: 0.0025,
+                    physicalUnits: 'in',
+                  },
+                },
+                height: 2979,
+                width: 1636,
+              },
+              on:
+                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005',
+            },
+          ],
+        },
+      ],
     },
-    "sequences": [
-      {
-        "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/sequence/normal",
-        "@type": "sc:Sequence",
-        "label": "Current Page Order",
-        "viewingHint": "paged",
-        "canvases": [
-          {
-            "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003",
-            "@type": "sc:Canvas",
-            "label": "label1",
-            "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0003/full/72,0/0/native.jpg",
-            "height": 2979,
-            "width": 1636,
-            "images": [
-              {
-                "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0003",
-                "@type": "oa:Annotation",
-                "motivation": "sc:painting",
-                "resource": {
-                  "@id": "URN:NBN:no-nb_digibok_2013072924008_0003",
-                  "@type": "dctypes:Image",
-                  "format": "image/jpeg",
-                  "service": {
-                    "@context": "http://iiif.io/api/image/2/context.json",
-                    "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0003",
-                    "protocol": "http://iiif.io/api/image",
-                    "width": 1636,
-                    "height": 2979,
-                    "sizes": [
-                      {
-                        "width": 818,
-                        "height": 1489
-                      },
-                      {
-                        "width": 409,
-                        "height": 744
-                      },
-                      {
-                        "width": 204,
-                        "height": 372
-                      },
-                      {
-                        "width": 102,
-                        "height": 186
-                      }
-                    ],
-                    "tiles": [
-                      {
-                        "width": 1024,
-                        "scaleFactors": [
-                          1,
-                          2,
-                          4,
-                          8,
-                          16
-                        ]
-                      }
-                    ],
-                    "profile": "http://iiif.io/api/image/2/level1.json",
-                    "service": {
-                      "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
-                      "profile": "http://iiif.io/api/annex/service/physdim",
-                      "physicalScale": 0.0025,
-                      "physicalUnits": "in"
-                    }
-                  },
-                  "height": 2979,
-                  "width": 1636
-                },
-                "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003"
-              }
-            ]
-          },
-          {
-            "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005",
-            "@type": "sc:Canvas",
-            "label": "label2",
-            "thumbnail": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0005/full/72,0/0/native.jpg",
-            "height": 2979,
-            "width": 1636,
-            "images": [
-              {
-                "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0005",
-                "@type": "oa:Annotation",
-                "motivation": "sc:painting",
-                "resource": {
-                  "@id": "URN:NBN:no-nb_digibok_2013072924008_0005",
-                  "@type": "dctypes:Image",
-                  "format": "image/jpeg",
-                  "service": {
-                    "@context": "http://iiif.io/api/image/2/context.json",
-                    "@id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2013072924008_0005",
-                    "protocol": "http://iiif.io/api/image",
-                    "width": 1636,
-                    "height": 2979,
-                    "sizes": [
-                      {
-                        "width": 818,
-                        "height": 1489
-                      },
-                      {
-                        "width": 409,
-                        "height": 744
-                      },
-                      {
-                        "width": 204,
-                        "height": 372
-                      },
-                      {
-                        "width": 102,
-                        "height": 186
-                      }
-                    ],
-                    "tiles": [
-                      {
-                        "width": 1024,
-                        "scaleFactors": [
-                          1,
-                          2,
-                          4,
-                          8,
-                          16
-                        ]
-                      }
-                    ],
-                    "profile": "http://iiif.io/api/image/2/level1.json",
-                    "service": {
-                      "@context": "http://iiif.io/api/annex/service/physdim/1/context.json",
-                      "profile": "http://iiif.io/api/annex/service/physdim",
-                      "physicalScale": 0.0025,
-                      "physicalUnits": "in"
-                    }
-                  },
-                  "height": 2979,
-                  "width": 1636
-                },
-                "on": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005"
-              }
-            ]
-          },
-        ]
-      }
-    ],
-    "structures": [
-      {
-        "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-0",
-        "@type": "sc:Range",
-        "label": "Framside",
-        "canvases": [
-          "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_C1"
-        ]
-      },
-      {
-        "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-1",
-        "@type": "sc:Range",
-        "label": "Tittelside",
-        "canvases": [
-          "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003"
-        ]
-      },
-      {
-        "@id": "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-2",
-        "@type": "sc:Range",
-        "label": "Bakside",
-        "canvases": [
-          "https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_C3"
-        ]
-      }
-    ]
-  }
+  ],
+  structures: [
+    {
+      '@id':
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-0',
+      '@type': 'sc:Range',
+      label: 'Framside',
+      canvases: [
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_C1',
+      ],
+    },
+    {
+      '@id':
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-1',
+      '@type': 'sc:Range',
+      label: 'Tittelside',
+      canvases: [
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
+      ],
+    },
+    {
+      '@id':
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/range/r-2',
+      '@type': 'sc:Range',
+      label: 'Bakside',
+      canvases: [
+        'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_C3',
+      ],
+    },
+  ],
+};
