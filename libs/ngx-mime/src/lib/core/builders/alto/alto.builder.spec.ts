@@ -24,7 +24,7 @@ describe('AltoBuilder', () => {
       }
     );
   });
-  it('should build altoxml', () => {
+  it('should build altoxml with SUBS_CONTENT', () => {
     parseString(
       testAltoWithSubsContent,
       { preserveChildrenOrder: true, explicitChildren: true },
@@ -34,8 +34,7 @@ describe('AltoBuilder', () => {
         const textBlocks = alto.layout.page.printSpace.textBlocks;
         expect(textBlocks).toBeDefined();
         if (textBlocks) {
-          const secondTextBlock = textBlocks[1];
-          expect(secondTextBlock.textLines[6].strings[5].content).toBe(
+          expect(textBlocks[0].textLines[1].strings[5].content).toBe(
             'politicians.'
           );
         }
