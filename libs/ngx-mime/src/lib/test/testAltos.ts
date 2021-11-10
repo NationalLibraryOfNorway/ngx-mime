@@ -112,3 +112,186 @@ export let testAlto = `<?xml version="1.0" encoding="UTF-8"?>
 	</Layout>
 </alto>
 `;
+
+export const testAltoWithSubsContent = `
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v2#"
+      xmlns:page="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.loc.gov/standards/alto/ns-v2# http://www.loc.gov/standards/alto/alto.xsd">
+   <Description>
+      <MeasurementUnit>mm10</MeasurementUnit>
+      <OCRProcessing ID="IdOcr">
+         <ocrProcessingStep>
+            <processingDateTime>2021-03-18T20:41:21.422209+01:00</processingDateTime>
+            <processingSoftware>
+               <softwareCreator>READ COOP</softwareCreator>
+               <softwareName>Transkribus</softwareName>
+            </processingSoftware>
+         </ocrProcessingStep>
+      </OCRProcessing>
+   </Description>
+   <Layout>
+      <Page ID="Page1" PHYSICAL_IMG_NR="1" HEIGHT="1805" WIDTH="2626">
+         <TopMargin HEIGHT="0" WIDTH="2626" VPOS="0" HPOS="0"/>
+         <LeftMargin HEIGHT="1805" WIDTH="0" VPOS="0" HPOS="0"/>
+         <RightMargin HEIGHT="1805" WIDTH="0" VPOS="0" HPOS="2626"/>
+         <BottomMargin HEIGHT="0" WIDTH="2626" VPOS="1805" HPOS="0"/>
+         <PrintSpace HEIGHT="1805" WIDTH="2626" VPOS="0" HPOS="0">
+            <TextBlock ID="r2" HEIGHT="1553" WIDTH="1003" VPOS="143" HPOS="1494">
+               <TextLine ID="r2l6"
+                         BASELINE="713"
+                         HEIGHT="121"
+                         WIDTH="985"
+                         VPOS="592"
+                         HPOS="1504">
+                  <String HEIGHT="121"
+                          WIDTH="292"
+                          VPOS="592"
+                          HPOS="1468"
+                          CONTENT="very"/>
+                  <SP HEIGHT="121" WIDTH="36" VPOS="592" HPOS="1759"/>
+                  <String HEIGHT="121"
+                          WIDTH="547"
+                          VPOS="592"
+                          HPOS="1650"
+                          CONTENT="intelligent"/>
+                  <SP HEIGHT="121" WIDTH="36" VPOS="592" HPOS="2197"/>
+                  <String HEIGHT="121"
+                          WIDTH="328"
+                          VPOS="592"
+                          HPOS="2088"
+                          CONTENT="would"/>
+                  <SP HEIGHT="121" WIDTH="36" VPOS="592" HPOS="2416"/>
+                  <String HEIGHT="121"
+                          WIDTH="219"
+                          VPOS="592"
+                          HPOS="2270"
+                          CONTENT="mean"/>
+               </TextLine>
+               <TextLine ID="r2l7"
+                         BASELINE="788"
+                         HEIGHT="109"
+                         WIDTH="953"
+                         VPOS="678"
+                         HPOS="1501">
+                  <String HEIGHT="109"
+                          WIDTH="388"
+                          VPOS="678"
+                          HPOS="1465"
+                          CONTENT="nothing"/>
+                  <SP HEIGHT="109" WIDTH="35" VPOS="678" HPOS="1854"/>
+                  <String HEIGHT="109"
+                          WIDTH="212"
+                          VPOS="678"
+                          HPOS="1748"
+                          CONTENT="at"/>
+                  <SP HEIGHT="109" WIDTH="35" VPOS="678" HPOS="1960"/>
+                  <String HEIGHT="109"
+                          WIDTH="247"
+                          VPOS="678"
+                          HPOS="1854"
+                          CONTENT="all"/>
+                  <SP HEIGHT="109" WIDTH="35" VPOS="678" HPOS="2101"/>
+                  <String HEIGHT="109"
+                          WIDTH="212"
+                          VPOS="678"
+                          HPOS="1995"
+                          CONTENT="to"/>
+                  <SP HEIGHT="109" WIDTH="35" VPOS="678" HPOS="2207"/>
+                  <String HEIGHT="109"
+                          WIDTH="247"
+                          VPOS="678"
+                          HPOS="2101"
+                          CONTENT="our"/>
+                  <SP HEIGHT="109" WIDTH="35" VPOS="678" HPOS="2348"/>
+                  <String HEIGHT="109"
+                          WIDTH="247"
+                          VPOS="678"
+                          HPOS="2207"
+                          CONTENT="poli"
+                          SUBS_TYPE="HypPart1"
+                          SUBS_CONTENT="politicians."/>
+                  <HYP CONTENT="-"/>
+               </TextLine>
+               <TextLine ID="r2l8"
+                         BASELINE="849"
+                         HEIGHT="108"
+                         WIDTH="992"
+                         VPOS="741"
+                         HPOS="1492">
+                  <String HEIGHT="108"
+                          WIDTH="396"
+                          VPOS="741"
+                          HPOS="1459"
+                          CONTENT="ticians."
+                          SUBS_TYPE="HypPart2"
+                          SUBS_CONTENT="politicians."/>
+                  <SP HEIGHT="108" WIDTH="33" VPOS="741" HPOS="1856"/>
+                  <String HEIGHT="108"
+                          WIDTH="231"
+                          VPOS="741"
+                          HPOS="1757"
+                          CONTENT="But"/>
+                  <SP HEIGHT="108" WIDTH="33" VPOS="741" HPOS="1988"/>
+                  <String HEIGHT="108"
+                          WIDTH="264"
+                          VPOS="741"
+                          HPOS="1889"
+                          CONTENT="that"/>
+                  <SP HEIGHT="108" WIDTH="33" VPOS="741" HPOS="2153"/>
+                  <String HEIGHT="108"
+                          WIDTH="198"
+                          VPOS="741"
+                          HPOS="2054"
+                          CONTENT="he"/>
+                  <SP HEIGHT="108" WIDTH="33" VPOS="741" HPOS="2252"/>
+                  <String HEIGHT="108"
+                          WIDTH="198"
+                          VPOS="741"
+                          HPOS="2153"
+                          CONTENT="is"/>
+                  <SP HEIGHT="108" WIDTH="33" VPOS="741" HPOS="2352"/>
+                  <String HEIGHT="108"
+                          WIDTH="264"
+                          VPOS="741"
+                          HPOS="2219"
+                          CONTENT="smart,"/>
+               </TextLine>
+               <TextLine ID="r2l9"
+                         BASELINE="937"
+                         HEIGHT="104"
+                         WIDTH="940"
+                         VPOS="832"
+                         HPOS="1470">
+                  <String HEIGHT="104"
+                          WIDTH="650"
+                          VPOS="832"
+                          HPOS="1433"
+                          CONTENT="&#34;yankee-smart&#34;"/>
+                  <SP HEIGHT="104" WIDTH="36" VPOS="832" HPOS="2084"/>
+                  <String HEIGHT="104"
+                          WIDTH="180"
+                          VPOS="832"
+                          HPOS="1976"
+                          CONTENT="-"/>
+                  <SP HEIGHT="104" WIDTH="36" VPOS="832" HPOS="2157"/>
+                  <String HEIGHT="104"
+                          WIDTH="289"
+                          VPOS="832"
+                          HPOS="2048"
+                          CONTENT="that"/>
+                  <SP HEIGHT="104" WIDTH="36" VPOS="832" HPOS="2338"/>
+                  <String HEIGHT="104"
+                          WIDTH="217"
+                          VPOS="832"
+                          HPOS="2193"
+                          CONTENT="gets"/>
+               </TextLine>
+             </TextBlock>
+         </PrintSpace>
+      </Page>
+   </Layout>
+</alto>
+
+`;
