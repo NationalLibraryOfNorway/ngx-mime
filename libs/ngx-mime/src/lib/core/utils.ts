@@ -11,7 +11,10 @@ export class Utils {
     return Number(short);
   }
 
-  static getScaleFactor(physicalScale: number | undefined): number {
-    return (physicalScale ? physicalScale : 1) * 400
+  static getScaleFactor(
+    physicalScale: number | undefined,
+    ignorePhysicalScale = false
+  ): number {
+    return ignorePhysicalScale ? 1 : (physicalScale ? physicalScale : 1) * 400;
   }
 }

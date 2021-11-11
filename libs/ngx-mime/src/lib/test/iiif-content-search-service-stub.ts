@@ -1,8 +1,8 @@
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-
-import { SearchResult } from './../core/models/search-result';
+import { MimeViewerConfig } from '../..';
 import { Hit } from './../core/models/hit';
+import { SearchResult } from './../core/models/search-result';
 
 export class IiifContentSearchServiceStub {
   public _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(
@@ -11,6 +11,7 @@ export class IiifContentSearchServiceStub {
   public _searching = new BehaviorSubject<boolean>(false);
   public _currentQ = new BehaviorSubject<string>('');
   protected _selected = new BehaviorSubject<Hit | null>(null);
+  private config!: MimeViewerConfig;
 
   get onQChange(): Observable<string> {
     return this._currentQ.asObservable().pipe(distinctUntilChanged());
@@ -30,6 +31,10 @@ export class IiifContentSearchServiceStub {
 
   public selected(hit: Hit) {
     this._selected.next(hit);
+  }
+
+  public setConfig(config: MimeViewerConfig) {
+    this.config = config;
   }
 
   destroy() {}

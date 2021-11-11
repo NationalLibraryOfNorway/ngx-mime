@@ -1,3 +1,4 @@
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { Utils } from '../utils';
 import { Hit } from './../models/hit';
 import {
@@ -13,7 +14,8 @@ export class SearchResultBuilder {
   constructor(
     private q: string,
     private manifest: Manifest,
-    private iiifSearchResult: IiifSearchResult
+    private iiifSearchResult: IiifSearchResult,
+    private config: MimeViewerConfig
   ) {}
 
   public build(): SearchResult {
@@ -114,7 +116,7 @@ export class SearchResultBuilder {
 
   private getScale(index: number): number {
     const physicalScale = this.getPhysicalScale(index);
-    return Utils.getScaleFactor(physicalScale);
+    return Utils.getScaleFactor(physicalScale, this.config.ignorePhysicalScale);
   }
 
   private getPhysicalScale(index: number): number | undefined {
@@ -123,6 +125,6 @@ export class SearchResultBuilder {
   }
 
   private scaleValue(value: string, scale: number): number {
-    return Math.trunc(parseInt(value, 10) * scale)
+    return Math.trunc(parseInt(value, 10) * scale);
   }
 }
