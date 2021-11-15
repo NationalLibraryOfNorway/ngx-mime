@@ -7,11 +7,16 @@ import { ManifestBuilder } from './manifest.builder';
 import { SearchResultBuilder } from './search-result.builder';
 
 describe('SearchResultBuilder', () => {
+  let config: MimeViewerConfig;
+
+  beforeEach(() => {
+    config = new MimeViewerConfig();
+  });
+
   it('should build empty search result', () => {
     const q = 'testquery';
     const manifest = new Manifest({});
     const iiifSearchResult: IiifSearchResult = {};
-    const config = new MimeViewerConfig();
     const searchResult = new SearchResultBuilder(
       q,
       manifest,
@@ -24,7 +29,6 @@ describe('SearchResultBuilder', () => {
   it('should return search result for 400 dpi manifest', () => {
     const q = 'america';
     const manifest = new ManifestBuilder(a400dpiManifest).build();
-    const config = new MimeViewerConfig();
     const searchResult = new SearchResultBuilder(
       q,
       manifest,
@@ -46,7 +50,6 @@ describe('SearchResultBuilder', () => {
   it('should return search result for 300 dpi manifest', () => {
     const q = 'america';
     const manifest = new ManifestBuilder(a300dpiManifest).build();
-    const config = new MimeViewerConfig();
     const searchResult = new SearchResultBuilder(
       q,
       manifest,

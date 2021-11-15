@@ -13,6 +13,7 @@ import { MimeViewerConfig } from '../mime-viewer-config';
 
 describe('IiifContentSearchService', () => {
   let config: MimeViewerConfig;
+  let svc: IiifContentSearchService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,6 +21,8 @@ describe('IiifContentSearchService', () => {
       providers: [IiifContentSearchService],
     });
     config = new MimeViewerConfig();
+    svc = TestBed.inject(IiifContentSearchService);
+    svc.setConfig(config);
   });
 
   it('should be created', inject(
@@ -38,7 +41,6 @@ describe('IiifContentSearchService', () => {
         httpMock: HttpTestingController
       ) => {
         let result: SearchResult = new SearchResult();
-        svc.setConfig(config);
         svc.search(
           { ...new Manifest(), service: { ...new Service(), id: 'dummyUrl' } },
           'query'
@@ -76,7 +78,6 @@ describe('IiifContentSearchService', () => {
         httpMock: HttpTestingController
       ) => {
         let result!: SearchResult;
-        svc.setConfig(config);
         svc.search(new Manifest(), '');
         svc.onChange.subscribe((searchResult: SearchResult) => {
           result = searchResult;
