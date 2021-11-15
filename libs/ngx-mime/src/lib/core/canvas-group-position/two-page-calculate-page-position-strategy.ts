@@ -11,6 +11,7 @@ import { canvasRectFromCriteria } from './calculate-canvas-group-position-utils'
 export class TwoPageCalculateCanvasGroupPositionStrategy
   implements CalculateCanvasGroupPositionStrategy {
   constructor(private config: MimeViewerConfig) {}
+
   calculateCanvasGroupPosition(
     criteria: CanvasGroupPositionCriteria,
     rotation: number = 0
