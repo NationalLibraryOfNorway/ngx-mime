@@ -1,4 +1,3 @@
-import { MimeViewerConfig } from '../mime-viewer-config';
 import { Resource } from '../models/manifest';
 import { Rect } from '../models/rect';
 import { ViewingDirection } from '../models/viewing-direction';
