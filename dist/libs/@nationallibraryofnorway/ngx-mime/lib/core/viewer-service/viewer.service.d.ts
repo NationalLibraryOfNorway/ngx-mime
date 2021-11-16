@@ -45,6 +45,7 @@ export declare class ViewerService {
     private zoomStrategy;
     private goToCanvasGroupStrategy;
     private rotation;
+    private dragStatus;
     constructor(zone: NgZone, clickService: ClickService, canvasService: CanvasService, modeService: ModeService, viewerLayoutService: ViewerLayoutService, iiifContentSearchService: IiifContentSearchService, styleService: StyleService, altoService: AltoService);
     get onRotationChange(): Observable<number>;
     get onCenterChange(): Observable<Point>;
@@ -127,6 +128,7 @@ export declare class ViewerService {
      * @param event from pinch gesture
      */
     zoomOutPinchGesture(event: any, zoomFactor: number): void;
+    goToHomeZoom(): void;
     /**
      * Single-click-handler
      * Single-click toggles between page/dashboard-mode if a page is hit
@@ -158,11 +160,19 @@ export declare class ViewerService {
      * Returns overlay-index for click-event if hit
      * @param target hit <rect>
      */
-    getOverlayIndexFromClickEvent(target: any): number;
-    private getOptions;
+    getOverlayIndexFromClickEvent(event: any): number;
     private calculateCurrentCanvasGroup;
     private dragHandler;
+    private constraintCanvas;
+    private getCurrentCanvasBounds;
+    private isCanvasOutsideViewport;
+    private constraintCanvasOutsideViewport;
+    private constraintCanvasInsideViewport;
+    private isCanvasBelowViewportTop;
+    private isCanvasAboveViewportBottom;
     private swipeToCanvasGroup;
     private getViewportBounds;
+    private getOriginalTarget;
+    private panTo;
     private unsubscribe;
 }

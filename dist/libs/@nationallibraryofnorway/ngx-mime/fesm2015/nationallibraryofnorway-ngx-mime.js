@@ -2473,6 +2473,9 @@ class ModeService {
             this.mode = ViewerMode.DASHBOARD;
         }
     }
+    isPageZoomed() {
+        return this.mode === ViewerMode.PAGE_ZOOMED;
+    }
     change() {
         this.modeChanges.previousValue = this.modeChanges.currentValue;
         this.modeChanges.currentValue = this._mode;
@@ -2767,21 +2770,25 @@ const ViewerOptions = {
 };
 
 const canvasRectFromCriteria = (rotation, criteria, x) => {
+    var _a, _b, _c, _d;
     let rect = {};
+    const scale = (((_b = (_a = criteria.canvasSource.service) === null || _a === void 0 ? void 0 : _a.service) === null || _b === void 0 ? void 0 : _b.physicalScale)
+        ? (_d = (_c = criteria.canvasSource.service) === null || _c === void 0 ? void 0 : _c.service) === null || _d === void 0 ? void 0 : _d.physicalScale
+        : 1) * 400;
     if (rotation === 90 || rotation === 270) {
         rect = {
-            height: criteria.canvasSource.width,
-            width: criteria.canvasSource.height,
+            height: Math.trunc(criteria.canvasSource.width * scale),
+            width: Math.trunc(criteria.canvasSource.height * scale),
             x: x,
-            y: (criteria.canvasSource.width / 2) * -1,
+            y: Math.trunc((criteria.canvasSource.width * scale) / 2) * -1,
         };
     }
     else {
         rect = {
-            height: criteria.canvasSource.height,
-            width: criteria.canvasSource.width,
+            height: Math.trunc(criteria.canvasSource.height * scale),
+            width: Math.trunc(criteria.canvasSource.width * scale),
             x: x,
-            y: (criteria.canvasSource.height / 2) * -1,
+            y: Math.trunc((criteria.canvasSource.height * scale) / 2) * -1,
         };
     }
     return new Rect(rect);
@@ -3028,149 +3035,6 @@ class ManifestUtils {
             }
         }
         return false;
-    }
-}
-
-class GestureSettings {
-    constructor() {
-        this.scrollToZoom = false;
-        this.clickToZoom = false;
-        this.dblClickToZoom = false;
-        this.pinchToZoom = false;
-        this.flickEnabled = false;
-        this.flickMinSpeed = 120;
-        this.flickMomentum = 0.25;
-        this.pinchRotate = false;
-    }
-}
-class GestureSettingsMouse extends GestureSettings {
-}
-class GestureSettingsTouch extends GestureSettings {
-}
-class GestureSettingsPen extends GestureSettings {
-}
-class GestureSettingsUnknown extends GestureSettings {
-}
-
-var ControlAnchor;
-(function (ControlAnchor) {
-    ControlAnchor[ControlAnchor["NONE"] = 0] = "NONE";
-    ControlAnchor[ControlAnchor["TOP_LEFT"] = 1] = "TOP_LEFT";
-    ControlAnchor[ControlAnchor["TOP_RIGHT"] = 2] = "TOP_RIGHT";
-    ControlAnchor[ControlAnchor["BOTTOM_RIGHT"] = 3] = "BOTTOM_RIGHT";
-    ControlAnchor[ControlAnchor["BOTTOM_LEFT"] = 4] = "BOTTOM_LEFT";
-    ControlAnchor[ControlAnchor["ABSOLUTE"] = 5] = "ABSOLUTE";
-})(ControlAnchor || (ControlAnchor = {}));
-
-class Options {
-    constructor() {
-        this.id = 'openseadragon';
-        this.element = null;
-        this.tileSources = [];
-        this.tabIndex = 0;
-        this.overlays = [];
-        this.xmlPath = null;
-        this.prefixUrl = 'https://openseadragon.github.io/openseadragon/images/';
-        this.debugMode = false;
-        this.debugGridColor = '#08f';
-        this.blendTime = 0;
-        this.alwaysBlend = false;
-        this.autoHideControls = true;
-        this.immediateRender = false;
-        this.defaultZoomLevel = 0;
-        this.opacity = 1;
-        this.compositeOperation = null;
-        this.placeholderFillStyle = null;
-        this.degrees = 0;
-        this.minZoomLevel = this.defaultZoomLevel;
-        this.maxZoomLevel = null;
-        this.homeFillsViewer = false;
-        this.panHorizontal = true;
-        this.panVertical = false;
-        this.constrainDuringPan = false;
-        this.wrapHorizontal = false;
-        this.wrapVertical = false;
-        this.minZoomImageRatio = 1;
-        this.maxZoomPixelRatio = 1;
-        this.smoothTileEdgesMinZoom = 1;
-        this.iOSDevice = true;
-        this.autoResize = true;
-        this.preserveImageSizeOnResize = true;
-        this.minScrollDeltaTime = 50;
-        this.pixelsPerWheelLine = 40;
-        this.visibilityRatio = 1;
-        this.viewportMargins = {};
-        this.imageLoaderLimit = 0;
-        this.clickTimeThreshold = 300;
-        this.clickDistThreshold = 5;
-        this.dblClickTimeThreshold = 300;
-        this.dblClickDistThreshold = 20;
-        this.springStiffness = 6.5;
-        this.animationTime = ViewerOptions.transitions.OSDAnimationTime / 1000;
-        this.gestureSettingsMouse = new GestureSettingsMouse();
-        this.gestureSettingsTouch = new GestureSettingsTouch();
-        this.gestureSettingsPen = new GestureSettingsPen();
-        this.gestureSettingsUnknown = new GestureSettingsUnknown();
-        this.zoomPerClick = 2.0;
-        this.zoomPerScroll = 1.2;
-        this.zoomPerSecond = 1.0;
-        this.showNavigator = false;
-        this.navigatorId = null;
-        this.navigatorPosition = 'TOP_RIGHT';
-        this.navigatorSizeRatio = 0.2;
-        this.navigatorMaintainSizeRatio = false;
-        this.navigatorTop = null;
-        this.navigatorLeft = null;
-        this.navigatorHeight = null;
-        this.navigatorWidth = null;
-        this.navigatorAutoResize = true;
-        this.navigatorAutoFade = true;
-        this.navigatorRotate = true;
-        this.controlsFadeDelay = 2000;
-        this.controlsFadeLength = 1500;
-        this.maxImageCacheCount = 200;
-        this.timeout = 30000;
-        this.useCanvas = true;
-        this.minPixelRatio = 0.5;
-        this.mouseNavEnabled = true;
-        this.showNavigationControl = false;
-        this.navigationControlAnchor = ControlAnchor.TOP_LEFT;
-        this.showZoomControl = true;
-        this.showHomeControl = true;
-        this.showFullPageControl = false;
-        this.showRotationControl = false;
-        this.showSequenceControl = false;
-        this.sequenceControlAnchor = ControlAnchor.TOP_LEFT;
-        this.navPrevNextWrap = false;
-        this.zoomInButton = null;
-        this.zoomOutButton = null;
-        this.homeButton = null;
-        this.fullPageButton = null;
-        this.rotateLeftButton = null;
-        this.rotateRightButton = null;
-        this.previousButton = null;
-        this.nextButton = null;
-        this.sequenceMode = true;
-        this.initialPage = 0;
-        this.preserveViewport = false;
-        this.preserveOverlays = false;
-        this.showReferenceStrip = false;
-        this.referenceStripScroll = 'horizontal';
-        this.referenceStripElement = null;
-        this.referenceStripHeight = null;
-        this.referenceStripWidth = null;
-        this.referenceStripPosition = 'BOTTOM_LEFT';
-        this.referenceStripSizeRatio = 0.2;
-        this.collectionMode = false;
-        this.collectionRows = 1;
-        this.collectionColumns = 0;
-        this.collectionLayout = 'horizontal';
-        this.collectionTileSize = 800;
-        this.collectionTileMargin = 80;
-        this.crossOriginPolicy = false;
-        this.ajaxWithCredentials = false;
-        this.loadTilesWithAjax = false;
-        this.ajaxHeaders = null;
     }
 }
 
@@ -3440,6 +3304,7 @@ class CanvasGroupMask {
         this.viewer = viewer;
     }
     initialize(pageBounds, visible) {
+        this.unsubscribe();
         this.subscriptions = new Subscription();
         this.subscriptions.add(this.styleService.onChange.subscribe((c) => {
             this.backgroundColor = c;
@@ -3577,7 +3442,7 @@ class DefaultGoToCanvasGroupStrategy {
         const oldCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
         this.canvasService.currentCanvasGroupIndex = this.canvasService.constrainToRange(canvasGroup.canvasGroupIndex);
         const newCanvasGroup = this.canvasService.getCanvasGroupRect(this.canvasService.currentCanvasGroupIndex);
-        if (this.modeService.mode === ViewerMode.PAGE_ZOOMED &&
+        if (this.modeService.isPageZoomed() &&
             this.config.preserveZoomOnCanvasGroupChange) {
             let x;
             if (oldCanvasGroupIndex > canvasGroup.canvasGroupIndex) {
@@ -3603,14 +3468,15 @@ class DefaultGoToCanvasGroupStrategy {
                         ? this.leftX(newCanvasGroup)
                         : this.rightX(newCanvasGroup);
             }
-            const y = this.config.startOnTopOnCanvasGroupChange
+            const y = this.config.startOnTopOnCanvasGroupChange &&
+                oldCanvasGroupIndex !== canvasGroup.canvasGroupIndex
                 ? newCanvasGroup.y +
                     this.getViewportBounds().height / 2 -
-                    new Options().collectionTileMargin
+                    this.viewer.collectionTileMargin
                 : this.getViewportCenter().y;
             this.panTo(x, y, canvasGroup.immediately);
         }
-        else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        else if (this.modeService.isPageZoomed()) {
             const oldCanvasGroupCenter = this.canvasService.getCanvasGroupRect(oldCanvasGroupIndex);
             this.panToCenter(oldCanvasGroupCenter, canvasGroup.immediately);
             this.zoomStrategy.goToHomeZoom();
@@ -3632,11 +3498,11 @@ class DefaultGoToCanvasGroupStrategy {
                 direction: Direction.PREVIOUS,
                 currentCanvasGroupIndex: currentCanvasGroupIndex,
                 currentCanvasGroupCenter: currentCanvasIndex,
-                viewingDirection: this.viewingDirection
+                viewingDirection: this.viewingDirection,
             });
             this.goToCanvasGroup({
                 canvasGroupIndex: newCanvasGroupIndex,
-                immediately: false
+                immediately: false,
             });
         }
     }
@@ -3650,11 +3516,11 @@ class DefaultGoToCanvasGroupStrategy {
                 direction: Direction.NEXT,
                 currentCanvasGroupIndex: currentCanvasGroupIndex,
                 currentCanvasGroupCenter: currentCanvasIndex,
-                viewingDirection: this.viewingDirection
+                viewingDirection: this.viewingDirection,
             });
             this.goToCanvasGroup({
                 canvasGroupIndex: newCanvasGroupIndex,
-                immediately: false
+                immediately: false,
             });
         }
     }
@@ -3675,7 +3541,7 @@ class DefaultGoToCanvasGroupStrategy {
     panTo(x, y, immediately = false) {
         this.viewer.viewport.panTo({
             x: x,
-            y: y
+            y: y,
         }, immediately);
     }
     getViewportCenter() {
@@ -3683,6 +3549,13 @@ class DefaultGoToCanvasGroupStrategy {
     }
     getViewportBounds() {
         return this.viewer.viewport.getBounds(true);
+    }
+}
+
+class OptionsFactory {
+    static create(mimeViewerConfig) {
+        let options = OpenSeadragon$1.DEFAULT_SETTINGS;
+        return Object.assign(Object.assign({}, options), { id: 'openseadragon', useCanvas: !options.iOSDevice, panVertical: true, minZoomImageRatio: 1, maxZoomPixelRatio: 1, smoothTileEdgesMinZoom: 1, preserveImageSizeOnResize: true, visibilityRatio: 0, showNavigationControl: false, animationTime: ViewerOptions.transitions.OSDAnimationTime / 1000, ajaxWithCredentials: mimeViewerConfig.withCredentials, loadTilesWithAjax: mimeViewerConfig.loadTilesWithAjax, crossOriginPolicy: mimeViewerConfig.crossOriginPolicy, ajaxHeaders: mimeViewerConfig.ajaxHeaders, gestureSettingsMouse: Object.assign(Object.assign({}, options.gestureSettingsMouse), { scrollToZoom: false, clickToZoom: false }), gestureSettingsTouch: Object.assign(Object.assign({}, options.gestureSettingsTouch), { dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }), gestureSettingsPen: Object.assign(Object.assign({}, options.gestureSettingsPen), { clickToZoom: false }), gestureSettingsUnknown: Object.assign(Object.assign({}, options.gestureSettingsUnknown), { scrollToZoom: false, dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }) });
     }
 }
 
@@ -3889,7 +3762,7 @@ class ZoomStrategy {
     }
     goToHomeZoom() {
         this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
-        if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        if (this.modeService.isPageZoomed()) {
             this.modeService.mode = ViewerMode.PAGE;
         }
     }
@@ -4028,6 +3901,7 @@ class ViewerService {
         this.isManifestPaged = false;
         this.currentSearch = null;
         this.rotation = new BehaviorSubject(0);
+        this.dragStatus = false;
         /**
          * Scroll-handler
          */
@@ -4065,10 +3939,9 @@ class ViewerService {
          */
         this.singleClickHandler = (event) => {
             var _a;
-            const target = event.originalEvent.target;
-            const tileIndex = this.getOverlayIndexFromClickEvent(target);
+            const tileIndex = this.getOverlayIndexFromClickEvent(event);
             const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(tileIndex);
-            if (requestedCanvasGroupIndex) {
+            if (requestedCanvasGroupIndex !== -1) {
                 this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
             }
             else {
@@ -4085,7 +3958,6 @@ class ViewerService {
          */
         this.dblClickHandler = (event) => {
             var _a;
-            const target = event.originalEvent.target;
             // Page is fitted vertically, so dbl-click zooms in
             if (this.modeService.mode === ViewerMode.PAGE) {
                 this.modeService.mode = ViewerMode.PAGE_ZOOMED;
@@ -4093,7 +3965,7 @@ class ViewerService {
             }
             else {
                 this.modeService.mode = ViewerMode.PAGE;
-                const canvasIndex = this.getOverlayIndexFromClickEvent(target);
+                const canvasIndex = this.getOverlayIndexFromClickEvent(event);
                 const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(canvasIndex);
                 if (requestedCanvasGroupIndex >= 0) {
                     this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
@@ -4105,7 +3977,7 @@ class ViewerService {
         };
         this.dragHandler = (e) => {
             this.viewer.panHorizontal = true;
-            if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+            if (this.modeService.isPageZoomed()) {
                 const canvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
                 const vpBounds = this.getViewportBounds();
                 const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, vpBounds);
@@ -4135,6 +4007,7 @@ class ViewerService {
         return this.osdIsReady.asObservable().pipe(distinctUntilChanged());
     }
     initialize() {
+        this.unsubscribe();
         this.subscriptions = new Subscription();
     }
     getViewer() {
@@ -4254,7 +4127,7 @@ class ViewerService {
             this.zone.runOutsideAngular(() => {
                 this.manifest = manifest;
                 this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
-                this.viewer = new OpenSeadragon.Viewer(Object.assign({}, this.getOptions()));
+                this.viewer = new OpenSeadragon.Viewer(OptionsFactory.create(this.config));
                 createSvgOverlay();
                 this.zoomStrategy = new DefaultZoomStrategy(this.viewer, this.canvasService, this.modeService, this.viewerLayoutService);
                 this.goToCanvasGroupStrategy = new DefaultGoToCanvasGroupStrategy(this.viewer, this.zoomStrategy, this.canvasService, this.modeService, this.config, this.manifest.viewingDirection);
@@ -4277,6 +4150,7 @@ class ViewerService {
         }
     }
     addSubscriptions() {
+        this.initialize();
         this.subscriptions.add(this.modeService.onChange.subscribe((mode) => {
             this.modeChanged(mode);
         }));
@@ -4394,8 +4268,17 @@ class ViewerService {
         this.viewer.addHandler('canvas-release', () => this.isCanvasPressed.next(false));
         this.viewer.addHandler('canvas-scroll', this.scrollHandler);
         this.viewer.addHandler('canvas-pinch', this.pinchHandler);
-        this.viewer.addHandler('canvas-drag', (e) => this.dragHandler(e));
-        this.viewer.addHandler('canvas-drag-end', (e) => this.swipeToCanvasGroup(e));
+        this.viewer.addHandler('canvas-drag', (e) => {
+            this.dragStatus = true;
+            this.dragHandler(e);
+        });
+        this.viewer.addHandler('canvas-drag-end', (e) => {
+            if (this.dragStatus) {
+                this.constraintCanvas();
+                this.swipeToCanvasGroup(e);
+            }
+            this.dragStatus = false;
+        });
         this.viewer.addHandler('animation', (e) => {
             var _a;
             this.currentCenter.next((_a = this.viewer) === null || _a === void 0 ? void 0 : _a.viewport.getCenter(true));
@@ -4480,7 +4363,7 @@ class ViewerService {
         }
     }
     zoomOutGesture(position, zoomFactor) {
-        if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        if (this.modeService.isPageZoomed()) {
             this.zoomStrategy.zoomOut(zoomFactor, position);
         }
         else if (this.modeService.mode === ViewerMode.PAGE) {
@@ -4512,7 +4395,7 @@ class ViewerService {
      */
     zoomOutPinchGesture(event, zoomFactor) {
         const gestureId = event.gesturePoints[0].id;
-        if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        if (this.modeService.isPageZoomed()) {
             this.pinchStatus.shouldStop = true;
             this.zoomStrategy.zoomOut(zoomFactor, event.center);
         }
@@ -4524,6 +4407,9 @@ class ViewerService {
             }
             this.pinchStatus.previousGestureId = gestureId;
         }
+    }
+    goToHomeZoom() {
+        this.zoomStrategy.goToHomeZoom();
     }
     /**
      * Checks if hit element is a <rect>-element
@@ -4625,7 +4511,8 @@ class ViewerService {
      * Returns overlay-index for click-event if hit
      * @param target hit <rect>
      */
-    getOverlayIndexFromClickEvent(target) {
+    getOverlayIndexFromClickEvent(event) {
+        const target = this.getOriginalTarget(event);
         if (this.isCanvasGroupHit(target)) {
             const requestedCanvasGroup = this.overlays.indexOf(target);
             if (requestedCanvasGroup >= 0) {
@@ -4634,19 +4521,59 @@ class ViewerService {
         }
         return -1;
     }
-    getOptions() {
-        const options = new Options();
-        options.ajaxWithCredentials = this.config.withCredentials;
-        options.loadTilesWithAjax = this.config.loadTilesWithAjax;
-        options.crossOriginPolicy = this.config.crossOriginPolicy;
-        options.ajaxHeaders = this.config.ajaxHeaders;
-        return options;
-    }
     calculateCurrentCanvasGroup(center) {
         if (center) {
             const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(center);
             this.currentCanvasIndex.next(currentCanvasGroupIndex);
         }
+    }
+    constraintCanvas() {
+        if (this.modeService.isPageZoomed()) {
+            const viewportBounds = this.getViewportBounds();
+            const currentCanvasBounds = this.getCurrentCanvasBounds();
+            this.isCanvasOutsideViewport(viewportBounds, currentCanvasBounds)
+                ? this.constraintCanvasOutsideViewport(viewportBounds, currentCanvasBounds)
+                : this.constraintCanvasInsideViewport(viewportBounds);
+        }
+    }
+    getCurrentCanvasBounds() {
+        return this.viewer.world
+            .getItemAt(this.canvasService.currentCanvasGroupIndex)
+            .getBounds();
+    }
+    isCanvasOutsideViewport(viewportBounds, canvasBounds) {
+        return viewportBounds.height < canvasBounds.height;
+    }
+    constraintCanvasOutsideViewport(viewportBounds, canvasBounds) {
+        let rect = undefined;
+        if (this.isCanvasBelowViewportTop(viewportBounds, canvasBounds)) {
+            rect = new Rect({
+                x: viewportBounds.x + viewportBounds.width / 2,
+                y: canvasBounds.y + viewportBounds.height / 2,
+            });
+        }
+        else if (this.isCanvasAboveViewportBottom(viewportBounds, canvasBounds)) {
+            rect = new Rect({
+                x: viewportBounds.x + viewportBounds.width / 2,
+                y: canvasBounds.y + canvasBounds.height - viewportBounds.height / 2,
+            });
+        }
+        this.panTo(rect, true);
+    }
+    constraintCanvasInsideViewport(viewportBounds) {
+        const canvasGroupRect = this.canvasService.getCanvasGroupRect(this.canvasService.currentCanvasGroupIndex);
+        const rect = new Rect({
+            x: viewportBounds.x + viewportBounds.width / 2,
+            y: canvasGroupRect.centerY,
+        });
+        this.panTo(rect, true);
+    }
+    isCanvasBelowViewportTop(viewportBounds, canvasBounds) {
+        return viewportBounds.y < canvasBounds.y;
+    }
+    isCanvasAboveViewportBottom(viewportBounds, canvasBounds) {
+        return (canvasBounds.y + canvasBounds.height <
+            viewportBounds.y + viewportBounds.height);
     }
     swipeToCanvasGroup(e) {
         // Don't swipe on pinch actions
@@ -4655,28 +4582,27 @@ class ViewerService {
         }
         const speed = e.speed;
         const dragEndPosision = e.position;
-        const isCanvasGroupZoomed = this.modeService.mode === ViewerMode.PAGE_ZOOMED;
         const canvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
         const viewportBounds = this.getViewportBounds();
-        const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, isCanvasGroupZoomed);
+        const direction = SwipeUtils.getSwipeDirection(this.dragStartPosition, dragEndPosision, this.modeService.isPageZoomed());
         const currentCanvasGroupIndex = this.canvasService
             .currentCanvasGroupIndex;
         const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(this.modeService.mode);
         let pannedPastSide;
         let canvasGroupEndHitCountReached = false;
-        if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        if (this.modeService.isPageZoomed()) {
             pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(canvasGroupRect, viewportBounds);
             this.swipeDragEndCounter.addHit(pannedPastSide, direction);
             canvasGroupEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
         }
-        const newCanvasGroupIndex = calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
+        const newCanvasGroupIndex = this.canvasService.constrainToRange(calculateNextCanvasGroupStrategy.calculateNextCanvasGroup({
             currentCanvasGroupCenter: this.currentCanvasIndex.getValue(),
             speed: speed,
             direction: direction,
             currentCanvasGroupIndex: currentCanvasGroupIndex,
             canvasGroupEndHitCountReached: canvasGroupEndHitCountReached,
             viewingDirection: this.manifest.viewingDirection,
-        });
+        }));
         if (this.modeService.mode === ViewerMode.DASHBOARD ||
             this.modeService.mode === ViewerMode.PAGE ||
             (canvasGroupEndHitCountReached && direction)) {
@@ -4690,6 +4616,19 @@ class ViewerService {
     getViewportBounds() {
         var _a;
         return (_a = this.viewer) === null || _a === void 0 ? void 0 : _a.viewport.getBounds();
+    }
+    getOriginalTarget(event) {
+        return event.originalTarget
+            ? event.originalTarget
+            : event.originalEvent.target;
+    }
+    panTo(rect, immediately = false) {
+        if (rect) {
+            this.viewer.viewport.panTo({
+                x: rect.x,
+                y: rect.y,
+            }, immediately);
+        }
     }
     unsubscribe() {
         if (this.subscriptions) {
@@ -4845,18 +4784,18 @@ class AccessKeysService {
         if (this.modeService.mode === ViewerMode.PAGE) {
             this.modeService.toggleMode();
         }
-        else if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        else if (this.modeService.isPageZoomed()) {
             this.viewerService.zoomOut();
         }
     }
     zoomHome() {
-        if (this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+        if (this.modeService.isPageZoomed()) {
             this.viewerService.home();
         }
     }
     toggleSearchDialog() {
         if (this.modeService.mode === ViewerMode.PAGE ||
-            this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+            this.modeService.isPageZoomed()) {
             this.modeService.mode = ViewerMode.DASHBOARD;
             this.contentSearchDialogService.open();
         }
@@ -4872,7 +4811,7 @@ class AccessKeysService {
     }
     toggleContentsDialog() {
         if (this.modeService.mode === ViewerMode.PAGE ||
-            this.modeService.mode === ViewerMode.PAGE_ZOOMED) {
+            this.modeService.isPageZoomed()) {
             this.modeService.mode = ViewerMode.DASHBOARD;
             this.contentsDialogService.open();
         }
@@ -4897,7 +4836,7 @@ class AccessKeysService {
         return manifest.service ? true : false;
     }
     isZoomedIn() {
-        return this.modeService.mode === ViewerMode.PAGE_ZOOMED;
+        return this.modeService.isPageZoomed();
     }
     updateDisabledKeys() {
         this.resetDisabledKeys();
@@ -5799,7 +5738,7 @@ RecognizedTextContentComponent.decorators = [
                 selector: 'mime-recognized-text-content',
                 template: "<div #recognizedTextContentContainer class=\"recognized-text-content-container\" aria-live=\"polite\">\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <div *ngIf=\"!isLoading\">\n    <div *ngIf=\"firstCanvasRecognizedTextContent\" data-test-id=\"firstCanvasRecognizedTextContent\" [innerHTML]=\"firstCanvasRecognizedTextContent\"> </div>\n    <div *ngIf=\"secondCanvasRecognizedTextContent\" data-test-id=\"secondCanvasRecognizedTextContent\" [innerHTML]=\"secondCanvasRecognizedTextContent\"> </div>\n  </div>\n  <div *ngIf=\"isLoading\">{{intl.loading}}</div>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".recognized-text-content-container{padding:1em;height:100%;overflow:auto}\n"]
+                styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}\n"]
             },] }
 ];
 RecognizedTextContentComponent.ctorParameters = () => [
@@ -5873,7 +5812,7 @@ class CanvasGroupNavigatorComponent {
     onSliderChange(change) {
         this.currentSliderCanvasGroupIndex = change.value;
         this.currentCanvasGroupIndex = change.value;
-        if (this.currentCanvasGroupIndex) {
+        if (this.currentCanvasGroupIndex !== null) {
             this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(this.currentCanvasGroupIndex);
             this.viewerService.goToCanvasGroup(this.currentCanvasGroupIndex, false);
         }
@@ -6577,10 +6516,13 @@ class ViewerComponent {
     resetErrorMessage() {
         this.errorMessage = null;
     }
+    goToHomeZoom() {
+        this.viewerService.goToHomeZoom();
+    }
     setClasses() {
         return {
             'mode-page': this.modeService.mode === ViewerMode.PAGE,
-            'mode-page-zoomed': this.modeService.mode === ViewerMode.PAGE_ZOOMED,
+            'mode-page-zoomed': this.modeService.isPageZoomed(),
             'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
             'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
             'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
@@ -6591,7 +6533,7 @@ class ViewerComponent {
 ViewerComponent.decorators = [
     { type: Component, args: [{
                 selector: 'mime-viewer',
-                template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n\n  <mat-drawer-container class=\"viewer-drawer-container\">\n    <mat-drawer\n      mode=\"side\"\n      position=\"end\"\n      [opened]=\"isRecognizedTextContentToggled\"\n      [ngClass]=\"{'open': showHeaderAndFooterState === 'show'}\"\n      ><mime-recognized-text-content\n        *ngIf=\"isRecognizedTextContentToggled\"\n      ></mime-recognized-text-content\n    ></mat-drawer>\n    <mat-drawer-content><div id=\"openseadragon\"></div></mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n",
+                template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n\n  <mat-drawer-container class=\"viewer-drawer-container\">\n    <mat-drawer\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"isRecognizedTextContentToggled\"\n      [ngClass]=\"{'open': showHeaderAndFooterState === 'show'}\"\n      ><mime-recognized-text-content\n        *ngIf=\"isRecognizedTextContentToggled\"\n      ></mime-recognized-text-content\n    ></mat-drawer>\n    <mat-drawer-content><div id=\"openseadragon\"></div></mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
                 styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}:host::ng-deep .openseadragon-container{flex-grow:1}:host::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-drawer-container{width:100%;height:100%}mat-drawer{width:25%}@media only screen and (max-width: 599px){mat-drawer{width:33%}}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}::ng-deep .viewer-container.mode-page-zoomed .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}::ng-deep .viewer-container .tile{cursor:pointer;fill-opacity:0}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group:hover .tile{stroke:#00000073}::ng-deep .viewer-container .hit{fill:#ff09}::ng-deep .viewer-container .selected{fill:#ffe10099}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0;width:100%}.navbar-footer{bottom:0}::ng-deep .cdk-overlay-container{z-index:2147483647}.error-container{width:100%;height:100%}[hidden]{display:none}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width: 599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"]
             },] }

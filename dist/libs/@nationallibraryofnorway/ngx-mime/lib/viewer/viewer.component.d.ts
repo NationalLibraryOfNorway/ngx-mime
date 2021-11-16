@@ -78,6 +78,7 @@ export declare class ViewerComponent implements OnInit, AfterViewChecked, OnDest
     private cleanup;
     private resetCurrentManifest;
     private resetErrorMessage;
+    goToHomeZoom(): void;
     setClasses(): {
         'mode-page': boolean;
         'mode-page-zoomed': boolean;

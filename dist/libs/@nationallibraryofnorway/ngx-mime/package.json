@@ -1,13 +1,13 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "12.2.7",
+  "version": "12.3.0",
   "peerDependencies": {
     "@angular/common": ">=12.0.0 <13.0.0",
     "@angular/core": ">=12.0.0 <13.0.0",
     "@angular/flex-layout": ">=12.0.0 <13.0.0 || >=12.0.0-beta.34 <13.0.0",
     "@angular/material": ">=12.0.0 <13.0.0",
     "d3": ">=5.7.0 <6.0.0",
-    "openseadragon": ">=2.4.0 <3.0.0",
+    "openseadragon": ">=2.4.0 <4.0.0",
     "xml2js": ">=0.4.0 <1.0.0",
     "stream": ">=0.0.2 <1.0.0",
     "timers": ">=0.1.1 <1.0.0"

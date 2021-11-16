@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.4.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.3.0...v12.4.0) (2021-11-16)
+
+
+### Features
+
+* ignorePhysicalScale toggle in MimeViewerConfig ([#367](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/367)) ([1388543](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/138854312b9a5bb389c360ebbd87ec91a1b37ed3))
+
+
+### Bug Fixes
+
+* scale highlight rectangles based on physicalScale ([f9e28a6](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f9e28a6a5a20950cb8f2ebb9fb0152857a2c7041))
+* Use SUBS_CONTENT when parsing ALTO files ([d4ece27](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d4ece279130b0b2f8097c27ec35c65dc0bee1905))
+
 ## [12.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.8...v12.3.0) (2021-11-02)
 
 

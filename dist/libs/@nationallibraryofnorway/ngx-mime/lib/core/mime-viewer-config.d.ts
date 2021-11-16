@@ -8,7 +8,7 @@ export declare class MimeViewerConfig {
     initViewerLayout: ViewerLayout;
     withCredentials: boolean;
     loadTilesWithAjax: boolean;
-    crossOriginPolicy: string | boolean;
+    crossOriginPolicy: 'Anonymous' | 'use-credentials' | false | undefined;
     ajaxHeaders: any;
     preserveZoomOnCanvasGroupChange: boolean;
     startOnTopOnCanvasGroupChange: boolean;
@@ -22,7 +22,7 @@ export declare class MimeViewerConfig {
         initViewerLayout?: ViewerLayout;
         withCredentials?: boolean;
         loadTilesWithAjax?: boolean;
-        crossOriginPolicy?: string | boolean;
+        crossOriginPolicy?: 'Anonymous' | 'use-credentials' | false | undefined;
         ajaxHeaders?: any;
         preserveZoomOnCanvasGroupChange?: boolean;
         startOnTopOnCanvasGroupChange?: boolean;

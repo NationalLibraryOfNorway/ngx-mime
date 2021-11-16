@@ -13,5 +13,6 @@ export declare class ModeService {
     set initialMode(mode: ViewerMode);
     get initialMode(): ViewerMode;
     toggleMode(): void;
+    isPageZoomed(): boolean;
     private change;
 }

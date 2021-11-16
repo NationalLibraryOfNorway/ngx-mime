@@ -60,7 +60,7 @@ RecognizedTextContentComponent.decorators = [
                 selector: 'mime-recognized-text-content',
                 template: "<div #recognizedTextContentContainer class=\"recognized-text-content-container\" aria-live=\"polite\">\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <div *ngIf=\"!isLoading\">\n    <div *ngIf=\"firstCanvasRecognizedTextContent\" data-test-id=\"firstCanvasRecognizedTextContent\" [innerHTML]=\"firstCanvasRecognizedTextContent\"> </div>\n    <div *ngIf=\"secondCanvasRecognizedTextContent\" data-test-id=\"secondCanvasRecognizedTextContent\" [innerHTML]=\"secondCanvasRecognizedTextContent\"> </div>\n  </div>\n  <div *ngIf=\"isLoading\">{{intl.loading}}</div>\n</div>\n",
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                styles: [".recognized-text-content-container{padding:1em;height:100%;overflow:auto}\n"]
+                styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}\n"]
             },] }
 ];
 RecognizedTextContentComponent.ctorParameters = () => [
