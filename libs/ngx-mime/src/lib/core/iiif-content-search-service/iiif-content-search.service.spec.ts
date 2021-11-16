@@ -9,13 +9,20 @@ import { IiifContentSearchService } from './iiif-content-search.service';
 import { SearchResultBuilder } from './../builders/search-result.builder';
 import { SearchResult } from './../models/search-result';
 import { Manifest, Service } from './../models/manifest';
+import { MimeViewerConfig } from '../mime-viewer-config';
 
 describe('IiifContentSearchService', () => {
+  let config: MimeViewerConfig;
+  let svc: IiifContentSearchService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [IiifContentSearchService],
     });
+    config = new MimeViewerConfig();
+    svc = TestBed.inject(IiifContentSearchService);
+    svc.setConfig(config);
   });
 
   it('should be created', inject(
@@ -34,7 +41,6 @@ describe('IiifContentSearchService', () => {
         httpMock: HttpTestingController
       ) => {
         let result: SearchResult = new SearchResult();
-
         svc.search(
           { ...new Manifest(), service: { ...new Service(), id: 'dummyUrl' } },
           'query'
@@ -44,13 +50,18 @@ describe('IiifContentSearchService', () => {
         });
 
         httpMock.expectOne(`dummyUrl?q=query`).flush(
-          new SearchResultBuilder('query', new Manifest(), {
-            hits: [
-              {
-                match: 'querystring',
-              },
-            ],
-          }).build()
+          new SearchResultBuilder(
+            'query',
+            new Manifest(),
+            {
+              hits: [
+                {
+                  match: 'querystring',
+                },
+              ],
+            },
+            config
+          ).build()
         );
         tick();
         expect(result?.size()).toBe(1);
@@ -67,7 +78,6 @@ describe('IiifContentSearchService', () => {
         httpMock: HttpTestingController
       ) => {
         let result!: SearchResult;
-
         svc.search(new Manifest(), '');
         svc.onChange.subscribe((searchResult: SearchResult) => {
           result = searchResult;

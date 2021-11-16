@@ -9,12 +9,17 @@ export class MimeViewerConfig {
   public initViewerLayout = ViewerLayout.TWO_PAGE;
   public withCredentials = false;
   public loadTilesWithAjax = false;
-  public crossOriginPolicy: 'Anonymous' | 'use-credentials' | false | undefined = false;
+  public crossOriginPolicy:
+    | 'Anonymous'
+    | 'use-credentials'
+    | false
+    | undefined = false;
   public ajaxHeaders: any = null;
   public preserveZoomOnCanvasGroupChange = false;
   public startOnTopOnCanvasGroupChange = false;
   public isDropEnabled = false;
   public initRecognizedTextContentToggle = false;
+  public ignorePhysicalScale = false;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
@@ -30,6 +35,7 @@ export class MimeViewerConfig {
     startOnTopOnCanvasGroupChange?: boolean;
     isDropEnabled?: boolean;
     initRecognizedTextContentToggle?: boolean;
+    ignorePhysicalScale?: boolean;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -95,6 +101,11 @@ export class MimeViewerConfig {
         fields.initRecognizedTextContentToggle !== undefined
           ? fields.initRecognizedTextContentToggle
           : this.initRecognizedTextContentToggle;
+
+      this.ignorePhysicalScale =
+        fields.ignorePhysicalScale !== undefined
+          ? fields.ignorePhysicalScale
+          : this.ignorePhysicalScale;
     }
   }
 }

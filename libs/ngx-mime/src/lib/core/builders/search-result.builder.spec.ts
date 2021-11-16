@@ -1,11 +1,18 @@
-import { ManifestBuilder } from './manifest.builder';
-import { IiifSearchResult } from './../models/iiif-search-result';
-import { Manifest } from './../models/manifest';
-import { SearchResultBuilder } from './search-result.builder';
 import { a300dpiManifest, a400dpiManifest } from '../../test/testManifest';
 import { testSearchResult } from '../../test/testSearchResult';
+import { MimeViewerConfig } from '../mime-viewer-config';
+import { IiifSearchResult } from './../models/iiif-search-result';
+import { Manifest } from './../models/manifest';
+import { ManifestBuilder } from './manifest.builder';
+import { SearchResultBuilder } from './search-result.builder';
 
 describe('SearchResultBuilder', () => {
+  let config: MimeViewerConfig;
+
+  beforeEach(() => {
+    config = new MimeViewerConfig();
+  });
+
   it('should build empty search result', () => {
     const q = 'testquery';
     const manifest = new Manifest({});
@@ -13,7 +20,8 @@ describe('SearchResultBuilder', () => {
     const searchResult = new SearchResultBuilder(
       q,
       manifest,
-      iiifSearchResult
+      iiifSearchResult,
+      config
     ).build();
     expect(searchResult).not.toBeNull();
   });
@@ -24,7 +32,8 @@ describe('SearchResultBuilder', () => {
     const searchResult = new SearchResultBuilder(
       q,
       manifest,
-      testSearchResult
+      testSearchResult,
+      config
     ).build();
 
     expect(searchResult.hits.length).toEqual(2);
@@ -44,7 +53,8 @@ describe('SearchResultBuilder', () => {
     const searchResult = new SearchResultBuilder(
       q,
       manifest,
-      testSearchResult
+      testSearchResult,
+      config
     ).build();
 
     expect(searchResult.hits.length).toEqual(2);

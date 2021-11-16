@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { distinctUntilChanged, finalize, take } from 'rxjs/operators';
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { SearchResultBuilder } from './../builders/search-result.builder';
 import { Hit } from './../models/hit';
 import { IiifSearchResult } from './../models/iiif-search-result';
@@ -17,6 +18,7 @@ export class IiifContentSearchService {
   protected _currentQ = new BehaviorSubject<string>('');
   protected _selected = new BehaviorSubject<Hit | null>(null);
 
+  private config!: MimeViewerConfig;
   constructor(private http: HttpClient) {}
 
   destroy() {
@@ -69,12 +71,21 @@ export class IiifContentSearchService {
     this._selected.next(hit);
   }
 
+  public setConfig(config: MimeViewerConfig) {
+    this.config = config;
+  }
+
   private extractData(
     q: string,
     manifest: Manifest,
     iiifSearchResult: IiifSearchResult
   ): SearchResult {
-    return new SearchResultBuilder(q, manifest, iiifSearchResult).build();
+    return new SearchResultBuilder(
+      q,
+      manifest,
+      iiifSearchResult,
+      this.config
+    ).build();
   }
 
   private handleError(err: HttpErrorResponse | any) {

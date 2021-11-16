@@ -256,6 +256,7 @@ export class ViewerService {
 
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
     this.config = config;
+    this.iiifContentSearchService.setConfig(this.config);
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
@@ -711,7 +712,8 @@ export class ViewerService {
     const canvasRects: Rect[] = [];
     const calculateCanvasGroupPositionStrategy = CalculateCanvasGroupPositionFactory.create(
       this.viewerLayoutService.layout,
-      this.isManifestPaged
+      this.isManifestPaged,
+      this.config
     );
 
     const isTwoPageView: boolean =

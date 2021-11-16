@@ -1,14 +1,17 @@
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { Rect } from '../models/rect';
 import { ViewerOptions } from '../models/viewer-options';
 import { ViewingDirection } from '../models/viewing-direction';
 import {
   CalculateCanvasGroupPositionStrategy,
-  CanvasGroupPositionCriteria
+  CanvasGroupPositionCriteria,
 } from './calculate-canvas-group-position-strategy';
 import { canvasRectFromCriteria } from './calculate-canvas-group-position-utils';
 
 export class OnePageCalculatePagePositionStrategy
   implements CalculateCanvasGroupPositionStrategy {
+  constructor(private config: MimeViewerConfig) {}
+
   calculateCanvasGroupPosition(
     criteria: CanvasGroupPositionCriteria,
     rotation: number = 0
@@ -26,7 +29,12 @@ export class OnePageCalculatePagePositionStrategy
           ? this.calculateLtrX(criteria)
           : this.calculateRtlX(criteria);
     }
-    return canvasRectFromCriteria(rotation, criteria, x);
+    return canvasRectFromCriteria(
+      rotation,
+      criteria,
+      x,
+      this.config.ignorePhysicalScale
+    );
   }
 
   private calculateLtrX(criteria: CanvasGroupPositionCriteria) {
