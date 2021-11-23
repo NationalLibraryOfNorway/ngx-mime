@@ -296,7 +296,10 @@
               "apps/integration/src/theme.scss",
               "dist/apps/elements/styles.css"
             ],
-            "scripts": ["dist/apps/elements/scripts.js"]
+            "scripts": [
+              "dist/apps/elements/scripts.js",
+              "dist/apps/elements/main.js"
+            ]
           },
           "configurations": {
             "production": {
