@@ -3,11 +3,6 @@
   "dest": "../../dist/libs/@nationallibraryofnorway/ngx-mime",
   "assets": ["**/*.theme.scss"],
   "lib": {
-    "entryFile": "src/index.ts",
-    "umdModuleIds": {
-      "d3": "d3",
-      "openseadragon": "OpenSeadragon",
-      "xml2js": "xml2js"
-    }
+    "entryFile": "src/index.ts"
   }
 }

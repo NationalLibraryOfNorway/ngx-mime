@@ -3,6 +3,7 @@
   "compilerOptions": {
     "sourceMap": false,
     "outDir": "../../dist/out-tsc",
+    "module": "commonjs",
     "types": ["jasmine", "node"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,

@@ -296,10 +296,7 @@
               "apps/integration/src/theme.scss",
               "dist/apps/elements/styles.css"
             ],
-            "scripts": [
-              "dist/apps/elements/scripts.js",
-              "dist/apps/elements/main-es5.js"
-            ]
+            "scripts": ["dist/apps/elements/scripts.js"]
           },
           "configurations": {
             "production": {
