@@ -17,34 +17,45 @@
         "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "OWM5NWUwMGItMWI2NS00OWU0LTkwZjgtYmZlNjQwMWY5YWI0fHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
-        "showUsageWarnings": true
+        "showUsageWarnings": true,
+        "parallel": 1
       }
     }
   },
-  "projects": {
-    "ngx-mime": {
-      "tags": []
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false,
+      "packageManager": "yarn"
     },
-    "demo": {
-      "tags": []
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "ngx-mime",
+  "generators": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
     },
-    "demo-e2e": {
-      "tags": [],
-      "implicitDependencies": ["demo"]
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "karma",
+      "e2eTestRunner": "protractor"
     },
-    "integration": {
-      "tags": []
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "karma"
     },
-    "integration-e2e": {
-      "tags": [],
-      "implicitDependencies": ["integration"]
-    },
-    "elements": {
-      "tags": []
-    },
-    "elements-e2e": {
-      "tags": [],
-      "implicitDependencies": ["elements"]
+    "@nrwl/angular:component": {
+      "style": "scss"
     }
   }
 }

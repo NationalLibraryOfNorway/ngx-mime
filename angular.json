@@ -1,84 +1,6 @@
 {
   "version": 1,
-  "cli": {
-    "warnings": {
-      "typescriptMismatch": false,
-      "versionMismatch": false,
-      "packageManager": "yarn"
-    },
-    "defaultCollection": "@nrwl/angular"
-  },
-  "defaultProject": "ngx-mime",
-  "schematics": {
-    "@nrwl/angular": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint"
-      },
-      "storybook-configuration": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "karma",
-      "e2eTestRunner": "protractor"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "karma"
-    },
-    "@nrwl/angular:component": {
-      "style": "scss"
-    }
-  },
   "projects": {
-    "ngx-mime": {
-      "root": "libs/ngx-mime",
-      "sourceRoot": "libs/ngx-mime/src",
-      "projectType": "library",
-      "prefix": "nationallibraryofnorway",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
-            "project": "libs/ngx-mime/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "project": "libs/ngx-mime/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/ngx-mime/src/test.ts",
-            "tsConfig": "libs/ngx-mime/tsconfig.spec.json",
-            "karmaConfig": "libs/ngx-mime/karma.conf.js",
-            "scripts": [
-              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-            ]
-          },
-          "outputs": ["coverage/libs/ngx-mime"]
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/ngx-mime/**/*.ts",
-              "libs/ngx-mime/**/*.html"
-            ]
-          }
-        }
-      }
-    },
     "demo": {
       "root": "apps/demo/",
       "sourceRoot": "apps/demo/src",
@@ -171,9 +93,11 @@
               "apps/demo/src/**/*.ts",
               "apps/demo/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": []
     },
     "demo-e2e": {
       "root": "apps/demo-e2e/",
@@ -193,9 +117,148 @@
               "apps/demo-e2e/src/**/*.ts",
               "apps/demo-e2e/src/**/*.html"
             ]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["demo"]
+    },
+    "elements": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/elements",
+      "sourceRoot": "apps/elements/src",
+      "prefix": "nationallibraryofnorway",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
+            "outputPath": "dist/apps/elements",
+            "index": "apps/elements/src/index.html",
+            "main": "apps/elements/src/main.ts",
+            "polyfills": "apps/elements/src/polyfills.ts",
+            "tsConfig": "apps/elements/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/elements/src/favicon.ico",
+              "apps/elements/src/assets"
+            ],
+            "styles": [
+              "apps/elements/src/styles.scss",
+              "apps/elements/src/theme.scss"
+            ],
+            "scripts": [
+              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/elements/src/environments/environment.ts",
+                  "with": "apps/elements/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "elements:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "elements:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "elements:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/elements/src/**/*.ts",
+              "apps/elements/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma",
+          "options": {
+            "main": "apps/elements/src/test.ts",
+            "polyfills": "apps/elements/src/polyfills.ts",
+            "tsConfig": "apps/elements/tsconfig.spec.json",
+            "karmaConfig": "apps/elements/karma.conf.js",
+            "styles": ["apps/elements/src/styles.scss"],
+            "scripts": [
+              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+            ],
+            "assets": [
+              "apps/elements/src/favicon.ico",
+              "apps/elements/src/assets"
+            ]
           }
         }
-      }
+      },
+      "tags": []
+    },
+    "elements-e2e": {
+      "root": "apps/elements-e2e",
+      "sourceRoot": "apps/elements-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/elements-e2e/protractor.conf.js",
+            "devServerTarget": "elements:serve"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/elements-e2e/src/**/*.ts",
+              "apps/elements-e2e/src/**/*.html"
+            ]
+          },
+          "outputs": ["{options.outputFile}"]
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["elements"]
     },
     "integration": {
       "root": "apps/integration/",
@@ -307,9 +370,11 @@
               "apps/integration/src/**/*.ts",
               "apps/integration/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": []
     },
     "integration-e2e": {
       "root": "apps/integration-e2e/",
@@ -331,140 +396,55 @@
               "apps/integration-e2e/step-definitions/**/*.ts",
               "apps/integration-e2e/*.js"
             ]
-          }
-        }
-      }
-    },
-    "elements": {
-      "projectType": "application",
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
+          },
+          "outputs": ["{options.outputFile}"]
         }
       },
-      "root": "apps/elements",
-      "sourceRoot": "apps/elements/src",
+      "tags": [],
+      "implicitDependencies": ["integration"]
+    },
+    "ngx-mime": {
+      "root": "libs/ngx-mime",
+      "sourceRoot": "libs/ngx-mime/src",
+      "projectType": "library",
       "prefix": "nationallibraryofnorway",
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:browser",
+          "builder": "@nrwl/angular:package",
           "options": {
-            "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
-            "outputPath": "dist/apps/elements",
-            "index": "apps/elements/src/index.html",
-            "main": "apps/elements/src/main.ts",
-            "polyfills": "apps/elements/src/polyfills.ts",
-            "tsConfig": "apps/elements/tsconfig.app.json",
-            "aot": true,
-            "assets": [
-              "apps/elements/src/favicon.ico",
-              "apps/elements/src/assets"
-            ],
-            "styles": [
-              "apps/elements/src/styles.scss",
-              "apps/elements/src/theme.scss"
-            ],
-            "scripts": [
-              "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-            ]
+            "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
+            "project": "libs/ngx-mime/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/elements/src/environments/environment.ts",
-                  "with": "apps/elements/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
+              "project": "libs/ngx-mime/ng-package.prod.json"
             }
-          }
-        },
-        "serve": {
-          "builder": "ngx-build-plus:dev-server",
-          "options": {
-            "browserTarget": "elements:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "elements:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "elements:build"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/elements/src/**/*.ts",
-              "apps/elements/src/**/*.html"
-            ]
           }
         },
         "test": {
-          "builder": "ngx-build-plus:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "apps/elements/src/test.ts",
-            "polyfills": "apps/elements/src/polyfills.ts",
-            "tsConfig": "apps/elements/tsconfig.spec.json",
-            "karmaConfig": "apps/elements/karma.conf.js",
-            "styles": ["apps/elements/src/styles.scss"],
+            "main": "libs/ngx-mime/src/test.ts",
+            "tsConfig": "libs/ngx-mime/tsconfig.spec.json",
+            "karmaConfig": "libs/ngx-mime/karma.conf.js",
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-            ],
-            "assets": [
-              "apps/elements/src/favicon.ico",
-              "apps/elements/src/assets"
             ]
-          }
-        }
-      }
-    },
-    "elements-e2e": {
-      "root": "apps/elements-e2e",
-      "sourceRoot": "apps/elements-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "apps/elements-e2e/protractor.conf.js",
-            "devServerTarget": "elements:serve"
-          }
+          },
+          "outputs": ["coverage/libs/ngx-mime"]
         },
         "lint": {
-          "builder": "@nrwl/linter:eslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "apps/elements-e2e/src/**/*.ts",
-              "apps/elements-e2e/src/**/*.html"
+              "libs/ngx-mime/**/*.ts",
+              "libs/ngx-mime/**/*.html"
             ]
           }
         }
-      }
+      },
+      "tags": []
     }
   }
 }
