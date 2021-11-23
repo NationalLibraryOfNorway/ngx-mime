@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:14.16.1-browsers
+      - image: circleci/node:14.17-browsers
     environment:
       LOGS_DIR: /tmp/ngx-mime-build/logs
       BROWSER_PROVIDER_READY_FILE: /tmp/ngx-mime-build/readyfile
