@@ -80,7 +80,7 @@
     "@ngrx/effects": "13.0.1",
     "@ngrx/router-store": "13.0.1",
     "@ngrx/store": "13.0.1",
-    "@nrwl/angular": "13.1.4",
+    "@nrwl/angular": "13.2.2",
     "@ungap/custom-elements": "^0.1.9",
     "d3": "^7.1.1",
     "openseadragon": "^2.4.0",
