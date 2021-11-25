@@ -45,7 +45,7 @@ const config = {
   ],
   onPrepare: function () {
     require('ts-node').register({
-      project: require('path').join(__dirname, './tsconfig.e2e.json'),
+      project: require('path').join(__dirname, './tsconfig.json'),
     });
     if (
       !config.multiCapabilities &&

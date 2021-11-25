@@ -13,14 +13,22 @@
     />
     <link href="assets/styles.css" rel="stylesheet" />
     <link href="elements/styles.css" rel="stylesheet" />
-    <script type="text/javascript" src="elements/scripts.js"></script>
-    <script type="text/javascript" src="elements/polyfills-es5.js"></script>
+    <script type="text/javascript" src="elements/scripts.js" defer></script>
+    <script
+      type="text/javascript"
+      src="elements/polyfills.js"
+      type="module"
+    ></script>
   </head>
   <body class="mat-app-background mat-typography">
     <main>
       <h1 class="visually-hidden">Viewer</h1>
     </main>
-    <script type="text/javascript" src="elements/main-es5.js"></script>
+    <script
+      type="text/javascript"
+      src="elements/main.js"
+      type="module"
+    ></script>
     <script>
       let viewerEl;
 
@@ -33,7 +41,9 @@
       function getManifestUriFromParams() {
         const urlParams = new URLSearchParams(window.location.search);
         const manifestUri = urlParams.get('manifestUri');
-        return manifestUri ? manifestUri : 'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest'
+        return manifestUri
+          ? manifestUri
+          : 'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest';
       }
 
       function addManifestUriToViewer() {

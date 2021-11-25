@@ -9,7 +9,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
-import { NxModule } from '@nrwl/angular';
 import 'openseadragon';
 import { AppComponent } from './app.component';
 
@@ -21,7 +20,6 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     FlexLayoutModule,
     MimeModule,
-    NxModule.forRoot(),
   ],
   providers: [
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },

@@ -1,66 +1,66 @@
-@import '~@angular/material/theming';
-@include mat-core();
+@use '@angular/material' as mat;
+@include mat.core();
 
 @import '../../../libs/ngx-mime/ngx-mime.theme.scss';
 
-$mat-light-theme-foreground: (
-  base:              black,
-  divider:           $dark-dividers,
-  dividers:          $dark-dividers,
-  disabled:          $dark-disabled-text,
-  disabled-button:   rgba(black, 0.26),
-  disabled-text:     $dark-disabled-text,
-  elevation:         black,
-  hint-text:         $dark-disabled-text,
-  secondary-text:    rgba(black, 0.54),
-  icon:              rgba(black, 0.54),
-  icons:             rgba(black, 0.54),
-  text:              rgba(black, 0.87),
-  slider-min:        rgba(black, 0.87),
-  slider-off:        rgba(black, 0.26),
-  slider-off-active: rgba(black, 0.38),
+mat.$light-theme-foreground-palette: (
+  base: black,
+  divider: rgba(black, 0.12),
+  dividers: rgba(black, 0.12),
+  disabled: rgba(black, 0.38),
+  disabled-button: rgba(black, 0.26),
+  disabled-text: rgba(black, 0.38),
+  elevation: black,
+  hint-text: rgba(black, 0.38),
+  secondary-text: rgba(black, 0.54),
+  icon: rgba(black, 0.54),
+  icons: rgba(black, 0.54),
+  text: rgba(black, 0.87),
+  slider-min: rgba(black, 0.87),
+  slider-off: rgba(black, 0.26),
+  slider-off-active: rgba(black, 0.38)
 );
 
-$cyan-primary: mat-palette($mat-cyan, A200, A100, A400);
-$cyan-accent: mat-palette($mat-light-green, A200, A100, A400);
-$cyan-theme: mat-dark-theme($cyan-primary, $cyan-accent);
+$cyan-primary: mat.define-palette(mat.$cyan-palette, A200, A100, A400);
+$cyan-accent: mat.define-palette(mat.$light-green-palette, A200, A100, A400);
+$cyan-theme: mat.define-dark-theme($cyan-primary, $cyan-accent);
 .cyan-theme {
   @include ngx-mime-theme($cyan-theme);
-  @include angular-material-theme($cyan-theme);
+  @include mat.all-component-themes($cyan-theme);
 }
 
-$blue-primary: mat-palette($mat-light-blue, 800, 100, 700);
-$blue-accent: mat-palette($mat-light-blue, 900, 100, 700);
-$blue-theme: mat-light-theme($blue-primary, $blue-accent);
+$blue-primary: mat.define-palette(mat.$light-blue-palette, 800, 100, 700);
+$blue-accent: mat.define-palette(mat.$light-blue-palette, 900, 100, 700);
+$blue-theme: mat.define-light-theme($blue-primary, $blue-accent);
 .blue-theme {
   $my-app-theme-custom: map-merge(
     $blue-theme,
     (
-      foreground: $mat-light-theme-foreground
+      foreground: mat.$light-theme-foreground-palette,
     )
   );
   @include ngx-mime-theme($my-app-theme-custom);
-  @include angular-material-theme($my-app-theme-custom);
+  @include mat.all-component-themes($my-app-theme-custom);
 }
 
-$brown-primary: mat-palette($mat-brown, 700, 500, 900);
-$brown-accent: mat-palette($mat-blue-grey, A200, A100, A400);
-$brown-theme: mat-light-theme($brown-primary, $brown-accent);
+$brown-primary: mat.define-palette(mat.$brown-palette, 700, 500, 900);
+$brown-accent: mat.define-palette(mat.$blue-grey-palette, A200, A100, A400);
+$brown-theme: mat.define-light-theme($brown-primary, $brown-accent);
 .brown-theme {
   $my-app-theme-custom: map-merge(
     $brown-theme,
     (
-      foreground: $mat-light-theme-foreground
+      foreground: mat.$light-theme-foreground-palette,
     )
   );
   @include ngx-mime-theme($my-app-theme-custom);
-  @include angular-material-theme($my-app-theme-custom);
+  @include mat.all-component-themes($my-app-theme-custom);
 }
 
-$purple-primary: mat-palette($mat-deep-purple);
-$purple-accent: mat-palette($mat-amber, A200, A100, A400);
-$purple-theme: mat-dark-theme($purple-primary, $brown-accent);
+$purple-primary: mat.define-palette(mat.$deep-purple-palette);
+$purple-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$purple-theme: mat.define-dark-theme($purple-primary, $brown-accent);
 .purple-theme {
   @include ngx-mime-theme($purple-theme);
-  @include angular-material-theme($purple-theme);
+  @include mat.all-component-themes($purple-theme);
 }

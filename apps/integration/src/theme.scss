@@ -1,16 +1,16 @@
-@import '~@angular/material/theming';
-@include mat-core();
+@use '@angular/material' as mat;
+@include mat.core();
 
-$mat-light-theme-foreground: (
+mat.$light-theme-foreground-palette: (
   base: black,
-  divider: $dark-dividers,
-  dividers: $dark-dividers,
-  disabled: $dark-disabled-text,
+  divider: rgba(black, 0.12),
+  dividers: rgba(black, 0.12),
+  disabled: rgba(black, 0.38),
   disabled-button: rgba(black, 0.26),
-  disabled-text: $dark-disabled-text,
+  disabled-text: rgba(black, 0.38),
   elevation: black,
-  hint-text: $dark-disabled-text,
-  secondary-text: $dark-secondary-text,
+  hint-text: rgba(black, 0.38),
+  secondary-text: rgba(black, 0.54),
   icon: rgba(black, 0.54),
   icons: rgba(black, 0.54),
   text: rgba(black, 0.9),
@@ -19,8 +19,8 @@ $mat-light-theme-foreground: (
   slider-off-active: rgba(black, 0.38)
 );
 
-$blue-primary: mat-palette($mat-light-blue, 800, 100, 700);
-$blue-accent: mat-palette($mat-light-blue, 900, 100, 700);
-$blue-theme: mat-light-theme($blue-primary, $blue-accent);
+$blue-primary: mat.define-palette(mat.$light-blue-palette, 800, 100, 700);
+$blue-accent: mat.define-palette(mat.$light-blue-palette, 900, 100, 700);
+$blue-theme: mat.define-light-theme($blue-primary, $blue-accent);
 
-@include angular-material-theme($blue-theme);
+@include mat.all-component-themes($blue-theme);
