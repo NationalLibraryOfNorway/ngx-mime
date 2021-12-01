@@ -51,6 +51,10 @@ em {
   max-width: none !important;
 }
 
+.mat-dialog-content {
+  max-height: none;
+}
+
 ::ng-deep .content-search-panel > .mat-dialog-container {
   padding: 0px !important;
   overflow: initial;
