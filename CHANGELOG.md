@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.4.0...v13.0.0) (2021-12-06)
+
+
+### Features
+
+* angular 13 ([058cdc8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/058cdc8e041eaad69384527c19c827c2e7b7f8b7))
+
+
+### Bug Fixes
+
+* search dialog not filling height of dialog with scrollable content ([5581107](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5581107ee212b72ad7844bee96c273ff5691a7c5)), closes [#375](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/375)
+* search dialog title should be h1 ([9046a18](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9046a1866ebc864657e877df1a6b753ecf329473)), closes [#372](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/372)
+
 ## [12.4.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.3.0...v12.4.0) (2021-11-16)
 
 
