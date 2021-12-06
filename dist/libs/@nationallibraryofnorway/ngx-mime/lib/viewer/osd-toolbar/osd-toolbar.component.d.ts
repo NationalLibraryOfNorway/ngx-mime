@@ -5,6 +5,7 @@ import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
+import * as i0 from "@angular/core";
 export declare class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     intl: MimeViewerIntl;
     private renderer;
@@ -35,4 +36,6 @@ export declare class OsdToolbarComponent implements OnInit, AfterViewInit, OnDes
     goToNextCanvasGroup(): void;
     private isOnFirstCanvasGroup;
     private isOnLastCanvasGroup;
+    static ɵfac: i0.ɵɵFactoryDeclaration<OsdToolbarComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<OsdToolbarComponent, "mime-osd-toolbar", never, {}, {}, never, never>;
 }

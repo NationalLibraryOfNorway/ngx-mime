@@ -3,6 +3,7 @@ import { CanvasGroups } from './../models/canvas-groups';
 import { ViewerLayout } from '../models/viewer-layout';
 import { Point } from './../models/point';
 import { Rect } from './../models/rect';
+import * as i0 from "@angular/core";
 export declare class CanvasService {
     protected _currentNumberOfCanvasGroups: BehaviorSubject<number>;
     protected _currentCanvasGroupIndex: BehaviorSubject<number>;
@@ -34,4 +35,6 @@ export declare class CanvasService {
     getCanvasGroupRect(canvasGroupIndex: number): Rect;
     getMaxHeight(): number;
     getMaxWidth(): number;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CanvasService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<CanvasService>;
 }

@@ -2,6 +2,7 @@ import { ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialog-config-strategy-factory';
+import * as i0 from "@angular/core";
 export declare class ContentSearchDialogService {
     private dialog;
     private contentSearchDialogConfigStrategyFactory;
@@ -20,4 +21,6 @@ export declare class ContentSearchDialogService {
     isOpen(): boolean;
     private getDialogConfig;
     private unsubscribe;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchDialogService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<ContentSearchDialogService>;
 }

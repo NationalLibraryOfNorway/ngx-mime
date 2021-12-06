@@ -4,6 +4,7 @@ import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import * as i0 from "@angular/core";
 export declare class RecognizedTextContentComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     private cdr;
@@ -22,4 +23,6 @@ export declare class RecognizedTextContentComponent implements OnInit, OnDestroy
     private clearRecognizedText;
     private scrollToTop;
     private updateRecognizedText;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RecognizedTextContentComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<RecognizedTextContentComponent, "mime-recognized-text-content", never, {}, {}, never, never>;
 }

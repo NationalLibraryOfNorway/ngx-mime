@@ -2,6 +2,7 @@ import { ChangeDetectorRef, OnDestroy, OnInit, ViewContainerRef } from '@angular
 import { MediaObserver } from '@angular/flex-layout';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';
+import * as i0 from "@angular/core";
 export declare class ViewerFooterComponent implements OnInit, OnDestroy {
     private iiifContentSearchService;
     mediaObserver: MediaObserver;
@@ -19,4 +20,6 @@ export declare class ViewerFooterComponent implements OnInit, OnDestroy {
     ngOnInit(): void;
     ngOnDestroy(): void;
     private isMobile;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ViewerFooterComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerFooterComponent, "mime-viewer-footer", never, {}, {}, never, never>;
 }

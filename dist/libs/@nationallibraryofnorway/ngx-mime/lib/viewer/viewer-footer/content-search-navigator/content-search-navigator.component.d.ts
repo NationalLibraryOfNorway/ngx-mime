@@ -5,6 +5,7 @@ import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-ma
 import { MimeViewerIntl } from '../../../core/intl/viewer-intl';
 import { SearchResult } from '../../../core/models/search-result';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import * as i0 from "@angular/core";
 export declare class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     private changeDetectorRef;
@@ -25,4 +26,6 @@ export declare class ContentSearchNavigatorComponent implements OnInit, OnDestro
     clear(): void;
     goToPreviousCanvasGroupHit(): void;
     goToNextCanvasGroupHit(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchNavigatorComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchNavigatorComponent, "mime-content-search-navigator", never, { "searchResult": "searchResult"; }, {}, never, never>;
 }

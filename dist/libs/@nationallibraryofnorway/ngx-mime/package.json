@@ -1,6 +1,6 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "12.3.0",
+  "version": "13.0.0",
   "peerDependencies": {
     "@angular/common": ">=12.0.0 <13.0.0",
     "@angular/core": ">=12.0.0 <13.0.0",
@@ -12,15 +12,27 @@
     "stream": ">=0.0.2 <1.0.0",
     "timers": ">=0.1.1 <1.0.0"
   },
-  "main": "bundles/nationallibraryofnorway-ngx-mime.umd.js",
-  "module": "fesm2015/nationallibraryofnorway-ngx-mime.js",
-  "es2015": "fesm2015/nationallibraryofnorway-ngx-mime.js",
-  "esm2015": "esm2015/nationallibraryofnorway-ngx-mime.js",
-  "fesm2015": "fesm2015/nationallibraryofnorway-ngx-mime.js",
+  "module": "fesm2015/nationallibraryofnorway-ngx-mime.mjs",
+  "es2020": "fesm2020/nationallibraryofnorway-ngx-mime.mjs",
+  "esm2020": "esm2020/nationallibraryofnorway-ngx-mime.mjs",
+  "fesm2020": "fesm2020/nationallibraryofnorway-ngx-mime.mjs",
+  "fesm2015": "fesm2015/nationallibraryofnorway-ngx-mime.mjs",
   "typings": "nationallibraryofnorway-ngx-mime.d.ts",
-  "metadata": "nationallibraryofnorway-ngx-mime.metadata.json",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./nationallibraryofnorway-ngx-mime.d.ts",
+      "esm2020": "./esm2020/nationallibraryofnorway-ngx-mime.mjs",
+      "es2020": "./fesm2020/nationallibraryofnorway-ngx-mime.mjs",
+      "es2015": "./fesm2015/nationallibraryofnorway-ngx-mime.mjs",
+      "node": "./fesm2015/nationallibraryofnorway-ngx-mime.mjs",
+      "default": "./fesm2020/nationallibraryofnorway-ngx-mime.mjs"
+    }
+  },
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^2.1.0"
+    "tslib": "^2.3.0"
   }
 }

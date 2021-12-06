@@ -1,6 +1,7 @@
 import { MediaObserver } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { ViewerLayout } from '../models/viewer-layout';
+import * as i0 from "@angular/core";
 export declare class ViewerLayoutService {
     private mediaObserver;
     private mimeConfig;
@@ -14,4 +15,6 @@ export declare class ViewerLayoutService {
     toggle(): void;
     private change;
     private isMobile;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ViewerLayoutService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<ViewerLayoutService>;
 }

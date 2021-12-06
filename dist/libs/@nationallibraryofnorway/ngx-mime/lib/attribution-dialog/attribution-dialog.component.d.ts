@@ -5,6 +5,7 @@ import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { Manifest } from '../core/models/manifest';
 import { StyleService } from '../core/style-service/style.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import * as i0 from "@angular/core";
 export declare class AttributionDialogComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
     intl: MimeViewerIntl;
     private renderer;
@@ -24,4 +25,6 @@ export declare class AttributionDialogComponent implements OnInit, AfterViewInit
     handleKeys(event: KeyboardEvent): void;
     onResize(event: any): void;
     ngAfterViewChecked(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AttributionDialogComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<AttributionDialogComponent, "ng-component", never, {}, {}, never, never>;
 }

@@ -10,6 +10,7 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl/viewer-intl';
 import { Manifest } from './../../core/models/manifest';
+import * as i0 from "@angular/core";
 export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     private changeDetectorRef;
@@ -47,4 +48,6 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     toggleViewerLayout(): void;
     setLayoutOnePage(): void;
     setLayoutTwoPage(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ViewerHeaderComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerHeaderComponent, "mime-viewer-header", never, {}, {}, never, never>;
 }

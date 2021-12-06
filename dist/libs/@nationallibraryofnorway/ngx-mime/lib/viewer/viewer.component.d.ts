@@ -18,6 +18,7 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
+import * as i0 from "@angular/core";
 export declare class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
     snackBar: MatSnackBar;
     intl: MimeViewerIntl;
@@ -87,4 +88,6 @@ export declare class ViewerComponent implements OnInit, AfterViewChecked, OnDest
         'layout-two-page': boolean;
         'canvas-pressed': boolean;
     };
+    static ɵfac: i0.ɵɵFactoryDeclaration<ViewerComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerComponent, "mime-viewer", never, { "manifestUri": "manifestUri"; "q": "q"; "canvasIndex": "canvasIndex"; "config": "config"; "tabIndex": "tabIndex"; }, { "viewerModeChanged": "viewerModeChanged"; "canvasChanged": "canvasChanged"; "qChanged": "qChanged"; "manifestChanged": "manifestChanged"; "recognizedTextContentToggleChanged": "recognizedTextContentToggleChanged"; }, never, never>;
 }

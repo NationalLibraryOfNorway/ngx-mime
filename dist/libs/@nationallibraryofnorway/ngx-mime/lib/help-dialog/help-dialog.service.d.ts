@@ -2,6 +2,7 @@ import { ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { HelpDialogConfigStrategyFactory } from './help-dialog-config-strategy-factory';
+import * as i0 from "@angular/core";
 export declare class HelpDialogService {
     private dialog;
     private helpDialogConfigStrategyFactory;
@@ -20,4 +21,6 @@ export declare class HelpDialogService {
     isOpen(): boolean;
     private getDialogConfig;
     private unsubscribe;
+    static ɵfac: i0.ɵɵFactoryDeclaration<HelpDialogService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<HelpDialogService>;
 }

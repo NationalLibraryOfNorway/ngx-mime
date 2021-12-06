@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 import { HelpIntl } from './help-intl';
+import * as i0 from "@angular/core";
 export declare class MimeViewerIntl {
     changes: Subject<void>;
     help: HelpIntl;
@@ -38,4 +39,6 @@ export declare class MimeViewerIntl {
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MimeViewerIntl, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<MimeViewerIntl>;
 }

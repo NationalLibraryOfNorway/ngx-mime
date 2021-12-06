@@ -8,6 +8,7 @@ import { MimeDomHelper } from '../mime-dom-helper';
 import { ModeService } from '../mode-service/mode.service';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerService } from '../viewer-service/viewer.service';
+import * as i0 from "@angular/core";
 export declare class AccessKeysService {
     private viewerService;
     private canvasService;
@@ -51,4 +52,6 @@ export declare class AccessKeysService {
     private resetDisabledKeys;
     private isKeyDisabled;
     unsubscribe(): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AccessKeysService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<AccessKeysService>;
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl/viewer-intl';
+import * as i0 from "@angular/core";
 export declare class AltoService {
     intl: MimeViewerIntl;
     private http;
@@ -38,4 +39,6 @@ export declare class AltoService {
     private done;
     private error;
     private complete;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AltoService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<AltoService>;
 }

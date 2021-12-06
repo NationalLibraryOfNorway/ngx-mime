@@ -6,6 +6,7 @@ import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manife
 import { MimeViewerIntl } from './../core/intl/viewer-intl';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Hit } from './../core/models/hit';
+import * as i0 from "@angular/core";
 export declare class ContentSearchDialogComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef: MatDialogRef<ContentSearchDialogComponent>;
     intl: MimeViewerIntl;
@@ -38,4 +39,6 @@ export declare class ContentSearchDialogComponent implements OnInit, AfterViewIn
     private resizeTabHeight;
     private scrollCurrentHitIntoView;
     private findSelected;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchDialogComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchDialogComponent, "mime-search", never, {}, {}, never, never>;
 }

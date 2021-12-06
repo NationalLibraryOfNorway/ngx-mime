@@ -1,3 +1,4 @@
+import * as i0 from "@angular/core";
 export declare class ClickService {
     private singleClickHandlers;
     private doubleClickHandlers;
@@ -10,4 +11,6 @@ export declare class ClickService {
     private triggerSingleClick;
     private triggerDoubleClick;
     click: (event: any) => void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ClickService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<ClickService>;
 }

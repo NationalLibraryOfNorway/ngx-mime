@@ -6,6 +6,7 @@ import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
 import { SearchResult } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
+import * as i0 from "@angular/core";
 export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     private changeDetectorRef;
@@ -33,4 +34,6 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     openCanvasGroupDialog(): void;
     private isOnFirstCanvasGroup;
     private isOnLastCanvasGroup;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CanvasGroupNavigatorComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupNavigatorComponent, "mime-page-navigator", never, { "searchResult": "searchResult"; }, {}, never, never>;
 }

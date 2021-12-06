@@ -1,14 +1,14 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 @mixin metadata-component-theme($theme) {
   $foreground: map-get($theme, foreground);
   $accent: map-get($theme, accent);
 
   .ngx-mime-metadata-container {
     .content {
-      color: mat-color($foreground, secondary-text);
+      color: mat.get-color-from-palette($foreground, secondary-text);
     }
     a {
-      color: mat-color($accent);
+      color: mat.get-color-from-palette($accent);
     }
   }
 }

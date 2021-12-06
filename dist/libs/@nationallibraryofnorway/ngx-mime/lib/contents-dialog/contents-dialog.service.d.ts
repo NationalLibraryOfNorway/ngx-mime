@@ -2,6 +2,7 @@ import { ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
+import * as i0 from "@angular/core";
 export declare class ContentsDialogService {
     private dialog;
     private contentsDialogConfigStrategyFactory;
@@ -21,4 +22,6 @@ export declare class ContentsDialogService {
     getSelectedIndex(): number;
     private getDialogConfig;
     private unsubscribe;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ContentsDialogService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<ContentsDialogService>;
 }

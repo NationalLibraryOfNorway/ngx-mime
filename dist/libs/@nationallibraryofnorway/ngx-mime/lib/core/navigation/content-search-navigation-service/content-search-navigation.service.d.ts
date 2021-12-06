@@ -1,5 +1,6 @@
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
+import * as i0 from "@angular/core";
 export declare class ContentSearchNavigationService {
     private canvasService;
     private iiifContentSearchService;
@@ -27,4 +28,6 @@ export declare class ContentSearchNavigationService {
     private findCurrentHitIndex;
     private isFirstHitOnCanvasGroup;
     private getLastCanvasGroupIndex;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchNavigationService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<ContentSearchNavigationService>;
 }

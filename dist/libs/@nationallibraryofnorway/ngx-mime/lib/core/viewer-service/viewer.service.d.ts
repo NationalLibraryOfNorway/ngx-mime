@@ -13,6 +13,7 @@ import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-serv
 import { Hit } from './../models/hit';
 import { Point } from './../models/point';
 import { SearchResult } from './../models/search-result';
+import * as i0 from "@angular/core";
 export declare class ViewerService {
     private zone;
     private clickService;
@@ -175,4 +176,6 @@ export declare class ViewerService {
     private getOriginalTarget;
     private panTo;
     private unsubscribe;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ViewerService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<ViewerService>;
 }

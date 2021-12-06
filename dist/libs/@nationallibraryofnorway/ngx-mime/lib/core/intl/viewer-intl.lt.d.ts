@@ -1,5 +1,6 @@
 import { MimeViewerIntl } from './viewer-intl';
 import { HelpIntlLt } from './help-intl.lt';
+import * as i0 from "@angular/core";
 export declare class MimeViewerIntlLt extends MimeViewerIntl {
     help: HelpIntlLt;
     closeLabel: string;
@@ -37,4 +38,6 @@ export declare class MimeViewerIntlLt extends MimeViewerIntl {
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MimeViewerIntlLt, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<MimeViewerIntlLt>;
 }

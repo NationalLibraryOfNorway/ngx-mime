@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
+import * as i0 from "@angular/core";
 export declare class IiifManifestService {
     intl: MimeViewerIntl;
     private http;
@@ -19,4 +20,6 @@ export declare class IiifManifestService {
     private extractData;
     private isManifestValid;
     private handleError;
+    static ɵfac: i0.ɵɵFactoryDeclaration<IiifManifestService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<IiifManifestService>;
 }

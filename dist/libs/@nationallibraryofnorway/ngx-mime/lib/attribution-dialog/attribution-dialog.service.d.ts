@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import * as i0 from "@angular/core";
 export declare class AttributionDialogService {
     private dialog;
     private mimeResizeService;
@@ -24,4 +25,6 @@ export declare class AttributionDialogService {
     private getDialogConfig;
     private getPosition;
     private unsubscribe;
+    static ɵfac: i0.ɵɵFactoryDeclaration<AttributionDialogService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<AttributionDialogService>;
 }

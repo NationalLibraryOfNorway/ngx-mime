@@ -6,6 +6,7 @@ import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from './../core/models/manifest';
+import * as i0 from "@angular/core";
 export declare class ContentsDialogComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     mediaObserver: MediaObserver;
@@ -26,4 +27,6 @@ export declare class ContentsDialogComponent implements OnInit, OnDestroy {
     onResize(event: any): void;
     onCanvasChanged(): void;
     private resizeTabHeight;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ContentsDialogComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ContentsDialogComponent, "mime-contents", never, {}, {}, never, never>;
 }
