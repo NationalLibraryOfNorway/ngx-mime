@@ -83,7 +83,7 @@
     "@nrwl/angular": "13.2.3",
     "@ungap/custom-elements": "^0.1.9",
     "d3": "^7.1.1",
-    "openseadragon": "^2.4.0",
+    "openseadragon": "^3.0.0",
     "rxjs": "6.5.5",
     "stream": "^0.0.2",
     "timers": "^0.1.1",
