@@ -22,7 +22,7 @@ tar --extract --file=${tunnelFileName} --strip-components=1 --directory=sauce-co
 rm ${tunnelFileName}
 
 # Command arguments that will be passed to sauce-connect.
-sauceArgs="--readyfile ${tunnelReadyFile} --pidfile ${tunnelPidFile} -r eu-central"
+sauceArgs="--readyfile ${tunnelReadyFile} --pidfile ${tunnelPidFile} -r us-west"
 
 sauceArgs="${sauceArgs} --tunnel-name ${TUNNEL_IDENTIFIER} -T"
 
