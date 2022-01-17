@@ -2,7 +2,7 @@
 
 set -e -o pipefail
 
-tunnelFileName="sc-4.6.5-linux.tar.gz"
+tunnelFileName="sc-4.7.1-linux.tar.gz"
 tunnelUrl="https://saucelabs.com/downloads/${tunnelFileName}"
 
 tunnelReadyFile="${TUNNEL_DIR}/readyfile"
@@ -22,9 +22,9 @@ tar --extract --file=${tunnelFileName} --strip-components=1 --directory=sauce-co
 rm ${tunnelFileName}
 
 # Command arguments that will be passed to sauce-connect.
-sauceArgs="--readyfile ${tunnelReadyFile} --pidfile ${tunnelPidFile}"
+sauceArgs="--readyfile ${tunnelReadyFile} --pidfile ${tunnelPidFile} -r us-west"
 
-sauceArgs="${sauceArgs} --tunnel-identifier ${TUNNEL_IDENTIFIER}"
+sauceArgs="${sauceArgs} --tunnel-name ${TUNNEL_IDENTIFIER} -T"
 
 
 echo "Starting Sauce Connect in the background. Passed arguments: ${sauceArgs}"
