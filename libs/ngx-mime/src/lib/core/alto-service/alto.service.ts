@@ -32,17 +32,15 @@ export class AltoService {
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
-  private htmlFormatter: HtmlFormatter;
+  private htmlFormatter: any;
 
   constructor(
     public intl: MimeViewerIntl,
     private http: HttpClient,
     private iiifManifestService: IiifManifestService,
     private canvasService: CanvasService,
-    sanitizer: DomSanitizer
-  ) {
-    this.htmlFormatter = new HtmlFormatter(sanitizer);
-  }
+    private sanitizer: DomSanitizer
+  ) {}
 
   get onRecognizedTextContentToggleChange$(): Observable<boolean> {
     return this.recognizedTextContentToggle.asObservable();
@@ -68,7 +66,8 @@ export class AltoService {
     this.recognizedTextContentToggle.next(value);
   }
 
-  initialize() {
+  initialize(searchQuery?: string[] | null) {
+    this.htmlFormatter = new HtmlFormatter(this.sanitizer, searchQuery);
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(

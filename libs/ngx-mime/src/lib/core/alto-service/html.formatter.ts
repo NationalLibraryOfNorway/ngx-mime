@@ -2,7 +2,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Alto, String, TextLine } from './alto.model';
 
 export class HtmlFormatter {
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer, private searchQuery: string[] | null | undefined) {}
 
   altoToHtml(alto: Alto): SafeHtml {
     const page = alto.layout.page;
@@ -41,6 +41,19 @@ export class HtmlFormatter {
       html += `>${words.join(' ')}<p/>`;
     });
 
+    if(this.searchQuery){
+      html = this.transform(html, this.searchQuery);
+    }
+
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
+
+    transform(value: any, args: any): any {
+        if (!args) {return value;}
+        for(const text of args) {
+            var reText = new RegExp(text, 'gi');
+             value = value.replace(reText, `<mark class="highlight">${text}</mark>`); 
+        }
+        return value;
+    }
 }

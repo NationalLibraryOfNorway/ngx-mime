@@ -12,7 +12,9 @@ import { Subscription } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { SearchResult } from '../../core/models/search-result';
 
 @Component({
   selector: 'mime-recognized-text-content',
@@ -27,6 +29,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   secondCanvasRecognizedTextContent: SafeHtml | undefined;
   isLoading = false;
   error: string | undefined = undefined;
+  searchQuery: string[] | null | undefined;
 
   private subscriptions = new Subscription();
 
@@ -35,14 +38,21 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private canvasService: CanvasService,
     private altoService: AltoService,
-    private iiifManifestService: IiifManifestService
+    private iiifManifestService: IiifManifestService,
+    private iiifContentSearchService: IiifContentSearchService
   ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
+      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+        this.searchQuery = sr.q ? sr.q.trim().split(' ') : null;
+      })
+    );
+    
+    this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(() => {
         this.clearRecognizedText();
-        this.altoService.initialize();
+        this.altoService.initialize(this.searchQuery);
         this.cdr.detectChanges();
       })
     );
