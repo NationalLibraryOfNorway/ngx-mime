@@ -1,4 +1,4 @@
-import { Canvas } from '../models/manifest';
+import { Canvas } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 import { ImagesBuilder } from './images.builder';
 

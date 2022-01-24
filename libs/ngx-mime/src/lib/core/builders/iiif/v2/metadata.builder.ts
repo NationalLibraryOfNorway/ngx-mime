@@ -1,4 +1,4 @@
-import { Metadata } from '../models/manifest';
+import { Metadata } from '../../../models/manifest';
 
 export class MetadataBuilder {
   constructor(private metadatas: any) {}

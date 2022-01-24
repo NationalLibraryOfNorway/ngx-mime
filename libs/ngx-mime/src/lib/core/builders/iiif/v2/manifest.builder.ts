@@ -1,8 +1,8 @@
-import { Manifest, Sequence } from '../models/manifest';
+import { Manifest, Sequence } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
+import { MetadataBuilder } from './metadata.builder';
 import { SequenceBuilder } from './sequence.builder';
 import { ServiceBuilder } from './service.builder';
-import { MetadataBuilder } from './metadata.builder';
 import { StructureBuilder } from './structure.builder';
 import { TileSourceBuilder } from './tile-source.builder';
 
@@ -28,7 +28,7 @@ export class ManifestBuilder {
       sequences: sequences,
       structures: new StructureBuilder(this.data.structures, sequences).build(),
       tileSource: new TileSourceBuilder(this.data.sequences).build(),
-      viewingHint: this.data.viewingHint
+      viewingHint: this.data.viewingHint,
     });
   }
 }
