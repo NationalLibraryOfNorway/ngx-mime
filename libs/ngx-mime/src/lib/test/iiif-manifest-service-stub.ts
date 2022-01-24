@@ -1,8 +1,7 @@
-import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
-
-import { testManifest } from './testManifest';
-import { ManifestBuilder } from './../core/builders/manifest.builder';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { ManifestBuilder } from '../core/builders/iiif/v2/manifest.builder';
 import { Manifest } from './../core/models/manifest';
+import { testManifest } from './testManifest';
 
 export class IiifManifestServiceStub {
   public _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(

@@ -1,5 +1,5 @@
-import { Canvas, Sequence } from '../models/manifest';
-import { ViewingDirection } from '../models/viewing-direction';
+import { Canvas, Sequence } from '../../../models/manifest';
+import { ViewingDirection } from '../../../models/viewing-direction';
 
 export class BuilderUtils {
   static extractId(value: any): any {

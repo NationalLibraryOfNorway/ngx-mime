@@ -1,4 +1,4 @@
-import { Size } from '../models/manifest';
+import { Size } from '../../../models/manifest';
 
 export class SizesBuilder {
   constructor(private sizes: any[]) {}

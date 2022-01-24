@@ -1,4 +1,4 @@
-import { Tile } from '../models/manifest';
+import { Tile } from '../../../models/manifest';
 
 export class TilesBuilder {
   constructor(private tiles: any[]) {}
@@ -11,7 +11,7 @@ export class TilesBuilder {
         tiles.push(
           new Tile({
             width: tile.width,
-            scaleFactors: tile.scaleFactors
+            scaleFactors: tile.scaleFactors,
           })
         );
       }

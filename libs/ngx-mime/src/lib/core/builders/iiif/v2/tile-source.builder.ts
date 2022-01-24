@@ -1,4 +1,4 @@
-import { Resource, Sequence } from '../models/manifest';
+import { Resource, Sequence } from '../../../models/manifest';
 
 export class TileSourceBuilder {
   constructor(private sequences: Sequence[]) {}
