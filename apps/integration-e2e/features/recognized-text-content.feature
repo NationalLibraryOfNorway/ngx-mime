@@ -13,3 +13,11 @@ Feature: Show recognized text content
     And the viewer is in dashboard view
     When the user enables recognized text content
     Then the recognized text content should be shown
+
+  Scenario: Highlight recognized text content 
+    Given the viewer is opened with a publication with recognized text content 
+    And the viewer is in dashboard view
+    And the user search for the word "that"
+    And the user closes the search dialog
+    When the user enables recognized text content
+    Then the word "that" should be highlighted in the recognized text

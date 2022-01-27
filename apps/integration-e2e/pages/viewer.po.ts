@@ -82,6 +82,7 @@ export class ViewerPage {
   private recognizedTextContentButtonEl: ElementFinder;
   private firstCanvasRecognizedTextContentEl: ElementFinder;
   private secondCanvasRecognizedTextContentEl: ElementFinder;
+  private recognizedTextContentHitsEls: ElementArrayFinder;
 
   constructor() {
     this.navigationSliderEl = element(by.css('.navigation-slider'));
@@ -143,6 +144,9 @@ export class ViewerPage {
     );
     this.firstCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="firstCanvasRecognizedTextContent"]'));
     this.secondCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="secondCanvasRecognizedTextContent"]'));
+    this.recognizedTextContentHitsEls = element.all(
+      by.css('.recognized-text-content-container .highlight')
+    );
   }
 
   getBookShelfUrl(manifestName: string): string {
@@ -452,6 +456,10 @@ export class ViewerPage {
     return browser.executeScript(
       'return window.openSeadragonViewer.viewport.getCenter(false);'
     );
+  }
+
+  getRecognizedContentHits(): ElementArrayFinder {
+    return this.recognizedTextContentHitsEls;
   }
 
   async swipe(startPoint: Point, endPoint: Point): Promise<void> {
