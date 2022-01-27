@@ -1,15 +1,13 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
-
-import { IiifContentSearchService } from './iiif-content-search.service';
-import { SearchResultBuilder } from './../builders/search-result.builder';
-import { SearchResult } from './../models/search-result';
-import { Manifest, Service } from './../models/manifest';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import { SearchResultBuilder } from './../builders/search-result.builder';
+import { Manifest, Service } from './../models/manifest';
+import { SearchResult } from './../models/search-result';
+import { IiifContentSearchService } from './iiif-content-search.service';
 
 describe('IiifContentSearchService', () => {
   let httpTestingController: HttpTestingController;
