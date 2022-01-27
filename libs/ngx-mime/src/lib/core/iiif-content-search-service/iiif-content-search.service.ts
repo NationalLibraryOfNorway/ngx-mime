@@ -23,6 +23,8 @@ export class IiifContentSearchService {
 
   destroy() {
     this._currentSearchResult.next(new SearchResult({}));
+    this._searching.next(false);
+    this._currentQ.next('');
     this._selected.next(null);
   }
 
