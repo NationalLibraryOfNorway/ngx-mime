@@ -48,12 +48,12 @@ export class HtmlFormatter {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
-    transform(value: any, args: any): any {
-        if (!args) {return value;}
-        for(const text of args) {
+    transform(html: any, searchQuery: any): any {
+        if (!searchQuery) {return html;}
+        for(const text of searchQuery) {
             var reText = new RegExp(text, 'gi');
-             value = value.replace(reText, `<mark class="highlight">${text}</mark>`); 
+            html = html.replace(reText, `<mark class="highlight">${text}</mark>`); 
         }
-        return value;
+        return html;
     }
 }

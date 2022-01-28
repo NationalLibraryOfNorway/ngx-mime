@@ -46,6 +46,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
         this.searchQuery = sr.q ? sr.q.trim().split(' ') : null;
+        this.altoService.initialize(this.searchQuery);
       })
     );
     
