@@ -153,8 +153,8 @@ export class ZoomStrategy {
     const viewportWidth = maxViewportDimensions.width * homeZoomFactor;
 
     const viewportSizeInViewportCoordinates = this.viewer.viewport.deltaPointsFromPixels(
-        new OpenSeadragon.Point(viewportWidth, viewportHeight)
-      );
+      new OpenSeadragon.Point(viewportWidth, viewportHeight)
+    );
 
     return new OpenSeadragon.Rect(
       0,

@@ -1,5 +1,5 @@
-import { Given, When, Then } from 'cucumber';
 import { expect } from 'chai';
+import { Then, When } from 'cucumber';
 import { ViewerPage } from '../pages/viewer.po';
 
 const page = new ViewerPage();
