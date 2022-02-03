@@ -1,93 +1,94 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
-
-import { IiifContentSearchService } from './iiif-content-search.service';
-import { SearchResultBuilder } from './../builders/search-result.builder';
-import { SearchResult } from './../models/search-result';
-import { Manifest, Service } from './../models/manifest';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestManifests } from '../../../testing/test-manifests';
+import { testSearchResult } from '../../test/testSearchResult';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import { Hit } from '../models/hit';
+import { SearchResult } from './../models/search-result';
+import { IiifContentSearchService } from './iiif-content-search.service';
 
 describe('IiifContentSearchService', () => {
+  let httpTestingController: HttpTestingController;
+  let service: IiifContentSearchService;
   let config: MimeViewerConfig;
-  let svc: IiifContentSearchService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [IiifContentSearchService],
     });
+    httpTestingController = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(IiifContentSearchService);
     config = new MimeViewerConfig();
-    svc = TestBed.inject(IiifContentSearchService);
-    svc.setConfig(config);
+    service.setConfig(config);
   });
 
-  it('should be created', inject(
-    [IiifContentSearchService],
-    (service: IiifContentSearchService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  afterEach(() => {
+    httpTestingController.verify();
+  });
 
-  it('should return a search result', inject(
-    [IiifContentSearchService, HttpClient, HttpTestingController],
-    fakeAsync(
-      (
-        svc: IiifContentSearchService,
-        http: HttpClient,
-        httpMock: HttpTestingController
-      ) => {
-        let result: SearchResult = new SearchResult();
-        svc.search(
-          { ...new Manifest(), service: { ...new Service(), id: 'dummyUrl' } },
-          'query'
-        );
-        svc.onChange.subscribe((searchResult: SearchResult) => {
-          result = searchResult;
-        });
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-        httpMock.expectOne(`dummyUrl?q=query`).flush(
-          new SearchResultBuilder(
-            'query',
-            new Manifest(),
-            {
-              hits: [
-                {
-                  match: 'querystring',
-                },
-              ],
-            },
-            config
-          ).build()
-        );
-        tick();
-        expect(result?.size()).toBe(1);
-      }
-    )
-  ));
+  it('should return a search result', fakeAsync(() => {
+    let result: SearchResult = new SearchResult();
 
-  it('should return a empty search result if empty q', inject(
-    [IiifContentSearchService, HttpClient, HttpTestingController],
-    fakeAsync(
-      (
-        svc: IiifContentSearchService,
-        http: HttpClient,
-        httpMock: HttpTestingController
-      ) => {
-        let result!: SearchResult;
-        svc.search(new Manifest(), '');
-        svc.onChange.subscribe((searchResult: SearchResult) => {
-          result = searchResult;
-        });
+    service.search(TestManifests.withContentSearchService(), 'query');
+    service.onChange.subscribe((searchResult: SearchResult) => {
+      result = searchResult;
+    });
 
-        httpMock.expectNone(`dummyUrl?q=`);
-        tick();
-        httpMock.verify();
-        expect(result.size()).toBe(0);
-      }
-    )
-  ));
+    httpTestingController.expectOne(`dummyUrl?q=query`).flush(testSearchResult);
+    tick();
+
+    expect(result?.size()).toBe(2);
+  }));
+
+  it('should return a empty search result if empty q', fakeAsync(() => {
+    let result!: SearchResult;
+
+    service.search(TestManifests.aEmpty(), '');
+    service.onChange.subscribe((searchResult: SearchResult) => {
+      result = searchResult;
+    });
+
+    httpTestingController.expectNone(`dummyUrl?q=`);
+    tick();
+
+    expect(result.size()).toBe(0);
+  }));
+
+  it('should cleanup on destroy', fakeAsync(() => {
+    let currentSearchResult!: SearchResult;
+    let currentQ!: string;
+    let currentIsSearching!: boolean;
+    let currentSelected!: Hit | null;
+    service.search(TestManifests.withContentSearchService(), 'fakeQuery');
+    service.isSearching.subscribe(
+      (isSearching: boolean) => (currentIsSearching = isSearching)
+    );
+    service.onQChange.subscribe((q: string) => (currentQ = q));
+    service.onChange.subscribe(
+      (searchResult: SearchResult) => (currentSearchResult = searchResult)
+    );
+    service.onSelected.subscribe(
+      (selected: Hit | null) => (currentSelected = selected)
+    );
+    httpTestingController
+      .expectOne(`dummyUrl?q=fakeQuery`)
+      .flush(testSearchResult);
+    service.selected(new Hit());
+
+    service.destroy();
+
+    expect(currentSelected).toBeNull();
+    expect(currentIsSearching).toBeFalsy();
+    expect(currentQ).toBe('');
+    expect(currentSearchResult.q).toEqual('');
+    expect(currentSearchResult.hits.length).toBe(0);
+  }));
 });
