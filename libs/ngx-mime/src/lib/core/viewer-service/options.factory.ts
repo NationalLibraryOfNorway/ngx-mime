@@ -13,7 +13,7 @@ export class OptionsFactory {
       useCanvas: !options.iOSDevice,
       panVertical: true,
       minZoomImageRatio: 1,
-      maxZoomPixelRatio: 1,
+      maxZoomPixelRatio: 5,
       smoothTileEdgesMinZoom: 1,
       preserveImageSizeOnResize: true,
       visibilityRatio: 0,
