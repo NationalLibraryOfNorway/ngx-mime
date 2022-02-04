@@ -171,12 +171,4 @@ export class CanvasService {
   getCanvasGroupRect(canvasGroupIndex: number): Rect {
     return this.canvasGroups.get(canvasGroupIndex);
   }
-
-  getMaxHeight(): number {
-    return this.canvasGroups.getMaxHeight();
-  }
-
-  getMaxWidth(): number {
-    return this.canvasGroups.getMaxWidth();
-  }
 }

@@ -37,24 +37,6 @@ export class CanvasGroups {
     return i;
   }
 
-  public getMaxHeight(): number {
-    return Math.max.apply(
-      Math,
-      this.canvasGroupRects.map(function(rect) {
-        return rect.height;
-      })
-    );
-  }
-
-  public getMaxWidth(): number {
-    return Math.max.apply(
-      Math,
-      this.canvasGroupRects.map(function(rect) {
-        return rect.width;
-      })
-    );
-  }
-
   public length(): number {
     return this.canvasGroupRects.length;
   }
