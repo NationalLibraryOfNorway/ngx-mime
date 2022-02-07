@@ -1,8 +1,9 @@
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Alto, String, TextLine } from './alto.model';
+import { Hit } from './../../core/models/hit';
 
 export class HtmlFormatter {
-  constructor(private sanitizer: DomSanitizer, private searchQuery: string[] | null | undefined) {}
+  constructor(private sanitizer: DomSanitizer, private searchQuery?: string[] | null | undefined, private hits?: Hit[]) {}
 
   altoToHtml(alto: Alto): SafeHtml {
     const page = alto.layout.page;
@@ -41,19 +42,29 @@ export class HtmlFormatter {
       html += `>${words.join(' ')}<p/>`;
     });
 
-    if(this.searchQuery){
+    if(this.searchQuery || this.hits){
       html = this.transform(html, this.searchQuery);
     }
 
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
-    transform(html: any, searchQuery: any): any {
-        if (!searchQuery) {return html;}
-        for(const text of searchQuery) {
-            var reText = new RegExp(text, 'gi');
-            html = html.replace(reText, `<mark class="highlight">${text}</mark>`); 
-        }
-        return html;
+  transform(html: any, searchQuery: any): any {
+    if(this.hits){
+      console.log(this.hits);
+      if(this.hits.length === 1){
+        return this.markMatch(html, this.hits[0].match);
+      } else if (this.hits.length === 0)
+      return html;
     }
+    for(const text of searchQuery) {
+      html = text.length === 1 ? this.markMatch(html, `(${text}\\.)|( ${text} )`) : this.markMatch(html, "\\b"+text.replace(/[^\w+\søæå]/gi, '')+"\\b");
+    }
+    return html;
+  }
+
+  markMatch(html: any, pat: string){
+    return html.replace(new RegExp(pat, "gi"), (match: any) => `<mark>${match}</mark>`);
+  }
+
 }

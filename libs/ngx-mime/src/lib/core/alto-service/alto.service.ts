@@ -18,6 +18,7 @@ import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-serv
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { Alto } from './alto.model';
+import { Hit } from './../../core/models/hit';
 import { HtmlFormatter } from './html.formatter';
 
 @Injectable({
@@ -66,8 +67,8 @@ export class AltoService {
     this.recognizedTextContentToggle.next(value);
   }
 
-  initialize(searchQuery?: string[] | null) {
-    this.htmlFormatter = new HtmlFormatter(this.sanitizer, searchQuery);
+  initialize(searchQuery?: string[] | null, hits?: Hit[]) {
+    this.htmlFormatter = new HtmlFormatter(this.sanitizer, searchQuery, hits);
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(
