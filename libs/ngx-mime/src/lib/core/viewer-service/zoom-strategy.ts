@@ -70,25 +70,23 @@ export class ZoomStrategy {
       return 1;
     }
 
-    let canvasGroupHeight: number;
-    let canvasGroupWidth: number;
+    let currentCanvasHeight: number;
+    let currentCanvasWidth: number;
     let viewportBounds: any;
 
-    if (mode === ViewerMode.DASHBOARD) {
-      canvasGroupHeight = this.canvasService.getMaxHeight();
-      canvasGroupWidth = this.canvasService.getMaxWidth();
-      viewportBounds = this.getDashboardViewportBounds();
-    } else {
-      const currentCanvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
-      canvasGroupHeight = currentCanvasGroupRect.height;
-      canvasGroupWidth = currentCanvasGroupRect.width;
-      viewportBounds = this.viewer.viewport.getBounds();
-    }
+    const currentCanvasGroupRect =
+      this.canvasService.getCurrentCanvasGroupRect();
+    currentCanvasHeight = currentCanvasGroupRect.height;
+    currentCanvasWidth = currentCanvasGroupRect.width;
+    viewportBounds =
+      mode === ViewerMode.DASHBOARD
+        ? this.getDashboardViewportBounds()
+        : this.viewer.viewport.getBounds();
 
     return this.getFittedZoomLevel(
       viewportBounds,
-      canvasGroupHeight,
-      canvasGroupWidth
+      currentCanvasHeight,
+      currentCanvasWidth
     );
   }
 

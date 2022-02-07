@@ -333,7 +333,10 @@ export class ViewerService {
             this.canvasGroupMask.changeCanvasGroup(
               this.canvasService.getCanvasGroupRect(canvasGroupIndex)
             );
-            if (this.modeService.mode === ViewerMode.PAGE) {
+            if (
+              this.modeService.mode === ViewerMode.PAGE ||
+              this.modeService.mode === ViewerMode.DASHBOARD
+            ) {
               this.zoomStrategy.goToHomeZoom();
             }
           }
