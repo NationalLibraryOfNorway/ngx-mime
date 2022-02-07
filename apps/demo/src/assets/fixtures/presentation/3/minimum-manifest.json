@@ -1,0 +1,89 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/anno.jsonld",
+    "http://iiif.io/api/presentation/3/context.json"
+  ],
+  "id": "https://api.nb.no/catalog/v3/iiif/eb7d1d9c4b553001549d32573658c844/manifest{?fields,profile}",
+  "type": "Manifest",
+  "label": {
+    "no": ["Fridtjof Nansen : scientist and humanitarian"]
+  },
+  "behavior": ["paged"],
+  "items": [
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/eb7d1d9c4b553001549d32573658c844/canvas/URN:NBN:no-nb_digibok_2009061611001_C1",
+      "type": "Canvas",
+      "label": {
+        "@none": ["-"]
+      },
+      "height": 3436,
+      "width": 3474,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/eb7d1d9c4b553001549d32573658c844/annotationpage/URN:NBN:no-nb_digibok_2009061611001_C1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/eb7d1d9c4b553001549d32573658c844/annotation/URN:NBN:no-nb_digibok_2009061611001_C1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2009061611001_C1/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2009061611001_C1",
+                    "type": "ImageService2",
+                    "width": 3474,
+                    "height": 3436,
+                    "sizes": [
+                      {
+                        "width": 1737,
+                        "height": 1718
+                      },
+                      {
+                        "width": 868,
+                        "height": 859
+                      },
+                      {
+                        "width": 434,
+                        "height": 429
+                      },
+                      {
+                        "width": 217,
+                        "height": 214
+                      },
+                      {
+                        "width": 108,
+                        "height": 107
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16, 32]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0033333333333333335,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 3436,
+                "width": 3474
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/eb7d1d9c4b553001549d32573658c844/canvas/URN:NBN:no-nb_digibok_2009061611001_C1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

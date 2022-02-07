@@ -23,3 +23,20 @@ h1 {
 .logo-iiif {
   margin-right: 8px;
 }
+
+.api-format {
+  padding: 8px 16px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-color: rgba(0, 0, 0, 0.06);
+  label {
+    font-size: 16px;
+  }
+  mat-radio-group {
+    display: flex;
+    align-items: flex-start;
+    .mat-radio-button {
+      margin-right: 8px;
+    }
+  }
+}
