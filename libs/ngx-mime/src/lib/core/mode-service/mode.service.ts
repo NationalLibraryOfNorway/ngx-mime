@@ -53,7 +53,11 @@ export class ModeService {
   }
 
   isPageZoomed(): boolean {
-    return this.mode  === ViewerMode.PAGE_ZOOMED
+    return this.mode === ViewerMode.PAGE_ZOOMED;
+  }
+
+  destroy() {
+    this.mode = this._initialMode;
   }
 
   private change() {
