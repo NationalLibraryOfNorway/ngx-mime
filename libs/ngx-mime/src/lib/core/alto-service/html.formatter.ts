@@ -35,25 +35,27 @@ export class HtmlFormatter {
         styles.push('font-weight: bold');
       }
 
+      var paragraphs = words.join(' ');
+
+      if(this.searchQuery || this.hits){
+        paragraphs = this.transform(paragraphs, this.searchQuery);
+      }
+
       html += '<p';
       if (styles && styles.length > 0) {
         html += ` style="${styles.join(';')}"`;
       }
-      html += `>${words.join(' ')}<p/>`;
+      html += `>${paragraphs}<p/>`;
     });
 
-    if(this.searchQuery || this.hits){
-      html = this.transform(html, this.searchQuery);
-    }
 
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   transform(html: any, searchQuery: any): any {
     if(this.hits){
-      console.log(this.hits);
       if(this.hits.length === 1){
-        return this.markMatch(html, this.hits[0].match);
+        return this.markMatch(html, this.hits[0].match.trim());
       } else if (this.hits.length === 0)
       return html;
     }
