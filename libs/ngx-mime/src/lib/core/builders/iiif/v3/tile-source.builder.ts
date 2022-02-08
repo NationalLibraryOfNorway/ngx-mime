@@ -1,4 +1,4 @@
-import { Resource, Sequence } from '../../../models/manifest';
+import { Resource } from '../../../models/manifest';
 
 export class TileSourceBuilder {
   constructor(private items: any[]) {}
@@ -12,8 +12,9 @@ export class TileSourceBuilder {
             if (annotationPage.type === 'AnnotationPage') {
               annotationPage.items.forEach((annotation: any) => {
                 if (annotation.type === 'Annotation') {
-                  const body = annotation.body;
+                  let body = annotation.body;
                   if (body) {
+                    body.service = this.flattenService(body.service);
                     tilesources.push(body);
                   }
                 }
@@ -24,5 +25,15 @@ export class TileSourceBuilder {
       });
     }
     return tilesources;
+  }
+
+  private flattenService(service: any): any {
+    if (Array.isArray(service) && service.length === 1) {
+      return {
+        ...service[0],
+        service: this.flattenService(service[0].service),
+      };
+    }
+    return service;
   }
 }
