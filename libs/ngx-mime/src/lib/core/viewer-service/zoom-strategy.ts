@@ -66,7 +66,7 @@ export class ZoomStrategy {
   }
 
   private getHomeZoomLevel(mode: ViewerMode): number {
-    if (!this.viewer || !this.canvasService) {
+    if (!this.viewer || !this.canvasService || !this.viewer.container) {
       return 1;
     }
 
@@ -135,10 +135,6 @@ export class ZoomStrategy {
   }
 
   private getDashboardViewportBounds(): any {
-    if (!this.viewer) {
-      return;
-    }
-
     const homeZoomFactor = this.getHomeZoomFactor();
     const maxViewportDimensions = new Dimensions(
       d3
