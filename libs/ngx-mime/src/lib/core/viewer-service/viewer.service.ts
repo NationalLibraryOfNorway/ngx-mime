@@ -437,6 +437,7 @@ export class ViewerService {
       this.currentSearch = null;
       this.iiifContentSearchService.destroy();
       this.rotation.next(0);
+      this.modeService.destroy();
       this.unsubscribe();
     }
   }
@@ -499,6 +500,10 @@ export class ViewerService {
    * @param mode ViewerMode
    */
   modeChanged(mode: ModeChanges): void {
+    if (!this.viewer) {
+      return;
+    }
+
     if (mode.currentValue === ViewerMode.DASHBOARD) {
       this.viewer.panVertical = false;
       this.toggleToDashboard();
