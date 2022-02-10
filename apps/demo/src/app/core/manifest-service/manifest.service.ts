@@ -108,7 +108,7 @@ export class ManifestService {
 
   constructor() {}
 
-  getManifests(iiifVersion: number = 2): ManifestMenuItem[] {
+  getManifests(iiifVersion: number = 3): ManifestMenuItem[] {
     return ManifestService.manifests.filter(
       (m) => m.iiifVersion === iiifVersion
     );

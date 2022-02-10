@@ -10,7 +10,7 @@ import { ManifestService } from './../manifest-service/manifest.service';
 })
 export class SidenavComponent {
   @Input() sidenav!: MatSidenav;
-  iiifV = 2;
+  iiifV = 3;
   manifests: ManifestMenuItem[];
 
   constructor(private manifestService: ManifestService) {
