@@ -3,7 +3,10 @@ import { Alto, String, TextLine } from './alto.model';
 import { Hit } from './../../core/models/hit';
 
 export class HtmlFormatter {
-  constructor(private sanitizer: DomSanitizer, private searchQuery?: string[] | null | undefined, private hits?: Hit[]) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private hits?: Hit[]
+  ) {}
 
   altoToHtml(alto: Alto): SafeHtml {
     const page = alto.layout.page;
@@ -37,9 +40,9 @@ export class HtmlFormatter {
 
       html += '<p';
       if (styles && styles.length > 0) {
-        html += ` style="${ styles.join(';') }"`;
+        html += ` style="${styles.join(';')}"`;
       }
-      html += `>${ this.transform(words.join(' ')) }<p/>`;
+      html += `>${this.transform(words.join(' '))}<p/>`;
     });
 
     return this.sanitizer.bypassSecurityTrustHtml(html);
@@ -47,29 +50,18 @@ export class HtmlFormatter {
 
   transform(html: string): string {
     if (this.hits && this.hits.length > 0) {
-      return this.markMatch(html, this.hits[ 0 ].match.trim());
-    } else {
-      if (this.searchQuery) {
-        for (const text of this.searchQuery) {
-          html =
-            text.length === 1
-              ? this.markMatch(html, `(${ text }\\.)|( ${ text } )`)
-              : this.markMatch(
-                html,
-                '\\b' + text.replace(/[^\w+\søæå]/gi, '') + '\\b'
-              );
-        }
+      for (const matches of this.hits) {
+        let match = matches.match.trim().replace(/\W/g,'');
+        html = this.markMatch(html, "\\b"+match+"\\b");
       }
     }
-
     return html;
   }
 
   markMatch(html: string, pattern: string): string {
     return html.replace(
       new RegExp(pattern, 'gi'),
-      (match: any) => `<mark>${ match }</mark>`
+      (match: any) => `<mark>${match}</mark>`
     );
   }
-
 }

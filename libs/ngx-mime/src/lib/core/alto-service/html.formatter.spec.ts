@@ -16,7 +16,7 @@ describe('HtmlFormatter', () => {
         printSpace: {
           textBlocks: [
             {
-              textLines: [{ strings: [{ content: 'this is a test' }] }],
+              textLines: [{ strings: [{ content: 'this is a test.' }] }],
             },
           ],
         },
@@ -70,56 +70,50 @@ describe('HtmlFormatter', () => {
     );
   });
 
-  it('should mark searchQuery', () => {
-    const result = new HtmlFormatter(sanitizer, ['test']).altoToHtml(alto);
+  it('should mark match when hits are available', () => {
+    const hits: Hit[] = [{id: 1, index: 2, match: 'this', label: '', before: '', after: '', rects: []}]
+    const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p>this is a <mark>test</mark><p/>'
+      '<p><mark>this</mark> is a test.<p/>'
     );
   });
 
   it('should mark multiple words', () => {
-    const result = new HtmlFormatter(sanitizer, ['this','test','is']).altoToHtml(alto);
+    const hits: Hit[] = [{id: 1, index: 2, match: 'this', label: '', before: '', after: '', rects: []},
+    {id: 2, index: 3, match: 'test', label: '', before: '', after: '', rects: []},
+    {id: 3, index: 4, match: 'is', label: '', before: '', after: '', rects: []}]
+    const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p><mark>this</mark> <mark>is</mark> a <mark>test</mark><p/>'
+      '<p><mark>this</mark> <mark>is</mark> a <mark>test</mark>.<p/>'
     );
   });
 
   it('should mark single letter words', () => {
-    const result = new HtmlFormatter(sanitizer, ['a']).altoToHtml(alto);
+    const hits: Hit[] = [{id: 1, index: 2, match: 'a', label: '', before: '', after: '', rects: []}]
+    const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p>this is<mark> a </mark>test<p/>'
-    );
-  });
-
-  it('should sanitize searchQuery', () => {
-    const result = new HtmlFormatter(sanitizer, ['"test"']).altoToHtml(alto);
-    const result2 = new HtmlFormatter(sanitizer, ['.."*is...']).altoToHtml(alto);
-
-    expect(result).toBe(
-      '<p>this is a <mark>test</mark><p/>'
-    );
-    expect(result2).toBe(
-      '<p>this <mark>is</mark> a test<p/>'
+      '<p>this is <mark>a</mark> test.<p/>'
     );
   });
 
   it('should mark whole words and not partially', () => {
-    const result = new HtmlFormatter(sanitizer, ['is']).altoToHtml(alto);
+    const hits: Hit[] = [{id: 1, index: 2, match: 'is', label: '', before: '', after: '', rects: []}]
+    const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p>this <mark>is</mark> a test<p/>'
+      '<p>this <mark>is</mark> a test.<p/>'
     );
   });
 
-  it('should mark match when hits are available', () => {
-    var hits: Hit[] = [{id: 1, index: 2, match: 'this', label: '', before: '', after: '', rects: []}]
-    const result = new HtmlFormatter(sanitizer, undefined, hits).altoToHtml(alto);
+  it('should not mark when no hits', () => {
+    const hits: Hit[] = [];
+    const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p><mark>this</mark> is a test<p/>'
+      '<p>this is a test.<p/>'
     );
   });
 });

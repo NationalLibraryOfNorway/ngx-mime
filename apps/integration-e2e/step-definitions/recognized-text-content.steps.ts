@@ -26,8 +26,11 @@ Then('the recognized text content should be shown', async () => {
   expect(text).to.have.length.above(0);
 });
 
-Then('the word {string} should be highlighted in the recognized text', async (term: string) => {
-  const hits = await viewerPage.getRecognizedContentHits();
-  const firstHit = await hits[0].getAttribute('innerHTML');
-  expect(firstHit).to.contains(`${term}`);
-});
+Then(
+  'the word {string} should be highlighted in the recognized text',
+  async (term: string) => {
+    const hits = await viewerPage.getRecognizedContentHits();
+    const firstHit = await hits[0].getAttribute('innerHTML');
+    expect(firstHit).to.contains(`${term}`);
+  }
+);

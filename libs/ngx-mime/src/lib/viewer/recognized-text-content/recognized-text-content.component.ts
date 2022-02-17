@@ -29,7 +29,6 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   secondCanvasRecognizedTextContent: SafeHtml | undefined;
   isLoading = false;
   error: string | undefined = undefined;
-  searchQuery: string[] | null | undefined;
 
   private subscriptions = new Subscription();
 
@@ -45,15 +44,13 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-          this.searchQuery = sr.q ? sr.q.trim().split(' ') : null;
-          this.altoService.initialize(this.searchQuery, sr.hits);
+          this.altoService.initialize(sr.hits);
       })
     );
     
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(() => {
         this.clearRecognizedText();
-        //this.altoService.initialize(this.searchQuery);
         this.cdr.detectChanges();
       })
     );

@@ -67,8 +67,8 @@ export class AltoService {
     this.recognizedTextContentToggle.next(value);
   }
 
-  initialize(searchQuery?: string[] | null, hits?: Hit[]) {
-    this.htmlFormatter = new HtmlFormatter(this.sanitizer, searchQuery, hits);
+  initialize(hits?: Hit[]) {
+    this.htmlFormatter = new HtmlFormatter(this.sanitizer, hits);
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(

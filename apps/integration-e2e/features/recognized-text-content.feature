@@ -1,3 +1,4 @@
+@desktop
 Feature: Show recognized text content
     To make it easier to read content when handwriting or font is difficult to read
     As a person
@@ -17,7 +18,7 @@ Feature: Show recognized text content
   Scenario: Highlight recognized text content 
     Given the viewer is opened with a publication with recognized text content 
     And the viewer is in dashboard view
-    when the user search for the word "that"
+    When the user search for the word "that"
     And the user closes the search dialog
     And the user enables recognized text content
     Then the word "that" should be highlighted in the recognized text
