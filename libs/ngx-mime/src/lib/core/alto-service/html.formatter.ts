@@ -46,7 +46,6 @@ export class HtmlFormatter {
   }
 
   transform(html: string): string {
-    console.log("Her");
     if (this.hits && this.hits.length > 0) {
       return this.markMatch(html, this.hits[ 0 ].match.trim());
     } else {
