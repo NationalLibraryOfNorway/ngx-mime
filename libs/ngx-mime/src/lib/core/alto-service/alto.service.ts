@@ -33,7 +33,7 @@ export class AltoService {
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
-  private htmlFormatter: any;
+  private htmlFormatter!: HtmlFormatter;
 
   constructor(
     public intl: MimeViewerIntl,

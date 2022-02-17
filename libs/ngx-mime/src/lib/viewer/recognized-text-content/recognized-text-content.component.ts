@@ -53,7 +53,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(() => {
         this.clearRecognizedText();
-        this.altoService.initialize(this.searchQuery);
+        //this.altoService.initialize(this.searchQuery);
         this.cdr.detectChanges();
       })
     );

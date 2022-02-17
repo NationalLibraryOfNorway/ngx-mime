@@ -6,8 +6,10 @@ import { cold, getTestScheduler } from 'jasmine-marbles';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
+import { IiifContentSearchServiceStub } from '../../test/iiif-content-search-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
 
 describe('RecognizedTextContentComponent', () => {
@@ -25,6 +27,8 @@ describe('RecognizedTextContentComponent', () => {
         CanvasService,
         AltoService,
         MimeViewerIntl,
+        IiifContentSearchService,
+        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     }).compileComponents();

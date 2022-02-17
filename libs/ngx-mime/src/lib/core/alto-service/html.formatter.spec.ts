@@ -4,7 +4,7 @@ import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 import { Hit } from './../../core/models/hit';
 
-fdescribe('HtmlFormatter', () => {
+describe('HtmlFormatter', () => {
   let sanitizer: DomSanitizer;
   let alto: Alto = {
     layout: {

@@ -145,7 +145,7 @@ export class ViewerPage {
     this.firstCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="firstCanvasRecognizedTextContent"]'));
     this.secondCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="secondCanvasRecognizedTextContent"]'));
     this.recognizedTextContentHitsEls = element.all(
-      by.css('.recognized-text-content-container .highlight')
+      by.css('.recognized-text-content-container mark')
     );
   }
 

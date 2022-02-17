@@ -35,38 +35,42 @@ export class HtmlFormatter {
         styles.push('font-weight: bold');
       }
 
-      var paragraphs = words.join(' ');
-
-      if(this.searchQuery || this.hits){
-        paragraphs = this.transform(paragraphs, this.searchQuery);
-      }
-
       html += '<p';
       if (styles && styles.length > 0) {
-        html += ` style="${styles.join(';')}"`;
+        html += ` style="${ styles.join(';') }"`;
       }
-      html += `>${paragraphs}<p/>`;
+      html += `>${ this.transform(words.join(' ')) }<p/>`;
     });
-
 
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
-  transform(html: any, searchQuery: any): any {
-    if(this.hits){
-      if(this.hits.length === 1){
-        return this.markMatch(html, this.hits[0].match.trim());
-      } else if (this.hits.length === 0)
-      return html;
+  transform(html: string): string {
+    console.log("Her");
+    if (this.hits && this.hits.length > 0) {
+      return this.markMatch(html, this.hits[ 0 ].match.trim());
+    } else {
+      if (this.searchQuery) {
+        for (const text of this.searchQuery) {
+          html =
+            text.length === 1
+              ? this.markMatch(html, `(${ text }\\.)|( ${ text } )`)
+              : this.markMatch(
+                html,
+                '\\b' + text.replace(/[^\w+\søæå]/gi, '') + '\\b'
+              );
+        }
+      }
     }
-    for(const text of searchQuery) {
-      html = text.length === 1 ? this.markMatch(html, `(${text}\\.)|( ${text} )`) : this.markMatch(html, "\\b"+text.replace(/[^\w+\søæå]/gi, '')+"\\b");
-    }
+
     return html;
   }
 
-  markMatch(html: any, pat: string){
-    return html.replace(new RegExp(pat, "gi"), (match: any) => `<mark>${match}</mark>`);
+  markMatch(html: string, pattern: string): string {
+    return html.replace(
+      new RegExp(pattern, 'gi'),
+      (match: any) => `<mark>${ match }</mark>`
+    );
   }
 
 }
