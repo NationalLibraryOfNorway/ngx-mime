@@ -5,6 +5,7 @@ import {
   MimeViewerMode,
 } from '@nationallibraryofnorway/ngx-mime';
 import { Subscription } from 'rxjs';
+import { RecognizedTextMode } from '../../../../../libs/ngx-mime/src/lib/core/models/recognized-text-mode';
 import { ManifestService } from './../core/manifest-service/manifest.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class ViewerComponent implements OnDestroy {
     startOnTopOnCanvasGroupChange: true,
     isDropEnabled: true,
     initViewerMode: MimeViewerMode.PAGE,
-    initRecognizedTextContentToggle: false,
+    initRecognizedTextContentToggle: RecognizedTextMode.NONE,
   });
   private subscriptions = new Subscription();
 

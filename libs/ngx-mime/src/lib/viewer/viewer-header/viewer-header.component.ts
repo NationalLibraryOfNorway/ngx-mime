@@ -20,9 +20,11 @@ import { Subscription } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
+import { RecognizedTextMode } from '../../core/models/recognized-text-mode';
 import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
@@ -90,6 +92,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private mimeDomHelper: MimeDomHelper,
     private viewerLayoutService: ViewerLayoutService,
     private altoService: AltoService,
+    private viewerService: ViewerService,
     el: ElementRef
   ) {
     contentsDialogService.el = el;
@@ -128,7 +131,9 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
           this.isPagedManifest = manifest
             ? ManifestUtils.isManifestPaged(manifest)
             : false;
-          this.hasRecognizedTextContent = manifest ? ManifestUtils.hasRecognizedTextContent(manifest) : false;
+          this.hasRecognizedTextContent = manifest
+            ? ManifestUtils.hasRecognizedTextContent(manifest)
+            : false;
           this.changeDetectorRef.detectChanges();
         }
       )
@@ -147,8 +152,28 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  showRecognizedTextContent(): void {
+    this.viewerService.minidestroy(true);
+    this.altoService.showFull();
+  }
+
   toggleRecognizedTextContent(): void {
-    this.altoService.toggle();
+    const prev = this.altoService.onRecognizedTextContentToggle;
+    console.log('prev', prev);
+    this.altoService.showRight();
+    if (prev === RecognizedTextMode.FULL) {
+      this.viewerService.layoutPages();
+    }
+  }
+
+  hideRecognizedTextContent(): void {
+    const prev = this.altoService.onRecognizedTextContentToggle;
+    console.log('prev', prev);
+
+    this.altoService.hide();
+    if (prev === RecognizedTextMode.FULL) {
+      this.viewerService.layoutPages();
+    }
   }
 
   public toggleContents() {

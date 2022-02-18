@@ -17,6 +17,7 @@ import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
+import { RecognizedTextMode } from '../models/recognized-text-mode';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
@@ -25,7 +26,9 @@ import { HtmlFormatter } from './html.formatter';
 })
 export class AltoService {
   private altos: SafeHtml[] = [];
-  private recognizedTextContentToggle = new BehaviorSubject(false);
+  private recognizedTextContentToggle = new BehaviorSubject(
+    RecognizedTextMode.NONE
+  );
   private isLoading = new BehaviorSubject(false);
   private textContentReady = new Subject<void>();
   private textError = new Subject<string>();
@@ -33,6 +36,7 @@ export class AltoService {
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
   private htmlFormatter: HtmlFormatter;
+  private recognizedTextMode = RecognizedTextMode.NONE;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -44,7 +48,7 @@ export class AltoService {
     this.htmlFormatter = new HtmlFormatter(sanitizer);
   }
 
-  get onRecognizedTextContentToggleChange$(): Observable<boolean> {
+  get onRecognizedTextContentToggleChange$(): Observable<RecognizedTextMode> {
     return this.recognizedTextContentToggle.asObservable();
   }
 
@@ -64,7 +68,7 @@ export class AltoService {
     return this.recognizedTextContentToggle.value;
   }
 
-  set onRecognizedTextContentToggle(value: boolean) {
+  set onRecognizedTextContentToggle(value: RecognizedTextMode) {
     this.recognizedTextContentToggle.next(value);
   }
 
@@ -90,6 +94,11 @@ export class AltoService {
           const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
             currentCanvasGroupIndex
           );
+          console.log('canvasGroup', canvasGroup);
+
+          if (!canvasGroup || canvasGroup.length === 0) {
+            return;
+          }
           this.addAltoSource(canvasGroup[0], sources);
           if (canvasGroup.length === 2) {
             this.addAltoSource(canvasGroup[1], sources);
@@ -110,8 +119,23 @@ export class AltoService {
     this.clearCache();
   }
 
+  showFull() {
+    this.onRecognizedTextContentToggle = RecognizedTextMode.FULL;
+  }
+
+  showRight() {
+    this.onRecognizedTextContentToggle = RecognizedTextMode.RIGHT;
+  }
+
+  hide() {
+    this.onRecognizedTextContentToggle = RecognizedTextMode.NONE;
+  }
+
   toggle() {
-    this.onRecognizedTextContentToggle = !this.recognizedTextContentToggle.getValue();
+    this.onRecognizedTextContentToggle =
+      this.recognizedTextContentToggle.getValue() === RecognizedTextMode.NONE
+        ? RecognizedTextMode.RIGHT
+        : RecognizedTextMode.NONE;
   }
 
   getHtml(index: number): SafeHtml | undefined {
@@ -163,11 +187,15 @@ export class AltoService {
       .subscribe((data: Alto | any) => {
         try {
           if (!data.isError) {
-            parseString(data, { explicitChildren: true, preserveChildrenOrder: true}, (error, result) => {
-              const alto = this.altoBuilder.withAltoXml(result.alto).build();
-              this.addToCache(index, alto);
-              this.done(observer);
-            });
+            parseString(
+              data,
+              { explicitChildren: true, preserveChildrenOrder: true },
+              (error, result) => {
+                const alto = this.altoBuilder.withAltoXml(result.alto).build();
+                this.addToCache(index, alto);
+                this.done(observer);
+              }
+            );
           } else {
             throw data.err;
           }

@@ -21,9 +21,15 @@
   height: 100%;
 }
 
-mat-drawer {
+mat-drawer.right {
   width: 25%;
+}
 
+mat-drawer.full {
+  width: 100%;
+}
+
+mat-drawer {
   @media only screen and (max-width: 599px) {
     width: 33%;
   }

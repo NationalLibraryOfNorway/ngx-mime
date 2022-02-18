@@ -34,6 +34,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
 import { Manifest } from '../core/models/manifest';
 import { ModeChanges } from '../core/models/modeChanges';
+import { RecognizedTextMode } from '../core/models/recognized-text-mode';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerOptions } from '../core/models/viewer-options';
@@ -55,7 +56,8 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewerComponent
-  implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
+  implements OnInit, AfterViewChecked, OnDestroy, OnChanges
+{
   @Input() public manifestUri!: string;
   @Input() public q!: string;
   @Input() public canvasIndex = 0;
@@ -66,7 +68,8 @@ export class ViewerComponent
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
   @Output()
-  recognizedTextContentToggleChanged: EventEmitter<boolean> = new EventEmitter();
+  recognizedTextContentToggleChanged: EventEmitter<RecognizedTextMode> = new EventEmitter();
+  recognizedTextMode = RecognizedTextMode;
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
@@ -74,7 +77,7 @@ export class ViewerComponent
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
-  isRecognizedTextContentToggled = false;
+  isRecognizedTextContentToggled: RecognizedTextMode = RecognizedTextMode.NONE;
   showHeaderAndFooterState = 'hide';
   public errorMessage: string | null = null;
 
@@ -133,7 +136,8 @@ export class ViewerComponent
   ngOnInit(): void {
     this.styleService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
-    this.altoService.onRecognizedTextContentToggle = this.config.initRecognizedTextContentToggle;
+    this.altoService.onRecognizedTextContentToggle =
+      this.config.initRecognizedTextContentToggle;
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -146,9 +150,7 @@ export class ViewerComponent
               ManifestUtils.isManifestPaged(manifest)
             );
             this.isRecognizedTextContentToggled =
-              this.altoService.onRecognizedTextContentToggle && manifest
-                ? ManifestUtils.hasRecognizedTextContent(manifest)
-                : false;
+              this.altoService.onRecognizedTextContentToggle;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -216,10 +218,14 @@ export class ViewerComponent
           mode.previousValue === ViewerMode.DASHBOARD &&
           mode.currentValue === ViewerMode.PAGE
         ) {
-          this.viewerState.contentDialogState.isOpen = this.contentsDialogService.isOpen();
-          this.viewerState.contentDialogState.selectedIndex = this.contentsDialogService.getSelectedIndex();
-          this.viewerState.contentsSearchDialogState.isOpen = this.contentSearchDialogService.isOpen();
-          this.viewerState.helpDialogState.isOpen = this.helpDialogService.isOpen();
+          this.viewerState.contentDialogState.isOpen =
+            this.contentsDialogService.isOpen();
+          this.viewerState.contentDialogState.selectedIndex =
+            this.contentsDialogService.getSelectedIndex();
+          this.viewerState.contentsSearchDialogState.isOpen =
+            this.contentSearchDialogService.isOpen();
+          this.viewerState.helpDialogState.isOpen =
+            this.helpDialogService.isOpen();
           this.zone.run(() => {
             this.contentsDialogService.close();
             this.contentSearchDialogService.close();
@@ -248,9 +254,8 @@ export class ViewerComponent
     this.subscriptions.add(
       this.canvasService.onCanvasGroupIndexChange.subscribe(
         (canvasGroupIndex: number) => {
-          const canvasIndex = this.canvasService.findCanvasByCanvasIndex(
-            canvasGroupIndex
-          );
+          const canvasIndex =
+            this.canvasService.findCanvasByCanvasIndex(canvasGroupIndex);
           if (canvasIndex !== -1) {
             this.canvasChanged.emit(canvasIndex);
           }
@@ -282,11 +287,12 @@ export class ViewerComponent
 
     this.subscriptions.add(
       this.altoService.onRecognizedTextContentToggleChange$.subscribe(
-        (isRecognizedTextContentToggled: boolean) => {
+        (isRecognizedTextContentToggled: RecognizedTextMode) => {
           this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
           this.recognizedTextContentToggleChanged.emit(
             isRecognizedTextContentToggled
           );
+          this.goToHomeZoom();
           this.changeDetectorRef.markForCheck();
         }
       )
@@ -412,15 +418,19 @@ export class ViewerComponent
     if (this.header && this.footer) {
       switch (mode) {
         case ViewerMode.DASHBOARD:
-          this.showHeaderAndFooterState = this.header.state = this.footer.state =
-            'show';
+          this.showHeaderAndFooterState =
+            this.header.state =
+            this.footer.state =
+              'show';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'hide';
           }
           break;
         case ViewerMode.PAGE:
-          this.showHeaderAndFooterState = this.header.state = this.footer.state =
-            'hide';
+          this.showHeaderAndFooterState =
+            this.header.state =
+            this.footer.state =
+              'hide';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'show';
           }
@@ -467,7 +477,12 @@ export class ViewerComponent
   }
 
   goToHomeZoom(): void {
-    this.viewerService.goToHomeZoom();
+    console.log('go home start');
+    if (this.isRecognizedTextContentToggled !== this.recognizedTextMode.FULL) {
+      console.log('go home');
+
+      this.viewerService.goToHomeZoom();
+    }
   }
 
   setClasses() {

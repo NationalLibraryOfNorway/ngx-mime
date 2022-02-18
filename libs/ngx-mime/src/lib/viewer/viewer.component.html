@@ -20,10 +20,12 @@
       mode="side"
       position="end"
       (openedChange)="goToHomeZoom()"
-      [opened]="isRecognizedTextContentToggled"
-      [ngClass]="{'open': showHeaderAndFooterState === 'show'}"
+      [opened]="isRecognizedTextContentToggled !== recognizedTextMode.NONE"
+      [ngClass]="{ open: isRecognizedTextContentToggled !== recognizedTextMode.NONE,
+      full: isRecognizedTextContentToggled === recognizedTextMode.FULL,
+      right: isRecognizedTextContentToggled === recognizedTextMode.RIGHT}"
       ><mime-recognized-text-content
-        *ngIf="isRecognizedTextContentToggled"
+        *ngIf="isRecognizedTextContentToggled !== recognizedTextMode.NONE"
       ></mime-recognized-text-content
     ></mat-drawer>
     <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>

@@ -1,3 +1,4 @@
+import { RecognizedTextMode } from './models/recognized-text-mode';
 import { ViewerLayout } from './models/viewer-layout';
 import { ViewerMode } from './models/viewer-mode';
 
@@ -18,7 +19,7 @@ export class MimeViewerConfig {
   public preserveZoomOnCanvasGroupChange = false;
   public startOnTopOnCanvasGroupChange = false;
   public isDropEnabled = false;
-  public initRecognizedTextContentToggle = false;
+  public initRecognizedTextContentToggle = RecognizedTextMode.NONE;
   public ignorePhysicalScale = false;
 
   constructor(fields?: {
@@ -34,7 +35,7 @@ export class MimeViewerConfig {
     preserveZoomOnCanvasGroupChange?: boolean;
     startOnTopOnCanvasGroupChange?: boolean;
     isDropEnabled?: boolean;
-    initRecognizedTextContentToggle?: boolean;
+    initRecognizedTextContentToggle?: RecognizedTextMode;
     ignorePhysicalScale?: boolean;
   }) {
     if (fields) {
