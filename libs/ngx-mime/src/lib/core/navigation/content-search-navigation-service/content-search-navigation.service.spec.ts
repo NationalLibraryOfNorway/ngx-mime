@@ -1,8 +1,13 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  fakeAsync,
+  inject,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
@@ -23,30 +28,32 @@ describe('ContentSearchNavigationService', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [],
-      providers: [
-        ContentSearchNavigationService,
-        MimeViewerIntl,
-        CanvasService,
-        { provide: ViewerService, useClass: ViewerServiceStub },
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub
-        }
-      ]
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule],
+        declarations: [],
+        providers: [
+          ContentSearchNavigationService,
+          MimeViewerIntl,
+          CanvasService,
+          { provide: ViewerService, useClass: ViewerServiceStub },
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          {
+            provide: IiifContentSearchService,
+            useClass: IiifContentSearchServiceStub,
+          },
+        ],
+      });
+    })
+  );
 
   beforeEach(inject(
     [
       ContentSearchNavigationService,
       HttpTestingController,
       IiifContentSearchService,
-      CanvasService
+      CanvasService,
     ],
     fakeAsync(
       (
@@ -149,8 +156,8 @@ describe('ContentSearchNavigationService', () => {
         new Hit({ index: 2 }),
         new Hit({ index: 4 }),
         new Hit({ index: 5 }),
-        new Hit({ index: 8 })
-      ]
+        new Hit({ index: 8 }),
+      ],
     });
   }
 });

@@ -16,7 +16,7 @@ export class ImagesBuilder {
             type: BuilderUtils.extracType(image),
             motivation: image.motivation,
             resource: new ResourceBuilder(image.resource).build(),
-            on: image.on
+            on: image.on,
           })
         );
       }

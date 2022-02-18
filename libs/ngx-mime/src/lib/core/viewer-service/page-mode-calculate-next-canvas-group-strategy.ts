@@ -2,11 +2,12 @@ import { Direction } from '../models/direction';
 import { ViewingDirection } from '../models/viewing-direction';
 import {
   CalculateNextCanvasGroupStrategy,
-  NextCanvasGroupCriteria
+  NextCanvasGroupCriteria,
 } from './calculate-next-canvas-group-strategy';
 
 export class PageModeCalculateNextCanvasGroupStrategy
-  implements CalculateNextCanvasGroupStrategy {
+  implements CalculateNextCanvasGroupStrategy
+{
   calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number {
     const isNewCanvasGroupInCenter =
       criteria.currentCanvasGroupIndex !== criteria.currentCanvasGroupCenter;

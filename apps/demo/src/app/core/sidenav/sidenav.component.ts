@@ -6,7 +6,7 @@ import { ManifestService } from './../manifest-service/manifest.service';
 @Component({
   selector: 'demo-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent {
   @Input() sidenav!: MatSidenav;

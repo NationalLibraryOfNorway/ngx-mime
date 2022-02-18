@@ -13,18 +13,15 @@ module.exports = () => {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     coverageReporter: {
       dir: join(__dirname, '../../coverage'),
       subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
-      ],
+      reporters: [{ type: 'html' }, { type: 'text-summary' }],
     },
     files: [
       {
@@ -32,8 +29,8 @@ module.exports = () => {
           '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
         watched: true,
         included: true,
-        served: true
-      }
+        served: true,
+      },
     ],
     reporters: ['progress', 'kjhtml'],
     port: 9876,
@@ -41,6 +38,6 @@ module.exports = () => {
     logLevel: constants.LOG_INFO,
     autoWatch: true,
     browsers: ['ChromeHeadless'],
-    singleRun: true
+    singleRun: true,
   };
 };

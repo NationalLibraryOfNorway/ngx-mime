@@ -12,15 +12,15 @@ import { SpinnerService } from '../core/spinner-service/spinner.service';
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    MimeMaterialModule
+    MimeMaterialModule,
   ],
   exports: [
     CommonModule,
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    MimeMaterialModule
+    MimeMaterialModule,
   ],
-  providers: [SpinnerService]
+  providers: [SpinnerService],
 })
 export class SharedModule {}

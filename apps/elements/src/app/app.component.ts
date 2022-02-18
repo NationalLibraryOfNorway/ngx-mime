@@ -4,7 +4,7 @@ import { MimeViewerConfig } from '@nationallibraryofnorway/ngx-mime';
 @Component({
   selector: 'nationallibraryofnorway-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   @Input() manifestUri!: string;

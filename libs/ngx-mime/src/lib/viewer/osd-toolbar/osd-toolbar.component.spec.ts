@@ -1,4 +1,9 @@
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  inject,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -21,24 +26,26 @@ describe('OsdToolbarComponent', () => {
   let fixture: ComponentFixture<OsdToolbarComponent>;
   let spy: any;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [OsdToolbarComponent],
-      providers: [
-        MimeResizeService,
-        MimeViewerIntl,
-        { provide: ViewerService, useClass: ViewerServiceStub },
-        { provide: CanvasService, useClass: CanvasServiceStub },
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        ClickService,
-        CanvasService,
-        ModeService,
-        MimeDomHelper,
-        FullscreenService
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule],
+        declarations: [OsdToolbarComponent],
+        providers: [
+          MimeResizeService,
+          MimeViewerIntl,
+          { provide: ViewerService, useClass: ViewerServiceStub },
+          { provide: CanvasService, useClass: CanvasServiceStub },
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          ClickService,
+          CanvasService,
+          ModeService,
+          MimeDomHelper,
+          FullscreenService,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
@@ -65,34 +72,40 @@ describe('OsdToolbarComponent', () => {
     }
   ));
 
-  it("should not be visible when state is changed to 'hide'", waitForAsync(() => {
-    component.state = 'show';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expectOSDToolbarToShow(fixture.debugElement.nativeElement);
-
-      component.state = 'hide';
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
-      });
-    });
-  }));
-
-  it("should be visible when state is changed to 'show'", waitForAsync(() => {
-    component.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
-
+  it(
+    "should not be visible when state is changed to 'hide'",
+    waitForAsync(() => {
       component.state = 'show';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+
+        component.state = 'hide';
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+        });
       });
-    });
-  }));
+    })
+  );
+
+  it(
+    "should be visible when state is changed to 'show'",
+    waitForAsync(() => {
+      component.state = 'hide';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+
+        component.state = 'show';
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+        });
+      });
+    })
+  );
 
   it('should enable both navigation buttons when viewer is on second canvas group', inject(
     [ViewerService],
@@ -124,58 +137,81 @@ describe('OsdToolbarComponent', () => {
     }
   ));
 
-  it('should disable next button when viewer is on last canvas group', waitForAsync(inject(
-    [ViewerService, CanvasService],
-    (viewerService: ViewerServiceStub, canvasService: CanvasService) => {
-      spyOnProperty(
-        canvasService,
-        'numberOfCanvasGroups',
-        'get'
-      ).and.returnValue(10);
+  it(
+    'should disable next button when viewer is on last canvas group',
+    waitForAsync(
+      inject(
+        [ViewerService, CanvasService],
+        (viewerService: ViewerServiceStub, canvasService: CanvasService) => {
+          spyOnProperty(
+            canvasService,
+            'numberOfCanvasGroups',
+            'get'
+          ).and.returnValue(10);
 
-      viewerService.setCanvasGroupIndexChange(9);
-      fixture.detectChanges();
+          viewerService.setCanvasGroupIndexChange(9);
+          fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        const button = fixture.debugElement.query(
-          By.css('#navigateNextButton')
-        );
-        expect(button.nativeElement.disabled).toBeTruthy();
-      });
-    }
-  )));
+          fixture.whenStable().then(() => {
+            const button = fixture.debugElement.query(
+              By.css('#navigateNextButton')
+            );
+            expect(button.nativeElement.disabled).toBeTruthy();
+          });
+        }
+      )
+    )
+  );
 
-  it('should display next canvas group', waitForAsync(inject(
-    [ViewerService, CanvasService],
-    (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
-      spy = spyOn(viewerService, 'goToNextCanvasGroup');
+  it(
+    'should display next canvas group',
+    waitForAsync(
+      inject(
+        [ViewerService, CanvasService],
+        (
+          viewerService: ViewerServiceStub,
+          canvasService: CanvasServiceStub
+        ) => {
+          spy = spyOn(viewerService, 'goToNextCanvasGroup');
 
-      const button = fixture.debugElement.query(By.css('#navigateNextButton'));
-      button.nativeElement.click();
+          const button = fixture.debugElement.query(
+            By.css('#navigateNextButton')
+          );
+          button.nativeElement.click();
 
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
-      });
-    }
-  )));
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(spy.calls.count()).toEqual(1);
+          });
+        }
+      )
+    )
+  );
 
-  it('should display previous canvas group', waitForAsync(inject(
-    [ViewerService, CanvasService],
-    (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
-      spy = spyOn(component, 'goToPreviousCanvasGroup');
+  it(
+    'should display previous canvas group',
+    waitForAsync(
+      inject(
+        [ViewerService, CanvasService],
+        (
+          viewerService: ViewerServiceStub,
+          canvasService: CanvasServiceStub
+        ) => {
+          spy = spyOn(component, 'goToPreviousCanvasGroup');
 
-      const button = fixture.debugElement.query(
-        By.css('#navigateBeforeButton')
-      );
-      button.nativeElement.click();
+          const button = fixture.debugElement.query(
+            By.css('#navigateBeforeButton')
+          );
+          button.nativeElement.click();
 
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
-      });
-    }
-  )));
+          fixture.detectChanges();
+          fixture.whenStable().then(() => {
+            expect(spy.calls.count()).toEqual(1);
+          });
+        }
+      )
+    )
+  );
 });
 
 function expectOSDToolbarToShow(element: any) {

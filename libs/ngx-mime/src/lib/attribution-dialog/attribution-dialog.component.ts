@@ -25,7 +25,8 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributionDialogComponent
-  implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
+  implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked
+{
   public manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   @ViewChild('container', { static: true }) container?: ElementRef;

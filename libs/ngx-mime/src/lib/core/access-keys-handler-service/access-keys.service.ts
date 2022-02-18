@@ -35,8 +35,7 @@ export class AccessKeysService {
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService,
     private altoService: AltoService
-  ) {
-  }
+  ) {}
 
   initialize() {
     this.subscriptions = new Subscription();
@@ -268,5 +267,4 @@ export class AccessKeysService {
       this.subscriptions.unsubscribe();
     }
   }
-
 }

@@ -26,7 +26,7 @@ export class MimeResizeService {
 
   markForCheck(): void {
     if (!this.el) {
-      throw new Error('No element!')
+      throw new Error('No element!');
     }
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
 

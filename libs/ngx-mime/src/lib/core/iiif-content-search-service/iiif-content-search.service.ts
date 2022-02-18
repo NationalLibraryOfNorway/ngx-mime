@@ -11,9 +11,8 @@ import { SearchResult } from './../models/search-result';
 
 @Injectable()
 export class IiifContentSearchService {
-  protected _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(
-    new SearchResult({})
-  );
+  protected _currentSearchResult: Subject<SearchResult> =
+    new BehaviorSubject<SearchResult>(new SearchResult({}));
   protected _searching = new BehaviorSubject<boolean>(false);
   protected _currentQ = new BehaviorSubject<string>('');
   protected _selected = new BehaviorSubject<Hit | null>(null);

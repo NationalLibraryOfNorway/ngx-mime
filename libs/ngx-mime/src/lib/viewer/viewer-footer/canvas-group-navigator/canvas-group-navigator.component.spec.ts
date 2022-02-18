@@ -1,5 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  inject,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
@@ -20,23 +25,25 @@ describe('CanvasGroupNavigatorComponent', () => {
   let fixture: ComponentFixture<CanvasGroupNavigatorComponent>;
   let spy: any;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [CanvasGroupNavigatorComponent],
-      providers: [
-        MimeViewerIntl,
-        CanvasGroupDialogService,
-        { provide: ViewerService, useClass: ViewerServiceStub },
-        { provide: CanvasService, useClass: CanvasServiceStub },
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub }
-      ]
-    }).compileComponents();
-    fixture = TestBed.createComponent(CanvasGroupNavigatorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [NoopAnimationsModule, SharedModule],
+        declarations: [CanvasGroupNavigatorComponent],
+        providers: [
+          MimeViewerIntl,
+          CanvasGroupDialogService,
+          { provide: ViewerService, useClass: ViewerServiceStub },
+          { provide: CanvasService, useClass: CanvasServiceStub },
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        ],
+      }).compileComponents();
+      fixture = TestBed.createComponent(CanvasGroupNavigatorComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -91,102 +98,128 @@ describe('CanvasGroupNavigatorComponent', () => {
     }
   ));
 
-  it('should disable next button when viewer is on last canvas group', waitForAsync(
-    inject([CanvasService], (canvasService: CanvasServiceStub) => {
-      canvasService._currentNumberOfCanvasGroups.next(10);
-
-      canvasService._currentCanvasGroupIndex.next(9);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        const button = fixture.debugElement.query(
-          By.css('#footerNavigateNextButton')
-        );
-        expect(button.nativeElement.disabled).toBeTruthy();
-      });
-    })
-  ));
-
-  it('should display next canvas group', waitForAsync(
-    inject(
-      [ViewerService, CanvasService],
-      (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
-        spy = spyOn(viewerService, 'goToNextCanvasGroup');
-
-        const button = fixture.debugElement.query(
-          By.css('#footerNavigateNextButton')
-        );
-        button.nativeElement.click();
-
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(spy.calls.count()).toEqual(1);
-        });
-      }
-    )
-  ));
-
-  it('should display previous canvas group', waitForAsync(
-    inject(
-      [ViewerService, CanvasService],
-      (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
-        spy = spyOn(viewerService, 'goToPreviousCanvasGroup');
+  it(
+    'should disable next button when viewer is on last canvas group',
+    waitForAsync(
+      inject([CanvasService], (canvasService: CanvasServiceStub) => {
+        canvasService._currentNumberOfCanvasGroups.next(10);
 
         canvasService._currentCanvasGroupIndex.next(9);
         fixture.detectChanges();
 
         fixture.whenStable().then(() => {
           const button = fixture.debugElement.query(
-            By.css('#footerNavigateBeforeButton')
+            By.css('#footerNavigateNextButton')
+          );
+          expect(button.nativeElement.disabled).toBeTruthy();
+        });
+      })
+    )
+  );
+
+  it(
+    'should display next canvas group',
+    waitForAsync(
+      inject(
+        [ViewerService, CanvasService],
+        (
+          viewerService: ViewerServiceStub,
+          canvasService: CanvasServiceStub
+        ) => {
+          spy = spyOn(viewerService, 'goToNextCanvasGroup');
+
+          const button = fixture.debugElement.query(
+            By.css('#footerNavigateNextButton')
           );
           button.nativeElement.click();
+
           fixture.detectChanges();
           fixture.whenStable().then(() => {
             expect(spy.calls.count()).toEqual(1);
           });
-        });
-      }
+        }
+      )
     )
-  ));
+  );
 
-  it('should disable previous and next button if there is only one canvas', waitForAsync(
-    inject(
-      [ViewerService, CanvasService],
-      (viewerService: ViewerServiceStub, canvasService: CanvasServiceStub) => {
+  it(
+    'should display previous canvas group',
+    waitForAsync(
+      inject(
+        [ViewerService, CanvasService],
+        (
+          viewerService: ViewerServiceStub,
+          canvasService: CanvasServiceStub
+        ) => {
+          spy = spyOn(viewerService, 'goToPreviousCanvasGroup');
+
+          canvasService._currentCanvasGroupIndex.next(9);
+          fixture.detectChanges();
+
+          fixture.whenStable().then(() => {
+            const button = fixture.debugElement.query(
+              By.css('#footerNavigateBeforeButton')
+            );
+            button.nativeElement.click();
+            fixture.detectChanges();
+            fixture.whenStable().then(() => {
+              expect(spy.calls.count()).toEqual(1);
+            });
+          });
+        }
+      )
+    )
+  );
+
+  it(
+    'should disable previous and next button if there is only one canvas',
+    waitForAsync(
+      inject(
+        [ViewerService, CanvasService],
+        (
+          viewerService: ViewerServiceStub,
+          canvasService: CanvasServiceStub
+        ) => {
+          canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+          fixture.detectChanges();
+
+          fixture.whenStable().then(() => {
+            const previousButton = fixture.debugElement.query(
+              By.css('#footerNavigateBeforeButton')
+            );
+            const nextButton = fixture.debugElement.query(
+              By.css('#footerNavigateNextButton')
+            );
+
+            expect(nextButton.nativeElement.disabled).toBeTrue();
+            expect(previousButton.nativeElement.disabled).toBeTrue();
+          });
+        }
+      )
+    )
+  );
+
+  it(
+    'should check hotkeys',
+    waitForAsync(
+      inject([CanvasService], (canvasService: CanvasServiceStub) => {
+        const event: KeyboardEvent = new KeyboardEvent('keyup', {
+          code: '70', // 'f'
+        });
+
+        spy = spyOn(component, 'onSliderHotKey').and.callThrough();
         canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
-        fixture.detectChanges();
 
+        fixture.detectChanges();
         fixture.whenStable().then(() => {
-          const previousButton = fixture.debugElement.query(
-            By.css('#footerNavigateBeforeButton')
+          const slider = fixture.debugElement.query(
+            By.css('.navigation-slider')
           );
-          const nextButton = fixture.debugElement.query(
-            By.css('#footerNavigateNextButton')
-          );
-
-          expect(nextButton.nativeElement.disabled).toBeTrue();
-          expect(previousButton.nativeElement.disabled).toBeTrue();
+          slider.nativeElement.dispatchEvent(event);
+          fixture.detectChanges();
+          expect(spy).toHaveBeenCalled();
         });
-      }
+      })
     )
-  ));
-
-  it('should check hotkeys', waitForAsync(
-    inject([CanvasService], (canvasService: CanvasServiceStub) => {
-      const event: KeyboardEvent = new KeyboardEvent('keyup', {
-        code: '70' // 'f'
-      });
-
-      spy = spyOn(component, 'onSliderHotKey').and.callThrough();
-      canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const slider = fixture.debugElement.query(By.css('.navigation-slider'));
-        slider.nativeElement.dispatchEvent(event);
-        fixture.detectChanges();
-        expect(spy).toHaveBeenCalled();
-      });
-    })
-  ));
+  );
 });

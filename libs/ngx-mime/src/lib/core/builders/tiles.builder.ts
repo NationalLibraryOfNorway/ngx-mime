@@ -11,7 +11,7 @@ export class TilesBuilder {
         tiles.push(
           new Tile({
             width: tile.width,
-            scaleFactors: tile.scaleFactors
+            scaleFactors: tile.scaleFactors,
           })
         );
       }

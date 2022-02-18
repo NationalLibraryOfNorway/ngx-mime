@@ -87,10 +87,14 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex
     );
-    this.firstCanvasRecognizedTextContent = this.altoService.getHtml(canvases[0]);
+    this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
+      canvases[0]
+    );
 
     if (canvases.length === 2) {
-      this.secondCanvasRecognizedTextContent = this.altoService.getHtml(canvases[1]);
+      this.secondCanvasRecognizedTextContent = this.altoService.getHtml(
+        canvases[1]
+      );
     }
   }
 }

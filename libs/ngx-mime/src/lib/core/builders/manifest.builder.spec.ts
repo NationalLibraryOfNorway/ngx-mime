@@ -51,7 +51,9 @@ describe('ManifestBuilder', () => {
       const firstSequence = manifest.sequences[0];
       if (firstSequence.canvases && firstSequence.canvases.length > 0) {
         const firstCanvas = firstSequence.canvases[0];
-        expect(firstCanvas.altoUrl).toBeDefined('First canvas should have altoUrl');
+        expect(firstCanvas.altoUrl).toBeDefined(
+          'First canvas should have altoUrl'
+        );
       }
     }
   });

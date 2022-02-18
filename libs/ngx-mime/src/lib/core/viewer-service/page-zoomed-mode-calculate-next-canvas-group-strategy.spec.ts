@@ -15,7 +15,7 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
       currentCanvasGroupIndex: 1,
       currentCanvasGroupCenter: 1,
       canvasGroupEndHitCountReached: false,
-      viewingDirection: ViewingDirection.LTR
+      viewingDirection: ViewingDirection.LTR,
     });
 
     expect(res).toBe(1);
@@ -27,7 +27,7 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
       currentCanvasGroupIndex: 1,
       currentCanvasGroupCenter: 1,
       canvasGroupEndHitCountReached: true,
-      viewingDirection: ViewingDirection.LTR
+      viewingDirection: ViewingDirection.LTR,
     });
 
     expect(res).toBe(2);
@@ -39,7 +39,7 @@ describe('PageZoomedModeCalculateNextCanvasGroupStrategy ', () => {
       currentCanvasGroupIndex: 2,
       currentCanvasGroupCenter: 2,
       canvasGroupEndHitCountReached: true,
-      viewingDirection: ViewingDirection.LTR
+      viewingDirection: ViewingDirection.LTR,
     });
 
     expect(res).toBe(1);

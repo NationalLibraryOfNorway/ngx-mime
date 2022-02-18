@@ -3,13 +3,13 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { Dimensions } from '../core/models/dimensions';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 
-
 export interface HelpDialogConfigStrategy {
   getConfig(elementRef?: ElementRef): MatDialogConfig;
 }
 
 export class MobileHelpDialogConfigStrategy
-  implements HelpDialogConfigStrategy {
+  implements HelpDialogConfigStrategy
+{
   public getConfig(elementRef: ElementRef): MatDialogConfig {
     return {
       hasBackdrop: false,
@@ -17,13 +17,14 @@ export class MobileHelpDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
-      panelClass: 'help-panel'
+      panelClass: 'help-panel',
     };
   }
 }
 
 export class DesktopHelpDialogConfigStrategy
-  implements HelpDialogConfigStrategy {
+  implements HelpDialogConfigStrategy
+{
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
   private mimeDomHelper: MimeDomHelper;
@@ -41,9 +42,9 @@ export class DesktopHelpDialogConfigStrategy
       width: `${DesktopHelpDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
-        left: dimensions.left + 'px'
+        left: dimensions.left + 'px',
       },
-      panelClass: 'help-panel'
+      panelClass: 'help-panel',
     };
   }
 
@@ -54,7 +55,7 @@ export class DesktopHelpDialogConfigStrategy
       left:
         dimensions.right -
         DesktopHelpDialogConfigStrategy.dialogWidth -
-        DesktopHelpDialogConfigStrategy.paddingRight
+        DesktopHelpDialogConfigStrategy.paddingRight,
     });
   }
 }

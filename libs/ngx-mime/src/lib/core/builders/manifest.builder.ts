@@ -28,7 +28,7 @@ export class ManifestBuilder {
       sequences: sequences,
       structures: new StructureBuilder(this.data.structures, sequences).build(),
       tileSource: new TileSourceBuilder(this.data.sequences).build(),
-      viewingHint: this.data.viewingHint
+      viewingHint: this.data.viewingHint,
     });
   }
 }

@@ -18,7 +18,7 @@ export class StructureBuilder {
             canvasIndex: BuilderUtils.findCanvasIndex(
               structure.canvases,
               this.sequences
-            )
+            ),
           })
         );
       }

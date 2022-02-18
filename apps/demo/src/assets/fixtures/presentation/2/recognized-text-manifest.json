@@ -60,11 +60,13 @@
         {
           "@id": "https://api.nb.no/catalog/v1/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0001",
           "@type": "sc:Canvas",
-          "seeAlso": [{
-            "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0001",
-            "format": "application/alto+xml",
-            "profile": "http://www.loc.gov/standards/alto"
-          }],
+          "seeAlso": [
+            {
+              "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0001",
+              "format": "application/alto+xml",
+              "profile": "http://www.loc.gov/standards/alto"
+            }
+          ],
           "label": "1",
           "height": 2843,
           "width": 2194,
@@ -110,11 +112,13 @@
         {
           "@id": "https://api.nb.no/catalog/v1/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0002",
           "@type": "sc:Canvas",
-          "seeAlso": [{
-            "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0002",
-            "format": "application/alto+xml",
-            "profile": "http://www.loc.gov/standards/alto"
-          }],
+          "seeAlso": [
+            {
+              "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0002",
+              "format": "application/alto+xml",
+              "profile": "http://www.loc.gov/standards/alto"
+            }
+          ],
           "label": "2",
           "height": 2843,
           "width": 4137,
@@ -161,11 +165,13 @@
         {
           "@id": "https://api.nb.no/catalog/v1/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0003",
           "@type": "sc:Canvas",
-          "seeAlso": [{
-            "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0003",
-            "format": "application/alto+xml",
-            "profile": "http://www.loc.gov/standards/alto"
-          }],
+          "seeAlso": [
+            {
+              "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0003",
+              "format": "application/alto+xml",
+              "profile": "http://www.loc.gov/standards/alto"
+            }
+          ],
           "label": "3",
           "height": 2843,
           "width": 2187,
@@ -211,11 +217,13 @@
         {
           "@id": "https://api.nb.no/catalog/v1/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0004",
           "@type": "sc:Canvas",
-          "seeAlso": [{
-            "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0004",
-            "format": "application/alto+xml",
-            "profile": "http://www.loc.gov/standards/alto"
-          }],
+          "seeAlso": [
+            {
+              "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0004",
+              "format": "application/alto+xml",
+              "profile": "http://www.loc.gov/standards/alto"
+            }
+          ],
           "label": "4",
           "height": 1596,
           "width": 2226,
@@ -261,11 +269,13 @@
         {
           "@id": "https://api.nb.no/catalog/v1/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0005",
           "@type": "sc:Canvas",
-          "seeAlso": [{
-            "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0005",
-            "format": "application/alto+xml",
-            "profile": "http://www.loc.gov/standards/alto"
-          }],
+          "seeAlso": [
+            {
+              "@id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0005",
+              "format": "application/alto+xml",
+              "profile": "http://www.loc.gov/standards/alto"
+            }
+          ],
           "label": "5",
           "height": 1596,
           "width": 2226,

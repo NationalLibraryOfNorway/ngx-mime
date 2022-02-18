@@ -9,7 +9,8 @@ import {
 import { canvasRectFromCriteria } from './calculate-canvas-group-position-utils';
 
 export class OnePageCalculatePagePositionStrategy
-  implements CalculateCanvasGroupPositionStrategy {
+  implements CalculateCanvasGroupPositionStrategy
+{
   constructor(private config: MimeViewerConfig) {}
 
   calculateCanvasGroupPosition(

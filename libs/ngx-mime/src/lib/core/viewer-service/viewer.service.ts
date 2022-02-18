@@ -170,9 +170,8 @@ export class ViewerService {
   }
 
   public goToCanvas(canvasIndex: number, immediately: boolean): void {
-    const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
-      canvasIndex
-    );
+    const canvasGroupIndex =
+      this.canvasService.findCanvasGroupByCanvasIndex(canvasIndex);
     this.goToCanvasGroupStrategy.goToCanvasGroup({
       canvasGroupIndex: canvasGroupIndex,
       immediately: immediately,
@@ -381,9 +380,8 @@ export class ViewerService {
       this.destroy(true);
       this.setUpViewer(this.manifest, this.config);
       this.goToCanvasGroupStrategy.goToCanvasGroup({
-        canvasGroupIndex: this.canvasService.findCanvasGroupByCanvasIndex(
-          currentCanvasIndex
-        ),
+        canvasGroupIndex:
+          this.canvasService.findCanvasGroupByCanvasIndex(currentCanvasIndex),
         immediately: false,
       });
 
@@ -663,9 +661,8 @@ export class ViewerService {
    */
   singleClickHandler = (event: any) => {
     const tileIndex = this.getOverlayIndexFromClickEvent(event);
-    const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
-      tileIndex
-    );
+    const requestedCanvasGroupIndex =
+      this.canvasService.findCanvasGroupByCanvasIndex(tileIndex);
     if (requestedCanvasGroupIndex !== -1) {
       this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
     } else {
@@ -692,9 +689,8 @@ export class ViewerService {
     } else {
       this.modeService.mode = ViewerMode.PAGE;
       const canvasIndex: number = this.getOverlayIndexFromClickEvent(event);
-      const requestedCanvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
-        canvasIndex
-      );
+      const requestedCanvasGroupIndex =
+        this.canvasService.findCanvasGroupByCanvasIndex(canvasIndex);
       if (requestedCanvasGroupIndex >= 0) {
         this.canvasService.currentCanvasGroupIndex = requestedCanvasGroupIndex;
       } else {
@@ -718,11 +714,12 @@ export class ViewerService {
   createOverlays(): void {
     this.overlays = [];
     const canvasRects: Rect[] = [];
-    const calculateCanvasGroupPositionStrategy = CalculateCanvasGroupPositionFactory.create(
-      this.viewerLayoutService.layout,
-      this.isManifestPaged,
-      this.config
-    );
+    const calculateCanvasGroupPositionStrategy =
+      CalculateCanvasGroupPositionFactory.create(
+        this.viewerLayoutService.layout,
+        this.isManifestPaged,
+        this.config
+      );
 
     const isTwoPageView: boolean =
       this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE;
@@ -730,15 +727,16 @@ export class ViewerService {
     let group: any = this.svgNode.append('g').attr('class', 'page-group');
 
     this.tileSources.forEach((tile, i) => {
-      const position = calculateCanvasGroupPositionStrategy.calculateCanvasGroupPosition(
-        {
-          canvasGroupIndex: i,
-          canvasSource: tile,
-          previousCanvasGroupPosition: canvasRects[i - 1],
-          viewingDirection: this.manifest.viewingDirection,
-        },
-        rotation
-      );
+      const position =
+        calculateCanvasGroupPositionStrategy.calculateCanvasGroupPosition(
+          {
+            canvasGroupIndex: i,
+            canvasSource: tile,
+            previousCanvasGroupPosition: canvasRects[i - 1],
+            viewingDirection: this.manifest.viewingDirection,
+          },
+          rotation
+        );
 
       canvasRects.push(position);
 
@@ -854,9 +852,8 @@ export class ViewerService {
 
   private calculateCurrentCanvasGroup(center: Point) {
     if (center) {
-      const currentCanvasGroupIndex = this.canvasService.findClosestCanvasGroupIndex(
-        center
-      );
+      const currentCanvasGroupIndex =
+        this.canvasService.findClosestCanvasGroupIndex(center);
       this.currentCanvasIndex.next(currentCanvasGroupIndex);
     }
   }
@@ -864,12 +861,14 @@ export class ViewerService {
   private dragHandler = (e: any) => {
     this.viewer.panHorizontal = true;
     if (this.modeService.isPageZoomed()) {
-      const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
+      const canvasGroupRect: Rect =
+        this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
-      const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
-        canvasGroupRect,
-        vpBounds
-      );
+      const pannedPastCanvasGroup =
+        SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
+          canvasGroupRect,
+          vpBounds
+        );
       const direction: number = e.direction;
       if (
         (pannedPastCanvasGroup === Side.LEFT &&
@@ -964,7 +963,8 @@ export class ViewerService {
     const speed: number = e.speed;
     const dragEndPosision = e.position;
 
-    const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
+    const canvasGroupRect: Rect =
+      this.canvasService.getCurrentCanvasGroupRect();
     const viewportBounds: Rect = this.getViewportBounds();
 
     const direction: Direction = SwipeUtils.getSwipeDirection(
@@ -973,11 +973,10 @@ export class ViewerService {
       this.modeService.isPageZoomed()
     );
 
-    const currentCanvasGroupIndex: number = this.canvasService
-      .currentCanvasGroupIndex;
-    const calculateNextCanvasGroupStrategy = CalculateNextCanvasGroupFactory.create(
-      this.modeService.mode
-    );
+    const currentCanvasGroupIndex: number =
+      this.canvasService.currentCanvasGroupIndex;
+    const calculateNextCanvasGroupStrategy =
+      CalculateNextCanvasGroupFactory.create(this.modeService.mode);
 
     let pannedPastSide: Side | null;
     let canvasGroupEndHitCountReached = false;
@@ -987,7 +986,8 @@ export class ViewerService {
         viewportBounds
       );
       this.swipeDragEndCounter.addHit(pannedPastSide, direction);
-      canvasGroupEndHitCountReached = this.swipeDragEndCounter.hitCountReached();
+      canvasGroupEndHitCountReached =
+        this.swipeDragEndCounter.hitCountReached();
     }
 
     const newCanvasGroupIndex = this.canvasService.constrainToRange(

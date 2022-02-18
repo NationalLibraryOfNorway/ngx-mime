@@ -30,7 +30,7 @@ export class IiifManifestService {
     return new Observable((observer) => {
       if (manifestUri.length === 0) {
         this._errorMessage.next(this.intl.manifestUriMissingLabel);
-        observer.next(false)
+        observer.next(false);
       } else {
         this.spinnerService.show();
         this.http
@@ -44,15 +44,15 @@ export class IiifManifestService {
               const manifest = this.extractData(response);
               if (this.isManifestValid(manifest)) {
                 this._currentManifest.next(manifest);
-                observer.next(true)
+                observer.next(true);
               } else {
                 this._errorMessage.next(this.intl.manifestNotValidLabel);
-                observer.next(false)
+                observer.next(false);
               }
             },
             (err: HttpErrorResponse) => {
               this._errorMessage.next(this.handleError(err));
-              observer.next(false)
+              observer.next(false);
             }
           );
       }

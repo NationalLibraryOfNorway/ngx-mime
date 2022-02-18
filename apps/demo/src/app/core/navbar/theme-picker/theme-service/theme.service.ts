@@ -18,26 +18,26 @@ export class ThemeService {
       accent: '#b0bec5',
       name: 'brown-theme',
       isDark: false,
-      isDefault: true
+      isDefault: true,
     },
     {
       primary: '#0277bd',
       accent: '#01579b',
       name: 'blue-theme',
-      isDark: false
+      isDark: false,
     },
     {
       primary: '#18ffff',
       accent: '#b2ff59',
       name: 'cyan-theme',
-      isDark: true
+      isDark: true,
     },
     {
       primary: '#673ab7',
       accent: '#ffd740',
       name: 'purple-theme',
-      isDark: true
-    }
+      isDark: true,
+    },
   ];
 
   getAllThemes() {
@@ -69,6 +69,6 @@ export class ThemeService {
   }
 
   private getDefaultTheme() {
-    return this.themes.filter(t => t.isDefault)[0];
+    return this.themes.filter((t) => t.isDefault)[0];
   }
 }

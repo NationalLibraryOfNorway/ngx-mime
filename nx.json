@@ -50,7 +50,6 @@
       "e2eTestRunner": "protractor"
     },
     "@nrwl/angular:library": {
-      "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "karma"
     },
