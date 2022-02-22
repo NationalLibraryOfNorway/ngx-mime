@@ -108,7 +108,7 @@ describe('HtmlFormatter', () => {
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p><mark>3)</mark> this is a test.<p/>'
+      '<p><mark>3) </mark>this is a test.<p/>'
     );
   });
 
