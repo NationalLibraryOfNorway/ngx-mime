@@ -50,8 +50,8 @@ export class HtmlFormatter {
 
   transform(html: string): string {
     if (this.hits && this.hits.length > 0) {
-      for (const matches of this.hits) {
-          html = this.markMatch(html+' ', '\\b'+this.escape(matches.match));
+      for (const hit of this.hits) {
+          html = this.markMatch(html+' ', '\\b'+this.escape(hit.match));
       }
     }
     return html.trim();
@@ -65,6 +65,9 @@ export class HtmlFormatter {
   }
 
   escape(text: string): string {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    const pattern = /[-[\]{}()*"+?.,\\^$|#\s]/g;
+    return text.charAt(0)==='"'? 
+    text.substr(1).replace(pattern, '\\$&'):
+    text.replace(pattern, '\\$&');
   }
 }
