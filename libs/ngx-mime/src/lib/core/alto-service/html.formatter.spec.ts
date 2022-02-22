@@ -71,7 +71,8 @@ describe('HtmlFormatter', () => {
   });
 
   it('should mark match when hits are available', () => {
-    const hits: Hit[] = [{id: 1, index: 2, match: 'this', label: '', before: '', after: '', rects: []}]
+    const hits: Hit[] = [{id: 1, index: 2, match: 'this', label: '', before: '', after: '', rects: []}];
+
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
@@ -82,7 +83,8 @@ describe('HtmlFormatter', () => {
   it('should mark multiple words', () => {
     const hits: Hit[] = [{id: 1, index: 2, match: 'this', label: '', before: '', after: '', rects: []},
     {id: 2, index: 3, match: 'test', label: '', before: '', after: '', rects: []},
-    {id: 3, index: 4, match: 'is', label: '', before: '', after: '', rects: []}]
+    {id: 3, index: 4, match: 'is', label: '', before: '', after: '', rects: []}];
+
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
@@ -91,7 +93,8 @@ describe('HtmlFormatter', () => {
   });
 
   it('should mark single letter words', () => {
-    const hits: Hit[] = [{id: 1, index: 2, match: 'a', label: '', before: '', after: '', rects: []}]
+    const hits: Hit[] = [{id: 1, index: 2, match: 'a', label: '', before: '', after: '', rects: []}];
+
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
@@ -99,17 +102,9 @@ describe('HtmlFormatter', () => {
     );
   });
 
-  it('should mark whole words and not partially', () => {
-    const hits: Hit[] = [{id: 1, index: 2, match: 'is', label: '', before: '', after: '', rects: []}]
-    const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
-
-    expect(result).toBe(
-      '<p>this <mark>is</mark> a test.<p/>'
-    );
-  });
-
   it('should not mark when no hits', () => {
     const hits: Hit[] = [];
+
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(

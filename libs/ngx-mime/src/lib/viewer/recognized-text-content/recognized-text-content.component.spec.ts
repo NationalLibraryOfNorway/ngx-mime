@@ -27,7 +27,7 @@ describe('RecognizedTextContentComponent', () => {
         CanvasService,
         AltoService,
         MimeViewerIntl,
-        { provide: IiifContentSearchService, useClass: IiifContentSearchServiceStub },
+        IiifContentSearchService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     }).compileComponents();
