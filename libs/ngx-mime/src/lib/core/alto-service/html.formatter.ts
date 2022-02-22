@@ -51,10 +51,10 @@ export class HtmlFormatter {
   transform(html: string): string {
     if (this.hits && this.hits.length > 0) {
       for (const matches of this.hits) {
-          html = this.markMatch(html + ' ', '\\b'+this.escape(matches.match));
+          html = this.markMatch(html, '\\b'+this.escape(matches.match.trim()));
       }
     }
-    return html.trim();
+    return html;
   }
 
   markMatch(html: string, pattern: string): string {

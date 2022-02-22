@@ -16,7 +16,7 @@ describe('HtmlFormatter', () => {
         printSpace: {
           textBlocks: [
             {
-              textLines: [{ strings: [{ content: 'this is a test.' }] }],
+              textLines: [{ strings: [{ content: '3) this is a test.' }] }],
             },
           ],
         },
@@ -76,7 +76,7 @@ describe('HtmlFormatter', () => {
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p><mark>this</mark> is a test.<p/>'
+      '<p>3) <mark>this</mark> is a test.<p/>'
     );
   });
 
@@ -88,7 +88,7 @@ describe('HtmlFormatter', () => {
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p><mark>this</mark> <mark>is</mark> a <mark>test</mark>.<p/>'
+      '<p>3) <mark>this</mark> <mark>is</mark> a <mark>test</mark>.<p/>'
     );
   });
 
@@ -98,7 +98,17 @@ describe('HtmlFormatter', () => {
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p>this is <mark>a</mark> test.<p/>'
+      '<p>3) this is <mark>a</mark> test.<p/>'
+    );
+  });
+
+  it('should mark numbers and symbols', () => {
+    const hits: Hit[] = [{id: 1, index: 2, match: '3) ', label: '', before: '', after: '', rects: []}];
+
+    const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
+
+    expect(result).toBe(
+      '<p><mark>3)</mark> this is a test.<p/>'
     );
   });
 
@@ -108,7 +118,7 @@ describe('HtmlFormatter', () => {
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p>this is a test.<p/>'
+      '<p>3) this is a test.<p/>'
     );
   });
 });
