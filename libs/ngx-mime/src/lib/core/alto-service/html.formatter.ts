@@ -3,10 +3,7 @@ import { Alto, String, TextLine } from './alto.model';
 import { Hit } from './../../core/models/hit';
 
 export class HtmlFormatter {
-  constructor(
-    private sanitizer: DomSanitizer,
-    private hits?: Hit[]
-  ) {}
+  constructor(private sanitizer: DomSanitizer, private hits?: Hit[]) {}
 
   altoToHtml(alto: Alto): SafeHtml {
     const page = alto.layout.page;
@@ -51,7 +48,7 @@ export class HtmlFormatter {
   transform(html: string): string {
     if (this.hits && this.hits.length > 0) {
       for (const hit of this.hits) {
-          html = this.markMatch(html+' ', '\\b'+this.escape(hit.match));
+        html = this.markMatch(html + ' ', '\\b' + this.escape(hit.match));
       }
     }
     return html.trim();
@@ -66,8 +63,8 @@ export class HtmlFormatter {
 
   escape(text: string): string {
     const pattern = /[-[\]{}()*"+?.,\\^$|#\s]/g;
-    return text.charAt(0)==='"'? 
-    text.substr(1).replace(pattern, '\\$&'):
-    text.replace(pattern, '\\$&');
+    return text.charAt(0) === '"'
+      ? text.substr(1).replace(pattern, '\\$&')
+      : text.replace(pattern, '\\$&');
   }
 }
