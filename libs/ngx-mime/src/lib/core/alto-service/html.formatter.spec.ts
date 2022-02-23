@@ -4,7 +4,7 @@ import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 import { Hit } from './../../core/models/hit';
 
-describe('HtmlFormatter', () => {
+fdescribe('HtmlFormatter', () => {
   let sanitizer: DomSanitizer;
   let alto: Alto = {
     layout: {
@@ -16,7 +16,7 @@ describe('HtmlFormatter', () => {
         printSpace: {
           textBlocks: [
             {
-              textLines: [{ strings: [{ content: '3) this is a test.' }] }],
+              textLines: [{ strings: [{ content: '3) this is "now" a test.' }] }],
             },
           ],
         },
@@ -70,7 +70,7 @@ describe('HtmlFormatter', () => {
     );
   });
 
-  it('should mark match when hits are available', () => {
+  it('should highlight match when hits are available', () => {
     const hits: Hit[] = [
       {
         id: 1,
@@ -85,10 +85,10 @@ describe('HtmlFormatter', () => {
 
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
-    expect(result).toBe('<p>3) <mark>this</mark> is a test.<p/>');
+    expect(result).toBe('<p>3) <mark>this</mark> is "now" a test.<p/>');
   });
 
-  it('should mark multiple words', () => {
+  it('should highlight multiple words', () => {
     const hits: Hit[] = [
       {
         id: 1,
@@ -122,11 +122,11 @@ describe('HtmlFormatter', () => {
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
     expect(result).toBe(
-      '<p>3) <mark>this</mark> <mark>is</mark> a <mark>test</mark>.<p/>'
+      '<p>3) <mark>this</mark> <mark>is</mark> "now" a <mark>test</mark>.<p/>'
     );
   });
 
-  it('should mark single letter words', () => {
+  it('should highlight single letter words', () => {
     const hits: Hit[] = [
       {
         id: 1,
@@ -141,10 +141,10 @@ describe('HtmlFormatter', () => {
 
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
-    expect(result).toBe('<p>3) this is <mark>a</mark> test.<p/>');
+    expect(result).toBe('<p>3) this is "now" <mark>a</mark> test.<p/>');
   });
 
-  it('should mark numbers and symbols', () => {
+  it('should highlight numbers and symbols', () => {
     const hits: Hit[] = [
       {
         id: 1,
@@ -159,14 +159,33 @@ describe('HtmlFormatter', () => {
 
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
-    expect(result).toBe('<p><mark>3) </mark>this is a test.<p/>');
+    expect(result).toBe('<p><mark>3) </mark>this is "now" a test.<p/>');
   });
 
-  it('should not mark when no hits', () => {
+  it('should not highlight when no hits', () => {
     const hits: Hit[] = [];
 
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
-    expect(result).toBe('<p>3) this is a test.<p/>');
+    expect(result).toBe('<p>3) this is "now" a test.<p/>');
+  });
+
+  it('should highlight text when match has quotation marks', () => {
+    const hits: Hit[] = [
+      {
+        id: 1,
+        index: 2,
+        match: '"now" ',
+        label: '',
+        before: '',
+        after: '',
+        rects: [],
+      },
+    ];
+
+
+    const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
+
+    expect(result).toBe('<p>3) this is "<mark>now" </mark>a test.<p/>');
   });
 });
