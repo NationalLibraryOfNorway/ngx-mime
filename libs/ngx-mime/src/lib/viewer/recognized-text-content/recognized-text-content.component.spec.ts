@@ -9,7 +9,6 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
-import { IiifContentSearchServiceStub } from '../../test/iiif-content-search-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
 
 describe('RecognizedTextContentComponent', () => {
