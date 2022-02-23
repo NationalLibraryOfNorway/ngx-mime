@@ -1,0 +1,3317 @@
+{
+  "@context": [
+    "http://iiif.io/api/presentation/2/context.json",
+    "http://iiif.io/api/search/0/context.json"
+  ],
+  "@id": "https://api.nb.no/catalog/v3/contentsearch/578dffe1fd335a33693bb4261dc738b5/search?q=america",
+  "@type": "sc:AnnotationList",
+  "resources": [
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0003#xywh=304,1178,1024,137",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "AMERICA. "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003#xywh=304,1178,1024,137"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0005#xywh=968,1062,321,78",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005#xywh=968,1062,321,78"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0007#xywh=496,1492,214,51",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0007#xywh=496,1492,214,51"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0008#xywh=686,2456,220,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0008#xywh=686,2456,220,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0011#xywh=154,1649,217,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0011#xywh=154,1649,217,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0016#xywh=279,1501,219,50",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0016#xywh=279,1501,219,50"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0022#xywh=725,2215,222,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0022#xywh=725,2215,222,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0023#xywh=262,2333,215,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0023#xywh=262,2333,215,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0026#xywh=783,1769,219,52",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0026#xywh=783,1769,219,52"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1475,489,97,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1475,489,97,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=408,539,110,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=408,539,110,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1437,1863,99,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1437,1863,99,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=374,1920,115,52",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=374,1920,115,52"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=1147,737,146,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=1147,737,146,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=140,824,66,37",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=140,824,66,37"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=514,2607,215,51",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=514,2607,215,51"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0044#xywh=578,2615,219,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0044#xywh=578,2615,219,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=1255,341,222,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=1255,341,222,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=394,854,236,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=394,854,236,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=742,1744,217,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=742,1744,217,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=963,1941,236,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=963,1941,236,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=938,588,233,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=938,588,233,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=1404,2308,104,40",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=1404,2308,104,40"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=370,2373,110,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=370,2373,110,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0054#xywh=429,1942,219,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0054#xywh=429,1942,219,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0055#xywh=990,1205,321,78",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0055#xywh=990,1205,321,78"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0057#xywh=1043,1287,220,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0057#xywh=1043,1287,220,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0058#xywh=599,640,219,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America., "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0058#xywh=599,640,219,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=1083,548,219,51",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=1083,548,219,51"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=358,2259,217,51",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=358,2259,217,51"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=1136,1816,141,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=1136,1816,141,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=106,1878,63,37",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=106,1878,63,37"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=1371,449,220,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=1371,449,220,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=440,2313,219,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=440,2313,219,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0067#xywh=1050,1629,275,63",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "of'America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0067#xywh=1050,1629,275,63"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1351,615,219,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1351,615,219,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1316,2256,217,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1316,2256,217,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0069#xywh=348,1481,219,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0069#xywh=348,1481,219,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0071#xywh=1032,1802,203,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0071#xywh=1032,1802,203,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=410,653,219,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=410,653,219,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=1322,2774,217,52",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=1322,2774,217,52"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0073#xywh=273,2273,219,50",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0073#xywh=273,2273,219,50"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0075#xywh=167,657,198,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0075#xywh=167,657,198,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0077#xywh=235,1341,283,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America*.in "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0077#xywh=235,1341,283,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0085#xywh=378,2298,197,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0085#xywh=378,2298,197,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0088#xywh=1280,1652,275,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "of'America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0088#xywh=1280,1652,275,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0089#xywh=216,744,219,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0089#xywh=216,744,219,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0090#xywh=441,246,217,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0090#xywh=441,246,217,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1080,621,222,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1080,621,222,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1105,2289,217,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1105,2289,217,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0092#xywh=426,1258,220,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0092#xywh=426,1258,220,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0095#xywh=389,833,211,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0095#xywh=389,833,211,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0096#xywh=407,804,219,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0096#xywh=407,804,219,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0099#xywh=221,1596,206,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0099#xywh=221,1596,206,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0100#xywh=391,1291,220,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0100#xywh=391,1291,220,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0101#xywh=200,2618,208,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0101#xywh=200,2618,208,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0104#xywh=605,621,217,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0104#xywh=605,621,217,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0106#xywh=580,1800,222,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0106#xywh=580,1800,222,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0108#xywh=604,1261,220,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0108#xywh=604,1261,220,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0109#xywh=181,681,204,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0109#xywh=181,681,204,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0110#xywh=353,2715,215,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0110#xywh=353,2715,215,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0112#xywh=408,1526,217,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0112#xywh=408,1526,217,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0113#xywh=243,1519,214,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0113#xywh=243,1519,214,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0114#xywh=1302,2639,208,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0114#xywh=1302,2639,208,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0115#xywh=339,1427,200,50",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0115#xywh=339,1427,200,50"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0117#xywh=958,1949,275,61",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "of'America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0117#xywh=958,1949,275,61"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0118#xywh=575,1464,217,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0118#xywh=575,1464,217,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0126#xywh=1059,2119,209,50",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0126#xywh=1059,2119,209,50"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0127#xywh=186,1303,214,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0127#xywh=186,1303,214,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=1113,555,219,48",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=1113,555,219,48"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=222,2467,215,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=222,2467,215,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0132#xywh=415,1602,220,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0132#xywh=415,1602,220,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0135#xywh=194,2187,222,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0135#xywh=194,2187,222,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0139#xywh=216,2560,217,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0139#xywh=216,2560,217,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0145#xywh=246,2174,219,50",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0145#xywh=246,2174,219,50"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0146#xywh=1280,2243,222,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0146#xywh=1280,2243,222,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0154#xywh=421,2196,215,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0154#xywh=421,2196,215,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0159#xywh=188,2199,215,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0159#xywh=188,2199,215,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0162#xywh=392,1934,219,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0162#xywh=392,1934,219,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0164#xywh=419,2752,215,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0164#xywh=419,2752,215,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0166#xywh=408,579,219,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0166#xywh=408,579,219,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=1053,373,219,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=1053,373,219,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=210,1747,215,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=210,1747,215,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0174#xywh=399,1728,201,48",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0174#xywh=399,1728,201,48"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0197#xywh=378,2376,217,63",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0197#xywh=378,2376,217,63"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0205#xywh=153,495,214,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0205#xywh=153,495,214,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0207#xywh=1031,2623,217,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0207#xywh=1031,2623,217,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0225#xywh=194,1167,214,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0225#xywh=194,1167,214,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0231#xywh=194,2434,214,51",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0231#xywh=194,2434,214,51"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1188,1152,94,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1188,1152,94,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=110,1215,107,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=110,1215,107,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1089,2648,219,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1089,2648,219,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0236#xywh=408,1796,217,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0236#xywh=408,1796,217,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0237#xywh=1051,1498,209,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0237#xywh=1051,1498,209,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0238#xywh=416,703,215,52",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0238#xywh=416,703,215,52"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0241#xywh=1029,1832,220,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0241#xywh=1029,1832,220,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1102,581,189,44",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1102,581,189,44"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1089,2684,217,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1089,2684,217,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0244#xywh=1343,1934,217,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0244#xywh=1343,1934,217,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=473,397,187,48",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=473,397,187,48"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=709,750,178,42",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=709,750,178,42"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=249,1619,187,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=249,1619,187,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0255#xywh=1015,1197,318,74",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0255#xywh=1015,1197,318,74"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0258#xywh=344,1969,220,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0258#xywh=344,1969,220,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0264#xywh=344,1395,222,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0264#xywh=344,1395,222,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,671,222,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,671,222,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,2390,220,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,2390,220,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0268#xywh=396,2049,219,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0268#xywh=396,2049,219,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0270#xywh=391,1156,220,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0270#xywh=391,1156,220,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0271#xywh=186,542,215,61",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0271#xywh=186,542,215,61"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=1352,675,146,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=1352,675,146,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=296,766,67,37",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=296,766,67,37"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0273#xywh=134,1820,219,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0273#xywh=134,1820,219,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0278#xywh=556,1097,203,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0278#xywh=556,1097,203,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0280#xywh=1250,1750,219,52",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0280#xywh=1250,1750,219,52"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=1132,564,217,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=1132,564,217,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=236,2478,215,51",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=236,2478,215,51"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0286#xywh=392,2008,212,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0286#xywh=392,2008,212,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0291#xywh=156,2669,209,63",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0291#xywh=156,2669,209,63"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=164,614,215,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=164,614,215,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=162,2516,215,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=162,2516,215,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0346#xywh=298,1081,241,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0346#xywh=298,1081,241,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=1387,1299,104,42",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=1387,1299,104,42"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=301,1367,110,52",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=301,1367,110,52"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0358#xywh=597,1879,234,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0358#xywh=597,1879,234,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0368#xywh=541,1745,236,52",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0368#xywh=541,1745,236,52"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0372#xywh=407,452,239,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0372#xywh=407,452,239,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0397#xywh=1039,1478,249,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America: "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0397#xywh=1039,1478,249,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0398#xywh=326,809,241,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0398#xywh=326,809,241,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0426#xywh=971,1684,237,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0426#xywh=971,1684,237,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0428#xywh=946,1699,234,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0428#xywh=946,1699,234,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0429#xywh=933,1627,237,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0429#xywh=933,1627,237,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=1302,1472,237,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=1302,1472,237,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=777,2421,236,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=777,2421,236,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=351,851,234,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=351,851,234,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=995,2432,237,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=995,2432,237,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0438#xywh=772,922,233,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0438#xywh=772,922,233,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=1141,2470,105,44",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=1141,2470,105,44"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=68,2513,108,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=68,2513,108,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0449#xywh=501,896,236,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America. "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0449#xywh=501,896,236,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0455#xywh=355,699,242,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America; "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0455#xywh=355,699,242,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0461#xywh=117,1476,212,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0461#xywh=117,1476,212,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0462#xywh=574,2287,234,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0462#xywh=574,2287,234,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0470#xywh=408,2544,219,52",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0470#xywh=408,2544,219,52"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0487#xywh=1064,2675,192,48",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0487#xywh=1064,2675,192,48"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0494#xywh=1084,2259,189,42",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0494#xywh=1084,2259,189,42"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0495#xywh=1100,1489,195,50",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0495#xywh=1100,1489,195,50"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0498#xywh=306,2640,189,44",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0498#xywh=306,2640,189,44"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1059,758,195,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1059,758,195,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1045,2781,176,37",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1045,2781,176,37"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=1154,636,86,36",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=1154,636,86,36"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=49,676,92,48",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=49,676,92,48"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0510#xywh=1091,1917,193,48",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0510#xywh=1091,1917,193,48"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0511#xywh=1062,2024,247,51",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "of'America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0511#xywh=1062,2024,247,51"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0512#xywh=1020,1829,193,42",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0512#xywh=1020,1829,193,42"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0513#xywh=1130,540,195,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0513#xywh=1130,540,195,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1023,473,189,48",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1023,473,189,48"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1259,1843,201,50",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1259,1843,201,50"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0516#xywh=1374,2732,189,40",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0516#xywh=1374,2732,189,40"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0517#xywh=995,1908,198,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0517#xywh=995,1908,198,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0519#xywh=1144,1404,190,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0519#xywh=1144,1404,190,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0537#xywh=131,2697,206,58",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0537#xywh=131,2697,206,58"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=1351,2693,137,44",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=1351,2693,137,44"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=331,2779,63,36",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=331,2779,63,36"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0555#xywh=961,1971,272,59",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "of'America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0555#xywh=961,1971,272,59"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=1381,1089,92,44",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=1381,1089,92,44"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=328,1156,108,50",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=328,1156,108,50"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=827,629,330,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "AMERICA, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=827,629,330,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=322,1208,226,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=322,1208,226,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0574#xywh=496,984,233,53",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0574#xywh=496,984,233,53"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0577#xywh=276,1389,756,111",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "AMERICA; "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0577#xywh=276,1389,756,111"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0579#xywh=109,1078,318,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "AMERICA. "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0579#xywh=109,1078,318,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0587#xywh=761,2061,220,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America. "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0587#xywh=761,2061,220,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0595#xywh=125,569,236,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0595#xywh=125,569,236,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1083,1292,219,55",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1083,1292,219,55"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1080,1964,223,56",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1080,1964,223,56"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=205,1088,219,45",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=205,1088,219,45"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=1100,1203,231,47",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America, "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=1100,1203,231,47"
+    },
+    {
+      "@id": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0622#xywh=257,1876,173,33",
+      "@type": "oa:Annotation",
+      "motivation": "sc:painting",
+      "resource": {
+        "@type": "cnt:ContentAsText",
+        "chars": "America "
+      },
+      "on": "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0622#xywh=257,1876,173,33"
+    }
+  ],
+  "hits": [
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0003#xywh=304,1178,1024,137"
+      ],
+      "match": "AMERICA. ",
+      "before": "THE LA W S OF THE UNITED STATES OF y ",
+      "after": " IN FOUR VOLUMES. VOL, IV. PUBLISHED BT AUTHORITT. : J PHILADELPHIA: ; PRIN7ED BT RICHARD FOLWELL, No. 63, NORTH FBONT-STREET. 1799» VOL, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0005#xywh=968,1062,321,78"
+      ],
+      "match": "America, ",
+      "before": "PASSED AT THE FIRST SESStOtf OF THE Fl FTH CONGRESS O F T H E United States of ",
+      "after": " BEGUN AND HELD AT THE CITY OF PHILADELPHIA, On Monday the ffteenth of May j IN THE "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0007#xywh=496,1492,214,51"
+      ],
+      "match": "America, ",
+      "before": " \"OE it cnacled by the Senate and JO Hoife of Reprefentatives of the United States of ",
+      "after": " in Congrefs ajembled, That if any citizen or citizens of the United , States, {hall, without the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0008#xywh=686,2456,220,59"
+      ],
+      "match": "America, ",
+      "before": "\"13 E it enactéd by the Senate and j|3 Houfe of Reprefeniaii-ves of the United States of ",
+      "after": " in Congrefs afjhnbled, That it (hall not be lawful to export from the United States, any cannon "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0011#xywh=154,1649,217,56"
+      ],
+      "match": "America, ",
+      "before": " 1.T3 E it enacledby the Senate and Hovfe of Jf3 Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That for fortify- prmkin of ing certain ports and harbours of the United "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0016#xywh=279,1501,219,50"
+      ],
+      "match": "America ",
+      "before": "* , icUULie oi the treaty of am ?v nnrn g&hk and navigation, betwee/ Se SSedT,f W ",
+      "after": " and his BritanrJr m /T t€S ° f ihall be the dutv of / ( JJ ' And ft "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0022#xywh=725,2215,222,56"
+      ],
+      "match": "America, ",
+      "before": "IO F it enacled by the Senate and _|3 Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs afembled, That after the end of the prefent feffion, the next meeting of Congrefs "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0023#xywh=262,2333,215,53"
+      ],
+      "match": "America, ",
+      "before": "it therefore enacled by the Senate and Houfe ofßeprefentatives of the United States Kgr 9 f ",
+      "after": " in Congrefs a{fmbled,Y\\uX it mali, Ju d ge ca, and may be lawful for the diftridjudge of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0026#xywh=783,1769,219,52"
+      ],
+      "match": "America, ",
+      "before": "TJE it enaifed by the Sena te and |3 Houfe of Repnfentatives of the „ United States of ",
+      "after": " in Congrefs affemblcd, dutics°4 That from and after the thirty-nrft day of lb jp- December next, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1475,489,97,47",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=408,539,110,53"
+      ],
+      "match": "America, ",
+      "before": " BE it enacled by the Senate a?:d Houfe of Reprefeniatives of the United States of ",
+      "after": " in Congrefs That in cafe it be found neceffary, for the intereft of the United "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=1437,1863,99,47",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0040#xywh=374,1920,115,52"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Houfe of Re) prefentatives of the United States of ",
+      "after": " in Congrefs affiembled, That at the prefent extraordinary meeting and femon of Congrefs, the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=1147,737,146,45",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=140,824,66,37"
+      ],
+      "match": "America, ",
+      "before": "\" BE it enaéied by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembied, That the feveral proviiions of the act,intituled,\" An ac\\ authorizing the transfer "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0041#xywh=514,2607,215,51"
+      ],
+      "match": "America, ",
+      "before": "IOE it cnacled by the Senate and j|3 Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs a(jembled> That from and after the thirtieth day of Sep- 38 Kgliteent» tember nest, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0044#xywh=578,2615,219,56"
+      ],
+      "match": "America, ",
+      "before": " I.T> Eit cnacled by the Senate and Houfe JD cf Reprefentatives of the United States of ",
+      "after": " in 'Congrefs ajfembicd, That for the expenditure of the civil lift; for the 41 fapport of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=1255,341,222,58"
+      ],
+      "match": "America, ",
+      "before": "Uniled States of ",
+      "after": " And the Bev.and Subjecls OF TRI OLI, OF BARBART. ARTICLE I. rjPffERE is a finn and perpetual peace and j[ friendihip between the United States of America, and the Bey "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0048#xywh=394,854,236,56"
+      ],
+      "match": "America, ",
+      "before": "Uniled States of America, And the Bev.and Subjecls OF TRI OLI, OF BARBART. ARTICLE I. rjPffERE is a finn and perpetual peace and j[ friendihip between the United States of ",
+      "after": " and the Bey "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=742,1744,217,55"
+      ],
+      "match": "America, ",
+      "before": "Agent Plenipptentiaty of the United States of ",
+      "after": " (l. s.) JOEL BARLOW. I, Joel Barlow, Agent and Conful General of the United States of America, for the City and Kingdom of Algiers, certify "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0051#xywh=963,1941,236,53"
+      ],
+      "match": "America, ",
+      "before": "Agent Plenipptentiaty of the United States of America, (l. s.) JOEL BARLOW. I, Joel Barlow, Agent and Conful General of the United States of ",
+      "after": " for the City and Kingdom of Algiers, certify "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=938,588,233,56"
+      ],
+      "match": "America, ",
+      "before": "by Letters Patent under the fignature of the Prefident and feal of the United States of ",
+      "after": " dated the 3oth of March 1795, for negpeiating and concluding a Treaty of Peace with the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=1404,2308,104,40",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0052#xywh=370,2373,110,55"
+      ],
+      "match": "America, ",
+      "before": "referving the farne neverthelefs for the final ratification of the Prefident of the United States of ",
+      "after": " by aud with the advice and confent of the Senate of the faid United States. In te/iimony "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0054#xywh=429,1942,219,59"
+      ],
+      "match": "America, ",
+      "before": " handred and ninety- Vutføta 4o Treaty of Peace and Friendjhip between the, United States of ",
+      "after": " and tke.Bey and Subjecls of Tripoli of Barbary, 44 fch . «..a.:.*,..-* m u.. —— "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0055#xywh=990,1205,321,78"
+      ],
+      "match": "America, ",
+      "before": "C 0N D> PHILADELPHIA: PRINTED BY RICHARD FOLWELL, No. 33, CA£TEli's-ALLEY. - United States of ",
+      "after": " A C T S O F CONGR E S S* CHAPTER XVIII. An Acl to poflpone, for a limited "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0057#xywh=1043,1287,220,56"
+      ],
+      "match": "America, ",
+      "before": "and paper.'' BE it enacled by the Senate andHoufe of Repre* fentatives of the United States of ",
+      "after": " in Congrefs affembled, That fo much of the acl, intituled, \" An aft laying duties on ftamped "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0058#xywh=599,640,219,55"
+      ],
+      "match": "America., ",
+      "before": "\"|3 E it enaEled by the Senate and Houfe J[3 °f Reprefentåtives of the United States of ",
+      "after": " in Congrefs ajembled, That the fu ni of one hundred thoufand dollars fhali pnEns be ' and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=1083,548,219,51"
+      ],
+      "match": "America, ",
+      "before": "EE it enacled by the Senate and Houfe of Re* ) prefentatives of the United States of ",
+      "after": " in Congrefs afembléd, That in confideration of the important fervices rendered to the United States "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0059#xywh=358,2259,217,51"
+      ],
+      "match": "America, ",
+      "before": "T «ID lt enacled by the Senate and Houfe j|3 of Reprefentatives of the United States of ",
+      "after": " in Congrefs qfembled, That in the fettlement of the accounts between the United States and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=1136,1816,141,47",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0061#xywh=106,1878,63,37"
+      ],
+      "match": "America, ",
+      "before": "Congrefs. BE it enacled hy the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That there be allowed to James Mathers, the door-keeper of the Senate, two "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=1371,449,220,58"
+      ],
+      "match": "America, ",
+      "before": "Frank. BE /'/ enafted by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs aj/embied, That the Accomptant for the Department of War, be, and he is hereby "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0062#xywh=440,2313,219,53"
+      ],
+      "match": "America, ",
+      "before": " T> Eit enacled by the Senate and Houfe of \\j Reprefentaii-ves of the United States of ",
+      "after": " in Congrefs qfembled, That where any perfon, from and alter the paffing of this act, (hall intend "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0067#xywh=1050,1629,275,63"
+      ],
+      "match": "of'America, ",
+      "before": "General Kofcwfko. BE it enacted by the Senate and Houfe of Refrefentatives of the United States ",
+      "after": " in Congrefs afembled, That the Secretary of the Treafury be authorifed and directed to pay to "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1351,615,219,59"
+      ],
+      "match": "America, ",
+      "before": "Stills. BE it enacled by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs ajfembled, That from and after the paffing of this att, it fhall be lawful for "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0068#xywh=1316,2256,217,55"
+      ],
+      "match": "America, ",
+      "before": "\" BE it enacled by the Senate and Houfe of Re) prefentatives of the United States cf ",
+      "after": " in Congrefs ajfembled, That the fecond fection of an acl, entituled, \" An acl regulating foreign "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0069#xywh=348,1481,219,58"
+      ],
+      "match": "America, ",
+      "before": "E l t ena6led h ihe Senate and Houfe ,IL> cf Reprefentati-ves of the United States cf ",
+      "after": " in Congrefs aj/embled, That the Secretary for the Department of War, be, and he is hereby direded "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0071#xywh=1032,1802,203,53"
+      ],
+      "match": "America ",
+      "before": " BE it enacled by the Senaie ånd Houfe of Re* prefentatives of the United States of ",
+      "after": " tn Conprfs qffenlbléd, f hat the Åccountiag Offil nfed and dire&ed to fettle the accounts of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=410,653,219,58"
+      ],
+      "match": "America, ",
+      "before": " Sec. 1. DE it enacledby the Senate andHoufe JLJ ofßeprefeniatives of the United States of ",
+      "after": " in Congrefs ajfembled, That a funi not exceeding twenty-five thoufand, eight hundred and eighty dollars "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0072#xywh=1322,2774,217,52"
+      ],
+      "match": "America, ",
+      "before": " BE it enatled by the Senate and Houfe of Re, prefentatives cf the United States of ",
+      "after": " 67 Lighthoufe to be erefte onEaton ne ek. tn Congrefs affembled, That the provifions for widows "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0073#xywh=273,2273,219,50"
+      ],
+      "match": "America, ",
+      "before": " ¥3 E it enacled by the Senate and Houfe L$ ofßeprefentatives cf the United States cf ",
+      "after": " in Congrefs affembled, That as foon as the jurifdidion of fø much of the head land of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0075#xywh=167,657,198,47"
+      ],
+      "match": "America ",
+      "before": "\"D É it ena&ed by the Sev ale and Houfe Jt_3 ofßeprefeniatrues of the XJnited States cf ",
+      "after": " ', in Congrefs affembled, That the Pre- Prendenfident of the United States (hall be, and he "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0077#xywh=235,1341,283,56"
+      ],
+      "match": "America*.in ",
+      "before": " \"O Eit enacled by the Senate and Houfe JLJ of Reprefentatives of the United States §f ",
+      "after": " Congrefs affembled, That for the ; expenditure of the civil lift; for the fupport of confuls "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0085#xywh=378,2298,197,45"
+      ],
+      "match": "America ",
+      "before": "andHoufe Deduo j[j of Reprefentatives of the United on on f J J the nnr» States of ",
+      "after": " , in Congrefs affembled, That chaie of whenever any perlon, other than oflicers em- lta '«pecl "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0088#xywh=1280,1652,275,58"
+      ],
+      "match": "of'America, ",
+      "before": "Maffachufetis. BE it enacled hy the Senate and Houfe of Reprefentatives of the United States ",
+      "after": " in Congrefs ajfembled, That the confent of Congrefs be, and hereby is granted and declared to "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0089#xywh=216,744,219,58"
+      ],
+      "match": "America, ",
+      "before": "1 . ¥) Eit enaEled by the Senatcand Houfe of _I3 Reprefentatives of the United States cf ",
+      "after": " in Congrefs affembled, That the confent of Congrefs be, and is hereby granted anddeclared, to the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0090#xywh=441,246,217,59"
+      ],
+      "match": "America, ",
+      "before": "enacled by the Senate and Houfe of XJ Reprefentatives of the United States 84 Addition- G j ",
+      "after": " in Comrefs affembkd, Th at there al ,-ppro- jf , , ° J M ' . priatipns De and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1080,621,222,55"
+      ],
+      "match": "America, ",
+      "before": "7 BE it enacled hy the Senat'e and He; fe cf Reprefentatives of the United States of ",
+      "after": " in Congrcfs affembled, That the fifth feétion of the acl, intituled \" An acl: in addition to "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0091#xywh=1105,2289,217,53"
+      ],
+      "match": "America, ",
+      "before": "teasP BE // enacled by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That the thirteenth fection cf the acl: paffed on the fifth day of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0092#xywh=426,1258,220,58"
+      ],
+      "match": "America, ",
+      "before": "and Nova-Scotia. Sec. 1. ~IT% E// enaétedby the Setiateand Houfe (f Reprefentatives of iheUnitedStates cf ",
+      "after": " in Congrefs afembled, That to fatisfy the claims of certain perfons claiming lands under the refolutions "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0095#xywh=389,833,211,53"
+      ],
+      "match": "America, ",
+      "before": " 1.13 E itenadedby the Senate and Eoufe JO °f Reprefenia lives of the United States of ",
+      "after": " in Congrefs afembted, That the firft, fecond, third and fourth feftions of the f °\" r firft "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0096#xywh=407,804,219,55"
+      ],
+      "match": "America, ",
+      "before": "enafied by the Senate and Houfe authon- y\\ 0 f Refirefentatives of the United States point of ",
+      "after": " in Congrefs affembled, That the Pre- Commif- f men t 0 f the United States be, and he "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0099#xywh=221,1596,206,53"
+      ],
+      "match": "America, ",
+      "before": "pE It enacled hy the Senate and Houfe x 3 of Reprefentatives of the United State: of ",
+      "after": " in Congrefs ajfembled, That ihe Se- Secretarj cretary of State be, and hereby is authorized, authciriun "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0100#xywh=391,1291,220,58"
+      ],
+      "match": "America, ",
+      "before": "\" SeC ' *' \"R E if em^ed h Senate and Houfe JL3 ofßeprefentatives of theUnitedStates of ",
+      "after": " in Congrefs afembled, That the Pre- l re JtZl fldent of the United States be > and h "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0101#xywh=200,2618,208,58"
+      ],
+      "match": "America, ",
+      "before": "the Senate and Houfe veffels, J 3 of Reprefentatives cf the United States [^ d f *\" cf ",
+      "after": " in Congrefs aj/embkd, That the Pre- 12. to bd fident of the United States fhall be, and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0104#xywh=605,621,217,56"
+      ],
+      "match": "America, ",
+      "before": " ~Wy E it enacled by the Senate and Houfe °f Rcprefentaiives cf the United States of ",
+      "after": " in Congrefs affembled, That an additional regiment of artillerifts and engineers fhall and may be "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0106#xywh=580,1800,222,59"
+      ],
+      "match": "America, ",
+      "before": "\"13 E it enacled by the Senate and Houfe JL3 °f Reprefentatives of the United States of ",
+      "after": " in Congrefs ajje?nbled, Th at gecretqry tnere De an Executive Department under of the Na the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0108#xywh=604,1261,220,59"
+      ],
+      "match": "America, ",
+      "before": "by the Senate and Houfe of the Sb- XJ of Reprefeniqtives of the United speaker, Sfam °f ",
+      "after": " in Congrefs a/fembled, Thaf Sdcau- ' the Prefident of the Senate, the Speaker of the S°adm?n- "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0109#xywh=181,681,204,53"
+      ],
+      "match": "America, ",
+      "before": " i.\"O E it enacled hy the Senate and Houfs 15 ofßeprefeniatives of the United States of ",
+      "after": " in Congrefs afembled, That a fum not ©xceeding two hundred and fifty thoufand dol- Additio "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0110#xywh=353,2715,215,55"
+      ],
+      "match": "America, ",
+      "before": " i.BE // enafted by the Senate and Houfe of JD Reprefentatmes of the United States of ",
+      "after": " in Ccngrefs afembled, That a fum not exceeding eight hundred thoufand dollars, fhall 105 be, and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0112#xywh=408,1526,217,55"
+      ],
+      "match": "America, ",
+      "before": "by the Senate and Houfe of PreGd nt JL) Reprefentatives of the United States may pro- of ",
+      "after": " in Congrefs ajfembled, That the Previde ten f i( Jent of the United States be, and he "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0113#xywh=243,1519,214,56"
+      ],
+      "match": "America, ",
+      "before": "\\\\ Eit enacled by the Senate andHoufe of JO Reprefentatives of the United States Obadiah of ",
+      "after": " in Congrefs q/fembled, Tfiat the Se- bepTaced cretary for the Department of War, be, and upon "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0114#xywh=1302,2639,208,47"
+      ],
+      "match": "America ",
+      "before": "cuttets. BE it enacled hy the Senate and Houfe of Reprefentatives of the United States of' ",
+      "after": " 9 in Congrefs affembkdy That the firft feftion of 109 an act paflfed the fixth day of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0115#xywh=339,1427,200,50"
+      ],
+      "match": "America ",
+      "before": "enacled by the Senate and Houfe Ad re-D of Reprefentatives of the United (peamg States of ",
+      "after": " y in Congrefs ajfembled, That the acl: pafled on the thirteenth day of May, one clerks thoufand "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0117#xywh=958,1949,275,61"
+      ],
+      "match": "of'America, ",
+      "before": "Jofeph Nourfe. BE it enacled by the Senate and Houfe tf Rcpr-e» fentatives of the United States ",
+      "after": " in Congrefs ajembled, That there be paid to Tofeph Nourfe, Regifter of the Treafury, out of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0118#xywh=575,1464,217,55"
+      ],
+      "match": "America, ",
+      "before": " 1. \"13 É li enacledby the Senate andHoufe JOl °f Repfefentatives of the United States of ",
+      "after": " in Congrefs ajfembled, Th at the Thehriga- Brigadier General who is now, of may hereafdiergene "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0126#xywh=1059,2119,209,50"
+      ],
+      "match": "America, ",
+      "before": "enacled by the Senate and Houfe of Repre-I>r f \"l ^nt fentaii-ves of the United States of ",
+      "after": " in Coninfh-uc ie g re f< affembled, That it (hall be iawful for the tionsto Prefident "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0127#xywh=186,1303,214,55"
+      ],
+      "match": "America, ",
+      "before": "it enacledby the Senate and Houfe of JLJ Reprefentati-ves of the United States T „ , cf ",
+      "after": " in Congrefs affembled, That any per- tom ake fon imprifoned upon execution iifuing from applicat'H any "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=1113,555,219,48"
+      ],
+      "match": "America, ",
+      "before": "it enacled by the Senate and hoi fe of Reprefentatives of the United States of ",
+      "after": " in Congrefs afembled, That uny perfon impn, foned upon procefs iffuing from any court of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0129#xywh=222,2467,215,53"
+      ],
+      "match": "America, ",
+      "before": "/ O UllllL a lill X 3 Reprefentatives of the United btates fina i feT . of ",
+      "after": " in Congrefs ajfembled, Thatfo much tiemrat of the acl, intituled,\" An ad making further \"Jésand "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0132#xywh=415,1602,220,55"
+      ],
+      "match": "America, ",
+      "before": "E it enacled by the Senate and Houfe j|3 of Reprefentatives oft he United States of ",
+      "after": " in Congrefs affemhled, That for the fupport of the military eftabliftiment, for the year one "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0135#xywh=194,2187,222,58"
+      ],
+      "match": "America, ",
+      "before": "1 13 •; J J Artei iir JLJ Reprefentatives ofthe United States July,i 79 8, of. ",
+      "after": " in Congrefs aflmb/ed, That no (hip veiTelsnot or yeffel, owned, Thired, or employed, wholly t "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0139#xywh=216,2560,217,58"
+      ],
+      "match": "America, ",
+      "before": "by the Se nate and Ho ufe of JB Reprefentahvcs of the United States |J? of ",
+      "after": " in Congrefs a/fembkd, That no alien come a.\" ihall be admitted to become a citizen of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0145#xywh=246,2174,219,50"
+      ],
+      "match": "America, ",
+      "before": " Sec. 1. T>E it enaSédby the Senate and Houfe JLI ofßcprcfentaiives of thellnitedStates cf ",
+      "after": " in Congrefs ajembled, That the Pre- Prefideßt fidentof the United States Ihall be, and he "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0146#xywh=1280,2243,222,59"
+      ],
+      "match": "America, ",
+      "before": "BE it enatled by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That all letters and packets to or from the fecretary of the navy "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0154#xywh=421,2196,215,58"
+      ],
+      "match": "America, ",
+      "before": "E it enacled by the Senate and Houfe -13 of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That the Merchant commander and crew of any merchant vefTel veflels of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0159#xywh=188,2199,215,47"
+      ],
+      "match": "America ",
+      "before": "Y) E it enatled hy the Senate and Houfe jTj) of Reprefe?itatives of theUnitedStates. cf ' ",
+      "after": " , in Congrefs ahfembled, That all fuch « armed veflels as may be feized, taken and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0162#xywh=392,1934,219,55"
+      ],
+      "match": "America, ",
+      "before": "enaéied by the Senate and Houfe i 3 ofßeprefentati-ves of thellnited States The Pre- 0 f ",
+      "after": " in Congrefs afpmbled, That the Prejnayac fident. of the United States fhall be, and he "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0164#xywh=419,2752,215,55"
+      ],
+      "match": "America, ",
+      "before": "TO E enaßed by the Senate and Houfe of Jj Reprefentatives of the United States $f ",
+      "after": " in Congrefs ajfembled, f lhat there r 259 3 mali be provided, at the charge and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0166#xywh=408,579,219,56"
+      ],
+      "match": "America, ",
+      "before": "enacled by the Senate andlloufe of JL3 Rcprefentatives of the United States Ju csfe of ef ",
+      "after": " in Congrcfs ajembled, That whenever war, er there {hall be a declared war between the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=1053,373,219,56"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Scnate and Houfe of Reprefentåtivcs of the United States ef ",
+      "after": " in Congrefs That the United States are of right freed and exonerated from the ftipulations "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0169#xywh=210,1747,215,58"
+      ],
+      "match": "America, ",
+      "before": "the Senate and Houfe The Pre- J 3 of Reprefentatives cf the United States fidentroay of ",
+      "after": " in Congrefs affembled, That the Pre- Ihecomfident of the United States {hall be, and he "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0174#xywh=399,1728,201,48"
+      ],
+      "match": "America ",
+      "before": "E it enacled by the Senate and Houfe JL3 of Reprefentatives of the United States cf ",
+      "after": " , in Congrcfs afembled, That for the purpofe of making the valuations and enumerations herein "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0197#xywh=378,2376,217,63"
+      ],
+      "match": "America, ",
+      "before": "if ena^ed b ihe Senale and Houfe ' -Å-3 cf Reprefentathves of the United States cf ",
+      "after": " in Congrefs afemb/ed, That lie « °f«*« m lieu of the compenfations no w eftabllfhed, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0205#xywh=153,495,214,56"
+      ],
+      "match": "America, ",
+      "before": "\"|3 Eit enacled by the Senate and Houfe of JO? Reprefentatives cf the United States ef ",
+      "after": " inCongrefs affembled, That in addition to the prefent military eftablifliment, there . r tu "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0207#xywh=1031,2623,217,56"
+      ],
+      "match": "America, ",
+      "before": "T> E // enafledby the Sende and Houfe ofßepre* jl3 fentatives of the United States of ",
+      "after": " in Congrefs qfembled, That there be allowed to the furveyor of the port of Gloucefler, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0225#xywh=194,1167,214,53"
+      ],
+      "match": "America, ",
+      "before": "TO* Eit enacled b.< the Senate and Houfe of JOl Reprefentatives of the United States of ",
+      "after": " in Congrefs ajfembled, That from Al]trmen> and after the paffmg of this acl, each regiment "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0231#xywh=194,2434,214,51"
+      ],
+      "match": "America, ",
+      "before": "enaåfed by the Senat l e and Houfe of : Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That as foon as the iurifdi&ion of fuch land at Gay-Head, on "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1188,1152,94,45",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=110,1215,107,53"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled hy the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled\\ That all fuch parts of any law or laws heretofore paffed, as "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0235#xywh=1089,2648,219,59"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Houfe of Reprcfentatives of the United States of ",
+      "after": " W Congrefs ajembled, That there be allowed to 230 James Mathers, door-keeper of the Senate, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0236#xywh=408,1796,217,55"
+      ],
+      "match": "America, ",
+      "before": "E it enaåled by the Senate and Houfe of jfjj Reprefentatives of the United States cf ",
+      "after": " in Congrefs affembled, That the fum of fix hundred thouiand dollars fliall be, and hereby "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0237#xywh=1051,1498,209,58"
+      ],
+      "match": "America, ",
+      "before": "States.\" BE // enatled by the Senate and Houfe of Representatives f tbeUnitedStates of ",
+      "after": " in Congrefs afembkd, That the judges of the fupreme court, and of the feveral diftrift "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0238#xywh=416,703,215,52"
+      ],
+      "match": "America, ",
+      "before": " T> E // enafied by the Senaie and Houfe J 3 ofßeprefentatives oftheUnited States of ",
+      "after": " in Congrefs afembled, That there Appropri- (hall be, and there hereby are appropnated the rei°eral "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0241#xywh=1029,1832,220,53"
+      ],
+      "match": "America, ",
+      "before": "ninety eight. BE // enacledby the Senate and Houfe ofßeprefentatives of the United States of ",
+      "after": " in Congrefs qffembled, That for the compenfation t ß o el^ s g ve of clerks "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1102,581,189,44"
+      ],
+      "match": "America ",
+      "before": " BE it enacted by the Senaie and Houfe of Reprefentatives of iheUnited States of ",
+      "after": " , in Congrefs affembled, That the Secretary of the Treafury be, and he hereby is authorized "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0243#xywh=1089,2684,217,58"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Houfe of Reprefeniatives of the United States of ",
+      "after": " in Congrefs affembled, That the provifion for giving bond and tinding fufficient furetv or 238 "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0244#xywh=1343,1934,217,58"
+      ],
+      "match": "America, ",
+      "before": "E & enacled by the Senate and Houfe ofße- JJ3 prefentaiives of the United States of ",
+      "after": " in Congrefs ajfembied, That there be allowed to the Secretary of the Senate, and to the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=473,397,187,48"
+      ],
+      "match": "America, ",
+      "before": "The underfgned being refpeßively named by his Britannic Majefy and the United States of ",
+      "after": " their Plenipotentiaries for the purpofe of ireating of and concluding fuch Articles as may be "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=709,750,178,42"
+      ],
+      "match": "America ",
+      "before": "do hereby declare in the nåme of his Britannic Majefly and of the United States of ",
+      "after": " — That the enmmifftoners ap - pointed under the ph Article of the above-mentioned Treaty "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0246#xywh=249,1619,187,47"
+      ],
+      "match": "America, ",
+      "before": "governmeut of 'the Utiited States and his Britannic Majefly s governors or Lieutenant Governors in ",
+      "after": " in or der to er etl and keep in repair a fuitable monument at the place "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0255#xywh=1015,1197,318,74"
+      ],
+      "match": "America, ",
+      "before": "S E D AT THE THIRD SESSION OF THE FIFTH CONGRESS OF THE United States of ",
+      "after": " BEGUN AND HELD AT THE CITY OF PHILADELPHIA, In the State of Pennfylvania, On Monday, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0258#xywh=344,1969,220,59"
+      ],
+      "match": "America, ",
+      "before": "E // enacled by the Senate and Houfe of JLj Reprefentatives of the United States of ",
+      "after": " in Congrefs afmbled, That from and After 3d after the third day of March next, no "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0264#xywh=344,1395,222,55"
+      ],
+      "match": "America, ",
+      "before": "enatled by the Senate and Houfe 1 ofßeprefentatives of the United St ai es Debtor of ",
+      "after": " in Congrefs affetnbled, That if any ftates af- {\\^ Q againfl! which a balance was reported "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,671,222,55"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That the Secretary of State be, and hereby is authorized, under the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0267#xywh=1095,2390,220,58"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That the collector of the port of Philadelphia be authorized to pay "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0268#xywh=396,2049,219,55"
+      ],
+      "match": "America, ",
+      "before": "enacled by the Senate and Houfe of JIJI Reprefentatives of the United States Offenders of ",
+      "after": " in Congrefs ajfembled, That any per-' to anfwer f OII wno {| la ll commit an offence "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0270#xywh=391,1156,220,53"
+      ],
+      "match": "America, ",
+      "before": "tt e d ty tåe Senate and Houfe jTjl of Reprefentatives of the United States ef ",
+      "after": " in Congrefs afembled, Th at a fum not exceeding twenty-five thoufands dollars, be appropriated "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0271#xywh=186,542,215,61"
+      ],
+      "match": "America, ",
+      "before": "// enacled by the Senate and Hoi fe of -13 Rcprefentaiives of the United States of ",
+      "after": " in Congrefs qfembfed, That all the By what veifels in the fervice cf the United States "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=1352,675,146,45",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0272#xywh=296,766,67,37"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs ajfembled, That for the purpofe of defraying the expenfes which may arife in "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0273#xywh=134,1820,219,55"
+      ],
+      "match": "America, ",
+      "before": "\"O Eit enacled by the Senate and Houfe of JL3 Reprefentatives of the United States of ",
+      "after": " in Congrefs ajfembled, That the qua- Onaranrantines and other reftraints, which mali be tu "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0278#xywh=556,1097,203,47"
+      ],
+      "match": "America ",
+      "before": "it enacled by the Senate and Houfe Jf 3 of Reprefentatives of the. United States of ",
+      "after": " , in Congrefs affmbled, That Sixfliips under the orders of the Prefident of the Uniof "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0280#xywh=1250,1750,219,52"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs ajfembled, That two docks, for the convenience of repairing the public fhips and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=1132,564,217,56"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate andHoufe of Re) prefentatives of the United States of ",
+      "after": " in Congrefs affembled, That the Prefident of the United States (hall be, and he is hereby "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0281#xywh=236,2478,215,51"
+      ],
+      "match": "America, ",
+      "before": "3 E it enacled by the Senate and Houfe Jl3 efßeprefenlatives of the United States of ",
+      "after": " in Congrefs afjembled, That from _ and atter the thirty-firfl dav of March next, duty "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0286#xywh=392,2008,212,56"
+      ],
+      "match": "America, ",
+      "before": "1. E lt enacled by the Senate and Houfe jTj| of Reprefentatives of thaUnitedStates of ",
+      "after": " in Congrefs afflmbled, That from and after the paffing of this att, the compenfation to "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0291#xywh=156,2669,209,63"
+      ],
+      "match": "America, ",
+      "before": "ena^ed h the s e naie and Houfe of JO Rcpreftn:atives of the United States ff ",
+      "after": " in Congrefs afjembied, That fo much Part of of the acl, intituled \" An act to "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=164,614,215,53"
+      ],
+      "match": "America, ",
+      "before": "E it enacled by the Senate and Heufe JOl of Reprefeniatives of the United States of ",
+      "after": " in Congrefs affembled, That the feffion of the diftriét court for the diflrici of Vermont "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0293#xywh=162,2516,215,56"
+      ],
+      "match": "America, ",
+      "before": "~jO> Eit enacled by the Senate and-Hoi fe JL3 of Reprefeniatives of the- United States <f ",
+      "after": " in Congrefs ajfembicd, That the (late of New-Hampfnire (hall be one diftrift, to be and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0346#xywh=298,1081,241,55"
+      ],
+      "match": "America, ",
+      "before": "or names of the fu re des) are held and firmly bound unto the United States of ",
+      "after": " in the fum of to be paid to the faid United States: for which payment well and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=1387,1299,104,42",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0350#xywh=301,1367,110,52"
+      ],
+      "match": "America, ",
+      "before": "natne or names of the fureties) are held and firmly bound unto the United States of ",
+      "after": " m the fum of to be paid to the fald United States; for which payment well and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0358#xywh=597,1879,234,53"
+      ],
+      "match": "America, ",
+      "before": "the principal furety or fureties) are held and firmly bound unto the United States of ",
+      "after": " in the fum of one thoufand dollars, for the payment of which well and truly to "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0368#xywh=541,1745,236,52"
+      ],
+      "match": "America, ",
+      "before": "names of the principal and fureties) are held and firmly bound unto the United States of ",
+      "after": " in the fum of to be paid to the faid United States ; for payment whereof we "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0372#xywh=407,452,239,56"
+      ],
+      "match": "America, ",
+      "before": "nåme of the principal and fureties) are held and fimnly bound unto the United States of ",
+      "after": " in the fum of to be paid to the faid United States, for which payment weli and "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0397#xywh=1039,1478,249,45"
+      ],
+      "match": "America: ",
+      "before": "for the United States, fhall be taken in the u.«. the nåme of the United States of ",
+      "after": " oi \" Ameri \" Provided That no perfon whofe Debtors bond has been received, either as "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0398#xywh=326,809,241,55"
+      ],
+      "match": "America, ",
+      "before": "their place of abode and occupation) are held and, hnniy bound unto the United States of ",
+      "after": " in the fum cf to be paid to the faid United States ; for payment whereof, we "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0426#xywh=971,1684,237,58"
+      ],
+      "match": "America, ",
+      "before": " that the fum of'here infert the amount) will be due from the United States of ",
+      "after": " payable at this office, to (here infert the nåme of theexporter, or his known agent "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0428#xywh=946,1699,234,55"
+      ],
+      "match": "America, ",
+      "before": "prefents, that we of the of are held and firmly bound to the United States of ",
+      "after": " in the fum of for the payment of which, well and truly to be made, we bind "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0429#xywh=933,1627,237,59"
+      ],
+      "match": "America, ",
+      "before": "year from the date thereof, if the exportation be made to any port of Europe or ",
+      "after": " or within two years, if made to any part of, Aua or Africa, a certificate under "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=1302,1472,237,55"
+      ],
+      "match": "America, ",
+      "before": "for the farne, were ihipped on board the at the port of in the United States of ",
+      "after": " on or about the day of and configned to (me or to us) by of aforefaid merch "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0432#xywh=777,2421,236,53"
+      ],
+      "match": "America, ",
+      "before": "th°e r con- of lately arrived from the port of in the firmatory Tjrnted States of ",
+      "after": " do folemnly (fwear £kcn 0 by e or affirm) that the goods or merchandife enuthe "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=351,851,234,55"
+      ],
+      "match": "America, ",
+      "before": "be as follows : I M. M. (conful or agent of) the United Form oi States of ",
+      "after": " at the city of do de- fJjfaJJJJrir clare, that the fa els fet forth in the preceding "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0433#xywh=995,2432,237,56"
+      ],
+      "match": "America, ",
+      "before": "alfo declare that there is (no conful or other public agent for the United States of ",
+      "after": " or American merchants, as the cafe may require) now refiding at this place. Dated at "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0438#xywh=772,922,233,55"
+      ],
+      "match": "America, ",
+      "before": "men by thefe prefents, that we are held and firmly bound unto the United States of ",
+      "after": " in the fum of to be paid to the faid United States ; for the payment whereof, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=1141,2470,105,44",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0441#xywh=68,2513,108,58"
+      ],
+      "match": "America, ",
+      "before": "with cofts q£ fued f ° r * fuit, in the nåme of the United States of ",
+      "after": " in any court competent to try the farne; and the trial of any fad, which may "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0449#xywh=501,896,236,47"
+      ],
+      "match": "America. ",
+      "before": "day of one thoufand and in the year of the independence of the United States of ",
+      "after": " Provided, any thing to the contrary notwith- VefTeh (landing, that the colle&ors and other "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0455#xywh=355,699,242,58"
+      ],
+      "match": "America; ",
+      "before": "aforefaid, by Britifh fubjects, from the territories of the king of Great- Britain, in ",
+      "after": " and fuch goods and merchandife (hall be fubjeft to no higher or other duties, than "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0461#xywh=117,1476,212,53"
+      ],
+      "match": "America, ",
+      "before": "i-TO Eit enacled by the Senate and Heufe JO of Reprefentatives of the United States of ",
+      "after": " in Congrefs affembled, That every colle&or, naval officer and mrveyor, employed Colleaors in the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0462#xywh=574,2287,234,53"
+      ],
+      "match": "America, ",
+      "before": "thefe prefents, that we the bond. are held and nrmly bound unto the United States of ",
+      "after": " in the ful! and juft fum of dollars, money of the United States; to payment, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0470#xywh=408,2544,219,52"
+      ],
+      "match": "America, ",
+      "before": " \"FJ Eit enacfed by the Senaie and Boufe JO of Reprefeniatives of the UnitedStatt? Ef ",
+      "after": " in Cvngrefs afmbled, That the following niles and regulations be adopted and put in force "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0487#xywh=1064,2675,192,48"
+      ],
+      "match": "America, ",
+      "before": "T}Ej/ enaßed by the Senaté and Houfe of Re- JO prefentatives of the United States of ",
+      "after": " in Congrefs affetnbkd, That for the expenditure of the civil litt, including the contingent "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0494#xywh=1084,2259,189,42"
+      ],
+      "match": "America, ",
+      "before": "BE it enacted by the Sehate. and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs fiffembled, That the proprietor or poffeflbr of any diitillery fituated in any "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0495#xywh=1100,1489,195,50"
+      ],
+      "match": "America, ",
+      "before": "it enaiied by the Senate and Houfe of Repre- J[_j) fentatives of the United States of ",
+      "after": " in Congrefs afjembled, That in the medical efiablifhment Of what of the United States, there "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0498#xywh=306,2640,189,44"
+      ],
+      "match": "America, ",
+      "before": "E it enacled ly the Senete and Houfe of JJj) Reprefentatives of the United States of ",
+      "after": " in Congreft ajfmbled, That the follo w ing ad.fi ditional appropriations for the year one "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1059,758,195,45"
+      ],
+      "match": "America, ",
+      "before": "enaEled by the Senate and Houfe of Reii D prefentatives of the United States of ",
+      "after": " in Congrefs affembled, That the fourth feclion of an a£t, intituled, \" An att regulating "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0501#xywh=1045,2781,176,37"
+      ],
+      "match": "America ",
+      "before": "enacled by the Senate and Houfe of Re- Laws, &c fifjprefentatives of the United States of ",
+      "after": " to.be pub tn Congrefs l.hat the Secretary of State flia]]' lifted in ' ' one or "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=1154,636,86,36",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0503#xywh=49,676,92,48"
+      ],
+      "match": "America, ",
+      "before": "it enaEled by the Senate and Houfe ofße- JfJI prefentatives of the United States of ",
+      "after": " in Congrefs afemb/ed, That it (hall be la w ful for r , c the Prefident of "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0510#xywh=1091,1917,193,48"
+      ],
+      "match": "America, ",
+      "before": "TTJ E it enncled by the Senate and Houfe of Reprefenta-. of the United States of ",
+      "after": " inCongrefs ajfetnbled) That the accounting crScers of the Treafury be, and they are hereby "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0511#xywh=1062,2024,247,51"
+      ],
+      "match": "of'America, ",
+      "before": "llE it enaEled by the Senate and Houfe of Re][J) prefentatives of the United States ",
+      "after": " Manner in Congrefs afembled, That the Prefident of the United of ex- States ffiall be, "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0512#xywh=1020,1829,193,42"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Hau fe of Reprefentatives of the United States of ",
+      "after": " in Congrefs ajfembled, That the Prefident of the United States fhall be, and he is hereby "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0513#xywh=1130,540,195,45"
+      ],
+      "match": "America, ",
+      "before": "\"|3 li ena ff £ d ty Senate and hoti/e of Re- of the United Fiat es of ",
+      "after": " in Congrejs afembled, That in lieu of the falaries heretofore allowed by law to the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1023,473,189,48"
+      ],
+      "match": "America, ",
+      "before": "BE it enacled by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs ajfembled, That the Secretary of the Treafury, under the direcf ion of the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0514#xywh=1259,1843,201,50"
+      ],
+      "match": "America, ",
+      "before": "h the SenaU and Hou f e °fße~ cierks in )\\))prefentatives of the United States of ",
+      "after": " the de- in Congrejs afembled, That the Secretaries of the Treapartments fury, State, War "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0516#xywh=1374,2732,189,40"
+      ],
+      "match": "America, ",
+      "before": "h e Sen at e and Hoi fe of Re- W\\ prefentattves of the United States of ",
+      "after": " in Congrefs ajfembled) That the hi il, fecond and third [ s°s 1 :6lions of the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0517#xywh=995,1908,198,47"
+      ],
+      "match": "America, ",
+      "before": "enacled by the Senate and Houfe of Re- *PPropri- JO) prefentatives ofthe United States of ",
+      "after": " 7 Congrefs åjfembled y That for the fupport of the nava! port of ftablifhment of the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0519#xywh=1144,1404,190,47"
+      ],
+      "match": "America, ",
+      "before": "by the Senate and Houfe of Re- Q enera ] prefentatives of the United States of ",
+      "after": " poft-cffice in Congrefs ajjembled, That there be eftablifhed at the to be eftafeat of g "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0537#xywh=131,2697,206,58"
+      ],
+      "match": "America, ",
+      "before": "E it enaåed by the Senate and Hoafe of JO Reprefentathes of the United States of ",
+      "after": " in Congrefs affembled, That for the fupport of the military eitablifhment of the 524 Specific "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=1351,2693,137,44",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0540#xywh=331,2779,63,36"
+      ],
+      "match": "America, ",
+      "before": "E it enacled by the Senate and Houfe of Fe- prefentatives of the United States of ",
+      "after": " in Congrefs affernbled, That on information bung given to the Prefident of the United 527 "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0555#xywh=961,1971,272,59"
+      ],
+      "match": "of'America, ",
+      "before": "Wy E it enacled by the Senate and Houfe of Reprefentatives of the United States ",
+      "after": " in Congrefs affembled, That the Prefident of the United States mali be, and he is hereby "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=1381,1089,92,44",
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0568#xywh=328,1156,108,50"
+      ],
+      "match": "America, ",
+      "before": "RES OL VED hy the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affe?nbled, That the Secretary of the Senate and the Clerk of the Houfe "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=827,629,330,55"
+      ],
+      "match": "AMERICA, ",
+      "before": "0„,©..'<v<.'»...,©....©.., ~©„»©,,,.<».„.©„„©„.,©., ~©,,„< ARTICLES OF A TREATY, BETWEEN THE UNITED STATES OF ",
+      "after": " AND THE CHEROKEE INDIANS. THEREAS, the treaty made and conclu- -n ~ \\l\\f j j tt "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0569#xywh=322,1208,226,56"
+      ],
+      "match": "America, ",
+      "before": " in the year one thoufand feven hundred and ninety-one, between the United States of ",
+      "after": " and the Cherokee nation of Indians, had not been carried into execution, for forne time "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0574#xywh=496,984,233,53"
+      ],
+      "match": "America, ",
+      "before": "thereof. In Witness of all and every thing herein determined between the United States of ",
+      "after": " and the whole Cherokee nation, the parties hereunto fet their hands and feals, in the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0577#xywh=276,1389,756,111"
+      ],
+      "match": "AMERICA; ",
+      "before": " John Thompfon (l Vql. IV. S 3 THE CONSTITUTION OF THE United States O F ",
+      "after": " AS PROPOSED BY THE CONVENTION, HELD at Philadelphia, September ly, 1787, 1 AND SINCE RATIFIED "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0579#xywh=109,1078,318,45"
+      ],
+      "match": "AMERICA. ",
+      "before": "hes and our Pofoerity, do ordain and ejiabli/h this Constitution for the United States of ",
+      "after": " ARTICLE I. Section I. ALL legiflative powers herein granted {hall of the be vefted in "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0587#xywh=761,2061,220,45"
+      ],
+      "match": "America. ",
+      "before": "executive power fhall be vefted in a Pre- The exefident of the United States of ",
+      "after": " He fhall cutive hold his office during the term of four years, P ower to and, together "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0595#xywh=125,569,236,55"
+      ],
+      "match": "America, ",
+      "before": "thoufand feven hundred and eighty-feven, and of the Independence of the United States of ",
+      "after": " the twelfth. In witnefs whereof 9 we have hereunto fubfcribed our names. Go; WASHINGTON, Prefidt "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1083,1292,219,55"
+      ],
+      "match": "America, ",
+      "before": "inftitution : RESOLVED by the Senate and Houfe of Reprefentatives of the United States of ",
+      "after": " in Congrefs affernbled, two-thirds of both Houfes concurring, That the follo w ing articles be "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0599#xywh=1080,1964,223,56"
+      ],
+      "match": "America, ",
+      "before": "viz. Articles in addition to, and amendment of, the Conftitution of the United States of ",
+      "after": " propofedby Congrefs, and ratified by the Legiflatures of the feveral States, purfuant to the "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=205,1088,219,45"
+      ],
+      "match": "America ",
+      "before": " Articles of a treaty between the United States of ",
+      "after": " and the Cherokee Indians. Conftitution of the United States of America, INDEX. ACCOUNTS FOR purchafes and contratts for fupplies, Sec. "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0606#xywh=1100,1203,231,47"
+      ],
+      "match": "America, ",
+      "before": " Articles of a treaty between the United States of America and the Cherokee Indians. Conftitution of the United States of ",
+      "after": " INDEX. ACCOUNTS FOR purchafes and contratts for fupplies, Sec. "
+    },
+    {
+      "@type": "search:Hit",
+      "annotations": [
+        "https://api.nb.no/catalog/v3/iiif/578dffe1fd335a33693bb4261dc738b5/annotation/URN:NBN:no-nb_digibok_2013072924008_0622#xywh=257,1876,173,33"
+      ],
+      "match": "America ",
+      "before": "be broughc into the United States by Britifn fubjects from the territpries of Great-Britain in ",
+      "after": " - - - - f. 104. p. 441 Such goods not to be fubject to higher duties than "
+    }
+  ]
+}

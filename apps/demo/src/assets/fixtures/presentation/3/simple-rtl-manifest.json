@@ -1,0 +1,403 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/anno.jsonld",
+    "http://iiif.io/api/presentation/3/context.json"
+  ],
+  "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/manifest{?fields,profile}",
+  "type": "Manifest",
+  "label": {
+    "no": ["al-Akhawān"]
+  },
+  "metadata": [
+    {
+      "label": {
+        "no": ["Tilgang"]
+      },
+      "value": {
+        "no": [
+          "Tilgjengelig etter bestemte vilkår (<a href='https://www.nb.no/hjelp-og-informasjon/rettigheter/'>Les om tilgangsvilkår</a>)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "no": ["Tittel"]
+      },
+      "value": {
+        "no": ["al-Akhawān"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Forfatter"]
+      },
+      "value": {
+        "no": ["Lindgren, Astrid"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Medforfatter/Bidragsyter"]
+      },
+      "value": {
+        "no": ["Wikland, Ilon"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Publisert"]
+      },
+      "value": {
+        "no": ["Stockholm:Dar al-Muna, 2013"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Emne"]
+      },
+      "value": {
+        "no": ["Brødre | Livet | Sorg"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Andre opplysninger"]
+      },
+      "value": {
+        "no": [
+          "Roman om vennskapet mellom brødrene Jonathan og Kavring som dør og kommer til den vakre kirsebærdalen hvor de må slåss for å oppnå en bedre verden\nNorsktittel: Brødrene Løvehjerte\nOriginaltittel: Bröderna Lejonhjärta\n"
+        ]
+      }
+    },
+    {
+      "label": {
+        "no": ["Språk"]
+      },
+      "value": {
+        "no": ["Arabisk | Svensk"]
+      }
+    },
+    {
+      "label": {
+        "no": ["ISBN"]
+      },
+      "value": {
+        "no": ["9188356388"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Omfang"]
+      },
+      "value": {
+        "no": ["252 s. ill."]
+      }
+    },
+    {
+      "label": {
+        "no": ["Medietype"]
+      },
+      "value": {
+        "no": ["bøker"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Varig lenke"]
+      },
+      "value": {
+        "no": [
+          "<a href=\"https://urn.nb.no/URN:NBN:no-nb_digibok_2017053198118\" target=\"_blank\">https://urn.nb.no/URN:NBN:no-nb_digibok_2017053198118</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "no": [""]
+      },
+      "value": {
+        "no": [
+          "<a href=\"https://www.nb.no/items/0f93bc4bb4f7f773a60baa7ccbd2f25a?manifest=https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/manifest\" target=\"_blank\"><img src=\"https://www.nb.no/content/uploads/2018/08/logo-iiif.png\" alt=\"IIIF Drag-n-drop\"></a>"
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "no": [
+      "Roman om vennskapet mellom brødrene Jonathan og Kavring som dør og kommer til den vakre kirsebærdalen hvor de må slåss for å oppnå en bedre verden"
+    ]
+  },
+  "thumbnail": {
+    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2017053198118_C3/full/0,200/0/native.jpg",
+    "type": "Image",
+    "format": "image/jpeg",
+    "service": [
+      {
+        "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2017053198118_C3",
+        "type": "ImageService2",
+        "profile": "level1"
+      }
+    ]
+  },
+  "viewingDirection": "right-to-left",
+  "behavior": ["paged"],
+  "rights": "https://www.nb.no/lisens/stromming",
+  "items": [
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/canvas/URN:NBN:no-nb_digibok_2017053198118_C3",
+      "type": "Canvas",
+      "seeAlso": [null],
+      "label": {
+        "@none": ["-"]
+      },
+      "height": 3319,
+      "width": 2427,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/annotationpage/URN:NBN:no-nb_digibok_2017053198118_C3",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/annotation/URN:NBN:no-nb_digibok_2017053198118_C3",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2017053198118_C3/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2017053198118_C3",
+                    "type": "ImageService2",
+                    "width": 2427,
+                    "height": 3319,
+                    "sizes": [
+                      {
+                        "width": 1213,
+                        "height": 1659
+                      },
+                      {
+                        "width": 606,
+                        "height": 829
+                      },
+                      {
+                        "width": 303,
+                        "height": 414
+                      },
+                      {
+                        "width": 151,
+                        "height": 207
+                      },
+                      {
+                        "width": 75,
+                        "height": 103
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16, 32]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0025,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 3319,
+                "width": 2427
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/canvas/URN:NBN:no-nb_digibok_2017053198118_C3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/canvas/URN:NBN:no-nb_digibok_2017053198118_C1",
+      "type": "Canvas",
+      "seeAlso": [null],
+      "label": {
+        "@none": ["-"]
+      },
+      "height": 3319,
+      "width": 2422,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/annotationpage/URN:NBN:no-nb_digibok_2017053198118_C1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/annotation/URN:NBN:no-nb_digibok_2017053198118_C1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2017053198118_C1/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2017053198118_C1",
+                    "type": "ImageService2",
+                    "width": 2422,
+                    "height": 3319,
+                    "sizes": [
+                      {
+                        "width": 1211,
+                        "height": 1659
+                      },
+                      {
+                        "width": 605,
+                        "height": 829
+                      },
+                      {
+                        "width": 302,
+                        "height": 414
+                      },
+                      {
+                        "width": 151,
+                        "height": 207
+                      },
+                      {
+                        "width": 75,
+                        "height": 103
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16, 32]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0025,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 3319,
+                "width": 2422
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/canvas/URN:NBN:no-nb_digibok_2017053198118_C1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/canvas/URN:NBN:no-nb_digibok_2017053198118_C2",
+      "type": "Canvas",
+      "seeAlso": [null],
+      "label": {
+        "@none": ["-"]
+      },
+      "height": 3319,
+      "width": 462,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/annotationpage/URN:NBN:no-nb_digibok_2017053198118_C2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/annotation/URN:NBN:no-nb_digibok_2017053198118_C2",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2017053198118_C2/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2017053198118_C2",
+                    "type": "ImageService2",
+                    "width": 462,
+                    "height": 3319,
+                    "sizes": [
+                      {
+                        "width": 231,
+                        "height": 1659
+                      },
+                      {
+                        "width": 115,
+                        "height": 829
+                      },
+                      {
+                        "width": 57,
+                        "height": 414
+                      },
+                      {
+                        "width": 28,
+                        "height": 207
+                      },
+                      {
+                        "width": 14,
+                        "height": 103
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16, 32]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0025,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 3319,
+                "width": 462
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/canvas/URN:NBN:no-nb_digibok_2017053198118_C2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/range/r-0",
+      "type": "Range",
+      "label": {
+        "no": ["Framside"]
+      },
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/canvas/URN:NBN:no-nb_digibok_2017053198118_C3",
+          "type": "Canvas"
+        }
+      ]
+    },
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/range/r-1",
+      "type": "Range",
+      "label": {
+        "no": ["Bakside"]
+      },
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/0f93bc4bb4f7f773a60baa7ccbd2f25a/canvas/URN:NBN:no-nb_digibok_2017053198118_C1",
+          "type": "Canvas"
+        }
+      ]
+    }
+  ]
+}

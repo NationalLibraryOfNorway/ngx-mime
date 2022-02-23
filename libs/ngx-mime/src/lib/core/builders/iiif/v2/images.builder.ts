@@ -1,4 +1,4 @@
-import { Images } from '../models/manifest';
+import { Images } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 import { ResourceBuilder } from './resource.builder';
 

@@ -1,4 +1,4 @@
-import { Service } from '../models/manifest';
+import { Service } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 import { SizesBuilder } from './sizes.builder';
 import { TilesBuilder } from './tiles.builder';

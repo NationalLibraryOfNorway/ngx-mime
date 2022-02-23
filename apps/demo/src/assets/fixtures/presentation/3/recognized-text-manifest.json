@@ -1,0 +1,510 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/anno.jsonld",
+    "http://iiif.io/api/presentation/3/context.json"
+  ],
+  "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/manifest{?fields,profile}",
+  "type": "Manifest",
+  "label": {
+    "no": [
+      "Brevs. 348 Brev fra Cather, Willa (1876-1947) til Undset, Sigrid (1882-1949)"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "no": ["Tilgang"]
+      },
+      "value": {
+        "no": ["Tilgang for alle"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Tittel"]
+      },
+      "value": {
+        "no": [
+          "Brevs. 348 Brev fra Cather, Willa (1876-1947) til Undset, Sigrid (1882-1949)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "no": ["Dato"]
+      },
+      "value": {
+        "no": ["24.12.1941"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Andre opplysninger"]
+      },
+      "value": {
+        "no": ["Poststempelets år. NBdigital: DokID: 14280\n"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Kilde for metadata"]
+      },
+      "value": {
+        "no": ["hanske.nb.no (14280)"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Medietype"]
+      },
+      "value": {
+        "no": ["Brev og manuskripter"]
+      }
+    },
+    {
+      "label": {
+        "no": ["Varig lenke"]
+      },
+      "value": {
+        "no": [
+          "<a href=\"https://urn.nb.no/URN:NBN:no-nb_digimanus_14280\" target=\"_blank\">https://urn.nb.no/URN:NBN:no-nb_digimanus_14280</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "no": [""]
+      },
+      "value": {
+        "no": [
+          "<a href=\"https://www.nb.no/items/10ca37a8595f4a63dd033dbfa4a130bc?manifest=https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/manifest\" target=\"_blank\"><img src=\"https://www.nb.no/content/uploads/2018/08/logo-iiif.png\" alt=\"IIIF Drag-n-drop\"></a>"
+        ]
+      }
+    }
+  ],
+  "thumbnail": {
+    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0001/full/0,200/0/native.jpg",
+    "type": "Image",
+    "format": "image/jpeg",
+    "service": [
+      {
+        "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0001",
+        "type": "ImageService2",
+        "profile": "level1"
+      }
+    ]
+  },
+  "behavior": ["paged"],
+  "rights": "https://www.nb.no/lisens/ccbyncnd",
+  "rendering": [
+    {
+      "id": "https://www.nb.no/services/downloader?urn=URN:NBN:no-nb_digimanus_14280",
+      "type": "Text",
+      "label": {
+        "no": ["Last ned som PDF"]
+      },
+      "format": "application/pdf"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0001",
+      "type": "Canvas",
+      "seeAlso": [
+        {
+          "id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0001",
+          "type": "Dataset",
+          "format": "application/alto+xml",
+          "profile": "http://www.loc.gov/standards/alto"
+        }
+      ],
+      "label": {
+        "@none": ["1"]
+      },
+      "height": 2843,
+      "width": 2194,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotationpage/URN:NBN:no-nb_digimanus_14280_0001",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotation/URN:NBN:no-nb_digimanus_14280_0001",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0001/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0001",
+                    "type": "ImageService2",
+                    "width": 2194,
+                    "height": 2843,
+                    "sizes": [
+                      {
+                        "width": 1097,
+                        "height": 1421
+                      },
+                      {
+                        "width": 548,
+                        "height": 710
+                      },
+                      {
+                        "width": 274,
+                        "height": 355
+                      },
+                      {
+                        "width": 137,
+                        "height": 177
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0025,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 2843,
+                "width": 2194
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0001"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0002",
+      "type": "Canvas",
+      "seeAlso": [
+        {
+          "id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0002",
+          "type": "Dataset",
+          "format": "application/alto+xml",
+          "profile": "http://www.loc.gov/standards/alto"
+        }
+      ],
+      "label": {
+        "@none": ["2"]
+      },
+      "height": 2843,
+      "width": 4137,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotationpage/URN:NBN:no-nb_digimanus_14280_0002",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotation/URN:NBN:no-nb_digimanus_14280_0002",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0002/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0002",
+                    "type": "ImageService2",
+                    "width": 4137,
+                    "height": 2843,
+                    "sizes": [
+                      {
+                        "width": 2068,
+                        "height": 1421
+                      },
+                      {
+                        "width": 1034,
+                        "height": 710
+                      },
+                      {
+                        "width": 517,
+                        "height": 355
+                      },
+                      {
+                        "width": 258,
+                        "height": 177
+                      },
+                      {
+                        "width": 129,
+                        "height": 88
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16, 32]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0025,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 2843,
+                "width": 4137
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0002"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0003",
+      "type": "Canvas",
+      "seeAlso": [
+        {
+          "id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0003",
+          "type": "Dataset",
+          "format": "application/alto+xml",
+          "profile": "http://www.loc.gov/standards/alto"
+        }
+      ],
+      "label": {
+        "@none": ["3"]
+      },
+      "height": 2843,
+      "width": 2187,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotationpage/URN:NBN:no-nb_digimanus_14280_0003",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotation/URN:NBN:no-nb_digimanus_14280_0003",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0003/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0003",
+                    "type": "ImageService2",
+                    "width": 2187,
+                    "height": 2843,
+                    "sizes": [
+                      {
+                        "width": 1093,
+                        "height": 1421
+                      },
+                      {
+                        "width": 546,
+                        "height": 710
+                      },
+                      {
+                        "width": 273,
+                        "height": 355
+                      },
+                      {
+                        "width": 136,
+                        "height": 177
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0025,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 2843,
+                "width": 2187
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0003"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0004",
+      "type": "Canvas",
+      "seeAlso": [
+        {
+          "id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0004",
+          "type": "Dataset",
+          "format": "application/alto+xml",
+          "profile": "http://www.loc.gov/standards/alto"
+        }
+      ],
+      "label": {
+        "@none": ["4"]
+      },
+      "height": 1596,
+      "width": 2226,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotationpage/URN:NBN:no-nb_digimanus_14280_0004",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotation/URN:NBN:no-nb_digimanus_14280_0004",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0004/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0004",
+                    "type": "ImageService2",
+                    "width": 2226,
+                    "height": 1596,
+                    "sizes": [
+                      {
+                        "width": 1113,
+                        "height": 798
+                      },
+                      {
+                        "width": 556,
+                        "height": 399
+                      },
+                      {
+                        "width": 278,
+                        "height": 199
+                      },
+                      {
+                        "width": 139,
+                        "height": 99
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0025,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 1596,
+                "width": 2226
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0004"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0005",
+      "type": "Canvas",
+      "seeAlso": [
+        {
+          "id": "https://api.nb.no:443/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/URN:NBN:no-nb_digimanus_14280_0005",
+          "type": "Dataset",
+          "format": "application/alto+xml",
+          "profile": "http://www.loc.gov/standards/alto"
+        }
+      ],
+      "label": {
+        "@none": ["5"]
+      },
+      "height": 1596,
+      "width": 2226,
+      "items": [
+        {
+          "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotationpage/URN:NBN:no-nb_digimanus_14280_0005",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/annotation/URN:NBN:no-nb_digimanus_14280_0005",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0005/full/full/0/native.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digimanus_14280_0005",
+                    "type": "ImageService2",
+                    "width": 2226,
+                    "height": 1596,
+                    "sizes": [
+                      {
+                        "width": 1113,
+                        "height": 798
+                      },
+                      {
+                        "width": 556,
+                        "height": 399
+                      },
+                      {
+                        "width": 278,
+                        "height": 199
+                      },
+                      {
+                        "width": 139,
+                        "height": 99
+                      }
+                    ],
+                    "tiles": [
+                      {
+                        "width": 1024,
+                        "scaleFactors": [1, 2, 4, 8, 16]
+                      }
+                    ],
+                    "profile": "level1",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/annex/services/physdim/1/context.json",
+                        "profile": "http://iiif.io/api/annex/services/physdim",
+                        "physicalScale": 0.0025,
+                        "physicalUnits": "in"
+                      }
+                    ]
+                  }
+                ],
+                "height": 1596,
+                "width": 2226
+              },
+              "target": "https://api.nb.no/catalog/v3/iiif/10ca37a8595f4a63dd033dbfa4a130bc/canvas/URN:NBN:no-nb_digimanus_14280_0005"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

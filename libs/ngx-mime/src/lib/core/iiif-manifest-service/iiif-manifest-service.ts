@@ -2,7 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, finalize, take } from 'rxjs/operators';
-import { ManifestBuilder } from '../builders/manifest.builder';
+import { ManifestBuilder as IiifV2ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
+import { ManifestBuilder as IiifV3ManifestBuilder } from '../builders/iiif/v3/manifest.builder';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
@@ -72,8 +73,12 @@ export class IiifManifestService {
     this._errorMessage.next(null);
   }
 
-  private extractData(response: Response) {
-    return new ManifestBuilder(response).build();
+  private extractData(response: any) {
+    if (response.type === 'Manifest') {
+      return new IiifV3ManifestBuilder(response).build();
+    } else {
+      return new IiifV2ManifestBuilder(response).build();
+    }
   }
 
   private isManifestValid(manifest: Manifest): boolean {

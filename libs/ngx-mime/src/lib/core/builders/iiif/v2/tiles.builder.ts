@@ -1,4 +1,4 @@
-import { Tile } from '../models/manifest';
+import { Tile } from '../../../models/manifest';
 
 export class TilesBuilder {
   constructor(private tiles: any[]) {}

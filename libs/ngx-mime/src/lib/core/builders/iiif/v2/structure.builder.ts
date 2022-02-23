@@ -1,4 +1,4 @@
-import { Structure, Sequence } from '../models/manifest';
+import { Sequence, Structure } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 
 export class StructureBuilder {

@@ -1,5 +1,5 @@
-import { testManifest } from '../../test/testManifest';
-import { Canvas, Images, Manifest, Sequence } from '../models/manifest';
+import { testManifest } from '../../../../test/testManifest';
+import { Canvas, Images, Manifest, Sequence } from '../../../models/manifest';
 import { ManifestBuilder } from './manifest.builder';
 
 describe('ManifestBuilder', () => {

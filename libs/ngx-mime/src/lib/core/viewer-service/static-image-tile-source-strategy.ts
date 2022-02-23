@@ -5,7 +5,7 @@ export class StaticImageTileSourceStrategy implements TileSourceStrategy {
   public getTileSource(resource: Service | any): any {
     return {
       type: 'image',
-      url: resource['@id'],
+      url: resource['@id'] || resource['id'],
     };
   }
 }

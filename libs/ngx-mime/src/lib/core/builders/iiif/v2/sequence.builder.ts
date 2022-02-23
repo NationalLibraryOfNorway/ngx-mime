@@ -1,4 +1,4 @@
-import { Sequence } from '../models/manifest';
+import { Sequence } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 import { CanvasBuilder } from './canvas.builder';
 

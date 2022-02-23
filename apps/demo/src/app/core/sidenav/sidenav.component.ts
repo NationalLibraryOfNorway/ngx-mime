@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
 import { ManifestService } from './../manifest-service/manifest.service';
@@ -10,11 +10,16 @@ import { ManifestService } from './../manifest-service/manifest.service';
 })
 export class SidenavComponent {
   @Input() sidenav!: MatSidenav;
-
+  iiifV = 2;
   manifests: ManifestMenuItem[];
 
   constructor(private manifestService: ManifestService) {
-    this.manifests = this.manifestService.getManifests();
+    this.manifests = this.manifestService.getManifests(this.iiifV);
+  }
+
+  selectIiifV(apiV: number) {
+    this.iiifV = apiV;
+    this.manifests = this.manifestService.getManifests(this.iiifV);
   }
 
   close() {

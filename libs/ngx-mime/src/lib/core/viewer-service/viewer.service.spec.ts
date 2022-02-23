@@ -5,7 +5,7 @@ import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../test/testManifest';
-import { ManifestBuilder } from '../builders/manifest.builder';
+import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
 import { ClickService } from '../click-service/click.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
