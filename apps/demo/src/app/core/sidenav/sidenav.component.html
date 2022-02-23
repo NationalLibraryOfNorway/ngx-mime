@@ -1,7 +1,10 @@
 <h1>Manifest</h1>
 <div class="api-format" fxLayout="column" fxLayoutAlign="space-around start">
   <label>IIIF Presentation API</label>
-  <mat-radio-group [(ngModel)]="iiifV" (change)="selectIiifV($event.value)">
+  <mat-radio-group
+    [(ngModel)]="iiifVersion"
+    (change)="selectIiifVersion($event.value)"
+  >
     <mat-radio-button [value]="2">v2.1</mat-radio-button>
     <mat-radio-button [value]="3">v3.0</mat-radio-button>
   </mat-radio-group>
@@ -17,7 +20,7 @@
   >
     {{ manifest.label }}
   </a>
-  <ng-container [ngSwitch]="iiifV">
+  <ng-container [ngSwitch]="iiifVersion">
     <ng-container *ngSwitchCase="2">
       <a
         mat-list-item
