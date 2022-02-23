@@ -13,7 +13,7 @@ import { ManifestService } from './../manifest-service/manifest.service';
 export class SidenavComponent implements OnDestroy {
   @Input() sidenav!: MatSidenav;
   iiifVersion = 3;
-  manifests: ManifestMenuItem[];
+  manifests: ManifestMenuItem[] = [];
   selectedManifest: string | undefined;
   private subscriptions = new Subscription();
 
@@ -22,9 +22,10 @@ export class SidenavComponent implements OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.manifests = this.manifestService.getManifests(this.iiifVersion);
     this.subscriptions.add(
       this.route.queryParams.subscribe((params) => {
+        this.iiifVersion = parseInt(params['v'], 10) || this.iiifVersion;
+        this.manifests = this.manifestService.getManifests(this.iiifVersion);
         const manifest = this.manifests.find(
           (m) => m.uri === params['manifestUri']
         );
