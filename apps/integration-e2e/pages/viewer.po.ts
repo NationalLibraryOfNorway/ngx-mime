@@ -34,18 +34,15 @@ export class ViewerPage {
     },
     {
       manifestName: 'a-individuals-manifest',
-      url:
-        'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-individuals-manifest/manifest',
     },
     {
       manifestName: 'a-non-attribution-manifest',
-      url:
-        'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-non-attribution-manifest/manifest',
     },
     {
       manifestName: 'a-recognized-text-book',
-      url:
-        'http://localhost:4040/catalog/v1/iiif/a-recognized-text-book/manifest',
+      url: 'http://localhost:4040/catalog/v1/iiif/a-recognized-text-book/manifest',
     },
   ];
   private isElements = false;
@@ -136,14 +133,20 @@ export class ViewerPage {
       by.css('#toggleSinglePageViewButton')
     );
     this.twoPageViewButtonEl = element(by.css('#toggleTwoPageViewButton'));
-    this.recognizedTextContentButtonEl = element(by.css('button[data-test-id="ngx-mimeRecognizedTextContentButton"]'));
+    this.recognizedTextContentButtonEl = element(
+      by.css('button[data-test-id="ngx-mimeRecognizedTextContentButton"]')
+    );
     this.modeDashboardEl = element(by.css('.mode-dashboard'));
     this.modePageEl = element(by.css('.mode-page'));
     this.openseadragonCanvasEl = element(
       by.css('.openseadragon-canvas > canvas')
     );
-    this.firstCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="firstCanvasRecognizedTextContent"]'));
-    this.secondCanvasRecognizedTextContentEl = element(by.css('div[data-test-id="secondCanvasRecognizedTextContent"]'));
+    this.firstCanvasRecognizedTextContentEl = element(
+      by.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
+    );
+    this.secondCanvasRecognizedTextContentEl = element(
+      by.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
+    );
     this.recognizedTextContentHitsEls = element.all(
       by.css('.recognized-text-content-container mark')
     );
@@ -174,10 +177,18 @@ export class ViewerPage {
 
   async getRecognizedTextContent(): Promise<string> {
     let text = '';
-    if (await utils.isPresentAndDisplayed(this.firstCanvasRecognizedTextContentEl.element(by.css('p')))) {
+    if (
+      await utils.isPresentAndDisplayed(
+        this.firstCanvasRecognizedTextContentEl.element(by.css('p'))
+      )
+    ) {
       text = await this.firstCanvasRecognizedTextContentEl.getText();
     }
-    if (await utils.isPresentAndDisplayed(this.secondCanvasRecognizedTextContentEl.element(by.css('p')))) {
+    if (
+      await utils.isPresentAndDisplayed(
+        this.secondCanvasRecognizedTextContentEl.element(by.css('p'))
+      )
+    ) {
       text += await this.secondCanvasRecognizedTextContentEl.getText();
     }
     return text;
@@ -317,9 +328,8 @@ export class ViewerPage {
   }
 
   async openContentSearchDialog() {
-    const ngxmimeContentSearchDialogButton: ElementFinder = await utils.waitForElement(
-      this.contentSearchDialogButtonEl
-    );
+    const ngxmimeContentSearchDialogButton: ElementFinder =
+      await utils.waitForElement(this.contentSearchDialogButtonEl);
     await ngxmimeContentSearchDialogButton.click();
     await utils.waitForElement(this.contentSearchSubmitButtonEl);
     await this.waitForAnimation();

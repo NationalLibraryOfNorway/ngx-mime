@@ -111,7 +111,8 @@ export class AltoService {
   }
 
   toggle() {
-    this.onRecognizedTextContentToggle = !this.recognizedTextContentToggle.getValue();
+    this.onRecognizedTextContentToggle =
+      !this.recognizedTextContentToggle.getValue();
   }
 
   getHtml(index: number): SafeHtml | undefined {
@@ -163,11 +164,15 @@ export class AltoService {
       .subscribe((data: Alto | any) => {
         try {
           if (!data.isError) {
-            parseString(data, { explicitChildren: true, preserveChildrenOrder: true}, (error, result) => {
-              const alto = this.altoBuilder.withAltoXml(result.alto).build();
-              this.addToCache(index, alto);
-              this.done(observer);
-            });
+            parseString(
+              data,
+              { explicitChildren: true, preserveChildrenOrder: true },
+              (error, result) => {
+                const alto = this.altoBuilder.withAltoXml(result.alto).build();
+                this.addToCache(index, alto);
+                this.done(observer);
+              }
+            );
           } else {
             throw data.err;
           }

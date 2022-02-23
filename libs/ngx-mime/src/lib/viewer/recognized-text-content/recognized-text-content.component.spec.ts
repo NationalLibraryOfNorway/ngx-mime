@@ -43,7 +43,8 @@ describe('RecognizedTextContentComponent', () => {
   it('should show recognized text', () => {
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
-    const secondCanvasRecognizedTextContent = '<p>fakeSecondRecognizedTextContent</p>';
+    const secondCanvasRecognizedTextContent =
+      '<p>fakeSecondRecognizedTextContent</p>';
     spyOn(canvasService, 'getCanvasesPerCanvasGroup')
       .withArgs(0)
       .and.returnValue([0, 1]);
@@ -52,17 +53,21 @@ describe('RecognizedTextContentComponent', () => {
       .and.returnValue(firstCanvasRecognizedTextContent)
       .withArgs(1)
       .and.returnValue(secondCanvasRecognizedTextContent);
-    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(cold('x|'));
+    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
+      cold('x|')
+    );
 
     fixture.detectChanges();
     getTestScheduler().flush();
 
-    const firstCanvasRecognizedTextContentDe: DebugElement = fixture.debugElement.query(
-      By.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
-    );
-    const secondCanvasRecognizedTextContentDe: DebugElement = fixture.debugElement.query(
-      By.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
-    );
+    const firstCanvasRecognizedTextContentDe: DebugElement =
+      fixture.debugElement.query(
+        By.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
+      );
+    const secondCanvasRecognizedTextContentDe: DebugElement =
+      fixture.debugElement.query(
+        By.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
+      );
     expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
       firstCanvasRecognizedTextContent
     );

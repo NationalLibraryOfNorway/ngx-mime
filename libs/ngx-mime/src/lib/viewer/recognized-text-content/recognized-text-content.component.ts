@@ -44,10 +44,10 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-          this.altoService.initialize(sr.hits);
+        this.altoService.initialize(sr.hits);
       })
     );
-    
+
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(() => {
         this.clearRecognizedText();
@@ -95,10 +95,14 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex
     );
-    this.firstCanvasRecognizedTextContent = this.altoService.getHtml(canvases[0]);
+    this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
+      canvases[0]
+    );
 
     if (canvases.length === 2) {
-      this.secondCanvasRecognizedTextContent = this.altoService.getHtml(canvases[1]);
+      this.secondCanvasRecognizedTextContent = this.altoService.getHtml(
+        canvases[1]
+      );
     }
   }
 }

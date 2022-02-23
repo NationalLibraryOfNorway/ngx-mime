@@ -16,7 +16,9 @@ describe('HtmlFormatter', () => {
         printSpace: {
           textBlocks: [
             {
-              textLines: [{ strings: [{ content: '3) this is "now" a test.' }] }],
+              textLines: [
+                { strings: [{ content: '3) this is "now" a test.' }] },
+              ],
             },
           ],
         },
@@ -182,7 +184,6 @@ describe('HtmlFormatter', () => {
         rects: [],
       },
     ];
-
 
     const result = new HtmlFormatter(sanitizer, hits).altoToHtml(alto);
 
