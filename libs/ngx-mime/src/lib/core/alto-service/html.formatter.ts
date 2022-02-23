@@ -75,7 +75,6 @@ export class HtmlFormatter {
     text.substr(1) removes the first character of a string if the character is ", 
     this is a special case in order to highlight all words.
   */
-
   private escapeSpecialCharacters(text: string): string {
     const escapeAndRegexMatch = '\\$&';
     const searchValuePattern = /[-[\]{}()*"+?.,\\^$|#\s]/g;
