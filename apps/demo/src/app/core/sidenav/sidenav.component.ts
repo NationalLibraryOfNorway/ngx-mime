@@ -11,7 +11,7 @@ import { ManifestService } from './../manifest-service/manifest.service';
 })
 export class SidenavComponent {
   @Input() sidenav!: MatSidenav;
-  iiifV = 3;
+  iiifVersion = 3;
   manifests: ManifestMenuItem[];
   selectedManifest: string | undefined;
 
@@ -19,12 +19,12 @@ export class SidenavComponent {
     private manifestService: ManifestService,
     private router: Router
   ) {
-    this.manifests = this.manifestService.getManifests(this.iiifV);
+    this.manifests = this.manifestService.getManifests(this.iiifVersion);
   }
 
-  selectIiifV(apiV: number) {
-    this.iiifV = apiV;
-    this.manifests = this.manifestService.getManifests(this.iiifV);
+  selectIiifVersion(version: number) {
+    this.iiifVersion = version;
+    this.manifests = this.manifestService.getManifests(this.iiifVersion);
     if (this.selectedManifest) {
       const manifest = this.manifests.find(
         (m) => m.label === this.selectedManifest
