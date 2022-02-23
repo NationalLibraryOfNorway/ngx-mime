@@ -34,10 +34,11 @@ export class ViewerComponent implements OnDestroy {
     this.subscriptions.add(
       this.route.queryParams.subscribe((params) => {
         this.manifestUri = params['manifestUri'];
-        this.iiifVersion = params['v'];
+        this.iiifVersion = params['v'] || this.iiifVersion;
         if (!this.manifestUri) {
           this.router.navigate(['demo'], {
             queryParams: {
+              v: this.iiifVersion,
               manifestUri: this.manifestService.getManifests(
                 this.iiifVersion
               )[0].uri,
