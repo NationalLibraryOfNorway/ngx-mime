@@ -18,6 +18,7 @@ import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-serv
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { Alto } from './alto.model';
+import { Hit } from './../../core/models/hit';
 import { HtmlFormatter } from './html.formatter';
 
 @Injectable({
@@ -32,17 +33,15 @@ export class AltoService {
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
-  private htmlFormatter: HtmlFormatter;
+  private htmlFormatter!: HtmlFormatter;
 
   constructor(
     public intl: MimeViewerIntl,
     private http: HttpClient,
     private iiifManifestService: IiifManifestService,
     private canvasService: CanvasService,
-    sanitizer: DomSanitizer
-  ) {
-    this.htmlFormatter = new HtmlFormatter(sanitizer);
-  }
+    private sanitizer: DomSanitizer
+  ) {}
 
   get onRecognizedTextContentToggleChange$(): Observable<boolean> {
     return this.recognizedTextContentToggle.asObservable();
@@ -68,7 +67,8 @@ export class AltoService {
     this.recognizedTextContentToggle.next(value);
   }
 
-  initialize() {
+  initialize(hits?: Hit[]) {
+    this.htmlFormatter = new HtmlFormatter(this.sanitizer, hits);
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(
@@ -111,7 +111,8 @@ export class AltoService {
   }
 
   toggle() {
-    this.onRecognizedTextContentToggle = !this.recognizedTextContentToggle.getValue();
+    this.onRecognizedTextContentToggle =
+      !this.recognizedTextContentToggle.getValue();
   }
 
   getHtml(index: number): SafeHtml | undefined {
@@ -163,11 +164,15 @@ export class AltoService {
       .subscribe((data: Alto | any) => {
         try {
           if (!data.isError) {
-            parseString(data, { explicitChildren: true, preserveChildrenOrder: true}, (error, result) => {
-              const alto = this.altoBuilder.withAltoXml(result.alto).build();
-              this.addToCache(index, alto);
-              this.done(observer);
-            });
+            parseString(
+              data,
+              { explicitChildren: true, preserveChildrenOrder: true },
+              (error, result) => {
+                const alto = this.altoBuilder.withAltoXml(result.alto).build();
+                this.addToCache(index, alto);
+                this.done(observer);
+              }
+            );
           } else {
             throw data.err;
           }

@@ -6,6 +6,7 @@ import { cold, getTestScheduler } from 'jasmine-marbles';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
@@ -25,6 +26,7 @@ describe('RecognizedTextContentComponent', () => {
         CanvasService,
         AltoService,
         MimeViewerIntl,
+        IiifContentSearchService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     }).compileComponents();
@@ -41,7 +43,8 @@ describe('RecognizedTextContentComponent', () => {
   it('should show recognized text', () => {
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
-    const secondCanvasRecognizedTextContent = '<p>fakeSecondRecognizedTextContent</p>';
+    const secondCanvasRecognizedTextContent =
+      '<p>fakeSecondRecognizedTextContent</p>';
     spyOn(canvasService, 'getCanvasesPerCanvasGroup')
       .withArgs(0)
       .and.returnValue([0, 1]);
@@ -50,17 +53,21 @@ describe('RecognizedTextContentComponent', () => {
       .and.returnValue(firstCanvasRecognizedTextContent)
       .withArgs(1)
       .and.returnValue(secondCanvasRecognizedTextContent);
-    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(cold('x|'));
+    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
+      cold('x|')
+    );
 
     fixture.detectChanges();
     getTestScheduler().flush();
 
-    const firstCanvasRecognizedTextContentDe: DebugElement = fixture.debugElement.query(
-      By.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
-    );
-    const secondCanvasRecognizedTextContentDe: DebugElement = fixture.debugElement.query(
-      By.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
-    );
+    const firstCanvasRecognizedTextContentDe: DebugElement =
+      fixture.debugElement.query(
+        By.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
+      );
+    const secondCanvasRecognizedTextContentDe: DebugElement =
+      fixture.debugElement.query(
+        By.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
+      );
     expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
       firstCanvasRecognizedTextContent
     );
