@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed } from '@angular/core/testing';
 import { testManifest } from '../../test/testManifest';
-import { ManifestBuilder } from '../builders/manifest.builder';
+import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
