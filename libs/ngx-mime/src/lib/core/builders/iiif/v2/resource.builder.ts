@@ -1,4 +1,4 @@
-import { Resource } from '../models/manifest';
+import { Resource } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 import { ServiceBuilder } from './service.builder';
 

@@ -1,35 +1,73 @@
 <h1>Manifest</h1>
+<div class="api-format" fxLayout="column" fxLayoutAlign="space-around start">
+  <label>IIIF Presentation API</label>
+  <mat-radio-group
+    [(ngModel)]="iiifVersion"
+    (change)="selectIiifVersion($event.value)"
+  >
+    <mat-radio-button [value]="2">v2.1</mat-radio-button>
+    <mat-radio-button [value]="3">v3.0</mat-radio-button>
+  </mat-radio-group>
+</div>
 <mat-nav-list aria-label="Sample manifests">
   <a
     *ngFor="let manifest of manifests"
     mat-list-item
     [routerLink]="['demo']"
-    [queryParams]="{ manifestUri: manifest.uri }"
+    [queryParams]="{ manifestUri: manifest.uri, v: manifest.iiifVersion }"
     routerLinkActive="active"
-    (click)="close()"
+    (click)="close(manifest.label)"
   >
     {{ manifest.label }}
   </a>
-  <a
-    mat-list-item
-    href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest"
-    target="_blank"
-  >
-    <img
-      src="assets/logo-iiif.png"
-      alt="IIIF Drag-n-drop"
-      class="logo-iiif"
-    /><span>Drag and drop</span>
-  </a>
-  <a
-    mat-list-item
-    href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest&canvas=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/canvas/URN:NBN:no-nb_digibok_2011070412003_0020"
-    target="_blank"
-  >
-    <img
-      src="assets/logo-iiif.png"
-      alt="IIIF Drag-n-drop"
-      class="logo-iiif"
-    /><span>Drag and drop with canvas</span>
-  </a>
+  <ng-container [ngSwitch]="iiifVersion">
+    <ng-container *ngSwitchCase="2">
+      <a
+        mat-list-item
+        href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest"
+        target="_blank"
+      >
+        <img
+          src="assets/logo-iiif.png"
+          alt="IIIF Drag-n-drop"
+          class="logo-iiif"
+        /><span>Drag and drop</span>
+      </a>
+      <a
+        mat-list-item
+        href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest&canvas=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/canvas/URN:NBN:no-nb_digibok_2011070412003_0020"
+        target="_blank"
+      >
+        <img
+          src="assets/logo-iiif.png"
+          alt="IIIF Drag-n-drop"
+          class="logo-iiif"
+        /><span>Drag and drop with canvas</span>
+      </a>
+    </ng-container>
+    <ng-container *ngSwitchDefault
+      ><a
+        mat-list-item
+        href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v3/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest"
+        target="_blank"
+      >
+        <img
+          src="assets/logo-iiif.png"
+          alt="IIIF Drag-n-drop"
+          class="logo-iiif"
+        /><span>Drag and drop</span>
+      </a>
+      <a
+        mat-list-item
+        href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v3/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest&canvas=https://api.nb.no/catalog/v3/iiif/f080d07ddce0f9ebd2615c44e040197d/canvas/URN:NBN:no-nb_digibok_2011070412003_0020"
+        target="_blank"
+      >
+        <img
+          src="assets/logo-iiif.png"
+          alt="IIIF Drag-n-drop"
+          class="logo-iiif"
+        /><span>Drag and drop with canvas</span>
+      </a>
+    </ng-container>
+  </ng-container>
 </mat-nav-list>

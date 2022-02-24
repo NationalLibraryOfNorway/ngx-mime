@@ -1,10 +1,10 @@
-import { a300dpiManifest, a400dpiManifest } from '../../test/testManifest';
-import { testSearchResult } from '../../test/testSearchResult';
-import { MimeViewerConfig } from '../mime-viewer-config';
-import { IiifSearchResult } from './../models/iiif-search-result';
-import { Manifest } from './../models/manifest';
-import { ManifestBuilder } from './manifest.builder';
+import { a300dpiManifest, a400dpiManifest } from '../../../test/testManifest';
+import { testSearchResult } from '../../../test/testSearchResult';
+import { MimeViewerConfig } from '../../mime-viewer-config';
+import { IiifSearchResult } from '../../models/iiif-search-result';
+import { Manifest } from '../../models/manifest';
 import { SearchResultBuilder } from './search-result.builder';
+import { ManifestBuilder } from './v2/manifest.builder';
 
 describe('SearchResultBuilder', () => {
   let config: MimeViewerConfig;

@@ -1,4 +1,4 @@
-import { Sequence } from '../models/manifest';
+import { Sequence } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 import { CanvasBuilder } from './canvas.builder';
 
@@ -16,7 +16,7 @@ export class SequenceBuilder {
             type: BuilderUtils.extracType(seq),
             label: seq.label,
             viewingHint: seq.viewingHint,
-            canvases: new CanvasBuilder(seq.canvases).build()
+            canvases: new CanvasBuilder(seq.canvases).build(),
           })
         );
       }

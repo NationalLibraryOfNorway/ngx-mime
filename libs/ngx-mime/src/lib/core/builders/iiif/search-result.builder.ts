@@ -1,14 +1,14 @@
-import { MimeViewerConfig } from '../mime-viewer-config';
-import { Utils } from '../utils';
-import { Hit } from './../models/hit';
+import { MimeViewerConfig } from '../../mime-viewer-config';
+import { Utils } from '../../utils';
+import { Hit } from './../../models/hit';
 import {
   Hit as IiifHit,
   IiifSearchResult,
   Resource as IiifResource,
-} from './../models/iiif-search-result';
-import { Canvas, Manifest, Sequence } from './../models/manifest';
-import { Rect } from './../models/rect';
-import { SearchResult } from './../models/search-result';
+} from './../../models/iiif-search-result';
+import { Canvas, Manifest, Sequence } from './../../models/manifest';
+import { Rect } from './../../models/rect';
+import { SearchResult } from './../../models/search-result';
 
 export class SearchResultBuilder {
   constructor(
