@@ -2,7 +2,7 @@ import { testManifest } from '../../../../test/testManifestV3';
 import { Canvas, Images, Manifest, Sequence } from '../../../models/manifest';
 import { ManifestBuilder } from './manifest.builder';
 
-fdescribe('ManifestBuilder', () => {
+describe('ManifestBuilder', () => {
   let manifest!: Manifest;
 
   beforeEach(() => {
