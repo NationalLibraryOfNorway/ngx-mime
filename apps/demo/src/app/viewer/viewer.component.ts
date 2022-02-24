@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   MimeViewerConfig,
@@ -23,6 +23,7 @@ export class ViewerComponent implements OnDestroy {
     initViewerMode: MimeViewerMode.PAGE,
     initRecognizedTextContentToggle: false,
   });
+  private iiifVersion = 3;
   private subscriptions = new Subscription();
 
   constructor(
@@ -33,10 +34,14 @@ export class ViewerComponent implements OnDestroy {
     this.subscriptions.add(
       this.route.queryParams.subscribe((params) => {
         this.manifestUri = params['manifestUri'];
+        this.iiifVersion = params['v'] || this.iiifVersion;
         if (!this.manifestUri) {
           this.router.navigate(['demo'], {
             queryParams: {
-              manifestUri: this.manifestService.getManifests()[0].uri,
+              v: this.iiifVersion,
+              manifestUri: this.manifestService.getManifests(
+                this.iiifVersion
+              )[0].uri,
             },
           });
         }

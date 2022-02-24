@@ -32,7 +32,7 @@ export class BuilderUtils {
   static findCanvasIndex(canvases: any[], sequences: any[]): number {
     let index = -1;
     if (canvases[0]) {
-      index = sequences.findIndex(
+      index = sequences[0].canvases.findIndex(
         (canvas: Canvas) => canvas.id === canvases[0].id
       );
     }
