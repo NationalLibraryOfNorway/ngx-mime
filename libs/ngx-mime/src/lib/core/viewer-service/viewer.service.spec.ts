@@ -2,6 +2,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../test/testManifest';
@@ -26,6 +27,7 @@ import { ViewerService } from './viewer.service';
 class TestHostComponent {}
 
 describe('ViewerService', () => {
+  let snackBar: MatSnackBar;
   let hostFixture: ComponentFixture<TestHostComponent>;
   let viewerLayoutService: ViewerLayoutService;
   let viewerService: ViewerService;
@@ -33,7 +35,7 @@ describe('ViewerService', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [MatSnackBarModule],
       declarations: [TestHostComponent],
       providers: [
         ViewerService,
@@ -53,6 +55,7 @@ describe('ViewerService', () => {
 
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
     viewerService = TestBed.inject(ViewerService);
+    snackBar = TestBed.inject(MatSnackBar);
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
     hostFixture = TestBed.createComponent(TestHostComponent);
     viewerService.initialize();
@@ -145,6 +148,25 @@ describe('ViewerService', () => {
         subscription.unsubscribe();
         viewerService.destroy(false);
         expect(viewerService.getViewer()).toBeNull();
+        done();
+      }
+    });
+  });
+
+  it('should show error message on rotate if canvas is not supported', (done) => {
+    const openSpy = spyOn(snackBar, 'open');
+    viewerService.setUpViewer(
+      new ManifestBuilder(testManifest).build(),
+      new MimeViewerConfig()
+    );
+    const viewer = viewerService.getViewer();
+    viewer.useCanvas= false;
+
+    viewerService.onOsdReadyChange.subscribe((state) => {
+      if (state) {
+        viewerService.rotate();
+
+        expect(openSpy).toHaveBeenCalledTimes(1);
         done();
       }
     });
