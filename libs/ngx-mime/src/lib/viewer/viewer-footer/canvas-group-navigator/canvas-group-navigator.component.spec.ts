@@ -10,7 +10,7 @@ import { CanvasServiceStub } from '../../../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
-import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../../core/intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { SharedModule } from './../../../shared/shared.module';
 import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.component';

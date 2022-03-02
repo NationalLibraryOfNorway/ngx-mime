@@ -6,7 +6,7 @@ import { ClickService } from './click-service/click.service';
 import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { IiifContentSearchService } from './iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './intl/viewer-intl';
+import { MimeViewerIntl } from './intl';
 import { MimeResizeService } from './mime-resize-service/mime-resize.service';
 import { ModeService } from './mode-service/mode.service';
 import { ContentSearchNavigationService } from './navigation/content-search-navigation-service/content-search-navigation.service';

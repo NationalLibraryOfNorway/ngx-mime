@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 
 import { SharedModule } from '../../shared/shared.module';
-import { MimeViewerIntl } from '../intl/viewer-intl';
+import { MimeViewerIntl } from '../intl';
 import { MimeDomHelper } from '../mime-dom-helper';
 import { ViewerService } from '../viewer-service/viewer.service';
 import { ClickService } from '../click-service/click.service';

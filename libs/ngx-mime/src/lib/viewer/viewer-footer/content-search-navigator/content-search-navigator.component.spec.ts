@@ -12,7 +12,7 @@ import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from './../../../core/iiif-content-search-service/iiif-content-search.service';
-import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../../core/intl';
 import { Hit } from './../../../core/models/hit';
 import { SearchResult } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';

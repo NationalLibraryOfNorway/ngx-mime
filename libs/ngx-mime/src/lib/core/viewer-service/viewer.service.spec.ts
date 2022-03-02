@@ -9,7 +9,7 @@ import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
 import { ClickService } from '../click-service/click.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../intl/viewer-intl';
+import { MimeViewerIntl } from '../intl';
 import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Hit } from '../models/hit';

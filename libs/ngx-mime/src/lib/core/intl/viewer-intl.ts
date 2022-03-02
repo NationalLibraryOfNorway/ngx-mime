@@ -34,6 +34,7 @@ export class MimeViewerIntl {
   enterPageNumber = 'Enter page number';
   dropDisabled = 'Sorry, but drag and drop is disabled';
   loading = 'Loading ...';
+  rotationIsNotSupported = 'Rotation is not supported for your device';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';

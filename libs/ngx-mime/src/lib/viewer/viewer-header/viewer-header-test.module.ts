@@ -19,7 +19,7 @@ import { AltoServiceStub } from '../../test/alto-service-stub';
 import { FullscreenServiceStub } from '../../test/fullscreen-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl';
 import { IconComponent } from './icon/icon.component';
 import { ViewerHeaderComponent } from './viewer-header.component';
 

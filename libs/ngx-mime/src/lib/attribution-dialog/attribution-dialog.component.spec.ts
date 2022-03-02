@@ -8,7 +8,7 @@ import { injectedStub } from '../../testing/injected-stub';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../core/intl';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Manifest } from '../core/models/manifest';
 import { SharedModule } from '../shared/shared.module';

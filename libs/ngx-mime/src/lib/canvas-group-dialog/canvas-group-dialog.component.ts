@@ -14,7 +14,7 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../core/canvas-service/canvas-service';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../core/intl';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 
 @Component({

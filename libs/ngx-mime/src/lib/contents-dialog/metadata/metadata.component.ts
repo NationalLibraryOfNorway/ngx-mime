@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
 
 @Component({

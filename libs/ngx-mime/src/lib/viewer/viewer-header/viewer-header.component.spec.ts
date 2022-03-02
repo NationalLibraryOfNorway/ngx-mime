@@ -19,7 +19,7 @@ import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-lay
 import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl';
 import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
 import { ViewerHeaderTestModule } from './viewer-header-test.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
