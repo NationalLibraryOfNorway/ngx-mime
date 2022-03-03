@@ -739,14 +739,14 @@ export class ViewerService {
 
     this.tileSources.forEach((tile, i) => {
       const position = calculateCanvasGroupPositionStrategy.calculateCanvasGroupPosition(
-          {
-            canvasGroupIndex: i,
-            canvasSource: tile,
-            previousCanvasGroupPosition: canvasRects[i - 1],
-            viewingDirection: this.manifest.viewingDirection,
-          },
-          rotation
-        );
+        {
+          canvasGroupIndex: i,
+          canvasSource: tile,
+          previousCanvasGroupPosition: canvasRects[i - 1],
+          viewingDirection: this.manifest.viewingDirection,
+        },
+        rotation
+      );
 
       canvasRects.push(position);
 
@@ -875,9 +875,9 @@ export class ViewerService {
       const canvasGroupRect: Rect = this.canvasService.getCurrentCanvasGroupRect();
       const vpBounds: Rect = this.getViewportBounds();
       const pannedPastCanvasGroup = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
-          canvasGroupRect,
-          vpBounds
-        );
+        canvasGroupRect,
+        vpBounds
+      );
       const direction: number = e.direction;
       if (
         (pannedPastCanvasGroup === Side.LEFT &&
