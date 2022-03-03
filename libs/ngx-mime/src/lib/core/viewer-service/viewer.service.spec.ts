@@ -153,22 +153,45 @@ describe('ViewerService', () => {
     });
   });
 
-  it('should show error message on rotate if canvas is not supported', (done) => {
-    const openSpy = spyOn(snackBar, 'open');
-    viewerService.setUpViewer(
-      new ManifestBuilder(testManifest).build(),
-      new MimeViewerConfig()
-    );
-    const viewer = viewerService.getViewer();
-    viewer.useCanvas= false;
+  describe('rotate', () => {
+    it('should rotate if using canvas', (done) => {
+      const openSpy = spyOn(snackBar, 'open');
+      viewerService.setUpViewer(
+        new ManifestBuilder(testManifest).build(),
+        new MimeViewerConfig()
+      );
 
-    viewerService.onOsdReadyChange.subscribe((state) => {
-      if (state) {
-        viewerService.rotate();
+      viewerService.onOsdReadyChange.subscribe((state) => {
+        if (state) {
+          viewerService.rotate();
+        }
+      });
 
-        expect(openSpy).toHaveBeenCalledTimes(1);
-        done();
-      }
+      viewerService.onRotationChange.subscribe((rotation: number) => {
+        if (rotation !== 0) {
+          expect(rotation).toBe(90);
+          done();
+        }
+      });
+    });
+
+    it('should show error message if not using canvas', (done) => {
+      const openSpy = spyOn(snackBar, 'open');
+      viewerService.setUpViewer(
+        new ManifestBuilder(testManifest).build(),
+        new MimeViewerConfig()
+      );
+      const viewer = viewerService.getViewer();
+      viewer.useCanvas = false;
+
+      viewerService.onOsdReadyChange.subscribe((state) => {
+        if (state) {
+          viewerService.rotate();
+
+          expect(openSpy).toHaveBeenCalledTimes(1);
+          done();
+        }
+      });
     });
   });
 });
