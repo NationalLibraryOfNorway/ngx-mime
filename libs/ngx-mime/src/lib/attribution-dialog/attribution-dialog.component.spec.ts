@@ -22,36 +22,28 @@ describe('AttributionDialogComponent', () => {
   let fixture: ComponentFixture<AttributionDialogComponent>;
   let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-        declarations: [AttributionDialogComponent],
-        providers: [
-          MimeViewerIntl,
-          AttributionDialogResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          {
-            provide: AccessKeysService,
-            useClass: jasmine.createSpy('accessKeysService'),
-          },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-        ],
-      });
-      TestBed.compileComponents();
-    })
-  );
-
-  beforeEach(
-    waitForAsync(() => {
-      fixture = TestBed.createComponent(AttributionDialogComponent);
-      component = fixture.componentInstance;
-      iiifManifestService = injectedStub(IiifManifestService);
-      fixture.detectChanges();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      declarations: [AttributionDialogComponent],
+      providers: [
+        MimeViewerIntl,
+        AttributionDialogResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        {
+          provide: AccessKeysService,
+          useClass: jasmine.createSpy('accessKeysService'),
+        },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+      ],
+    }).compileComponents();
+    fixture = TestBed.createComponent(AttributionDialogComponent);
+    component = fixture.componentInstance;
+    iiifManifestService = injectedStub(IiifManifestService);
+    fixture.detectChanges();
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();

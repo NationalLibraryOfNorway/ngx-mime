@@ -29,7 +29,7 @@ import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
 
-describe('ContentsDialogComponent', () => {
+fdescribe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
   let fixture: ComponentFixture<ContentsDialogComponent>;
   let loader: HarnessLoader;
@@ -39,37 +39,42 @@ describe('ContentsDialogComponent', () => {
   let dialogRef: MatDialogRef<ContentsDialogComponent>;
   let viewerService: ViewerService;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
-      providers: [
-        ViewerService,
-        ClickService,
-        MimeViewerIntl,
-        CanvasService,
-        ModeService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        ViewerLayoutService,
-        IiifContentSearchService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: MediaObserver, useClass: MediaObserverStub },
-      ],
-    }).compileComponents();
-    fixture = TestBed.createComponent(ContentsDialogComponent);
-    component = fixture.componentInstance;
-    loader = TestbedHarnessEnvironment.loader(fixture);
-    mediaObserver = TestBed.inject(MediaObserver);
-    viewerService = TestBed.inject(ViewerService);
-    iiifManifestService = injectedStub(IiifManifestService);
-    intl = TestBed.inject(MimeViewerIntl);
-    dialogRef = TestBed.inject(MatDialogRef);
-    fixture.detectChanges();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        schemas: [NO_ERRORS_SCHEMA],
+        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+        declarations: [
+          ContentsDialogComponent,
+          MetadataComponent,
+          TocComponent,
+        ],
+        providers: [
+          ViewerService,
+          ClickService,
+          MimeViewerIntl,
+          CanvasService,
+          ModeService,
+          MimeResizeService,
+          MimeDomHelper,
+          FullscreenService,
+          ViewerLayoutService,
+          IiifContentSearchService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: MediaObserver, useClass: MediaObserverStub },
+        ],
+      }).compileComponents();
+      fixture = TestBed.createComponent(ContentsDialogComponent);
+      component = fixture.componentInstance;
+      loader = TestbedHarnessEnvironment.loader(fixture);
+      mediaObserver = TestBed.inject(MediaObserver);
+      viewerService = TestBed.inject(ViewerService);
+      iiifManifestService = injectedStub(IiifManifestService);
+      intl = TestBed.inject(MimeViewerIntl);
+      dialogRef = TestBed.inject(MatDialogRef);
+    })
+  );
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -97,18 +102,18 @@ describe('ContentsDialogComponent', () => {
     expect(heading).not.toBeNull();
   });
 
-  it(
+  fit(
     'should show toc',
     waitForAsync(() => {
+      fixture.detectChanges();
       const manifest = new Manifest({
         structures: [new Structure()],
       });
       iiifManifestService._currentManifest.next(manifest);
       intl.tocLabel = 'TocTestLabel';
-
-      fixture.detectChanges();
-
       fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
         const tabs: NodeList =
           fixture.nativeElement.querySelectorAll('.mat-tab-label');
         const tocTab = Array.from(tabs).find(
