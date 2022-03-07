@@ -32,7 +32,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   enterPageNumber = 'Skriv inn sidenummer';
   dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
   loading = 'Laster ...';
-  rotationIsNotSupported = 'Rotasjon støttes ikke for enheten din';
+  rotationIsNotSupported = 'Rotasjon støttes ikke av enheten din';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';
