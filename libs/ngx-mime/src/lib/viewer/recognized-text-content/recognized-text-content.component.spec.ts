@@ -6,6 +6,7 @@ import { cold, getTestScheduler } from 'jasmine-marbles';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
@@ -29,12 +30,15 @@ describe('RecognizedTextContentComponent', () => {
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         ],
       }).compileComponents();
-      fixture = TestBed.createComponent(RecognizedTextContentComponent);
-      component = fixture.componentInstance;
-      altoService = TestBed.inject(AltoService);
-      canvasService = TestBed.inject(CanvasService);
     })
   );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(RecognizedTextContentComponent);
+    component = fixture.componentInstance;
+    altoService = TestBed.inject(AltoService);
+    canvasService = TestBed.inject(CanvasService);
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

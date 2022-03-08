@@ -18,6 +18,7 @@ import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-serv
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { Alto } from './alto.model';
+import { Hit } from './../../core/models/hit';
 import { HtmlFormatter } from './html.formatter';
 
 @Injectable({
@@ -32,17 +33,15 @@ export class AltoService {
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
-  private htmlFormatter: HtmlFormatter;
+  private htmlFormatter!: HtmlFormatter;
 
   constructor(
     public intl: MimeViewerIntl,
     private http: HttpClient,
     private iiifManifestService: IiifManifestService,
     private canvasService: CanvasService,
-    sanitizer: DomSanitizer
-  ) {
-    this.htmlFormatter = new HtmlFormatter(sanitizer);
-  }
+    private sanitizer: DomSanitizer
+  ) {}
 
   get onRecognizedTextContentToggleChange$(): Observable<boolean> {
     return this.recognizedTextContentToggle.asObservable();
@@ -68,7 +67,8 @@ export class AltoService {
     this.recognizedTextContentToggle.next(value);
   }
 
-  initialize() {
+  initialize(hits?: Hit[]) {
+    this.htmlFormatter = new HtmlFormatter(this.sanitizer, hits);
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(
