@@ -89,7 +89,7 @@ describe('AltoService', () => {
     iiifManifestService.load('fakeUrl').subscribe(() => {
       waitForDebounce();
       let errorMessage: string | undefined;
-      service.hasErrors$.subscribe((err: string) => (errorMessage = err));
+      service.hasErrors$.subscribe((err: string | undefined) => (errorMessage = err));
 
       mockFailedAltoRequest();
 
