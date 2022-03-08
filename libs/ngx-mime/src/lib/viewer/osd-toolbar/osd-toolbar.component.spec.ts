@@ -43,14 +43,17 @@ describe('OsdToolbarComponent', () => {
           FullscreenService,
         ],
       }).compileComponents();
-      fixture = TestBed.createComponent(OsdToolbarComponent);
-      intl = TestBed.inject(MimeViewerIntl);
-      canvasService = injectedStub(CanvasService);
-      viewerService = injectedStub(ViewerService);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
     })
   );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(OsdToolbarComponent);
+    intl = TestBed.inject(MimeViewerIntl);
+    canvasService = injectedStub(CanvasService);
+    viewerService = injectedStub(ViewerService);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();

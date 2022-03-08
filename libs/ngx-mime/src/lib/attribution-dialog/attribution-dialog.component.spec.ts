@@ -40,12 +40,15 @@ describe('AttributionDialogComponent', () => {
           { provide: MatDialogRef, useClass: MatDialogRefStub },
         ],
       }).compileComponents();
-      fixture = TestBed.createComponent(AttributionDialogComponent);
-      component = fixture.componentInstance;
-      iiifManifestService = injectedStub(IiifManifestService);
-      fixture.detectChanges();
     })
   );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AttributionDialogComponent);
+    component = fixture.componentInstance;
+    iiifManifestService = injectedStub(IiifManifestService);
+    fixture.detectChanges();
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();

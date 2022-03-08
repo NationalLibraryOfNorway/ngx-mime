@@ -1,7 +1,4 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
   fakeAsync,
   inject,
@@ -48,30 +45,16 @@ describe('ContentSearchNavigationService', () => {
     })
   );
 
-  beforeEach(inject(
-    [
-      ContentSearchNavigationService,
-      HttpTestingController,
-      IiifContentSearchService,
-      CanvasService,
-    ],
-    fakeAsync(
-      (
-        csns: ContentSearchNavigationService,
-        httpMock: HttpTestingController,
-        icss: IiifContentSearchService,
-        canvasService: CanvasService
-      ) => {
-        iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-        iiifManifestServiceStub = injectedStub(IiifManifestService);
-        iiifManifestServiceStub._currentManifest.next(testManifest);
-        iiifContentSearchServiceStub._currentSearchResult.next(
-          createSearchResult()
-        );
-        canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
-      }
-    )
-  ));
+  beforeEach(() => {
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    iiifManifestServiceStub = injectedStub(IiifManifestService);
+    iiifManifestServiceStub._currentManifest.next(testManifest);
+    iiifContentSearchServiceStub._currentSearchResult.next(
+      createSearchResult()
+    );
+    const canvasService = TestBed.inject(CanvasService);
+    canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
+  });
 
   it('should create', inject(
     [ContentSearchNavigationService],

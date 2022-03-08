@@ -50,22 +50,23 @@ describe('ContentSearchNavigatorComponent', () => {
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         ],
       }).compileComponents();
-      fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
-      iiifContentSearchService = injectedStub(IiifContentSearchService);
-      contentSearchNavigationService = TestBed.inject(
-        ContentSearchNavigationService
-      );
-      canvasService = injectedStub(CanvasService);
-
-      component = fixture.componentInstance;
-      component.searchResult = createDefaultData();
-      iiifContentSearchService._currentSearchResult.next(
-        component.searchResult
-      );
-      canvasService.addAll(createDefaultTileRects(102), ViewerLayout.TWO_PAGE);
-      fixture.detectChanges();
     })
   );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
+    iiifContentSearchService = injectedStub(IiifContentSearchService);
+    contentSearchNavigationService = TestBed.inject(
+      ContentSearchNavigationService
+    );
+    canvasService = injectedStub(CanvasService);
+
+    component = fixture.componentInstance;
+    component.searchResult = createDefaultData();
+    iiifContentSearchService._currentSearchResult.next(component.searchResult);
+    canvasService.addAll(createDefaultTileRects(102), ViewerLayout.TWO_PAGE);
+    fixture.detectChanges();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

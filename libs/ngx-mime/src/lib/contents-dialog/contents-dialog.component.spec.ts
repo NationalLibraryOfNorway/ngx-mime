@@ -65,16 +65,19 @@ describe('ContentsDialogComponent', () => {
           { provide: MediaObserver, useClass: MediaObserverStub },
         ],
       }).compileComponents();
-      fixture = TestBed.createComponent(ContentsDialogComponent);
-      component = fixture.componentInstance;
-      loader = TestbedHarnessEnvironment.loader(fixture);
-      mediaObserver = TestBed.inject(MediaObserver);
-      viewerService = TestBed.inject(ViewerService);
-      iiifManifestService = injectedStub(IiifManifestService);
-      intl = TestBed.inject(MimeViewerIntl);
-      dialogRef = TestBed.inject(MatDialogRef);
     })
   );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ContentsDialogComponent);
+    component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
+    mediaObserver = TestBed.inject(MediaObserver);
+    viewerService = TestBed.inject(ViewerService);
+    iiifManifestService = injectedStub(IiifManifestService);
+    intl = TestBed.inject(MimeViewerIntl);
+    dialogRef = TestBed.inject(MatDialogRef);
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();

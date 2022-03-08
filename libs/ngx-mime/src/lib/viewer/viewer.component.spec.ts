@@ -53,15 +53,6 @@ describe('ViewerComponent', function () {
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
 
-  beforeAll(() => {
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  });
-
-  afterAll(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-  });
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -118,9 +109,13 @@ describe('ViewerComponent', function () {
     iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
+
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
   afterEach(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     viewerService.destroy();
   });
 
@@ -424,9 +419,8 @@ describe('ViewerComponent', function () {
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
 
     setTimeout(() => {
-      if (canvasService.currentCanvasIndex === 7) {
-        done();
-      }
+      expect(canvasService.currentCanvasIndex).toEqual(7);
+      done();
     }, osdAnimationTime);
   });
 

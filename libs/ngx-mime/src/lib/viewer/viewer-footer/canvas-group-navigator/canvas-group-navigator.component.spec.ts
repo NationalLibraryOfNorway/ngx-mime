@@ -38,14 +38,17 @@ describe('CanvasGroupNavigatorComponent', () => {
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         ],
       }).compileComponents();
-      fixture = TestBed.createComponent(CanvasGroupNavigatorComponent);
-      canvasService = injectedStub(CanvasService);
-      viewerService = injectedStub(ViewerService);
-      intl = TestBed.inject(MimeViewerIntl);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
     })
   );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CanvasGroupNavigatorComponent);
+    canvasService = injectedStub(CanvasService);
+    viewerService = injectedStub(ViewerService);
+    intl = TestBed.inject(MimeViewerIntl);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
