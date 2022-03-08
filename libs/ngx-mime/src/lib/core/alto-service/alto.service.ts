@@ -84,7 +84,7 @@ export class AltoService {
       this.canvasService.onCanvasGroupIndexChange
         .pipe(debounceTime(200))
         .subscribe((currentCanvasGroupIndex: number) => {
-          this.textError.next('');
+          this.textError.next(undefined);
           const sources: Observable<void>[] = [];
 
           const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
