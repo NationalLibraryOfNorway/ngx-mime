@@ -34,7 +34,7 @@ export class IiifManifestServiceStub {
   }
 
   resetCurrentManifest() {
-    this._currentManifest.next(new Manifest());
+    this._currentManifest.next(null);
   }
 
   resetErrorMessage() {

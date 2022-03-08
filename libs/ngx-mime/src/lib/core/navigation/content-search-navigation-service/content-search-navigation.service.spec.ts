@@ -1,10 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  fakeAsync,
-  inject,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { fakeAsync, inject, TestBed } from '@angular/core/testing';
 import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
@@ -25,27 +20,22 @@ describe('ContentSearchNavigationService', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [],
-        providers: [
-          ContentSearchNavigationService,
-          MimeViewerIntl,
-          CanvasService,
-          { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          {
-            provide: IiifContentSearchService,
-            useClass: IiifContentSearchServiceStub,
-          },
-        ],
-      });
-    })
-  );
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [],
+      providers: [
+        ContentSearchNavigationService,
+        MimeViewerIntl,
+        CanvasService,
+        { provide: ViewerService, useClass: ViewerServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        {
+          provide: IiifContentSearchService,
+          useClass: IiifContentSearchServiceStub,
+        },
+      ],
+    });
     iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
     iiifManifestServiceStub._currentManifest.next(testManifest);
