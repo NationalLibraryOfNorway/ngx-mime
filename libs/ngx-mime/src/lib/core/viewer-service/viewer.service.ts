@@ -416,7 +416,7 @@ export class ViewerService {
    */
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
-    this.currentCenter.next(undefined);
+    this.currentCenter.next({ x: 0, y: 0 });
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
         d3.select(this.viewer.container.parentNode).style('opacity', '0');

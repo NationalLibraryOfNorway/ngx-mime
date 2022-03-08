@@ -7,14 +7,14 @@ import { switchMap, tap, distinctUntilChanged, filter } from 'rxjs/operators';
 })
 export class StyleService {
   private currentRgbColor: string | undefined;
-  private colorSubject: ReplaySubject<string> = new ReplaySubject();
+  private colorSubject: ReplaySubject<string | undefined> = new ReplaySubject();
   private subscriptions!: Subscription;
 
   constructor(private zone: NgZone) {}
 
-  get onChange(): Observable<string> {
+  get onChange(): Observable<string | undefined> {
     return this.colorSubject.asObservable().pipe(
-      filter((c) => c !== null),
+      filter((color: string | undefined) => color !== null),
       distinctUntilChanged()
     );
   }

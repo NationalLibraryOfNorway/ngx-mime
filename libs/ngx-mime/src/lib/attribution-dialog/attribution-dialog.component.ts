@@ -57,13 +57,15 @@ export class AttributionDialogComponent
 
   ngAfterViewInit() {
     this.subscriptions.add(
-      this.styleService.onChange.subscribe((c) => {
-        const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
-        this.renderer.setStyle(
-          this.container?.nativeElement,
-          'background-color',
-          backgroundRgbaColor
-        );
+      this.styleService.onChange.subscribe((color: string | undefined) => {
+        if (color) {
+          const backgroundRgbaColor = this.styleService.convertToRgba(color, 0.3);
+          this.renderer.setStyle(
+            this.container?.nativeElement,
+            'background-color',
+            backgroundRgbaColor
+          );
+        }
       })
     );
   }
