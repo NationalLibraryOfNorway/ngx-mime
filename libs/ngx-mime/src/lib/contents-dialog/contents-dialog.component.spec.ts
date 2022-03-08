@@ -29,7 +29,7 @@ import { ContentsDialogComponent } from './contents-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
 
-fdescribe('ContentsDialogComponent', () => {
+describe('ContentsDialogComponent', () => {
   let component: ContentsDialogComponent;
   let fixture: ComponentFixture<ContentsDialogComponent>;
   let loader: HarnessLoader;
@@ -102,7 +102,7 @@ fdescribe('ContentsDialogComponent', () => {
     expect(heading).not.toBeNull();
   });
 
-  fit(
+  it(
     'should show toc',
     waitForAsync(() => {
       fixture.detectChanges();
