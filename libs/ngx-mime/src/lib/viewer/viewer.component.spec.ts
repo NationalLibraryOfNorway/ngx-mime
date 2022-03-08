@@ -53,62 +53,64 @@ describe('ViewerComponent', function () {
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-        SharedModule,
-        ContentsDialogModule,
-        AttributionDialogModule,
-        ContentSearchDialogModule,
-        HelpDialogModule,
-      ],
-      declarations: [
-        ViewerComponent,
-        TestHostComponent,
-        ViewerHeaderComponent,
-        ViewerFooterComponent,
-        TestDynamicComponent,
-      ],
-      providers: [
-        { provide: MatSnackBar, useClass: matSnackBarSpy },
-        ViewerService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub,
-        },
-        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-        MimeViewerIntl,
-        ClickService,
-        CanvasService,
-        ModeService,
-        FullscreenService,
-        AccessKeysService,
-        ViewerLayoutService,
-        ContentSearchNavigationService,
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          HttpClientTestingModule,
+          NoopAnimationsModule,
+          SharedModule,
+          ContentsDialogModule,
+          AttributionDialogModule,
+          ContentSearchDialogModule,
+          HelpDialogModule,
+        ],
+        declarations: [
+          ViewerComponent,
+          TestHostComponent,
+          ViewerHeaderComponent,
+          ViewerFooterComponent,
+          TestDynamicComponent,
+        ],
+        providers: [
+          { provide: MatSnackBar, useClass: matSnackBarSpy },
+          ViewerService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          {
+            provide: IiifContentSearchService,
+            useClass: IiifContentSearchServiceStub,
+          },
+          { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+          MimeViewerIntl,
+          ClickService,
+          CanvasService,
+          ModeService,
+          FullscreenService,
+          AccessKeysService,
+          ViewerLayoutService,
+          ContentSearchNavigationService,
+        ],
+      }).compileComponents();
 
-    testHostFixture = TestBed.createComponent(TestHostComponent);
-    comp = testHostFixture.componentInstance.viewerComponent;
-    testHostComponent = testHostFixture.componentInstance;
-    testHostComponent.manifestUri = 'dummyURI1';
-    testHostFixture.detectChanges();
+      testHostFixture = TestBed.createComponent(TestHostComponent);
+      comp = testHostFixture.componentInstance.viewerComponent;
+      testHostComponent = testHostFixture.componentInstance;
+      testHostComponent.manifestUri = 'dummyURI1';
+      testHostFixture.detectChanges();
 
-    viewerService = TestBed.inject(ViewerService);
-    canvasService = TestBed.inject(CanvasService);
-    modeService = TestBed.inject(ModeService);
-    mimeResizeServiceStub = injectedStub(MimeResizeService);
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-    iiifManifestServiceStub = injectedStub(IiifManifestService);
-    viewerLayoutService = TestBed.inject(ViewerLayoutService);
+      viewerService = TestBed.inject(ViewerService);
+      canvasService = TestBed.inject(CanvasService);
+      modeService = TestBed.inject(ModeService);
+      mimeResizeServiceStub = injectedStub(MimeResizeService);
+      iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+      iiifManifestServiceStub = injectedStub(IiifManifestService);
+      viewerLayoutService = TestBed.inject(ViewerLayoutService);
 
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  });
+      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    })
+  );
 
   afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;

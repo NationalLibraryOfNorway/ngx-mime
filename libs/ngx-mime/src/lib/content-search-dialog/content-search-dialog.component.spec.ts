@@ -36,7 +36,8 @@ describe('ContentSearchDialogComponent', () => {
   let mediaObserver: any;
   let dialogRef: any;
 
-  beforeEach(() => {
+  beforeEach(
+    waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
         declarations: [ContentSearchDialogComponent],
@@ -64,7 +65,7 @@ describe('ContentSearchDialogComponent', () => {
       iiifManifestServiceStub = injectedStub(IiifManifestService);
       mediaObserver = TestBed.inject(MediaObserver);
       dialogRef = TestBed.inject(MatDialogRef);
-    }
+    })
   );
 
   it('should be created', () => {

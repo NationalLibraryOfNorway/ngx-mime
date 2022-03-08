@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { AltoService } from '../../core/alto-service/alto.service';
@@ -16,23 +16,25 @@ describe('RecognizedTextContentComponent', () => {
   let altoService: any;
   let canvasService: any;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [RecognizedTextContentComponent],
-      providers: [
-        MimeViewerIntl,
-        CanvasService,
-        AltoService,
-        MimeViewerIntl,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-      ],
-    }).compileComponents();
-    fixture = TestBed.createComponent(RecognizedTextContentComponent);
-    component = fixture.componentInstance;
-    altoService = TestBed.inject(AltoService);
-    canvasService = TestBed.inject(CanvasService);
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule],
+        declarations: [RecognizedTextContentComponent],
+        providers: [
+          MimeViewerIntl,
+          CanvasService,
+          AltoService,
+          MimeViewerIntl,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        ],
+      }).compileComponents();
+      fixture = TestBed.createComponent(RecognizedTextContentComponent);
+      component = fixture.componentInstance;
+      altoService = TestBed.inject(AltoService);
+      canvasService = TestBed.inject(CanvasService);
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
