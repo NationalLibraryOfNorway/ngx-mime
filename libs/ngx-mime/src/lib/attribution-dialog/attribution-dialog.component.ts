@@ -59,7 +59,10 @@ export class AttributionDialogComponent
     this.subscriptions.add(
       this.styleService.onChange.subscribe((color: string | undefined) => {
         if (color) {
-          const backgroundRgbaColor = this.styleService.convertToRgba(color, 0.3);
+          const backgroundRgbaColor = this.styleService.convertToRgba(
+            color,
+            0.3
+          );
           this.renderer.setStyle(
             this.container?.nativeElement,
             'background-color',

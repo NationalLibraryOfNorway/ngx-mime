@@ -4,21 +4,19 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [13.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.0.1...v13.1.0) (2022-02-28)
 
-
 ### Features
 
-* Add support for IIIF Presentation API v3.0 ([de34aff](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/de34afffa123155dca0825354867852d002e10ef))
-* change maxZoomPixelRatio to 5 ([6008c3b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6008c3bb73be13f9e1979bee6945933c92b3609c)), closes [#391](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/391)
-* hightlight text in recognize text tab ([bce6740](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bce674068e53e29b358d5d291338f2e876c9d5fc))
-* update openseadragon to v3 ([8e39d2b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8e39d2bd0e8404e47f88d448136eab0d2b5aefc9)), closes [#378](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/378)
-* zoom to current page size in dashboard mode ([5c80a28](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5c80a28e5ed7bd6f387a50915ce9ce0707fb3dd6)), closes [#388](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/388)
-
+- Add support for IIIF Presentation API v3.0 ([de34aff](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/de34afffa123155dca0825354867852d002e10ef))
+- change maxZoomPixelRatio to 5 ([6008c3b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6008c3bb73be13f9e1979bee6945933c92b3609c)), closes [#391](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/391)
+- hightlight text in recognize text tab ([bce6740](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bce674068e53e29b358d5d291338f2e876c9d5fc))
+- update openseadragon to v3 ([8e39d2b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8e39d2bd0e8404e47f88d448136eab0d2b5aefc9)), closes [#378](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/378)
+- zoom to current page size in dashboard mode ([5c80a28](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5c80a28e5ed7bd6f387a50915ce9ce0707fb3dd6)), closes [#388](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/388)
 
 ### Bug Fixes
 
-* cleanup on destroy ([5e28676](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5e286769c2ce5b437bf5d203caed970d5bbb064e))
-* Modern "ios" devices report as Macintosh, so disable canvas also for Mac ([8dccd51](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8dccd518ed059e9db0403905b0fa39eac889018d))
-* npe ([846d330](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/846d33029b5e6964b0ba623db18b70d403f449f2))
+- cleanup on destroy ([5e28676](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5e286769c2ce5b437bf5d203caed970d5bbb064e))
+- Modern "ios" devices report as Macintosh, so disable canvas also for Mac ([8dccd51](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8dccd518ed059e9db0403905b0fa39eac889018d))
+- npe ([846d330](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/846d33029b5e6964b0ba623db18b70d403f449f2))
 
 ### [13.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.0.0...v13.0.1) (2021-12-06)
 
