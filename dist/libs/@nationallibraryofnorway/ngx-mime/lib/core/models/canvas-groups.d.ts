@@ -8,7 +8,5 @@ export declare class CanvasGroups {
     addRange(rects: Rect[]): void;
     get(index: number): Rect;
     findClosestIndex(point: Point): number;
-    getMaxHeight(): number;
-    getMaxWidth(): number;
     length(): number;
 }

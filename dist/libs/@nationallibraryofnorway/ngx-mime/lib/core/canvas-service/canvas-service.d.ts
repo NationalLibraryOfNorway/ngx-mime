@@ -33,8 +33,6 @@ export declare class CanvasService {
     getCanvasRect(canvasIndex: number): Rect;
     getCurrentCanvasGroupRect(): Rect;
     getCanvasGroupRect(canvasGroupIndex: number): Rect;
-    getMaxHeight(): number;
-    getMaxWidth(): number;
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<CanvasService>;
 }

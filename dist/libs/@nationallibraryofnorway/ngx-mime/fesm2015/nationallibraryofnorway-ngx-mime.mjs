@@ -604,7 +604,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.0.2", ngImpor
                 }]
         }] });
 
-class BuilderUtils {
+class BuilderUtils$1 {
     static extractId(value) {
         return value['@id'];
     }
@@ -628,6 +628,322 @@ class BuilderUtils {
             index = sequences[0].canvases.findIndex((canvas) => canvas.id === canvases[0]);
         }
         return index;
+    }
+}
+
+class MetadataBuilder$1 {
+    constructor(metadatas) {
+        this.metadatas = metadatas;
+    }
+    build() {
+        const metadatas = [];
+        if (this.metadatas) {
+            for (let i = 0; i < this.metadatas.length; i++) {
+                const data = this.metadatas[i];
+                metadatas.push(new Metadata(data.label, data.value));
+            }
+        }
+        return metadatas;
+    }
+}
+
+class SizesBuilder$1 {
+    constructor(sizes) {
+        this.sizes = sizes;
+    }
+    build() {
+        const sizes = [];
+        if (this.sizes) {
+            for (let i = 0; i < this.sizes.length; i++) {
+                const size = this.sizes[i];
+                sizes.push(new Size(size.width, size.height));
+            }
+        }
+        return sizes;
+    }
+}
+
+class TilesBuilder$1 {
+    constructor(tiles) {
+        this.tiles = tiles;
+    }
+    build() {
+        const tiles = [];
+        if (this.tiles) {
+            for (let i = 0; i < this.tiles.length; i++) {
+                const tile = this.tiles[i];
+                tiles.push(new Tile({
+                    width: tile.width,
+                    scaleFactors: tile.scaleFactors,
+                }));
+            }
+        }
+        return tiles;
+    }
+}
+
+class ServiceBuilder$1 {
+    constructor(service) {
+        this.service = service;
+    }
+    build() {
+        if (!this.service) {
+            return undefined;
+        }
+        else {
+            return new Service({
+                id: BuilderUtils$1.extractId(this.service),
+                context: BuilderUtils$1.extractContext(this.service),
+                protocol: this.service.protocol,
+                width: this.service.width,
+                height: this.service.height,
+                sizes: new SizesBuilder$1(this.service.sizes).build(),
+                tiles: new TilesBuilder$1(this.service.tiles).build(),
+                profile: this.service.profile,
+                physicalScale: this.service.physicalScale,
+                physicalUnits: this.service.physicalUnits,
+                service: new ServiceBuilder$1(this.service.service).build(),
+            });
+        }
+    }
+}
+
+class ResourceBuilder$1 {
+    constructor(resource) {
+        this.resource = resource;
+    }
+    build() {
+        if (!this.resource) {
+            throw new Error('No resource');
+        }
+        return new Resource({
+            id: BuilderUtils$1.extractId(this.resource),
+            type: BuilderUtils$1.extracType(this.resource),
+            format: this.resource.format,
+            service: new ServiceBuilder$1(this.resource.service).build(),
+            height: this.resource.height,
+            width: this.resource.width,
+        });
+    }
+}
+
+class ImagesBuilder$1 {
+    constructor(images) {
+        this.images = images;
+    }
+    build() {
+        const images = [];
+        if (this.images) {
+            for (let i = 0; i < this.images.length; i++) {
+                const image = this.images[i];
+                images.push(new Images({
+                    id: BuilderUtils$1.extractId(image),
+                    type: BuilderUtils$1.extracType(image),
+                    motivation: image.motivation,
+                    resource: new ResourceBuilder$1(image.resource).build(),
+                    on: image.on,
+                }));
+            }
+        }
+        return images;
+    }
+}
+
+class CanvasBuilder$1 {
+    constructor(canvases) {
+        this.canvases = canvases;
+    }
+    build() {
+        const canvases = [];
+        if (this.canvases) {
+            for (let i = 0; i < this.canvases.length; i++) {
+                const canvas = this.canvases[i];
+                const seeAlso = canvas.seeAlso ? canvas.seeAlso : [];
+                if (canvas['@seeAlso']) {
+                    seeAlso.push(canvas['@seeAlso']);
+                }
+                canvases.push(new Canvas({
+                    id: BuilderUtils$1.extractId(canvas),
+                    type: BuilderUtils$1.extracType(canvas),
+                    label: canvas.label,
+                    thumbnail: canvas.thumbnail,
+                    height: canvas.height,
+                    width: canvas.width,
+                    images: new ImagesBuilder$1(canvas.images).build(),
+                    altoUrl: this.extractAltoUrl(seeAlso),
+                }));
+            }
+        }
+        return canvases;
+    }
+    extractAltoUrl(seeAlso) {
+        if (!seeAlso) {
+            return undefined;
+        }
+        const altoService = seeAlso.find((s) => s.format === 'application/alto+xml');
+        return altoService ? BuilderUtils$1.extractId(altoService) : undefined;
+    }
+}
+
+class SequenceBuilder$1 {
+    constructor(sequences) {
+        this.sequences = sequences;
+    }
+    build() {
+        const sequences = [];
+        if (this.sequences) {
+            for (let i = 0; i < this.sequences.length; i++) {
+                const seq = this.sequences[i];
+                sequences.push(new Sequence({
+                    id: BuilderUtils$1.extractId(seq),
+                    type: BuilderUtils$1.extracType(seq),
+                    label: seq.label,
+                    viewingHint: seq.viewingHint,
+                    canvases: new CanvasBuilder$1(seq.canvases).build(),
+                }));
+            }
+        }
+        return sequences;
+    }
+}
+
+class StructureBuilder$1 {
+    constructor(structures, sequences) {
+        this.structures = structures;
+        this.sequences = sequences;
+    }
+    build() {
+        const structures = [];
+        if (this.structures) {
+            for (let i = 0; i < this.structures.length; i++) {
+                const structure = this.structures[i];
+                structures.push(new Structure({
+                    id: BuilderUtils$1.extractId(structure),
+                    type: BuilderUtils$1.extracType(structure),
+                    label: structure.label,
+                    canvases: structure.canvases,
+                    canvasIndex: BuilderUtils$1.findCanvasIndex(structure.canvases, this.sequences),
+                }));
+            }
+        }
+        return structures;
+    }
+}
+
+class TileSourceBuilder$1 {
+    constructor(sequences) {
+        this.sequences = sequences;
+    }
+    build() {
+        const tilesources = [];
+        if (this.sequences && this.sequences.length > 0) {
+            const canvases = this.sequences[0].canvases;
+            for (let i = 0; canvases && i < canvases.length; i++) {
+                const canvas = canvases[i];
+                if (canvas) {
+                    if (canvas.images && canvas.images.length >= 0) {
+                        const resource = canvas.images[0].resource;
+                        if (resource) {
+                            tilesources.push(resource);
+                        }
+                    }
+                }
+            }
+        }
+        return tilesources;
+    }
+}
+
+class ManifestBuilder$1 {
+    constructor(data) {
+        this.data = data;
+    }
+    build() {
+        const sequences = new SequenceBuilder$1(this.data.sequences).build();
+        return new Manifest({
+            context: BuilderUtils$1.extractContext(this.data),
+            type: BuilderUtils$1.extracType(this.data),
+            id: BuilderUtils$1.extractId(this.data),
+            viewingDirection: BuilderUtils$1.extractViewingDirection(this.data),
+            label: this.data.label,
+            metadata: new MetadataBuilder$1(this.data.metadata).build(),
+            license: this.data.license,
+            logo: this.data.logo,
+            attribution: this.data.attribution,
+            service: new ServiceBuilder$1(this.data.service).build(),
+            sequences: sequences,
+            structures: new StructureBuilder$1(this.data.structures, sequences).build(),
+            tileSource: new TileSourceBuilder$1(this.data.sequences).build(),
+            viewingHint: this.data.viewingHint,
+        });
+    }
+}
+
+class BuilderUtils {
+    static extractId(value) {
+        return value['id'];
+    }
+    static extracType(value) {
+        return value['type'];
+    }
+    static extractContext(value) {
+        return value['@context'];
+    }
+    static extractViewingDirection(value) {
+        if (value['viewingDirection'] === 'right-to-left') {
+            return ViewingDirection.RTL;
+        }
+        else {
+            return ViewingDirection.LTR;
+        }
+    }
+    static extractViewingHint(value) {
+        if (Array.isArray(value)) {
+            return value[0];
+        }
+        return undefined;
+    }
+    static findCanvasIndex(canvases, sequences) {
+        let index = -1;
+        if (canvases[0]) {
+            index = sequences[0].canvases.findIndex((canvas) => canvas.id === canvases[0].id);
+        }
+        return index;
+    }
+    static extractLogo(provider) {
+        let logo;
+        if (Array.isArray(provider)) {
+            logo = this.extractId(provider[0].logo[0]);
+        }
+        return logo;
+    }
+    static extractLanguageValue(data, preferredLanguage) {
+        if (!data) {
+            return '';
+        }
+        const key = preferredLanguage && data[preferredLanguage]
+            ? preferredLanguage
+            : this.extractDefaultLanguage(data);
+        return data[key][0];
+    }
+    static extractDefaultLanguage(data) {
+        return Object.keys(data)[0];
+    }
+}
+
+class MetadataBuilder {
+    constructor(metadatas) {
+        this.metadatas = metadatas;
+    }
+    build() {
+        const metadatas = [];
+        if (this.metadatas) {
+            for (let i = 0; i < this.metadatas.length; i++) {
+                const data = this.metadatas[i];
+                metadatas.push(new Metadata(BuilderUtils.extractLanguageValue(data.label), BuilderUtils.extractLanguageValue(data.value)));
+            }
+        }
+        return metadatas;
     }
 }
 
@@ -658,7 +974,7 @@ class TilesBuilder {
                 const tile = this.tiles[i];
                 tiles.push(new Tile({
                     width: tile.width,
-                    scaleFactors: tile.scaleFactors
+                    scaleFactors: tile.scaleFactors,
                 }));
             }
         }
@@ -671,22 +987,23 @@ class ServiceBuilder {
         this.service = service;
     }
     build() {
-        if (!this.service) {
+        if (!Array.isArray(this.service) || this.service.length < 1) {
             return undefined;
         }
         else {
+            const service = this.service[0];
             return new Service({
-                id: BuilderUtils.extractId(this.service),
-                context: BuilderUtils.extractContext(this.service),
-                protocol: this.service.protocol,
-                width: this.service.width,
-                height: this.service.height,
-                sizes: new SizesBuilder(this.service.sizes).build(),
-                tiles: new TilesBuilder(this.service.tiles).build(),
-                profile: this.service.profile,
-                physicalScale: this.service.physicalScale,
-                physicalUnits: this.service.physicalUnits,
-                service: new ServiceBuilder(this.service.service).build(),
+                id: BuilderUtils.extractId(service),
+                context: BuilderUtils.extractContext(service),
+                protocol: service.protocol,
+                width: service.width,
+                height: service.height,
+                sizes: new SizesBuilder(service.sizes).build(),
+                tiles: new TilesBuilder(service.tiles).build(),
+                profile: service.profile,
+                physicalScale: service.physicalScale,
+                physicalUnits: service.physicalUnits,
+                service: new ServiceBuilder(service.service).build(),
             });
         }
     }
@@ -718,16 +1035,19 @@ class ImagesBuilder {
     build() {
         const images = [];
         if (this.images) {
-            for (let i = 0; i < this.images.length; i++) {
-                const image = this.images[i];
-                images.push(new Images({
-                    id: BuilderUtils.extractId(image),
-                    type: BuilderUtils.extracType(image),
-                    motivation: image.motivation,
-                    resource: new ResourceBuilder(image.resource).build(),
-                    on: image.on
-                }));
-            }
+            this.images.forEach((i) => {
+                if (i.items) {
+                    i.items.forEach((image) => {
+                        images.push(new Images({
+                            id: BuilderUtils.extractId(image),
+                            type: BuilderUtils.extracType(image),
+                            resource: new ResourceBuilder(image.body).build(),
+                            motivation: image.motivation,
+                            on: image.target,
+                        }));
+                    });
+                }
+            });
         }
         return images;
     }
@@ -742,18 +1062,17 @@ class CanvasBuilder {
         if (this.canvases) {
             for (let i = 0; i < this.canvases.length; i++) {
                 const canvas = this.canvases[i];
-                const seeAlso = canvas.seeAlso ? canvas.seeAlso : [];
-                if (canvas['@seeAlso']) {
-                    seeAlso.push(canvas['@seeAlso']);
+                let seeAlso = [];
+                if (canvas.seeAlso) {
+                    seeAlso = seeAlso.concat(canvas.seeAlso);
                 }
                 canvases.push(new Canvas({
                     id: BuilderUtils.extractId(canvas),
                     type: BuilderUtils.extracType(canvas),
                     label: canvas.label,
-                    thumbnail: canvas.thumbnail,
                     height: canvas.height,
                     width: canvas.width,
-                    images: new ImagesBuilder(canvas.images).build(),
+                    images: new ImagesBuilder(canvas.items).build(),
                     altoUrl: this.extractAltoUrl(seeAlso),
                 }));
             }
@@ -764,46 +1083,27 @@ class CanvasBuilder {
         if (!seeAlso) {
             return undefined;
         }
-        const altoService = seeAlso.find((s) => s.format === 'application/alto+xml');
+        const altoService = seeAlso.find((s) => (s === null || s === void 0 ? void 0 : s.format) === 'application/alto+xml');
         return altoService ? BuilderUtils.extractId(altoService) : undefined;
     }
 }
 
 class SequenceBuilder {
-    constructor(sequences) {
-        this.sequences = sequences;
+    constructor(data) {
+        this.data = data;
     }
     build() {
         const sequences = [];
-        if (this.sequences) {
-            for (let i = 0; i < this.sequences.length; i++) {
-                const seq = this.sequences[i];
-                sequences.push(new Sequence({
-                    id: BuilderUtils.extractId(seq),
-                    type: BuilderUtils.extracType(seq),
-                    label: seq.label,
-                    viewingHint: seq.viewingHint,
-                    canvases: new CanvasBuilder(seq.canvases).build()
-                }));
-            }
+        if (this.data) {
+            sequences.push(new Sequence({
+                id: BuilderUtils.extractId(this.data),
+                type: 'Sequence',
+                label: 'Current Page Order',
+                viewingHint: BuilderUtils.extractViewingHint(this.data.behavior),
+                canvases: new CanvasBuilder(this.data.items).build(),
+            }));
         }
         return sequences;
-    }
-}
-
-class MetadataBuilder {
-    constructor(metadatas) {
-        this.metadatas = metadatas;
-    }
-    build() {
-        const metadatas = [];
-        if (this.metadatas) {
-            for (let i = 0; i < this.metadatas.length; i++) {
-                const data = this.metadatas[i];
-                metadatas.push(new Metadata(data.label, data.value));
-            }
-        }
-        return metadatas;
     }
 }
 
@@ -820,9 +1120,9 @@ class StructureBuilder {
                 structures.push(new Structure({
                     id: BuilderUtils.extractId(structure),
                     type: BuilderUtils.extracType(structure),
-                    label: structure.label,
-                    canvases: structure.canvases,
-                    canvasIndex: BuilderUtils.findCanvasIndex(structure.canvases, this.sequences)
+                    label: BuilderUtils.extractLanguageValue(structure.label),
+                    canvases: structure.items,
+                    canvasIndex: BuilderUtils.findCanvasIndex(structure.items, this.sequences),
                 }));
             }
         }
@@ -831,26 +1131,37 @@ class StructureBuilder {
 }
 
 class TileSourceBuilder {
-    constructor(sequences) {
-        this.sequences = sequences;
+    constructor(items) {
+        this.items = items;
     }
     build() {
         const tilesources = [];
-        if (this.sequences && this.sequences.length > 0) {
-            const canvases = this.sequences[0].canvases;
-            for (let i = 0; canvases && i < canvases.length; i++) {
-                const canvas = canvases[i];
-                if (canvas) {
-                    if (canvas.images && canvas.images.length >= 0) {
-                        const resource = canvas.images[0].resource;
-                        if (resource) {
-                            tilesources.push(resource);
+        if (this.items && this.items.length > 0) {
+            this.items.forEach((canvas) => {
+                if (canvas.type === 'Canvas') {
+                    canvas.items.forEach((annotationPage) => {
+                        if (annotationPage.type === 'AnnotationPage') {
+                            annotationPage.items.forEach((annotation) => {
+                                if (annotation.type === 'Annotation') {
+                                    let body = annotation.body;
+                                    if (body) {
+                                        body.service = this.flattenService(body.service);
+                                        tilesources.push(body);
+                                    }
+                                }
+                            });
                         }
-                    }
+                    });
                 }
-            }
+            });
         }
         return tilesources;
+    }
+    flattenService(service) {
+        if (Array.isArray(service) && service.length === 1) {
+            return Object.assign(Object.assign({}, service[0]), { service: this.flattenService(service[0].service) });
+        }
+        return service;
     }
 }
 
@@ -859,23 +1170,25 @@ class ManifestBuilder {
         this.data = data;
     }
     build() {
-        const sequences = new SequenceBuilder(this.data.sequences).build();
-        return new Manifest({
+        var _a;
+        const sequences = new SequenceBuilder(this.data).build();
+        const manifest = new Manifest({
             context: BuilderUtils.extractContext(this.data),
             type: BuilderUtils.extracType(this.data),
             id: BuilderUtils.extractId(this.data),
             viewingDirection: BuilderUtils.extractViewingDirection(this.data),
-            label: this.data.label,
+            label: BuilderUtils.extractLanguageValue(this.data.label),
             metadata: new MetadataBuilder(this.data.metadata).build(),
-            license: this.data.license,
-            logo: this.data.logo,
-            attribution: this.data.attribution,
+            license: this.data.rights,
+            logo: BuilderUtils.extractLogo(this.data.provider),
+            attribution: BuilderUtils.extractLanguageValue((_a = this.data.requiredStatement) === null || _a === void 0 ? void 0 : _a.value),
             service: new ServiceBuilder(this.data.service).build(),
             sequences: sequences,
             structures: new StructureBuilder(this.data.structures, sequences).build(),
-            tileSource: new TileSourceBuilder(this.data.sequences).build(),
-            viewingHint: this.data.viewingHint
+            tileSource: new TileSourceBuilder(this.data.items).build(),
+            viewingHint: BuilderUtils.extractViewingHint(this.data.behavior),
         });
+        return manifest;
     }
 }
 
@@ -932,7 +1245,12 @@ class IiifManifestService {
         this._errorMessage.next(null);
     }
     extractData(response) {
-        return new ManifestBuilder(response).build();
+        if (response.type === 'Manifest') {
+            return new ManifestBuilder(response).build();
+        }
+        else {
+            return new ManifestBuilder$1(response).build();
+        }
     }
     isManifestValid(manifest) {
         return (manifest &&
@@ -2020,7 +2338,20 @@ class DefaultGoToCanvasGroupStrategy {
 class OptionsFactory {
     static create(mimeViewerConfig) {
         let options = OpenSeadragon$1.DEFAULT_SETTINGS;
-        return Object.assign(Object.assign({}, options), { id: 'openseadragon', useCanvas: !options.iOSDevice, panVertical: true, minZoomImageRatio: 1, maxZoomPixelRatio: 1, smoothTileEdgesMinZoom: 1, preserveImageSizeOnResize: true, visibilityRatio: 0, showNavigationControl: false, animationTime: ViewerOptions.transitions.OSDAnimationTime / 1000, ajaxWithCredentials: mimeViewerConfig.withCredentials, loadTilesWithAjax: mimeViewerConfig.loadTilesWithAjax, crossOriginPolicy: mimeViewerConfig.crossOriginPolicy, ajaxHeaders: mimeViewerConfig.ajaxHeaders, gestureSettingsMouse: Object.assign(Object.assign({}, options.gestureSettingsMouse), { scrollToZoom: false, clickToZoom: false }), gestureSettingsTouch: Object.assign(Object.assign({}, options.gestureSettingsTouch), { dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }), gestureSettingsPen: Object.assign(Object.assign({}, options.gestureSettingsPen), { clickToZoom: false }), gestureSettingsUnknown: Object.assign(Object.assign({}, options.gestureSettingsUnknown), { scrollToZoom: false, dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }) });
+        return Object.assign(Object.assign({}, options), { id: 'openseadragon', useCanvas: this.canUseCanvas(), panVertical: true, minZoomImageRatio: 1, maxZoomPixelRatio: 5, smoothTileEdgesMinZoom: 1, preserveImageSizeOnResize: true, visibilityRatio: 0, showNavigationControl: false, animationTime: ViewerOptions.transitions.OSDAnimationTime / 1000, ajaxWithCredentials: mimeViewerConfig.withCredentials, loadTilesWithAjax: mimeViewerConfig.loadTilesWithAjax, crossOriginPolicy: mimeViewerConfig.crossOriginPolicy, ajaxHeaders: mimeViewerConfig.ajaxHeaders, gestureSettingsMouse: Object.assign(Object.assign({}, options.gestureSettingsMouse), { scrollToZoom: false, clickToZoom: false }), gestureSettingsTouch: Object.assign(Object.assign({}, options.gestureSettingsTouch), { dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }), gestureSettingsPen: Object.assign(Object.assign({}, options.gestureSettingsPen), { clickToZoom: false }), gestureSettingsUnknown: Object.assign(Object.assign({}, options.gestureSettingsUnknown), { scrollToZoom: false, dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }) });
+    }
+    static canUseCanvas() {
+        if (typeof navigator !== 'object') {
+            return false;
+        }
+        const userAgent = navigator.userAgent;
+        if (typeof userAgent !== 'string') {
+            return false;
+        }
+        return !(userAgent.indexOf('iPhone') !== -1 ||
+            userAgent.indexOf('iPad') !== -1 ||
+            userAgent.indexOf('iPod') !== -1 ||
+            userAgent.indexOf('Macintosh') !== -1);
     }
 }
 
@@ -2155,11 +2486,17 @@ class IiifTileSourceStrategy {
     }
 }
 
+class IiifV3TileSourceStrategy {
+    getTileSource(resource) {
+        return resource.service.id;
+    }
+}
+
 class StaticImageTileSourceStrategy {
     getTileSource(resource) {
         return {
             type: 'image',
-            url: resource['@id']
+            url: resource['@id'] || resource['id'],
         };
     }
 }
@@ -2167,7 +2504,12 @@ class StaticImageTileSourceStrategy {
 class TileSourceStrategyFactory {
     static create(resource) {
         if (resource.service) {
-            return new IiifTileSourceStrategy();
+            if (resource.type === 'Image') {
+                return new IiifV3TileSourceStrategy();
+            }
+            else {
+                return new IiifTileSourceStrategy();
+            }
         }
         else {
             return new StaticImageTileSourceStrategy();
@@ -2225,24 +2567,20 @@ class ZoomStrategy {
         this.viewer.viewport.zoomTo(level, position);
     }
     getHomeZoomLevel(mode) {
-        if (!this.viewer || !this.canvasService) {
+        if (!this.viewer || !this.canvasService || !this.viewer.container) {
             return 1;
         }
-        let canvasGroupHeight;
-        let canvasGroupWidth;
+        let currentCanvasHeight;
+        let currentCanvasWidth;
         let viewportBounds;
-        if (mode === ViewerMode.DASHBOARD) {
-            canvasGroupHeight = this.canvasService.getMaxHeight();
-            canvasGroupWidth = this.canvasService.getMaxWidth();
-            viewportBounds = this.getDashboardViewportBounds();
-        }
-        else {
-            const currentCanvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
-            canvasGroupHeight = currentCanvasGroupRect.height;
-            canvasGroupWidth = currentCanvasGroupRect.width;
-            viewportBounds = this.viewer.viewport.getBounds();
-        }
-        return this.getFittedZoomLevel(viewportBounds, canvasGroupHeight, canvasGroupWidth);
+        const currentCanvasGroupRect = this.canvasService.getCurrentCanvasGroupRect();
+        currentCanvasHeight = currentCanvasGroupRect.height;
+        currentCanvasWidth = currentCanvasGroupRect.width;
+        viewportBounds =
+            mode === ViewerMode.DASHBOARD
+                ? this.getDashboardViewportBounds()
+                : this.viewer.viewport.getBounds();
+        return this.getFittedZoomLevel(viewportBounds, currentCanvasHeight, currentCanvasWidth);
     }
     zoomIn(zoomFactor, position) {
         if (!zoomFactor) {
@@ -2277,9 +2615,6 @@ class ZoomStrategy {
         }
     }
     getDashboardViewportBounds() {
-        if (!this.viewer) {
-            return;
-        }
         const homeZoomFactor = this.getHomeZoomFactor();
         const maxViewportDimensions = new Dimensions(d3
             .select(this.viewer.container.parentNode.parentNode)
@@ -2415,16 +2750,6 @@ class CanvasGroups {
             return false;
         });
         return i;
-    }
-    getMaxHeight() {
-        return Math.max.apply(Math, this.canvasGroupRects.map(function (rect) {
-            return rect.height;
-        }));
-    }
-    getMaxWidth() {
-        return Math.max.apply(Math, this.canvasGroupRects.map(function (rect) {
-            return rect.width;
-        }));
     }
     length() {
         return this.canvasGroupRects.length;
@@ -2611,12 +2936,6 @@ class CanvasService {
     getCanvasGroupRect(canvasGroupIndex) {
         return this.canvasGroups.get(canvasGroupIndex);
     }
-    getMaxHeight() {
-        return this.canvasGroups.getMaxHeight();
-    }
-    getMaxWidth() {
-        return this.canvasGroups.getMaxWidth();
-    }
 }
 CanvasService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.0.2", ngImport: i0, type: CanvasService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
 CanvasService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.0.2", ngImport: i0, type: CanvasService });
@@ -2669,6 +2988,9 @@ class ModeService {
     }
     isPageZoomed() {
         return this.mode === ViewerMode.PAGE_ZOOMED;
+    }
+    destroy() {
+        this.mode = this._initialMode;
     }
     change() {
         this.modeChanges.previousValue = this.modeChanges.currentValue;
@@ -2892,6 +3214,8 @@ class IiifContentSearchService {
     }
     destroy() {
         this._currentSearchResult.next(new SearchResult({}));
+        this._searching.next(false);
+        this._currentQ.next('');
         this._selected.next(null);
     }
     get onQChange() {
@@ -3149,8 +3473,9 @@ class AltoBuilder {
 }
 
 class HtmlFormatter {
-    constructor(sanitizer) {
+    constructor(sanitizer, hits) {
         this.sanitizer = sanitizer;
+        this.hits = hits;
     }
     altoToHtml(alto) {
         const page = alto.layout.page;
@@ -3184,9 +3509,38 @@ class HtmlFormatter {
             if (styles && styles.length > 0) {
                 html += ` style="${styles.join(';')}"`;
             }
-            html += `>${words.join(' ')}<p/>`;
+            html += `>${this.transform(words.join(' '))}<p/>`;
         });
         return this.sanitizer.bypassSecurityTrustHtml(html);
+    }
+    transform(html) {
+        const wordBoundary = '\\b';
+        if (this.hits && this.hits.length > 0) {
+            for (const hit of this.hits) {
+                html = this.highlight(html + ' ', wordBoundary + this.escapeSpecialCharacters(hit.match));
+            }
+        }
+        return html.trim();
+    }
+    highlight(html, pattern) {
+        return html.replace(new RegExp(pattern, 'gi'), (match) => `<mark>${match}</mark>`);
+    }
+    /*
+      "escapeAndRegexMatch" "\\" Is a escape character used to escape special
+      characters in the regexPattern, "$&" is a back reference to the whole match.
+  
+      "searchValuePattern" is a list of special characters to be escaped,
+      everything inside /[ ... ] including \s (whitespace) is to be escaped.
+      
+      text.substr(1) removes the first character of a string if the character is ",
+      this is a special case in order to highlight all words.
+    */
+    escapeSpecialCharacters(text) {
+        const escapeAndRegexMatch = '\\$&';
+        const searchValuePattern = /[-[\]{}()*"+?.,\\^$|#\s]/g;
+        return text.charAt(0) === '"'
+            ? text.substr(1).replace(searchValuePattern, escapeAndRegexMatch)
+            : text.replace(searchValuePattern, escapeAndRegexMatch);
     }
 }
 
@@ -3196,6 +3550,7 @@ class AltoService {
         this.http = http;
         this.iiifManifestService = iiifManifestService;
         this.canvasService = canvasService;
+        this.sanitizer = sanitizer;
         this.altos = [];
         this.recognizedTextContentToggle = new BehaviorSubject(false);
         this.isLoading = new BehaviorSubject(false);
@@ -3204,7 +3559,6 @@ class AltoService {
         this.manifest = null;
         this.subscriptions = new Subscription();
         this.altoBuilder = new AltoBuilder();
-        this.htmlFormatter = new HtmlFormatter(sanitizer);
     }
     get onRecognizedTextContentToggleChange$() {
         return this.recognizedTextContentToggle.asObservable();
@@ -3224,7 +3578,8 @@ class AltoService {
     set onRecognizedTextContentToggle(value) {
         this.recognizedTextContentToggle.next(value);
     }
-    initialize() {
+    initialize(hits) {
+        this.htmlFormatter = new HtmlFormatter(this.sanitizer, hits);
         this.subscriptions = new Subscription();
         this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             this.manifest = manifest;
@@ -3251,7 +3606,8 @@ class AltoService {
         this.clearCache();
     }
     toggle() {
-        this.onRecognizedTextContentToggle = !this.recognizedTextContentToggle.getValue();
+        this.onRecognizedTextContentToggle =
+            !this.recognizedTextContentToggle.getValue();
     }
     getHtml(index) {
         return this.altos && this.altos.length >= index + 1
@@ -3625,7 +3981,8 @@ class ViewerService {
             this.swipeDragEndCounter.reset();
             if (canvasGroupIndex !== -1) {
                 this.canvasGroupMask.changeCanvasGroup(this.canvasService.getCanvasGroupRect(canvasGroupIndex));
-                if (this.modeService.mode === ViewerMode.PAGE) {
+                if (this.modeService.mode === ViewerMode.PAGE ||
+                    this.modeService.mode === ViewerMode.DASHBOARD) {
                     this.zoomStrategy.goToHomeZoom();
                 }
             }
@@ -3704,6 +4061,7 @@ class ViewerService {
             this.currentSearch = null;
             this.iiifContentSearchService.destroy();
             this.rotation.next(0);
+            this.modeService.destroy();
             this.unsubscribe();
         }
     }
@@ -3757,6 +4115,9 @@ class ViewerService {
      * @param mode ViewerMode
      */
     modeChanged(mode) {
+        if (!this.viewer) {
+            return;
+        }
         if (mode.currentValue === ViewerMode.DASHBOARD) {
             this.viewer.panVertical = false;
             this.toggleToDashboard();
@@ -4443,7 +4804,8 @@ class TocComponent {
     ngOnInit() {
         this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             this.manifest = manifest;
-            this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
+            this.currentCanvasGroupIndex =
+                this.canvasService.currentCanvasGroupIndex;
             this.changeDetectorRef.detectChanges();
         }));
         this.subscriptions.add(this.viewerService.onCanvasGroupIndexChange.subscribe((canvasGroupIndex) => {
@@ -4455,7 +4817,7 @@ class TocComponent {
         this.subscriptions.unsubscribe();
     }
     goToCanvas(event, canvasIndex) {
-        if (canvasIndex) {
+        if (canvasIndex !== undefined) {
             event.preventDefault();
             this.viewerService.goToCanvas(canvasIndex, false);
             this.canvasChanged.emit(canvasIndex);
@@ -5749,20 +6111,23 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.0.2", ngImpor
             }] } });
 
 class RecognizedTextContentComponent {
-    constructor(intl, cdr, canvasService, altoService, iiifManifestService) {
+    constructor(intl, cdr, canvasService, altoService, iiifManifestService, iiifContentSearchService) {
         this.intl = intl;
         this.cdr = cdr;
         this.canvasService = canvasService;
         this.altoService = altoService;
         this.iiifManifestService = iiifManifestService;
+        this.iiifContentSearchService = iiifContentSearchService;
         this.isLoading = false;
         this.error = undefined;
         this.subscriptions = new Subscription();
     }
     ngOnInit() {
+        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((sr) => {
+            this.altoService.initialize(sr.hits);
+        }));
         this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(() => {
             this.clearRecognizedText();
-            this.altoService.initialize();
             this.cdr.detectChanges();
         }));
         this.subscriptions.add(this.altoService.onTextContentReady$.subscribe(() => {
@@ -5799,12 +6164,12 @@ class RecognizedTextContentComponent {
         }
     }
 }
-RecognizedTextContentComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.0.2", ngImport: i0, type: RecognizedTextContentComponent, deps: [{ token: MimeViewerIntl }, { token: i0.ChangeDetectorRef }, { token: CanvasService }, { token: AltoService }, { token: IiifManifestService }], target: i0.ɵɵFactoryTarget.Component });
+RecognizedTextContentComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.0.2", ngImport: i0, type: RecognizedTextContentComponent, deps: [{ token: MimeViewerIntl }, { token: i0.ChangeDetectorRef }, { token: CanvasService }, { token: AltoService }, { token: IiifManifestService }, { token: IiifContentSearchService }], target: i0.ɵɵFactoryTarget.Component });
 RecognizedTextContentComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.0.2", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content", viewQueries: [{ propertyName: "recognizedTextContentContainer", first: true, predicate: ["recognizedTextContentContainer"], descendants: true, read: ElementRef }], ngImport: i0, template: "<div #recognizedTextContentContainer class=\"recognized-text-content-container\" aria-live=\"polite\">\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <div *ngIf=\"!isLoading\">\n    <div *ngIf=\"firstCanvasRecognizedTextContent\" data-test-id=\"firstCanvasRecognizedTextContent\" [innerHTML]=\"firstCanvasRecognizedTextContent\"> </div>\n    <div *ngIf=\"secondCanvasRecognizedTextContent\" data-test-id=\"secondCanvasRecognizedTextContent\" [innerHTML]=\"secondCanvasRecognizedTextContent\"> </div>\n  </div>\n  <div *ngIf=\"isLoading\">{{intl.loading}}</div>\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}\n"], directives: [{ type: i13.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.0.2", ngImport: i0, type: RecognizedTextContentComponent, decorators: [{
             type: Component,
             args: [{ selector: 'mime-recognized-text-content', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div #recognizedTextContentContainer class=\"recognized-text-content-container\" aria-live=\"polite\">\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <div *ngIf=\"!isLoading\">\n    <div *ngIf=\"firstCanvasRecognizedTextContent\" data-test-id=\"firstCanvasRecognizedTextContent\" [innerHTML]=\"firstCanvasRecognizedTextContent\"> </div>\n    <div *ngIf=\"secondCanvasRecognizedTextContent\" data-test-id=\"secondCanvasRecognizedTextContent\" [innerHTML]=\"secondCanvasRecognizedTextContent\"> </div>\n  </div>\n  <div *ngIf=\"isLoading\">{{intl.loading}}</div>\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}\n"] }]
-        }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: CanvasService }, { type: AltoService }, { type: IiifManifestService }]; }, propDecorators: { recognizedTextContentContainer: [{
+        }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: CanvasService }, { type: AltoService }, { type: IiifManifestService }, { type: IiifContentSearchService }]; }, propDecorators: { recognizedTextContentContainer: [{
                 type: ViewChild,
                 args: ['recognizedTextContentContainer', { read: ElementRef }]
             }] } });
@@ -6672,3 +7037,4 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.0.2", ngImpor
  */
 
 export { Manifest as MimeManifest, MimeModule, ViewerComponent as MimeViewerComponent, MimeViewerConfig, MimeViewerIntl, MimeViewerIntlLt, MimeViewerIntlNoNb, ViewerMode as MimeViewerMode };
+//# sourceMappingURL=nationallibraryofnorway-ngx-mime.mjs.map

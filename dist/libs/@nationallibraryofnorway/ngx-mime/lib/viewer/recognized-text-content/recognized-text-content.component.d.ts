@@ -3,6 +3,7 @@ import { SafeHtml } from '@angular/platform-browser';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import * as i0 from "@angular/core";
 export declare class RecognizedTextContentComponent implements OnInit, OnDestroy {
@@ -11,13 +12,14 @@ export declare class RecognizedTextContentComponent implements OnInit, OnDestroy
     private canvasService;
     private altoService;
     private iiifManifestService;
+    private iiifContentSearchService;
     recognizedTextContentContainer: ElementRef;
     firstCanvasRecognizedTextContent: SafeHtml | undefined;
     secondCanvasRecognizedTextContent: SafeHtml | undefined;
     isLoading: boolean;
     error: string | undefined;
     private subscriptions;
-    constructor(intl: MimeViewerIntl, cdr: ChangeDetectorRef, canvasService: CanvasService, altoService: AltoService, iiifManifestService: IiifManifestService);
+    constructor(intl: MimeViewerIntl, cdr: ChangeDetectorRef, canvasService: CanvasService, altoService: AltoService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService);
     ngOnInit(): void;
     ngOnDestroy(): void;
     private clearRecognizedText;
