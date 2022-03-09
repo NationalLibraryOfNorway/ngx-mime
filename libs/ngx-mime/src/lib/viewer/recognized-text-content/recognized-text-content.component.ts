@@ -13,7 +13,7 @@ import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../../core/intl';
 import { SearchResult } from '../../core/models/search-result';
 
 @Component({

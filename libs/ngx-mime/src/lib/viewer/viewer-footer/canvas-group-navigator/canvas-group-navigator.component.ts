@@ -13,7 +13,7 @@ import { AccessKeys } from '../../../core/models/AccessKeys';
 import { Manifest } from '../../../core/models/manifest';
 import { ViewingDirection } from '../../../core/models/viewing-direction';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
-import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../../core/intl';
 import { SearchResult } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 

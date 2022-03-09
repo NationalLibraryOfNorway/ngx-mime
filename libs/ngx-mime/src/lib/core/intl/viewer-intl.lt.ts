@@ -32,6 +32,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   enterPageNumber = 'Įveskite puslapio numerį';
   dropDisabled = 'Atleiskite, bet veiksmas negalimas';
   loading = 'Pakrovimas ...';
+  rotationIsNotSupported = 'Sukimas jūsų įrenginyje nepalaikomas';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Objekto atvaizduoti nepavyko...';

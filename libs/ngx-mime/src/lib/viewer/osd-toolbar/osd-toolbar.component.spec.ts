@@ -6,7 +6,7 @@ import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../../core/intl';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
 import { ModeService } from '../../core/mode-service/mode.service';

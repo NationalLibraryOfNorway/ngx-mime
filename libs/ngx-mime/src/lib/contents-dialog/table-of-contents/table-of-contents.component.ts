@@ -10,7 +10,7 @@ import {
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../../core/intl';
 import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 

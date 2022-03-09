@@ -8,7 +8,7 @@ import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../intl/viewer-intl';
+import { MimeViewerIntl } from '../../intl';
 import { Hit } from '../../models/hit';
 import { Rect } from '../../models/rect';
 import { SearchResult } from '../../models/search-result';
