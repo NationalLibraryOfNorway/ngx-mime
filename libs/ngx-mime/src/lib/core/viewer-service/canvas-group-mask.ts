@@ -28,13 +28,15 @@ export class CanvasGroupMask {
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(
-      this.styleService.onChange.subscribe((c) => {
-        this.backgroundColor = c;
-        if (this.leftMask) {
-          this.leftMask.style('fill', this.backgroundColor);
-        }
-        if (this.rightMask) {
-          this.rightMask.style('fill', this.backgroundColor);
+      this.styleService.onChange.subscribe((color: string | undefined) => {
+        if (color) {
+          this.backgroundColor = color;
+          if (this.leftMask) {
+            this.leftMask.style('fill', this.backgroundColor);
+          }
+          if (this.rightMask) {
+            this.rightMask.style('fill', this.backgroundColor);
+          }
         }
       })
     );

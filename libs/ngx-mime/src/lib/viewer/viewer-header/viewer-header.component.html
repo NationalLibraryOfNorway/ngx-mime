@@ -5,9 +5,13 @@
     fxLayoutAlign="space-between center"
   >
     <div><ng-template #mimeHeaderBefore></ng-template></div>
-    <div *ngIf="manifest" fxFlexOffset="16px" class="label" [matTooltip]="manifest.label">{{
-      manifest.label
-    }}</div>
+    <div
+      *ngIf="manifest"
+      fxFlexOffset="16px"
+      class="label"
+      [matTooltip]="manifest.label"
+      >{{ manifest.label }}</div
+    >
     <div
       fxFlex="noshrink"
       fxLayout="row"

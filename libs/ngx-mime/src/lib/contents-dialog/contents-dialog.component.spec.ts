@@ -39,27 +39,36 @@ describe('ContentsDialogComponent', () => {
   let dialogRef: MatDialogRef<ContentsDialogComponent>;
   let viewerService: ViewerService;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
-      providers: [
-        ViewerService,
-        ClickService,
-        MimeViewerIntl,
-        CanvasService,
-        ModeService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        ViewerLayoutService,
-        IiifContentSearchService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: MediaObserver, useClass: MediaObserverStub }
-      ]
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        schemas: [NO_ERRORS_SCHEMA],
+        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+        declarations: [
+          ContentsDialogComponent,
+          MetadataComponent,
+          TocComponent,
+        ],
+        providers: [
+          ViewerService,
+          ClickService,
+          MimeViewerIntl,
+          CanvasService,
+          ModeService,
+          MimeResizeService,
+          MimeDomHelper,
+          FullscreenService,
+          ViewerLayoutService,
+          IiifContentSearchService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: MediaObserver, useClass: MediaObserverStub },
+        ],
+      }).compileComponents();
+    })
+  );
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(ContentsDialogComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
@@ -68,7 +77,6 @@ describe('ContentsDialogComponent', () => {
     iiifManifestService = injectedStub(IiifManifestService);
     intl = TestBed.inject(MimeViewerIntl);
     dialogRef = TestBed.inject(MatDialogRef);
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
@@ -97,42 +105,46 @@ describe('ContentsDialogComponent', () => {
     expect(heading).not.toBeNull();
   });
 
-  it('should show toc', waitForAsync(() => {
-    const manifest = new Manifest({
-      structures: [new Structure()]
-    });
-    iiifManifestService._currentManifest.next(manifest);
-    intl.tocLabel = 'TocTestLabel';
+  it(
+    'should show toc',
+    waitForAsync(() => {
+      fixture.detectChanges();
+      const manifest = new Manifest({
+        structures: [new Structure()],
+      });
+      iiifManifestService._currentManifest.next(manifest);
+      intl.tocLabel = 'TocTestLabel';
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        const tabs: NodeList =
+          fixture.nativeElement.querySelectorAll('.mat-tab-label');
+        const tocTab = Array.from(tabs).find(
+          (t) => t.textContent === intl.tocLabel
+        );
+        expect(tocTab).toBeDefined();
+      });
+    })
+  );
 
-    fixture.whenStable().then(() => {
-      const tabs: NodeList = fixture.nativeElement.querySelectorAll(
-        '.mat-tab-label'
-      );
-      const tocTab = Array.from(tabs).find(
-        t => t.textContent === intl.tocLabel
-      );
-      expect(tocTab).toBeDefined();
-    });
-  }));
+  it(
+    'should hide toc',
+    waitForAsync(() => {
+      const manifest = new Manifest();
+      iiifManifestService._currentManifest.next(manifest);
 
-  it('should hide toc', waitForAsync(() => {
-    const manifest = new Manifest();
-    iiifManifestService._currentManifest.next(manifest);
+      fixture.detectChanges();
 
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      const tabs: NodeList = fixture.nativeElement.querySelectorAll(
-        '.mat-tab-label'
-      );
-      const tocTab = Array.from(tabs).find(
-        t => t.textContent === intl.tocLabel
-      );
-      expect(tocTab).toBeUndefined();
-    });
-  }));
+      fixture.whenStable().then(() => {
+        const tabs: NodeList =
+          fixture.nativeElement.querySelectorAll('.mat-tab-label');
+        const tocTab = Array.from(tabs).find(
+          (t) => t.textContent === intl.tocLabel
+        );
+        expect(tocTab).toBeUndefined();
+      });
+    })
+  );
 
   it('should close contents dialog when selecting a canvas group in TOC when on mobile', async () => {
     spyOn(mediaObserver, 'isActive').and.returnValue(true);
@@ -143,7 +155,7 @@ describe('ContentsDialogComponent', () => {
       new Manifest({
         metadata: [
           new Metadata('label1', 'value1'),
-          new Metadata('label2', 'value2')
+          new Metadata('label2', 'value2'),
         ],
         sequences: [
           {
@@ -152,27 +164,27 @@ describe('ContentsDialogComponent', () => {
               { id: 'canvas2' },
               { id: 'canvas3' },
               { id: 'canvas4' },
-              { id: 'canvas5' }
-            ]
-          }
+              { id: 'canvas5' },
+            ],
+          },
         ],
         structures: [
           new Structure({
             label: 'Forside',
             canvases: ['canvas1'],
-            canvasIndex: 0
+            canvasIndex: 0,
           }),
           new Structure({
             label: 'Tittelside',
             canvases: ['canvas2'],
-            canvasIndex: 1
+            canvasIndex: 1,
           }),
           new Structure({
             label: 'Bakside',
             canvases: ['canvas5'],
-            canvasIndex: 4
-          })
-        ]
+            canvasIndex: 4,
+          }),
+        ],
       })
     );
     intl.tocLabel = 'TocTestLabel';
@@ -184,7 +196,7 @@ describe('ContentsDialogComponent', () => {
       By.css('.toc-link')
     );
 
-    divs[2].triggerEventHandler('click', new Event("fakeEvent"));
+    divs[2].triggerEventHandler('click', new Event('fakeEvent'));
 
     expect(dialogRef.close).toHaveBeenCalled();
   });

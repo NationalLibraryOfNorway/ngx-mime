@@ -25,7 +25,8 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributionDialogComponent
-  implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
+  implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked
+{
   public manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   @ViewChild('container', { static: true }) container?: ElementRef;
@@ -56,13 +57,18 @@ export class AttributionDialogComponent
 
   ngAfterViewInit() {
     this.subscriptions.add(
-      this.styleService.onChange.subscribe((c) => {
-        const backgroundRgbaColor = this.styleService.convertToRgba(c, 0.3);
-        this.renderer.setStyle(
-          this.container?.nativeElement,
-          'background-color',
-          backgroundRgbaColor
-        );
+      this.styleService.onChange.subscribe((color: string | undefined) => {
+        if (color) {
+          const backgroundRgbaColor = this.styleService.convertToRgba(
+            color,
+            0.3
+          );
+          this.renderer.setStyle(
+            this.container?.nativeElement,
+            'background-color',
+            backgroundRgbaColor
+          );
+        }
       })
     );
   }

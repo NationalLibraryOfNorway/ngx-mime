@@ -5,7 +5,7 @@ import { SiteTheme, ThemeService } from './theme-service/theme.service';
   selector: 'demo-theme-picker',
   templateUrl: './theme-picker.component.html',
   styleUrls: ['./theme-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemePickerComponent {
   currentTheme: SiteTheme;

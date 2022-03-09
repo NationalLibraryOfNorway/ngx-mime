@@ -5,17 +5,17 @@ import { ViewerComponent } from './viewer.component';
 const appRoutes: Routes = [
   {
     path: ':id',
-    component: ViewerComponent
+    component: ViewerComponent,
   },
   {
     path: '',
     redirectTo: 'components',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(appRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class ViewerRoutingModule {}

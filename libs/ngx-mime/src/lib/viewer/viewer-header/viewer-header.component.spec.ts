@@ -257,7 +257,9 @@ describe('ViewerHeaderComponent', () => {
     fixture.detectChanges();
 
     const btnText = await loader.getHarness(
-      MatButtonHarness.with({ selector: 'button[data-test-id="ngx-mimeRecognizedTextContentButton"]' })
+      MatButtonHarness.with({
+        selector: 'button[data-test-id="ngx-mimeRecognizedTextContentButton"]',
+      })
     );
     expect(btnText).not.toBeNull();
   });
@@ -267,7 +269,9 @@ describe('ViewerHeaderComponent', () => {
     component.hasRecognizedTextContent = true;
     fixture.detectChanges();
     const btnText = await loader.getHarness(
-      MatButtonHarness.with({ selector: 'button[data-test-id="ngx-mimeRecognizedTextContentButton"]' })
+      MatButtonHarness.with({
+        selector: 'button[data-test-id="ngx-mimeRecognizedTextContentButton"]',
+      })
     );
 
     await btnText.click();

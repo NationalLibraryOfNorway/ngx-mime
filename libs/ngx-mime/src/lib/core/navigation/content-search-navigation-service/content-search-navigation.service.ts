@@ -39,9 +39,8 @@ export class ContentSearchNavigationService {
   }
 
   update(canvasGroupIndex: number) {
-    this.canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
-      canvasGroupIndex
-    );
+    this.canvasesPerCanvasGroup =
+      this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
     this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
     this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
     this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
@@ -74,9 +73,8 @@ export class ContentSearchNavigationService {
         const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(
           current.index
         );
-        const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
-          canvasGroup
-        );
+        const canvasesPerCanvasGroup =
+          this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
         const lastCanvasGroupIndex = this.getLastCanvasGroupIndex(
           canvasesPerCanvasGroup
         );
@@ -109,8 +107,9 @@ export class ContentSearchNavigationService {
     if (!this.searchResult) {
       return false;
     }
-    const lastCanvasIndex = this.searchResult.get(this.searchResult.size() - 1)
-      .index;
+    const lastCanvasIndex = this.searchResult.get(
+      this.searchResult.size() - 1
+    ).index;
     const currentHit = this.searchResult.get(this.currentIndex);
     return currentHit.index === lastCanvasIndex;
   }
@@ -123,9 +122,8 @@ export class ContentSearchNavigationService {
     const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
       previousHit.index
     );
-    const canvasesPerCanvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
-      canvasGroupIndex
-    );
+    const canvasesPerCanvasGroup =
+      this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
     const leftCanvas = canvasesPerCanvasGroup[0];
     const leftCanvasHit = this.searchResult.hits.find(
       (h) => h.index === leftCanvas

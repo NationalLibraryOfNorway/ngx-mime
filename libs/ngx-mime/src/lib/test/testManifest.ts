@@ -136,8 +136,7 @@ export let testManifest: any = {
                 height: 2564,
                 width: 1839,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C1',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C1',
             },
           ],
         },
@@ -211,8 +210,7 @@ export let testManifest: any = {
                 height: 2592,
                 width: 1818,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I1',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I1',
             },
           ],
         },
@@ -291,8 +289,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2368,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0001',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0001',
             },
           ],
         },
@@ -371,8 +368,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2368,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0002',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0002',
             },
           ],
         },
@@ -443,8 +439,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2368,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0003',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0003',
             },
           ],
         },
@@ -515,8 +510,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2368,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0004',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0004',
             },
           ],
         },
@@ -587,8 +581,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2360,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0005',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0005',
             },
           ],
         },
@@ -659,8 +652,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2360,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0006',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0006',
             },
           ],
         },
@@ -731,8 +723,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2360,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0007',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0007',
             },
           ],
         },
@@ -803,8 +794,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2360,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0008',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0008',
             },
           ],
         },
@@ -875,8 +865,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2360,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0009',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0009',
             },
           ],
         },
@@ -947,8 +936,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2360,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0010',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0010',
             },
           ],
         },
@@ -1019,8 +1007,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0011',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0011',
             },
           ],
         },
@@ -1091,8 +1078,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0012',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0012',
             },
           ],
         },
@@ -1163,8 +1149,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2360,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0013',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0013',
             },
           ],
         },
@@ -1235,8 +1220,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2360,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0014',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0014',
             },
           ],
         },
@@ -1307,8 +1291,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0015',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0015',
             },
           ],
         },
@@ -1379,8 +1362,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0016',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0016',
             },
           ],
         },
@@ -1451,8 +1433,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0017',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0017',
             },
           ],
         },
@@ -1523,8 +1504,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0018',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0018',
             },
           ],
         },
@@ -1595,8 +1575,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0019',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0019',
             },
           ],
         },
@@ -1667,8 +1646,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0020',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0020',
             },
           ],
         },
@@ -1739,8 +1717,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0021',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0021',
             },
           ],
         },
@@ -1811,8 +1788,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0022',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0022',
             },
           ],
         },
@@ -1883,8 +1859,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0023',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0023',
             },
           ],
         },
@@ -1955,8 +1930,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0024',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0024',
             },
           ],
         },
@@ -2027,8 +2001,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0025',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0025',
             },
           ],
         },
@@ -2099,8 +2072,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0026',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0026',
             },
           ],
         },
@@ -2171,8 +2143,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0027',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0027',
             },
           ],
         },
@@ -2243,8 +2214,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0028',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0028',
             },
           ],
         },
@@ -2315,8 +2285,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0029',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0029',
             },
           ],
         },
@@ -2387,8 +2356,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0030',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0030',
             },
           ],
         },
@@ -2459,8 +2427,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0031',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0031',
             },
           ],
         },
@@ -2531,8 +2498,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0032',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0032',
             },
           ],
         },
@@ -2603,8 +2569,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0033',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0033',
             },
           ],
         },
@@ -2675,8 +2640,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0034',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0034',
             },
           ],
         },
@@ -2747,8 +2711,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0035',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0035',
             },
           ],
         },
@@ -2819,8 +2782,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2352,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0036',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0036',
             },
           ],
         },
@@ -2891,8 +2853,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0037',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0037',
             },
           ],
         },
@@ -2963,8 +2924,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0038',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0038',
             },
           ],
         },
@@ -3035,8 +2995,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0039',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0039',
             },
           ],
         },
@@ -3107,8 +3066,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0040',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0040',
             },
           ],
         },
@@ -3179,8 +3137,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0041',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0041',
             },
           ],
         },
@@ -3251,8 +3208,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0042',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0042',
             },
           ],
         },
@@ -3323,8 +3279,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0043',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0043',
             },
           ],
         },
@@ -3395,8 +3350,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0044',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0044',
             },
           ],
         },
@@ -3467,8 +3421,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0045',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0045',
             },
           ],
         },
@@ -3539,8 +3492,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0046',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0046',
             },
           ],
         },
@@ -3611,8 +3563,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0047',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0047',
             },
           ],
         },
@@ -3683,8 +3634,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0048',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0048',
             },
           ],
         },
@@ -3755,8 +3705,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0049',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0049',
             },
           ],
         },
@@ -3827,8 +3776,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0050',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0050',
             },
           ],
         },
@@ -3899,8 +3847,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0051',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0051',
             },
           ],
         },
@@ -3971,8 +3918,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0052',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0052',
             },
           ],
         },
@@ -4043,8 +3989,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0053',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0053',
             },
           ],
         },
@@ -4115,8 +4060,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0054',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0054',
             },
           ],
         },
@@ -4187,8 +4131,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0055',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0055',
             },
           ],
         },
@@ -4259,8 +4202,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0056',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0056',
             },
           ],
         },
@@ -4331,8 +4273,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0057',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0057',
             },
           ],
         },
@@ -4403,8 +4344,7 @@ export let testManifest: any = {
                 height: 3312,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0058',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0058',
             },
           ],
         },
@@ -4475,8 +4415,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0059',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0059',
             },
           ],
         },
@@ -4547,8 +4486,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0060',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0060',
             },
           ],
         },
@@ -4619,8 +4557,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0061',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0061',
             },
           ],
         },
@@ -4691,8 +4628,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0062',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0062',
             },
           ],
         },
@@ -4763,8 +4699,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0063',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0063',
             },
           ],
         },
@@ -4835,8 +4770,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2320,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0064',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0064',
             },
           ],
         },
@@ -4907,8 +4841,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0065',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0065',
             },
           ],
         },
@@ -4979,8 +4912,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0066',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0066',
             },
           ],
         },
@@ -5051,8 +4983,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0067',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0067',
             },
           ],
         },
@@ -5123,8 +5054,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0068',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0068',
             },
           ],
         },
@@ -5195,8 +5125,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0069',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0069',
             },
           ],
         },
@@ -5267,8 +5196,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0070',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0070',
             },
           ],
         },
@@ -5339,8 +5267,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0071',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0071',
             },
           ],
         },
@@ -5411,8 +5338,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0072',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0072',
             },
           ],
         },
@@ -5483,8 +5409,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0073',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0073',
             },
           ],
         },
@@ -5555,8 +5480,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2344,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0074',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0074',
             },
           ],
         },
@@ -5627,8 +5551,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0075',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0075',
             },
           ],
         },
@@ -5699,8 +5622,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2336,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0076',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0076',
             },
           ],
         },
@@ -5771,8 +5693,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0077',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0077',
             },
           ],
         },
@@ -5843,8 +5764,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0078',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0078',
             },
           ],
         },
@@ -5915,8 +5835,7 @@ export let testManifest: any = {
                 height: 3272,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0079',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0079',
             },
           ],
         },
@@ -5987,8 +5906,7 @@ export let testManifest: any = {
                 height: 3304,
                 width: 2328,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0080',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_0080',
             },
           ],
         },
@@ -6055,8 +5973,7 @@ export let testManifest: any = {
                 height: 2592,
                 width: 1859,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I3',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_I3',
             },
           ],
         },
@@ -6123,8 +6040,7 @@ export let testManifest: any = {
                 height: 2564,
                 width: 1845,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C3',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C3',
             },
           ],
         },
@@ -6191,8 +6107,7 @@ export let testManifest: any = {
                 height: 2564,
                 width: 163,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C2',
+              on: 'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/canvas/URN:NBN:no-nb_digibok_2008020404020_C2',
             },
           ],
         },
@@ -6312,8 +6227,7 @@ export let a300dpiManifest: any = {
                 height: 2979,
                 width: 1636,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
+              on: 'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
             },
           ],
         },
@@ -6379,8 +6293,7 @@ export let a300dpiManifest: any = {
                 height: 2979,
                 width: 1636,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005',
+              on: 'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005',
             },
           ],
         },
@@ -6500,8 +6413,7 @@ export let a400dpiManifest: any = {
                 height: 2979,
                 width: 1636,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
+              on: 'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0003',
             },
           ],
         },
@@ -6567,8 +6479,7 @@ export let a400dpiManifest: any = {
                 height: 2979,
                 width: 1636,
               },
-              on:
-                'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005',
+              on: 'https://api.nb.no/catalog/v1/iiif/578dffe1fd335a33693bb4261dc738b5/canvas/URN:NBN:no-nb_digibok_2013072924008_0005',
             },
           ],
         },

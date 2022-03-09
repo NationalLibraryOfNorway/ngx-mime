@@ -70,7 +70,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       })
     );
     this.subscriptions.add(
-      this.altoService.hasErrors$.subscribe((error: string) => {
+      this.altoService.hasErrors$.subscribe((error: string | undefined) => {
         this.error = error;
         this.cdr.detectChanges();
       })

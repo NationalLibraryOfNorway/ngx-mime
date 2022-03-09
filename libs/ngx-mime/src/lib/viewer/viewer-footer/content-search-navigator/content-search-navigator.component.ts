@@ -61,10 +61,14 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
       this.canvasService.onCanvasGroupIndexChange.subscribe(
         (canvasGroupIndex) => {
           this.contentSearchNavigationService.update(canvasGroupIndex);
-          this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
-          this.isHitOnActiveCanvasGroup = this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
-          this.isFirstCanvasGroupHit = this.contentSearchNavigationService.getFirstHitCanvasGroup();
-          this.isLastCanvasGroupHit = this.contentSearchNavigationService.getLastHitCanvasGroup();
+          this.currentIndex =
+            this.contentSearchNavigationService.getCurrentIndex();
+          this.isHitOnActiveCanvasGroup =
+            this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
+          this.isFirstCanvasGroupHit =
+            this.contentSearchNavigationService.getFirstHitCanvasGroup();
+          this.isLastCanvasGroupHit =
+            this.contentSearchNavigationService.getLastHitCanvasGroup();
           this.changeDetectorRef.detectChanges();
         }
       )

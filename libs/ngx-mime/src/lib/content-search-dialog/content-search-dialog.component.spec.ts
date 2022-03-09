@@ -58,20 +58,16 @@ describe('ContentSearchDialogComponent', () => {
     })
   );
 
-  beforeEach(
-    waitForAsync(() => {
-      fixture = TestBed.createComponent(ContentSearchDialogComponent);
-      component = fixture.componentInstance;
-      loader = TestbedHarnessEnvironment.loader(fixture);
-
-      fixture.detectChanges();
-
-      iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-      iiifManifestServiceStub = injectedStub(IiifManifestService);
-      mediaObserver = TestBed.inject(MediaObserver);
-      dialogRef = TestBed.inject(MatDialogRef);
-    })
-  );
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ContentSearchDialogComponent);
+    component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    iiifManifestServiceStub = injectedStub(IiifManifestService);
+    mediaObserver = TestBed.inject(MediaObserver);
+    dialogRef = TestBed.inject(MatDialogRef);
+    fixture.detectChanges();
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();

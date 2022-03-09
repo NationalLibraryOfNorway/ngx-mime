@@ -41,8 +41,8 @@ describe('AccessKeysService', () => {
         MimeResizeService,
         ViewerLayoutService,
         IiifContentSearchService,
-        ContentSearchNavigationService
-      ]
+        ContentSearchNavigationService,
+      ],
     });
   });
 

@@ -9,7 +9,9 @@ Then('the viewer should meet all accessibility criteria', async () => {
     .disableRules(['page-has-heading-one', 'landmark-one-main'])
     .analyze()
     .then((results: any) => {
-      results.violations.forEach((v: any) => v.nodes.forEach((n: any) => console.log(n)));
+      results.violations.forEach((v: any) =>
+        v.nodes.forEach((n: any) => console.log(n))
+      );
       expect(results.violations.length).to.equal(0);
     });
 });

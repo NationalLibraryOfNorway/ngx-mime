@@ -8,6 +8,11 @@ import { ViewerComponent } from './viewer.component';
 @NgModule({
   declarations: [ViewerComponent],
   exports: [ViewerComponent],
-  imports: [CommonModule, ViewerRoutingModule, ComponentsModule, ElementsModule]
+  imports: [
+    CommonModule,
+    ViewerRoutingModule,
+    ComponentsModule,
+    ElementsModule,
+  ],
 })
 export class ViewerModule {}

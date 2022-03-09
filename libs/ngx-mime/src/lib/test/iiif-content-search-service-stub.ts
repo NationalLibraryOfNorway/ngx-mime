@@ -5,9 +5,8 @@ import { Hit } from './../core/models/hit';
 import { SearchResult } from './../core/models/search-result';
 
 export class IiifContentSearchServiceStub {
-  public _currentSearchResult: Subject<SearchResult> = new BehaviorSubject<SearchResult>(
-    new SearchResult({})
-  );
+  public _currentSearchResult: Subject<SearchResult> =
+    new BehaviorSubject<SearchResult>(new SearchResult({}));
   public _searching = new BehaviorSubject<boolean>(false);
   public _currentQ = new BehaviorSubject<string>('');
   protected _selected = new BehaviorSubject<Hit | null>(null);

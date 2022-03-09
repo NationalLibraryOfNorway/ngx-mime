@@ -13,6 +13,9 @@ When('the user navigates between the pages', async () => {
   }
 });
 
-Then('the current page\'s size should be zoomed to fill the viewer', async () => {
-  expect(zoomLevels.size).to.equal(2);
-});
+Then(
+  "the current page's size should be zoomed to fill the viewer",
+  async () => {
+    expect(zoomLevels.size).to.equal(2);
+  }
+);

@@ -6,7 +6,8 @@ import {
 } from './calculate-next-canvas-group-strategy';
 
 export class PageZoomedModeCalculateNextCanvasGroupStrategy
-  implements CalculateNextCanvasGroupStrategy {
+  implements CalculateNextCanvasGroupStrategy
+{
   calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number {
     const direction = criteria.direction;
     const currentCanvasGroupIndex = criteria.currentCanvasGroupIndex;

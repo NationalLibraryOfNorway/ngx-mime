@@ -2,7 +2,7 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private useWithCredentials(url: string): boolean {
     return AuthInterceptor.withCredentialsSites.some(
-      s => url.indexOf(s) !== -1
+      (s) => url.indexOf(s) !== -1
     );
   }
 }

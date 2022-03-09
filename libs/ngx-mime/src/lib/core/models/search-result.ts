@@ -17,7 +17,7 @@ export class SearchResult {
 
   public get(index: number): Hit {
     return new Hit({
-      ...this.hits[index]
+      ...this.hits[index],
     });
   }
 
