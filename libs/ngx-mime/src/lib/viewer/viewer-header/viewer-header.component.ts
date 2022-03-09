@@ -128,7 +128,9 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
           this.isPagedManifest = manifest
             ? ManifestUtils.isManifestPaged(manifest)
             : false;
-          this.hasRecognizedTextContent = manifest ? ManifestUtils.hasRecognizedTextContent(manifest) : false;
+          this.hasRecognizedTextContent = manifest
+            ? ManifestUtils.hasRecognizedTextContent(manifest)
+            : false;
           this.changeDetectorRef.detectChanges();
         }
       )

@@ -3,7 +3,12 @@
   [ngClass]="currentTheme"
   fullscreen
 >
-  <mat-sidenav [mode]="sidenavMode" [opened]="sidenavIsOpen" #start role="navigation">
+  <mat-sidenav
+    [mode]="sidenavMode"
+    [opened]="sidenavIsOpen"
+    #start
+    role="navigation"
+  >
     <demo-sidenav [sidenav]="start"></demo-sidenav>
   </mat-sidenav>
   <main role="main" fxFlexFill>

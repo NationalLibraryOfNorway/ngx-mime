@@ -12,7 +12,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
       [config]="config"
       [tabIndex]="tabIndex"
     ></mime-viewer>
-  `
+  `,
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent, { static: true })
@@ -21,7 +21,7 @@ export class TestHostComponent {
   public canvasIndex = 0;
   public tabIndex = 0;
   public config = new MimeViewerConfig({
-    attributionDialogHideTimeout: -1
+    attributionDialogHideTimeout: -1,
   });
 
   constructor(private r: ComponentFactoryResolver) {}

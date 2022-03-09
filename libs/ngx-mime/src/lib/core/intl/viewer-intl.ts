@@ -41,7 +41,7 @@ export class MimeViewerIntl {
   manifestUriMissingLabel = 'ManifestUri is missing';
   manifestNotValidLabel = 'Manifest is not valid';
   pageDoesNotExists = 'Sorry, that page does not exist';
-  textContentErrorLabel = 'Oh dear, i can\'t find the text for you';
+  textContentErrorLabel = `Oh dear, i can't find the text for you`;
 
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;

@@ -18,7 +18,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(1);
@@ -30,7 +30,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(1);
@@ -42,7 +42,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(2);
@@ -54,7 +54,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(4);
@@ -66,7 +66,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(6);
@@ -78,7 +78,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(11);
@@ -90,7 +90,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 3,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(3);
@@ -105,7 +105,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(1);
@@ -117,7 +117,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(2);
@@ -129,7 +129,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(4);
@@ -141,7 +141,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(6);
@@ -153,7 +153,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(11);
@@ -165,7 +165,7 @@ describe('DashboardModeCalculateNextCanvasGroupStrategy', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 3,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(3);

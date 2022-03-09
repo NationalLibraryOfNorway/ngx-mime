@@ -36,7 +36,8 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Objekto atvaizduoti nepavyko...';
-  manifestUriMissingLabel = 'Nerastas objektų sąrašo identifikatorius (ManifestUri)';
+  manifestUriMissingLabel =
+    'Nerastas objektų sąrašo identifikatorius (ManifestUri)';
   manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
   pageDoesNotExists = 'Nepavyko rasti šio paslapio';
   textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
@@ -46,7 +47,9 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   };
 
   resultsFoundLabel = (numberOfHits: number, q: string) => {
-    return `${numberOfHits} rezultata${numberOfHits === 1 ? 's' : 'i'} su <em class="current-search">${q}</em>`;
+    return `${numberOfHits} rezultata${
+      numberOfHits === 1 ? 's' : 'i'
+    } su <em class="current-search">${q}</em>`;
   };
   currentHitLabel = (currentHit: number, numberOfHits: number) => {
     return `${currentHit} iš ${numberOfHits} atitikmenų`;

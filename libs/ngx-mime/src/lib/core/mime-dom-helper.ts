@@ -33,7 +33,9 @@ export class MimeDomHelper {
   }
 
   public setFocusOnViewer(): void {
-    const el: HTMLElement | null = document.getElementById('ngx-mime-mimeViewer');
+    const el: HTMLElement | null = document.getElementById(
+      'ngx-mime-mimeViewer'
+    );
     if (el) {
       el.focus();
     }
@@ -50,7 +52,7 @@ export class MimeDomHelper {
       width: width,
       height: height,
       left: 0,
-      right: width
+      right: width,
     });
   }
 
@@ -62,7 +64,7 @@ export class MimeDomHelper {
       width: dimensions.width,
       height: dimensions.height,
       left: dimensions.left,
-      right: dimensions.right
+      right: dimensions.right,
     });
   }
 

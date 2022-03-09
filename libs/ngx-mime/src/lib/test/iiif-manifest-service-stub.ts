@@ -4,7 +4,7 @@ import { Manifest } from './../core/models/manifest';
 import { testManifest } from './testManifest';
 
 export class IiifManifestServiceStub {
-  public _currentManifest: Subject<Manifest> = new BehaviorSubject<Manifest>(
+  public _currentManifest = new BehaviorSubject<Manifest | null>(
     new Manifest()
   );
   public _errorMessage = new Subject<string | null>();
@@ -34,11 +34,11 @@ export class IiifManifestServiceStub {
   }
 
   resetCurrentManifest() {
-    this._currentManifest.next(undefined);
+    this._currentManifest.next(null);
   }
 
   resetErrorMessage() {
-    this._errorMessage.next(undefined);
+    this._errorMessage.next(null);
   }
 
   destroy(): void {}

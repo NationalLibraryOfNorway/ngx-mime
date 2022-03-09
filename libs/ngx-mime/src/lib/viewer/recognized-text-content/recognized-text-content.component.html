@@ -1,8 +1,22 @@
-<div #recognizedTextContentContainer class="recognized-text-content-container" aria-live="polite">
+<div
+  #recognizedTextContentContainer
+  class="recognized-text-content-container"
+  aria-live="polite"
+>
   <div *ngIf="error" data-test-id="error">{{ error }}</div>
   <div *ngIf="!isLoading">
-    <div *ngIf="firstCanvasRecognizedTextContent" data-test-id="firstCanvasRecognizedTextContent" [innerHTML]="firstCanvasRecognizedTextContent"> </div>
-    <div *ngIf="secondCanvasRecognizedTextContent" data-test-id="secondCanvasRecognizedTextContent" [innerHTML]="secondCanvasRecognizedTextContent"> </div>
+    <div
+      *ngIf="firstCanvasRecognizedTextContent"
+      data-test-id="firstCanvasRecognizedTextContent"
+      [innerHTML]="firstCanvasRecognizedTextContent"
+    >
+    </div>
+    <div
+      *ngIf="secondCanvasRecognizedTextContent"
+      data-test-id="secondCanvasRecognizedTextContent"
+      [innerHTML]="secondCanvasRecognizedTextContent"
+    >
+    </div>
   </div>
-  <div *ngIf="isLoading">{{intl.loading}}</div>
+  <div *ngIf="isLoading">{{ intl.loading }}</div>
 </div>

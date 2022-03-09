@@ -23,11 +23,6 @@
     }
   },
   "cli": {
-    "warnings": {
-      "typescriptMismatch": false,
-      "versionMismatch": false,
-      "packageManager": "yarn"
-    },
     "defaultCollection": "@nrwl/angular"
   },
   "defaultProject": "ngx-mime",

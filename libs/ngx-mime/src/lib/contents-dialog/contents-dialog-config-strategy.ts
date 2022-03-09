@@ -9,20 +9,22 @@ export interface ContentsDialogConfigStrategy {
 }
 
 export class MobileContentsDialogConfigStrategy
-  implements ContentsDialogConfigStrategy {
+  implements ContentsDialogConfigStrategy
+{
   public getConfig(elementRef: ElementRef): MatDialogConfig {
     return {
       hasBackdrop: false,
       disableClose: false,
       width: '100%',
       height: '100%',
-      panelClass: 'contents-panel'
+      panelClass: 'contents-panel',
     };
   }
 }
 
 export class DesktopContentsDialogConfigStrategy
-  implements ContentsDialogConfigStrategy {
+  implements ContentsDialogConfigStrategy
+{
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
   private mimeDomHelper: MimeDomHelper;
@@ -39,9 +41,9 @@ export class DesktopContentsDialogConfigStrategy
       width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
-        left: dimensions.left + 'px'
+        left: dimensions.left + 'px',
       },
-      panelClass: 'contents-panel'
+      panelClass: 'contents-panel',
     };
   }
 
@@ -52,7 +54,7 @@ export class DesktopContentsDialogConfigStrategy
       left:
         dimensions.right -
         DesktopContentsDialogConfigStrategy.dialogWidth -
-        DesktopContentsDialogConfigStrategy.paddingRight
+        DesktopContentsDialogConfigStrategy.paddingRight,
     });
   }
 }

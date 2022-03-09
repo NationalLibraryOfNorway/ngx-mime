@@ -29,7 +29,8 @@ import { SearchResult } from './../core/models/search-result';
   styleUrls: ['./content-search-dialog.component.scss'],
 })
 export class ContentSearchDialogComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   public q = '';
   public hits: Hit[] = [];
   public currentHit: Hit | null = null;

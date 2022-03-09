@@ -1,17 +1,17 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { MatDialogRef } from '@angular/material/dialog';
-import { HelpDialogModule } from './help-dialog.module';
-import { HelpDialogComponent } from './help-dialog.component';
-import { MimeViewerIntl } from '../core/intl';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { MimeDomHelper } from '../core/mime-dom-helper';
+import { By } from '@angular/platform-browser';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
-import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
+import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { ViewerServiceStub } from '../test/viewer-service-stub';
+import { HelpDialogComponent } from './help-dialog.component';
+import { HelpDialogModule } from './help-dialog.module';
 
 describe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
@@ -19,28 +19,30 @@ describe('HelpDialogComponent', () => {
   let mediaObserver: any;
   let dialogRef: any;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [HelpDialogModule],
-      providers: [
-        MimeViewerIntl,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: ViewerService, useClass: ViewerServiceStub }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HelpDialogModule],
+        providers: [
+          MimeViewerIntl,
+          MimeResizeService,
+          MimeDomHelper,
+          FullscreenService,
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: ViewerService, useClass: ViewerServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
     mediaObserver = TestBed.inject(MediaObserver);
     dialogRef = TestBed.inject(MatDialogRef);
-  }));
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();

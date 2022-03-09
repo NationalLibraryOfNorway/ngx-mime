@@ -1,13 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
-import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
-import { MimeViewerIntl } from '../../core/intl';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
 
@@ -17,19 +17,24 @@ describe('RecognizedTextContentComponent', () => {
   let altoService: any;
   let canvasService: any;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [RecognizedTextContentComponent],
-      providers: [
-        MimeViewerIntl,
-        CanvasService,
-        AltoService,
-        MimeViewerIntl,
-        IiifContentSearchService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule],
+        declarations: [RecognizedTextContentComponent],
+        providers: [
+          MimeViewerIntl,
+          CanvasService,
+          AltoService,
+          MimeViewerIntl,
+          IiifContentSearchService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        ],
+      }).compileComponents();
+    })
+  );
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(RecognizedTextContentComponent);
     component = fixture.componentInstance;
     altoService = TestBed.inject(AltoService);

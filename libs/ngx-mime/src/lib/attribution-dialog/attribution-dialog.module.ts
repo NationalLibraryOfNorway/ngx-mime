@@ -12,7 +12,7 @@ import { MimeDomHelper } from '../core/mime-dom-helper';
   providers: [
     AttributionDialogService,
     AttributionDialogResizeService,
-    MimeDomHelper
-  ]
+    MimeDomHelper,
+  ],
 })
 export class AttributionDialogModule {}

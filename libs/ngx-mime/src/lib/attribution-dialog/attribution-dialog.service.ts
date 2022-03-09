@@ -121,7 +121,7 @@ export class AttributionDialogService {
 
   private getPosition() {
     if (!this._el) {
-      throw new Error(`Could not find position because element is missing`)
+      throw new Error(`Could not find position because element is missing`);
     }
     const padding = 20;
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this._el);

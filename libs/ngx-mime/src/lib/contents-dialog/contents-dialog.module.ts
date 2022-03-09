@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
   ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher
+  ShowOnDirtyErrorStateMatcher,
 } from '@angular/material/core';
 
 import { SharedModule } from './../shared/shared.module';
@@ -17,7 +17,7 @@ import { TocComponent } from './table-of-contents/table-of-contents.component';
   providers: [
     ContentsDialogService,
     ContentsDialogConfigStrategyFactory,
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-  ]
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
 })
 export class ContentsDialogModule {}

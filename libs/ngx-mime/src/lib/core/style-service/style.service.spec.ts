@@ -5,7 +5,7 @@ import { StyleService } from './style.service';
 describe('StyleService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StyleService]
+      providers: [StyleService],
     });
   });
 
