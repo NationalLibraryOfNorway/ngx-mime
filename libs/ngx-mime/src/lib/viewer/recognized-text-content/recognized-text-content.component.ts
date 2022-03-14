@@ -15,6 +15,7 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { SearchResult } from '../../core/models/search-result';
+import { Hit } from '../../core/models/hit';
 
 @Component({
   selector: 'mime-recognized-text-content',
@@ -29,6 +30,8 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   secondCanvasRecognizedTextContent: SafeHtml | undefined;
   isLoading = false;
   error: string | undefined = undefined;
+  selectedHit: Hit | undefined = undefined;
+  hits: Hit[] = [];
 
   private subscriptions = new Subscription();
 
@@ -43,8 +46,21 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
+        if (hit) {
+          this.selectedHit = hit;
+          if(this.hits){
+            this.altoService.initialize(this.hits, this.selectedHit&&this.selectedHit)
+          }
+        }
+      })
+    );
+
+    this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-        this.altoService.initialize(sr.hits);
+        this.selectedHit = undefined;
+        this.hits = sr.hits;
+        this.altoService.initialize(sr.hits, this.selectedHit&&this.selectedHit)
       })
     );
 

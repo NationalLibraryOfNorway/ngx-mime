@@ -3,7 +3,7 @@ import { Alto, String, TextLine } from './alto.model';
 import { Hit } from './../../core/models/hit';
 
 export class HtmlFormatter {
-  constructor(private sanitizer: DomSanitizer, private hits?: Hit[]) {}
+  constructor(private sanitizer: DomSanitizer, private currentIndex: number, private hits?: Hit[], private selectedHit?: Hit,) {}
 
   altoToHtml(alto: Alto): SafeHtml {
     const page = alto.layout.page;
@@ -46,23 +46,27 @@ export class HtmlFormatter {
   }
 
   private transform(html: string): string {
-    const wordBoundary = '\\b';
     if (this.hits && this.hits.length > 0) {
       for (const hit of this.hits) {
+        //console.log("currentIndex: " +(this.currentIndex) + " " + "hit.label: " + hit.index + "hit.id: " + hit.id);
+       if(hit.index === this.currentIndex){
         html = this.highlight(
           html + ' ',
-          wordBoundary + this.escapeSpecialCharacters(hit.match)
-        );
+            hit.match,
+            hit.id,
+            this.selectedHit
+            );
+       //   }
+        }
       }
     }
     return html.trim();
   }
 
-  private highlight(html: string, pattern: string): string {
-    return html.replace(
-      new RegExp(pattern, 'gi'),
-      (match: any) => `<mark>${match}</mark>`
-    );
+    private highlight(html: string, pattern: string, id?: number, selectedHit?: Hit): string {
+      const wordBoundary = '\\b';
+      //console.log(html.replace(new RegExp(wordBoundary + this.escapeSpecialCharacters(pattern)+"(?!<)"), `<mark ${selectedHit&&selectedHit.id === id ?  'style="background: #00ced1!important"' : ''} id="${id}">$&</mark>`))
+      return html.replace(new RegExp(wordBoundary + this.escapeSpecialCharacters(pattern)+"(?!<)"), `<mark ${selectedHit&&selectedHit.id === id ?  'style="background: #ffe10099!important"' : ''} id="${id}">$&</mark>`);
   }
 
   /*

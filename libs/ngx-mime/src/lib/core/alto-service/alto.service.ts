@@ -15,6 +15,7 @@ import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
+import { ContentSearchNavigationService } from './../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { Alto } from './alto.model';
@@ -34,11 +35,13 @@ export class AltoService {
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
+  private currentIndex = 0;
 
   constructor(
     public intl: MimeViewerIntl,
     private http: HttpClient,
     private iiifManifestService: IiifManifestService,
+    private contentSearchNavigationService: ContentSearchNavigationService,
     private canvasService: CanvasService,
     private sanitizer: DomSanitizer
   ) {}
@@ -67,8 +70,7 @@ export class AltoService {
     this.recognizedTextContentToggle.next(value);
   }
 
-  initialize(hits?: Hit[]) {
-    this.htmlFormatter = new HtmlFormatter(this.sanitizer, hits);
+  initialize(hits?: Hit[], selectedHit?: Hit) {
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(
@@ -84,6 +86,8 @@ export class AltoService {
       this.canvasService.onCanvasGroupIndexChange
         .pipe(debounceTime(200))
         .subscribe((currentCanvasGroupIndex: number) => {
+          this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
+          this.htmlFormatter = new HtmlFormatter(this.sanitizer, this.currentIndex, hits, selectedHit);
           this.textError.next(undefined);
           const sources: Observable<void>[] = [];
 
@@ -103,6 +107,7 @@ export class AltoService {
             .subscribe();
         })
     );
+    this.htmlFormatter = new HtmlFormatter(this.sanitizer, this.currentIndex, hits, selectedHit);
   }
 
   destroy() {
