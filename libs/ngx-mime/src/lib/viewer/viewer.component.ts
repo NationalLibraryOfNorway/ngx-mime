@@ -246,7 +246,9 @@ export class ViewerComponent
             }
           });
         }
-        this.viewerModeChanged.emit(mode.currentValue);
+        this.zone.run(() => {
+          this.viewerModeChanged.emit(mode.currentValue);
+        });
       })
     );
 
