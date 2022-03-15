@@ -15,9 +15,10 @@ import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../intl/viewer-intl';
+import { MimeViewerIntl } from '../intl';
 import { Manifest } from '../models/manifest';
 import { RecognizedTextMode } from '../models/recognized-text-mode';
+import { Hit } from './../../core/models/hit';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
@@ -31,7 +32,7 @@ export class AltoService {
   );
   private isLoading = new BehaviorSubject(false);
   private textContentReady = new Subject<void>();
-  private textError = new Subject<string>();
+  private textError = new Subject<string | undefined>();
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
@@ -43,10 +44,8 @@ export class AltoService {
     private http: HttpClient,
     private iiifManifestService: IiifManifestService,
     private canvasService: CanvasService,
-    sanitizer: DomSanitizer
-  ) {
-    this.htmlFormatter = new HtmlFormatter(sanitizer);
-  }
+    private sanitizer: DomSanitizer
+  ) {}
 
   get onRecognizedTextContentToggleChange$(): Observable<RecognizedTextMode> {
     return this.recognizedTextContentToggle.asObservable();
@@ -60,7 +59,7 @@ export class AltoService {
     return this.isLoading.asObservable();
   }
 
-  get hasErrors$(): Observable<string> {
+  get hasErrors$(): Observable<string | undefined> {
     return this.textError.asObservable();
   }
 
@@ -72,7 +71,8 @@ export class AltoService {
     this.recognizedTextContentToggle.next(value);
   }
 
-  initialize() {
+  initialize(hits?: Hit[]) {
+    this.htmlFormatter = new HtmlFormatter(this.sanitizer, hits);
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(

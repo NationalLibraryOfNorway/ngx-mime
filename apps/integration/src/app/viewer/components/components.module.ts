@@ -5,6 +5,6 @@ import { ViewerComponent } from './viewer/viewer.component';
 @NgModule({
   declarations: [ViewerComponent],
   exports: [ViewerComponent],
-  imports: [MimeModule]
+  imports: [MimeModule],
 })
 export class ComponentsModule {}

@@ -18,7 +18,7 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection
+        viewingDirection,
       });
 
       expect(res).toBe(1);
@@ -30,7 +30,7 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection
+        viewingDirection,
       });
 
       expect(res).toBe(2);
@@ -42,7 +42,7 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 2,
         currentCanvasGroupCenter: 2,
-        viewingDirection
+        viewingDirection,
       });
 
       expect(res).toBe(1);
@@ -54,7 +54,7 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 2,
-        viewingDirection
+        viewingDirection,
       });
 
       expect(res).toBe(2);
@@ -70,7 +70,7 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection: viewingDirection
+        viewingDirection: viewingDirection,
       });
 
       expect(res).toBe(1);
@@ -82,7 +82,7 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 1,
-        viewingDirection
+        viewingDirection,
       });
 
       expect(res).toBe(2);
@@ -94,7 +94,7 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
         direction: Direction.LEFT,
         currentCanvasGroupIndex: 2,
         currentCanvasGroupCenter: 2,
-        viewingDirection
+        viewingDirection,
       });
 
       expect(res).toBe(1);
@@ -106,7 +106,7 @@ describe('PageModeCalculateNextCanvasGroupStrategy ', () => {
         direction: Direction.RIGHT,
         currentCanvasGroupIndex: 1,
         currentCanvasGroupCenter: 2,
-        viewingDirection
+        viewingDirection,
       });
 
       expect(res).toBe(2);

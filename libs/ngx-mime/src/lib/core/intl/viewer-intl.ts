@@ -34,13 +34,14 @@ export class MimeViewerIntl {
   enterPageNumber = 'Enter page number';
   dropDisabled = 'Sorry, but drag and drop is disabled';
   loading = 'Loading ...';
+  rotationIsNotSupported = 'Rotation is not supported by your device';
 
   // ERRORS
   somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';
   manifestUriMissingLabel = 'ManifestUri is missing';
   manifestNotValidLabel = 'Manifest is not valid';
   pageDoesNotExists = 'Sorry, that page does not exist';
-  textContentErrorLabel = 'Oh dear, i can\'t find the text for you';
+  textContentErrorLabel = `Oh dear, i can't find the text for you`;
 
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;

@@ -10,7 +10,7 @@ import {
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../../core/intl';
 import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 
@@ -40,7 +40,8 @@ export class TocComponent implements OnInit, OnDestroy {
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           this.manifest = manifest;
-          this.currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
+          this.currentCanvasGroupIndex =
+            this.canvasService.currentCanvasGroupIndex;
           this.changeDetectorRef.detectChanges();
         }
       )
@@ -61,7 +62,7 @@ export class TocComponent implements OnInit, OnDestroy {
   }
 
   goToCanvas(event: Event, canvasIndex: number | undefined): void {
-    if (canvasIndex) {
+    if (canvasIndex !== undefined) {
       event.preventDefault();
       this.viewerService.goToCanvas(canvasIndex, false);
       this.canvasChanged.emit(canvasIndex);

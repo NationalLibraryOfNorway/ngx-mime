@@ -21,9 +21,11 @@
       position="end"
       (openedChange)="goToHomeZoom()"
       [opened]="isRecognizedTextContentToggled !== recognizedTextMode.NONE"
-      [ngClass]="{ open: isRecognizedTextContentToggled !== recognizedTextMode.NONE,
-      full: isRecognizedTextContentToggled === recognizedTextMode.FULL,
-      right: isRecognizedTextContentToggled === recognizedTextMode.RIGHT}"
+      [ngClass]="{
+        open: isRecognizedTextContentToggled !== recognizedTextMode.NONE,
+        full: isRecognizedTextContentToggled === recognizedTextMode.FULL,
+        right: isRecognizedTextContentToggled === recognizedTextMode.RIGHT
+      }"
       ><mime-recognized-text-content
         *ngIf="isRecognizedTextContentToggled !== recognizedTextMode.NONE"
       ></mime-recognized-text-content

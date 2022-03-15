@@ -11,14 +11,14 @@ describe('HelpDialogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       providers: [
         HelpDialogService,
         MimeDomHelper,
         MimeResizeService,
         HelpDialogConfigStrategyFactory,
-        FullscreenService
-      ]
+        FullscreenService,
+      ],
     });
   });
 
@@ -27,6 +27,6 @@ describe('HelpDialogService', () => {
   });
 
   it('should create', () => {
-      expect(service).toBeTruthy();
+    expect(service).toBeTruthy();
   });
 });

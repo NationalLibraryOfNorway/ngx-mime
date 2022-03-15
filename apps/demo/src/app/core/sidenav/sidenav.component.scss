@@ -23,3 +23,15 @@ h1 {
 .logo-iiif {
   margin-right: 8px;
 }
+
+.api-format {
+  padding: 8px 16px;
+}
+
+label {
+  font-size: 16px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}

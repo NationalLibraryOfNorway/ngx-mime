@@ -16,8 +16,8 @@ describe('AttributionDialogService', () => {
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
-        AttributionDialogResizeService
-      ]
+        AttributionDialogResizeService,
+      ],
     });
   });
 

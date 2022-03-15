@@ -1,4 +1,5 @@
-import { Metadata } from '../models/manifest';
+import { Metadata } from '../../../models/manifest';
+import { BuilderUtils } from './builder-utils';
 
 export class MetadataBuilder {
   constructor(private metadatas: any) {}
@@ -8,7 +9,12 @@ export class MetadataBuilder {
     if (this.metadatas) {
       for (let i = 0; i < this.metadatas.length; i++) {
         const data = this.metadatas[i];
-        metadatas.push(new Metadata(data.label, data.value));
+        metadatas.push(
+          new Metadata(
+            BuilderUtils.extractLanguageValue(data.label),
+            BuilderUtils.extractLanguageValue(data.value)
+          )
+        );
       }
     }
     return metadatas;

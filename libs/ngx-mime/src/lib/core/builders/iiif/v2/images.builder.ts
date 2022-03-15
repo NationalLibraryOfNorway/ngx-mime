@@ -1,4 +1,4 @@
-import { Images } from '../models/manifest';
+import { Images } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 import { ResourceBuilder } from './resource.builder';
 
@@ -16,7 +16,7 @@ export class ImagesBuilder {
             type: BuilderUtils.extracType(image),
             motivation: image.motivation,
             resource: new ResourceBuilder(image.resource).build(),
-            on: image.on
+            on: image.on,
           })
         );
       }

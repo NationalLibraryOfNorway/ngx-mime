@@ -5,7 +5,7 @@ import { FullscreenService } from './fullscreen.service';
 describe('FullscreenService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FullscreenService]
+      providers: [FullscreenService],
     });
   });
 

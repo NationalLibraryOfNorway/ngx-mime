@@ -10,8 +10,8 @@ describe('AttributionDialogResizeService', () => {
       providers: [
         AttributionDialogResizeService,
         MimeDomHelper,
-        FullscreenService
-      ]
+        FullscreenService,
+      ],
     });
   });
 

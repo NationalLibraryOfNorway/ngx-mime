@@ -1,8 +1,5 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
-import { fakeAsync, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { fakeAsync, inject, TestBed } from '@angular/core/testing';
 import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
@@ -11,7 +8,7 @@ import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../intl/viewer-intl';
+import { MimeViewerIntl } from '../../intl';
 import { Hit } from '../../models/hit';
 import { Rect } from '../../models/rect';
 import { SearchResult } from '../../models/search-result';
@@ -23,7 +20,7 @@ describe('ContentSearchNavigationService', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [],
@@ -35,36 +32,19 @@ describe('ContentSearchNavigationService', () => {
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         {
           provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub
-        }
-      ]
+          useClass: IiifContentSearchServiceStub,
+        },
+      ],
     });
-  }));
-
-  beforeEach(inject(
-    [
-      ContentSearchNavigationService,
-      HttpTestingController,
-      IiifContentSearchService,
-      CanvasService
-    ],
-    fakeAsync(
-      (
-        csns: ContentSearchNavigationService,
-        httpMock: HttpTestingController,
-        icss: IiifContentSearchService,
-        canvasService: CanvasService
-      ) => {
-        iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-        iiifManifestServiceStub = injectedStub(IiifManifestService);
-        iiifManifestServiceStub._currentManifest.next(testManifest);
-        iiifContentSearchServiceStub._currentSearchResult.next(
-          createSearchResult()
-        );
-        canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
-      }
-    )
-  ));
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    iiifManifestServiceStub = injectedStub(IiifManifestService);
+    iiifManifestServiceStub._currentManifest.next(testManifest);
+    iiifContentSearchServiceStub._currentSearchResult.next(
+      createSearchResult()
+    );
+    const canvasService = TestBed.inject(CanvasService);
+    canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
+  });
 
   it('should create', inject(
     [ContentSearchNavigationService],
@@ -149,8 +129,8 @@ describe('ContentSearchNavigationService', () => {
         new Hit({ index: 2 }),
         new Hit({ index: 4 }),
         new Hit({ index: 5 }),
-        new Hit({ index: 8 })
-      ]
+        new Hit({ index: 8 }),
+      ],
     });
   }
 });

@@ -10,7 +10,7 @@ import { ContentSearchDialogComponent } from './content-search-dialog.component'
   declarations: [ContentSearchDialogComponent],
   providers: [
     ContentSearchDialogService,
-    ContentSearchDialogConfigStrategyFactory
-  ]
+    ContentSearchDialogConfigStrategyFactory,
+  ],
 })
 export class ContentSearchDialogModule {}

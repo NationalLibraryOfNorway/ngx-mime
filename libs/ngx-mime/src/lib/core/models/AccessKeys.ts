@@ -132,7 +132,8 @@ export class AccessKeys {
 
   public isRecognizedTextContentKeys() {
     return (
-      !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes)
+      !this.isMultiKeys() &&
+      this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes)
     );
   }
 

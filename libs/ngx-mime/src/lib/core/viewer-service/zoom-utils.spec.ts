@@ -4,7 +4,12 @@ import { Point } from '../models/point';
 
 describe('ZoomUtils ', () => {
   it('should constrain position to canvasGroupRect', () => {
-    const canvasGroupRect: Rect = new Rect({ x: 100, y: 100, width: 100, height: 100 });
+    const canvasGroupRect: Rect = new Rect({
+      x: 100,
+      y: 100,
+      width: 100,
+      height: 100,
+    });
 
     // Outside left side of page
     let pos: Point = { x: 50, y: 0 };

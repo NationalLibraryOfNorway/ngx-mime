@@ -30,7 +30,7 @@ import { ContentSearchDialogService } from './../../content-search-dialog/conten
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
 
 @Component({

@@ -1,8 +1,8 @@
-import { Manifest, Sequence } from '../models/manifest';
+import { Manifest, Sequence } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
+import { MetadataBuilder } from './metadata.builder';
 import { SequenceBuilder } from './sequence.builder';
 import { ServiceBuilder } from './service.builder';
-import { MetadataBuilder } from './metadata.builder';
 import { StructureBuilder } from './structure.builder';
 import { TileSourceBuilder } from './tile-source.builder';
 
@@ -10,25 +10,27 @@ export class ManifestBuilder {
   constructor(private data: any) {}
 
   build(): Manifest {
-    const sequences: Sequence[] = new SequenceBuilder(
-      this.data.sequences
-    ).build();
+    const sequences: Sequence[] = new SequenceBuilder(this.data).build();
 
-    return new Manifest({
+    const manifest = new Manifest({
       context: BuilderUtils.extractContext(this.data),
       type: BuilderUtils.extracType(this.data),
       id: BuilderUtils.extractId(this.data),
       viewingDirection: BuilderUtils.extractViewingDirection(this.data),
-      label: this.data.label,
+      label: BuilderUtils.extractLanguageValue(this.data.label),
       metadata: new MetadataBuilder(this.data.metadata).build(),
-      license: this.data.license,
-      logo: this.data.logo,
-      attribution: this.data.attribution,
+      license: this.data.rights,
+      logo: BuilderUtils.extractLogo(this.data.provider),
+      attribution: BuilderUtils.extractLanguageValue(
+        this.data.requiredStatement?.value
+      ),
       service: new ServiceBuilder(this.data.service).build(),
       sequences: sequences,
       structures: new StructureBuilder(this.data.structures, sequences).build(),
-      tileSource: new TileSourceBuilder(this.data.sequences).build(),
-      viewingHint: this.data.viewingHint
+      tileSource: new TileSourceBuilder(this.data.items).build(),
+      viewingHint: BuilderUtils.extractViewingHint(this.data.behavior),
     });
+
+    return manifest;
   }
 }
