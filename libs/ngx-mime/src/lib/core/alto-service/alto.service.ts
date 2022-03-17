@@ -36,7 +36,7 @@ export class AltoService {
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
-  private htmlFormatter: HtmlFormatter;
+  private htmlFormatter!: HtmlFormatter;
   private recognizedTextMode = RecognizedTextMode.NONE;
 
   constructor(
