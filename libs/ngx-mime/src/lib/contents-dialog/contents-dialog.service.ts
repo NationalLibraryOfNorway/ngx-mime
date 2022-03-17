@@ -3,9 +3,9 @@ import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
+  MatDialogState,
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
 import { ContentsDialogComponent } from './contents-dialog.component';
@@ -13,8 +13,7 @@ import { ContentsDialogComponent } from './contents-dialog.component';
 @Injectable()
 export class ContentsDialogService {
   private _el: ElementRef | null = null;
-  private isContentsDialogOpen = false;
-  private dialogRef: MatDialogRef<ContentsDialogComponent> | null = null;
+  private dialogRef?: MatDialogRef<ContentsDialogComponent>;
   private subscriptions!: Subscription;
 
   constructor(
@@ -27,12 +26,10 @@ export class ContentsDialogService {
     this.subscriptions = new Subscription();
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((rect) => {
-        if (this.isContentsDialogOpen) {
+        if (this.isOpen()) {
           const config = this.getDialogConfig();
-          if (this.dialogRef) {
-            this.dialogRef.updatePosition(config.position);
-            this.dialogRef.updateSize(config.width, config.height);
-          }
+          this.dialogRef?.updatePosition(config.position);
+          this.dialogRef?.updateSize(config.width, config.height);
         }
       })
     );
@@ -47,45 +44,33 @@ export class ContentsDialogService {
     this._el = el;
   }
 
-  public open(selectedIndex?: number) {
-    if (!this.isContentsDialogOpen) {
+  public open(selectedIndex?: number): void {
+    if (!this.isOpen()) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
 
       if (selectedIndex) {
         this.dialogRef.componentInstance.selectedIndex = selectedIndex;
       }
-
-      this.dialogRef
-        .afterClosed()
-        .pipe(take(1))
-        .subscribe((result) => {
-          this.isContentsDialogOpen = false;
-        });
-      this.isContentsDialogOpen = true;
     }
   }
 
-  public close() {
-    if (this.dialogRef) {
-      this.dialogRef.close();
-      this.isContentsDialogOpen = false;
+  public close(): void {
+    if (this.isOpen()) {
+      this.dialogRef?.close();
     }
-    this.isContentsDialogOpen = false;
   }
 
-  public toggle() {
-    this.isContentsDialogOpen ? this.close() : this.open();
+  public toggle(): void {
+    this.isOpen() ? this.close() : this.open();
   }
 
   public isOpen(): boolean {
-    return this.isContentsDialogOpen;
+    return this.dialogRef?.getState() === MatDialogState.OPEN;
   }
 
   public getSelectedIndex(): number {
-    return this.dialogRef && this.dialogRef.componentInstance
-      ? this.dialogRef.componentInstance.selectedIndex
-      : 0;
+    return this.dialogRef?.componentInstance.selectedIndex ?? 0;
   }
 
   private getDialogConfig(): MatDialogConfig {

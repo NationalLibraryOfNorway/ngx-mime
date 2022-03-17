@@ -3,6 +3,7 @@ import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
+  MatDialogState,
 } from '@angular/material/dialog';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -14,8 +15,7 @@ import { AttributionDialogComponent } from './attribution-dialog.component';
 
 @Injectable()
 export class AttributionDialogService {
-  private isAttributionDialogOpen = false;
-  private dialogRef: MatDialogRef<AttributionDialogComponent> | null = null;
+  private dialogRef?: MatDialogRef<AttributionDialogComponent>;
   private _el: ElementRef | null = null;
   private attributionDialogHeight = 0;
   private subscriptions!: Subscription;
@@ -30,27 +30,27 @@ export class AttributionDialogService {
   public initialize(): void {
     this.subscriptions = new Subscription();
     this.subscriptions.add(
-      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-        if (this.dialogRef && this.isAttributionDialogOpen) {
+      this.mimeResizeService.onResize.subscribe(() => {
+        if (this.isOpen()) {
           const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
+          this.dialogRef?.updatePosition(config.position);
         }
       })
     );
     this.subscriptions.add(
       this.attributionDialogResizeService.onResize.subscribe(
         (dimensions: Dimensions) => {
-          if (this.dialogRef && this.isAttributionDialogOpen) {
+          if (this.isOpen()) {
             this.attributionDialogHeight = dimensions.height;
             const config = this.getDialogConfig();
-            this.dialogRef.updatePosition(config.position);
+            this.dialogRef?.updatePosition(config.position);
           }
         }
       )
     );
   }
 
-  public destroy() {
+  public destroy(): void {
     this.close();
     this.unsubscribe();
   }
@@ -60,38 +60,31 @@ export class AttributionDialogService {
   }
 
   public open(timeout?: number): void {
-    if (!this.isAttributionDialogOpen) {
-      /**
-       * Sleeping for material animations to finish
-       * fix: https://github.com/angular/material2/issues/7438
-       */
-      interval(1000)
+    if (!this.isOpen()) {
+      const config = this.getDialogConfig();
+      this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
+      this.dialogRef
+        .afterClosed()
         .pipe(take(1))
         .subscribe(() => {
-          const config = this.getDialogConfig();
-          this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
-          this.dialogRef
-            .afterClosed()
-            .pipe(take(1))
-            .subscribe((result) => {
-              this.isAttributionDialogOpen = false;
-              this.mimeDomHelper.setFocusOnViewer();
-            });
-          this.isAttributionDialogOpen = true;
-          this.closeDialogAfter(timeout);
+          this.mimeDomHelper.setFocusOnViewer();
         });
+      this.closeDialogAfter(timeout);
     }
   }
 
   public close(): void {
-    if (this.dialogRef) {
-      this.dialogRef.close();
-      this.isAttributionDialogOpen = false;
+    if (this.isOpen()) {
+      this.dialogRef?.close();
     }
   }
 
   public toggle(): void {
-    this.isAttributionDialogOpen ? this.close() : this.open();
+    this.isOpen() ? this.close() : this.open();
+  }
+
+  public isOpen(): boolean {
+    return this.dialogRef?.getState() === MatDialogState.OPEN;
   }
 
   private closeDialogAfter(seconds: number | undefined) {
