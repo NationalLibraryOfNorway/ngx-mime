@@ -15,6 +15,7 @@ export declare class ModeService {
     get initialMode(): ViewerMode;
     toggleMode(): void;
     isPageZoomed(): boolean;
+    destroy(): void;
     private change;
     static ɵfac: i0.ɵɵFactoryDeclaration<ModeService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ModeService>;

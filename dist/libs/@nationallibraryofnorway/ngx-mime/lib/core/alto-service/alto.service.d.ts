@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl/viewer-intl';
+import { Hit } from './../../core/models/hit';
 import * as i0 from "@angular/core";
 export declare class AltoService {
     intl: MimeViewerIntl;
     private http;
     private iiifManifestService;
     private canvasService;
+    private sanitizer;
     private altos;
     private recognizedTextContentToggle;
     private isLoading;
@@ -26,7 +28,7 @@ export declare class AltoService {
     get hasErrors$(): Observable<string>;
     get onRecognizedTextContentToggle(): boolean;
     set onRecognizedTextContentToggle(value: boolean);
-    initialize(): void;
+    initialize(hits?: Hit[]): void;
     destroy(): void;
     toggle(): void;
     getHtml(index: number): SafeHtml | undefined;

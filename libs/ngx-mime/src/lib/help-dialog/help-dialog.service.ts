@@ -1,7 +1,10 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MatDialogState,
+} from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { HelpDialogConfigStrategyFactory } from './help-dialog-config-strategy-factory';
 import { HelpDialogComponent } from './help-dialog.component';
@@ -9,8 +12,7 @@ import { HelpDialogComponent } from './help-dialog.component';
 @Injectable()
 export class HelpDialogService {
   private _el: ElementRef | null = null;
-  private isHelpDialogOpen = false;
-  private dialogRef!: MatDialogRef<HelpDialogComponent>;
+  private dialogRef?: MatDialogRef<HelpDialogComponent>;
   private subscriptions!: Subscription;
 
   constructor(
@@ -23,10 +25,10 @@ export class HelpDialogService {
     this.subscriptions = new Subscription();
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe(() => {
-        if (this.isHelpDialogOpen) {
+        if (this.isOpen()) {
           const config = this.getDialogConfig();
-          this.dialogRef.updatePosition(config.position);
-          this.dialogRef.updateSize(config.width, config.height);
+          this.dialogRef?.updatePosition(config.position);
+          this.dialogRef?.updateSize(config.width, config.height);
         }
       })
     );
@@ -42,32 +44,24 @@ export class HelpDialogService {
   }
 
   public open(): void {
-    if (!this.isHelpDialogOpen) {
+    if (!this.isOpen()) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(HelpDialogComponent, config);
-      this.dialogRef
-        .afterClosed()
-        .pipe(take(1))
-        .subscribe(() => {
-          this.isHelpDialogOpen = false;
-        });
-      this.isHelpDialogOpen = true;
     }
   }
 
   public close(): void {
-    if (this.dialogRef) {
-      this.dialogRef.close();
+    if (this.isOpen()) {
+      this.dialogRef?.close();
     }
-    this.isHelpDialogOpen = false;
   }
 
   public toggle(): void {
-    this.isHelpDialogOpen ? this.close() : this.open();
+    this.isOpen() ? this.close() : this.open();
   }
 
   public isOpen(): boolean {
-    return this.isHelpDialogOpen;
+    return this.dialogRef?.getState() === MatDialogState.OPEN;
   }
 
   private getDialogConfig() {

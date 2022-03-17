@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [13.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.1.0...v13.1.1) (2022-03-09)
+
+
+### Bug Fixes
+
+* show rotation is not supported message for non canvas devices ([701d2bf](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/701d2bf3dfd2d93b2187de59a36c6406b70d9d22))
+
 ## [13.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.0.1...v13.1.0) (2022-02-28)
 
 ### Features
