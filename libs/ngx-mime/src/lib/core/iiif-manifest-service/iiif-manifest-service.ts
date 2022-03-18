@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, finalize, take } from 'rxjs/operators';
 import { ManifestBuilder as IiifV2ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
 import { ManifestBuilder as IiifV3ManifestBuilder } from '../builders/iiif/v3/manifest.builder';
-import { MimeViewerIntl } from '../intl/viewer-intl';
+import { MimeViewerIntl } from '../intl';
 import { Manifest } from '../models/manifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
 

@@ -1,16 +1,16 @@
 exports.customDesktopLaunchers = [
   {
     browserName: 'chrome',
-    version: 'latest'
+    version: 'latest',
   },
   {
     browserName: 'firefox',
-    version: 'latest'
+    version: 'latest',
   },
   {
     browserName: 'MicrosoftEdge',
-    version: 'latest'
-  }
+    version: 'latest',
+  },
   // {
   //   browserName: "internet explorer",
   //   platform: "Windows 10",
@@ -27,14 +27,14 @@ exports.androidLaunchers = [
     browserName: 'Chrome',
     deviceName: 'Android GoogleAPI Emulator',
     platformVersion: '10.0',
-    platformName: 'Android'
-  }
+    platformName: 'Android',
+  },
 ];
 exports.iphoneLaunchers = [
   {
     browserName: 'Safari',
     deviceName: 'iPhone X Simulator',
     platformVersion: '13.4',
-    platformName: 'iOS'
-  }
+    platformName: 'iOS',
+  },
 ];

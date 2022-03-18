@@ -4,6 +4,6 @@ import { ViewerComponent } from './viewer/viewer.component';
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [ViewerComponent],
-  exports: [ViewerComponent]
+  exports: [ViewerComponent],
 })
 export class ElementsModule {}

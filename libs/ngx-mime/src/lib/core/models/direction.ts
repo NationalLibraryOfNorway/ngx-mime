@@ -5,5 +5,5 @@ export enum Direction {
   UP = 3,
   DOWN = 4,
   NEXT = 5,
-  PREVIOUS = 6
+  PREVIOUS = 6,
 }

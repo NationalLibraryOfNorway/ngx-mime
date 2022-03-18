@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as d3 from 'd3';
 import {
   BehaviorSubject,
@@ -17,6 +18,7 @@ import { HighlightService } from '../highlight-service/highlight.service';
 import { createSvgOverlay } from '../ext/svg-overlay';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
+import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Direction } from '../models/direction';
 import { Manifest, Resource } from '../models/manifest';
@@ -90,7 +92,9 @@ export class ViewerService {
     private highlightService: HighlightService,
     private iiifContentSearchService: IiifContentSearchService,
     private styleService: StyleService,
-    private altoService: AltoService
+    private altoService: AltoService,
+    private snackBar: MatSnackBar,
+    private intl: MimeViewerIntl
   ) {}
 
   get onRotationChange(): Observable<number> {
@@ -421,7 +425,7 @@ export class ViewerService {
    */
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
-    this.currentCenter.next(undefined);
+    this.currentCenter.next({ x: 0, y: 0 });
     if (this.viewer != null && this.viewer.isOpen()) {
       if (this.viewer.container != null) {
         d3.select(this.viewer.container.parentNode).style('opacity', '0');
@@ -494,7 +498,11 @@ export class ViewerService {
 
   rotate(): void {
     if (this.osdIsReady.getValue()) {
-      this.rotation.next((this.rotation.getValue() + 90) % 360);
+      if (this.viewer.useCanvas) {
+        this.rotateToRight();
+      } else {
+        this.showRotationIsNotSupportetMessage();
+      }
     }
   }
 
@@ -1038,6 +1046,16 @@ export class ViewerService {
         immediately
       );
     }
+  }
+
+  private rotateToRight() {
+    this.rotation.next((this.rotation.getValue() + 90) % 360);
+  }
+
+  private showRotationIsNotSupportetMessage() {
+    this.snackBar.open(this.intl.rotationIsNotSupported, undefined, {
+      duration: 3000,
+    });
   }
 
   private unsubscribe() {

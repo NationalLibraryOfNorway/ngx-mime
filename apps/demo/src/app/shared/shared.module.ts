@@ -11,7 +11,7 @@ import { DemoMaterialModule } from './demoMaterialModule';
     FormsModule,
     FlexLayoutModule,
     DemoMaterialModule,
-    MimeModule
+    MimeModule,
   ],
   declarations: [],
   exports: [
@@ -19,7 +19,7 @@ import { DemoMaterialModule } from './demoMaterialModule';
     FormsModule,
     FlexLayoutModule,
     DemoMaterialModule,
-    MimeModule
-  ]
+    MimeModule,
+  ],
 })
 export class SharedModule {}

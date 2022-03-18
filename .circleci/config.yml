@@ -1,13 +1,17 @@
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.2.4
 jobs:
   build:
     docker:
-      - image: circleci/node:14.17-browsers
+      - image:  cimg/node:16.13-browsers
     environment:
       LOGS_DIR: /tmp/ngx-mime-build/logs
       BROWSER_PROVIDER_READY_FILE: /tmp/ngx-mime-build/readyfile
     steps:
       - checkout
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - run: echo 127.0.0.1 lh | sudo tee -a /etc/hosts
       - run: find ./apps/integration* -type f -exec sed -i 's/localhost/lh/' {} \;
       - run: 'mkdir -p $LOGS_DIR'

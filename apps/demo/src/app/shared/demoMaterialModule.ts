@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatMenuModule,
     MatGridListModule,
     MatRadioModule,
-    MatCheckboxModule
-  ]
+    MatCheckboxModule,
+  ],
 })
 export class DemoMaterialModule {}

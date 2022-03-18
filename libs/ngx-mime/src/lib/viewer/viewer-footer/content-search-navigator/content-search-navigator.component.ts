@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { CanvasService } from '../../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../../../core/intl';
 import { Manifest } from '../../../core/models/manifest';
 import { SearchResult } from '../../../core/models/search-result';
 import { ViewingDirection } from '../../../core/models/viewing-direction';
@@ -61,10 +61,14 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
       this.canvasService.onCanvasGroupIndexChange.subscribe(
         (canvasGroupIndex) => {
           this.contentSearchNavigationService.update(canvasGroupIndex);
-          this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
-          this.isHitOnActiveCanvasGroup = this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
-          this.isFirstCanvasGroupHit = this.contentSearchNavigationService.getFirstHitCanvasGroup();
-          this.isLastCanvasGroupHit = this.contentSearchNavigationService.getLastHitCanvasGroup();
+          this.currentIndex =
+            this.contentSearchNavigationService.getCurrentIndex();
+          this.isHitOnActiveCanvasGroup =
+            this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
+          this.isFirstCanvasGroupHit =
+            this.contentSearchNavigationService.getFirstHitCanvasGroup();
+          this.isLastCanvasGroupHit =
+            this.contentSearchNavigationService.getLastHitCanvasGroup();
           this.changeDetectorRef.detectChanges();
         }
       )

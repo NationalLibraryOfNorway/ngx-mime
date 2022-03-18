@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../core/intl';
 import { MimeDomHelper } from './../core/mime-dom-helper';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Dimensions } from './../core/models/dimensions';
@@ -29,7 +29,8 @@ import { SearchResult } from './../core/models/search-result';
   styleUrls: ['./content-search-dialog.component.scss'],
 })
 export class ContentSearchDialogComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   public q = '';
   public hits: Hit[] = [];
   public currentHit: Hit | null = null;

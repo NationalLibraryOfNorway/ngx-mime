@@ -6,7 +6,8 @@ import {
 } from './calculate-next-canvas-group-strategy';
 
 export class DashboardModeCalculateNextCanvasGroupStrategy
-  implements CalculateNextCanvasGroupStrategy {
+  implements CalculateNextCanvasGroupStrategy
+{
   calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number {
     const speed = criteria.speed;
     const direction = criteria.direction;

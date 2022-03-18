@@ -4,7 +4,7 @@ import { MimeDomHelper } from '../core/mime-dom-helper';
 import {
   ContentSearchDialogConfigStrategy,
   DesktopContentSearchDialogConfigStrategy,
-  MobileContentSearchDialogConfigStrategy
+  MobileContentSearchDialogConfigStrategy,
 } from './content-search-dialog-config-strategy';
 
 @Injectable()

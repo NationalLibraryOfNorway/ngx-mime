@@ -6,6 +6,8 @@ export class AppPage {
   }
 
   async getHeadingText() {
-    return element(by.css('h1.cdk-visually-hidden')).getAttribute('textContent');
+    return element(by.css('h1.cdk-visually-hidden')).getAttribute(
+      'textContent'
+    );
   }
 }

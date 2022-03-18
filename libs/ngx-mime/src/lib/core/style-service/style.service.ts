@@ -3,18 +3,18 @@ import { interval, ReplaySubject, Observable, Subscription } from 'rxjs';
 import { switchMap, tap, distinctUntilChanged, filter } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StyleService {
   private currentRgbColor: string | undefined;
-  private colorSubject: ReplaySubject<string> = new ReplaySubject();
+  private colorSubject: ReplaySubject<string | undefined> = new ReplaySubject();
   private subscriptions!: Subscription;
 
   constructor(private zone: NgZone) {}
 
-  get onChange(): Observable<string> {
+  get onChange(): Observable<string | undefined> {
     return this.colorSubject.asObservable().pipe(
-      filter(c => c !== null),
+      filter((color: string | undefined) => color !== null),
       distinctUntilChanged()
     );
   }
@@ -22,18 +22,20 @@ export class StyleService {
   initialize() {
     this.subscriptions = new Subscription();
     this.zone.runOutsideAngular(() => {
-      this.subscriptions.add(interval(1000)
-        .pipe(
-          tap(() => {
-            const previousRgbColor = this.currentRgbColor;
-            const currentRgbColor = this.getComputedBackgroundColor(1);
-            if (previousRgbColor !== currentRgbColor) {
-              this.currentRgbColor = currentRgbColor;
-              this.colorSubject.next(currentRgbColor);
-            }
-          })
-        )
-        .subscribe());
+      this.subscriptions.add(
+        interval(1000)
+          .pipe(
+            tap(() => {
+              const previousRgbColor = this.currentRgbColor;
+              const currentRgbColor = this.getComputedBackgroundColor(1);
+              if (previousRgbColor !== currentRgbColor) {
+                this.currentRgbColor = currentRgbColor;
+                this.colorSubject.next(currentRgbColor);
+              }
+            })
+          )
+          .subscribe()
+      );
     });
   }
 
@@ -46,9 +48,8 @@ export class StyleService {
   }
 
   private getComputedBackgroundColor(opacity: number): string | undefined {
-    const matAppBackground = document.getElementsByClassName(
-      'mat-app-background'
-    );
+    const matAppBackground =
+      document.getElementsByClassName('mat-app-background');
     const matSidenavContainer = document.getElementsByTagName(
       'mat-sidenav-container'
     );

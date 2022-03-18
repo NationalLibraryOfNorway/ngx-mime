@@ -2,262 +2,236 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [13.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.0.1...v13.1.0) (2022-02-28)
-
-
-### Features
-
-* Add support for IIIF Presentation API v3.0 ([de34aff](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/de34afffa123155dca0825354867852d002e10ef))
-* change maxZoomPixelRatio to 5 ([6008c3b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6008c3bb73be13f9e1979bee6945933c92b3609c)), closes [#391](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/391)
-* hightlight text in recognize text tab ([bce6740](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bce674068e53e29b358d5d291338f2e876c9d5fc))
-* update openseadragon to v3 ([8e39d2b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8e39d2bd0e8404e47f88d448136eab0d2b5aefc9)), closes [#378](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/378)
-* zoom to current page size in dashboard mode ([5c80a28](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5c80a28e5ed7bd6f387a50915ce9ce0707fb3dd6)), closes [#388](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/388)
+### [13.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.1.0...v13.1.1) (2022-03-09)
 
 
 ### Bug Fixes
 
-* cleanup on destroy ([5e28676](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5e286769c2ce5b437bf5d203caed970d5bbb064e))
-* Modern "ios" devices report as Macintosh, so disable canvas also for Mac ([8dccd51](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8dccd518ed059e9db0403905b0fa39eac889018d))
-* npe ([846d330](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/846d33029b5e6964b0ba623db18b70d403f449f2))
+* show rotation is not supported message for non canvas devices ([701d2bf](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/701d2bf3dfd2d93b2187de59a36c6406b70d9d22))
+
+## [13.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.0.1...v13.1.0) (2022-02-28)
+
+### Features
+
+- Add support for IIIF Presentation API v3.0 ([de34aff](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/de34afffa123155dca0825354867852d002e10ef))
+- change maxZoomPixelRatio to 5 ([6008c3b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6008c3bb73be13f9e1979bee6945933c92b3609c)), closes [#391](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/391)
+- hightlight text in recognize text tab ([bce6740](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bce674068e53e29b358d5d291338f2e876c9d5fc))
+- update openseadragon to v3 ([8e39d2b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8e39d2bd0e8404e47f88d448136eab0d2b5aefc9)), closes [#378](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/378)
+- zoom to current page size in dashboard mode ([5c80a28](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5c80a28e5ed7bd6f387a50915ce9ce0707fb3dd6)), closes [#388](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/388)
+
+### Bug Fixes
+
+- cleanup on destroy ([5e28676](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5e286769c2ce5b437bf5d203caed970d5bbb064e))
+- Modern "ios" devices report as Macintosh, so disable canvas also for Mac ([8dccd51](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8dccd518ed059e9db0403905b0fa39eac889018d))
+- npe ([846d330](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/846d33029b5e6964b0ba623db18b70d403f449f2))
 
 ### [13.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.0.0...v13.0.1) (2021-12-06)
 
-
 ### Bug Fixes
 
-* peer dependencies ([4657f18](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4657f18ad0f5d4993237f6601f444b0da49777f9))
+- peer dependencies ([4657f18](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4657f18ad0f5d4993237f6601f444b0da49777f9))
 
 ## [13.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.4.0...v13.0.0) (2021-12-06)
 
-
 ### Features
 
-* angular 13 ([058cdc8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/058cdc8e041eaad69384527c19c827c2e7b7f8b7))
-
+- angular 13 ([058cdc8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/058cdc8e041eaad69384527c19c827c2e7b7f8b7))
 
 ### Bug Fixes
 
-* search dialog not filling height of dialog with scrollable content ([5581107](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5581107ee212b72ad7844bee96c273ff5691a7c5)), closes [#375](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/375)
-* search dialog title should be h1 ([9046a18](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9046a1866ebc864657e877df1a6b753ecf329473)), closes [#372](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/372)
+- search dialog not filling height of dialog with scrollable content ([5581107](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5581107ee212b72ad7844bee96c273ff5691a7c5)), closes [#375](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/375)
+- search dialog title should be h1 ([9046a18](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9046a1866ebc864657e877df1a6b753ecf329473)), closes [#372](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/372)
 
 ## [12.4.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.3.0...v12.4.0) (2021-11-16)
 
-
 ### Features
 
-* ignorePhysicalScale toggle in MimeViewerConfig ([#367](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/367)) ([1388543](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/138854312b9a5bb389c360ebbd87ec91a1b37ed3))
-
+- ignorePhysicalScale toggle in MimeViewerConfig ([#367](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/367)) ([1388543](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/138854312b9a5bb389c360ebbd87ec91a1b37ed3))
 
 ### Bug Fixes
 
-* scale highlight rectangles based on physicalScale ([f9e28a6](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f9e28a6a5a20950cb8f2ebb9fb0152857a2c7041))
-* Use SUBS_CONTENT when parsing ALTO files ([d4ece27](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d4ece279130b0b2f8097c27ec35c65dc0bee1905))
+- scale highlight rectangles based on physicalScale ([f9e28a6](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f9e28a6a5a20950cb8f2ebb9fb0152857a2c7041))
+- Use SUBS_CONTENT when parsing ALTO files ([d4ece27](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d4ece279130b0b2f8097c27ec35c65dc0bee1905))
 
 ## [12.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.8...v12.3.0) (2021-11-02)
 
-
 ### Features
 
-* openseadragon v3 support ([91d9df7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/91d9df73caec8ffdd7e5b147838d14c1f07b283e))
-
+- openseadragon v3 support ([91d9df7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/91d9df73caec8ffdd7e5b147838d14c1f07b283e))
 
 ### Bug Fixes
 
-* physicalScale ([bfb5126](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bfb5126a31cb2d7fc6006ed66642b4a6e6151b9c))
-* re-initialize subscriptions before adding ([#360](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/360)) ([1bb493d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1bb493d4c4aafecc8b5fc5fed115806fbb0d372a))
+- physicalScale ([bfb5126](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bfb5126a31cb2d7fc6006ed66642b4a6e6151b9c))
+- re-initialize subscriptions before adding ([#360](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/360)) ([1bb493d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1bb493d4c4aafecc8b5fc5fed115806fbb0d372a))
 
 ### [12.2.8](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.7...v12.2.8) (2021-09-23)
 
-
 ### Bug Fixes
 
-* double scrollbar for recognized-text ([da93d5f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/da93d5f9b579ce9ae881b48a91f3756f590e41e0)), closes [#355](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/355)
-* useCanvas set to false for iOS devices ([#358](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/358)) ([c1bb0b9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c1bb0b989d3b357ee1090d58b4b18c244579239d)), closes [#357](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/357)
+- double scrollbar for recognized-text ([da93d5f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/da93d5f9b579ce9ae881b48a91f3756f590e41e0)), closes [#355](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/355)
+- useCanvas set to false for iOS devices ([#358](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/358)) ([c1bb0b9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c1bb0b989d3b357ee1090d58b4b18c244579239d)), closes [#357](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/357)
 
 ### [12.2.7](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.6...v12.2.7) (2021-09-16)
 
 ### [12.2.6](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.3...v12.2.6) (2021-09-16)
 
-
 ### Bug Fixes
 
-* release version ([c72bad7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c72bad7))
+- release version ([c72bad7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c72bad7))
 
 ### [12.2.5](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.3...v12.2.5) (2021-09-16)
 
-
 ### Bug Fixes
 
-* release version ([c72bad7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c72bad762ef946b56af4165994dbc31763297af7))
+- release version ([c72bad7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c72bad762ef946b56af4165994dbc31763297af7))
 
 ### [12.2.4](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.3...v12.2.4) (2021-09-16)
 
-
 ### Bug Fixes
 
-* release version ([c72bad7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c72bad762ef946b56af4165994dbc31763297af7))
+- release version ([c72bad7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c72bad762ef946b56af4165994dbc31763297af7))
 
 ### [12.2.3](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.2...v12.2.3) (2021-09-16)
 
-
 ### Bug Fixes
 
-* release script ([ef3d01d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ef3d01d0b114283694ca5286ccd3ad9bcbd66593))
+- release script ([ef3d01d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ef3d01d0b114283694ca5286ccd3ad9bcbd66593))
 
 ### [12.2.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.1...v12.2.2) (2021-09-16)
 
-
 ### Bug Fixes
 
-* Traversing nested ComposeBlocks to get all TextBlocks ([#352](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/352)) ([9139c94](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9139c940301e0fe0c9d7ca4db173641311a2545e)), closes [#351](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/351)
+- Traversing nested ComposeBlocks to get all TextBlocks ([#352](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/352)) ([9139c94](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9139c940301e0fe0c9d7ca4db173641311a2545e)), closes [#351](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/351)
 
 ### [12.2.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.2.0...v12.2.1) (2021-09-15)
 
-
 ### Bug Fixes
 
-* recognized text content is not opened ([bd066f5](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bd066f574824b1411bd54341b14ece3b23dd5623)), closes [#349](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/349)
+- recognized text content is not opened ([bd066f5](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/bd066f574824b1411bd54341b14ece3b23dd5623)), closes [#349](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/349)
 
 ## [12.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.1.1...v12.2.0) (2021-09-13)
 
-
 ### Features
 
-* access key for recognized text content ([0fc3cb0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0fc3cb0603c3a5a2cdda5c702b12f403bfcc16a1))
-
+- access key for recognized text content ([0fc3cb0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0fc3cb0603c3a5a2cdda5c702b12f403bfcc16a1))
 
 ### Bug Fixes
 
-*  “extractCss is deprecated” ([88d39d8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/88d39d8171cd50ae01cbd488097d316c723d541c))
-*  karma-coverage instead of karma-coverage-istanbul-reporter ([142238a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/142238ad2df316251efd2d3fba453deb409d92c3))
-* apps is missing material typography styles ([a19294a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a19294a6f6dd61f9e5e3721b8ae54fe4907168d7))
-* **demo:** correct header size on mobile devices ([8e756aa](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8e756aa33f6955d5b503d8005d2680bf2cbcbdbc))
-* padding on top and bottom on recognized text container ([828bd67](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/828bd678167bb4876072f667424e73717758ceeb))
-* xml2js changed to peerDependency ([2331808](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/23318089ba474e4f7038a7f7d4b55c2b4dbd6a3e))
+- “extractCss is deprecated” ([88d39d8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/88d39d8171cd50ae01cbd488097d316c723d541c))
+- karma-coverage instead of karma-coverage-istanbul-reporter ([142238a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/142238ad2df316251efd2d3fba453deb409d92c3))
+- apps is missing material typography styles ([a19294a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a19294a6f6dd61f9e5e3721b8ae54fe4907168d7))
+- **demo:** correct header size on mobile devices ([8e756aa](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8e756aa33f6955d5b503d8005d2680bf2cbcbdbc))
+- padding on top and bottom on recognized text container ([828bd67](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/828bd678167bb4876072f667424e73717758ceeb))
+- xml2js changed to peerDependency ([2331808](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/23318089ba474e4f7038a7f7d4b55c2b4dbd6a3e))
 
 ### [12.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.1.0...v12.1.1) (2021-09-02)
 
-
 ### Bug Fixes
 
-* return 0 canvas groups to if speed is 0 ([#339](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/339)) ([4a3f970](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4a3f9707e2b7a5801b6956084dfc1c0be5826f62))
+- return 0 canvas groups to if speed is 0 ([#339](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/339)) ([4a3f970](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4a3f9707e2b7a5801b6956084dfc1c0be5826f62))
 
 ## [12.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v12.0.0...v12.1.0) (2021-08-26)
 
-
 ### Features
 
-* show recognized text content ([3fb5982](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3fb5982734738e478fb75a91c0ccf99566b9c33c))
-
+- show recognized text content ([3fb5982](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3fb5982734738e478fb75a91c0ccf99566b9c33c))
 
 ### Bug Fixes
 
-* wallabyjs ([4956c69](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4956c691db3db46af60eaf19f66aaecb97099389))
+- wallabyjs ([4956c69](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4956c691db3db46af60eaf19f66aaecb97099389))
 
 ## [12.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.3...v12.0.0) (2021-06-02)
 
-
 ### ⚠ BREAKING CHANGES
 
-* Upgrade to Angular v12
-feat: Migrate from TSLint to ESLint
-build: nx cloud (https://nx.app/)
-chore: update sauce-connector
+- Upgrade to Angular v12
+  feat: Migrate from TSLint to ESLint
+  build: nx cloud (https://nx.app/)
+  chore: update sauce-connector
 
 ### Features
 
-* angular 12 ([a75baf4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a75baf42e9b19e346e5fca5f993c731638343695))
-
+- angular 12 ([a75baf4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a75baf42e9b19e346e5fca5f993c731638343695))
 
 ### Bug Fixes
 
-* removed deprecated node-sass ([a3c5226](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a3c522689c8a9f08ea3cc245905ac901bfd91168))
+- removed deprecated node-sass ([a3c5226](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a3c522689c8a9f08ea3cc245905ac901bfd91168))
 
 ### [11.0.3](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.2...v11.0.3) (2021-03-31)
 
 ### [11.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.1...v11.0.2) (2021-03-31)
 
-
 ### Bug Fixes
 
-* avoid leaking generic css rules ([b5162de](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b5162de976f58d9aeb73610af5c4713fed8db5be))
-* free all OpenSeadragon resources on destroy ([b88d8c7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b88d8c7b9205fecb0c6b412c6f3db301d5cf32e9))
-* recalculate current canvas group on click outside a canvas group ([3e21034](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3e21034801f06eda782dfd8ae39edf03ab5cdb76))
-* **e2e:** disable w3c mode ([6e8eed0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6e8eed05e5d63b408e3353fa38e74157db8e0d1f))
-* setting default tileOverlap to 0.1 ([#314](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/314)) ([aefcf38](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/aefcf3899aed8228f28e356bf7ed2f9e3a31488b)), closes [#313](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/313)
+- avoid leaking generic css rules ([b5162de](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b5162de976f58d9aeb73610af5c4713fed8db5be))
+- free all OpenSeadragon resources on destroy ([b88d8c7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b88d8c7b9205fecb0c6b412c6f3db301d5cf32e9))
+- recalculate current canvas group on click outside a canvas group ([3e21034](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3e21034801f06eda782dfd8ae39edf03ab5cdb76))
+- **e2e:** disable w3c mode ([6e8eed0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6e8eed05e5d63b408e3353fa38e74157db8e0d1f))
+- setting default tileOverlap to 0.1 ([#314](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/314)) ([aefcf38](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/aefcf3899aed8228f28e356bf7ed2f9e3a31488b)), closes [#313](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/313)
 
 ### [11.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v11.0.0...v11.0.1) (2021-01-14)
 
 ## [11.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v10.1.0...v11.0.0) (2021-01-06)
 
-
 ### ⚠ BREAKING CHANGES
 
-* Update to Angular 11
+- Update to Angular 11
 
 ### Features
 
-* nx migrate to angular 11 ([ee9a326](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ee9a3262e60eddadd9305c6f26ccdab90c697f03))
+- nx migrate to angular 11 ([ee9a326](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ee9a3262e60eddadd9305c6f26ccdab90c697f03))
 
 ## [10.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v10.0.0...v10.1.0) (2020-12-08)
 
-
 ### Features
 
-* dark theme for elements ([5b03ba5](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5b03ba5ba4bdd26a4bef4ef4bc1165deb32fd338))
+- dark theme for elements ([5b03ba5](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5b03ba5ba4bdd26a4bef4ef4bc1165deb32fd338))
 
 ## [10.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.3.0...v10.0.0) (2020-11-26)
 
 ## [9.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.2.0...v9.3.0) (2020-11-26)
 
-
 ### Features
 
-* custom element ([2b43866](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2b43866d402d469c34fddebc95a332396b153835))
-* upgrade to angular 10 ([235f143](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/235f143ebbb25a633315630d3a1f828b86ecfe12))
-
+- custom element ([2b43866](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2b43866d402d469c34fddebc95a332396b153835))
+- upgrade to angular 10 ([235f143](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/235f143ebbb25a633315630d3a1f828b86ecfe12))
 
 ### Bug Fixes
 
-* highlight rotation ([a8cdfa0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a8cdfa03b644abfa8caabaf4b2417e61fadfe840)), closes [#298](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/298)
+- highlight rotation ([a8cdfa0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a8cdfa03b644abfa8caabaf4b2417e61fadfe840)), closes [#298](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/298)
 
 ## [9.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.1.0...v9.2.0) (2020-07-10)
 
-
 ### Features
 
-* page rotation ([3d0cc82](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3d0cc823a97d1b551df0b28981d0393e92b76364)), closes [#290](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/290)
-
+- page rotation ([3d0cc82](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3d0cc823a97d1b551df0b28981d0393e92b76364)), closes [#290](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/290)
 
 ### Bug Fixes
 
-* cannot read property 'focus' of null ([b268f43](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b268f435df31fe89c1361563d9562695f0d7cd81))
-* changed help label ([e480951](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e4809519afce8c79aba1859e231dc9b05f8ec2ac))
+- cannot read property 'focus' of null ([b268f43](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b268f435df31fe89c1361563d9562695f0d7cd81))
+- changed help label ([e480951](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e4809519afce8c79aba1859e231dc9b05f8ec2ac))
 
 ## [9.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.3...v9.1.0) (2020-06-04)
 
-
 ### Features
 
-* added lithuanian label translations ([649dd51](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/649dd5113d91d9a18d15c5f947ce1accb7199fab))
-* hotkey dialog ([#285](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/285)) ([fcc2f72](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fcc2f7290aa68dee9b8b9dae17ffa5f5347657dc))
-
+- added lithuanian label translations ([649dd51](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/649dd5113d91d9a18d15c5f947ce1accb7199fab))
+- hotkey dialog ([#285](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/285)) ([fcc2f72](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fcc2f7290aa68dee9b8b9dae17ffa5f5347657dc))
 
 ### Bug Fixes
 
-* avoid buttons overflowing on IE ([6555bcf](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6555bcf6b076ca4629b04d299eeb2d14d6e7f55c))
-* hotkeys ([620ed08](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/620ed0837747a1e4930989a8b5b4eb88f80848f4)), closes [#266](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/266)
+- avoid buttons overflowing on IE ([6555bcf](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6555bcf6b076ca4629b04d299eeb2d14d6e7f55c))
+- hotkeys ([620ed08](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/620ed0837747a1e4930989a8b5b4eb88f80848f4)), closes [#266](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/266)
 
 ### [9.0.3](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.2...v9.0.3) (2020-04-30)
 
-
 ### Bug Fixes
 
-* **a11y:** fix a11y in contents dialog ([#284](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/284)) ([4692be3](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4692be369d3af44363f58906f9680ca066a01be7))
-* disable next/previous canvas button in footer for single page ([815b1ab](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/815b1ab34bf2d7fdf7a148a6402ce104595baa56))
-* e2e is using wrong build step ([#280](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/280)) ([6980652](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6980652b52adc9b6780efda0559729f4f102acf8))
-* ie11 styling on attribution dialog ([#282](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/282)) ([6b4c42a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6b4c42aff7056fdd6c4ed9f2e7609330f63347fa))
-* override libs build ([#279](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/279)) ([5518a5a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5518a5a4b22423ea324d81e2a8fbc469ffc933dd))
+- **a11y:** fix a11y in contents dialog ([#284](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/284)) ([4692be3](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4692be369d3af44363f58906f9680ca066a01be7))
+- disable next/previous canvas button in footer for single page ([815b1ab](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/815b1ab34bf2d7fdf7a148a6402ce104595baa56))
+- e2e is using wrong build step ([#280](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/280)) ([6980652](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6980652b52adc9b6780efda0559729f4f102acf8))
+- ie11 styling on attribution dialog ([#282](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/282)) ([6b4c42a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6b4c42aff7056fdd6c4ed9f2e7609330f63347fa))
+- override libs build ([#279](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/279)) ([5518a5a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5518a5a4b22423ea324d81e2a8fbc469ffc933dd))
 
 ### [9.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v9.0.1...v9.0.2) (2020-04-22)
 
@@ -265,37 +239,34 @@ chore: update sauce-connector
 
 ## [9.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v8.0.0...v9.0.0) (2020-04-21)
 
-
 ### ⚠ BREAKING CHANGES
 
-* Require Angular 9
+- Require Angular 9
 
 ### Bug Fixes
 
-* shortcut keys is not working when toggling fullscreen ([#275](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/275)) ([3811f44](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3811f44))
-* use fullscreenoverlaycontainer ([#273](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/273)) ([b3e2391](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b3e2391))
-* **demo:** fixed a11y issues ([#271](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/271)) ([0d7fdfc](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0d7fdfc))
-* added 'display: none' to OSD toolbar in hidden state ([ffd8a54](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ffd8a54))
-* added aria-label for pagenavigator ([#268](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/268)) ([40deb3f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/40deb3f)), closes [#260](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/260)
-* correct aria-label for dialogclose buttons ([#267](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/267)) ([cbcd65d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/cbcd65d))
-
+- shortcut keys is not working when toggling fullscreen ([#275](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/275)) ([3811f44](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3811f44))
+- use fullscreenoverlaycontainer ([#273](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/273)) ([b3e2391](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/b3e2391))
+- **demo:** fixed a11y issues ([#271](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/271)) ([0d7fdfc](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0d7fdfc))
+- added 'display: none' to OSD toolbar in hidden state ([ffd8a54](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ffd8a54))
+- added aria-label for pagenavigator ([#268](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/268)) ([40deb3f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/40deb3f)), closes [#260](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/260)
+- correct aria-label for dialogclose buttons ([#267](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/267)) ([cbcd65d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/cbcd65d))
 
 ### Features
 
-* Added a11y feature ([644c0d4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/644c0d4))
-* upgrade to angular 9 ([#276](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/276)) ([e56d387](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e56d387))
-* **a11y:** fix attribute dialog ([ce416e4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ce416e4))
+- Added a11y feature ([644c0d4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/644c0d4))
+- upgrade to angular 9 ([#276](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/276)) ([e56d387](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e56d387))
+- **a11y:** fix attribute dialog ([ce416e4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ce416e4))
 
 ## [8.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.3.1...v8.0.0) (2019-09-17)
 
-
 ### ⚠ BREAKING CHANGES
 
-* Upgrade to angular 8
+- Upgrade to angular 8
 
 ### Features
 
-* angular 8 ([d53c673](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d53c673))
+- angular 8 ([d53c673](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d53c673))
 
 ### [7.3.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v7.3.0...v7.3.1) (2019-09-06)
 

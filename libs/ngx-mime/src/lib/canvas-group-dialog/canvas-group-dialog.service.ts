@@ -3,14 +3,13 @@ import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
+  MatDialogState,
 } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 
 @Injectable()
 export class CanvasGroupDialogService {
-  private isCanvasGroupDialogOpen = false;
-  private dialogRef: MatDialogRef<CanvasGroupDialogComponent> | null = null;
+  private dialogRef?: MatDialogRef<CanvasGroupDialogComponent>;
 
   constructor(private dialog: MatDialog) {}
 
@@ -20,29 +19,25 @@ export class CanvasGroupDialogService {
     this.close();
   }
 
-  public open(timeout?: number): void {
-    if (!this.isCanvasGroupDialogOpen) {
+  public open(): void {
+    if (!this.isOpen()) {
       const config = this.getDialogConfig();
       this.dialogRef = this.dialog.open(CanvasGroupDialogComponent, config);
-      this.dialogRef
-        .afterClosed()
-        .pipe(take(1))
-        .subscribe((result) => {
-          this.isCanvasGroupDialogOpen = false;
-        });
-      this.isCanvasGroupDialogOpen = true;
     }
   }
 
   public close(): void {
-    if (this.dialogRef) {
-      this.dialogRef.close();
-      this.isCanvasGroupDialogOpen = false;
+    if (this.isOpen()) {
+      this.dialogRef?.close();
     }
   }
 
   public toggle(): void {
-    this.isCanvasGroupDialogOpen ? this.close() : this.open();
+    this.isOpen() ? this.close() : this.open();
+  }
+
+  public isOpen(): boolean {
+    return this.dialogRef?.getState() === MatDialogState.OPEN;
   }
 
   private getDialogConfig(): MatDialogConfig {

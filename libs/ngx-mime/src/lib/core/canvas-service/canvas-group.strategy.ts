@@ -6,7 +6,8 @@ export interface AbstractCanvasGroupStrategy {
 }
 
 export class OneCanvasPerCanvasGroupStrategy
-  implements AbstractCanvasGroupStrategy {
+  implements AbstractCanvasGroupStrategy
+{
   addAll = (canvasRects: Rect[]) => {
     const canvasGroups = new CanvasGroups();
     canvasGroups.addRange(canvasRects);
@@ -19,7 +20,8 @@ export class OneCanvasPerCanvasGroupStrategy
 }
 
 export class TwoCanvasPerCanvasGroupStrategy
-  implements AbstractCanvasGroupStrategy {
+  implements AbstractCanvasGroupStrategy
+{
   addAll = (canvasRects: Rect[]) => {
     const canvasGroups = new CanvasGroups();
     // Single first page
@@ -36,7 +38,7 @@ export class TwoCanvasPerCanvasGroupStrategy
           x: Math.min(thisRect.x, nextRect.x),
           y: Math.min(thisRect.y, nextRect.y),
           height: Math.max(thisRect.height, nextRect.height),
-          width: thisRect.width + nextRect.width
+          width: thisRect.width + nextRect.width,
         });
         canvasGroups.add(groupedRect);
         canvasGroups.canvasesPerCanvasGroup.push([i, i + 1]);

@@ -8,7 +8,7 @@ import { injectedStub } from '../../testing/injected-stub';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../core/intl';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Manifest } from '../core/models/manifest';
 import { SharedModule } from '../shared/shared.module';
@@ -22,32 +22,33 @@ describe('AttributionDialogComponent', () => {
   let fixture: ComponentFixture<AttributionDialogComponent>;
   let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [AttributionDialogComponent],
-      providers: [
-        MimeViewerIntl,
-        AttributionDialogResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        {
-          provide: AccessKeysService,
-          useClass: jasmine.createSpy('accessKeysService')
-        },
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: MatDialogRef, useClass: MatDialogRefStub }
-      ]
-    });
-    TestBed.compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+        declarations: [AttributionDialogComponent],
+        providers: [
+          MimeViewerIntl,
+          AttributionDialogResizeService,
+          MimeDomHelper,
+          FullscreenService,
+          {
+            provide: AccessKeysService,
+            useClass: jasmine.createSpy('accessKeysService'),
+          },
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
+        ],
+      }).compileComponents();
+    })
+  );
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(AttributionDialogComponent);
     component = fixture.componentInstance;
     iiifManifestService = injectedStub(IiifManifestService);
     fixture.detectChanges();
-  }));
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -56,7 +57,7 @@ describe('AttributionDialogComponent', () => {
   it('should display attribution', () => {
     iiifManifestService._currentManifest.next(
       new Manifest({
-        attribution: 'This is a test attribution'
+        attribution: 'This is a test attribution',
       })
     );
 

@@ -8,7 +8,7 @@ import { CanvasServiceStub } from '../../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../intl/viewer-intl';
+import { MimeViewerIntl } from '../intl';
 import { testAlto } from './../../test/testAltos';
 import { AltoService } from './alto.service';
 
@@ -89,7 +89,9 @@ describe('AltoService', () => {
     iiifManifestService.load('fakeUrl').subscribe(() => {
       waitForDebounce();
       let errorMessage: string | undefined;
-      service.hasErrors$.subscribe((err: string) => (errorMessage = err));
+      service.hasErrors$.subscribe(
+        (err: string | undefined) => (errorMessage = err)
+      );
 
       mockFailedAltoRequest();
 

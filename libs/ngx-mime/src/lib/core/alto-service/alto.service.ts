@@ -16,7 +16,7 @@ import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { HighlightService } from '../highlight-service/highlight.service';
-import { MimeViewerIntl } from '../intl/viewer-intl';
+import { MimeViewerIntl } from '../intl';
 import { Manifest } from '../models/manifest';
 import { Alto } from './alto.model';
 import { Hit } from './../../core/models/hit';
@@ -30,7 +30,7 @@ export class AltoService {
   private recognizedTextContentToggle = new BehaviorSubject(false);
   private isLoading = new BehaviorSubject(false);
   private textContentReady = new Subject<void>();
-  private textError = new Subject<string>();
+  private textError = new Subject<string | undefined>();
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
@@ -58,7 +58,7 @@ export class AltoService {
     return this.isLoading.asObservable();
   }
 
-  get hasErrors$(): Observable<string> {
+  get hasErrors$(): Observable<string | undefined> {
     return this.textError.asObservable();
   }
 

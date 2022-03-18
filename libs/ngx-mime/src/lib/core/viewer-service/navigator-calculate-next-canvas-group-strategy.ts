@@ -1,11 +1,12 @@
 import { Direction } from '../models/direction';
 import {
   CalculateNextCanvasGroupStrategy,
-  NextCanvasGroupCriteria
+  NextCanvasGroupCriteria,
 } from './calculate-next-canvas-group-strategy';
 
 export class NavigatorCalculateNextCanvasGroupStrategy
-  implements CalculateNextCanvasGroupStrategy {
+  implements CalculateNextCanvasGroupStrategy
+{
   calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number {
     const direction = criteria.direction;
     const currentCanvasGroupIndex = criteria.currentCanvasGroupIndex;

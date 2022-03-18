@@ -38,19 +38,19 @@ export function createSvgOverlay() {
       this._node = document.createElementNS(svgNS, 'g');
       this._svg.appendChild(this._node);
 
-      this._viewer.addHandler('animation', function() {
+      this._viewer.addHandler('animation', function () {
         self.resize();
       });
 
-      this._viewer.addHandler('open', function() {
+      this._viewer.addHandler('open', function () {
         self.resize();
       });
 
-      this._viewer.addHandler('rotate', function(evt: any) {
+      this._viewer.addHandler('rotate', function (evt: any) {
         self.resize();
       });
 
-      this._viewer.addHandler('resize', function() {
+      this._viewer.addHandler('resize', function () {
         self.resize();
       });
 
@@ -100,7 +100,7 @@ export function createSvgOverlay() {
 
       new OpenSeadragon.MouseTracker({
         element: node,
-        clickHandler: handler
+        clickHandler: handler,
       }).setTracking(true);
     }
   }
@@ -108,7 +108,7 @@ export function createSvgOverlay() {
   // ----------
 
   // ----------
-  OpenSeadragon.Viewer.prototype.svgOverlay = function() {
+  OpenSeadragon.Viewer.prototype.svgOverlay = function () {
     if (this._svgOverlayInfo) {
       return this._svgOverlayInfo;
     }

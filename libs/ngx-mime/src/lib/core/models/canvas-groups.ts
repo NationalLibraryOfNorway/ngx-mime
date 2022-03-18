@@ -25,7 +25,7 @@ export class CanvasGroups {
     if (point === null) {
       return -1;
     }
-    this.canvasGroupRects.some(function(rect: Rect, index: number) {
+    this.canvasGroupRects.some(function (rect: Rect, index: number) {
       const delta = Math.abs(point.x - rect.centerX);
       if (delta >= lastDelta) {
         return true;

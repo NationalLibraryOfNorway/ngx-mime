@@ -12,7 +12,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChange,
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
@@ -28,7 +27,7 @@ import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
@@ -55,7 +54,8 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewerComponent
-  implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
+  implements OnInit, AfterViewChecked, OnDestroy, OnChanges
+{
   @Input() public manifestUri!: string;
   @Input() public q!: string;
   @Input() public canvasIndex = 0;
@@ -133,7 +133,8 @@ export class ViewerComponent
   ngOnInit(): void {
     this.styleService.initialize();
     this.modeService.initialMode = this.config.initViewerMode;
-    this.altoService.onRecognizedTextContentToggle = this.config.initRecognizedTextContentToggle;
+    this.altoService.onRecognizedTextContentToggle =
+      this.config.initRecognizedTextContentToggle;
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -216,10 +217,14 @@ export class ViewerComponent
           mode.previousValue === ViewerMode.DASHBOARD &&
           mode.currentValue === ViewerMode.PAGE
         ) {
-          this.viewerState.contentDialogState.isOpen = this.contentsDialogService.isOpen();
-          this.viewerState.contentDialogState.selectedIndex = this.contentsDialogService.getSelectedIndex();
-          this.viewerState.contentsSearchDialogState.isOpen = this.contentSearchDialogService.isOpen();
-          this.viewerState.helpDialogState.isOpen = this.helpDialogService.isOpen();
+          this.viewerState.contentDialogState.isOpen =
+            this.contentsDialogService.isOpen();
+          this.viewerState.contentDialogState.selectedIndex =
+            this.contentsDialogService.getSelectedIndex();
+          this.viewerState.contentsSearchDialogState.isOpen =
+            this.contentSearchDialogService.isOpen();
+          this.viewerState.helpDialogState.isOpen =
+            this.helpDialogService.isOpen();
           this.zone.run(() => {
             this.contentsDialogService.close();
             this.contentSearchDialogService.close();
@@ -241,16 +246,17 @@ export class ViewerComponent
             }
           });
         }
-        this.viewerModeChanged.emit(mode.currentValue);
+        this.zone.run(() => {
+          this.viewerModeChanged.emit(mode.currentValue);
+        });
       })
     );
 
     this.subscriptions.add(
       this.canvasService.onCanvasGroupIndexChange.subscribe(
         (canvasGroupIndex: number) => {
-          const canvasIndex = this.canvasService.findCanvasByCanvasIndex(
-            canvasGroupIndex
-          );
+          const canvasIndex =
+            this.canvasService.findCanvasByCanvasIndex(canvasGroupIndex);
           if (canvasIndex !== -1) {
             this.canvasChanged.emit(canvasIndex);
           }
@@ -291,56 +297,26 @@ export class ViewerComponent
         }
       )
     );
-
-    this.loadManifest();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let manifestUriIsChanged = false;
-    let qIsChanged = false;
-    let canvasIndexChanged = false;
-    if (changes['q']) {
-      const qChanges: SimpleChange = changes['q'];
-      if (
-        !qChanges.isFirstChange() &&
-        qChanges.currentValue !== qChanges.firstChange
-      ) {
-        this.q = qChanges.currentValue;
-        qIsChanged = true;
-      }
-    }
-    if (changes['canvasIndex']) {
-      const canvasIndexChanges: SimpleChange = changes['canvasIndex'];
-      if (
-        !canvasIndexChanges.isFirstChange() &&
-        canvasIndexChanges.currentValue !== canvasIndexChanges.firstChange
-      ) {
-        this.canvasIndex = canvasIndexChanges.currentValue;
-        canvasIndexChanged = true;
-      }
-    }
     if (changes['manifestUri']) {
-      const manifestUriChanges: SimpleChange = changes['manifestUri'];
-      if (!manifestUriChanges.isFirstChange()) {
-        this.cleanup();
-      }
-      if (
-        !manifestUriChanges.isFirstChange() &&
-        manifestUriChanges.currentValue !== manifestUriChanges.previousValue
-      ) {
-        this.modeService.mode = this.config.initViewerMode;
-        this.manifestUri = manifestUriChanges.currentValue;
-        manifestUriIsChanged = true;
+      this.cleanup();
+      this.modeService.mode = this.config.initViewerMode;
+      this.manifestUri = changes['manifestUri'].currentValue;
+      this.loadManifest();
+    }
+
+    if (changes['q']) {
+      this.q = changes['q'].currentValue;
+      if (this.currentManifest) {
+        this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
     }
 
-    if (manifestUriIsChanged) {
-      this.loadManifest();
-    } else {
-      if (qIsChanged && this.currentManifest) {
-        this.iiifContentSearchService.search(this.currentManifest, this.q);
-      }
-      if (canvasIndexChanged) {
+    if (changes['canvasIndex']) {
+      this.canvasIndex = changes['canvasIndex'].currentValue;
+      if (this.currentManifest) {
         this.viewerService.goToCanvas(this.canvasIndex, true);
       }
     }
@@ -412,15 +388,19 @@ export class ViewerComponent
     if (this.header && this.footer) {
       switch (mode) {
         case ViewerMode.DASHBOARD:
-          this.showHeaderAndFooterState = this.header.state = this.footer.state =
-            'show';
+          this.showHeaderAndFooterState =
+            this.header.state =
+            this.footer.state =
+              'show';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'hide';
           }
           break;
         case ViewerMode.PAGE:
-          this.showHeaderAndFooterState = this.header.state = this.footer.state =
-            'hide';
+          this.showHeaderAndFooterState =
+            this.header.state =
+            this.footer.state =
+              'hide';
           if (this.config.navigationControlEnabled && this.osdToolbar) {
             this.osdToolbar.state = 'show';
           }

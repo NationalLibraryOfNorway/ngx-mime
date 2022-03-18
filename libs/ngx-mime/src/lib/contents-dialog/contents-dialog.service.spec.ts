@@ -16,8 +16,8 @@ describe('ContentsDialogService', () => {
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
-        ContentsDialogConfigStrategyFactory
-      ]
+        ContentsDialogConfigStrategyFactory,
+      ],
     });
   });
 

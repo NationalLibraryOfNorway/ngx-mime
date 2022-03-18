@@ -14,8 +14,8 @@ import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { Hit } from '../../core/models/hit';
+import { MimeViewerIntl } from '../../core/intl';
 import { SearchResult } from '../../core/models/search-result';
 
 @Component({
@@ -83,7 +83,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       })
     );
     this.subscriptions.add(
-      this.altoService.hasErrors$.subscribe((error: string) => {
+      this.altoService.hasErrors$.subscribe((error: string | undefined) => {
         this.error = error;
         this.cdr.detectChanges();
       })

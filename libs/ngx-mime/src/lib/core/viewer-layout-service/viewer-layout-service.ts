@@ -9,9 +9,8 @@ import { ViewerLayout } from '../models/viewer-layout';
 export class ViewerLayoutService {
   private mimeConfig = new MimeViewerConfig();
   private _layout!: ViewerLayout;
-  private subject: BehaviorSubject<ViewerLayout> = new BehaviorSubject<
-    ViewerLayout
-  >(this.mimeConfig.initViewerLayout);
+  private subject: BehaviorSubject<ViewerLayout> =
+    new BehaviorSubject<ViewerLayout>(this.mimeConfig.initViewerLayout);
   constructor(private mediaObserver: MediaObserver) {}
 
   init(isPagedManifest?: boolean): void {

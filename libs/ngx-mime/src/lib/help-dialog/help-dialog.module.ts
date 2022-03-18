@@ -7,9 +7,6 @@ import { HelpDialogConfigStrategyFactory } from './help-dialog-config-strategy-f
 @NgModule({
   imports: [SharedModule],
   declarations: [HelpDialogComponent],
-  providers: [
-    HelpDialogService,
-    HelpDialogConfigStrategyFactory
-  ]
+  providers: [HelpDialogService, HelpDialogConfigStrategyFactory],
 })
 export class HelpDialogModule {}

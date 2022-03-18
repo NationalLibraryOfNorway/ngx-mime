@@ -13,7 +13,7 @@ import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
@@ -92,25 +92,27 @@ describe('ViewerComponent', function () {
           ContentSearchNavigationService,
         ],
       }).compileComponents();
-
-      testHostFixture = TestBed.createComponent(TestHostComponent);
-      comp = testHostFixture.componentInstance.viewerComponent;
-      testHostComponent = testHostFixture.componentInstance;
-      testHostComponent.manifestUri = 'dummyURI1';
-      testHostFixture.detectChanges();
-
-      viewerService = TestBed.inject(ViewerService);
-      canvasService = TestBed.inject(CanvasService);
-      modeService = TestBed.inject(ModeService);
-      mimeResizeServiceStub = injectedStub(MimeResizeService);
-      iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-      iiifManifestServiceStub = injectedStub(IiifManifestService);
-      viewerLayoutService = TestBed.inject(ViewerLayoutService);
-
-      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     })
   );
+
+  beforeEach(() => {
+    testHostFixture = TestBed.createComponent(TestHostComponent);
+    comp = testHostFixture.componentInstance.viewerComponent;
+    testHostComponent = testHostFixture.componentInstance;
+    testHostComponent.manifestUri = 'dummyURI1';
+    testHostFixture.detectChanges();
+
+    viewerService = TestBed.inject(ViewerService);
+    canvasService = TestBed.inject(CanvasService);
+    modeService = TestBed.inject(ModeService);
+    mimeResizeServiceStub = injectedStub(MimeResizeService);
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    iiifManifestServiceStub = injectedStub(IiifManifestService);
+    viewerLayoutService = TestBed.inject(ViewerLayoutService);
+
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
 
   afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
@@ -404,7 +406,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  it('should stay on same tile after a ViewerLayout change', (done: any) => {
+  it('should stay on same tile after a ViewerLayout change', (done: DoneFn) => {
     // Need to set canvasIndex on input of component to trigger previous occuring bug
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
     testHostComponent.canvasIndex = 3;

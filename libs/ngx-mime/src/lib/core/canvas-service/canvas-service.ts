@@ -10,12 +10,10 @@ import { CanvasGroupStrategyFactory } from './canvas-groups-strategy.factory';
 
 @Injectable()
 export class CanvasService {
-  protected _currentNumberOfCanvasGroups: BehaviorSubject<
-    number
-  > = new BehaviorSubject(0);
-  protected _currentCanvasGroupIndex: BehaviorSubject<
-    number
-  > = new BehaviorSubject(0);
+  protected _currentNumberOfCanvasGroups: BehaviorSubject<number> =
+    new BehaviorSubject(0);
+  protected _currentCanvasGroupIndex: BehaviorSubject<number> =
+    new BehaviorSubject(0);
 
   protected canvasGroups: CanvasGroups = new CanvasGroups();
   protected _numberOfCanvases = 0;
@@ -71,9 +69,8 @@ export class CanvasService {
   }
 
   get currentCanvasIndex(): number {
-    const canvases = this.canvasGroups.canvasesPerCanvasGroup[
-      this.currentCanvasGroupIndex
-    ]
+    const canvases =
+      this.canvasGroups.canvasesPerCanvasGroup[this.currentCanvasGroupIndex];
     return canvases && canvases.length >= 1 ? canvases[0] : 0;
   }
 
@@ -120,7 +117,7 @@ export class CanvasService {
   }
 
   findCanvasGroupByCanvasIndex(canvasIndex: number): number {
-    return this.canvasGroups.canvasesPerCanvasGroup.findIndex(function(
+    return this.canvasGroups.canvasesPerCanvasGroup.findIndex(function (
       canvasForCanvasGroup: number[]
     ) {
       return canvasForCanvasGroup.indexOf(canvasIndex) >= 0;
@@ -141,9 +138,8 @@ export class CanvasService {
       return '1';
     }
 
-    const canvasGroup = this.canvasGroups.canvasesPerCanvasGroup[
-      canvasGroupIndex
-    ];
+    const canvasGroup =
+      this.canvasGroups.canvasesPerCanvasGroup[canvasGroupIndex];
     let canvasGroupLabel = '' + (canvasGroup[0] + 1);
 
     if (canvasGroup.length > 1) {

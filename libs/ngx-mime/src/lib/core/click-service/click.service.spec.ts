@@ -11,15 +11,15 @@ describe('ClickService', () => {
     event = {
       quick: true,
       tracker: { dblClickTimeThreshold: 300 },
-      preventDefaultAction: false
+      preventDefaultAction: false,
     };
     singleClickCounter = 0;
     doubleClickCounter = 0;
     service = new ClickService();
-    service.addSingleClickHandler(e => {
+    service.addSingleClickHandler((e) => {
       singleClickCounter++;
     });
-    service.addDoubleClickHandler(e => {
+    service.addDoubleClickHandler((e) => {
       doubleClickCounter++;
     });
   });

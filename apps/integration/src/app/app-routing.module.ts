@@ -5,17 +5,19 @@ const appRoutes: Routes = [
   {
     path: 'viewer',
     loadChildren: () =>
-      import('./viewer/viewer.module').then(m => m.ViewerModule)
+      import('./viewer/viewer.module').then((m) => m.ViewerModule),
   },
   {
     path: '',
     redirectTo: 'viewer',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
+  ],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
