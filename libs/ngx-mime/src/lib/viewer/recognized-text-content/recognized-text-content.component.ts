@@ -3,8 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
@@ -13,9 +13,10 @@ import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
+import { HighlightService } from '../../core/highlight-service/highlight.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
-import { SearchResult } from '../../core/models/search-result';
 import { Hit } from '../../core/models/hit';
+import { SearchResult } from '../../core/models/search-result';
 
 @Component({
   selector: 'mime-recognized-text-content',
@@ -30,8 +31,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   secondCanvasRecognizedTextContent: SafeHtml | undefined;
   isLoading = false;
   error: string | undefined = undefined;
-  selectedHit: Hit | undefined = undefined;
-  hits: Hit[] = [];
+  selectedHit: number | undefined;
 
   private subscriptions = new Subscription();
 
@@ -41,26 +41,14 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     private canvasService: CanvasService,
     private altoService: AltoService,
     private iiifManifestService: IiifManifestService,
-    private iiifContentSearchService: IiifContentSearchService
+    private iiifContentSearchService: IiifContentSearchService,
+    private highlightService: HighlightService
   ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
-        if (hit) {
-          this.selectedHit = hit;
-          if(this.hits){
-            this.altoService.initialize(this.hits, this.selectedHit&&this.selectedHit)
-          }
-        }
-      })
-    );
-
-    this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-        this.selectedHit = undefined;
-        this.hits = sr.hits;
-        this.altoService.initialize(sr.hits, this.selectedHit&&this.selectedHit)
+        this.altoService.initialize(sr.hits);
       })
     );
 
@@ -68,6 +56,15 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       this.iiifManifestService.currentManifest.subscribe(() => {
         this.clearRecognizedText();
         this.cdr.detectChanges();
+      })
+    );
+
+    this.subscriptions.add(
+      this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
+        if (hit) {
+          this.selectedHit = hit.id;
+          this.highlightService.highlightSelectedHit(this.selectedHit);
+        }
       })
     );
 
@@ -107,10 +104,17 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
   }
 
-  private updateRecognizedText() {
+  private async updateRecognizedText() {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex
     );
+    await this.updateCanvases(canvases);
+    if (this.selectedHit) {
+      this.highlightService.highlightSelectedHit(this.selectedHit);
+    }
+  }
+
+  async updateCanvases(canvases: number[]) {
     this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
       canvases[0]
     );

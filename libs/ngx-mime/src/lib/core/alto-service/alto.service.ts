@@ -15,7 +15,7 @@ import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
-import { ContentSearchNavigationService } from './../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { HighlightService } from '../highlight-service/highlight.service';
 import { MimeViewerIntl } from '../intl/viewer-intl';
 import { Manifest } from '../models/manifest';
 import { Alto } from './alto.model';
@@ -26,7 +26,7 @@ import { HtmlFormatter } from './html.formatter';
   providedIn: 'root',
 })
 export class AltoService {
-  private altos: SafeHtml[] = [];
+  private altos: string[] = [];
   private recognizedTextContentToggle = new BehaviorSubject(false);
   private isLoading = new BehaviorSubject(false);
   private textContentReady = new Subject<void>();
@@ -35,13 +35,13 @@ export class AltoService {
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
-  private currentIndex = 0;
+  private hits: Hit[] | undefined;
 
   constructor(
     public intl: MimeViewerIntl,
     private http: HttpClient,
     private iiifManifestService: IiifManifestService,
-    private contentSearchNavigationService: ContentSearchNavigationService,
+    private highlightService: HighlightService,
     private canvasService: CanvasService,
     private sanitizer: DomSanitizer
   ) {}
@@ -70,7 +70,9 @@ export class AltoService {
     this.recognizedTextContentToggle.next(value);
   }
 
-  initialize(hits?: Hit[], selectedHit?: Hit) {
+  initialize(hits?: Hit[]) {
+    this.hits = hits;
+    this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(
@@ -86,8 +88,6 @@ export class AltoService {
       this.canvasService.onCanvasGroupIndexChange
         .pipe(debounceTime(200))
         .subscribe((currentCanvasGroupIndex: number) => {
-          this.currentIndex = this.contentSearchNavigationService.getCurrentIndex();
-          this.htmlFormatter = new HtmlFormatter(this.sanitizer, this.currentIndex, hits, selectedHit);
           this.textError.next(undefined);
           const sources: Observable<void>[] = [];
 
@@ -107,7 +107,6 @@ export class AltoService {
             .subscribe();
         })
     );
-    this.htmlFormatter = new HtmlFormatter(this.sanitizer, this.currentIndex, hits, selectedHit);
   }
 
   destroy() {
@@ -122,7 +121,9 @@ export class AltoService {
 
   getHtml(index: number): SafeHtml | undefined {
     return this.altos && this.altos.length >= index + 1
-      ? this.altos[index]
+      ? this.sanitizer.bypassSecurityTrustHtml(
+          this.highlightService.highlight(this.altos[index], index, this.hits)
+        )
       : undefined;
   }
 
