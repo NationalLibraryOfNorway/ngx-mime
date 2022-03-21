@@ -30,16 +30,12 @@ export class HighlightService {
 
   private markHtml(html: string, pattern: string, id?: number): string {
     const wordBoundary = '\\b';
-    if (html) {
       return html.replace(
         new RegExp(
           wordBoundary + this.escapeSpecialCharacters(pattern) + '(?!<)'
         ),
         `<mark data-id="${id}">$&</mark>`
       );
-    } else {
-      return '';
-    }
   }
 
     /*

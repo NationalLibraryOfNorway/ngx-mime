@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { AltoService } from '../../core/alto-service/alto.service';
@@ -66,7 +66,8 @@ describe('RecognizedTextContentComponent', () => {
     fixture.detectChanges();
     getTestScheduler().flush();
 
-    const firstCanvasRecognizedTextContentDe: DebugElement =
+    fixture.whenStable().then(() => {
+      const firstCanvasRecognizedTextContentDe: DebugElement =
       fixture.debugElement.query(
         By.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
       );
@@ -74,8 +75,7 @@ describe('RecognizedTextContentComponent', () => {
       fixture.debugElement.query(
         By.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
       );
-
-    fixture.whenStable().then(() => {
+      
       expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
         firstCanvasRecognizedTextContent
       );
