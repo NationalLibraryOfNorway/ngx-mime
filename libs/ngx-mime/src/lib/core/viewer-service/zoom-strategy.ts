@@ -55,14 +55,19 @@ export class ZoomStrategy {
   }
 
   goToHomeZoom(): void {
-    this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
+    const zoomLevel = this.getHomeZoomLevel(this.modeService.mode);
+    console.log('zoomLevel', zoomLevel);
+
+    this.zoomTo(zoomLevel);
     if (this.modeService.isPageZoomed()) {
       this.modeService.mode = ViewerMode.PAGE;
     }
   }
 
   zoomTo(level: number, position?: Point): void {
-    this.viewer.viewport.zoomTo(level, position);
+    if (level !== 0) {
+      this.viewer.viewport.zoomTo(level, position);
+    }
   }
 
   private getHomeZoomLevel(mode: ViewerMode): number {
@@ -136,6 +141,8 @@ export class ZoomStrategy {
 
   private getDashboardViewportBounds(): any {
     const homeZoomFactor = this.getHomeZoomFactor();
+    console.log('this.viewer.container.parentNode.parentNode', this.viewer.container.parentNode.parentNode);
+
     const maxViewportDimensions = new Dimensions(
       d3
         .select(this.viewer.container.parentNode.parentNode)
@@ -146,7 +153,10 @@ export class ZoomStrategy {
       maxViewportDimensions.height -
       ViewerOptions.padding.header -
       ViewerOptions.padding.footer;
-    const viewportWidth = maxViewportDimensions.width * homeZoomFactor;
+
+      const viewportWidth = maxViewportDimensions.width * homeZoomFactor;
+      console.log('maxViewportDimensions.width', maxViewportDimensions.width);
+      console.log('homeZoomFactor', homeZoomFactor);
 
     const viewportSizeInViewportCoordinates =
       this.viewer.viewport.deltaPointsFromPixels(

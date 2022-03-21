@@ -298,6 +298,7 @@ export class ViewerService {
           this.styleService
         );
       });
+      console.log(1);
 
       this.addToWindow();
       this.setupOverlays();
@@ -381,14 +382,13 @@ export class ViewerService {
   layoutPages() {
     console.log('layoutPages');
     if (this.osdIsReady.getValue()) {
-      console.log(1);
 
       const currentCanvasIndex = this.canvasService.currentCanvasIndex;
       this.destroy(true);
       this.setUpViewer(this.manifest, this.config);
       this.goToCanvasGroupStrategy.goToCanvasGroup({
         canvasGroupIndex:
-          this.canvasService.findCanvasGroupByCanvasIndex(currentCanvasIndex),
+        this.canvasService.findCanvasGroupByCanvasIndex(currentCanvasIndex),
         immediately: false,
       });
 
