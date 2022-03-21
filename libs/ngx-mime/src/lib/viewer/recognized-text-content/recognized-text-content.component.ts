@@ -3,8 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  OnInit,
   OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
@@ -69,7 +69,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.altoService.onTextContentReady$.subscribe(async() => {
+      this.altoService.onTextContentReady$.subscribe(async () => {
         this.clearRecognizedText();
         this.scrollToTop();
         await this.updateRecognizedText();

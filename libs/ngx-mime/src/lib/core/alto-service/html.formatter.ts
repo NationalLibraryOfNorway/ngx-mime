@@ -1,8 +1,6 @@
 import { Alto, String, TextLine } from './alto.model';
 
 export class HtmlFormatter {
-  constructor() {}
-
   altoToHtml(alto: Alto): string {
     const page = alto.layout.page;
     let html = '';

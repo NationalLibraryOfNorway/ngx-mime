@@ -3,13 +3,6 @@ import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
 describe('HtmlFormatter', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      providers: [],
-    });
-  });
-
   it('should format alto to html', () => {
     const alto: Alto = {
       layout: {

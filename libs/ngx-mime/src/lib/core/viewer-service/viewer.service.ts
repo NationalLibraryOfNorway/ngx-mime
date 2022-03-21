@@ -14,7 +14,6 @@ import { AltoService } from '../alto-service/alto.service';
 import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
-import { HighlightService } from '../highlight-service/highlight.service';
 import { createSvgOverlay } from '../ext/svg-overlay';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
@@ -81,7 +80,6 @@ export class ViewerService {
 
   private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
   private dragStatus = false;
-  private selectedHit: number | undefined = undefined;
 
   constructor(
     private zone: NgZone,
@@ -89,7 +87,6 @@ export class ViewerService {
     private canvasService: CanvasService,
     private modeService: ModeService,
     private viewerLayoutService: ViewerLayoutService,
-    private highlightService: HighlightService,
     private iiifContentSearchService: IiifContentSearchService,
     private styleService: StyleService,
     private altoService: AltoService,
@@ -251,8 +248,6 @@ export class ViewerService {
     this.svgNode
       .selectAll(`g > rect[mimeHitIndex='${hit.id}']`)
       .attr('class', 'hit selected');
-
-    this.selectedHit = hit.id;
   }
 
   public clearHightlight(): void {
@@ -370,8 +365,8 @@ export class ViewerService {
     this.subscriptions.add(
       this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
         if (hit) {
-          this.goToCanvas(hit.index, false);
           this.highlightCurrentHit(hit);
+          this.goToCanvas(hit.index, false);
         }
       })
     );

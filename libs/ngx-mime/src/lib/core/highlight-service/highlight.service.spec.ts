@@ -55,6 +55,7 @@ describe('HighlightService', () => {
         rects: [],
       },
     ];
+
     expect(highlightService.highlight('2) dette er en test.', 0, hits)).toEqual(
       '<mark data-id="1">2) </mark>dette er en test.'
     );
@@ -72,6 +73,7 @@ describe('HighlightService', () => {
         rects: [],
       },
     ];
+
     expect(
       highlightService.highlight('dette er en test i dag.', 0, hits)
     ).toEqual('dette er en test <mark data-id="1">i </mark>dag.');
@@ -107,6 +109,7 @@ describe('HighlightService', () => {
         rects: [],
       },
     ];
+
     expect(highlightService.highlight('dette er en test.', 0, hits)).toEqual(
       '<mark data-id="1">dette </mark><mark data-id="2">er </mark><mark data-id="3">en </mark>test.'
     );

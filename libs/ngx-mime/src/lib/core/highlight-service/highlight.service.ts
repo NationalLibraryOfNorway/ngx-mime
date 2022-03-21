@@ -5,7 +5,6 @@ import { Hit } from './../../core/models/hit';
   providedIn: 'root',
 })
 export class HighlightService {
-
   highlightSelectedHit(id: number): void {
     document.querySelector('.selectedHit')?.removeAttribute('class');
     document
@@ -30,15 +29,15 @@ export class HighlightService {
 
   private markHtml(html: string, pattern: string, id?: number): string {
     const wordBoundary = '\\b';
-      return html.replace(
-        new RegExp(
-          wordBoundary + this.escapeSpecialCharacters(pattern) + '(?!<)'
-        ),
-        `<mark data-id="${id}">$&</mark>`
-      );
+    return html.replace(
+      new RegExp(
+        wordBoundary + this.escapeSpecialCharacters(pattern) + '(?!<)'
+      ),
+      `<mark data-id="${id}">$&</mark>`
+    );
   }
 
-    /*
+  /*
         "escapeAndRegexMatch" "\\" Is a escape character used to escape special 
         characters in the regexPattern, "$&" is a back reference to the whole match.
 
