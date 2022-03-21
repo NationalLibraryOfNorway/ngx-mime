@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HighlightService } from './highlight.service';
 import { Hit } from './../../core/models/hit';
 
-fdescribe('HighlightService', () => {
+describe('HighlightService', () => {
   let highlightService: HighlightService;
 
   beforeEach(() => {

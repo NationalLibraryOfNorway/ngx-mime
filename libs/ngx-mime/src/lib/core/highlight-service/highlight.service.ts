@@ -5,6 +5,7 @@ import { Hit } from './../../core/models/hit';
   providedIn: 'root',
 })
 export class HighlightService {
+
   highlightSelectedHit(id: number): void {
     document.querySelector('.selectedHit')?.removeAttribute('class');
     document
@@ -41,7 +42,7 @@ export class HighlightService {
     }
   }
 
-  /*
+    /*
         "escapeAndRegexMatch" "\\" Is a escape character used to escape special 
         characters in the regexPattern, "$&" is a back reference to the whole match.
 

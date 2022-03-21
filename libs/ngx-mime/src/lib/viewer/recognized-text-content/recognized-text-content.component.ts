@@ -109,7 +109,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       this.canvasService.currentCanvasGroupIndex
     );
     await this.updateCanvases(canvases);
-    if (this.selectedHit) {
+    if (this.selectedHit !== undefined) {
       this.highlightService.highlightSelectedHit(this.selectedHit);
     }
   }
