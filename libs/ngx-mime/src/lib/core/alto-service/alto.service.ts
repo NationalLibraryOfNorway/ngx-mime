@@ -94,7 +94,6 @@ export class AltoService {
           const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
             currentCanvasGroupIndex
           );
-          console.log('canvasGroup', canvasGroup);
 
           if (!canvasGroup || canvasGroup.length === 0) {
             return;

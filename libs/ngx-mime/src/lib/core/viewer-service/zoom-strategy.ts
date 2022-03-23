@@ -56,7 +56,6 @@ export class ZoomStrategy {
 
   goToHomeZoom(): void {
     const zoomLevel = this.getHomeZoomLevel(this.modeService.mode);
-    console.log('zoomLevel', zoomLevel);
 
     this.zoomTo(zoomLevel);
     if (this.modeService.isPageZoomed()) {
@@ -141,7 +140,6 @@ export class ZoomStrategy {
 
   private getDashboardViewportBounds(): any {
     const homeZoomFactor = this.getHomeZoomFactor();
-    console.log('this.viewer.container.parentNode.parentNode', this.viewer.container.parentNode.parentNode);
 
     const maxViewportDimensions = new Dimensions(
       d3
@@ -154,9 +152,7 @@ export class ZoomStrategy {
       ViewerOptions.padding.header -
       ViewerOptions.padding.footer;
 
-      const viewportWidth = maxViewportDimensions.width * homeZoomFactor;
-      console.log('maxViewportDimensions.width', maxViewportDimensions.width);
-      console.log('homeZoomFactor', homeZoomFactor);
+    const viewportWidth = maxViewportDimensions.width * homeZoomFactor;
 
     const viewportSizeInViewportCoordinates =
       this.viewer.viewport.deltaPointsFromPixels(

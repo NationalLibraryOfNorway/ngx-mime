@@ -87,6 +87,9 @@ export class ViewerComponent
   private footer!: ViewerFooterComponent;
   @ViewChild('mimeOsdToolbar')
   private osdToolbar!: OsdToolbarComponent;
+  @ViewChild('openseadragon', { static: true })
+  openseadragonContainer: ElementRef | undefined;
+  private observer!: ResizeObserver;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -286,15 +289,49 @@ export class ViewerComponent
       )
     );
 
+    this.observer = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+      this.zone.run(() => {
+        const parent = entries[0].target.parentElement?.parentElement;
+        const width = Math.floor(entries[0].contentRect.width);
+        let parentWidth = 0;
+        if (parent) {
+          parentWidth = parent.offsetWidth;
+        }
+
+        if (width === parentWidth && !this.viewerService.getViewer()) {
+          console.log('closed');
+          setTimeout(() => {
+            this.viewerService.layoutPages();
+          },5000);
+        }
+      });
+    });
+
+    this.observer.observe(this.openseadragonContainer?.nativeElement);
+
+
     this.subscriptions.add(
       this.altoService.onRecognizedTextContentToggleChange$.subscribe(
         (isRecognizedTextContentToggled: RecognizedTextMode) => {
+          console.log('[ViewerComponent] onRecognizedTextContentToggleChange$', isRecognizedTextContentToggled);
+          /*
+          const t = <any>document.querySelector('mat-drawer');
+          if (t && isRecognizedTextContentToggled == RecognizedTextMode.NONE) {
+            t.style.width = '0%'
+          }
+          if (t && isRecognizedTextContentToggled == RecognizedTextMode.FULL) {
+            t.style.width = '100%'
+          }
+          if (t && isRecognizedTextContentToggled == RecognizedTextMode.RIGHT) {
+            t.style.width = '25%'
+          }
+          */
+          this.changeDetectorRef.markForCheck();
           this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
           this.recognizedTextContentToggleChanged.emit(
             isRecognizedTextContentToggled
-          );
-          this.goToHomeZoom();
-          this.changeDetectorRef.markForCheck();
+            );
+            this.goToHomeZoom();
         }
       )
     );
@@ -448,10 +485,7 @@ export class ViewerComponent
   }
 
   goToHomeZoom(): void {
-    console.log('go home start');
     if (this.isRecognizedTextContentToggled !== this.recognizedTextMode.FULL) {
-      console.log('go home');
-
       this.viewerService.goToHomeZoom();
     }
   }

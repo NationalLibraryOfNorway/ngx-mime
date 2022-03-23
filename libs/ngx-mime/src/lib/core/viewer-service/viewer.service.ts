@@ -298,8 +298,6 @@ export class ViewerService {
           this.styleService
         );
       });
-      console.log(1);
-
       this.addToWindow();
       this.setupOverlays();
       this.createOverlays();
@@ -380,8 +378,9 @@ export class ViewerService {
   }
 
   layoutPages() {
-    console.log('layoutPages');
     if (this.osdIsReady.getValue()) {
+      console.log('layoutPages');
+
 
       const currentCanvasIndex = this.canvasService.currentCanvasIndex;
       this.destroy(true);

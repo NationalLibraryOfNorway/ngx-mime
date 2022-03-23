@@ -30,7 +30,7 @@
         *ngIf="isRecognizedTextContentToggled !== recognizedTextMode.NONE"
       ></mime-recognized-text-content
     ></mat-drawer>
-    <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>
+    <mat-drawer-content><div id="openseadragon" #openseadragon></div></mat-drawer-content>
   </mat-drawer-container>
 
   <mime-viewer-footer
