@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
