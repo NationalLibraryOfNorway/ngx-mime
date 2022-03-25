@@ -127,22 +127,13 @@ describe('RecognizedTextContentComponent', () => {
   }));
 
   it('should call highlightSelectedHit in updateRecognizedText method', waitForAsync(() => {
-    const firstCanvasRecognizedTextContent =
-    '<p>fakefirstCanvasRecognizedText</p>';
-  const secondCanvasRecognizedTextContent =
-    '<p>fakeSecondRecognizedTextContent</p>';
+    component.selectedHit = 1;
     spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
       cold('x|')
       );
     spyOn(canvasService, 'getCanvasesPerCanvasGroup')
     .withArgs(0)
     .and.returnValue([0, 1]);
-    spyOn(altoService, 'getHtml')
-    .withArgs(0)
-    .and.returnValue(firstCanvasRecognizedTextContent)
-    .withArgs(1)
-    .and.returnValue(secondCanvasRecognizedTextContent)
-    .and.callThrough();
     const spy = spyOn(highlightService, 'highlightSelectedHit').and.callThrough();;
 
     fixture.detectChanges();
