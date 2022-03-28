@@ -300,9 +300,7 @@ export class ViewerComponent
 
         if (width === parentWidth && !this.viewerService.getViewer()) {
           console.log('closed');
-          setTimeout(() => {
-            this.viewerService.layoutPages();
-          },5000);
+          this.viewerService.layoutPages();
         }
       });
     });
