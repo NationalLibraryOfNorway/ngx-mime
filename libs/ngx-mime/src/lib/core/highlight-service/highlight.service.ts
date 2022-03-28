@@ -29,7 +29,7 @@ export class HighlightService {
 
   private markHtml(html: string, pattern: string, id?: number): string {
     const wordBoundary = '\\b';
-    return html.replace(
+    return html?.replace(
       new RegExp(
         wordBoundary + this.escapeSpecialCharacters(pattern) + '(?!<)'
       ),
