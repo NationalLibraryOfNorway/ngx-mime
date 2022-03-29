@@ -153,7 +153,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   showRecognizedTextContent(): void {
-    this.viewerService.minidestroy(true);
+//    this.viewerService.minidestroy(true);
+    this.viewerService.hidePages();
     this.altoService.showFull();
   }
 
@@ -169,6 +170,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   hideRecognizedTextContent(): void {
     const prev = this.altoService.onRecognizedTextContentToggle;
 
+    this.viewerService.showPages();
     this.altoService.hide();
     if (prev === RecognizedTextMode.FULL) {
       //this.viewerService.layoutPages();

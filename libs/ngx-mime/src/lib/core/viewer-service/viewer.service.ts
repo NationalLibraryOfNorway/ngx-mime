@@ -377,17 +377,35 @@ export class ViewerService {
     );
   }
 
+  hidePages() {
+    if (this.viewer) {
+      const itemCount = this.viewer.world.getItemCount();
+      for (let i = 0; i < itemCount; i++) {
+        const item = this.viewer.world.getItemAt(i);
+        item.setOpacity(0);
+      }
+    }
+  }
+
+  showPages() {
+    if (this.viewer) {
+      const itemCount = this.viewer.world.getItemCount();
+      for (let i = 0; i < itemCount; i++) {
+        const item = this.viewer.world.getItemAt(i);
+        item.setOpacity(1);
+      }
+    }
+  }
+
   layoutPages() {
     if (this.osdIsReady.getValue()) {
-      console.log('layoutPages');
-
-
+      this.zoomStrategy.goToHomeZoom();
       const currentCanvasIndex = this.canvasService.currentCanvasIndex;
       this.destroy(true);
       this.setUpViewer(this.manifest, this.config);
       this.goToCanvasGroupStrategy.goToCanvasGroup({
         canvasGroupIndex:
-        this.canvasService.findCanvasGroupByCanvasIndex(currentCanvasIndex),
+          this.canvasService.findCanvasGroupByCanvasIndex(currentCanvasIndex),
         immediately: false,
       });
 
@@ -413,16 +431,6 @@ export class ViewerService {
 
   resetKeyDownHandler() {
     this.viewer.innerTracker.keyDownHandler = this.defaultKeyDownHandler;
-  }
-
-  /**
-   *
-   * @param layoutSwitch true if switching between layouts
-   * to keep current search-state and rotation
-   */
-  minidestroy(layoutSwitch?: boolean) {
-    this.viewer.destroy();
-    this.viewer = null;
   }
 
   destroy(layoutSwitch?: boolean) {
@@ -731,6 +739,11 @@ export class ViewerService {
   createOverlays(): void {
     this.overlays = [];
     const canvasRects: Rect[] = [];
+    console.log(
+      'this.viewerLayoutService.layout',
+      this.viewerLayoutService.layout
+    );
+
     const calculateCanvasGroupPositionStrategy =
       CalculateCanvasGroupPositionFactory.create(
         this.viewerLayoutService.layout,
