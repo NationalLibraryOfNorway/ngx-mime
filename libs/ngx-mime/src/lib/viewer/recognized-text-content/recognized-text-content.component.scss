@@ -7,5 +7,11 @@
   }
 }
 ::ng-deep .selectedHit {
-  background: rgba(255, 225, 0, 0.6);
+  background: rgba(255, 138, 0, 0.61);
+  outline: 2px solid rgb(97, 52, 0);
+}
+
+::ng-deep mark {
+  background: rgba(255, 255, 0, 0.61);
+  outline: 1px solid #ff8900;
 }
