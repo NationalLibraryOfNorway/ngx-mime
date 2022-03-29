@@ -1057,6 +1057,8 @@ export class ViewerService {
   }
 
   private setOpacityOnPages(opacity: number): void {
+    console.log('setOpacityOnPages', opacity);
+
     if (this.viewer) {
       const itemCount = this.viewer.world.getItemCount();
       for (let i = 0; i < itemCount; i++) {

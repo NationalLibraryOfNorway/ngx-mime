@@ -22,7 +22,7 @@
       (openedChange)="goToHomeZoom()"
       [opened]="isRecognizedTextContentToggled !== recognizedTextMode.NONE"
       [ngClass]="{
-        open: isRecognizedTextContentToggled !== recognizedTextMode.NONE,
+        none: isRecognizedTextContentToggled === recognizedTextMode.NONE,
         full: isRecognizedTextContentToggled === recognizedTextMode.FULL,
         right: isRecognizedTextContentToggled === recognizedTextMode.RIGHT
       }"

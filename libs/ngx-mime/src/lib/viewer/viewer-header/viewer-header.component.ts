@@ -155,10 +155,10 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   toggleRecognizedTextContent(): void {
     const prev = this.altoService.onRecognizedTextContentToggle;
 
-    this.altoService.showRight();
     if (prev === RecognizedTextMode.FULL) {
-      this.viewerService.layoutPages();
+      this.viewerService.showPages();
     }
+    this.altoService.showRight();
   }
 
   showRecognizedTextContent(): void {
@@ -167,8 +167,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   hideRecognizedTextContent(): void {
-    const prev = this.altoService.onRecognizedTextContentToggle;
-
     this.viewerService.showPages();
     this.altoService.hide();
   }
