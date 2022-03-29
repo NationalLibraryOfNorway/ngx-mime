@@ -7,19 +7,19 @@ import { Hit } from './../../core/models/hit';
 @Component({
   template: `<mark data-id="1">this </mark>`,
 })
-export class MarkMock {}
+export class TestHostComponent {}
 
 describe('HighlightService', () => {
-  let component: MarkMock;
+  let component: TestHostComponent;
   let highlightService: HighlightService;
-  let fixture: ComponentFixture<MarkMock>;
+  let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [HighlightService],
     });
     highlightService = TestBed.inject(HighlightService);
-    fixture = TestBed.createComponent(MarkMock);
+    fixture = TestBed.createComponent(TestHostComponent);
     component = fixture.componentInstance;
   });
 
