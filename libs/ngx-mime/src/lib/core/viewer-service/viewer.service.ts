@@ -379,23 +379,11 @@ export class ViewerService {
   }
 
   hidePages() {
-    if (this.viewer) {
-      const itemCount = this.viewer.world.getItemCount();
-      for (let i = 0; i < itemCount; i++) {
-        const item = this.viewer.world.getItemAt(i);
-        item.setOpacity(0);
-      }
-    }
+    this.setOpacityOnPages(0);
   }
 
   showPages() {
-    if (this.viewer) {
-      const itemCount = this.viewer.world.getItemCount();
-      for (let i = 0; i < itemCount; i++) {
-        const item = this.viewer.world.getItemAt(i);
-        item.setOpacity(1);
-      }
-    }
+    this.setOpacityOnPages(1);
   }
 
   layoutPages() {
@@ -1066,6 +1054,16 @@ export class ViewerService {
     this.snackBar.open(this.intl.rotationIsNotSupported, undefined, {
       duration: 3000,
     });
+  }
+
+  private setOpacityOnPages(opacity: number): void {
+    if (this.viewer) {
+      const itemCount = this.viewer.world.getItemCount();
+      for (let i = 0; i < itemCount; i++) {
+        const item = this.viewer.world.getItemAt(i);
+        item.setOpacity(opacity);
+      }
+    }
   }
 
   private unsubscribe() {

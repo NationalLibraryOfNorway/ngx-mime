@@ -8,10 +8,10 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeDomHelper } from '../mime-dom-helper';
 import { ModeService } from '../mode-service/mode.service';
+import { RecognizedTextMode, ViewerMode } from '../models';
 import { AccessKeys } from '../models/AccessKeys';
 import { Manifest } from '../models/manifest';
 import { SearchResult } from '../models/search-result';
-import { ViewerMode } from '../models/viewer-mode';
 import { ViewingDirection } from '../models/viewing-direction';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerService } from '../viewer-service/viewer.service';
@@ -222,12 +222,21 @@ export class AccessKeysService {
     return this.modeService.isPageZoomed();
   }
 
+  private isRecognizedTextContentFull(): boolean {
+    return (
+      this.altoService.onRecognizedTextContentToggle === RecognizedTextMode.FULL
+    );
+  }
+
   private updateDisabledKeys() {
     this.resetDisabledKeys();
     if (this.contentsDialogService.isOpen()) {
       this.disableKeysForContentDialog();
     } else if (this.contentSearchDialogService.isOpen()) {
       this.diableKeysForContentSearchDialog();
+    }
+    if (this.isRecognizedTextContentFull()) {
+      this.disableKeysForRecognizedTextModeFull();
     }
   }
 
@@ -251,6 +260,13 @@ export class AccessKeysService {
       .concat(AccessKeys.toggleSearchDialogCodes)
       .concat(AccessKeys.toggleContentsDialogCodes)
       .concat(AccessKeys.toggleFullscreenCodes);
+  }
+
+  private disableKeysForRecognizedTextModeFull(): void {
+    this.disabledKeys = this.disabledKeys
+      .concat(AccessKeys.zoomInCodes)
+      .concat(AccessKeys.zoomOutCodes)
+      .concat(AccessKeys.zoomHomeCodes);
   }
 
   private resetDisabledKeys() {

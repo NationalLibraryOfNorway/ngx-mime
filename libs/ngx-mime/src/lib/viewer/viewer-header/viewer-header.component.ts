@@ -152,12 +152,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  showRecognizedTextContent(): void {
-//    this.viewerService.minidestroy(true);
-    this.viewerService.hidePages();
-    this.altoService.showFull();
-  }
-
   toggleRecognizedTextContent(): void {
     const prev = this.altoService.onRecognizedTextContentToggle;
 
@@ -167,14 +161,16 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  showRecognizedTextContent(): void {
+    this.viewerService.hidePages();
+    this.altoService.showFull();
+  }
+
   hideRecognizedTextContent(): void {
     const prev = this.altoService.onRecognizedTextContentToggle;
 
     this.viewerService.showPages();
     this.altoService.hide();
-    if (prev === RecognizedTextMode.FULL) {
-      //this.viewerService.layoutPages();
-    }
   }
 
   public toggleContents() {
