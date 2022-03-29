@@ -17,7 +17,7 @@ import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
 import { Manifest } from '../models/manifest';
-import { RecognizedTextMode } from '../models/recognized-text-mode';
+import { RecognizedTextMode } from '../models';
 import { Hit } from './../../core/models/hit';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
@@ -37,7 +37,6 @@ export class AltoService {
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
-  private recognizedTextMode = RecognizedTextMode.NONE;
 
   constructor(
     public intl: MimeViewerIntl,

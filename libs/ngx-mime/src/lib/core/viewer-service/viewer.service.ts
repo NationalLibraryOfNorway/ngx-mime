@@ -298,6 +298,7 @@ export class ViewerService {
           this.styleService
         );
       });
+
       this.addToWindow();
       this.setupOverlays();
       this.createOverlays();
@@ -399,7 +400,6 @@ export class ViewerService {
 
   layoutPages() {
     if (this.osdIsReady.getValue()) {
-      this.zoomStrategy.goToHomeZoom();
       const currentCanvasIndex = this.canvasService.currentCanvasIndex;
       this.destroy(true);
       this.setUpViewer(this.manifest, this.config);
@@ -675,9 +675,7 @@ export class ViewerService {
   }
 
   goToHomeZoom(): void {
-    if (this.zoomStrategy) {
-      this.zoomStrategy.goToHomeZoom();
-    }
+    this.zoomStrategy.goToHomeZoom();
   }
 
   /**
@@ -739,11 +737,6 @@ export class ViewerService {
   createOverlays(): void {
     this.overlays = [];
     const canvasRects: Rect[] = [];
-    console.log(
-      'this.viewerLayoutService.layout',
-      this.viewerLayoutService.layout
-    );
-
     const calculateCanvasGroupPositionStrategy =
       CalculateCanvasGroupPositionFactory.create(
         this.viewerLayoutService.layout,

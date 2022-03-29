@@ -1,6 +1,5 @@
-import { RecognizedTextMode } from './models/recognized-text-mode';
+import { RecognizedTextMode, ViewerMode } from './models';
 import { ViewerLayout } from './models/viewer-layout';
-import { ViewerMode } from './models/viewer-mode';
 
 export class MimeViewerConfig {
   public attributionDialogEnabled? = true;
