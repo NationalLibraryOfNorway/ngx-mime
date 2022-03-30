@@ -236,7 +236,7 @@ export class ViewerService {
               .attr('y', y)
               .attr('width', width)
               .attr('height', height)
-              .attr('class', this.isSafari()?'hitIOS':'hit');
+              .attr('class', 'hit');
           }
         }
       }
@@ -244,10 +244,10 @@ export class ViewerService {
   }
 
   private highlightCurrentHit(hit: Hit) {
-    this.svgNode.selectAll(`g > rect.selected`).attr('class', this.isSafari()?'hitIOS':'hit');
+    this.svgNode.selectAll(`g > rect.selected`).attr('class', 'hit');
     this.svgNode
       .selectAll(`g > rect[mimeHitIndex='${hit.id}']`)
-      .attr('class', this.isSafari()?'hit selectedIOS':'hit selected');
+      .attr('class', 'hit selected');
   }
 
   public clearHightlight(): void {
@@ -1057,21 +1057,5 @@ export class ViewerService {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();
     }
-  }
-
-  private isSafari(): boolean {
-    if (typeof navigator !== 'object') {
-      return false;
-    }
-    const userAgent = navigator.userAgent;
-    if (typeof userAgent !== 'string') {
-      return false;
-    }
-    return (
-      userAgent.indexOf('iPhone') !== -1 ||
-      userAgent.indexOf('iPad') !== -1 ||
-      userAgent.indexOf('iPod') !== -1 ||
-      userAgent.indexOf('Macintosh') !== -1
-    );
   }
 }

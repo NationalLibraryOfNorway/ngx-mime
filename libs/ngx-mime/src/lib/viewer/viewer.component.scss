@@ -68,18 +68,6 @@ mat-drawer {
   stroke: rgba(0, 0, 0, 0.45);
 }
 
-::ng-deep .viewer-container .hitIOS {
-  fill: rgba(255, 255, 0, 0.61);
-  stroke: #ff8900;
-  stroke-width: 4px;
-}
-
-::ng-deep .viewer-container .selectedIOS {
-  fill: rgba(255, 138, 0, 0.61);
-  stroke: rgb(97, 52, 0);
-  stroke-width: 4px;
-}
-
 ::ng-deep .viewer-container .hit {
   fill: #ffff00;
   stroke: #ff8900;
