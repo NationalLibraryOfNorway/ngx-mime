@@ -22,6 +22,7 @@ import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-man
 import { MimeViewerIntl } from './../../core/intl';
 import { IconComponent } from './icon/icon.component';
 import { ViewerHeaderComponent } from './viewer-header.component';
+import { ViewMenuComponent } from './view-menu/view-menu.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { ViewerHeaderComponent } from './viewer-header.component';
     ContentSearchDialogModule,
     HelpDialogModule,
   ],
-  declarations: [ViewerHeaderComponent, IconComponent],
+  declarations: [ViewerHeaderComponent, IconComponent, ViewMenuComponent],
   exports: [ViewerHeaderComponent],
   providers: [
     MimeViewerIntl,

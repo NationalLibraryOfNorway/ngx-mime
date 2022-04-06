@@ -5,6 +5,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { Overlay } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,14 +19,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AltoService } from '../../core/alto-service/alto.service';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
-import { RecognizedTextMode } from '../../core/models/recognized-text-mode';
-import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerOptions } from '../../core/models/viewer-options';
-import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
-import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
@@ -32,6 +29,7 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
+import { ViewMenuComponent } from './view-menu/view-menu.component';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -68,6 +66,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   mimeHeaderBefore!: ViewContainerRef;
   @ViewChild('mimeHeaderAfter', { read: ViewContainerRef, static: true })
   mimeHeaderAfter!: ViewContainerRef;
+  @ViewChild('viewMenu', { read: ElementRef, static: true })
+  viewMenu!: ElementRef;
   public manifest: Manifest | null = null;
   public state = 'hide';
   isContentSearchEnabled = false;
@@ -75,10 +75,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   isInFullscreen = false;
   fullscreenLabel = this.intl.fullScreenLabel;
   isPagedManifest = false;
-  hasRecognizedTextContent = false;
-  viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
 
-  ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
   private subscriptions = new Subscription();
 
   constructor(
@@ -90,10 +87,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
-    private viewerLayoutService: ViewerLayoutService,
-    private altoService: AltoService,
-    private viewerService: ViewerService,
-    el: ElementRef
+    el: ElementRef,
+    private overlay: Overlay
   ) {
     contentsDialogService.el = el;
     contentSearchDialogService.el = el;
@@ -131,18 +126,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
           this.isPagedManifest = manifest
             ? ManifestUtils.isManifestPaged(manifest)
             : false;
-          this.hasRecognizedTextContent = manifest
-            ? ManifestUtils.hasRecognizedTextContent(manifest)
-            : false;
           this.changeDetectorRef.detectChanges();
-        }
-      )
-    );
-
-    this.subscriptions.add(
-      this.viewerLayoutService.onChange.subscribe(
-        (viewerLayout: ViewerLayout) => {
-          this.viewerLayout = viewerLayout;
         }
       )
     );
@@ -152,23 +136,27 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  toggleRecognizedTextContent(): void {
-    const prev = this.altoService.onRecognizedTextContentToggle;
+  openViewMenu() {
+    const positionStrategy = this.overlay
+      .position()
+      .flexibleConnectedTo(this.viewMenu)
+      .withPositions([
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+      ]);
 
-    if (prev === RecognizedTextMode.FULL) {
-      this.viewerService.showPages();
-    }
-    this.altoService.showRight();
-  }
-
-  showRecognizedTextContent(): void {
-    this.viewerService.hidePages();
-    this.altoService.showFull();
-  }
-
-  hideRecognizedTextContent(): void {
-    this.viewerService.showPages();
-    this.altoService.hide();
+    const overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      positionStrategy: positionStrategy,
+    });
+    const viewMenuPortal = new ComponentPortal(ViewMenuComponent);
+    overlayRef.attach(viewMenuPortal);
+    overlayRef.backdropClick().subscribe(() => overlayRef.detach());
   }
 
   public toggleContents() {
@@ -195,17 +183,5 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public isInFullScreen(): boolean {
     return this.fullscreenService.isFullscreen();
-  }
-
-  public toggleViewerLayout(): void {
-    this.viewerLayoutService.toggle();
-  }
-
-  public setLayoutOnePage(): void {
-    this.viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
-  }
-
-  public setLayoutTwoPage(): void {
-    this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
   }
 }

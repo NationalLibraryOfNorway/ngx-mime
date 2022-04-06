@@ -14,6 +14,7 @@ import { CanvasGroupNavigatorComponent } from './viewer/viewer-footer/canvas-gro
 import { ContentSearchNavigatorComponent } from './viewer/viewer-footer/content-search-navigator/content-search-navigator.component';
 import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.component';
 import { IconComponent } from './viewer/viewer-header/icon/icon.component';
+import { ViewMenuComponent } from './viewer/viewer-header/view-menu/view-menu.component';
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer/viewer.component';
@@ -28,6 +29,7 @@ import { ViewerComponent } from './viewer/viewer.component';
     CanvasGroupNavigatorComponent,
     ViewerSpinnerComponent,
     IconComponent,
+    ViewMenuComponent,
     RecognizedTextContentComponent,
   ],
   imports: [

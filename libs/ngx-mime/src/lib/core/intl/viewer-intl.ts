@@ -10,10 +10,13 @@ export class MimeViewerIntl {
   closeLabel = 'Close';
   attributionLabel = 'Attribution';
   attributonCloseAriaLabel = 'Close attribution dialog';
-  recognizedTextContentLabel = 'Recognized text';
   contentsLabel = 'Contents';
+  layoutMenuLabel = 'Layout'
   twoPageViewLabel = 'Two page display';
   singlePageViewLabel = 'Single page display';
+  hideRecognizedTextContentLabel = 'Hide recognized text';
+  recognizedTextContentInSideNavLabel = 'Show recognized text';
+  showRecognizedTextContentLabel = 'Show only recognized text';
   metadataLabel = 'Metadata';
   licenseLabel = 'License';
   tocLabel = 'Table of Contents';
