@@ -142,17 +142,24 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
       .flexibleConnectedTo(this.viewMenu)
       .withPositions([
         {
+          originX: 'center',
+          originY: 'bottom',
+          overlayX: 'center',
+          overlayY: 'top',
+        },
+        {
           originX: 'start',
           originY: 'bottom',
           overlayX: 'start',
           overlayY: 'top',
-        },
+        }
       ]);
 
     const overlayRef = this.overlay.create({
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
       positionStrategy: positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
     });
     const viewMenuPortal = new ComponentPortal(ViewMenuComponent);
     overlayRef.attach(viewMenuPortal);

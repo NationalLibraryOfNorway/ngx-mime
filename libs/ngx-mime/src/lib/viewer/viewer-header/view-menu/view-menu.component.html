@@ -1,15 +1,6 @@
-<div class="mat-menu-panel" fxLayout="column">
+<div class="mat-menu-panel ngx-mime-view-menu-container" fxLayout="column">
+  <mat-toolbar>Page</mat-toolbar>
   <mat-button-toggle-group [value]="viewerLayout">
-    <mat-button-toggle
-      *ngIf="isPagedManifest"
-      id="twoPageViewButton"
-      [attr.aria-label]="intl.twoPageViewLabel"
-      [matTooltip]="intl.twoPageViewLabel"
-      [value]="ViewerLayout.TWO_PAGE"
-      (click)="setLayoutTwoPage()"
-    >
-      <mime-icon [iconName]="'two_page_display'"> </mime-icon>
-    </mat-button-toggle>
     <mat-button-toggle
       *ngIf="isPagedManifest"
       id="singlePageViewButton'"
@@ -20,10 +11,20 @@
     >
       <mime-icon [iconName]="'single_page_display'"> </mime-icon>
     </mat-button-toggle>
-  </mat-button-toggle-group>
-  <mat-button-toggle-group [value]="recognizedTextMode">
     <mat-button-toggle
-      *ngIf="hasRecognizedTextContent"
+      *ngIf="isPagedManifest"
+      id="twoPageViewButton"
+      [attr.aria-label]="intl.twoPageViewLabel"
+      [matTooltip]="intl.twoPageViewLabel"
+      [value]="ViewerLayout.TWO_PAGE"
+      (click)="setLayoutTwoPage()"
+    >
+      <mime-icon [iconName]="'two_page_display'"> </mime-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  <mat-toolbar *ngIf="hasRecognizedTextContent">Text</mat-toolbar>
+  <mat-button-toggle-group *ngIf="hasRecognizedTextContent" [value]="recognizedTextMode">
+    <mat-button-toggle
       mat-icon-button
       data-test-id="ngx-mimeRecognizedTextContentButton"
       [attr.aria-label]="intl.showRecognizedTextContentLabel"
@@ -34,7 +35,6 @@
       <mat-icon>article</mat-icon>
     </mat-button-toggle>
     <mat-button-toggle
-      *ngIf="hasRecognizedTextContent"
       mat-icon-button
       data-test-id="ngx-mimeRecognizedTextContentButton"
       [attr.aria-label]="intl.recognizedTextContentInSideNavLabel"
@@ -45,14 +45,13 @@
       <mat-icon>view_sidebar</mat-icon>
     </mat-button-toggle>
     <mat-button-toggle
-      *ngIf="hasRecognizedTextContent"
       mat-icon-button
       [attr.aria-label]="intl.hideRecognizedTextContentLabel"
       [matTooltip]="intl.hideRecognizedTextContentLabel"
       [value]="RecognizedTextMode.NONE"
       (click)="hideRecognizedTextContent()"
     >
-      <mat-icon>clear_all</mat-icon>
+      <mat-icon>hide_source</mat-icon>
     </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
