@@ -54,7 +54,7 @@ Given('a right-to-left publication with {int} pages', async (pages: number) => {
 });
 
 Given(
-  'the viewer is opened with a publication with the word "Gjallarhorn" 45 times inside',
+  'the viewer is opened with a publication with the word "africa" 7 times inside',
   async () => {
     await viewerPage.open();
   }

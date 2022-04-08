@@ -25,11 +25,12 @@ import { ContentSearchNavigationService } from '../../../core/navigation/content
 export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   @Input() searchResult!: SearchResult;
   public isHitOnActiveCanvasGroup = false;
-  public isFirstCanvasGroupHit = false;
-  public isLastCanvasGroupHit = false;
-  public currentIndex = 0;
   invert = false;
   private subscriptions = new Subscription();
+
+  public isFirstHit = false;
+  public isLastHit = false;
+  public currentHit = 0;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -42,6 +43,13 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.contentSearchNavigationService.initialize();
+    this.subscriptions.add(
+      this.contentSearchNavigationService.currentHitCounter.subscribe((n) => {
+        this.isFirstHit = n <= 0;
+        this.isLastHit = n === this.searchResult.size() - 1;
+        this.currentHit = n;
+      })
+    );
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
@@ -61,14 +69,8 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
       this.canvasService.onCanvasGroupIndexChange.subscribe(
         (canvasGroupIndex) => {
           this.contentSearchNavigationService.update(canvasGroupIndex);
-          this.currentIndex =
-            this.contentSearchNavigationService.getCurrentIndex();
           this.isHitOnActiveCanvasGroup =
             this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
-          this.isFirstCanvasGroupHit =
-            this.contentSearchNavigationService.getFirstHitCanvasGroup();
-          this.isLastCanvasGroupHit =
-            this.contentSearchNavigationService.getLastHitCanvasGroup();
           this.changeDetectorRef.detectChanges();
         }
       )
@@ -84,11 +86,11 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
     this.iiifContentSearchService.destroy();
   }
 
-  goToPreviousCanvasGroupHit() {
-    this.contentSearchNavigationService.goToPreviousCanvasGroupHit();
+  goToNextHit() {
+    this.contentSearchNavigationService.goToNextHit();
   }
 
-  goToNextCanvasGroupHit() {
-    this.contentSearchNavigationService.goToNextCanvasGroupHit();
+  goToPreviousHit() {
+    this.contentSearchNavigationService.goToPreviousHit();
   }
 }

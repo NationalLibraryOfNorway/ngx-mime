@@ -79,7 +79,7 @@ export class ContentSearchPage {
   async getNumberOfHits() {
     await utils.waitForPresenceOf(this.numberOfHitsEl);
     const value = await this.numberOfHitsEl.getAttribute('value');
-    return parseInt(value, 8);
+    return parseInt(value, 10);
   }
 
   getHits(): ElementArrayFinder {
@@ -131,7 +131,7 @@ export class ContentSearchPage {
       await utils.waitForElement(
         element(
           by.css(
-            `.openseadragon-canvas [mimeHitIndex="${index}"][.hit.selected]`
+            `.openseadragon-canvas .hit.selected[mimeHitIndex="${index}"]`
           )
         )
       );

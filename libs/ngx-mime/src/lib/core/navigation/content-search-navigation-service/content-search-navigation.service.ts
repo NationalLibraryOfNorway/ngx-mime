@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from '../../models/search-result';
 import { Hit } from '../../models/hit';
-import { Subscription } from 'rxjs';
+import { SearchResult } from '../../models/search-result';
 
 @Injectable()
 export class ContentSearchNavigationService {
   private currentIndex = 0;
+  private lastHitIndex = 0;
   private isHitOnActiveCanvasGroup = false;
-  private _isFirstHitOnCanvasGroup = false;
-  private _isLastHitOnCanvasGroup = false;
+  private currentHit: Hit | null = null;
   private canvasesPerCanvasGroup = [-1];
   private searchResult: SearchResult | null = null;
   private subscriptions!: Subscription;
+  private _currentHitCounter$: Subject<number> = new BehaviorSubject<number>(0);
 
   constructor(
     private canvasService: CanvasService,
@@ -29,6 +31,7 @@ export class ContentSearchNavigationService {
       this.iiifContentSearchService.onChange.subscribe(
         (result: SearchResult) => {
           this.searchResult = result;
+          this.currentHit = null;
         }
       )
     );
@@ -42,99 +45,113 @@ export class ContentSearchNavigationService {
     this.canvasesPerCanvasGroup =
       this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
     this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
+    this.lastHitIndex = this.findLastHitIndex(this.canvasesPerCanvasGroup);
     this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
-    this._isFirstHitOnCanvasGroup = this.isFirstHitOnCanvasGroup();
-    this._isLastHitOnCanvasGroup = this.findLastHitOnCanvasGroup();
+    this._currentHitCounter$.next(this.updateCurrentHitCounter());
   }
 
-  getCurrentIndex(): number {
-    return this.currentIndex;
+  get currentHitCounter(): Observable<number> {
+    return this._currentHitCounter$.pipe(distinctUntilChanged())
+  }
+
+  private updateCurrentHitCounter(): number {
+    if (this.isCurrentHitOnCurrentCanvasGroup()) {
+      if (this.currentHit) {
+        return this.currentHit.id;
+      }
+    }
+    if (this.isHitOnActiveCanvasGroup) {
+      return this.currentIndex;
+    } else {
+      return this.lastHitIndex;
+    }
   }
 
   getHitOnActiveCanvasGroup(): boolean {
     return this.isHitOnActiveCanvasGroup;
   }
 
-  getFirstHitCanvasGroup(): boolean {
-    return this._isFirstHitOnCanvasGroup;
+  goToNextHit() {
+    if (this.isCurrentHitOnCurrentCanvasGroup()) {
+      this.goToNextCurrentCanvasHit();
+    } else {
+      this.goToNextCanvasHit();
+    }
   }
 
-  getLastHitCanvasGroup(): boolean {
-    return this._isLastHitOnCanvasGroup;
+  goToPreviousHit() {
+    if (this.isCurrentHitOnCurrentCanvasGroup()) {
+      this.goToPreviousCurrentCanvasHit();
+    } else {
+      this.goToPreviousCanvasHit();
+    }
   }
 
-  goToNextCanvasGroupHit() {
-    if (this.searchResult && !this._isLastHitOnCanvasGroup) {
+  selected(hit: Hit): void {
+    this.currentHit = hit;
+    this._currentHitCounter$.next(this.currentHit.id);
+    this.currentIndex = this.currentHit.index;
+    this.iiifContentSearchService.selected(hit);
+  }
+
+  private goToNextCurrentCanvasHit() {
+    if (this.searchResult && this.currentHit) {
+      const currentHitId = this.currentHit.id;
+      console.log('currentHitId', currentHitId);
+      console.log('srlength', this.searchResult.hits.length);
+      if (currentHitId < this.searchResult.hits.length-1) {
+        this.selected(this.searchResult.hits[currentHitId + 1]);
+      }
+    }
+  }
+
+  private goToPreviousCurrentCanvasHit() {
+    if (this.searchResult && this.currentHit) {
+      const currentHitId = this.currentHit.id;
+      if (currentHitId > 0) {
+        this.selected(this.searchResult.hits[this.currentHit.id - 1]);
+      }
+    }
+  }
+
+  private goToNextCanvasHit() {
+    if (this.searchResult) {
       let nextHit: Hit | undefined;
       if (this.currentIndex === -1) {
         nextHit = this.searchResult.get(0);
       } else {
-        const current = this.searchResult.get(this.currentIndex);
-        const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(
-          current.index
-        );
-        const canvasesPerCanvasGroup =
-          this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
-        const lastCanvasGroupIndex = this.getLastCanvasGroupIndex(
-          canvasesPerCanvasGroup
-        );
-        nextHit = this.searchResult.hits.find(
-          (h) => h.index > lastCanvasGroupIndex
-        );
+        if (this.isHitOnActiveCanvasGroup) {
+          nextHit = this.searchResult.hits.find((hit) => hit.id === this.currentIndex);
+        } else {
+          const current = this.searchResult.get(this.currentIndex);
+          const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(
+            current.index
+          );
+          const canvasesPerCanvasGroup =
+            this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
+          const lastCanvasGroupIndex = this.getLastCanvasGroupIndex(
+            canvasesPerCanvasGroup
+          );
+          nextHit = this.searchResult.hits.find(
+            (h) => h.index > lastCanvasGroupIndex
+          );
+        }
       }
       if (nextHit) {
-        this.goToCanvasIndex(nextHit);
+        this.selected(nextHit);
       }
     }
   }
 
-  goToPreviousCanvasGroupHit() {
-    const previousIndex = this.isHitOnActiveCanvasGroup
-      ? this.currentIndex - 1
-      : this.currentIndex;
-    const previousHit = this.findFirstHitOnCanvasGroup(previousIndex);
-    if (previousHit) {
-      this.goToCanvasIndex(previousHit);
-    }
-  }
+  private goToPreviousCanvasHit() {
+    if (this.searchResult) {
+      if (this.isHitOnActiveCanvasGroup) {
+        this.selected(this.searchResult.hits[this.currentIndex]);
+      } else {
+        this.selected(this.searchResult.hits[this.lastHitIndex]);
+      }
 
-  private goToCanvasIndex(hit: Hit): void {
-    this.currentIndex = this.findCurrentHitIndex([hit.index]);
-    this.iiifContentSearchService.selected(hit);
-  }
-
-  private findLastHitOnCanvasGroup(): boolean {
-    if (!this.searchResult) {
-      return false;
     }
-    const lastCanvasIndex = this.searchResult.get(
-      this.searchResult.size() - 1
-    ).index;
-    const currentHit = this.searchResult.get(this.currentIndex);
-    return currentHit.index === lastCanvasIndex;
-  }
-
-  private findFirstHitOnCanvasGroup(previousIndex: number): Hit | undefined {
-    if (!this.searchResult) {
-      return;
-    }
-    let previousHit: Hit | undefined = this.searchResult.get(previousIndex);
-    const canvasGroupIndex = this.canvasService.findCanvasGroupByCanvasIndex(
-      previousHit.index
-    );
-    const canvasesPerCanvasGroup =
-      this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-    const leftCanvas = canvasesPerCanvasGroup[0];
-    const leftCanvasHit = this.searchResult.hits.find(
-      (h) => h.index === leftCanvas
-    );
-    if (leftCanvasHit) {
-      previousHit = leftCanvasHit;
-    } else if (canvasesPerCanvasGroup.length === 2) {
-      const rightCanvas = canvasesPerCanvasGroup[1];
-      previousHit = this.searchResult.hits.find((h) => h.index === rightCanvas);
-    }
-    return previousHit;
   }
 
   private findHitOnActiveCanvasGroup(): boolean {
@@ -172,13 +189,32 @@ export class ContentSearchNavigationService {
     return this.searchResult.size() - 1;
   }
 
-  private isFirstHitOnCanvasGroup() {
-    return this.currentIndex <= 0;
+  private findLastHitIndex(canvasGroupIndexes: number[]): number {
+    if (!this.searchResult) {
+      return -1;
+    }
+    const hits = this.searchResult.hits.filter(
+      (hit) => hit.index < canvasGroupIndexes[0]
+    );
+    return hits.length > 0 ? hits[hits.length-1].id : -1 ;
   }
 
   private getLastCanvasGroupIndex(canvasesPerCanvasGroup: number[]) {
     return canvasesPerCanvasGroup.length === 1
       ? canvasesPerCanvasGroup[0]
       : canvasesPerCanvasGroup[1];
+  }
+
+  private isCurrentHitOnCurrentCanvasGroup(): boolean {
+    if (this.currentHit) {
+      const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(
+        this.canvasService.currentCanvasIndex
+      );
+      const canvasesPerCanvasGroup =
+        this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
+      return canvasesPerCanvasGroup.indexOf(this.currentHit.index) !== -1;
+    } else {
+      return false;
+    }
   }
 }

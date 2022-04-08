@@ -1,8 +1,9 @@
 const { Given, When, Then } = require('cucumber');
 const { expect } = require('chai');
 
+import { ElementFinder } from 'protractor';
 import { ViewerPage } from '../pages/viewer.po';
-import { ContentSearchPage } from './../pages/content-search.po';
+import { ContentSearchPage } from '../pages/content-search.po';
 
 const page = new ViewerPage();
 const contentSearchPage = new ContentSearchPage();
@@ -57,15 +58,16 @@ When('the user click the search inputs clear button', async () => {
 });
 
 Then('there are {word} results found', async (numberOfHits: string) => {
-  const expected = numberOfHits === 'no' ? 0 : parseInt(numberOfHits, 8);
+  const expected = numberOfHits === 'no' ? 0 : parseInt(numberOfHits, 10);
   const hits = await contentSearchPage.getNumberOfHits();
   expect(hits).to.equal(expected);
 });
 
 Then('the word {string} should be highlighted', async (term: string) => {
-  const hits = await contentSearchPage.getHits();
-  const firstHit = await hits[0].getAttribute('innerHTML');
-  expect(firstHit).to.contains(`${term} </em>`);
+  const firstHit: ElementFinder = contentSearchPage.getHit(0);
+  const hitText = await firstHit.$('em').getText();
+
+  expect(hitText.toLowerCase()).to.contains(`${term.toLowerCase()}`);
 });
 
 Then(
@@ -73,12 +75,22 @@ Then(
   async (hit: string) => {
     const currentPageString = await page.getCurrentCanvasGroupLabel();
     if (hit === '1') {
-      expect(currentPageString.includes('25')).to.eql(true);
+      expect(currentPageString.includes('7')).to.eql(true);
     } else if (hit === '3') {
-      expect(currentPageString.includes('29')).to.eql(true);
+      expect(currentPageString.includes('20')).to.eql(true);
+    } else if (hit === '5' || hit === '6') {
+      expect(currentPageString.includes('38')).to.eql(true);
     }
   }
 );
+
+Then(
+  'hit number {word} should be highlighted',
+  async (hit: string) => {
+    const hitIndex = parseInt(hit, 10) - 1;
+    expect(await contentSearchPage.isSelected(hitIndex)).to.eql(true);
+  }
+)
 
 Then('all highlighting should be removed', async () => {
   const hits = await contentSearchPage.getHighlighted();
@@ -139,6 +151,10 @@ async function hitStringToHitIndex(hit: string): Promise<number> {
   } else if ('last' === hit) {
     const hits = await contentSearchPage.getHits();
     index = hits.length - 1;
+  } else if ('fifth' === hit) {
+    index = 4;
+  } else if ('sixth' === hit) {
+    index = 5;
   } else {
     try {
       index = parseInt(hit, 10);
