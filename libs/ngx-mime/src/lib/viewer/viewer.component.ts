@@ -12,7 +12,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChange,
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
@@ -247,7 +246,9 @@ export class ViewerComponent
             }
           });
         }
-        this.viewerModeChanged.emit(mode.currentValue);
+        this.zone.run(() => {
+          this.viewerModeChanged.emit(mode.currentValue);
+        });
       })
     );
 
@@ -296,56 +297,26 @@ export class ViewerComponent
         }
       )
     );
-
-    this.loadManifest();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let manifestUriIsChanged = false;
-    let qIsChanged = false;
-    let canvasIndexChanged = false;
-    if (changes['q']) {
-      const qChanges: SimpleChange = changes['q'];
-      if (
-        !qChanges.isFirstChange() &&
-        qChanges.currentValue !== qChanges.firstChange
-      ) {
-        this.q = qChanges.currentValue;
-        qIsChanged = true;
-      }
-    }
-    if (changes['canvasIndex']) {
-      const canvasIndexChanges: SimpleChange = changes['canvasIndex'];
-      if (
-        !canvasIndexChanges.isFirstChange() &&
-        canvasIndexChanges.currentValue !== canvasIndexChanges.firstChange
-      ) {
-        this.canvasIndex = canvasIndexChanges.currentValue;
-        canvasIndexChanged = true;
-      }
-    }
     if (changes['manifestUri']) {
-      const manifestUriChanges: SimpleChange = changes['manifestUri'];
-      if (!manifestUriChanges.isFirstChange()) {
-        this.cleanup();
-      }
-      if (
-        !manifestUriChanges.isFirstChange() &&
-        manifestUriChanges.currentValue !== manifestUriChanges.previousValue
-      ) {
-        this.modeService.mode = this.config.initViewerMode;
-        this.manifestUri = manifestUriChanges.currentValue;
-        manifestUriIsChanged = true;
+      this.cleanup();
+      this.modeService.mode = this.config.initViewerMode;
+      this.manifestUri = changes['manifestUri'].currentValue;
+      this.loadManifest();
+    }
+
+    if (changes['q']) {
+      this.q = changes['q'].currentValue;
+      if (this.currentManifest) {
+        this.iiifContentSearchService.search(this.currentManifest, this.q);
       }
     }
 
-    if (manifestUriIsChanged) {
-      this.loadManifest();
-    } else {
-      if (qIsChanged && this.currentManifest) {
-        this.iiifContentSearchService.search(this.currentManifest, this.q);
-      }
-      if (canvasIndexChanged) {
+    if (changes['canvasIndex']) {
+      this.canvasIndex = changes['canvasIndex'].currentValue;
+      if (this.currentManifest) {
         this.viewerService.goToCanvas(this.canvasIndex, true);
       }
     }

@@ -6,3 +6,6 @@
     padding: 1em 1em;
   }
 }
+::ng-deep .selectedHit {
+  background: rgba(255, 225, 0, 0.6);
+}
