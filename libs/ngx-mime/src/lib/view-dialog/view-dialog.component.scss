@@ -1,0 +1,16 @@
+::ng-deep .view-panel {
+  max-width: none !important;
+}
+
+::ng-deep .view-panel > .mat-dialog-container {
+  padding: 0px !important;
+  overflow: initial;
+}
+
+section {
+  padding: 16px 0 16px 24px;
+}
+
+.label {
+  margin-left: 16px;
+}

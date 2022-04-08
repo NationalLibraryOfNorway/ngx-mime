@@ -18,22 +18,22 @@ import { SharedModule } from '../../shared/shared.module';
 import { AltoServiceStub } from '../../test/alto-service-stub';
 import { FullscreenServiceStub } from '../../test/fullscreen-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
+import { ViewDialogModule } from '../../view-dialog/view-dialog.module';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
-import { IconComponent } from './icon/icon.component';
 import { ViewerHeaderComponent } from './viewer-header.component';
-import { ViewMenuComponent } from './view-menu/view-menu.component';
 
 @NgModule({
   imports: [
     NoopAnimationsModule,
     SharedModule,
     ContentsDialogModule,
+    ViewDialogModule,
     HttpClientModule,
     ContentSearchDialogModule,
     HelpDialogModule,
   ],
-  declarations: [ViewerHeaderComponent, IconComponent, ViewMenuComponent],
+  declarations: [ViewerHeaderComponent],
   exports: [ViewerHeaderComponent],
   providers: [
     MimeViewerIntl,

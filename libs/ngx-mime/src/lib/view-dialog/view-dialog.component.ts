@@ -1,20 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
-import { MimeViewerIntl, RecognizedTextMode } from '../../../..';
-import { AltoService } from '../../../core/alto-service/alto.service';
-import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
-import { ManifestUtils } from '../../../core/iiif-manifest-service/iiif-manifest-utils';
-import { Manifest } from '../../../core/models/manifest';
-import { ViewerLayout } from '../../../core/models/viewer-layout';
-import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
-import { ViewerService } from '../../../core/viewer-service/viewer.service';
+import { RecognizedTextMode } from '../..';
+import { AltoService } from '../core/alto-service/alto.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
+import { MimeViewerIntl } from '../core/intl';
+import { Manifest } from '../core/models/manifest';
+import { ViewerLayout } from '../core/models/viewer-layout';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ViewerService } from '../core/viewer-service/viewer.service';
 
 @Component({
-  selector: 'mime-view-menu',
-  templateUrl: './view-menu.component.html',
-  styleUrls: ['./view-menu.component.scss'],
+  selector: 'mime-search',
+  templateUrl: './view-dialog.component.html',
+  styleUrls: ['./view-dialog.component.scss'],
 })
-export class ViewMenuComponent implements OnInit, OnDestroy {
+export class ViewDialogComponent implements OnInit, OnDestroy {
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
   ViewerLayout: typeof ViewerLayout = ViewerLayout;
   isPagedManifest = false;
@@ -24,6 +26,7 @@ export class ViewMenuComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
+    public mediaObserver: MediaObserver,
     public intl: MimeViewerIntl,
     private viewerLayoutService: ViewerLayoutService,
     private iiifManifestService: IiifManifestService,

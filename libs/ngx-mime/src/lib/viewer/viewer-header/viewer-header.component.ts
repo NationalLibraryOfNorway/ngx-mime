@@ -5,8 +5,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Overlay } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -23,13 +21,13 @@ import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-ut
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
+import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
-import { ViewMenuComponent } from './view-menu/view-menu.component';
 
 @Component({
   selector: 'mime-viewer-header',
@@ -83,16 +81,17 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
+    private viewDialogService: ViewDialogService,
     private helpDialogService: HelpDialogService,
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
-    el: ElementRef,
-    private overlay: Overlay
+    el: ElementRef
   ) {
     contentsDialogService.el = el;
     contentSearchDialogService.el = el;
     helpDialogService.el = el;
+    viewDialogService.el = el;
   }
 
   @HostBinding('@headerState')
@@ -136,49 +135,29 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  openViewMenu() {
-    const positionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo(this.viewMenu)
-      .withPositions([
-        {
-          originX: 'center',
-          originY: 'bottom',
-          overlayX: 'center',
-          overlayY: 'top',
-        },
-        {
-          originX: 'start',
-          originY: 'bottom',
-          overlayX: 'start',
-          overlayY: 'top',
-        }
-      ]);
-
-    const overlayRef = this.overlay.create({
-      hasBackdrop: true,
-      backdropClass: 'cdk-overlay-transparent-backdrop',
-      positionStrategy: positionStrategy,
-      scrollStrategy: this.overlay.scrollStrategies.reposition(),
-    });
-    const viewMenuPortal = new ComponentPortal(ViewMenuComponent);
-    overlayRef.attach(viewMenuPortal);
-    overlayRef.backdropClick().subscribe(() => overlayRef.detach());
+  public toggleView() {
+    this.contentsDialogService.close();
+    this.contentSearchDialogService.close();
+    this.helpDialogService.close();
+    this.viewDialogService.toggle();
   }
 
   public toggleContents() {
+    this.viewDialogService.close();
     this.contentSearchDialogService.close();
     this.helpDialogService.close();
     this.contentsDialogService.toggle();
   }
 
   public toggleSearch() {
+    this.viewDialogService.close();
     this.contentsDialogService.close();
     this.helpDialogService.close();
     this.contentSearchDialogService.toggle();
   }
 
   public toggleHelp() {
+    this.viewDialogService.close();
     this.contentsDialogService.close();
     this.contentSearchDialogService.close();
     this.helpDialogService.toggle();

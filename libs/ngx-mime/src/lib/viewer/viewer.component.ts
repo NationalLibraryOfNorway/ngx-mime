@@ -41,6 +41,7 @@ import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
@@ -94,6 +95,7 @@ export class ViewerComponent
     public intl: MimeViewerIntl,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
+    private viewDialogService: ViewDialogService,
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
@@ -112,6 +114,7 @@ export class ViewerComponent
   ) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
+    viewDialogService.el = el;
     contentSearchDialogService.el = el;
     helpDialogService.el = el;
     resizeService.el = el;
@@ -218,6 +221,8 @@ export class ViewerComponent
           mode.previousValue === ViewerMode.DASHBOARD &&
           mode.currentValue === ViewerMode.PAGE
         ) {
+          this.viewerState.viewDialogState.isOpen =
+            this.viewDialogService.isOpen();
           this.viewerState.contentDialogState.isOpen =
             this.contentsDialogService.isOpen();
           this.viewerState.contentDialogState.selectedIndex =
@@ -227,6 +232,7 @@ export class ViewerComponent
           this.viewerState.helpDialogState.isOpen =
             this.helpDialogService.isOpen();
           this.zone.run(() => {
+            this.viewDialogService.close();
             this.contentsDialogService.close();
             this.contentSearchDialogService.close();
             this.helpDialogService.close();
@@ -234,6 +240,9 @@ export class ViewerComponent
         }
         if (mode.currentValue === ViewerMode.DASHBOARD) {
           this.zone.run(() => {
+            if (this.viewerState.viewDialogState.isOpen) {
+              this.viewDialogService.open();
+            }
             if (this.viewerState.contentDialogState.isOpen) {
               this.contentsDialogService.open(
                 this.viewerState.contentDialogState.selectedIndex
@@ -422,6 +431,7 @@ export class ViewerComponent
   private initialize() {
     this.accessKeysHandlerService.initialize();
     this.attributionDialogService.initialize();
+    this.viewDialogService.initialize();
     this.contentsDialogService.initialize();
     this.contentSearchDialogService.initialize();
     this.helpDialogService.initialize();
@@ -432,6 +442,7 @@ export class ViewerComponent
     this.viewerState = new ViewerState();
     this.accessKeysHandlerService.destroy();
     this.attributionDialogService.destroy();
+    this.viewDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
     this.helpDialogService.destroy();

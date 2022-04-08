@@ -12,11 +12,13 @@ export class MimeViewerIntl {
   attributonCloseAriaLabel = 'Close attribution dialog';
   contentsLabel = 'Contents';
   layoutMenuLabel = 'View'
-  twoPageViewLabel = 'Two page';
-  singlePageViewLabel = 'Single page';
-  hideRecognizedTextContentLabel = 'Hide';
+  pageLayoutLabel = "Page layout";
+  singlePageViewLabel = 'Single pages';
+  twoPageViewLabel = 'Two pages';
+  digitalTextLabel = "Digital text";
+  hideRecognizedTextContentLabel = 'None';
   recognizedTextContentInSideNavLabel = 'Split';
-  showRecognizedTextContentLabel = 'All';
+  showRecognizedTextContentLabel = 'Digital text only';
   metadataLabel = 'Metadata';
   licenseLabel = 'License';
   tocLabel = 'Table of Contents';

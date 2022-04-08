@@ -7,18 +7,18 @@ import {
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
-import { ContentsDialogComponent } from './contents-dialog.component';
+import { ViewDialogConfigStrategyFactory } from './view-dialog-config-strategy-factory';
+import { ViewDialogComponent } from './view-dialog.component';
 
 @Injectable()
-export class ContentsDialogService {
+export class ViewDialogService {
   private _el: ElementRef | null = null;
-  private dialogRef?: MatDialogRef<ContentsDialogComponent>;
+  private dialogRef?: MatDialogRef<ViewDialogComponent>;
   private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
-    private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
+    private contentSearchDialogConfigStrategyFactory: ViewDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService
   ) {}
 
@@ -35,7 +35,7 @@ export class ContentsDialogService {
     );
   }
 
-  public destroy() {
+  public destroy(): void {
     this.close();
     this.unsubscribe();
   }
@@ -44,14 +44,10 @@ export class ContentsDialogService {
     this._el = el;
   }
 
-  public open(selectedIndex?: number): void {
+  public open(): void {
     if (!this.isOpen()) {
       const config = this.getDialogConfig();
-      this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
-
-      if (selectedIndex) {
-        this.dialogRef.componentInstance.selectedIndex = selectedIndex;
-      }
+      this.dialogRef = this.dialog.open(ViewDialogComponent, config);
     }
   }
 
@@ -69,15 +65,8 @@ export class ContentsDialogService {
     return this.dialogRef?.getState() === MatDialogState.OPEN;
   }
 
-  public getSelectedIndex(): number {
-    return this.dialogRef?.componentInstance?.selectedIndex ?? 0;
-  }
-
   private getDialogConfig(): MatDialogConfig {
-    if (!this._el) {
-      throw new Error('No element');
-    }
-    return this.contentsDialogConfigStrategyFactory
+    return this.contentSearchDialogConfigStrategyFactory
       .create()
       .getConfig(this._el);
   }
