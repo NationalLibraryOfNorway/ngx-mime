@@ -195,16 +195,10 @@ export class ViewerService {
         for (const rect of hit.rects) {
           const canvasRect = this.canvasService.getCanvasRect(hit.index);
           if (canvasRect) {
-            //let width = rect.width;
-           // let height = rect.height;
-         //   let x = canvasRect.x;
-           // let y = canvasRect.y;
-
             let width = rect.width + 8;
             let height = rect.height + 8;
             let x = canvasRect.x - 4;
             let y = canvasRect.y - 4;
-
 
             /* hit rect are relative to each unrotated page canvasRect so x,y must be adjusted by the remaining space */
             switch (rotation) {
