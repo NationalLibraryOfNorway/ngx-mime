@@ -241,11 +241,11 @@ export class ViewerService {
   }
 
   private highlightCurrentHit() {
-    if(this.currentHit){
+    if (this.currentHit) {
       this.svgNode.selectAll(`g > rect.selected`).attr('class', 'hit');
       this.svgNode
-      .selectAll(`g > rect[mimeHitIndex='${this.currentHit.id}']`)
-      .attr('class', 'hit selected');
+        .selectAll(`g > rect[mimeHitIndex='${this.currentHit.id}']`)
+        .attr('class', 'hit selected');
     }
   }
 
