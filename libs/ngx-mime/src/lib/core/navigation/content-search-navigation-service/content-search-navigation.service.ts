@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { CanvasService } from '../../canvas-service/canvas-service';
@@ -16,7 +16,7 @@ export class ContentSearchNavigationService {
   private canvasesPerCanvasGroup = [-1];
   private searchResult: SearchResult | null = null;
   private subscriptions!: Subscription;
-  private _currentHitCounter$: Subject<number> = new BehaviorSubject<number>(0);
+  private _currentHitCounter$: Subject<number> = new Subject<number>();
 
   constructor(
     private canvasService: CanvasService,
@@ -42,12 +42,12 @@ export class ContentSearchNavigationService {
   }
 
   update(canvasGroupIndex: number) {
-    this.canvasesPerCanvasGroup =
-      this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-    this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
-    this.lastHitIndex = this.findLastHitIndex(this.canvasesPerCanvasGroup);
-    this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
-    this._currentHitCounter$.next(this.updateCurrentHitCounter());
+      this.canvasesPerCanvasGroup =
+        this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+      this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
+      this.lastHitIndex = this.findLastHitIndex(this.canvasesPerCanvasGroup);
+      this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
+      this._currentHitCounter$.next(this.updateCurrentHitCounter());
   }
 
   get currentHitCounter(): Observable<number> {
@@ -97,8 +97,6 @@ export class ContentSearchNavigationService {
   private goToNextCurrentCanvasHit() {
     if (this.searchResult && this.currentHit) {
       const currentHitId = this.currentHit.id;
-      console.log('currentHitId', currentHitId);
-      console.log('srlength', this.searchResult.hits.length);
       if (currentHitId < this.searchResult.hits.length-1) {
         this.selected(this.searchResult.hits[currentHitId + 1]);
       }

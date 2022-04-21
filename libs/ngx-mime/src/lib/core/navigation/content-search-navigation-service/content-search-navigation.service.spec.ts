@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
@@ -57,49 +57,57 @@ describe('ContentSearchNavigationService', () => {
     expect(contentSearchNavigationService).toBeTruthy();
   });
 
-  it('should go to next hit', async () => {
+  it('should go to next hit', waitForAsync(() => {
     contentSearchNavigationService.update(6);
-    contentSearchNavigationService.goToNextHit();
+
     contentSearchNavigationService.currentHitCounter.subscribe((hitId) => {
       expect(hitId).toBe(6);
     });
-  });
 
-  it('should go to previous hit', async () => {
+    contentSearchNavigationService.goToNextHit();
+  }));
+
+  it('should go to previous hit', waitForAsync(() => {
     contentSearchNavigationService.update(6);
-    contentSearchNavigationService.goToPreviousHit();
+
     contentSearchNavigationService.currentHitCounter.subscribe((index) => {
       expect(index).toBe(5);
     });
-  });
 
-  it('should return -1 if canvasIndex is before first hit', () => {
-    contentSearchNavigationService.update(0);
+    contentSearchNavigationService.goToPreviousHit();
+  }));
+
+  it('should return -1 if canvasIndex is before first hit', waitForAsync(() => {
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(-1);
-    })
-  });
+    });
 
-  it('should return 0 if canvasIndex is on first hit', () => {
-    contentSearchNavigationService.update(1);
+    contentSearchNavigationService.update(0);
+  }));
+
+  it('should return 0 if canvasIndex is on first hit', waitForAsync(() => {
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(0);
-    })
-  });
+    });
 
-  it('should return 5 if canvasIndex is between 5th and 6th hit', () => {
-    contentSearchNavigationService.update(6);
+    contentSearchNavigationService.update(1);
+  }));
+
+  it('should return 5 if canvasIndex is between 5th and 6th hit', waitForAsync(() => {
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(5);
-    })
-  });
+    });
 
-  it('should return 6 if canvasIndex is after last', () => {
-    contentSearchNavigationService.update(10);
+    contentSearchNavigationService.update(6);
+  }));
+
+  it('should return 6 if canvasIndex is after last', waitForAsync(() => {
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(6);
-    })
-  });
+    });
+
+    contentSearchNavigationService.update(10);
+  }));
 
   function createCanvasGroups(): Rect[] {
     const canvasGroups: Rect[] = [];
