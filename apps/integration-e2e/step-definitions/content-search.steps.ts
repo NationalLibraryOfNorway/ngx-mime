@@ -85,9 +85,9 @@ Then(
 );
 
 Then(
-  'hit number {word} should be highlighted',
-  async (hit: string) => {
-    const hitIndex = parseInt(hit, 10) - 1;
+  'hit number {int} should be highlighted',
+  async (hit: number) => {
+    const hitIndex = hit - 1;
     expect(await contentSearchPage.isSelected(hitIndex)).to.eql(true);
   }
 )
