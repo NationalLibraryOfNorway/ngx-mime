@@ -240,11 +240,13 @@ export class ViewerService {
     }
   }
 
-  private highlightCurrentHit(hit: Hit) {
-    this.svgNode.selectAll(`g > rect.selected`).attr('class', 'hit');
-    this.svgNode
-      .selectAll(`g > rect[mimeHitIndex='${hit.id}']`)
+  private highlightCurrentHit() {
+    if(this.currentHit){
+      this.svgNode.selectAll(`g > rect.selected`).attr('class', 'hit');
+      this.svgNode
+      .selectAll(`g > rect[mimeHitIndex='${this.currentHit.id}']`)
       .attr('class', 'hit selected');
+    }
   }
 
   public clearHightlight(): void {
@@ -363,7 +365,7 @@ export class ViewerService {
       this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
         if (hit) {
           this.currentHit = hit;
-          this.highlightCurrentHit(hit);
+          this.highlightCurrentHit();
           this.goToCanvas(hit.index, false);
         }
       })
@@ -493,7 +495,7 @@ export class ViewerService {
     if (this.osdIsReady.getValue()) {
       if (this.viewer.useCanvas) {
         this.rotateToRight();
-        this.currentHit && this.highlightCurrentHit(this.currentHit);
+        this.highlightCurrentHit();
       } else {
         this.showRotationIsNotSupportetMessage();
       }
