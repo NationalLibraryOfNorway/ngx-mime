@@ -64,7 +64,7 @@ export class ViewerService {
 
   private currentCenter: Subject<Point> = new Subject();
   private currentCanvasIndex: BehaviorSubject<number> = new BehaviorSubject(0);
-  private currentHit = new Subject<Hit>();
+  private currentHit: Hit | null = null;
   private osdIsReady = new BehaviorSubject<boolean>(false);
   private swipeDragEndCounter = new SwipeDragEndCounter();
   private canvasGroupMask!: CanvasGroupMask;
@@ -104,10 +104,6 @@ export class ViewerService {
 
   get onCanvasGroupIndexChange(): Observable<number> {
     return this.currentCanvasIndex.asObservable().pipe(distinctUntilChanged());
-  }
-
-  get onHitChange(): Observable<Hit> {
-    return this.currentHit.asObservable().pipe(distinctUntilChanged());
   }
 
   get onOsdReadyChange(): Observable<boolean> {
@@ -195,10 +191,11 @@ export class ViewerService {
         for (const rect of hit.rects) {
           const canvasRect = this.canvasService.getCanvasRect(hit.index);
           if (canvasRect) {
-            let width = rect.width + 8;
-            let height = rect.height + 8;
-            let x = canvasRect.x - 4;
-            let y = canvasRect.y - 4;
+            let currentHitStrokeOffset = 8;
+            let width = rect.width + currentHitStrokeOffset;
+            let height = rect.height + currentHitStrokeOffset;
+            let x = canvasRect.x - currentHitStrokeOffset / 2;
+            let y = canvasRect.y - currentHitStrokeOffset / 2;
 
             /* hit rect are relative to each unrotated page canvasRect so x,y must be adjusted by the remaining space */
             switch (rotation) {
@@ -211,8 +208,8 @@ export class ViewerService {
                 x += canvasRect.width - rect.y - rect.height;
                 y += rect.x;
                 /* Flip height & width */
-                width = rect.height + 8;
-                height = rect.width + 8;
+                width = rect.height + currentHitStrokeOffset;
+                height = rect.width + currentHitStrokeOffset;
                 break;
 
               case 180:
@@ -224,8 +221,8 @@ export class ViewerService {
                 x += rect.y;
                 y += canvasRect.height - rect.x - rect.width;
                 /* Flip height & width */
-                width = rect.height + 8;
-                height = rect.width + 8;
+                width = rect.height + currentHitStrokeOffset;
+                height = rect.width + currentHitStrokeOffset;
                 break;
             }
 
@@ -365,6 +362,7 @@ export class ViewerService {
     this.subscriptions.add(
       this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
         if (hit) {
+          this.currentHit = hit;
           this.highlightCurrentHit(hit);
           this.goToCanvas(hit.index, false);
         }
@@ -495,6 +493,7 @@ export class ViewerService {
     if (this.osdIsReady.getValue()) {
       if (this.viewer.useCanvas) {
         this.rotateToRight();
+        this.currentHit && this.highlightCurrentHit(this.currentHit);
       } else {
         this.showRotationIsNotSupportetMessage();
       }
