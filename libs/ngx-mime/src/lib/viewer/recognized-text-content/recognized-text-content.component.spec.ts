@@ -45,7 +45,7 @@ describe('RecognizedTextContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show recognized text', () => {
+  it('should show recognized text', waitForAsync(() => {
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
     const secondCanvasRecognizedTextContent =
@@ -79,7 +79,7 @@ describe('RecognizedTextContentComponent', () => {
     expect(secondCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
       secondCanvasRecognizedTextContent
     );
-  });
+  }));
 
   it('should show error message', () => {
     spyOnProperty(altoService, 'hasErrors$').and.returnValue(
