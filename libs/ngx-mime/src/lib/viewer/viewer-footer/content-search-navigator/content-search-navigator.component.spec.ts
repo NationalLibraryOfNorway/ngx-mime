@@ -107,9 +107,11 @@ describe('ContentSearchNavigatorComponent', () => {
           expect(
             contentSearchNavigationService.goToPreviousHit
           ).toHaveBeenCalledTimes(1);
-          contentSearchNavigationService.currentHitCounter.subscribe((hitIndex) => {
-            expect(hitIndex).toBe(0);
-          });
+          contentSearchNavigationService.currentHitCounter.subscribe(
+            (hitIndex) => {
+              expect(hitIndex).toBe(0);
+            }
+          );
         });
       })
     );
@@ -117,10 +119,7 @@ describe('ContentSearchNavigatorComponent', () => {
     it(
       'should go to first hit if current canvas is 0 and user presses next hit button',
       waitForAsync(() => {
-        spyOn(
-          contentSearchNavigationService,
-          'goToNextHit'
-        ).and.callThrough();
+        spyOn(contentSearchNavigationService, 'goToNextHit').and.callThrough();
         canvasService.setCanvasGroupIndexChange(0);
         fixture.detectChanges();
 
@@ -129,9 +128,11 @@ describe('ContentSearchNavigatorComponent', () => {
           expect(
             contentSearchNavigationService.goToNextHit
           ).toHaveBeenCalledTimes(1);
-          contentSearchNavigationService.currentHitCounter.subscribe((hitIndex) => {
-            expect(hitIndex).toBe(0);
-          });
+          contentSearchNavigationService.currentHitCounter.subscribe(
+            (hitIndex) => {
+              expect(hitIndex).toBe(0);
+            }
+          );
         });
       })
     );

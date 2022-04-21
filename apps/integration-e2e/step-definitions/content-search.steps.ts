@@ -84,13 +84,10 @@ Then(
   }
 );
 
-Then(
-  'hit number {int} should be highlighted',
-  async (hit: number) => {
-    const hitIndex = hit - 1;
-    expect(await contentSearchPage.isSelected(hitIndex)).to.eql(true);
-  }
-)
+Then('hit number {int} should be highlighted', async (hit: number) => {
+  const hitIndex = hit - 1;
+  expect(await contentSearchPage.isSelected(hitIndex)).to.eql(true);
+});
 
 Then('all highlighting should be removed', async () => {
   const hits = await contentSearchPage.getHighlighted();

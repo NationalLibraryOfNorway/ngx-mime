@@ -42,16 +42,16 @@ export class ContentSearchNavigationService {
   }
 
   update(canvasGroupIndex: number) {
-      this.canvasesPerCanvasGroup =
-        this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
-      this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
-      this.lastHitIndex = this.findLastHitIndex(this.canvasesPerCanvasGroup);
-      this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
-      this._currentHitCounter$.next(this.updateCurrentHitCounter());
+    this.canvasesPerCanvasGroup =
+      this.canvasService.getCanvasesPerCanvasGroup(canvasGroupIndex);
+    this.currentIndex = this.findCurrentHitIndex(this.canvasesPerCanvasGroup);
+    this.lastHitIndex = this.findLastHitIndex(this.canvasesPerCanvasGroup);
+    this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
+    this._currentHitCounter$.next(this.updateCurrentHitCounter());
   }
 
   get currentHitCounter(): Observable<number> {
-    return this._currentHitCounter$.pipe(distinctUntilChanged())
+    return this._currentHitCounter$.pipe(distinctUntilChanged());
   }
 
   private updateCurrentHitCounter(): number {
@@ -97,7 +97,7 @@ export class ContentSearchNavigationService {
   private goToNextCurrentCanvasHit() {
     if (this.searchResult && this.currentHit) {
       const currentHitId = this.currentHit.id;
-      if (currentHitId < this.searchResult.hits.length-1) {
+      if (currentHitId < this.searchResult.hits.length - 1) {
         this.selected(this.searchResult.hits[currentHitId + 1]);
       }
     }
@@ -119,7 +119,9 @@ export class ContentSearchNavigationService {
         nextHit = this.searchResult.get(0);
       } else {
         if (this.isHitOnActiveCanvasGroup) {
-          nextHit = this.searchResult.hits.find((hit) => hit.id === this.currentIndex);
+          nextHit = this.searchResult.hits.find(
+            (hit) => hit.id === this.currentIndex
+          );
         } else {
           const current = this.searchResult.get(this.currentIndex);
           const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(
@@ -148,7 +150,6 @@ export class ContentSearchNavigationService {
       } else {
         this.selected(this.searchResult.hits[this.lastHitIndex]);
       }
-
     }
   }
 
@@ -194,7 +195,7 @@ export class ContentSearchNavigationService {
     const hits = this.searchResult.hits.filter(
       (hit) => hit.index < canvasGroupIndexes[0]
     );
-    return hits.length > 0 ? hits[hits.length-1].id : -1 ;
+    return hits.length > 0 ? hits[hits.length - 1].id : -1;
   }
 
   private getLastCanvasGroupIndex(canvasesPerCanvasGroup: number[]) {

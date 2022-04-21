@@ -130,9 +130,7 @@ export class ContentSearchPage {
     try {
       await utils.waitForElement(
         element(
-          by.css(
-            `.openseadragon-canvas .hit.selected[mimeHitIndex="${index}"]`
-          )
+          by.css(`.openseadragon-canvas .hit.selected[mimeHitIndex="${index}"]`)
         )
       );
       return true;
