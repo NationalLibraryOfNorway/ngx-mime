@@ -191,7 +191,7 @@ export class ViewerService {
         for (const rect of hit.rects) {
           const canvasRect = this.canvasService.getCanvasRect(hit.index);
           if (canvasRect) {
-            let currentHitStrokeOffset = 8;
+            const currentHitStrokeOffset = 8;
             let width = rect.width + currentHitStrokeOffset;
             let height = rect.height + currentHitStrokeOffset;
             let x = canvasRect.x - currentHitStrokeOffset / 2;
