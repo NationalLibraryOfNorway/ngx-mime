@@ -78,11 +78,14 @@ mat-drawer {
 }
 
 ::ng-deep .viewer-container .hit {
-  fill: rgba(255, 255, 0, 0.6);
+  fill: #ffff00;
+  mix-blend-mode: multiply;
 }
 
 ::ng-deep .viewer-container .selected {
-  fill: rgba(255, 225, 0, 0.6);
+  fill: #ff8900;
+  stroke: rgb(97, 52, 0);
+  stroke-width: 4px;
 }
 
 .navbar {

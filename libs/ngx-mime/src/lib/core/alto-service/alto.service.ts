@@ -15,6 +15,7 @@ import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
+import { HighlightService } from '../highlight-service/highlight.service';
 import { MimeViewerIntl } from '../intl';
 import { Manifest } from '../models/manifest';
 import { RecognizedTextMode } from '../models';
@@ -26,7 +27,7 @@ import { HtmlFormatter } from './html.formatter';
   providedIn: 'root',
 })
 export class AltoService {
-  private altos: SafeHtml[] = [];
+  private altos: string[] = [];
   private recognizedTextContentToggle = new BehaviorSubject(
     RecognizedTextMode.NONE
   );
@@ -37,11 +38,13 @@ export class AltoService {
   private subscriptions = new Subscription();
   private altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
+  private hits: Hit[] | undefined;
 
   constructor(
     public intl: MimeViewerIntl,
     private http: HttpClient,
     private iiifManifestService: IiifManifestService,
+    private highlightService: HighlightService,
     private canvasService: CanvasService,
     private sanitizer: DomSanitizer
   ) {}
@@ -71,7 +74,8 @@ export class AltoService {
   }
 
   initialize(hits?: Hit[]) {
-    this.htmlFormatter = new HtmlFormatter(this.sanitizer, hits);
+    this.hits = hits;
+    this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
 
     this.subscriptions.add(
@@ -138,7 +142,9 @@ export class AltoService {
 
   getHtml(index: number): SafeHtml | undefined {
     return this.altos && this.altos.length >= index + 1
-      ? this.altos[index]
+      ? this.sanitizer.bypassSecurityTrustHtml(
+          this.highlightService.highlight(this.altos[index], index, this.hits)
+        )
       : undefined;
   }
 

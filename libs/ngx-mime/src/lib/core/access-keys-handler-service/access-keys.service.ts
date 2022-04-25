@@ -141,11 +141,11 @@ export class AccessKeysService {
   }
 
   private goToNextHit() {
-    this.contentSearchNavigationService.goToNextCanvasGroupHit();
+    this.contentSearchNavigationService.goToNextHit();
   }
 
   private goToPreviousHit() {
-    this.contentSearchNavigationService.goToPreviousCanvasGroupHit();
+    this.contentSearchNavigationService.goToPreviousHit();
   }
 
   private zoomIn() {

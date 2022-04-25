@@ -6,3 +6,11 @@
     padding: 1em 1em;
   }
 }
+::ng-deep .selectedHit {
+  background: rgba(255, 137, 0, 0.61);
+  outline: 2px solid rgb(97, 52, 0);
+}
+
+::ng-deep mark {
+  background: rgba(255, 255, 0, 0.61);
+}
