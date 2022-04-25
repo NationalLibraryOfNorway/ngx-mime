@@ -24,13 +24,13 @@ import { ContentSearchNavigationService } from '../../../core/navigation/content
 })
 export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   @Input() searchResult!: SearchResult;
-  public isHitOnActiveCanvasGroup = false;
+  isHitOnActiveCanvasGroup = false;
+  isFirstHit = false;
+  isLastHit = false;
+  currentHit = 0;
   invert = false;
   private subscriptions = new Subscription();
 
-  public isFirstHit = false;
-  public isLastHit = false;
-  public currentHit = 0;
 
   constructor(
     public intl: MimeViewerIntl,
