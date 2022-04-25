@@ -8,6 +8,8 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CanvasService } from '../core/canvas-service/canvas-service';
+import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { injectedStub } from '../../testing/injected-stub';
 import { Hit } from '../core/models/hit';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
@@ -46,6 +48,8 @@ describe('ContentSearchDialogComponent', () => {
           MimeResizeService,
           MimeDomHelper,
           FullscreenService,
+          ContentSearchNavigationService,
+          CanvasService,
           { provide: MatDialogRef, useClass: MatDialogRefStub },
           { provide: ViewerService, useClass: ViewerServiceStub },
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },

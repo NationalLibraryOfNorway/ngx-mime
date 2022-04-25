@@ -11,12 +11,12 @@ import {
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../core/intl';
-import { MimeDomHelper } from './../core/mime-dom-helper';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { Dimensions } from './../core/models/dimensions';
 import { Hit } from './../core/models/hit';
@@ -53,7 +53,8 @@ export class ContentSearchDialogComponent
     public mediaObserver: MediaObserver,
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
-    private iiifContentSearchService: IiifContentSearchService
+    private iiifContentSearchService: IiifContentSearchService,
+    private contentSearchNavigationService: ContentSearchNavigationService
   ) {}
 
   ngOnInit() {
@@ -133,7 +134,7 @@ export class ContentSearchDialogComponent
 
   goToHit(hit: Hit): void {
     this.currentHit = hit;
-    this.iiifContentSearchService.selected(hit);
+    this.contentSearchNavigationService.selected(hit);
     if (this.mediaObserver.isActive('lt-md')) {
       this.dialogRef.close();
     }
