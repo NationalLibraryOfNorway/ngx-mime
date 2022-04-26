@@ -21,8 +21,7 @@
       fxFlex
       class="current-hit-label"
       [ngClass]="{ 'not-on-page': !isHitOnActiveCanvasGroup }"
-      fxFlex
-      [innerHTML]="intl.currentHitLabel(currentIndex + 1, searchResult.size())"
+      [innerHTML]="intl.currentHitLabel(currentHit + 1, searchResult.size())"
     ></div>
     <div class="navigation-buttons">
       <ng-container *ngIf="invert">
@@ -32,8 +31,8 @@
           [attr.aria-label]="intl.previousHitLabel"
           [matTooltip]="intl.previousHitLabel"
           matTooltipPosition="above"
-          [disabled]="isFirstCanvasGroupHit"
-          (click)="goToPreviousCanvasGroupHit()"
+          [disabled]="isFirstHit"
+          (click)="goToPreviousHit()"
         >
           <mat-icon>navigate_before</mat-icon>
         </button>
@@ -43,8 +42,8 @@
           [attr.aria-label]="intl.nextHitLabel"
           [matTooltip]="intl.nextHitLabel"
           matTooltipPosition="above"
-          [disabled]="isLastCanvasGroupHit"
-          (click)="goToNextCanvasGroupHit()"
+          [disabled]="isLastHit"
+          (click)="goToNextHit()"
         >
           <mat-icon>navigate_next</mat-icon>
         </button>
@@ -56,8 +55,8 @@
           [attr.aria-label]="intl.nextHitLabel"
           [matTooltip]="intl.nextHitLabel"
           matTooltipPosition="above"
-          [disabled]="isLastCanvasGroupHit"
-          (click)="goToNextCanvasGroupHit()"
+          [disabled]="isLastHit"
+          (click)="goToNextHit()"
         >
           <mat-icon>navigate_before</mat-icon>
         </button>
@@ -67,8 +66,8 @@
           [attr.aria-label]="intl.previousHitLabel"
           [matTooltip]="intl.previousHitLabel"
           matTooltipPosition="above"
-          [disabled]="isFirstCanvasGroupHit"
-          (click)="goToPreviousCanvasGroupHit()"
+          [disabled]="isFirstHit"
+          (click)="goToPreviousHit()"
         >
           <mat-icon>navigate_next</mat-icon>
         </button>

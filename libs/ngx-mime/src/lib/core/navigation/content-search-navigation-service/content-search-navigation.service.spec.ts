@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { fakeAsync, inject, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
@@ -19,6 +19,7 @@ import { ContentSearchNavigationService } from './content-search-navigation.serv
 describe('ContentSearchNavigationService', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
+  let contentSearchNavigationService: ContentSearchNavigationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,6 +37,9 @@ describe('ContentSearchNavigationService', () => {
         },
       ],
     });
+  });
+
+  beforeEach(() => {
     iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
     iiifManifestServiceStub._currentManifest.next(testManifest);
@@ -44,76 +48,84 @@ describe('ContentSearchNavigationService', () => {
     );
     const canvasService = TestBed.inject(CanvasService);
     canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
+    contentSearchNavigationService = TestBed.inject(
+      ContentSearchNavigationService
+    );
   });
 
-  it('should create', inject(
-    [ContentSearchNavigationService],
-    (service: ContentSearchNavigationService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  it('should create', () => {
+    expect(contentSearchNavigationService).toBeTruthy();
+  });
 
-  it('should go to next index', inject(
-    [ContentSearchNavigationService],
-    fakeAsync((csns: ContentSearchNavigationService) => {
-      csns.update(5);
-      expect(csns.getCurrentIndex()).toBe(2);
+  it(
+    'should go to next hit',
+    waitForAsync(() => {
+      contentSearchNavigationService.update(6);
 
-      csns.goToNextCanvasGroupHit();
-      expect(csns.getCurrentIndex()).toBe(3);
+      contentSearchNavigationService.currentHitCounter.subscribe((hitId) => {
+        expect(hitId).toBe(6);
+      });
+
+      contentSearchNavigationService.goToNextHit();
     })
-  ));
+  );
 
-  it('should go to previous index', inject(
-    [ContentSearchNavigationService],
-    fakeAsync((csns: ContentSearchNavigationService) => {
-      csns.update(4);
-      expect(csns.getCurrentIndex()).toBe(1);
+  it(
+    'should go to previous hit',
+    waitForAsync(() => {
+      contentSearchNavigationService.update(6);
 
-      csns.goToPreviousCanvasGroupHit();
-      expect(csns.getCurrentIndex()).toBe(0);
+      contentSearchNavigationService.currentHitCounter.subscribe((index) => {
+        expect(index).toBe(5);
+      });
+
+      contentSearchNavigationService.goToPreviousHit();
     })
-  ));
+  );
 
-  it('should return -1 if canvasIndex is before first hit', inject(
-    [ContentSearchNavigationService],
-    fakeAsync((csns: ContentSearchNavigationService) => {
-      csns.update(1);
-      expect(csns.getCurrentIndex()).toBe(-1);
-    })
-  ));
+  it(
+    'should return -1 if canvasIndex is before first hit',
+    waitForAsync(() => {
+      contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
+        expect(hit).toBe(-1);
+      });
 
-  it('should return 0 if canvasIndex is on first hit', inject(
-    [ContentSearchNavigationService],
-    fakeAsync((csns: ContentSearchNavigationService) => {
-      csns.update(2);
-      expect(csns.getCurrentIndex()).toBe(0);
+      contentSearchNavigationService.update(0);
     })
-  ));
+  );
 
-  it('should return 0 if canvasIndex is between first and second hit', inject(
-    [ContentSearchNavigationService],
-    fakeAsync((csns: ContentSearchNavigationService) => {
-      csns.update(3);
-      expect(csns.getCurrentIndex()).toBe(0);
-    })
-  ));
+  it(
+    'should return 0 if canvasIndex is on first hit',
+    waitForAsync(() => {
+      contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
+        expect(hit).toBe(0);
+      });
 
-  it('should return 2 if canvasIndex is between second and fourth hit', inject(
-    [ContentSearchNavigationService],
-    fakeAsync((csns: ContentSearchNavigationService) => {
-      csns.update(6);
-      expect(csns.getCurrentIndex()).toBe(2);
+      contentSearchNavigationService.update(1);
     })
-  ));
+  );
 
-  it('should return 3 if canvasIndex is after last', inject(
-    [ContentSearchNavigationService],
-    fakeAsync((csns: ContentSearchNavigationService) => {
-      csns.update(10);
-      expect(csns.getCurrentIndex()).toBe(3);
+  it(
+    'should return 5 if canvasIndex is between 5th and 6th hit',
+    waitForAsync(() => {
+      contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
+        expect(hit).toBe(5);
+      });
+
+      contentSearchNavigationService.update(6);
     })
-  ));
+  );
+
+  it(
+    'should return 6 if canvasIndex is after last',
+    waitForAsync(() => {
+      contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
+        expect(hit).toBe(6);
+      });
+
+      contentSearchNavigationService.update(10);
+    })
+  );
 
   function createCanvasGroups(): Rect[] {
     const canvasGroups: Rect[] = [];
@@ -126,10 +138,13 @@ describe('ContentSearchNavigationService', () => {
   function createSearchResult(): SearchResult {
     return new SearchResult({
       hits: [
-        new Hit({ index: 2 }),
-        new Hit({ index: 4 }),
-        new Hit({ index: 5 }),
-        new Hit({ index: 8 }),
+        new Hit({ id: 0, index: 1 }),
+        new Hit({ id: 1, index: 2 }),
+        new Hit({ id: 2, index: 2 }),
+        new Hit({ id: 3, index: 3 }),
+        new Hit({ id: 4, index: 4 }),
+        new Hit({ id: 5, index: 5 }),
+        new Hit({ id: 6, index: 8 }),
       ],
     });
   }
