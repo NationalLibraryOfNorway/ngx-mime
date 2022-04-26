@@ -663,6 +663,8 @@ export class ViewerPage {
       iKey = Key.chord('t');
     } else if (key === 'Esc') {
       iKey = Key.ESCAPE;
+    } else if (key === 'Shift+S') {
+      iKey = Key.chord(Key.SHIFT, 'S');
     }
 
     await this.setFocusOnViewer();
