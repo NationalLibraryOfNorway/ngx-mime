@@ -38,7 +38,7 @@
         <mat-button-toggle-group [value]="viewerLayout">
           <mat-button-toggle
             *ngIf="isPagedManifest"
-            id="singlePageViewButton'"
+            id="toggleSinglePageViewButton"
             [attr.aria-label]="intl.singlePageViewLabel"
             [matTooltip]="intl.singlePageViewLabel"
             [value]="ViewerLayout.ONE_PAGE"
@@ -53,7 +53,7 @@
         <mat-button-toggle-group [value]="viewerLayout">
           <mat-button-toggle
             *ngIf="isPagedManifest"
-            id="twoPageViewButton"
+            id="toggleTwoPageViewButton"
             [attr.aria-label]="intl.twoPageViewLabel"
             [matTooltip]="intl.twoPageViewLabel"
             [value]="ViewerLayout.TWO_PAGE"
@@ -89,7 +89,7 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentButton"
+              data-test-id="ngx-mimeRecognizedTextContentInSideNavButton"
               [attr.aria-label]="intl.recognizedTextContentInSideNavLabel"
               [matTooltip]="intl.recognizedTextContentInSideNavLabel"
               [value]="RecognizedTextMode.RIGHT"
@@ -106,7 +106,7 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentButton"
+              data-test-id="ngx-mimeRecognizedTextContentInMainButton"
               [attr.aria-label]="intl.showRecognizedTextContentLabel"
               [matTooltip]="intl.showRecognizedTextContentLabel"
               [value]="RecognizedTextMode.FULL"

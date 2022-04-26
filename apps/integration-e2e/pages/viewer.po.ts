@@ -71,15 +71,17 @@ export class ViewerPage {
   private leftCanvasGroupMaskEl: ElementFinder;
   private rightCanvasGroupMaskEl: ElementFinder;
   private canvasGroupOverlayEls: ElementArrayFinder;
-  private singlePageViewButtonEl: ElementFinder;
-  private twoPageViewButtonEl: ElementFinder;
+  private singlePageViewToggleButtonEl: ElementFinder;
+  private twoPageViewToggleButtonEl: ElementFinder;
   private modeDashboardEl: ElementFinder;
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
-  private recognizedTextContentButtonEl: ElementFinder;
+  private recognizedTextContentSidenavButtonEl: ElementFinder;
+  private recognizedTextContentMainButtonEl: ElementFinder;
   private firstCanvasRecognizedTextContentEl: ElementFinder;
   private secondCanvasRecognizedTextContentEl: ElementFinder;
   private recognizedTextContentHitsEls: ElementArrayFinder;
+  private viewMenuButtonEl: ElementFinder;
 
   constructor() {
     this.navigationSliderEl = element(by.css('.navigation-slider'));
@@ -129,12 +131,21 @@ export class ViewerPage {
     this.canvasGroupOverlayEls = element.all(
       by.css('#openseadragon svg g rect')
     );
-    this.singlePageViewButtonEl = element(
+    this.singlePageViewToggleButtonEl = element(
       by.css('#toggleSinglePageViewButton')
     );
-    this.twoPageViewButtonEl = element(by.css('#toggleTwoPageViewButton'));
-    this.recognizedTextContentButtonEl = element(
-      by.css('button[data-test-id="ngx-mimeRecognizedTextContentButton"]')
+    this.twoPageViewToggleButtonEl = element(
+      by.css('#toggleTwoPageViewButton')
+    );
+    this.recognizedTextContentSidenavButtonEl = element(
+      by.css(
+        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInSideNavButton"]'
+      )
+    );
+    this.recognizedTextContentMainButtonEl = element(
+      by.css(
+        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInMainButton"]'
+      )
     );
     this.modeDashboardEl = element(by.css('.mode-dashboard'));
     this.modePageEl = element(by.css('.mode-page'));
@@ -150,6 +161,7 @@ export class ViewerPage {
     this.recognizedTextContentHitsEls = element.all(
       by.css('.recognized-text-content-container mark')
     );
+    this.viewMenuButtonEl = element(by.css('#ngx-mimeViewMenuButton'));
   }
 
   getBookShelfUrl(manifestName: string): string {
@@ -164,13 +176,33 @@ export class ViewerPage {
   }
 
   async isRecognizedTextContentButtonPresent(): Promise<boolean> {
-    return utils.isPresentAndDisplayed(this.recognizedTextContentButtonEl);
+    await this.openViewMeny();
+    return utils.isPresentAndDisplayed(
+      this.recognizedTextContentSidenavButtonEl
+    );
   }
 
-  async enableRecognizedTextContent(): Promise<void> {
-    const isSelected = await this.recognizedTextContentButtonEl.isSelected();
+  async enableRecognizedTextContentInSidenav(): Promise<void> {
+    await this.openViewMeny();
+    const classes =
+      await this.recognizedTextContentSidenavButtonEl.getAttribute('class');
+    const isSelected = classes.indexOf('mat-button-toggle-checked') !== -1;
+
     if (!isSelected) {
-      await this.recognizedTextContentButtonEl.click();
+      await this.recognizedTextContentSidenavButtonEl.click();
+      await this.waitForAnimation();
+    }
+  }
+
+  async enableRecognizedTextContentInMain(): Promise<void> {
+    await this.openViewMeny();
+    const classes = await this.recognizedTextContentMainButtonEl.getAttribute(
+      'class'
+    );
+    const isSelected = classes.indexOf('mat-button-toggle-checked') !== -1;
+
+    if (!isSelected) {
+      await this.recognizedTextContentMainButtonEl.click();
       await this.waitForAnimation();
     }
   }
@@ -194,6 +226,14 @@ export class ViewerPage {
     return text;
   }
 
+  async isRecognizedTextContentInSidenav(): Promise<boolean> {
+    return utils.isPresentAndDisplayed(element(by.css('mat-drawer.right')));
+  }
+
+  async isRecognizedTextContentInMain() {
+    return utils.isPresentAndDisplayed(element(by.css('mat-drawer.full')));
+  }
+
   async setDashboardMode(): Promise<void> {
     const isDashboardMode = await this.isDashboardMode();
 
@@ -215,6 +255,7 @@ export class ViewerPage {
   }
 
   async setOnePageView() {
+    await this.openViewMeny();
     const btn: ElementFinder = await this.getOnePageButton();
     // Button is present, so switch to one-page
     if (btn) {
@@ -224,6 +265,7 @@ export class ViewerPage {
   }
 
   async setTwoPageView() {
+    await this.openViewMeny();
     const btn: ElementFinder = await this.getTwoPageButton();
     if (btn) {
       // Button is present, so click to switch to two-page
@@ -413,10 +455,10 @@ export class ViewerPage {
   async getOnePageButton() {
     return utils.promisify(async () => {
       const isPresentAndDisplayed: boolean = await utils.isPresentAndDisplayed(
-        this.singlePageViewButtonEl
+        this.singlePageViewToggleButtonEl
       );
       return isPresentAndDisplayed
-        ? <any>this.singlePageViewButtonEl
+        ? <any>this.singlePageViewToggleButtonEl
         : undefined;
     });
   }
@@ -424,10 +466,24 @@ export class ViewerPage {
   async getTwoPageButton() {
     return utils.promisify(async () => {
       const isPresentAndDisplayed = await utils.isPresentAndDisplayed(
-        this.twoPageViewButtonEl
+        this.twoPageViewToggleButtonEl
       );
-      return isPresentAndDisplayed ? <any>this.twoPageViewButtonEl : undefined;
+      return isPresentAndDisplayed
+        ? <any>this.twoPageViewToggleButtonEl
+        : undefined;
     });
+  }
+
+  async openViewMeny(): Promise<void> {
+    const isPresentAndDisplayed: boolean = await utils.isPresentAndDisplayed(
+      this.viewMenuButtonEl
+    );
+    if (isPresentAndDisplayed) {
+      await this.viewMenuButtonEl.click();
+      await this.waitForAnimation();
+    } else {
+      throw new Error('View menu button not found');
+    }
   }
 
   getAnimationTimeInSec(): promise.Promise<number> {
@@ -586,13 +642,18 @@ export class ViewerPage {
   }
 
   async isTwoPageView(): Promise<boolean> {
-    const btn = await this.getOnePageButton();
-    return btn ? true : false;
+    const secondPageGroupCount = element
+      .all(by.css('.page-group'))
+      .get(1)
+      .all(by.css('rect'));
+    return (await secondPageGroupCount.count()) === 2;
   }
 
   async isOnePageView(): Promise<boolean> {
-    const btn = await this.getTwoPageButton();
-    return btn ? true : false;
+    const singlePageGroupCount = await element
+      .all(by.css('.page-group'))
+      .count();
+    return singlePageGroupCount === 1;
   }
 
   async isCurrentCanvasGroupFittedViewport(): Promise<boolean> {

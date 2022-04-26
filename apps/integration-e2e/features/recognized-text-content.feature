@@ -9,16 +9,22 @@ Feature: Show recognized text content
     When the viewer is in dashboard view
     Then the user should be able to enable recognized text content
 
-  Scenario: Show recognized text content
+  Scenario: Show recognized text content in sidenav
     Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view
-    When the user enables recognized text content
-    Then the recognized text content should be shown
+    When the user enables recognized text content in sidenav
+    Then the recognized text content should be shown in sidenav
 
-  Scenario: Highlight recognized text content 
-    Given the viewer is opened with a publication with recognized text content 
+  Scenario: Show recognized text content in main
+    Given the viewer is opened with a publication with recognized text content
+    And the viewer is in dashboard view
+    When the user enables recognized text content in main
+    Then the recognized text content should be shown in main
+
+  Scenario: Highlight recognized text content
+    Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view
     When the user search for the word "that"
     And the user closes the search dialog
-    And the user enables recognized text content
+    And the user enables recognized text content in sidenav
     Then the word "that" should be highlighted in the recognized text
