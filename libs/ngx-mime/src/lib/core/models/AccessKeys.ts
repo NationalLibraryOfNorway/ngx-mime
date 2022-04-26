@@ -20,12 +20,14 @@ export class AccessKeys {
   private altKey = false;
   private shiftKey = false;
   private ctrlkey = false;
+  private metaKey = false;
 
   constructor(event: KeyboardEvent) {
     this.keyCode = event.keyCode;
     this.altKey = event.altKey;
     this.shiftKey = event.shiftKey;
     this.ctrlkey = event.ctrlKey;
+    this.metaKey = event.metaKey;
   }
 
   public isArrowRightKeys() {
@@ -120,7 +122,7 @@ export class AccessKeys {
 
   public isResetSearchKeys() {
     return (
-      this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch)
+      !this.isMetaPressed() && this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch)
     );
   }
 
@@ -147,5 +149,9 @@ export class AccessKeys {
 
   private isShiftPressed(): boolean {
     return this.shiftKey;
+  }
+
+  private isMetaPressed(): boolean {
+    return this.metaKey;
   }
 }
