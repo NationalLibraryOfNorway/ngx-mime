@@ -642,11 +642,12 @@ export class ViewerPage {
   }
 
   async isTwoPageView(): Promise<boolean> {
-    const secondPageGroupCount = element
+    const secondPageGroupCount = await element
       .all(by.css('.page-group'))
       .get(1)
-      .all(by.css('rect'));
-    return (await secondPageGroupCount.count()) === 2;
+      .all(by.css('rect'))
+      .count();
+    return secondPageGroupCount === 2;
   }
 
   async isOnePageView(): Promise<boolean> {
