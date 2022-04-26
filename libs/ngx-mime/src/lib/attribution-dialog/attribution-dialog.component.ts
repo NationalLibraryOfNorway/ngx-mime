@@ -77,7 +77,7 @@ export class AttributionDialogComponent
     this.subscriptions.unsubscribe();
   }
 
-  @HostListener('keyup', ['$event'])
+  @HostListener('keydown', ['$event'])
   handleKeys(event: KeyboardEvent) {
     this.accessKeysHandlerService.handleKeyEvents(event);
   }
