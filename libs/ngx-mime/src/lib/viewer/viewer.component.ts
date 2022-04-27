@@ -138,9 +138,6 @@ export class ViewerComponent
 
   ngOnInit(): void {
     this.styleService.initialize();
-    this.modeService.initialMode = this.config.initViewerMode;
-    this.altoService.onRecognizedTextContentToggle =
-      this.config.initRecognizedTextContentToggle;
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(

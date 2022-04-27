@@ -259,6 +259,10 @@ export class ViewerService {
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
     this.config = config;
     this.iiifContentSearchService.setConfig(this.config);
+    this.modeService.initialMode = this.config.initViewerMode;
+    this.altoService.onRecognizedTextContentToggle =
+      this.config.initRecognizedTextContentToggle;
+
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
