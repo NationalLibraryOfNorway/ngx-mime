@@ -10,14 +10,14 @@
         >
           <mat-icon>close</mat-icon>
         </button>
-        <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>
+        <h1 mat-dialog-title class="heading">{{ intl.layoutMenuLabel }}</h1>
       </div>
     </mat-toolbar>
   </ng-container>
   <ng-container *ngSwitchDefault>
     <mat-toolbar data-test-id="desktop-toolbar">
       <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-        <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>
+        <h1 mat-dialog-title class="heading heading-desktop">{{ intl.layoutMenuLabel }}</h1>
         <button
           mat-icon-button
           [aria-label]="intl.closeLabel"

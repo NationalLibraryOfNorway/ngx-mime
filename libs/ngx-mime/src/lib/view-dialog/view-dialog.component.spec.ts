@@ -6,18 +6,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { injectedStub } from '../../testing/injected-stub';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { AltoService } from '../core/alto-service/alto.service';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
-import { MimeDomHelper } from '../core/mime-dom-helper';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { SharedModule } from '../shared/shared.module';
+import { AltoServiceStub } from '../test/alto-service-stub';
 import { IiifContentSearchServiceStub } from '../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
@@ -38,21 +36,20 @@ describe('ViewDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+        imports: [HttpClientTestingModule],
         declarations: [ViewDialogComponent],
         providers: [
           MimeViewerIntl,
-          MimeResizeService,
-          MimeDomHelper,
-          FullscreenService,
           ViewerLayoutService,
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
+          CanvasService,
+          { provide: AltoService, useClass: AltoServiceStub },
           { provide: ViewerService, useClass: ViewerServiceStub },
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
           {
             provide: IiifContentSearchService,
             useClass: IiifContentSearchServiceStub,
           },
+          { provide: MatDialogRef, useClass: MatDialogRefStub },
         ],
       }).compileComponents();
     })
