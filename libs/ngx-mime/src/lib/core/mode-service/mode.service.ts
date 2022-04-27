@@ -7,16 +7,13 @@ import { ViewerMode } from '../models/viewer-mode';
 
 @Injectable()
 export class ModeService {
-  private _initialMode: ViewerMode;
-  private _mode: ViewerMode;
+  private config!: MimeViewerConfig;
+  private _mode!: ViewerMode;
   private toggleModeSubject: BehaviorSubject<ModeChanges>;
   private modeChanges = new ModeChanges();
 
   constructor() {
-    const mimeConfig = new MimeViewerConfig();
     this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
-    this._initialMode = mimeConfig.initViewerMode;
-    this._mode = this._initialMode;
   }
 
   get onChange(): Observable<ModeChanges> {
@@ -32,13 +29,16 @@ export class ModeService {
     return this._mode;
   }
 
-  set initialMode(mode: ViewerMode) {
-    this._initialMode = mode;
-    this.mode = mode;
+  initialize(): void {
+    this.mode = this.config.initViewerMode;
   }
 
-  get initialMode(): ViewerMode {
-    return this._initialMode;
+  destroy() {
+    this.mode = this.config.initViewerMode;
+  }
+
+  setConfig(config: MimeViewerConfig) {
+    this.config = config;
   }
 
   toggleMode(): void {
@@ -54,10 +54,6 @@ export class ModeService {
 
   isPageZoomed(): boolean {
     return this.mode === ViewerMode.PAGE_ZOOMED;
-  }
-
-  destroy() {
-    this.mode = this._initialMode;
   }
 
   private change() {

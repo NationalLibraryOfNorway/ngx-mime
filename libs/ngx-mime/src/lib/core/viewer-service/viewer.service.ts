@@ -258,10 +258,6 @@ export class ViewerService {
 
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
     this.config = config;
-    this.iiifContentSearchService.setConfig(this.config);
-    this.modeService.initialMode = this.config.initViewerMode;
-    this.altoService.onRecognizedTextContentToggle =
-      this.config.initRecognizedTextContentToggle;
 
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
@@ -440,6 +436,7 @@ export class ViewerService {
     if (this.canvasGroupMask) {
       this.canvasGroupMask.destroy();
     }
+
     // Keep search-state and rotation only if layout-switch
     if (!layoutSwitch) {
       this.altoService.destroy();
@@ -1062,8 +1059,6 @@ export class ViewerService {
   }
 
   private setOpacityOnPages(opacity: number): void {
-    console.log('setOpacityOnPages', opacity);
-
     if (this.viewer) {
       const itemCount = this.viewer.world.getItemCount();
       for (let i = 0; i < itemCount; i++) {

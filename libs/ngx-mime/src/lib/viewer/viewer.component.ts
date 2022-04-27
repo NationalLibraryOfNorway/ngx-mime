@@ -307,6 +307,13 @@ export class ViewerComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['config']) {
+      this.iiifContentSearchService.setConfig(this.config);
+      this.altoService.setConfig(this.config);
+      this.modeService.setConfig(this.config);
+      this.modeService.initialize();
+    }
+
     if (changes['manifestUri']) {
       this.cleanup();
       this.modeService.mode = this.config.initViewerMode;
