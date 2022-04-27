@@ -5,6 +5,11 @@
   & > div {
     padding: 1em 1em;
   }
+/*
+  & > .content {
+    max-width: 980px;
+  }
+  */
 }
 ::ng-deep .selectedHit {
   background: rgba(255, 137, 0, 0.61);

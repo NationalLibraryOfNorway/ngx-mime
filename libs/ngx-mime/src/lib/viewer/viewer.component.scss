@@ -30,11 +30,9 @@ mat-drawer.right {
 
 mat-drawer.full {
   width: 100%;
-}
 
-mat-drawer {
-  @media only screen and (max-width: 599px) {
-    width: 33%;
+  ::ng-deep mime-recognized-text-content .content {
+    max-width: 980px;
   }
 }
 
