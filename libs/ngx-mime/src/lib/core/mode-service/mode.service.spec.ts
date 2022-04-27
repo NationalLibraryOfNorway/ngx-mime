@@ -1,81 +1,54 @@
-import { ViewerMode } from '../models/viewer-mode';
-import { TestBed, inject } from '@angular/core/testing';
-import { ModeService } from './mode.service';
+import { TestBed } from '@angular/core/testing';
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { ModeChanges } from '../models/modeChanges';
+import { ViewerMode } from '../models/viewer-mode';
+import { ModeService } from './mode.service';
 
 describe('ModeService', () => {
+  let service: ModeService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ModeService],
     });
+    service = TestBed.inject(ModeService);
   });
 
-  it('should be created', inject([ModeService], (service: ModeService) => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
-  it('should emit when mode changes', inject(
-    [ModeService],
-    (service: ModeService) => {
-      let selectedMode: ViewerMode | undefined;
-      service.onChange.subscribe(
-        (mode: ModeChanges) => (selectedMode = mode.currentValue)
-      );
+  it('should emit when mode changes', () => {
+    let selectedMode: ViewerMode | undefined;
+    service.onChange.subscribe(
+      (mode: ModeChanges) => (selectedMode = mode.currentValue)
+    );
 
-      service.mode = ViewerMode.DASHBOARD;
-      expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
-    }
-  ));
+    service.mode = ViewerMode.DASHBOARD;
+    expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
+  });
 
-  it('should store the initial mode', inject(
-    [ModeService],
-    (service: ModeService) => {
-      service.initialMode = ViewerMode.DASHBOARD;
-      expect(service.mode).toEqual(ViewerMode.DASHBOARD);
-      expect(service.initialMode).toEqual(ViewerMode.DASHBOARD);
-    }
-  ));
+  it('should change mode when toggled', () => {
+    service.mode = ViewerMode.DASHBOARD.valueOf();
+    service.toggleMode();
+    expect(service.mode).toEqual(ViewerMode.PAGE);
+    service.toggleMode();
+    expect(service.mode).toEqual(ViewerMode.DASHBOARD);
+  });
 
-  it('should not modify initial mode on mode change', inject(
-    [ModeService],
-    (service: ModeService) => {
-      service.initialMode = ViewerMode.DASHBOARD;
-      service.mode = ViewerMode.PAGE;
-      expect(service.mode).toEqual(ViewerMode.PAGE);
-      expect(service.initialMode).toEqual(ViewerMode.DASHBOARD);
-    }
-  ));
+  it('should change mode to DASHBOARD when toggled in PAGE_ZOOMED', () => {
+    service.mode = ViewerMode.PAGE_ZOOMED.valueOf();
+    service.toggleMode();
+    expect(service.mode).toEqual(ViewerMode.DASHBOARD);
+  });
 
-  it('should change mode when toggled', inject(
-    [ModeService],
-    (service: ModeService) => {
-      service.initialMode = ViewerMode.DASHBOARD;
-      service.toggleMode();
-      expect(service.mode).toEqual(ViewerMode.PAGE);
-      service.toggleMode();
-      expect(service.mode).toEqual(ViewerMode.DASHBOARD);
-    }
-  ));
-
-  it('should change mode to DASHBOARD when toggled in PAGE_ZOOMED', inject(
-    [ModeService],
-    (service: ModeService) => {
-      service.initialMode = ViewerMode.PAGE_ZOOMED;
-      service.toggleMode();
-      expect(service.mode).toEqual(ViewerMode.DASHBOARD);
-    }
-  ));
-
-  it('should emit when mode is toggled', inject(
-    [ModeService],
-    (service: ModeService) => {
-      let selectedMode: ViewerMode | undefined;
-      service.onChange.subscribe(
-        (mode: ModeChanges) => (selectedMode = mode.currentValue)
-      );
-      service.initialMode = ViewerMode.DASHBOARD;
-      service.toggleMode();
-      expect(selectedMode).toEqual(ViewerMode.PAGE);
-    }
-  ));
+  it('should emit when mode is toggled', () => {
+    let selectedMode: ViewerMode | undefined;
+    service.onChange.subscribe(
+      (mode: ModeChanges) => (selectedMode = mode.currentValue)
+    );
+    service.mode = ViewerMode.DASHBOARD;
+    service.toggleMode();
+    expect(selectedMode).toEqual(ViewerMode.PAGE);
+  });
 });

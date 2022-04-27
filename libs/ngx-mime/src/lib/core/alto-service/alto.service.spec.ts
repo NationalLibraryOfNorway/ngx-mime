@@ -9,6 +9,7 @@ import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
+import { RecognizedTextMode } from '../models';
 import { testAlto } from './../../test/testAltos';
 import { AltoService } from './alto.service';
 
@@ -109,12 +110,12 @@ describe('AltoService', () => {
     });
   }));
 
-  it('should toggle showing recognized text', () => {
-    expectOnRecognizedTextContentToggleChangeToBe(false);
+  it('should toggle on showing recognized text', () => {
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
 
-    service.toggle();
+    service.showRight();
 
-    expectOnRecognizedTextContentToggleChangeToBe(true);
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.RIGHT);
   });
 
   const setUpSpy = () => {
@@ -185,7 +186,7 @@ describe('AltoService', () => {
     expect(service.getHtml(1)).toBeUndefined();
   };
 
-  const expectOnRecognizedTextContentToggleChangeToBe = (value: boolean) => {
+  const expectOnRecognizedTextContentToggleChangeToBe = (value: RecognizedTextMode) => {
     expect(service.onRecognizedTextContentToggleChange$).toBeObservable(
       cold('a', { a: value })
     );

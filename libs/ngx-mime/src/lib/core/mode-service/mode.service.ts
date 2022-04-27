@@ -34,7 +34,7 @@ export class ModeService {
   }
 
   destroy() {
-    this.mode = this.config.initViewerMode;
+    this.mode = this.config?.initViewerMode;
   }
 
   setConfig(config: MimeViewerConfig) {

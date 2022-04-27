@@ -3,15 +3,16 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler } from 'jasmine-marbles';
+import { MimeViewerConfig } from '../../..';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
+import { HighlightService } from '../../core/highlight-service/highlight.service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { HighlightService } from '../../core/highlight-service/highlight.service';
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { Hit } from '../../core/models/hit';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
-import { Hit } from '../../core/models/hit';
 
 describe('RecognizedTextContentComponent', () => {
   let component: RecognizedTextContentComponent;
@@ -46,6 +47,8 @@ describe('RecognizedTextContentComponent', () => {
     canvasService = TestBed.inject(CanvasService);
     highlightService = TestBed.inject(HighlightService);
     iiifContentSearchService = TestBed.inject(IiifContentSearchService);
+
+    altoService.setConfig(new MimeViewerConfig());
   });
 
   it('should create', () => {
@@ -109,46 +112,52 @@ describe('RecognizedTextContentComponent', () => {
     expect(error.nativeElement.innerHTML).toBe('fakeError');
   });
 
-  it('should call highlightSelectedHit in onSelected subscribe', () => {
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1]);
-    spyOnProperty(iiifContentSearchService, 'onSelected').and.returnValue(
-      cold('x|', { x: createMockHit(1, 'test ') })
-    );
-    const spy = spyOn(
-      highlightService,
-      'highlightSelectedHit'
-    ).and.callThrough();
+  it(
+    'should call highlightSelectedHit in onSelected subscribe',
+    waitForAsync(() => {
+      spyOn(canvasService, 'getCanvasesPerCanvasGroup')
+        .withArgs(0)
+        .and.returnValue([0, 1]);
+      spyOnProperty(iiifContentSearchService, 'onSelected').and.returnValue(
+        cold('x|', { x: createMockHit(1, 'test ') })
+      );
+      const spy = spyOn(
+        highlightService,
+        'highlightSelectedHit'
+      ).and.callThrough();
 
-    fixture.detectChanges();
-    getTestScheduler().flush();
+      fixture.detectChanges();
+      getTestScheduler().flush();
 
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalled();
-    });
-  });
+      fixture.whenStable().then(() => {
+        expect(spy).toHaveBeenCalled();
+      });
+    })
+  );
 
-  it('should call highlightSelectedHit in updateRecognizedText method', () => {
-    component.selectedHit = 1;
-    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
-      cold('x|')
-    );
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1]);
-    const spy = spyOn(
-      highlightService,
-      'highlightSelectedHit'
-    ).and.callThrough();
+  it(
+    'should call highlightSelectedHit in updateRecognizedText method',
+    waitForAsync(() => {
+      component.selectedHit = 1;
+      spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
+        cold('x|')
+      );
+      spyOn(canvasService, 'getCanvasesPerCanvasGroup')
+        .withArgs(0)
+        .and.returnValue([0, 1]);
+      const spy = spyOn(
+        highlightService,
+        'highlightSelectedHit'
+      ).and.callThrough();
 
-    fixture.detectChanges();
-    getTestScheduler().flush();
+      fixture.detectChanges();
+      getTestScheduler().flush();
 
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalled();
-    });
-  });
+      fixture.whenStable().then(() => {
+        expect(spy).toHaveBeenCalled();
+      });
+    })
+  );
 
   function createMockHit(id: number, match: string): Hit {
     return {

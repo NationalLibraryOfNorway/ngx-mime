@@ -137,7 +137,7 @@ export class AccessKeysService {
   }
 
   private toggleRecognizedTextContent() {
-    this.altoService.toggle();
+    this.altoService.showRight();
   }
 
   private goToNextHit() {

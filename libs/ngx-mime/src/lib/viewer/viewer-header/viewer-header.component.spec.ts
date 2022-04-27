@@ -7,15 +7,12 @@ import {
   TestBed,
   waitForAsync,
 } from '@angular/core/testing';
-import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { Manifest, Service } from '../../core/models/manifest';
-import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewingDirection } from '../../core/models/viewing-direction';
-import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
@@ -178,46 +175,6 @@ describe('ViewerHeaderComponent', () => {
     }
   ));
 
-  it('should hide one-page-button and show two-page-button if current viewer-layout is one-page-view', inject(
-    [ViewerLayoutService],
-    (viewerLayoutService: ViewerLayoutService) => {
-      component.isPagedManifest = true;
-      viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
-
-      fixture.detectChanges();
-
-      const btnTwoPageView = fixture.debugElement.query(
-        By.css('#toggleTwoPageViewButton')
-      );
-      expect(btnTwoPageView).not.toBeNull();
-
-      const btnOnePageView = fixture.debugElement.query(
-        By.css('#toggleSinglePageViewButton')
-      );
-      expect(btnOnePageView).toBeNull();
-    }
-  ));
-
-  it('should hide two-page-button and show one-page-button if current viewer-layout is two-page-view', inject(
-    [ViewerLayoutService],
-    (viewerLayoutService: ViewerLayoutService) => {
-      component.isPagedManifest = true;
-      viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
-
-      fixture.detectChanges();
-
-      const btnTwoPageView = fixture.debugElement.query(
-        By.css('#toggleTwoPageViewButton')
-      );
-      expect(btnTwoPageView).toBeNull();
-
-      const btnOnePageView = fixture.debugElement.query(
-        By.css('#toggleSinglePageViewButton')
-      );
-      expect(btnOnePageView).not.toBeNull();
-    }
-  ));
-
   it('should hide viewer-layout buttons if manifest is not  "paged"', inject(
     [IiifManifestService],
     (iiifManifestService: IiifManifestServiceStub) => {
@@ -251,33 +208,6 @@ describe('ViewerHeaderComponent', () => {
       expect(label.innerHTML).toBe('Testlabel');
     }
   ));
-
-  it('should show alto button if manifest has recognized text content', async () => {
-    component.hasRecognizedTextContent = true;
-    fixture.detectChanges();
-
-    const btnText = await loader.getHarness(
-      MatButtonHarness.with({
-        selector: 'button[data-test-id="ngx-mimeRecognizedTextContentButton"]',
-      })
-    );
-    expect(btnText).not.toBeNull();
-  });
-
-  it('should toggle show text if show text content is clicked', async () => {
-    const toggleSpy = spyOn(altoService, 'toggle');
-    component.hasRecognizedTextContent = true;
-    fixture.detectChanges();
-    const btnText = await loader.getHarness(
-      MatButtonHarness.with({
-        selector: 'button[data-test-id="ngx-mimeRecognizedTextContentButton"]',
-      })
-    );
-
-    await btnText.click();
-
-    expect(toggleSpy).toHaveBeenCalled();
-  });
 });
 
 function expectHeaderToShow(element: any) {

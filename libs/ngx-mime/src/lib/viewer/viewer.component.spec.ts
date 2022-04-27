@@ -26,6 +26,8 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogModule } from '../help-dialog/help-dialog.module';
 import { SharedModule } from '../shared/shared.module';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
+import { ViewDialogModule } from '../view-dialog/view-dialog.module';
+import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
@@ -65,6 +67,7 @@ describe('ViewerComponent', function () {
           AttributionDialogModule,
           ContentSearchDialogModule,
           HelpDialogModule,
+          ViewDialogModule,
         ],
         declarations: [
           ViewerComponent,
@@ -90,6 +93,7 @@ describe('ViewerComponent', function () {
           AccessKeysService,
           ViewerLayoutService,
           ContentSearchNavigationService,
+          ViewDialogService,
         ],
       }).compileComponents();
     })

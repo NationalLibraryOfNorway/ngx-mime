@@ -5,7 +5,7 @@
   fxLayout="column"
   fxLayoutAlign="start center"
 >
-  <ng-container *ngIf="error" data-test-id="error">{{ error }}</ng-container>
+  <div *ngIf="error" data-test-id="error">{{ error }}</div>
   <ng-container *ngIf="!isLoading">
     <div
       *ngIf="firstCanvasRecognizedTextContent"

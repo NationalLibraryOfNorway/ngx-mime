@@ -81,7 +81,7 @@ export class AltoService {
     this.subscriptions = new Subscription();
 
     this.onRecognizedTextContentToggle =
-      this.config.initRecognizedTextContentToggle;
+      this.config?.initRecognizedTextContentToggle;
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -143,13 +143,6 @@ export class AltoService {
 
   hide() {
     this.onRecognizedTextContentToggle = RecognizedTextMode.NONE;
-  }
-
-  toggle() {
-    this.onRecognizedTextContentToggle =
-      this.recognizedTextContentToggle.getValue() === RecognizedTextMode.NONE
-        ? RecognizedTextMode.RIGHT
-        : RecognizedTextMode.NONE;
   }
 
   getHtml(index: number): SafeHtml | undefined {
