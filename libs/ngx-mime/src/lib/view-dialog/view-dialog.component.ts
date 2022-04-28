@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../core/alto-service/alto.service';
@@ -16,7 +16,7 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
   templateUrl: './view-dialog.component.html',
   styleUrls: ['./view-dialog.component.scss'],
 })
-export class ViewDialogComponent /*implements OnInit, OnDestroy*/ {
+export class ViewDialogComponent implements OnInit, OnDestroy {
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
   ViewerLayout: typeof ViewerLayout = ViewerLayout;
   isPagedManifest = false;
