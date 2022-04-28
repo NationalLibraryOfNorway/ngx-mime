@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
-import { RecognizedTextMode } from '../..';
 import { AltoService } from '../core/alto-service/alto.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../core/intl';
+import { RecognizedTextMode } from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
@@ -16,7 +16,7 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
   templateUrl: './view-dialog.component.html',
   styleUrls: ['./view-dialog.component.scss'],
 })
-export class ViewDialogComponent implements OnInit, OnDestroy {
+export class ViewDialogComponent /*implements OnInit, OnDestroy*/ {
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
   ViewerLayout: typeof ViewerLayout = ViewerLayout;
   isPagedManifest = false;

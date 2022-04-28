@@ -22,7 +22,7 @@ import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { ViewerServiceStub } from '../test/viewer-service-stub';
 import { ViewDialogComponent } from './view-dialog.component';
 
-describe('ViewDialogComponent', () => {
+fdescribe('ViewDialogComponent', () => {
   let component: ViewDialogComponent;
   let fixture: ComponentFixture<ViewDialogComponent>;
   let loader: HarnessLoader;
