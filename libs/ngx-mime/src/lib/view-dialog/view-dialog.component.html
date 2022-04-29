@@ -17,7 +17,9 @@
   <ng-container *ngSwitchDefault>
     <mat-toolbar data-test-id="desktop-toolbar">
       <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-        <h1 mat-dialog-title class="heading heading-desktop">{{ intl.layoutMenuLabel }}</h1>
+        <h1 mat-dialog-title class="heading heading-desktop">{{
+          intl.layoutMenuLabel
+        }}</h1>
         <button
           mat-icon-button
           [aria-label]="intl.closeLabel"
@@ -31,44 +33,46 @@
   </ng-container>
 </ng-container>
 <mat-dialog-content>
-  <section>
-    <h2>{{ intl.pageLayoutLabel }}</h2>
-    <div fxLayout="column" fxLayoutGap="8px">
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-button-toggle-group [value]="viewerLayout">
-          <mat-button-toggle
-            *ngIf="isPagedManifest"
-            id="toggleSinglePageViewButton"
-            [attr.aria-label]="intl.singlePageViewLabel"
-            [matTooltip]="intl.singlePageViewLabel"
-            [value]="ViewerLayout.ONE_PAGE"
-            (click)="setLayoutOnePage()"
-          >
-            <mime-icon [iconName]="'single_page_display'"> </mime-icon>
-          </mat-button-toggle>
-        </mat-button-toggle-group>
-        <div class="label">{{ intl.singlePageViewLabel }}</div>
+  <ng-container *ngIf="isPagedManifest">
+    <section data-test-id="page-layout">
+      <h2>{{ intl.pageLayoutLabel }}</h2>
+      <div fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-button-toggle-group [value]="viewerLayout">
+            <mat-button-toggle
+              *ngIf="isPagedManifest"
+              id="toggleSinglePageViewButton"
+              [attr.aria-label]="intl.singlePageViewLabel"
+              [matTooltip]="intl.singlePageViewLabel"
+              [value]="ViewerLayout.ONE_PAGE"
+              (click)="setLayoutOnePage()"
+            >
+              <mime-icon [iconName]="'single_page_display'"> </mime-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+          <div class="label">{{ intl.singlePageViewLabel }}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-button-toggle-group [value]="viewerLayout">
+            <mat-button-toggle
+              *ngIf="isPagedManifest"
+              id="toggleTwoPageViewButton"
+              [attr.aria-label]="intl.twoPageViewLabel"
+              [matTooltip]="intl.twoPageViewLabel"
+              [value]="ViewerLayout.TWO_PAGE"
+              (click)="setLayoutTwoPage()"
+            >
+              <mime-icon [iconName]="'two_page_display'"> </mime-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+          <div class="label">{{ intl.twoPageViewLabel }}</div>
+        </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-button-toggle-group [value]="viewerLayout">
-          <mat-button-toggle
-            *ngIf="isPagedManifest"
-            id="toggleTwoPageViewButton"
-            [attr.aria-label]="intl.twoPageViewLabel"
-            [matTooltip]="intl.twoPageViewLabel"
-            [value]="ViewerLayout.TWO_PAGE"
-            (click)="setLayoutTwoPage()"
-          >
-            <mime-icon [iconName]="'two_page_display'"> </mime-icon>
-          </mat-button-toggle>
-        </mat-button-toggle-group>
-        <div class="label">{{ intl.twoPageViewLabel }}</div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </ng-container>
   <ng-container *ngIf="hasRecognizedTextContent">
     <mat-divider></mat-divider>
-    <section>
+    <section data-test-id="recognized-text-content">
       <h2 *ngIf="hasRecognizedTextContent">{{ intl.digitalTextLabel }}</h2>
       <div fxLayout="column" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="start center">

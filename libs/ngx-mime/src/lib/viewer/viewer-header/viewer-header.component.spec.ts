@@ -18,7 +18,7 @@ import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub
 import { ViewerHeaderTestModule } from './viewer-header-test.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
 
-fdescribe('ViewerHeaderComponent', () => {
+describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
   let rootLoader: HarnessLoader;

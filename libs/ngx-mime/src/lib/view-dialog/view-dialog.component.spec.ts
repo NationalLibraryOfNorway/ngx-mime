@@ -7,12 +7,12 @@ import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { injectedStub } from '../../testing/injected-stub';
+import { TestManifests } from '../../testing/test-manifests';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
-import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { AltoServiceStub } from '../test/alto-service-stub';
@@ -27,8 +27,8 @@ describe('ViewDialogComponent', () => {
   let fixture: ComponentFixture<ViewDialogComponent>;
   let loader: HarnessLoader;
 
-  let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
-  let iiifManifestServiceStub: IiifManifestServiceStub;
+  let iiifContentSearchService: IiifContentSearchServiceStub;
+  let iiifManifestService: IiifManifestServiceStub;
   let mediaObserver: any;
   let dialogRef: any;
   let viewerLayoutService: ViewerLayoutService;
@@ -60,8 +60,8 @@ describe('ViewDialogComponent', () => {
     fixture = TestBed.createComponent(ViewDialogComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-    iiifManifestServiceStub = injectedStub(IiifManifestService);
+    iiifContentSearchService = injectedStub(IiifContentSearchService);
+    iiifManifestService = injectedStub(IiifManifestService);
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
     mediaObserver = TestBed.inject(MediaObserver);
     dialogRef = TestBed.inject(MatDialogRef);
@@ -72,59 +72,101 @@ describe('ViewDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display desktop toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(false);
+  it(
+    'should display desktop toolbar',
+    waitForAsync(() => {
+      spyOn(mediaObserver, 'isActive').and.returnValue(false);
 
-    fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-    const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
-    );
-    expect(heading).not.toBeNull();
-  });
+        const heading: DebugElement = fixture.debugElement.query(
+          By.css('.heading-desktop')
+        );
+        expect(heading).not.toBeNull();
+      });
+    })
+  );
 
-  it('should display mobile toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+  it(
+    'should display mobile toolbar',
+    waitForAsync(() => {
+      spyOn(mediaObserver, 'isActive').and.returnValue(true);
 
-    fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-    const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
-    );
-    expect(heading).toBeNull();
-  });
+        const heading: DebugElement = fixture.debugElement.query(
+          By.css('.heading-desktop')
+        );
+        expect(heading).toBeNull();
+      });
+    })
+  );
 
-  it('should hide digital text toggle group if digital text is not available', () => {
-    component.isPagedManifest = true;
-    viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
+  it(
+    'should show page layout toggle group if manifest is paged',
+    waitForAsync(() => {
+      iiifManifestService._currentManifest.next(TestManifests.aDefault());
 
-    fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-    const btnTwoPageView = fixture.debugElement.query(
-      By.css('#toggleTwoPageViewButton')
-    );
-    expect(btnTwoPageView).not.toBeNull();
+        const pageLayoutSection = fixture.debugElement.query(
+          By.css('[data-test-id="page-layout"]')
+        );
+        expect(pageLayoutSection).not.toBeNull();
+      });
+    })
+  );
 
-    const btnOnePageView = fixture.debugElement.query(
-      By.css('#toggleSinglePageViewButton')
-    );
-    expect(btnOnePageView).toBeNull();
-  });
+  it(
+    'should hide page layout toggle group if manifest is not paged',
+    waitForAsync(() => {
+      iiifManifestService._currentManifest.next(TestManifests.aEmpty());
 
-  it('should hide two-page-button and show one-page-button if current viewer-layout is two-page-view', () => {
-    component.isPagedManifest = true;
-    viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-    fixture.detectChanges();
+        const pageLayoutSection = fixture.debugElement.query(
+          By.css('[data-test-id="page-layout"]')
+        );
+        expect(pageLayoutSection).toBeNull();
+      });
+    })
+  );
 
-    const btnTwoPageView = fixture.debugElement.query(
-      By.css('#toggleTwoPageViewButton')
-    );
-    expect(btnTwoPageView).toBeNull();
+  it(
+    'should show digital text toggle group if digital text is available',
+    waitForAsync(() => {
+      iiifManifestService._currentManifest.next(
+        TestManifests.withDigitalTextContent()
+      );
 
-    const btnOnePageView = fixture.debugElement.query(
-      By.css('#toggleSinglePageViewButton')
-    );
-    expect(btnOnePageView).not.toBeNull();
-  });
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        const recognizedTextContentSection = fixture.debugElement.query(
+          By.css('[data-test-id="recognized-text-content"]')
+        );
+        expect(recognizedTextContentSection).not.toBeNull();
+      });
+    })
+  );
+
+  it(
+    'should hide digital text toggle group if digital text is not available',
+    waitForAsync(() => {
+      iiifManifestService._currentManifest.next(TestManifests.aEmpty());
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        const recognizedTextContentSection = fixture.debugElement.query(
+          By.css('[data-test-id="recognized-text-content"]')
+        );
+        expect(recognizedTextContentSection).toBeNull();
+      });
+    })
+  );
 });
