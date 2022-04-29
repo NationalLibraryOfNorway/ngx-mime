@@ -1,7 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -22,7 +22,7 @@ import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { ViewerServiceStub } from '../test/viewer-service-stub';
 import { ViewDialogComponent } from './view-dialog.component';
 
-fdescribe('ViewDialogComponent', () => {
+describe('ViewDialogComponent', () => {
   let component: ViewDialogComponent;
   let fixture: ComponentFixture<ViewDialogComponent>;
   let loader: HarnessLoader;
@@ -36,6 +36,7 @@ fdescribe('ViewDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        schemas: [NO_ERRORS_SCHEMA],
         imports: [HttpClientTestingModule],
         declarations: [ViewDialogComponent],
         providers: [
@@ -93,7 +94,7 @@ fdescribe('ViewDialogComponent', () => {
     expect(heading).toBeNull();
   });
 
-  it('should hide one-page-button and show two-page-button if current viewer-layout is one-page-view', () => {
+  it('should hide digital text toggle group if digital text is not available', () => {
     component.isPagedManifest = true;
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
 

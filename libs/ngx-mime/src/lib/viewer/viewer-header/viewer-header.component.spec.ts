@@ -1,32 +1,32 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  ComponentFixture,
-  inject,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
+import { injectedStub } from '../../../testing/injected-stub';
+import { TestManifests } from '../../../testing/test-manifests';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
 import { AltoService } from '../../core/alto-service/alto.service';
+import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 import { Manifest, Service } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
 import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
-import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
 import { ViewerHeaderTestModule } from './viewer-header-test.module';
 import { ViewerHeaderComponent } from './viewer-header.component';
 
-describe('ViewerHeaderComponent', () => {
+fdescribe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
   let rootLoader: HarnessLoader;
   let loader: HarnessLoader;
   let altoService: AltoService;
+  let fullscreenService: FullscreenService;
+  let iiifManifestService: IiifManifestServiceStub;
+  let intl: MimeViewerIntl;
 
   beforeEach(
     waitForAsync(() => {
@@ -37,37 +37,49 @@ describe('ViewerHeaderComponent', () => {
           ContentSearchDialogModule,
           HelpDialogModule,
         ],
+        providers: [
+          FullscreenService,
+          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        ],
       }).compileComponents();
-
-      fixture = TestBed.createComponent(ViewerHeaderComponent);
-      component = fixture.componentInstance;
-      rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-      loader = TestbedHarnessEnvironment.loader(fixture);
-      altoService = TestBed.inject(AltoService);
-      fixture.detectChanges();
     })
   );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ViewerHeaderComponent);
+    component = fixture.componentInstance;
+    rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    loader = TestbedHarnessEnvironment.loader(fixture);
+    altoService = TestBed.inject(AltoService);
+    fullscreenService = TestBed.inject(FullscreenService);
+    intl = TestBed.inject(MimeViewerIntl);
+    iiifManifestService = injectedStub(IiifManifestService);
+    fixture.detectChanges();
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should re-render when the i18n labels have changed', inject(
-    [MimeViewerIntl],
-    (intl: MimeViewerIntl) => {
+  it(
+    'should re-render when the i18n labels have changed',
+    waitForAsync(() => {
       const button = fixture.debugElement.query(
         By.css('#ngx-mimeContentsDialogButton')
       );
 
       intl.contentsLabel = 'Metadata of the publication';
       intl.changes.next();
-      fixture.detectChanges();
 
-      expect(button.nativeElement.getAttribute('aria-label')).toBe(
-        'Metadata of the publication'
-      );
-    }
-  ));
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        expect(button.nativeElement.getAttribute('aria-label')).toBe(
+          'Metadata of the publication'
+        );
+      });
+    })
+  );
 
   it('should open contents dialog', async () => {
     component.toggleContents();
@@ -90,8 +102,8 @@ describe('ViewerHeaderComponent', () => {
       const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
 
       component.state = 'hide';
-      fixture.detectChanges();
       fixture.whenStable().then(() => {
+        fixture.detectChanges();
         expectHeaderToBeHidden(fixture.debugElement.nativeElement);
       });
     })
@@ -116,98 +128,140 @@ describe('ViewerHeaderComponent', () => {
     })
   );
 
-  it('should show fullscreen button if fullscreen mode is supported', inject(
-    [FullscreenService],
-    (fullscreenService: FullscreenService) => {
+  it(
+    'should show fullscreen button if fullscreen mode is supported',
+    waitForAsync(() => {
       spyOn(fullscreenService, 'isEnabled').and.returnValue(true);
 
-      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-      const button = fixture.debugElement.query(
-        By.css('#ngx-mimeFullscreenButton')
-      );
-      expect(button).not.toBeNull();
-    }
-  ));
+        const button = fixture.debugElement.query(
+          By.css('#ngx-mimeFullscreenButton')
+        );
+        expect(button).not.toBeNull();
+      });
+    })
+  );
 
-  it('should hide fullscreen button if fullscreen mode is unsupported', inject(
-    [FullscreenService],
-    (fullscreenService: FullscreenService) => {
+  it(
+    'should hide fullscreen button if fullscreen mode is unsupported',
+    waitForAsync(() => {
       spyOn(fullscreenService, 'isEnabled').and.returnValue(false);
 
-      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-      const button = fixture.debugElement.query(
-        By.css('#ngx-mimeFullscreenButton')
-      );
-      expect(button).not.toBeNull();
-    }
-  ));
+        const button = fixture.debugElement.query(
+          By.css('#ngx-mimeFullscreenButton')
+        );
+        expect(button).not.toBeNull();
+      });
+    })
+  );
 
-  it('should show search button if manifest has a search service', inject(
-    [IiifManifestService],
-    (iiifManifestService: IiifManifestServiceStub) => {
+  it(
+    'should show search button if manifest has a search service',
+    waitForAsync(() => {
       iiifManifestService._currentManifest.next({
-        ...new Manifest(),
+        ...TestManifests.aEmpty(),
         service: new Service(),
       });
 
-      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-      const button = fixture.debugElement.query(
-        By.css('#ngx-mimeContentSearchDialogButton')
-      );
-      expect(button.nativeElement.getAttribute('aria-label')).toBe('Search');
-    }
-  ));
+        const button = fixture.debugElement.query(
+          By.css('#ngx-mimeContentSearchDialogButton')
+        );
+        expect(button.nativeElement.getAttribute('aria-label')).toBe('Search');
+      });
+    })
+  );
 
-  it('should hide search button if manifest does not have a search service', inject(
-    [IiifManifestService],
-    (iiifManifestService: IiifManifestServiceStub) => {
+  it(
+    'should hide search button if manifest does not have a search service',
+    waitForAsync(() => {
       iiifManifestService._currentManifest.next(new Manifest());
 
-      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-      const button = fixture.debugElement.query(
-        By.css('#ngx-mimeContentSearchDialogButton')
-      );
-      expect(button).toBeNull();
-    }
-  ));
+        const button = fixture.debugElement.query(
+          By.css('#ngx-mimeContentSearchDialogButton')
+        );
+        expect(button).toBeNull();
+      });
+    })
+  );
 
-  it('should hide viewer-layout buttons if manifest is not  "paged"', inject(
-    [IiifManifestService],
-    (iiifManifestService: IiifManifestServiceStub) => {
-      component.isPagedManifest = false;
-      fixture.detectChanges();
-
-      const btnTwoPageView = fixture.debugElement.query(
-        By.css('#toggleTwoPageViewButton')
-      );
-      const btnOnePageView = fixture.debugElement.query(
-        By.css('#toggleSinglePageViewButton')
-      );
-      expect(btnOnePageView).toBeNull();
-      expect(btnTwoPageView).toBeNull();
-    }
-  ));
-
-  it('should show label if manifest has a label', inject(
-    [IiifManifestService],
-    (iiifManifestService: IiifManifestServiceStub) => {
+  it(
+    'should show label if manifest has a label',
+    waitForAsync(() => {
       iiifManifestService._currentManifest.next({
         label: 'Testlabel',
         viewingDirection: ViewingDirection.LTR,
       });
 
-      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
 
-      const label = fixture.debugElement.query(
-        By.css('.header-container .label')
-      ).nativeElement;
-      expect(label.innerHTML).toBe('Testlabel');
-    }
-  ));
+        const label = fixture.debugElement.query(
+          By.css('.header-container .label')
+        ).nativeElement;
+        expect(label.innerHTML).toBe('Testlabel');
+      });
+    })
+  );
+
+  it(
+    'should show view menu button if digital text is available',
+    waitForAsync(() => {
+      iiifManifestService._currentManifest.next(
+        TestManifests.withDigitalTextContent()
+      );
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+
+        const viewMenuButton = fixture.debugElement.query(
+          By.css('#ngx-mimeViewMenuButton')
+        );
+
+        expect(viewMenuButton).not.toBeNull();
+      });
+    })
+  );
+
+  it(
+    'should show view menu button if manifest is paged',
+    waitForAsync(() => {
+      iiifManifestService._currentManifest.next(TestManifests.aDefault());
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const viewMenuButton = fixture.debugElement.query(
+          By.css('#ngx-mimeViewMenuButton')
+        );
+        expect(viewMenuButton).not.toBeNull();
+      });
+    })
+  );
+
+  it(
+    'should hide view menu button if manifest is not paged and digital text is not available',
+    waitForAsync(() => {
+      iiifManifestService._currentManifest.next(TestManifests.aEmpty());
+
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        const viewMenuButton = fixture.debugElement.query(
+          By.css('#ngx-mimeViewMenuButton')
+        );
+        expect(viewMenuButton).toBeNull();
+      });
+    })
+  );
 });
 
 function expectHeaderToShow(element: any) {

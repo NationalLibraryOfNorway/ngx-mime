@@ -19,6 +19,7 @@
       class="buttons-container"
     >
       <button
+        *ngIf="isPagedManifest || hasRecognizedTextContent"
         id="ngx-mimeViewMenuButton"
         #viewMenu
         mat-icon-button
