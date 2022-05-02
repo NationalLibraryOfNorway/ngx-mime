@@ -122,7 +122,9 @@ export class AccessKeys {
 
   public isResetSearchKeys() {
     return (
-      !this.isMetaPressed() && this.isShiftPressed() && this.arrayContainsKeys(AccessKeys.resetSearch)
+      !this.isMetaPressed() &&
+      this.isShiftPressed() &&
+      this.arrayContainsKeys(AccessKeys.resetSearch)
     );
   }
 
