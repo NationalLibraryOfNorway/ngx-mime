@@ -66,6 +66,7 @@ export class AccessKeysService {
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
     if (!this.isKeyDisabled(event.keyCode)) {
+      event.preventDefault();
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
           this.invert

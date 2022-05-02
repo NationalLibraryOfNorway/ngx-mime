@@ -336,7 +336,7 @@ export class ViewerComponent
     }
   }
 
-  @HostListener('keyup', ['$event'])
+  @HostListener('keydown', ['$event'])
   handleKeys(event: KeyboardEvent) {
     this.accessKeysHandlerService.handleKeyEvents(event);
   }

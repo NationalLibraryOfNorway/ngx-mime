@@ -134,6 +134,19 @@ Feature: Access Keys
       | keys  |
       | s     |
 
+  Scenario Outline: Reset search on key <keys>
+    Given the viewer is opened with a publication with the word "africa" 7 times inside
+    And the viewer is in dashboard view
+    When the user search for the word "africa"
+    And the user closes the search dialog
+    And the user hits key <keys>
+    And the user opens the search dialog
+    Then the search query should be empty
+
+    Examples:
+      | keys        |
+      | Shift+S     |
+
   Scenario Outline: Disable <keys> when Content Search Dialog is open
     Given the viewer is opened with a publication with viewing hint "individuals"
     And the viewer is on page 5
