@@ -8,6 +8,7 @@ import { MimeViewerIntl } from '../core/intl';
 import { RecognizedTextMode } from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
+import { ViewerOptions } from '../core/models/viewer-options';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 
@@ -90,6 +91,10 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
 
     if (prev === RecognizedTextMode.FULL) {
       this.viewerService.showPages();
+      setTimeout(() => {
+        this.viewerService.home();
+      }, ViewerOptions.transitions.OSDAnimationTime);
+
     }
     this.altoService.showRight();
   }
