@@ -82,6 +82,7 @@ export class ViewerPage {
   private firstCanvasRecognizedTextContentEl: ElementFinder;
   private secondCanvasRecognizedTextContentEl: ElementFinder;
   private recognizedTextContentHitsEls: ElementArrayFinder;
+  private recognizedTextContentContainerEl: ElementFinder;
   private viewMenuButtonEl: ElementFinder;
   private viewMenuDialogEl: ElementFinder;
 
@@ -168,6 +169,11 @@ export class ViewerPage {
     this.recognizedTextContentHitsEls = element.all(
       by.css('.recognized-text-content-container mark')
     );
+    this.recognizedTextContentContainerEl = element(
+      by.css(
+        'mat-drawer[data-test-id="ngx-mimeRecognizedTextContentContainer"]'
+      )
+    );
     this.viewMenuButtonEl = element(by.css('#ngx-mimeViewMenuButton'));
     this.viewMenuDialogEl = element(by.css('mime-view-dialog'));
   }
@@ -222,11 +228,11 @@ export class ViewerPage {
   }
 
   async isRecognizedTextContentInSidenav(): Promise<boolean> {
-    return utils.isPresentAndDisplayed(element(by.css('mat-drawer.right')));
+    return utils.containClass(this.recognizedTextContentContainerEl, 'right');
   }
 
   async isRecognizedTextContentInMain() {
-    return utils.isPresentAndDisplayed(element(by.css('mat-drawer.full')));
+    return utils.containClass(this.recognizedTextContentContainerEl, 'full');
   }
 
   async setDashboardMode(): Promise<void> {
@@ -250,23 +256,11 @@ export class ViewerPage {
   }
 
   async setOnePageView() {
-    await this.openViewMeny();
-    const btn: ElementFinder = await this.getOnePageButton();
-    // Button is present, so switch to one-page
-    if (btn) {
-      await btn.click();
-      await this.waitForAnimation();
-    }
+    await this.enableViewMenuToggle(this.singlePageViewToggleButtonEl);
   }
 
   async setTwoPageView() {
-    await this.openViewMeny();
-    const btn: ElementFinder = await this.getTwoPageButton();
-    if (btn) {
-      // Button is present, so click to switch to two-page
-      await btn.click();
-      await this.waitForAnimation();
-    }
+    await this.enableViewMenuToggle(this.twoPageViewToggleButtonEl);
   }
 
   setTestCustomElements(isElements: boolean) {
@@ -445,28 +439,6 @@ export class ViewerPage {
     return utils.promisify(async () =>
       utils.waitForElement(this.canvasGroupOverlayEls.first())
     );
-  }
-
-  async getOnePageButton() {
-    return utils.promisify(async () => {
-      const isPresentAndDisplayed: boolean = await utils.isPresentAndDisplayed(
-        this.singlePageViewToggleButtonEl
-      );
-      return isPresentAndDisplayed
-        ? <any>this.singlePageViewToggleButtonEl
-        : undefined;
-    });
-  }
-
-  async getTwoPageButton() {
-    return utils.promisify(async () => {
-      const isPresentAndDisplayed = await utils.isPresentAndDisplayed(
-        this.twoPageViewToggleButtonEl
-      );
-      return isPresentAndDisplayed
-        ? <any>this.twoPageViewToggleButtonEl
-        : undefined;
-    });
   }
 
   async openViewMeny(): Promise<void> {

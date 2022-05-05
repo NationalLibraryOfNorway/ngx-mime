@@ -63,6 +63,12 @@ export class Utils {
     return EC.invisibilityOf(element) ? true : false;
   }
 
+  async containClass(el: ElementFinder, className: string): Promise<boolean> {
+    return (
+      (await el.getAttribute('class')).split(' ').indexOf(className) !== -1
+    );
+  }
+
   promisify(callback: () => Promise<any>): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
