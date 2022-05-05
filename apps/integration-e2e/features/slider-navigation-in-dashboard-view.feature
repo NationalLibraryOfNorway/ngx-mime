@@ -13,22 +13,4 @@ Feature: Navigation i dashboard view
 
     Examples:
         | viewingDirection | layout |
-        | left-to-right | two-page |
-        | left-to-right | one-page |
         | right-to-left | two-page |
-        | right-to-left | one-page |
-
-  @desktop @android @iphone
-  Scenario Outline: Dialog navigation
-    Given a <viewingDirection> publication with 10 pages
-    And the layout is <layout>
-    And the viewer is in dashboard view
-    When the user enters 5 in the page dialog
-    Then page 5 is displayed
-
-    Examples:
-        | viewingDirection | layout |
-        | left-to-right | two-page |
-        | left-to-right | one-page |
-        | right-to-left | two-page |
-        | right-to-left | one-page |

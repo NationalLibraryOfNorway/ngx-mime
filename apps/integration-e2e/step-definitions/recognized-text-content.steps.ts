@@ -19,6 +19,10 @@ When('the user enables recognized text content in main', async () => {
   await viewerPage.enableRecognizedTextContentInMain();
 });
 
+When('the user closes the recognized text content', async () => {
+  await viewerPage.enableRecognizedTextContentClose();
+});
+
 Then('the user should be able to enable recognized text content', async () => {
   expect(await viewerPage.isRecognizedTextContentButtonPresent()).to.be.true;
 });
@@ -41,6 +45,12 @@ Then('the recognized text content should be shown in main', async () => {
   expect(isRecognizedTextContentInMain).to.be.true;
   expect(text).not.to.be.undefined;
   expect(text).to.have.length.above(0);
+});
+
+Then('the recognized text content should be hidden', async () => {
+  const text = await viewerPage.getRecognizedTextContent();
+
+  expect(text).to.be.undefined;
 });
 
 Then(

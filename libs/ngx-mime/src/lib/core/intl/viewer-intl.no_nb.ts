@@ -15,8 +15,8 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   singlePageViewLabel = 'Enkeltsider';
   twoPageViewLabel = 'To sider';
   digitalTextLabel = "Digital tekst";
-  hideRecognizedTextContentLabel = 'Ingen';
-  recognizedTextContentInSideNavLabel = 'Delt';
+  recognizedTextContentCloseLabel = 'Ingen';
+  recognizedTextContentInSidenavLabel = 'Delt';
   showRecognizedTextContentLabel = 'Kun digital tekst';
   metadataLabel = 'Metadata';
   licenseLabel = 'Lisens';

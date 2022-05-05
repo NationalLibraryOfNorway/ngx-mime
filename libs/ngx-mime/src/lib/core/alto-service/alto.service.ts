@@ -80,8 +80,10 @@ export class AltoService {
     this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
 
-    this.onRecognizedTextContentToggle =
-      this.config?.initRecognizedTextContentToggle;
+    if (this.config?.initRecognizedTextContentToggle !== undefined) {
+      this.onRecognizedTextContentToggle =
+        this.config.initRecognizedTextContentToggle;
+    }
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -122,8 +124,10 @@ export class AltoService {
   }
 
   destroy() {
-    this.onRecognizedTextContentToggle =
-      this.config?.initRecognizedTextContentToggle;
+    this.onRecognizedTextContentToggle = this.config
+      ?.initRecognizedTextContentToggle
+      ? this.config?.initRecognizedTextContentToggle
+      : RecognizedTextMode.NONE;
 
     this.subscriptions.unsubscribe();
     this.clearCache();

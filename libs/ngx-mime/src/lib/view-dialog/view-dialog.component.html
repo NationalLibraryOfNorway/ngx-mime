@@ -79,23 +79,24 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              [attr.aria-label]="intl.hideRecognizedTextContentLabel"
-              [matTooltip]="intl.hideRecognizedTextContentLabel"
+              data-test-id="ngx-mimeRecognizedTextContentCloseButton"
+              [attr.aria-label]="intl.recognizedTextContentCloseLabel"
+              [matTooltip]="intl.recognizedTextContentCloseLabel"
               [value]="RecognizedTextMode.NONE"
               (click)="hideRecognizedTextContent()"
             >
               <mat-icon>hide_source</mat-icon>
             </mat-button-toggle>
           </mat-button-toggle-group>
-          <div class="label">{{ intl.hideRecognizedTextContentLabel }}</div>
+          <div class="label">{{ intl.recognizedTextContentCloseLabel }}</div>
         </div>
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentInSideNavButton"
-              [attr.aria-label]="intl.recognizedTextContentInSideNavLabel"
-              [matTooltip]="intl.recognizedTextContentInSideNavLabel"
+              data-test-id="ngx-mimeRecognizedTextContentInSidenavButton"
+              [attr.aria-label]="intl.recognizedTextContentInSidenavLabel"
+              [matTooltip]="intl.recognizedTextContentInSidenavLabel"
               [value]="RecognizedTextMode.RIGHT"
               (click)="showRecognizedTextContentInSideNav()"
             >
@@ -103,7 +104,7 @@
             </mat-button-toggle>
           </mat-button-toggle-group>
           <div class="label">{{
-            intl.recognizedTextContentInSideNavLabel
+            intl.recognizedTextContentInSidenavLabel
           }}</div>
         </div>
         <div fxLayout="row" fxLayoutAlign="start center">

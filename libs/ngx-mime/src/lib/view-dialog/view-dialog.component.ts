@@ -13,7 +13,7 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { ViewerService } from '../core/viewer-service/viewer.service';
 
 @Component({
-  selector: 'mime-search',
+  selector: 'mime-view-dialog',
   templateUrl: './view-dialog.component.html',
   styleUrls: ['./view-dialog.component.scss'],
 })

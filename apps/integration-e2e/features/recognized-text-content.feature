@@ -21,6 +21,13 @@ Feature: Show recognized text content
     When the user enables recognized text content in main
     Then the recognized text content should be shown in main
 
+  Scenario: Hide recognized text content
+    Given the viewer is opened with a publication with recognized text content
+    And the viewer is in dashboard view
+    And the user enables recognized text content in main
+    When the user closes the recognized text content
+    Then the recognized text content should be hidden
+
   Scenario: Highlight recognized text content
     Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view

@@ -78,10 +78,12 @@ export class ViewerPage {
   private openseadragonCanvasEl: ElementFinder;
   private recognizedTextContentSidenavButtonEl: ElementFinder;
   private recognizedTextContentMainButtonEl: ElementFinder;
+  private recognizedTextContentCloseButtonEl: ElementFinder;
   private firstCanvasRecognizedTextContentEl: ElementFinder;
   private secondCanvasRecognizedTextContentEl: ElementFinder;
   private recognizedTextContentHitsEls: ElementArrayFinder;
   private viewMenuButtonEl: ElementFinder;
+  private viewMenuDialogEl: ElementFinder;
 
   constructor() {
     this.navigationSliderEl = element(by.css('.navigation-slider'));
@@ -139,12 +141,17 @@ export class ViewerPage {
     );
     this.recognizedTextContentSidenavButtonEl = element(
       by.css(
-        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInSideNavButton"]'
+        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInSidenavButton"]'
       )
     );
     this.recognizedTextContentMainButtonEl = element(
       by.css(
         'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInMainButton"]'
+      )
+    );
+    this.recognizedTextContentCloseButtonEl = element(
+      by.css(
+        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentCloseButton"]'
       )
     );
     this.modeDashboardEl = element(by.css('.mode-dashboard'));
@@ -162,6 +169,7 @@ export class ViewerPage {
       by.css('.recognized-text-content-container mark')
     );
     this.viewMenuButtonEl = element(by.css('#ngx-mimeViewMenuButton'));
+    this.viewMenuDialogEl = element(by.css('mime-view-dialog'));
   }
 
   getBookShelfUrl(manifestName: string): string {
@@ -183,32 +191,19 @@ export class ViewerPage {
   }
 
   async enableRecognizedTextContentInSidenav(): Promise<void> {
-    await this.openViewMeny();
-    const classes =
-      await this.recognizedTextContentSidenavButtonEl.getAttribute('class');
-    const isSelected = classes.indexOf('mat-button-toggle-checked') !== -1;
-
-    if (!isSelected) {
-      await this.recognizedTextContentSidenavButtonEl.click();
-      await this.waitForAnimation();
-    }
+    await this.enableViewMenuToggle(this.recognizedTextContentSidenavButtonEl);
   }
 
   async enableRecognizedTextContentInMain(): Promise<void> {
-    await this.openViewMeny();
-    const classes = await this.recognizedTextContentMainButtonEl.getAttribute(
-      'class'
-    );
-    const isSelected = classes.indexOf('mat-button-toggle-checked') !== -1;
-
-    if (!isSelected) {
-      await this.recognizedTextContentMainButtonEl.click();
-      await this.waitForAnimation();
-    }
+    await this.enableViewMenuToggle(this.recognizedTextContentMainButtonEl);
   }
 
-  async getRecognizedTextContent(): Promise<string> {
-    let text = '';
+  async enableRecognizedTextContentClose(): Promise<void> {
+    await this.enableViewMenuToggle(this.recognizedTextContentCloseButtonEl);
+  }
+
+  async getRecognizedTextContent(): Promise<string | undefined> {
+    let text = undefined;
     if (
       await utils.isPresentAndDisplayed(
         this.firstCanvasRecognizedTextContentEl.element(by.css('p'))
@@ -475,6 +470,11 @@ export class ViewerPage {
   }
 
   async openViewMeny(): Promise<void> {
+    const isOpen = await this.isViewDialogOpen();
+    if (isOpen) {
+      return;
+    }
+
     const isPresentAndDisplayed: boolean = await utils.isPresentAndDisplayed(
       this.viewMenuButtonEl
     );
@@ -650,6 +650,10 @@ export class ViewerPage {
     return secondPageGroupCount === 2;
   }
 
+  async isViewDialogOpen(): Promise<boolean> {
+    return utils.isPresentAndDisplayed(this.viewMenuDialogEl);
+  }
+
   async isOnePageView(): Promise<boolean> {
     const singlePageGroupCount = await element
       .all(by.css('.page-group'))
@@ -805,6 +809,18 @@ export class ViewerPage {
     await browser.executeScript(
       `document.querySelector('.openseadragon-canvas').focus();`
     );
+  }
+
+  private async enableViewMenuToggle(el: ElementFinder): Promise<void> {
+    await this.openViewMeny();
+
+    const classes = await el.getAttribute('class');
+    const isSelected = classes.indexOf('mat-button-toggle-checked') !== -1;
+
+    if (!isSelected) {
+      await el.click();
+      await this.waitForAnimation();
+    }
   }
 }
 
