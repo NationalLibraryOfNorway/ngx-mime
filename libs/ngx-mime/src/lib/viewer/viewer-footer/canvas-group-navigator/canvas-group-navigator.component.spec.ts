@@ -170,7 +170,7 @@ describe('CanvasGroupNavigatorComponent', () => {
   it(
     'should check hotkeys',
     waitForAsync(() => {
-      const event: KeyboardEvent = new KeyboardEvent('keyup', {
+      const event: KeyboardEvent = new KeyboardEvent('keydown', {
         code: '70', // 'f'
       });
 
