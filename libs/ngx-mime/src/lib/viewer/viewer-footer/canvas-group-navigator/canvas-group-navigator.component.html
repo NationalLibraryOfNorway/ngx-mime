@@ -8,7 +8,7 @@
         [value]="currentCanvasGroupIndex"
         [attr.aria-label]="intl.currentPageLabel"
         (input)="onSliderChange($event)"
-        (keyup)="onSliderHotKey($event)"
+        (keydown)="onSliderHotKey($event)"
         fxFlex
       ></mat-slider>
     </div>

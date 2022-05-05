@@ -97,7 +97,7 @@
             [color]="currentHit && hit.id === currentHit.id ? 'accent' : null"
             [ngClass]="'hit'"
             (click)="goToHit(hit)"
-            (keyup.enter)="goToHit(hit)"
+            (keydown.enter)="goToHit(hit)"
           >
             <div fxLayout="row" fxLayoutAlign="space-between start">
               <div fxFlex class="summary">
