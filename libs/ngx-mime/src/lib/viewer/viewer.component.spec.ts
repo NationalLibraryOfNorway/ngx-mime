@@ -93,7 +93,6 @@ describe('ViewerComponent', function () {
           AccessKeysService,
           ViewerLayoutService,
           ContentSearchNavigationService,
-          ViewDialogService,
         ],
       }).compileComponents();
     })

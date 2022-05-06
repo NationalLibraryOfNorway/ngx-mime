@@ -421,6 +421,11 @@ export class ViewerService {
     this.viewer.innerTracker.keyDownHandler = this.defaultKeyDownHandler;
   }
 
+  /**
+   *
+   * @param layoutSwitch true if switching between layouts
+   * to keep current search-state and rotation
+   */
   destroy(layoutSwitch?: boolean) {
     this.osdIsReady.next(false);
     this.currentCenter.next({ x: 0, y: 0 });
@@ -436,7 +441,6 @@ export class ViewerService {
     if (this.canvasGroupMask) {
       this.canvasGroupMask.destroy();
     }
-
     // Keep search-state and rotation only if layout-switch
     if (!layoutSwitch) {
       this.altoService.destroy();

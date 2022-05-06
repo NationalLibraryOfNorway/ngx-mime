@@ -68,11 +68,11 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  public setLayoutOnePage(): void {
+  setLayoutOnePage(): void {
     this.viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
   }
 
-  public setLayoutTwoPage(): void {
+  setLayoutTwoPage(): void {
     this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
   }
 

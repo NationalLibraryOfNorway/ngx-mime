@@ -18,6 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   exports: [
     MatToolbarModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,
@@ -30,7 +31,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCardModule,
     MatSnackBarModule,
     MatSidenavModule,
-    MatButtonToggleModule,
   ],
 })
 export class MimeMaterialModule {}

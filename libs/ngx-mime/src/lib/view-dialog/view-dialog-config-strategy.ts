@@ -1,7 +1,6 @@
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { ElementRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
-
 import { Dimensions } from '../core/models/dimensions';
 
 export interface ViewDialogConfigStrategy {
