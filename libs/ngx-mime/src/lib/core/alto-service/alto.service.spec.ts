@@ -110,12 +110,29 @@ describe('AltoService', () => {
     });
   }));
 
-  it('should toggle on showing recognized text', () => {
+  it('should toggle on recognized text in sidenav', () => {
     expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
 
     service.showRight();
 
     expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.RIGHT);
+  });
+
+  it('should toggle on recognized text in full', () => {
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
+
+    service.showFull();
+
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.FULL);
+  });
+
+  it('should toggle off recognized text', () => {
+    service.showFull();
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.FULL);
+
+    service.hide();
+
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
   });
 
   const setUpSpy = () => {
@@ -186,7 +203,9 @@ describe('AltoService', () => {
     expect(service.getHtml(1)).toBeUndefined();
   };
 
-  const expectOnRecognizedTextContentToggleChangeToBe = (value: RecognizedTextMode) => {
+  const expectOnRecognizedTextContentToggleChangeToBe = (
+    value: RecognizedTextMode
+  ) => {
     expect(service.onRecognizedTextContentToggleChange$).toBeObservable(
       cold('a', { a: value })
     );
