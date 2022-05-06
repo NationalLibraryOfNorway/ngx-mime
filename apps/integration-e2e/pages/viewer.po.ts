@@ -76,8 +76,8 @@ export class ViewerPage {
   private modeDashboardEl: ElementFinder;
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
-  private recognizedTextContentSidenavButtonEl: ElementFinder;
-  private recognizedTextContentMainButtonEl: ElementFinder;
+  private recognizedTextContentInSideContentButtonEl: ElementFinder;
+  private recognizedTextContentInMainContentButtonEl: ElementFinder;
   private recognizedTextContentCloseButtonEl: ElementFinder;
   private firstCanvasRecognizedTextContentEl: ElementFinder;
   private secondCanvasRecognizedTextContentEl: ElementFinder;
@@ -140,14 +140,14 @@ export class ViewerPage {
     this.twoPageViewToggleButtonEl = element(
       by.css('#toggleTwoPageViewButton')
     );
-    this.recognizedTextContentSidenavButtonEl = element(
+    this.recognizedTextContentInSideContentButtonEl = element(
       by.css(
-        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInSidenavButton"]'
+        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInSideContentButton"]'
       )
     );
-    this.recognizedTextContentMainButtonEl = element(
+    this.recognizedTextContentInMainContentButtonEl = element(
       by.css(
-        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInMainButton"]'
+        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInMainContentButton"]'
       )
     );
     this.recognizedTextContentCloseButtonEl = element(
@@ -189,19 +189,28 @@ export class ViewerPage {
     }
   }
 
-  async isRecognizedTextContentButtonPresent(): Promise<boolean> {
-    await this.openViewMeny();
-    return utils.isPresentAndDisplayed(
-      this.recognizedTextContentSidenavButtonEl
+  async isRecognizedTextContentButtonsPresent(): Promise<boolean> {
+    return (
+      await utils.isPresentAndDisplayed(
+        this.recognizedTextContentInSideContentButtonEl
+      ) &&
+      await utils.isPresentAndDisplayed(
+        this.recognizedTextContentInMainContentButtonEl
+      ) &&
+      await utils.isPresentAndDisplayed(this.recognizedTextContentCloseButtonEl)
     );
   }
 
-  async enableRecognizedTextContentInSidenav(): Promise<void> {
-    await this.enableViewMenuToggle(this.recognizedTextContentSidenavButtonEl);
+  async enableRecognizedTextContentInSideContent(): Promise<void> {
+    await this.enableViewMenuToggle(
+      this.recognizedTextContentInSideContentButtonEl
+    );
   }
 
-  async enableRecognizedTextContentInMain(): Promise<void> {
-    await this.enableViewMenuToggle(this.recognizedTextContentMainButtonEl);
+  async enableRecognizedTextContentInMainContent(): Promise<void> {
+    await this.enableViewMenuToggle(
+      this.recognizedTextContentInMainContentButtonEl
+    );
   }
 
   async enableRecognizedTextContentClose(): Promise<void> {
@@ -227,12 +236,12 @@ export class ViewerPage {
     return text;
   }
 
-  async isRecognizedTextContentInSidenav(): Promise<boolean> {
-    return utils.containClass(this.recognizedTextContentContainerEl, 'right');
+  async isRecognizedTextContentInSideContent(): Promise<boolean> {
+    return utils.containClass(this.recognizedTextContentContainerEl, 'side');
   }
 
   async isRecognizedTextContentInMain() {
-    return utils.containClass(this.recognizedTextContentContainerEl, 'full');
+    return utils.containClass(this.recognizedTextContentContainerEl, 'main');
   }
 
   async setDashboardMode(): Promise<void> {

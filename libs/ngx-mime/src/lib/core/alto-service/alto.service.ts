@@ -137,15 +137,15 @@ export class AltoService {
     this.config = config;
   }
 
-  showFull() {
-    this.onRecognizedTextContentToggle = RecognizedTextMode.FULL;
+  showRecognizedTextContentInMainContent() {
+    this.onRecognizedTextContentToggle = RecognizedTextMode.MAIN;
   }
 
-  showRight() {
-    this.onRecognizedTextContentToggle = RecognizedTextMode.RIGHT;
+  showRecognizedTextContentInSideContent() {
+    this.onRecognizedTextContentToggle = RecognizedTextMode.SIDE;
   }
 
-  hide() {
+  hideRecognizedTextContent() {
     this.onRecognizedTextContentToggle = RecognizedTextMode.NONE;
   }
 

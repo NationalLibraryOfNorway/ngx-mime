@@ -138,7 +138,7 @@ export class AccessKeysService {
   }
 
   private toggleRecognizedTextContent() {
-    this.altoService.showRight();
+    this.altoService.showRecognizedTextContentInSideContent();
   }
 
   private goToNextHit() {
@@ -223,12 +223,6 @@ export class AccessKeysService {
     return this.modeService.isPageZoomed();
   }
 
-  private isRecognizedTextContentFull(): boolean {
-    return (
-      this.altoService.onRecognizedTextContentToggle === RecognizedTextMode.FULL
-    );
-  }
-
   private updateDisabledKeys() {
     this.resetDisabledKeys();
     if (this.contentsDialogService.isOpen()) {
@@ -236,7 +230,7 @@ export class AccessKeysService {
     } else if (this.contentSearchDialogService.isOpen()) {
       this.diableKeysForContentSearchDialog();
     }
-    if (this.isRecognizedTextContentFull()) {
+    if (this.isRecognizedTextContentInMainContent()) {
       this.disableKeysForRecognizedTextModeFull();
     }
   }
@@ -261,6 +255,12 @@ export class AccessKeysService {
       .concat(AccessKeys.toggleSearchDialogCodes)
       .concat(AccessKeys.toggleContentsDialogCodes)
       .concat(AccessKeys.toggleFullscreenCodes);
+  }
+
+  private isRecognizedTextContentInMainContent(): boolean {
+    return (
+      this.altoService.onRecognizedTextContentToggle === RecognizedTextMode.MAIN
+    );
   }
 
   private disableKeysForRecognizedTextModeFull(): void {

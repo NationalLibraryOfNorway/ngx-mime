@@ -110,27 +110,27 @@ describe('AltoService', () => {
     });
   }));
 
-  it('should toggle on recognized text in sidenav', () => {
+  it('should toggle on recognized text in siden content', () => {
     expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
 
-    service.showRight();
+    service.showRecognizedTextContentInSideContent();
 
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.RIGHT);
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.SIDE);
   });
 
-  it('should toggle on recognized text in full', () => {
+  it('should toggle on recognized text in main content', () => {
     expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
 
-    service.showFull();
+    service.showRecognizedTextContentInMainContent();
 
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.FULL);
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.MAIN);
   });
 
   it('should toggle off recognized text', () => {
-    service.showFull();
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.FULL);
+    service.showRecognizedTextContentInMainContent();
+    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.MAIN);
 
-    service.hide();
+    service.hideRecognizedTextContent();
 
     expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
   });

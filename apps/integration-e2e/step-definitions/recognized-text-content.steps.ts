@@ -12,11 +12,11 @@ Given(
 );
 
 When('the user enables recognized text content in sidenav', async () => {
-  await viewerPage.enableRecognizedTextContentInSidenav();
+  await viewerPage.enableRecognizedTextContentInSideContent();
 });
 
 When('the user enables recognized text content in main', async () => {
-  await viewerPage.enableRecognizedTextContentInMain();
+  await viewerPage.enableRecognizedTextContentInMainContent();
 });
 
 When('the user closes the recognized text content', async () => {
@@ -24,33 +24,33 @@ When('the user closes the recognized text content', async () => {
 });
 
 Then('the user should be able to enable recognized text content', async () => {
-  expect(await viewerPage.isRecognizedTextContentButtonPresent()).to.be.true;
+  expect(await viewerPage.isRecognizedTextContentButtonsPresent()).to.be.true;
 });
 
 Then('the recognized text content should be shown in sidenav', async () => {
-  const text = await viewerPage.getRecognizedTextContent();
-  const isRecognizedTextContentInSidenav =
-    await viewerPage.isRecognizedTextContentInSidenav();
+  const recognizedTextContent = await viewerPage.getRecognizedTextContent();
+  const isRecognizedTextContentInSideContent =
+    await viewerPage.isRecognizedTextContentInSideContent();
 
-  expect(isRecognizedTextContentInSidenav).to.be.true;
-  expect(text).not.to.be.undefined;
-  expect(text).to.have.length.above(0);
+  expect(isRecognizedTextContentInSideContent).to.be.true;
+  expect(recognizedTextContent).not.to.be.undefined;
+  expect(recognizedTextContent).to.have.length.above(0);
 });
 
 Then('the recognized text content should be shown in main', async () => {
   const text = await viewerPage.getRecognizedTextContent();
-  const isRecognizedTextContentInMain =
+  const isRecognizedTextContentInMainContent =
     await viewerPage.isRecognizedTextContentInMain();
 
-  expect(isRecognizedTextContentInMain).to.be.true;
+  expect(isRecognizedTextContentInMainContent).to.be.true;
   expect(text).not.to.be.undefined;
   expect(text).to.have.length.above(0);
 });
 
 Then('the recognized text content should be hidden', async () => {
-  const text = await viewerPage.getRecognizedTextContent();
+  const recognizedTextContent = await viewerPage.getRecognizedTextContent();
 
-  expect(text).to.be.undefined;
+  expect(recognizedTextContent).to.be.undefined;
 });
 
 Then(

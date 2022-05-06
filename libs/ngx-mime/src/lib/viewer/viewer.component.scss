@@ -21,14 +21,14 @@
   height: 100%;
 }
 
-mat-drawer.right {
+mat-drawer.side {
   width: calc(25%);
   @media only screen and (max-width: 599px) {
     width: calc(33%);
   }
 }
 
-mat-drawer.full {
+mat-drawer.main {
   width: 100%;
 
   ::ng-deep mime-recognized-text-content .content {

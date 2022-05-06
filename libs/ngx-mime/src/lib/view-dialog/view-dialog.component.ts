@@ -76,26 +76,26 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
   }
 
-  showRecognizedTextContent(): void {
+  showRecognizedTextContentInMainContent(): void {
     this.viewerService.hidePages();
-    this.altoService.showFull();
+    this.altoService.showRecognizedTextContentInMainContent();
   }
 
   hideRecognizedTextContent(): void {
     this.viewerService.showPages();
-    this.altoService.hide();
+    this.altoService.hideRecognizedTextContent();
   }
 
-  showRecognizedTextContentInSideNav(): void {
+  showRecognizedTextContentInSideContent(): void {
     const prev = this.altoService.onRecognizedTextContentToggle;
 
-    if (prev === RecognizedTextMode.FULL) {
+    if (prev === RecognizedTextMode.MAIN) {
       this.viewerService.showPages();
       setTimeout(() => {
         this.viewerService.home();
       }, ViewerOptions.transitions.OSDAnimationTime);
 
     }
-    this.altoService.showRight();
+    this.altoService.showRecognizedTextContentInSideContent();
   }
 }

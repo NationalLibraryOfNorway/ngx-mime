@@ -463,7 +463,7 @@ export class ViewerComponent
   }
 
   goToHomeZoom(): void {
-    if (this.isRecognizedTextContentToggled !== this.recognizedTextMode.FULL) {
+    if (this.isRecognizedTextContentToggled !== this.recognizedTextMode.MAIN) {
       this.viewerService.goToHomeZoom();
     }
   }

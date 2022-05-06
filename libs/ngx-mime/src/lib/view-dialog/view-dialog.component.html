@@ -94,11 +94,11 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentInSidenavButton"
+              data-test-id="ngx-mimeRecognizedTextContentInSideContentButton"
               [attr.aria-label]="intl.recognizedTextContentInSidenavLabel"
               [matTooltip]="intl.recognizedTextContentInSidenavLabel"
-              [value]="RecognizedTextMode.RIGHT"
-              (click)="showRecognizedTextContentInSideNav()"
+              [value]="RecognizedTextMode.SIDE"
+              (click)="showRecognizedTextContentInSideContent()"
             >
               <mat-icon>view_sidebar</mat-icon>
             </mat-button-toggle>
@@ -111,11 +111,11 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentInMainButton"
+              data-test-id="ngx-mimeRecognizedTextContentInMainContentButton"
               [attr.aria-label]="intl.showRecognizedTextContentLabel"
               [matTooltip]="intl.showRecognizedTextContentLabel"
-              [value]="RecognizedTextMode.FULL"
-              (click)="showRecognizedTextContent()"
+              [value]="RecognizedTextMode.MAIN"
+              (click)="showRecognizedTextContentInMainContent()"
             >
               <mat-icon>article</mat-icon>
             </mat-button-toggle>
