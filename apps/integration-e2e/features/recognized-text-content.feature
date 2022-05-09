@@ -9,22 +9,22 @@ Feature: Show recognized text content
     When the viewer is in dashboard view
     Then the user should be able to enable recognized text content
 
-  Scenario: Show recognized text content in sidenav
+  Scenario: Show digital pages and recognized text content in split view
     Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view
-    When the user enables recognized text content in sidenav
-    Then the recognized text content should be shown in sidenav
+    When the user enables recognized text content in split view
+    Then both the digital pages and the the recognized text content should be shown
 
-  Scenario: Show recognized text content in main
+  Scenario: Show recognized text content only
     Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view
-    When the user enables recognized text content in main
-    Then the recognized text content should be shown in main
+    When the user enables recognized text content only
+    Then only the recognized text content should be shown
 
   Scenario: Hide recognized text content
     Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view
-    And the user enables recognized text content in main
+    And the user has enables recognized text content only
     When the user closes the recognized text content
     Then the recognized text content should be hidden
 
@@ -33,5 +33,5 @@ Feature: Show recognized text content
     And the viewer is in dashboard view
     When the user search for the word "that"
     And the user closes the search dialog
-    And the user enables recognized text content in sidenav
+    And the user enables recognized text content in split view
     Then the word "that" should be highlighted in the recognized text

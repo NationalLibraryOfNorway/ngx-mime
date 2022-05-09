@@ -11,12 +11,16 @@ Given(
   }
 );
 
-When('the user enables recognized text content in sidenav', async () => {
-  await viewerPage.enableRecognizedTextContentInSideContent();
+Given('the user has enables recognized text content only', async () => {
+  await enableRecognizedTextContentOnly();
 });
 
-When('the user enables recognized text content in main', async () => {
-  await viewerPage.enableRecognizedTextContentInMainContent();
+When('the user enables recognized text content in split view', async () => {
+  await viewerPage.enableRecognizedTextContentInSplitView();
+});
+
+When('the user enables recognized text content only', async () => {
+  await enableRecognizedTextContentOnly();
 });
 
 When('the user closes the recognized text content', async () => {
@@ -29,22 +33,25 @@ Then('the user should be able to enable recognized text content', async () => {
   expect(await viewerPage.isRecognizedTextContentButtonsPresent()).to.be.true;
 });
 
-Then('the recognized text content should be shown in sidenav', async () => {
-  const recognizedTextContent = await viewerPage.getRecognizedTextContent();
-  const isRecognizedTextContentInSideContent =
-    await viewerPage.isRecognizedTextContentInSideContent();
+Then(
+  'both the digital pages and the the recognized text content should be shown',
+  async () => {
+    const recognizedTextContent = await viewerPage.getRecognizedTextContent();
+    const isRecognizedTextContentInSplitView =
+      await viewerPage.isRecognizedTextContentInSplitView();
 
-  expect(isRecognizedTextContentInSideContent).to.be.true;
-  expect(recognizedTextContent).not.to.be.undefined;
-  expect(recognizedTextContent).to.have.length.above(0);
-});
+    expect(isRecognizedTextContentInSplitView).to.be.true;
+    expect(recognizedTextContent).not.to.be.undefined;
+    expect(recognizedTextContent).to.have.length.above(0);
+  }
+);
 
-Then('the recognized text content should be shown in main', async () => {
+Then('only the recognized text content should be shown', async () => {
   const text = await viewerPage.getRecognizedTextContent();
-  const isRecognizedTextContentInMainContent =
-    await viewerPage.isRecognizedTextContentInMain();
+  const isRecognizedTextContentOnly =
+    await viewerPage.isRecognizedTextContentOnly();
 
-  expect(isRecognizedTextContentInMainContent).to.be.true;
+  expect(isRecognizedTextContentOnly).to.be.true;
   expect(text).not.to.be.undefined;
   expect(text).to.have.length.above(0);
 });
@@ -63,3 +70,7 @@ Then(
     expect(firstHit).to.contains(`${term}`);
   }
 );
+
+async function enableRecognizedTextContentOnly() {
+  await viewerPage.enableRecognizedTextContentOnly();
+}

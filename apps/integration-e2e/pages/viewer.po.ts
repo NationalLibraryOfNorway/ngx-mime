@@ -76,8 +76,8 @@ export class ViewerPage {
   private modeDashboardEl: ElementFinder;
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
-  private recognizedTextContentInSideContentButtonEl: ElementFinder;
-  private recognizedTextContentInMainContentButtonEl: ElementFinder;
+  private recognizedTextContentSplitViewButtonEl: ElementFinder;
+  private recognizedTextContentOnlyButtonEl: ElementFinder;
   private recognizedTextContentCloseButtonEl: ElementFinder;
   private firstCanvasRecognizedTextContentEl: ElementFinder;
   private secondCanvasRecognizedTextContentEl: ElementFinder;
@@ -140,14 +140,14 @@ export class ViewerPage {
     this.twoPageViewToggleButtonEl = element(
       by.css('#toggleTwoPageViewButton')
     );
-    this.recognizedTextContentInSideContentButtonEl = element(
+    this.recognizedTextContentSplitViewButtonEl = element(
       by.css(
-        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInSideContentButton"]'
+        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentSplitViewButton"]'
       )
     );
-    this.recognizedTextContentInMainContentButtonEl = element(
+    this.recognizedTextContentOnlyButtonEl = element(
       by.css(
-        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentInMainContentButton"]'
+        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentOnlyButton"]'
       )
     );
     this.recognizedTextContentCloseButtonEl = element(
@@ -191,25 +191,27 @@ export class ViewerPage {
 
   async isRecognizedTextContentButtonsPresent(): Promise<boolean> {
     return (
-      await utils.isPresentAndDisplayed(
-        this.recognizedTextContentInSideContentButtonEl
-      ) &&
-      await utils.isPresentAndDisplayed(
-        this.recognizedTextContentInMainContentButtonEl
-      ) &&
-      await utils.isPresentAndDisplayed(this.recognizedTextContentCloseButtonEl)
+      (await utils.isPresentAndDisplayed(
+        this.recognizedTextContentSplitViewButtonEl
+      )) &&
+      (await utils.isPresentAndDisplayed(
+        this.recognizedTextContentOnlyButtonEl
+      )) &&
+      (await utils.isPresentAndDisplayed(
+        this.recognizedTextContentCloseButtonEl
+      ))
     );
   }
 
-  async enableRecognizedTextContentInSideContent(): Promise<void> {
+  async enableRecognizedTextContentInSplitView(): Promise<void> {
     await this.enableViewMenuToggle(
-      this.recognizedTextContentInSideContentButtonEl
+      this.recognizedTextContentSplitViewButtonEl
     );
   }
 
-  async enableRecognizedTextContentInMainContent(): Promise<void> {
+  async enableRecognizedTextContentOnly(): Promise<void> {
     await this.enableViewMenuToggle(
-      this.recognizedTextContentInMainContentButtonEl
+      this.recognizedTextContentOnlyButtonEl
     );
   }
 
@@ -220,15 +222,13 @@ export class ViewerPage {
   async getRecognizedTextContent(): Promise<string | undefined> {
     let text = undefined;
     if (
-      await utils.isPresentAndDisplayed(
-        this.firstCanvasRecognizedTextContentEl.element(by.css('p'))
-      )
+      await utils.isPresentAndDisplayed(this.firstCanvasRecognizedTextContentEl)
     ) {
       text = await this.firstCanvasRecognizedTextContentEl.getText();
     }
     if (
       await utils.isPresentAndDisplayed(
-        this.secondCanvasRecognizedTextContentEl.element(by.css('p'))
+        this.secondCanvasRecognizedTextContentEl
       )
     ) {
       text += await this.secondCanvasRecognizedTextContentEl.getText();
@@ -236,12 +236,12 @@ export class ViewerPage {
     return text;
   }
 
-  async isRecognizedTextContentInSideContent(): Promise<boolean> {
-    return utils.containClass(this.recognizedTextContentContainerEl, 'side');
+  async isRecognizedTextContentInSplitView(): Promise<boolean> {
+    return utils.containClass(this.recognizedTextContentContainerEl, 'split');
   }
 
-  async isRecognizedTextContentInMain() {
-    return utils.containClass(this.recognizedTextContentContainerEl, 'main');
+  async isRecognizedTextContentOnly() {
+    return utils.containClass(this.recognizedTextContentContainerEl, 'only');
   }
 
   async setDashboardMode(): Promise<void> {

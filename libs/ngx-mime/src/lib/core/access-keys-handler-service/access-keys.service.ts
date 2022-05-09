@@ -138,7 +138,7 @@ export class AccessKeysService {
   }
 
   private toggleRecognizedTextContent() {
-    this.altoService.showRecognizedTextContentInSideContent();
+    this.altoService.showRecognizedTextContentInSplitView();
   }
 
   private goToNextHit() {
@@ -230,8 +230,8 @@ export class AccessKeysService {
     } else if (this.contentSearchDialogService.isOpen()) {
       this.diableKeysForContentSearchDialog();
     }
-    if (this.isRecognizedTextContentInMainContent()) {
-      this.disableKeysForRecognizedTextModeFull();
+    if (this.isRecognizedTextContentOnly()) {
+      this.disableKeysForRecognizedTextOnly();
     }
   }
 
@@ -257,13 +257,13 @@ export class AccessKeysService {
       .concat(AccessKeys.toggleFullscreenCodes);
   }
 
-  private isRecognizedTextContentInMainContent(): boolean {
+  private isRecognizedTextContentOnly(): boolean {
     return (
-      this.altoService.onRecognizedTextContentToggle === RecognizedTextMode.MAIN
+      this.altoService.onRecognizedTextContentToggle === RecognizedTextMode.ONLY
     );
   }
 
-  private disableKeysForRecognizedTextModeFull(): void {
+  private disableKeysForRecognizedTextOnly(): void {
     this.disabledKeys = this.disabledKeys
       .concat(AccessKeys.zoomInCodes)
       .concat(AccessKeys.zoomOutCodes)

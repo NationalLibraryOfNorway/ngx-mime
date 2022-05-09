@@ -94,28 +94,28 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentInSideContentButton"
-              [attr.aria-label]="intl.recognizedTextContentInSidenavLabel"
-              [matTooltip]="intl.recognizedTextContentInSidenavLabel"
-              [value]="RecognizedTextMode.SIDE"
-              (click)="showRecognizedTextContentInSideContent()"
+              data-test-id="ngx-mimeRecognizedTextContentSplitViewButton"
+              [attr.aria-label]="intl.recognizedTextContentInSplitViewLabel"
+              [matTooltip]="intl.recognizedTextContentInSplitViewLabel"
+              [value]="RecognizedTextMode.SPLIT"
+              (click)="showRecognizedTextContentInSplitView()"
             >
               <mat-icon>view_sidebar</mat-icon>
             </mat-button-toggle>
           </mat-button-toggle-group>
           <div class="label">{{
-            intl.recognizedTextContentInSidenavLabel
+            intl.recognizedTextContentInSplitViewLabel
           }}</div>
         </div>
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentInMainContentButton"
+              data-test-id="ngx-mimeRecognizedTextContentOnlyButton"
               [attr.aria-label]="intl.showRecognizedTextContentLabel"
               [matTooltip]="intl.showRecognizedTextContentLabel"
-              [value]="RecognizedTextMode.MAIN"
-              (click)="showRecognizedTextContentInMainContent()"
+              [value]="RecognizedTextMode.ONLY"
+              (click)="showRecognizedTextContentOnly()"
             >
               <mat-icon>article</mat-icon>
             </mat-button-toggle>

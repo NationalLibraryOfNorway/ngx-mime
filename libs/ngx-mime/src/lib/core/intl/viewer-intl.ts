@@ -17,7 +17,7 @@ export class MimeViewerIntl {
   twoPageViewLabel = 'Two pages';
   digitalTextLabel = "Digital text";
   recognizedTextContentCloseLabel = 'None';
-  recognizedTextContentInSidenavLabel = 'Split';
+  recognizedTextContentInSplitViewLabel = 'Split';
   showRecognizedTextContentLabel = 'Digital text only';
   metadataLabel = 'Metadata';
   licenseLabel = 'License';

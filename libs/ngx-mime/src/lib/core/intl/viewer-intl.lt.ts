@@ -16,7 +16,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   twoPageViewLabel = 'Atvaizduoti po du puslapius';
   digitalTextLabel = "Skaitmeninis tekstas";
   recognizedTextContentCloseLabel = 'Nė vienas';
-  recognizedTextContentInSidenavLabel = 'Suskaidytas';
+  recognizedTextContentInSplitViewLabel = 'Suskaidytas';
   showRecognizedTextContentLabel = 'Tik skaitmeninis tekstas';
   metadataLabel = 'Metaduomenys';
   licenseLabel = 'Licencija';
