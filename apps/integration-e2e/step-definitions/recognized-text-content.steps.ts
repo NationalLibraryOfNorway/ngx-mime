@@ -24,6 +24,8 @@ When('the user closes the recognized text content', async () => {
 });
 
 Then('the user should be able to enable recognized text content', async () => {
+  await viewerPage.openViewMeny();
+
   expect(await viewerPage.isRecognizedTextContentButtonsPresent()).to.be.true;
 });
 
