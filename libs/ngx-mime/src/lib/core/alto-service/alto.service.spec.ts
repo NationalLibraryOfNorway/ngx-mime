@@ -206,7 +206,7 @@ describe('AltoService', () => {
   const expectOnRecognizedTextContentToggleChangeToBe = (
     value: RecognizedTextMode
   ) => {
-    expect(service.onRecognizedTextContentToggleChange$).toBeObservable(
+    expect(service.onRecognizedTextContentModeChange$).toBeObservable(
       cold('a', { a: value })
     );
   };

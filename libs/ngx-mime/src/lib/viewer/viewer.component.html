@@ -21,10 +21,10 @@
       mode="side"
       position="end"
       (openedChange)="goToHomeZoom()"
-      [opened]="isRecognizedTextContentToggled !== recognizedTextMode.NONE"
+      [opened]="recognizedTextContentMode !== recognizedTextMode.NONE"
       [ngClass]="{
-        main: isRecognizedTextContentToggled === recognizedTextMode.ONLY,
-        side: isRecognizedTextContentToggled === recognizedTextMode.SPLIT,
+        main: recognizedTextContentMode === recognizedTextMode.ONLY,
+        side: recognizedTextContentMode === recognizedTextMode.SPLIT,
         open: showHeaderAndFooterState === 'show'
       }"
       ><mime-recognized-text-content></mime-recognized-text-content

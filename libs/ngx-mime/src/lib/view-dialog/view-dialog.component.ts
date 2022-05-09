@@ -44,7 +44,7 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
       )
     );
     this.subscriptions.add(
-      this.altoService.onRecognizedTextContentToggleChange$.subscribe(
+      this.altoService.onRecognizedTextContentModeChange$.subscribe(
         (recognizedTextMode: RecognizedTextMode) => {
           this.recognizedTextMode = recognizedTextMode;
         }
@@ -82,7 +82,7 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   }
 
   showRecognizedTextContentInSplitView(): void {
-    const prev = this.altoService.onRecognizedTextContentToggle;
+    const prev = this.altoService.recognizedTextContentMode;
 
     if (prev === RecognizedTextMode.ONLY) {
       this.viewerService.showPages();

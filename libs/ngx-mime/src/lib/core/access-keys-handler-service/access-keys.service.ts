@@ -259,7 +259,7 @@ export class AccessKeysService {
 
   private isRecognizedTextContentOnly(): boolean {
     return (
-      this.altoService.onRecognizedTextContentToggle === RecognizedTextMode.ONLY
+      this.altoService.recognizedTextContentMode === RecognizedTextMode.ONLY
     );
   }
 

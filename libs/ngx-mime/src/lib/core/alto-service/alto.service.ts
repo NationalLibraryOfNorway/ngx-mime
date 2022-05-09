@@ -30,9 +30,6 @@ import { HtmlFormatter } from './html.formatter';
 export class AltoService {
   private config!: MimeViewerConfig;
   private altos: string[] = [];
-  private recognizedTextContentToggle = new BehaviorSubject(
-    RecognizedTextMode.NONE
-  );
   private isLoading = new BehaviorSubject(false);
   private textContentReady = new Subject<void>();
   private textError = new Subject<string | undefined>();
@@ -41,6 +38,9 @@ export class AltoService {
   private altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
   private hits: Hit[] | undefined;
+  private _recognizedTextContentMode = new BehaviorSubject(
+    RecognizedTextMode.NONE
+  );
 
   constructor(
     public intl: MimeViewerIntl,
@@ -51,8 +51,8 @@ export class AltoService {
     private sanitizer: DomSanitizer
   ) {}
 
-  get onRecognizedTextContentToggleChange$(): Observable<RecognizedTextMode> {
-    return this.recognizedTextContentToggle.asObservable();
+  get onRecognizedTextContentModeChange$(): Observable<RecognizedTextMode> {
+    return this._recognizedTextContentMode.asObservable();
   }
 
   get onTextContentReady$(): Observable<void> {
@@ -67,12 +67,12 @@ export class AltoService {
     return this.textError.asObservable();
   }
 
-  get onRecognizedTextContentToggle() {
-    return this.recognizedTextContentToggle.value;
+  get recognizedTextContentMode() {
+    return this._recognizedTextContentMode.value;
   }
 
-  set onRecognizedTextContentToggle(value: RecognizedTextMode) {
-    this.recognizedTextContentToggle.next(value);
+  set recognizedTextContentMode(value: RecognizedTextMode) {
+    this._recognizedTextContentMode.next(value);
   }
 
   initialize(hits?: Hit[]) {
@@ -81,7 +81,7 @@ export class AltoService {
     this.subscriptions = new Subscription();
 
     if (this.config?.initRecognizedTextContentToggle !== undefined) {
-      this.onRecognizedTextContentToggle =
+      this.recognizedTextContentMode =
         this.config.initRecognizedTextContentToggle;
     }
 
@@ -124,7 +124,7 @@ export class AltoService {
   }
 
   destroy() {
-    this.onRecognizedTextContentToggle = this.config
+    this.recognizedTextContentMode = this.config
       ?.initRecognizedTextContentToggle
       ? this.config?.initRecognizedTextContentToggle
       : RecognizedTextMode.NONE;
@@ -138,15 +138,15 @@ export class AltoService {
   }
 
   showRecognizedTextContentOnly() {
-    this.onRecognizedTextContentToggle = RecognizedTextMode.ONLY;
+    this.recognizedTextContentMode = RecognizedTextMode.ONLY;
   }
 
   showRecognizedTextContentInSplitView() {
-    this.onRecognizedTextContentToggle = RecognizedTextMode.SPLIT;
+    this.recognizedTextContentMode = RecognizedTextMode.SPLIT;
   }
 
   hideRecognizedTextContent() {
-    this.onRecognizedTextContentToggle = RecognizedTextMode.NONE;
+    this.recognizedTextContentMode = RecognizedTextMode.NONE;
   }
 
   getHtml(index: number): SafeHtml | undefined {

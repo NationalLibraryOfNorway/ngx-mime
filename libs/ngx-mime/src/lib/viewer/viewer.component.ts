@@ -67,7 +67,7 @@ export class ViewerComponent
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
   @Output()
-  recognizedTextContentToggleChanged: EventEmitter<RecognizedTextMode> = new EventEmitter();
+  recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> = new EventEmitter();
   recognizedTextMode = RecognizedTextMode;
 
   private subscriptions = new Subscription();
@@ -76,7 +76,7 @@ export class ViewerComponent
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
-  isRecognizedTextContentToggled: RecognizedTextMode = RecognizedTextMode.NONE;
+  recognizedTextContentMode: RecognizedTextMode = RecognizedTextMode.NONE;
   showHeaderAndFooterState = 'hide';
   public errorMessage: string | null = null;
 
@@ -149,8 +149,8 @@ export class ViewerComponent
             this.viewerLayoutService.init(
               ManifestUtils.isManifestPaged(manifest)
             );
-            this.isRecognizedTextContentToggled =
-              this.altoService.onRecognizedTextContentToggle;
+            this.recognizedTextContentMode =
+              this.altoService.recognizedTextContentMode;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -294,11 +294,11 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.altoService.onRecognizedTextContentToggleChange$.subscribe(
-        (isRecognizedTextContentToggled: RecognizedTextMode) => {
-          this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
-          this.recognizedTextContentToggleChanged.emit(
-            isRecognizedTextContentToggled
+      this.altoService.onRecognizedTextContentModeChange$.subscribe(
+        (recognizedTextContentMode: RecognizedTextMode) => {
+          this.recognizedTextContentMode = recognizedTextContentMode;
+          this.recognizedTextContentModeChanged.emit(
+            recognizedTextContentMode
           );
           this.changeDetectorRef.markForCheck();
         }
@@ -463,7 +463,7 @@ export class ViewerComponent
   }
 
   goToHomeZoom(): void {
-    if (this.isRecognizedTextContentToggled !== this.recognizedTextMode.ONLY) {
+    if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
       this.viewerService.goToHomeZoom();
     }
   }
