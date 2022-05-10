@@ -76,8 +76,6 @@ export class AltoService {
   }
 
   initialize(hits?: Hit[]) {
-    console.log('initialize');
-
     this.hits = hits;
     this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
@@ -121,8 +119,6 @@ export class AltoService {
   }
 
   destroy() {
-    console.log('destroy');
-
     this.recognizedTextContentMode = this.config
       ?.initRecognizedTextContentToggle
       ? this.config?.initRecognizedTextContentToggle
