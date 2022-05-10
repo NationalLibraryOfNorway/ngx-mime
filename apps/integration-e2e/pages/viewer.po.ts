@@ -71,8 +71,8 @@ export class ViewerPage {
   private leftCanvasGroupMaskEl: ElementFinder;
   private rightCanvasGroupMaskEl: ElementFinder;
   private canvasGroupOverlayEls: ElementArrayFinder;
-  private singlePageViewToggleButtonEl: ElementFinder;
-  private twoPageViewToggleButtonEl: ElementFinder;
+  private singlePageViewButtonEl: ElementFinder;
+  private twoPageViewButtonEl: ElementFinder;
   private modeDashboardEl: ElementFinder;
   private modePageEl: ElementFinder;
   private openseadragonCanvasEl: ElementFinder;
@@ -134,10 +134,10 @@ export class ViewerPage {
     this.canvasGroupOverlayEls = element.all(
       by.css('#openseadragon svg g rect')
     );
-    this.singlePageViewToggleButtonEl = element(
+    this.singlePageViewButtonEl = element(
       by.css('#toggleSinglePageViewButton')
     );
-    this.twoPageViewToggleButtonEl = element(
+    this.twoPageViewButtonEl = element(
       by.css('#toggleTwoPageViewButton')
     );
     this.recognizedTextContentSplitViewButtonEl = element(
@@ -265,11 +265,11 @@ export class ViewerPage {
   }
 
   async setOnePageView() {
-    await this.enableViewMenuToggle(this.singlePageViewToggleButtonEl);
+    await this.enableViewMenuToggle(this.singlePageViewButtonEl);
   }
 
   async setTwoPageView() {
-    await this.enableViewMenuToggle(this.twoPageViewToggleButtonEl);
+    await this.enableViewMenuToggle(this.twoPageViewButtonEl);
   }
 
   setTestCustomElements(isElements: boolean) {
