@@ -57,6 +57,15 @@ export class OptionsFactory {
     if (typeof userAgent !== 'string') {
       return false;
     }
+    const isIOS = navigator.platform === 'MacIntel';
+    const isHandheldIOS =
+      /iPad|iPhone|iPod/.test(navigator.platform ?? '') ||
+      (navigator.platform === 'MacIntel' &&
+        typeof (navigator as any).standalone !== 'undefined');
+
+    if (isIOS && !isHandheldIOS) {
+      return true;
+    }
     return !(
       userAgent.indexOf('iPhone') !== -1 ||
       userAgent.indexOf('iPad') !== -1 ||
