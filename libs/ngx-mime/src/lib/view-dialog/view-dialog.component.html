@@ -41,7 +41,7 @@
           <mat-button-toggle-group [value]="viewerLayout">
             <mat-button-toggle
               *ngIf="isPagedManifest"
-              id="toggleSinglePageViewButton"
+              data-test-id="ngx-mimeSinglePageViewButton"
               [attr.aria-label]="intl.singlePageViewLabel"
               [matTooltip]="intl.singlePageViewLabel"
               [value]="ViewerLayout.ONE_PAGE"
@@ -56,7 +56,7 @@
           <mat-button-toggle-group [value]="viewerLayout">
             <mat-button-toggle
               *ngIf="isPagedManifest"
-              id="toggleTwoPageViewButton"
+              data-test-id="ngx-mimeTwoPageViewButton"
               [attr.aria-label]="intl.twoPageViewLabel"
               [matTooltip]="intl.twoPageViewLabel"
               [value]="ViewerLayout.TWO_PAGE"

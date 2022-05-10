@@ -135,10 +135,10 @@ export class ViewerPage {
       by.css('#openseadragon svg g rect')
     );
     this.singlePageViewButtonEl = element(
-      by.css('#toggleSinglePageViewButton')
+      by.css('mat-button-toggle[data-test-id="ngx-mimeSinglePageViewButton"]')
     );
     this.twoPageViewButtonEl = element(
-      by.css('#toggleTwoPageViewButton')
+      by.css('mat-button-toggle[data-test-id="ngx-mimeTwoPageViewButton"]')
     );
     this.recognizedTextContentSplitViewButtonEl = element(
       by.css(
@@ -210,9 +210,7 @@ export class ViewerPage {
   }
 
   async enableRecognizedTextContentOnly(): Promise<void> {
-    await this.enableViewMenuToggle(
-      this.recognizedTextContentOnlyButtonEl
-    );
+    await this.enableViewMenuToggle(this.recognizedTextContentOnlyButtonEl);
   }
 
   async enableRecognizedTextContentClose(): Promise<void> {
