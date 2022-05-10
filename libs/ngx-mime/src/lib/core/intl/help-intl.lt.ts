@@ -19,4 +19,5 @@ export class HelpIntlLt extends HelpIntl {
   line10 = '<strong>R</strong>: Pasukti 90 laipsnių';
   line11 =
     '<strong>T</strong>:  Rodyti/slėpti optiškai atpažįstamą tekstą (turiniui, kurį galima rodyti).';
+  line12 = '<strong>Shift-S</strong>: Ištuštinkite teksto paiešką';
 }
