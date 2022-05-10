@@ -209,6 +209,7 @@ describe('ViewerHeaderComponent', () => {
         const label = fixture.debugElement.query(
           By.css('.header-container .label')
         ).nativeElement;
+
         expect(label.innerHTML).toBe('Testlabel');
       });
     })
@@ -227,7 +228,6 @@ describe('ViewerHeaderComponent', () => {
         const viewMenuButton = fixture.debugElement.query(
           By.css('#ngx-mimeViewMenuButton')
         );
-
         expect(viewMenuButton).not.toBeNull();
       });
     })
@@ -240,6 +240,7 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
+
         const viewMenuButton = fixture.debugElement.query(
           By.css('#ngx-mimeViewMenuButton')
         );
@@ -255,6 +256,7 @@ describe('ViewerHeaderComponent', () => {
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
+
         const viewMenuButton = fixture.debugElement.query(
           By.css('#ngx-mimeViewMenuButton')
         );

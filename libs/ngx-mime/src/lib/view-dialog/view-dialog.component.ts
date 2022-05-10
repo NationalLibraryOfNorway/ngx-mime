@@ -89,7 +89,6 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.viewerService.home();
       }, ViewerOptions.transitions.OSDAnimationTime);
-
     }
     this.altoService.showRecognizedTextContentInSplitView();
   }
@@ -98,6 +97,4 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.viewerService.hidePages();
     this.altoService.showRecognizedTextContentOnly();
   }
-
-
 }
