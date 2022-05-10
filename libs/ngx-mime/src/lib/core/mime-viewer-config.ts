@@ -18,7 +18,7 @@ export class MimeViewerConfig {
   public preserveZoomOnCanvasGroupChange = false;
   public startOnTopOnCanvasGroupChange = false;
   public isDropEnabled = false;
-  public initRecognizedTextContentToggle = RecognizedTextMode.NONE;
+  public initRecognizedTextContentMode = RecognizedTextMode.NONE;
   public ignorePhysicalScale = false;
 
   constructor(fields?: {
@@ -34,7 +34,7 @@ export class MimeViewerConfig {
     preserveZoomOnCanvasGroupChange?: boolean;
     startOnTopOnCanvasGroupChange?: boolean;
     isDropEnabled?: boolean;
-    initRecognizedTextContentToggle?: RecognizedTextMode;
+    initRecognizedTextContentMode?: RecognizedTextMode;
     ignorePhysicalScale?: boolean;
   }) {
     if (fields) {
@@ -97,10 +97,10 @@ export class MimeViewerConfig {
           ? fields.isDropEnabled
           : this.isDropEnabled;
 
-      this.initRecognizedTextContentToggle =
-        fields.initRecognizedTextContentToggle !== undefined
-          ? fields.initRecognizedTextContentToggle
-          : this.initRecognizedTextContentToggle;
+      this.initRecognizedTextContentMode =
+        fields.initRecognizedTextContentMode !== undefined
+          ? fields.initRecognizedTextContentMode
+          : this.initRecognizedTextContentMode;
 
       this.ignorePhysicalScale =
         fields.ignorePhysicalScale !== undefined

@@ -22,7 +22,7 @@ export class ViewerComponent implements OnDestroy {
     startOnTopOnCanvasGroupChange: true,
     isDropEnabled: true,
     initViewerMode: MimeViewerMode.PAGE,
-    initRecognizedTextContentToggle: RecognizedTextMode.NONE,
+    initRecognizedTextContentMode: RecognizedTextMode.NONE,
   });
   private iiifVersion = 3;
   private subscriptions = new Subscription();

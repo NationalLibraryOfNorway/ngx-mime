@@ -120,8 +120,8 @@ export class AltoService {
 
   destroy() {
     this.recognizedTextContentMode = this.config
-      ?.initRecognizedTextContentToggle
-      ? this.config?.initRecognizedTextContentToggle
+      ?.initRecognizedTextContentMode
+      ? this.config?.initRecognizedTextContentMode
       : RecognizedTextMode.NONE;
 
     this.subscriptions.unsubscribe();
