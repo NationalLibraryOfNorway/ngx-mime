@@ -76,14 +76,11 @@ export class AltoService {
   }
 
   initialize(hits?: Hit[]) {
+    console.log('initialize');
+
     this.hits = hits;
     this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
-
-    if (this.config?.initRecognizedTextContentToggle !== undefined) {
-      this.recognizedTextContentMode =
-        this.config.initRecognizedTextContentToggle;
-    }
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -124,6 +121,8 @@ export class AltoService {
   }
 
   destroy() {
+    console.log('destroy');
+
     this.recognizedTextContentMode = this.config
       ?.initRecognizedTextContentToggle
       ? this.config?.initRecognizedTextContentToggle
