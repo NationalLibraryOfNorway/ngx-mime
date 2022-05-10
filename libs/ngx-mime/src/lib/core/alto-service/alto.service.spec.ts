@@ -110,29 +110,29 @@ describe('AltoService', () => {
     });
   }));
 
-  it('should toggle on recognized text in siden content', () => {
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
+  it('should toggle on recognized text in split view', () => {
+    expectOnRecognizedTextContentModeToBe(RecognizedTextMode.NONE);
 
     service.showRecognizedTextContentInSplitView();
 
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.SPLIT);
+    expectOnRecognizedTextContentModeToBe(RecognizedTextMode.SPLIT);
   });
 
-  it('should toggle on recognized text in main content', () => {
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
+  it('should toggle on recognized text only', () => {
+    expectOnRecognizedTextContentModeToBe(RecognizedTextMode.NONE);
 
     service.showRecognizedTextContentOnly();
 
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.ONLY);
+    expectOnRecognizedTextContentModeToBe(RecognizedTextMode.ONLY);
   });
 
   it('should toggle off recognized text', () => {
     service.showRecognizedTextContentOnly();
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.ONLY);
+    expectOnRecognizedTextContentModeToBe(RecognizedTextMode.ONLY);
 
     service.hideRecognizedTextContent();
 
-    expectOnRecognizedTextContentToggleChangeToBe(RecognizedTextMode.NONE);
+    expectOnRecognizedTextContentModeToBe(RecognizedTextMode.NONE);
   });
 
   const setUpSpy = () => {
@@ -203,9 +203,7 @@ describe('AltoService', () => {
     expect(service.getHtml(1)).toBeUndefined();
   };
 
-  const expectOnRecognizedTextContentToggleChangeToBe = (
-    value: RecognizedTextMode
-  ) => {
+  const expectOnRecognizedTextContentModeToBe = (value: RecognizedTextMode) => {
     expect(service.onRecognizedTextContentModeChange$).toBeObservable(
       cold('a', { a: value })
     );
