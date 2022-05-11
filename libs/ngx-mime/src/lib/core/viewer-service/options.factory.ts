@@ -50,18 +50,11 @@ export class OptionsFactory {
   }
 
   private static canUseCanvas() {
-    if (typeof navigator !== 'object') {
-      return false;
-    }
-    const userAgent = navigator.userAgent;
-    if (typeof userAgent !== 'string') {
-      return false;
-    }
-    return !(
-      userAgent.indexOf('iPhone') !== -1 ||
-      userAgent.indexOf('iPad') !== -1 ||
-      userAgent.indexOf('iPod') !== -1 ||
-      userAgent.indexOf('Macintosh') !== -1
-    );
+    const isHandheldIOS =
+      /iPad|iPhone|iPod/.test(navigator.platform ?? '') ||
+      (navigator.platform === 'MacIntel' &&
+        typeof (navigator as any).standalone !== 'undefined');
+
+    return !isHandheldIOS;
   }
 }
