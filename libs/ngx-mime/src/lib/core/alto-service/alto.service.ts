@@ -18,7 +18,7 @@ import { HighlightService } from '../highlight-service/highlight.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
-import { RecognizedTextMode } from '../models';
+import { RecognizedTextMode, RecognizedTextModeChanges } from '../models';
 import { Manifest } from '../models/manifest';
 import { Hit } from './../../core/models/hit';
 import { Alto } from './alto.model';
@@ -38,9 +38,12 @@ export class AltoService {
   private altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
   private hits: Hit[] | undefined;
-  private _recognizedTextContentMode = new BehaviorSubject(
-    RecognizedTextMode.NONE
-  );
+  private _recognizedTextContentModeChanges =
+    new BehaviorSubject<RecognizedTextModeChanges>({
+      previousValue: RecognizedTextMode.NONE,
+      currentValue: RecognizedTextMode.NONE,
+    });
+  private previousRecognizedTextMode = RecognizedTextMode.NONE;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -51,8 +54,8 @@ export class AltoService {
     private sanitizer: DomSanitizer
   ) {}
 
-  get onRecognizedTextContentModeChange$(): Observable<RecognizedTextMode> {
-    return this._recognizedTextContentMode.asObservable();
+  get onRecognizedTextContentModeChange$(): Observable<RecognizedTextModeChanges> {
+    return this._recognizedTextContentModeChanges.asObservable();
   }
 
   get onTextContentReady$(): Observable<void> {
@@ -68,11 +71,15 @@ export class AltoService {
   }
 
   get recognizedTextContentMode() {
-    return this._recognizedTextContentMode.value;
+    return this._recognizedTextContentModeChanges.value.currentValue;
   }
 
   set recognizedTextContentMode(value: RecognizedTextMode) {
-    this._recognizedTextContentMode.next(value);
+    this._recognizedTextContentModeChanges.next({
+      currentValue: value,
+      previousValue: this.previousRecognizedTextMode,
+    });
+    this.previousRecognizedTextMode = value;
   }
 
   initialize(hits?: Hit[]) {
@@ -119,8 +126,7 @@ export class AltoService {
   }
 
   destroy() {
-    this.recognizedTextContentMode = this.config
-      ?.initRecognizedTextContentMode
+    this.recognizedTextContentMode = this.config?.initRecognizedTextContentMode
       ? this.config?.initRecognizedTextContentMode
       : RecognizedTextMode.NONE;
 

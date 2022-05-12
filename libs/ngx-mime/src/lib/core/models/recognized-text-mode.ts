@@ -3,3 +3,8 @@ export enum RecognizedTextMode {
   ONLY = 'ONLY',
   SPLIT = 'SPLIT',
 }
+
+export interface RecognizedTextModeChanges {
+  currentValue: RecognizedTextMode;
+  previousValue?: RecognizedTextMode;
+}

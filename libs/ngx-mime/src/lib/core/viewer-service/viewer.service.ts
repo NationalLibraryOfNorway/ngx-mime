@@ -19,6 +19,7 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import { RecognizedTextMode, RecognizedTextModeChanges } from '../models';
 import { Direction } from '../models/direction';
 import { Manifest, Resource } from '../models/manifest';
 import { ModeChanges } from '../models/modeChanges';
@@ -375,6 +376,34 @@ export class ViewerService {
       this.onRotationChange.subscribe((rotation: number) => {
         this.layoutPages();
       })
+    );
+
+    this.subscriptions.add(
+      this.altoService.onRecognizedTextContentModeChange$.subscribe(
+        (recognizedTextModeChanges: RecognizedTextModeChanges) => {
+          if (
+            recognizedTextModeChanges.currentValue === RecognizedTextMode.ONLY
+          ) {
+            this.hidePages();
+          }
+
+          if (
+            recognizedTextModeChanges.previousValue === RecognizedTextMode.ONLY
+          ) {
+            this.showPages();
+          }
+
+          if (
+            recognizedTextModeChanges.previousValue ===
+              RecognizedTextMode.ONLY &&
+            recognizedTextModeChanges.currentValue === RecognizedTextMode.SPLIT
+          ) {
+            setTimeout(() => {
+              this.home();
+            }, ViewerOptions.transitions.OSDAnimationTime);
+          }
+        }
+      )
     );
   }
 

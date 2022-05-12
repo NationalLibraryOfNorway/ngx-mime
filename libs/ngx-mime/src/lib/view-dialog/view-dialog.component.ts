@@ -5,10 +5,9 @@ import { AltoService } from '../core/alto-service/alto.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../core/intl';
-import { RecognizedTextMode } from '../core/models';
+import { RecognizedTextMode, RecognizedTextModeChanges } from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
-import { ViewerOptions } from '../core/models/viewer-options';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 
@@ -45,8 +44,8 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     );
     this.subscriptions.add(
       this.altoService.onRecognizedTextContentModeChange$.subscribe(
-        (recognizedTextMode: RecognizedTextMode) => {
-          this.recognizedTextMode = recognizedTextMode;
+        (recognizedTextModeChanges: RecognizedTextModeChanges) => {
+          this.recognizedTextMode = recognizedTextModeChanges.currentValue;
         }
       )
     );
@@ -77,24 +76,14 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   }
 
   hideRecognizedTextContent(): void {
-    this.viewerService.showPages();
     this.altoService.hideRecognizedTextContent();
   }
 
   showRecognizedTextContentInSplitView(): void {
-    const prev = this.altoService.recognizedTextContentMode;
-
-    if (prev === RecognizedTextMode.ONLY) {
-      this.viewerService.showPages();
-      setTimeout(() => {
-        this.viewerService.home();
-      }, ViewerOptions.transitions.OSDAnimationTime);
-    }
     this.altoService.showRecognizedTextContentInSplitView();
   }
 
   showRecognizedTextContentOnly(): void {
-    this.viewerService.hidePages();
     this.altoService.showRecognizedTextContentOnly();
   }
 }

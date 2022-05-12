@@ -31,7 +31,11 @@ import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
-import { RecognizedTextMode, ViewerMode } from '../core/models';
+import {
+  RecognizedTextMode,
+  RecognizedTextModeChanges,
+  ViewerMode,
+} from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { ModeChanges } from '../core/models/modeChanges';
 import { ViewerLayout } from '../core/models/viewer-layout';
@@ -295,10 +299,11 @@ export class ViewerComponent
 
     this.subscriptions.add(
       this.altoService.onRecognizedTextContentModeChange$.subscribe(
-        (recognizedTextContentMode: RecognizedTextMode) => {
-          this.recognizedTextContentMode = recognizedTextContentMode;
+        (recognizedTextModeChanges: RecognizedTextModeChanges) => {
+          this.recognizedTextContentMode =
+            recognizedTextModeChanges.currentValue;
           this.recognizedTextContentModeChanged.emit(
-            recognizedTextContentMode
+            this.recognizedTextContentMode
           );
           this.changeDetectorRef.markForCheck();
         }
