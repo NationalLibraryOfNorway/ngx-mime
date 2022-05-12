@@ -135,24 +135,24 @@ export class ViewerPage {
       by.css('#openseadragon svg g rect')
     );
     this.singlePageViewButtonEl = element(
-      by.css('mat-button-toggle[data-test-id="ngx-mimeSinglePageViewButton"]')
+      by.css('mat-button-toggle[data-test-id="ngx-mime-single-page-view-button"]')
     );
     this.twoPageViewButtonEl = element(
-      by.css('mat-button-toggle[data-test-id="ngx-mimeTwoPageViewButton"]')
+      by.css('mat-button-toggle[data-test-id="ngx-mime-two-page-view-button"]')
     );
     this.recognizedTextContentSplitViewButtonEl = element(
       by.css(
-        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentSplitViewButton"]'
+        'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-split-view-button"]'
       )
     );
     this.recognizedTextContentOnlyButtonEl = element(
       by.css(
-        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentOnlyButton"]'
+        'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-only-button"]'
       )
     );
     this.recognizedTextContentCloseButtonEl = element(
       by.css(
-        'mat-button-toggle[data-test-id="ngx-mimeRecognizedTextContentCloseButton"]'
+        'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-close-button"]'
       )
     );
     this.modeDashboardEl = element(by.css('.mode-dashboard'));
@@ -171,10 +171,10 @@ export class ViewerPage {
     );
     this.recognizedTextContentContainerEl = element(
       by.css(
-        'mat-drawer[data-test-id="ngx-mimeRecognizedTextContentContainer"]'
+        'mat-drawer[data-test-id="ngx-mime-recognized-text-content-container"]'
       )
     );
-    this.viewMenuButtonEl = element(by.css('#ngx-mimeViewMenuButton'));
+    this.viewMenuButtonEl = element(by.css('#ngx-mime-view-menu-button'));
     this.viewMenuDialogEl = element(by.css('mime-view-dialog'));
   }
 

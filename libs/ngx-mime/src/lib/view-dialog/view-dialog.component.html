@@ -41,7 +41,7 @@
           <mat-button-toggle-group [value]="viewerLayout">
             <mat-button-toggle
               *ngIf="isPagedManifest"
-              data-test-id="ngx-mimeSinglePageViewButton"
+              data-test-id="ngx-mime-single-page-view-button"
               [attr.aria-label]="intl.singlePageViewLabel"
               [matTooltip]="intl.singlePageViewLabel"
               [value]="ViewerLayout.ONE_PAGE"
@@ -56,7 +56,7 @@
           <mat-button-toggle-group [value]="viewerLayout">
             <mat-button-toggle
               *ngIf="isPagedManifest"
-              data-test-id="ngx-mimeTwoPageViewButton"
+              data-test-id="ngx-mime-two-page-view-button"
               [attr.aria-label]="intl.twoPageViewLabel"
               [matTooltip]="intl.twoPageViewLabel"
               [value]="ViewerLayout.TWO_PAGE"
@@ -79,7 +79,7 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentCloseButton"
+              data-test-id="ngx-mime-recognized-text-content-close-button"
               [attr.aria-label]="intl.recognizedTextContentCloseLabel"
               [matTooltip]="intl.recognizedTextContentCloseLabel"
               [value]="RecognizedTextMode.NONE"
@@ -94,7 +94,7 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentSplitViewButton"
+              data-test-id="ngx-mime-recognized-text-content-split-view-button"
               [attr.aria-label]="intl.recognizedTextContentInSplitViewLabel"
               [matTooltip]="intl.recognizedTextContentInSplitViewLabel"
               [value]="RecognizedTextMode.SPLIT"
@@ -111,7 +111,7 @@
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
               mat-icon-button
-              data-test-id="ngx-mimeRecognizedTextContentOnlyButton"
+              data-test-id="ngx-mime-recognized-text-content-only-button"
               [attr.aria-label]="intl.showRecognizedTextContentLabel"
               [matTooltip]="intl.showRecognizedTextContentLabel"
               [value]="RecognizedTextMode.ONLY"

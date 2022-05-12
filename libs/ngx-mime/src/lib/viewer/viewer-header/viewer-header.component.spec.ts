@@ -163,7 +163,7 @@ describe('ViewerHeaderComponent', () => {
   it(
     'should show search button if manifest has a search service',
     waitForAsync(() => {
-      iiifManifestService._currentManifest.next({
+      setCurrentManifest({
         ...TestManifests.aEmpty(),
         service: new Service(),
       });
@@ -182,7 +182,7 @@ describe('ViewerHeaderComponent', () => {
   it(
     'should hide search button if manifest does not have a search service',
     waitForAsync(() => {
-      iiifManifestService._currentManifest.next(new Manifest());
+      setCurrentManifest(new Manifest());
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -198,7 +198,7 @@ describe('ViewerHeaderComponent', () => {
   it(
     'should show label if manifest has a label',
     waitForAsync(() => {
-      iiifManifestService._currentManifest.next({
+      setCurrentManifest({
         label: 'Testlabel',
         viewingDirection: ViewingDirection.LTR,
       });
@@ -218,16 +218,14 @@ describe('ViewerHeaderComponent', () => {
   it(
     'should show view menu button if digital text is available',
     waitForAsync(() => {
-      iiifManifestService._currentManifest.next(
+      setCurrentManifest(
         TestManifests.withDigitalTextContent()
       );
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
 
-        const viewMenuButton = fixture.debugElement.query(
-          By.css('#ngx-mimeViewMenuButton')
-        );
+        const viewMenuButton = getViewMenuButton();
         expect(viewMenuButton).not.toBeNull();
       });
     })
@@ -236,14 +234,12 @@ describe('ViewerHeaderComponent', () => {
   it(
     'should show view menu button if manifest is paged',
     waitForAsync(() => {
-      iiifManifestService._currentManifest.next(TestManifests.aDefault());
+      setCurrentManifest(TestManifests.aDefault());
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
 
-        const viewMenuButton = fixture.debugElement.query(
-          By.css('#ngx-mimeViewMenuButton')
-        );
+        const viewMenuButton = getViewMenuButton();
         expect(viewMenuButton).not.toBeNull();
       });
     })
@@ -252,24 +248,30 @@ describe('ViewerHeaderComponent', () => {
   it(
     'should hide view menu button if manifest is not paged and digital text is not available',
     waitForAsync(() => {
-      iiifManifestService._currentManifest.next(TestManifests.aEmpty());
+      setCurrentManifest(TestManifests.aEmpty());
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
 
-        const viewMenuButton = fixture.debugElement.query(
-          By.css('#ngx-mimeViewMenuButton')
-        );
+        const viewMenuButton = getViewMenuButton();
         expect(viewMenuButton).toBeNull();
       });
     })
   );
+
+  function setCurrentManifest(manifest: Manifest) {
+    iiifManifestService._currentManifest.next(manifest);
+  }
+
+  function getViewMenuButton() {
+    return fixture.debugElement.query(By.css('#ngx-mime-view-menu-button'));
+  }
+
+  function expectHeaderToShow(element: any) {
+    expect(element.style.transform).toBe('translate(0px, 0px)');
+  }
+
+  function expectHeaderToBeHidden(element: any) {
+    expect(element.style.transform).toBe('translate(0px, -100%)');
+  }
 });
-
-function expectHeaderToShow(element: any) {
-  expect(element.style.transform).toBe('translate(0px, 0px)');
-}
-
-function expectHeaderToBeHidden(element: any) {
-  expect(element.style.transform).toBe('translate(0px, -100%)');
-}
