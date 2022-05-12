@@ -17,4 +17,5 @@ export class HelpIntl {
   line10 = '<strong>R</strong>: Rotate 90°';
   line11 =
     '<strong>T</strong>:  Show/hide optically recognized text (for content that can be displayed).';
+  line12 = '<strong>Shift-S</strong>: Clear text search';
 }

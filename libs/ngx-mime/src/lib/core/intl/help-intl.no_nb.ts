@@ -19,4 +19,5 @@ export class HelpIntlNoNb extends HelpIntl {
   line10 = '<strong>R</strong>: Rotér 90°';
   line11 =
     '<strong>T</strong>: Vis/skjul optisk gjenkjent tekst (for innhold som kan vises).';
+  line12 = '<strong>Shift-S</strong>: Tøm søk i tekst';
 }
