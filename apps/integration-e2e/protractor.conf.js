@@ -122,6 +122,9 @@ function getMultiCapabilities() {
         build: process.env.CIRCLE_BUILD_NUM,
         tunnelIdentifier: process.env.TUNNEL_IDENTIFIER,
         maxInstances: 5,
+        'sauce:options': {
+          extendedDebugging: true,
+        }
       };
 
       if (cap.browserName === 'chrome' || argv.device === 'android') {
