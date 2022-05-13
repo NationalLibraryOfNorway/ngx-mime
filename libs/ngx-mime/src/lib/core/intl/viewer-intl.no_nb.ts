@@ -10,11 +10,11 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   attributonCloseAriaLabel = 'Steng tillatelse dialog';
   recognizedTextContentLabel = 'Gjenkjent tekst';
   contentsLabel = 'Innhold';
-  layoutMenuLabel = 'Visning'
-  pageLayoutLabel = "Sideoppsett";
+  layoutMenuLabel = 'Visning';
+  pageLayoutLabel = 'Sideoppsett';
   singlePageViewLabel = 'Enkeltsider';
   twoPageViewLabel = 'To sider';
-  digitalTextLabel = "Digital tekst";
+  digitalTextLabel = 'Digital tekst';
   recognizedTextContentCloseLabel = 'Ingen';
   recognizedTextContentInSplitViewLabel = 'Delt';
   showRecognizedTextContentLabel = 'Kun digital tekst';

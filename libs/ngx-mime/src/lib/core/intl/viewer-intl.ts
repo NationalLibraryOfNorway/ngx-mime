@@ -11,11 +11,11 @@ export class MimeViewerIntl {
   attributionLabel = 'Attribution';
   attributonCloseAriaLabel = 'Close attribution dialog';
   contentsLabel = 'Contents';
-  layoutMenuLabel = 'View'
-  pageLayoutLabel = "Page layout";
+  layoutMenuLabel = 'View';
+  pageLayoutLabel = 'Page layout';
   singlePageViewLabel = 'Single pages';
   twoPageViewLabel = 'Two pages';
-  digitalTextLabel = "Digital text";
+  digitalTextLabel = 'Digital text';
   recognizedTextContentCloseLabel = 'None';
   recognizedTextContentInSplitViewLabel = 'Split';
   showRecognizedTextContentLabel = 'Digital text only';

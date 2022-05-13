@@ -116,7 +116,10 @@ export class SearchResultBuilder {
 
   private getScale(index: number): number {
     const physicalScale = this.getPhysicalScale(index);
-    return Utils.getScaleFactor(physicalScale, this.config?.ignorePhysicalScale);
+    return Utils.getScaleFactor(
+      physicalScale,
+      this.config?.ignorePhysicalScale
+    );
   }
 
   private getPhysicalScale(index: number): number | undefined {

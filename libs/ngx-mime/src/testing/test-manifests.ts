@@ -32,9 +32,11 @@ export class TestManifests {
       ...new Manifest(),
       sequences: [
         new Sequence({
-          canvases: [new Canvas({
-            altoUrl: 'fakeUrl'
-          })],
+          canvases: [
+            new Canvas({
+              altoUrl: 'fakeUrl',
+            }),
+          ],
         }),
       ],
     };
