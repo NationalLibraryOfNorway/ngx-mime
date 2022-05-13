@@ -10,7 +10,9 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { ViewDialogConfigStrategyFactory } from './view-dialog-config-strategy-factory';
 import { ViewDialogComponent } from './view-dialog.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ViewDialogService {
   private _el: ElementRef | null = null;
   private dialogRef?: MatDialogRef<ViewDialogComponent>;
@@ -66,9 +68,7 @@ export class ViewDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
-    return this.viewDialogConfigStrategyFactory
-      .create()
-      .getConfig(this._el);
+    return this.viewDialogConfigStrategyFactory.create().getConfig(this._el);
   }
 
   private unsubscribe() {

@@ -10,14 +10,14 @@
         >
           <mat-icon>close</mat-icon>
         </button>
-        <h1 mat-dialog-title class="heading">{{ intl.layoutMenuLabel }}</h1>
+        <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>
       </div>
     </mat-toolbar>
   </ng-container>
   <ng-container *ngSwitchDefault>
     <mat-toolbar data-test-id="desktop-toolbar">
       <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-        <h1 mat-dialog-title class="heading heading-desktop">{{
+        <h1 mat-dialog-title data-test-id="ngx-mime-heading-desktop">{{
           intl.layoutMenuLabel
         }}</h1>
         <button
@@ -40,7 +40,6 @@
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle-group [value]="viewerLayout">
             <mat-button-toggle
-              *ngIf="isPagedManifest"
               data-test-id="ngx-mime-single-page-view-button"
               [attr.aria-label]="intl.singlePageViewLabel"
               [matTooltip]="intl.singlePageViewLabel"
@@ -55,7 +54,6 @@
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle-group [value]="viewerLayout">
             <mat-button-toggle
-              *ngIf="isPagedManifest"
               data-test-id="ngx-mime-two-page-view-button"
               [attr.aria-label]="intl.twoPageViewLabel"
               [matTooltip]="intl.twoPageViewLabel"
@@ -73,12 +71,11 @@
   <ng-container *ngIf="hasRecognizedTextContent">
     <mat-divider></mat-divider>
     <section data-test-id="recognized-text-content">
-      <h2 *ngIf="hasRecognizedTextContent">{{ intl.digitalTextLabel }}</h2>
+      <h2>{{ intl.digitalTextLabel }}</h2>
       <div fxLayout="column" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
-              mat-icon-button
               data-test-id="ngx-mime-recognized-text-content-close-button"
               [attr.aria-label]="intl.recognizedTextContentCloseLabel"
               [matTooltip]="intl.recognizedTextContentCloseLabel"
@@ -93,7 +90,6 @@
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
-              mat-icon-button
               data-test-id="ngx-mime-recognized-text-content-split-view-button"
               [attr.aria-label]="intl.recognizedTextContentInSplitViewLabel"
               [matTooltip]="intl.recognizedTextContentInSplitViewLabel"
@@ -110,7 +106,6 @@
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle-group [value]="recognizedTextMode">
             <mat-button-toggle
-              mat-icon-button
               data-test-id="ngx-mime-recognized-text-content-only-button"
               [attr.aria-label]="intl.showRecognizedTextContentLabel"
               [matTooltip]="intl.showRecognizedTextContentLabel"

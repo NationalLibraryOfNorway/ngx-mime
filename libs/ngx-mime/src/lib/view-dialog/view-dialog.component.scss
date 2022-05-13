@@ -8,7 +8,7 @@
 }
 
 section {
-  padding: 16px 0 16px 0px;
+  padding: 16px 0;
 }
 
 .label {
@@ -16,7 +16,6 @@ section {
 }
 
 .mat-dialog-content {
-  max-height: none;
-  margin: 0px;
-  padding: 0px 16px;
+  margin: 0;
+  padding: 0 16px;
 }
