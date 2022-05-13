@@ -32,7 +32,7 @@
     </mat-toolbar>
   </ng-container>
 </ng-container>
-<mat-dialog-content>
+<mat-dialog-content [ngStyle]="contentStyle">
   <ng-container *ngIf="isPagedManifest">
     <section data-test-id="page-layout">
       <h2>{{ intl.pageLayoutLabel }}</h2>

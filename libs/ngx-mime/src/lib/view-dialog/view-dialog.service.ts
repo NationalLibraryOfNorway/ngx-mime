@@ -18,7 +18,7 @@ export class ViewDialogService {
 
   constructor(
     private dialog: MatDialog,
-    private contentSearchDialogConfigStrategyFactory: ViewDialogConfigStrategyFactory,
+    private viewDialogConfigStrategyFactory: ViewDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService
   ) {}
 
@@ -66,7 +66,7 @@ export class ViewDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
-    return this.contentSearchDialogConfigStrategyFactory
+    return this.viewDialogConfigStrategyFactory
       .create()
       .getConfig(this._el);
   }

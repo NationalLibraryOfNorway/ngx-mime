@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../core/alto-service/alto.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../core/intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { RecognizedTextMode, RecognizedTextModeChanges } from '../core/models';
+import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
-import { ViewerService } from '../core/viewer-service/viewer.service';
 
 @Component({
   selector: 'mime-view-dialog',
@@ -23,15 +24,17 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   hasRecognizedTextContent = false;
   recognizedTextMode = RecognizedTextMode.NONE;
   RecognizedTextMode: typeof RecognizedTextMode = RecognizedTextMode;
+  contentStyle: any;
   private subscriptions = new Subscription();
 
   constructor(
     public mediaObserver: MediaObserver,
     public intl: MimeViewerIntl,
+    private cdr: ChangeDetectorRef,
     private viewerLayoutService: ViewerLayoutService,
     private iiifManifestService: IiifManifestService,
     private altoService: AltoService,
-    private viewerService: ViewerService
+    private mimeResizeService: MimeResizeService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +64,12 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
         }
       )
     );
+    this.subscriptions.add(
+      this.mimeResizeService.onResize.subscribe((rect) => {
+        this.resizeHeight(rect);
+        this.cdr.detectChanges();
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -85,5 +94,15 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
 
   showRecognizedTextContentOnly(): void {
     this.altoService.showRecognizedTextContentOnly();
+  }
+
+  private resizeHeight(rect: Dimensions): void {
+    let maxHeight = rect.height - 192 + 'px';
+    if (this.mediaObserver.isActive('lt-md')) {
+      maxHeight = rect.height + 'px';
+    }
+    this.contentStyle = {
+      maxHeight,
+    };
   }
 }

@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -58,9 +57,7 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
   styleUrls: ['./viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ViewerComponent
-  implements OnInit, AfterViewChecked, OnDestroy, OnChanges
-{
+export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri!: string;
   @Input() public q!: string;
   @Input() public canvasIndex = 0;
@@ -429,10 +426,6 @@ export class ViewerComponent
     }
   }
 
-  ngAfterViewChecked() {
-    this.resizeService.markForCheck();
-  }
-
   private loadManifest(): void {
     this.iiifManifestService.load(this.manifestUri).pipe(take(1)).subscribe();
   }
@@ -445,6 +438,7 @@ export class ViewerComponent
     this.contentSearchDialogService.initialize();
     this.helpDialogService.initialize();
     this.viewerService.initialize();
+    this.resizeService.initialize();
   }
 
   private cleanup() {
