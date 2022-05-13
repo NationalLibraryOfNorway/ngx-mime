@@ -11,8 +11,8 @@ Given(
   }
 );
 
-Given('the user has enables recognized text content only', async () => {
-  await enableRecognizedTextContentOnly();
+Given('the user has enabled recognized text content only', async () => {
+  await viewerPage.enableRecognizedTextContentOnly();
 });
 
 When('the user enables recognized text content in split view', async () => {
@@ -20,7 +20,7 @@ When('the user enables recognized text content in split view', async () => {
 });
 
 When('the user enables recognized text content only', async () => {
-  await enableRecognizedTextContentOnly();
+  await viewerPage.enableRecognizedTextContentOnly();
 });
 
 When('the user closes the recognized text content', async () => {
@@ -28,13 +28,13 @@ When('the user closes the recognized text content', async () => {
 });
 
 Then('the user should be able to enable recognized text content', async () => {
-  await viewerPage.openViewMeny();
+  await viewerPage.openViewMenu();
 
   expect(await viewerPage.isRecognizedTextContentButtonsPresent()).to.be.true;
 });
 
 Then(
-  'both the digital pages and the the recognized text content should be shown',
+  'both the digital pages and the recognized text content should be shown',
   async () => {
     const recognizedTextContent = await viewerPage.getRecognizedTextContent();
     const isRecognizedTextContentInSplitView =
@@ -47,13 +47,13 @@ Then(
 );
 
 Then('only the recognized text content should be shown', async () => {
-  const text = await viewerPage.getRecognizedTextContent();
+  const recognizedTextContent = await viewerPage.getRecognizedTextContent();
   const isRecognizedTextContentOnly =
     await viewerPage.isRecognizedTextContentOnly();
 
   expect(isRecognizedTextContentOnly).to.be.true;
-  expect(text).not.to.be.undefined;
-  expect(text).to.have.length.above(0);
+  expect(recognizedTextContent).not.to.be.undefined;
+  expect(recognizedTextContent).to.have.length.above(0);
 });
 
 Then('the recognized text content should be hidden', async () => {
@@ -70,7 +70,3 @@ Then(
     expect(firstHit).to.contains(`${term}`);
   }
 );
-
-async function enableRecognizedTextContentOnly() {
-  await viewerPage.enableRecognizedTextContentOnly();
-}

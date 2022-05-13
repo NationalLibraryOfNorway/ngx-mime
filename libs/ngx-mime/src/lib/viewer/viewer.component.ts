@@ -31,12 +31,12 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
 import {
+  ModeChanges,
   RecognizedTextMode,
   RecognizedTextModeChanges,
   ViewerMode,
 } from '../core/models';
 import { Manifest } from '../core/models/manifest';
-import { ModeChanges } from '../core/models/modeChanges';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { ViewerState } from '../core/models/viewerState';

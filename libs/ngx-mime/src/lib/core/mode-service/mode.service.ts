@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { MimeViewerConfig } from '../mime-viewer-config';
-import { ModeChanges } from '../models/modeChanges';
-import { ViewerMode } from '../models/viewer-mode';
+import { ModeChanges, ViewerMode } from '../models';
 
 @Injectable()
 export class ModeService {
@@ -30,7 +29,7 @@ export class ModeService {
   }
 
   initialize(): void {
-    this.mode = this.config.initViewerMode;
+    this.mode = this.config?.initViewerMode;
   }
 
   destroy() {

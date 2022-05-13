@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { MimeViewerConfig } from '../mime-viewer-config';
-import { ModeChanges } from '../models/modeChanges';
+import { ModeChanges } from '../models';
 import { ViewerMode } from '../models/viewer-mode';
 import { ModeService } from './mode.service';
 

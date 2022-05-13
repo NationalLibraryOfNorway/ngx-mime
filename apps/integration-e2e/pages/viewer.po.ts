@@ -135,7 +135,9 @@ export class ViewerPage {
       by.css('#openseadragon svg g rect')
     );
     this.singlePageViewButtonEl = element(
-      by.css('mat-button-toggle[data-test-id="ngx-mime-single-page-view-button"]')
+      by.css(
+        'mat-button-toggle[data-test-id="ngx-mime-single-page-view-button"]'
+      )
     );
     this.twoPageViewButtonEl = element(
       by.css('mat-button-toggle[data-test-id="ngx-mime-two-page-view-button"]')
@@ -448,7 +450,7 @@ export class ViewerPage {
     );
   }
 
-  async openViewMeny(): Promise<void> {
+  async openViewMenu(): Promise<void> {
     const isOpen = await this.isViewDialogOpen();
     if (isOpen) {
       return;
@@ -791,11 +793,9 @@ export class ViewerPage {
   }
 
   private async enableViewMenuToggle(el: ElementFinder): Promise<void> {
-    await this.openViewMeny();
+    await this.openViewMenu();
 
-    const classes = await el.getAttribute('class');
-    const isSelected = classes.indexOf('mat-button-toggle-checked') !== -1;
-
+    const isSelected = utils.containClass(el, 'mat-button-toggle-checked');
     if (!isSelected) {
       await el.click();
       await this.waitForAnimation();

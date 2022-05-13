@@ -1,3 +1,4 @@
+export { ModeChanges } from './mode-changes';
 export {
   RecognizedTextMode,
   RecognizedTextModeChanges,

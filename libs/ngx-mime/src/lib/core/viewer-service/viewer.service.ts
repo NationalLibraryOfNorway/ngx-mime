@@ -19,10 +19,13 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
-import { RecognizedTextMode, RecognizedTextModeChanges } from '../models';
+import {
+  ModeChanges,
+  RecognizedTextMode,
+  RecognizedTextModeChanges,
+} from '../models';
 import { Direction } from '../models/direction';
 import { Manifest, Resource } from '../models/manifest';
-import { ModeChanges } from '../models/modeChanges';
 import { PinchStatus } from '../models/pinchStatus';
 import { Side } from '../models/side';
 import { ViewerLayout } from '../models/viewer-layout';

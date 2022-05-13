@@ -13,7 +13,7 @@ Feature: Show recognized text content
     Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view
     When the user enables recognized text content in split view
-    Then both the digital pages and the the recognized text content should be shown
+    Then both the digital pages and the recognized text content should be shown
 
   Scenario: Show recognized text content only
     Given the viewer is opened with a publication with recognized text content
@@ -24,7 +24,7 @@ Feature: Show recognized text content
   Scenario: Hide recognized text content
     Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view
-    And the user has enables recognized text content only
+    And the user has enabled recognized text content only
     When the user closes the recognized text content
     Then the recognized text content should be hidden
 

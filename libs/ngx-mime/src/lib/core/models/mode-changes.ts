@@ -1,4 +1,4 @@
-import { ViewerMode } from '../models/viewer-mode';
+import { ViewerMode } from './viewer-mode';
 
 export class ModeChanges {
   public currentValue?: ViewerMode;
