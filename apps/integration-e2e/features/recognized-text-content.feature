@@ -6,7 +6,7 @@ Feature: Show recognized text content
 
   Scenario: Enable recognized text content
     Given the viewer is opened with a publication with recognized text content
-    When the viewer is in dashboard view
+    And the viewer is in dashboard view
     Then the user should be able to enable recognized text content
 
   Scenario: Show digital pages and recognized text content in split view
