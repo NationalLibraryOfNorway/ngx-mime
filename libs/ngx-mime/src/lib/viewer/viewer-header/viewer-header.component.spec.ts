@@ -7,7 +7,6 @@ import { By } from '@angular/platform-browser';
 import { injectedStub } from '../../../testing/injected-stub';
 import { TestManifests } from '../../../testing/test-manifests';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
-import { AltoService } from '../../core/alto-service/alto.service';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 import { Manifest, Service } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
@@ -22,8 +21,6 @@ describe('ViewerHeaderComponent', () => {
   let component: ViewerHeaderComponent;
   let fixture: ComponentFixture<ViewerHeaderComponent>;
   let rootLoader: HarnessLoader;
-  let loader: HarnessLoader;
-  let altoService: AltoService;
   let fullscreenService: FullscreenService;
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
@@ -49,8 +46,6 @@ describe('ViewerHeaderComponent', () => {
     fixture = TestBed.createComponent(ViewerHeaderComponent);
     component = fixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-    loader = TestbedHarnessEnvironment.loader(fixture);
-    altoService = TestBed.inject(AltoService);
     fullscreenService = TestBed.inject(FullscreenService);
     intl = TestBed.inject(MimeViewerIntl);
     iiifManifestService = injectedStub(IiifManifestService);
@@ -218,9 +213,7 @@ describe('ViewerHeaderComponent', () => {
   it(
     'should show view menu button if digital text is available',
     waitForAsync(() => {
-      setCurrentManifest(
-        TestManifests.withDigitalTextContent()
-      );
+      setCurrentManifest(TestManifests.withDigitalTextContent());
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
