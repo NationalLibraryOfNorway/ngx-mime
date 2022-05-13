@@ -13,12 +13,14 @@ import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { IiifContentSearchServiceStub } from '../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
+import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
 import { ViewerServiceStub } from '../test/viewer-service-stub';
 import { ViewDialogComponent } from './view-dialog.component';
 
@@ -51,6 +53,7 @@ describe('ViewDialogComponent', () => {
             useClass: IiifContentSearchServiceStub,
           },
           { provide: MatDialogRef, useClass: MatDialogRefStub },
+          { provide: MimeResizeService, useClass: MimeResizeServiceStub },
         ],
       }).compileComponents();
     })
