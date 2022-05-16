@@ -108,7 +108,7 @@ export class AccessKeysService {
       } else if (accessKeys.isRotateKeys()) {
         this.rotateClockWise();
       } else if (accessKeys.isRecognizedTextContentKeys()) {
-        this.toggleRecognizedTextContent();
+        this.toggleRecognizedTextContentInSplitView();
       }
     }
   }
@@ -137,7 +137,7 @@ export class AccessKeysService {
     this.mimeDomHelper.setFocusOnViewer();
   }
 
-  private toggleRecognizedTextContent() {
+  private toggleRecognizedTextContentInSplitView() {
     if (
       this.altoService.recognizedTextContentMode !== RecognizedTextMode.SPLIT
     ) {
