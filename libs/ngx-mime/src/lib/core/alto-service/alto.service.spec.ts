@@ -131,7 +131,7 @@ describe('AltoService', () => {
   it('should toggle off recognized text', () => {
     service.showRecognizedTextContentOnly();
 
-    service.hideRecognizedTextContent();
+    service.closeRecognizedTextContent();
 
     expectOnRecognizedTextContentModeChangeToBe(
       RecognizedTextMode.ONLY,

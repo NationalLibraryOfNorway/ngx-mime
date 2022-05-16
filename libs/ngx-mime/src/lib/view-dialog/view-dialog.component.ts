@@ -84,8 +84,8 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
   }
 
-  hideRecognizedTextContent(): void {
-    this.altoService.hideRecognizedTextContent();
+  closeRecognizedTextContent(): void {
+    this.altoService.closeRecognizedTextContent();
   }
 
   showRecognizedTextContentInSplitView(): void {

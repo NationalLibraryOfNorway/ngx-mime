@@ -146,7 +146,7 @@ export class AltoService {
     this.recognizedTextContentMode = RecognizedTextMode.SPLIT;
   }
 
-  hideRecognizedTextContent() {
+  closeRecognizedTextContent() {
     this.recognizedTextContentMode = RecognizedTextMode.NONE;
   }
 
