@@ -206,17 +206,17 @@ export class ViewerPage {
   }
 
   async enableRecognizedTextContentInSplitView(): Promise<void> {
-    await this.enableViewMenuToggle(
+    await this.checkViewMenuToggle(
       this.recognizedTextContentSplitViewButtonEl
     );
   }
 
   async enableRecognizedTextContentOnly(): Promise<void> {
-    await this.enableViewMenuToggle(this.recognizedTextContentOnlyButtonEl);
+    await this.checkViewMenuToggle(this.recognizedTextContentOnlyButtonEl);
   }
 
   async enableRecognizedTextContentClose(): Promise<void> {
-    await this.enableViewMenuToggle(this.recognizedTextContentCloseButtonEl);
+    await this.checkViewMenuToggle(this.recognizedTextContentCloseButtonEl);
   }
 
   async getRecognizedTextContent(): Promise<string | undefined> {
@@ -265,11 +265,11 @@ export class ViewerPage {
   }
 
   async setOnePageView() {
-    await this.enableViewMenuToggle(this.singlePageViewButtonEl);
+    await this.checkViewMenuToggle(this.singlePageViewButtonEl);
   }
 
   async setTwoPageView() {
-    await this.enableViewMenuToggle(this.twoPageViewButtonEl);
+    await this.checkViewMenuToggle(this.twoPageViewButtonEl);
   }
 
   setTestCustomElements(isElements: boolean) {
@@ -792,7 +792,7 @@ export class ViewerPage {
     );
   }
 
-  private async enableViewMenuToggle(el: ElementFinder): Promise<void> {
+  private async checkViewMenuToggle(el: ElementFinder): Promise<void> {
     await this.openViewMenu();
 
     const isSelected = utils.containClass(el, 'mat-button-toggle-checked');
