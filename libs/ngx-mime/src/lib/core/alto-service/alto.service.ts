@@ -70,7 +70,7 @@ export class AltoService {
     return this.textError.asObservable();
   }
 
-  get recognizedTextContentMode() {
+  get recognizedTextContentMode(): RecognizedTextMode {
     return this._recognizedTextContentModeChanges.value.currentValue;
   }
 
