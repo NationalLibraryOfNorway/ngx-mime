@@ -205,17 +205,15 @@ export class ViewerPage {
     );
   }
 
-  async enableRecognizedTextContentInSplitView(): Promise<void> {
-    await this.checkViewMenuToggle(
-      this.recognizedTextContentSplitViewButtonEl
-    );
+  async showRecognizedTextContentInSplitView(): Promise<void> {
+    await this.checkViewMenuToggle(this.recognizedTextContentSplitViewButtonEl);
   }
 
-  async enableRecognizedTextContentOnly(): Promise<void> {
+  async showOnlyRecognizedTextContent(): Promise<void> {
     await this.checkViewMenuToggle(this.recognizedTextContentOnlyButtonEl);
   }
 
-  async enableRecognizedTextContentClose(): Promise<void> {
+  async closeRecognizedTextContent(): Promise<void> {
     await this.checkViewMenuToggle(this.recognizedTextContentCloseButtonEl);
   }
 

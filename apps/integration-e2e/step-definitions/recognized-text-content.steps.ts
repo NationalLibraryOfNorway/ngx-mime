@@ -12,19 +12,19 @@ Given(
 );
 
 Given('the user has enabled recognized text content only', async () => {
-  await viewerPage.enableRecognizedTextContentOnly();
+  await viewerPage.showOnlyRecognizedTextContent();
 });
 
 When('the user enables recognized text content in split view', async () => {
-  await viewerPage.enableRecognizedTextContentInSplitView();
+  await viewerPage.showRecognizedTextContentInSplitView();
 });
 
 When('the user enables recognized text content only', async () => {
-  await viewerPage.enableRecognizedTextContentOnly();
+  await viewerPage.showOnlyRecognizedTextContent();
 });
 
 When('the user closes the recognized text content', async () => {
-  await viewerPage.enableRecognizedTextContentClose();
+  await viewerPage.closeRecognizedTextContent();
 });
 
 Then('the user should be able to enable recognized text content', async () => {
