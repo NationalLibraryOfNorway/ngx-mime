@@ -36,7 +36,6 @@ describe('ViewDialogComponent', () => {
           MimeViewerIntl,
           ViewerLayoutService,
           CanvasService,
-          { provide: AltoService, useClass: AltoServiceStub },
           { provide: ViewerService, useClass: ViewerServiceStub },
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
           {
