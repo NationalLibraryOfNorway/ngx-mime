@@ -8,8 +8,7 @@ import { Dimensions } from '../models/dimensions';
 export class MimeResizeService {
   private _el!: ElementRef;
   private resizeSubject: ReplaySubject<DOMRectReadOnly> = new ReplaySubject();
-
-  constructor() {}
+  private observer!: ResizeObserver;
 
   set el(el: ElementRef) {
     this._el = el;
@@ -36,10 +35,20 @@ export class MimeResizeService {
   }
 
   initialize() {
-    const observer = new ResizeObserver((entry) => {
-      this.resizeSubject.next(entry[0].contentRect);
+    this.observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        this.resizeSubject.next(entry.contentRect);
+      }
     });
-    const el = <any>this.el.nativeElement.querySelector('#ngx-mime-mimeViewer');
-    observer.observe(el);
+    const el: Element = this.el.nativeElement.querySelector(
+      '#ngx-mime-mimeViewer'
+    );
+    this.observer.observe(el);
+  }
+
+  destroy() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
 }

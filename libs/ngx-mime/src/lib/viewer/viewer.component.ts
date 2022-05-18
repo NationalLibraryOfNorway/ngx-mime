@@ -448,6 +448,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.contentSearchDialogService.destroy();
     this.helpDialogService.destroy();
     this.viewerService.destroy();
+    this.resizeService.destroy();
     this.resetErrorMessage();
   }
 
