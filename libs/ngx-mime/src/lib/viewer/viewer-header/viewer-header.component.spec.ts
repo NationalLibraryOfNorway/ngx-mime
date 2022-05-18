@@ -257,7 +257,9 @@ describe('ViewerHeaderComponent', () => {
   }
 
   function getViewMenuButton() {
-    return fixture.debugElement.query(By.css('#ngx-mime-view-menu-button'));
+    return fixture.debugElement.query(
+      By.css('[data-test-id="ngx-mime-view-menu-button"]')
+    );
   }
 
   function expectHeaderToShow(element: any) {

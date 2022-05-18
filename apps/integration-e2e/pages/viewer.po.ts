@@ -176,7 +176,9 @@ export class ViewerPage {
         'mat-drawer[data-test-id="ngx-mime-recognized-text-content-container"]'
       )
     );
-    this.viewMenuButtonEl = element(by.css('#ngx-mime-view-menu-button'));
+    this.viewMenuButtonEl = element(
+      by.css('[data-test-id="ngx-mime-view-menu-button"]')
+    );
     this.viewMenuDialogEl = element(by.css('mime-view-dialog'));
   }
 
@@ -793,7 +795,10 @@ export class ViewerPage {
   private async checkViewMenuToggle(el: ElementFinder): Promise<void> {
     await this.openViewMenu();
 
-    const isSelected = await utils.containClass(el, 'mat-button-toggle-checked');
+    const isSelected = await utils.containClass(
+      el,
+      'mat-button-toggle-checked'
+    );
     if (!isSelected) {
       await el.click();
       await this.waitForAnimation();
