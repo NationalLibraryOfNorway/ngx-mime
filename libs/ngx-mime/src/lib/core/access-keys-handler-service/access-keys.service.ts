@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
+import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
@@ -16,7 +17,9 @@ import { ViewingDirection } from '../models/viewing-direction';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerService } from '../viewer-service/viewer.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AccessKeysService {
   private isSearchable = false;
   private hasHits = false;
@@ -32,6 +35,7 @@ export class AccessKeysService {
     private iiifContentSearchService: IiifContentSearchService,
     private contentSearchDialogService: ContentSearchDialogService,
     private contentsDialogService: ContentsDialogService,
+    private viewDialogService: ViewDialogService,
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService,
     private altoService: AltoService
@@ -193,6 +197,7 @@ export class AccessKeysService {
     }
 
     this.contentsDialogService.close();
+    this.viewDialogService.close();
   }
 
   private toggleContentsDialog() {
@@ -210,6 +215,7 @@ export class AccessKeysService {
       }
     }
     this.contentSearchDialogService.close();
+    this.viewDialogService.close();
   }
 
   private toggleFullscreen() {

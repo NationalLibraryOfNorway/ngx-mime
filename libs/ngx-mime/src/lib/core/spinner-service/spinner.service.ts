@@ -1,12 +1,13 @@
-import { Injectable, Optional, SkipSelf } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Observable } from 'rxjs';
 
 export interface SpinnerState {
   show: boolean;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SpinnerService {
   private spinnerSubject = new Subject<SpinnerState>();
   public spinnerState = this.spinnerSubject.asObservable();
