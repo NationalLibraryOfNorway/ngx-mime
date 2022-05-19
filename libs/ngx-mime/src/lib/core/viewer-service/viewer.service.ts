@@ -19,9 +19,13 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import {
+  ModeChanges,
+  RecognizedTextMode,
+  RecognizedTextModeChanges,
+} from '../models';
 import { Direction } from '../models/direction';
 import { Manifest, Resource } from '../models/manifest';
-import { ModeChanges } from '../models/modeChanges';
 import { PinchStatus } from '../models/pinchStatus';
 import { Side } from '../models/side';
 import { ViewerLayout } from '../models/viewer-layout';
@@ -47,7 +51,9 @@ import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 
 declare const OpenSeadragon: any;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ViewerService {
   private viewer?: any;
   private svgOverlay: any;
@@ -258,7 +264,7 @@ export class ViewerService {
 
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
     this.config = config;
-    this.iiifContentSearchService.setConfig(this.config);
+
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
@@ -376,9 +382,45 @@ export class ViewerService {
         this.layoutPages();
       })
     );
+
+    this.subscriptions.add(
+      this.altoService.onRecognizedTextContentModeChange$.subscribe(
+        (recognizedTextModeChanges: RecognizedTextModeChanges) => {
+          if (
+            recognizedTextModeChanges.currentValue === RecognizedTextMode.ONLY
+          ) {
+            this.hidePages();
+          }
+
+          if (
+            recognizedTextModeChanges.previousValue === RecognizedTextMode.ONLY
+          ) {
+            this.showPages();
+          }
+
+          if (
+            recognizedTextModeChanges.previousValue ===
+              RecognizedTextMode.ONLY &&
+            recognizedTextModeChanges.currentValue === RecognizedTextMode.SPLIT
+          ) {
+            setTimeout(() => {
+              this.home();
+            }, ViewerOptions.transitions.OSDAnimationTime);
+          }
+        }
+      )
+    );
   }
 
-  private layoutPages() {
+  hidePages() {
+    this.setOpacityOnPages(0);
+  }
+
+  showPages() {
+    this.setOpacityOnPages(1);
+  }
+
+  layoutPages() {
     if (this.osdIsReady.getValue()) {
       const currentCanvasIndex = this.canvasService.currentCanvasIndex;
       this.destroy(true);
@@ -1052,6 +1094,16 @@ export class ViewerService {
     this.snackBar.open(this.intl.rotationIsNotSupported, undefined, {
       duration: 3000,
     });
+  }
+
+  private setOpacityOnPages(opacity: number): void {
+    if (this.viewer) {
+      const itemCount = this.viewer.world.getItemCount();
+      for (let i = 0; i < itemCount; i++) {
+        const item = this.viewer.world.getItemAt(i);
+        item.setOpacity(opacity);
+      }
+    }
   }
 
   private unsubscribe() {

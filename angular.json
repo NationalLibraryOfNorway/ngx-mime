@@ -89,7 +89,6 @@
             "polyfills": "apps/demo/src/polyfills.ts",
             "tsConfig": "apps/demo/tsconfig.spec.json",
             "karmaConfig": "apps/demo/karma.conf.js",
-            "styles": ["apps/demo/src/styles.scss"],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ],

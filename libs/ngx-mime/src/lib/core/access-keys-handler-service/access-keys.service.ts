@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
+import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeDomHelper } from '../mime-dom-helper';
 import { ModeService } from '../mode-service/mode.service';
+import { RecognizedTextMode, ViewerMode } from '../models';
 import { AccessKeys } from '../models/AccessKeys';
 import { Manifest } from '../models/manifest';
 import { SearchResult } from '../models/search-result';
-import { ViewerMode } from '../models/viewer-mode';
 import { ViewingDirection } from '../models/viewing-direction';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerService } from '../viewer-service/viewer.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AccessKeysService {
   private isSearchable = false;
   private hasHits = false;
@@ -32,6 +35,7 @@ export class AccessKeysService {
     private iiifContentSearchService: IiifContentSearchService,
     private contentSearchDialogService: ContentSearchDialogService,
     private contentsDialogService: ContentsDialogService,
+    private viewDialogService: ViewDialogService,
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService,
     private altoService: AltoService
@@ -108,7 +112,7 @@ export class AccessKeysService {
       } else if (accessKeys.isRotateKeys()) {
         this.rotateClockWise();
       } else if (accessKeys.isRecognizedTextContentKeys()) {
-        this.toggleRecognizedTextContent();
+        this.toggleRecognizedTextContentInSplitView();
       }
     }
   }
@@ -137,8 +141,14 @@ export class AccessKeysService {
     this.mimeDomHelper.setFocusOnViewer();
   }
 
-  private toggleRecognizedTextContent() {
-    this.altoService.toggle();
+  private toggleRecognizedTextContentInSplitView() {
+    if (
+      this.altoService.recognizedTextContentMode !== RecognizedTextMode.SPLIT
+    ) {
+      this.altoService.showRecognizedTextContentInSplitView();
+    } else {
+      this.altoService.closeRecognizedTextContent();
+    }
   }
 
   private goToNextHit() {
@@ -187,6 +197,7 @@ export class AccessKeysService {
     }
 
     this.contentsDialogService.close();
+    this.viewDialogService.close();
   }
 
   private toggleContentsDialog() {
@@ -204,6 +215,7 @@ export class AccessKeysService {
       }
     }
     this.contentSearchDialogService.close();
+    this.viewDialogService.close();
   }
 
   private toggleFullscreen() {
@@ -230,6 +242,9 @@ export class AccessKeysService {
     } else if (this.contentSearchDialogService.isOpen()) {
       this.diableKeysForContentSearchDialog();
     }
+    if (this.isRecognizedTextContentModeOnly()) {
+      this.disableKeysForRecognizedTextContentOnly();
+    }
   }
 
   private disableKeysForContentDialog() {
@@ -252,6 +267,19 @@ export class AccessKeysService {
       .concat(AccessKeys.toggleSearchDialogCodes)
       .concat(AccessKeys.toggleContentsDialogCodes)
       .concat(AccessKeys.toggleFullscreenCodes);
+  }
+
+  private isRecognizedTextContentModeOnly(): boolean {
+    return (
+      this.altoService.recognizedTextContentMode === RecognizedTextMode.ONLY
+    );
+  }
+
+  private disableKeysForRecognizedTextContentOnly(): void {
+    this.disabledKeys = this.disabledKeys
+      .concat(AccessKeys.zoomInCodes)
+      .concat(AccessKeys.zoomOutCodes)
+      .concat(AccessKeys.zoomHomeCodes);
   }
 
   private resetDisabledKeys() {

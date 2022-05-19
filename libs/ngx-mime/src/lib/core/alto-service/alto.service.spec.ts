@@ -9,6 +9,7 @@ import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
+import { RecognizedTextMode } from '../models';
 import { testAlto } from './../../test/testAltos';
 import { AltoService } from './alto.service';
 
@@ -109,12 +110,33 @@ describe('AltoService', () => {
     });
   }));
 
-  it('should toggle showing recognized text', () => {
-    expectOnRecognizedTextContentToggleChangeToBe(false);
+  it('should toggle on recognized text in split view', () => {
+    service.showRecognizedTextContentInSplitView();
 
-    service.toggle();
+    expectOnRecognizedTextContentModeChangeToBe(
+      RecognizedTextMode.NONE,
+      RecognizedTextMode.SPLIT
+    );
+  });
 
-    expectOnRecognizedTextContentToggleChangeToBe(true);
+  it('should toggle on recognized text only', () => {
+    service.showRecognizedTextContentOnly();
+
+    expectOnRecognizedTextContentModeChangeToBe(
+      RecognizedTextMode.NONE,
+      RecognizedTextMode.ONLY
+    );
+  });
+
+  it('should toggle off recognized text', () => {
+    service.showRecognizedTextContentOnly();
+
+    service.closeRecognizedTextContent();
+
+    expectOnRecognizedTextContentModeChangeToBe(
+      RecognizedTextMode.ONLY,
+      RecognizedTextMode.NONE
+    );
   });
 
   const setUpSpy = () => {
@@ -185,9 +207,14 @@ describe('AltoService', () => {
     expect(service.getHtml(1)).toBeUndefined();
   };
 
-  const expectOnRecognizedTextContentToggleChangeToBe = (value: boolean) => {
-    expect(service.onRecognizedTextContentToggleChange$).toBeObservable(
-      cold('a', { a: value })
+  const expectOnRecognizedTextContentModeChangeToBe = (
+    previousValue: RecognizedTextMode,
+    currentValue: RecognizedTextMode
+  ) => {
+    expect(service.onRecognizedTextContentModeChange$).toBeObservable(
+      cold('a', {
+        a: { currentValue: currentValue, previousValue: previousValue },
+      })
     );
   };
 });

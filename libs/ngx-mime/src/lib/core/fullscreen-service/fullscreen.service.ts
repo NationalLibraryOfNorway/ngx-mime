@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class FullscreenService {
   private changeSubject: ReplaySubject<boolean> = new ReplaySubject();
 

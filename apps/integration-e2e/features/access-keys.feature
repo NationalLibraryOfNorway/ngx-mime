@@ -191,7 +191,7 @@ Feature: Access Keys
   Scenario Outline: Open recognized text content
     Given the viewer is opened with a publication with recognized text content
     And the user hits key <keys>
-    Then the recognized text content should be shown
+    Then both the digital pages and the recognized text content should be shown
 
     Examples:
       | keys  |

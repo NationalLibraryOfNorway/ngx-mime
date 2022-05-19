@@ -9,7 +9,9 @@ import { IiifSearchResult } from './../models/iiif-search-result';
 import { Manifest } from './../models/manifest';
 import { SearchResult } from './../models/search-result';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class IiifContentSearchService {
   protected _currentSearchResult: Subject<SearchResult> =
     new BehaviorSubject<SearchResult>(new SearchResult({}));

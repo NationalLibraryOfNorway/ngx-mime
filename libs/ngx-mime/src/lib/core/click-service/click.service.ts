@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ClickService {
   private singleClickHandlers: Array<(event: any) => void> = [];
   private doubleClickHandlers: Array<(event: any) => void> = [];

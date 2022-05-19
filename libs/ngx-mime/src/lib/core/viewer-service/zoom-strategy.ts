@@ -62,7 +62,9 @@ export class ZoomStrategy {
   }
 
   zoomTo(level: number, position?: Point): void {
-    this.viewer.viewport.zoomTo(level, position);
+    if (level !== 0) {
+      this.viewer.viewport.zoomTo(level, position);
+    }
   }
 
   private getHomeZoomLevel(mode: ViewerMode): number {

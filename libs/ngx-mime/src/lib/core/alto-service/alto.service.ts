@@ -14,20 +14,22 @@ import { catchError, debounceTime, finalize, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
-import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { HighlightService } from '../highlight-service/highlight.service';
+import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
+import { MimeViewerConfig } from '../mime-viewer-config';
+import { RecognizedTextMode, RecognizedTextModeChanges } from '../models';
 import { Manifest } from '../models/manifest';
-import { Alto } from './alto.model';
 import { Hit } from './../../core/models/hit';
+import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AltoService {
+  private config!: MimeViewerConfig;
   private altos: string[] = [];
-  private recognizedTextContentToggle = new BehaviorSubject(false);
   private isLoading = new BehaviorSubject(false);
   private textContentReady = new Subject<void>();
   private textError = new Subject<string | undefined>();
@@ -36,6 +38,12 @@ export class AltoService {
   private altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
   private hits: Hit[] | undefined;
+  private _recognizedTextContentModeChanges =
+    new BehaviorSubject<RecognizedTextModeChanges>({
+      previousValue: RecognizedTextMode.NONE,
+      currentValue: RecognizedTextMode.NONE,
+    });
+  private previousRecognizedTextMode = RecognizedTextMode.NONE;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -46,8 +54,8 @@ export class AltoService {
     private sanitizer: DomSanitizer
   ) {}
 
-  get onRecognizedTextContentToggleChange$(): Observable<boolean> {
-    return this.recognizedTextContentToggle.asObservable();
+  get onRecognizedTextContentModeChange$(): Observable<RecognizedTextModeChanges> {
+    return this._recognizedTextContentModeChanges.asObservable();
   }
 
   get onTextContentReady$(): Observable<void> {
@@ -62,12 +70,16 @@ export class AltoService {
     return this.textError.asObservable();
   }
 
-  get onRecognizedTextContentToggle() {
-    return this.recognizedTextContentToggle.value;
+  get recognizedTextContentMode(): RecognizedTextMode {
+    return this._recognizedTextContentModeChanges.value.currentValue;
   }
 
-  set onRecognizedTextContentToggle(value: boolean) {
-    this.recognizedTextContentToggle.next(value);
+  set recognizedTextContentMode(value: RecognizedTextMode) {
+    this._recognizedTextContentModeChanges.next({
+      currentValue: value,
+      previousValue: this.previousRecognizedTextMode,
+    });
+    this.previousRecognizedTextMode = value;
   }
 
   initialize(hits?: Hit[]) {
@@ -94,6 +106,10 @@ export class AltoService {
           const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
             currentCanvasGroupIndex
           );
+
+          if (!canvasGroup || canvasGroup.length === 0) {
+            return;
+          }
           this.addAltoSource(canvasGroup[0], sources);
           if (canvasGroup.length === 2) {
             this.addAltoSource(canvasGroup[1], sources);
@@ -110,13 +126,28 @@ export class AltoService {
   }
 
   destroy() {
+    this.recognizedTextContentMode = this.config?.initRecognizedTextContentMode
+      ? this.config?.initRecognizedTextContentMode
+      : RecognizedTextMode.NONE;
+
     this.subscriptions.unsubscribe();
     this.clearCache();
   }
 
-  toggle() {
-    this.onRecognizedTextContentToggle =
-      !this.recognizedTextContentToggle.getValue();
+  setConfig(config: MimeViewerConfig) {
+    this.config = config;
+  }
+
+  showRecognizedTextContentOnly() {
+    this.recognizedTextContentMode = RecognizedTextMode.ONLY;
+  }
+
+  showRecognizedTextContentInSplitView() {
+    this.recognizedTextContentMode = RecognizedTextMode.SPLIT;
+  }
+
+  closeRecognizedTextContent() {
+    this.recognizedTextContentMode = RecognizedTextMode.NONE;
   }
 
   getHtml(index: number): SafeHtml | undefined {

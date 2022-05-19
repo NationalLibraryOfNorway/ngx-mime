@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   MimeViewerConfig,
   MimeViewerMode,
+  RecognizedTextMode,
 } from '@nationallibraryofnorway/ngx-mime';
 import { Subscription } from 'rxjs';
 import { ManifestService } from './../core/manifest-service/manifest.service';
@@ -21,7 +22,7 @@ export class ViewerComponent implements OnDestroy {
     startOnTopOnCanvasGroupChange: true,
     isDropEnabled: true,
     initViewerMode: MimeViewerMode.PAGE,
-    initRecognizedTextContentToggle: false,
+    initRecognizedTextContentMode: RecognizedTextMode.NONE,
   });
   private iiifVersion = 3;
   private subscriptions = new Subscription();

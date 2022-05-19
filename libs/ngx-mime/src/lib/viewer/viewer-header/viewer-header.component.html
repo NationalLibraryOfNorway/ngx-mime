@@ -19,44 +19,15 @@
       class="buttons-container"
     >
       <button
-        *ngIf="hasRecognizedTextContent"
+        *ngIf="isPagedManifest || hasRecognizedTextContent"
+        data-test-id="ngx-mime-view-menu-button"
+        #viewMenu
         mat-icon-button
-        data-test-id="ngx-mimeRecognizedTextContentButton"
-        [attr.aria-label]="intl.recognizedTextContentLabel"
-        [matTooltip]="intl.recognizedTextContentLabel"
-        (click)="toggleRecognizedTextContent()"
+        [attr.aria-label]="intl.layoutMenuLabel"
+        [matTooltip]="intl.layoutMenuLabel"
+        (click)="toggleView()"
+        ><mat-icon aria-hidden="true">view_module</mat-icon></button
       >
-        <mat-icon>notes</mat-icon>
-      </button>
-      <button
-        *ngIf="isPagedManifest"
-        mat-icon-button
-        [id]="
-          viewerLayout === ViewerLayout.ONE_PAGE
-            ? 'toggleTwoPageViewButton'
-            : 'toggleSinglePageViewButton'
-        "
-        [attr.aria-label]="
-          viewerLayout === ViewerLayout.ONE_PAGE
-            ? intl.twoPageViewLabel
-            : intl.singlePageViewLabel
-        "
-        [matTooltip]="
-          viewerLayout === ViewerLayout.ONE_PAGE
-            ? intl.twoPageViewLabel
-            : intl.singlePageViewLabel
-        "
-        (click)="toggleViewerLayout()"
-      >
-        <mime-icon
-          [iconName]="
-            viewerLayout === ViewerLayout.ONE_PAGE
-              ? 'two_page_display'
-              : 'single_page_display'
-          "
-        >
-        </mime-icon>
-      </button>
       <button
         id="ngx-mimeContentsDialogButton"
         mat-icon-button
