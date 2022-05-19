@@ -66,49 +66,50 @@ export class AccessKeysService {
   public handleKeyEvents(event: KeyboardEvent) {
     const accessKeys = new AccessKeys(event);
     if (!this.isKeyDisabled(event.keyCode)) {
-      event.preventDefault();
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
           this.invert
-            ? this.goToNextCanvasGroup()
-            : this.goToPreviousCanvasGroup();
+            ? accessKeys.execute(() => this.goToNextCanvasGroup())
+            : accessKeys.execute(() => this.goToPreviousCanvasGroup());
         }
       } else if (accessKeys.isArrowRightKeys()) {
         if (!this.isZoomedIn()) {
           this.invert
-            ? this.goToPreviousCanvasGroup()
-            : this.goToNextCanvasGroup();
+            ? accessKeys.execute(() => this.goToPreviousCanvasGroup())
+            : accessKeys.execute(() => this.goToNextCanvasGroup());
         }
       } else if (accessKeys.isFirstCanvasGroupKeys()) {
-        this.goToFirstCanvasGroup();
+        accessKeys.execute(() => this.goToFirstCanvasGroup());
       } else if (accessKeys.isLastCanvasGroupKeys()) {
-        this.goToLastCanvasGroup();
+        accessKeys.execute(() => this.goToLastCanvasGroup());
       } else if (accessKeys.isNextHitKeys() && this.hasHits) {
-        this.goToNextHit();
+        accessKeys.execute(() => this.goToNextHit());
       } else if (accessKeys.isPreviousHitKeys() && this.hasHits) {
-        this.goToPreviousHit();
+        accessKeys.execute(() => this.goToPreviousHit());
       } else if (accessKeys.isFullscreenKeys()) {
-        this.toggleFullscreen();
+        accessKeys.execute(() => this.toggleFullscreen());
       } else if (accessKeys.isSearchDialogKeys() && this.isSearchable) {
-        this.toggleSearchDialog();
+        accessKeys.execute(() => {
+          this.toggleSearchDialog();
+        });
       } else if (accessKeys.isContentsDialogKeys()) {
-        this.toggleContentsDialog();
+        accessKeys.execute(() => this.toggleContentsDialog());
       } else if (accessKeys.isResetSearchKeys()) {
-        this.resetSearch();
+        accessKeys.execute(() => this.resetSearch());
       } else if (accessKeys.isPageDownKeys()) {
-        this.goToNextCanvasGroup();
+        accessKeys.execute(() => this.goToNextCanvasGroup());
       } else if (accessKeys.isPageUpKeys()) {
-        this.goToPreviousCanvasGroup();
+        accessKeys.execute(() => this.goToPreviousCanvasGroup());
       } else if (accessKeys.isZoomInKeys()) {
-        this.zoomIn();
+        accessKeys.execute(() => this.zoomIn());
       } else if (accessKeys.isZoomOutKeys()) {
-        this.zoomOut();
+        accessKeys.execute(() => this.zoomOut());
       } else if (accessKeys.isZoomHomeKeys()) {
-        this.zoomHome();
+        accessKeys.execute(() => this.zoomHome());
       } else if (accessKeys.isRotateKeys()) {
-        this.rotateClockWise();
+        accessKeys.execute(() => this.rotateClockWise());
       } else if (accessKeys.isRecognizedTextContentKeys()) {
-        this.toggleRecognizedTextContent();
+        accessKeys.execute(() => this.toggleRecognizedTextContent());
       }
     }
   }

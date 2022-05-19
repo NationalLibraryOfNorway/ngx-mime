@@ -21,8 +21,10 @@ export class AccessKeys {
   private shiftKey = false;
   private ctrlkey = false;
   private metaKey = false;
+  private event: KeyboardEvent;
 
   constructor(event: KeyboardEvent) {
+    this.event = event;
     this.keyCode = event.keyCode;
     this.altKey = event.altKey;
     this.shiftKey = event.shiftKey;
@@ -139,6 +141,11 @@ export class AccessKeys {
       !this.isMultiKeys() &&
       this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes)
     );
+  }
+
+  execute(fn: Function): void {
+    this.event.preventDefault();
+    fn();
   }
 
   private isMultiKeys(): boolean {
