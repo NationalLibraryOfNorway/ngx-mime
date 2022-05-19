@@ -21,21 +21,6 @@
   height: 100%;
 }
 
-mat-drawer.split {
-  width: calc(25%);
-  @media only screen and (max-width: 599px) {
-    width: calc(33%);
-  }
-}
-
-mat-drawer.only {
-  width: 100%;
-
-  ::ng-deep mime-recognized-text-content .content {
-    max-width: 980px;
-  }
-}
-
 #openseadragon {
   display: flex;
   flex-grow: 1;
@@ -113,6 +98,21 @@ mat-drawer.only {
 
 [hidden] {
   display: none;
+}
+
+mat-drawer.split {
+  width: calc(25%);
+  @media only screen and (max-width: 599px) {
+    width: calc(33%);
+  }
+}
+
+mat-drawer.only {
+  width: 100%;
+
+  ::ng-deep mime-recognized-text-content .content {
+    max-width: 980px;
+  }
 }
 
 .open {
