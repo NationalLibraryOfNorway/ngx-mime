@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-
 import { Dimensions } from '../core/models/dimensions';
 
 @Injectable()
@@ -10,14 +9,18 @@ export class MimeResizeServiceStub {
   get onResize(): Observable<Dimensions> {
     return this.resizeSubject.asObservable();
   }
-  markForCheck(): void {
+
+  initialize(): void {
     this.triggerResize();
   }
-  triggerResize(dimensions?: Dimensions): void {
+
+  destroy(): void {}
+
+  triggerResize(dimensions?: DOMRectReadOnly): void {
     if (dimensions) {
       this.resizeSubject.next(dimensions);
     } else {
-      this.resizeSubject.next(new Dimensions());
+      this.resizeSubject.next(new DOMRectReadOnly());
     }
   }
 }

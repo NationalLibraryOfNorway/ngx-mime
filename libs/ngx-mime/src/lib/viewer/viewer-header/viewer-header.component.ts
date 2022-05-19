@@ -17,13 +17,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AltoService } from '../../core/alto-service/alto.service';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
-import { ViewerLayout } from '../../core/models/viewer-layout';
 import { ViewerOptions } from '../../core/models/viewer-options';
-import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
+import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
@@ -66,6 +64,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   mimeHeaderBefore!: ViewContainerRef;
   @ViewChild('mimeHeaderAfter', { read: ViewContainerRef, static: true })
   mimeHeaderAfter!: ViewContainerRef;
+  @ViewChild('viewMenu', { read: ElementRef, static: true })
+  viewMenu!: ElementRef;
   public manifest: Manifest | null = null;
   public state = 'hide';
   isContentSearchEnabled = false;
@@ -74,9 +74,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   fullscreenLabel = this.intl.fullScreenLabel;
   isPagedManifest = false;
   hasRecognizedTextContent = false;
-  viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
 
-  ViewerLayout: typeof ViewerLayout = ViewerLayout; // enables parsing of enum in template
   private subscriptions = new Subscription();
 
   constructor(
@@ -84,17 +82,17 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private contentsDialogService: ContentsDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
+    private viewDialogService: ViewDialogService,
     private helpDialogService: HelpDialogService,
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
-    private viewerLayoutService: ViewerLayoutService,
-    private altoService: AltoService,
     el: ElementRef
   ) {
     contentsDialogService.el = el;
     contentSearchDialogService.el = el;
     helpDialogService.el = el;
+    viewDialogService.el = el;
   }
 
   @HostBinding('@headerState')
@@ -135,37 +133,35 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
         }
       )
     );
-
-    this.subscriptions.add(
-      this.viewerLayoutService.onChange.subscribe(
-        (viewerLayout: ViewerLayout) => {
-          this.viewerLayout = viewerLayout;
-        }
-      )
-    );
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
-  toggleRecognizedTextContent(): void {
-    this.altoService.toggle();
+  public toggleView() {
+    this.contentsDialogService.close();
+    this.contentSearchDialogService.close();
+    this.helpDialogService.close();
+    this.viewDialogService.toggle();
   }
 
   public toggleContents() {
+    this.viewDialogService.close();
     this.contentSearchDialogService.close();
     this.helpDialogService.close();
     this.contentsDialogService.toggle();
   }
 
   public toggleSearch() {
+    this.viewDialogService.close();
     this.contentsDialogService.close();
     this.helpDialogService.close();
     this.contentSearchDialogService.toggle();
   }
 
   public toggleHelp() {
+    this.viewDialogService.close();
     this.contentsDialogService.close();
     this.contentSearchDialogService.close();
     this.helpDialogService.toggle();
@@ -177,17 +173,5 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public isInFullScreen(): boolean {
     return this.fullscreenService.isFullscreen();
-  }
-
-  public toggleViewerLayout(): void {
-    this.viewerLayoutService.toggle();
-  }
-
-  public setLayoutOnePage(): void {
-    this.viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
-  }
-
-  public setLayoutTwoPage(): void {
-    this.viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
   }
 }

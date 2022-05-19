@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-
-import { CanvasGroups } from './../models/canvas-groups';
 import { ViewerLayout } from '../models/viewer-layout';
+import { CanvasGroups } from './../models/canvas-groups';
 import { Point } from './../models/point';
 import { Rect } from './../models/rect';
 import { CanvasGroupStrategyFactory } from './canvas-groups-strategy.factory';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CanvasService {
   protected _currentNumberOfCanvasGroups: BehaviorSubject<number> =
     new BehaviorSubject(0);

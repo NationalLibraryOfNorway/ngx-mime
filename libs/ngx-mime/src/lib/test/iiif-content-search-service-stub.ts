@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { MimeViewerConfig } from '../..';
+import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { Hit } from './../core/models/hit';
 import { SearchResult } from './../core/models/search-result';
 

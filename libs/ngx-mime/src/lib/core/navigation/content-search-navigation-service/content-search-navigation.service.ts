@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
 import { Hit } from '../../models/hit';
 import { SearchResult } from '../../models/search-result';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ContentSearchNavigationService {
   private currentIndex = 0;
   private lastHitIndex = 0;

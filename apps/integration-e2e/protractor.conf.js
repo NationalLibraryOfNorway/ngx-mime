@@ -4,7 +4,7 @@
 const argv = require('yargs').argv;
 const path = require('path');
 const remoteBrowsers = require('./remote-browsers');
-const basePath = './apps/integration-e2e/';
+const basePath = 'apps/integration-e2e';
 
 const config = {
   allScriptsTimeout: 50000,

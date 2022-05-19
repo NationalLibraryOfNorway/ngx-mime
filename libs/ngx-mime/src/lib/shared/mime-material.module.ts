@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,6 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   exports: [
     MatToolbarModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,

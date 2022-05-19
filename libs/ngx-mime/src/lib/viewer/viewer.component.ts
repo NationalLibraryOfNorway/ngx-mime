@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -31,16 +30,21 @@ import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
+import {
+  ModeChanges,
+  RecognizedTextMode,
+  RecognizedTextModeChanges,
+  ViewerMode,
+} from '../core/models';
 import { Manifest } from '../core/models/manifest';
-import { ModeChanges } from '../core/models/modeChanges';
 import { ViewerLayout } from '../core/models/viewer-layout';
-import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { ViewerState } from '../core/models/viewerState';
 import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
@@ -53,9 +57,7 @@ import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
   styleUrls: ['./viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ViewerComponent
-  implements OnInit, AfterViewChecked, OnDestroy, OnChanges
-{
+export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri!: string;
   @Input() public q!: string;
   @Input() public canvasIndex = 0;
@@ -66,7 +68,8 @@ export class ViewerComponent
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
   @Output()
-  recognizedTextContentToggleChanged: EventEmitter<boolean> = new EventEmitter();
+  recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> = new EventEmitter();
+  recognizedTextMode = RecognizedTextMode;
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
@@ -74,7 +77,7 @@ export class ViewerComponent
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
-  isRecognizedTextContentToggled = false;
+  recognizedTextContentMode: RecognizedTextMode = RecognizedTextMode.NONE;
   showHeaderAndFooterState = 'hide';
   public errorMessage: string | null = null;
 
@@ -91,6 +94,7 @@ export class ViewerComponent
     public intl: MimeViewerIntl,
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
+    private viewDialogService: ViewDialogService,
     private contentsDialogService: ContentsDialogService,
     private attributionDialogService: AttributionDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
@@ -109,6 +113,7 @@ export class ViewerComponent
   ) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
+    viewDialogService.el = el;
     contentSearchDialogService.el = el;
     helpDialogService.el = el;
     resizeService.el = el;
@@ -132,9 +137,6 @@ export class ViewerComponent
 
   ngOnInit(): void {
     this.styleService.initialize();
-    this.modeService.initialMode = this.config.initViewerMode;
-    this.altoService.onRecognizedTextContentToggle =
-      this.config.initRecognizedTextContentToggle;
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -146,10 +148,8 @@ export class ViewerComponent
             this.viewerLayoutService.init(
               ManifestUtils.isManifestPaged(manifest)
             );
-            this.isRecognizedTextContentToggled =
-              this.altoService.onRecognizedTextContentToggle && manifest
-                ? ManifestUtils.hasRecognizedTextContent(manifest)
-                : false;
+            this.recognizedTextContentMode =
+              this.altoService.recognizedTextContentMode;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
@@ -217,6 +217,8 @@ export class ViewerComponent
           mode.previousValue === ViewerMode.DASHBOARD &&
           mode.currentValue === ViewerMode.PAGE
         ) {
+          this.viewerState.viewDialogState.isOpen =
+            this.viewDialogService.isOpen();
           this.viewerState.contentDialogState.isOpen =
             this.contentsDialogService.isOpen();
           this.viewerState.contentDialogState.selectedIndex =
@@ -226,6 +228,7 @@ export class ViewerComponent
           this.viewerState.helpDialogState.isOpen =
             this.helpDialogService.isOpen();
           this.zone.run(() => {
+            this.viewDialogService.close();
             this.contentsDialogService.close();
             this.contentSearchDialogService.close();
             this.helpDialogService.close();
@@ -233,6 +236,9 @@ export class ViewerComponent
         }
         if (mode.currentValue === ViewerMode.DASHBOARD) {
           this.zone.run(() => {
+            if (this.viewerState.viewDialogState.isOpen) {
+              this.viewDialogService.open();
+            }
             if (this.viewerState.contentDialogState.isOpen) {
               this.contentsDialogService.open(
                 this.viewerState.contentDialogState.selectedIndex
@@ -287,11 +293,12 @@ export class ViewerComponent
     );
 
     this.subscriptions.add(
-      this.altoService.onRecognizedTextContentToggleChange$.subscribe(
-        (isRecognizedTextContentToggled: boolean) => {
-          this.isRecognizedTextContentToggled = isRecognizedTextContentToggled;
-          this.recognizedTextContentToggleChanged.emit(
-            isRecognizedTextContentToggled
+      this.altoService.onRecognizedTextContentModeChange$.subscribe(
+        (recognizedTextModeChanges: RecognizedTextModeChanges) => {
+          this.recognizedTextContentMode =
+            recognizedTextModeChanges.currentValue;
+          this.recognizedTextContentModeChanged.emit(
+            this.recognizedTextContentMode
           );
           this.changeDetectorRef.markForCheck();
         }
@@ -300,6 +307,13 @@ export class ViewerComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['config']) {
+      this.iiifContentSearchService.setConfig(this.config);
+      this.altoService.setConfig(this.config);
+      this.modeService.setConfig(this.config);
+      this.modeService.initialize();
+    }
+
     if (changes['manifestUri']) {
       this.cleanup();
       this.modeService.mode = this.config.initViewerMode;
@@ -410,10 +424,6 @@ export class ViewerComponent
     }
   }
 
-  ngAfterViewChecked() {
-    this.resizeService.markForCheck();
-  }
-
   private loadManifest(): void {
     this.iiifManifestService.load(this.manifestUri).pipe(take(1)).subscribe();
   }
@@ -421,20 +431,24 @@ export class ViewerComponent
   private initialize() {
     this.accessKeysHandlerService.initialize();
     this.attributionDialogService.initialize();
+    this.viewDialogService.initialize();
     this.contentsDialogService.initialize();
     this.contentSearchDialogService.initialize();
     this.helpDialogService.initialize();
     this.viewerService.initialize();
+    this.resizeService.initialize();
   }
 
   private cleanup() {
     this.viewerState = new ViewerState();
     this.accessKeysHandlerService.destroy();
     this.attributionDialogService.destroy();
+    this.viewDialogService.destroy();
     this.contentsDialogService.destroy();
     this.contentSearchDialogService.destroy();
     this.helpDialogService.destroy();
     this.viewerService.destroy();
+    this.resizeService.destroy();
     this.resetErrorMessage();
   }
 
@@ -447,7 +461,9 @@ export class ViewerComponent
   }
 
   goToHomeZoom(): void {
-    this.viewerService.goToHomeZoom();
+    if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
+      this.viewerService.goToHomeZoom();
+    }
   }
 
   setClasses() {

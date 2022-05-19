@@ -10,8 +10,14 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
   recognizedTextContentLabel = 'Atpazīts teksts';
   contentsLabel = 'Informacija apie objektą';
-  twoPageViewLabel = 'Atvaizduoti po du puslapius';
+  layoutMenuLabel = 'Žiūrėti';
+  pageLayoutLabel = 'Puslapio išdėstymas';
   singlePageViewLabel = 'Atvaizduoti po vieną puslapį';
+  twoPageViewLabel = 'Atvaizduoti po du puslapius';
+  digitalTextLabel = 'Skaitmeninis tekstas';
+  recognizedTextContentCloseLabel = 'Nė vienas';
+  recognizedTextContentInSplitViewLabel = 'Suskaidytas';
+  showRecognizedTextContentLabel = 'Tik skaitmeninis tekstas';
   metadataLabel = 'Metaduomenys';
   licenseLabel = 'Licencija';
   tocLabel = 'Turinys';

@@ -2,21 +2,24 @@
   #recognizedTextContentContainer
   class="recognized-text-content-container"
   aria-live="polite"
+  fxLayout="column"
+  fxLayoutAlign="start center"
 >
   <div *ngIf="error" data-test-id="error">{{ error }}</div>
-  <div *ngIf="!isLoading">
+  <ng-container *ngIf="!isLoading">
     <div
       *ngIf="firstCanvasRecognizedTextContent"
+      class="content"
       data-test-id="firstCanvasRecognizedTextContent"
       [innerHTML]="firstCanvasRecognizedTextContent"
     >
     </div>
     <div
       *ngIf="secondCanvasRecognizedTextContent"
+      class="content"
       data-test-id="secondCanvasRecognizedTextContent"
       [innerHTML]="secondCanvasRecognizedTextContent"
     >
     </div>
-  </div>
-  <div *ngIf="isLoading">{{ intl.loading }}</div>
+  </ng-container>
 </div>

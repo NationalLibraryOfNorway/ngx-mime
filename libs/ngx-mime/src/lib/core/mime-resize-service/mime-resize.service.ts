@@ -1,16 +1,14 @@
-import { Injectable, ElementRef } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-
-import { MimeDomHelper } from '../mime-dom-helper';
+import { ElementRef, Injectable } from '@angular/core';
+import { debounceTime, map, Observable, ReplaySubject } from 'rxjs';
 import { Dimensions } from '../models/dimensions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MimeResizeService {
   private _el!: ElementRef;
-  private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
-  private dimensions = new Dimensions();
-
-  constructor(private mimeDomHelper: MimeDomHelper) {}
+  private resizeSubject: ReplaySubject<DOMRectReadOnly> = new ReplaySubject();
+  private observer!: ResizeObserver;
 
   set el(el: ElementRef) {
     this._el = el;
@@ -21,25 +19,36 @@ export class MimeResizeService {
   }
 
   get onResize(): Observable<Dimensions> {
-    return this.resizeSubject.asObservable();
+    return this.resizeSubject.pipe(
+      debounceTime(200),
+      map((contentRect: DOMRectReadOnly) => {
+        return {
+          bottom: contentRect.bottom,
+          height: contentRect.height,
+          left: contentRect.left,
+          right: contentRect.right,
+          top: contentRect.top,
+          width: contentRect.width,
+        };
+      })
+    );
   }
 
-  markForCheck(): void {
-    if (!this.el) {
-      throw new Error('No element!');
-    }
-    const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+  initialize() {
+    this.observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        this.resizeSubject.next(entry.contentRect);
+      }
+    });
+    const el: Element = this.el.nativeElement.querySelector(
+      '#ngx-mime-mimeViewer'
+    );
+    this.observer.observe(el);
+  }
 
-    if (
-      this.dimensions.bottom !== dimensions.bottom ||
-      this.dimensions.height !== dimensions.height ||
-      this.dimensions.left !== dimensions.left ||
-      this.dimensions.right !== dimensions.right ||
-      this.dimensions.top !== dimensions.top ||
-      this.dimensions.width !== dimensions.width
-    ) {
-      this.dimensions = dimensions;
-      this.resizeSubject.next({ ...this.dimensions });
+  destroy() {
+    if (this.observer) {
+      this.observer.disconnect();
     }
   }
 }

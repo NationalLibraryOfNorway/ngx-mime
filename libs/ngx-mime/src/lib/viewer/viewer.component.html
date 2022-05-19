@@ -15,18 +15,25 @@
     #mimeOsdToolbar
   ></mime-osd-toolbar>
 
-  <mat-drawer-container class="viewer-drawer-container">
+  <mat-drawer-container class="viewer-drawer-container" autosize>
     <mat-drawer
+      data-test-id="ngx-mime-recognized-text-content-container"
       mode="side"
       position="end"
       (openedChange)="goToHomeZoom()"
-      [opened]="isRecognizedTextContentToggled"
-      [ngClass]="{ open: showHeaderAndFooterState === 'show' }"
+      [opened]="recognizedTextContentMode !== recognizedTextMode.NONE"
+      [ngClass]="{
+        only: recognizedTextContentMode === recognizedTextMode.ONLY,
+        split: recognizedTextContentMode === recognizedTextMode.SPLIT,
+        open: showHeaderAndFooterState === 'show'
+      }"
       ><mime-recognized-text-content
-        *ngIf="isRecognizedTextContentToggled"
+        *ngIf="recognizedTextContentMode !== recognizedTextMode.NONE"
       ></mime-recognized-text-content
     ></mat-drawer>
-    <mat-drawer-content><div id="openseadragon"></div></mat-drawer-content>
+    <mat-drawer-content>
+      <div id="openseadragon" #openseadragon></div>
+    </mat-drawer-content>
   </mat-drawer-container>
 
   <mime-viewer-footer
