@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit, Render
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { StyleService } from '../../core/style-service/style.service';
 import { CanvasService } from './../../core/canvas-service/canvas-service';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl';
 import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import * as i0 from "@angular/core";

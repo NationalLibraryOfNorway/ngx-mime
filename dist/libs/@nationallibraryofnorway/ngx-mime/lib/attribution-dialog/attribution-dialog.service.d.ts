@@ -9,8 +9,7 @@ export declare class AttributionDialogService {
     private mimeResizeService;
     private attributionDialogResizeService;
     private mimeDomHelper;
-    private isAttributionDialogOpen;
-    private dialogRef;
+    private dialogRef?;
     private _el;
     private attributionDialogHeight;
     private subscriptions;
@@ -21,6 +20,7 @@ export declare class AttributionDialogService {
     open(timeout?: number): void;
     close(): void;
     toggle(): void;
+    isOpen(): boolean;
     private closeDialogAfter;
     private getDialogConfig;
     private getPosition;

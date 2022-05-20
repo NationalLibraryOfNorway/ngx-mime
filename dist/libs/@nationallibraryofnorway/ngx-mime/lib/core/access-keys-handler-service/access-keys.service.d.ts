@@ -1,5 +1,6 @@
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
+import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
@@ -17,6 +18,7 @@ export declare class AccessKeysService {
     private iiifContentSearchService;
     private contentSearchDialogService;
     private contentsDialogService;
+    private viewDialogService;
     private mimeDomHelper;
     private contentSearchNavigationService;
     private altoService;
@@ -25,7 +27,7 @@ export declare class AccessKeysService {
     private disabledKeys;
     private subscriptions;
     private invert;
-    constructor(viewerService: ViewerService, canvasService: CanvasService, modeService: ModeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchDialogService: ContentSearchDialogService, contentsDialogService: ContentsDialogService, mimeDomHelper: MimeDomHelper, contentSearchNavigationService: ContentSearchNavigationService, altoService: AltoService);
+    constructor(viewerService: ViewerService, canvasService: CanvasService, modeService: ModeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchDialogService: ContentSearchDialogService, contentsDialogService: ContentsDialogService, viewDialogService: ViewDialogService, mimeDomHelper: MimeDomHelper, contentSearchNavigationService: ContentSearchNavigationService, altoService: AltoService);
     initialize(): void;
     destroy(): void;
     handleKeyEvents(event: KeyboardEvent): void;
@@ -34,7 +36,7 @@ export declare class AccessKeysService {
     private goToFirstCanvasGroup;
     private goToLastCanvasGroup;
     private rotateClockWise;
-    private toggleRecognizedTextContent;
+    private toggleRecognizedTextContentInSplitView;
     private goToNextHit;
     private goToPreviousHit;
     private zoomIn;
@@ -49,6 +51,8 @@ export declare class AccessKeysService {
     private updateDisabledKeys;
     private disableKeysForContentDialog;
     private diableKeysForContentSearchDialog;
+    private isRecognizedTextContentModeOnly;
+    private disableKeysForRecognizedTextContentOnly;
     private resetDisabledKeys;
     private isKeyDisabled;
     unsubscribe(): void;

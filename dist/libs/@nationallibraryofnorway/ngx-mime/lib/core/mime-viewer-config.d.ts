@@ -1,5 +1,5 @@
+import { RecognizedTextMode, ViewerMode } from './models';
 import { ViewerLayout } from './models/viewer-layout';
-import { ViewerMode } from './models/viewer-mode';
 export declare class MimeViewerConfig {
     attributionDialogEnabled?: boolean;
     attributionDialogHideTimeout?: number;
@@ -13,7 +13,7 @@ export declare class MimeViewerConfig {
     preserveZoomOnCanvasGroupChange: boolean;
     startOnTopOnCanvasGroupChange: boolean;
     isDropEnabled: boolean;
-    initRecognizedTextContentToggle: boolean;
+    initRecognizedTextContentMode: RecognizedTextMode;
     ignorePhysicalScale: boolean;
     constructor(fields?: {
         attributionDialogEnabled?: boolean;
@@ -28,7 +28,7 @@ export declare class MimeViewerConfig {
         preserveZoomOnCanvasGroupChange?: boolean;
         startOnTopOnCanvasGroupChange?: boolean;
         isDropEnabled?: boolean;
-        initRecognizedTextContentToggle?: boolean;
+        initRecognizedTextContentMode?: RecognizedTextMode;
         ignorePhysicalScale?: boolean;
     });
 }

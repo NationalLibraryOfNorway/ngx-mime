@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [13.2.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.2.0...v13.2.1) (2022-05-20)
+
+
+### Bug Fixes
+
+* providers ([2b2a8be](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2b2a8bee8229937abcf353672a7d355d78f5db81))
+
 ## [13.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.1.1...v13.2.0) (2022-05-20)
 
 

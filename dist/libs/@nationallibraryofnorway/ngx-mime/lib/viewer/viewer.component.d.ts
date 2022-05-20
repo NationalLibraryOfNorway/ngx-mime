@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
@@ -7,23 +7,25 @@ import { AccessKeysService } from '../core/access-keys-handler-service/access-ke
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
+import { RecognizedTextMode, ViewerMode } from '../core/models';
 import { Manifest } from '../core/models/manifest';
-import { ViewerMode } from '../core/models/viewer-mode';
 import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import * as i0 from "@angular/core";
-export declare class ViewerComponent implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
+export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     snackBar: MatSnackBar;
     intl: MimeViewerIntl;
     private el;
     private iiifManifestService;
+    private viewDialogService;
     private contentsDialogService;
     private attributionDialogService;
     private contentSearchDialogService;
@@ -48,19 +50,20 @@ export declare class ViewerComponent implements OnInit, AfterViewChecked, OnDest
     canvasChanged: EventEmitter<number>;
     qChanged: EventEmitter<string>;
     manifestChanged: EventEmitter<Manifest>;
-    recognizedTextContentToggleChanged: EventEmitter<boolean>;
+    recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode>;
+    recognizedTextMode: typeof RecognizedTextMode;
     private subscriptions;
     private isCanvasPressed;
     private currentManifest;
     private viewerLayout;
     private viewerState;
-    isRecognizedTextContentToggled: boolean;
+    recognizedTextContentMode: RecognizedTextMode;
     showHeaderAndFooterState: string;
     errorMessage: string | null;
     private header;
     private footer;
     private osdToolbar;
-    constructor(snackBar: MatSnackBar, intl: MimeViewerIntl, el: ElementRef, iiifManifestService: IiifManifestService, contentsDialogService: ContentsDialogService, attributionDialogService: AttributionDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, viewerService: ViewerService, resizeService: MimeResizeService, changeDetectorRef: ChangeDetectorRef, modeService: ModeService, iiifContentSearchService: IiifContentSearchService, accessKeysHandlerService: AccessKeysService, canvasService: CanvasService, viewerLayoutService: ViewerLayoutService, styleService: StyleService, altoService: AltoService, zone: NgZone);
+    constructor(snackBar: MatSnackBar, intl: MimeViewerIntl, el: ElementRef, iiifManifestService: IiifManifestService, viewDialogService: ViewDialogService, contentsDialogService: ContentsDialogService, attributionDialogService: AttributionDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, viewerService: ViewerService, resizeService: MimeResizeService, changeDetectorRef: ChangeDetectorRef, modeService: ModeService, iiifContentSearchService: IiifContentSearchService, accessKeysHandlerService: AccessKeysService, canvasService: CanvasService, viewerLayoutService: ViewerLayoutService, styleService: StyleService, altoService: AltoService, zone: NgZone);
     get mimeHeaderBeforeRef(): ViewContainerRef;
     get mimeHeaderAfterRef(): ViewContainerRef;
     get mimeFooterBeforeRef(): ViewContainerRef;
@@ -73,7 +76,6 @@ export declare class ViewerComponent implements OnInit, AfterViewChecked, OnDest
     onDragLeave(event: any): void;
     ngOnDestroy(): void;
     toggleToolbarsState(mode: ViewerMode): void;
-    ngAfterViewChecked(): void;
     private loadManifest;
     private initialize;
     private cleanup;
@@ -89,5 +91,5 @@ export declare class ViewerComponent implements OnInit, AfterViewChecked, OnDest
         'canvas-pressed': boolean;
     };
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerComponent, "mime-viewer", never, { "manifestUri": "manifestUri"; "q": "q"; "canvasIndex": "canvasIndex"; "config": "config"; "tabIndex": "tabIndex"; }, { "viewerModeChanged": "viewerModeChanged"; "canvasChanged": "canvasChanged"; "qChanged": "qChanged"; "manifestChanged": "manifestChanged"; "recognizedTextContentToggleChanged": "recognizedTextContentToggleChanged"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerComponent, "mime-viewer", never, { "manifestUri": "manifestUri"; "q": "q"; "canvasIndex": "canvasIndex"; "config": "config"; "tabIndex": "tabIndex"; }, { "viewerModeChanged": "viewerModeChanged"; "canvasChanged": "canvasChanged"; "qChanged": "qChanged"; "manifestChanged": "manifestChanged"; "recognizedTextContentModeChanged": "recognizedTextContentModeChanged"; }, never, never>;
 }

@@ -1,6 +1,6 @@
 import { OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-import { MimeViewerIntl } from '../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import * as i0 from "@angular/core";
 export declare class HelpDialogComponent implements OnInit, OnDestroy {

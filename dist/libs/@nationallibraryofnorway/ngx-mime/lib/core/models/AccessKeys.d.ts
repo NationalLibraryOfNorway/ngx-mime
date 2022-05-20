@@ -20,6 +20,8 @@ export declare class AccessKeys {
     private altKey;
     private shiftKey;
     private ctrlkey;
+    private metaKey;
+    private event;
     constructor(event: KeyboardEvent);
     isArrowRightKeys(): boolean;
     isArrowLeftKeys(): boolean;
@@ -39,7 +41,9 @@ export declare class AccessKeys {
     isResetSearchKeys(): boolean;
     isRotateKeys(): boolean;
     isRecognizedTextContentKeys(): boolean;
+    execute(fn: Function): void;
     private isMultiKeys;
     private arrayContainsKeys;
     private isShiftPressed;
+    private isMetaPressed;
 }

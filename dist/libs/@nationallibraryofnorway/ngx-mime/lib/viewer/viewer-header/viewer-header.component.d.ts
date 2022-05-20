@@ -1,14 +1,12 @@
 import { ChangeDetectorRef, ElementRef, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
-import { AltoService } from '../../core/alto-service/alto.service';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
-import { ViewerLayout } from '../../core/models/viewer-layout';
-import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
+import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
 import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
 import * as i0 from "@angular/core";
 export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
@@ -16,14 +14,14 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     private changeDetectorRef;
     private contentsDialogService;
     private contentSearchDialogService;
+    private viewDialogService;
     private helpDialogService;
     private iiifManifestService;
     private fullscreenService;
     private mimeDomHelper;
-    private viewerLayoutService;
-    private altoService;
     mimeHeaderBefore: ViewContainerRef;
     mimeHeaderAfter: ViewContainerRef;
+    viewMenu: ElementRef;
     manifest: Manifest | null;
     state: string;
     isContentSearchEnabled: boolean;
@@ -32,22 +30,17 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     fullscreenLabel: string;
     isPagedManifest: boolean;
     hasRecognizedTextContent: boolean;
-    viewerLayout: ViewerLayout;
-    ViewerLayout: typeof ViewerLayout;
     private subscriptions;
-    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, contentsDialogService: ContentsDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, iiifManifestService: IiifManifestService, fullscreenService: FullscreenService, mimeDomHelper: MimeDomHelper, viewerLayoutService: ViewerLayoutService, altoService: AltoService, el: ElementRef);
+    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, contentsDialogService: ContentsDialogService, contentSearchDialogService: ContentSearchDialogService, viewDialogService: ViewDialogService, helpDialogService: HelpDialogService, iiifManifestService: IiifManifestService, fullscreenService: FullscreenService, mimeDomHelper: MimeDomHelper, el: ElementRef);
     get headerState(): string;
     ngOnInit(): void;
     ngOnDestroy(): void;
-    toggleRecognizedTextContent(): void;
+    toggleView(): void;
     toggleContents(): void;
     toggleSearch(): void;
     toggleHelp(): void;
     toggleFullscreen(): void;
     isInFullScreen(): boolean;
-    toggleViewerLayout(): void;
-    setLayoutOnePage(): void;
-    setLayoutTwoPage(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerHeaderComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ViewerHeaderComponent, "mime-viewer-header", never, {}, {}, never, never>;
 }

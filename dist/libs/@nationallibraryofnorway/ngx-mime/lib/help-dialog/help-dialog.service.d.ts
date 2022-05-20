@@ -8,8 +8,7 @@ export declare class HelpDialogService {
     private helpDialogConfigStrategyFactory;
     private mimeResizeService;
     private _el;
-    private isHelpDialogOpen;
-    private dialogRef;
+    private dialogRef?;
     private subscriptions;
     constructor(dialog: MatDialog, helpDialogConfigStrategyFactory: HelpDialogConfigStrategyFactory, mimeResizeService: MimeResizeService);
     initialize(): void;

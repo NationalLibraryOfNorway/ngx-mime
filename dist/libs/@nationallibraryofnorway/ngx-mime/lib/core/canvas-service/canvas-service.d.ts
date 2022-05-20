@@ -1,6 +1,6 @@
-import { Observable, BehaviorSubject } from 'rxjs';
-import { CanvasGroups } from './../models/canvas-groups';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ViewerLayout } from '../models/viewer-layout';
+import { CanvasGroups } from './../models/canvas-groups';
 import { Point } from './../models/point';
 import { Rect } from './../models/rect';
 import * as i0 from "@angular/core";

@@ -7,7 +7,7 @@ export declare class StyleService {
     private colorSubject;
     private subscriptions;
     constructor(zone: NgZone);
-    get onChange(): Observable<string>;
+    get onChange(): Observable<string | undefined>;
     initialize(): void;
     destroy(): void;
     convertToRgba(rgbColor: string, opacity: number): string;

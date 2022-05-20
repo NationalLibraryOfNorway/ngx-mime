@@ -8,8 +8,14 @@ export declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     attributonCloseAriaLabel: string;
     recognizedTextContentLabel: string;
     contentsLabel: string;
-    twoPageViewLabel: string;
+    layoutMenuLabel: string;
+    pageLayoutLabel: string;
     singlePageViewLabel: string;
+    twoPageViewLabel: string;
+    digitalTextLabel: string;
+    recognizedTextContentCloseLabel: string;
+    recognizedTextContentInSplitViewLabel: string;
+    showRecognizedTextContentLabel: string;
     metadataLabel: string;
     licenseLabel: string;
     tocLabel: string;
@@ -30,6 +36,7 @@ export declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     enterPageNumber: string;
     dropDisabled: string;
     loading: string;
+    rotationIsNotSupported: string;
     somethingHasGoneWrongLabel: string;
     manifestUriMissingLabel: string;
     manifestNotValidLabel: string;

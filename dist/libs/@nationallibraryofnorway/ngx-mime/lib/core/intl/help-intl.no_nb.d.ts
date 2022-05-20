@@ -12,4 +12,5 @@ export declare class HelpIntlNoNb extends HelpIntl {
     line9: string;
     line10: string;
     line11: string;
+    line12: string;
 }

@@ -3,7 +3,7 @@ import { MatSliderChange } from '@angular/material/slider';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
-import { MimeViewerIntl } from './../../../core/intl/viewer-intl';
+import { MimeViewerIntl } from './../../../core/intl';
 import { SearchResult } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import * as i0 from "@angular/core";

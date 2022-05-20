@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
-import { ModeChanges } from '../models/modeChanges';
-import { ViewerMode } from '../models/viewer-mode';
+import { MimeViewerConfig } from '../mime-viewer-config';
+import { ModeChanges, ViewerMode } from '../models';
 import * as i0 from "@angular/core";
 export declare class ModeService {
-    private _initialMode;
+    private config;
     private _mode;
     private toggleModeSubject;
     private modeChanges;
@@ -11,11 +11,11 @@ export declare class ModeService {
     get onChange(): Observable<ModeChanges>;
     set mode(mode: ViewerMode);
     get mode(): ViewerMode;
-    set initialMode(mode: ViewerMode);
-    get initialMode(): ViewerMode;
+    initialize(): void;
+    destroy(): void;
+    setConfig(config: MimeViewerConfig): void;
     toggleMode(): void;
     isPageZoomed(): boolean;
-    destroy(): void;
     private change;
     static ɵfac: i0.ɵɵFactoryDeclaration<ModeService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ModeService>;

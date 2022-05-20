@@ -8,8 +8,7 @@ export declare class ContentSearchDialogService {
     private contentSearchDialogConfigStrategyFactory;
     private mimeResizeService;
     private _el;
-    private isContentSearchDialogOpen;
-    private dialogRef;
+    private dialogRef?;
     private subscriptions;
     constructor(dialog: MatDialog, contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory, mimeResizeService: MimeResizeService);
     initialize(): void;

@@ -8,8 +8,7 @@ export declare class ContentsDialogService {
     private contentsDialogConfigStrategyFactory;
     private mimeResizeService;
     private _el;
-    private isContentsDialogOpen;
-    private dialogRef;
+    private dialogRef?;
     private subscriptions;
     constructor(dialog: MatDialog, contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory, mimeResizeService: MimeResizeService);
     initialize(): void;
