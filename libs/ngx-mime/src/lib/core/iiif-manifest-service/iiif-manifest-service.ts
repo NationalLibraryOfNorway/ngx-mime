@@ -8,9 +8,7 @@ import { MimeViewerIntl } from '../intl';
 import { Manifest } from '../models/manifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class IiifManifestService {
   protected _currentManifest = new BehaviorSubject<Manifest | null>(null);
   protected _errorMessage = new BehaviorSubject<string | null>(null);

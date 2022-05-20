@@ -17,9 +17,7 @@ import { ViewingDirection } from '../models/viewing-direction';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerService } from '../viewer-service/viewer.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AccessKeysService {
   private isSearchable = false;
   private hasHits = false;

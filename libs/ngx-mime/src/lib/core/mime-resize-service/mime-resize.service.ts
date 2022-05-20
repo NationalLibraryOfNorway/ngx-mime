@@ -2,9 +2,7 @@ import { ElementRef, Injectable } from '@angular/core';
 import { debounceTime, map, Observable, ReplaySubject } from 'rxjs';
 import { Dimensions } from '../models/dimensions';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MimeResizeService {
   private _el!: ElementRef;
   private resizeSubject: ReplaySubject<DOMRectReadOnly> = new ReplaySubject();

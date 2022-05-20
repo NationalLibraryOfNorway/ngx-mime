@@ -5,9 +5,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerLayout } from '../models/viewer-layout';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ViewerLayoutService {
   private mimeConfig = new MimeViewerConfig();
   private _layout!: ViewerLayout;

@@ -51,9 +51,7 @@ import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 
 declare const OpenSeadragon: any;
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ViewerService {
   private viewer?: any;
   private svgOverlay: any;

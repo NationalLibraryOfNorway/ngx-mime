@@ -7,9 +7,7 @@ import { Point } from './../models/point';
 import { Rect } from './../models/rect';
 import { CanvasGroupStrategyFactory } from './canvas-groups-strategy.factory';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CanvasService {
   protected _currentNumberOfCanvasGroups: BehaviorSubject<number> =
     new BehaviorSubject(0);

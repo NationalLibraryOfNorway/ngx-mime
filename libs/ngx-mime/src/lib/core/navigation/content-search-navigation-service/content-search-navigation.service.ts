@@ -6,9 +6,7 @@ import { IiifContentSearchService } from '../../iiif-content-search-service/iiif
 import { Hit } from '../../models/hit';
 import { SearchResult } from '../../models/search-result';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ContentSearchNavigationService {
   private currentIndex = 0;
   private lastHitIndex = 0;
