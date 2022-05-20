@@ -11,6 +11,7 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeViewerIntl } from '../core/intl';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Manifest } from '../core/models/manifest';
+import { StyleService } from '../core/style-service/style.service';
 import { SharedModule } from '../shared/shared.module';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
@@ -32,6 +33,7 @@ describe('AttributionDialogComponent', () => {
           AttributionDialogResizeService,
           MimeDomHelper,
           FullscreenService,
+          StyleService,
           {
             provide: AccessKeysService,
             useClass: jasmine.createSpy('accessKeysService'),

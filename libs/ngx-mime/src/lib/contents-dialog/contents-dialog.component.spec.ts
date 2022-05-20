@@ -9,9 +9,11 @@ import { MatTabGroupHarness } from '@angular/material/tabs/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { injectedStub } from '../../testing/injected-stub';
+import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { HighlightService } from '../core/highlight-service/highlight.service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
@@ -19,9 +21,11 @@ import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ModeService } from '../core/mode-service/mode.service';
 import { Manifest, Metadata, Structure } from '../core/models/manifest';
+import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { SharedModule } from '../shared/shared.module';
+import { AltoServiceStub } from '../test/alto-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { MediaObserverStub } from '../test/media-observer-stub';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
@@ -60,6 +64,9 @@ describe('ContentsDialogComponent', () => {
           FullscreenService,
           ViewerLayoutService,
           IiifContentSearchService,
+          StyleService,
+          HighlightService,
+          { provide: AltoService, useClass: AltoServiceStub },
           { provide: IiifManifestService, useClass: IiifManifestServiceStub },
           { provide: MatDialogRef, useClass: MatDialogRefStub },
           { provide: MediaObserver, useClass: MediaObserverStub },
