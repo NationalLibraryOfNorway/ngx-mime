@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.1.1...v13.2.0) (2022-05-20)
+
+
+### Features
+
+* Make highlighting more visually strong ([e3757d7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/e3757d72a4378488f0fbf9aad426592fa83066ba))
+* Mark recognized text from when selecting hit from content search ([a7b553a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a7b553a3723e1edf225b4e7c4f1f58d16c6c9649))
+* navigate between hits on current canvas with content-search-navigator ([#409](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/409)) ([15a4310](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/15a4310116b33f9b2eca0fdae8f948fcf28f8661))
+* show digital text only ([#417](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/417)) ([6f3e0e0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6f3e0e0e4688905a2b5d50a153aa26cbd09b9fd9)), closes [#416](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/416)
+
+
+### Bug Fixes
+
+* add help text for shift-s ([#418](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/418)) ([d17f55b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d17f55b597bb432566004c590c975edfcd4c3925))
+* changed keyup events in templates to keydown ([f00d815](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f00d815079623d5584a48acc4171de8054c49313)), closes [#413](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/413)
+* only run preventDefault on active keybinds ([688c203](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/688c2039b90cca03988549e9b7483d6ffcffb133))
+* resetsearch hotkey ([#412](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/412)) ([0e3d212](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0e3d21245d12dceef230380e226308d9985b1de5))
+* should now rotate on Mac iOS but not on handheld iOS ([#419](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/419)) ([3cb6be4](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3cb6be4127fda6474e6e56376a6f8b6abb2c8936))
+* various bugs with dialogs and change detection ([c04db5c](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/c04db5c64ef44a3f9922629cfd3036e2d15a7bc7))
+
 ### [13.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.1.0...v13.1.1) (2022-03-09)
 
 
