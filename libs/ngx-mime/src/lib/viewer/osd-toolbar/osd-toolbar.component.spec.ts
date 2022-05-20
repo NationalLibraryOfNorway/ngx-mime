@@ -10,6 +10,7 @@ import { MimeViewerIntl } from '../../core/intl';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
 import { ModeService } from '../../core/mode-service/mode.service';
+import { StyleService } from '../../core/style-service/style.service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
@@ -41,6 +42,7 @@ describe('OsdToolbarComponent', () => {
           ModeService,
           MimeDomHelper,
           FullscreenService,
+          StyleService,
         ],
       }).compileComponents();
     })

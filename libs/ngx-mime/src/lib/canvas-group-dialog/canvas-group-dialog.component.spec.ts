@@ -16,10 +16,12 @@ import { injectedStub } from '../../testing/injected-stub';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
+import { HighlightService } from '../core/highlight-service/highlight.service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
 import { ModeService } from '../core/mode-service/mode.service';
+import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { SharedModule } from '../shared/shared.module';
@@ -30,7 +32,7 @@ import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 
-describe('PageDialogComponent', () => {
+describe('CanvasGroupDialogComponent', () => {
   let component: CanvasGroupDialogComponent;
   let fixture: ComponentFixture<CanvasGroupDialogComponent>;
   let loader: HarnessLoader;
@@ -49,6 +51,8 @@ describe('PageDialogComponent', () => {
           ModeService,
           ViewerLayoutService,
           MimeViewerIntl,
+          StyleService,
+          HighlightService,
           {
             provide: IiifContentSearchService,
             useClass: IiifContentSearchServiceStub,

@@ -4,10 +4,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { AltoServiceStub } from '../../test/alto-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../test/testManifest';
+import { AltoService } from '../alto-service/alto.service';
 import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
 import { ClickService } from '../click-service/click.service';
+import { HighlightService } from '../highlight-service/highlight.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
@@ -16,6 +19,7 @@ import { MimeViewerConfig } from '../mime-viewer-config';
 import { Hit } from '../models/hit';
 import { SearchResult } from '../models/search-result';
 import { ViewerLayout } from '../models/viewer-layout';
+import { StyleService } from '../style-service/style.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { CanvasService } from './../canvas-service/canvas-service';
 import { ModeService } from './../mode-service/mode.service';
@@ -49,7 +53,10 @@ describe('ViewerService', () => {
         HttpHandler,
         MediaObserver,
         MimeViewerIntl,
+        StyleService,
+        HighlightService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: AltoService, useClass: AltoServiceStub },
       ],
     });
 

@@ -9,9 +9,11 @@ import { injectedStub } from '../../testing/injected-stub';
 import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
 import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { HighlightService } from '../core/highlight-service/highlight.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
@@ -21,10 +23,12 @@ import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogModule } from '../help-dialog/help-dialog.module';
 import { SharedModule } from '../shared/shared.module';
+import { AltoServiceStub } from '../test/alto-service-stub';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
 import { ViewDialogModule } from '../view-dialog/view-dialog.module';
 import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
@@ -84,6 +88,7 @@ describe('ViewerComponent', function () {
             useClass: IiifContentSearchServiceStub,
           },
           { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+          { provide: AltoService, useClass: AltoServiceStub },
           MimeViewerIntl,
           ClickService,
           CanvasService,
@@ -92,6 +97,8 @@ describe('ViewerComponent', function () {
           AccessKeysService,
           ViewerLayoutService,
           ContentSearchNavigationService,
+          StyleService,
+          HighlightService,
         ],
       }).compileComponents();
     })

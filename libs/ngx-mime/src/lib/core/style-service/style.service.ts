@@ -2,9 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { interval, ReplaySubject, Observable, Subscription } from 'rxjs';
 import { switchMap, tap, distinctUntilChanged, filter } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class StyleService {
   private currentRgbColor: string | undefined;
   private colorSubject: ReplaySubject<string | undefined> = new ReplaySubject();

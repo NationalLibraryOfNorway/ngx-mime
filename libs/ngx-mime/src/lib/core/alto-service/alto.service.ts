@@ -24,9 +24,7 @@ import { Hit } from './../../core/models/hit';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AltoService {
   private config!: MimeViewerConfig;
   private altos: string[] = [];

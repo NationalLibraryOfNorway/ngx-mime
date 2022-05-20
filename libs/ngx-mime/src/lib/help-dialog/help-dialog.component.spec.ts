@@ -7,6 +7,7 @@ import { FullscreenService } from '../core/fullscreen-service/fullscreen.service
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { StyleService } from '../core/style-service/style.service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { ViewerServiceStub } from '../test/viewer-service-stub';
@@ -28,6 +29,7 @@ describe('HelpDialogComponent', () => {
           MimeResizeService,
           MimeDomHelper,
           FullscreenService,
+          StyleService,
           { provide: MatDialogRef, useClass: MatDialogRefStub },
           { provide: ViewerService, useClass: ViewerServiceStub },
         ],

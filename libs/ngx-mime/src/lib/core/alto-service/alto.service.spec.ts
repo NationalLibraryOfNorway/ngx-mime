@@ -7,6 +7,7 @@ import { cold } from 'jasmine-marbles';
 import { CanvasServiceStub } from '../../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { CanvasService } from '../canvas-service/canvas-service';
+import { HighlightService } from '../highlight-service/highlight.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
 import { RecognizedTextMode } from '../models';
@@ -25,7 +26,9 @@ describe('AltoService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        AltoService,
         MimeViewerIntl,
+        HighlightService,
         { provide: CanvasService, useClass: CanvasServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],

@@ -7,9 +7,7 @@ import {
   ViewDialogConfigStrategy,
 } from './view-dialog-config-strategy';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ViewDialogConfigStrategyFactory {
   constructor(
     private mediaObserver: MediaObserver,
