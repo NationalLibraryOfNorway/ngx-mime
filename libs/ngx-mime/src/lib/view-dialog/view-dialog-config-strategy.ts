@@ -25,7 +25,7 @@ export class MobileViewDialogConfigStrategy
 export class DesktopViewDialogConfigStrategy
   implements ViewDialogConfigStrategy
 {
-  public static readonly dialogWidth = 350;
+  public static readonly dialogWidth = 250;
   public static readonly paddingRight = 20;
   private mimeDomHelper: MimeDomHelper;
 
