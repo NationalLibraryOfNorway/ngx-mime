@@ -41,7 +41,7 @@
     "protractor:desktop": "yarn protractor --tags @desktop,~@elements",
     "protractor:elements": "yarn protractor --feature elements,accessibility --tags @elements",
     "protractor:mobile": "yarn protractor:android",
-    "protractor:android": "yarn protractor --device=android --tags @android,~@elements --feature slider-navigation-in-dashboard-view",
+    "protractor:android": "yarn protractor --device=android --tags @android,~@elements && yarn protractor:elements --device=android",
     "protractor:iphone": "yarn protractor --device=iphone --tags @iphone,~@elements && yarn protractor:elements --device=iphone",
     "affected:apps": "./node_modules/.bin/nx affected:apps",
     "affected:build": "./node_modules/.bin/nx affected:build",
