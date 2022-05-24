@@ -813,6 +813,7 @@ export class ViewerPage {
       await this.waitForAnimation();
     }
     await this.closeViewMenu();
+    await this.waitForAnimation();
   }
 }
 
