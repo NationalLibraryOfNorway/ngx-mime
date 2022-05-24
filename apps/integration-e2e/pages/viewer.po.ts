@@ -452,10 +452,19 @@ export class ViewerPage {
 
   async openViewMenu(): Promise<void> {
     const isOpen = await this.isViewDialogOpen();
-    if (isOpen) {
-      return;
+    if (!isOpen) {
+      await this.clickOnViewMenuButton();
     }
+  }
 
+  async closeViewMenu(): Promise<void> {
+    const isOpen = await this.isViewDialogOpen();
+    if (isOpen) {
+      await this.clickOnViewMenuButton();
+    }
+  }
+
+  async clickOnViewMenuButton(): Promise<void> {
     const isPresentAndDisplayed: boolean = await utils.isPresentAndDisplayed(
       this.viewMenuButtonEl
     );
@@ -803,6 +812,7 @@ export class ViewerPage {
       await el.click();
       await this.waitForAnimation();
     }
+    await this.closeViewMenu();
   }
 }
 
