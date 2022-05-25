@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.2.1...v13.3.0) (2022-05-25)
+
+
+### Features
+
+* narrower view dialog ([8e41df6](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/8e41df6140f8782111fe63fcca9fbd318d87492a))
+
+
+### Bug Fixes
+
+* e2e mobile tests ([d57d2e9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d57d2e9943e9ff8bf88ad626a41d583b0a860307))
+
 ### [13.2.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.2.0...v13.2.1) (2022-05-20)
 
 
