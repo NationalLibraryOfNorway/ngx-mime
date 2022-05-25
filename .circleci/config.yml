@@ -5,6 +5,7 @@ jobs:
   build:
     docker:
       - image:  cimg/node:16.13-browsers
+    resource_class: large
     environment:
       LOGS_DIR: /tmp/ngx-mime-build/logs
       BROWSER_PROVIDER_READY_FILE: /tmp/ngx-mime-build/readyfile

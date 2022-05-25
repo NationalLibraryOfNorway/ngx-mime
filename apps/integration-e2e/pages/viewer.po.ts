@@ -84,6 +84,7 @@ export class ViewerPage {
   private recognizedTextContentHitsEls: ElementArrayFinder;
   private recognizedTextContentContainerEl: ElementFinder;
   private viewMenuButtonEl: ElementFinder;
+  private viewMenuCloseButtonEl: ElementFinder;
   private viewMenuDialogEl: ElementFinder;
 
   constructor() {
@@ -178,6 +179,9 @@ export class ViewerPage {
     );
     this.viewMenuButtonEl = element(
       by.css('[data-test-id="ngx-mime-view-menu-button"]')
+    );
+    this.viewMenuCloseButtonEl = element(
+      by.css('[data-test-id="ngx-mime-view-dialog-close-button"]')
     );
     this.viewMenuDialogEl = element(by.css('mime-view-dialog'));
   }
@@ -452,10 +456,20 @@ export class ViewerPage {
 
   async openViewMenu(): Promise<void> {
     const isOpen = await this.isViewDialogOpen();
-    if (isOpen) {
-      return;
+    if (!isOpen) {
+      await this.clickOnViewMenuButton();
     }
+  }
 
+  async closeViewMenu(): Promise<void> {
+    const isOpen = await this.isViewDialogOpen();
+    if (isOpen) {
+      await this.viewMenuCloseButtonEl.click();
+      await this.waitForAnimation();
+    }
+  }
+
+  async clickOnViewMenuButton(): Promise<void> {
     const isPresentAndDisplayed: boolean = await utils.isPresentAndDisplayed(
       this.viewMenuButtonEl
     );
@@ -803,6 +817,7 @@ export class ViewerPage {
       await el.click();
       await this.waitForAnimation();
     }
+    await this.closeViewMenu();
   }
 }
 
