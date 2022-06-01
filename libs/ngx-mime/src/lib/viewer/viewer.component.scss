@@ -60,9 +60,12 @@
   stroke: rgba(0, 0, 0, 0.45);
 }
 
+::ng-deep .viewer-container svg {
+  mix-blend-mode: multiply;
+}
+
 ::ng-deep .viewer-container .hit {
   fill: #ffff00;
-  mix-blend-mode: multiply;
 }
 
 ::ng-deep .viewer-container .selected {
