@@ -1,3 +1,4 @@
+import { Platform } from '@angular/cdk/platform';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -109,7 +110,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private viewerLayoutService: ViewerLayoutService,
     private styleService: StyleService,
     private altoService: AltoService,
-    public zone: NgZone
+    public zone: NgZone,
+    public platform: Platform
   ) {
     contentsDialogService.el = el;
     attributionDialogService.el = el;
@@ -460,6 +462,13 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.errorMessage = null;
   }
 
+  private hasMixBlendModeSupport(): boolean {
+    return !(
+      this.platform.FIREFOX ||
+      (this.platform.SAFARI && !this.platform.IOS)
+    );
+  }
+
   goToHomeZoom(): void {
     if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
       this.viewerService.goToHomeZoom();
@@ -474,6 +483,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
       'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
       'canvas-pressed': this.isCanvasPressed,
+      'broken-mix-blend-mode': !this.hasMixBlendModeSupport(),
     };
   }
 }

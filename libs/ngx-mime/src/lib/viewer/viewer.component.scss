@@ -31,6 +31,18 @@
     }
   }
 
+  &.broken-mix-blend-mode {
+    ::ng-deep {
+      .hit {
+        mix-blend-mode: unset !important;
+        fill: #ffff0099;
+      }
+      .selected {
+        fill: #ff890099;
+      }
+    }
+  }
+
   ::ng-deep {
     .openseadragon-container {
       flex-grow: 1;
@@ -43,15 +55,13 @@
       fill-opacity: 0;
     }
     .hit {
+      mix-blend-mode: multiply;
       fill: #ffff00;
     }
     .selected {
       fill: #ff8900;
       stroke: rgb(97, 52, 0);
       stroke-width: 4px;
-    }
-    svg {
-      mix-blend-mode: multiply;
     }
   }
 
