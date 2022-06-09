@@ -463,10 +463,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private hasMixBlendModeSupport(): boolean {
-    return !(
-      this.platform.FIREFOX ||
-      (this.platform.SAFARI && !this.platform.IOS)
-    );
+    return !(this.platform.FIREFOX || this.platform.SAFARI);
   }
 
   goToHomeZoom(): void {
