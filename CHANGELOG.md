@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [13.3.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.3.0...v13.3.1) (2022-06-10)
+
+
+### Bug Fixes
+
+* make highlighting compatible with firefox & safari ([#426](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/426)) ([901cff1](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/901cff1dc5498d68de71cdd18232f168b3728385))
+
 ## [13.3.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.2.1...v13.3.0) (2022-05-25)
 
 
