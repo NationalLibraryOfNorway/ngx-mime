@@ -6,19 +6,69 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-}
 
-:host::ng-deep.openseadragon-container {
-  flex-grow: 1;
-}
+  &.mode-page-zoomed::ng-deep.tile:hover {
+    cursor: -webkit-grab;
+  }
 
-:host::ng-deep.openseadragon-canvas:focus {
-  outline: none;
-}
+  &.canvas-pressed,
+  &.canvas-pressed::ng-deep.tile:hover {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+  }
 
-.viewer-drawer-container {
-  width: 100%;
-  height: 100%;
+  &.mode-dashboard {
+    &.layout-one-page::ng-deep.tile,
+    &.layout-two-page::ng-deep.page-group .tile {
+      stroke: rgba(0, 0, 0, 0.15);
+      stroke-width: 8;
+      transition: 0.25s ease stroke;
+    }
+
+    &.layout-one-page::ng-deep.tile:hover,
+    &.layout-two-page::ng-deep.page-group:hover .tile {
+      stroke: rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  &.broken-mix-blend-mode {
+    ::ng-deep {
+      .hit {
+        mix-blend-mode: unset !important;
+        fill: #ffff0099;
+      }
+      .selected {
+        fill: #ff890099;
+      }
+    }
+  }
+
+  ::ng-deep {
+    .openseadragon-container {
+      flex-grow: 1;
+    }
+    .openseadragon-canvas:focus {
+      outline: none;
+    }
+    .tile {
+      cursor: pointer;
+      fill-opacity: 0;
+    }
+    .hit {
+      mix-blend-mode: multiply;
+      fill: #ffff00;
+    }
+    .selected {
+      fill: #ff8900;
+      stroke: rgb(97, 52, 0);
+      stroke-width: 4px;
+    }
+  }
+
+  .viewer-drawer-container {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 #openseadragon {
@@ -30,47 +80,6 @@
   height: 100%;
 }
 
-::ng-deep .viewer-container.mode-page-zoomed .tile:hover {
-  cursor: -webkit-grab;
-}
-
-.viewer-container.canvas-pressed,
-.viewer-container.canvas-pressed::ng-deep.tile:hover {
-  cursor: grabbing;
-  cursor: -webkit-grabbing;
-}
-
-::ng-deep .viewer-container .tile {
-  cursor: pointer;
-  fill-opacity: 0;
-}
-
-::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile,
-::ng-deep .viewer-container.mode-dashboard.layout-two-page .page-group .tile {
-  stroke: rgba(0, 0, 0, 0.15);
-  stroke-width: 8;
-  transition: 0.25s ease stroke;
-}
-
-::ng-deep .viewer-container.mode-dashboard.layout-one-page .tile:hover,
-::ng-deep
-  .viewer-container.mode-dashboard.layout-two-page
-  .page-group:hover
-  .tile {
-  stroke: rgba(0, 0, 0, 0.45);
-}
-
-::ng-deep .viewer-container .hit {
-  fill: #ffff00;
-  mix-blend-mode: multiply;
-}
-
-::ng-deep .viewer-container .selected {
-  fill: #ff8900;
-  stroke: rgb(97, 52, 0);
-  stroke-width: 4px;
-}
-
 .navbar {
   position: absolute;
   width: 100%;
@@ -80,15 +89,10 @@
 
 .navbar-header {
   top: 0;
-  width: 100%;
 }
 
 .navbar-footer {
   bottom: 0;
-}
-
-::ng-deep .cdk-overlay-container {
-  z-index: 2147483647;
 }
 
 .error-container {
