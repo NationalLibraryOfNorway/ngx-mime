@@ -56,48 +56,46 @@ fdescribe('RecognizedTextContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(
-    'should show recognized text',
-    waitForAsync(() => {
-      const firstCanvasRecognizedTextContent =
-        '<p>fakefirstCanvasRecognizedText</p>';
-      const secondCanvasRecognizedTextContent =
-        '<p>fakeSecondRecognizedTextContent</p>';
-      spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-        .withArgs(0)
-        .and.returnValue([0, 1]);
-      spyOn(altoService, 'getHtml')
-        .withArgs(0)
-        .and.returnValue(firstCanvasRecognizedTextContent)
-        .withArgs(1)
-        .and.returnValue(secondCanvasRecognizedTextContent)
-        .and.callThrough();
-      spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
-        cold('x|')
-      );
+  it('should show recognized text', (done: DoneFn) => {
+    const firstCanvasRecognizedTextContent =
+      '<p>fakefirstCanvasRecognizedText</p>';
+    const secondCanvasRecognizedTextContent =
+      '<p>fakeSecondRecognizedTextContent</p>';
+    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
+      .withArgs(0)
+      .and.returnValue([0, 1]);
+    spyOn(altoService, 'getHtml')
+      .withArgs(0)
+      .and.returnValue(firstCanvasRecognizedTextContent)
+      .withArgs(1)
+      .and.returnValue(secondCanvasRecognizedTextContent)
+      .and.callThrough();
+    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
+      cold('x|')
+    );
 
-      fixture.detectChanges();
-      getTestScheduler().flush();
+    fixture.detectChanges();
+    getTestScheduler().flush();
 
-      fixture.whenStable().then(() => {
-        const firstCanvasRecognizedTextContentDe: DebugElement =
-          fixture.debugElement.query(
-            By.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
-          );
-        const secondCanvasRecognizedTextContentDe: DebugElement =
-          fixture.debugElement.query(
-            By.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
-          );
-
-        expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
-          firstCanvasRecognizedTextContent
+    fixture.whenStable().then(() => {
+      const firstCanvasRecognizedTextContentDe: DebugElement =
+        fixture.debugElement.query(
+          By.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
         );
-        expect(
-          secondCanvasRecognizedTextContentDe.nativeElement.innerHTML
-        ).toBe(secondCanvasRecognizedTextContent);
-      });
-    })
-  );
+      const secondCanvasRecognizedTextContentDe: DebugElement =
+        fixture.debugElement.query(
+          By.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
+        );
+
+      expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
+        firstCanvasRecognizedTextContent
+      );
+      expect(secondCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
+        secondCanvasRecognizedTextContent
+      );
+      done();
+    });
+  });
 
   it('should show error message', () => {
     spyOnProperty(altoService, 'hasErrors$').and.returnValue(
@@ -130,29 +128,27 @@ fdescribe('RecognizedTextContentComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it(
-    'should call highlightSelectedHit in updateRecognizedText method',
-    waitForAsync(() => {
-      component.selectedHit = 1;
-      spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
-        cold('x|')
-      );
-      spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-        .withArgs(0)
-        .and.returnValue([0, 1]);
-      const spy = spyOn(
-        highlightService,
-        'highlightSelectedHit'
-      ).and.callThrough();
+  it('should call highlightSelectedHit in updateRecognizedText method', (done: DoneFn) => {
+    component.selectedHit = 1;
+    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
+      cold('x|')
+    );
+    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
+      .withArgs(0)
+      .and.returnValue([0, 1]);
+    const spy = spyOn(
+      highlightService,
+      'highlightSelectedHit'
+    ).and.callThrough();
 
-      fixture.detectChanges();
-      getTestScheduler().flush();
+    fixture.detectChanges();
+    getTestScheduler().flush();
 
-      fixture.whenStable().then(() => {
-        expect(spy).toHaveBeenCalled();
-      });
-    })
-  );
+    fixture.whenStable().then(() => {
+      expect(spy).toHaveBeenCalled();
+      done();
+    });
+  });
 
   function createMockHit(id: number, match: string): Hit {
     return {
