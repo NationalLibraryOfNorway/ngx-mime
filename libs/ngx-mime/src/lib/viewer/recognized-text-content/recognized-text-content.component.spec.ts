@@ -15,7 +15,7 @@ import { Hit } from '../../core/models/hit';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
 
-fdescribe('RecognizedTextContentComponent', () => {
+describe('RecognizedTextContentComponent', () => {
   let component: RecognizedTextContentComponent;
   let fixture: ComponentFixture<RecognizedTextContentComponent>;
   let altoService: any;
