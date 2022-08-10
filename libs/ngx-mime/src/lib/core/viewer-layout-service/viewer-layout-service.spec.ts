@@ -35,15 +35,10 @@ describe('ViewerLayoutService', () => {
   });
 
   it('should set initial TWO_PAGE layout to specified layout in mime-config', () => {
-    const initLayout = config.initViewerLayout;
     spyOn(mediaObserver, 'isActive').and.returnValue(false);
-    service.init();
+    service.init(true);
 
-    if (initLayout === ViewerLayout.TWO_PAGE) {
-      expect(service.layout === ViewerLayout.TWO_PAGE);
-    } else {
-      fail('Wrong initial layout');
-    }
+    expect(service.layout).toEqual(ViewerLayout.TWO_PAGE);
   });
 
   it('should set initial layout to ONE_PAGE on mobile, regardless of mime-config', () => {

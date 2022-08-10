@@ -83,13 +83,10 @@ describe('ViewerHeaderComponent', () => {
     expect(dialogs.length).toEqual(1);
   });
 
-  it(
-    'should start in hidden mode',
-    waitForAsync(() => {
-      expect(component.state).toBe('hide');
-      expectHeaderToBeHidden(fixture.debugElement.nativeElement);
-    })
-  );
+  it('should start in hidden mode', () => {
+    expect(component.state).toBe('hide');
+    expectHeaderToBeHidden(fixture.debugElement.nativeElement);
+  });
 
   it(
     'should not be visible when state is changed to hide',
