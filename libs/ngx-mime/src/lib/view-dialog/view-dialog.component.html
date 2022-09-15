@@ -44,7 +44,6 @@
             <mat-button-toggle
               data-test-id="ngx-mime-single-page-view-button"
               [attr.aria-label]="intl.singlePageViewLabel"
-              [matTooltip]="intl.singlePageViewLabel"
               [value]="ViewerLayout.ONE_PAGE"
               (click)="setLayoutOnePage()"
             >
@@ -58,7 +57,6 @@
             <mat-button-toggle
               data-test-id="ngx-mime-two-page-view-button"
               [attr.aria-label]="intl.twoPageViewLabel"
-              [matTooltip]="intl.twoPageViewLabel"
               [value]="ViewerLayout.TWO_PAGE"
               (click)="setLayoutTwoPage()"
             >
@@ -80,7 +78,6 @@
             <mat-button-toggle
               data-test-id="ngx-mime-recognized-text-content-close-button"
               [attr.aria-label]="intl.recognizedTextContentCloseLabel"
-              [matTooltip]="intl.recognizedTextContentCloseLabel"
               [value]="RecognizedTextMode.NONE"
               (click)="closeRecognizedTextContent()"
             >
@@ -94,7 +91,6 @@
             <mat-button-toggle
               data-test-id="ngx-mime-recognized-text-content-split-view-button"
               [attr.aria-label]="intl.recognizedTextContentInSplitViewLabel"
-              [matTooltip]="intl.recognizedTextContentInSplitViewLabel"
               [value]="RecognizedTextMode.SPLIT"
               (click)="showRecognizedTextContentInSplitView()"
             >
@@ -110,7 +106,6 @@
             <mat-button-toggle
               data-test-id="ngx-mime-recognized-text-content-only-button"
               [attr.aria-label]="intl.showRecognizedTextContentLabel"
-              [matTooltip]="intl.showRecognizedTextContentLabel"
               [value]="RecognizedTextMode.ONLY"
               (click)="showRecognizedTextContentOnly()"
             >
