@@ -1,3 +1,4 @@
+import { Platform } from '@angular/cdk/platform';
 import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewContainerRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
@@ -41,6 +42,7 @@ export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private styleService;
     private altoService;
     zone: NgZone;
+    platform: Platform;
     manifestUri: string;
     q: string;
     canvasIndex: number;
@@ -63,7 +65,7 @@ export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private header;
     private footer;
     private osdToolbar;
-    constructor(snackBar: MatSnackBar, intl: MimeViewerIntl, el: ElementRef, iiifManifestService: IiifManifestService, viewDialogService: ViewDialogService, contentsDialogService: ContentsDialogService, attributionDialogService: AttributionDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, viewerService: ViewerService, resizeService: MimeResizeService, changeDetectorRef: ChangeDetectorRef, modeService: ModeService, iiifContentSearchService: IiifContentSearchService, accessKeysHandlerService: AccessKeysService, canvasService: CanvasService, viewerLayoutService: ViewerLayoutService, styleService: StyleService, altoService: AltoService, zone: NgZone);
+    constructor(snackBar: MatSnackBar, intl: MimeViewerIntl, el: ElementRef, iiifManifestService: IiifManifestService, viewDialogService: ViewDialogService, contentsDialogService: ContentsDialogService, attributionDialogService: AttributionDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, viewerService: ViewerService, resizeService: MimeResizeService, changeDetectorRef: ChangeDetectorRef, modeService: ModeService, iiifContentSearchService: IiifContentSearchService, accessKeysHandlerService: AccessKeysService, canvasService: CanvasService, viewerLayoutService: ViewerLayoutService, styleService: StyleService, altoService: AltoService, zone: NgZone, platform: Platform);
     get mimeHeaderBeforeRef(): ViewContainerRef;
     get mimeHeaderAfterRef(): ViewContainerRef;
     get mimeFooterBeforeRef(): ViewContainerRef;
@@ -81,6 +83,7 @@ export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private cleanup;
     private resetCurrentManifest;
     private resetErrorMessage;
+    private hasMixBlendModeSupport;
     goToHomeZoom(): void;
     setClasses(): {
         'mode-page': boolean;
@@ -89,6 +92,7 @@ export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         'layout-one-page': boolean;
         'layout-two-page': boolean;
         'canvas-pressed': boolean;
+        'broken-mix-blend-mode': boolean;
     };
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ViewerComponent, "mime-viewer", never, { "manifestUri": "manifestUri"; "q": "q"; "canvasIndex": "canvasIndex"; "config": "config"; "tabIndex": "tabIndex"; }, { "viewerModeChanged": "viewerModeChanged"; "canvasChanged": "canvasChanged"; "qChanged": "qChanged"; "manifestChanged": "manifestChanged"; "recognizedTextContentModeChanged": "recognizedTextContentModeChanged"; }, never, never>;

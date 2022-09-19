@@ -8,7 +8,7 @@ export declare class MobileViewDialogConfigStrategy implements ViewDialogConfigS
     getConfig(elementRef: ElementRef): MatDialogConfig;
 }
 export declare class DesktopViewDialogConfigStrategy implements ViewDialogConfigStrategy {
-    static readonly dialogWidth = 350;
+    static readonly dialogWidth = 250;
     static readonly paddingRight = 20;
     private mimeDomHelper;
     constructor(mimeDomHelper: MimeDomHelper);

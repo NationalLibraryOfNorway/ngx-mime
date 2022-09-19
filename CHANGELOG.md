@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [13.3.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.3.1...v13.3.2) (2022-09-19)
+
+
+### Bug Fixes
+
+* removed unnecessary labels ([495f2e7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/495f2e776171273b9d3a98e1b6943ea410f53821)), closes [#429](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/429)
+* various jasmine 4.0 deprecations ([4292e88](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/4292e88fcfe540719ee701d27b86bf580eb3b725))
+
 ### [13.3.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.3.0...v13.3.1) (2022-06-10)
 
 
