@@ -15,15 +15,24 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
+            "allowedCommonJsDependencies": [
+              "openseadragon",
+              "xml2js"
+            ],
             "aot": true,
             "outputPath": "dist/apps/demo",
             "index": "apps/demo/src/index.html",
             "main": "apps/demo/src/main.ts",
             "polyfills": "apps/demo/src/polyfills.ts",
             "tsConfig": "apps/demo/tsconfig.app.json",
-            "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"],
-            "styles": ["apps/demo/src/styles.scss", "apps/demo/src/theme.scss"],
+            "assets": [
+              "apps/demo/src/favicon.ico",
+              "apps/demo/src/assets"
+            ],
+            "styles": [
+              "apps/demo/src/styles.scss",
+              "apps/demo/src/theme.scss"
+            ],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ]
@@ -92,9 +101,14 @@
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ],
-            "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"]
+            "assets": [
+              "apps/demo/src/favicon.ico",
+              "apps/demo/src/assets"
+            ]
           },
-          "outputs": ["coverage/apps/demo/"]
+          "outputs": [
+            "coverage/apps/demo/"
+          ]
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -104,7 +118,9 @@
               "apps/demo/src/**/*.html"
             ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         }
       },
       "tags": []
@@ -128,11 +144,15 @@
               "apps/demo-e2e/src/**/*.html"
             ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         }
       },
       "tags": [],
-      "implicitDependencies": ["demo"]
+      "implicitDependencies": [
+        "demo"
+      ]
     },
     "elements": {
       "projectType": "application",
@@ -148,7 +168,10 @@
         "build": {
           "builder": "ngx-build-plus:browser",
           "options": {
-            "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
+            "allowedCommonJsDependencies": [
+              "openseadragon",
+              "xml2js"
+            ],
             "outputPath": "dist/apps/elements",
             "index": "apps/elements/src/index.html",
             "main": "apps/elements/src/main.ts",
@@ -222,7 +245,9 @@
               "apps/elements/src/**/*.html"
             ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "builder": "ngx-build-plus:karma",
@@ -231,7 +256,9 @@
             "polyfills": "apps/elements/src/polyfills.ts",
             "tsConfig": "apps/elements/tsconfig.spec.json",
             "karmaConfig": "apps/elements/karma.conf.js",
-            "styles": ["apps/elements/src/styles.scss"],
+            "styles": [
+              "apps/elements/src/styles.scss"
+            ],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ],
@@ -264,11 +291,15 @@
               "apps/elements-e2e/src/**/*.html"
             ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         }
       },
       "tags": [],
-      "implicitDependencies": ["elements"]
+      "implicitDependencies": [
+        "elements"
+      ]
     },
     "integration": {
       "root": "apps/integration/",
@@ -284,7 +315,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
+            "allowedCommonJsDependencies": [
+              "openseadragon",
+              "xml2js"
+            ],
             "aot": true,
             "outputPath": "dist/apps/integration",
             "index": "apps/integration/src/index.html",
@@ -335,7 +369,9 @@
               "buildOptimizer": true
             }
           },
-          "outputs": ["{options.outputPath}"]
+          "outputs": [
+            "{options.outputPath}"
+          ]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -362,7 +398,9 @@
             "polyfills": "apps/integration/src/polyfills.ts",
             "tsConfig": "apps/integration/tsconfig.spec.json",
             "karmaConfig": "apps/integration/karma.conf.js",
-            "styles": ["apps/integration/src/styles.scss"],
+            "styles": [
+              "apps/integration/src/styles.scss"
+            ],
             "scripts": [
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ],
@@ -371,7 +409,9 @@
               "apps/integration/src/assets"
             ]
           },
-          "outputs": ["coverage/apps/integration/"]
+          "outputs": [
+            "coverage/apps/integration/"
+          ]
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -381,12 +421,15 @@
               "apps/integration/src/**/*.html"
             ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         }
       },
       "tags": []
     },
     "integration-e2e": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "apps/integration-e2e/",
       "projectType": "application",
       "architect": {
@@ -407,11 +450,15 @@
               "apps/integration-e2e/*.js"
             ]
           },
-          "outputs": ["{options.outputFile}"]
+          "outputs": [
+            "{options.outputFile}"
+          ]
         }
       },
       "tags": [],
-      "implicitDependencies": ["integration"]
+      "implicitDependencies": [
+        "integration"
+      ]
     },
     "ngx-mime": {
       "root": "libs/ngx-mime",
@@ -442,7 +489,9 @@
               "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ]
           },
-          "outputs": ["coverage/libs/ngx-mime"]
+          "outputs": [
+            "coverage/libs/ngx-mime"
+          ]
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",

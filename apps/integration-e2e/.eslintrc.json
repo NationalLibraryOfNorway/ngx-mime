@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:protractor/recommended", "../../.eslintrc.json"],
+  "extends": ["plugin:cypress/recommended", "../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {

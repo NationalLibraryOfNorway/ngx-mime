@@ -34,5 +34,5 @@ export declare class ViewDialogComponent implements OnInit, OnDestroy {
     showRecognizedTextContentOnly(): void;
     private resizeHeight;
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ViewDialogComponent, "mime-view-dialog", never, {}, {}, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ViewDialogComponent, "mime-view-dialog", never, {}, {}, never, never, false>;
 }
