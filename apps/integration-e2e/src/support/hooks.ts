@@ -12,21 +12,28 @@ import { test } from '@playwright/test';
 // eslint-disable-next-line
 // @ts-ignore
 import withMessage from 'jest-expect-message/dist/withMessage';
-import { chromium, Page } from 'playwright';
+import { chromium, devices, Page } from 'playwright';
 import { CustomWorld } from './custom-world';
 const expect = withMessage(test.expect);
 const AxeBuilder = require('@axe-core/playwright').default;
 
 const reportsDir = '.tmp/report';
+const desktop = devices['Desktop Chrome'];
+const android = devices['Pixel 5'];
+const iphone = devices['iPhone 13'];
 
 setDefaultTimeout(60 * 1000);
 
-Before({ tags: '@Ignore' }, async function (): Promise<TestStepResultStatus> {
-  return Status.SKIPPED;
-});
-
 Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
   const isCi: boolean = this.parameters.ci ? this.parameters.ci : false;
+  const mode = process.env['MODE'];
+
+  let device = desktop;
+  if (mode === 'mobile') {
+    device = android;
+  } else if (mode === 'iphone') {
+    device = iphone;
+  }
 
   if (isCi) {
     const capabilities = {
@@ -57,13 +64,13 @@ Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
     );
   } else {
     this['browser'] = await chromium.launch({
-      channel: 'chrome',
       slowMo: 0,
       headless: true,
     });
   }
 
   this.context = await this.browser.newContext({
+    ...device,
     recordVideo: process.env['PWVIDEO']
       ? { dir: `${reportsDir}/videos` }
       : undefined,

@@ -328,13 +328,6 @@
     axe-core "^4.4.2"
     playwright ">= 1.0.0"
 
-"@axe-core/webdriverjs@^4.1.0":
-  version "4.4.4"
-  resolved "https://registry.yarnpkg.com/@axe-core/webdriverjs/-/webdriverjs-4.4.4.tgz#11df4242523a7c63502db2cd95b67f829937effd"
-  integrity sha512-CMB3fWc3UnrAaBEwXs0ffGcA/Zf4zwxzaYrNPLMmyeg53CI0XBPdH7D/dI+f4eqUoM6UaTrbrfGhwz+fvRmoZQ==
-  dependencies:
-    axe-core "^4.4.2"
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7", "@babel/code-frame@^7.18.6":
   version "7.18.6"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.18.6.tgz#3b25d38c89600baa2dcc219edfa88a74eb2c427a"

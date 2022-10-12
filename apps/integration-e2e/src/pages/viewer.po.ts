@@ -411,12 +411,10 @@ export class ViewerPage {
   }
 
   async getLeftCanvasGroupMask() {
-    await this.leftCanvasGroupMaskEl.waitFor();
     return this.leftCanvasGroupMaskEl;
   }
 
   async getRightCanvasGroupMask() {
-    await this.rightCanvasGroupMaskEl.waitFor();
     return this.rightCanvasGroupMaskEl;
   }
 
