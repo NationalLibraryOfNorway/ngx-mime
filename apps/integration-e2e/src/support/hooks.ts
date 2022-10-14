@@ -143,7 +143,7 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
         }
 
         await setStatus(this.page, status, remark);
-        //expect(violations.length, remark).toBe(0);
+        expect(violations.length, remark).toBe(0);
       }
     }
   } finally {
