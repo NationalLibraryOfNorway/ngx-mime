@@ -272,12 +272,16 @@ export class ViewerPage {
     let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     const params: string[] = [];
     if (manifestName) {
-      params.push('manifestUri=' + this.getBookShelfUrl(manifestName));
+      params.push('manifestUri=' + encodeURIComponent(this.getBookShelfUrl(manifestName)));
     }
     if (canvasIndex) {
       params.push(`canvasIndex=${canvasIndex}`);
     }
-    await this.page.goto(`${this.parameters.appUrl}?${params.join('&')}`);
+    await this.page.goto(
+      `${this.parameters.appUrl}${uri}${
+        params.length > 0 ? `?${params.join('&')}` : ''
+      }`
+    );
     await this.setFocusOnViewer();
     await this.utils.waitForAnimation();
   }
@@ -607,18 +611,22 @@ export class ViewerPage {
     const svgParentDimensions = await svgParent.boundingBox();
     const overlayDimensions = await overlay.boundingBox();
 
-    const widthIsFitted = this.numbersAreClose(
-      svgParentDimensions!.width,
-      overlayDimensions!.width,
-      5
-    );
-    const heightIsFitted = this.numbersAreClose(
-      svgParentDimensions!.height,
-      overlayDimensions!.height,
-      5
-    );
+    if (svgParentDimensions && overlayDimensions) {
+      const widthIsFitted = this.numbersAreClose(
+        svgParentDimensions.width,
+        overlayDimensions.width,
+        5
+      );
+      const heightIsFitted = this.numbersAreClose(
+        svgParentDimensions.height,
+        overlayDimensions.height,
+        5
+      );
 
-    return widthIsFitted || heightIsFitted;
+      return widthIsFitted || heightIsFitted;
+    } else {
+      throw new Error('Error finding bounding box');
+    }
   }
 
   async isVerticallyCentered(): Promise<boolean> {
@@ -628,10 +636,14 @@ export class ViewerPage {
     const svgParentDimensions = await svgParent.boundingBox();
     const overlayDimensions = await overlay.boundingBox();
 
-    return (
-      Math.round(svgParentDimensions!.height) ===
-      Math.round(overlayDimensions!.height)
-    );
+    if (svgParentDimensions && overlayDimensions) {
+      return (
+        Math.round(svgParentDimensions.height) ===
+        Math.round(overlayDimensions.height)
+      );
+    } else {
+      throw new Error('Error finding bounding box');
+    }
   }
 
   async sendKeyboardEvent(key: string): Promise<void> {

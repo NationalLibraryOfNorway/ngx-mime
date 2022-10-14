@@ -17,6 +17,7 @@ When(
     previousCanvasGroupLabel =
       await this.viewerPage.getCurrentCanvasGroupLabel();
     await this.viewerPage.sendKeyboardEvent(key);
+    await this.utils.waitForAnimation();
   }
 );
 
@@ -32,7 +33,9 @@ Given(/^the contents dialog is open$/, async function (this: CustomWorld) {
 });
 
 Then(/^the viewer should go to next page$/, async function (this: CustomWorld) {
-  expect(await this.viewerPage.getCurrentCanvasGroupLabel());
+  expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
+    `${parseInt(previousCanvasGroupLabel, 10) + 1}`
+  );
 });
 
 Then(

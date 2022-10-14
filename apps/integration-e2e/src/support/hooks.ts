@@ -14,33 +14,49 @@ import { test } from '@playwright/test';
 import withMessage from 'jest-expect-message/dist/withMessage';
 import { chromium, devices, Page } from 'playwright';
 import { CustomWorld } from './custom-world';
+
 const expect = withMessage(test.expect);
 const AxeBuilder = require('@axe-core/playwright').default;
 
 const reportsDir = '.tmp/report';
-const desktop = devices['Desktop Chrome'];
-const android = devices['Pixel 5'];
-const iphone = devices['iPhone 13'];
+const desktopDescriptor = devices['Desktop Chrome'];
+const androidDescriptor = devices['Pixel 5'];
+const iphoneDescriptor = devices['iPhone 13'];
 
-setDefaultTimeout(60 * 1000);
+setDefaultTimeout(120 * 1000);
 
 Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
+  const connect = async (capabilities: any) => {
+    return chromium.connect(
+      `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(
+        JSON.stringify(capabilities)
+      )}`
+    );
+  };
   const isCi: boolean = this.parameters.ci ? this.parameters.ci : false;
   const mode = process.env['MODE'];
 
-  let device = desktop;
+  let deviceDescriptor = desktopDescriptor;
+  let browserName = 'pw-chromium';
+  let platform = 'Windows 10';
   if (mode === 'mobile') {
-    device = android;
+    deviceDescriptor = androidDescriptor;
   } else if (mode === 'iphone') {
-    device = iphone;
+    platform = 'MacOS Catalina';
+    browserName = 'pw-webkit';
+    deviceDescriptor = iphoneDescriptor;
+  } else if (mode === 'firefox') {
+    browserName = 'pw-firefox';
+  } else if (mode === 'edge') {
+    browserName = 'MicrosoftEdge';
   }
 
   if (isCi) {
     const capabilities = {
-      browserName: 'Chrome',
+      browserName: browserName,
       browserVersion: 'latest',
       'LT:Options': {
-        platform: 'Windows 10',
+        platform: platform,
         build: `ngx-mime-${
           process.env['CI_PIPELINE_IID']
             ? process.env['CI_PIPELINE_IID']
@@ -56,74 +72,85 @@ Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
         tunnelName: process.env['TUNNEL_IDENTIFIER'],
       },
     };
-
-    this['browser'] = await chromium.connect(
-      `wss://tools.nb.no/playwright?capabilities=${encodeURIComponent(
-        JSON.stringify(capabilities)
-      )}`
-    );
+    for (let i = 0; i < 3; i++) {
+      try {
+        this['browser'] = await connect(capabilities);
+        break;
+      } catch (e) {
+        console.log(e);
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
+    }
   } else {
     this['browser'] = await chromium.launch({
       slowMo: 0,
       headless: true,
     });
   }
-
-  this.context = await this.browser.newContext({
-    ...device,
+  this['context'] = await this['browser'].newContext({
+    ...deviceDescriptor,
     recordVideo: process.env['PWVIDEO']
       ? { dir: `${reportsDir}/videos` }
       : undefined,
   });
-  await this.context.tracing.start({ screenshots: true, snapshots: true });
-  this.page = await this.context.newPage();
+  await this['context'].tracing.start({ screenshots: true, snapshots: true });
+  this.page = await this['context'].newPage();
 
   this.init(this);
 });
 
 After(async function (result: ITestCaseHookParameter): Promise<void> {
-  let status = result.result?.status;
-  let remark = result.result?.message;
+  try {
+    let status = result.result?.status;
+    let remark = result.result?.message;
 
-  const setStatus = async (
-    page: Page,
-    status: TestStepResultStatus | undefined,
-    remark: string | undefined
-  ): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    await page.evaluate(() => {},
-    `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status, remark } })}`);
-  };
+    const setStatus = async (
+      page: Page,
+      status: TestStepResultStatus | undefined,
+      remark: string | undefined
+    ): Promise<void> => {
+      try {
+        if (result.result?.status !== Status.PASSED) {
+          const image = await this.page?.screenshot();
+          image && (await this.attach(image, 'image/png'));
+        }
+        await this['context']?.tracing.stop({
+          path: `${reportsDir}/traces/${this.testName}-${
+            this.startTime?.toISOString().split('.')[0]
+          }trace.zip`,
+        });
 
-  if (this.page) {
-    if (result.result?.status !== Status.PASSED) {
-      const image = await this.page?.screenshot();
-      image && (await this.attach(image, 'image/png'));
-      await this.context?.tracing.stop({
-        path: `${reportsDir}/traces/${this.testName}-${
-          this.startTime?.toISOString().split('.')[0]
-        }trace.zip`,
-      });
-      await setStatus(this.page, status, remark);
-    } else {
-      const results = await new AxeBuilder({ page: this.page })
-        .disableRules('landmark-one-main')
-        .analyze();
-      const violations = results.violations;
-
-      if (violations.length > 0) {
-        remark = JSON.stringify(violations, null, 2);
-        status = Status.FAILED;
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        await page.evaluate(() => {},
+        `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status, remark } })}`);
+      } catch (e) {
+        console.warn('Could not send test result', e);
       }
+    };
 
-      await setStatus(this.page, status, remark);
-      //TODO expect(violations.length, remark).toBe(0);
+    if (this.page) {
+      if (result.result?.status !== Status.PASSED) {
+        await setStatus(this.page, status, remark);
+      } else {
+        const results = await new AxeBuilder({ page: this.page })
+          .disableRules('landmark-one-main')
+          .analyze();
+        const violations = results.violations;
+
+        if (violations.length > 0) {
+          remark = JSON.stringify(violations, null, 2);
+          status = Status.FAILED;
+        }
+
+        await setStatus(this.page, status, remark);
+        //expect(violations.length, remark).toBe(0);
+      }
     }
+  } finally {
+    this.page?.close();
+    await this['context']?.close();
+    await this['browser']?.close();
   }
-
-  await this.page?.close();
-  await this.context?.close();
-  await this.browser?.close();
 });
 
 setWorldConstructor(CustomWorld);

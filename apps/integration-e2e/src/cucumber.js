@@ -11,7 +11,13 @@ const mode = process.env['MODE'];
 let tags = 'not @Ignore';
 
 switch (mode) {
-  case 'desktop':
+  case 'chrome':
+    tags = '@desktop and not (@Ignore or @Fullscreen)';
+    break;
+  case 'edge':
+    tags = '@desktop and not (@Ignore or @Fullscreen)';
+    break;
+  case 'firefox':
     tags = '@desktop and not (@Ignore or @Fullscreen)';
     break;
   case 'mobile':
@@ -19,6 +25,7 @@ switch (mode) {
     break;
   case 'iphone':
     tags = '@iphone and not (@Ignore or @Fullscreen)';
+    tags = '@rights-notice';
     break;
   default:
     tags = 'not @Ignore';

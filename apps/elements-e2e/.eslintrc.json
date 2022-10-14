@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:protractor/recommended", "../../.eslintrc.json"],
+  "extends": ["plugin:playwright/playwright-test", "../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {

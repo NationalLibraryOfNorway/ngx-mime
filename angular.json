@@ -444,10 +444,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "apps/integration-e2e/helpers/**/*.ts",
-              "apps/integration-e2e/pages/**/*.ts",
-              "apps/integration-e2e/step-definitions/**/*.ts",
-              "apps/integration-e2e/*.js"
+              "apps/integration-e2e/**/*.ts"
             ]
           },
           "outputs": [

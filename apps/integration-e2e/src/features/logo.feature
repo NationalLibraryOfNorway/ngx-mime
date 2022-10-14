@@ -7,7 +7,7 @@ Feature: Displaying logo
   Background:
     Given the viewer is opened with a publication
 
-  Scenario: Show descriptive metadata
+  Scenario: Show logo in descriptive metadata
     Given the viewer is in dashboard view
       And the viewer is in metadata view
     Then the logo associated with the resource are displayed to the user

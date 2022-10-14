@@ -14,13 +14,13 @@ Feature: Pan on image
     Then the image is moved inside the view
 
   @Ignore-firefox
-  Scenario: Panning should be disabled when i page mode
+  Scenario: Panning should be disabled when in page mode
     Given the viewer is in page view
     When the user hits ArrowUp
     Then the image is not moved inside the view
 
   @Ignore-firefox
-  Scenario: Panning should be disabled when i dashboard mode
+  Scenario: Panning should be disabled when in dashboard mode
     Given the viewer is in dashboard view
     When the user hits ArrowUp
     Then the image is not moved inside the view

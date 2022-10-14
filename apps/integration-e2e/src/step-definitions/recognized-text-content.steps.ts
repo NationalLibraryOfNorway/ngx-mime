@@ -57,7 +57,7 @@ Then(
       await this.viewerPage.isRecognizedTextContentInSplitView();
 
     expect(isRecognizedTextContentInSplitView).toBeTruthy();
-    expect(recognizedTextContent!.length).toBeGreaterThan(0);
+    expect(recognizedTextContent.length).toBeGreaterThan(0);
   }
 );
 
@@ -70,7 +70,7 @@ Then(
       await this.viewerPage.isRecognizedTextContentOnly();
 
     expect(isRecognizedTextContentOnly).toBeTruthy();
-    expect(recognizedTextContent!.length).toBeGreaterThan(0);
+    expect(recognizedTextContent.length).toBeGreaterThan(0);
   }
 );
 
