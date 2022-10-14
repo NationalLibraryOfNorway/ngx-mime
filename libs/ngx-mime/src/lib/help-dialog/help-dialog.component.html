@@ -3,7 +3,12 @@
     <div *ngSwitchCase="true">
       <mat-toolbar color="primary">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <button mat-icon-button [matDialogClose]="true">
+          <button
+            mat-icon-button
+            [aria-label]="intl.helpCloseAriaLabel"
+            [matTooltip]="intl.closeLabel"
+            [matDialogClose]="true"
+          >
             <mat-icon>close</mat-icon>
           </button>
           <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>
@@ -16,7 +21,12 @@
           <h1 class="heading-desktop" mat-dialog-title>{{
             intl.help.helpLabel
           }}</h1>
-          <button mat-icon-button [matDialogClose]="true">
+          <button
+            mat-icon-button
+            [aria-label]="intl.helpCloseAriaLabel"
+            [matTooltip]="intl.closeLabel"
+            [matDialogClose]="true"
+          >
             <mat-icon>close</mat-icon>
           </button>
         </div>

@@ -8,6 +8,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   closeLabel = 'Lukk';
   attributionLabel = 'Tillatelse';
   attributonCloseAriaLabel = 'Steng tillatelse dialog';
+  helpCloseAriaLabel = 'Steng help dialogen';
   recognizedTextContentLabel = 'Gjenkjent tekst';
   contentsLabel = 'Innhold';
   layoutMenuLabel = 'Visning';

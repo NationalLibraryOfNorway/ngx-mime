@@ -26,7 +26,7 @@
     }
   ],
   "license": "https://www.nb.no/lisens/ccbyncnd",
-  "attribution": "<span>Du kan dele, kopiere, distribuere og spre dette verket så lenge du krediterer opphavspersonen korrekt og ikke bruker verket kommersielt. Dersom du remixer, bearbeider eller bygger på verket, kan du ikke distribuere det endrede materialet.<br/><br/><img src=\"https://static.nb.no/images/license/ccbyncnd_88x31.png\"/></span>",
+  "attribution": "<span>Du kan dele, kopiere, distribuere og spre dette verket så lenge du krediterer opphavspersonen korrekt og ikke bruker verket kommersielt. Dersom du remixer, bearbeider eller bygger på verket, kan du ikke distribuere det endrede materialet.<br/><br/><img src=\"https://static.nb.no/images/license/ccbyncnd_88x31.png\" alt=\"Image showing logo to license ccbyncnd\"/></span>",
   "service": {
     "@context": "http://iiif.io/api/search/0/context.json",
     "@id": "https://api.nb.no:443/catalog/v1/contentsearch/10ca37a8595f4a63dd033dbfa4a130bc/search",
