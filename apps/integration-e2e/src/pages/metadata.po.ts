@@ -52,7 +52,7 @@ export class MetadataPage {
     }
     return metadatas;
   }
-/*
+  /*
   async getAttribution() {
     return utils.promisify(async () =>
       utils.waitForElement(this.attributionEl)
