@@ -85,54 +85,18 @@ Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
 });
 
 After(async function (result: ITestCaseHookParameter): Promise<void> {
+  let status = result.result?.status;
+  let remark = result.result?.message;
   try {
-    let status = result.result?.status;
-    let remark = result.result?.message;
-
-    const setStatus = async (
-      _this: IWorld<any>,
-      status: TestStepResultStatus | undefined,
-      remark: string | undefined
-    ): Promise<void> => {
-      try {
-        if (status !== Status.PASSED) {
-          const image = await _this.page?.screenshot();
-          image && (await _this.attach(image, 'image/png'));
-        }
-        await _this['context']?.tracing.stop({
-          path: `${reportsDir}/traces/${_this.testName}-${
-            _this.startTime?.toISOString().split('.')[0]
-          }trace.zip`,
-        });
-
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        await _this.page.evaluate(() => {},
-        `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status, remark } })}`);
-      } catch (e) {
-        console.warn('Could not send test result', e);
-      }
-    };
-
-    if (this.page) {
-      if (result.result?.status !== Status.PASSED) {
-        await setStatus(this, status, remark);
-      } else {
-        const results = await new AxeBuilder({ page: this.page })
-          .disableRules('landmark-one-main')
-          .analyze();
-        const violations = results.violations;
-
-        if (violations.length > 0) {
-          remark = JSON.stringify(violations, null, 2);
-          status = Status.FAILED;
-        }
-
-        await setStatus(this, status, remark);
-        expect(violations.length, remark).toBe(0);
-      }
+    if (this.page && status === Status.PASSED) {
+      const a11y = await a11yAnalyze(this, remark, status);
+      status = a11y.status;
+      remark = a11y.remark;
+      expect(status).toBe(Status.PASSED);
     }
   } finally {
-    this.page?.close();
+    await setStatus(this, status, remark);
+    await this['page']?.close();
     await this['context']?.close();
     await this['browser']?.close();
   }
@@ -160,4 +124,49 @@ const connect = async (capabilities: any) => {
     }
   }
   return browser;
+};
+
+const a11yAnalyze = async (
+  _this: IWorld<CustomWorld>,
+  remark: string | undefined,
+  status: TestStepResultStatus | undefined
+) => {
+  const results = await new AxeBuilder({ page: _this.page })
+    .disableRules('landmark-one-main')
+    .analyze();
+  const violations: [] = results.violations;
+
+  if (violations.length > 0) {
+    remark = JSON.stringify(violations, null, 2);
+    status = Status.FAILED;
+  }
+
+  return {
+    remark,
+    status,
+  };
+};
+
+const setStatus = async (
+  _this: IWorld<any>,
+  status: TestStepResultStatus | undefined,
+  remark: string | undefined
+): Promise<void> => {
+  try {
+    if (status !== Status.PASSED) {
+      const image = await _this.page?.screenshot();
+      image && (await _this.attach(image, 'image/png'));
+    }
+    await _this['context']?.tracing.stop({
+      path: `${reportsDir}/traces/${_this.testName}-${
+        _this.startTime?.toISOString().split('.')[0]
+      }trace.zip`,
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    await _this.page.evaluate(() => {},
+    `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status, remark } })}`);
+  } catch (e) {
+    console.warn('Could not send test result', e);
+  }
 };

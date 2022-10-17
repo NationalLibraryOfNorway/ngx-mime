@@ -19,7 +19,6 @@ export class ContentsPage {
   }
 
   async isOpen(): Promise<boolean> {
-    await this.utils.waitForAnimation();
     return this.dialog.isVisible();
   }
 }

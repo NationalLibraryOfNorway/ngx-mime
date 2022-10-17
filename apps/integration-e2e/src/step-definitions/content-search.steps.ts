@@ -65,8 +65,9 @@ When('the user opens the search dialog', async function (this: CustomWorld) {
 When(
   'the user click the search inputs clear button',
   async function (this: CustomWorld) {
-    const clearButton = await this.contentSearchPage.clearInputButton();
+    const clearButton = this.contentSearchPage.clearInputButton();
     await clearButton.click();
+    await this.utils.waitForAnimation();
   }
 );
 

@@ -47,7 +47,6 @@ export class ContentSearchPage {
   }
 
   async isOpen() {
-    await this.utils.waitForAnimation();
     return this.mimeSearchEl.isVisible();
   }
 
@@ -84,8 +83,7 @@ export class ContentSearchPage {
     return this.contentSearchNavigatorToolbarEl;
   }
 
-  async clearInputButton() {
-    await this.clearSearchButtonEl.waitFor();
+  clearInputButton() {
     return this.clearSearchButtonEl;
   }
 
