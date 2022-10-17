@@ -33,7 +33,7 @@ Feature: Page view
   @android @iphone
   Scenario: Navigate to dashboard view
     Given the viewer is in page view
-    And zoom level is home
+    And the zoom level is home
     When the user pinch in
     Then the viewer should change to dashboard view
 

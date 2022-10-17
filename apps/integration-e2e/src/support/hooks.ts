@@ -2,6 +2,7 @@ import {
   After,
   Before,
   ITestCaseHookParameter,
+  IWorld,
   setDefaultTimeout,
   setWorldConstructor,
   Status,
@@ -12,7 +13,7 @@ import { test } from '@playwright/test';
 // eslint-disable-next-line
 // @ts-ignore
 import withMessage from 'jest-expect-message/dist/withMessage';
-import { chromium, devices, Page } from 'playwright';
+import { Browser, chromium, devices } from 'playwright';
 import { CustomWorld } from './custom-world';
 
 const expect = withMessage(test.expect);
@@ -26,14 +27,6 @@ const iphoneDescriptor = devices['iPhone 13'];
 setDefaultTimeout(120 * 1000);
 
 Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
-  const connect = async (capabilities: any) => {
-    return chromium.connect(
-      `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(
-        JSON.stringify(capabilities)
-      )}`
-    );
-  };
-  const isCi: boolean = this.parameters.ci ? this.parameters.ci : false;
   const mode = process.env['MODE'];
 
   let deviceDescriptor = desktopDescriptor;
@@ -51,7 +44,7 @@ Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
     browserName = 'MicrosoftEdge';
   }
 
-  if (isCi) {
+  if (isCi(this.parameters)) {
     const capabilities = {
       browserName: browserName,
       browserVersion: 'latest',
@@ -72,15 +65,7 @@ Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
         tunnelName: process.env['TUNNEL_IDENTIFIER'],
       },
     };
-    for (let i = 0; i < 3; i++) {
-      try {
-        this['browser'] = await connect(capabilities);
-        break;
-      } catch (e) {
-        console.log(e);
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-      }
-    }
+    this['browser'] = await connect(capabilities);
   } else {
     this['browser'] = await chromium.launch({
       slowMo: 0,
@@ -105,23 +90,23 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
     let remark = result.result?.message;
 
     const setStatus = async (
-      page: Page,
+      _this: IWorld<any>,
       status: TestStepResultStatus | undefined,
       remark: string | undefined
     ): Promise<void> => {
       try {
-        if (result.result?.status !== Status.PASSED) {
-          const image = await this.page?.screenshot();
-          image && (await this.attach(image, 'image/png'));
+        if (status !== Status.PASSED) {
+          const image = await _this.page?.screenshot();
+          image && (await _this.attach(image, 'image/png'));
         }
-        await this['context']?.tracing.stop({
-          path: `${reportsDir}/traces/${this.testName}-${
-            this.startTime?.toISOString().split('.')[0]
+        await _this['context']?.tracing.stop({
+          path: `${reportsDir}/traces/${_this.testName}-${
+            _this.startTime?.toISOString().split('.')[0]
           }trace.zip`,
         });
 
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        await page.evaluate(() => {},
+        await _this.page.evaluate(() => {},
         `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status, remark } })}`);
       } catch (e) {
         console.warn('Could not send test result', e);
@@ -130,7 +115,7 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
 
     if (this.page) {
       if (result.result?.status !== Status.PASSED) {
-        await setStatus(this.page, status, remark);
+        await setStatus(this, status, remark);
       } else {
         const results = await new AxeBuilder({ page: this.page })
           .disableRules('landmark-one-main')
@@ -142,7 +127,7 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
           status = Status.FAILED;
         }
 
-        await setStatus(this.page, status, remark);
+        await setStatus(this, status, remark);
         expect(violations.length, remark).toBe(0);
       }
     }
@@ -154,3 +139,25 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
 });
 
 setWorldConstructor(CustomWorld);
+
+const isCi = (parameters: any) => {
+  return parameters.ci ? parameters.ci : false;
+};
+
+const connect = async (capabilities: any) => {
+  let browser: Browser | undefined = undefined;
+  for (let i = 0; i < 3; i++) {
+    try {
+      browser = await chromium.connect(
+        `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(
+          JSON.stringify(capabilities)
+        )}`
+      );
+      break;
+    } catch (e) {
+      console.log(e);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+  }
+  return browser;
+};
