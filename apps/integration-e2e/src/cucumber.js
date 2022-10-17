@@ -1,4 +1,5 @@
 var fs = require('fs');
+const args = require('yargs').argv;
 var reportDir = '.tmp/report/';
 
 if (!fs.existsSync(reportDir)) {
@@ -9,26 +10,31 @@ const format = [`progress-bar`, `html:${reportDir}/cucumber-report.html`];
 
 const mode = process.env['MODE'];
 let tags = 'not @Ignore';
+const profile = args.p;
 
 switch (mode) {
   case 'chrome':
-    tags = '@desktop and not (@Ignore or @Fullscreen)';
+    tags = '@desktop and not @Ignore';
     break;
   case 'edge':
-    tags = '@desktop and not (@Ignore or @Fullscreen)';
+    tags = '@desktop and not @Ignore';
     break;
   case 'firefox':
-    tags = '@desktop and not (@Ignore or @Fullscreen)';
+    tags = '@desktop and not @Ignore';
     break;
   case 'mobile':
-    tags = '@android and not (@Ignore or @Fullscreen)';
+    tags = '@android and not @Ignore';
     break;
   case 'iphone':
-    tags = '@iphone and not (@Ignore or @Fullscreen)';
+    tags = '@iphone and not @Ignore';
     tags = '@rights-notice';
     break;
   default:
     tags = 'not @Ignore';
+}
+
+if (!profile || profile !== 'ci') {
+  tags = `${tags} and not @Fullscreen`;
 }
 
 const common = {
