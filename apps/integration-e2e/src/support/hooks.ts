@@ -96,9 +96,7 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
     }
   } finally {
     await setStatus(this, status, remark);
-    await this['page']?.close();
-    await this['context']?.close();
-    await this['browser']?.close();
+    await close(this);
   }
 });
 
@@ -148,7 +146,7 @@ const a11yAnalyze = async (
 };
 
 const setStatus = async (
-  _this: IWorld<any>,
+  _this: IWorld<CustomWorld>,
   status: TestStepResultStatus | undefined,
   remark: string | undefined
 ): Promise<void> => {
@@ -169,4 +167,10 @@ const setStatus = async (
   } catch (e) {
     console.warn('Could not send test result', e);
   }
+};
+
+const close = async (_this: IWorld<CustomWorld>) => {
+  await _this['page']?.close();
+  await _this['context']?.close();
+  await _this['browser']?.close();
 };
