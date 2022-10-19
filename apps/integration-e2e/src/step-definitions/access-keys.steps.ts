@@ -69,18 +69,14 @@ Then(/^the viewer should not change page$/, async function (this: CustomWorld) {
 Then(
   /^the content search dialog should open$/,
   async function (this: CustomWorld) {
-    expect(
-      await this.contentSearchPage.isContentSearchDialogOpen()
-    ).toBeTruthy();
+    await expect(this.contentSearchPage.container).toBeVisible();
   }
 );
 
 Then(
   /^the content search dialog should close$/,
   async function (this: CustomWorld) {
-    expect(
-      await this.contentSearchPage.isContentSearchDialogClosed()
-    ).toBeTruthy();
+    await expect(this.contentSearchPage.container).toBeHidden();
   }
 );
 

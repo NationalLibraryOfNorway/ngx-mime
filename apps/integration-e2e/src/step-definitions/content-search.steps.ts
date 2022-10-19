@@ -41,11 +41,11 @@ When(
   async function (this: CustomWorld, action: string) {
     let button!: Locator;
     if (action === 'previous') {
-      button = this.contentSearchPage.previousButton();
+      button = this.contentSearchPage.navigatePreviousHitButton;
     } else if (action === 'next') {
-      button = this.contentSearchPage.nextButton();
+      button = this.contentSearchPage.navigateNextHitButton;
     } else if (action === 'clear') {
-      button = this.contentSearchPage.clearButton();
+      button = this.contentSearchPage.navigateCloseHitsButton;
     }
     await button.click();
     await this.utils.waitForAnimation();
@@ -53,8 +53,7 @@ When(
 );
 
 When('the user closes the search dialog', async function (this: CustomWorld) {
-  const closeButton = await this.contentSearchPage.closeButton();
-  await closeButton.click();
+  await this.contentSearchPage.closeButton.click();
   await this.utils.waitForAnimation();
 });
 
@@ -65,8 +64,7 @@ When('the user opens the search dialog', async function (this: CustomWorld) {
 When(
   'the user click the search inputs clear button',
   async function (this: CustomWorld) {
-    const clearButton = this.contentSearchPage.clearInputButton();
-    await clearButton.click();
+    await this.contentSearchPage.clearSearchButton.click();
     await this.utils.waitForAnimation();
   }
 );
@@ -83,9 +81,7 @@ Then(
 Then(
   'the word {string} should be highlighted',
   async function (this: CustomWorld, term: string) {
-    const firstHit = this.contentSearchPage.getHit(0);
-    const hitText = await firstHit.locator('em').textContent();
-    const word = hitText ? hitText : '';
+    const firstHit = this.contentSearchPage.hits.nth(0);
     await expect(firstHit.locator('em')).toContainText(term);
   }
 );
@@ -115,16 +111,15 @@ Then(
 );
 
 Then('all highlighting should be removed', async function (this: CustomWorld) {
-  const hits = await this.contentSearchPage.getHighlighted();
-  expect(await hits.count()).toEqual(0);
+  expect(await this.contentSearchPage.highlighted.count()).toEqual(0);
 });
 
 Then(
   'the search result toolbar should be removed',
   async function (this: CustomWorld) {
-    expect(
-      await this.contentSearchPage.contentSearchNavigatorToolbar().isVisible()
-    ).toEqual(false);
+    await expect(
+      this.contentSearchPage.navigatorToolbar
+    ).toBeHidden();
   }
 );
 
@@ -145,10 +140,7 @@ Then('the hit should be marked', async function (this: CustomWorld) {
 });
 
 Then('the hit should be visible', async function (this: CustomWorld) {
-  const isVisible: boolean = await this.contentSearchPage.hitIsVisible(
-    selectedHitIndex
-  );
-  expect(isVisible).toBeTruthy();
+  await expect(this.contentSearchPage.hits.nth(selectedHitIndex)).toBeVisible();
 });
 
 Then('the search query should be empty', async function (this: CustomWorld) {
