@@ -1,5 +1,4 @@
-@Accessibility
-@android @iphone @desktop
+@accessibility @android @iphone @desktop
 Feature: Accessibility
     To have the same opportunity for use
     As a person with disabilities

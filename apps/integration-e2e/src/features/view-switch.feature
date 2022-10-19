@@ -1,3 +1,4 @@
+@view-swich
 Feature: Page view
   In order to get a improved browsing experience
   As a user
@@ -22,15 +23,13 @@ Feature: Page view
     When the user click in the viewer
     Then the viewer should change to dashboard view
 
-  @Ignore
-  @android @iphone
+  @ignore @android @iphone
   Scenario: Navigate to page view
     Given the viewer is in dashboard view
     When the user pinch out
     Then the viewer should change to page view
 
-  @Ignore
-  @android @iphone
+  @ignore @android @iphone
   Scenario: Navigate to dashboard view
     Given the viewer is in page view
     And the zoom level is home
@@ -40,18 +39,18 @@ Feature: Page view
   @desktop
   Scenario: Close "Contents" dialog
     Given the viewer is in dashboard view
-     And the viewer is in metadata view
+    And the viewer is in metadata view
     When the user click in the viewer
     Then the viewer should change to page view
-      And the Contents dialog should be closed
+    And the Contents dialog should be closed
 
   @desktop
   Scenario: Close "Search" dialog
     Given the viewer is in dashboard view
-     And the search dialog is open
+    And the search dialog is open
     When the user click in the viewer
     Then the viewer should change to page view
-      And the Search dialog should be closed
+    And the Search dialog should be closed
 
   @desktop
   Scenario: Close "Help" dialog
@@ -64,20 +63,20 @@ Feature: Page view
   @desktop
   Scenario: Reopen "Contents" dialog
     Given the viewer is in dashboard view
-     And the viewer is in metadata view
+    And the viewer is in metadata view
     When the user click in the viewer
-     And the user click in the viewer
+    And the user click in the viewer
     Then the viewer should change to dashboard view
-      And the Contents dialog should be open
+    And the Contents dialog should be open
 
   @desktop
   Scenario: Repoen "Search" dialog
     Given the viewer is in dashboard view
-     And the search dialog is open
+    And the search dialog is open
     When the user click in the viewer
-     And the user click in the viewer
+    And the user click in the viewer
     Then the viewer should change to dashboard view
-      And the Search dialog should be open
+    And the Search dialog should be open
 
   @desktop
   Scenario: Repoen "Help" dialog

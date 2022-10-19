@@ -8,17 +8,23 @@ import {
   Status,
 } from '@cucumber/cucumber';
 import { TestStepResultStatus } from '@cucumber/messages';
-import { test } from '@playwright/test';
+import {
+  Browser,
+  BrowserContext,
+  chromium,
+  devices,
+  test,
+} from '@playwright/test';
 
 // eslint-disable-next-line
 // @ts-ignore
 import withMessage from 'jest-expect-message/dist/withMessage';
-import { Browser, chromium, devices } from 'playwright';
 import { CustomWorld } from './custom-world';
 
 const expect = withMessage(test.expect);
 const AxeBuilder = require('@axe-core/playwright').default;
 const reportsDir = '.tmp/report';
+const mode = process.env['MODE'];
 
 setDefaultTimeout(120 * 1000);
 
@@ -49,14 +55,14 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
     }
   } finally {
     await setStatus(this, name, status, remark);
-    await stopTracing(this);
+    await stopTracing(this, name);
     await close(this);
   }
 });
 
 setWorldConstructor(CustomWorld);
 
-const isCi = (parameters: any) => {
+const isCi = (parameters: any): boolean => {
   return parameters.ci ? parameters.ci : false;
 };
 
@@ -67,18 +73,24 @@ const launchChromium = () => {
   });
 };
 
-const connectToTestingCloud = async (scenario: ITestCaseHookParameter) => {
-  const mode = process.env['MODE'];
-
+const getDeviceDescriptor = () => {
   let deviceDescriptor = devices['Desktop Chrome'];
-  let browserName = 'pw-chromium';
-  let platform = 'Windows 10';
   if (mode === 'mobile') {
     deviceDescriptor = devices['Pixel 5'];
   } else if (mode === 'iphone') {
+    deviceDescriptor = devices['iPhone 13'];
+  }
+  return deviceDescriptor;
+};
+
+const connectToTestingCloud = async (
+  scenario: ITestCaseHookParameter
+): Promise<Browser | undefined> => {
+  let browserName = 'pw-chromium';
+  let platform = 'Windows 10';
+  if (mode === 'iphone') {
     platform = 'MacOS Catalina';
     browserName = 'pw-webkit';
-    deviceDescriptor = devices['iPhone 13'];
   } else if (mode === 'firefox') {
     browserName = 'pw-firefox';
   } else if (mode === 'edge') {
@@ -123,20 +135,20 @@ const connectToTestingCloud = async (scenario: ITestCaseHookParameter) => {
   return browser;
 };
 
-const createContext = (_this: IWorld<CustomWorld>) => {
+const createContext = (_this: IWorld<CustomWorld>): Promise<BrowserContext> => {
   return _this.browser.newContext({
-    ...devices['Pixel 5'],
+    ...getDeviceDescriptor(),
     recordVideo: process.env['PWVIDEO']
       ? { dir: `${reportsDir}/videos` }
       : undefined,
   });
 };
 
-const startTracing = async (_this: IWorld<CustomWorld>) => {
-  return _this.context.tracing.start({ screenshots: true, snapshots: true });
+const startTracing = async (context: BrowserContext): Promise<void> => {
+  return context.tracing.start({ screenshots: true, snapshots: true });
 };
 
-const stopTracing = async (_this: IWorld<CustomWorld>) => {
+const stopTracing = async (_this: IWorld<CustomWorld>, name: string) => {
   const time = new Date().toISOString();
   const tracePath = `${reportsDir}/traces/${name}-${time}-trace.zip`;
   await _this.context?.tracing.stop({
@@ -155,7 +167,7 @@ const a11yAnalyze = async (
   _this: IWorld<CustomWorld>,
   remark: string | undefined,
   status: TestStepResultStatus | undefined
-) => {
+): Promise<RemarkAndStatus> => {
   const results = await new AxeBuilder({ page: _this.page })
     .disableRules('landmark-one-main')
     .analyze();
@@ -192,8 +204,13 @@ const setStatus = async (
   }
 };
 
-const close = async (_this: IWorld<CustomWorld>) => {
+const close = async (_this: IWorld<CustomWorld>): Promise<void> => {
   await _this.page?.close();
   await _this.context?.close();
   await _this.browser?.close();
 };
+
+interface RemarkAndStatus {
+  remark: string | undefined;
+  status: TestStepResultStatus | undefined;
+}

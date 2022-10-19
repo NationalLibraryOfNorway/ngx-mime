@@ -1,8 +1,8 @@
-@Fullscreen
+@fullscreen
 Feature: Viewing publications in fullscreen mode
-In order to view high quality images in great detail
-As a user
-I want the viewer to be presented using the entire screen
+  In order to view high quality images in great detail
+  As a user
+  I want the viewer to be presented using the entire screen
 
   Background:
     Given the viewer is opened with a publication

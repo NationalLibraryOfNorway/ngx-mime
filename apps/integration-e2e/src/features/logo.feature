@@ -1,4 +1,4 @@
-@android @iphone @desktop @logo
+@logo @android @iphone @desktop
 Feature: Displaying logo
   In order to strengthen my brand identity
   As a individual or organization associated with the resource
@@ -9,5 +9,5 @@ Feature: Displaying logo
 
   Scenario: Show logo in descriptive metadata
     Given the viewer is in dashboard view
-      And the viewer is in metadata view
+    And the viewer is in metadata view
     Then the logo associated with the resource are displayed to the user

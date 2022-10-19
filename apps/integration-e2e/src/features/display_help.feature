@@ -1,4 +1,4 @@
-@android @iphone @desktop
+@display-help @android @iphone @desktop
 Feature: Display help
   In order to navigate quickly
   As a user

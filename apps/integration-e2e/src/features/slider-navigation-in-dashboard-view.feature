@@ -1,3 +1,4 @@
+@navigation-in-dashboard-view
 Feature: Navigation i dashboard view
   In order to start reading on a specific page
   As a user
@@ -12,11 +13,11 @@ Feature: Navigation i dashboard view
     Then page 5 is displayed
 
     Examples:
-        | viewingDirection | layout |
-        | left-to-right | two-page |
-        | left-to-right | one-page |
-        | right-to-left | two-page |
-        | right-to-left | one-page |
+      | viewingDirection | layout   |
+      | left-to-right    | two-page |
+      | left-to-right    | one-page |
+      | right-to-left    | two-page |
+      | right-to-left    | one-page |
 
   @desktop @android @iphone
   Scenario Outline: Dialog navigation
@@ -27,8 +28,8 @@ Feature: Navigation i dashboard view
     Then page 5 is displayed
 
     Examples:
-        | viewingDirection | layout |
-        | left-to-right | two-page |
-        | left-to-right | one-page |
-        | right-to-left | two-page |
-        | right-to-left | one-page |
+      | viewingDirection | layout   |
+      | left-to-right    | two-page |
+      | left-to-right    | one-page |
+      | right-to-left    | two-page |
+      | right-to-left    | one-page |

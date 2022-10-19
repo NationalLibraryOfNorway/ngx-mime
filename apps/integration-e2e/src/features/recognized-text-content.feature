@@ -1,4 +1,4 @@
-@desktop
+@show-recognized-text-content @desktop
 Feature: Show recognized text content
     To make it easier to read content when handwriting or font is difficult to read
     As a person

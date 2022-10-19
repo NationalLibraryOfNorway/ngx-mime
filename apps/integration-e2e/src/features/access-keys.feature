@@ -1,4 +1,4 @@
-@desktop @Ignore-firefox
+@access-keys @desktop
 Feature: Access Keys
   In order to navigate
   As a user
@@ -10,9 +10,9 @@ Feature: Access Keys
     Then the viewer should go to next page
 
     Examples:
-      | keys        |
-      | PageDown    |
-      | ArrowRight  |
+      | keys       |
+      | PageDown   |
+      | ArrowRight |
 
   Scenario Outline: Previous Page on key <keys>
     Given the viewer is opened with a publication with viewing hint "individuals" on page 5
@@ -30,8 +30,8 @@ Feature: Access Keys
     Then the viewer should go to last page
 
     Examples:
-      | keys  |
-      | End   |
+      | keys |
+      | End  |
 
   Scenario Outline: First Page on key <keys>
     Given the viewer is opened with a publication with viewing hint "individuals" on page 5
@@ -39,8 +39,8 @@ Feature: Access Keys
     Then the viewer should go to first page
 
     Examples:
-      | keys  |
-      | Home  |
+      | keys |
+      | Home |
 
   Scenario Outline: Zoom In on key <keys>
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -48,8 +48,8 @@ Feature: Access Keys
     Then the current zoom level has increased
 
     Examples:
-      | keys  |
-      | +     |
+      | keys |
+      | +    |
 
   Scenario Outline: Zoom Out on key <keys>
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -58,8 +58,8 @@ Feature: Access Keys
     Then the current zoom level has decreased
 
     Examples:
-      | keys  |
-      | -     |
+      | keys |
+      | -    |
 
   Scenario Outline: Zoom Home on key <keys>
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -68,8 +68,8 @@ Feature: Access Keys
     Then the current zoom level is home
 
     Examples:
-      | keys  |
-      | 0     |
+      | keys |
+      |    0 |
 
   Scenario Outline: Open Content Search Dialog
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -77,8 +77,8 @@ Feature: Access Keys
     Then the content search dialog should open
 
     Examples:
-      | keys  |
-      | s     |
+      | keys |
+      | s    |
 
   Scenario Outline: Close Content Search Dialog
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -87,8 +87,8 @@ Feature: Access Keys
     Then the content search dialog should close
 
     Examples:
-      | keys  |
-      | Escape   |
+      | keys   |
+      | Escape |
 
   Scenario Outline: Open Contents Dialog
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -96,8 +96,8 @@ Feature: Access Keys
     Then the contents dialog should open
 
     Examples:
-      | keys  |
-      | c     |
+      | keys |
+      | c    |
 
   Scenario Outline: Close Contents Dialog
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -106,8 +106,8 @@ Feature: Access Keys
     Then the contents dialog should close
 
     Examples:
-      | keys  |
-      | Escape   |
+      | keys   |
+      | Escape |
 
   Scenario Outline: Close Content Search Dialog when other dialog is opening
     Given the viewer is opened with a publication with the word "africa" 7 times inside
@@ -119,8 +119,8 @@ Feature: Access Keys
     And the contents dialog should open
 
     Examples:
-      | keys  |
-      | c     |
+      | keys |
+      | c    |
 
   Scenario Outline: Close Contents Dialog when other dialog is opening
     Given the viewer is opened with a publication with viewing hint "individuals"
@@ -130,8 +130,8 @@ Feature: Access Keys
     And the content search dialog should open
 
     Examples:
-      | keys  |
-      | s     |
+      | keys |
+      | s    |
 
   Scenario Outline: Reset search on key <keys>
     Given the viewer is opened with a publication with the word "africa" 7 times inside
@@ -143,8 +143,8 @@ Feature: Access Keys
     Then the search query should be empty
 
     Examples:
-      | keys        |
-      | Shift+S     |
+      | keys    |
+      | Shift+S |
 
   Scenario Outline: Disable <keys> when Content Search Dialog is open
     Given the viewer is opened with a publication with viewing hint "individuals" on page 5
@@ -153,13 +153,13 @@ Feature: Access Keys
     Then the viewer should not change page
 
     Examples:
-      | keys        |
-      | ArrowRight  |
-      | n           |
-      | ArrowLeft   |
-      | p           |
-      | Home        |
-      | End         |
+      | keys       |
+      | ArrowRight |
+      | n          |
+      | ArrowLeft  |
+      | p          |
+      | Home       |
+      | End        |
 
   Scenario Outline: Next hit on <keys>
     Given the viewer is opened with a publication with the word "africa" 7 times inside
@@ -170,8 +170,8 @@ Feature: Access Keys
     Then the page with hit number 1 should be displayed
 
     Examples:
-      | keys        |
-      | n           |
+      | keys |
+      | n    |
 
   Scenario Outline: Previous hit on <keys>
     Given the viewer is opened with a publication with the word "africa" 7 times inside
@@ -183,8 +183,8 @@ Feature: Access Keys
     Then the page with hit number 1 should be displayed
 
     Examples:
-      | keys        |
-      | p           |
+      | keys |
+      | p    |
 
   Scenario Outline: Open recognized text content
     Given the viewer is opened with a publication with recognized text content
@@ -192,5 +192,5 @@ Feature: Access Keys
     Then both the digital pages and the recognized text content should be shown
 
     Examples:
-      | keys  |
-      | t     |
+      | keys |
+      | t    |

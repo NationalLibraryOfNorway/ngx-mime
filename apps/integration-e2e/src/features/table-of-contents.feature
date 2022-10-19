@@ -1,5 +1,4 @@
-@Toc
-@android @iphone @desktop
+@table-of-contents @android @iphone @desktop
 Feature: Displaying Table of Contents
   In order to easily navigate in a lengthy publication
   As a user
@@ -10,11 +9,11 @@ Feature: Displaying Table of Contents
 
   Scenario: Display Table of Contents
     Given the viewer is in dashboard view
-      And the viewer is in table of contents view
+    And the viewer is in table of contents view
     Then table of contents are displayed to the user
 
   Scenario: Selecting table of contents item
     Given the viewer is in dashboard view
-      And the viewer is in table of contents view
-      And the user selects "Tittelside"
+    And the viewer is in table of contents view
+    And the user selects "Tittelside"
     Then the viewer should go to page 3
