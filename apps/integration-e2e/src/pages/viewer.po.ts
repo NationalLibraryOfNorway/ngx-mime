@@ -272,7 +272,9 @@ export class ViewerPage {
     let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     const params: string[] = [];
     if (manifestName) {
-      params.push('manifestUri=' + encodeURIComponent(this.getBookShelfUrl(manifestName)));
+      params.push(
+        'manifestUri=' + encodeURIComponent(this.getBookShelfUrl(manifestName))
+      );
     }
     if (canvasIndex) {
       params.push(`canvasIndex=${canvasIndex}`);
@@ -354,11 +356,9 @@ export class ViewerPage {
   async openContentSearchDialog() {
     await this.contentSearchDialogButtonEl.click();
     await this.contentSearchSubmitButtonEl.waitFor();
-    await this.utils.waitForAnimation();
   }
 
   async fullscreenButton() {
-    await this.fullscreenButtonEl.waitFor();
     return this.fullscreenButtonEl;
   }
 
@@ -366,14 +366,6 @@ export class ViewerPage {
     await this.openseadragonContainer.waitFor();
     return this.openseadragonContainer;
   }
-
-  /*
-  async getAttribution() {
-    return utils.promisify(async () =>
-      utils.waitForElement(this.attributionEl)
-    );
-  }
-*/
 
   async isFullscreen() {
     const isFullscreen = await this.page.evaluate(
@@ -384,32 +376,11 @@ export class ViewerPage {
     );
     return isFullscreen;
   }
-  /*
-  async getHeader() {
-    return utils.waitForPresenceOf(this.headerEl);
-  }
-
-  async getFooter() {
-    return utils.waitForPresenceOf(this.footerEl);
-  }
-*/
   async getSVGElement() {
     this.svgEl.waitFor();
     return this.svgEl;
   }
-  /*
-  async getFirstCanvasGroupInFirstGroupOverlay() {
-    return utils.promisify(async () =>
-      utils.waitForElement(this.firstCanvasGroupInFirstGroupOverlayEl)
-    );
-  }
 
-  async getSecondCanvasGroupInFirstGroupOverlay() {
-    return utils.promisify(async () =>
-      utils.waitForElement(this.secondCanvasGroupInFirstGroupOverlayEl)
-    );
-  }
-*/
   getAllCanvasGroupOverlays() {
     return this.canvasGroupOverlaysEls;
   }

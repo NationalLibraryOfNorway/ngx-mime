@@ -41,11 +41,11 @@ When(
   async function (this: CustomWorld, action: string) {
     let button!: Locator;
     if (action === 'previous') {
-      button = await this.contentSearchPage.previousButton();
+      button = this.contentSearchPage.previousButton();
     } else if (action === 'next') {
-      button = await this.contentSearchPage.nextButton();
+      button = this.contentSearchPage.nextButton();
     } else if (action === 'clear') {
-      button = await this.contentSearchPage.clearButton();
+      button = this.contentSearchPage.clearButton();
     }
     await button.click();
     await this.utils.waitForAnimation();

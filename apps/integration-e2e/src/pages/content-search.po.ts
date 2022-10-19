@@ -51,7 +51,6 @@ export class ContentSearchPage {
   }
 
   async closeButton(): Promise<Locator> {
-    await this.closeContentSearchDialogButtonEl.waitFor();
     return this.closeContentSearchDialogButtonEl;
   }
 
@@ -87,18 +86,15 @@ export class ContentSearchPage {
     return this.clearSearchButtonEl;
   }
 
-  async clearButton() {
-    await this.footerNavigateCloseHitsButtonEl.waitFor();
+  clearButton() {
     return this.footerNavigateCloseHitsButtonEl;
   }
 
-  async previousButton() {
-    await this.footerNavigatePreviousHitButtonEl.waitFor();
+  previousButton() {
     return this.footerNavigatePreviousHitButtonEl;
   }
 
-  async nextButton() {
-    await this.footerNavigateNextHitButtonEl.waitFor();
+  nextButton() {
     return this.footerNavigateNextHitButtonEl;
   }
 
@@ -137,7 +133,6 @@ export class ContentSearchPage {
   }
 
   private async contentSearchInput(): Promise<Locator> {
-    await this.contentSearchInputEl.waitFor();
     return this.contentSearchInputEl;
   }
 
