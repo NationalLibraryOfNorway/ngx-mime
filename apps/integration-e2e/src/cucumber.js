@@ -2,10 +2,47 @@ const fs = require('fs');
 const args = require('yargs').argv;
 const reportDir = '.tmp/report/';
 
-createReportDirectory();
-const format = createFormat();
-const tags = createTags();
-const appUrl = createAppUrl();
+const createFormat = () => {
+  createReportDirectory();
+  return [`progress-bar`, `html:${reportDir}/cucumber-report.html`];
+};
+
+const createTags = () => {
+  const mode = process.env['MODE'];
+  let tags = 'not @Ignore';
+  const profile = args.p;
+
+  if (args.tags) {
+    tags = args.tags;
+  } else {
+    switch (mode) {
+      case 'mobile':
+        tags = '@android and not @Ignore';
+        break;
+      case 'iphone':
+        tags = '@iphone and not @Ignore';
+        break;
+      default:
+        tags = '@desktop and not @Ignore';
+    }
+
+    if (!profile || profile !== 'ci') {
+      tags = `${tags} and not @Fullscreen`;
+    }
+  }
+
+  return tags;
+};
+
+const createAppUrl = () => {
+  return process.env['APP_URL'] || 'http://localhost:8080';
+};
+
+const createReportDirectory = () => {
+  if (!fs.existsSync(reportDir)) {
+    fs.mkdirSync(reportDir, { recursive: true });
+  }
+};
 
 const common = {
   requireModule: ['ts-node/register'],
@@ -18,11 +55,11 @@ const common = {
   publishQuiet: true,
   parallel: 10,
   failFast: true,
-  format: format,
+  format: createFormat(),
   strict: false,
-  tags: tags,
+  tags: createTags(),
   worldParameters: {
-    appUrl: appUrl,
+    appUrl: createAppUrl(),
   },
 };
 
@@ -42,40 +79,3 @@ module.exports = {
   default: common,
   ci: ci,
 };
-
-function createReportDirectory() {
-  if (!fs.existsSync(reportDir)) {
-    fs.mkdirSync(reportDir, { recursive: true });
-  }
-}
-
-function createFormat() {
-  return [`progress-bar`, `html:${reportDir}/cucumber-report.html`];
-}
-
-function createTags() {
-  const mode = process.env['MODE'];
-  let tags = 'not @Ignore';
-  const profile = args.p;
-
-  switch (mode) {
-    case 'mobile':
-      tags = '@android and not @Ignore';
-      break;
-    case 'iphone':
-      tags = '@iphone and not @Ignore';
-      break;
-    default:
-      tags = '@desktop and not @Ignore';
-  }
-
-  if (!profile || profile !== 'ci') {
-    tags = `${tags} and not @Fullscreen`;
-  }
-
-  return tags;
-}
-
-function createAppUrl() {
-  return process.env['APP_URL'] || 'http://localhost:8080';
-}
