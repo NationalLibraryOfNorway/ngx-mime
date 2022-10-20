@@ -258,11 +258,24 @@ export class ViewerPage {
     if (canvasIndex) {
       params.push(`canvasIndex=${canvasIndex}`);
     }
-    await this.page.goto(
-      `${this.parameters.appUrl}${uri}${
+
+    for (let i = 0; i < 3; i++) {
+      const url = `${this.parameters.appUrl}${uri}${
         params.length > 0 ? `?${params.join('&')}` : ''
-      }`
-    );
+      }`;
+      try {
+        await this.page.goto(url);
+        break;
+      } catch (e) {
+        console.warn('Error connecting to', e);
+        if (i === 2) {
+          console.warn('Giving up', e);
+          throw e;
+        }
+        await this.page.waitForTimeout(5000);
+      }
+    }
+
     await this.setFocusOnViewer();
     await this.animations.waitFor();
   }
