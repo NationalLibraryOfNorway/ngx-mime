@@ -17,7 +17,7 @@ When(
     previousCanvasGroupLabel =
       await this.viewerPage.getCurrentCanvasGroupLabel();
     await this.viewerPage.sendKeyboardEvent(key);
-    await this.utils.waitForAnimation();
+    await this.animations.waitFor();
   }
 );
 

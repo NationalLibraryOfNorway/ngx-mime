@@ -1,5 +1,5 @@
 import { Locator, Page } from 'playwright';
-import { Utils } from '../helpers/utils';
+import { Animations } from '../helpers/animations';
 import { ParameterType } from '../support/ParameterType';
 
 const thumbStartPosition = <any>{ x: 600, y: 300 };
@@ -7,10 +7,6 @@ const pointerPosition1 = <any>{ x: 650, y: 275 };
 const pointerPosition2 = <any>{ x: 750, y: 200 };
 
 export class ViewerPage {
-  readonly page: Page;
-  readonly parameters: ParameterType;
-  readonly utils: Utils;
-
   public static readonly bookShelf = [
     {
       manifestName: 'a-ltr-book',
@@ -42,6 +38,9 @@ export class ViewerPage {
     },
   ];
 
+  readonly fullscreenButton: Locator;
+  readonly openseadragonContainer: Locator;
+  readonly attribution: Locator;
   private isElements = false;
   private navigationSlider: Locator;
   private canvasGroupsButton: Locator;
@@ -54,11 +53,6 @@ export class ViewerPage {
   private helpDialogButton: Locator;
   private contentSearchDialogButton: Locator;
   private contentSearchSubmitButton: Locator;
-  readonly fullscreenButton: Locator;
-  readonly openseadragonContainer: Locator;
-
-  readonly attribution: Locator;
-
   private svg: Locator;
   private canvasGroupOverlays: Locator;
   private leftCanvasGroupMask: Locator;
@@ -81,10 +75,11 @@ export class ViewerPage {
   private viewMenuDialog: Locator;
   private pageGroup: Locator;
 
-  constructor(parameters: ParameterType, page: Page) {
-    this.page = page;
-    this.parameters = parameters;
-    this.utils = new Utils(this.page);
+  constructor(
+    private parameters: ParameterType,
+    private page: Page,
+    private animations: Animations
+  ) {
     this.navigationSlider = this.page.locator('.navigation-slider');
     this.canvasGroupsButton = this.page.locator('button.canvasGroups');
     this.canvasGroupInput = this.page.locator('.go-to-canvas-group-input');
@@ -226,7 +221,7 @@ export class ViewerPage {
     if (!isDashboardMode) {
       const overlay = await this.getSVGElement();
       await overlay.click();
-      await this.utils.waitForAnimation(1000);
+      await this.animations.waitFor(1000);
     }
   }
 
@@ -236,7 +231,7 @@ export class ViewerPage {
     if (!isPageMode) {
       const overlay = await this.getSVGElement();
       await overlay.click();
-      await this.utils.waitForAnimation(1000);
+      await this.animations.waitFor(1000);
     }
   }
 
@@ -269,7 +264,7 @@ export class ViewerPage {
       }`
     );
     await this.setFocusOnViewer();
-    await this.utils.waitForAnimation();
+    await this.animations.waitFor();
   }
 
   async goToCanvasGroup(canvasGroupIndex: number) {
@@ -289,7 +284,7 @@ export class ViewerPage {
     }
     for (let i = 0; i < canvasGroupIndex; i++) {
       await this.navigationSlider.press('ArrowRight');
-      await this.utils.waitForAnimation();
+      await this.animations.waitFor();
     }
   }
 
@@ -297,7 +292,7 @@ export class ViewerPage {
     await this.canvasGroupsButton.click();
     await this.canvasGroupInput.fill(`${canvasGroupIndex}`);
     await this.canvasGroupInput.press('Enter');
-    await this.utils.waitForAnimation();
+    await this.animations.waitFor();
   }
 
   async navigateToCanvasGroup(canvasGroupIndex: number) {
@@ -308,7 +303,7 @@ export class ViewerPage {
     for (let i = 0; i < canvasGroupIndex; i++) {
       await this.clickNextButton();
     }
-    await this.utils.waitForAnimation();
+    await this.animations.waitFor();
   }
 
   async getCurrentCanvasGroupLabel(): Promise<string> {
@@ -329,12 +324,12 @@ export class ViewerPage {
 
   async openHelpDialog() {
     await this.helpDialogButton.click();
-    await this.utils.waitForAnimation();
+    await this.animations.waitFor();
   }
 
   async openTableOfContentsTab() {
     await this.tabs.nth(1).click();
-    await this.utils.waitForAnimation();
+    await this.animations.waitFor();
   }
 
   async openContentSearchDialog() {
@@ -385,7 +380,7 @@ export class ViewerPage {
     const isOpen = await this.isViewDialogOpen();
     if (isOpen) {
       await this.viewMenuCloseButton.click();
-      await this.utils.waitForAnimation();
+      await this.animations.waitFor();
     }
   }
 
@@ -394,7 +389,7 @@ export class ViewerPage {
       await this.viewMenuButton.isVisible();
     if (isPresentAndDisplayed) {
       await this.viewMenuButton.click();
-      await this.utils.waitForAnimation();
+      await this.animations.waitFor();
     } else {
       throw new Error('View menu button not found');
     }
@@ -504,12 +499,12 @@ export class ViewerPage {
 
   async clickNextButton(): Promise<void> {
     await this.clickDisableableNavigationButton('#navigateNextButton');
-    await this.utils.waitForAnimation(500);
+    await this.animations.waitFor(500);
   }
 
   async clickPreviousButton(): Promise<void> {
     await this.clickDisableableNavigationButton('#navigateBeforeButton');
-    await this.utils.waitForAnimation(500);
+    await this.animations.waitFor(500);
   }
 
   async clickNavigationButton(buttonId: string): Promise<void> {
@@ -595,7 +590,7 @@ export class ViewerPage {
   async sendKeyboardEvent(key: string): Promise<void> {
     await this.setFocusOnViewer();
     await this.page.keyboard.press(key);
-    return this.utils.waitForAnimation();
+    return this.animations.waitFor();
   }
 
   async visibleCanvasGroups(): Promise<Boolean[]> {
@@ -666,7 +661,7 @@ export class ViewerPage {
     const isSelected = await this.containClass(l, 'mat-button-toggle-checked');
     if (!isSelected) {
       await l.click();
-      await this.utils.waitForAnimation();
+      await this.animations.waitFor();
     }
     await this.closeViewMenu();
   }

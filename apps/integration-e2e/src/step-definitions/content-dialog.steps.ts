@@ -16,7 +16,7 @@ Given(
 
 When('the user selects "Tittelside"', async function (this: CustomWorld) {
   this.tocPage.tocLink.nth(1).click();
-  await this.utils.waitForAnimation();
+  await this.animations.waitFor();
 });
 
 Then(

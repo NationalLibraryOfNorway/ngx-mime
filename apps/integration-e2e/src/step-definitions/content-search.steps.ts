@@ -48,7 +48,7 @@ When(
       button = this.contentSearchPage.navigateCloseHitsButton;
     }
     await button.click();
-    await this.utils.waitForAnimation();
+    await this.animations.waitFor();
   }
 );
 
@@ -64,7 +64,7 @@ When(
   'the user click the search inputs clear button',
   async function (this: CustomWorld) {
     await this.contentSearchPage.clearSearchButton.click();
-    await this.utils.waitForAnimation();
+    await this.animations.waitFor();
   }
 );
 

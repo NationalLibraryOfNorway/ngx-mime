@@ -1,14 +1,14 @@
-import { When, Then } from '@cucumber/cucumber';
+import { Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-import { CustomWorld } from '../support/custom-world';
 import { Point } from '../pages/viewer.po';
+import { CustomWorld } from '../support/custom-world';
 
 let previousCenter: Point;
 
 When('the user is dragging', async function (this: CustomWorld) {
   previousCenter = await this.viewerPage.getCenter();
   await this.viewerPage.pan({ x: previousCenter.x + 150, y: 0 });
-  await this.utils.waitForAnimation();
+  await this.animations.waitFor();
 });
 
 When('the user hits ArrowUp', async function (this: CustomWorld) {

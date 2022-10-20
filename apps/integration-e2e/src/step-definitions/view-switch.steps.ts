@@ -20,7 +20,7 @@ When('the user click in the viewer', async function (this: CustomWorld) {
   // to be able to switch view mode when firste page is out of view
   const overlay = await this.viewerPage.getSVGElement();
   await overlay.click();
-  await this.utils.waitForAnimation(switchAnimationTime);
+  await this.animations.waitFor(switchAnimationTime);
 });
 
 Then(

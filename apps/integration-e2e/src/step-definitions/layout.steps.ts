@@ -17,7 +17,7 @@ Given('the layout is one-page', async function (this: CustomWorld) {
 });
 
 Then('only the cover page is displayed', async function (this: CustomWorld) {
-  await this.utils.waitForAnimation();
+  await this.animations.waitFor();
   const visibleCanvasGroups = await this.viewerPage.visibleCanvasGroups();
   // Firste page visible
   expect(visibleCanvasGroups[0]).toBeTruthy();
@@ -27,7 +27,7 @@ Then('only the cover page is displayed', async function (this: CustomWorld) {
 });
 
 Then('page 2 and 3 are displayed', async function (this: CustomWorld) {
-  await this.utils.waitForAnimation();
+  await this.animations.waitFor();
 
   const visibleCanvasGroups = await this.viewerPage.visibleCanvasGroups();
   // Second and third pages visible
@@ -40,7 +40,7 @@ Then('page 2 and 3 are displayed', async function (this: CustomWorld) {
 });
 
 Then('only page 2 is displayed', async function (this: CustomWorld) {
-  await this.utils.waitForAnimation();
+  await this.animations.waitFor();
   const visibleCanvasGroups = await this.viewerPage.visibleCanvasGroups();
   // Second page visible
   expect(visibleCanvasGroups[1]).toBeTruthy();

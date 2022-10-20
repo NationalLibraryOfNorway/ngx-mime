@@ -1,10 +1,8 @@
 import { Locator, Page } from 'playwright';
-import { Utils } from '../helpers/utils';
+import { Animations } from '../helpers/animations';
 import { ViewerPage } from './viewer.po';
 
 export class ContentSearchPage {
-  readonly utils: Utils;
-  readonly viewerPage!: ViewerPage;
   readonly searchInput: Locator;
   readonly closeButton: Locator;
   readonly numberOfHits: Locator;
@@ -18,10 +16,11 @@ export class ContentSearchPage {
   readonly hits: Locator;
   readonly highlighted: Locator;
 
-  constructor(private page: Page, viewerPage: ViewerPage) {
-    this.viewerPage = viewerPage;
-    this.utils = new Utils(this.page);
-
+  constructor(
+    private page: Page,
+    private viewerPage: ViewerPage,
+    private animations: Animations
+  ) {
     this.searchInput = page.locator('input.content-search-input');
     this.closeButton = page.locator('.close-content-search-dialog-button');
     this.numberOfHits = page.locator('.numberOfHits');
@@ -71,7 +70,7 @@ export class ContentSearchPage {
     const selected = await this.hitStringToHitIndex(hit);
     const first = this.hits.nth(selected);
     await first.click();
-    await this.utils.waitForAnimation(1000);
+    await this.animations.waitFor(1000);
     return selected;
   }
 

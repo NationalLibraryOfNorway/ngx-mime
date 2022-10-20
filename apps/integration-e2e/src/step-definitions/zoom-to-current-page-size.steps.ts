@@ -1,4 +1,4 @@
-import { When, Then } from '@cucumber/cucumber';
+import { Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
 
@@ -9,7 +9,7 @@ When(
   async function (this: CustomWorld) {
     for (let i = 0; i < 2; i++) {
       await this.viewerPage.slideToCanvasGroup(i);
-      await this.utils.waitForAnimation();
+      await this.animations.waitFor();
       zoomLevels.add(await this.viewerPage.getZoomLevel());
     }
   }

@@ -4,11 +4,12 @@ import { ViewerPage } from './viewer.po';
 
 export class ElementsPage {
   static readonly DARK_THEME_CLASS = 'ngx-mime-dark-theme';
-  readonly page: Page;
-  readonly parameters: ParameterType;
-  readonly viewerPage: ViewerPage;
 
-  constructor(parameters: ParameterType, page: Page, viewerPage: ViewerPage) {
+  constructor(
+    private parameters: ParameterType,
+    private page: Page,
+    private viewerPage: ViewerPage
+  ) {
     this.page = page;
     this.parameters = parameters;
     this.viewerPage = viewerPage;

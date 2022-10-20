@@ -1,9 +1,9 @@
 import { Page } from 'playwright';
 
-export class Utils {
+export class Animations {
   constructor(private page: Page) {}
 
-  async waitForAnimation(animationTime?: number): Promise<void> {
+  async waitFor(animationTime?: number): Promise<void> {
     if (animationTime === undefined) {
       animationTime = await this.getAnimationTimeInMs();
     }
