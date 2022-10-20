@@ -12,11 +12,11 @@ When(
   ) {
     if (direction === 'left-to-right') {
       const start = {
-        x: 200,
+        x: velocityStart,
         y: 0,
       };
       const end = {
-        x: 0,
+        x: velocityEnd,
         y: 0,
       };
       await this.viewerPage.swipe(start, end);
@@ -64,10 +64,8 @@ Then(
 When(
   'the user click the {word} button',
   async function (this: CustomWorld, navigationButton: string) {
-    if (navigationButton === 'next') {
-      await this.viewerPage.clickNextButton();
-    } else if (navigationButton === 'previous') {
-      await this.viewerPage.clickPreviousButton();
-    }
+    navigationButton === 'next'
+      ? await this.viewerPage.clickNextButton()
+      : await this.viewerPage.clickPreviousButton();
   }
 );

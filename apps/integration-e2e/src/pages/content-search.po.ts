@@ -40,22 +40,9 @@ export class ContentSearchPage {
     this.highlighted = page.locator('.openseadragon-canvas .hit');
   }
 
-  async isOpen() {
-    return this.contentSearchDialog.isVisible();
-  }
-
   async setSearchTerm(term: string): Promise<void> {
     await this.searchInput.fill(term);
     await this.searchInput.press('Enter');
-  }
-
-  async searchTerm() {
-    return await this.searchInput.inputValue();
-  }
-
-  async getNumberOfHits() {
-    const value = await this.numberOfHits.inputValue();
-    return value ? parseInt(value, 10) : -1;
   }
 
   async isSelected(index: number) {

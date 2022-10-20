@@ -3,22 +3,17 @@ import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
 
 Given('the viewer is in full screen mode', async function (this: CustomWorld) {
-  const fullscreenButton = await this.viewerPage.fullscreenButton();
-  await fullscreenButton.click();
+  await this.viewerPage.fullscreenButton.click();
 });
 
 When('the user select full screen mode', async function (this: CustomWorld) {
-  const fullscreenButton = await this.viewerPage.fullscreenButton();
-  await fullscreenButton.click();
-  this.utils.waitForAnimation();
+  await this.viewerPage.fullscreenButton.click();
 });
 
 When(
   'the user select exit full screen mode',
   async function (this: CustomWorld) {
-    const fullscreenButton = await this.viewerPage.fullscreenButton();
-    await fullscreenButton.click();
-    this.utils.waitForAnimation();
+    await this.viewerPage.fullscreenButton.click();
   }
 );
 

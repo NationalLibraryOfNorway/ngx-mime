@@ -54,7 +54,6 @@ When(
 
 When('the user closes the search dialog', async function (this: CustomWorld) {
   await this.contentSearchPage.closeButton.click();
-  await this.utils.waitForAnimation();
 });
 
 When('the user opens the search dialog', async function (this: CustomWorld) {
@@ -72,9 +71,8 @@ When(
 Then(
   'there are {word} results found',
   async function (this: CustomWorld, numberOfHits: string) {
-    const expected = numberOfHits === 'no' ? 0 : parseInt(numberOfHits, 10);
-    const hits = await this.contentSearchPage.getNumberOfHits();
-    expect(hits).toEqual(expected);
+    const expected = numberOfHits === 'no' ? '0' : numberOfHits;
+    await expect(this.contentSearchPage.numberOfHits).toHaveValue(expected);
   }
 );
 
@@ -111,24 +109,22 @@ Then(
 );
 
 Then('all highlighting should be removed', async function (this: CustomWorld) {
-  expect(await this.contentSearchPage.highlighted.count()).toEqual(0);
+  await expect(this.contentSearchPage.highlighted).toHaveCount(0);
 });
 
 Then(
   'the search result toolbar should be removed',
   async function (this: CustomWorld) {
-    await expect(
-      this.contentSearchPage.navigatorToolbar
-    ).toBeHidden();
+    await expect(this.contentSearchPage.navigatorToolbar).toBeHidden();
   }
 );
 
 Then(
   'the Search dialog should be {word}',
   async function (this: CustomWorld, state: string) {
-    const isOpen = await this.contentSearchPage.isOpen();
-    const expectedState = state === 'closed' ? false : true;
-    expect(isOpen).toEqual(expectedState);
+    state === 'closed'
+      ? await expect(this.contentSearchPage.container).toBeHidden()
+      : await expect(this.contentSearchPage.container).toBeVisible();
   }
 );
 
@@ -144,7 +140,5 @@ Then('the hit should be visible', async function (this: CustomWorld) {
 });
 
 Then('the search query should be empty', async function (this: CustomWorld) {
-  const searchTerm = await this.contentSearchPage.searchTerm();
-
-  expect(searchTerm).toEqual('');
+  await expect(this.contentSearchPage.searchInput).toHaveValue('');
 });

@@ -43,139 +43,123 @@ export class ViewerPage {
   ];
 
   private isElements = false;
-  private navigationSliderEl: Locator;
-  private canvasGroupsButtonEl: Locator;
-  private canvasGroupInputEl: Locator;
-  private currentCanvasGroupLabelEl: Locator;
-  private numOfCanvasGroupsEl: Locator;
+  private navigationSlider: Locator;
+  private canvasGroupsButton: Locator;
+  private canvasGroupInput: Locator;
+  private currentCanvasGroupLabel: Locator;
+  private numOfCanvasGroups: Locator;
   private contentsDialogButton: Locator;
   private contentsContainer: Locator;
-  private helpContainer: Locator;
-  private tabsEls: Locator;
-  private tocContainerEl: Locator;
-  private helpDialogButtonEl: Locator;
-  private contentSearchDialogButtonEl: Locator;
-  private contentSearchSubmitButtonEl: Locator;
-  private fullscreenButtonEl: Locator;
-  private openseadragonContainer: Locator;
+  private tabs: Locator;
+  private helpDialogButton: Locator;
+  private contentSearchDialogButton: Locator;
+  private contentSearchSubmitButton: Locator;
+  readonly fullscreenButton: Locator;
+  readonly openseadragonContainer: Locator;
 
-  readonly attributionEl: Locator;
+  readonly attribution: Locator;
 
-  private headerEl: Locator;
-  private footerEl: Locator;
-  private svgEl: Locator;
-  private firstCanvasGroupInFirstGroupOverlayEl: Locator;
-  private secondCanvasGroupInFirstGroupOverlayEl: Locator;
-  private canvasGroupOverlaysEls: Locator;
-  private leftCanvasGroupMaskEl: Locator;
-  private rightCanvasGroupMaskEl: Locator;
-  private canvasGroupOverlayEls: Locator;
-  private singlePageViewButtonEl: Locator;
-  private twoPageViewButtonEl: Locator;
-  private modeDashboardEl: Locator;
-  private modePageEl: Locator;
-  private openseadragonCanvasEl: Locator;
-  private recognizedTextContentSplitViewButtonEl: Locator;
-  private recognizedTextContentOnlyButtonEl: Locator;
-  private recognizedTextContentCloseButtonEl: Locator;
-  private firstCanvasRecognizedTextContentEl: Locator;
-  private secondCanvasRecognizedTextContentEl: Locator;
-  private recognizedTextContentHitsEls: Locator;
-  private recognizedTextContentContainerEl: Locator;
-  private viewMenuButtonEl: Locator;
-  private viewMenuCloseButtonEl: Locator;
-  private viewMenuDialogEl: Locator;
-  private pageGroupEl: Locator;
+  private svg: Locator;
+  private canvasGroupOverlays: Locator;
+  private leftCanvasGroupMask: Locator;
+  private rightCanvasGroupMask: Locator;
+  private canvasGroupOverlay: Locator;
+  private singlePageViewButton: Locator;
+  private twoPageViewButton: Locator;
+  private modeDashboard: Locator;
+  private modePage: Locator;
+  private openseadragonCanvas: Locator;
+  private recognizedTextContentSplitViewButton: Locator;
+  private recognizedTextContentOnlyButton: Locator;
+  private recognizedTextContentCloseButton: Locator;
+  private firstCanvasRecognizedTextContent: Locator;
+  private secondCanvasRecognizedTextContent: Locator;
+  private recognizedTextContentHits: Locator;
+  private recognizedTextContentContainer: Locator;
+  private viewMenuButton: Locator;
+  private viewMenuCloseButton: Locator;
+  private viewMenuDialog: Locator;
+  private pageGroup: Locator;
 
   constructor(parameters: ParameterType, page: Page) {
     this.page = page;
     this.parameters = parameters;
     this.utils = new Utils(this.page);
-    this.navigationSliderEl = this.page.locator('.navigation-slider');
-    this.canvasGroupsButtonEl = this.page.locator('button.canvasGroups');
-    this.canvasGroupInputEl = this.page.locator('.go-to-canvas-group-input');
-    this.currentCanvasGroupLabelEl = this.page.locator(
+    this.navigationSlider = this.page.locator('.navigation-slider');
+    this.canvasGroupsButton = this.page.locator('button.canvasGroups');
+    this.canvasGroupInput = this.page.locator('.go-to-canvas-group-input');
+    this.currentCanvasGroupLabel = this.page.locator(
       '#currentCanvasGroupLabel'
     );
-    this.numOfCanvasGroupsEl = this.page.locator('#numOfCanvasGroups');
+    this.numOfCanvasGroups = this.page.locator('#numOfCanvasGroups');
     this.contentsDialogButton = this.page.locator(
       '#ngx-mimeContentsDialogButton'
     );
     this.contentsContainer = this.page.locator('.contents-container');
-    this.helpContainer = this.page.locator('.help-container');
-    this.tabsEls = this.page.locator('.mat-tab-label');
-    this.tocContainerEl = this.page.locator('.ngx-mime-toc-container');
-    this.helpDialogButtonEl = this.page.locator('#ngx-mimeHelpDialogButton');
-    this.contentSearchDialogButtonEl = this.page.locator(
+    this.tabs = this.page.locator('.mat-tab-label');
+    this.helpDialogButton = this.page.locator('#ngx-mimeHelpDialogButton');
+    this.contentSearchDialogButton = this.page.locator(
       '#ngx-mimeContentSearchDialogButton'
     );
-    this.contentSearchSubmitButtonEl = this.page.locator(
+    this.contentSearchSubmitButton = this.page.locator(
       '.content-search-box button[type="submit"]'
     );
-    this.fullscreenButtonEl = this.page.locator('#ngx-mimeFullscreenButton');
+    this.fullscreenButton = this.page.locator('#ngx-mimeFullscreenButton');
     this.openseadragonContainer = this.page.locator('.openseadragon-container');
-    this.attributionEl = this.page.locator(
+    this.attribution = this.page.locator(
       '.attribution-container > .mat-dialog-content'
     );
-    this.headerEl = this.page.locator('mime-viewer-header');
-    this.footerEl = this.page.locator('mime-viewer-footer');
-    this.svgEl = this.page.locator('#openseadragon svg');
-    this.firstCanvasGroupInFirstGroupOverlayEl = this.page.locator(
-      '#openseadragon svg g.page-group:first-child rect:first-child'
-    );
-    this.secondCanvasGroupInFirstGroupOverlayEl = this.page
-      .locator('#openseadragon svg g.page-group:nth-child(2)')
-      .locator('rect:first-child');
-    this.canvasGroupOverlaysEls = this.page.locator(
+    this.svg = this.page.locator('#openseadragon svg');
+    this.canvasGroupOverlays = this.page.locator(
       '#openseadragon svg g.page-group rect'
     );
-    this.leftCanvasGroupMaskEl = this.page.locator(
+    this.leftCanvasGroupMask = this.page.locator(
       '#openseadragon svg g#page-mask rect:first-child'
     );
-    this.rightCanvasGroupMaskEl = this.page.locator(
+    this.rightCanvasGroupMask = this.page.locator(
       '#openseadragon svg g#page-mask rect:nth-child(2)'
     );
-    this.canvasGroupOverlayEls = this.page.locator('#openseadragon svg g rect');
-    this.singlePageViewButtonEl = this.page.locator(
+    this.canvasGroupOverlay = this.page.locator('#openseadragon svg g rect');
+    this.singlePageViewButton = this.page.locator(
       'mat-button-toggle[data-test-id="ngx-mime-single-page-view-button"]'
     );
-    this.twoPageViewButtonEl = this.page.locator(
+    this.twoPageViewButton = this.page.locator(
       'mat-button-toggle[data-test-id="ngx-mime-two-page-view-button"]'
     );
-    this.recognizedTextContentSplitViewButtonEl = this.page.locator(
+    this.recognizedTextContentSplitViewButton = this.page.locator(
       'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-split-view-button"]'
     );
-    this.recognizedTextContentOnlyButtonEl = this.page.locator(
+    this.recognizedTextContentOnlyButton = this.page.locator(
       'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-only-button"]'
     );
-    this.recognizedTextContentCloseButtonEl = this.page.locator(
+    this.recognizedTextContentCloseButton = this.page.locator(
       'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-close-button"]'
     );
-    this.modeDashboardEl = this.page.locator('.mode-dashboard');
-    this.modePageEl = this.page.locator('.mode-page');
-    this.openseadragonCanvasEl = this.page.locator(
+    this.modeDashboard = this.page.locator('.mode-dashboard');
+    this.modePage = this.page.locator('.mode-page');
+    this.openseadragonCanvas = this.page.locator(
       '.openseadragon-canvas > canvas'
     );
-    this.firstCanvasRecognizedTextContentEl = this.page.locator(
+    this.firstCanvasRecognizedTextContent = this.page.locator(
       'div[data-test-id="firstCanvasRecognizedTextContent"]'
     );
-    this.secondCanvasRecognizedTextContentEl = this.page.locator(
+    this.secondCanvasRecognizedTextContent = this.page.locator(
       'div[data-test-id="secondCanvasRecognizedTextContent"]'
     );
-    this.recognizedTextContentHitsEls = this.page.locator(
+    this.recognizedTextContentHits = this.page.locator(
       '.recognized-text-content-container mark'
     );
-    this.recognizedTextContentContainerEl = this.page.locator(
+    this.recognizedTextContentContainer = this.page.locator(
       'mat-drawer[data-test-id="ngx-mime-recognized-text-content-container"]'
     );
-    this.viewMenuButtonEl = this.page.locator(
+    this.viewMenuButton = this.page.locator(
       '[data-test-id="ngx-mime-view-menu-button"]'
     );
-    this.viewMenuCloseButtonEl = this.page.locator(
+    this.viewMenuCloseButton = this.page.locator(
       '[data-test-id="ngx-mime-view-dialog-close-button"]'
     );
-    this.viewMenuDialogEl = this.page.locator('mime-view-dialog');
-    this.pageGroupEl = this.page.locator('.page-group');
+    this.viewMenuDialog = this.page.locator('mime-view-dialog');
+    this.pageGroup = this.page.locator('.page-group');
   }
 
   getBookShelfUrl(manifestName: string): string {
@@ -191,36 +175,36 @@ export class ViewerPage {
 
   async isRecognizedTextContentButtonsPresent(): Promise<boolean> {
     return (
-      (await this.recognizedTextContentSplitViewButtonEl.isVisible()) &&
-      (await this.recognizedTextContentOnlyButtonEl.isVisible()) &&
-      (await this.recognizedTextContentCloseButtonEl.isVisible())
+      (await this.recognizedTextContentSplitViewButton.isVisible()) &&
+      (await this.recognizedTextContentOnlyButton.isVisible()) &&
+      (await this.recognizedTextContentCloseButton.isVisible())
     );
   }
 
   async showRecognizedTextContentInSplitView(): Promise<void> {
-    await this.checkViewMenuToggle(this.recognizedTextContentSplitViewButtonEl);
+    await this.checkViewMenuToggle(this.recognizedTextContentSplitViewButton);
   }
 
   async showOnlyRecognizedTextContent(): Promise<void> {
-    await this.checkViewMenuToggle(this.recognizedTextContentOnlyButtonEl);
+    await this.checkViewMenuToggle(this.recognizedTextContentOnlyButton);
   }
 
   async closeRecognizedTextContent(): Promise<void> {
-    await this.checkViewMenuToggle(this.recognizedTextContentCloseButtonEl);
+    await this.checkViewMenuToggle(this.recognizedTextContentCloseButton);
   }
 
   async getRecognizedTextContent(): Promise<string> {
     let text = '';
-    if (await this.firstCanvasRecognizedTextContentEl.isVisible()) {
+    if (await this.firstCanvasRecognizedTextContent.isVisible()) {
       const firstCanvasRecognizedText =
-        await this.firstCanvasRecognizedTextContentEl.textContent();
+        await this.firstCanvasRecognizedTextContent.textContent();
       if (firstCanvasRecognizedText) {
         text += firstCanvasRecognizedText;
       }
     }
-    if (await this.secondCanvasRecognizedTextContentEl.isVisible()) {
+    if (await this.secondCanvasRecognizedTextContent.isVisible()) {
       const secondCanvasRecognizedText =
-        await this.secondCanvasRecognizedTextContentEl.textContent();
+        await this.secondCanvasRecognizedTextContent.textContent();
       if (secondCanvasRecognizedText) {
         text += secondCanvasRecognizedText;
       }
@@ -229,11 +213,11 @@ export class ViewerPage {
   }
 
   async isRecognizedTextContentInSplitView(): Promise<boolean> {
-    return this.containClass(this.recognizedTextContentContainerEl, 'split');
+    return this.containClass(this.recognizedTextContentContainer, 'split');
   }
 
   async isRecognizedTextContentOnly() {
-    return this.containClass(this.recognizedTextContentContainerEl, 'only');
+    return this.containClass(this.recognizedTextContentContainer, 'only');
   }
 
   async setDashboardMode(): Promise<void> {
@@ -257,11 +241,11 @@ export class ViewerPage {
   }
 
   async setOnePageView() {
-    await this.checkViewMenuToggle(this.singlePageViewButtonEl);
+    await this.checkViewMenuToggle(this.singlePageViewButton);
   }
 
   async setTwoPageView() {
-    await this.checkViewMenuToggle(this.twoPageViewButtonEl);
+    await this.checkViewMenuToggle(this.twoPageViewButton);
   }
 
   setTestCustomElements(isElements: boolean) {
@@ -304,15 +288,15 @@ export class ViewerPage {
       canvasGroupIndex = Math.floor(canvasGroupIndex / 2);
     }
     for (let i = 0; i < canvasGroupIndex; i++) {
-      await this.navigationSliderEl.press('ArrowRight');
+      await this.navigationSlider.press('ArrowRight');
       await this.utils.waitForAnimation();
     }
   }
 
   async goToCanvasGroupWithDialog(canvasGroupIndex: number) {
-    await this.canvasGroupsButtonEl.click();
-    await this.canvasGroupInputEl.fill(`${canvasGroupIndex}`);
-    await this.canvasGroupInputEl.press('Enter');
+    await this.canvasGroupsButton.click();
+    await this.canvasGroupInput.fill(`${canvasGroupIndex}`);
+    await this.canvasGroupInput.press('Enter');
     await this.utils.waitForAnimation();
   }
 
@@ -329,12 +313,12 @@ export class ViewerPage {
 
   async getCurrentCanvasGroupLabel(): Promise<string> {
     const currentCanvasGroupLabel =
-      await this.currentCanvasGroupLabelEl.textContent();
+      await this.currentCanvasGroupLabel.textContent();
     return currentCanvasGroupLabel ? currentCanvasGroupLabel : '';
   }
 
   async getNumberOfCanvasGroups() {
-    const numberOfCanvasGroups = await this.numOfCanvasGroupsEl.textContent();
+    const numberOfCanvasGroups = await this.numOfCanvasGroups.textContent();
     return numberOfCanvasGroups ? parseInt(numberOfCanvasGroups, 10) : -1;
   }
 
@@ -344,27 +328,18 @@ export class ViewerPage {
   }
 
   async openHelpDialog() {
-    await this.helpDialogButtonEl.click();
+    await this.helpDialogButton.click();
     await this.utils.waitForAnimation();
   }
 
   async openTableOfContentsTab() {
-    await this.tabsEls.nth(1).click();
+    await this.tabs.nth(1).click();
     await this.utils.waitForAnimation();
   }
 
   async openContentSearchDialog() {
-    await this.contentSearchDialogButtonEl.click();
-    await this.contentSearchSubmitButtonEl.waitFor();
-  }
-
-  async fullscreenButton() {
-    return this.fullscreenButtonEl;
-  }
-
-  async openSeadragonElement() {
-    await this.openseadragonContainer.waitFor();
-    return this.openseadragonContainer;
+    await this.contentSearchDialogButton.click();
+    await this.contentSearchSubmitButton.waitFor();
   }
 
   async isFullscreen() {
@@ -377,24 +352,24 @@ export class ViewerPage {
     return isFullscreen;
   }
   async getSVGElement() {
-    this.svgEl.waitFor();
-    return this.svgEl;
+    this.svg.waitFor();
+    return this.svg;
   }
 
   getAllCanvasGroupOverlays() {
-    return this.canvasGroupOverlaysEls;
+    return this.canvasGroupOverlays;
   }
 
   async getLeftCanvasGroupMask() {
-    return this.leftCanvasGroupMaskEl;
+    return this.leftCanvasGroupMask;
   }
 
   async getRightCanvasGroupMask() {
-    return this.rightCanvasGroupMaskEl;
+    return this.rightCanvasGroupMask;
   }
 
   async getFirstCanvasGroupOverlay() {
-    const first = this.canvasGroupOverlayEls.first();
+    const first = this.canvasGroupOverlay.first();
     await first.waitFor();
     return first;
   }
@@ -409,16 +384,16 @@ export class ViewerPage {
   async closeViewMenu(): Promise<void> {
     const isOpen = await this.isViewDialogOpen();
     if (isOpen) {
-      await this.viewMenuCloseButtonEl.click();
+      await this.viewMenuCloseButton.click();
       await this.utils.waitForAnimation();
     }
   }
 
   async clickOnViewMenuButton(): Promise<void> {
     const isPresentAndDisplayed: boolean =
-      await this.viewMenuButtonEl.isVisible();
+      await this.viewMenuButton.isVisible();
     if (isPresentAndDisplayed) {
-      await this.viewMenuButtonEl.click();
+      await this.viewMenuButton.click();
       await this.utils.waitForAnimation();
     } else {
       throw new Error('View menu button not found');
@@ -450,7 +425,7 @@ export class ViewerPage {
   }
 
   getRecognizedContentHit(index: number): Promise<string | null> {
-    return this.recognizedTextContentHitsEls.first().innerHTML();
+    return this.recognizedTextContentHits.first().innerHTML();
   }
 
   async swipe(startPoint: Point, endPoint: Point): Promise<void> {
@@ -503,7 +478,7 @@ export class ViewerPage {
   }
 
   async dblClick(): Promise<void> {
-    await (await this.openSeadragonElement()).dblclick();
+    await this.openseadragonContainer.dblclick();
   }
 
   async dblTap(): Promise<void> {
@@ -550,11 +525,11 @@ export class ViewerPage {
   }
 
   async isDashboardMode(): Promise<boolean> {
-    return (await this.modeDashboardEl.count()) > 0;
+    return (await this.modeDashboard.count()) > 0;
   }
 
   async isPageMode(): Promise<boolean> {
-    return (await this.modePageEl.count()) > 0;
+    return (await this.modePage.count()) > 0;
   }
 
   async isTwoPageView(): Promise<boolean> {
@@ -567,11 +542,11 @@ export class ViewerPage {
   }
 
   async isViewDialogOpen(): Promise<boolean> {
-    return this.viewMenuDialogEl.isVisible();
+    return this.viewMenuDialog.isVisible();
   }
 
   async isOnePageView(): Promise<boolean> {
-    const singlePageGroupCount = await this.pageGroupEl.count();
+    const singlePageGroupCount = await this.pageGroup.count();
     return singlePageGroupCount === 1;
   }
 
@@ -679,7 +654,7 @@ export class ViewerPage {
   }
 
   async setFocusOnViewer() {
-    await this.openseadragonCanvasEl.waitFor();
+    await this.openseadragonCanvas.waitFor();
     await this.page.evaluate(
       `document.querySelector('.openseadragon-canvas').focus();`
     );

@@ -7,15 +7,14 @@ Given('the help dialog is open', async function (this: CustomWorld) {
 });
 
 Then('help is displayed to the user', async function (this: CustomWorld) {
-  const isOpen = await this.helpDialogPage.isOpen();
-  expect(isOpen).toBeTruthy();
+  await expect(this.helpDialogPage.container).toBeVisible();
 });
 
 Then(
   'the Help dialog should be {word}',
   async function (this: CustomWorld, state) {
-    const isOpen = await this.helpDialogPage.isOpen();
-    const expectedState = state === 'closed' ? false : true;
-    expect(isOpen).toEqual(expectedState);
+    state === 'closed'
+      ? await expect(this.helpDialogPage.container).toBeHidden()
+      : await expect(this.helpDialogPage.container).toBeVisible();
   }
 );

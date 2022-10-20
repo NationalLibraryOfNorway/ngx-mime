@@ -3,15 +3,15 @@ import { Utils } from '../helpers/utils';
 
 export class HelpDialogPage {
   readonly utils: Utils;
-  readonly mimeHelpEl: Locator;
+  readonly container: Locator;
 
   constructor(page: Page) {
     this.utils = new Utils(page);
-    this.mimeHelpEl = page.locator('mime-help');
+    this.container = page.locator('mime-help');
   }
 
   async isOpen() {
     await this.utils.waitForAnimation();
-    return this.mimeHelpEl.isVisible();
+    return this.container.isVisible();
   }
 }

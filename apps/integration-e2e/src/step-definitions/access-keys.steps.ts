@@ -81,9 +81,9 @@ Then(
 );
 
 Then(/^the contents dialog should open$/, async function (this: CustomWorld) {
-  expect(await this.contentsDialogPage.isOpen()).toBeTruthy();
+  await expect(this.contentsDialogPage.container).toBeVisible();
 });
 
 Then(/^the contents dialog should close$/, async function (this: CustomWorld) {
-  expect(await this.contentsDialogPage.isClosed()).toBeTruthy();
+  await expect(this.contentsDialogPage.container).toBeHidden();
 });

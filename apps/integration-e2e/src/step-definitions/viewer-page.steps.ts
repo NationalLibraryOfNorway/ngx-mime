@@ -13,9 +13,7 @@ Given(
   'the viewer is opened with a publication',
   async function (this: CustomWorld) {
     await this.viewerPage.open();
-    expect(
-      await (await this.viewerPage.openSeadragonElement()).isVisible()
-    ).toBeTruthy();
+    await expect(this.viewerPage.openseadragonContainer).toBeVisible();
   }
 );
 
@@ -51,9 +49,7 @@ Given(
   'a {word} publication with {int} pages',
   async function (this: CustomWorld, direction: string, pages: number) {
     const readingDirection = direction === 'left-to-right' ? 'ltr' : 'rtl';
-    await this.viewerPage.open(
-      `a-${readingDirection}-${pages}-pages-book`
-    );
+    await this.viewerPage.open(`a-${readingDirection}-${pages}-pages-book`);
   }
 );
 
@@ -132,5 +128,5 @@ When(
 );
 
 Then('it should be displayed', async function (this: CustomWorld) {
-  await expect(await this.viewerPage.openSeadragonElement()).toBeVisible();
+  await expect(this.viewerPage.openseadragonContainer).toBeVisible();
 });
