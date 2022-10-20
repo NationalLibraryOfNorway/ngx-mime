@@ -54,7 +54,7 @@ const common = {
   paths: ['./apps/integration-e2e/src/features/**/*.feature'],
   publishQuiet: true,
   parallel: 10,
-  failFast: true,
+  failFast: false,
   format: createFormat(),
   strict: false,
   tags: createTags(),
@@ -67,7 +67,7 @@ const ci = {
   ...common,
   parallel: 6,
   retry: 1,
-  failFast: true,
+  failFast: false,
   worldParameters: {
     ...common.worldParameters,
     ...{

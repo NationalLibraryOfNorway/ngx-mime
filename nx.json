@@ -44,7 +44,7 @@
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "karma",
-      "e2eTestRunner": "protractor"
+      "e2eTestRunner": "cucumber"
     },
     "@nrwl/angular:library": {
       "style": "scss",
