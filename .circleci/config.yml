@@ -13,8 +13,6 @@ jobs:
       - checkout
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
-      - run: echo 127.0.0.1 lh | sudo tee -a /etc/hosts
-      - run: find ./apps/integration* -type f -exec sed -i 's/localhost/lh/' {} \;
       - run: 'mkdir -p $LOGS_DIR'
       - run: 'chmod +x ./scripts/ci/build-and-test.sh'
       - run: 'chmod +x ./scripts/lambdatest/start-tunnel.sh'

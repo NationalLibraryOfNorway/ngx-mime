@@ -103,8 +103,8 @@ const connectToTestingCloud = async (
     'LT:Options': {
       platform: platform,
       build: `ngx-mime-${
-        process.env['CI_PIPELINE_IID']
-          ? process.env['CI_PIPELINE_IID']
+        process.env['CIRCLE_BUILD_NUM']
+          ? process.env['CIRCLE_BUILD_NUM']
           : 'local'
       }`,
       name: scenario.pickle.name,
