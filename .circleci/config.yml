@@ -20,7 +20,7 @@ jobs:
       - run: 'chmod +x ./scripts/lambdatest/start-tunnel.sh'
       - run: 'chmod +x ./scripts/lambdatest/wait-tunnel.sh'
       - run: 'chmod +x ./scripts/lambdatest/stop-tunnel.sh'
-      - run: 'chmod +x ./apps/integration-e2e/scripts/wait-on.sh'
+      - run: 'chmod +x ./scripts/ci/wait-on.sh'
       - run:
           name: Build and test
           command: './scripts/ci/build-and-test.sh'

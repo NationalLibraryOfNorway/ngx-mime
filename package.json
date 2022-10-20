@@ -29,7 +29,7 @@
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "pree2e:chrome": "yarn build:libs && yarn build:elements",
     "mountebank": "mb --configfile ./apps/integration-e2e/src/templates/imposters.ejs --allowInjection --nologfile",
-    "wait": "sh  ./apps/scripts/wait-on.sh",
+    "wait": "sh  ./apps/scripts/ci/wait-on.sh",
     "cucumber": "cucumber-js -c ./apps/integration-e2e/src/cucumber.js",
     "pree2e": "yarn build:libs; yarn build:elements",
     "e2e": "concurrently \"yarn mountebank & yarn start:integration\" \"yarn wait && yarn cucumber:chrome && yarn cucumber:android && yarn cucumber:iphone\" --kill-others --success first",
