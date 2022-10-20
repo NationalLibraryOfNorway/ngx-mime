@@ -10,7 +10,7 @@ const createFormat = () => {
 const createTags = () => {
   const mode = process.env['MODE'];
   let tags = 'not @ignore';
-  const profile = args.p;
+  //const profile = args.p;
 
   if (args.tags) {
     tags = args.tags;
@@ -26,9 +26,9 @@ const createTags = () => {
         tags = '@desktop and not @ignore';
     }
 
-    if (!profile || profile !== 'ci') {
+    //if (!profile || profile !== 'ci') {
       tags = `${tags} and not @fullscreen`;
-    }
+    //}
   }
 
   return tags;

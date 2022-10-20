@@ -149,18 +149,22 @@ const startTracing = async (context: BrowserContext): Promise<void> => {
 };
 
 const stopTracing = async (_this: IWorld<CustomWorld>, name: string) => {
-  const time = new Date().toISOString();
-  const tracePath = `${reportsDir}/traces/${name}-${time}-trace.zip`;
-  await _this.context?.tracing.stop({
-    path: tracePath,
-  });
+  try {
+    const time = new Date().toISOString();
+    const tracePath = `${reportsDir}/traces/${name}-${time}-trace.zip`;
+    await _this.context?.tracing.stop({
+      path: tracePath,
+    });
 
-  let message = `Trace: npx playwright show-trace ${tracePath}`;
-  if (process.env['PWVIDEO']) {
-    const path: string = await _this.page.video().path();
-    message = `${message}\nVideo: vlc ${path}`;
+    let message = `Trace: npx playwright show-trace ${tracePath}`;
+    if (process.env['PWVIDEO']) {
+      const path: string = await _this.page.video().path();
+      message = `${message}\nVideo: vlc ${path}`;
+    }
+    _this.attach(message);
+  } catch (e) {
+    console.error('Error in stopTrace', e);
   }
-  _this.attach(message);
 };
 
 const a11yAnalyze = async (
