@@ -3,9 +3,6 @@
 set -e -o pipefail
 TUNNEL_DIR="/tmp/ngx-mime-lambdatest"
 tunnelFileName="LT_Linux.zip"
-PROXY_HOST="158.39.103.138"
-PROXY_PORT="3128"
-
 tunnelUrl="https://downloads.lambdatest.com/tunnel/v3/linux/64bit/${tunnelFileName}"
 
 # Cleanup and create the folder structure for the tunnel connector.
@@ -25,7 +22,7 @@ unzip -o ${tunnelFileName} -d bin > /dev/null
 rm ${tunnelFileName}
 
 # Command arguments that will be passed to lambdatest cli.
-ltArgs="${ltArgs} --tunnelName ${TUNNEL_IDENTIFIER} --user ${LT_USERNAME} --key ${LT_ACCESS_KEY} --proxy-host $PROXY_HOST --proxy-port $PROXY_PORT --infoAPIPort 15000 --allowHosts localhost"
+ltArgs="${ltArgs} --tunnelName ${TUNNEL_IDENTIFIER} --user ${LT_USERNAME} --key ${LT_ACCESS_KEY} --infoAPIPort 15000 --allowHosts localhost"
 
 echo "Starting LT in the background. Passed arguments: ${ltArgs}"
 ${TUNNEL_DIR}/bin/LT ${ltArgs}

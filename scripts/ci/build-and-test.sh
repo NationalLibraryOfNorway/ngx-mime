@@ -6,9 +6,6 @@ echo ""
 echo "Building sources and running tests"
 echo ""
 export TUNNEL_IDENTIFIER="ngx-mime-${CIRCLE_BUILD_NUM}"
-export PROXY_HOST="158.39.103.138"
-export PROXY_PORT="3128"
-export NO_PROXY=localhost,127.0.0.1,localhost.nb.no
 
 
 # Include sources.
