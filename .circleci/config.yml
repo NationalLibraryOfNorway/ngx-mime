@@ -21,6 +21,7 @@ jobs:
       - run: 'chmod +x ./scripts/lambdatest/wait-tunnel.sh'
       - run: 'chmod +x ./scripts/lambdatest/stop-tunnel.sh'
       - run: 'chmod +x ./scripts/ci/wait-on.sh'
+      - run: 'yarn install'
       - run:
           name: Build and test
           command: './scripts/ci/build-and-test.sh'
