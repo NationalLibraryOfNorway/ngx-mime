@@ -54,7 +54,7 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
       expect(status).toBe(Status.PASSED);
     }
   } finally {
-    await setStatus(this, name, status, remark);
+    await setStatus(this, status, remark);
     await stopTracing(this, name);
     await close(this);
   }
@@ -190,7 +190,6 @@ const a11yAnalyze = async (
 
 const setStatus = async (
   _this: IWorld<CustomWorld>,
-  name: string,
   status: TestStepResultStatus | undefined,
   remark: string | undefined
 ): Promise<void> => {
