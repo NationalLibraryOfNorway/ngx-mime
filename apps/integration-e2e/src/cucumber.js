@@ -22,8 +22,11 @@ const createTags = () => {
       case 'iphone':
         tags = '@iphone and not (@ignore or @fullscreen)';
         break;
-      default:
+      case 'chrome':
         tags = '@desktop and not @ignore';
+        break;
+      default:
+        tags = '@desktop and not (@ignore or @fullscreen)';
     }
 
     if (!profile || profile !== 'ci') {
