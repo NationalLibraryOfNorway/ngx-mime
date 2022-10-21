@@ -7,7 +7,7 @@ export class Animations {
     if (animationTime === undefined) {
       animationTime = await this.getAnimationTimeInMs();
     }
-    await this.page.waitForTimeout(animationTime);
+    await this.page.waitForTimeout(animationTime + 100);
   }
 
   private getAnimationTimeInMs(): Promise<number> {
