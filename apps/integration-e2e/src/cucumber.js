@@ -17,7 +17,7 @@ const createTags = () => {
   } else {
     switch (mode) {
       case 'mobile':
-        tags = '@android and not @ignore or @fullscreen)';
+        tags = '@android and not (@ignore or @fullscreen)';
         break;
       case 'iphone':
         tags = '@iphone and not (@ignore or @fullscreen)';
