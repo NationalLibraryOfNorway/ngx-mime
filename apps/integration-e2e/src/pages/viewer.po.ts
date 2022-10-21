@@ -277,9 +277,8 @@ export class ViewerPage {
         await this.page.waitForTimeout(5000);
       }
     }
-
+    await this.animations.waitFor(1000);
     await this.setFocusOnViewer();
-    await this.animations.waitFor();
   }
 
   async goToCanvasGroup(canvasGroupIndex: number) {

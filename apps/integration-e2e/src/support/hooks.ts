@@ -12,6 +12,7 @@ import {
   Browser,
   BrowserContext,
   chromium,
+  ConsoleMessage,
   devices,
   test,
 } from '@playwright/test';
@@ -37,7 +38,11 @@ Before(async function (scenario: ITestCaseHookParameter): Promise<void> {
   this.context = await createContext(this);
   await startTracing(this.context);
   this.page = await this.context.newPage();
-
+  this.page.on('console', (msg: ConsoleMessage) => {
+    if (msg.type() === 'error') {
+      console.log(msg.text() + ' | ' + msg.location().url);
+    }
+  });
   this.init(this);
 });
 
