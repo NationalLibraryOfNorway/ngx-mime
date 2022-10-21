@@ -10,25 +10,25 @@ const createFormat = () => {
 const createTags = () => {
   const mode = process.env['MODE'];
   let tags = 'not @ignore';
-  //const profile = args.p;
+  const profile = args.p;
 
   if (args.tags) {
     tags = args.tags;
   } else {
     switch (mode) {
       case 'mobile':
-        tags = '@android and not @ignore';
+        tags = '@android and not @ignore or @fullscreen)';
         break;
       case 'iphone':
-        tags = '@iphone and not @ignore';
+        tags = '@iphone and not (@ignore or @fullscreen)';
         break;
       default:
         tags = '@desktop and not @ignore';
     }
 
-    //if (!profile || profile !== 'ci') {
+    if (!profile || profile !== 'ci') {
       tags = `${tags} and not @fullscreen`;
-    //}
+    }
   }
 
   return tags;

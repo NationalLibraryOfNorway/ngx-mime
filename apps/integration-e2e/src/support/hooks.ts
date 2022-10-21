@@ -73,6 +73,7 @@ const isCi = (parameters: any): boolean => {
 
 const launchChromium = () => {
   return chromium.launch({
+    channel: 'chrome',
     slowMo: 0,
     headless: true,
   });
@@ -91,7 +92,7 @@ const getDeviceDescriptor = () => {
 const connectToTestingCloud = async (
   scenario: ITestCaseHookParameter
 ): Promise<Browser | undefined> => {
-  let browserName = 'pw-chromium';
+  let browserName = 'Chrome';
   let platform = 'Windows 10';
   if (mode === 'iphone') {
     platform = 'MacOS Catalina';
