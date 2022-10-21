@@ -259,7 +259,7 @@ export class ViewerPage {
       params.push(`canvasIndex=${canvasIndex}`);
     }
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       const url = `${this.parameters.appUrl}${uri}${
         params.length > 0 ? `?${params.join('&')}` : ''
       }`;
@@ -271,6 +271,8 @@ export class ViewerPage {
         if (i === 2) {
           console.warn('Giving up', e);
           throw e;
+        } else {
+          console.warn(`Retry ${i}`);
         }
         await this.page.waitForTimeout(5000);
       }
