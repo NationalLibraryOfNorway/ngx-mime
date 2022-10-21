@@ -24,13 +24,12 @@ const createTags = () => {
         break;
       case 'chrome':
         tags = '@desktop and not @ignore';
+        if (!profile || profile !== 'ci') {
+          tags = `${tags} and not @fullscreen`;
+        }
         break;
       default:
         tags = '@desktop and not (@ignore or @fullscreen)';
-    }
-
-    if (!profile || profile !== 'ci') {
-      tags = `${tags} and not @fullscreen`;
     }
   }
 
