@@ -28,5 +28,5 @@ export declare class ContentsDialogComponent implements OnInit, OnDestroy {
     onCanvasChanged(): void;
     private resizeTabHeight;
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentsDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ContentsDialogComponent, "mime-contents", never, {}, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ContentsDialogComponent, "mime-contents", never, {}, {}, never, never>;
 }

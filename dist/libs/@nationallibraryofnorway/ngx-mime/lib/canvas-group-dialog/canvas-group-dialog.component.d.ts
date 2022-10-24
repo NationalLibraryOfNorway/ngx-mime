@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from '../core/intl';
@@ -13,14 +13,14 @@ export declare class CanvasGroupDialogComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     private changeDetectorRef;
     numberOfCanvases: number;
-    canvasGroupForm: UntypedFormGroup;
-    canvasGroupControl: UntypedFormControl;
+    canvasGroupForm: FormGroup;
+    canvasGroupControl: FormControl;
     private subscriptions;
-    constructor(dialogRef: MatDialogRef<CanvasGroupDialogComponent>, fb: UntypedFormBuilder, viewerService: ViewerService, canvasService: CanvasService, intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef);
+    constructor(dialogRef: MatDialogRef<CanvasGroupDialogComponent>, fb: FormBuilder, viewerService: ViewerService, canvasService: CanvasService, intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef);
     createForm(): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
     onSubmit(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasGroupDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupDialogComponent, "ng-component", never, {}, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupDialogComponent, "ng-component", never, {}, {}, never, never>;
 }

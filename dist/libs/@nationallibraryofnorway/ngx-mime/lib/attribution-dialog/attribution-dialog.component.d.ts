@@ -26,5 +26,5 @@ export declare class AttributionDialogComponent implements OnInit, AfterViewInit
     onResize(event: any): void;
     ngAfterViewChecked(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<AttributionDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<AttributionDialogComponent, "ng-component", never, {}, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<AttributionDialogComponent, "ng-component", never, {}, {}, never, never>;
 }

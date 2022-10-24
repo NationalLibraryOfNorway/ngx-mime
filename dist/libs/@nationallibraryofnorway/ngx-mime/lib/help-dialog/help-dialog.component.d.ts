@@ -15,5 +15,5 @@ export declare class HelpDialogComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void;
     private resizeTabHeight;
     static ɵfac: i0.ɵɵFactoryDeclaration<HelpDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<HelpDialogComponent, "mime-help", never, {}, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<HelpDialogComponent, "mime-help", never, {}, {}, never, never>;
 }

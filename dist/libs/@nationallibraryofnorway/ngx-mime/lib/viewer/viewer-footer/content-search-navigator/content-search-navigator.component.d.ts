@@ -27,5 +27,5 @@ export declare class ContentSearchNavigatorComponent implements OnInit, OnDestro
     goToNextHit(): void;
     goToPreviousHit(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchNavigatorComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchNavigatorComponent, "mime-content-search-navigator", never, { "searchResult": "searchResult"; }, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchNavigatorComponent, "mime-content-search-navigator", never, { "searchResult": "searchResult"; }, {}, never, never>;
 }
