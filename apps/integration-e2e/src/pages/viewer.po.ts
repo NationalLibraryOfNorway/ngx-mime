@@ -352,7 +352,7 @@ export class ViewerPage {
   }
 
   async isFullscreen() {
-    this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(1000);
     const isFullscreen = await this.page.evaluate(
       '(document.fullscreenElement != null' +
         ' || document.mozFullScreenElement != null' +
