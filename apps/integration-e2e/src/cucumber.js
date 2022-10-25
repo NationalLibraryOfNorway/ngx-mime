@@ -9,7 +9,7 @@ const createFormat = () => {
 
 const createTags = () => {
   const mode = process.env['MODE'];
-  let tags = 'not @ignore';
+  let tags = '';
   const profile = args.p;
 
   if (args.tags) {
@@ -17,23 +17,23 @@ const createTags = () => {
   } else {
     switch (mode) {
       case 'mobile':
-        tags = '@android and not (@ignore or @fullscreen)';
+        tags = '@android and not @fullscreen';
         break;
       case 'iphone':
-        tags = '@iphone and not (@ignore or @fullscreen)';
+        tags = '@iphone and not @fullscreen';
         break;
       case 'chrome':
-        tags = '@desktop and not @ignore';
+        tags = '@desktop';
         if (!profile || profile !== 'ci') {
           tags = `${tags} and not @fullscreen`;
         }
         break;
       default:
-        tags = '@desktop and not (@ignore or @fullscreen)';
+        tags = '@desktop and not @fullscreen';
     }
   }
 
-  return tags;
+  return `${tags} and not @ignore`;
 };
 
 const createAppUrl = () => {
@@ -69,7 +69,7 @@ const ci = {
   ...common,
   parallel: 6,
   retry: 2,
-  failFast: false,
+  failFast: true,
   worldParameters: {
     ...common.worldParameters,
     ...{
