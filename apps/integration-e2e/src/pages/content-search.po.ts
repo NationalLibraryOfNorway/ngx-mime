@@ -68,8 +68,7 @@ export class ContentSearchPage {
 
   async selectHit(hit: string): Promise<number> {
     const selected = await this.hitStringToHitIndex(hit);
-    const first = this.hits.nth(selected);
-    await first.click();
+    await this.hits.nth(selected).click();
     await this.animations.waitFor(1000);
     return selected;
   }
