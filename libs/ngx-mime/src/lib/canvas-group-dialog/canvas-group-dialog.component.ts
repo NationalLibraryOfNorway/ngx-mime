@@ -6,9 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormControl,
+  FormGroup,
   UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -24,8 +24,9 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 })
 export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   numberOfCanvases: number;
-  canvasGroupForm!: UntypedFormGroup;
-  canvasGroupControl!: UntypedFormControl;
+  canvasGroupForm: FormGroup<{
+    canvasGroupControl: FormControl<number | null>;
+  }>;
   private subscriptions = new Subscription();
 
   constructor(
@@ -37,18 +38,17 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef
   ) {
     this.numberOfCanvases = this.canvasService.numberOfCanvases;
-    this.createForm();
+    this.canvasGroupForm = this.fb.group({
+      canvasGroupControl: new FormControl(null, [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(this.numberOfCanvases),
+      ]),
+    });
   }
 
-  createForm() {
-    this.canvasGroupControl = new UntypedFormControl('', [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(this.numberOfCanvases),
-    ]);
-    this.canvasGroupForm = this.fb.group({
-      canvasGroupControl: this.canvasGroupControl,
-    });
+  get canvasGroupControl() {
+    return this.canvasGroupForm.get('canvasGroupControl');
   }
 
   ngOnInit() {
@@ -63,11 +63,12 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.canvasGroupForm.valid) {
-      const pageNumber = this.canvasGroupControl.value - 1;
-      this.viewerService.goToCanvasGroup(
-        this.canvasService.findCanvasGroupByCanvasIndex(pageNumber),
-        false
-      );
+      const pageNumber = this.canvasGroupControl?.value;
+      if (pageNumber !== null && pageNumber !== undefined)
+        this.viewerService.goToCanvasGroup(
+          this.canvasService.findCanvasGroupByCanvasIndex(pageNumber - 1),
+          false
+        );
       this.dialogRef.close();
     }
   }
