@@ -542,8 +542,7 @@ export class ViewerPage {
   }
 
   async isTwoPageView(): Promise<boolean> {
-    const secondPageGroupCount = await this.page
-      .locator('.page-group')
+    const secondPageGroupCount = await this.pageGroup
       .nth(1)
       .locator('rect')
       .count();
