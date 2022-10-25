@@ -353,13 +353,12 @@ export class ViewerPage {
 
   async isFullscreen() {
     await this.page.waitForTimeout(1000);
-    const isFullscreen = await this.page.evaluate(
+    return await this.page.evaluate(
       '(document.fullscreenElement != null' +
         ' || document.mozFullScreenElement != null' +
         ' || document.webkitFullscreenElement != null' +
         ' || document.msFullscreenElement != null)'
     );
-    return isFullscreen;
   }
   async getSVGElement() {
     await this.svg.waitFor();
