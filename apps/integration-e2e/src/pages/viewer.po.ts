@@ -352,7 +352,7 @@ export class ViewerPage {
   }
 
   async isFullscreen() {
-    this.page.waitForTimeout(1000)
+    this.page.waitForTimeout(1000);
     const isFullscreen = await this.page.evaluate(
       '(document.fullscreenElement != null' +
         ' || document.mozFullScreenElement != null' +
@@ -362,7 +362,7 @@ export class ViewerPage {
     return isFullscreen;
   }
   async getSVGElement() {
-    this.svg.waitFor();
+    await this.svg.waitFor();
     return this.svg;
   }
 
