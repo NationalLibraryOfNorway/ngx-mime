@@ -6,9 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
-  UntypedFormBuilder,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -31,7 +31,7 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialogRef: MatDialogRef<CanvasGroupDialogComponent>,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private viewerService: ViewerService,
     private canvasService: CanvasService,
     public intl: MimeViewerIntl,
@@ -39,7 +39,7 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   ) {
     this.numberOfCanvases = this.canvasService.numberOfCanvases;
     this.canvasGroupForm = this.fb.group({
-      canvasGroupControl: new FormControl(null, [
+      canvasGroupControl: new FormControl<number | null>(null, [
         Validators.required,
         Validators.min(1),
         Validators.max(this.numberOfCanvases),
