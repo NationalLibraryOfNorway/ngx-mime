@@ -15,7 +15,7 @@
         [placeholder]="intl.enterPageNumber"
         formControlName="canvasGroupControl"
       />
-      <mat-error *ngIf="canvasGroupControl.errors?.max">{{
+      <mat-error *ngIf="canvasGroupControl?.errors?.max">{{
         intl.pageDoesNotExists
       }}</mat-error>
     </mat-form-field>

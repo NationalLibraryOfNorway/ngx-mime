@@ -2,6 +2,7 @@
   <app-components-viewer
     *ngIf="isComponent"
     [manifestUri]="manifestUri"
+    [canvasIndex]="canvasIndex"
   ></app-components-viewer>
   <app-elements-viewer
     *ngIf="!isComponent"

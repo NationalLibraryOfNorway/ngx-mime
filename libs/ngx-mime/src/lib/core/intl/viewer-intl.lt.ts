@@ -8,6 +8,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   closeLabel = 'Uždaryti';
   attributionLabel = 'Teisių priskyrimas';
   attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
+  helpCloseAriaLabel = 'Uždaryti pagalbos dialogo langą';
   recognizedTextContentLabel = 'Atpazīts teksts';
   contentsLabel = 'Informacija apie objektą';
   layoutMenuLabel = 'Žiūrėti';

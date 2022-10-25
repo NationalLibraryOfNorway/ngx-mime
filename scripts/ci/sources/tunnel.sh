@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 start_tunnel() {
-  ./scripts/saucelabs/start-tunnel.sh
+  ./scripts/lambdatest/start-tunnel.sh
 }
 
 wait_for_tunnel() {
-  ./scripts/saucelabs/wait-tunnel.sh
+  ./scripts/lambdatest/wait-tunnel.sh
   sleep 10
 }
 
 teardown_tunnel() {
-  ./scripts/saucelabs/stop-tunnel.sh
+  ./scripts/lambdatest/stop-tunnel.sh
 }

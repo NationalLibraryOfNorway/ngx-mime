@@ -40,31 +40,29 @@ describe('CanvasGroupDialogComponent', () => {
   let intl: MimeViewerIntl;
   let canvasService: CanvasServiceStub;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, HttpClientTestingModule, SharedModule],
-        declarations: [CanvasGroupDialogComponent],
-        providers: [
-          ViewerService,
-          ClickService,
-          ModeService,
-          ViewerLayoutService,
-          MimeViewerIntl,
-          StyleService,
-          HighlightService,
-          {
-            provide: IiifContentSearchService,
-            useClass: IiifContentSearchServiceStub,
-          },
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: CanvasService, useClass: CanvasServiceStub },
-          { provide: AltoService, useClass: AltoServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, HttpClientTestingModule, SharedModule],
+      declarations: [CanvasGroupDialogComponent],
+      providers: [
+        ViewerService,
+        ClickService,
+        ModeService,
+        ViewerLayoutService,
+        MimeViewerIntl,
+        StyleService,
+        HighlightService,
+        {
+          provide: IiifContentSearchService,
+          useClass: IiifContentSearchServiceStub,
+        },
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+        { provide: CanvasService, useClass: CanvasServiceStub },
+        { provide: AltoService, useClass: AltoServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CanvasGroupDialogComponent);
@@ -96,9 +94,9 @@ describe('CanvasGroupDialogComponent', () => {
     it('should show a error message if user enters a canvas group number index that does not exists', fakeAsync(async () => {
       canvasService._currentNumberOfCanvasGroups.next(10);
 
-      component.canvasGroupControl.setValue(11);
+      component.canvasGroupControl?.setValue(11);
 
-      component.canvasGroupControl.markAsTouched();
+      component.canvasGroupControl?.markAsTouched();
       fixture.detectChanges();
       flush();
 

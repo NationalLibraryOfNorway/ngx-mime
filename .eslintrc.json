@@ -32,12 +32,7 @@
         "no-async-promise-executor": "off",
         "no-empty": "off",
         "prefer-const": "off",
-        "prefer-spread": "off",
-        "protractor/no-repetitive-selectors": "off",
-        "protractor/no-browser-sleep": "off",
-        "protractor/no-repetitive-locators": "off",
-        "protractor/no-shadowing": "off",
-        "protractor/missing-wait-message": "off"
+        "prefer-spread": "off"
       }
     },
     {

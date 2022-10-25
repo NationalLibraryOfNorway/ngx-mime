@@ -1,0 +1,4 @@
+{
+  "cucumber.glue": ["apps/integration-e2e/src/**/*.ts"],
+  "cucumber.features": ["apps/integration-e2e/src/features/**/*.feature"]
+}

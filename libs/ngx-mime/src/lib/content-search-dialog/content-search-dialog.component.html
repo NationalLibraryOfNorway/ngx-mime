@@ -66,6 +66,7 @@
             mat-icon-button
             [attr.aria-label]="intl.clearSearchLabel"
             [matTooltip]="intl.clearSearchLabel"
+            [disabled]="isSearching"
             (click)="clear()"
           >
             <mat-icon class="icon">clear</mat-icon>

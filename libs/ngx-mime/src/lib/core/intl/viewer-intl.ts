@@ -10,6 +10,7 @@ export class MimeViewerIntl {
   closeLabel = 'Close';
   attributionLabel = 'Attribution';
   attributonCloseAriaLabel = 'Close attribution dialog';
+  helpCloseAriaLabel = 'Close help dialog';
   contentsLabel = 'Contents';
   layoutMenuLabel = 'View';
   pageLayoutLabel = 'Page layout';

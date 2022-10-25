@@ -1,7 +1,13 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
-import { distinctUntilChanged, finalize, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
+import {
+  distinctUntilChanged,
+  finalize,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { SearchResultBuilder } from '../builders/iiif/search-result.builder';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Hit } from './../models/hit';
@@ -59,11 +65,13 @@ export class IiifContentSearchService {
       .get(`${manifest.service.id}?q=${q}`)
       .pipe(
         finalize(() => this._searching.next(false)),
-        take(1)
+        take(1),
+        switchMap((res: IiifSearchResult) => {
+          return of(this.extractData(q, manifest, res));
+        })
       )
       .subscribe(
-        (res: IiifSearchResult) =>
-          this._currentSearchResult.next(this.extractData(q, manifest, res)),
+        (res: SearchResult) => this._currentSearchResult.next(res),
         (err: HttpErrorResponse) => this.handleError
       );
   }
