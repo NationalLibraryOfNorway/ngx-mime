@@ -20,7 +20,7 @@ export class PrintSpaceBuilder {
   build(): PrintSpace {
     let textBlocks: any[] = [];
 
-    if (this.printSpaceXml.$$) {
+    if (this.printSpaceXml?.$$) {
       textBlocks = this.extractTextBlocks(this.printSpaceXml.$$);
     }
     return {

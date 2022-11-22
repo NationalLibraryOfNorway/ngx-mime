@@ -16,22 +16,26 @@ export class PageBuilder {
   }
 
   build(): Page {
+    const topMargin = this.getFirstPrintSpace(this.pageXml.TopMargin);
+    const leftMargin = this.getFirstPrintSpace(this.pageXml.LeftMargin);
+    const rightMargin = this.getFirstPrintSpace(this.pageXml.RightMargin);
+    const bottomMargin = this.getFirstPrintSpace(this.pageXml.BottomMargin);
+    const printSpace = this.getFirstPrintSpace(this.pageXml.PrintSpace);
+
     return {
-      topMargin: this.printSpaceBuilder
-        .withPrintSpaceXml(this.pageXml.TopMargin[0])
-        .build(),
-      leftMargin: this.printSpaceBuilder
-        .withPrintSpaceXml(this.pageXml.LeftMargin[0])
-        .build(),
+      topMargin: this.printSpaceBuilder.withPrintSpaceXml(topMargin).build(),
+      leftMargin: this.printSpaceBuilder.withPrintSpaceXml(leftMargin).build(),
       rightMargin: this.printSpaceBuilder
-        .withPrintSpaceXml(this.pageXml.RightMargin[0])
+        .withPrintSpaceXml(rightMargin)
         .build(),
       bottomMargin: this.printSpaceBuilder
-        .withPrintSpaceXml(this.pageXml.BottomMargin[0])
+        .withPrintSpaceXml(bottomMargin)
         .build(),
-      printSpace: this.printSpaceBuilder
-        .withPrintSpaceXml(this.pageXml.PrintSpace[0])
-        .build(),
+      printSpace: this.printSpaceBuilder.withPrintSpaceXml(printSpace).build(),
     };
+  }
+
+  private getFirstPrintSpace(printSpace: any[]): any | undefined {
+    return printSpace ? printSpace[0] : undefined;
   }
 }
