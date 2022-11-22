@@ -47,7 +47,7 @@ describe('AltoBuilder', () => {
     );
   });
 
-  it('should build altoxml with empry margins', () => {
+  it('should build altoxml with empty margins', () => {
     parseString(
       testAltoWithNoMargins,
       { preserveChildrenOrder: true, explicitChildren: true },
