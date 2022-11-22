@@ -295,3 +295,54 @@ export const testAltoWithSubsContent = `
 </alto>
 
 `;
+
+export const testAltoWithNoMargins = `
+
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v3#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/standards/alto/ns-v3# http://www.loc.gov/alto/v3/alto-3-0.xsd">
+	<Description>
+		<MeasurementUnit>pixel</MeasurementUnit>
+		<sourceImageInformation>
+			<fileName>https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2014111408025_0037/full/pct:50/0/native.jpg</fileName>
+		</sourceImageInformation>
+		<OCRProcessing ID="OCR_0">
+			<ocrProcessingStep>
+				<processingSoftware>
+					<softwareName>tesseract 5.2.0</softwareName>
+				</processingSoftware>
+			</ocrProcessingStep>
+		</OCRProcessing>
+	</Description>
+	<Layout>
+		<Page WIDTH="805" HEIGHT="1390" PHYSICAL_IMG_NR="0" ID="page_0">
+			<PrintSpace HPOS="0" VPOS="0" WIDTH="805" HEIGHT="1390">
+				<ComposedBlock ID="cblock_0" HPOS="38" VPOS="118" WIDTH="674" HEIGHT="1091">
+					<TextBlock ID="block_0" HPOS="38" VPOS="118" WIDTH="672" HEIGHT="198">
+						<TextLine ID="line_0" HPOS="39" VPOS="118" WIDTH="670" HEIGHT="32">
+							<String ID="string_0" HPOS="39" VPOS="123" WIDTH="43" HEIGHT="27" WC="0.91" CONTENT="Hos"/><SP WIDTH="16" VPOS="123" HPOS="82"/>
+							<String ID="string_1" HPOS="98" VPOS="123" WIDTH="58" HEIGHT="21" WC="0.92" CONTENT="andre"/><SP WIDTH="16" VPOS="123" HPOS="156"/>
+							<String ID="string_2" HPOS="172" VPOS="129" WIDTH="19" HEIGHT="15" WC="0.93" CONTENT="er"/><SP WIDTH="16" VPOS="129" HPOS="191"/>
+							<String ID="string_3" HPOS="207" VPOS="122" WIDTH="97" HEIGHT="26" WC="0.89" CONTENT="Aarsagen"/><SP WIDTH="15" VPOS="122" HPOS="304"/>
+							<String ID="string_4" HPOS="319" VPOS="121" WIDTH="49" HEIGHT="21" WC="0.92" CONTENT="uden"/><SP WIDTH="10" VPOS="121" HPOS="368"/>
+							<String ID="string_5" HPOS="378" VPOS="120" WIDTH="61" HEIGHT="21" WC="0.92" CONTENT="Tvivl"/><SP WIDTH="14" VPOS="120" HPOS="439"/>
+							<String ID="string_6" HPOS="453" VPOS="120" WIDTH="42" HEIGHT="24" WC="0.92" CONTENT="den,"/><SP WIDTH="17" VPOS="120" HPOS="495"/>
+							<String ID="string_7" HPOS="512" VPOS="121" WIDTH="20" HEIGHT="19" WC="0.92" CONTENT="at"/><SP WIDTH="15" VPOS="121" HPOS="532"/>
+							<String ID="string_8" HPOS="547" VPOS="124" WIDTH="46" HEIGHT="16" WC="0.92" CONTENT="man"/><SP WIDTH="15" VPOS="124" HPOS="593"/>
+							<String ID="string_9" HPOS="608" VPOS="119" WIDTH="35" HEIGHT="25" WC="0.93" CONTENT="har"/><SP WIDTH="13" VPOS="119" HPOS="643"/>
+							<String ID="string_10" HPOS="656" VPOS="118" WIDTH="53" HEIGHT="25" WC="0.91" CONTENT="stolet"/>
+						</TextLine>
+					</TextBlock>
+				</ComposedBlock>
+				<ComposedBlock ID="cblock_1" HPOS="590" VPOS="1254" WIDTH="21" HEIGHT="16">
+					<TextBlock ID="block_5" HPOS="590" VPOS="1254" WIDTH="21" HEIGHT="16">
+						<TextLine ID="line_33" HPOS="590" VPOS="1254" WIDTH="21" HEIGHT="16">
+							<String ID="string_283" HPOS="590" VPOS="1254" WIDTH="21" HEIGHT="16" WC="0.25" CONTENT="*"/>
+						</TextLine>
+					</TextBlock>
+				</ComposedBlock>
+			</PrintSpace>
+		</Page>
+	</Layout>
+</alto>
+
+`;
