@@ -5,7 +5,7 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
-  OnInit,
+  OnInit
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -21,7 +21,7 @@ import { Manifest } from './../core/models/manifest';
   selector: 'mime-contents',
   templateUrl: './contents-dialog.component.html',
   styleUrls: ['./contents-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentsDialogComponent implements OnInit, OnDestroy {
   public manifest: Manifest | null = null;
@@ -58,7 +58,6 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
             this.manifest !== null &&
             this.manifest.structures !== undefined &&
             this.manifest.structures.length > 0;
-          this.changeDetectorRef.detectChanges();
         }
       )
     );
@@ -82,19 +81,18 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   }
 
   private resizeTabHeight(): void {
-    const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
     let height = this.mimeHeight;
 
     if (this.mediaObserver.isActive('lt-md')) {
-      height -= 104;
       this.tabHeight = {
-        maxHeight: window.innerHeight - 128 + 'px',
+        maxHeight: window.innerHeight - 128 + 'px'
       };
     } else {
       height -= 278;
       this.tabHeight = {
-        maxHeight: height + 'px',
+        maxHeight: height + 'px'
       };
     }
+    this.changeDetectorRef.markForCheck();
   }
 }
