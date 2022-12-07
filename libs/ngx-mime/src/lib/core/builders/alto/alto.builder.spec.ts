@@ -1,5 +1,9 @@
 import { parseString } from 'xml2js';
-import { testAlto, testAltoWithSubsContent } from '../../../test/testAltos';
+import {
+  testAlto,
+  testAltoWithNoMargins,
+  testAltoWithSubsContent,
+} from '../../../test/testAltos';
 import { AltoBuilder } from '../../builders/alto';
 
 describe('AltoBuilder', () => {
@@ -24,6 +28,7 @@ describe('AltoBuilder', () => {
       }
     );
   });
+
   it('should build altoxml with SUBS_CONTENT', () => {
     parseString(
       testAltoWithSubsContent,
@@ -37,6 +42,22 @@ describe('AltoBuilder', () => {
           expect(textBlocks[0].textLines[1].strings[5].content).toBe(
             'politicians.'
           );
+        }
+      }
+    );
+  });
+
+  it('should build altoxml with no margins', () => {
+    parseString(
+      testAltoWithNoMargins,
+      { preserveChildrenOrder: true, explicitChildren: true },
+      (error, result) => {
+        const alto = new AltoBuilder().withAltoXml(result.alto).build();
+
+        const textBlocks = alto.layout.page.printSpace.textBlocks;
+        expect(textBlocks).toBeDefined();
+        if (textBlocks) {
+          expect(textBlocks[0].textLines[0].strings[5].content).toBe('Tvivl');
         }
       }
     );
