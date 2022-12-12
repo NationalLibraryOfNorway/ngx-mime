@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "module": "es2020",
-    "types": ["jasmine", "node"]
+    "types": ["jasmine", "node"],
+    "target": "ES2022",
+    "useDefineForClassFields": false
   },
   "files": ["src/test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

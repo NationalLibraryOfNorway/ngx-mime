@@ -43,37 +43,31 @@ describe('ContentsDialogComponent', () => {
   let dialogRef: MatDialogRef<ContentsDialogComponent>;
   let viewerService: ViewerService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        schemas: [NO_ERRORS_SCHEMA],
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-        declarations: [
-          ContentsDialogComponent,
-          MetadataComponent,
-          TocComponent,
-        ],
-        providers: [
-          ViewerService,
-          ClickService,
-          MimeViewerIntl,
-          CanvasService,
-          ModeService,
-          MimeResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          ViewerLayoutService,
-          IiifContentSearchService,
-          StyleService,
-          HighlightService,
-          { provide: AltoService, useClass: AltoServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: MediaObserver, useClass: MediaObserverStub },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
+      providers: [
+        ViewerService,
+        ClickService,
+        MimeViewerIntl,
+        CanvasService,
+        ModeService,
+        MimeResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        ViewerLayoutService,
+        IiifContentSearchService,
+        StyleService,
+        HighlightService,
+        { provide: AltoService, useClass: AltoServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+        { provide: MediaObserver, useClass: MediaObserverStub },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ContentsDialogComponent);
@@ -112,46 +106,40 @@ describe('ContentsDialogComponent', () => {
     expect(heading).not.toBeNull();
   });
 
-  it(
-    'should show toc',
-    waitForAsync(() => {
-      fixture.detectChanges();
-      const manifest = new Manifest({
-        structures: [new Structure()],
-      });
-      iiifManifestService._currentManifest.next(manifest);
-      intl.tocLabel = 'TocTestLabel';
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-
-        const tabs: NodeList =
-          fixture.nativeElement.querySelectorAll('.mat-tab-label');
-        const tocTab = Array.from(tabs).find(
-          (t) => t.textContent === intl.tocLabel
-        );
-        expect(tocTab).toBeDefined();
-      });
-    })
-  );
-
-  it(
-    'should hide toc',
-    waitForAsync(() => {
-      const manifest = new Manifest();
-      iiifManifestService._currentManifest.next(manifest);
-
+  it('should show toc', waitForAsync(() => {
+    fixture.detectChanges();
+    const manifest = new Manifest({
+      structures: [new Structure()],
+    });
+    iiifManifestService._currentManifest.next(manifest);
+    intl.tocLabel = 'TocTestLabel';
+    fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        const tabs: NodeList =
-          fixture.nativeElement.querySelectorAll('.mat-tab-label');
-        const tocTab = Array.from(tabs).find(
-          (t) => t.textContent === intl.tocLabel
-        );
-        expect(tocTab).toBeUndefined();
-      });
-    })
-  );
+      const tabs: NodeList =
+        fixture.nativeElement.querySelectorAll('.mat-tab-label');
+      const tocTab = Array.from(tabs).find(
+        (t) => t.textContent === intl.tocLabel
+      );
+      expect(tocTab).toBeDefined();
+    });
+  }));
+
+  it('should hide toc', waitForAsync(() => {
+    const manifest = new Manifest();
+    iiifManifestService._currentManifest.next(manifest);
+
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      const tabs: NodeList =
+        fixture.nativeElement.querySelectorAll('.mat-tab-label');
+      const tocTab = Array.from(tabs).find(
+        (t) => t.textContent === intl.tocLabel
+      );
+      expect(tocTab).toBeUndefined();
+    });
+  }));
 
   it('should close contents dialog when selecting a canvas group in TOC when on mobile', async () => {
     spyOn(mediaObserver, 'isActive').and.returnValue(true);

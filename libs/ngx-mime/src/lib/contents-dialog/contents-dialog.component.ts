@@ -5,7 +5,7 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -21,7 +21,7 @@ import { Manifest } from './../core/models/manifest';
   selector: 'mime-contents',
   templateUrl: './contents-dialog.component.html',
   styleUrls: ['./contents-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentsDialogComponent implements OnInit, OnDestroy {
   public manifest: Manifest | null = null;
@@ -85,12 +85,12 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
 
     if (this.mediaObserver.isActive('lt-md')) {
       this.tabHeight = {
-        maxHeight: window.innerHeight - 128 + 'px'
+        maxHeight: window.innerHeight - 128 + 'px',
       };
     } else {
       height -= 278;
       this.tabHeight = {
-        maxHeight: height + 'px'
+        maxHeight: height + 'px',
       };
     }
     this.changeDetectorRef.markForCheck();

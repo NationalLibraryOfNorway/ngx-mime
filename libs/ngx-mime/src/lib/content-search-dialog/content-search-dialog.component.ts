@@ -11,9 +11,9 @@ import {
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../core/intl';

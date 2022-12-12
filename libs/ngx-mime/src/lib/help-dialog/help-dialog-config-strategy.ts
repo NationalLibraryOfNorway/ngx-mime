@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { Dimensions } from '../core/models/dimensions';
 import { MimeDomHelper } from '../core/mime-dom-helper';
+import { Dimensions } from '../core/models/dimensions';
 
 export interface HelpDialogConfigStrategy {
   getConfig(elementRef?: ElementRef): MatDialogConfig;

@@ -3,14 +3,16 @@
     <div fxFlex>
       <mat-slider
         class="navigation-slider"
-        [invert]="!invert"
         [max]="numberOfCanvasGroups - 1"
-        [value]="currentCanvasGroupIndex"
         [attr.aria-label]="intl.currentPageLabel"
-        (input)="onSliderChange($event)"
         (keydown)="onSliderHotKey($event)"
         fxFlex
-      ></mat-slider>
+      >
+        <input
+          matSliderThumb
+          [(ngModel)]="currentCanvasGroupIndex"
+          (valueChange)="onSliderChange($event)"
+      /></mat-slider>
     </div>
     <button mat-button class="canvasGroups" (click)="openCanvasGroupDialog()">
       <div fxLayout="row" fxLayoutGap="1px">

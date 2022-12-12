@@ -3,9 +3,8 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit,
+  OnInit
 } from '@angular/core';
-import { MatSliderChange } from '@angular/material/slider';
 import { Subscription } from 'rxjs';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
@@ -111,9 +110,9 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     this.viewerService.goToNextCanvasGroup();
   }
 
-  onSliderChange(change: MatSliderChange): void {
-    this.currentSliderCanvasGroupIndex = change.value;
-    this.currentCanvasGroupIndex = change.value;
+  onSliderChange(value: number): void {
+    this.currentSliderCanvasGroupIndex = value;
+    this.currentCanvasGroupIndex = value;
     if (this.currentCanvasGroupIndex !== null) {
       this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(
         this.currentCanvasGroupIndex

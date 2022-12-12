@@ -9,9 +9,8 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes, {
-      preloadingStrategy: PreloadAllModules,
-      relativeLinkResolution: 'legacy',
-    }),
+    preloadingStrategy: PreloadAllModules
+}),
   ],
   exports: [RouterModule],
 })
