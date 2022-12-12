@@ -91,7 +91,7 @@ export class ViewerPage {
       '#ngx-mimeContentsDialogButton'
     );
     this.contentsContainer = this.page.locator('.contents-container');
-    this.tabs = this.page.locator('.mat-tab-label');
+    this.tabs = this.page.locator('.mat-mdc-tab');
     this.helpDialogButton = this.page.locator('#ngx-mimeHelpDialogButton');
     this.contentSearchDialogButton = this.page.locator(
       '#ngx-mimeContentSearchDialogButton'
@@ -102,7 +102,7 @@ export class ViewerPage {
     this.fullscreenButton = this.page.locator('#ngx-mimeFullscreenButton');
     this.openseadragonContainer = this.page.locator('.openseadragon-container');
     this.attribution = this.page.locator(
-      '.attribution-container > .mat-dialog-content'
+      '.attribution-container > .mat-mdc-dialog-content'
     );
     this.svg = this.page.locator('#openseadragon svg');
     this.canvasGroupOverlays = this.page.locator(

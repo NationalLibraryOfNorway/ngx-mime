@@ -1,3 +1,7 @@
+.mat-mdc-dialog-title {
+  padding: 0 2px 16px;
+}
+
 .help-container {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   font-size: 14px;
@@ -11,7 +15,7 @@
   max-width: none !important;
 }
 
-::ng-deep .help-panel > .mat-dialog-container {
+::ng-deep .help-panel > .mat-mdc-dialog-container {
   padding: 0 !important;
   overflow: initial;
 }

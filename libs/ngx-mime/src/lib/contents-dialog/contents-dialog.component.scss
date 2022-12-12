@@ -6,7 +6,7 @@
   max-width: none !important;
 }
 
-::ng-deep .contents-panel > .mat-dialog-container {
+::ng-deep .contents-panel > .mat-mdc-dialog-container {
   padding: 0px !important;
   overflow: initial;
 }
@@ -20,6 +20,12 @@
   padding: 8px 16px;
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-title {
+  padding: 0 2px 16px;
+}
+
+.mat-mdc-dialog-content {
   max-height: none;
+  padding: 8px;
+  margin: 0px;
 }

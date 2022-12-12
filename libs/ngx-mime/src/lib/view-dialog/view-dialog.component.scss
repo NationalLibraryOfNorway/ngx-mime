@@ -2,7 +2,7 @@
   max-width: none !important;
 }
 
-::ng-deep .view-panel > .mat-dialog-container {
+::ng-deep .view-panel > .mat-mdc-dialog-container {
   padding: 0 !important;
   overflow: initial;
 }
@@ -15,7 +15,11 @@ section {
   margin-left: 16px;
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-title {
+  padding: 0 2px 16px;
+}
+
+.mat-mdc-dialog-content {
   margin: 0;
   padding: 0 16px;
 }

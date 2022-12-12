@@ -64,7 +64,7 @@ describe('AttributionDialogComponent', () => {
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(
-      By.css('.mat-dialog-content')
+      By.css('.mat-mdc-dialog-content')
     );
     expect(attribution.nativeElement.innerText).toBe(
       'This is a test attribution'

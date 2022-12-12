@@ -117,7 +117,7 @@ describe('ContentsDialogComponent', () => {
       fixture.detectChanges();
 
       const tabs: NodeList =
-        fixture.nativeElement.querySelectorAll('.mat-tab-label');
+        fixture.nativeElement.querySelectorAll('.mat-mdc-tab');
       const tocTab = Array.from(tabs).find(
         (t) => t.textContent === intl.tocLabel
       );
@@ -133,7 +133,7 @@ describe('ContentsDialogComponent', () => {
 
     fixture.whenStable().then(() => {
       const tabs: NodeList =
-        fixture.nativeElement.querySelectorAll('.mat-tab-label');
+        fixture.nativeElement.querySelectorAll('.mat-mdc-tab');
       const tocTab = Array.from(tabs).find(
         (t) => t.textContent === intl.tocLabel
       );
