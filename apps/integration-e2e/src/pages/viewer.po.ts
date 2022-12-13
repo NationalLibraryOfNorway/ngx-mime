@@ -74,6 +74,7 @@ export class ViewerPage {
   private viewMenuCloseButton: Locator;
   private viewMenuDialog: Locator;
   private pageGroup: Locator;
+  private dir: Locator;
 
   constructor(
     private parameters: ParameterType,
@@ -81,6 +82,7 @@ export class ViewerPage {
     private animations: Animations
   ) {
     this.navigationSlider = this.page.locator('.navigation-slider');
+    this.dir = this.page.locator('[data-test-id="slider-dir"]');
     this.canvasGroupsButton = this.page.locator('button.canvasGroups');
     this.canvasGroupInput = this.page.locator('.go-to-canvas-group-input');
     this.currentCanvasGroupLabel = this.page.locator(
@@ -296,8 +298,11 @@ export class ViewerPage {
     if ((await isTwoPageView) && canvasGroupIndex > 1) {
       canvasGroupIndex = Math.floor(canvasGroupIndex / 2);
     }
+
+    const dir = await this.dir.getAttribute('dir');
+    const pressDirection = dir === 'ltr' ? 'ArrowRight' : 'ArrowLeft';
     for (let i = 0; i < canvasGroupIndex; i++) {
-      await this.navigationSlider.press('ArrowRight');
+      await this.navigationSlider.press(pressDirection);
       await this.animations.waitFor();
     }
   }

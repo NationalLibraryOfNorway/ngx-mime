@@ -1,9 +1,10 @@
+import { Direction } from '@angular/cdk/bidi';
 import {
   ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
@@ -29,7 +30,7 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   public currentCanvasGroupIndex: number | null = -1;
   public isFirstCanvasGroup = false;
   public isLastCanvasGroup = false;
-  invert = false;
+  dir: Direction = 'ltr';
   private currentSliderCanvasGroupIndex: number | null = -1;
   private subscriptions = new Subscription();
 
@@ -47,7 +48,10 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           if (manifest) {
-            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+            this.dir =
+              manifest.viewingDirection === ViewingDirection.LTR
+                ? 'ltr'
+                : 'rtl';
             this.changeDetectorRef.detectChanges();
           }
         }

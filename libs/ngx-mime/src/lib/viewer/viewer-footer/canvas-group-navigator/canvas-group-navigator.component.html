@@ -1,6 +1,6 @@
 <mat-toolbar>
   <div fxLayout="row" fxFlex fxLayoutAlign="start center">
-    <div fxFlex>
+    <div fxFlex data-test-id="slider-dir" [dir]="dir">
       <mat-slider
         class="navigation-slider"
         [max]="numberOfCanvasGroups - 1"
@@ -22,7 +22,7 @@
       </div>
     </button>
     <div class="navigation-buttons">
-      <ng-container *ngIf="invert">
+      <ng-container *ngIf="dir === 'ltr'">
         <button
           id="footerNavigateBeforeButton"
           mat-icon-button
@@ -46,7 +46,7 @@
           <mat-icon>navigate_next</mat-icon>
         </button>
       </ng-container>
-      <ng-container *ngIf="!invert">
+      <ng-container *ngIf="dir === 'rtl'">
         <button
           id="footerNavigateNextButton"
           mat-icon-button
