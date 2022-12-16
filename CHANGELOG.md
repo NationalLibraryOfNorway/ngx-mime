@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.3.2...v14.0.0) (2022-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Angular 14
+
+### Features
+
+* angular v14 and migrate from protractor to playwright ([df28909](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/df289090da3243f124b2f839c0aad279eb2e2704)), closes [#431](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/431)
+
+
+### Bug Fixes
+
+* contents-dialog should now resize on objects without toc ([#436](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/436)) ([52da246](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/52da246dc43b454dd1cde6b427eacb60e4442f7b))
+* handle empty margins in recognized text ([5470001](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5470001ce9c463315564eb5ee3b33f0915cd2b3b))
+
 ### [13.3.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.3.1...v13.3.2) (2022-09-19)
 
 
