@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -22,6 +22,7 @@ export class AttributionDialogService {
 
   constructor(
     private dialog: MatDialog,
+    private viewContainerRef: ViewContainerRef,
     private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
     private mimeDomHelper: MimeDomHelper
@@ -109,6 +110,7 @@ export class AttributionDialogService {
       },
       autoFocus: true,
       restoreFocus: false,
+      viewContainerRef: this.viewContainerRef,
     };
   }
 

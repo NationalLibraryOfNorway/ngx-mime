@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -18,6 +18,7 @@ export class ViewDialogService {
 
   constructor(
     private dialog: MatDialog,
+    private viewContainerRef: ViewContainerRef,
     private viewDialogConfigStrategyFactory: ViewDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService
   ) {}
@@ -66,7 +67,7 @@ export class ViewDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
-    return this.viewDialogConfigStrategyFactory.create().getConfig(this._el);
+    return this.viewDialogConfigStrategyFactory.create().getConfig(this._el, this.viewContainerRef);
   }
 
   private unsubscribe() {

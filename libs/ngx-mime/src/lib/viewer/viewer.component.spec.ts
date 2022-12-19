@@ -233,7 +233,7 @@ describe('ViewerComponent', function () {
     const viewer = viewerService.getViewer();
     const overlay = viewerService.getOverlays()[0];
     const openseadragonDE = testHostFixture.debugElement.query(
-      By.css('#openseadragon')
+      By.css('.openseadragon')
     );
     const element = openseadragonDE.nativeElement;
     let viewportHeight, viewportWidth, overlayHeight, overlayWidth;

@@ -1,5 +1,5 @@
 <div
-  id="ngx-mime-mimeViewer"
+  [id]="id"
   class="viewer-container"
   [ngClass]="setClasses()"
   [hidden]="errorMessage !== null"
@@ -32,7 +32,7 @@
       ></mime-recognized-text-content
     ></mat-drawer>
     <mat-drawer-content>
-      <div id="openseadragon" #openseadragon></div>
+      <div [id]="openseadragonId" class="openseadragon" #openseadragon></div>
     </mat-drawer-content>
   </mat-drawer-container>
 

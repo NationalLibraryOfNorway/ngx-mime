@@ -1,10 +1,14 @@
+import { ElementRef, Injectable } from '@angular/core';
 import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { Dimensions } from './models/dimensions';
-import { ElementRef, Injectable } from '@angular/core';
+import { ViewerService } from './viewer-service/viewer.service';
 
 @Injectable()
 export class MimeDomHelper {
-  constructor(private fullscreen: FullscreenService) {}
+  constructor(
+    private fullscreen: FullscreenService,
+    private viewerService: ViewerService
+  ) {}
 
   public getBoundingClientRect(el: ElementRef): Dimensions {
     try {
@@ -26,15 +30,15 @@ export class MimeDomHelper {
   }
 
   public toggleFullscreen(): void {
-    const el = <any>document.getElementById('ngx-mime-mimeViewer');
+    const el = <any>document.querySelector(`#${this.viewerService.id}`);
     if (this.fullscreen.isEnabled()) {
       this.fullscreen.toggle(el);
     }
   }
 
   public setFocusOnViewer(): void {
-    const el: HTMLElement | null = document.getElementById(
-      'ngx-mime-mimeViewer'
+    const el: HTMLElement | null = document.querySelector(
+      `#${this.viewerService.id}`
     );
     if (el) {
       el.focus();

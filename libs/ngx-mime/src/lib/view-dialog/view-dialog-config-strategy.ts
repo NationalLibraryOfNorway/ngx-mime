@@ -1,16 +1,22 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Dimensions } from '../core/models/dimensions';
 
 export interface ViewDialogConfigStrategy {
-  getConfig(elementRef?: ElementRef | null): MatDialogConfig;
+  getConfig(
+    elementRef: ElementRef | null,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig;
 }
 
 export class MobileViewDialogConfigStrategy
   implements ViewDialogConfigStrategy
 {
-  public getConfig(elementRef: ElementRef): MatDialogConfig {
+  public getConfig(
+    elementRef: ElementRef,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig {
     return {
       hasBackdrop: false,
       disableClose: false,
@@ -18,6 +24,7 @@ export class MobileViewDialogConfigStrategy
       width: '100%',
       height: '100%',
       panelClass: 'view-panel',
+      viewContainerRef: viewContainerRef,
     };
   }
 }
@@ -33,7 +40,10 @@ export class DesktopViewDialogConfigStrategy
     this.mimeDomHelper = mimeDomHelper;
   }
 
-  public getConfig(el: ElementRef): MatDialogConfig {
+  public getConfig(
+    el: ElementRef,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig {
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
@@ -45,6 +55,7 @@ export class DesktopViewDialogConfigStrategy
         left: dimensions.left + 'px',
       },
       panelClass: 'view-panel',
+      viewContainerRef: viewContainerRef,
     };
   }
 

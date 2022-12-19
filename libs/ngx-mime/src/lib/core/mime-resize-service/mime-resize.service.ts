@@ -1,12 +1,15 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { debounceTime, map, Observable, ReplaySubject } from 'rxjs';
 import { Dimensions } from '../models/dimensions';
+import { ViewerService } from '../viewer-service/viewer.service';
 
 @Injectable()
 export class MimeResizeService {
   private _el!: ElementRef;
   private resizeSubject: ReplaySubject<DOMRectReadOnly> = new ReplaySubject();
   private observer!: ResizeObserver;
+
+  constructor(private viewerService: ViewerService) {}
 
   set el(el: ElementRef) {
     this._el = el;
@@ -38,9 +41,12 @@ export class MimeResizeService {
         this.resizeSubject.next(entry.contentRect);
       }
     });
+
+    console.log(this.viewerService.id);
     const el: Element = this.el.nativeElement.querySelector(
-      '#ngx-mime-mimeViewer'
+      `#${this.viewerService.id}`
     );
+
     this.observer.observe(el);
   }
 

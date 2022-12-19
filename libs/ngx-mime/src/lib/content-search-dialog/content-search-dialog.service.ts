@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -18,6 +18,7 @@ export class ContentSearchDialogService {
 
   constructor(
     private dialog: MatDialog,
+    private viewContainerRef: ViewContainerRef,
     private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService
   ) {}
@@ -68,7 +69,7 @@ export class ContentSearchDialogService {
   private getDialogConfig(): MatDialogConfig {
     return this.contentSearchDialogConfigStrategyFactory
       .create()
-      .getConfig(this._el);
+      .getConfig(this._el, this.viewContainerRef);
   }
 
   private unsubscribe() {

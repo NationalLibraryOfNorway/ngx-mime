@@ -26,9 +26,11 @@ import { ModeService } from './../mode-service/mode.service';
 import { ViewerService } from './viewer.service';
 
 @Component({
-  template: ` <div id="openseadragon"></div> `,
+  template: ` <div [id]="config.openseadragonId"></div> `,
 })
-class TestHostComponent {}
+class TestHostComponent {
+  config = new MimeViewerConfig();
+}
 
 describe('ViewerService', () => {
   let snackBar: MatSnackBar;
@@ -36,6 +38,7 @@ describe('ViewerService', () => {
   let viewerLayoutService: ViewerLayoutService;
   let viewerService: ViewerService;
   let originalTimeout: number;
+  let mimeViewerConfig: MimeViewerConfig;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -65,6 +68,7 @@ describe('ViewerService', () => {
     snackBar = TestBed.inject(MatSnackBar);
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
     hostFixture = TestBed.createComponent(TestHostComponent);
+    mimeViewerConfig = hostFixture.componentInstance.config;
     viewerService.initialize();
     hostFixture.detectChanges();
 
@@ -106,7 +110,7 @@ describe('ViewerService', () => {
     });
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      new MimeViewerConfig()
+      mimeViewerConfig
     );
 
     let subscription: Subscription;
@@ -128,7 +132,7 @@ describe('ViewerService', () => {
     });
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      new MimeViewerConfig()
+      mimeViewerConfig
     );
 
     let subscription: Subscription;
@@ -146,7 +150,7 @@ describe('ViewerService', () => {
   it('should set viewer to null on destroy', (done) => {
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      new MimeViewerConfig()
+      mimeViewerConfig
     );
 
     let subscription: Subscription;
@@ -165,7 +169,7 @@ describe('ViewerService', () => {
       const openSpy = spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
-        new MimeViewerConfig()
+        mimeViewerConfig
       );
 
       viewerService.onOsdReadyChange.subscribe((state) => {
@@ -186,7 +190,7 @@ describe('ViewerService', () => {
       const openSpy = spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
-        new MimeViewerConfig()
+        mimeViewerConfig
       );
       const viewer = viewerService.getViewer();
       viewer.useCanvas = false;

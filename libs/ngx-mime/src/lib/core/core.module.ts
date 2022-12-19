@@ -19,23 +19,6 @@ import { ViewerService } from './viewer-service/viewer.service';
 
 @NgModule({
   providers: [
-    MimeViewerIntl,
-    IiifManifestService,
-    IiifContentSearchService,
-    MimeResizeService,
-    FullscreenService,
-    ViewerService,
-    ClickService,
-    CanvasService,
-    ModeService,
-    SpinnerService,
-    AccessKeysService,
-    ViewerLayoutService,
-    ContentSearchNavigationService,
-    StyleService,
-    AltoService,
-    ViewDialogModule,
-    HighlightService,
   ],
 })
 export class CoreModule {}

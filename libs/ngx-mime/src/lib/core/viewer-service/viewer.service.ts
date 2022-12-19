@@ -53,10 +53,10 @@ declare const OpenSeadragon: any;
 
 @Injectable()
 export class ViewerService {
+  config!: MimeViewerConfig;
   private viewer?: any;
   private svgOverlay: any;
   private svgNode: any;
-  private config!: MimeViewerConfig;
 
   private overlays: Array<SVGRectElement> = [];
   private tileSources: Array<Resource> = [];
@@ -84,6 +84,8 @@ export class ViewerService {
 
   private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
   private dragStatus = false;
+  public id = 'ngx-mime-mimeViewer';
+  public openseadragonId = 'openseadragon';
 
   constructor(
     private zone: NgZone,
@@ -96,7 +98,13 @@ export class ViewerService {
     private altoService: AltoService,
     private snackBar: MatSnackBar,
     private intl: MimeViewerIntl
-  ) {}
+  ) {
+    this.id = `ngx-mime-mimeViewer-${Math.random().toString(16).slice(2)}`;
+    this.openseadragonId = `openseadragon-${Math.random()
+      .toString(16)
+      .slice(2)}`;
+    console.log(this.id + ' created');
+  }
 
   get onRotationChange(): Observable<number> {
     return this.rotation.asObservable().pipe(distinctUntilChanged());
@@ -260,16 +268,14 @@ export class ViewerService {
     }
   }
 
-  setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
-    this.config = config;
-
+  setUpViewer(manifest: Manifest) {
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
         this.manifest = manifest;
         this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
         this.viewer = new OpenSeadragon.Viewer(
-          OptionsFactory.create(this.config)
+          OptionsFactory.create(this.openseadragonId, this.config)
         );
         createSvgOverlay();
         this.zoomStrategy = new DefaultZoomStrategy(
@@ -422,7 +428,7 @@ export class ViewerService {
     if (this.osdIsReady.getValue()) {
       const currentCanvasIndex = this.canvasService.currentCanvasIndex;
       this.destroy(true);
-      this.setUpViewer(this.manifest, this.config);
+      this.setUpViewer(this.manifest);
       this.goToCanvasGroupStrategy.goToCanvasGroup({
         canvasGroupIndex:
           this.canvasService.findCanvasGroupByCanvasIndex(currentCanvasIndex),

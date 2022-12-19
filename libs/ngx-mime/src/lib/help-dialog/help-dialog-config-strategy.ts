@@ -1,16 +1,22 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Dimensions } from '../core/models/dimensions';
 
 export interface HelpDialogConfigStrategy {
-  getConfig(elementRef?: ElementRef): MatDialogConfig;
+  getConfig(
+    elementRef: ElementRef,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig;
 }
 
 export class MobileHelpDialogConfigStrategy
   implements HelpDialogConfigStrategy
 {
-  public getConfig(elementRef: ElementRef): MatDialogConfig {
+  public getConfig(
+    elementRef: ElementRef,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig {
     return {
       hasBackdrop: false,
       disableClose: false,
@@ -18,6 +24,7 @@ export class MobileHelpDialogConfigStrategy
       width: '100%',
       height: '100%',
       panelClass: 'help-panel',
+      viewContainerRef: viewContainerRef,
     };
   }
 }
@@ -33,8 +40,13 @@ export class DesktopHelpDialogConfigStrategy
     this.mimeDomHelper = mimeDomHelper;
   }
 
-  public getConfig(el: ElementRef): MatDialogConfig {
+  public getConfig(
+    el: ElementRef,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig {
     const dimensions = this.getPosition(el);
+    console.log('tester');
+
     return {
       hasBackdrop: false,
       disableClose: false,
@@ -45,6 +57,7 @@ export class DesktopHelpDialogConfigStrategy
         left: dimensions.left + 'px',
       },
       panelClass: 'help-panel',
+      viewContainerRef: viewContainerRef,
     };
   }
 

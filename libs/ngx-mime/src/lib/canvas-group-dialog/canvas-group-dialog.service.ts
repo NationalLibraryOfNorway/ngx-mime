@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -11,7 +11,10 @@ import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 export class CanvasGroupDialogService {
   private dialogRef?: MatDialogRef<CanvasGroupDialogComponent>;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private viewContainerRef: ViewContainerRef
+  ) {}
 
   public initialize(): void {}
 
@@ -45,6 +48,7 @@ export class CanvasGroupDialogService {
       hasBackdrop: false,
       disableClose: true,
       panelClass: 'canvas-group-panel',
+      viewContainerRef: this.viewContainerRef,
     };
   }
 }

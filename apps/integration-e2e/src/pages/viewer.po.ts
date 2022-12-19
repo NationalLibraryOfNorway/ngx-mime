@@ -106,17 +106,17 @@ export class ViewerPage {
     this.attribution = this.page.locator(
       '.attribution-container > .mat-mdc-dialog-content'
     );
-    this.svg = this.page.locator('#openseadragon svg');
+    this.svg = this.page.locator('.openseadragon svg');
     this.canvasGroupOverlays = this.page.locator(
-      '#openseadragon svg g.page-group rect'
+      '.openseadragon svg g.page-group rect'
     );
     this.leftCanvasGroupMask = this.page.locator(
-      '#openseadragon svg g#page-mask rect:first-child'
+      '.openseadragon svg g#page-mask rect:first-child'
     );
     this.rightCanvasGroupMask = this.page.locator(
-      '#openseadragon svg g#page-mask rect:nth-child(2)'
+      '.openseadragon svg g#page-mask rect:nth-child(2)'
     );
-    this.canvasGroupOverlay = this.page.locator('#openseadragon svg g rect');
+    this.canvasGroupOverlay = this.page.locator('.openseadragon svg g rect');
     this.singlePageViewButton = this.page.locator(
       'mat-button-toggle[data-test-id="ngx-mime-single-page-view-button"]'
     );
