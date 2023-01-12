@@ -5,6 +5,8 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
+<a href="https://www.lambdatest.com/hyperexecute" target="_blank"><img width="209" alt="HE Badge" src="https://user-images.githubusercontent.com/10496433/203929571-69077a63-1928-435e-b8ba-f4cdcb9d960b.png"></a>
+
 ### Project status
 
 This viewer is under active development and hasn't yet reached its final form.

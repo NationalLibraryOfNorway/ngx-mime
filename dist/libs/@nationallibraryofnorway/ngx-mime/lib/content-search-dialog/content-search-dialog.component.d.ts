@@ -42,5 +42,5 @@ export declare class ContentSearchDialogComponent implements OnInit, AfterViewIn
     private scrollCurrentHitIntoView;
     private findSelected;
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchDialogComponent, "mime-search", never, {}, {}, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchDialogComponent, "mime-search", never, {}, {}, never, never, false>;
 }

@@ -7,6 +7,7 @@ export declare class MimeViewerIntl {
     closeLabel: string;
     attributionLabel: string;
     attributonCloseAriaLabel: string;
+    helpCloseAriaLabel: string;
     contentsLabel: string;
     layoutMenuLabel: string;
     pageLayoutLabel: string;

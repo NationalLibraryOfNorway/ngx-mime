@@ -35,5 +35,5 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     private isOnFirstCanvasGroup;
     private isOnLastCanvasGroup;
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasGroupNavigatorComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupNavigatorComponent, "mime-page-navigator", never, { "searchResult": "searchResult"; }, {}, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupNavigatorComponent, "mime-page-navigator", never, { "searchResult": "searchResult"; }, {}, never, never, false>;
 }
