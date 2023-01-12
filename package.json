@@ -1,6 +1,6 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "13.3.2",
+  "version": "14.0.0",
   "license": "MIT",
   "description": "Mime IIIF viewer",
   "homepage": "https://github.com/NationalLibraryOfNorway/ngx-mime",
