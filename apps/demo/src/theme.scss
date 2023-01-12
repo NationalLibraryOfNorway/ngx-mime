@@ -74,7 +74,7 @@ $cyan-theme: mat.define-dark-theme(
 );
 .cyan-theme {
   @include ngx-mime-theme($cyan-theme);
-  @include mat.all-legacy-component-colors($cyan-theme);
+  @include mat.all-component-colors($cyan-theme);
 }
 
 $purple-primary: mat.define-palette(mat.$deep-purple-palette);
