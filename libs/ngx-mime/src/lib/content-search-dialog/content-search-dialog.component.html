@@ -79,7 +79,6 @@
       class="content-search-result-container"
       [ngStyle]="tabHeight"
     >
-      {{ tabHeight.maxHeight }}
       <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
         <input type="hidden" class="numberOfHits" [value]="numberOfHits" />
         <div *ngIf="currentSearch && currentSearch.length > 0">
