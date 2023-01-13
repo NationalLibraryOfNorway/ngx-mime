@@ -282,6 +282,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         .subscribe(() => {
           setTimeout(() => {
             this.viewerService.home();
+            this.changeDetectorRef.markForCheck();
           }, ViewerOptions.transitions.OSDAnimationTime);
         })
     );

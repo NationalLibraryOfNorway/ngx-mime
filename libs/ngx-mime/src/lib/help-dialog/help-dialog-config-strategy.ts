@@ -17,6 +17,7 @@ export class MobileHelpDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
+      maxWidth: '100% !important',
       panelClass: 'help-panel',
     };
   }
@@ -40,6 +41,7 @@ export class DesktopHelpDialogConfigStrategy
       disableClose: false,
       autoFocus: false,
       width: `${DesktopHelpDialogConfigStrategy.dialogWidth}px`,
+      maxWidth: '100% !important',
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',

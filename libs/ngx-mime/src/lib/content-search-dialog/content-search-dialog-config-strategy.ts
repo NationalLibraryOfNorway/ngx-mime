@@ -17,6 +17,7 @@ export class MobileContentSearchDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
+      maxWidth: '100% !important',
       panelClass: 'content-search-panel',
     };
   }
@@ -40,6 +41,7 @@ export class DesktopContentSearchDialogConfigStrategy
       disableClose: false,
       autoFocus: false,
       width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
+      maxWidth: '100% !important',
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',

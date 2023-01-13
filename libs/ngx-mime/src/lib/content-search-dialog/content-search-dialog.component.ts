@@ -1,8 +1,8 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
   QueryList,
@@ -37,7 +37,7 @@ export class ContentSearchDialogComponent
   public currentSearch: string | null = null;
   public numberOfHits = 0;
   public isSearching = false;
-  public tabHeight = {};
+  public tabHeight = { maxHeight: '100px' };
   private manifest: Manifest | null = null;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
@@ -51,6 +51,7 @@ export class ContentSearchDialogComponent
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
     public intl: MimeViewerIntl,
     public mediaObserver: MediaObserver,
+    private cdr: ChangeDetectorRef,
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
@@ -117,11 +118,6 @@ export class ContentSearchDialogComponent
     this.subscriptions.unsubscribe();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.resizeTabHeight();
-  }
-
   onSubmit(event: KeyboardEvent) {
     event.preventDefault();
     this.search();
@@ -160,6 +156,7 @@ export class ContentSearchDialogComponent
         maxHeight: height + 'px',
       };
     }
+    this.cdr.detectChanges();
   }
 
   private scrollCurrentHitIntoView() {

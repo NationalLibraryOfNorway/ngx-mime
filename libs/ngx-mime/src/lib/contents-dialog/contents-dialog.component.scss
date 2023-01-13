@@ -1,3 +1,8 @@
+.mat-mdc-dialog-title {
+  color: inherit;
+  padding: 0 2px 16px;
+}
+
 .label {
   text-decoration: underline;
 }
@@ -20,12 +25,7 @@
   padding: 8px 16px;
 }
 
-.mat-mdc-dialog-title {
-  padding: 0 2px 16px;
-}
-
 .mat-mdc-dialog-content {
   max-height: none;
-  padding: 8px;
-  margin: 0px;
+  padding: 0px;
 }

@@ -56,7 +56,7 @@ After(async function (result: ITestCaseHookParameter): Promise<void> {
       const a11y = await a11yAnalyze(this, remark, status);
       status = a11y.status;
       remark = a11y.remark;
-      expect(status).toBe(Status.PASSED);
+      expect(status, remark).toEqual(Status.PASSED);
     }
   } finally {
     await setStatus(this, status, remark);

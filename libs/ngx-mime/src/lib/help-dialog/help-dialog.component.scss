@@ -1,4 +1,5 @@
 .mat-mdc-dialog-title {
+  color: inherit;
   padding: 0 2px 16px;
 }
 
@@ -11,6 +12,7 @@
   padding: 16px;
   overflow: auto;
 }
+
 ::ng-deep .help-panel {
   max-width: none !important;
 }
