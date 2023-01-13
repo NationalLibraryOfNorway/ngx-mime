@@ -93,9 +93,9 @@ const connectToTestingCloud = async (
   scenario: ITestCaseHookParameter
 ): Promise<Browser | undefined> => {
   let browserName = 'Chrome';
-  let platform = 'Windows 10';
+  let platform = 'Windows 11';
   if (mode === 'iphone') {
-    platform = 'MacOS Catalina';
+    platform = 'MacOS Ventura';
     browserName = 'pw-webkit';
   } else if (mode === 'firefox') {
     browserName = 'pw-firefox';
