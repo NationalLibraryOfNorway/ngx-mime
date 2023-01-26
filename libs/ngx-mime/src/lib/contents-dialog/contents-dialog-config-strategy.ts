@@ -16,7 +16,7 @@ export class MobileContentsDialogConfigStrategy
       disableClose: false,
       width: '100%',
       height: '100%',
-      maxWidth: '100% !important',
+      maxWidth: '100%',
       panelClass: 'contents-panel',
     };
   }
@@ -39,7 +39,6 @@ export class DesktopContentsDialogConfigStrategy
       hasBackdrop: false,
       disableClose: false,
       width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
-      maxWidth: '100% !important',
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
