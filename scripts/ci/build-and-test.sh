@@ -16,6 +16,9 @@ function finish {
     teardown_tunnel
 }
 
+yarn build
+yarn build:libs
+
 yarn affected:lint
 yarn affected:test
 
