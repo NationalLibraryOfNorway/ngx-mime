@@ -1,0 +1,41 @@
+{
+  "name": "ngx-mime",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ngx-mime/src",
+  "prefix": "nationallibraryofnorway",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "options": {
+        "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
+        "project": "libs/ngx-mime/ng-package.json",
+        "buildableProjectDepsInPackageJsonType": "dependencies"
+      },
+      "configurations": {
+        "production": {
+          "project": "libs/ngx-mime/ng-package.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "tsConfig": "libs/ngx-mime/tsconfig.spec.json",
+        "karmaConfig": "libs/ngx-mime/karma.conf.js",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "scripts": [
+          "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+        ]
+      },
+      "outputs": ["{workspaceRoot}/coverage/libs/ngx-mime"]
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": ["libs/ngx-mime/**/*.ts", "libs/ngx-mime/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

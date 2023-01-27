@@ -1,0 +1,105 @@
+{
+  "name": "elements",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/elements/src",
+  "prefix": "nationallibraryofnorway",
+  "targets": {
+    "build": {
+      "executor": "ngx-build-plus:browser",
+      "options": {
+        "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
+        "outputPath": "dist/apps/elements",
+        "index": "apps/elements/src/index.html",
+        "main": "apps/elements/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/elements/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/elements/src/favicon.ico",
+          "apps/elements/src/assets"
+        ],
+        "styles": [
+          "apps/elements/src/styles.scss",
+          "apps/elements/src/theme.scss"
+        ],
+        "scripts": [
+          "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/elements/src/environments/environment.ts",
+              "with": "apps/elements/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "ngx-build-plus:dev-server",
+      "options": {
+        "browserTarget": "elements:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "elements:build:production"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "elements:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/elements/src/**/*.ts",
+          "apps/elements/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "ngx-build-plus:karma",
+      "options": {
+        "tsConfig": "apps/elements/tsconfig.spec.json",
+        "karmaConfig": "apps/elements/karma.conf.js",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "styles": ["apps/elements/src/styles.scss"],
+        "scripts": [
+          "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+        ],
+        "assets": [
+          "apps/elements/src/favicon.ico",
+          "apps/elements/src/assets"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
