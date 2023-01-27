@@ -4,7 +4,7 @@
 
 @import '../../../libs/ngx-mime/ngx-mime.theme.scss';
 
-mat.$light-theme-foreground-palette: (
+$light-theme-foreground-palette: (
   base: black,
   divider: rgba(black, 0.12),
   dividers: rgba(black, 0.12),
@@ -36,7 +36,7 @@ $brown-theme: mat.define-light-theme(
   $my-app-theme-custom: map-merge(
     $brown-theme,
     (
-      foreground: mat.$light-theme-foreground-palette,
+      foreground: $light-theme-foreground-palette,
     )
   );
   @include ngx-mime-theme($my-app-theme-custom);

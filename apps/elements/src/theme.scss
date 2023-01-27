@@ -4,7 +4,7 @@
 
 @import '../../../libs/ngx-mime/ngx-mime.theme.scss';
 
-mat.$light-theme-foreground-palette: (
+$blue-foreground-palette: (
   base: black,
   divider: rgba(black, 0.12),
   dividers: rgba(black, 0.12),
@@ -19,7 +19,7 @@ mat.$light-theme-foreground-palette: (
   text: rgba(black, 0.9),
   slider-min: rgba(black, 0.87),
   slider-off: rgba(black, 0.26),
-  slider-off-active: rgba(black, 0.38)
+  slider-off-active: rgba(black, 0.38),
 );
 
 $blue-primary: mat.define-palette(mat.$light-blue-palette, 900, 100, 700);
@@ -35,6 +35,7 @@ $dark-theme: mat.define-dark-theme(
     color: (
       primary: $dark-primary,
       accent: $dark-accent,
+      foreground: $blue-foreground-palette,
     ),
   )
 );
