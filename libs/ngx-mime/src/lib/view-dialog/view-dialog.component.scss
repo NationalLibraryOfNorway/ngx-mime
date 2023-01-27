@@ -1,5 +1,6 @@
 .mat-mdc-dialog-title {
   color: inherit;
+  padding: 0 2px 16px;
 }
 
 ::ng-deep .view-panel {
@@ -17,10 +18,6 @@ section {
 
 .label {
   margin-left: 16px;
-}
-
-.mat-mdc-dialog-title {
-  padding: 0 2px 16px;
 }
 
 .mat-mdc-dialog-content {
