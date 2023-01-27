@@ -1,0 +1,112 @@
+{
+  "name": "integration",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/integration/src",
+  "prefix": "nationallibraryofnorway",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
+        "aot": true,
+        "outputPath": "dist/apps/integration",
+        "index": "apps/integration/src/index.html",
+        "main": "apps/integration/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/integration/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/integration/src/favicon.ico",
+          "apps/integration/src/assets",
+          "apps/integration/src/index-elements.html",
+          {
+            "glob": "**/*",
+            "input": "dist/apps/elements/",
+            "output": "elements/"
+          }
+        ],
+        "styles": [
+          "apps/integration/src/styles.scss",
+          "apps/integration/src/theme.scss",
+          "dist/apps/elements/styles.css"
+        ],
+        "scripts": [
+          "dist/apps/elements/scripts.js",
+          "dist/apps/elements/main.js"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/integration/src/environments/environment.ts",
+              "with": "apps/integration/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "aot": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true
+        }
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "integration:build",
+        "proxyConfig": "apps/integration/src/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "integration:build:production"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "integration:build"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "tsConfig": "apps/integration/tsconfig.spec.json",
+        "karmaConfig": "apps/integration/karma.conf.js",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "styles": ["apps/integration/src/styles.scss"],
+        "scripts": [
+          "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
+        ],
+        "assets": [
+          "apps/integration/src/favicon.ico",
+          "apps/integration/src/assets"
+        ]
+      },
+      "outputs": ["{workspaceRoot}/coverage/apps/integration/"]
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/integration/src/**/*.ts",
+          "apps/integration/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}

@@ -25,6 +25,6 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["ngx-mime", "elements"],
+  "implicitDependencies": ["integration"],
   "name": "integration-e2e"
 }
