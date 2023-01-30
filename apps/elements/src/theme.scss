@@ -24,7 +24,14 @@ $blue-foreground-palette: (
 
 $blue-primary: mat.define-palette(mat.$light-blue-palette, 900, 100, 700);
 $blue-accent: mat.define-palette(mat.$light-blue-palette, 900, 100, 700);
-$blue-theme: mat.define-light-theme($blue-primary, $blue-accent);
+$blue-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $blue-primary,
+      accent: $blue-accent,
+    ),
+  )
+);
 
 // Define an alternate dark theme.
 $dark-primary: mat.define-palette(mat.$light-blue-palette, 900, 100, 700);

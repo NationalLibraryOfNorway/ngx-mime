@@ -28,7 +28,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
           this.manifestUri = params.get('manifestUri');
         } else {
           this.manifestUri =
-            'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest';
+            'http://ronnym.nb.no:4040/catalog/v1/iiif/a-ltr-book/manifest';
         }
 
         if (params.has('canvasIndex')) {
