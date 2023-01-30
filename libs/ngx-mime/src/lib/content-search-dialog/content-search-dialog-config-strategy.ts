@@ -17,7 +17,7 @@ export class MobileContentSearchDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
-      maxWidth: '100%',
+      maxWidth: '100% !important',
       panelClass: 'content-search-panel',
     };
   }

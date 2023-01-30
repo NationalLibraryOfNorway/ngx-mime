@@ -17,7 +17,7 @@ export class MobileViewDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
-      maxWidth: '100%',
+      maxWidth: '100% !important',
       panelClass: 'view-panel',
     };
   }
