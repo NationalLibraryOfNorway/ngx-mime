@@ -32,8 +32,6 @@ export class ViewerComponent implements OnDestroy {
     private router: Router,
     private manifestService: ManifestService
   ) {
-    console.log('tester');
-
     this.subscriptions.add(
       this.route.queryParams.subscribe((params) => {
         this.manifestUri = params['manifestUri'];
