@@ -4,7 +4,7 @@
   "peerDependencies": {
     "@angular/common": ">=15.0.0 <16.0.0",
     "@angular/core": ">=15.0.0 <16.0.0",
-    "@angular/flex-layout": ">=15.0.0 <16.0.0 || >=14.0.0-beta.41 <16.0.0",
+    "@angular/flex-layout": ">=15.0.0 <16.0.0 || >=15.0.0-beta.42 <16.0.0",
     "@angular/material": ">=15.0.0 <16.0.0",
     "d3": ">=5.7.0 <8.0.0",
     "openseadragon": ">=4.0.0 <5.0.0",
