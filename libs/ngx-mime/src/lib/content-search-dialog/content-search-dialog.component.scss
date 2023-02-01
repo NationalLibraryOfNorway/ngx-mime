@@ -7,10 +7,6 @@
   background: transparent !important;
 }
 
-.label {
-  text-decoration: underline;
-}
-
 .content-search-box {
   width: 100%;
 }
@@ -51,10 +47,6 @@ em {
 .canvasGroupLabel {
   text-align: right;
   opacity: 0.54;
-}
-
-::ng-deep .content-search-container {
-  max-width: none !important;
 }
 
 .mat-mdc-dialog-content {

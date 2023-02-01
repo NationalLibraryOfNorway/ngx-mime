@@ -46,6 +46,7 @@ export class DesktopViewDialogConfigStrategy
         left: dimensions.left + 'px',
       },
       panelClass: 'view-panel',
+      maxWidth: '100% !important',
     };
   }
 

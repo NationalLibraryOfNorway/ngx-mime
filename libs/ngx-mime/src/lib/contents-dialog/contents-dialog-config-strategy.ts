@@ -43,6 +43,7 @@ export class DesktopContentsDialogConfigStrategy
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
       },
+      maxWidth: '100% !important',
       panelClass: 'contents-panel',
     };
   }

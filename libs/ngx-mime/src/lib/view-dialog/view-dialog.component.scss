@@ -3,10 +3,6 @@
   padding: 0 2px 16px;
 }
 
-::ng-deep .view-panel {
-  max-width: none !important;
-}
-
 ::ng-deep .view-panel > .mat-mdc-dialog-container {
   padding: 0 !important;
   overflow: initial;

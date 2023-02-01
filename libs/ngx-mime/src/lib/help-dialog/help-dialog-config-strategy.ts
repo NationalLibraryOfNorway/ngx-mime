@@ -46,6 +46,7 @@ export class DesktopHelpDialogConfigStrategy
         left: dimensions.left + 'px',
       },
       panelClass: 'help-panel',
+      maxWidth: '100% !important',
     };
   }
 

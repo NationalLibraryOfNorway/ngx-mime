@@ -1,5 +1,5 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ElementsModule } from '../elements.module';
 import { ViewerComponent } from './viewer.component';
 
 describe('ViewerComponent', () => {
@@ -8,7 +8,7 @@ describe('ViewerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ElementsModule],
       declarations: [ViewerComponent],
     }).compileComponents();
   }));

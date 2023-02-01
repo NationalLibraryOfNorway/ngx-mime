@@ -1,9 +1,6 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
+import { ElementsModule } from './elements/elements.module';
 import { ViewerComponent } from './viewer.component';
 
 describe('ViewerComponent', () => {
@@ -12,13 +9,7 @@ describe('ViewerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        MimeModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-      ],
+      imports: [ElementsModule, RouterTestingModule],
       declarations: [ViewerComponent],
     }).compileComponents();
   }));

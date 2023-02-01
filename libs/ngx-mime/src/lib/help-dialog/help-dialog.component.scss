@@ -13,10 +13,6 @@
   overflow: auto;
 }
 
-::ng-deep .help-panel {
-  max-width: none !important;
-}
-
 ::ng-deep .help-panel > .mat-mdc-dialog-container {
   padding: 0 !important;
   overflow: initial;

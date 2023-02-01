@@ -3,14 +3,6 @@
   padding: 0 2px 16px;
 }
 
-.label {
-  text-decoration: underline;
-}
-
-::ng-deep .contents-panel {
-  max-width: none !important;
-}
-
 ::ng-deep .contents-panel > .mat-mdc-dialog-container {
   padding: 0px !important;
   overflow: initial;
