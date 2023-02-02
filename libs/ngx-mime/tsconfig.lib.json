@@ -1,19 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "target": "es2020",
+    "outDir": "../../../dist/out-tsc",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
-    "lib": ["dom", "es2018"]
+    "types": []
   },
   "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts",
-    "**/*-test.module.ts",
-    "**/test-*.ts"
+    "src/**/*.spec.ts",
+    "src/**/*test.module.ts"
   ],
-  "include": ["**/*.ts"]
+  "include": ["src/**/*.ts"]
 }

@@ -1,7 +1,6 @@
-import { MimeDomHelper } from './../core/mime-dom-helper';
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
-
+import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
 export interface ContentsDialogConfigStrategy {
@@ -17,6 +16,7 @@ export class MobileContentsDialogConfigStrategy
       disableClose: false,
       width: '100%',
       height: '100%',
+      maxWidth: '100% !important',
       panelClass: 'contents-panel',
     };
   }
@@ -43,6 +43,7 @@ export class DesktopContentsDialogConfigStrategy
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
       },
+      maxWidth: '100% !important',
       panelClass: 'contents-panel',
     };
   }

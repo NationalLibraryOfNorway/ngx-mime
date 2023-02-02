@@ -1,4 +1,4 @@
 export enum ViewingDirection {
-  LTR,
-  RTL,
+  LTR = 'ltr',
+  RTL = 'rtl',
 }

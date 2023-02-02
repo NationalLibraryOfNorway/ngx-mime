@@ -1,3 +1,4 @@
+import { Direction } from '@angular/cdk/bidi';
 import {
   ChangeDetectorRef,
   Component,
@@ -5,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MatSliderChange } from '@angular/material/slider';
 import { Subscription } from 'rxjs';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
@@ -30,7 +30,8 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   public currentCanvasGroupIndex: number | null = -1;
   public isFirstCanvasGroup = false;
   public isLastCanvasGroup = false;
-  invert = false;
+  readonly ViewingDirection = ViewingDirection;
+  currentViewingDirection: Direction = ViewingDirection.LTR;
   private currentSliderCanvasGroupIndex: number | null = -1;
   private subscriptions = new Subscription();
 
@@ -48,7 +49,10 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           if (manifest) {
-            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+            this.currentViewingDirection =
+              manifest.viewingDirection === ViewingDirection.LTR
+                ? ViewingDirection.LTR
+                : ViewingDirection.RTL;
             this.changeDetectorRef.detectChanges();
           }
         }
@@ -111,9 +115,9 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     this.viewerService.goToNextCanvasGroup();
   }
 
-  onSliderChange(change: MatSliderChange): void {
-    this.currentSliderCanvasGroupIndex = change.value;
-    this.currentCanvasGroupIndex = change.value;
+  onSliderChange(value: number): void {
+    this.currentSliderCanvasGroupIndex = value;
+    this.currentCanvasGroupIndex = value;
     if (this.currentCanvasGroupIndex !== null) {
       this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(
         this.currentCanvasGroupIndex

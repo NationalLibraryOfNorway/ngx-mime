@@ -8,10 +8,10 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { CanvasService } from '../core/canvas-service/canvas-service';
-import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { injectedStub } from '../../testing/injected-stub';
+import { CanvasService } from '../core/canvas-service/canvas-service';
 import { Hit } from '../core/models/hit';
+import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
@@ -38,29 +38,27 @@ describe('ContentSearchDialogComponent', () => {
   let mediaObserver: any;
   let dialogRef: any;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-        declarations: [ContentSearchDialogComponent],
-        providers: [
-          MimeViewerIntl,
-          MimeResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          ContentSearchNavigationService,
-          CanvasService,
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          {
-            provide: IiifContentSearchService,
-            useClass: IiifContentSearchServiceStub,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      declarations: [ContentSearchDialogComponent],
+      providers: [
+        MimeViewerIntl,
+        MimeResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        ContentSearchNavigationService,
+        CanvasService,
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+        { provide: ViewerService, useClass: ViewerServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        {
+          provide: IiifContentSearchService,
+          useClass: IiifContentSearchServiceStub,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ContentSearchDialogComponent);

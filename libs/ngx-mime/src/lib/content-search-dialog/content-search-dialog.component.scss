@@ -1,9 +1,10 @@
-.label {
-  text-decoration: underline;
+.mat-mdc-dialog-title {
+  color: inherit;
+  padding: 0 2px 16px;
 }
 
-.content-search-form {
-  padding: 0px 16px;
+::ng-deep mat-form-field .mdc-text-field {
+  background: transparent !important;
 }
 
 .content-search-box {
@@ -24,12 +25,13 @@
   padding: 8px 16px;
 }
 
-.content-search-result .mat-button {
+.content-search-result .mat-mdc-button {
   line-height: initial;
+  height: auto;
   white-space: initial;
   word-wrap: initial;
   max-width: none;
-  padding: 8px 8px;
+  padding: 8px 0;
   text-align: left;
   font-size: 14px;
 }
@@ -47,15 +49,13 @@ em {
   opacity: 0.54;
 }
 
-::ng-deep .content-search-panel {
-  max-width: none !important;
-}
-
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   max-height: none;
+  padding: 8px;
+  margin: 0px;
 }
 
-::ng-deep .content-search-panel > .mat-dialog-container {
+::ng-deep .content-search-container > .mat-mdc-dialog-container {
   padding: 0px !important;
   overflow: initial;
 }

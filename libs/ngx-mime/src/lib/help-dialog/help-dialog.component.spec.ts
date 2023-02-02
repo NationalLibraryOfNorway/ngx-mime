@@ -20,22 +20,20 @@ describe('HelpDialogComponent', () => {
   let mediaObserver: any;
   let dialogRef: any;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HelpDialogModule],
-        providers: [
-          MimeViewerIntl,
-          MimeResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          StyleService,
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-          { provide: ViewerService, useClass: ViewerServiceStub },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HelpDialogModule],
+      providers: [
+        MimeViewerIntl,
+        MimeResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        StyleService,
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+        { provide: ViewerService, useClass: ViewerServiceStub },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);

@@ -74,6 +74,7 @@ export class ViewerPage {
   private viewMenuCloseButton: Locator;
   private viewMenuDialog: Locator;
   private pageGroup: Locator;
+  private navigationSliderContainer: Locator;
 
   constructor(
     private parameters: ParameterType,
@@ -81,6 +82,7 @@ export class ViewerPage {
     private animations: Animations
   ) {
     this.navigationSlider = this.page.locator('.navigation-slider');
+    this.navigationSliderContainer = this.page.locator('[data-test-id="navigation-slider-container"]');
     this.canvasGroupsButton = this.page.locator('button.canvasGroups');
     this.canvasGroupInput = this.page.locator('.go-to-canvas-group-input');
     this.currentCanvasGroupLabel = this.page.locator(
@@ -91,7 +93,7 @@ export class ViewerPage {
       '#ngx-mimeContentsDialogButton'
     );
     this.contentsContainer = this.page.locator('.contents-container');
-    this.tabs = this.page.locator('.mat-tab-label');
+    this.tabs = this.page.locator('.mat-mdc-tab');
     this.helpDialogButton = this.page.locator('#ngx-mimeHelpDialogButton');
     this.contentSearchDialogButton = this.page.locator(
       '#ngx-mimeContentSearchDialogButton'
@@ -102,7 +104,7 @@ export class ViewerPage {
     this.fullscreenButton = this.page.locator('#ngx-mimeFullscreenButton');
     this.openseadragonContainer = this.page.locator('.openseadragon-container');
     this.attribution = this.page.locator(
-      '.attribution-container > .mat-dialog-content'
+      '.attribution-container > .mat-mdc-dialog-content'
     );
     this.svg = this.page.locator('#openseadragon svg');
     this.canvasGroupOverlays = this.page.locator(
@@ -296,8 +298,11 @@ export class ViewerPage {
     if ((await isTwoPageView) && canvasGroupIndex > 1) {
       canvasGroupIndex = Math.floor(canvasGroupIndex / 2);
     }
+
+    const dir = await this.navigationSliderContainer.getAttribute('dir');
+    const pressDirection = dir === 'ltr' ? 'ArrowRight' : 'ArrowLeft';
     for (let i = 0; i < canvasGroupIndex; i++) {
-      await this.navigationSlider.press('ArrowRight');
+      await this.navigationSlider.press(pressDirection);
       await this.animations.waitFor();
     }
   }

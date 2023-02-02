@@ -23,27 +23,25 @@ describe('AttributionDialogComponent', () => {
   let fixture: ComponentFixture<AttributionDialogComponent>;
   let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-        declarations: [AttributionDialogComponent],
-        providers: [
-          MimeViewerIntl,
-          AttributionDialogResizeService,
-          MimeDomHelper,
-          FullscreenService,
-          StyleService,
-          {
-            provide: AccessKeysService,
-            useClass: jasmine.createSpy('accessKeysService'),
-          },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: MatDialogRef, useClass: MatDialogRefStub },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      declarations: [AttributionDialogComponent],
+      providers: [
+        MimeViewerIntl,
+        AttributionDialogResizeService,
+        MimeDomHelper,
+        FullscreenService,
+        StyleService,
+        {
+          provide: AccessKeysService,
+          useClass: jasmine.createSpy('accessKeysService'),
+        },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: MatDialogRef, useClass: MatDialogRefStub },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AttributionDialogComponent);
@@ -66,7 +64,7 @@ describe('AttributionDialogComponent', () => {
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(
-      By.css('.mat-dialog-content')
+      By.css('.mat-mdc-dialog-content')
     );
     expect(attribution.nativeElement.innerText).toBe(
       'This is a test attribution'

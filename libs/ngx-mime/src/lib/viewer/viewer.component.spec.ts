@@ -58,51 +58,49 @@ describe('ViewerComponent', function () {
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          HttpClientTestingModule,
-          NoopAnimationsModule,
-          SharedModule,
-          ContentsDialogModule,
-          AttributionDialogModule,
-          ContentSearchDialogModule,
-          HelpDialogModule,
-          ViewDialogModule,
-        ],
-        declarations: [
-          ViewerComponent,
-          TestHostComponent,
-          ViewerHeaderComponent,
-          ViewerFooterComponent,
-          TestDynamicComponent,
-        ],
-        providers: [
-          { provide: MatSnackBar, useClass: matSnackBarSpy },
-          ViewerService,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          {
-            provide: IiifContentSearchService,
-            useClass: IiifContentSearchServiceStub,
-          },
-          { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-          { provide: AltoService, useClass: AltoServiceStub },
-          MimeViewerIntl,
-          ClickService,
-          CanvasService,
-          ModeService,
-          FullscreenService,
-          AccessKeysService,
-          ViewerLayoutService,
-          ContentSearchNavigationService,
-          StyleService,
-          HighlightService,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        HttpClientTestingModule,
+        NoopAnimationsModule,
+        SharedModule,
+        ContentsDialogModule,
+        AttributionDialogModule,
+        ContentSearchDialogModule,
+        HelpDialogModule,
+        ViewDialogModule,
+      ],
+      declarations: [
+        ViewerComponent,
+        TestHostComponent,
+        ViewerHeaderComponent,
+        ViewerFooterComponent,
+        TestDynamicComponent,
+      ],
+      providers: [
+        { provide: MatSnackBar, useClass: matSnackBarSpy },
+        ViewerService,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        {
+          provide: IiifContentSearchService,
+          useClass: IiifContentSearchServiceStub,
+        },
+        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+        { provide: AltoService, useClass: AltoServiceStub },
+        MimeViewerIntl,
+        ClickService,
+        CanvasService,
+        ModeService,
+        FullscreenService,
+        AccessKeysService,
+        ViewerLayoutService,
+        ContentSearchNavigationService,
+        StyleService,
+        HighlightService,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     testHostFixture = TestBed.createComponent(TestHostComponent);

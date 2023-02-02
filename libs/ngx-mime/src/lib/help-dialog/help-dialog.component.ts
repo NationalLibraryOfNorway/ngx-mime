@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { MimeViewerIntl } from '../core/intl';
@@ -18,6 +18,7 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
   constructor(
     public mediaObserver: MediaObserver,
     public intl: MimeViewerIntl,
+    private cdr: ChangeDetectorRef,
     private mimeResizeService: MimeResizeService
   ) {}
 
@@ -49,5 +50,6 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
         maxHeight: height + 'px',
       };
     }
+    this.cdr.detectChanges();
   }
 }

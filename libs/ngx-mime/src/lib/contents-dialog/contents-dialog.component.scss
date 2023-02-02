@@ -1,12 +1,9 @@
-.label {
-  text-decoration: underline;
+.mat-mdc-dialog-title {
+  color: inherit;
+  padding: 0 2px 16px;
 }
 
-::ng-deep .contents-panel {
-  max-width: none !important;
-}
-
-::ng-deep .contents-panel > .mat-dialog-container {
+::ng-deep .contents-panel > .mat-mdc-dialog-container {
   padding: 0px !important;
   overflow: initial;
 }
@@ -20,6 +17,7 @@
   padding: 8px 16px;
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   max-height: none;
+  padding: 0px;
 }

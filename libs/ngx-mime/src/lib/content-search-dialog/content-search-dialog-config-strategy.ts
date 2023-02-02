@@ -1,7 +1,6 @@
-import { MimeDomHelper } from './../core/mime-dom-helper';
 import { ElementRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
-
+import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
 export interface ContentSearchDialogConfigStrategy {
@@ -18,6 +17,7 @@ export class MobileContentSearchDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
+      maxWidth: '100% !important',
       panelClass: 'content-search-panel',
     };
   }
@@ -45,6 +45,7 @@ export class DesktopContentSearchDialogConfigStrategy
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
       },
+      maxWidth: '100% !important',
       panelClass: 'content-search-panel',
     };
   }

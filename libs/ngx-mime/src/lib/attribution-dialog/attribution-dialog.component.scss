@@ -2,14 +2,15 @@
   font-size: 14px;
   background: transparent;
   min-height: 20px !important;
-  padding: 8px;
+  padding: 6px;
 }
 
-.mat-dialog-title {
+.mat-mdc-dialog-title {
   font-size: 16px;
+  padding: 0 2px 16px;
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   padding: 8px;
   margin: 0px;
 }
@@ -18,10 +19,9 @@
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-::ng-deep .attribution-panel > .mat-dialog-container {
+::ng-deep .attribution-container > .mat-mdc-dialog-content {
   background: transparent !important;
   font-size: 11px;
-  padding: 0px;
 }
 
 ::ng-deep .attribution-toolbar > .mat-toolbar-layout > .mat-toolbar-row {

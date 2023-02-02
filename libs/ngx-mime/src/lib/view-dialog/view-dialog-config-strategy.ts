@@ -1,6 +1,6 @@
-import { MimeDomHelper } from '../core/mime-dom-helper';
 import { ElementRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Dimensions } from '../core/models/dimensions';
 
 export interface ViewDialogConfigStrategy {
@@ -17,6 +17,7 @@ export class MobileViewDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
+      maxWidth: '100% !important',
       panelClass: 'view-panel',
     };
   }
@@ -45,6 +46,7 @@ export class DesktopViewDialogConfigStrategy
         left: dimensions.left + 'px',
       },
       panelClass: 'view-panel',
+      maxWidth: '100% !important',
     };
   }
 
