@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.0.0...v15.1.0) (2023-02-02)
+
+
+### Features
+
+* themed metadata title ([1c84e57](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1c84e5760cd9743acfe9736d11d4818a2b0537d2))
+
+
+### Bug Fixes
+
+* npmjs badge ([ad582b9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ad582b9d5dd37086ce3e111bdab9761aeeabed6c))
+* transparent attribution dialog ([#444](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/444)) ([23ff536](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/23ff5369b2b3ad11e09a7b065cd5fdfdca247de7))
+
 ## [15.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v14.1.0...v15.0.0) (2023-02-02)
 
 ## [14.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v14.0.1...v14.1.0) (2023-02-02)

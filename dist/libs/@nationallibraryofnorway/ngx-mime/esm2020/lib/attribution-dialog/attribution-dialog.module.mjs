@@ -7,14 +7,14 @@ import { MimeDomHelper } from '../core/mime-dom-helper';
 import * as i0 from "@angular/core";
 export class AttributionDialogModule {
 }
-AttributionDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: AttributionDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-AttributionDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "14.2.2", ngImport: i0, type: AttributionDialogModule, declarations: [AttributionDialogComponent], imports: [SharedModule] });
-AttributionDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: AttributionDialogModule, providers: [
+AttributionDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+AttributionDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogModule, declarations: [AttributionDialogComponent], imports: [SharedModule] });
+AttributionDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogModule, providers: [
         AttributionDialogService,
         AttributionDialogResizeService,
         MimeDomHelper,
     ], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: AttributionDialogModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogModule, decorators: [{
             type: NgModule,
             args: [{
                     imports: [SharedModule],

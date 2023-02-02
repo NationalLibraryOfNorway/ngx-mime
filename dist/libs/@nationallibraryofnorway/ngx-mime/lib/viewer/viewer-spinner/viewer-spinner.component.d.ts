@@ -10,5 +10,5 @@ export declare class ViewerSpinnerComponent implements OnDestroy, OnInit {
     ngOnInit(): void;
     ngOnDestroy(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerSpinnerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerSpinnerComponent, "mime-spinner", never, {}, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerSpinnerComponent, "mime-spinner", never, {}, {}, never, never, false, never>;
 }

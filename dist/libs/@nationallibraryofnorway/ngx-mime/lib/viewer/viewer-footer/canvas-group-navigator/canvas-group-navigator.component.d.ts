@@ -1,7 +1,8 @@
+import { Direction } from '@angular/cdk/bidi';
 import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
-import { MatSliderChange } from '@angular/material/slider';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
+import { ViewingDirection } from '../../../core/models/viewing-direction';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../../core/intl';
 import { SearchResult } from './../../../core/models/search-result';
@@ -21,7 +22,8 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     currentCanvasGroupIndex: number | null;
     isFirstCanvasGroup: boolean;
     isLastCanvasGroup: boolean;
-    invert: boolean;
+    readonly ViewingDirection: typeof ViewingDirection;
+    currentViewingDirection: Direction;
     private currentSliderCanvasGroupIndex;
     private subscriptions;
     constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, viewerService: ViewerService, canvasService: CanvasService, pageDialogService: CanvasGroupDialogService, iiifManifestService: IiifManifestService);
@@ -29,11 +31,11 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     ngOnDestroy(): void;
     goToPreviousCanvasGroup(): void;
     goToNextCanvasGroup(): void;
-    onSliderChange(change: MatSliderChange): void;
+    onSliderChange(value: number): void;
     onSliderHotKey(event: KeyboardEvent): void;
     openCanvasGroupDialog(): void;
     private isOnFirstCanvasGroup;
     private isOnLastCanvasGroup;
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasGroupNavigatorComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupNavigatorComponent, "mime-page-navigator", never, { "searchResult": "searchResult"; }, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupNavigatorComponent, "mime-page-navigator", never, { "searchResult": "searchResult"; }, {}, never, never, false, never>;
 }

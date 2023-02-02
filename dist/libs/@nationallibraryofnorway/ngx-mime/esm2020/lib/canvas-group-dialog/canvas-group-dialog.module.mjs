@@ -5,10 +5,10 @@ import { CanvasGroupDialogService } from './canvas-group-dialog.service';
 import * as i0 from "@angular/core";
 export class CanvasGroupDialogModule {
 }
-CanvasGroupDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: CanvasGroupDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-CanvasGroupDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "14.2.2", ngImport: i0, type: CanvasGroupDialogModule, declarations: [CanvasGroupDialogComponent], imports: [SharedModule] });
-CanvasGroupDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: CanvasGroupDialogModule, providers: [CanvasGroupDialogService], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: CanvasGroupDialogModule, decorators: [{
+CanvasGroupDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+CanvasGroupDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogModule, declarations: [CanvasGroupDialogComponent], imports: [SharedModule] });
+CanvasGroupDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogModule, providers: [CanvasGroupDialogService], imports: [SharedModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogModule, decorators: [{
             type: NgModule,
             args: [{
                     imports: [SharedModule],

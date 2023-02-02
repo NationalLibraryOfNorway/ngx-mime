@@ -7,13 +7,12 @@ export declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     attributionLabel: string;
     attributonCloseAriaLabel: string;
     helpCloseAriaLabel: string;
-    recognizedTextContentLabel: string;
     contentsLabel: string;
     layoutMenuLabel: string;
     pageLayoutLabel: string;
     singlePageViewLabel: string;
-    twoPageViewLabel: string;
     digitalTextLabel: string;
+    twoPageViewLabel: string;
     recognizedTextContentCloseLabel: string;
     recognizedTextContentInSplitViewLabel: string;
     showRecognizedTextContentLabel: string;

@@ -1,6 +1,6 @@
-import { MimeDomHelper } from './../core/mime-dom-helper';
 import { ElementRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { MimeDomHelper } from './../core/mime-dom-helper';
 export interface ContentsDialogConfigStrategy {
     getConfig(elementRef?: ElementRef): MatDialogConfig;
 }

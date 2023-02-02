@@ -7,8 +7,8 @@ import { SpinnerService } from '../core/spinner-service/spinner.service';
 import * as i0 from "@angular/core";
 export class SharedModule {
 }
-SharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: SharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-SharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "14.2.2", ngImport: i0, type: SharedModule, imports: [CommonModule,
+SharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+SharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, imports: [CommonModule,
         FormsModule,
         ReactiveFormsModule,
         FlexLayoutModule,
@@ -17,7 +17,7 @@ SharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "
         FormsModule,
         ReactiveFormsModule,
         MimeMaterialModule] });
-SharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: SharedModule, providers: [SpinnerService], imports: [CommonModule,
+SharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, providers: [SpinnerService], imports: [CommonModule,
         FormsModule,
         ReactiveFormsModule,
         FlexLayoutModule,
@@ -26,7 +26,7 @@ SharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "
         FormsModule,
         ReactiveFormsModule,
         MimeMaterialModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.2.2", ngImport: i0, type: SharedModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, decorators: [{
             type: NgModule,
             args: [{
                     imports: [

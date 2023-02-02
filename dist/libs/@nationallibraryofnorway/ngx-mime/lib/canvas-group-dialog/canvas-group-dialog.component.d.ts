@@ -23,5 +23,5 @@ export declare class CanvasGroupDialogComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void;
     onSubmit(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasGroupDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupDialogComponent, "ng-component", never, {}, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupDialogComponent, "ng-component", never, {}, {}, never, never, false, never>;
 }

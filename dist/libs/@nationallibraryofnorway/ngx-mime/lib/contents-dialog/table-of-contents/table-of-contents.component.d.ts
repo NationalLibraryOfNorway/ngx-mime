@@ -20,5 +20,5 @@ export declare class TocComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void;
     goToCanvas(event: Event, canvasIndex: number | undefined): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<TocComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<TocComponent, "mime-toc", never, {}, { "canvasChanged": "canvasChanged"; }, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<TocComponent, "mime-toc", never, {}, { "canvasChanged": "canvasChanged"; }, never, never, false, never>;
 }

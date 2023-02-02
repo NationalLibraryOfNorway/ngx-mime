@@ -1,5 +1,5 @@
-import { MimeViewerIntl } from './viewer-intl';
 import { HelpIntlLt } from './help-intl.lt';
+import { MimeViewerIntl } from './viewer-intl';
 import * as i0 from "@angular/core";
 export declare class MimeViewerIntlLt extends MimeViewerIntl {
     help: HelpIntlLt;
@@ -7,7 +7,6 @@ export declare class MimeViewerIntlLt extends MimeViewerIntl {
     attributionLabel: string;
     attributonCloseAriaLabel: string;
     helpCloseAriaLabel: string;
-    recognizedTextContentLabel: string;
     contentsLabel: string;
     layoutMenuLabel: string;
     pageLayoutLabel: string;

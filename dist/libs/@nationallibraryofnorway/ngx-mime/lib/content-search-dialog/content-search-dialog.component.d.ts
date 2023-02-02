@@ -1,4 +1,4 @@
-import { AfterViewInit, ElementRef, OnDestroy, OnInit, QueryList } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit, QueryList } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
@@ -12,6 +12,7 @@ export declare class ContentSearchDialogComponent implements OnInit, AfterViewIn
     dialogRef: MatDialogRef<ContentSearchDialogComponent>;
     intl: MimeViewerIntl;
     mediaObserver: MediaObserver;
+    private cdr;
     private mimeResizeService;
     private iiifManifestService;
     private iiifContentSearchService;
@@ -22,18 +23,19 @@ export declare class ContentSearchDialogComponent implements OnInit, AfterViewIn
     currentSearch: string | null;
     numberOfHits: number;
     isSearching: boolean;
-    tabHeight: {};
+    tabHeight: {
+        maxHeight: string;
+    };
     private manifest;
     private mimeHeight;
     private subscriptions;
     resultContainer: ElementRef;
     qEl: ElementRef;
     hitList: QueryList<ElementRef>;
-    constructor(dialogRef: MatDialogRef<ContentSearchDialogComponent>, intl: MimeViewerIntl, mediaObserver: MediaObserver, mimeResizeService: MimeResizeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchNavigationService: ContentSearchNavigationService);
+    constructor(dialogRef: MatDialogRef<ContentSearchDialogComponent>, intl: MimeViewerIntl, mediaObserver: MediaObserver, cdr: ChangeDetectorRef, mimeResizeService: MimeResizeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchNavigationService: ContentSearchNavigationService);
     ngOnInit(): void;
     ngAfterViewInit(): void;
     ngOnDestroy(): void;
-    onResize(event: any): void;
     onSubmit(event: KeyboardEvent): void;
     clear(): void;
     goToHit(hit: Hit): void;
@@ -42,5 +44,5 @@ export declare class ContentSearchDialogComponent implements OnInit, AfterViewIn
     private scrollCurrentHitIntoView;
     private findSelected;
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchDialogComponent, "mime-search", never, {}, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchDialogComponent, "mime-search", never, {}, {}, never, never, false, never>;
 }

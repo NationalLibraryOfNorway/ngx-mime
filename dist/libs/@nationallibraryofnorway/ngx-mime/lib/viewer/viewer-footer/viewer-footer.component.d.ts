@@ -21,5 +21,5 @@ export declare class ViewerFooterComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void;
     private isMobile;
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerFooterComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerFooterComponent, "mime-viewer-footer", never, {}, {}, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerFooterComponent, "mime-viewer-footer", never, {}, {}, never, never, false, never>;
 }
