@@ -14,7 +14,6 @@ export class MobileHelpDialogConfigStrategy
     return {
       hasBackdrop: false,
       disableClose: false,
-      autoFocus: false,
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
@@ -39,7 +38,6 @@ export class DesktopHelpDialogConfigStrategy
     return {
       hasBackdrop: false,
       disableClose: false,
-      autoFocus: false,
       width: `${DesktopHelpDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
