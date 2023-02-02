@@ -1,12 +1,12 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "14.0.0",
+  "version": "14.0.1",
   "peerDependencies": {
-    "@angular/common": ">=13.0.0 <14.0.0",
-    "@angular/core": ">=13.0.0 <14.0.0",
-    "@angular/flex-layout": ">=13.0.0 <14.0.0 || >=13.0.0-beta.36 <14.0.0",
-    "@angular/material": ">=13.0.0 <14.0.0",
-    "d3": ">=5.7.0 <6.0.0",
+    "@angular/common": ">=14.0.0 <15.0.0",
+    "@angular/core": ">=14.0.0 <15.0.0",
+    "@angular/flex-layout": ">=14.0.0 <15.0.0 || >=14.0.0-beta.41 <15.0.0",
+    "@angular/material": ">=14.0.0 <15.0.0",
+    "d3": ">=5.7.0 <8.0.0",
     "openseadragon": ">=2.4.0 <4.0.0",
     "xml2js": ">=0.4.0 <1.0.0",
     "stream": ">=0.0.2 <1.0.0",
