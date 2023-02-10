@@ -8,3 +8,4 @@ export declare class ContentsDialogModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<ContentsDialogModule, [typeof i1.ContentsDialogComponent, typeof i2.MetadataComponent, typeof i3.TocComponent], [typeof i4.SharedModule], never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<ContentsDialogModule>;
 }
+//# sourceMappingURL=contents-dialog.module.d.ts.map

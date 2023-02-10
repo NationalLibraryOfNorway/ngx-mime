@@ -4,3 +4,4 @@ export declare class SizesBuilder {
     constructor(sizes: any[]);
     build(): Size[];
 }
+//# sourceMappingURL=sizes.builder.d.ts.map

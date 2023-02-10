@@ -12,3 +12,4 @@ export declare class ViewerSpinnerComponent implements OnDestroy, OnInit {
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerSpinnerComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ViewerSpinnerComponent, "mime-spinner", never, {}, {}, never, never, false, never>;
 }
+//# sourceMappingURL=viewer-spinner.component.d.ts.map

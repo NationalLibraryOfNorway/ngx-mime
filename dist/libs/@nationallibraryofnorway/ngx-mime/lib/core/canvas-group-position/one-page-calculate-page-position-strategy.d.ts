@@ -8,3 +8,4 @@ export declare class OnePageCalculatePagePositionStrategy implements CalculateCa
     private calculateLtrX;
     private calculateRtlX;
 }
+//# sourceMappingURL=one-page-calculate-page-position-strategy.d.ts.map

@@ -14,3 +14,4 @@ export declare class Dimensions {
         width?: number;
     });
 }
+//# sourceMappingURL=dimensions.d.ts.map

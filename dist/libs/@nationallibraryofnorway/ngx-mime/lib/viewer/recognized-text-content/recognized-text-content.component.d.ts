@@ -32,3 +32,4 @@ export declare class RecognizedTextContentComponent implements OnInit, OnDestroy
     static ɵfac: i0.ɵɵFactoryDeclaration<RecognizedTextContentComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<RecognizedTextContentComponent, "mime-recognized-text-content", never, {}, {}, never, never, false, never>;
 }
+//# sourceMappingURL=recognized-text-content.component.d.ts.map

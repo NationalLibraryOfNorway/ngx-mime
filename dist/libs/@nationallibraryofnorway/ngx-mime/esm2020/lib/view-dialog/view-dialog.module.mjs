@@ -8,23 +8,24 @@ import { ViewDialogService } from './view-dialog.service';
 import * as i0 from "@angular/core";
 export class ViewDialogModule {
 }
-ViewDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-ViewDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogModule, declarations: [ViewDialogComponent, IconComponent], imports: [SharedModule] });
-ViewDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogModule, providers: [
+ViewDialogModule.ɵfac = function ViewDialogModule_Factory(t) { return new (t || ViewDialogModule)(); };
+ViewDialogModule.ɵmod = /*@__PURE__*/ i0.ɵɵdefineNgModule({ type: ViewDialogModule });
+ViewDialogModule.ɵinj = /*@__PURE__*/ i0.ɵɵdefineInjector({ providers: [
         ViewDialogService,
         ViewDialogConfigStrategyFactory,
         MimeDomHelper,
     ], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    imports: [SharedModule],
-                    declarations: [ViewDialogComponent, IconComponent],
-                    providers: [
-                        ViewDialogService,
-                        ViewDialogConfigStrategyFactory,
-                        MimeDomHelper,
-                    ],
-                }]
-        }] });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidmlldy1kaWFsb2cubW9kdWxlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vbGlicy9uZ3gtbWltZS9zcmMvbGliL3ZpZXctZGlhbG9nL3ZpZXctZGlhbG9nLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQ3pDLE9BQU8sRUFBRSxhQUFhLEVBQUUsTUFBTSx5QkFBeUIsQ0FBQztBQUN4RCxPQUFPLEVBQUUsWUFBWSxFQUFFLE1BQU0seUJBQXlCLENBQUM7QUFDdkQsT0FBTyxFQUFFLGFBQWEsRUFBRSxNQUFNLHVCQUF1QixDQUFDO0FBQ3RELE9BQU8sRUFBRSwrQkFBK0IsRUFBRSxNQUFNLHVDQUF1QyxDQUFDO0FBQ3hGLE9BQU8sRUFBRSxtQkFBbUIsRUFBRSxNQUFNLHlCQUF5QixDQUFDO0FBQzlELE9BQU8sRUFBRSxpQkFBaUIsRUFBRSxNQUFNLHVCQUF1QixDQUFDOztBQVcxRCxNQUFNLE9BQU8sZ0JBQWdCOzs2R0FBaEIsZ0JBQWdCOzhHQUFoQixnQkFBZ0IsaUJBUFosbUJBQW1CLEVBQUUsYUFBYSxhQUR2QyxZQUFZOzhHQVFYLGdCQUFnQixhQU5oQjtRQUNULGlCQUFpQjtRQUNqQiwrQkFBK0I7UUFDL0IsYUFBYTtLQUNkLFlBTlMsWUFBWTsyRkFRWCxnQkFBZ0I7a0JBVDVCLFFBQVE7bUJBQUM7b0JBQ1IsT0FBTyxFQUFFLENBQUMsWUFBWSxDQUFDO29CQUN2QixZQUFZLEVBQUUsQ0FBQyxtQkFBbUIsRUFBRSxhQUFhLENBQUM7b0JBQ2xELFNBQVMsRUFBRTt3QkFDVCxpQkFBaUI7d0JBQ2pCLCtCQUErQjt3QkFDL0IsYUFBYTtxQkFDZDtpQkFDRiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE5nTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5pbXBvcnQgeyBNaW1lRG9tSGVscGVyIH0gZnJvbSAnLi4vY29yZS9taW1lLWRvbS1oZWxwZXInO1xuaW1wb3J0IHsgU2hhcmVkTW9kdWxlIH0gZnJvbSAnLi4vc2hhcmVkL3NoYXJlZC5tb2R1bGUnO1xuaW1wb3J0IHsgSWNvbkNvbXBvbmVudCB9IGZyb20gJy4vaWNvbi9pY29uLmNvbXBvbmVudCc7XG5pbXBvcnQgeyBWaWV3RGlhbG9nQ29uZmlnU3RyYXRlZ3lGYWN0b3J5IH0gZnJvbSAnLi92aWV3LWRpYWxvZy1jb25maWctc3RyYXRlZ3ktZmFjdG9yeSc7XG5pbXBvcnQgeyBWaWV3RGlhbG9nQ29tcG9uZW50IH0gZnJvbSAnLi92aWV3LWRpYWxvZy5jb21wb25lbnQnO1xuaW1wb3J0IHsgVmlld0RpYWxvZ1NlcnZpY2UgfSBmcm9tICcuL3ZpZXctZGlhbG9nLnNlcnZpY2UnO1xuXG5ATmdNb2R1bGUoe1xuICBpbXBvcnRzOiBbU2hhcmVkTW9kdWxlXSxcbiAgZGVjbGFyYXRpb25zOiBbVmlld0RpYWxvZ0NvbXBvbmVudCwgSWNvbkNvbXBvbmVudF0sXG4gIHByb3ZpZGVyczogW1xuICAgIFZpZXdEaWFsb2dTZXJ2aWNlLFxuICAgIFZpZXdEaWFsb2dDb25maWdTdHJhdGVneUZhY3RvcnksXG4gICAgTWltZURvbUhlbHBlcixcbiAgXSxcbn0pXG5leHBvcnQgY2xhc3MgVmlld0RpYWxvZ01vZHVsZSB7fVxuIl19
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(ViewDialogModule, [{
+        type: NgModule,
+        args: [{
+                imports: [SharedModule],
+                declarations: [ViewDialogComponent, IconComponent],
+                providers: [
+                    ViewDialogService,
+                    ViewDialogConfigStrategyFactory,
+                    MimeDomHelper,
+                ],
+            }]
+    }], null, null); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(ViewDialogModule, { declarations: [ViewDialogComponent, IconComponent], imports: [SharedModule] }); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidmlldy1kaWFsb2cubW9kdWxlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vbGlicy9uZ3gtbWltZS9zcmMvbGliL3ZpZXctZGlhbG9nL3ZpZXctZGlhbG9nLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQ3pDLE9BQU8sRUFBRSxhQUFhLEVBQUUsTUFBTSx5QkFBeUIsQ0FBQztBQUN4RCxPQUFPLEVBQUUsWUFBWSxFQUFFLE1BQU0seUJBQXlCLENBQUM7QUFDdkQsT0FBTyxFQUFFLGFBQWEsRUFBRSxNQUFNLHVCQUF1QixDQUFDO0FBQ3RELE9BQU8sRUFBRSwrQkFBK0IsRUFBRSxNQUFNLHVDQUF1QyxDQUFDO0FBQ3hGLE9BQU8sRUFBRSxtQkFBbUIsRUFBRSxNQUFNLHlCQUF5QixDQUFDO0FBQzlELE9BQU8sRUFBRSxpQkFBaUIsRUFBRSxNQUFNLHVCQUF1QixDQUFDOztBQVcxRCxNQUFNLE9BQU8sZ0JBQWdCOztnRkFBaEIsZ0JBQWdCO2tFQUFoQixnQkFBZ0I7dUVBTmhCO1FBQ1QsaUJBQWlCO1FBQ2pCLCtCQUErQjtRQUMvQixhQUFhO0tBQ2QsWUFOUyxZQUFZO3VGQVFYLGdCQUFnQjtjQVQ1QixRQUFRO2VBQUM7Z0JBQ1IsT0FBTyxFQUFFLENBQUMsWUFBWSxDQUFDO2dCQUN2QixZQUFZLEVBQUUsQ0FBQyxtQkFBbUIsRUFBRSxhQUFhLENBQUM7Z0JBQ2xELFNBQVMsRUFBRTtvQkFDVCxpQkFBaUI7b0JBQ2pCLCtCQUErQjtvQkFDL0IsYUFBYTtpQkFDZDthQUNGOzt3RkFDWSxnQkFBZ0IsbUJBUFosbUJBQW1CLEVBQUUsYUFBYSxhQUR2QyxZQUFZIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgTmdNb2R1bGUgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCB7IE1pbWVEb21IZWxwZXIgfSBmcm9tICcuLi9jb3JlL21pbWUtZG9tLWhlbHBlcic7XG5pbXBvcnQgeyBTaGFyZWRNb2R1bGUgfSBmcm9tICcuLi9zaGFyZWQvc2hhcmVkLm1vZHVsZSc7XG5pbXBvcnQgeyBJY29uQ29tcG9uZW50IH0gZnJvbSAnLi9pY29uL2ljb24uY29tcG9uZW50JztcbmltcG9ydCB7IFZpZXdEaWFsb2dDb25maWdTdHJhdGVneUZhY3RvcnkgfSBmcm9tICcuL3ZpZXctZGlhbG9nLWNvbmZpZy1zdHJhdGVneS1mYWN0b3J5JztcbmltcG9ydCB7IFZpZXdEaWFsb2dDb21wb25lbnQgfSBmcm9tICcuL3ZpZXctZGlhbG9nLmNvbXBvbmVudCc7XG5pbXBvcnQgeyBWaWV3RGlhbG9nU2VydmljZSB9IGZyb20gJy4vdmlldy1kaWFsb2cuc2VydmljZSc7XG5cbkBOZ01vZHVsZSh7XG4gIGltcG9ydHM6IFtTaGFyZWRNb2R1bGVdLFxuICBkZWNsYXJhdGlvbnM6IFtWaWV3RGlhbG9nQ29tcG9uZW50LCBJY29uQ29tcG9uZW50XSxcbiAgcHJvdmlkZXJzOiBbXG4gICAgVmlld0RpYWxvZ1NlcnZpY2UsXG4gICAgVmlld0RpYWxvZ0NvbmZpZ1N0cmF0ZWd5RmFjdG9yeSxcbiAgICBNaW1lRG9tSGVscGVyLFxuICBdLFxufSlcbmV4cG9ydCBjbGFzcyBWaWV3RGlhbG9nTW9kdWxlIHt9XG4iXX0=

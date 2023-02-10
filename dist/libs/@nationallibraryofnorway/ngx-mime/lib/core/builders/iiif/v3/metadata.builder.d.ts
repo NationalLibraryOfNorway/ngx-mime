@@ -4,3 +4,4 @@ export declare class MetadataBuilder {
     constructor(metadatas: any);
     build(): Metadata[];
 }
+//# sourceMappingURL=metadata.builder.d.ts.map

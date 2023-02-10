@@ -14,3 +14,4 @@ export declare class MimeResizeService {
     static ɵfac: i0.ɵɵFactoryDeclaration<MimeResizeService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<MimeResizeService>;
 }
+//# sourceMappingURL=mime-resize.service.d.ts.map

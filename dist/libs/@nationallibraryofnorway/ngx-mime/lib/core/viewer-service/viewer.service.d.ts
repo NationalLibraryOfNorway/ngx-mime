@@ -186,3 +186,4 @@ export declare class ViewerService {
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ViewerService>;
 }
+//# sourceMappingURL=viewer.service.d.ts.map

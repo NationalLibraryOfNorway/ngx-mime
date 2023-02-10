@@ -20,3 +20,4 @@ export declare class SwipeUtils {
      */
     static isDirectionInLeftSemicircle(direction: number): boolean;
 }
+//# sourceMappingURL=swipe-utils.d.ts.map

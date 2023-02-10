@@ -48,3 +48,4 @@ export declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     static ɵfac: i0.ɵɵFactoryDeclaration<MimeViewerIntlNoNb, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<MimeViewerIntlNoNb>;
 }
+//# sourceMappingURL=viewer-intl.no_nb.d.ts.map

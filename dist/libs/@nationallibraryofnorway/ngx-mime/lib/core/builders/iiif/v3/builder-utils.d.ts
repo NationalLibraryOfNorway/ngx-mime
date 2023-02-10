@@ -10,3 +10,4 @@ export declare class BuilderUtils {
     static extractLanguageValue(data: Record<string, string[]>, preferredLanguage?: string): string;
     static extractDefaultLanguage(data: Record<string, string[]>): string;
 }
+//# sourceMappingURL=builder-utils.d.ts.map

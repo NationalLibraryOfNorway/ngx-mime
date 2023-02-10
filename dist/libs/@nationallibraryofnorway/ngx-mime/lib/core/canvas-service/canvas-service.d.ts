@@ -36,3 +36,4 @@ export declare class CanvasService {
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<CanvasService>;
 }
+//# sourceMappingURL=canvas-service.d.ts.map

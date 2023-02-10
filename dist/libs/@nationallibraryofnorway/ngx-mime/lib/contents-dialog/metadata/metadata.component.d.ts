@@ -15,3 +15,4 @@ export declare class MetadataComponent implements OnInit, OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<MetadataComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<MetadataComponent, "mime-metadata", never, {}, {}, never, never, false, never>;
 }
+//# sourceMappingURL=metadata.component.d.ts.map

@@ -44,3 +44,4 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerHeaderComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ViewerHeaderComponent, "mime-viewer-header", never, {}, {}, never, never, false, never>;
 }
+//# sourceMappingURL=viewer-header.component.d.ts.map

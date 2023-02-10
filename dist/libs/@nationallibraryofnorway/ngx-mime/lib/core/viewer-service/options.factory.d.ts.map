@@ -1,0 +1,1 @@
+{"version":3,"file":"options.factory.d.ts","sourceRoot":"","sources":["../../../../../../../libs/ngx-mime/src/lib/core/viewer-service/options.factory.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,aAAa,MAAM,eAAe,CAAC;AAC/C,OAAO,EAAE,gBAAgB,EAAE,MAAM,uBAAuB,CAAC;AAGzD,qBAAa,cAAc;WACX,MAAM,CAClB,gBAAgB,EAAE,gBAAgB,GACjC,aAAa,CAAC,OAAO;IA4CxB,OAAO,CAAC,MAAM,CAAC,YAAY;CAQ5B"}

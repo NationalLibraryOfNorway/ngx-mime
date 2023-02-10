@@ -15,3 +15,4 @@ export declare class DesktopHelpDialogConfigStrategy implements HelpDialogConfig
     getConfig(el: ElementRef): MatDialogConfig;
     private getPosition;
 }
+//# sourceMappingURL=help-dialog-config-strategy.d.ts.map

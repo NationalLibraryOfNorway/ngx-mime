@@ -5,3 +5,4 @@ export declare class StructureBuilder {
     constructor(structures: any[], sequences: Sequence[]);
     build(): Structure[];
 }
+//# sourceMappingURL=structure.builder.d.ts.map

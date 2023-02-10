@@ -157,3 +157,4 @@ export declare class Structure {
 }
 export declare class TileSource {
 }
+//# sourceMappingURL=manifest.d.ts.map

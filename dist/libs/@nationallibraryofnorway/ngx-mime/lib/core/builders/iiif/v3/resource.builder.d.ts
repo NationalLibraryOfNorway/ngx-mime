@@ -4,3 +4,4 @@ export declare class ResourceBuilder {
     constructor(resource: any);
     build(): Resource;
 }
+//# sourceMappingURL=resource.builder.d.ts.map

@@ -3,3 +3,4 @@ export declare class PinchStatus {
     previousGestureId: number;
     shouldStop: boolean;
 }
+//# sourceMappingURL=pinchStatus.d.ts.map

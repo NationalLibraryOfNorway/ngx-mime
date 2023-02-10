@@ -36,3 +36,4 @@ export declare class ContentSearchNavigationService {
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchNavigationService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ContentSearchNavigationService>;
 }
+//# sourceMappingURL=content-search-navigation.service.d.ts.map

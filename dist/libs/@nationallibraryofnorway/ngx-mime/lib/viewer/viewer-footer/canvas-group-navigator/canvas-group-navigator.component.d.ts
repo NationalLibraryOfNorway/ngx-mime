@@ -39,3 +39,4 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasGroupNavigatorComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupNavigatorComponent, "mime-page-navigator", never, { "searchResult": "searchResult"; }, {}, never, never, false, never>;
 }
+//# sourceMappingURL=canvas-group-navigator.component.d.ts.map

@@ -23,3 +23,4 @@ export declare class ViewDialogService {
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewDialogService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ViewDialogService>;
 }
+//# sourceMappingURL=view-dialog.service.d.ts.map

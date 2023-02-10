@@ -4,3 +4,4 @@ export declare class OptionsFactory {
     static create(mimeViewerConfig: MimeViewerConfig): OpenSeadragon.Options;
     private static canUseCanvas;
 }
+//# sourceMappingURL=options.factory.d.ts.map

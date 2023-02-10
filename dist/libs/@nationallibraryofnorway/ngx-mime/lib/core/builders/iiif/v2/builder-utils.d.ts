@@ -7,3 +7,4 @@ export declare class BuilderUtils {
     static extractViewingDirection(value: any): ViewingDirection;
     static findCanvasIndex(canvases: string[], sequences: Sequence[]): number;
 }
+//# sourceMappingURL=builder-utils.d.ts.map

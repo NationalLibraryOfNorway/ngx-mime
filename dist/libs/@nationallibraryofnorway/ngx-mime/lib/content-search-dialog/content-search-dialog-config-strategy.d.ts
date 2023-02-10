@@ -15,3 +15,4 @@ export declare class DesktopContentSearchDialogConfigStrategy implements Content
     getConfig(el: ElementRef): MatDialogConfig;
     private getPosition;
 }
+//# sourceMappingURL=content-search-dialog-config-strategy.d.ts.map

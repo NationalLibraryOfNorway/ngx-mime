@@ -4,3 +4,4 @@ export declare class SequenceBuilder {
     constructor(sequences: any[]);
     build(): Sequence[];
 }
+//# sourceMappingURL=sequence.builder.d.ts.map

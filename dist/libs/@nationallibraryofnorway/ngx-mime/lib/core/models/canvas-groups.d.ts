@@ -10,3 +10,4 @@ export declare class CanvasGroups {
     findClosestIndex(point: Point): number;
     length(): number;
 }
+//# sourceMappingURL=canvas-groups.d.ts.map

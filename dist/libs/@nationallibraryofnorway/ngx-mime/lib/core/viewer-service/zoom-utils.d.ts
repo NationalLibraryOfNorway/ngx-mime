@@ -9,3 +9,4 @@ export declare class ZoomUtils {
     static constrainPositionToCanvasGroup(point: Point, canvasGroupBounds: Rect): Point;
     static constraintZoomFactor(zoomFactor: number, currentZoom: number, maxZoom: number): number;
 }
+//# sourceMappingURL=zoom-utils.d.ts.map

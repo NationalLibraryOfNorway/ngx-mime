@@ -6,3 +6,4 @@ export declare class CanvasGroupDialogModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<CanvasGroupDialogModule, [typeof i1.CanvasGroupDialogComponent], [typeof i2.SharedModule], never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<CanvasGroupDialogModule>;
 }
+//# sourceMappingURL=canvas-group-dialog.module.d.ts.map

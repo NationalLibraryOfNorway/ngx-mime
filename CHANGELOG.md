@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.0...v15.1.1) (2023-02-10)
+
+
+### Bug Fixes
+
+* **a11y:** applied the role="group" to convey the association between the individual toggles ([#447](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/447)) ([ffb614b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ffb614b5bfa945f48c59da55830a017fef3809f2)), closes [#446](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/446)
+
 ## [15.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.0.0...v15.1.0) (2023-02-02)
 
 

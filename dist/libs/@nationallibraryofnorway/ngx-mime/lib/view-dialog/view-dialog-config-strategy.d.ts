@@ -15,3 +15,4 @@ export declare class DesktopViewDialogConfigStrategy implements ViewDialogConfig
     getConfig(el: ElementRef): MatDialogConfig;
     private getPosition;
 }
+//# sourceMappingURL=view-dialog-config-strategy.d.ts.map
