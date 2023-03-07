@@ -5,3 +5,4 @@ export declare class TextLinesBuilder {
     withTextLinesXml(textLinesXml: any): this;
     build(): TextLine[];
 }
+//# sourceMappingURL=text-lines.builder.d.ts.map

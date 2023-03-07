@@ -4,24 +4,6 @@
 
 @import '../../../libs/ngx-mime/ngx-mime.theme.scss';
 
-mat.$light-theme-foreground-palette: (
-  base: black,
-  divider: rgba(black, 0.12),
-  dividers: rgba(black, 0.12),
-  disabled: rgba(black, 0.38),
-  disabled-button: rgba(black, 0.26),
-  disabled-text: rgba(black, 0.38),
-  elevation: black,
-  hint-text: rgba(black, 0.38),
-  secondary-text: rgba(black, 0.54),
-  icon: rgba(black, 0.54),
-  icons: rgba(black, 0.54),
-  text: rgba(black, 0.87),
-  slider-min: rgba(black, 0.87),
-  slider-off: rgba(black, 0.26),
-  slider-off-active: rgba(black, 0.38)
-);
-
 $brown-primary: mat.define-palette(mat.$brown-palette, 700, 500, 900);
 $brown-accent: mat.define-palette(mat.$blue-grey-palette, A200, A100, A400);
 $brown-theme: mat.define-light-theme(
@@ -33,14 +15,8 @@ $brown-theme: mat.define-light-theme(
   )
 );
 .brown-theme {
-  $my-app-theme-custom: map-merge(
-    $brown-theme,
-    (
-      foreground: mat.$light-theme-foreground-palette,
-    )
-  );
-  @include ngx-mime-theme($my-app-theme-custom);
-  @include mat.all-component-colors($my-app-theme-custom);
+  @include ngx-mime-theme($brown-theme);
+  @include mat.all-component-colors($brown-theme);
 }
 
 $blue-primary: mat.define-palette(mat.$light-blue-palette, 800, 100, 700);
@@ -53,14 +29,8 @@ $blue-theme: mat.define-light-theme(
     ),
   )
 );
-$my-app-theme-custom: map-merge(
-  $blue-theme,
-  (
-    foreground: mat.$light-theme-foreground-palette,
-  )
-);
-@include ngx-mime-theme($my-app-theme-custom);
-@include mat.all-component-themes($my-app-theme-custom);
+@include ngx-mime-theme($blue-theme);
+@include mat.all-component-themes($blue-theme);
 
 $cyan-primary: mat.define-palette(mat.$cyan-palette, A200, A100, A400);
 $cyan-accent: mat.define-palette(mat.$light-green-palette, A200, A100, A400);
@@ -74,7 +44,7 @@ $cyan-theme: mat.define-dark-theme(
 );
 .cyan-theme {
   @include ngx-mime-theme($cyan-theme);
-  @include mat.all-legacy-component-colors($cyan-theme);
+  @include mat.all-component-colors($cyan-theme);
 }
 
 $purple-primary: mat.define-palette(mat.$deep-purple-palette);
@@ -83,7 +53,7 @@ $purple-theme: mat.define-dark-theme(
   (
     color: (
       primary: $purple-primary,
-      accent: $brown-accent,
+      accent: $purple-accent,
     ),
   )
 );

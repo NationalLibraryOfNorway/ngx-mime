@@ -4,3 +4,4 @@ export declare class TilesBuilder {
     constructor(tiles: any[]);
     build(): Tile[];
 }
+//# sourceMappingURL=tiles.builder.d.ts.map

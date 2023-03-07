@@ -1,64 +1,63 @@
 import { Injectable } from '@angular/core';
-import { MimeViewerIntl } from './viewer-intl';
 import { HelpIntlLt } from './help-intl.lt';
+import { MimeViewerIntl } from './viewer-intl';
 
 @Injectable()
 export class MimeViewerIntlLt extends MimeViewerIntl {
-  help = new HelpIntlLt();
-  closeLabel = 'Uždaryti';
-  attributionLabel = 'Teisių priskyrimas';
-  attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
-  helpCloseAriaLabel = 'Uždaryti pagalbos dialogo langą';
-  recognizedTextContentLabel = 'Atpazīts teksts';
-  contentsLabel = 'Informacija apie objektą';
-  layoutMenuLabel = 'Žiūrėti';
-  pageLayoutLabel = 'Puslapio išdėstymas';
-  singlePageViewLabel = 'Atvaizduoti po vieną puslapį';
-  twoPageViewLabel = 'Atvaizduoti po du puslapius';
-  digitalTextLabel = 'Skaitmeninis tekstas';
-  recognizedTextContentCloseLabel = 'Nė vienas';
-  recognizedTextContentInSplitViewLabel = 'Suskaidytas';
-  showRecognizedTextContentLabel = 'Tik skaitmeninis tekstas';
-  metadataLabel = 'Metaduomenys';
-  licenseLabel = 'Licencija';
-  tocLabel = 'Turinys';
-  fullScreenLabel = 'Pilno ekrano režimas';
-  exitFullScreenLabel = 'Išeiti iš pilno ekrano režimo';
-  zoomInLabel = 'Priartinti';
-  zoomOutLabel = 'Atitolinti';
-  previousPageLabel = 'Buvęs puslapis';
-  nextPageLabel = 'Kitas puslapis';
-  homeLabel = 'Grįžti į pradžią';
-  rotateCwLabel = 'Pasukti 90°';
-  searchLabel = 'Paieška';
-  clearSearchLabel = 'Išvalyti';
-  previousHitLabel = 'Buvęs rezultatas';
-  nextHitLabel = 'Kitas rezultatas';
-  goToPageLabel = 'Persikelti į puslapį';
-  currentPageLabel = 'Dabartinis puslapis';
-  enterPageNumber = 'Įveskite puslapio numerį';
-  dropDisabled = 'Atleiskite, bet veiksmas negalimas';
-  loading = 'Pakrovimas ...';
-  rotationIsNotSupported = 'Sukimas jūsų įrenginyje nepalaikomas';
+  override help = new HelpIntlLt();
+  override closeLabel = 'Uždaryti';
+  override attributionLabel = 'Teisių priskyrimas';
+  override attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
+  override helpCloseAriaLabel = 'Uždaryti pagalbos dialogo langą';
+  override contentsLabel = 'Informacija apie objektą';
+  override layoutMenuLabel = 'Žiūrėti';
+  override pageLayoutLabel = 'Puslapio išdėstymas';
+  override singlePageViewLabel = 'Atvaizduoti po vieną puslapį';
+  override twoPageViewLabel = 'Atvaizduoti po du puslapius';
+  override digitalTextLabel = 'Skaitmeninis tekstas';
+  override recognizedTextContentCloseLabel = 'Nė vienas';
+  override recognizedTextContentInSplitViewLabel = 'Suskaidytas';
+  override showRecognizedTextContentLabel = 'Tik skaitmeninis tekstas';
+  override metadataLabel = 'Metaduomenys';
+  override licenseLabel = 'Licencija';
+  override tocLabel = 'Turinys';
+  override fullScreenLabel = 'Pilno ekrano režimas';
+  override exitFullScreenLabel = 'Išeiti iš pilno ekrano režimo';
+  override zoomInLabel = 'Priartinti';
+  override zoomOutLabel = 'Atitolinti';
+  override previousPageLabel = 'Buvęs puslapis';
+  override nextPageLabel = 'Kitas puslapis';
+  override homeLabel = 'Grįžti į pradžią';
+  override rotateCwLabel = 'Pasukti 90°';
+  override searchLabel = 'Paieška';
+  override clearSearchLabel = 'Išvalyti';
+  override previousHitLabel = 'Buvęs rezultatas';
+  override nextHitLabel = 'Kitas rezultatas';
+  override goToPageLabel = 'Persikelti į puslapį';
+  override currentPageLabel = 'Dabartinis puslapis';
+  override enterPageNumber = 'Įveskite puslapio numerį';
+  override dropDisabled = 'Atleiskite, bet veiksmas negalimas';
+  override loading = 'Pakrovimas ...';
+  override rotationIsNotSupported = 'Sukimas jūsų įrenginyje nepalaikomas';
 
   // ERRORS
-  somethingHasGoneWrongLabel = 'Objekto atvaizduoti nepavyko...';
-  manifestUriMissingLabel =
+  override somethingHasGoneWrongLabel = 'Objekto atvaizduoti nepavyko...';
+  override manifestUriMissingLabel =
     'Nerastas objektų sąrašo identifikatorius (ManifestUri)';
-  manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
-  pageDoesNotExists = 'Nepavyko rasti šio paslapio';
-  textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
+  override manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
+  override pageDoesNotExists = 'Nepavyko rasti šio paslapio';
+  override textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
 
-  noResultsFoundLabel = (q: string) => {
+  override noResultsFoundLabel = (q: string) => {
     return `Objekte nerasta atitikmenų <em class="current-search">${q}</em>`;
   };
 
-  resultsFoundLabel = (numberOfHits: number, q: string) => {
+  override resultsFoundLabel = (numberOfHits: number, q: string) => {
     return `${numberOfHits} rezultata${
       numberOfHits === 1 ? 's' : 'i'
     } su <em class="current-search">${q}</em>`;
   };
-  currentHitLabel = (currentHit: number, numberOfHits: number) => {
+  override currentHitLabel = (currentHit: number, numberOfHits: number) => {
     return `${currentHit} iš ${numberOfHits} atitikmenų`;
   };
 }

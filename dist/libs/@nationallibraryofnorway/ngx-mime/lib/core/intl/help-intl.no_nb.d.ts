@@ -14,3 +14,4 @@ export declare class HelpIntlNoNb extends HelpIntl {
     line11: string;
     line12: string;
 }
+//# sourceMappingURL=help-intl.no_nb.d.ts.map

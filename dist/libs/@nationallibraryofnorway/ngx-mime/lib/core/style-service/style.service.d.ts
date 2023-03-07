@@ -16,3 +16,4 @@ export declare class StyleService {
     static ɵfac: i0.ɵɵFactoryDeclaration<StyleService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<StyleService>;
 }
+//# sourceMappingURL=style.service.d.ts.map

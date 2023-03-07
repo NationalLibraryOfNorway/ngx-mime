@@ -6,3 +6,4 @@ export declare class HelpDialogModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<HelpDialogModule, [typeof i1.HelpDialogComponent], [typeof i2.SharedModule], never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<HelpDialogModule>;
 }
+//# sourceMappingURL=help-dialog.module.d.ts.map

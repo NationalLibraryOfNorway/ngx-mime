@@ -2,8 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -12,7 +10,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
-import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from './../core/models/manifest';
@@ -34,9 +31,8 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     public mediaObserver: MediaObserver,
+    private cdr: ChangeDetectorRef,
     private dialogRef: MatDialogRef<ContentsDialogComponent>,
-    private el: ElementRef,
-    private mimeDomHelper: MimeDomHelper,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     mimeResizeService: MimeResizeService
@@ -69,11 +65,6 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.resizeTabHeight();
-  }
-
   onCanvasChanged() {
     if (this.mediaObserver.isActive('lt-md')) {
       this.dialogRef.close();
@@ -93,6 +84,6 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
         maxHeight: height + 'px',
       };
     }
-    this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
   }
 }

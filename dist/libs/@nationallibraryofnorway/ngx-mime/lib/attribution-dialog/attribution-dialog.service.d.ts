@@ -28,3 +28,4 @@ export declare class AttributionDialogService {
     static ɵfac: i0.ɵɵFactoryDeclaration<AttributionDialogService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<AttributionDialogService>;
 }
+//# sourceMappingURL=attribution-dialog.service.d.ts.map

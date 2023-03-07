@@ -27,3 +27,4 @@ export interface String {
 export interface TextStyle {
     fontStyle?: string;
 }
+//# sourceMappingURL=alto.model.d.ts.map

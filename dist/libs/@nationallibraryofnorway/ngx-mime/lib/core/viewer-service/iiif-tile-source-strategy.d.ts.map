@@ -1,0 +1,1 @@
+{"version":3,"file":"iiif-tile-source-strategy.d.ts","sourceRoot":"","sources":["../../../../../../../libs/ngx-mime/src/lib/core/viewer-service/iiif-tile-source-strategy.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,oBAAoB,CAAC;AAC9C,OAAO,EAAE,kBAAkB,EAAE,MAAM,wBAAwB,CAAC;AAE5D,qBAAa,sBAAuB,YAAW,kBAAkB;IACxD,aAAa,CAAC,QAAQ,EAAE,QAAQ,GAAG,GAAG;CAsB9C"}

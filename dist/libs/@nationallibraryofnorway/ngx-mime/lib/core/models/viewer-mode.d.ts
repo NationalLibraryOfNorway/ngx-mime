@@ -4,3 +4,4 @@ export declare enum ViewerMode {
     PAGE_ZOOMED = 2,
     NAVIGATOR = 3
 }
+//# sourceMappingURL=viewer-mode.d.ts.map

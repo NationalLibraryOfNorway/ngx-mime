@@ -3,3 +3,4 @@ export declare class DashboardModeCalculateNextCanvasGroupStrategy implements Ca
     calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number;
     private calculateNumberOfCanvasGroupsToGo;
 }
+//# sourceMappingURL=dashboard-mode-calculate-next-canvas-group-strategy.d.ts.map

@@ -7,3 +7,4 @@ export declare enum Direction {
     NEXT = 5,
     PREVIOUS = 6
 }
+//# sourceMappingURL=direction.d.ts.map

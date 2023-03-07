@@ -18,3 +18,4 @@ export declare class ViewerLayoutService {
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerLayoutService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ViewerLayoutService>;
 }
+//# sourceMappingURL=viewer-layout-service.d.ts.map

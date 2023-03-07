@@ -14,3 +14,4 @@ export declare class CanvasGroupDialogService {
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasGroupDialogService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<CanvasGroupDialogService>;
 }
+//# sourceMappingURL=canvas-group-dialog.service.d.ts.map

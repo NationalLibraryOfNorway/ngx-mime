@@ -6,3 +6,4 @@ export declare class ContentSearchDialogModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<ContentSearchDialogModule, [typeof i1.ContentSearchDialogComponent], [typeof i2.SharedModule], never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<ContentSearchDialogModule>;
 }
+//# sourceMappingURL=content-search-dialog.module.d.ts.map

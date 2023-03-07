@@ -9,3 +9,4 @@ export declare class OneCanvasPerCanvasGroupStrategy implements AbstractCanvasGr
 export declare class TwoCanvasPerCanvasGroupStrategy implements AbstractCanvasGroupStrategy {
     addAll: (canvasRects: Rect[]) => CanvasGroups;
 }
+//# sourceMappingURL=canvas-group.strategy.d.ts.map

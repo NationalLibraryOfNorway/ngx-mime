@@ -13,14 +13,16 @@ export declare class CanvasGroupDialogComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     private changeDetectorRef;
     numberOfCanvases: number;
-    canvasGroupForm: FormGroup;
-    canvasGroupControl: FormControl;
+    canvasGroupForm: FormGroup<{
+        canvasGroupControl: FormControl<number | null>;
+    }>;
     private subscriptions;
     constructor(dialogRef: MatDialogRef<CanvasGroupDialogComponent>, fb: FormBuilder, viewerService: ViewerService, canvasService: CanvasService, intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef);
-    createForm(): void;
+    get canvasGroupControl(): import("@angular/forms").AbstractControl<number | null, number | null> | null;
     ngOnInit(): void;
     ngOnDestroy(): void;
     onSubmit(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CanvasGroupDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupDialogComponent, "ng-component", never, {}, {}, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CanvasGroupDialogComponent, "ng-component", never, {}, {}, never, never, false, never>;
 }
+//# sourceMappingURL=canvas-group-dialog.component.d.ts.map

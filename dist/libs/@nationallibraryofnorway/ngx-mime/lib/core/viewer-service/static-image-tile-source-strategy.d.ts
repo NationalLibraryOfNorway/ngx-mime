@@ -3,3 +3,4 @@ import { TileSourceStrategy } from './tile-source-strategy';
 export declare class StaticImageTileSourceStrategy implements TileSourceStrategy {
     getTileSource(resource: Service | any): any;
 }
+//# sourceMappingURL=static-image-tile-source-strategy.d.ts.map

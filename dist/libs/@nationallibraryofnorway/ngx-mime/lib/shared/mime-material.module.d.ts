@@ -19,3 +19,4 @@ export declare class MimeMaterialModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<MimeMaterialModule, never, never, [typeof i1.MatToolbarModule, typeof i2.MatButtonModule, typeof i3.MatButtonToggleModule, typeof i4.MatIconModule, typeof i5.MatTooltipModule, typeof i6.MatDialogModule, typeof i7.MatTabsModule, typeof i8.MatListModule, typeof i9.MatSliderModule, typeof i10.MatProgressSpinnerModule, typeof i11.MatInputModule, typeof i12.MatProgressBarModule, typeof i13.MatCardModule, typeof i14.MatSnackBarModule, typeof i15.MatSidenavModule]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<MimeMaterialModule>;
 }
+//# sourceMappingURL=mime-material.module.d.ts.map

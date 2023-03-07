@@ -45,3 +45,4 @@ export declare class ZoomStrategy {
 export declare class DefaultZoomStrategy extends ZoomStrategy implements Strategy {
     constructor(viewer: any, canvasService: CanvasService, modeService: ModeService, viewerLayoutService: ViewerLayoutService);
 }
+//# sourceMappingURL=zoom-strategy.d.ts.map

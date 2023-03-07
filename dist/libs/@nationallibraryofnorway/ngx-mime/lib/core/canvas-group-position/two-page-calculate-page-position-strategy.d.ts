@@ -10,3 +10,4 @@ export declare class TwoPageCalculateCanvasGroupPositionStrategy implements Calc
     private calculateEvenRtlX;
     private calculateOddRtlX;
 }
+//# sourceMappingURL=two-page-calculate-page-position-strategy.d.ts.map

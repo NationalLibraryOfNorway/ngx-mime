@@ -4,6 +4,10 @@
   $accent: map-get($theme, accent);
 
   .ngx-mime-metadata-container {
+    .title {
+      color: mat.get-color-from-palette($foreground, text);
+    }
+
     .content {
       color: mat.get-color-from-palette($foreground, secondary-text);
     }

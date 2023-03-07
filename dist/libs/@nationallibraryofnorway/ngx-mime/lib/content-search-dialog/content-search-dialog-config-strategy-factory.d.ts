@@ -10,3 +10,4 @@ export declare class ContentSearchDialogConfigStrategyFactory {
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchDialogConfigStrategyFactory, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ContentSearchDialogConfigStrategyFactory>;
 }
+//# sourceMappingURL=content-search-dialog-config-strategy-factory.d.ts.map

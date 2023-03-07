@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.0...v15.1.1) (2023-02-10)
+
+
+### Bug Fixes
+
+* **a11y:** applied the role="group" to convey the association between the individual toggles ([#447](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/447)) ([ffb614b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ffb614b5bfa945f48c59da55830a017fef3809f2)), closes [#446](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/446)
+
+## [15.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.0.0...v15.1.0) (2023-02-02)
+
+
+### Features
+
+* themed metadata title ([1c84e57](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1c84e5760cd9743acfe9736d11d4818a2b0537d2))
+
+
+### Bug Fixes
+
+* npmjs badge ([ad582b9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ad582b9d5dd37086ce3e111bdab9761aeeabed6c))
+* transparent attribution dialog ([#444](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/444)) ([23ff536](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/23ff5369b2b3ad11e09a7b065cd5fdfdca247de7))
+
+## [15.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v14.1.0...v15.0.0) (2023-02-02)
+
+## [14.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v14.0.1...v14.1.0) (2023-02-02)
+
+
+### Features
+
+* angular 15 ([#438](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/438)) ([2e1a7ab](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/2e1a7abf8a564d4fb1f14cd747b967a346f85cdf))
+
+### [14.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v14.0.0...v14.0.1) (2023-01-12)
+
+
+### Bug Fixes
+
+* wrong peerDependencies ([84922a7](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/84922a7559e69845de7b0de35f3862b571f1f5d0))
+
+## [14.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.3.2...v14.0.0) (2022-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Angular 14
+
+### Features
+
+* angular v14 and migrate from protractor to playwright ([df28909](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/df289090da3243f124b2f839c0aad279eb2e2704)), closes [#431](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/431)
+
+
+### Bug Fixes
+
+* contents-dialog should now resize on objects without toc ([#436](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/436)) ([52da246](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/52da246dc43b454dd1cde6b427eacb60e4442f7b))
+* handle empty margins in recognized text ([5470001](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5470001ce9c463315564eb5ee3b33f0915cd2b3b))
+
 ### [13.3.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v13.3.1...v13.3.2) (2022-09-19)
 
 

@@ -5,4 +5,6 @@ export declare class PageBuilder {
     withPageXml(pageXml: any): this;
     withTextStyles(textStyles: Map<string, TextStyle> | undefined): PageBuilder;
     build(): Page;
+    private getFirstPrintSpace;
 }
+//# sourceMappingURL=page.builder.d.ts.map

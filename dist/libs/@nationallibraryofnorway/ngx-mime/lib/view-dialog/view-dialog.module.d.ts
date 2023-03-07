@@ -7,3 +7,4 @@ export declare class ViewDialogModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<ViewDialogModule, [typeof i1.ViewDialogComponent, typeof i2.IconComponent], [typeof i3.SharedModule], never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<ViewDialogModule>;
 }
+//# sourceMappingURL=view-dialog.module.d.ts.map

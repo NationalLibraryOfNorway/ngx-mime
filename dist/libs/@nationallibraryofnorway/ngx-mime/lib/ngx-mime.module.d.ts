@@ -22,3 +22,4 @@ export declare class MimeModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<MimeModule, [typeof i1.ViewerComponent, typeof i2.ViewerHeaderComponent, typeof i3.ViewerFooterComponent, typeof i4.OsdToolbarComponent, typeof i5.ContentSearchNavigatorComponent, typeof i6.CanvasGroupNavigatorComponent, typeof i7.ViewerSpinnerComponent, typeof i8.RecognizedTextContentComponent], [typeof i9.CoreModule, typeof i10.SharedModule, typeof i11.ContentsDialogModule, typeof i12.ViewDialogModule, typeof i13.AttributionDialogModule, typeof i14.HelpDialogModule, typeof i15.ContentSearchDialogModule, typeof i16.CanvasGroupDialogModule], [typeof i1.ViewerComponent]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<MimeModule>;
 }
+//# sourceMappingURL=ngx-mime.module.d.ts.map

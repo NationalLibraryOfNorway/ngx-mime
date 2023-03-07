@@ -20,3 +20,4 @@ export declare class ModeService {
     static ɵfac: i0.ɵɵFactoryDeclaration<ModeService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ModeService>;
 }
+//# sourceMappingURL=mode.service.d.ts.map

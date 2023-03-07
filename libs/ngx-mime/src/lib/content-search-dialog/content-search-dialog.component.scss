@@ -1,13 +1,10 @@
 .mat-mdc-dialog-title {
+  color: inherit;
   padding: 0 2px 16px;
 }
 
 ::ng-deep mat-form-field .mdc-text-field {
   background: transparent !important;
-}
-
-.label {
-  text-decoration: underline;
 }
 
 .content-search-box {
@@ -50,10 +47,6 @@ em {
 .canvasGroupLabel {
   text-align: right;
   opacity: 0.54;
-}
-
-::ng-deep .content-search-container {
-  max-width: none !important;
 }
 
 .mat-mdc-dialog-content {

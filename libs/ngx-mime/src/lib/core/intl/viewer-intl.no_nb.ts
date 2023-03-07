@@ -4,59 +4,58 @@ import { HelpIntlNoNb } from './help-intl.no_nb';
 
 @Injectable()
 export class MimeViewerIntlNoNb extends MimeViewerIntl {
-  help = new HelpIntlNoNb();
-  closeLabel = 'Lukk';
-  attributionLabel = 'Tillatelse';
-  attributonCloseAriaLabel = 'Steng tillatelse dialog';
-  helpCloseAriaLabel = 'Steng hjelp dialog';
-  recognizedTextContentLabel = 'Gjenkjent tekst';
-  contentsLabel = 'Innhold';
-  layoutMenuLabel = 'Visning';
-  pageLayoutLabel = 'Sideoppsett';
-  singlePageViewLabel = 'Enkeltsider';
-  twoPageViewLabel = 'To sider';
-  digitalTextLabel = 'Digital tekst';
-  recognizedTextContentCloseLabel = 'Ingen';
-  recognizedTextContentInSplitViewLabel = 'Delt';
-  showRecognizedTextContentLabel = 'Kun digital tekst';
-  metadataLabel = 'Metadata';
-  licenseLabel = 'Lisens';
-  tocLabel = 'Innholdsfortegnelse';
-  fullScreenLabel = 'Fullskjerm';
-  exitFullScreenLabel = 'Avslutt fullskjerm';
-  zoomInLabel = 'Zoom inn';
-  zoomOutLabel = 'Zoom ut';
-  previousPageLabel = 'Forrige side';
-  nextPageLabel = 'Neste side';
-  homeLabel = 'Hjem';
-  rotateCwLabel = 'Rotér 90°';
-  searchLabel = 'Søk';
-  clearSearchLabel = 'Tøm';
-  previousHitLabel = 'Forrige treff';
-  nextHitLabel = 'Neste treff';
-  goToPageLabel = 'Gå til side';
-  currentPageLabel = 'Nåværende side';
-  enterPageNumber = 'Skriv inn sidenummer';
-  dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
-  loading = 'Laster ...';
-  rotationIsNotSupported = 'Rotasjon støttes ikke av enheten din';
+  override help = new HelpIntlNoNb();
+  override closeLabel = 'Lukk';
+  override attributionLabel = 'Tillatelse';
+  override attributonCloseAriaLabel = 'Steng tillatelse dialog';
+  override helpCloseAriaLabel = 'Steng hjelp dialog';
+  override contentsLabel = 'Innhold';
+  override layoutMenuLabel = 'Visning';
+  override pageLayoutLabel = 'Sideoppsett';
+  override singlePageViewLabel = 'Enkeltsider';
+  override digitalTextLabel = 'Digital tekst';
+  override twoPageViewLabel = 'To sider';
+  override recognizedTextContentCloseLabel = 'Ingen';
+  override recognizedTextContentInSplitViewLabel = 'Delt';
+  override showRecognizedTextContentLabel = 'Kun digital tekst';
+  override metadataLabel = 'Metadata';
+  override licenseLabel = 'Lisens';
+  override tocLabel = 'Innholdsfortegnelse';
+  override fullScreenLabel = 'Fullskjerm';
+  override exitFullScreenLabel = 'Avslutt fullskjerm';
+  override zoomInLabel = 'Zoom inn';
+  override zoomOutLabel = 'Zoom ut';
+  override previousPageLabel = 'Forrige side';
+  override nextPageLabel = 'Neste side';
+  override homeLabel = 'Hjem';
+  override rotateCwLabel = 'Rotér 90°';
+  override searchLabel = 'Søk';
+  override clearSearchLabel = 'Tøm';
+  override previousHitLabel = 'Forrige treff';
+  override nextHitLabel = 'Neste treff';
+  override goToPageLabel = 'Gå til side';
+  override currentPageLabel = 'Nåværende side';
+  override enterPageNumber = 'Skriv inn sidenummer';
+  override dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
+  override loading = 'Laster ...';
+  override rotationIsNotSupported = 'Rotasjon støttes ikke av enheten din';
 
   // ERRORS
-  somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';
-  manifestUriMissingLabel = 'Lenke til manifest mangler';
-  manifestNotValidLabel = 'Manifestet er ikke gyldig';
-  pageDoesNotExists = 'Beklager, men den siden finnes ikke';
-  textContentErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
+  override somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';
+  override manifestUriMissingLabel = 'Lenke til manifest mangler';
+  override manifestNotValidLabel = 'Manifestet er ikke gyldig';
+  override pageDoesNotExists = 'Beklager, men den siden finnes ikke';
+  override textContentErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
 
-  noResultsFoundLabel = (q: string) => {
+  override noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;
   };
 
-  resultsFoundLabel = (numberOfHits: number, q: string) => {
+  override resultsFoundLabel = (numberOfHits: number, q: string) => {
     return `${numberOfHits} treff funnet for <em class="current-search">${q}</em>`;
   };
 
-  currentHitLabel = (currentHit: number, numberOfHits: number) => {
+  override currentHitLabel = (currentHit: number, numberOfHits: number) => {
     return `${currentHit} av ${numberOfHits} treff`;
   };
 }

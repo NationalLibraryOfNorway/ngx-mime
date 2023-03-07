@@ -71,7 +71,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
   isInFullscreen = false;
-  fullscreenLabel = this.intl.fullScreenLabel;
+  fullscreenLabel = '';
   isPagedManifest = false;
   hasRecognizedTextContent = false;
 

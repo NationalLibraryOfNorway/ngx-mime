@@ -121,7 +121,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
   @Output()
-  recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> = new EventEmitter();
+  recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> =
+    new EventEmitter();
   recognizedTextMode = RecognizedTextMode;
   id = 'ngx-mime-mimeViewer';
   openseadragonId = 'openseadragon';
@@ -339,6 +340,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         .subscribe(() => {
           setTimeout(() => {
             this.viewerService.home();
+            this.changeDetectorRef.markForCheck();
           }, ViewerOptions.transitions.OSDAnimationTime);
         })
     );

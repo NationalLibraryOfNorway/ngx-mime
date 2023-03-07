@@ -12,3 +12,4 @@ export declare class Rect {
         height?: number;
     });
 }
+//# sourceMappingURL=rect.d.ts.map

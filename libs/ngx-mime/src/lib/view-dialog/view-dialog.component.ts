@@ -67,7 +67,6 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((rect) => {
         this.resizeHeight(rect);
-        this.cdr.detectChanges();
       })
     );
   }
@@ -104,5 +103,6 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.contentStyle = {
       maxHeight,
     };
+    this.cdr.detectChanges();
   }
 }

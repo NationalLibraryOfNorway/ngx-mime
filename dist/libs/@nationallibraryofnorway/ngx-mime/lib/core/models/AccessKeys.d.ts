@@ -47,3 +47,4 @@ export declare class AccessKeys {
     private isShiftPressed;
     private isMetaPressed;
 }
+//# sourceMappingURL=AccessKeys.d.ts.map

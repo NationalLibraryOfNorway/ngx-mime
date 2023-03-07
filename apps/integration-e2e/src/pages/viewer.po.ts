@@ -74,7 +74,7 @@ export class ViewerPage {
   private viewMenuCloseButton: Locator;
   private viewMenuDialog: Locator;
   private pageGroup: Locator;
-  private dir: Locator;
+  private navigationSliderContainer: Locator;
 
   constructor(
     private parameters: ParameterType,
@@ -82,7 +82,9 @@ export class ViewerPage {
     private animations: Animations
   ) {
     this.navigationSlider = this.page.locator('.navigation-slider');
-    this.dir = this.page.locator('[data-test-id="slider-dir"]');
+    this.navigationSliderContainer = this.page.locator(
+      '[data-test-id="navigation-slider-container"]'
+    );
     this.canvasGroupsButton = this.page.locator('button.canvasGroups');
     this.canvasGroupInput = this.page.locator('.go-to-canvas-group-input');
     this.currentCanvasGroupLabel = this.page.locator(
@@ -299,7 +301,7 @@ export class ViewerPage {
       canvasGroupIndex = Math.floor(canvasGroupIndex / 2);
     }
 
-    const dir = await this.dir.getAttribute('dir');
+    const dir = await this.navigationSliderContainer.getAttribute('dir');
     const pressDirection = dir === 'ltr' ? 'ArrowRight' : 'ArrowLeft';
     for (let i = 0; i < canvasGroupIndex; i++) {
       await this.navigationSlider.press(pressDirection);

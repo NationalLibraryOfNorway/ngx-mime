@@ -1,0 +1,1 @@
+{"version":3,"file":"alto.builder.d.ts","sourceRoot":"","sources":["../../../../../../../../libs/ngx-mime/src/lib/core/builders/alto/alto.builder.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,+BAA+B,CAAC;AAIrD,qBAAa,WAAW;IACtB,OAAO,CAAC,aAAa,CAAuB;IAC5C,OAAO,CAAC,OAAO,CAAkB;IAEjC,WAAW,CAAC,OAAO,EAAE,GAAG,GAAG,WAAW;IAKtC,KAAK,IAAI,IAAI;CAYd"}

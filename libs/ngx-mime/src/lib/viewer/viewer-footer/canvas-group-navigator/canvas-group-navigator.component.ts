@@ -30,7 +30,8 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   public currentCanvasGroupIndex: number | null = -1;
   public isFirstCanvasGroup = false;
   public isLastCanvasGroup = false;
-  dir: Direction = 'ltr';
+  readonly ViewingDirection = ViewingDirection;
+  currentViewingDirection: Direction = ViewingDirection.LTR;
   private currentSliderCanvasGroupIndex: number | null = -1;
   private subscriptions = new Subscription();
 
@@ -48,10 +49,10 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           if (manifest) {
-            this.dir =
+            this.currentViewingDirection =
               manifest.viewingDirection === ViewingDirection.LTR
-                ? 'ltr'
-                : 'rtl';
+                ? ViewingDirection.LTR
+                : ViewingDirection.RTL;
             this.changeDetectorRef.detectChanges();
           }
         }

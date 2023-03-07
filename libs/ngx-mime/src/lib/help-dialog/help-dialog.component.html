@@ -33,7 +33,7 @@
       </mat-toolbar>
     </div>
   </div>
-  <div [ngStyle]="tabHeight" class="help-content">
+  <mat-dialog-content [ngStyle]="tabHeight" class="help-content" tabindex="0">
     <p [innerHTML]="intl.help.line1"></p>
     <p [innerHTML]="intl.help.line2"></p>
     <p [innerHTML]="intl.help.line3"></p>
@@ -46,5 +46,5 @@
     <p [innerHTML]="intl.help.line9"></p>
     <p [innerHTML]="intl.help.line10"></p>
     <p [innerHTML]="intl.help.line11"></p>
-  </div>
+  </mat-dialog-content>
 </div>

@@ -11,3 +11,4 @@ export declare class SpinnerService {
     static ɵfac: i0.ɵɵFactoryDeclaration<SpinnerService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<SpinnerService>;
 }
+//# sourceMappingURL=spinner.service.d.ts.map

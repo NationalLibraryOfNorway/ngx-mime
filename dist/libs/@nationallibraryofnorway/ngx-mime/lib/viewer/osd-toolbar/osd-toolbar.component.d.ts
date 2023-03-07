@@ -37,5 +37,6 @@ export declare class OsdToolbarComponent implements OnInit, AfterViewInit, OnDes
     private isOnFirstCanvasGroup;
     private isOnLastCanvasGroup;
     static ɵfac: i0.ɵɵFactoryDeclaration<OsdToolbarComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<OsdToolbarComponent, "mime-osd-toolbar", never, {}, {}, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<OsdToolbarComponent, "mime-osd-toolbar", never, {}, {}, never, never, false, never>;
 }
+//# sourceMappingURL=osd-toolbar.component.d.ts.map

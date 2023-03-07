@@ -22,6 +22,7 @@ export class MobileContentsDialogConfigStrategy
       disableClose: false,
       width: '100%',
       height: '100%',
+      maxWidth: '100% !important',
       panelClass: 'contents-panel',
     };
   }
@@ -51,6 +52,7 @@ export class DesktopContentsDialogConfigStrategy
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
       },
+      maxWidth: '100% !important',
       panelClass: 'contents-panel',
       viewContainerRef: viewContainerRef,
     };

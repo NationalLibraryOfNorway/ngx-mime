@@ -5,3 +5,4 @@ export declare class CanvasBuilder {
     build(): Canvas[];
     private extractAltoUrl;
 }
+//# sourceMappingURL=canvas.builder.d.ts.map

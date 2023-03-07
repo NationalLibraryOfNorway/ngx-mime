@@ -1,6 +1,6 @@
-import { MimeDomHelper } from './../core/mime-dom-helper';
 import { ElementRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { MimeDomHelper } from './../core/mime-dom-helper';
 export interface ContentSearchDialogConfigStrategy {
     getConfig(elementRef?: ElementRef | null): MatDialogConfig;
 }
@@ -15,3 +15,4 @@ export declare class DesktopContentSearchDialogConfigStrategy implements Content
     getConfig(el: ElementRef): MatDialogConfig;
     private getPosition;
 }
+//# sourceMappingURL=content-search-dialog-config-strategy.d.ts.map

@@ -23,6 +23,7 @@ export class MobileViewDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
+      maxWidth: '100% !important',
       panelClass: 'view-panel',
       viewContainerRef: viewContainerRef,
     };
@@ -55,7 +56,7 @@ export class DesktopViewDialogConfigStrategy
         left: dimensions.left + 'px',
       },
       panelClass: 'view-panel',
-      viewContainerRef: viewContainerRef,
+      maxWidth: '100% !important',
     };
   }
 

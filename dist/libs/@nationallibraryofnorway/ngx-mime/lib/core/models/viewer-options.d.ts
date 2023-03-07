@@ -27,3 +27,4 @@ export declare const ViewerOptions: {
         canvasGroupBackgroundColor: string;
     };
 };
+//# sourceMappingURL=viewer-options.d.ts.map

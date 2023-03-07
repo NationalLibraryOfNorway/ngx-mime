@@ -23,6 +23,7 @@ export class MobileContentSearchDialogConfigStrategy
       autoFocus: false,
       width: '100%',
       height: '100%',
+      maxWidth: '100% !important',
       panelClass: 'content-search-panel',
       viewContainerRef: viewContainerRef,
     };
@@ -54,6 +55,7 @@ export class DesktopContentSearchDialogConfigStrategy
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
       },
+      maxWidth: '100% !important',
       panelClass: 'content-search-panel',
       viewContainerRef: viewContainerRef,
     };

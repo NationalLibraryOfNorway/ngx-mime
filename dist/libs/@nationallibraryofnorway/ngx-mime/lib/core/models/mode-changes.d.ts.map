@@ -1,0 +1,1 @@
+{"version":3,"file":"mode-changes.d.ts","sourceRoot":"","sources":["../../../../../../../libs/ngx-mime/src/lib/core/models/mode-changes.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,eAAe,CAAC;AAE3C,qBAAa,WAAW;IACf,YAAY,CAAC,EAAE,UAAU,CAAC;IAC1B,aAAa,CAAC,EAAE,UAAU,CAAC;gBAEtB,MAAM,CAAC,EAAE;QACnB,YAAY,CAAC,EAAE,UAAU,CAAC;QAC1B,aAAa,CAAC,EAAE,UAAU,CAAC;KAC5B;CAMF"}

@@ -14,3 +14,4 @@ export declare class ViewerState {
         helpDialogState?: HelpDialogState;
     });
 }
+//# sourceMappingURL=viewerState.d.ts.map

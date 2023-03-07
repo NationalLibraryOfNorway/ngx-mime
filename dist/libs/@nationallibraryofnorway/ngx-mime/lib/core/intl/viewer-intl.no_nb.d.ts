@@ -6,13 +6,13 @@ export declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     closeLabel: string;
     attributionLabel: string;
     attributonCloseAriaLabel: string;
-    recognizedTextContentLabel: string;
+    helpCloseAriaLabel: string;
     contentsLabel: string;
     layoutMenuLabel: string;
     pageLayoutLabel: string;
     singlePageViewLabel: string;
-    twoPageViewLabel: string;
     digitalTextLabel: string;
+    twoPageViewLabel: string;
     recognizedTextContentCloseLabel: string;
     recognizedTextContentInSplitViewLabel: string;
     showRecognizedTextContentLabel: string;
@@ -48,3 +48,4 @@ export declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     static ɵfac: i0.ɵɵFactoryDeclaration<MimeViewerIntlNoNb, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<MimeViewerIntlNoNb>;
 }
+//# sourceMappingURL=viewer-intl.no_nb.d.ts.map

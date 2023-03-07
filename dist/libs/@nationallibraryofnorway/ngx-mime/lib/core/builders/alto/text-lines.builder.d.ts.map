@@ -1,0 +1,1 @@
+{"version":3,"file":"text-lines.builder.d.ts","sourceRoot":"","sources":["../../../../../../../../libs/ngx-mime/src/lib/core/builders/alto/text-lines.builder.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,+BAA+B,CAAC;AAGzD,qBAAa,gBAAgB;IAC3B,OAAO,CAAC,aAAa,CAAwB;IAC7C,OAAO,CAAC,YAAY,CAAkB;IAEtC,gBAAgB,CAAC,YAAY,EAAE,GAAG;IAKlC,KAAK,IAAI,QAAQ,EAAE;CASpB"}
