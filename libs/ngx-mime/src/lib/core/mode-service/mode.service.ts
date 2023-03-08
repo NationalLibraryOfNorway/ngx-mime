@@ -12,8 +12,6 @@ export class ModeService {
   private modeChanges = new ModeChanges();
 
   constructor() {
-    console.log('created modeService');
-
     this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
   }
 

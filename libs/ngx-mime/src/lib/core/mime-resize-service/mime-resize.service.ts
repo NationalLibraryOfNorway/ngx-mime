@@ -42,7 +42,6 @@ export class MimeResizeService {
       }
     });
 
-    console.log(this.viewerService.id);
     const el: Element = this.el.nativeElement.querySelector(
       `#${this.viewerService.id}`
     );

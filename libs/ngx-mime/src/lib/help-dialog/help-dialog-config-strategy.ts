@@ -45,8 +45,6 @@ export class DesktopHelpDialogConfigStrategy
     viewContainerRef: ViewContainerRef
   ): MatDialogConfig {
     const dimensions = this.getPosition(el);
-    console.log('tester');
-
     return {
       hasBackdrop: false,
       disableClose: false,
