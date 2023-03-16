@@ -145,7 +145,7 @@ describe('InformationDialogComponent', () => {
     });
   }));
 
-  it('should close contents dialog when selecting a canvas group in TOC when on mobile', async () => {
+  it('should close information dialog when selecting a canvas group in TOC when on mobile', async () => {
     spyOn(mediaObserver, 'isActive').and.returnValue(true);
     spyOn(viewerService, 'goToCanvas');
     spyOn(dialogRef, 'close').and.callThrough();
