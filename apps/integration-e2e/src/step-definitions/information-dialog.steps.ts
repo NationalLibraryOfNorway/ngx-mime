@@ -43,7 +43,7 @@ Then(
 );
 
 Then(
-  'the Contents dialog should be {word}',
+  'the information dialog should be {word}',
   async function (this: CustomWorld, state: string) {
     if (state === 'closed') {
       await expect(this.informationDialogPage.container).toBeHidden();

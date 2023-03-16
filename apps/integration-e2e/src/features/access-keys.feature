@@ -93,7 +93,7 @@ Feature: Access Keys
   Scenario Outline: Open Contents Dialog
     Given the viewer is opened with a publication with viewing hint "individuals"
     When the user hits key <keys>
-    Then the contents dialog should open
+    Then the information dialog should open
 
     Examples:
       | keys |
@@ -101,9 +101,9 @@ Feature: Access Keys
 
   Scenario Outline: Close Contents Dialog
     Given the viewer is opened with a publication with viewing hint "individuals"
-    And the contents dialog is open
+    And the information dialog is open
     When the user hits key <keys>
-    Then the contents dialog should close
+    Then the information dialog should close
 
     Examples:
       | keys   |
@@ -116,7 +116,7 @@ Feature: Access Keys
     When the user click in the viewer
     And the user hits key <keys>
     Then the content search dialog should close
-    And the contents dialog should open
+    And the information dialog should open
 
     Examples:
       | keys |
@@ -124,9 +124,9 @@ Feature: Access Keys
 
   Scenario Outline: Close Contents Dialog when other dialog is opening
     Given the viewer is opened with a publication with viewing hint "individuals"
-    And the contents dialog is open
+    And the information dialog is open
     When the user hits key <keys>
-    Then the contents dialog should close
+    Then the information dialog should close
     And the content search dialog should open
 
     Examples:
