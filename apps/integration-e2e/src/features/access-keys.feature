@@ -90,7 +90,7 @@ Feature: Access Keys
       | keys   |
       | Escape |
 
-  Scenario Outline: Open Contents Dialog
+  Scenario Outline: Open information Dialog
     Given the viewer is opened with a publication with viewing hint "individuals"
     When the user hits key <keys>
     Then the information dialog should open
@@ -99,7 +99,7 @@ Feature: Access Keys
       | keys |
       | c    |
 
-  Scenario Outline: Close Contents Dialog
+  Scenario Outline: Close information Dialog
     Given the viewer is opened with a publication with viewing hint "individuals"
     And the information dialog is open
     When the user hits key <keys>
@@ -122,7 +122,7 @@ Feature: Access Keys
       | keys |
       | c    |
 
-  Scenario Outline: Close Contents Dialog when other dialog is opening
+  Scenario Outline: Close information Dialog when other dialog is opening
     Given the viewer is opened with a publication with viewing hint "individuals"
     And the information dialog is open
     When the user hits key <keys>
