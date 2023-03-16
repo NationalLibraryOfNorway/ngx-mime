@@ -1,29 +1,29 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 import { SharedModule } from '../shared/shared.module';
-import { ContentsDialogService } from './contents-dialog.service';
+import { InformationDialogService } from './information-dialog.service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
+import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory.service';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 
-describe('ContentsDialogService', () => {
+describe('InformationDialogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule],
       providers: [
-        ContentsDialogService,
+        InformationDialogService,
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
-        ContentsDialogConfigStrategyFactory,
+        InformationDialogConfigStrategyFactory,
       ],
     });
   });
 
   it('should be created', inject(
-    [ContentsDialogService],
-    (service: ContentsDialogService) => {
+    [InformationDialogService],
+    (service: InformationDialogService) => {
       expect(service).toBeTruthy();
     }
   ));

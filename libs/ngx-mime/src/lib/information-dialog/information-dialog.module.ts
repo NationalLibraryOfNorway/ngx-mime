@@ -5,19 +5,19 @@ import {
 } from '@angular/material/core';
 
 import { SharedModule } from './../shared/shared.module';
-import { ContentsDialogService } from './contents-dialog.service';
-import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
-import { ContentsDialogComponent } from './contents-dialog.component';
+import { InformationDialogService } from './information-dialog.service';
+import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory.service';
+import { InformationDialogComponent } from './information-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
 
 @NgModule({
   imports: [SharedModule],
-  declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
+  declarations: [InformationDialogComponent, MetadataComponent, TocComponent],
   providers: [
-    ContentsDialogService,
-    ContentsDialogConfigStrategyFactory,
+    InformationDialogService,
+    InformationDialogConfigStrategyFactory,
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 })
-export class ContentsDialogModule {}
+export class InformationDialogModule {}

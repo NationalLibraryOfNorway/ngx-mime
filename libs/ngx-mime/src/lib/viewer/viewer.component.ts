@@ -21,7 +21,7 @@ import { interval, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
-import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
+import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -97,7 +97,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private viewDialogService: ViewDialogService,
-    private contentsDialogService: ContentsDialogService,
+    private informationDialogService: InformationDialogService,
     private attributionDialogService: AttributionDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
     private helpDialogService: HelpDialogService,
@@ -114,7 +114,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     public zone: NgZone,
     public platform: Platform
   ) {
-    contentsDialogService.el = el;
+    informationDialogService.el = el;
     attributionDialogService.el = el;
     viewDialogService.el = el;
     contentSearchDialogService.el = el;
@@ -223,16 +223,16 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           this.viewerState.viewDialogState.isOpen =
             this.viewDialogService.isOpen();
           this.viewerState.contentDialogState.isOpen =
-            this.contentsDialogService.isOpen();
+            this.informationDialogService.isOpen();
           this.viewerState.contentDialogState.selectedIndex =
-            this.contentsDialogService.getSelectedIndex();
+            this.informationDialogService.getSelectedIndex();
           this.viewerState.contentsSearchDialogState.isOpen =
             this.contentSearchDialogService.isOpen();
           this.viewerState.helpDialogState.isOpen =
             this.helpDialogService.isOpen();
           this.zone.run(() => {
             this.viewDialogService.close();
-            this.contentsDialogService.close();
+            this.informationDialogService.close();
             this.contentSearchDialogService.close();
             this.helpDialogService.close();
           });
@@ -243,7 +243,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
               this.viewDialogService.open();
             }
             if (this.viewerState.contentDialogState.isOpen) {
-              this.contentsDialogService.open(
+              this.informationDialogService.open(
                 this.viewerState.contentDialogState.selectedIndex
               );
             }
@@ -436,7 +436,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.accessKeysHandlerService.initialize();
     this.attributionDialogService.initialize();
     this.viewDialogService.initialize();
-    this.contentsDialogService.initialize();
+    this.informationDialogService.initialize();
     this.contentSearchDialogService.initialize();
     this.helpDialogService.initialize();
     this.viewerService.initialize();
@@ -448,7 +448,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     this.accessKeysHandlerService.destroy();
     this.attributionDialogService.destroy();
     this.viewDialogService.destroy();
-    this.contentsDialogService.destroy();
+    this.informationDialogService.destroy();
     this.contentSearchDialogService.destroy();
     this.helpDialogService.destroy();
     this.viewerService.destroy();

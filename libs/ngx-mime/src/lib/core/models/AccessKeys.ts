@@ -11,7 +11,7 @@ export class AccessKeys {
   public static nextHit = [78]; // n
   public static previousHit = [80]; // p
   public static toggleSearchDialogCodes = [83]; // s
-  public static toggleContentsDialogCodes = [67]; // C
+  public static toggleInformationDialogCodes = [67]; // C TODO Should this key change?
   public static toggleFullscreenCodes = [70]; // f
   public static resetSearch = [83]; // s
   public static rotateCwCodes = [82]; // r
@@ -108,10 +108,10 @@ export class AccessKeys {
     );
   }
 
-  public isContentsDialogKeys() {
+  public isInformationDialogKeys() {
     return (
       !this.isMultiKeys() &&
-      this.arrayContainsKeys(AccessKeys.toggleContentsDialogCodes)
+      this.arrayContainsKeys(AccessKeys.toggleInformationDialogCodes)
     );
   }
 

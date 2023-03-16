@@ -7,18 +7,18 @@ import {
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
-import { ContentsDialogComponent } from './contents-dialog.component';
+import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory.service';
+import { InformationDialogComponent } from './information-dialog.component';
 
 @Injectable()
-export class ContentsDialogService {
+export class InformationDialogService {
   private _el: ElementRef | null = null;
-  private dialogRef?: MatDialogRef<ContentsDialogComponent>;
+  private dialogRef?: MatDialogRef<InformationDialogComponent>;
   private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
-    private contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory,
+    private informationDialogConfigStrategyFactory: InformationDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService
   ) {}
 
@@ -47,7 +47,7 @@ export class ContentsDialogService {
   public open(selectedIndex?: number): void {
     if (!this.isOpen()) {
       const config = this.getDialogConfig();
-      this.dialogRef = this.dialog.open(ContentsDialogComponent, config);
+      this.dialogRef = this.dialog.open(InformationDialogComponent, config);
 
       if (selectedIndex) {
         this.dialogRef.componentInstance.selectedIndex = selectedIndex;
@@ -77,7 +77,7 @@ export class ContentsDialogService {
     if (!this._el) {
       throw new Error('No element');
     }
-    return this.contentsDialogConfigStrategyFactory
+    return this.informationDialogConfigStrategyFactory
       .create()
       .getConfig(this._el);
   }

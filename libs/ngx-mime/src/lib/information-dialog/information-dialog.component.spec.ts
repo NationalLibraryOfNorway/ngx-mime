@@ -29,25 +29,29 @@ import { AltoServiceStub } from '../test/alto-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { MediaObserverStub } from '../test/media-observer-stub';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
-import { ContentsDialogComponent } from './contents-dialog.component';
+import { InformationDialogComponent } from './information-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
 
-describe('ContentsDialogComponent', () => {
-  let component: ContentsDialogComponent;
-  let fixture: ComponentFixture<ContentsDialogComponent>;
+describe('InformationDialogComponent', () => {
+  let component: InformationDialogComponent;
+  let fixture: ComponentFixture<InformationDialogComponent>;
   let loader: HarnessLoader;
   let mediaObserver: MediaObserver;
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
-  let dialogRef: MatDialogRef<ContentsDialogComponent>;
+  let dialogRef: MatDialogRef<InformationDialogComponent>;
   let viewerService: ViewerService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [ContentsDialogComponent, MetadataComponent, TocComponent],
+      declarations: [
+        InformationDialogComponent,
+        MetadataComponent,
+        TocComponent,
+      ],
       providers: [
         ViewerService,
         ClickService,
@@ -70,7 +74,7 @@ describe('ContentsDialogComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ContentsDialogComponent);
+    fixture = TestBed.createComponent(InformationDialogComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
     mediaObserver = TestBed.inject(MediaObserver);

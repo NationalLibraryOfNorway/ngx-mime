@@ -23,22 +23,20 @@ describe('TocComponent', () => {
   let mediaObserver: any;
   let viewerService: ViewerService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [SharedModule, HttpClientModule],
-        declarations: [TocComponent],
-        providers: [
-          ClickService,
-          CanvasService,
-          ModeService,
-          MimeViewerIntl,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          { provide: ViewerService, useClass: ViewerServiceStub },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [SharedModule, HttpClientModule],
+      declarations: [TocComponent],
+      providers: [
+        ClickService,
+        CanvasService,
+        ModeService,
+        MimeViewerIntl,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: ViewerService, useClass: ViewerServiceStub },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TocComponent);

@@ -3,12 +3,12 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
-export interface ContentsDialogConfigStrategy {
+export interface InformationDialogConfigStrategy {
   getConfig(elementRef?: ElementRef): MatDialogConfig;
 }
 
-export class MobileContentsDialogConfigStrategy
-  implements ContentsDialogConfigStrategy
+export class MobileInformationDialogConfigStrategy
+  implements InformationDialogConfigStrategy
 {
   public getConfig(elementRef: ElementRef): MatDialogConfig {
     return {
@@ -17,13 +17,13 @@ export class MobileContentsDialogConfigStrategy
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
-      panelClass: 'contents-panel',
+      panelClass: 'information-panel',
     };
   }
 }
 
-export class DesktopContentsDialogConfigStrategy
-  implements ContentsDialogConfigStrategy
+export class DesktopInformationDialogConfigStrategy
+  implements InformationDialogConfigStrategy
 {
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
@@ -38,13 +38,13 @@ export class DesktopContentsDialogConfigStrategy
     return {
       hasBackdrop: false,
       disableClose: false,
-      width: `${DesktopContentsDialogConfigStrategy.dialogWidth}px`,
+      width: `${DesktopInformationDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
       },
       maxWidth: '100% !important',
-      panelClass: 'contents-panel',
+      panelClass: 'information-panel',
     };
   }
 
@@ -54,8 +54,8 @@ export class DesktopContentsDialogConfigStrategy
       top: dimensions.top + 64,
       left:
         dimensions.right -
-        DesktopContentsDialogConfigStrategy.dialogWidth -
-        DesktopContentsDialogConfigStrategy.paddingRight,
+        DesktopInformationDialogConfigStrategy.dialogWidth -
+        DesktopInformationDialogConfigStrategy.paddingRight,
     });
   }
 }

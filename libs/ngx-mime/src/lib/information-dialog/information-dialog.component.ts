@@ -15,12 +15,12 @@ import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from './../core/models/manifest';
 
 @Component({
-  selector: 'mime-contents',
-  templateUrl: './contents-dialog.component.html',
-  styleUrls: ['./contents-dialog.component.scss'],
+  selector: 'mime-information',
+  templateUrl: './information-dialog.component.html',
+  styleUrls: ['./information-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentsDialogComponent implements OnInit, OnDestroy {
+export class InformationDialogComponent implements OnInit, OnDestroy {
   public manifest: Manifest | null = null;
   public tabHeight = {};
   public showToc = false;
@@ -32,7 +32,7 @@ export class ContentsDialogComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     public mediaObserver: MediaObserver,
     private cdr: ChangeDetectorRef,
-    private dialogRef: MatDialogRef<ContentsDialogComponent>,
+    private dialogRef: MatDialogRef<InformationDialogComponent>,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     mimeResizeService: MimeResizeService
