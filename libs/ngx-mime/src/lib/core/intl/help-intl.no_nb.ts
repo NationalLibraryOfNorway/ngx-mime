@@ -9,13 +9,13 @@ export class HelpIntlNoNb extends HelpIntl {
   override line3 = '<strong>HOME</strong>: Gå til første side';
   override line4 = '<strong>END</strong>: Gå til siste side';
   override line5 =
-    '<strong>C</strong>: Slår innholdsfanen på, og viser mer informasjon/metadata om objektet. (Lukk med <strong>ESC</strong>-tasten.)';
+    '<strong>C</strong>: Vis flere opplysninger om materialet. (Lukk med <strong>ESC</strong>.)';
   override line6 =
-    '<strong>S</strong>: Åpner søkefeltet for søk i objektet. (Lukk med <strong>ESC</strong>-tasten.)';
+    '<strong>S</strong>: Åpner søkefeltet for søk i objektet. (Lukk med <strong>ESC</strong>.)';
   override line7 = '<strong>N</strong>: Går til neste treff i objektet';
   override line8 = '<strong>P</strong>: Går til forrige treff i objektet';
   override line9 =
-    '<strong>F</strong>: Fullskjerm av og på (Lukk med <strong>F</strong> eller <strong>ESC</strong>-tasten.)';
+    '<strong>F</strong>: Fullskjerm av og på (Lukk med <strong>F</strong> eller <strong>ESC</strong>.)';
   override line10 = '<strong>R</strong>: Rotér 90°';
   override line11 =
     '<strong>T</strong>: Vis/skjul optisk gjenkjent tekst (for innhold som kan vises).';
