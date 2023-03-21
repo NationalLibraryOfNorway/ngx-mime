@@ -7,7 +7,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import 'openseadragon';
 import { injectedStub } from '../../testing/injected-stub';
 import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
-import { ContentsDialogModule } from '../contents-dialog/contents-dialog.module';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -26,12 +25,9 @@ import { ContentSearchNavigationService } from '../core/navigation/content-searc
 import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { HelpDialogModule } from '../help-dialog/help-dialog.module';
 import { SharedModule } from '../shared/shared.module';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
-import { ViewDialogModule } from '../view-dialog/view-dialog.module';
-import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
@@ -65,11 +61,7 @@ describe('ViewerComponent', function () {
         HttpClientTestingModule,
         NoopAnimationsModule,
         SharedModule,
-        ContentsDialogModule,
         AttributionDialogModule,
-        ContentSearchDialogModule,
-        HelpDialogModule,
-        ViewDialogModule,
       ],
       declarations: [
         ViewerComponent,

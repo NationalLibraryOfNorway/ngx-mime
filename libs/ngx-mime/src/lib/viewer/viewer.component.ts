@@ -16,30 +16,18 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
-} from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
-import { AttributionDialogResizeService } from '../attribution-dialog/attribution-dialog-resize.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
-import { CanvasGroupDialogService } from '../canvas-group-dialog/canvas-group-dialog.service';
-import { ContentSearchDialogConfigStrategyFactory } from '../content-search-dialog/content-search-dialog-config-strategy-factory';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
-import { ContentsDialogConfigStrategyFactory } from '../contents-dialog/contents-dialog-config-strategy-factory';
 import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
-import { ClickService } from '../core/click-service/click.service';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
-import { HighlightService } from '../core/highlight-service/highlight.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../core/intl';
-import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
@@ -53,62 +41,24 @@ import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { ViewerState } from '../core/models/viewerState';
-import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
-import { SpinnerService } from '../core/spinner-service/spinner.service';
 import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { HelpDialogConfigStrategyFactory } from '../help-dialog/help-dialog-config-strategy-factory';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
-import { ViewDialogConfigStrategyFactory } from '../view-dialog/view-dialog-config-strategy-factory';
-import { ViewDialogModule } from '../view-dialog/view-dialog.module';
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
+import { VIEWER_PROVIDERS } from './viewer.providers';
 
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ViewerService,
-    ViewDialogService,
-    ViewDialogConfigStrategyFactory,
-    MimeDomHelper,
-    AccessKeysService,
-    MimeResizeService,
-    ContentsDialogService,
-    AttributionDialogService,
-    CanvasGroupDialogService,
-    AttributionDialogResizeService,
-    MimeDomHelper,
-    ContentSearchDialogService,
-    ContentSearchDialogConfigStrategyFactory,
-    MimeDomHelper,
-    ContentsDialogConfigStrategyFactory,
-    HelpDialogService,
-    HelpDialogConfigStrategyFactory,
-    ModeService,
-    IiifContentSearchService,
-    FullscreenService,
-    ViewerLayoutService,
-    ContentSearchNavigationService,
-    StyleService,
-    AltoService,
-    ClickService,
-    CanvasService,
-    ViewDialogModule,
-    HighlightService,
-    MimeViewerIntl,
-    IiifManifestService,
-    SpinnerService,
-    MimeViewerIntl,
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-  ],
+  providers: VIEWER_PROVIDERS,
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri!: string;

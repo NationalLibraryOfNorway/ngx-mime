@@ -6,11 +6,9 @@ import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { injectedStub } from '../../../testing/injected-stub';
 import { TestManifests } from '../../../testing/test-manifests';
-import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 import { Manifest, Service } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
-import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
@@ -28,11 +26,7 @@ describe('ViewerHeaderComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        ViewerHeaderTestModule,
-        ContentSearchDialogModule,
-        HelpDialogModule,
-      ],
+      imports: [ViewerHeaderTestModule],
       providers: [
         FullscreenService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },

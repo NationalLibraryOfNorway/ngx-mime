@@ -12,7 +12,6 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { ViewerServiceStub } from '../test/viewer-service-stub';
 import { HelpDialogComponent } from './help-dialog.component';
-import { HelpDialogModule } from './help-dialog.module';
 
 describe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
@@ -22,7 +21,6 @@ describe('HelpDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HelpDialogModule],
       providers: [
         MimeViewerIntl,
         MimeResizeService,

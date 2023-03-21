@@ -1,8 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
-import { ContentsDialogModule } from '../../contents-dialog/contents-dialog.module';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
@@ -13,26 +10,16 @@ import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.se
 import { ModeService } from '../../core/mode-service/mode.service';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
-import { HelpDialogModule } from '../../help-dialog/help-dialog.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AltoServiceStub } from '../../test/alto-service-stub';
 import { FullscreenServiceStub } from '../../test/fullscreen-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
-import { ViewDialogModule } from '../../view-dialog/view-dialog.module';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { ViewerHeaderComponent } from './viewer-header.component';
 
 @NgModule({
-  imports: [
-    NoopAnimationsModule,
-    SharedModule,
-    ContentsDialogModule,
-    ViewDialogModule,
-    HttpClientModule,
-    ContentSearchDialogModule,
-    HelpDialogModule,
-  ],
+  imports: [NoopAnimationsModule, SharedModule],
   declarations: [ViewerHeaderComponent],
   exports: [ViewerHeaderComponent],
   providers: [

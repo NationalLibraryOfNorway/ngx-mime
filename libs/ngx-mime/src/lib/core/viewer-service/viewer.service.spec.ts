@@ -38,7 +38,6 @@ describe('ViewerService', () => {
   let viewerLayoutService: ViewerLayoutService;
   let viewerService: ViewerService;
   let originalTimeout: number;
-  let mimeViewerConfig: MimeViewerConfig;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -68,7 +67,6 @@ describe('ViewerService', () => {
     snackBar = TestBed.inject(MatSnackBar);
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
     hostFixture = TestBed.createComponent(TestHostComponent);
-    mimeViewerConfig = hostFixture.componentInstance.config;
     viewerService.initialize();
     hostFixture.detectChanges();
 
@@ -108,10 +106,7 @@ describe('ViewerService', () => {
     viewerService.onRotationChange.subscribe((serviceRotation: number) => {
       rotation = serviceRotation;
     });
-    viewerService.setUpViewer(
-      new ManifestBuilder(testManifest).build(),
-      mimeViewerConfig
-    );
+    viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
 
     let subscription: Subscription;
     subscription = viewerService.onOsdReadyChange.subscribe((state) => {
@@ -130,10 +125,7 @@ describe('ViewerService', () => {
     viewerService.onRotationChange.subscribe((serviceRotation: number) => {
       rotation = serviceRotation;
     });
-    viewerService.setUpViewer(
-      new ManifestBuilder(testManifest).build(),
-      mimeViewerConfig
-    );
+    viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
 
     let subscription: Subscription;
     subscription = viewerService.onOsdReadyChange.subscribe((state) => {
@@ -148,10 +140,7 @@ describe('ViewerService', () => {
   });
 
   it('should set viewer to null on destroy', (done) => {
-    viewerService.setUpViewer(
-      new ManifestBuilder(testManifest).build(),
-      mimeViewerConfig
-    );
+    viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
 
     let subscription: Subscription;
     subscription = viewerService.onOsdReadyChange.subscribe((state) => {
@@ -167,10 +156,7 @@ describe('ViewerService', () => {
   describe('rotate', () => {
     it('should rotate if using canvas', (done) => {
       const openSpy = spyOn(snackBar, 'open');
-      viewerService.setUpViewer(
-        new ManifestBuilder(testManifest).build(),
-        mimeViewerConfig
-      );
+      viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
 
       viewerService.onOsdReadyChange.subscribe((state) => {
         if (state) {
@@ -188,10 +174,7 @@ describe('ViewerService', () => {
 
     it('should show error message if not using canvas', (done) => {
       const openSpy = spyOn(snackBar, 'open');
-      viewerService.setUpViewer(
-        new ManifestBuilder(testManifest).build(),
-        mimeViewerConfig
-      );
+      viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
       const viewer = viewerService.getViewer();
       viewer.useCanvas = false;
 
