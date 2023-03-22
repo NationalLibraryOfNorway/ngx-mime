@@ -67,7 +67,7 @@ const common = {
 
 const ci = {
   ...common,
-  parallel: 6,
+  parallel: 5,
   retry: 2,
   failFast: true,
   worldParameters: {

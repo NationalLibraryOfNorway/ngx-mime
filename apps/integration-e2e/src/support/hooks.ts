@@ -95,7 +95,7 @@ const connectToTestingCloud = async (
   let browserName = 'Chrome';
   let platform = 'Windows 11';
   if (mode === 'iphone') {
-    platform = 'MacOS Monterey';
+    platform = 'MacOS Ventura';
     browserName = 'pw-webkit';
   } else if (mode === 'firefox') {
     browserName = 'pw-firefox';
