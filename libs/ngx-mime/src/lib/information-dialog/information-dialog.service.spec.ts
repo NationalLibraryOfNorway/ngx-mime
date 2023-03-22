@@ -3,7 +3,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { SharedModule } from '../shared/shared.module';
 import { InformationDialogService } from './information-dialog.service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory.service';
+import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 

@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { ContentSearchDialogConfigStrategyFactory } from '../../content-search-dialog/content-search-dialog-config-strategy-factory';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
-import { InformationDialogConfigStrategyFactory } from '../../information-dialog/information-dialog-config-strategy-factory.service';
+import { InformationDialogConfigStrategyFactory } from '../../information-dialog/information-dialog-config-strategy-factory';
 import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { SharedModule } from '../../shared/shared.module';
 import { AltoServiceStub } from '../../test/alto-service-stub';

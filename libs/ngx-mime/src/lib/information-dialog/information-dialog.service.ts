@@ -7,7 +7,7 @@ import {
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory.service';
+import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory';
 import { InformationDialogComponent } from './information-dialog.component';
 
 @Injectable()
