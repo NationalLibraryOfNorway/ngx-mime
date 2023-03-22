@@ -18,4 +18,3 @@ export declare class HelpDialogComponent implements OnInit, OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<HelpDialogComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<HelpDialogComponent, "mime-help", never, {}, {}, never, never, false, never>;
 }
-//# sourceMappingURL=help-dialog.component.d.ts.map

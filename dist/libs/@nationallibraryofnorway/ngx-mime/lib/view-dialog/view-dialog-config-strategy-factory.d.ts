@@ -10,4 +10,3 @@ export declare class ViewDialogConfigStrategyFactory {
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewDialogConfigStrategyFactory, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ViewDialogConfigStrategyFactory>;
 }
-//# sourceMappingURL=view-dialog-config-strategy-factory.d.ts.map

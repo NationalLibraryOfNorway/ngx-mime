@@ -8,4 +8,3 @@ export declare class HighlightService {
     static ɵfac: i0.ɵɵFactoryDeclaration<HighlightService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<HighlightService>;
 }
-//# sourceMappingURL=highlight.service.d.ts.map

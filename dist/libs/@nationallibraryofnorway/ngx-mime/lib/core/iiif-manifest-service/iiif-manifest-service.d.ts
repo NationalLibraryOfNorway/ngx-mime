@@ -8,8 +8,8 @@ export declare class IiifManifestService {
     intl: MimeViewerIntl;
     private http;
     private spinnerService;
-    protected _currentManifest: BehaviorSubject<Manifest | null>;
-    protected _errorMessage: BehaviorSubject<string | null>;
+    protected _currentManifest: BehaviorSubject<Manifest>;
+    protected _errorMessage: BehaviorSubject<string>;
     constructor(intl: MimeViewerIntl, http: HttpClient, spinnerService: SpinnerService);
     get currentManifest(): Observable<Manifest | null>;
     get errorMessage(): Observable<string | null>;
@@ -23,4 +23,3 @@ export declare class IiifManifestService {
     static ɵfac: i0.ɵɵFactoryDeclaration<IiifManifestService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<IiifManifestService>;
 }
-//# sourceMappingURL=iiif-manifest-service.d.ts.map

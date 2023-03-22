@@ -18,4 +18,3 @@ export declare class SearchResultBuilder {
     private getPhysicalScale;
     private scaleValue;
 }
-//# sourceMappingURL=search-result.builder.d.ts.map

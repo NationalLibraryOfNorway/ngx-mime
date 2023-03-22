@@ -24,4 +24,3 @@ export declare class ContentsDialogService {
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentsDialogService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ContentsDialogService>;
 }
-//# sourceMappingURL=contents-dialog.service.d.ts.map

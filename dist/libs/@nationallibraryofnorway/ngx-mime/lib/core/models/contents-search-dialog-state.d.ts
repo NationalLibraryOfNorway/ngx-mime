@@ -4,4 +4,3 @@ export declare class ContentsSearchDialogState {
         isOpen?: boolean;
     });
 }
-//# sourceMappingURL=contents-search-dialog-state.d.ts.map

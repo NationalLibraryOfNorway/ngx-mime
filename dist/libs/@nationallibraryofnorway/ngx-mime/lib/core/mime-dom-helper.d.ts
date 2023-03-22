@@ -16,4 +16,3 @@ export declare class MimeDomHelper {
     static ɵfac: i0.ɵɵFactoryDeclaration<MimeDomHelper, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<MimeDomHelper>;
 }
-//# sourceMappingURL=mime-dom-helper.d.ts.map

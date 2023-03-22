@@ -29,4 +29,3 @@ export declare class ContentSearchNavigatorComponent implements OnInit, OnDestro
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchNavigatorComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchNavigatorComponent, "mime-content-search-navigator", never, { "searchResult": "searchResult"; }, {}, never, never, false, never>;
 }
-//# sourceMappingURL=content-search-navigator.component.d.ts.map

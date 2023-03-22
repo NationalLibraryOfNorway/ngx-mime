@@ -12,4 +12,3 @@ export interface Hit {
     before?: string;
     after?: string;
 }
-//# sourceMappingURL=iiif-search-result.d.ts.map

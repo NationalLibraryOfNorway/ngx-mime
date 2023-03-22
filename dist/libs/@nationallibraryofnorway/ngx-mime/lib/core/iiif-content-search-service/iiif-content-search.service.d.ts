@@ -10,7 +10,7 @@ export declare class IiifContentSearchService {
     protected _currentSearchResult: Subject<SearchResult>;
     protected _searching: BehaviorSubject<boolean>;
     protected _currentQ: BehaviorSubject<string>;
-    protected _selected: BehaviorSubject<Hit | null>;
+    protected _selected: BehaviorSubject<Hit>;
     private config;
     constructor(http: HttpClient);
     destroy(): void;
@@ -26,4 +26,3 @@ export declare class IiifContentSearchService {
     static ɵfac: i0.ɵɵFactoryDeclaration<IiifContentSearchService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<IiifContentSearchService>;
 }
-//# sourceMappingURL=iiif-content-search.service.d.ts.map

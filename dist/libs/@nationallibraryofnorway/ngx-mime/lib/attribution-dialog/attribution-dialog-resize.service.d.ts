@@ -16,4 +16,3 @@ export declare class AttributionDialogResizeService {
     static ɵfac: i0.ɵɵFactoryDeclaration<AttributionDialogResizeService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<AttributionDialogResizeService>;
 }
-//# sourceMappingURL=attribution-dialog-resize.service.d.ts.map

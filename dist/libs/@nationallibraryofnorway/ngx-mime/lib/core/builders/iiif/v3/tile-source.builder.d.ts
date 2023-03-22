@@ -5,4 +5,3 @@ export declare class TileSourceBuilder {
     build(): Resource[];
     private flattenService;
 }
-//# sourceMappingURL=tile-source.builder.d.ts.map

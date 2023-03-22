@@ -4,4 +4,3 @@ export declare class StylesBuilder {
     constructor(stylesXml: any);
     build(): Map<string, TextStyle>;
 }
-//# sourceMappingURL=styles.builder.d.ts.map

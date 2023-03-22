@@ -7,4 +7,3 @@ export declare class ModeChanges {
         previousValue?: ViewerMode;
     });
 }
-//# sourceMappingURL=mode-changes.d.ts.map

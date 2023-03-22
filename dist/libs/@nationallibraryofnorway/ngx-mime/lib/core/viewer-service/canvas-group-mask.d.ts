@@ -31,4 +31,3 @@ export declare class CanvasGroupMask {
     private getRightMaskRect;
     private unsubscribe;
 }
-//# sourceMappingURL=canvas-group-mask.d.ts.map

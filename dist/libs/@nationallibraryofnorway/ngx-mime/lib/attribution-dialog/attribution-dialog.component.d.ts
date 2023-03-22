@@ -28,4 +28,3 @@ export declare class AttributionDialogComponent implements OnInit, AfterViewInit
     static ɵfac: i0.ɵɵFactoryDeclaration<AttributionDialogComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<AttributionDialogComponent, "ng-component", never, {}, {}, never, never, false, never>;
 }
-//# sourceMappingURL=attribution-dialog.component.d.ts.map

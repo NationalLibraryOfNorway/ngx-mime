@@ -97,4 +97,3 @@ export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ViewerComponent, "mime-viewer", never, { "manifestUri": "manifestUri"; "q": "q"; "canvasIndex": "canvasIndex"; "config": "config"; "tabIndex": "tabIndex"; }, { "viewerModeChanged": "viewerModeChanged"; "canvasChanged": "canvasChanged"; "qChanged": "qChanged"; "manifestChanged": "manifestChanged"; "recognizedTextContentModeChanged": "recognizedTextContentModeChanged"; }, never, never, false, never>;
 }
-//# sourceMappingURL=viewer.component.d.ts.map

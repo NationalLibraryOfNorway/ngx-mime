@@ -11,4 +11,3 @@ export declare class SearchResult {
     size(): number;
     last(): Hit;
 }
-//# sourceMappingURL=search-result.d.ts.map

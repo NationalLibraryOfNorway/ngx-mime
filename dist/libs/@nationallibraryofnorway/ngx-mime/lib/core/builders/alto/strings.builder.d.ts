@@ -4,4 +4,3 @@ export declare class StringsBuilder {
     withStringXml(stringXml: any): StringsBuilder;
     build(): String[];
 }
-//# sourceMappingURL=strings.builder.d.ts.map

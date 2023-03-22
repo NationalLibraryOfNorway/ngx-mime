@@ -4,4 +4,3 @@ export declare enum Side {
     TOP = 2,
     BOTTOM = 3
 }
-//# sourceMappingURL=side.d.ts.map

@@ -15,4 +15,3 @@ export declare class DesktopContentsDialogConfigStrategy implements ContentsDial
     getConfig(el: ElementRef): MatDialogConfig;
     private getPosition;
 }
-//# sourceMappingURL=contents-dialog-config-strategy.d.ts.map

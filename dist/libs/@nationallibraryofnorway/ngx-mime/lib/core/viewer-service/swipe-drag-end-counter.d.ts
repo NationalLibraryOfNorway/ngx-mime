@@ -18,4 +18,3 @@ export declare class SwipeDragEndCounter {
      */
     private clearOppositeSideOfDragDirection;
 }
-//# sourceMappingURL=swipe-drag-end-counter.d.ts.map

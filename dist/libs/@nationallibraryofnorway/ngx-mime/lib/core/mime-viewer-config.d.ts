@@ -1,9 +1,9 @@
 import { RecognizedTextMode, ViewerMode } from './models';
 import { ViewerLayout } from './models/viewer-layout';
 export declare class MimeViewerConfig {
-    attributionDialogEnabled?: boolean | undefined;
-    attributionDialogHideTimeout?: number | undefined;
-    navigationControlEnabled?: boolean | undefined;
+    attributionDialogEnabled?: boolean;
+    attributionDialogHideTimeout?: number;
+    navigationControlEnabled?: boolean;
     initViewerMode: ViewerMode;
     initViewerLayout: ViewerLayout;
     withCredentials: boolean;
@@ -32,4 +32,3 @@ export declare class MimeViewerConfig {
         ignorePhysicalScale?: boolean;
     });
 }
-//# sourceMappingURL=mime-viewer-config.d.ts.map

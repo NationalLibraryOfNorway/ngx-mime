@@ -1,1 +1,0 @@
-{"version":3,"file":"navigator-calculate-next-canvas-group-strategy.d.ts","sourceRoot":"","sources":["../../../../../../../libs/ngx-mime/src/lib/core/viewer-service/navigator-calculate-next-canvas-group-strategy.ts"],"names":[],"mappings":"AACA,OAAO,EACL,gCAAgC,EAChC,uBAAuB,EACxB,MAAM,wCAAwC,CAAC;AAEhD,qBAAa,yCACX,YAAW,gCAAgC;IAE3C,wBAAwB,CAAC,QAAQ,EAAE,uBAAuB,GAAG,MAAM;CAUpE"}

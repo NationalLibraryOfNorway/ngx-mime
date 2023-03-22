@@ -3,4 +3,3 @@ import { OneCanvasPerCanvasGroupStrategy, TwoCanvasPerCanvasGroupStrategy } from
 export declare class CanvasGroupStrategyFactory {
     static create(layout: ViewerLayout): OneCanvasPerCanvasGroupStrategy | TwoCanvasPerCanvasGroupStrategy;
 }
-//# sourceMappingURL=canvas-groups-strategy.factory.d.ts.map

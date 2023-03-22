@@ -1,1 +1,0 @@
-{"version":3,"file":"canvas.builder.d.ts","sourceRoot":"","sources":["../../../../../../../../../libs/ngx-mime/src/lib/core/builders/iiif/v3/canvas.builder.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,0BAA0B,CAAC;AAIlD,qBAAa,aAAa;IACZ,OAAO,CAAC,QAAQ;gBAAR,QAAQ,EAAE,GAAG,EAAE;IAEnC,KAAK,IAAI,MAAM,EAAE;IA2BjB,OAAO,CAAC,cAAc;CAUvB"}

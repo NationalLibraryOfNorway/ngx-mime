@@ -5,4 +5,3 @@ export { Manifest as MimeManifest } from './lib/core/models/manifest';
 export { ViewerMode as MimeViewerMode } from './lib/core/models/viewer-mode';
 export { MimeModule } from './lib/ngx-mime.module';
 export { ViewerComponent as MimeViewerComponent } from './lib/viewer/viewer.component';
-//# sourceMappingURL=index.d.ts.map

@@ -4,4 +4,3 @@ export declare class CoreModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<CoreModule, never, never, never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<CoreModule>;
 }
-//# sourceMappingURL=core.module.d.ts.map

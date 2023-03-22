@@ -17,4 +17,3 @@ export declare class Hit {
         rects?: Rect[];
     });
 }
-//# sourceMappingURL=hit.d.ts.map

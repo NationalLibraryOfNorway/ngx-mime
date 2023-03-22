@@ -4,4 +4,3 @@ export declare class ImagesBuilder {
     constructor(images: any[]);
     build(): Images[];
 }
-//# sourceMappingURL=images.builder.d.ts.map

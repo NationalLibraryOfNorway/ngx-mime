@@ -2,4 +2,3 @@ import { CalculateNextCanvasGroupStrategy, NextCanvasGroupCriteria } from './cal
 export declare class NavigatorCalculateNextCanvasGroupStrategy implements CalculateNextCanvasGroupStrategy {
     calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number;
 }
-//# sourceMappingURL=navigator-calculate-next-canvas-group-strategy.d.ts.map

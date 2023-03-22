@@ -6,4 +6,3 @@ export declare class AttributionDialogModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<AttributionDialogModule, [typeof i1.AttributionDialogComponent], [typeof i2.SharedModule], never>;
     static ɵinj: i0.ɵɵInjectorDeclaration<AttributionDialogModule>;
 }
-//# sourceMappingURL=attribution-dialog.module.d.ts.map
