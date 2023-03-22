@@ -1,8 +1,4 @@
 import { NgModule } from '@angular/core';
-import {
-  ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
-} from '@angular/material/core';
 
 import { SharedModule } from './../shared/shared.module';
 import { InformationDialogService } from './information-dialog.service';
@@ -17,7 +13,6 @@ import { TocComponent } from './table-of-contents/table-of-contents.component';
   providers: [
     InformationDialogService,
     InformationDialogConfigStrategyFactory,
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 })
 export class InformationDialogModule {}
