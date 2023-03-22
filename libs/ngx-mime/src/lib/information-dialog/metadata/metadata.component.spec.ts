@@ -15,18 +15,16 @@ describe('MetadataComponent', () => {
   let fixture: ComponentFixture<MetadataComponent>;
   let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [SharedModule, HttpClientModule],
-        declarations: [MetadataComponent],
-        providers: [
-          MimeViewerIntl,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [SharedModule, HttpClientModule],
+      declarations: [MetadataComponent],
+      providers: [
+        MimeViewerIntl,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MetadataComponent);

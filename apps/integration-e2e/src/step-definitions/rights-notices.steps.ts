@@ -7,7 +7,7 @@ Then('the attribution must be shown', async function (this: CustomWorld) {
     'This is a test attribution'
   );
 
-  await this.viewerPage.openContentsDialog();
+  await this.viewerPage.openInformationDialog();
   await expect(this.metadataPage.attribution).toContainText(
     'This is a test attribution'
   );
@@ -16,7 +16,7 @@ Then('the attribution must be shown', async function (this: CustomWorld) {
 Then(
   'the license must be shown as hyperlinks',
   async function (this: CustomWorld) {
-    await this.viewerPage.openContentsDialog();
+    await this.viewerPage.openInformationDialog();
     await expect(this.metadataPage.license).toContainText(
       'https://beta.nb.no/lisens/cc0'
     );

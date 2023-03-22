@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
-import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
+import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -32,7 +32,7 @@ export class AccessKeysService {
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
     private contentSearchDialogService: ContentSearchDialogService,
-    private contentsDialogService: ContentsDialogService,
+    private informationDialogService: InformationDialogService,
     private viewDialogService: ViewDialogService,
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService,
@@ -94,8 +94,8 @@ export class AccessKeysService {
         accessKeys.execute(() => {
           this.toggleSearchDialog();
         });
-      } else if (accessKeys.isContentsDialogKeys()) {
-        accessKeys.execute(() => this.toggleContentsDialog());
+      } else if (accessKeys.isInformationDialogKeys()) {
+        accessKeys.execute(() => this.toggleInformationDialog());
       } else if (accessKeys.isResetSearchKeys()) {
         accessKeys.execute(() => this.resetSearch());
       } else if (accessKeys.isPageDownKeys()) {
@@ -195,22 +195,22 @@ export class AccessKeysService {
       }
     }
 
-    this.contentsDialogService.close();
+    this.informationDialogService.close();
     this.viewDialogService.close();
   }
 
-  private toggleContentsDialog() {
+  private toggleInformationDialog() {
     if (
       this.modeService.mode === ViewerMode.PAGE ||
       this.modeService.isPageZoomed()
     ) {
       this.modeService.mode = ViewerMode.DASHBOARD;
-      this.contentsDialogService.open();
+      this.informationDialogService.open();
     } else {
-      if (this.contentsDialogService.isOpen()) {
-        this.contentsDialogService.close();
+      if (this.informationDialogService.isOpen()) {
+        this.informationDialogService.close();
       } else {
-        this.contentsDialogService.open();
+        this.informationDialogService.open();
       }
     }
     this.contentSearchDialogService.close();
@@ -236,7 +236,7 @@ export class AccessKeysService {
 
   private updateDisabledKeys() {
     this.resetDisabledKeys();
-    if (this.contentsDialogService.isOpen()) {
+    if (this.informationDialogService.isOpen()) {
       this.disableKeysForContentDialog();
     } else if (this.contentSearchDialogService.isOpen()) {
       this.diableKeysForContentSearchDialog();
@@ -264,7 +264,7 @@ export class AccessKeysService {
       .concat(AccessKeys.nextHit)
       .concat(AccessKeys.previousHit)
       .concat(AccessKeys.toggleSearchDialogCodes)
-      .concat(AccessKeys.toggleContentsDialogCodes)
+      .concat(AccessKeys.toggleInformationDialogCodes)
       .concat(AccessKeys.toggleFullscreenCodes);
   }
 

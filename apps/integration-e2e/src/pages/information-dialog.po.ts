@@ -1,9 +1,9 @@
 import { Locator, Page } from 'playwright';
 
-export class ContentsDialogPage {
+export class InformationDialogPage {
   readonly container: Locator;
 
   constructor(page: Page) {
-    this.container = page.locator('.contents-container');
+    this.container = page.locator('.information-container');
   }
 }

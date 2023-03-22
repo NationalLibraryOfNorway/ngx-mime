@@ -4,7 +4,7 @@ import 'openseadragon';
 import { AttributionDialogModule } from './attribution-dialog/attribution-dialog.module';
 import { CanvasGroupDialogModule } from './canvas-group-dialog/canvas-group-dialog.module';
 import { ContentSearchDialogModule } from './content-search-dialog/content-search-dialog.module';
-import { ContentsDialogModule } from './contents-dialog/contents-dialog.module';
+import { InformationDialogModule } from './information-dialog/information-dialog.module';
 import { CoreModule } from './core/core.module';
 import { HelpDialogModule } from './help-dialog/help-dialog.module';
 import { SharedModule } from './shared/shared.module';
@@ -32,7 +32,7 @@ import { ViewerComponent } from './viewer/viewer.component';
   imports: [
     CoreModule,
     SharedModule,
-    ContentsDialogModule,
+    InformationDialogModule,
     ViewDialogModule,
     AttributionDialogModule,
     HelpDialogModule,

@@ -23,7 +23,7 @@ import { ViewerOptions } from '../../core/models/viewer-options';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
-import { ContentsDialogService } from './../../contents-dialog/contents-dialog.service';
+import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
@@ -80,7 +80,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private contentsDialogService: ContentsDialogService,
+    private informationDialogService: InformationDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
     private viewDialogService: ViewDialogService,
     private helpDialogService: HelpDialogService,
@@ -89,7 +89,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private mimeDomHelper: MimeDomHelper,
     el: ElementRef
   ) {
-    contentsDialogService.el = el;
+    informationDialogService.el = el;
     contentSearchDialogService.el = el;
     helpDialogService.el = el;
     viewDialogService.el = el;
@@ -140,29 +140,29 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   }
 
   public toggleView() {
-    this.contentsDialogService.close();
+    this.informationDialogService.close();
     this.contentSearchDialogService.close();
     this.helpDialogService.close();
     this.viewDialogService.toggle();
   }
 
-  public toggleContents() {
+  public toggleInformationDialog() {
     this.viewDialogService.close();
     this.contentSearchDialogService.close();
     this.helpDialogService.close();
-    this.contentsDialogService.toggle();
+    this.informationDialogService.toggle();
   }
 
   public toggleSearch() {
     this.viewDialogService.close();
-    this.contentsDialogService.close();
+    this.informationDialogService.close();
     this.helpDialogService.close();
     this.contentSearchDialogService.toggle();
   }
 
   public toggleHelp() {
     this.viewDialogService.close();
-    this.contentsDialogService.close();
+    this.informationDialogService.close();
     this.contentSearchDialogService.close();
     this.helpDialogService.toggle();
   }

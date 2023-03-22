@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentSearchDialogModule } from '../../content-search-dialog/content-search-dialog.module';
-import { ContentsDialogModule } from '../../contents-dialog/contents-dialog.module';
+import { InformationDialogModule } from '../../information-dialog/information-dialog.module';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
@@ -27,7 +27,7 @@ import { ViewerHeaderComponent } from './viewer-header.component';
   imports: [
     NoopAnimationsModule,
     SharedModule,
-    ContentsDialogModule,
+    InformationDialogModule,
     ViewDialogModule,
     HttpClientModule,
     ContentSearchDialogModule,

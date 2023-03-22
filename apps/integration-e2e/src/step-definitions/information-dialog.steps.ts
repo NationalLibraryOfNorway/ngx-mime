@@ -3,13 +3,13 @@ import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
 
 Given('the viewer is in metadata view', async function (this: CustomWorld) {
-  await this.viewerPage.openContentsDialog();
+  await this.viewerPage.openInformationDialog();
 });
 
 Given(
   'the viewer is in table of contents view',
   async function (this: CustomWorld) {
-    await this.viewerPage.openContentsDialog();
+    await this.viewerPage.openInformationDialog();
     await this.viewerPage.openTableOfContentsTab();
   }
 );
@@ -43,12 +43,12 @@ Then(
 );
 
 Then(
-  'the Contents dialog should be {word}',
+  'the information dialog should be {word}',
   async function (this: CustomWorld, state: string) {
     if (state === 'closed') {
-      await expect(this.contentsDialogPage.container).toBeHidden();
+      await expect(this.informationDialogPage.container).toBeHidden();
     } else {
-      await expect(this.contentsDialogPage.container).toBeVisible();
+      await expect(this.informationDialogPage.container).toBeVisible();
     }
   }
 );

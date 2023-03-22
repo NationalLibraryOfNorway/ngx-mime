@@ -1,4 +1,4 @@
-<div class="contents-container">
+<div class="information-container">
   <ng-container [ngSwitch]="mediaObserver.isActive('lt-md')">
     <ng-container *ngSwitchCase="true">
       <mat-toolbar color="primary" data-test-id="mobile-toolbar">
@@ -11,14 +11,14 @@
           >
             <mat-icon>close</mat-icon>
           </button>
-          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>
+          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
         </div>
       </mat-toolbar>
     </ng-container>
     <ng-container *ngSwitchDefault>
       <mat-toolbar data-test-id="desktop-toolbar">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <h1 mat-dialog-title>{{ intl.contentsLabel }}</h1>
+          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
           <button
             mat-icon-button
             [aria-label]="intl.closeLabel"

@@ -11,7 +11,7 @@ export class MimeViewerIntl {
   attributionLabel = 'Attribution';
   attributonCloseAriaLabel = 'Close attribution dialog';
   helpCloseAriaLabel = 'Close help dialog';
-  contentsLabel = 'Contents';
+  informationLabel = 'Information';
   layoutMenuLabel = 'View';
   pageLayoutLabel = 'Page layout';
   singlePageViewLabel = 'Single pages';
