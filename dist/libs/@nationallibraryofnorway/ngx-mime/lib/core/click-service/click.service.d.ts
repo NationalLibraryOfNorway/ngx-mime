@@ -14,4 +14,3 @@ export declare class ClickService {
     static ɵfac: i0.ɵɵFactoryDeclaration<ClickService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ClickService>;
 }
-//# sourceMappingURL=click.service.d.ts.map

@@ -1,0 +1,48 @@
+<div class="information-container">
+  <ng-container [ngSwitch]="mediaObserver.isActive('lt-md')">
+    <ng-container *ngSwitchCase="true">
+      <mat-toolbar color="primary" data-test-id="mobile-toolbar">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <button
+            mat-icon-button
+            [aria-label]="intl.closeLabel"
+            [matTooltip]="intl.closeLabel"
+            [matDialogClose]="true"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
+        </div>
+      </mat-toolbar>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <mat-toolbar data-test-id="desktop-toolbar">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
+          <button
+            mat-icon-button
+            [aria-label]="intl.closeLabel"
+            [matTooltip]="intl.closeLabel"
+            [matDialogClose]="true"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar>
+    </ng-container>
+  </ng-container>
+  <div mat-dialog-content>
+    <mat-tab-group [(selectedIndex)]="selectedIndex">
+      <mat-tab [label]="intl.metadataLabel">
+        <div class="tab-container" [ngStyle]="tabHeight">
+          <mime-metadata></mime-metadata>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="showToc" [label]="intl.tocLabel">
+        <div class="tab-container" [ngStyle]="tabHeight">
+          <mime-toc (canvasChanged)="onCanvasChanged()"></mime-toc>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -4,4 +4,3 @@ export declare class ServiceBuilder {
     constructor(service: any);
     build(): Service | undefined;
 }
-//# sourceMappingURL=service.builder.d.ts.map

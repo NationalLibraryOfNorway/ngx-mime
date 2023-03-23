@@ -49,4 +49,3 @@ export declare class MimeViewerIntl {
     static ɵfac: i0.ɵɵFactoryDeclaration<MimeViewerIntl, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<MimeViewerIntl>;
 }
-//# sourceMappingURL=viewer-intl.d.ts.map

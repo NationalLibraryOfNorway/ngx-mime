@@ -4,4 +4,3 @@ export declare class TileSourceBuilder {
     constructor(sequences: Sequence[]);
     build(): Resource[];
 }
-//# sourceMappingURL=tile-source.builder.d.ts.map

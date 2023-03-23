@@ -15,15 +15,10 @@ import { AltoServiceStub } from '../../test/alto-service-stub';
 import { FullscreenServiceStub } from '../../test/fullscreen-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl';
-import { ViewerHeaderComponent } from './viewer-header.component';
 
 @NgModule({
   imports: [NoopAnimationsModule, SharedModule],
-  declarations: [ViewerHeaderComponent],
-  exports: [ViewerHeaderComponent],
   providers: [
-    MimeViewerIntl,
     IiifManifestService,
     MimeResizeService,
     ViewerService,

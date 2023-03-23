@@ -47,8 +47,8 @@ export class ViewerPage {
   private canvasGroupInput: Locator;
   private currentCanvasGroupLabel: Locator;
   private numOfCanvasGroups: Locator;
-  private contentsDialogButton: Locator;
-  private contentsContainer: Locator;
+  private informationDialogButton: Locator;
+  private informationContainer: Locator;
   private tabs: Locator;
   private helpDialogButton: Locator;
   private contentSearchDialogButton: Locator;
@@ -91,10 +91,10 @@ export class ViewerPage {
       '#currentCanvasGroupLabel'
     );
     this.numOfCanvasGroups = this.page.locator('#numOfCanvasGroups');
-    this.contentsDialogButton = this.page.locator(
-      '#ngx-mimeContentsDialogButton'
+    this.informationDialogButton = this.page.locator(
+      '#ngx-mimeInformationDialogButton'
     );
-    this.contentsContainer = this.page.locator('.contents-container');
+    this.informationContainer = this.page.locator('.information-container');
     this.tabs = this.page.locator('.mat-mdc-tab');
     this.helpDialogButton = this.page.locator('#ngx-mimeHelpDialogButton');
     this.contentSearchDialogButton = this.page.locator(
@@ -338,9 +338,9 @@ export class ViewerPage {
     return numberOfCanvasGroups ? parseInt(numberOfCanvasGroups, 10) : -1;
   }
 
-  async openContentsDialog() {
-    await this.contentsDialogButton.click();
-    await this.contentsContainer.waitFor();
+  async openInformationDialog() {
+    await this.informationDialogButton.click();
+    await this.informationContainer.waitFor();
   }
 
   async openHelpDialog() {

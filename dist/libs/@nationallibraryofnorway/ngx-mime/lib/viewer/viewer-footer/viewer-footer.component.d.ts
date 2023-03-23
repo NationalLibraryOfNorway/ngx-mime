@@ -23,4 +23,3 @@ export declare class ViewerFooterComponent implements OnInit, OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerFooterComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ViewerFooterComponent, "mime-viewer-footer", never, {}, {}, never, never, false, never>;
 }
-//# sourceMappingURL=viewer-footer.component.d.ts.map

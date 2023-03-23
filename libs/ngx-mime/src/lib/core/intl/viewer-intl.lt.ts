@@ -9,7 +9,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   override attributionLabel = 'Teisių priskyrimas';
   override attributonCloseAriaLabel = 'Uždaryti teisių priskyrimo langą';
   override helpCloseAriaLabel = 'Uždaryti pagalbos dialogo langą';
-  override contentsLabel = 'Informacija apie objektą';
+  override informationLabel = 'Informacija';
   override layoutMenuLabel = 'Žiūrėti';
   override pageLayoutLabel = 'Puslapio išdėstymas';
   override singlePageViewLabel = 'Atvaizduoti po vieną puslapį';

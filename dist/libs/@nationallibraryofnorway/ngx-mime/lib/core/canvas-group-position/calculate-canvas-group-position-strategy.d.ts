@@ -10,4 +10,3 @@ export interface CanvasGroupPositionCriteria {
 export interface CalculateCanvasGroupPositionStrategy {
     calculateCanvasGroupPosition(criteria: CanvasGroupPositionCriteria, rotation: number): Rect;
 }
-//# sourceMappingURL=calculate-canvas-group-position-strategy.d.ts.map

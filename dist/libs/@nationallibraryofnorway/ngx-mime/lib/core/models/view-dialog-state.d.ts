@@ -4,4 +4,3 @@ export declare class ViewDialogState {
         isOpen?: boolean;
     });
 }
-//# sourceMappingURL=view-dialog-state.d.ts.map

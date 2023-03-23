@@ -34,4 +34,3 @@ export declare class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupSt
     private getViewportCenter;
     private getViewportBounds;
 }
-//# sourceMappingURL=go-to-canvas-group-strategy.d.ts.map

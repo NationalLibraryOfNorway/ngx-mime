@@ -11,4 +11,3 @@ export interface NextCanvasGroupCriteria {
 export interface CalculateNextCanvasGroupStrategy {
     calculateNextCanvasGroup(criteria: NextCanvasGroupCriteria): number;
 }
-//# sourceMappingURL=calculate-next-canvas-group-strategy.d.ts.map

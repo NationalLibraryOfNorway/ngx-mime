@@ -27,4 +27,3 @@ export declare class ContentsDialogComponent implements OnInit, OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentsDialogComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ContentsDialogComponent, "mime-contents", never, {}, {}, never, never, false, never>;
 }
-//# sourceMappingURL=contents-dialog.component.d.ts.map

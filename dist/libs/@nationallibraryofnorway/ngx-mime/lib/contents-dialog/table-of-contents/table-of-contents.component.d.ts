@@ -22,4 +22,3 @@ export declare class TocComponent implements OnInit, OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<TocComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<TocComponent, "mime-toc", never, {}, { "canvasChanged": "canvasChanged"; }, never, never, false, never>;
 }
-//# sourceMappingURL=table-of-contents.component.d.ts.map

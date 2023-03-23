@@ -2,7 +2,7 @@ import { IWorld, World } from '@cucumber/cucumber';
 import { Page } from 'playwright';
 import { Animations } from '../helpers/animations';
 import { ContentSearchPage } from '../pages/content-search.po';
-import { ContentsDialogPage } from '../pages/contents-dialog.po';
+import { InformationDialogPage } from '../pages/information-dialog.po';
 import { ElementsPage } from '../pages/elements.po';
 import { HelpDialogPage } from '../pages/help-dialog.po';
 import { MetadataPage } from '../pages/metadata.po';
@@ -11,7 +11,7 @@ import { ViewerPage } from '../pages/viewer.po';
 
 export class CustomWorld extends World {
   page!: Page;
-  contentsDialogPage!: ContentsDialogPage;
+  informationDialogPage!: InformationDialogPage;
   viewerPage!: ViewerPage;
   elementsPage!: ElementsPage;
   metadataPage!: MetadataPage;
@@ -22,7 +22,7 @@ export class CustomWorld extends World {
 
   async init(this: IWorld): Promise<void> {
     this.animations = new Animations(this.page);
-    this.contentsDialogPage = new ContentsDialogPage(this.page);
+    this.informationDialogPage = new InformationDialogPage(this.page);
     this.viewerPage = new ViewerPage(
       this.parameters,
       this.page,

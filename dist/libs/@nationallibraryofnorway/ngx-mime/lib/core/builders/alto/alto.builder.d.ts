@@ -5,4 +5,3 @@ export declare class AltoBuilder {
     withAltoXml(altoXml: any): AltoBuilder;
     build(): Alto;
 }
-//# sourceMappingURL=alto.builder.d.ts.map

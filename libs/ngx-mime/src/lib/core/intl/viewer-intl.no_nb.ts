@@ -9,7 +9,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override attributionLabel = 'Tillatelse';
   override attributonCloseAriaLabel = 'Steng tillatelse dialog';
   override helpCloseAriaLabel = 'Steng hjelp dialog';
-  override contentsLabel = 'Innhold';
+  override informationLabel = 'Opplysninger';
   override layoutMenuLabel = 'Visning';
   override pageLayoutLabel = 'Sideoppsett';
   override singlePageViewLabel = 'Enkeltsider';

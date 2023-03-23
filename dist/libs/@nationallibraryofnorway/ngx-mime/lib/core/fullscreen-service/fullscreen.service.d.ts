@@ -13,4 +13,3 @@ export declare class FullscreenService {
     static ɵfac: i0.ɵɵFactoryDeclaration<FullscreenService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<FullscreenService>;
 }
-//# sourceMappingURL=fullscreen.service.d.ts.map

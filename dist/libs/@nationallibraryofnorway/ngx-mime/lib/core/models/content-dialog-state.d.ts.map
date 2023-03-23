@@ -1,1 +1,0 @@
-{"version":3,"file":"content-dialog-state.d.ts","sourceRoot":"","sources":["../../../../../../../libs/ngx-mime/src/lib/core/models/content-dialog-state.ts"],"names":[],"mappings":"AAAA,qBAAa,kBAAkB;IACtB,MAAM,UAAS;IACf,aAAa,SAAK;gBAEb,MAAM,CAAC,EAAE;QAAE,MAAM,CAAC,EAAE,OAAO,CAAC;QAAC,aAAa,CAAC,EAAE,MAAM,CAAA;KAAE;CASlE"}

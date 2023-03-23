@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import 'openseadragon';
 import { injectedStub } from '../../testing/injected-stub';
-import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -57,12 +56,7 @@ describe('ViewerComponent', function () {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-        SharedModule,
-        AttributionDialogModule,
-      ],
+      imports: [HttpClientTestingModule, NoopAnimationsModule, SharedModule],
       declarations: [
         ViewerComponent,
         TestHostComponent,

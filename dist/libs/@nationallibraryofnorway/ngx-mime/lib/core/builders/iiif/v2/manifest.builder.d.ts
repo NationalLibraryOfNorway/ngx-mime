@@ -4,4 +4,3 @@ export declare class ManifestBuilder {
     constructor(data: any);
     build(): Manifest;
 }
-//# sourceMappingURL=manifest.builder.d.ts.map

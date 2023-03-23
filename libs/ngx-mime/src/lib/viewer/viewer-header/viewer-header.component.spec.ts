@@ -50,10 +50,10 @@ describe('ViewerHeaderComponent', () => {
 
   it('should re-render when the i18n labels have changed', waitForAsync(() => {
     const button = fixture.debugElement.query(
-      By.css('#ngx-mimeContentsDialogButton')
+      By.css('#ngx-mimeInformationDialogButton')
     );
 
-    intl.contentsLabel = 'Metadata of the publication';
+    intl.informationLabel = 'Metadata of the publication';
     intl.changes.next();
 
     fixture.whenStable().then(() => {
@@ -65,8 +65,8 @@ describe('ViewerHeaderComponent', () => {
     });
   }));
 
-  it('should open contents dialog', async () => {
-    component.toggleContents();
+  it('should open the information dialog', async () => {
+    component.toggleInformationDialog();
 
     const dialogs = await rootLoader.getAllHarnesses(MatDialogHarness);
     expect(dialogs.length).toEqual(1);

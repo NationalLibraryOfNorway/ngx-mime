@@ -13,4 +13,3 @@ export declare class HelpIntl {
     line11: string;
     line12: string;
 }
-//# sourceMappingURL=help-intl.d.ts.map

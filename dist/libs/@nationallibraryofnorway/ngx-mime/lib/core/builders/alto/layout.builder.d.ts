@@ -5,4 +5,3 @@ export declare class LayoutBuilder {
     withTextStyles(textStyles: Map<string, TextStyle> | undefined): LayoutBuilder;
     build(): Layout;
 }
-//# sourceMappingURL=layout.builder.d.ts.map

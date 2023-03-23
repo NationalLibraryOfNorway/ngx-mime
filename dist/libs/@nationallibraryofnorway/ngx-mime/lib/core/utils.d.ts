@@ -3,4 +3,3 @@ export declare class Utils {
     static shortenDecimals(zoom: any, precision: number): number;
     static getScaleFactor(physicalScale: number | undefined, ignorePhysicalScale?: boolean): number;
 }
-//# sourceMappingURL=utils.d.ts.map

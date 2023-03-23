@@ -7,4 +7,3 @@ export declare class TextBlocksBuilder {
     withTextStyles(textStyles: Map<string, TextStyle> | undefined): TextBlocksBuilder;
     build(): TextBlock[];
 }
-//# sourceMappingURL=text-blocks.builder.d.ts.map

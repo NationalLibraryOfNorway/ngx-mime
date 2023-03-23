@@ -28,7 +28,7 @@ Given(
   }
 );
 
-Given(/^the contents dialog is open$/, async function (this: CustomWorld) {
+Given(/^the information dialog is open$/, async function (this: CustomWorld) {
   await this.viewerPage.sendKeyboardEvent('c');
 });
 
@@ -80,10 +80,10 @@ Then(
   }
 );
 
-Then(/^the contents dialog should open$/, async function (this: CustomWorld) {
-  await expect(this.contentsDialogPage.container).toBeVisible();
+Then(/^the information dialog should open$/, async function (this: CustomWorld) {
+  await expect(this.informationDialogPage.container).toBeVisible();
 });
 
-Then(/^the contents dialog should close$/, async function (this: CustomWorld) {
-  await expect(this.contentsDialogPage.container).toBeHidden();
+Then(/^the information dialog should close$/, async function (this: CustomWorld) {
+  await expect(this.informationDialogPage.container).toBeHidden();
 });

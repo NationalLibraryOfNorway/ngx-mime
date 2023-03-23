@@ -5,4 +5,3 @@ export declare class ManifestUtils {
     static isSequenceViewingHintPaged(manifest: Manifest): boolean;
     static hasRecognizedTextContent(manifest: Manifest): boolean;
 }
-//# sourceMappingURL=iiif-manifest-utils.d.ts.map

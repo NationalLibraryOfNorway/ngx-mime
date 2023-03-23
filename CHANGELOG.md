@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.1...v15.1.2) (2023-03-22)
+
+
+### Bug Fixes
+
+* remove ErrorStateMatcher ([#450](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/450)) ([198dcb3](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/198dcb3fa94ac511e57b9f45c521b8ac667b3440)), closes [#449](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/449)
+* Title of dialog is changed to "Information" ([3bd4162](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/3bd41624549272ac9afcb325e62e7479bb3bdbb1))
+
 ### [15.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.0...v15.1.1) (2023-02-10)
 
 

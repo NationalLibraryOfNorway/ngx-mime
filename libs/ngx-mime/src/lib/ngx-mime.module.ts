@@ -4,10 +4,10 @@ import 'openseadragon';
 import { AttributionDialogComponent } from './attribution-dialog/attribution-dialog.component';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog/canvas-group-dialog.component';
 import { ContentSearchDialogComponent } from './content-search-dialog/content-search-dialog.component';
-import { ContentsDialogComponent } from './contents-dialog/contents-dialog.component';
-import { MetadataComponent } from './contents-dialog/metadata/metadata.component';
-import { TocComponent } from './contents-dialog/table-of-contents/table-of-contents.component';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
+import { InformationDialogComponent } from './information-dialog/information-dialog.component';
+import { MetadataComponent } from './information-dialog/metadata/metadata.component';
+import { TocComponent } from './information-dialog/table-of-contents/table-of-contents.component';
 import { SharedModule } from './shared/shared.module';
 import { IconComponent } from './view-dialog/icon/icon.component';
 import { ViewDialogComponent } from './view-dialog/view-dialog.component';
@@ -36,7 +36,7 @@ import { ViewerComponent } from './viewer/viewer.component';
     IconComponent,
     CanvasGroupDialogComponent,
     ContentSearchDialogComponent,
-    ContentsDialogComponent,
+    InformationDialogComponent,
     MetadataComponent,
     TocComponent,
   ],

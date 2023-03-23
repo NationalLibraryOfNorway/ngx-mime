@@ -46,4 +46,3 @@ export declare class ContentSearchDialogComponent implements OnInit, AfterViewIn
     static ɵfac: i0.ɵɵFactoryDeclaration<ContentSearchDialogComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ContentSearchDialogComponent, "mime-search", never, {}, {}, never, never, false, never>;
 }
-//# sourceMappingURL=content-search-dialog.component.d.ts.map
