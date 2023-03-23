@@ -3,8 +3,6 @@ import { AttributionDialogService } from '../attribution-dialog/attribution-dial
 import { CanvasGroupDialogService } from '../canvas-group-dialog/canvas-group-dialog.service';
 import { ContentSearchDialogConfigStrategyFactory } from '../content-search-dialog/content-search-dialog-config-strategy-factory';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
-import { ContentsDialogConfigStrategyFactory } from '../contents-dialog/contents-dialog-config-strategy-factory';
-import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -24,6 +22,8 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogConfigStrategyFactory } from '../help-dialog/help-dialog-config-strategy-factory';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { InformationDialogConfigStrategyFactory } from '../information-dialog/information-dialog-config-strategy-factory';
+import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { ViewDialogConfigStrategyFactory } from '../view-dialog/view-dialog-config-strategy-factory';
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
 
@@ -34,7 +34,7 @@ export const VIEWER_PROVIDERS = [
   MimeDomHelper,
   AccessKeysService,
   MimeResizeService,
-  ContentsDialogService,
+  InformationDialogService,
   AttributionDialogService,
   CanvasGroupDialogService,
   AttributionDialogResizeService,
@@ -42,7 +42,7 @@ export const VIEWER_PROVIDERS = [
   ContentSearchDialogService,
   ContentSearchDialogConfigStrategyFactory,
   MimeDomHelper,
-  ContentsDialogConfigStrategyFactory,
+  InformationDialogConfigStrategyFactory,
   HelpDialogService,
   HelpDialogConfigStrategyFactory,
   ModeService,

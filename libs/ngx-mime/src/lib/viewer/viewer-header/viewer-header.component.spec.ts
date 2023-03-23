@@ -9,6 +9,7 @@ import { TestManifests } from '../../../testing/test-manifests';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
 import { Manifest, Service } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
+import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
@@ -29,6 +30,8 @@ describe('ViewerHeaderComponent', () => {
       imports: [ViewerHeaderTestModule],
       providers: [
         FullscreenService,
+        InformationDialogService,
+        MimeViewerIntl,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     }).compileComponents();
