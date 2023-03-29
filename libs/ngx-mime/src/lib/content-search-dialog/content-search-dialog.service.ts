@@ -3,7 +3,7 @@ import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
-  MatDialogState,
+  MatDialogState
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
@@ -12,13 +12,13 @@ import { ContentSearchDialogComponent } from './content-search-dialog.component'
 
 @Injectable()
 export class ContentSearchDialogService {
-  private _el: ElementRef | null = null;
+  private _el: ElementRef | undefined;
+  private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<ContentSearchDialogComponent>;
   private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
-    private viewContainerRef: ViewContainerRef,
     private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService
   ) {}
@@ -45,6 +45,10 @@ export class ContentSearchDialogService {
     this._el = el;
   }
 
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
+
   public open(): void {
     if (!this.isOpen()) {
       const config = this.getDialogConfig();
@@ -67,6 +71,10 @@ export class ContentSearchDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
+    if (!this._el || !this._viewContainerRef) {
+      throw new Error('No element or viewContainerRef');
+    }
+
     return this.contentSearchDialogConfigStrategyFactory
       .create()
       .getConfig(this._el, this.viewContainerRef);

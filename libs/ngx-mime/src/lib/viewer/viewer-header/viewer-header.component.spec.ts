@@ -4,12 +4,17 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
+import { provideAutoSpy } from 'jasmine-auto-spies';
 import { injectedStub } from '../../../testing/injected-stub';
 import { TestManifests } from '../../../testing/test-manifests';
+import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
+import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { Manifest, Service } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
+import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 import { InformationDialogService } from '../../information-dialog/information-dialog.service';
+import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { IiifManifestServiceStub } from './../../test/iiif-manifest-service-stub';
@@ -29,10 +34,14 @@ describe('ViewerHeaderComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [ViewerHeaderTestModule],
       providers: [
-        FullscreenService,
-        InformationDialogService,
         MimeViewerIntl,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        provideAutoSpy(InformationDialogService),
+        provideAutoSpy(ContentSearchDialogService),
+        provideAutoSpy(ViewDialogService),
+        provideAutoSpy(HelpDialogService),
+        provideAutoSpy(IiifManifestService),
+        provideAutoSpy(FullscreenService),
+        provideAutoSpy(MimeDomHelper),
       ],
     }).compileComponents();
   }));

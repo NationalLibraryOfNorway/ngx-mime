@@ -12,13 +12,13 @@ import { InformationDialogComponent } from './information-dialog.component';
 
 @Injectable()
 export class InformationDialogService {
-  private _el: ElementRef | null = null;
+  private _el: ElementRef | undefined;
+  private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<InformationDialogComponent>;
   private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
-    private viewContainerRef: ViewContainerRef,
     private informationDialogConfigStrategyFactory: InformationDialogConfigStrategyFactory,
     private mimeResizeService: MimeResizeService
   ) {}
@@ -43,6 +43,10 @@ export class InformationDialogService {
 
   set el(el: ElementRef) {
     this._el = el;
+  }
+
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
   }
 
   public open(selectedIndex?: number): void {
@@ -75,12 +79,13 @@ export class InformationDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
-    if (!this._el) {
-      throw new Error('No element');
+    if (!this._el || !this._viewContainerRef) {
+      throw new Error('No element or viewContainerRef');
     }
+
     return this.informationDialogConfigStrategyFactory
       .create()
-      .getConfig(this._el, this.viewContainerRef);
+      .getConfig(this._el, this._viewContainerRef);
   }
 
   private unsubscribe() {

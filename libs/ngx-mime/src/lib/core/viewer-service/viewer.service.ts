@@ -103,7 +103,6 @@ export class ViewerService {
     this.openseadragonId = `openseadragon-${Math.random()
       .toString(16)
       .slice(2)}`;
-    console.log(this.id + ' created');
   }
 
   get onRotationChange(): Observable<number> {
@@ -268,7 +267,8 @@ export class ViewerService {
     }
   }
 
-  setUpViewer(manifest: Manifest) {
+  setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
+    this.config = config;
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
@@ -428,7 +428,7 @@ export class ViewerService {
     if (this.osdIsReady.getValue()) {
       const currentCanvasIndex = this.canvasService.currentCanvasIndex;
       this.destroy(true);
-      this.setUpViewer(this.manifest);
+      this.setUpViewer(this.manifest, this.config);
       this.goToCanvasGroupStrategy.goToCanvasGroup({
         canvasGroupIndex:
           this.canvasService.findCanvasGroupByCanvasIndex(currentCanvasIndex),

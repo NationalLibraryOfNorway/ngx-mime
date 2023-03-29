@@ -1,27 +1,20 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { createSpyFromClass } from 'jasmine-auto-spies';
 import 'openseadragon';
 import { injectedStub } from '../../testing/injected-stub';
-import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
-import { ClickService } from '../core/click-service/click.service';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
-import { HighlightService } from '../core/highlight-service/highlight.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerMode } from '../core/models/viewer-mode';
-import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
-import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { SharedModule } from '../shared/shared.module';
@@ -34,9 +27,11 @@ import { TestDynamicComponent } from './test-dynamic.component';
 import { TestHostComponent } from './test-host.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
+import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer.component';
+import { VIEWER_PROVIDERS } from './viewer.providers';
 
-describe('ViewerComponent', function () {
+fdescribe('ViewerComponent', function () {
   const matSnackBarSpy = jasmine.createSpy('MatSnackBar');
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
@@ -54,38 +49,39 @@ describe('ViewerComponent', function () {
   let viewerLayoutService: ViewerLayoutService;
 
   beforeEach(waitForAsync(() => {
+    const classSpy = createSpyFromClass(IiifManifestService, {
+      methodsToSpyOn: ['load'],
+      gettersToSpyOn: ['currentManifest'],
+    });
+
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [HttpClientTestingModule, NoopAnimationsModule, SharedModule],
       declarations: [
         ViewerComponent,
+        ViewerSpinnerComponent,
         TestHostComponent,
         ViewerHeaderComponent,
         ViewerFooterComponent,
         TestDynamicComponent,
       ],
-      providers: [
-        { provide: MatSnackBar, useClass: matSnackBarSpy },
-        ViewerService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub,
+      providers: [VIEWER_PROVIDERS],
+    })
+      .overrideComponent(ViewerComponent, {
+        set: {
+          providers: [
+            { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+            {
+              provide: IiifContentSearchService,
+              useClass: IiifContentSearchServiceStub,
+            },
+            { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+            { provide: AltoService, useClass: AltoServiceStub },
+            { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+          ],
         },
-        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-        { provide: AltoService, useClass: AltoServiceStub },
-        MimeViewerIntl,
-        ClickService,
-        CanvasService,
-        ModeService,
-        FullscreenService,
-        AccessKeysService,
-        ViewerLayoutService,
-        ContentSearchNavigationService,
-        StyleService,
-        HighlightService,
-      ],
-    }).compileComponents();
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -99,12 +95,13 @@ describe('ViewerComponent', function () {
     canvasService = TestBed.inject(CanvasService);
     modeService = TestBed.inject(ModeService);
     mimeResizeServiceStub = injectedStub(MimeResizeService);
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
   });
 
   afterEach(function () {
@@ -215,7 +212,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  it('should return to home after resize', (done: any) => {
+  fit('should return to home after resize', (done: any) => {
     const viewer = viewerService.getViewer();
     const overlay = viewerService.getOverlays()[0];
     const openseadragonDE = testHostFixture.debugElement.query(

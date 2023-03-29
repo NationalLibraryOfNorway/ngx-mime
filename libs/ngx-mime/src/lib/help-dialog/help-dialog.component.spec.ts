@@ -1,16 +1,15 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAutoSpy } from 'jasmine-auto-spies';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
-import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { StyleService } from '../core/style-service/style.service';
-import { ViewerService } from '../core/viewer-service/viewer.service';
+import { SharedModule } from '../shared/shared.module';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
-import { ViewerServiceStub } from '../test/viewer-service-stub';
 import { HelpDialogComponent } from './help-dialog.component';
 
 describe('HelpDialogComponent', () => {
@@ -21,14 +20,13 @@ describe('HelpDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
       providers: [
         MimeViewerIntl,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        StyleService,
+        provideAutoSpy(MimeResizeService, {
+          observablePropsToSpyOn: ['onResize'],
+        }),
         { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: ViewerService, useClass: ViewerServiceStub },
       ],
     }).compileComponents();
   }));
@@ -36,8 +34,6 @@ describe('HelpDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-
     mediaObserver = TestBed.inject(MediaObserver);
     dialogRef = TestBed.inject(MatDialogRef);
   });

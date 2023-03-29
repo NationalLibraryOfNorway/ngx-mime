@@ -21,9 +21,9 @@ import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-ut
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
+import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
-import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
@@ -87,12 +87,17 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
     private mimeDomHelper: MimeDomHelper,
-    el: ElementRef
+    el: ElementRef,
+    viewContainerRef: ViewContainerRef
   ) {
     informationDialogService.el = el;
+    informationDialogService.viewContainerRef = viewContainerRef;
     contentSearchDialogService.el = el;
+    contentSearchDialogService.viewContainerRef = viewContainerRef;
     helpDialogService.el = el;
+    helpDialogService.viewContainerRef = viewContainerRef;
     viewDialogService.el = el;
+    viewDialogService.viewContainerRef = viewContainerRef;
   }
 
   @HostBinding('@headerState')

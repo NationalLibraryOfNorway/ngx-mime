@@ -98,7 +98,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     public snackBar: MatSnackBar,
     public intl: MimeViewerIntl,
-    private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private viewDialogService: ViewDialogService,
     private informationDialogService: InformationDialogService,
@@ -116,15 +115,22 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private styleService: StyleService,
     private altoService: AltoService,
     public zone: NgZone,
-    public platform: Platform
+    public platform: Platform,
+    el: ElementRef,
+    viewContainerRef: ViewContainerRef
   ) {
     this.id = this.viewerService.id;
     this.openseadragonId = this.viewerService.openseadragonId;
     informationDialogService.el = el;
+    informationDialogService.viewContainerRef = viewContainerRef;
     attributionDialogService.el = el;
+    attributionDialogService.viewContainerRef = viewContainerRef;
     viewDialogService.el = el;
+    viewDialogService.viewContainerRef = viewContainerRef;
     contentSearchDialogService.el = el;
+    contentSearchDialogService.viewContainerRef = viewContainerRef;
     helpDialogService.el = el;
+    helpDialogService.viewContainerRef = viewContainerRef;
     resizeService.el = el;
   }
 
@@ -161,7 +167,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.recognizedTextContentMode =
               this.altoService.recognizedTextContentMode;
             this.changeDetectorRef.detectChanges();
-            this.viewerService.setUpViewer(manifest);
+            this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
               this.attributionDialogService.open(
                 this.config.attributionDialogHideTimeout

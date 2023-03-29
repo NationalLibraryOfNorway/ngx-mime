@@ -17,12 +17,12 @@ import { AttributionDialogComponent } from './attribution-dialog.component';
 export class AttributionDialogService {
   private dialogRef?: MatDialogRef<AttributionDialogComponent>;
   private _el: ElementRef | null = null;
+  private _viewContainerRef: ViewContainerRef | undefined;
   private attributionDialogHeight = 0;
   private subscriptions!: Subscription;
 
   constructor(
     private dialog: MatDialog,
-    private viewContainerRef: ViewContainerRef,
     private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
     private mimeDomHelper: MimeDomHelper
@@ -58,6 +58,10 @@ export class AttributionDialogService {
 
   set el(el: ElementRef) {
     this._el = el;
+  }
+
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
   }
 
   public open(timeout?: number): void {
@@ -99,6 +103,10 @@ export class AttributionDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
+    if (!this._viewContainerRef) {
+      throw new Error('No viewContainerRef');
+    }
+
     const dimensions = this.getPosition();
     return {
       hasBackdrop: false,
@@ -110,7 +118,7 @@ export class AttributionDialogService {
       },
       autoFocus: true,
       restoreFocus: false,
-      viewContainerRef: this.viewContainerRef,
+      viewContainerRef: this._viewContainerRef,
     };
   }
 

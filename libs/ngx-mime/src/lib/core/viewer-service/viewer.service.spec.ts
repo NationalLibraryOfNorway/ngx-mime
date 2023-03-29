@@ -1,38 +1,33 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { provideAutoSpy } from 'jasmine-auto-spies';
 import { Subscription } from 'rxjs';
-import { AltoServiceStub } from '../../test/alto-service-stub';
-import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../test/testManifest';
 import { AltoService } from '../alto-service/alto.service';
 import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
+import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
-import { HighlightService } from '../highlight-service/highlight.service';
 import { IiifContentSearchService } from '../iiif-content-search-service/iiif-content-search.service';
-import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
-import { MimeResizeService } from '../mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import { ModeService } from '../mode-service/mode.service';
 import { Hit } from '../models/hit';
 import { SearchResult } from '../models/search-result';
 import { ViewerLayout } from '../models/viewer-layout';
 import { StyleService } from '../style-service/style.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
-import { CanvasService } from './../canvas-service/canvas-service';
-import { ModeService } from './../mode-service/mode.service';
 import { ViewerService } from './viewer.service';
 
 @Component({
-  template: ` <div [id]="config.openseadragonId"></div> `,
+  template: ` <div [id]="openseadragonId"></div> `,
 })
 class TestHostComponent {
-  config = new MimeViewerConfig();
+  openseadragonId: string | null = null;
 }
 
 describe('ViewerService', () => {
+  const config = new MimeViewerConfig();
   let snackBar: MatSnackBar;
   let hostFixture: ComponentFixture<TestHostComponent>;
   let viewerLayoutService: ViewerLayoutService;
@@ -45,20 +40,24 @@ describe('ViewerService', () => {
       declarations: [TestHostComponent],
       providers: [
         ViewerService,
-        ClickService,
-        CanvasService,
-        ModeService,
-        MimeResizeService,
-        ViewerLayoutService,
-        IiifContentSearchService,
-        HttpClient,
-        HttpHandler,
-        MediaObserver,
         MimeViewerIntl,
-        StyleService,
-        HighlightService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        { provide: AltoService, useClass: AltoServiceStub },
+        CanvasService,
+        provideAutoSpy(ViewerLayoutService, {
+          observablePropsToSpyOn: ['onChange'],
+        }),
+        provideAutoSpy(ClickService),
+        provideAutoSpy(ModeService, {
+          observablePropsToSpyOn: ['onChange'],
+        }),
+        provideAutoSpy(IiifContentSearchService, {
+          observablePropsToSpyOn: ['onSelected'],
+        }),
+        provideAutoSpy(StyleService, {
+          observablePropsToSpyOn: ['onChange'],
+        }),
+        provideAutoSpy(AltoService, {
+          observablePropsToSpyOn: ['onRecognizedTextContentModeChange$'],
+        }),
       ],
     });
 
@@ -68,6 +67,8 @@ describe('ViewerService', () => {
     viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
     hostFixture = TestBed.createComponent(TestHostComponent);
     viewerService.initialize();
+    hostFixture.componentInstance.openseadragonId =
+      viewerService.openseadragonId;
     hostFixture.detectChanges();
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -106,7 +107,10 @@ describe('ViewerService', () => {
     viewerService.onRotationChange.subscribe((serviceRotation: number) => {
       rotation = serviceRotation;
     });
-    viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
+    viewerService.setUpViewer(
+      new ManifestBuilder(testManifest).build(),
+      config
+    );
 
     let subscription: Subscription;
     subscription = viewerService.onOsdReadyChange.subscribe((state) => {
@@ -125,7 +129,10 @@ describe('ViewerService', () => {
     viewerService.onRotationChange.subscribe((serviceRotation: number) => {
       rotation = serviceRotation;
     });
-    viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
+    viewerService.setUpViewer(
+      new ManifestBuilder(testManifest).build(),
+      config
+    );
 
     let subscription: Subscription;
     subscription = viewerService.onOsdReadyChange.subscribe((state) => {
@@ -140,7 +147,10 @@ describe('ViewerService', () => {
   });
 
   it('should set viewer to null on destroy', (done) => {
-    viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
+    viewerService.setUpViewer(
+      new ManifestBuilder(testManifest).build(),
+      config
+    );
 
     let subscription: Subscription;
     subscription = viewerService.onOsdReadyChange.subscribe((state) => {
@@ -156,7 +166,10 @@ describe('ViewerService', () => {
   describe('rotate', () => {
     it('should rotate if using canvas', (done) => {
       const openSpy = spyOn(snackBar, 'open');
-      viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
+      viewerService.setUpViewer(
+        new ManifestBuilder(testManifest).build(),
+        config
+      );
 
       viewerService.onOsdReadyChange.subscribe((state) => {
         if (state) {
@@ -174,7 +187,10 @@ describe('ViewerService', () => {
 
     it('should show error message if not using canvas', (done) => {
       const openSpy = spyOn(snackBar, 'open');
-      viewerService.setUpViewer(new ManifestBuilder(testManifest).build());
+      viewerService.setUpViewer(
+        new ManifestBuilder(testManifest).build(),
+        config
+      );
       const viewer = viewerService.getViewer();
       viewer.useCanvas = false;
 
