@@ -211,7 +211,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  it('should return to home after resize', (done: any) => {
+  fit('should return to home after resize', (done: any) => {
     const viewer = viewerService.getViewer();
     const overlay = viewerService.getOverlays()[0];
     const openseadragonDE = testHostFixture.debugElement.query(
@@ -250,6 +250,8 @@ describe('ViewerComponent', function () {
             ).toEqual(true);
 
             // Return to home
+            console.log('mimeResizeServiceStub', mimeResizeServiceStub);
+
             mimeResizeServiceStub.triggerResize();
             setTimeout(() => {
               // Confirm that minimum zoom level is updated

@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
@@ -41,8 +42,11 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     private viewerService: ViewerService,
     private canvasService: CanvasService,
     private pageDialogService: CanvasGroupDialogService,
-    private iiifManifestService: IiifManifestService
-  ) {}
+    private iiifManifestService: IiifManifestService,
+    viewContainerRef: ViewContainerRef
+  ) {
+    pageDialogService.viewContainerRef = viewContainerRef;
+  }
 
   ngOnInit() {
     this.subscriptions.add(

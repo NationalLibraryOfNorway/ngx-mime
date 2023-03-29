@@ -10,11 +10,13 @@ import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 @Injectable()
 export class CanvasGroupDialogService {
   private dialogRef?: MatDialogRef<CanvasGroupDialogComponent>;
+  private _viewContainerRef: ViewContainerRef | undefined;
 
-  constructor(
-    private dialog: MatDialog,
-    private viewContainerRef: ViewContainerRef
-  ) {}
+  constructor(private dialog: MatDialog) {}
+
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
 
   public initialize(): void {}
 
@@ -48,7 +50,7 @@ export class CanvasGroupDialogService {
       hasBackdrop: false,
       disableClose: true,
       panelClass: 'canvas-group-panel',
-      viewContainerRef: this.viewContainerRef,
+      viewContainerRef: this._viewContainerRef,
     };
   }
 }
