@@ -21,7 +21,6 @@ export class MimeResizeServiceStub {
     if (dimensions) {
       this.resizeSubject.next(dimensions);
     } else {
-      console.log('triggerResize', dimensions);
       this.resizeSubject.next(new DOMRectReadOnly());
     }
   }
