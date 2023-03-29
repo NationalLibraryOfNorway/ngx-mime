@@ -9,11 +9,12 @@ import { Manifest, Metadata } from '../../core/models/manifest';
 import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { MetadataComponent } from './metadata.component';
+import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
 
 describe('MetadataComponent', () => {
   let component: MetadataComponent;
   let fixture: ComponentFixture<MetadataComponent>;
-  let iiifManifestService: IiifManifestServiceStub;
+  let iiifManifestServiceSpy: Spy<IiifManifestServiceStub>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -21,7 +22,9 @@ describe('MetadataComponent', () => {
       declarations: [MetadataComponent],
       providers: [
         MimeViewerIntl,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        provideAutoSpy(IiifManifestService, {
+          observablePropsToSpyOn: ['currentManifest'],
+        }),
       ],
     }).compileComponents();
   }));
@@ -29,7 +32,7 @@ describe('MetadataComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MetadataComponent);
     component = fixture.componentInstance;
-    iiifManifestService = injectedStub(IiifManifestService);
+    iiifManifestServiceSpy = TestBed.inject<any>(IiifManifestService);
     fixture.detectChanges();
   });
 
@@ -38,7 +41,7 @@ describe('MetadataComponent', () => {
   });
 
   it('should display metadata', () => {
-    iiifManifestService._currentManifest.next(
+    iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         metadata: [
           new Metadata('label1', 'value1'),
@@ -55,7 +58,7 @@ describe('MetadataComponent', () => {
   });
 
   it('should display attribution', () => {
-    iiifManifestService._currentManifest.next(
+    iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         attribution: 'This is a test attribution',
       })
@@ -71,7 +74,7 @@ describe('MetadataComponent', () => {
   });
 
   it('should display license', () => {
-    iiifManifestService._currentManifest.next(
+    iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         license: 'https://wiki.creativecommons.org/wiki/CC0',
       })
@@ -87,7 +90,7 @@ describe('MetadataComponent', () => {
   });
 
   it('should display logo', () => {
-    iiifManifestService._currentManifest.next(
+    iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         logo: 'http://example.com/dummylogo.jpg',
       })

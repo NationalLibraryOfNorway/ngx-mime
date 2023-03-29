@@ -1,32 +1,28 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
-import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAutoSpy } from 'jasmine-auto-spies';
+import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { SharedModule } from '../shared/shared.module';
-import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { HelpDialogComponent } from './help-dialog.component';
 
 describe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
   let fixture: ComponentFixture<HelpDialogComponent>;
-  let mediaObserver: any;
-  let dialogRef: any;
+  let mediaObserverSpy: Spy<MediaObserver>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
+      imports: [SharedModule],
+      declarations: [HelpDialogComponent],
       providers: [
         MimeViewerIntl,
         provideAutoSpy(MimeResizeService, {
           observablePropsToSpyOn: ['onResize'],
         }),
-        { provide: MatDialogRef, useClass: MatDialogRefStub },
+        provideAutoSpy(MediaObserver),
       ],
     }).compileComponents();
   }));
@@ -34,8 +30,7 @@ describe('HelpDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);
     component = fixture.componentInstance;
-    mediaObserver = TestBed.inject(MediaObserver);
-    dialogRef = TestBed.inject(MatDialogRef);
+    mediaObserverSpy = TestBed.inject<any>(MediaObserver);
   });
 
   it('should be created', () => {
@@ -43,7 +38,7 @@ describe('HelpDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(false);
+    mediaObserverSpy.isActive.and.returnValue(false);
 
     fixture.detectChanges();
 
@@ -54,7 +49,7 @@ describe('HelpDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+    mediaObserverSpy.isActive.and.returnValue(true);
 
     fixture.detectChanges();
 

@@ -31,7 +31,7 @@ import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.componen
 import { ViewerComponent } from './viewer.component';
 import { VIEWER_PROVIDERS } from './viewer.providers';
 
-fdescribe('ViewerComponent', function () {
+describe('ViewerComponent', function () {
   const matSnackBarSpy = jasmine.createSpy('MatSnackBar');
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
@@ -101,7 +101,6 @@ fdescribe('ViewerComponent', function () {
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-
   });
 
   afterEach(function () {
@@ -212,7 +211,7 @@ fdescribe('ViewerComponent', function () {
     });
   });
 
-  fit('should return to home after resize', (done: any) => {
+  it('should return to home after resize', (done: any) => {
     const viewer = viewerService.getViewer();
     const overlay = viewerService.getOverlays()[0];
     const openseadragonDE = testHostFixture.debugElement.query(
