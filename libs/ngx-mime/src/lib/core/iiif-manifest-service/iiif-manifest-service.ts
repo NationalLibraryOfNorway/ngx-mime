@@ -28,8 +28,6 @@ export class IiifManifestService {
   }
 
   load(manifestUri: string): Observable<boolean> {
-    console.log('What! This should not happen :-(');
-
     return new Observable((observer) => {
       if (manifestUri.length === 0) {
         this._errorMessage.next(this.intl.manifestUriMissingLabel);

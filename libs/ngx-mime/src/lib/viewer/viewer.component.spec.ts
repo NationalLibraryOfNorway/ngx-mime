@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -6,20 +6,40 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { createSpyFromClass } from 'jasmine-auto-spies';
 import 'openseadragon';
 import { injectedStub } from '../../testing/injected-stub';
+import { AttributionDialogResizeService } from '../attribution-dialog/attribution-dialog-resize.service';
+import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { CanvasGroupDialogService } from '../canvas-group-dialog/canvas-group-dialog.service';
+import { ContentSearchDialogConfigStrategyFactory } from '../content-search-dialog/content-search-dialog-config-strategy-factory';
+import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
+import { ClickService } from '../core/click-service/click.service';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { HighlightService } from '../core/highlight-service/highlight.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/intl';
+import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerMode } from '../core/models/viewer-mode';
+import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { SpinnerService } from '../core/spinner-service/spinner.service';
+import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
+import { HelpDialogConfigStrategyFactory } from '../help-dialog/help-dialog-config-strategy-factory';
+import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { InformationDialogConfigStrategyFactory } from '../information-dialog/information-dialog-config-strategy-factory';
+import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { SharedModule } from '../shared/shared.module';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
+import { ViewDialogConfigStrategyFactory } from '../view-dialog/view-dialog-config-strategy-factory';
+import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
@@ -70,6 +90,35 @@ describe('ViewerComponent', function () {
       .overrideComponent(ViewerComponent, {
         set: {
           providers: [
+           // ViewerService,
+            ViewDialogService,
+            ViewDialogConfigStrategyFactory,
+            MimeDomHelper,
+            AccessKeysService,
+            InformationDialogService,
+            AttributionDialogService,
+            CanvasGroupDialogService,
+            AttributionDialogResizeService,
+            MimeDomHelper,
+            ContentSearchDialogService,
+            ContentSearchDialogConfigStrategyFactory,
+            MimeDomHelper,
+            InformationDialogConfigStrategyFactory,
+            HelpDialogService,
+            HelpDialogConfigStrategyFactory,
+            ModeService,
+            FullscreenService,
+            ViewerLayoutService,
+            ContentSearchNavigationService,
+            StyleService,
+            AltoService,
+            ClickService,
+            CanvasService,
+            HighlightService,
+            MimeViewerIntl,
+            SpinnerService,
+            MimeViewerIntl,
+
             { provide: IiifManifestService, useClass: IiifManifestServiceStub },
             {
               provide: IiifContentSearchService,
@@ -77,7 +126,6 @@ describe('ViewerComponent', function () {
             },
             { provide: MimeResizeService, useClass: MimeResizeServiceStub },
             { provide: AltoService, useClass: AltoServiceStub },
-            { provide: IiifManifestService, useClass: IiifManifestServiceStub },
           ],
         },
       })
@@ -221,6 +269,8 @@ describe('ViewerComponent', function () {
     let viewportHeight, viewportWidth, overlayHeight, overlayWidth;
 
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      console.log(state);
+
       if (state) {
         setTimeout(() => {
           const startMinZoomLevel = viewer.viewport.minZoomLevel;
@@ -250,9 +300,10 @@ describe('ViewerComponent', function () {
             ).toEqual(true);
 
             // Return to home
-            console.log('mimeResizeServiceStub', mimeResizeServiceStub);
+            console.log(mimeResizeServiceStub);
 
             mimeResizeServiceStub.triggerResize();
+
             setTimeout(() => {
               // Confirm that minimum zoom level is updated
               const endMinZoomLevel = viewer.viewport.minZoomLevel;

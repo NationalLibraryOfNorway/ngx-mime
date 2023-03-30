@@ -103,6 +103,8 @@ export class ViewerService {
     this.openseadragonId = `openseadragon-${Math.random()
       .toString(16)
       .slice(2)}`;
+      console.log('viewer id: ', this.id);
+
   }
 
   get onRotationChange(): Observable<number> {
@@ -331,6 +333,8 @@ export class ViewerService {
           .subscribe((center: Point) => {
             this.calculateCurrentCanvasGroup(center);
             if (center && center !== null) {
+              console.log('ready');
+
               this.osdIsReady.next(true);
             }
           })
