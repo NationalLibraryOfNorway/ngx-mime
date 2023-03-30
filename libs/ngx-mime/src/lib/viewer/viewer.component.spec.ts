@@ -1,4 +1,4 @@
-import { HttpClientTestingModule, provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -74,6 +74,23 @@ describe('ViewerComponent', function () {
       gettersToSpyOn: ['currentManifest'],
     });
 
+    iiifManifestServiceStub = new IiifManifestServiceStub();
+    mimeResizeServiceStub = new MimeResizeServiceStub();
+    iiifContentSearchServiceStub = new IiifContentSearchServiceStub();
+
+    TestBed.overrideProvider(MimeResizeService, {
+      useValue: mimeResizeServiceStub,
+    });
+    TestBed.overrideProvider(IiifManifestService, {
+      useValue: iiifManifestServiceStub,
+    });
+    TestBed.overrideProvider(IiifContentSearchService, {
+      useValue: iiifContentSearchServiceStub,
+    });
+    TestBed.overrideProvider(AltoService, {
+      useValue: createSpyFromClass(AltoService),
+    });
+
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [HttpClientTestingModule, NoopAnimationsModule, SharedModule],
@@ -86,50 +103,7 @@ describe('ViewerComponent', function () {
         TestDynamicComponent,
       ],
       providers: [VIEWER_PROVIDERS],
-    })
-      .overrideComponent(ViewerComponent, {
-        set: {
-          providers: [
-           // ViewerService,
-            ViewDialogService,
-            ViewDialogConfigStrategyFactory,
-            MimeDomHelper,
-            AccessKeysService,
-            InformationDialogService,
-            AttributionDialogService,
-            CanvasGroupDialogService,
-            AttributionDialogResizeService,
-            MimeDomHelper,
-            ContentSearchDialogService,
-            ContentSearchDialogConfigStrategyFactory,
-            MimeDomHelper,
-            InformationDialogConfigStrategyFactory,
-            HelpDialogService,
-            HelpDialogConfigStrategyFactory,
-            ModeService,
-            FullscreenService,
-            ViewerLayoutService,
-            ContentSearchNavigationService,
-            StyleService,
-            AltoService,
-            ClickService,
-            CanvasService,
-            HighlightService,
-            MimeViewerIntl,
-            SpinnerService,
-            MimeViewerIntl,
-
-            { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-            {
-              provide: IiifContentSearchService,
-              useClass: IiifContentSearchServiceStub,
-            },
-            { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-            { provide: AltoService, useClass: AltoServiceStub },
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -139,10 +113,12 @@ describe('ViewerComponent', function () {
     testHostComponent.manifestUri = 'dummyURI1';
     testHostFixture.detectChanges();
 
-    viewerService = TestBed.inject(ViewerService);
+    viewerService = testHostFixture.debugElement.injector.get(ViewerService);
     canvasService = TestBed.inject(CanvasService);
     modeService = TestBed.inject(ModeService);
-    mimeResizeServiceStub = injectedStub(MimeResizeService);
+    mimeResizeServiceStub = <any>(
+      testHostFixture.debugElement.injector.get(MimeResizeService)
+    );
     iiifManifestServiceStub = injectedStub(IiifManifestService);
     iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
@@ -259,7 +235,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  fit('should return to home after resize', (done: any) => {
+  it('should return to home after resize', (done: any) => {
     const viewer = viewerService.getViewer();
     const overlay = viewerService.getOverlays()[0];
     const openseadragonDE = testHostFixture.debugElement.query(
@@ -269,8 +245,6 @@ describe('ViewerComponent', function () {
     let viewportHeight, viewportWidth, overlayHeight, overlayWidth;
 
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      console.log(state);
-
       if (state) {
         setTimeout(() => {
           const startMinZoomLevel = viewer.viewport.minZoomLevel;
@@ -300,8 +274,6 @@ describe('ViewerComponent', function () {
             ).toEqual(true);
 
             // Return to home
-            console.log(mimeResizeServiceStub);
-
             mimeResizeServiceStub.triggerResize();
 
             setTimeout(() => {

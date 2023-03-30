@@ -8,8 +8,6 @@ export class MimeResizeServiceStub {
   private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
 
   get onResize(): Observable<Dimensions> {
-    console.log('YO');
-
     return this.resizeSubject.asObservable();
   }
 
@@ -22,14 +20,12 @@ export class MimeResizeServiceStub {
   }
 
   initialize(): void {
-    console.log('init');
     this.triggerResize();
   }
 
   destroy(): void {}
 
   triggerResize(dimensions?: DOMRectReadOnly): void {
-    console.log('YO!!!');
     if (dimensions) {
       this.resizeSubject.next(dimensions);
     } else {

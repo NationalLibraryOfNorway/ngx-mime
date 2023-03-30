@@ -38,10 +38,8 @@ export const VIEWER_PROVIDERS = [
   AttributionDialogService,
   CanvasGroupDialogService,
   AttributionDialogResizeService,
-  MimeDomHelper,
   ContentSearchDialogService,
   ContentSearchDialogConfigStrategyFactory,
-  MimeDomHelper,
   InformationDialogConfigStrategyFactory,
   HelpDialogService,
   HelpDialogConfigStrategyFactory,
@@ -58,5 +56,4 @@ export const VIEWER_PROVIDERS = [
   MimeViewerIntl,
   IiifManifestService,
   SpinnerService,
-  MimeViewerIntl,
 ];

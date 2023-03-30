@@ -286,6 +286,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       )
     );
 
+    console.log(this.resizeService);
+
+
     this.subscriptions.add(
       this.resizeService.onResize
         .pipe(

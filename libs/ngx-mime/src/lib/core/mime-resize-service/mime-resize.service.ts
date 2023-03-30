@@ -20,6 +20,8 @@ export class MimeResizeService {
   }
 
   get onResize(): Observable<Dimensions> {
+    console.log('DO NOT USE ME!!!');
+
     return this.resizeSubject.pipe(
       debounceTime(200),
       map((contentRect: DOMRectReadOnly) => {
