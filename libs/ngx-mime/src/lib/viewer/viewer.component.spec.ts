@@ -29,14 +29,12 @@ import { ViewerComponent } from './viewer.component';
 import { VIEWER_PROVIDERS } from './viewer.providers';
 
 describe('ViewerComponent', function () {
-  const matSnackBarSpy = jasmine.createSpy('MatSnackBar');
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
   let comp: ViewerComponent;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
   let originalTimeout: number;
-
   let viewerService: ViewerService;
   let canvasService: CanvasService;
   let modeService: ModeService;
