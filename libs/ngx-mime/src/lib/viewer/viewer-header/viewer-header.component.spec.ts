@@ -253,8 +253,6 @@ describe('ViewerHeaderComponent', () => {
   }
 
   function expectHeaderToBeHidden(element: any) {
-    console.log(element.style.transform);
-
     expect(element.style.transform).toBe('translate(0px, -100%)');
   }
 });

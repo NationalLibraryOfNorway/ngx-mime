@@ -14,7 +14,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewContainerRef,
+  ViewContainerRef
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval, Subscription } from 'rxjs';
@@ -34,7 +34,7 @@ import {
   ModeChanges,
   RecognizedTextMode,
   RecognizedTextModeChanges,
-  ViewerMode,
+  ViewerMode
 } from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
@@ -285,9 +285,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         }
       )
     );
-
-    console.log(this.resizeService);
-
 
     this.subscriptions.add(
       this.resizeService.onResize
