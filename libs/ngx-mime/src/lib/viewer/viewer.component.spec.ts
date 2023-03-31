@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import 'openseadragon';
 import { injectedStub } from '../../testing/injected-stub';
-import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
@@ -17,7 +16,6 @@ import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { MimeMaterialModule } from '../shared/mime-material.module';
-import { AltoServiceStub } from '../test/alto-service-stub';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
@@ -48,18 +46,19 @@ describe('ViewerComponent', function () {
   let viewerLayoutService: ViewerLayoutService;
 
   beforeEach(waitForAsync(() => {
-    iiifManifestServiceStub = new IiifManifestServiceStub();
-    mimeResizeServiceStub = new MimeResizeServiceStub();
-    iiifContentSearchServiceStub = new IiifContentSearchServiceStub();
-
+    TestBed.overrideComponent(ViewerComponent, {
+      set: {
+        providers: [],
+      },
+    });
     TestBed.overrideProvider(MimeResizeService, {
-      useValue: mimeResizeServiceStub,
+      useValue: new MimeResizeServiceStub(),
     });
     TestBed.overrideProvider(IiifManifestService, {
-      useValue: iiifManifestServiceStub,
+      useValue: new IiifManifestServiceStub(),
     });
     TestBed.overrideProvider(IiifContentSearchService, {
-      useValue: iiifContentSearchServiceStub,
+      useValue: new IiifContentSearchServiceStub(),
     });
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -77,18 +76,7 @@ describe('ViewerComponent', function () {
         TestDynamicComponent,
       ],
       providers: [VIEWER_PROVIDERS],
-    })
-      .overrideComponent(ViewerComponent, {
-        set: {
-          providers: [
-            {
-              provide: AltoService,
-              useClass: AltoServiceStub,
-            },
-          ],
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -126,7 +114,6 @@ describe('ViewerComponent', function () {
   });
 
   it('should create viewer', () => {
-    testHostFixture.detectChanges();
     expect(viewerService.getViewer()).toBeDefined();
   });
 
