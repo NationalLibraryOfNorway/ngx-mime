@@ -25,8 +25,6 @@ export class SidenavComponent implements OnDestroy {
     this.subscriptions.add(
       this.route.queryParamMap.subscribe((params) => {
         this.iiifVersion = params.get('v') || this.iiifVersion;
-        console.log(this.iiifVersion);
-
         this.manifests = this.manifestService.getManifests(this.iiifVersion);
         const manifest = this.manifests.find(
           (m) => m.uri === params.getAll('manifestUri')
