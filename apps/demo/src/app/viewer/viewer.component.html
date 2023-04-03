@@ -1,16 +1,9 @@
-<div class="viewer-container">
+<div class="viewer-container" fxLayout="column" fxFill>
   <mime-viewer
-    [manifestUri]="
-      'https://api.nb.no/catalog/v1/iiif/9b2c7f640dcfcdc93346a36f5cfd5854/manifest?fields='
-    "
-    [config]="config"
-  ></mime-viewer>
-</div>
-  <div class="viewer-container">
-    <mime-viewer
-    [manifestUri]="
-      'https://api.nb.no/catalog/v1/iiif/61631bf7c81f90432cafdfa1624cb80c/manifest?profile=nbdigital'
-    "
+    *ngFor="let manifestUri of manifestUris"
+    fxLayoutAlign="space-around stretch"
+    fxFlex="viewerHeight"
+    [manifestUri]="manifestUri"
     [config]="config"
   ></mime-viewer>
 </div>

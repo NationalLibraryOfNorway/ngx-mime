@@ -14,8 +14,9 @@ import { ManifestService } from './../core/manifest-service/manifest.service';
   providers: [],
 })
 export class ViewerComponent implements OnDestroy {
-  public manifestUri = '';
-  public config = new MimeViewerConfig({
+  manifestUris: string[] = [];
+  viewerHeight = 100;
+  config = new MimeViewerConfig({
     attributionDialogEnabled: true,
     attributionDialogHideTimeout: -1,
     navigationControlEnabled: true,
@@ -25,7 +26,7 @@ export class ViewerComponent implements OnDestroy {
     initViewerMode: MimeViewerMode.PAGE,
     initRecognizedTextContentMode: RecognizedTextMode.NONE,
   });
-  private iiifVersion = 3;
+  private iiifVersion = '3';
   private subscriptions = new Subscription();
 
   constructor(
@@ -34,10 +35,11 @@ export class ViewerComponent implements OnDestroy {
     private manifestService: ManifestService
   ) {
     this.subscriptions.add(
-      this.route.queryParams.subscribe((params) => {
-        this.manifestUri = params['manifestUri'];
-        this.iiifVersion = params['v'] || this.iiifVersion;
-        if (!this.manifestUri) {
+      this.route.queryParamMap.subscribe((params) => {
+        this.iiifVersion = params.get('v') || this.iiifVersion;
+        this.manifestUris = params.getAll('manifestUri');
+        this.viewerHeight = 100 / this.manifestUris.length;
+        if (this.manifestUris.length === 0) {
           this.router.navigate(['demo'], {
             queryParams: {
               v: this.iiifVersion,

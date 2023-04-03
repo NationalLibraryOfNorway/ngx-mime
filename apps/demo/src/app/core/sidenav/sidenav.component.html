@@ -5,8 +5,8 @@
     [(ngModel)]="iiifVersion"
     (change)="selectIiifVersion($event.value)"
   >
-    <mat-radio-button [value]="2">v2.1</mat-radio-button>
-    <mat-radio-button [value]="3">v3.0</mat-radio-button>
+    <mat-radio-button [value]="'2'">v2.1</mat-radio-button>
+    <mat-radio-button [value]="'3'">v3.0</mat-radio-button>
   </mat-radio-group>
 </div>
 <mat-nav-list aria-label="Sample manifests">

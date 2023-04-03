@@ -1,5 +1,5 @@
 export interface ManifestMenuItem {
   label: string;
-  uri: string;
-  iiifVersion: number;
+  uri: string[];
+  iiifVersion: string;
 }
