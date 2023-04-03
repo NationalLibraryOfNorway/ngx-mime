@@ -77,7 +77,7 @@ export class ViewDialogService {
 
     return this.viewDialogConfigStrategyFactory
       .create()
-      .getConfig(this._el, this.viewContainerRef);
+      .getConfig(this._el, this._viewContainerRef);
   }
 
   private unsubscribe() {

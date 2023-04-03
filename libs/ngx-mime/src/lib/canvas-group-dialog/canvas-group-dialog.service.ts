@@ -47,8 +47,6 @@ export class CanvasGroupDialogService {
 
   private getDialogConfig(): MatDialogConfig {
     return {
-      hasBackdrop: false,
-      disableClose: true,
       panelClass: 'canvas-group-panel',
       viewContainerRef: this._viewContainerRef,
     };

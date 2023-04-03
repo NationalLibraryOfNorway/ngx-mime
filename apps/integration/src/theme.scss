@@ -32,4 +32,4 @@ $blue-theme: mat.define-light-theme(
   )
 );
 
-@include mat.all-legacy-component-themes($blue-theme);
+@include mat.all-component-themes($blue-theme);

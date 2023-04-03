@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { debounceTime, map, Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, debounceTime, map } from 'rxjs';
 import { Dimensions } from '../models/dimensions';
 import { ViewerService } from '../viewer-service/viewer.service';
 
@@ -20,8 +20,6 @@ export class MimeResizeService {
   }
 
   get onResize(): Observable<Dimensions> {
-    console.log('DO NOT USE ME!!!');
-
     return this.resizeSubject.pipe(
       debounceTime(200),
       map((contentRect: DOMRectReadOnly) => {

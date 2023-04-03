@@ -79,6 +79,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     public intl: MimeViewerIntl,
+    public viewContainerRef: ViewContainerRef,
     private changeDetectorRef: ChangeDetectorRef,
     private informationDialogService: InformationDialogService,
     private contentSearchDialogService: ContentSearchDialogService,
@@ -86,19 +87,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private helpDialogService: HelpDialogService,
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
-    private mimeDomHelper: MimeDomHelper,
-    el: ElementRef,
-    viewContainerRef: ViewContainerRef
-  ) {
-    informationDialogService.el = el;
-    informationDialogService.viewContainerRef = viewContainerRef;
-    contentSearchDialogService.el = el;
-    contentSearchDialogService.viewContainerRef = viewContainerRef;
-    helpDialogService.el = el;
-    helpDialogService.viewContainerRef = viewContainerRef;
-    viewDialogService.el = el;
-    viewDialogService.viewContainerRef = viewContainerRef;
-  }
+    private mimeDomHelper: MimeDomHelper
+  ) {}
 
   @HostBinding('@headerState')
   get headerState() {

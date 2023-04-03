@@ -1,12 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  IiifManifestService,
   MimeViewerConfig,
-  MimeViewerIntl,
   MimeViewerMode,
   RecognizedTextMode,
-  SpinnerService,
 } from '@nationallibraryofnorway/ngx-mime';
 import { Subscription } from 'rxjs';
 import { ManifestService } from './../core/manifest-service/manifest.service';

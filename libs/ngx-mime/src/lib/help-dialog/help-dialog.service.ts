@@ -73,10 +73,11 @@ export class HelpDialogService {
     if (!this._el || !this._viewContainerRef) {
       throw new Error('No element or viewContainerRef');
     }
+
     return this._el
       ? this.helpDialogConfigStrategyFactory
           .create()
-          .getConfig(this._el, this.viewContainerRef)
+          .getConfig(this._el, this._viewContainerRef)
       : {};
   }
 

@@ -3,10 +3,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as d3 from 'd3';
 import {
   BehaviorSubject,
-  interval,
   Observable,
   Subject,
   Subscription,
+  interval,
 } from 'rxjs';
 import { distinctUntilChanged, sample } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
@@ -103,7 +103,6 @@ export class ViewerService {
     this.openseadragonId = `openseadragon-${Math.random()
       .toString(16)
       .slice(2)}`;
-    console.log('id', this.id);
   }
 
   get onRotationChange(): Observable<number> {
@@ -127,9 +126,11 @@ export class ViewerService {
     this.subscriptions = new Subscription();
   }
 
-  public getViewer(): any {
-    console.log('hasViewer', this.viewer != undefined);
+  setConfig(config: MimeViewerConfig) {
+    this.config = config;
+  }
 
+  public getViewer(): any {
     return this.viewer;
   }
 
@@ -272,6 +273,7 @@ export class ViewerService {
 
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
     this.config = config;
+
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
       this.zone.runOutsideAngular(() => {
@@ -280,8 +282,6 @@ export class ViewerService {
         this.viewer = new OpenSeadragon.Viewer(
           OptionsFactory.create(this.openseadragonId, this.config)
         );
-        console.log('viewer created', this.viewer != undefined);
-
         createSvgOverlay();
         this.zoomStrategy = new DefaultZoomStrategy(
           this.viewer,

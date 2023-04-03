@@ -15,7 +15,7 @@ import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { MimeMaterialModule } from '../shared/mime-material.module';
+import { SharedModule } from '../shared/shared.module';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
@@ -60,11 +60,7 @@ describe('ViewerComponent', function () {
     });
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-        MimeMaterialModule,
-      ],
+      imports: [HttpClientTestingModule, NoopAnimationsModule, SharedModule],
       declarations: [
         ViewerComponent,
         ViewerSpinnerComponent,

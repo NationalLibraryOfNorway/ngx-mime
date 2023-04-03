@@ -37,16 +37,14 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
+    public viewContainerRef: ViewContainerRef,
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,
     private canvasService: CanvasService,
-    private pageDialogService: CanvasGroupDialogService,
-    private iiifManifestService: IiifManifestService,
-    viewContainerRef: ViewContainerRef
-  ) {
-    pageDialogService.viewContainerRef = viewContainerRef;
-  }
+    private canvasGroupDialogService: CanvasGroupDialogService,
+    private iiifManifestService: IiifManifestService
+  ) {}
 
   ngOnInit() {
     this.subscriptions.add(
@@ -139,7 +137,7 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   }
 
   openCanvasGroupDialog(): void {
-    this.pageDialogService.toggle();
+    this.canvasGroupDialogService.toggle();
   }
 
   private isOnFirstCanvasGroup(currentCanvasGroupIndex: number): boolean {

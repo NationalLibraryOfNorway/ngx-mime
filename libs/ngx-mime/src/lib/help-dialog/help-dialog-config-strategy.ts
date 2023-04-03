@@ -19,7 +19,6 @@ export class MobileHelpDialogConfigStrategy
   ): MatDialogConfig {
     return {
       hasBackdrop: false,
-      disableClose: false,
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
@@ -47,7 +46,6 @@ export class DesktopHelpDialogConfigStrategy
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
-      disableClose: false,
       width: `${DesktopHelpDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
@@ -55,6 +53,7 @@ export class DesktopHelpDialogConfigStrategy
       },
       panelClass: 'help-panel',
       maxWidth: '100% !important',
+      viewContainerRef: viewContainerRef,
     };
   }
 

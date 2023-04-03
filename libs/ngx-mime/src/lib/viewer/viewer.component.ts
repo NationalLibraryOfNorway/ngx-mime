@@ -14,12 +14,13 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { interval, Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { CanvasGroupDialogService } from '../canvas-group-dialog/canvas-group-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
@@ -34,7 +35,7 @@ import {
   ModeChanges,
   RecognizedTextMode,
   RecognizedTextModeChanges,
-  ViewerMode
+  ViewerMode,
 } from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
@@ -114,8 +115,9 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private viewerLayoutService: ViewerLayoutService,
     private styleService: StyleService,
     private altoService: AltoService,
-    public zone: NgZone,
-    public platform: Platform,
+    private zone: NgZone,
+    private platform: Platform,
+    canvasGroupDialogService: CanvasGroupDialogService,
     el: ElementRef,
     viewContainerRef: ViewContainerRef
   ) {
@@ -131,6 +133,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     contentSearchDialogService.viewContainerRef = viewContainerRef;
     helpDialogService.el = el;
     helpDialogService.viewContainerRef = viewContainerRef;
+    canvasGroupDialogService.viewContainerRef = viewContainerRef;
     resizeService.el = el;
   }
 
@@ -157,7 +160,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           if (manifest) {
-            this.viewerService.config = this.config;
             this.initialize();
             this.currentManifest = manifest;
             this.manifestChanged.next(manifest);
@@ -325,6 +327,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {
+      this.viewerService.setConfig(this.config);
       this.iiifContentSearchService.setConfig(this.config);
       this.altoService.setConfig(this.config);
       this.modeService.setConfig(this.config);

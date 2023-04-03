@@ -48,8 +48,8 @@ $dark-theme: mat.define-dark-theme(
 );
 .ngx-mime-dark-theme {
   @include ngx-mime-theme($dark-theme);
-  @include mat.all-legacy-component-colors($dark-theme);
+  @include mat.all-component-colors($dark-theme);
 }
 
 @include ngx-mime-theme($blue-theme);
-@include mat.all-legacy-component-themes($blue-theme);
+@include mat.all-component-themes($blue-theme);

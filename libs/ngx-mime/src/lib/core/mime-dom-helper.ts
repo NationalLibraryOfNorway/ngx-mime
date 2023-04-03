@@ -30,19 +30,21 @@ export class MimeDomHelper {
   }
 
   public toggleFullscreen(): void {
-    const el = <any>document.querySelector(`#${this.viewerService.id}`);
-    if (this.fullscreen.isEnabled()) {
+    const el = this.getViewerElement();
+    if (el && this.fullscreen.isEnabled()) {
       this.fullscreen.toggle(el);
     }
   }
 
   public setFocusOnViewer(): void {
-    const el: HTMLElement | null = document.querySelector(
-      `#${this.viewerService.id}`
-    );
+    const el = this.getViewerElement();
     if (el) {
       el.focus();
     }
+  }
+
+  private getViewerElement(): HTMLElement | null {
+    return document.querySelector(`#${this.viewerService.id}`);
   }
 
   private createFullscreenDimensions(el: ElementRef): Dimensions {

@@ -1,5 +1,6 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
 export interface InformationDialogConfigStrategy {
@@ -18,11 +19,11 @@ export class MobileInformationDialogConfigStrategy
   ): MatDialogConfig {
     return {
       hasBackdrop: false,
-      disableClose: false,
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
       panelClass: 'information-panel',
+      viewContainerRef: viewContainerRef,
     };
   }
 }
@@ -32,6 +33,11 @@ export class DesktopInformationDialogConfigStrategy
 {
   public static readonly dialogWidth = 350;
   public static readonly paddingRight = 20;
+  private mimeDomHelper: MimeDomHelper;
+
+  constructor(mimeDomHelper: MimeDomHelper) {
+    this.mimeDomHelper = mimeDomHelper;
+  }
 
   public getConfig(
     el: ElementRef,
@@ -40,7 +46,6 @@ export class DesktopInformationDialogConfigStrategy
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
-      disableClose: false,
       width: `${DesktopInformationDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
@@ -52,7 +57,7 @@ export class DesktopInformationDialogConfigStrategy
     };
   }
   private getPosition(el: ElementRef): Dimensions {
-    const dimensions = this.getPosition(el);
+    const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
       top: dimensions.top + 64,
       left:

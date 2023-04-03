@@ -3,7 +3,7 @@ import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
-  MatDialogState
+  MatDialogState,
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
@@ -77,7 +77,7 @@ export class ContentSearchDialogService {
 
     return this.contentSearchDialogConfigStrategyFactory
       .create()
-      .getConfig(this._el, this.viewContainerRef);
+      .getConfig(this._el, this._viewContainerRef);
   }
 
   private unsubscribe() {

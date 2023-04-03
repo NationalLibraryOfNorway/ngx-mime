@@ -19,7 +19,6 @@ export class MobileContentSearchDialogConfigStrategy
   ): MatDialogConfig {
     return {
       hasBackdrop: false,
-      disableClose: false,
       autoFocus: false,
       width: '100%',
       height: '100%',
@@ -48,7 +47,6 @@ export class DesktopContentSearchDialogConfigStrategy
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
-      disableClose: false,
       autoFocus: false,
       width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
       position: {

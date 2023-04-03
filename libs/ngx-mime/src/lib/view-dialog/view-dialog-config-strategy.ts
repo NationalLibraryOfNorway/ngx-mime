@@ -19,7 +19,6 @@ export class MobileViewDialogConfigStrategy
   ): MatDialogConfig {
     return {
       hasBackdrop: false,
-      disableClose: false,
       autoFocus: false,
       width: '100%',
       height: '100%',
@@ -48,7 +47,6 @@ export class DesktopViewDialogConfigStrategy
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
-      disableClose: false,
       autoFocus: true,
       width: `${DesktopViewDialogConfigStrategy.dialogWidth}px`,
       position: {
@@ -57,6 +55,7 @@ export class DesktopViewDialogConfigStrategy
       },
       panelClass: 'view-panel',
       maxWidth: '100% !important',
+      viewContainerRef: viewContainerRef,
     };
   }
 
