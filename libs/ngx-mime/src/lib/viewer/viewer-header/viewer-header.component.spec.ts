@@ -64,7 +64,6 @@ describe('ViewerHeaderComponent', () => {
   let intl: MimeViewerIntl;
   let mediaObserverSpy: Spy<MediaObserver>;
   let loader: HarnessLoader;
-  let fixture: ComponentFixture<ViewerHeaderComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -133,19 +132,17 @@ describe('ViewerHeaderComponent', () => {
     expect(testHostComponent).toBeTruthy();
   });
 
-  it('should re-render when the i18n labels have changed', async () => {
-    const informationDialogButton = await getInformationDialogButton();
-
+  it('should re-render when the i18n labels have changed', waitForAsync(() => {
     intl.informationLabel = 'Metadata of the publication';
     intl.changes.next();
 
     testHostFixture.whenStable().then(async () => {
       testHostFixture.detectChanges();
-
+      const informationDialogButton = await getInformationDialogButton();
       const ariaLabel = await getAriaLabel(informationDialogButton);
       expect(ariaLabel).toEqual('Metadata of the publication');
     });
-  });
+  }));
 
   it('should open view dialog', async () => {
     setCurrentManifest(TestManifests.aDefault());
