@@ -477,10 +477,10 @@ describe('ViewerComponent', function () {
       if (state) {
         setTimeout(() => {
           const leftCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('#mime-left-page-mask')
+            By.css('[data-testid="mime-left-page-mask"]')
           );
           const rightCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('#mime-right-page-mask')
+            By.css('[data-testid="mime-right-page-mask"]')
           );
           expect(leftCanvasGroupMask).not.toBeNull();
           expect(rightCanvasGroupMask).not.toBeNull();

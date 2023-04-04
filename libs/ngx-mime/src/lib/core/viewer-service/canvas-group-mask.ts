@@ -130,18 +130,18 @@ export class CanvasGroupMask {
   private addCanvasGroupMask() {
     const overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
 
-    const mask = overlays.append('g').attr('id', 'page-mask');
+    const mask = overlays.append('g').attr('data-testid', 'page-mask');
 
     this.leftMask = mask
       .append('rect')
-      .attr('id', 'mime-left-page-mask')
+      .attr('data-testid', 'mime-left-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
       .style('fill', this.backgroundColor);
 
     this.rightMask = mask
       .append('rect')
-      .attr('id', 'mime-right-page-mask')
+      .attr('data-testid', 'mime-right-page-mask')
       .attr('height', '100%')
       .attr('y', 0)
       .style('fill', this.backgroundColor);

@@ -2,7 +2,7 @@
   <mime-viewer
     *ngFor="let manifestUri of manifestUris"
     fxLayoutAlign="space-around stretch"
-    fxFlex="viewerHeight"
+    [fxFlex]="viewerHeight"
     [manifestUri]="manifestUri"
     [config]="config"
   ></mime-viewer>

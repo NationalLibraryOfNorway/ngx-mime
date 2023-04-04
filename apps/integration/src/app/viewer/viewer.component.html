@@ -1,11 +1,13 @@
-<ng-container *ngIf="manifestUri">
-  <app-components-viewer
-    *ngIf="isComponent"
-    [manifestUri]="manifestUri"
-    [canvasIndex]="canvasIndex"
-  ></app-components-viewer>
-  <app-elements-viewer
-    *ngIf="!isComponent"
-    [manifestUri]="manifestUri"
-  ></app-elements-viewer>
-</ng-container>
+<div class="viewer-container" fxLayout="column" fxFill>
+  <div *ngFor="let manifestUri of manifestUris" [fxFlex]="viewerHeight">
+    <app-components-viewer
+      *ngIf="isComponent"
+      [manifestUri]="manifestUri"
+      [canvasIndex]="canvasIndex"
+    ></app-components-viewer>
+    <app-elements-viewer
+      *ngIf="!isComponent"
+      [manifestUri]="manifestUri"
+    ></app-elements-viewer>
+  </div>
+</div>

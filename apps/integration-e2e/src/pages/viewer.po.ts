@@ -112,12 +112,8 @@ export class ViewerPage {
     this.canvasGroupOverlays = this.page.locator(
       '.openseadragon svg g.page-group rect'
     );
-    this.leftCanvasGroupMask = this.page.locator(
-      '.openseadragon svg g#page-mask rect:first-child'
-    );
-    this.rightCanvasGroupMask = this.page.locator(
-      '.openseadragon svg g#page-mask rect:nth-child(2)'
-    );
+    this.leftCanvasGroupMask = this.page.getByTestId('mime-left-page-mask');
+    this.rightCanvasGroupMask = this.page.getByTestId('mime-right-page-mask');
     this.canvasGroupOverlay = this.page.locator('.openseadragon svg g rect');
     this.singlePageViewButton = this.page.getByTestId(
       'ngx-mime-single-page-view-button'
@@ -137,7 +133,7 @@ export class ViewerPage {
     this.modeDashboard = this.page.locator('.mode-dashboard');
     this.modePage = this.page.locator('.mode-page');
     this.openseadragonCanvas = this.page.locator(
-      '.openseadragon-canvas > canvas'
+      '.openseadragon-canvas > canvas>>nth=0'
     );
     this.firstCanvasRecognizedTextContent = this.page.getByTestId(
       'firstCanvasRecognizedTextContent'
@@ -249,13 +245,16 @@ export class ViewerPage {
     this.isElements = isElements;
   }
 
-  async open(manifestName?: string, canvasIndex?: number) {
+  async open(manifestNames?: string[], canvasIndex?: number) {
     let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     const params: string[] = [];
-    if (manifestName) {
-      params.push(
-        'manifestUri=' + encodeURIComponent(this.getBookShelfUrl(manifestName))
-      );
+    if (manifestNames) {
+      manifestNames.forEach((manifestName) => {
+        params.push(
+          'manifestUri=' +
+            encodeURIComponent(this.getBookShelfUrl(manifestName))
+        );
+      });
     }
     if (canvasIndex) {
       params.push(`canvasIndex=${canvasIndex}`);
@@ -669,7 +668,7 @@ export class ViewerPage {
   async setFocusOnViewer() {
     await this.openseadragonCanvas.waitFor();
     await this.page.evaluate(
-      `document.querySelector('.openseadragon-canvas').focus();`
+      `document.querySelectorAll('.openseadragon-canvas')[0].focus();`
     );
   }
 

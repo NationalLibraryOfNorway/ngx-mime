@@ -17,6 +17,10 @@ Given(
   }
 );
 
+Given('it is two viewers on the same page', async function (this: CustomWorld) {
+  await this.viewerPage.open([`a-ltr-10-pages-book`, `a-rtl-10-pages-book`]);
+});
+
 Given(
   'the viewer is opened with a publication with attribution labels',
   async function (this: CustomWorld) {
@@ -27,7 +31,7 @@ Given(
 Given(
   'the viewer is opened with a publication without attribution labels',
   async function (this: CustomWorld) {
-    await this.viewerPage.open('a-non-attribution-manifest');
+    await this.viewerPage.open(['a-non-attribution-manifest']);
   }
 );
 
@@ -49,7 +53,7 @@ Given(
   'a {word} publication with {int} pages',
   async function (this: CustomWorld, direction: string, pages: number) {
     const readingDirection = direction === 'left-to-right' ? 'ltr' : 'rtl';
-    await this.viewerPage.open(`a-${readingDirection}-${pages}-pages-book`);
+    await this.viewerPage.open([`a-${readingDirection}-${pages}-pages-book`]);
   }
 );
 
@@ -81,7 +85,7 @@ Given(
       viewingHint === 'paged'
         ? 'a-ltr-10-pages-book'
         : 'a-individuals-manifest';
-    await this.viewerPage.open(manifest);
+    await this.viewerPage.open([manifest]);
   }
 );
 
@@ -93,7 +97,7 @@ Given(
         ? 'a-ltr-10-pages-book'
         : 'a-individuals-manifest';
 
-    await this.viewerPage.open(manifest, canvasIndex);
+    await this.viewerPage.open([manifest], canvasIndex);
   }
 );
 
@@ -130,3 +134,10 @@ When(
 Then('it should be displayed', async function (this: CustomWorld) {
   await expect(this.viewerPage.openseadragonContainer).toBeVisible();
 });
+
+Then(
+  'the user should be able to navigate them individually',
+  async function (this: CustomWorld) {
+    await expect(this.viewerPage.openseadragonContainer).toHaveCount(2);
+  }
+);
