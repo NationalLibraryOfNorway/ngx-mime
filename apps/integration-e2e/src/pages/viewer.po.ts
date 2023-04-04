@@ -87,23 +87,23 @@ export class ViewerPage {
     );
     this.canvasGroupsButton = this.page.locator('button.canvasGroups');
     this.canvasGroupInput = this.page.locator('.go-to-canvas-group-input');
-    this.currentCanvasGroupLabel = this.page.locator(
-      '#currentCanvasGroupLabel'
+    this.currentCanvasGroupLabel = this.page.getByTestId(
+      'currentCanvasGroupLabel'
     );
-    this.numOfCanvasGroups = this.page.locator('#numOfCanvasGroups');
+    this.numOfCanvasGroups = this.page.getByTestId('numOfCanvasGroups');
     this.informationDialogButton = this.page.getByTestId(
-      '#ngx-mimeInformationDialogButton'
+      'ngx-mimeInformationDialogButton'
     );
     this.informationContainer = this.page.locator('.information-container');
     this.tabs = this.page.locator('.mat-mdc-tab');
-    this.helpDialogButton = this.page.getByTestId('#ngx-mimeHelpDialogButton');
-    this.contentSearchDialogButton = this.page.locator(
-      '#ngx-mimeContentSearchDialogButton'
+    this.helpDialogButton = this.page.getByTestId('ngx-mimeHelpDialogButton');
+    this.contentSearchDialogButton = this.page.getByTestId(
+      'ngx-mimeContentSearchDialogButton'
     );
     this.contentSearchSubmitButton = this.page.locator(
       '.content-search-box button[type="submit"]'
     );
-    this.fullscreenButton = this.page.getByTestId('#ngx-mimeFullscreenButton');
+    this.fullscreenButton = this.page.getByTestId('ngx-mimeFullscreenButton');
     this.openseadragonContainer = this.page.locator('.openseadragon-container');
     this.attribution = this.page.locator(
       '.attribution-container > .mat-mdc-dialog-content'
@@ -505,33 +505,33 @@ export class ViewerPage {
   }
 
   async clickZoomInButton(): Promise<void> {
-    await this.clickNavigationButton('#zoomInButton');
+    await this.clickNavigationButton('zoomInButton');
   }
 
   async clickZoomOutButton(): Promise<void> {
-    await this.clickNavigationButton('#zoomOutButton');
+    await this.clickNavigationButton('zoomOutButton');
   }
 
   async clickZoomHomeButton(): Promise<void> {
-    await this.clickNavigationButton('#homeButton');
+    await this.clickNavigationButton('homeButton');
   }
 
   async clickNextButton(): Promise<void> {
-    await this.clickDisableableNavigationButton('#navigateNextButton');
+    await this.clickDisableableNavigationButton('navigateNextButton');
     await this.animations.waitFor(500);
   }
 
   async clickPreviousButton(): Promise<void> {
-    await this.clickDisableableNavigationButton('#navigateBeforeButton');
+    await this.clickDisableableNavigationButton('navigateBeforeButton');
     await this.animations.waitFor(500);
   }
 
   async clickNavigationButton(buttonId: string): Promise<void> {
-    await this.page.locator(buttonId).click();
+    await this.page.getByTestId(buttonId).click();
   }
 
   async clickDisableableNavigationButton(buttonId: string): Promise<void> {
-    const button: Locator = this.page.locator(buttonId);
+    const button: Locator = this.page.getByTestId(buttonId);
 
     if (await button.isEnabled()) {
       await button.click();

@@ -27,13 +27,15 @@ export class ContentSearchPage {
     this.contentSearchDialog = page.locator('mime-search');
     this.navigatorToolbar = page.locator('.content-search-navigator-toolbar');
     this.clearSearchButton = page.locator('.clearSearchButton');
-    this.navigateCloseHitsButton = page.locator(
-      '#footerNavigateCloseHitsButton'
+    this.navigateCloseHitsButton = page.getByTestId(
+      'footerNavigateCloseHitsButton'
     );
-    this.navigatePreviousHitButton = page.locator(
-      '#footerNavigatePreviousHitButton'
+    this.navigatePreviousHitButton = page.getByTestId(
+      'footerNavigatePreviousHitButton'
     );
-    this.navigateNextHitButton = page.locator('#footerNavigateNextHitButton');
+    this.navigateNextHitButton = page.getByTestId(
+      'footerNavigateNextHitButton'
+    );
     this.container = page.locator('.content-search-container');
     this.hits = page.locator('.content-search-container .hit');
     this.highlighted = page.locator('.openseadragon-canvas .hit');
