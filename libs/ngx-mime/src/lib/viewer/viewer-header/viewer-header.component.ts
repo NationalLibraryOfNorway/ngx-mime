@@ -79,7 +79,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     public intl: MimeViewerIntl,
-    public viewContainerRef: ViewContainerRef,
     private changeDetectorRef: ChangeDetectorRef,
     private informationDialogService: InformationDialogService,
     private contentSearchDialogService: ContentSearchDialogService,

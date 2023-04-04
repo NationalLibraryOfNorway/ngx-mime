@@ -7,7 +7,7 @@
   >
     <div>
       <button
-        id="footerNavigateCloseHitsButton"
+        data-testid="footerNavigateCloseHitsButton"
         mat-icon-button
         [attr.aria-label]="intl.closeLabel"
         [matTooltip]="intl.closeLabel"
@@ -26,7 +26,7 @@
     <div class="navigation-buttons">
       <ng-container *ngIf="invert">
         <button
-          id="footerNavigatePreviousHitButton"
+          data-testid="footerNavigatePreviousHitButton"
           mat-icon-button
           [attr.aria-label]="intl.previousHitLabel"
           [matTooltip]="intl.previousHitLabel"
@@ -37,7 +37,7 @@
           <mat-icon>navigate_before</mat-icon>
         </button>
         <button
-          id="footerNavigateNextHitButton"
+          data-testid="footerNavigateNextHitButton"
           mat-icon-button
           [attr.aria-label]="intl.nextHitLabel"
           [matTooltip]="intl.nextHitLabel"
@@ -50,7 +50,7 @@
       </ng-container>
       <ng-container *ngIf="!invert">
         <button
-          id="footerNavigateNextHitButton"
+          data-testid="footerNavigateNextHitButton"
           mat-icon-button
           [attr.aria-label]="intl.nextHitLabel"
           [matTooltip]="intl.nextHitLabel"
@@ -61,7 +61,7 @@
           <mat-icon>navigate_before</mat-icon>
         </button>
         <button
-          id="footerNavigatePreviousHitButton"
+          data-testid="footerNavigatePreviousHitButton"
           mat-icon-button
           [attr.aria-label]="intl.previousHitLabel"
           [matTooltip]="intl.previousHitLabel"

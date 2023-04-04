@@ -26,27 +26,25 @@ describe('OsdToolbarComponent', () => {
   let canvasService: CanvasServiceStub;
   let viewerService: ViewerServiceStub;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, SharedModule],
-        declarations: [OsdToolbarComponent],
-        providers: [
-          MimeResizeService,
-          MimeViewerIntl,
-          { provide: ViewerService, useClass: ViewerServiceStub },
-          { provide: CanvasService, useClass: CanvasServiceStub },
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-          ClickService,
-          CanvasService,
-          ModeService,
-          MimeDomHelper,
-          FullscreenService,
-          StyleService,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, SharedModule],
+      declarations: [OsdToolbarComponent],
+      providers: [
+        MimeResizeService,
+        MimeViewerIntl,
+        { provide: ViewerService, useClass: ViewerServiceStub },
+        { provide: CanvasService, useClass: CanvasServiceStub },
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        ClickService,
+        CanvasService,
+        ModeService,
+        MimeDomHelper,
+        FullscreenService,
+        StyleService,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
@@ -62,62 +60,52 @@ describe('OsdToolbarComponent', () => {
   });
 
   it('should re-render when the i18n labels have changed', () => {
-    const button = fixture.debugElement.query(By.css('#homeButton'));
+    const homeButton = getHomeButton();
 
     intl.homeLabel = 'Go home button';
     intl.changes.next();
     fixture.detectChanges();
 
-    expect(button.nativeElement.getAttribute('aria-label')).toBe(
+    expect(homeButton.nativeElement.getAttribute('aria-label')).toBe(
       'Go home button'
     );
   });
 
-  it(
-    "should not be visible when state is changed to 'hide'",
-    waitForAsync(() => {
+  it("should not be visible when state is changed to 'hide'", waitForAsync(() => {
+    component.state = 'show';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+
+      component.state = 'hide';
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+      });
+    });
+  }));
+
+  it("should be visible when state is changed to 'show'", waitForAsync(() => {
+    component.state = 'hide';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+
       component.state = 'show';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expectOSDToolbarToShow(fixture.debugElement.nativeElement);
-
-        component.state = 'hide';
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
-        });
       });
-    })
-  );
-
-  it(
-    "should be visible when state is changed to 'show'",
-    waitForAsync(() => {
-      component.state = 'hide';
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
-
-        component.state = 'show';
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expectOSDToolbarToShow(fixture.debugElement.nativeElement);
-        });
-      });
-    })
-  );
+    });
+  }));
 
   it('should enable both navigation buttons when viewer is on second canvas group', () => {
     viewerService.setCanvasGroupIndexChange(1);
     fixture.detectChanges();
 
-    const previousButton = fixture.debugElement.query(
-      By.css('#navigateBeforeButton')
-    );
-    const nextButton = fixture.debugElement.query(
-      By.css('#navigateNextButton')
-    );
+    const previousButton = getPreviousButton();
+    const nextButton = getNextButton();
     expect(previousButton.nativeElement.disabled).toBeFalsy();
     expect(nextButton.nativeElement.disabled).toBeFalsy();
   });
@@ -126,68 +114,62 @@ describe('OsdToolbarComponent', () => {
     viewerService.setCanvasGroupIndexChange(0);
     fixture.detectChanges();
 
-    const button = fixture.debugElement.query(By.css('#navigateBeforeButton'));
-    expect(button.nativeElement.disabled).toBeTruthy();
+    const previousButton = getPreviousButton();
+    expect(previousButton.nativeElement.disabled).toBeTruthy();
   });
 
-  it(
-    'should disable next button when viewer is on last canvas group',
-    waitForAsync(() => {
-      spyOnProperty(
-        canvasService,
-        'numberOfCanvasGroups',
-        'get'
-      ).and.returnValue(10);
+  it('should disable next button when viewer is on last canvas group', waitForAsync(() => {
+    spyOnProperty(canvasService, 'numberOfCanvasGroups', 'get').and.returnValue(
+      10
+    );
 
-      viewerService.setCanvasGroupIndexChange(9);
-      fixture.detectChanges();
+    viewerService.setCanvasGroupIndexChange(9);
+    fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        const button = fixture.debugElement.query(
-          By.css('#navigateNextButton')
-        );
-        expect(button.nativeElement.disabled).toBeTruthy();
-      });
-    })
-  );
+    fixture.whenStable().then(() => {
+      const nextButton = getNextButton();
+      expect(nextButton.nativeElement.disabled).toBeTruthy();
+    });
+  }));
 
-  it(
-    'should display next canvas group',
-    waitForAsync(() => {
-      spy = spyOn(viewerService, 'goToNextCanvasGroup');
+  it('should display next canvas group', waitForAsync(() => {
+    spy = spyOn(viewerService, 'goToNextCanvasGroup');
 
-      const button = fixture.debugElement.query(By.css('#navigateNextButton'));
-      button.nativeElement.click();
+    const nextButton = getNextButton();
+    nextButton.nativeElement.click();
 
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
-      });
-    })
-  );
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(spy.calls.count()).toEqual(1);
+    });
+  }));
 
-  it(
-    'should display previous canvas group',
-    waitForAsync(() => {
-      spy = spyOn(component, 'goToPreviousCanvasGroup');
+  it('should display previous canvas group', waitForAsync(() => {
+    spy = spyOn(component, 'goToPreviousCanvasGroup');
 
-      const button = fixture.debugElement.query(
-        By.css('#navigateBeforeButton')
-      );
-      button.nativeElement.click();
+    const previousButton = getPreviousButton();
+    previousButton.nativeElement.click();
 
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
-      });
-    })
-  );
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(spy.calls.count()).toEqual(1);
+    });
+  }));
+
+  const getHomeButton = () =>
+    fixture.debugElement.query(By.css('[data-testid="homeButton"]'));
+
+  const getPreviousButton = () =>
+    fixture.debugElement.query(By.css('[data-testid="navigateBeforeButton"]'));
+
+  const getNextButton = () =>
+    fixture.debugElement.query(By.css('[data-testid="navigateNextButton"]'));
+
+  const expectOSDToolbarToShow = (element: any) => {
+    expect(element.style.transform).toBe('translate(0px, 0px)');
+  };
+
+  const expectOSDToolbarToBeHidden = (element: any) => {
+    expect(element.style.transform).toBe('translate(-120px, 0px)');
+  };
 });
-
-function expectOSDToolbarToShow(element: any) {
-  expect(element.style.transform).toBe('translate(0px, 0px)');
-}
-
-function expectOSDToolbarToBeHidden(element: any) {
-  expect(element.style.transform).toBe('translate(-120px, 0px)');
-}

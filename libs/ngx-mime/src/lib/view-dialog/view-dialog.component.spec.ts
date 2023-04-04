@@ -72,7 +72,7 @@ describe('ViewDialogComponent', () => {
         fixture.detectChanges();
 
         const heading: DebugElement = fixture.debugElement.query(
-          By.css('[data-test-id="ngx-mime-heading-desktop"]')
+          By.css('[data-testid="ngx-mime-heading-desktop"]')
         );
         expect(heading).not.toBeNull();
       });
@@ -88,7 +88,7 @@ describe('ViewDialogComponent', () => {
         fixture.detectChanges();
 
         const heading: DebugElement = fixture.debugElement.query(
-          By.css('[data-test-id="ngx-mime-heading-desktop"]')
+          By.css('[data-testid="ngx-mime-heading-desktop"]')
         );
         expect(heading).toBeNull();
       });
@@ -104,7 +104,7 @@ describe('ViewDialogComponent', () => {
         fixture.detectChanges();
 
         const pageLayoutSection = fixture.debugElement.query(
-          By.css('[data-test-id="page-layout"]')
+          By.css('[data-testid="page-layout"]')
         );
         expect(pageLayoutSection).not.toBeNull();
       });
@@ -120,7 +120,7 @@ describe('ViewDialogComponent', () => {
         fixture.detectChanges();
 
         const pageLayoutSection = fixture.debugElement.query(
-          By.css('[data-test-id="page-layout"]')
+          By.css('[data-testid="page-layout"]')
         );
         expect(pageLayoutSection).toBeNull();
       });
@@ -138,7 +138,7 @@ describe('ViewDialogComponent', () => {
         fixture.detectChanges();
 
         const recognizedTextContentSection = fixture.debugElement.query(
-          By.css('[data-test-id="recognized-text-content"]')
+          By.css('[data-testid="recognized-text-content"]')
         );
         expect(recognizedTextContentSection).not.toBeNull();
       });
@@ -154,7 +154,7 @@ describe('ViewDialogComponent', () => {
         fixture.detectChanges();
 
         const recognizedTextContentSection = fixture.debugElement.query(
-          By.css('[data-test-id="recognized-text-content"]')
+          By.css('[data-testid="recognized-text-content"]')
         );
         expect(recognizedTextContentSection).toBeNull();
       });

@@ -1,9 +1,9 @@
 <ng-container [ngSwitch]="mediaObserver.isActive('lt-md')">
   <ng-container *ngSwitchCase="true">
-    <mat-toolbar color="primary" data-test-id="mobile-toolbar">
+    <mat-toolbar color="primary" data-testid="mobile-toolbar">
       <div fxLayout="row" fxLayoutAlign="start center">
         <button
-          data-test-id="ngx-mime-view-dialog-close-button"
+          data-testid="ngx-mime-view-dialog-close-button"
           mat-icon-button
           [aria-label]="intl.closeLabel"
           [matTooltip]="intl.closeLabel"
@@ -16,13 +16,13 @@
     </mat-toolbar>
   </ng-container>
   <ng-container *ngSwitchDefault>
-    <mat-toolbar data-test-id="desktop-toolbar">
+    <mat-toolbar data-testid="desktop-toolbar">
       <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-        <h1 mat-dialog-title data-test-id="ngx-mime-heading-desktop">{{
+        <h1 mat-dialog-title data-testid="ngx-mime-heading-desktop">{{
           intl.layoutMenuLabel
         }}</h1>
         <button
-          data-test-id="ngx-mime-view-dialog-close-button"
+          data-testid="ngx-mime-view-dialog-close-button"
           mat-icon-button
           [aria-label]="intl.closeLabel"
           [matTooltip]="intl.closeLabel"
@@ -36,7 +36,7 @@
 </ng-container>
 <mat-dialog-content [ngStyle]="contentStyle">
   <ng-container *ngIf="isPagedManifest">
-    <section data-test-id="page-layout">
+    <section data-testid="page-layout">
       <h2>{{ intl.pageLayoutLabel }}</h2>
       <div
         fxLayout="column"
@@ -46,7 +46,7 @@
       >
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle
-            data-test-id="ngx-mime-single-page-view-button"
+            data-testid="ngx-mime-single-page-view-button"
             [aria-label]="intl.singlePageViewLabel"
             [value]="ViewerLayout.ONE_PAGE"
             [checked]="viewerLayout === ViewerLayout.ONE_PAGE"
@@ -58,7 +58,7 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle
-            data-test-id="ngx-mime-two-page-view-button"
+            data-testid="ngx-mime-two-page-view-button"
             [aria-label]="intl.twoPageViewLabel"
             [value]="ViewerLayout.TWO_PAGE"
             [checked]="viewerLayout === ViewerLayout.TWO_PAGE"
@@ -73,7 +73,7 @@
   </ng-container>
   <ng-container *ngIf="hasRecognizedTextContent">
     <mat-divider></mat-divider>
-    <section data-test-id="recognized-text-content">
+    <section data-testid="recognized-text-content">
       <h2>{{ intl.digitalTextLabel }}</h2>
       <div
         fxLayout="column"
@@ -83,7 +83,7 @@
       >
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle
-            data-test-id="ngx-mime-recognized-text-content-close-button"
+            data-testid="ngx-mime-recognized-text-content-close-button"
             [aria-label]="intl.recognizedTextContentCloseLabel"
             [value]="RecognizedTextMode.NONE"
             [checked]="recognizedTextMode === RecognizedTextMode.NONE"
@@ -95,7 +95,7 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle
-            data-test-id="ngx-mime-recognized-text-content-split-view-button"
+            data-testid="ngx-mime-recognized-text-content-split-view-button"
             [aria-label]="intl.recognizedTextContentInSplitViewLabel"
             [value]="RecognizedTextMode.SPLIT"
             [checked]="recognizedTextMode === RecognizedTextMode.SPLIT"
@@ -109,7 +109,7 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-button-toggle
-            data-test-id="ngx-mime-recognized-text-content-only-button"
+            data-testid="ngx-mime-recognized-text-content-only-button"
             [aria-label]="intl.showRecognizedTextContentLabel"
             [value]="RecognizedTextMode.ONLY"
             [checked]="recognizedTextMode === RecognizedTextMode.ONLY"

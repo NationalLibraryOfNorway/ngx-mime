@@ -68,17 +68,15 @@ describe('CanvasGroupNavigatorComponent', () => {
   });
 
   it('should re-render when the i18n labels have changed', () => {
-    const text = fixture.debugElement.query(
-      By.css('#footerNavigateNextButton')
-    );
-    expect(text.nativeElement.getAttribute('aria-label')).toContain(
+    const nextButton = getNextButton();
+    expect(nextButton.nativeElement.getAttribute('aria-label')).toContain(
       `Next Page`
     );
 
     intl.nextPageLabel = 'New test string';
     intl.changes.next();
     fixture.detectChanges();
-    expect(text.nativeElement.getAttribute('aria-label')).toContain(
+    expect(nextButton.nativeElement.getAttribute('aria-label')).toContain(
       'New test string'
     );
   });
@@ -87,12 +85,8 @@ describe('CanvasGroupNavigatorComponent', () => {
     canvasService._currentCanvasGroupIndex.next(1);
     fixture.detectChanges();
 
-    const previousButton = fixture.debugElement.query(
-      By.css('#footerNavigateBeforeButton')
-    );
-    const nextButton = fixture.debugElement.query(
-      By.css('#footerNavigateNextButton')
-    );
+    const previousButton = getPreviousButton();
+    const nextButton = getNextButton();
     expect(previousButton.nativeElement.disabled).toBeFalsy();
     expect(nextButton.nativeElement.disabled).toBeFalsy();
   });
@@ -101,10 +95,8 @@ describe('CanvasGroupNavigatorComponent', () => {
     canvasService._currentCanvasGroupIndex.next(0);
     fixture.detectChanges();
 
-    const button = fixture.debugElement.query(
-      By.css('#footerNavigateBeforeButton')
-    );
-    expect(button.nativeElement.disabled).toBeTruthy();
+    const previousButton = getPreviousButton();
+    expect(previousButton.nativeElement.disabled).toBeTruthy();
   });
 
   it('should disable next button when viewer is on last canvas group', waitForAsync(() => {
@@ -114,20 +106,16 @@ describe('CanvasGroupNavigatorComponent', () => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      const button = fixture.debugElement.query(
-        By.css('#footerNavigateNextButton')
-      );
-      expect(button.nativeElement.disabled).toBeTruthy();
+      const nextButton = getNextButton();
+      expect(nextButton.nativeElement.disabled).toBeTruthy();
     });
   }));
 
   it('should display next canvas group', waitForAsync(() => {
     spy = spyOn(viewerService, 'goToNextCanvasGroup').and.stub();
     fixture.whenStable().then(() => {
-      const button = fixture.debugElement.query(
-        By.css('#footerNavigateNextButton')
-      );
-      button.nativeElement.click();
+      const nextButton = getNextButton();
+      nextButton.nativeElement.click();
       fixture.detectChanges();
       expect(spy.calls.count()).toEqual(1);
     });
@@ -140,10 +128,8 @@ describe('CanvasGroupNavigatorComponent', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      const button = fixture.debugElement.query(
-        By.css('#footerNavigateBeforeButton')
-      );
-      button.nativeElement.click();
+      const previousButton = getPreviousButton();
+      previousButton.nativeElement.click();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(spy.calls.count()).toEqual(1);
@@ -156,12 +142,8 @@ describe('CanvasGroupNavigatorComponent', () => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      const previousButton = fixture.debugElement.query(
-        By.css('#footerNavigateBeforeButton')
-      );
-      const nextButton = fixture.debugElement.query(
-        By.css('#footerNavigateNextButton')
-      );
+      const previousButton = getPreviousButton();
+      const nextButton = getNextButton();
 
       expect(nextButton.nativeElement.disabled).toBeTrue();
       expect(previousButton.nativeElement.disabled).toBeTrue();
@@ -190,4 +172,15 @@ describe('CanvasGroupNavigatorComponent', () => {
     helpDialogService.viewContainerRef = component.viewContainerRef;
   }
 
+  const getPreviousButton = () => {
+    return fixture.debugElement.query(
+      By.css('[data-testid="footerNavigateBeforeButton"]')
+    );
+  };
+
+  const getNextButton = () => {
+    return fixture.debugElement.query(
+      By.css('[data-testid="footerNavigateNextButton"]')
+    );
+  };
 });
