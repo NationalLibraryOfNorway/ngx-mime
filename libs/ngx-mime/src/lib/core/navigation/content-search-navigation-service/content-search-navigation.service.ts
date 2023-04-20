@@ -31,6 +31,7 @@ export class ContentSearchNavigationService {
         (result: SearchResult) => {
           this.searchResult = result;
           this.currentHit = null;
+          this.update(0);
         }
       )
     );
@@ -157,7 +158,7 @@ export class ContentSearchNavigationService {
       return false;
     }
     return (
-      this.canvasesPerCanvasGroup.indexOf(
+      this.canvasesPerCanvasGroup?.indexOf(
         this.searchResult.get(this.currentIndex).index
       ) >= 0
     );
@@ -168,19 +169,21 @@ export class ContentSearchNavigationService {
       return -1;
     }
 
-    for (let i = 0; i < this.searchResult.size(); i++) {
-      const hit = this.searchResult.get(i);
-      if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
-        return i;
-      }
-      if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
-        if (i === 0) {
-          return -1;
-        } else {
-          const phit = this.searchResult.get(i - 1);
-          return this.searchResult.hits.findIndex(
-            (sr) => sr.index === phit.index
-          );
+    if (canvasGroupIndexes) {
+      for (let i = 0; i < this.searchResult.size(); i++) {
+        const hit = this.searchResult.get(i);
+        if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
+          return i;
+        }
+        if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
+          if (i === 0) {
+            return -1;
+          } else {
+            const phit = this.searchResult.get(i - 1);
+            return this.searchResult.hits.findIndex(
+              (sr) => sr.index === phit.index
+            );
+          }
         }
       }
     }
@@ -188,7 +191,7 @@ export class ContentSearchNavigationService {
   }
 
   private findLastHitIndex(canvasGroupIndexes: number[]): number {
-    if (!this.searchResult) {
+    if (!this.searchResult || !canvasGroupIndexes) {
       return -1;
     }
     const hits = this.searchResult.hits.filter(

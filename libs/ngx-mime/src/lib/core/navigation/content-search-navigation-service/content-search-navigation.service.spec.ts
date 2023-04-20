@@ -127,6 +127,18 @@ describe('ContentSearchNavigationService', () => {
     })
   );
 
+  it('should reset currentHitCounter when searchresult is updated', waitForAsync(() => {
+    contentSearchNavigationService.update(12);
+
+    contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
+      expect(hit).toBe(-1);
+    });
+
+    const updatedSearchResult = createSearchResult();
+    updatedSearchResult.add(new Hit({ id: 7, index: 10 }));
+    iiifContentSearchServiceStub._currentSearchResult.next(updatedSearchResult);
+  }));
+
   function createCanvasGroups(): Rect[] {
     const canvasGroups: Rect[] = [];
     for (let i = 0; i < 100; i++) {
