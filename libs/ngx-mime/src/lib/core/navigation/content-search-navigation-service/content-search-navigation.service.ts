@@ -30,8 +30,7 @@ export class ContentSearchNavigationService {
       this.iiifContentSearchService.onChange.subscribe(
         (result: SearchResult) => {
           this.searchResult = result;
-          this.currentHit = null;
-          this.update(0);
+          this.resetCurrentHit();
         }
       )
     );
@@ -52,19 +51,6 @@ export class ContentSearchNavigationService {
 
   get currentHitCounter(): Observable<number> {
     return this._currentHitCounter$.pipe(distinctUntilChanged());
-  }
-
-  private updateCurrentHitCounter(): number {
-    if (this.isCurrentHitOnCurrentCanvasGroup()) {
-      if (this.currentHit) {
-        return this.currentHit.id;
-      }
-    }
-    if (this.isHitOnActiveCanvasGroup) {
-      return this.currentIndex;
-    } else {
-      return this.lastHitIndex;
-    }
   }
 
   getHitOnActiveCanvasGroup(): boolean {
@@ -92,6 +78,24 @@ export class ContentSearchNavigationService {
     this._currentHitCounter$.next(this.currentHit.id);
     this.currentIndex = this.currentHit.index;
     this.iiifContentSearchService.selected(hit);
+  }
+
+  private updateCurrentHitCounter(): number {
+    if (this.isCurrentHitOnCurrentCanvasGroup()) {
+      if (this.currentHit) {
+        return this.currentHit.id;
+      }
+    }
+    if (this.isHitOnActiveCanvasGroup) {
+      return this.currentIndex;
+    } else {
+      return this.lastHitIndex;
+    }
+  }
+
+  private resetCurrentHit(): void {
+    this.currentHit = null;
+    this.update(0);
   }
 
   private goToNextCurrentCanvasHit() {
