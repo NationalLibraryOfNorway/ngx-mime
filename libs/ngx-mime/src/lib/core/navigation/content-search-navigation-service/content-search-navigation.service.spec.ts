@@ -111,9 +111,9 @@ describe('ContentSearchNavigationService', () => {
 
   it('should call update function when searchresult changes', () => {
     spyOn(contentSearchNavigationService, 'update');
-
     const updatedSearchResult = createSearchResult();
     updatedSearchResult.add(new Hit({ id: 7, index: 20 }));
+
     iiifContentSearchServiceStub._currentSearchResult.next(updatedSearchResult);
 
     expect(contentSearchNavigationService.update).toHaveBeenCalledTimes(1);
