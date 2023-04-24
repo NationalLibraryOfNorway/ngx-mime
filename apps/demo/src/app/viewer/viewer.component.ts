@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   MimeViewerConfig,
@@ -11,9 +11,8 @@ import { ManifestService } from './../core/manifest-service/manifest.service';
 @Component({
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  providers: [],
 })
-export class ViewerComponent implements OnDestroy {
+export class ViewerComponent implements OnInit, OnDestroy {
   manifestUris: string[] = [];
   viewerHeight = 100;
   config = new MimeViewerConfig({
@@ -27,33 +26,45 @@ export class ViewerComponent implements OnDestroy {
     initRecognizedTextContentMode: RecognizedTextMode.NONE,
   });
   private iiifVersion = '3';
-  private subscriptions = new Subscription();
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private manifestService: ManifestService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.subscriptions.add(
-      this.route.queryParamMap.subscribe((params) => {
-        this.iiifVersion = params.get('v') || this.iiifVersion;
-        this.manifestUris = params.getAll('manifestUri');
-        this.viewerHeight = 100 / this.manifestUris.length;
-        if (this.manifestUris.length === 0) {
-          this.router.navigate(['demo'], {
-            queryParams: {
-              v: this.iiifVersion,
-              manifestUri: this.manifestService.getManifests(
-                this.iiifVersion
-              )[0].uri,
-            },
-          });
-        }
-      })
+      this.route.queryParamMap.subscribe(this.handleQueryParamMap.bind(this))
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  private handleQueryParamMap(params: any): void {
+    const iiifVersionQueryParam = params.get('v');
+    this.iiifVersion = iiifVersionQueryParam || this.iiifVersion;
+
+    this.manifestUris = params.getAll('manifestUri');
+    this.viewerHeight = 100 / this.manifestUris.length;
+
+    if (this.manifestUris.length === 0) {
+      this.redirectToFirstManifest();
+    }
+  }
+
+  private redirectToFirstManifest(): void {
+    const firstManifestUri = this.manifestService.getManifests(
+      this.iiifVersion
+    )[0].uri;
+    this.router.navigate(['demo'], {
+      queryParams: {
+        v: this.iiifVersion,
+        manifestUri: firstManifestUri,
+      },
+    });
   }
 }

@@ -61,8 +61,8 @@ describe('OsdToolbarComponent', () => {
 
   it('should re-render when the i18n labels have changed', () => {
     const homeButton = getHomeButton();
-
     intl.homeLabel = 'Go home button';
+
     intl.changes.next();
     fixture.detectChanges();
 

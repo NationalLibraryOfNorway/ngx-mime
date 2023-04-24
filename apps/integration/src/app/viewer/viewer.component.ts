@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   isComponent = false;
-  manifestUris: string[] | null = null;
+  manifestUris: string[] = [];
   canvasIndex = 0;
   viewerHeight = 100;
   private subscriptions = new Subscription();
@@ -25,26 +25,28 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       this.route.queryParamMap.subscribe((params) => {
-        if (params.has('manifestUri')) {
-          this.manifestUris = params.getAll('manifestUri');
-        } else {
-          this.manifestUris = [
-            'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
-          ];
-        }
-        this.viewerHeight = 100 / this.manifestUris.length;
-
-        if (params.has('canvasIndex')) {
-          const canvasIndexValue = params.get('canvasIndex');
-          this.canvasIndex = canvasIndexValue
-            ? parseInt(canvasIndexValue, 10)
-            : 0;
-        }
+        this.handleQueryParams(params);
       })
     );
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  private handleQueryParams(params: any) {
+    if (params.has('manifestUri')) {
+      this.manifestUris = params.getAll('manifestUri');
+    } else {
+      this.manifestUris = [
+        'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
+      ];
+    }
+    this.viewerHeight = 100 / this.manifestUris.length;
+
+    if (params.has('canvasIndex')) {
+      const canvasIndexValue = params.get('canvasIndex');
+      this.canvasIndex = canvasIndexValue ? parseInt(canvasIndexValue, 10) : 0;
+    }
   }
 }

@@ -99,10 +99,8 @@ export class ViewerService {
     private snackBar: MatSnackBar,
     private intl: MimeViewerIntl
   ) {
-    this.id = `ngx-mime-mimeViewer-${Math.random().toString(16).slice(2)}`;
-    this.openseadragonId = `openseadragon-${Math.random()
-      .toString(16)
-      .slice(2)}`;
+    this.id = this.generateRandomId('ngx-mime-mimeViewer');
+    this.openseadragonId = this.generateRandomId('openseadragon');
   }
 
   get onRotationChange(): Observable<number> {
@@ -574,6 +572,11 @@ export class ViewerService {
       this.viewer.panVertical = true;
       this.resetKeyDownHandler();
     }
+  }
+
+  private generateRandomId(prefix: string): string {
+    const randomString = Math.random().toString(16).slice(2);
+    return `${prefix}-${randomString}`;
   }
 
   /**
