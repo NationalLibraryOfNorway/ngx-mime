@@ -57,87 +57,67 @@ describe('ContentSearchNavigationService', () => {
     expect(contentSearchNavigationService).toBeTruthy();
   });
 
-  it(
-    'should go to next hit',
-    waitForAsync(() => {
-      contentSearchNavigationService.update(6);
+  it('should go to next hit', waitForAsync(() => {
+    contentSearchNavigationService.update(6);
 
-      contentSearchNavigationService.currentHitCounter.subscribe((hitId) => {
-        expect(hitId).toBe(6);
-      });
+    contentSearchNavigationService.currentHitCounter.subscribe((hitId) => {
+      expect(hitId).toBe(6);
+    });
 
-      contentSearchNavigationService.goToNextHit();
-    })
-  );
+    contentSearchNavigationService.goToNextHit();
+  }));
 
-  it(
-    'should go to previous hit',
-    waitForAsync(() => {
-      contentSearchNavigationService.update(6);
+  it('should go to previous hit', waitForAsync(() => {
+    contentSearchNavigationService.update(6);
 
-      contentSearchNavigationService.currentHitCounter.subscribe((index) => {
-        expect(index).toBe(5);
-      });
+    contentSearchNavigationService.currentHitCounter.subscribe((index) => {
+      expect(index).toBe(5);
+    });
 
-      contentSearchNavigationService.goToPreviousHit();
-    })
-  );
+    contentSearchNavigationService.goToPreviousHit();
+  }));
 
-  it(
-    'should return -1 if canvasIndex is before first hit',
-    waitForAsync(() => {
-      contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
-        expect(hit).toBe(-1);
-      });
-
-      contentSearchNavigationService.update(0);
-    })
-  );
-
-  it(
-    'should return 0 if canvasIndex is on first hit',
-    waitForAsync(() => {
-      contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
-        expect(hit).toBe(0);
-      });
-
-      contentSearchNavigationService.update(1);
-    })
-  );
-
-  it(
-    'should return 5 if canvasIndex is between 5th and 6th hit',
-    waitForAsync(() => {
-      contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
-        expect(hit).toBe(5);
-      });
-
-      contentSearchNavigationService.update(6);
-    })
-  );
-
-  it(
-    'should return 6 if canvasIndex is after last',
-    waitForAsync(() => {
-      contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
-        expect(hit).toBe(6);
-      });
-
-      contentSearchNavigationService.update(10);
-    })
-  );
-
-  it('should reset currentHitCounter when searchresult is updated', waitForAsync(() => {
-    contentSearchNavigationService.update(12);
-
+  it('should return -1 if canvasIndex is before first hit', waitForAsync(() => {
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(-1);
     });
 
-    const updatedSearchResult = createSearchResult();
-    updatedSearchResult.add(new Hit({ id: 7, index: 10 }));
-    iiifContentSearchServiceStub._currentSearchResult.next(updatedSearchResult);
+    contentSearchNavigationService.update(0);
   }));
+
+  it('should return 0 if canvasIndex is on first hit', waitForAsync(() => {
+    contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
+      expect(hit).toBe(0);
+    });
+
+    contentSearchNavigationService.update(1);
+  }));
+
+  it('should return 5 if canvasIndex is between 5th and 6th hit', waitForAsync(() => {
+    contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
+      expect(hit).toBe(5);
+    });
+
+    contentSearchNavigationService.update(6);
+  }));
+
+  it('should return 6 if canvasIndex is after last', waitForAsync(() => {
+    contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
+      expect(hit).toBe(6);
+    });
+
+    contentSearchNavigationService.update(10);
+  }));
+
+  it('should call update function when searchresult changes', () => {
+    spyOn(contentSearchNavigationService, 'update');
+
+    const updatedSearchResult = createSearchResult();
+    updatedSearchResult.add(new Hit({ id: 7, index: 20 }));
+    iiifContentSearchServiceStub._currentSearchResult.next(updatedSearchResult);
+
+    expect(contentSearchNavigationService.update).toHaveBeenCalledTimes(1);
+  });
 
   function createCanvasGroups(): Rect[] {
     const canvasGroups: Rect[] = [];
