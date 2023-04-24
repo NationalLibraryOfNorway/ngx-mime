@@ -138,6 +138,22 @@ Then('it should be displayed', async function (this: CustomWorld) {
 Then(
   'the user should be able to navigate them individually',
   async function (this: CustomWorld) {
-    await expect(this.viewerPage.openseadragonContainer).toHaveCount(2);
+    const firstViewer = this.viewerPage.viewer.first();
+    const lastViewer = this.viewerPage.viewer.last();
+    const firstViewerNextButton = firstViewer.getByTestId('navigateNextButton');
+    const lastViewerNextButton = lastViewer.getByTestId('navigateNextButton');
+
+    await firstViewerNextButton.click();
+    await lastViewerNextButton.click();
+    await lastViewerNextButton.click();
+
+    const firstViewerCurrentCanvas = firstViewer.getByTestId(
+      'currentCanvasGroupLabel'
+    );
+    const lastViewerCurrentCanvas = lastViewer.getByTestId(
+      'currentCanvasGroupLabel'
+    );
+    await expect(firstViewerCurrentCanvas).toContainText('2-3');
+    await expect(lastViewerCurrentCanvas).toContainText('4-5');
   }
 );

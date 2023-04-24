@@ -38,6 +38,7 @@ export class ViewerPage {
     },
   ];
 
+  readonly viewer: Locator;
   readonly fullscreenButton: Locator;
   readonly openseadragonContainer: Locator;
   readonly attribution: Locator;
@@ -81,6 +82,7 @@ export class ViewerPage {
     private page: Page,
     private animations: Animations
   ) {
+    this.viewer = this.page.locator('mime-viewer');
     this.navigationSlider = this.page.locator('.navigation-slider');
     this.navigationSliderContainer = this.page.getByTestId(
       'navigation-slider-container'
