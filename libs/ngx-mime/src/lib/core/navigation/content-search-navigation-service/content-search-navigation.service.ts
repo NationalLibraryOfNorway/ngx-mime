@@ -30,7 +30,8 @@ export class ContentSearchNavigationService {
       this.iiifContentSearchService.onChange.subscribe(
         (result: SearchResult) => {
           this.searchResult = result;
-          this.resetCurrentHit();
+          this.currentHit = null;
+          this.update(this.canvasService.currentCanvasGroupIndex);
         }
       )
     );
@@ -91,11 +92,6 @@ export class ContentSearchNavigationService {
     } else {
       return this.lastHitIndex;
     }
-  }
-
-  private resetCurrentHit(): void {
-    this.currentHit = null;
-    this.update(0);
   }
 
   private goToNextCurrentCanvasHit() {
