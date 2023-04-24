@@ -63,7 +63,6 @@ describe('ViewerHeaderComponent', () => {
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
   let mediaObserverSpy: Spy<MediaObserver>;
-  let loader: HarnessLoader;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -115,7 +114,6 @@ describe('ViewerHeaderComponent', () => {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(testHostFixture);
-    loader = TestbedHarnessEnvironment.loader(testHostFixture);
     fullscreenServiceSpy = TestBed.inject<any>(FullscreenService);
     intl = TestBed.inject(MimeViewerIntl);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
@@ -355,35 +353,35 @@ describe('ViewerHeaderComponent', () => {
   };
 
   const getViewMenuButton = async () =>
-    loader.getHarnessOrNull(
+    rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mime-view-menu-button"]',
       })
     );
 
   const getInformationDialogButton = async () =>
-    loader.getHarnessOrNull(
+    rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeInformationDialogButton"]',
       })
     );
 
   const getContentSearchDialogButton = async () =>
-    loader.getHarnessOrNull(
+    rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeContentSearchDialogButton"]',
       })
     );
 
   const getHelpDialogButton = async () =>
-    loader.getHarnessOrNull(
+    rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeHelpDialogButton"]',
       })
     );
 
   const getFullscreenButton = async () =>
-    loader.getHarnessOrNull(
+    rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeFullscreenButton"]',
       })

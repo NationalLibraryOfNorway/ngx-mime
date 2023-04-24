@@ -5,7 +5,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
@@ -37,7 +36,6 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    public viewContainerRef: ViewContainerRef,
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,

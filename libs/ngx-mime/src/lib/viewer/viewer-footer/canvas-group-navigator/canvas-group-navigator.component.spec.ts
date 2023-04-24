@@ -1,7 +1,14 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  Component,
+  ElementRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,9 +27,22 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { SharedModule } from './../../../shared/shared.module';
 import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.component';
 
+@Component({
+  template: `<mime-page-navigator #navigator></mime-page-navigator>`,
+})
+export class TestHostComponent {
+  @ViewChild('navigator', { static: false })
+  canvasGroupNavigatorComponent!: CanvasGroupNavigatorComponent;
+  @ViewChild('navigator', { read: ElementRef })
+  canvasGroupNavigatorElementRef!: ElementRef;
+
+  constructor(public viewContainerRef: ViewContainerRef) {}
+}
+
 describe('CanvasGroupNavigatorComponent', () => {
   let component: CanvasGroupNavigatorComponent;
-  let fixture: ComponentFixture<CanvasGroupNavigatorComponent>;
+  let testHostComponent: TestHostComponent;
+  let testHostFixture: ComponentFixture<TestHostComponent>;
   let rootLoader: HarnessLoader;
   let spy: any;
   let canvasService: CanvasServiceStub;
@@ -33,7 +53,11 @@ describe('CanvasGroupNavigatorComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [NoopAnimationsModule, SharedModule],
-      declarations: [CanvasGroupNavigatorComponent, CanvasGroupDialogComponent],
+      declarations: [
+        TestHostComponent,
+        CanvasGroupNavigatorComponent,
+        CanvasGroupDialogComponent,
+      ],
       providers: [
         MimeViewerIntl,
         CanvasGroupDialogService,
@@ -45,78 +69,82 @@ describe('CanvasGroupNavigatorComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CanvasGroupNavigatorComponent);
-    rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    testHostFixture = TestBed.createComponent(TestHostComponent);
+    testHostComponent = testHostFixture.componentInstance;
+    rootLoader = TestbedHarnessEnvironment.documentRootLoader(testHostFixture);
     canvasService = injectedStub(CanvasService);
     viewerService = injectedStub(ViewerService);
     intl = TestBed.inject(MimeViewerIntl);
-    component = fixture.componentInstance;
-
-    setupCanvasGroupDialogService();
-    fixture.detectChanges();
+    testHostFixture.detectChanges();
+    component = testHostComponent.canvasGroupNavigatorComponent;
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(testHostComponent).toBeTruthy();
   });
 
   it('should open canvas group dialog', async () => {
-    component.openCanvasGroupDialog();
+    const canvasGroupDialogButton = await getCanvasGroupDialogButton();
+
+    canvasGroupDialogButton?.click();
 
     const dialogs = await rootLoader.getAllHarnesses(MatDialogHarness);
     expect(dialogs.length).toEqual(1);
   });
 
-  it('should re-render when the i18n labels have changed', () => {
-    const nextButton = getNextButton();
-    expect(nextButton.nativeElement.getAttribute('aria-label')).toContain(
-      `Next Page`
-    );
+  it('should re-render when the i18n labels have changed', async () => {
+    const nextButton = await getNextButton();
+    let ariaLabel = await getAriaLabel(nextButton);
+
+    expect(ariaLabel).toEqual(`Next Page`);
 
     intl.nextPageLabel = 'New test string';
     intl.changes.next();
-    fixture.detectChanges();
-    expect(nextButton.nativeElement.getAttribute('aria-label')).toContain(
-      'New test string'
-    );
+    testHostFixture.detectChanges();
+
+    ariaLabel = await getAriaLabel(nextButton);
+    expect(ariaLabel).toEqual('New test string');
   });
 
-  it('should enable both navigation buttons when viewer is on second canvas group', () => {
+  it('should enable both navigation buttons when viewer is on second canvas group', async () => {
     canvasService._currentCanvasGroupIndex.next(1);
-    fixture.detectChanges();
+    testHostFixture.detectChanges();
 
-    const previousButton = getPreviousButton();
-    const nextButton = getNextButton();
-    expect(previousButton.nativeElement.disabled).toBeFalsy();
-    expect(nextButton.nativeElement.disabled).toBeFalsy();
+    const previousButton = await getPreviousButton();
+    const nextButton = await getNextButton();
+    expect(await previousButton?.isDisabled()).toBeFalsy();
+    expect(await nextButton?.isDisabled()).toBeFalsy();
   });
 
-  it('should disable previous button when viewer is on first canvas group', () => {
+  it('should disable previous button when viewer is on first canvas group', async () => {
     canvasService._currentCanvasGroupIndex.next(0);
-    fixture.detectChanges();
+    testHostFixture.detectChanges();
 
-    const previousButton = getPreviousButton();
-    expect(previousButton.nativeElement.disabled).toBeTruthy();
+    const previousButton = await getPreviousButton();
+    expect(await previousButton?.isDisabled()).toBeTruthy();
   });
 
   it('should disable next button when viewer is on last canvas group', waitForAsync(() => {
     canvasService._currentNumberOfCanvasGroups.next(10);
 
     canvasService._currentCanvasGroupIndex.next(9);
-    fixture.detectChanges();
+    testHostFixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      const nextButton = getNextButton();
-      expect(nextButton.nativeElement.disabled).toBeTruthy();
+    testHostFixture.whenStable().then(async () => {
+      const nextButton = await getNextButton();
+
+      expect(await nextButton?.isDisabled()).toBeTruthy();
     });
   }));
 
   it('should display next canvas group', waitForAsync(() => {
     spy = spyOn(viewerService, 'goToNextCanvasGroup').and.stub();
-    fixture.whenStable().then(() => {
-      const nextButton = getNextButton();
-      nextButton.nativeElement.click();
-      fixture.detectChanges();
+    testHostFixture.whenStable().then(async () => {
+      const nextButton = await getNextButton();
+
+      await nextButton?.click();
+
+      testHostFixture.detectChanges();
       expect(spy.calls.count()).toEqual(1);
     });
   }));
@@ -126,12 +154,14 @@ describe('CanvasGroupNavigatorComponent', () => {
 
     canvasService._currentCanvasGroupIndex.next(9);
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const previousButton = getPreviousButton();
-      previousButton.nativeElement.click();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
+    testHostFixture.whenStable().then(async () => {
+      testHostFixture.detectChanges();
+      const previousButton = await getPreviousButton();
+
+      previousButton?.click();
+
+      testHostFixture.detectChanges();
+      testHostFixture.whenStable().then(() => {
         expect(spy.calls.count()).toEqual(1);
       });
     });
@@ -139,14 +169,14 @@ describe('CanvasGroupNavigatorComponent', () => {
 
   it('should disable previous and next button if there is only one canvas', waitForAsync(() => {
     canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
-    fixture.detectChanges();
+    testHostFixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      const previousButton = getPreviousButton();
-      const nextButton = getNextButton();
+    testHostFixture.whenStable().then(async () => {
+      const previousButton = await getPreviousButton();
+      const nextButton = await getNextButton();
 
-      expect(nextButton.nativeElement.disabled).toBeTrue();
-      expect(previousButton.nativeElement.disabled).toBeTrue();
+      expect(await nextButton?.isDisabled()).toBeTrue();
+      expect(await previousButton?.isDisabled()).toBeTrue();
     });
   }));
 
@@ -158,29 +188,40 @@ describe('CanvasGroupNavigatorComponent', () => {
     spy = spyOn(component, 'onSliderHotKey').and.callThrough();
     canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
 
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      const slider = fixture.debugElement.query(By.css('.navigation-slider'));
+    testHostFixture.detectChanges();
+    testHostFixture.whenStable().then(() => {
+      const slider = testHostFixture.debugElement.query(
+        By.css('.navigation-slider')
+      );
       slider.nativeElement.dispatchEvent(event);
-      fixture.detectChanges();
+      testHostFixture.detectChanges();
       expect(spy).toHaveBeenCalled();
     });
   }));
 
-  function setupCanvasGroupDialogService() {
-    const helpDialogService = TestBed.inject(CanvasGroupDialogService);
-    helpDialogService.viewContainerRef = component.viewContainerRef;
-  }
-
-  const getPreviousButton = () => {
-    return fixture.debugElement.query(
-      By.css('[data-testid="footerNavigateBeforeButton"]')
+  const getCanvasGroupDialogButton = async () =>
+    rootLoader.getHarnessOrNull(
+      MatButtonHarness.with({
+        selector: '[data-testid="canvasGroupDialogButton"]',
+      })
     );
-  };
 
-  const getNextButton = () => {
-    return fixture.debugElement.query(
-      By.css('[data-testid="footerNavigateNextButton"]')
+  const getPreviousButton = async () =>
+    rootLoader.getHarnessOrNull(
+      MatButtonHarness.with({
+        selector: '[data-testid="footerNavigateBeforeButton"]',
+      })
     );
+
+  const getNextButton = async () =>
+    rootLoader.getHarnessOrNull(
+      MatButtonHarness.with({
+        selector: '[data-testid="footerNavigateNextButton"]',
+      })
+    );
+
+  const getAriaLabel = async (buttonHarness: MatButtonHarness | null) => {
+    const host = await buttonHarness?.host();
+    return host?.getAttribute('aria-label');
   };
 });

@@ -11,7 +11,7 @@ describe('InformationDialogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientTestingModule],
+      imports: [SharedModule],
       providers: [
         provideAutoSpy(MimeResizeService),
         provideAutoSpy(HelpDialogService),

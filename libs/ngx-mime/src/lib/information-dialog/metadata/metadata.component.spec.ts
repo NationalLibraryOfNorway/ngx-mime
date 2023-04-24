@@ -2,19 +2,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { injectedStub } from '../../../testing/injected-stub';
+import { Spy, provideAutoSpy } from 'jasmine-auto-spies';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl';
 import { Manifest, Metadata } from '../../core/models/manifest';
 import { SharedModule } from '../../shared/shared.module';
-import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { MetadataComponent } from './metadata.component';
-import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
 
 describe('MetadataComponent', () => {
   let component: MetadataComponent;
   let fixture: ComponentFixture<MetadataComponent>;
-  let iiifManifestServiceSpy: Spy<IiifManifestServiceStub>;
+  let iiifManifestServiceSpy: Spy<IiifManifestService>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
