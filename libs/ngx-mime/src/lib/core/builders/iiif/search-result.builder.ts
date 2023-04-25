@@ -24,16 +24,17 @@ export class SearchResultBuilder {
     if (this.iiifSearchResult && this.iiifSearchResult.hits) {
       this.iiifSearchResult.hits.forEach((hit: IiifHit, index: number) => {
         const id: number = index;
-        let canvasIndex = -1;
+        let startCanvasIndex = -1;
         let label;
         const highlightRects: HighlightRect[] = [];
         if (this.manifest.sequences && this.manifest.sequences[0].canvases) {
           const resources = this.findResources(hit);
           resources.forEach((resource, index) => {
             if (index === 0) {
-              canvasIndex = this.findSequenceIndex(resource);
-              label = this.findLabel(canvasIndex);
+              startCanvasIndex = this.findSequenceIndex(resource);
+              label = this.findLabel(startCanvasIndex);
             }
+            const canvasIndex = this.findSequenceIndex(resource);
             const on = resource.on;
             if (on) {
               const scale = this.getScale(canvasIndex);
@@ -43,7 +44,7 @@ export class SearchResultBuilder {
                 y: this.scaleValue(coords[1], scale),
                 width: this.scaleValue(coords[2], scale),
                 height: this.scaleValue(coords[3], scale),
-                canvasIndex: this.findSequenceIndex(resource),
+                canvasIndex
               });
               highlightRects.push(rect);
             }
@@ -53,7 +54,7 @@ export class SearchResultBuilder {
         searchResult.add(
           new Hit({
             id: id,
-            index: canvasIndex,
+            index: startCanvasIndex,
             label: label,
             match: hit.match,
             before: hit.before,
