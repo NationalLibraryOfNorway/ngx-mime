@@ -1,9 +1,10 @@
 @multiple-viewers
 Feature: Multiple viewers
-  In order to display multiple publications at the same time
-  As a content creator
-  I want to be able to add multiple viewers to the same page
+  As a content creator,
+  I want to display multiple publications simultaneously,
+  So that users can access them conveniently.
 
-  Scenario: Show multiple viewers in the same page
-    Given that there are two viewers on the same page
-    Then the user should be able to navigate them individually
+  Scenario: Show Multiple Viewers on a Single Page
+    Given there are two viewers displayed on the same page
+    When the user navigates through the viewers
+    Then each viewer should display its content individually

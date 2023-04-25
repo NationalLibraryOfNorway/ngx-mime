@@ -18,7 +18,7 @@ Given(
 );
 
 Given(
-  'that there are two viewers on the same page',
+  'there are two viewers displayed on the same page',
   async function (this: CustomWorld) {
     await this.viewerPage.open([`a-ltr-10-pages-book`, `a-rtl-10-pages-book`]);
   }
@@ -134,12 +134,8 @@ When(
   }
 );
 
-Then('it should be displayed', async function (this: CustomWorld) {
-  await expect(this.viewerPage.openseadragonContainer).toBeVisible();
-});
-
-Then(
-  'the user should be able to navigate them individually',
+When(
+  'the user navigates through the viewers',
   async function (this: CustomWorld) {
     const firstViewer = this.viewerPage.viewer.first();
     const lastViewer = this.viewerPage.viewer.last();
@@ -149,13 +145,25 @@ Then(
     await firstViewerNextButton.click();
     await lastViewerNextButton.click();
     await lastViewerNextButton.click();
+  }
+);
 
+Then('it should be displayed', async function (this: CustomWorld) {
+  await expect(this.viewerPage.openseadragonContainer).toBeVisible();
+});
+
+Then(
+  'each viewer should display its content individually',
+  async function (this: CustomWorld) {
+    const firstViewer = this.viewerPage.viewer.first();
+    const lastViewer = this.viewerPage.viewer.last();
     const firstViewerCurrentCanvas = firstViewer.getByTestId(
       'currentCanvasGroupLabel'
     );
     const lastViewerCurrentCanvas = lastViewer.getByTestId(
       'currentCanvasGroupLabel'
     );
+
     await expect(firstViewerCurrentCanvas).toContainText('2-3');
     await expect(lastViewerCurrentCanvas).toContainText('4-5');
   }
