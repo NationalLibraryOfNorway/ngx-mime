@@ -201,41 +201,41 @@ export class ViewerService {
       const rotation = this.rotation.getValue();
 
       for (const hit of searchResult.hits) {
-        for (const rect of hit.rects) {
-          const canvasRect = this.canvasService.getCanvasRect(hit.index);
+        for (const highlightRect of hit.highlightRects) {
+          const canvasRect = this.canvasService.getCanvasRect(highlightRect.canvasIndex);
           if (canvasRect) {
             const currentHitStrokeOffset = 8;
-            let width = rect.width + currentHitStrokeOffset;
-            let height = rect.height + currentHitStrokeOffset;
+            let width = highlightRect.width + currentHitStrokeOffset;
+            let height = highlightRect.height + currentHitStrokeOffset;
             let x = canvasRect.x - currentHitStrokeOffset / 2;
             let y = canvasRect.y - currentHitStrokeOffset / 2;
 
             /* hit rect are relative to each unrotated page canvasRect so x,y must be adjusted by the remaining space */
             switch (rotation) {
               case 0:
-                x += rect.x;
-                y += rect.y;
+                x += highlightRect.x;
+                y += highlightRect.y;
                 break;
 
               case 90:
-                x += canvasRect.width - rect.y - rect.height;
-                y += rect.x;
+                x += canvasRect.width - highlightRect.y - highlightRect.height;
+                y += highlightRect.x;
                 /* Flip height & width */
-                width = rect.height + currentHitStrokeOffset;
-                height = rect.width + currentHitStrokeOffset;
+                width = highlightRect.height + currentHitStrokeOffset;
+                height = highlightRect.width + currentHitStrokeOffset;
                 break;
 
               case 180:
-                x += canvasRect.width - (rect.x + rect.width);
-                y += canvasRect.height - (rect.y + rect.height);
+                x += canvasRect.width - (highlightRect.x + highlightRect.width);
+                y += canvasRect.height - (highlightRect.y + highlightRect.height);
                 break;
 
               case 270:
-                x += rect.y;
-                y += canvasRect.height - rect.x - rect.width;
+                x += highlightRect.y;
+                y += canvasRect.height - highlightRect.x - highlightRect.width;
                 /* Flip height & width */
-                width = rect.height + currentHitStrokeOffset;
-                height = rect.width + currentHitStrokeOffset;
+                width = highlightRect.height + currentHitStrokeOffset;
+                height = highlightRect.width + currentHitStrokeOffset;
                 break;
             }
 

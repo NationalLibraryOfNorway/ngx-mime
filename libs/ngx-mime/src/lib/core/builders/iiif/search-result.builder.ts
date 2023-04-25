@@ -1,4 +1,5 @@
 import { MimeViewerConfig } from '../../mime-viewer-config';
+import { HighlightRect } from '../../models/highlight-rect';
 import { Utils } from '../../utils';
 import { Hit } from './../../models/hit';
 import {
@@ -7,7 +8,6 @@ import {
   Resource as IiifResource,
 } from './../../models/iiif-search-result';
 import { Canvas, Manifest, Sequence } from './../../models/manifest';
-import { Rect } from './../../models/rect';
 import { SearchResult } from './../../models/search-result';
 
 export class SearchResultBuilder {
@@ -24,38 +24,42 @@ export class SearchResultBuilder {
     if (this.iiifSearchResult && this.iiifSearchResult.hits) {
       this.iiifSearchResult.hits.forEach((hit: IiifHit, index: number) => {
         const id: number = index;
-        let canvasIndex = -1;
+        let startCanvasIndex = -1;
         let label;
-        const rects: Rect[] = [];
+        const highlightRects: HighlightRect[] = [];
         if (this.manifest.sequences && this.manifest.sequences[0].canvases) {
           const resources = this.findResources(hit);
-          for (const resource of resources) {
-            canvasIndex = this.findSequenceIndex(resource);
-            label = this.findLabel(canvasIndex);
+          resources.forEach((resource, index) => {
+            if (index === 0) {
+              startCanvasIndex = this.findSequenceIndex(resource);
+              label = this.findLabel(startCanvasIndex);
+            }
+            const canvasIndex = this.findSequenceIndex(resource);
             const on = resource.on;
             if (on) {
               const scale = this.getScale(canvasIndex);
               const coords = on.substring(on.indexOf('=') + 1).split(',');
-              const rect = new Rect({
+              const rect = new HighlightRect({
                 x: this.scaleValue(coords[0], scale),
                 y: this.scaleValue(coords[1], scale),
                 width: this.scaleValue(coords[2], scale),
                 height: this.scaleValue(coords[3], scale),
+                canvasIndex
               });
-              rects.push(rect);
+              highlightRects.push(rect);
             }
-          }
+          });
         }
 
         searchResult.add(
           new Hit({
             id: id,
-            index: canvasIndex,
+            index: startCanvasIndex,
             label: label,
             match: hit.match,
             before: hit.before,
             after: hit.after,
-            rects: rects,
+            highlightRects,
           })
         );
       });

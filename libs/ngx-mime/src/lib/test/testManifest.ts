@@ -6516,3 +6516,272 @@ export let a400dpiManifest: any = {
     },
   ],
 };
+
+export let searchHitsOverMultiplePagesManifest = {
+  '@context': 'http://iiif.io/api/presentation/2/context.json',
+  '@type': 'sc:Manifest',
+  '@id':
+    'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/manifest?profile=nbdigital',
+  label: 'Den nye maskina og andre noveller',
+  metadata: [
+    {
+      label: 'Tilgang',
+      value: 'Tilgang for norske IP-adresser',
+    },
+    {
+      label: 'Tittel',
+      value:
+        '<a href="https://www.dev.nb.no/search?mediatype=bøker&title=%22Den%20nye%20maskina%20og%20andre%20noveller%22">Den nye maskina og andre noveller</a>',
+    },
+    {
+      label: 'Forfatter',
+      value:
+        '<a href="https://www.dev.nb.no/search?mediatype=bøker&name=%22Lie,%20Arvid%20Torgeir%22">Lie, Arvid Torgeir</a>',
+    },
+    {
+      label: 'Publisert',
+      value:
+        'no#:Gyldendal, <a href="https://www.dev.nb.no/search?mediatype=bøker&fromDate=19860101&toDate=19861231">1986</a>',
+    },
+    {
+      label: 'Emne',
+      value:
+        '<a href="https://www.dev.nb.no/search?mediatype=bøker&subject=%22skj%C3%B8nnlitteratur%22">skjønnlitteratur</a> | <a href="https://www.dev.nb.no/search?mediatype=bøker&subject=%22voksen%22">voksen</a>',
+    },
+    {
+      label: 'Andre opplysninger',
+      value:
+        'Elektronisk reproduksjon [Norge] Nasjonalbiblioteket Digital 2012-07-12\n',
+    },
+    {
+      label: 'Språk',
+      value:
+        '<a href="https://www.dev.nb.no/search?mediatype=bøker&languages=%22nno%22">Norsk (Nynorsk)</a>',
+    },
+    {
+      label: 'ISBN',
+      value: '8205169136',
+    },
+    {
+      label: 'Kilde for metadata',
+      value:
+        'nb.bibsys.no (<a title="Link til post i Oria" href="https://www.oria.no/?vid=NB&search=998621016114702202">998621016114702202</a>)',
+    },
+    {
+      label: 'Omfang',
+      value: '97 s. 22 cm',
+    },
+    {
+      label: 'Medietype',
+      value: 'Bøker',
+    },
+    {
+      label: 'Dewey',
+      value: '839.823',
+    },
+    {
+      label: 'UDC',
+      value: '839.6',
+    },
+    {
+      label: 'Varig lenke',
+      value:
+        '<a href="https://urn.nb.no/URN:NBN:no-nb_digibok_2012062906086" target="_blank">https://urn.nb.no/URN:NBN:no-nb_digibok_2012062906086</a>',
+    },
+    {
+      label: '',
+      value:
+        '<a href="https://www.nb.no/items/ac21c8b1011362c2191a96584affd83b?manifest=https://api.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/manifest" target="_blank"><img src="https://www.nb.no/content/uploads/2018/08/logo-iiif.png" alt="IIIF Drag-n-drop"></a>',
+    },
+  ],
+  license: 'https://www.nb.no/lisens/stromming',
+  attribution: 'Det er kun tillatt å strømme dette materialet til privat bruk.',
+  service: {
+    '@context': 'http://iiif.io/api/search/0/context.json',
+    '@id':
+      'https://api.dev.nb.no:443/catalog/v1/contentsearch/ac21c8b1011362c2191a96584affd83b/search',
+    profile: 'http://iiif.io/api/search/0/search',
+  },
+  thumbnail: {
+    '@id':
+      'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2012062906086_C1/full/0,200/0/native.jpg',
+    '@type': 'dctypes:Image',
+    format: 'image/jpeg',
+    service: {
+      '@context': 'http://iiif.io/api/image/2/context.json',
+      '@id':
+        'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2012062906086_C1',
+      protocol: 'http://iiif.io/api/image',
+      profile: 'http://iiif.io/api/image/2/level1.json',
+    },
+  },
+  sequences: [
+    {
+      '@id':
+        'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/sequence/normal',
+      '@type': 'sc:Sequence',
+      label: 'Current Page Order',
+      viewingHint: 'paged',
+      rendering: [
+        {
+          '@id':
+            'https://www.nb.no/services/downloader?urn=URN:NBN:no-nb_digibok_2012062906086',
+          format: 'application/pdf',
+          label: 'Last ned som PDF',
+        },
+      ],
+      canvases: [
+        {
+          '@id':
+            'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/canvas/URN:NBN:no-nb_digibok_2012062906086_0001',
+          '@type': 'sc:Canvas',
+          '@seeAlso': {
+            '@id':
+              'https://api.dev.nb.no:443/catalog/v1/metadata/ac21c8b1011362c2191a96584affd83b/altos/URN:NBN:no-nb_digibok_2012062906086_0001',
+            format: 'application/alto+xml',
+            profile: 'http://www.loc.gov/standards/alto',
+          },
+          label: '1',
+          height: 3193,
+          width: 1956,
+          images: [
+            {
+              '@id':
+                'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/annotation/URN:NBN:no-nb_digibok_2012062906086_0001',
+              '@type': 'oa:Annotation',
+              motivation: 'sc:painting',
+              resource: {
+                '@id':
+                  'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2012062906086_0001/full/full/0/native.jpg',
+                '@type': 'dctypes:Image',
+                format: 'image/jpeg',
+                service: {
+                  '@context': 'http://iiif.io/api/image/2/context.json',
+                  '@id':
+                    'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2012062906086_0001',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 1956,
+                  height: 3193,
+                  sizes: [
+                    {
+                      width: 978,
+                      height: 1596,
+                    },
+                    {
+                      width: 489,
+                      height: 798,
+                    },
+                    {
+                      width: 244,
+                      height: 399,
+                    },
+                    {
+                      width: 122,
+                      height: 199,
+                    },
+                    {
+                      width: 61,
+                      height: 99,
+                    },
+                  ],
+                  tiles: [
+                    {
+                      width: 1024,
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
+                  ],
+                  profile: 'http://iiif.io/api/image/2/level1.json',
+                  service: {
+                    '@context':
+                      'http://iiif.io/api/annex/services/physdim/1/context.json',
+                    profile: 'http://iiif.io/api/annex/services/physdim',
+                    physicalScale: 0.0025,
+                    physicalUnits: 'in',
+                  },
+                },
+                height: 3193,
+                width: 1956,
+              },
+              on: 'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/canvas/URN:NBN:no-nb_digibok_2012062906086_0001',
+            },
+          ],
+        },
+        {
+          '@id':
+            'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/canvas/URN:NBN:no-nb_digibok_2012062906086_0002',
+          '@type': 'sc:Canvas',
+          '@seeAlso': {
+            '@id':
+              'https://api.dev.nb.no:443/catalog/v1/metadata/ac21c8b1011362c2191a96584affd83b/altos/URN:NBN:no-nb_digibok_2012062906086_0002',
+            format: 'application/alto+xml',
+            profile: 'http://www.loc.gov/standards/alto',
+          },
+          label: '2',
+          height: 3193,
+          width: 1956,
+          images: [
+            {
+              '@id':
+                'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/annotation/URN:NBN:no-nb_digibok_2012062906086_0002',
+              '@type': 'oa:Annotation',
+              motivation: 'sc:painting',
+              resource: {
+                '@id':
+                  'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2012062906086_0002/full/full/0/native.jpg',
+                '@type': 'dctypes:Image',
+                format: 'image/jpeg',
+                service: {
+                  '@context': 'http://iiif.io/api/image/2/context.json',
+                  '@id':
+                    'https://www.nb.no/services/image/resolver/URN:NBN:no-nb_digibok_2012062906086_0002',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 1956,
+                  height: 3193,
+                  sizes: [
+                    {
+                      width: 978,
+                      height: 1596,
+                    },
+                    {
+                      width: 489,
+                      height: 798,
+                    },
+                    {
+                      width: 244,
+                      height: 399,
+                    },
+                    {
+                      width: 122,
+                      height: 199,
+                    },
+                    {
+                      width: 61,
+                      height: 99,
+                    },
+                  ],
+                  tiles: [
+                    {
+                      width: 1024,
+                      scaleFactors: [1, 2, 4, 8, 16, 32],
+                    },
+                  ],
+                  profile: 'http://iiif.io/api/image/2/level1.json',
+                  service: {
+                    '@context':
+                      'http://iiif.io/api/annex/services/physdim/1/context.json',
+                    profile: 'http://iiif.io/api/annex/services/physdim',
+                    physicalScale: 0.0025,
+                    physicalUnits: 'in',
+                  },
+                },
+                height: 3193,
+                width: 1956,
+              },
+              on: 'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/canvas/URN:NBN:no-nb_digibok_2012062906086_0002',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
