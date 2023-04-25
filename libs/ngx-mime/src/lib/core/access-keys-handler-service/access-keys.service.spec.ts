@@ -20,7 +20,7 @@ describe('AccessKeysService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientTestingModule],
+      imports: [SharedModule],
       providers: [
         AccessKeysService,
         provideAutoSpy(ViewerService),
