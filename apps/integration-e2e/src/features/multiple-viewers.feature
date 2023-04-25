@@ -5,5 +5,5 @@ Feature: Multiple viewers
   I want to be able to add multiple viewers to the same page
 
   Scenario: Show multiple viewers in the same page
-    Given it is two viewers on the same page
+    Given that there are two viewers on the same page
     Then the user should be able to navigate them individually

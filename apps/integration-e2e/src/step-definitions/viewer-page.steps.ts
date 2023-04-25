@@ -17,9 +17,12 @@ Given(
   }
 );
 
-Given('it is two viewers on the same page', async function (this: CustomWorld) {
-  await this.viewerPage.open([`a-ltr-10-pages-book`, `a-rtl-10-pages-book`]);
-});
+Given(
+  'that there are two viewers on the same page',
+  async function (this: CustomWorld) {
+    await this.viewerPage.open([`a-ltr-10-pages-book`, `a-rtl-10-pages-book`]);
+  }
+);
 
 Given(
   'the viewer is opened with a publication with attribution labels',
