@@ -31,6 +31,7 @@ export class ContentSearchNavigationService {
         (result: SearchResult) => {
           this.searchResult = result;
           this.currentHit = null;
+          this.update(this.canvasService.currentCanvasGroupIndex);
         }
       )
     );
@@ -51,19 +52,6 @@ export class ContentSearchNavigationService {
 
   get currentHitCounter(): Observable<number> {
     return this._currentHitCounter$.pipe(distinctUntilChanged());
-  }
-
-  private updateCurrentHitCounter(): number {
-    if (this.isCurrentHitOnCurrentCanvasGroup()) {
-      if (this.currentHit) {
-        return this.currentHit.id;
-      }
-    }
-    if (this.isHitOnActiveCanvasGroup) {
-      return this.currentIndex;
-    } else {
-      return this.lastHitIndex;
-    }
   }
 
   getHitOnActiveCanvasGroup(): boolean {
@@ -91,6 +79,19 @@ export class ContentSearchNavigationService {
     this._currentHitCounter$.next(this.currentHit.id);
     this.currentIndex = this.currentHit.index;
     this.iiifContentSearchService.selected(hit);
+  }
+
+  private updateCurrentHitCounter(): number {
+    if (this.isCurrentHitOnCurrentCanvasGroup()) {
+      if (this.currentHit) {
+        return this.currentHit.id;
+      }
+    }
+    if (this.isHitOnActiveCanvasGroup) {
+      return this.currentIndex;
+    } else {
+      return this.lastHitIndex;
+    }
   }
 
   private goToNextCurrentCanvasHit() {
@@ -157,7 +158,7 @@ export class ContentSearchNavigationService {
       return false;
     }
     return (
-      this.canvasesPerCanvasGroup.indexOf(
+      this.canvasesPerCanvasGroup?.indexOf(
         this.searchResult.get(this.currentIndex).index
       ) >= 0
     );
@@ -168,19 +169,21 @@ export class ContentSearchNavigationService {
       return -1;
     }
 
-    for (let i = 0; i < this.searchResult.size(); i++) {
-      const hit = this.searchResult.get(i);
-      if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
-        return i;
-      }
-      if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
-        if (i === 0) {
-          return -1;
-        } else {
-          const phit = this.searchResult.get(i - 1);
-          return this.searchResult.hits.findIndex(
-            (sr) => sr.index === phit.index
-          );
+    if (canvasGroupIndexes) {
+      for (let i = 0; i < this.searchResult.size(); i++) {
+        const hit = this.searchResult.get(i);
+        if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
+          return i;
+        }
+        if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
+          if (i === 0) {
+            return -1;
+          } else {
+            const phit = this.searchResult.get(i - 1);
+            return this.searchResult.hits.findIndex(
+              (sr) => sr.index === phit.index
+            );
+          }
         }
       }
     }
@@ -188,7 +191,7 @@ export class ContentSearchNavigationService {
   }
 
   private findLastHitIndex(canvasGroupIndexes: number[]): number {
-    if (!this.searchResult) {
+    if (!this.searchResult || !canvasGroupIndexes) {
       return -1;
     }
     const hits = this.searchResult.hits.filter(
