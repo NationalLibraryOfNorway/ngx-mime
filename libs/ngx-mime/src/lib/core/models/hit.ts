@@ -1,4 +1,4 @@
-import { Rect } from './rect';
+import { HighlightRect } from './highlight-rect';
 
 export class Hit {
   public id = 0;
@@ -7,7 +7,7 @@ export class Hit {
   public match = '';
   public before = '';
   public after = '';
-  public rects: Rect[] = [];
+  public highlightRects: HighlightRect[] = [];
 
   constructor(fields?: {
     id?: number;
@@ -16,7 +16,7 @@ export class Hit {
     match?: string;
     before?: string;
     after?: string;
-    rects?: Rect[];
+    highlightRects?: HighlightRect[];
   }) {
     if (fields) {
       this.id = fields.id || this.id;
@@ -25,7 +25,7 @@ export class Hit {
       this.match = fields.match || this.match;
       this.before = fields.before || this.before;
       this.after = fields.after || this.after;
-      this.rects = fields.rects || this.rects;
+      this.highlightRects = fields.highlightRects || this.highlightRects;
     }
   }
 }

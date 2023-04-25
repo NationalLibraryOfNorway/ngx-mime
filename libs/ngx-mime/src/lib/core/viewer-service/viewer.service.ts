@@ -192,8 +192,8 @@ export class ViewerService {
       const rotation = this.rotation.getValue();
 
       for (const hit of searchResult.hits) {
-        for (const rect of hit.rects) {
-          const canvasRect = this.canvasService.getCanvasRect(hit.index);
+        for (const rect of hit.highlightRects) {
+          const canvasRect = this.canvasService.getCanvasRect(rect.canvasIndex);
           if (canvasRect) {
             const currentHitStrokeOffset = 8;
             let width = rect.width + currentHitStrokeOffset;

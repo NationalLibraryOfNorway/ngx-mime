@@ -86,7 +86,7 @@ describe('HighlightService', () => {
       label: '',
       before: '',
       after: '',
-      rects: [],
+      highlightRects: [],
     };
   }
 });

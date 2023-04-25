@@ -158,7 +158,7 @@ describe('RecognizedTextContentComponent', () => {
       label: '',
       before: '',
       after: '',
-      rects: [],
+      highlightRects: [],
     };
   }
 });
