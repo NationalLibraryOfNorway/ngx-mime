@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideAutoSpy } from 'jasmine-auto-spies';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
