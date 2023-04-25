@@ -11,7 +11,7 @@ export declare class AccessKeys {
     static nextHit: number[];
     static previousHit: number[];
     static toggleSearchDialogCodes: number[];
-    static toggleContentsDialogCodes: number[];
+    static toggleInformationDialogCodes: number[];
     static toggleFullscreenCodes: number[];
     static resetSearch: number[];
     static rotateCwCodes: number[];
@@ -36,7 +36,7 @@ export declare class AccessKeys {
     isNextHitKeys(): boolean;
     isPreviousHitKeys(): boolean;
     isSearchDialogKeys(): boolean;
-    isContentsDialogKeys(): boolean;
+    isInformationDialogKeys(): boolean;
     isFullscreenKeys(): boolean;
     isResetSearchKeys(): boolean;
     isRotateKeys(): boolean;

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.3](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.2...v15.1.3) (2023-04-25)
+
+
+### Bug Fixes
+
+* handle search hits/highlighting over two pages ([#453](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/453)) ([05f237b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/05f237bdc26a4ef7b55e96df6224a0169c5ac364))
+* show multiple viewers on a single page ([fdaa249](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fdaa24945b588d93cf8dd6ac1d4524932d9656b4))
+* update currentHit when searchResult is updated ([#451](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/451)) ([fc9f89a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fc9f89ab4544750096eba7da2b0706606ef26fa6))
+
 ### [15.1.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.1...v15.1.2) (2023-03-22)
 
 

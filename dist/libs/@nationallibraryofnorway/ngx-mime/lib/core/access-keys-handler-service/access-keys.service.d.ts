@@ -1,5 +1,5 @@
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
-import { ContentsDialogService } from '../../contents-dialog/contents-dialog.service';
+import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -17,7 +17,7 @@ export declare class AccessKeysService {
     private iiifManifestService;
     private iiifContentSearchService;
     private contentSearchDialogService;
-    private contentsDialogService;
+    private informationDialogService;
     private viewDialogService;
     private mimeDomHelper;
     private contentSearchNavigationService;
@@ -27,7 +27,7 @@ export declare class AccessKeysService {
     private disabledKeys;
     private subscriptions;
     private invert;
-    constructor(viewerService: ViewerService, canvasService: CanvasService, modeService: ModeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchDialogService: ContentSearchDialogService, contentsDialogService: ContentsDialogService, viewDialogService: ViewDialogService, mimeDomHelper: MimeDomHelper, contentSearchNavigationService: ContentSearchNavigationService, altoService: AltoService);
+    constructor(viewerService: ViewerService, canvasService: CanvasService, modeService: ModeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchDialogService: ContentSearchDialogService, informationDialogService: InformationDialogService, viewDialogService: ViewDialogService, mimeDomHelper: MimeDomHelper, contentSearchNavigationService: ContentSearchNavigationService, altoService: AltoService);
     initialize(): void;
     destroy(): void;
     handleKeyEvents(event: KeyboardEvent): void;
@@ -43,7 +43,7 @@ export declare class AccessKeysService {
     private zoomOut;
     private zoomHome;
     private toggleSearchDialog;
-    private toggleContentsDialog;
+    private toggleInformationDialog;
     private toggleFullscreen;
     private resetSearch;
     private isManifestSearchable;

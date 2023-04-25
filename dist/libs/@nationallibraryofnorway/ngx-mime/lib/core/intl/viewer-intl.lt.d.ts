@@ -7,7 +7,7 @@ export declare class MimeViewerIntlLt extends MimeViewerIntl {
     attributionLabel: string;
     attributonCloseAriaLabel: string;
     helpCloseAriaLabel: string;
-    contentsLabel: string;
+    informationLabel: string;
     layoutMenuLabel: string;
     pageLayoutLabel: string;
     singlePageViewLabel: string;

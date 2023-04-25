@@ -1,16 +1,16 @@
 import { ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { ContentsDialogConfigStrategyFactory } from './contents-dialog-config-strategy-factory';
+import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory';
 import * as i0 from "@angular/core";
-export declare class ContentsDialogService {
+export declare class InformationDialogService {
     private dialog;
-    private contentsDialogConfigStrategyFactory;
+    private informationDialogConfigStrategyFactory;
     private mimeResizeService;
     private _el;
     private dialogRef?;
     private subscriptions;
-    constructor(dialog: MatDialog, contentsDialogConfigStrategyFactory: ContentsDialogConfigStrategyFactory, mimeResizeService: MimeResizeService);
+    constructor(dialog: MatDialog, informationDialogConfigStrategyFactory: InformationDialogConfigStrategyFactory, mimeResizeService: MimeResizeService);
     initialize(): void;
     destroy(): void;
     set el(el: ElementRef);
@@ -21,6 +21,6 @@ export declare class ContentsDialogService {
     getSelectedIndex(): number;
     private getDialogConfig;
     private unsubscribe;
-    static ɵfac: i0.ɵɵFactoryDeclaration<ContentsDialogService, never>;
-    static ɵprov: i0.ɵɵInjectableDeclaration<ContentsDialogService>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<InformationDialogService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<InformationDialogService>;
 }

@@ -6,7 +6,7 @@ import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Manifest } from './../core/models/manifest';
 import * as i0 from "@angular/core";
-export declare class ContentsDialogComponent implements OnInit, OnDestroy {
+export declare class InformationDialogComponent implements OnInit, OnDestroy {
     intl: MimeViewerIntl;
     mediaObserver: MediaObserver;
     private cdr;
@@ -19,11 +19,11 @@ export declare class ContentsDialogComponent implements OnInit, OnDestroy {
     selectedIndex: number;
     private mimeHeight;
     private subscriptions;
-    constructor(intl: MimeViewerIntl, mediaObserver: MediaObserver, cdr: ChangeDetectorRef, dialogRef: MatDialogRef<ContentsDialogComponent>, changeDetectorRef: ChangeDetectorRef, iiifManifestService: IiifManifestService, mimeResizeService: MimeResizeService);
+    constructor(intl: MimeViewerIntl, mediaObserver: MediaObserver, cdr: ChangeDetectorRef, dialogRef: MatDialogRef<InformationDialogComponent>, changeDetectorRef: ChangeDetectorRef, iiifManifestService: IiifManifestService, mimeResizeService: MimeResizeService);
     ngOnInit(): void;
     ngOnDestroy(): void;
     onCanvasChanged(): void;
     private resizeTabHeight;
-    static ɵfac: i0.ɵɵFactoryDeclaration<ContentsDialogComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ContentsDialogComponent, "mime-contents", never, {}, {}, never, never, false, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<InformationDialogComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<InformationDialogComponent, "mime-information", never, {}, {}, never, never, false, never>;
 }

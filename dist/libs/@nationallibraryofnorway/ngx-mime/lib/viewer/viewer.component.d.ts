@@ -3,7 +3,7 @@ import { ChangeDetectorRef, ElementRef, EventEmitter, NgZone, OnChanges, OnDestr
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
-import { ContentsDialogService } from '../contents-dialog/contents-dialog.service';
+import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -27,7 +27,7 @@ export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private el;
     private iiifManifestService;
     private viewDialogService;
-    private contentsDialogService;
+    private informationDialogService;
     private attributionDialogService;
     private contentSearchDialogService;
     private helpDialogService;
@@ -65,7 +65,7 @@ export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private header;
     private footer;
     private osdToolbar;
-    constructor(snackBar: MatSnackBar, intl: MimeViewerIntl, el: ElementRef, iiifManifestService: IiifManifestService, viewDialogService: ViewDialogService, contentsDialogService: ContentsDialogService, attributionDialogService: AttributionDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, viewerService: ViewerService, resizeService: MimeResizeService, changeDetectorRef: ChangeDetectorRef, modeService: ModeService, iiifContentSearchService: IiifContentSearchService, accessKeysHandlerService: AccessKeysService, canvasService: CanvasService, viewerLayoutService: ViewerLayoutService, styleService: StyleService, altoService: AltoService, zone: NgZone, platform: Platform);
+    constructor(snackBar: MatSnackBar, intl: MimeViewerIntl, el: ElementRef, iiifManifestService: IiifManifestService, viewDialogService: ViewDialogService, informationDialogService: InformationDialogService, attributionDialogService: AttributionDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, viewerService: ViewerService, resizeService: MimeResizeService, changeDetectorRef: ChangeDetectorRef, modeService: ModeService, iiifContentSearchService: IiifContentSearchService, accessKeysHandlerService: AccessKeysService, canvasService: CanvasService, viewerLayoutService: ViewerLayoutService, styleService: StyleService, altoService: AltoService, zone: NgZone, platform: Platform);
     get mimeHeaderBeforeRef(): ViewContainerRef;
     get mimeHeaderAfterRef(): ViewContainerRef;
     get mimeFooterBeforeRef(): ViewContainerRef;
