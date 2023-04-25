@@ -86,7 +86,7 @@ describe('CanvasGroupNavigatorComponent', () => {
   it('should open canvas group dialog', async () => {
     const canvasGroupDialogButton = await getCanvasGroupDialogButton();
 
-    canvasGroupDialogButton?.click();
+    await canvasGroupDialogButton?.click();
 
     const dialogs = await rootLoader.getAllHarnesses(MatDialogHarness);
     expect(dialogs.length).toEqual(1);
@@ -158,7 +158,7 @@ describe('CanvasGroupNavigatorComponent', () => {
       testHostFixture.detectChanges();
       const previousButton = await getPreviousButton();
 
-      previousButton?.click();
+      await previousButton?.click();
 
       testHostFixture.detectChanges();
       testHostFixture.whenStable().then(() => {
