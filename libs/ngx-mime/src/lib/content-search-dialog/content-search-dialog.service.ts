@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -12,7 +12,8 @@ import { ContentSearchDialogComponent } from './content-search-dialog.component'
 
 @Injectable()
 export class ContentSearchDialogService {
-  private _el: ElementRef | null = null;
+  private _el: ElementRef | undefined;
+  private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<ContentSearchDialogComponent>;
   private subscriptions!: Subscription;
 
@@ -44,6 +45,10 @@ export class ContentSearchDialogService {
     this._el = el;
   }
 
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
+
   public open(): void {
     if (!this.isOpen()) {
       const config = this.getDialogConfig();
@@ -66,9 +71,13 @@ export class ContentSearchDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
+    if (!this._el || !this._viewContainerRef) {
+      throw new Error('No element or viewContainerRef');
+    }
+
     return this.contentSearchDialogConfigStrategyFactory
       .create()
-      .getConfig(this._el);
+      .getConfig(this._el, this._viewContainerRef);
   }
 
   private unsubscribe() {

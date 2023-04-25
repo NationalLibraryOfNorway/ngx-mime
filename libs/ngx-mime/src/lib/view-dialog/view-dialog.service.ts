@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -12,7 +12,8 @@ import { ViewDialogComponent } from './view-dialog.component';
 
 @Injectable()
 export class ViewDialogService {
-  private _el: ElementRef | null = null;
+  private _el: ElementRef | undefined;
+  private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<ViewDialogComponent>;
   private subscriptions!: Subscription;
 
@@ -44,6 +45,10 @@ export class ViewDialogService {
     this._el = el;
   }
 
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
+
   public open(): void {
     if (!this.isOpen()) {
       const config = this.getDialogConfig();
@@ -66,7 +71,13 @@ export class ViewDialogService {
   }
 
   private getDialogConfig(): MatDialogConfig {
-    return this.viewDialogConfigStrategyFactory.create().getConfig(this._el);
+    if (!this._el || !this._viewContainerRef) {
+      throw new Error('No element or viewContainerRef');
+    }
+
+    return this.viewDialogConfigStrategyFactory
+      .create()
+      .getConfig(this._el, this._viewContainerRef);
   }
 
   private unsubscribe() {

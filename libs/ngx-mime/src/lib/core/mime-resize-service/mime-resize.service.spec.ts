@@ -1,20 +1,21 @@
-import { TestBed, inject } from '@angular/core/testing';
-
+import { inject, TestBed } from '@angular/core/testing';
+import { provideAutoSpy } from 'jasmine-auto-spies';
 import { MimeResizeService } from './mime-resize.service';
-import { MimeDomHelper } from '../mime-dom-helper';
-import { FullscreenService } from '../fullscreen-service/fullscreen.service';
 
 describe('MimeResizeService', () => {
+  let service: MimeResizeService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MimeResizeService, MimeDomHelper, FullscreenService],
+      providers: [provideAutoSpy(MimeResizeService)],
     });
   });
 
-  it('should be created', inject(
-    [MimeResizeService],
-    (service: MimeResizeService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  beforeEach(() => {
+    service = TestBed.inject(MimeResizeService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 });

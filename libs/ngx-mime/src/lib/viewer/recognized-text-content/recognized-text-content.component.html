@@ -5,19 +5,19 @@
   fxLayout="column"
   fxLayoutAlign="start center"
 >
-  <div *ngIf="error" data-test-id="error">{{ error }}</div>
+  <div *ngIf="error" data-testid="error">{{ error }}</div>
   <ng-container *ngIf="!isLoading">
     <div
       *ngIf="firstCanvasRecognizedTextContent"
       class="content"
-      data-test-id="firstCanvasRecognizedTextContent"
+      data-testid="firstCanvasRecognizedTextContent"
       [innerHTML]="firstCanvasRecognizedTextContent"
     >
     </div>
     <div
       *ngIf="secondCanvasRecognizedTextContent"
       class="content"
-      data-test-id="secondCanvasRecognizedTextContent"
+      data-testid="secondCanvasRecognizedTextContent"
       [innerHTML]="secondCanvasRecognizedTextContent"
     >
     </div>

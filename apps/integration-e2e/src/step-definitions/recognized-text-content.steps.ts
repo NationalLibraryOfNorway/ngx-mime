@@ -5,7 +5,7 @@ import { CustomWorld } from '../support/custom-world';
 Given(
   'the viewer is opened with a publication with recognized text content',
   async function (this: CustomWorld) {
-    await this.viewerPage.open('a-recognized-text-book');
+    await this.viewerPage.open(['a-recognized-text-book']);
   }
 );
 

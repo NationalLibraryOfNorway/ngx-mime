@@ -1,6 +1,6 @@
-import { ViewerComponent } from './viewer/viewer.component';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ViewerComponent } from './viewer/viewer.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'demo', pathMatch: 'full' },

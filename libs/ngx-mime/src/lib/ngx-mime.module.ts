@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import 'd3';
 import 'openseadragon';
-import { AttributionDialogModule } from './attribution-dialog/attribution-dialog.module';
-import { CanvasGroupDialogModule } from './canvas-group-dialog/canvas-group-dialog.module';
-import { ContentSearchDialogModule } from './content-search-dialog/content-search-dialog.module';
-import { InformationDialogModule } from './information-dialog/information-dialog.module';
-import { CoreModule } from './core/core.module';
-import { HelpDialogModule } from './help-dialog/help-dialog.module';
+import { AttributionDialogComponent } from './attribution-dialog/attribution-dialog.component';
+import { CanvasGroupDialogComponent } from './canvas-group-dialog/canvas-group-dialog.component';
+import { ContentSearchDialogComponent } from './content-search-dialog/content-search-dialog.component';
+import { HelpDialogComponent } from './help-dialog/help-dialog.component';
+import { InformationDialogComponent } from './information-dialog/information-dialog.component';
+import { MetadataComponent } from './information-dialog/metadata/metadata.component';
+import { TocComponent } from './information-dialog/table-of-contents/table-of-contents.component';
 import { SharedModule } from './shared/shared.module';
-import { ViewDialogModule } from './view-dialog/view-dialog.module';
+import { IconComponent } from './view-dialog/icon/icon.component';
+import { ViewDialogComponent } from './view-dialog/view-dialog.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
 import { RecognizedTextContentComponent } from './viewer/recognized-text-content/recognized-text-content.component';
 import { CanvasGroupNavigatorComponent } from './viewer/viewer-footer/canvas-group-navigator/canvas-group-navigator.component';
@@ -20,25 +22,25 @@ import { ViewerComponent } from './viewer/viewer.component';
 
 @NgModule({
   declarations: [
-    ViewerComponent,
-    ViewerHeaderComponent,
-    ViewerFooterComponent,
-    OsdToolbarComponent,
-    ContentSearchNavigatorComponent,
+    AttributionDialogComponent,
+    CanvasGroupDialogComponent,
     CanvasGroupNavigatorComponent,
-    ViewerSpinnerComponent,
+    ContentSearchDialogComponent,
+    ContentSearchNavigatorComponent,
+    HelpDialogComponent,
+    IconComponent,
+    InformationDialogComponent,
+    MetadataComponent,
+    OsdToolbarComponent,
     RecognizedTextContentComponent,
+    TocComponent,
+    ViewDialogComponent,
+    ViewerComponent,
+    ViewerFooterComponent,
+    ViewerHeaderComponent,
+    ViewerSpinnerComponent,
   ],
-  imports: [
-    CoreModule,
-    SharedModule,
-    InformationDialogModule,
-    ViewDialogModule,
-    AttributionDialogModule,
-    HelpDialogModule,
-    ContentSearchDialogModule,
-    CanvasGroupDialogModule,
-  ],
+  imports: [SharedModule],
   exports: [ViewerComponent],
 })
 export class MimeModule {}

@@ -1,8 +1,7 @@
-import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core';
-
+import { Component, ComponentFactoryResolver, ViewChild } from '@angular/core';
+import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { TestDynamicComponent } from './test-dynamic.component';
 import { ViewerComponent } from './viewer.component';
-import { MimeViewerConfig } from '../core/mime-viewer-config';
 
 @Component({
   template: `

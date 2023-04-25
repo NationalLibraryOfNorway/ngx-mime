@@ -1,23 +1,29 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { MimeDomHelper } from './../core/mime-dom-helper';
+import { MimeDomHelper } from '../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
 export interface InformationDialogConfigStrategy {
-  getConfig(elementRef?: ElementRef): MatDialogConfig;
+  getConfig(
+    elementRef: ElementRef,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig;
 }
 
 export class MobileInformationDialogConfigStrategy
   implements InformationDialogConfigStrategy
 {
-  public getConfig(elementRef: ElementRef): MatDialogConfig {
+  public getConfig(
+    elementRef: ElementRef,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig {
     return {
       hasBackdrop: false,
-      disableClose: false,
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
       panelClass: 'information-panel',
+      viewContainerRef: viewContainerRef,
     };
   }
 }
@@ -33,11 +39,13 @@ export class DesktopInformationDialogConfigStrategy
     this.mimeDomHelper = mimeDomHelper;
   }
 
-  public getConfig(el: ElementRef): MatDialogConfig {
+  public getConfig(
+    el: ElementRef,
+    viewContainerRef: ViewContainerRef
+  ): MatDialogConfig {
     const dimensions = this.getPosition(el);
     return {
       hasBackdrop: false,
-      disableClose: false,
       width: `${DesktopInformationDialogConfigStrategy.dialogWidth}px`,
       position: {
         top: dimensions.top + 'px',
@@ -45,9 +53,9 @@ export class DesktopInformationDialogConfigStrategy
       },
       maxWidth: '100% !important',
       panelClass: 'information-panel',
+      viewContainerRef: viewContainerRef,
     };
   }
-
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({

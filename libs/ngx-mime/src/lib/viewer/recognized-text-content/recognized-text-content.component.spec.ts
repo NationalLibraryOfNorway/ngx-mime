@@ -80,11 +80,11 @@ describe('RecognizedTextContentComponent', () => {
     fixture.whenStable().then(() => {
       const firstCanvasRecognizedTextContentDe: DebugElement =
         fixture.debugElement.query(
-          By.css('div[data-test-id="firstCanvasRecognizedTextContent"]')
+          By.css('div[data-testid="firstCanvasRecognizedTextContent"]')
         );
       const secondCanvasRecognizedTextContentDe: DebugElement =
         fixture.debugElement.query(
-          By.css('div[data-test-id="secondCanvasRecognizedTextContent"]')
+          By.css('div[data-testid="secondCanvasRecognizedTextContent"]')
         );
 
       expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
@@ -106,7 +106,7 @@ describe('RecognizedTextContentComponent', () => {
     getTestScheduler().flush();
 
     const error: DebugElement = fixture.debugElement.query(
-      By.css('div[data-test-id="error"]')
+      By.css('div[data-testid="error"]')
     );
     expect(error.nativeElement.innerHTML).toBe('fakeError');
   });

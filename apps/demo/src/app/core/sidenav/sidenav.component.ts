@@ -12,7 +12,7 @@ import { ManifestService } from './../manifest-service/manifest.service';
 })
 export class SidenavComponent implements OnDestroy {
   @Input() sidenav!: MatSidenav;
-  iiifVersion = 3;
+  iiifVersion = '3';
   manifests: ManifestMenuItem[] = [];
   selectedManifest: string | undefined;
   private subscriptions = new Subscription();
@@ -23,11 +23,11 @@ export class SidenavComponent implements OnDestroy {
     private router: Router
   ) {
     this.subscriptions.add(
-      this.route.queryParams.subscribe((params) => {
-        this.iiifVersion = parseInt(params['v'], 10) || this.iiifVersion;
+      this.route.queryParamMap.subscribe((params) => {
+        this.iiifVersion = params.get('v') || this.iiifVersion;
         this.manifests = this.manifestService.getManifests(this.iiifVersion);
         const manifest = this.manifests.find(
-          (m) => m.uri === params['manifestUri']
+          (m) => m.uri === params.getAll('manifestUri')
         );
         if (manifest) {
           this.selectedManifest = manifest.label;
@@ -36,7 +36,7 @@ export class SidenavComponent implements OnDestroy {
     );
   }
 
-  selectIiifVersion(version: number) {
+  selectIiifVersion(version: string): void {
     this.iiifVersion = version;
     this.manifests = this.manifestService.getManifests(this.iiifVersion);
     if (this.selectedManifest) {
@@ -51,7 +51,7 @@ export class SidenavComponent implements OnDestroy {
     }
   }
 
-  close(label?: string) {
+  close(label?: string): void {
     this.selectedManifest = label;
     if (this.sidenav.mode === 'over') {
       this.sidenav.close();

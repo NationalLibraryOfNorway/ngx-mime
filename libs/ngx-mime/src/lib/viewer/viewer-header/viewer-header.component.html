@@ -20,7 +20,7 @@
     >
       <button
         *ngIf="isPagedManifest || hasRecognizedTextContent"
-        data-test-id="ngx-mime-view-menu-button"
+        data-testid="ngx-mime-view-menu-button"
         #viewMenu
         mat-icon-button
         [attr.aria-label]="intl.layoutMenuLabel"
@@ -29,7 +29,7 @@
         ><mat-icon aria-hidden="true">view_module</mat-icon></button
       >
       <button
-        id="ngx-mimeInformationDialogButton"
+        data-testid="ngx-mimeInformationDialogButton"
         mat-icon-button
         [attr.aria-label]="intl.informationLabel"
         [matTooltip]="intl.informationLabel"
@@ -38,7 +38,7 @@
         <mat-icon aria-hidden="true">list</mat-icon>
       </button>
       <button
-        id="ngx-mimeContentSearchDialogButton"
+        data-testid="ngx-mimeContentSearchDialogButton"
         *ngIf="isContentSearchEnabled"
         mat-icon-button
         [attr.aria-label]="intl.searchLabel"
@@ -48,7 +48,7 @@
         <mat-icon aria-hidden="true">search</mat-icon>
       </button>
       <button
-        id="ngx-mimeHelpDialogButton"
+        data-testid="ngx-mimeHelpDialogButton"
         mat-icon-button
         [attr.aria-label]="intl.help.helpLabel"
         [matTooltip]="intl.help.helpLabel"
@@ -58,7 +58,7 @@
       </button>
 
       <button
-        id="ngx-mimeFullscreenButton"
+        data-testid="ngx-mimeFullscreenButton"
         *ngIf="isFullscreenEnabled"
         mat-icon-button
         [attr.aria-label]="fullscreenLabel"

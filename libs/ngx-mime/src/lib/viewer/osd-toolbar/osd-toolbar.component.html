@@ -9,7 +9,7 @@
       <div class="osd-toolbar-row">
         <ng-container *ngIf="invert">
           <button
-            id="navigateBeforeButton"
+            data-testid="navigateBeforeButton"
             mat-icon-button
             [attr.aria-label]="intl.previousPageLabel"
             [matTooltip]="intl.previousPageLabel"
@@ -21,7 +21,7 @@
         </ng-container>
         <ng-container *ngIf="!invert">
           <button
-            id="navigateNextButton"
+            data-testid="navigateNextButton"
             mat-icon-button
             [attr.aria-label]="intl.nextPageLabel"
             [matTooltip]="intl.nextPageLabel"
@@ -33,7 +33,7 @@
         </ng-container>
         <button
           (click)="home()"
-          id="homeButton"
+          data-testid="homeButton"
           mat-icon-button
           [attr.aria-label]="intl.homeLabel"
           [matTooltip]="intl.homeLabel"
@@ -42,7 +42,7 @@
         </button>
         <ng-container *ngIf="invert">
           <button
-            id="navigateNextButton"
+            data-testid="navigateNextButton"
             mat-icon-button
             [attr.aria-label]="intl.nextPageLabel"
             [matTooltip]="intl.nextPageLabel"
@@ -54,7 +54,7 @@
         </ng-container>
         <ng-container *ngIf="!invert">
           <button
-            id="navigateBeforeButton"
+            data-testid="navigateBeforeButton"
             mat-icon-button
             [attr.aria-label]="intl.previousPageLabel"
             [matTooltip]="intl.previousPageLabel"
@@ -69,7 +69,7 @@
       <div class="osd-toolbar-row">
         <button
           (click)="zoomIn()"
-          id="zoomInButton"
+          data-testid="zoomInButton"
           mat-icon-button
           [attr.aria-label]="intl.zoomInLabel"
           [matTooltip]="intl.zoomInLabel"
@@ -79,7 +79,7 @@
 
         <button
           (click)="rotate()"
-          id="rotateButton"
+          data-testid="rotateButton"
           mat-icon-button
           [attr.aria-label]="intl.rotateCwLabel"
           [matTooltip]="intl.rotateCwLabel"
@@ -88,7 +88,7 @@
         </button>
         <button
           (click)="zoomOut()"
-          id="zoomOutButton"
+          data-testid="zoomOutButton"
           mat-icon-button
           [attr.aria-label]="intl.zoomOutLabel"
           [matTooltip]="intl.zoomOutLabel"

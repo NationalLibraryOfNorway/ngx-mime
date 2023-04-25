@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { provideAutoSpy } from 'jasmine-auto-spies';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { SharedModule } from '../shared/shared.module';
@@ -14,10 +14,9 @@ describe('ViewDialogService', () => {
       imports: [SharedModule],
       providers: [
         ViewDialogService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        ViewDialogConfigStrategyFactory,
+        provideAutoSpy(ViewDialogConfigStrategyFactory),
+        provideAutoSpy(MimeResizeService),
+        provideAutoSpy(MimeDomHelper),
       ],
     });
     service = TestBed.inject(ViewDialogService);

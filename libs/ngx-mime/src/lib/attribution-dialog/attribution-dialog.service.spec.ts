@@ -1,30 +1,23 @@
-import { TestBed, inject } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { provideAutoSpy } from 'jasmine-auto-spies';
 import { SharedModule } from '../shared/shared.module';
 import { AttributionDialogService } from './attribution-dialog.service';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import { MimeDomHelper } from '../core/mime-dom-helper';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 
 describe('AttributionDialogService', () => {
+  let service: AttributionDialogService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule],
-      providers: [
-        AttributionDialogService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        AttributionDialogResizeService,
-      ],
+      providers: [provideAutoSpy(AttributionDialogService)],
     });
   });
 
-  it('should be created', inject(
-    [AttributionDialogService],
-    (service: AttributionDialogService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  beforeEach(() => {
+    service = TestBed.inject(AttributionDialogService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 });

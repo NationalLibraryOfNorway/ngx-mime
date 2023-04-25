@@ -40,7 +40,7 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,
     private canvasService: CanvasService,
-    private pageDialogService: CanvasGroupDialogService,
+    private canvasGroupDialogService: CanvasGroupDialogService,
     private iiifManifestService: IiifManifestService
   ) {}
 
@@ -135,7 +135,7 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   }
 
   openCanvasGroupDialog(): void {
-    this.pageDialogService.toggle();
+    this.canvasGroupDialogService.toggle();
   }
 
   private isOnFirstCanvasGroup(currentCanvasGroupIndex: number): boolean {

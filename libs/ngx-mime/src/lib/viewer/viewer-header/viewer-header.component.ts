@@ -21,9 +21,9 @@ import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-ut
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
+import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
-import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
@@ -86,14 +86,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private helpDialogService: HelpDialogService,
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
-    private mimeDomHelper: MimeDomHelper,
-    el: ElementRef
-  ) {
-    informationDialogService.el = el;
-    contentSearchDialogService.el = el;
-    helpDialogService.el = el;
-    viewDialogService.el = el;
-  }
+    private mimeDomHelper: MimeDomHelper
+  ) {}
 
   @HostBinding('@headerState')
   get headerState() {

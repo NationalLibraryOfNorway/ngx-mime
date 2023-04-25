@@ -17,11 +17,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { interval, Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { CanvasGroupDialogService } from '../canvas-group-dialog/canvas-group-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
-import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
@@ -45,18 +45,21 @@ import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
+import { VIEWER_PROVIDERS } from './viewer.providers';
 
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: VIEWER_PROVIDERS,
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri!: string;
@@ -72,6 +75,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> =
     new EventEmitter();
   recognizedTextMode = RecognizedTextMode;
+  id = 'ngx-mime-mimeViewer';
+  openseadragonId = 'openseadragon';
 
   private subscriptions = new Subscription();
   private isCanvasPressed = false;
@@ -94,7 +99,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     public snackBar: MatSnackBar,
     public intl: MimeViewerIntl,
-    private el: ElementRef,
     private iiifManifestService: IiifManifestService,
     private viewDialogService: ViewDialogService,
     private informationDialogService: InformationDialogService,
@@ -111,14 +115,25 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private viewerLayoutService: ViewerLayoutService,
     private styleService: StyleService,
     private altoService: AltoService,
-    public zone: NgZone,
-    public platform: Platform
+    private zone: NgZone,
+    private platform: Platform,
+    canvasGroupDialogService: CanvasGroupDialogService,
+    el: ElementRef,
+    viewContainerRef: ViewContainerRef
   ) {
+    this.id = this.viewerService.id;
+    this.openseadragonId = this.viewerService.openseadragonId;
     informationDialogService.el = el;
+    informationDialogService.viewContainerRef = viewContainerRef;
     attributionDialogService.el = el;
+    attributionDialogService.viewContainerRef = viewContainerRef;
     viewDialogService.el = el;
+    viewDialogService.viewContainerRef = viewContainerRef;
     contentSearchDialogService.el = el;
+    contentSearchDialogService.viewContainerRef = viewContainerRef;
     helpDialogService.el = el;
+    helpDialogService.viewContainerRef = viewContainerRef;
+    canvasGroupDialogService.viewContainerRef = viewContainerRef;
     resizeService.el = el;
   }
 
@@ -312,6 +327,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {
+      this.viewerService.setConfig(this.config);
       this.iiifContentSearchService.setConfig(this.config);
       this.altoService.setConfig(this.config);
       this.modeService.setConfig(this.config);

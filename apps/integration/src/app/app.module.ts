@@ -18,7 +18,6 @@ import { AppComponent } from './app.component';
     FlexLayoutModule,
     MimeModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

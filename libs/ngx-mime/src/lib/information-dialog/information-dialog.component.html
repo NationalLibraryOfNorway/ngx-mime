@@ -1,7 +1,7 @@
 <div class="information-container">
   <ng-container [ngSwitch]="mediaObserver.isActive('lt-md')">
     <ng-container *ngSwitchCase="true">
-      <mat-toolbar color="primary" data-test-id="mobile-toolbar">
+      <mat-toolbar color="primary" data-testid="mobile-toolbar">
         <div fxLayout="row" fxLayoutAlign="start center">
           <button
             mat-icon-button
@@ -16,7 +16,7 @@
       </mat-toolbar>
     </ng-container>
     <ng-container *ngSwitchDefault>
-      <mat-toolbar data-test-id="desktop-toolbar">
+      <mat-toolbar data-testid="desktop-toolbar">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
           <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
           <button

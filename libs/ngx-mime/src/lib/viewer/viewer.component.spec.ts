@@ -1,37 +1,22 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import 'openseadragon';
 import { injectedStub } from '../../testing/injected-stub';
-import { AttributionDialogModule } from '../attribution-dialog/attribution-dialog.module';
-import { InformationDialogModule } from '../information-dialog/information-dialog.module';
-import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
-import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
-import { ClickService } from '../core/click-service/click.service';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
-import { HighlightService } from '../core/highlight-service/highlight.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerMode } from '../core/models/viewer-mode';
-import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
-import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { HelpDialogModule } from '../help-dialog/help-dialog.module';
 import { SharedModule } from '../shared/shared.module';
-import { AltoServiceStub } from '../test/alto-service-stub';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
-import { ViewDialogModule } from '../view-dialog/view-dialog.module';
-import { ContentSearchDialogModule } from './../content-search-dialog/content-search-dialog.module';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
@@ -39,17 +24,17 @@ import { TestDynamicComponent } from './test-dynamic.component';
 import { TestHostComponent } from './test-host.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
+import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer.component';
+import { VIEWER_PROVIDERS } from './viewer.providers';
 
 describe('ViewerComponent', function () {
-  const matSnackBarSpy = jasmine.createSpy('MatSnackBar');
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
   let comp: ViewerComponent;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
   let originalTimeout: number;
-
   let viewerService: ViewerService;
   let canvasService: CanvasService;
   let modeService: ModeService;
@@ -59,46 +44,32 @@ describe('ViewerComponent', function () {
   let viewerLayoutService: ViewerLayoutService;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ViewerComponent, {
+      set: {
+        providers: [],
+      },
+    });
+    TestBed.overrideProvider(MimeResizeService, {
+      useValue: new MimeResizeServiceStub(),
+    });
+    TestBed.overrideProvider(IiifManifestService, {
+      useValue: new IiifManifestServiceStub(),
+    });
+    TestBed.overrideProvider(IiifContentSearchService, {
+      useValue: new IiifContentSearchServiceStub(),
+    });
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-        SharedModule,
-        InformationDialogModule,
-        AttributionDialogModule,
-        ContentSearchDialogModule,
-        HelpDialogModule,
-        ViewDialogModule,
-      ],
+      imports: [HttpClientTestingModule, NoopAnimationsModule, SharedModule],
       declarations: [
         ViewerComponent,
+        ViewerSpinnerComponent,
         TestHostComponent,
         ViewerHeaderComponent,
         ViewerFooterComponent,
         TestDynamicComponent,
       ],
-      providers: [
-        { provide: MatSnackBar, useClass: matSnackBarSpy },
-        ViewerService,
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub,
-        },
-        { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-        { provide: AltoService, useClass: AltoServiceStub },
-        MimeViewerIntl,
-        ClickService,
-        CanvasService,
-        ModeService,
-        FullscreenService,
-        AccessKeysService,
-        ViewerLayoutService,
-        ContentSearchNavigationService,
-        StyleService,
-        HighlightService,
-      ],
+      providers: [VIEWER_PROVIDERS],
     }).compileComponents();
   }));
 
@@ -113,8 +84,8 @@ describe('ViewerComponent', function () {
     canvasService = TestBed.inject(CanvasService);
     modeService = TestBed.inject(ModeService);
     mimeResizeServiceStub = injectedStub(MimeResizeService);
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
+    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -233,7 +204,7 @@ describe('ViewerComponent', function () {
     const viewer = viewerService.getViewer();
     const overlay = viewerService.getOverlays()[0];
     const openseadragonDE = testHostFixture.debugElement.query(
-      By.css('#openseadragon')
+      By.css('.openseadragon')
     );
     const element = openseadragonDE.nativeElement;
     let viewportHeight, viewportWidth, overlayHeight, overlayWidth;
@@ -269,6 +240,7 @@ describe('ViewerComponent', function () {
 
             // Return to home
             mimeResizeServiceStub.triggerResize();
+
             setTimeout(() => {
               // Confirm that minimum zoom level is updated
               const endMinZoomLevel = viewer.viewport.minZoomLevel;
@@ -505,10 +477,10 @@ describe('ViewerComponent', function () {
       if (state) {
         setTimeout(() => {
           const leftCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('#mime-left-page-mask')
+            By.css('[data-testid="mime-left-page-mask"]')
           );
           const rightCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('#mime-right-page-mask')
+            By.css('[data-testid="mime-right-page-mask"]')
           );
           expect(leftCanvasGroupMask).not.toBeNull();
           expect(rightCanvasGroupMask).not.toBeNull();

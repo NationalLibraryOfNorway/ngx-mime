@@ -1,30 +1,31 @@
-import { inject, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { provideAutoSpy } from 'jasmine-auto-spies';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { HelpDialogService } from '../help-dialog/help-dialog.service';
 import { SharedModule } from '../shared/shared.module';
 import { InformationDialogService } from './information-dialog.service';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { InformationDialogConfigStrategyFactory } from './information-dialog-config-strategy-factory';
-import { MimeDomHelper } from '../core/mime-dom-helper';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
 
 describe('InformationDialogService', () => {
+  let service: InformationDialogService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule],
       providers: [
-        InformationDialogService,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        InformationDialogConfigStrategyFactory,
+        provideAutoSpy(MimeResizeService),
+        provideAutoSpy(HelpDialogService),
+        provideAutoSpy(InformationDialogService),
+        provideAutoSpy(HelpDialogService),
       ],
     });
   });
 
-  it('should be created', inject(
-    [InformationDialogService],
-    (service: InformationDialogService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  beforeEach(() => {
+    service = TestBed.inject(InformationDialogService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 });

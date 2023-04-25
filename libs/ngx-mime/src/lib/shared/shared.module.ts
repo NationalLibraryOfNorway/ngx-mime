@@ -1,19 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MimeMaterialModule } from './mime-material.module';
-import { SpinnerService } from '../core/spinner-service/spinner.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FlexLayoutModule,
-    MimeMaterialModule,
-  ],
   exports: [
     CommonModule,
     FlexLayoutModule,
@@ -21,6 +12,5 @@ import { SpinnerService } from '../core/spinner-service/spinner.service';
     ReactiveFormsModule,
     MimeMaterialModule,
   ],
-  providers: [SpinnerService],
 })
 export class SharedModule {}

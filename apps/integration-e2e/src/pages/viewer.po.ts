@@ -38,6 +38,7 @@ export class ViewerPage {
     },
   ];
 
+  readonly viewer: Locator;
   readonly fullscreenButton: Locator;
   readonly openseadragonContainer: Locator;
   readonly attribution: Locator;
@@ -81,81 +82,76 @@ export class ViewerPage {
     private page: Page,
     private animations: Animations
   ) {
+    this.viewer = this.page.locator('mime-viewer');
     this.navigationSlider = this.page.locator('.navigation-slider');
-    this.navigationSliderContainer = this.page.locator(
-      '[data-test-id="navigation-slider-container"]'
+    this.navigationSliderContainer = this.page.getByTestId(
+      'navigation-slider-container'
     );
     this.canvasGroupsButton = this.page.locator('button.canvasGroups');
     this.canvasGroupInput = this.page.locator('.go-to-canvas-group-input');
-    this.currentCanvasGroupLabel = this.page.locator(
-      '#currentCanvasGroupLabel'
+    this.currentCanvasGroupLabel = this.page.getByTestId(
+      'currentCanvasGroupLabel'
     );
-    this.numOfCanvasGroups = this.page.locator('#numOfCanvasGroups');
-    this.informationDialogButton = this.page.locator(
-      '#ngx-mimeInformationDialogButton'
+    this.numOfCanvasGroups = this.page.getByTestId('numOfCanvasGroups');
+    this.informationDialogButton = this.page.getByTestId(
+      'ngx-mimeInformationDialogButton'
     );
     this.informationContainer = this.page.locator('.information-container');
     this.tabs = this.page.locator('.mat-mdc-tab');
-    this.helpDialogButton = this.page.locator('#ngx-mimeHelpDialogButton');
-    this.contentSearchDialogButton = this.page.locator(
-      '#ngx-mimeContentSearchDialogButton'
+    this.helpDialogButton = this.page.getByTestId('ngx-mimeHelpDialogButton');
+    this.contentSearchDialogButton = this.page.getByTestId(
+      'ngx-mimeContentSearchDialogButton'
     );
     this.contentSearchSubmitButton = this.page.locator(
       '.content-search-box button[type="submit"]'
     );
-    this.fullscreenButton = this.page.locator('#ngx-mimeFullscreenButton');
+    this.fullscreenButton = this.page.getByTestId('ngx-mimeFullscreenButton');
     this.openseadragonContainer = this.page.locator('.openseadragon-container');
     this.attribution = this.page.locator(
       '.attribution-container > .mat-mdc-dialog-content'
     );
-    this.svg = this.page.locator('#openseadragon svg');
+    this.svg = this.page.locator('.openseadragon svg');
     this.canvasGroupOverlays = this.page.locator(
-      '#openseadragon svg g.page-group rect'
+      '.openseadragon svg g.page-group rect'
     );
-    this.leftCanvasGroupMask = this.page.locator(
-      '#openseadragon svg g#page-mask rect:first-child'
+    this.leftCanvasGroupMask = this.page.getByTestId('mime-left-page-mask');
+    this.rightCanvasGroupMask = this.page.getByTestId('mime-right-page-mask');
+    this.canvasGroupOverlay = this.page.locator('.openseadragon svg g rect');
+    this.singlePageViewButton = this.page.getByTestId(
+      'ngx-mime-single-page-view-button'
     );
-    this.rightCanvasGroupMask = this.page.locator(
-      '#openseadragon svg g#page-mask rect:nth-child(2)'
+    this.twoPageViewButton = this.page.getByTestId(
+      'ngx-mime-two-page-view-button'
     );
-    this.canvasGroupOverlay = this.page.locator('#openseadragon svg g rect');
-    this.singlePageViewButton = this.page.locator(
-      'mat-button-toggle[data-test-id="ngx-mime-single-page-view-button"]'
+    this.recognizedTextContentSplitViewButton = this.page.getByTestId(
+      'ngx-mime-recognized-text-content-split-view-button'
     );
-    this.twoPageViewButton = this.page.locator(
-      'mat-button-toggle[data-test-id="ngx-mime-two-page-view-button"]'
+    this.recognizedTextContentOnlyButton = this.page.getByTestId(
+      'ngx-mime-recognized-text-content-only-button'
     );
-    this.recognizedTextContentSplitViewButton = this.page.locator(
-      'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-split-view-button"]'
-    );
-    this.recognizedTextContentOnlyButton = this.page.locator(
-      'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-only-button"]'
-    );
-    this.recognizedTextContentCloseButton = this.page.locator(
-      'mat-button-toggle[data-test-id="ngx-mime-recognized-text-content-close-button"]'
+    this.recognizedTextContentCloseButton = this.page.getByTestId(
+      'ngx-mime-recognized-text-content-close-button'
     );
     this.modeDashboard = this.page.locator('.mode-dashboard');
     this.modePage = this.page.locator('.mode-page');
     this.openseadragonCanvas = this.page.locator(
-      '.openseadragon-canvas > canvas'
+      '.openseadragon-canvas > canvas>>nth=0'
     );
-    this.firstCanvasRecognizedTextContent = this.page.locator(
-      'div[data-test-id="firstCanvasRecognizedTextContent"]'
+    this.firstCanvasRecognizedTextContent = this.page.getByTestId(
+      'firstCanvasRecognizedTextContent'
     );
-    this.secondCanvasRecognizedTextContent = this.page.locator(
-      'div[data-test-id="secondCanvasRecognizedTextContent"]'
+    this.secondCanvasRecognizedTextContent = this.page.getByTestId(
+      'secondCanvasRecognizedTextContent'
     );
     this.recognizedTextContentHits = this.page.locator(
       '.recognized-text-content-container mark'
     );
-    this.recognizedTextContentContainer = this.page.locator(
-      'mat-drawer[data-test-id="ngx-mime-recognized-text-content-container"]'
+    this.recognizedTextContentContainer = this.page.getByTestId(
+      'ngx-mime-recognized-text-content-container'
     );
-    this.viewMenuButton = this.page.locator(
-      '[data-test-id="ngx-mime-view-menu-button"]'
-    );
-    this.viewMenuCloseButton = this.page.locator(
-      '[data-test-id="ngx-mime-view-dialog-close-button"]'
+    this.viewMenuButton = this.page.getByTestId('ngx-mime-view-menu-button');
+    this.viewMenuCloseButton = this.page.getByTestId(
+      'ngx-mime-view-dialog-close-button'
     );
     this.viewMenuDialog = this.page.locator('mime-view-dialog');
     this.pageGroup = this.page.locator('.page-group');
@@ -251,13 +247,16 @@ export class ViewerPage {
     this.isElements = isElements;
   }
 
-  async open(manifestName?: string, canvasIndex?: number) {
+  async open(manifestNames?: string[], canvasIndex?: number) {
     let uri = this.isElements ? '/viewer/elements' : '/viewer/components';
     const params: string[] = [];
-    if (manifestName) {
-      params.push(
-        'manifestUri=' + encodeURIComponent(this.getBookShelfUrl(manifestName))
-      );
+    if (manifestNames) {
+      manifestNames.forEach((manifestName) => {
+        params.push(
+          'manifestUri=' +
+            encodeURIComponent(this.getBookShelfUrl(manifestName))
+        );
+      });
     }
     if (canvasIndex) {
       params.push(`canvasIndex=${canvasIndex}`);
@@ -507,33 +506,33 @@ export class ViewerPage {
   }
 
   async clickZoomInButton(): Promise<void> {
-    await this.clickNavigationButton('#zoomInButton');
+    await this.clickNavigationButton('zoomInButton');
   }
 
   async clickZoomOutButton(): Promise<void> {
-    await this.clickNavigationButton('#zoomOutButton');
+    await this.clickNavigationButton('zoomOutButton');
   }
 
   async clickZoomHomeButton(): Promise<void> {
-    await this.clickNavigationButton('#homeButton');
+    await this.clickNavigationButton('homeButton');
   }
 
   async clickNextButton(): Promise<void> {
-    await this.clickDisableableNavigationButton('#navigateNextButton');
+    await this.clickDisableableNavigationButton('navigateNextButton');
     await this.animations.waitFor(500);
   }
 
   async clickPreviousButton(): Promise<void> {
-    await this.clickDisableableNavigationButton('#navigateBeforeButton');
+    await this.clickDisableableNavigationButton('navigateBeforeButton');
     await this.animations.waitFor(500);
   }
 
   async clickNavigationButton(buttonId: string): Promise<void> {
-    await this.page.locator(buttonId).click();
+    await this.page.getByTestId(buttonId).click();
   }
 
   async clickDisableableNavigationButton(buttonId: string): Promise<void> {
-    const button: Locator = this.page.locator(buttonId);
+    const button: Locator = this.page.getByTestId(buttonId);
 
     if (await button.isEnabled()) {
       await button.click();
@@ -671,7 +670,7 @@ export class ViewerPage {
   async setFocusOnViewer() {
     await this.openseadragonCanvas.waitFor();
     await this.page.evaluate(
-      `document.querySelector('.openseadragon-canvas').focus();`
+      `document.querySelectorAll('.openseadragon-canvas')[0].focus();`
     );
   }
 

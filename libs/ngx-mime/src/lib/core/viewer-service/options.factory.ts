@@ -4,13 +4,14 @@ import { ViewerOptions } from '../models/viewer-options';
 
 export class OptionsFactory {
   public static create(
+    id: string,
     mimeViewerConfig: MimeViewerConfig
   ): OpenSeadragon.Options {
     let options: OpenSeadragon.Options = OpenSeadragon.DEFAULT_SETTINGS;
 
     return {
       ...options,
-      id: 'openseadragon',
+      id: id,
       useCanvas: this.canUseCanvas(),
       panVertical: true,
       minZoomImageRatio: 1,

@@ -1,36 +1,28 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
-import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
-import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { StyleService } from '../core/style-service/style.service';
-import { ViewerService } from '../core/viewer-service/viewer.service';
-import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
-import { ViewerServiceStub } from '../test/viewer-service-stub';
+import { SharedModule } from '../shared/shared.module';
 import { HelpDialogComponent } from './help-dialog.component';
-import { HelpDialogModule } from './help-dialog.module';
 
 describe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
   let fixture: ComponentFixture<HelpDialogComponent>;
-  let mediaObserver: any;
-  let dialogRef: any;
+  let mediaObserverSpy: Spy<MediaObserver>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HelpDialogModule],
+      imports: [SharedModule],
+      declarations: [HelpDialogComponent],
       providers: [
         MimeViewerIntl,
-        MimeResizeService,
-        MimeDomHelper,
-        FullscreenService,
-        StyleService,
-        { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: ViewerService, useClass: ViewerServiceStub },
+        provideAutoSpy(MimeResizeService, {
+          observablePropsToSpyOn: ['onResize'],
+        }),
+        provideAutoSpy(MediaObserver),
       ],
     }).compileComponents();
   }));
@@ -38,10 +30,7 @@ describe('HelpDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    mediaObserver = TestBed.inject(MediaObserver);
-    dialogRef = TestBed.inject(MatDialogRef);
+    mediaObserverSpy = TestBed.inject<any>(MediaObserver);
   });
 
   it('should be created', () => {
@@ -49,7 +38,7 @@ describe('HelpDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(false);
+    mediaObserverSpy.isActive.and.returnValue(false);
 
     fixture.detectChanges();
 
@@ -60,7 +49,7 @@ describe('HelpDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+    mediaObserverSpy.isActive.and.returnValue(true);
 
     fixture.detectChanges();
 

@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -11,7 +11,8 @@ import { HelpDialogComponent } from './help-dialog.component';
 
 @Injectable()
 export class HelpDialogService {
-  private _el: ElementRef | null = null;
+  private _el: ElementRef | undefined;
+  private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<HelpDialogComponent>;
   private subscriptions!: Subscription;
 
@@ -43,6 +44,10 @@ export class HelpDialogService {
     this._el = el;
   }
 
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
+
   public open(): void {
     if (!this.isOpen()) {
       const config = this.getDialogConfig();
@@ -65,8 +70,14 @@ export class HelpDialogService {
   }
 
   private getDialogConfig() {
+    if (!this._el || !this._viewContainerRef) {
+      throw new Error('No element or viewContainerRef');
+    }
+
     return this._el
-      ? this.helpDialogConfigStrategyFactory.create().getConfig(this._el)
+      ? this.helpDialogConfigStrategyFactory
+          .create()
+          .getConfig(this._el, this._viewContainerRef)
       : {};
   }
 
