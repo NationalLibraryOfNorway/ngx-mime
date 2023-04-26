@@ -7,6 +7,7 @@ import 'openseadragon';
 import { injectedStub } from '../../testing/injected-stub';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
@@ -69,7 +70,7 @@ describe('ViewerComponent', function () {
         ViewerFooterComponent,
         TestDynamicComponent,
       ],
-      providers: [VIEWER_PROVIDERS],
+      providers: [VIEWER_PROVIDERS, MimeViewerIntl],
     }).compileComponents();
   }));
 
