@@ -1,4 +1,4 @@
-import { Rect } from './rect';
+import { HighlightRect } from './highlight-rect';
 export declare class Hit {
     id: number;
     index: number;
@@ -6,7 +6,7 @@ export declare class Hit {
     match: string;
     before: string;
     after: string;
-    rects: Rect[];
+    highlightRects: HighlightRect[];
     constructor(fields?: {
         id?: number;
         index?: number;
@@ -14,6 +14,6 @@ export declare class Hit {
         match?: string;
         before?: string;
         after?: string;
-        rects?: Rect[];
+        highlightRects?: HighlightRect[];
     });
 }

@@ -19,11 +19,11 @@ export declare class ContentSearchNavigationService {
     destroy(): void;
     update(canvasGroupIndex: number): void;
     get currentHitCounter(): Observable<number>;
-    private updateCurrentHitCounter;
     getHitOnActiveCanvasGroup(): boolean;
     goToNextHit(): void;
     goToPreviousHit(): void;
     selected(hit: Hit): void;
+    private updateCurrentHitCounter;
     private goToNextCurrentCanvasHit;
     private goToPreviousCurrentCanvasHit;
     private goToNextCanvasHit;

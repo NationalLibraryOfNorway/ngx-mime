@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.4](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.3...v15.1.4) (2023-04-26)
+
+
+### Bug Fixes
+
+* can't override intl providers ([#455](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/455)) ([f18cefe](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f18cefec521b88e8b556c5d45fa5fc24425708e9))
+
 ### [15.1.3](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.2...v15.1.3) (2023-04-25)
 
 

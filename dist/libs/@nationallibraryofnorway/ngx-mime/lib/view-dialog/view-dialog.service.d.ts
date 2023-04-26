@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ViewDialogConfigStrategyFactory } from './view-dialog-config-strategy-factory';
@@ -8,12 +8,14 @@ export declare class ViewDialogService {
     private viewDialogConfigStrategyFactory;
     private mimeResizeService;
     private _el;
+    private _viewContainerRef;
     private dialogRef?;
     private subscriptions;
     constructor(dialog: MatDialog, viewDialogConfigStrategyFactory: ViewDialogConfigStrategyFactory, mimeResizeService: MimeResizeService);
     initialize(): void;
     destroy(): void;
     set el(el: ElementRef);
+    set viewContainerRef(viewContainerRef: ViewContainerRef);
     open(): void;
     close(): void;
     toggle(): void;

@@ -1,14 +1,17 @@
+import { ElementRef } from '@angular/core';
 import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { Dimensions } from './models/dimensions';
-import { ElementRef } from '@angular/core';
+import { ViewerService } from './viewer-service/viewer.service';
 import * as i0 from "@angular/core";
 export declare class MimeDomHelper {
     private fullscreen;
-    constructor(fullscreen: FullscreenService);
+    private viewerService;
+    constructor(fullscreen: FullscreenService, viewerService: ViewerService);
     getBoundingClientRect(el: ElementRef): Dimensions;
     isDocumentInFullScreenMode(): boolean;
     toggleFullscreen(): void;
     setFocusOnViewer(): void;
+    private getViewerElement;
     private createFullscreenDimensions;
     private createDimensions;
     private getFullscreenWidth;

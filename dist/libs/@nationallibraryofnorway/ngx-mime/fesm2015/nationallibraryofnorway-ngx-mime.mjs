@@ -1,51 +1,51 @@
 import * as i0 from '@angular/core';
-import { Injectable, NgModule, ElementRef, Component, ViewChild, ViewChildren, ChangeDetectionStrategy, EventEmitter, Output, Input, HostListener, HostBinding, ViewContainerRef } from '@angular/core';
-import { Subject, BehaviorSubject, Observable, ReplaySubject, Subscription, interval, of, throwError, forkJoin, debounceTime as debounceTime$1, map } from 'rxjs';
+import { Injectable, ElementRef, Component, ViewChild, ViewChildren, ChangeDetectionStrategy, EventEmitter, Output, Input, HostListener, NgModule, HostBinding, ViewContainerRef } from '@angular/core';
+import { Subject, BehaviorSubject, Observable, ReplaySubject, Subscription, of, throwError, interval, forkJoin, debounceTime as debounceTime$1, map } from 'rxjs';
 import * as d3 from 'd3';
 import * as OpenSeadragon$1 from 'openseadragon';
-import * as i6$1 from '@angular/common';
-import { CommonModule } from '@angular/common';
-import * as i2$1 from '@angular/forms';
-import { FormsModule, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
+import { distinctUntilChanged, finalize, take, switchMap, filter, tap, debounceTime, catchError, sample, throttle } from 'rxjs/operators';
+import * as i2 from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import * as i1 from '@angular/flex-layout';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { parseString } from 'xml2js';
+import * as i6 from '@angular/platform-browser';
+import * as i8 from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import * as i1$1 from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import * as i6$1 from '@angular/common';
+import { CommonModule } from '@angular/common';
+import * as i7 from '@angular/flex-layout/flex';
+import * as i9 from '@angular/flex-layout/extended';
+import * as i2$1 from '@angular/forms';
+import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import * as i9$1 from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import * as i8$1 from '@angular/material/button';
 import { MatButtonModule } from '@angular/material/button';
+import * as i11 from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import * as i12 from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import * as i16 from '@angular/material/divider';
+import * as i17 from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
+import * as i18 from '@angular/material/form-field';
+import * as i19 from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import * as i13 from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import * as i12$1 from '@angular/material/button-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
-import * as i1$1 from '@angular/material/dialog';
-import { MatDialogModule } from '@angular/material/dialog';
-import * as i11 from '@angular/material/icon';
-import { MatIconModule } from '@angular/material/icon';
-import * as i17 from '@angular/material/input';
-import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import * as i19 from '@angular/material/progress-bar';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import * as i2$2 from '@angular/material/progress-spinner';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import * as i22 from '@angular/material/sidenav';
+import * as i23 from '@angular/material/sidenav';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import * as i14 from '@angular/material/slider';
 import { MatSliderModule } from '@angular/material/slider';
-import * as i8 from '@angular/material/snack-bar';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import * as i13 from '@angular/material/tabs';
-import { MatTabsModule } from '@angular/material/tabs';
-import * as i9$1 from '@angular/material/toolbar';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import * as i12 from '@angular/material/tooltip';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { distinctUntilChanged, finalize, take, filter, tap, switchMap, debounceTime, catchError, sample, throttle } from 'rxjs/operators';
-import * as i2 from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import { parseString } from 'xml2js';
-import * as i6 from '@angular/platform-browser';
-import * as i7 from '@angular/flex-layout/flex';
-import * as i9 from '@angular/flex-layout/extended';
-import * as i16 from '@angular/material/divider';
-import * as i18 from '@angular/material/form-field';
 import { trigger, state, style, transition, group, animate } from '@angular/animations';
 import { __awaiter } from 'tslib';
 import * as i10 from '@angular/cdk/bidi';
@@ -533,122 +533,6 @@ class Structure {
 class TileSource {
 }
 
-class MimeMaterialModule {
-}
-MimeMaterialModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeMaterialModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-MimeMaterialModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: MimeMaterialModule, exports: [MatToolbarModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatDialogModule,
-        MatTabsModule,
-        MatListModule,
-        MatSliderModule,
-        MatProgressSpinnerModule,
-        MatInputModule,
-        MatProgressBarModule,
-        MatCardModule,
-        MatSnackBarModule,
-        MatSidenavModule] });
-MimeMaterialModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeMaterialModule, imports: [MatToolbarModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatDialogModule,
-        MatTabsModule,
-        MatListModule,
-        MatSliderModule,
-        MatProgressSpinnerModule,
-        MatInputModule,
-        MatProgressBarModule,
-        MatCardModule,
-        MatSnackBarModule,
-        MatSidenavModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeMaterialModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    exports: [
-                        MatToolbarModule,
-                        MatButtonModule,
-                        MatButtonToggleModule,
-                        MatIconModule,
-                        MatTooltipModule,
-                        MatDialogModule,
-                        MatTabsModule,
-                        MatListModule,
-                        MatSliderModule,
-                        MatProgressSpinnerModule,
-                        MatInputModule,
-                        MatProgressBarModule,
-                        MatCardModule,
-                        MatSnackBarModule,
-                        MatSidenavModule,
-                    ],
-                }]
-        }] });
-
-class SpinnerService {
-    constructor() {
-        this.spinnerSubject = new Subject();
-        this.spinnerState = this.spinnerSubject.asObservable();
-    }
-    show() {
-        this.spinnerSubject.next({ show: true });
-    }
-    hide() {
-        this.spinnerSubject.next({ show: false });
-    }
-}
-SpinnerService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SpinnerService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-SpinnerService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SpinnerService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SpinnerService, decorators: [{
-            type: Injectable
-        }], ctorParameters: function () { return []; } });
-
-class SharedModule {
-}
-SharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-SharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, imports: [CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FlexLayoutModule,
-        MimeMaterialModule], exports: [CommonModule,
-        FlexLayoutModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MimeMaterialModule] });
-SharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, providers: [SpinnerService], imports: [CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FlexLayoutModule,
-        MimeMaterialModule, CommonModule,
-        FlexLayoutModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MimeMaterialModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    imports: [
-                        CommonModule,
-                        FormsModule,
-                        ReactiveFormsModule,
-                        FlexLayoutModule,
-                        MimeMaterialModule,
-                    ],
-                    exports: [
-                        CommonModule,
-                        FlexLayoutModule,
-                        FormsModule,
-                        ReactiveFormsModule,
-                        MimeMaterialModule,
-                    ],
-                    providers: [SpinnerService],
-                }]
-        }] });
-
 let BuilderUtils$1 = class BuilderUtils {
     static extractId(value) {
         return value['@id'];
@@ -747,7 +631,7 @@ let ServiceBuilder$1 = class ServiceBuilder {
                 profile: this.service.profile,
                 physicalScale: this.service.physicalScale,
                 physicalUnits: this.service.physicalUnits,
-                service: new ServiceBuilder$1(this.service.service).build(),
+                service: new ServiceBuilder(this.service.service).build(),
             });
         }
     }
@@ -1237,6 +1121,24 @@ class ManifestBuilder {
     }
 }
 
+class SpinnerService {
+    constructor() {
+        this.spinnerSubject = new Subject();
+        this.spinnerState = this.spinnerSubject.asObservable();
+    }
+    show() {
+        this.spinnerSubject.next({ show: true });
+    }
+    hide() {
+        this.spinnerSubject.next({ show: false });
+    }
+}
+SpinnerService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SpinnerService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+SpinnerService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SpinnerService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SpinnerService, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return []; } });
+
 class IiifManifestService {
     constructor(intl, http, spinnerService) {
         this.intl = intl;
@@ -1416,277 +1318,6 @@ FullscreenService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", ve
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: FullscreenService, decorators: [{
             type: Injectable
         }], ctorParameters: function () { return []; } });
-
-class MimeDomHelper {
-    constructor(fullscreen) {
-        this.fullscreen = fullscreen;
-    }
-    getBoundingClientRect(el) {
-        try {
-            if (this.isDocumentInFullScreenMode() &&
-                el.nativeElement.nodeName === 'MIME-VIEWER') {
-                return this.createFullscreenDimensions(el);
-            }
-            else {
-                return this.createDimensions(el);
-            }
-        }
-        catch (e) {
-            return new Dimensions();
-        }
-    }
-    isDocumentInFullScreenMode() {
-        return this.fullscreen.isFullscreen();
-    }
-    toggleFullscreen() {
-        const el = document.getElementById('ngx-mime-mimeViewer');
-        if (this.fullscreen.isEnabled()) {
-            this.fullscreen.toggle(el);
-        }
-    }
-    setFocusOnViewer() {
-        const el = document.getElementById('ngx-mime-mimeViewer');
-        if (el) {
-            el.focus();
-        }
-    }
-    createFullscreenDimensions(el) {
-        const dimensions = el.nativeElement.getBoundingClientRect();
-        const width = this.getFullscreenWidth();
-        const height = this.getFullscreenHeight();
-        return new Dimensions(Object.assign(Object.assign({}, dimensions), { top: 0, bottom: height, width: width, height: height, left: 0, right: width }));
-    }
-    createDimensions(el) {
-        const dimensions = el.nativeElement.getBoundingClientRect();
-        return new Dimensions({
-            top: dimensions.top,
-            bottom: dimensions.bottom,
-            width: dimensions.width,
-            height: dimensions.height,
-            left: dimensions.left,
-            right: dimensions.right,
-        });
-    }
-    getFullscreenWidth() {
-        return (window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth);
-    }
-    getFullscreenHeight() {
-        return (window.innerHeight ||
-            document.documentElement.clientHeight ||
-            document.body.clientHeight);
-    }
-}
-MimeDomHelper.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeDomHelper, deps: [{ token: FullscreenService }], target: i0.ɵɵFactoryTarget.Injectable });
-MimeDomHelper.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeDomHelper });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeDomHelper, decorators: [{
-            type: Injectable
-        }], ctorParameters: function () { return [{ type: FullscreenService }]; } });
-
-class AttributionDialogResizeService {
-    constructor(mimeDomHelper) {
-        this.mimeDomHelper = mimeDomHelper;
-        this._el = null;
-        this.resizeSubject = new ReplaySubject();
-        this.dimensions = new Dimensions();
-    }
-    set el(el) {
-        this._el = el;
-    }
-    get el() {
-        return this._el;
-    }
-    get onResize() {
-        return this.resizeSubject.asObservable();
-    }
-    markForCheck() {
-        if (this.el) {
-            const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
-            if (this.dimensions.bottom !== dimensions.bottom ||
-                this.dimensions.height !== dimensions.height ||
-                this.dimensions.left !== dimensions.left ||
-                this.dimensions.right !== dimensions.right ||
-                this.dimensions.top !== dimensions.top ||
-                this.dimensions.width !== dimensions.width) {
-                this.dimensions = dimensions;
-                this.resizeSubject.next(Object.assign({}, this.dimensions));
-            }
-        }
-    }
-}
-AttributionDialogResizeService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogResizeService, deps: [{ token: MimeDomHelper }], target: i0.ɵɵFactoryTarget.Injectable });
-AttributionDialogResizeService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogResizeService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogResizeService, decorators: [{
-            type: Injectable
-        }], ctorParameters: function () { return [{ type: MimeDomHelper }]; } });
-
-class StyleService {
-    constructor(zone) {
-        this.zone = zone;
-        this.colorSubject = new ReplaySubject();
-    }
-    get onChange() {
-        return this.colorSubject.asObservable().pipe(filter((color) => color !== null), distinctUntilChanged());
-    }
-    initialize() {
-        this.subscriptions = new Subscription();
-        this.zone.runOutsideAngular(() => {
-            this.subscriptions.add(interval(1000)
-                .pipe(tap(() => {
-                const previousRgbColor = this.currentRgbColor;
-                const currentRgbColor = this.getComputedBackgroundColor(1);
-                if (previousRgbColor !== currentRgbColor) {
-                    this.currentRgbColor = currentRgbColor;
-                    this.colorSubject.next(currentRgbColor);
-                }
-            }))
-                .subscribe());
-        });
-    }
-    destroy() {
-        this.subscriptions.unsubscribe();
-    }
-    convertToRgba(rgbColor, opacity) {
-        return rgbColor.replace(/rgb/i, 'rgba').replace(/\)/i, `,${opacity})`);
-    }
-    getComputedBackgroundColor(opacity) {
-        const matAppBackground = document.getElementsByClassName('mat-app-background');
-        const matSidenavContainer = document.getElementsByTagName('mat-sidenav-container');
-        if (matAppBackground.length > 0) {
-            return this.getComputedStyle(matAppBackground[0], 'background-color');
-        }
-        else if (matSidenavContainer.length > 0) {
-            return this.getComputedStyle(matSidenavContainer[0], 'background-color');
-        }
-        else {
-            return undefined;
-        }
-    }
-    getComputedStyle(el, property) {
-        return window.getComputedStyle(el, null).getPropertyValue(property);
-    }
-}
-StyleService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: StyleService, deps: [{ token: i0.NgZone }], target: i0.ɵɵFactoryTarget.Injectable });
-StyleService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: StyleService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: StyleService, decorators: [{
-            type: Injectable
-        }], ctorParameters: function () { return [{ type: i0.NgZone }]; } });
-
-class AccessKeys {
-    constructor(event) {
-        this.altKey = false;
-        this.shiftKey = false;
-        this.ctrlkey = false;
-        this.metaKey = false;
-        this.event = event;
-        this.keyCode = event.keyCode;
-        this.altKey = event.altKey;
-        this.shiftKey = event.shiftKey;
-        this.ctrlkey = event.ctrlKey;
-        this.metaKey = event.metaKey;
-    }
-    isArrowRightKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
-    }
-    isArrowLeftKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
-    }
-    isPageUpKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
-    }
-    isPageDownKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
-    }
-    isFirstCanvasGroupKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
-    }
-    isLastCanvasGroupKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
-    }
-    isSliderKeys() {
-        return (this.isArrowLeftKeys() ||
-            this.isArrowRightKeys() ||
-            this.isPageDownKeys() ||
-            this.isPageUpKeys() ||
-            this.isFirstCanvasGroupKeys() ||
-            this.isLastCanvasGroupKeys());
-    }
-    isZoomInKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
-    }
-    isZoomOutKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
-    }
-    isZoomHomeKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
-    }
-    isNextHitKeys() {
-        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
-    }
-    isPreviousHitKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
-    }
-    isSearchDialogKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
-    }
-    isInformationDialogKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleInformationDialogCodes));
-    }
-    isFullscreenKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
-    }
-    isResetSearchKeys() {
-        return (!this.isMetaPressed() &&
-            this.isShiftPressed() &&
-            this.arrayContainsKeys(AccessKeys.resetSearch));
-    }
-    isRotateKeys() {
-        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
-    }
-    isRecognizedTextContentKeys() {
-        return (!this.isMultiKeys() &&
-            this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes));
-    }
-    execute(fn) {
-        this.event.preventDefault();
-        fn();
-    }
-    isMultiKeys() {
-        return this.altKey || this.shiftKey || this.ctrlkey;
-    }
-    arrayContainsKeys(keys) {
-        return keys.indexOf(this.keyCode) > -1;
-    }
-    isShiftPressed() {
-        return this.shiftKey;
-    }
-    isMetaPressed() {
-        return this.metaKey;
-    }
-}
-AccessKeys.PAGEDOWN = [34];
-AccessKeys.PAGEUP = [33];
-AccessKeys.ARROWRIGHT = [39];
-AccessKeys.ARROWLEFT = [37];
-AccessKeys.firstCanvasGroupCodes = [36]; // Home
-AccessKeys.lastCanvasGroupCodes = [35]; // End
-AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
-AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
-AccessKeys.zoomHomeCodes = [96, 48]; // 0
-AccessKeys.nextHit = [78]; // n
-AccessKeys.previousHit = [80]; // p
-AccessKeys.toggleSearchDialogCodes = [83]; // s
-AccessKeys.toggleInformationDialogCodes = [67]; // C
-AccessKeys.toggleFullscreenCodes = [70]; // f
-AccessKeys.resetSearch = [83]; // s
-AccessKeys.rotateCwCodes = [82]; // r
-AccessKeys.recognizedTextContentCodes = [84]; // t
 
 /****************************************************************
  * MIME-viewer options
@@ -2207,16 +1838,16 @@ class CanvasGroupMask {
     }
     addCanvasGroupMask() {
         const overlays = d3.select(this.viewer.svgOverlay().node().parentNode);
-        const mask = overlays.append('g').attr('id', 'page-mask');
+        const mask = overlays.append('g').attr('data-testid', 'page-mask');
         this.leftMask = mask
             .append('rect')
-            .attr('id', 'mime-left-page-mask')
+            .attr('data-testid', 'mime-left-page-mask')
             .attr('height', '100%')
             .attr('y', 0)
             .style('fill', this.backgroundColor);
         this.rightMask = mask
             .append('rect')
-            .attr('id', 'mime-right-page-mask')
+            .attr('data-testid', 'mime-right-page-mask')
             .attr('height', '100%')
             .attr('y', 0)
             .style('fill', this.backgroundColor);
@@ -2394,9 +2025,9 @@ class DefaultGoToCanvasGroupStrategy {
 }
 
 class OptionsFactory {
-    static create(mimeViewerConfig) {
+    static create(id, mimeViewerConfig) {
         let options = OpenSeadragon$1.DEFAULT_SETTINGS;
-        return Object.assign(Object.assign({}, options), { id: 'openseadragon', useCanvas: this.canUseCanvas(), panVertical: true, minZoomImageRatio: 1, maxZoomPixelRatio: 5, smoothTileEdgesMinZoom: 1, preserveImageSizeOnResize: true, visibilityRatio: 0, showNavigationControl: false, animationTime: ViewerOptions.transitions.OSDAnimationTime / 1000, ajaxWithCredentials: mimeViewerConfig.withCredentials, loadTilesWithAjax: mimeViewerConfig.loadTilesWithAjax, crossOriginPolicy: mimeViewerConfig.crossOriginPolicy, ajaxHeaders: mimeViewerConfig.ajaxHeaders, gestureSettingsMouse: Object.assign(Object.assign({}, options.gestureSettingsMouse), { scrollToZoom: false, clickToZoom: false }), gestureSettingsTouch: Object.assign(Object.assign({}, options.gestureSettingsTouch), { dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }), gestureSettingsPen: Object.assign(Object.assign({}, options.gestureSettingsPen), { clickToZoom: false }), gestureSettingsUnknown: Object.assign(Object.assign({}, options.gestureSettingsUnknown), { scrollToZoom: false, dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }) });
+        return Object.assign(Object.assign({}, options), { id: id, useCanvas: this.canUseCanvas(), panVertical: true, minZoomImageRatio: 1, maxZoomPixelRatio: 5, smoothTileEdgesMinZoom: 1, preserveImageSizeOnResize: true, visibilityRatio: 0, showNavigationControl: false, animationTime: ViewerOptions.transitions.OSDAnimationTime / 1000, ajaxWithCredentials: mimeViewerConfig.withCredentials, loadTilesWithAjax: mimeViewerConfig.loadTilesWithAjax, crossOriginPolicy: mimeViewerConfig.crossOriginPolicy, ajaxHeaders: mimeViewerConfig.ajaxHeaders, gestureSettingsMouse: Object.assign(Object.assign({}, options.gestureSettingsMouse), { scrollToZoom: false, clickToZoom: false }), gestureSettingsTouch: Object.assign(Object.assign({}, options.gestureSettingsTouch), { dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }), gestureSettingsPen: Object.assign(Object.assign({}, options.gestureSettingsPen), { clickToZoom: false }), gestureSettingsUnknown: Object.assign(Object.assign({}, options.gestureSettingsUnknown), { scrollToZoom: false, dblClickToZoom: false, pinchToZoom: false, flickEnabled: false }) });
     }
     static canUseCanvas() {
         var _a;
@@ -3096,6 +2727,22 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
             type: Injectable
         }], ctorParameters: function () { return [{ type: i1.MediaObserver }]; } });
 
+class HighlightRect extends Rect {
+    constructor(fields) {
+        super();
+        this.canvasIndex = 0;
+        if (fields) {
+            this.x = fields.x || this.x;
+            this.y = fields.y || this.y;
+            this.width = fields.width || this.width;
+            this.height = fields.height || this.height;
+            this.centerX = this.x + this.width / 2;
+            this.centerY = this.y + this.height / 2;
+            this.canvasIndex = fields.canvasIndex || this.canvasIndex;
+        }
+    }
+}
+
 class Hit {
     constructor(fields) {
         this.id = 0;
@@ -3104,7 +2751,7 @@ class Hit {
         this.match = '';
         this.before = '';
         this.after = '';
-        this.rects = [];
+        this.highlightRects = [];
         if (fields) {
             this.id = fields.id || this.id;
             this.index = fields.index || this.index;
@@ -3112,7 +2759,7 @@ class Hit {
             this.match = fields.match || this.match;
             this.before = fields.before || this.before;
             this.after = fields.after || this.after;
-            this.rects = fields.rects || this.rects;
+            this.highlightRects = fields.highlightRects || this.highlightRects;
         }
     }
 }
@@ -3153,36 +2800,40 @@ class SearchResultBuilder {
         if (this.iiifSearchResult && this.iiifSearchResult.hits) {
             this.iiifSearchResult.hits.forEach((hit, index) => {
                 const id = index;
-                let canvasIndex = -1;
+                let startCanvasIndex = -1;
                 let label;
-                const rects = [];
+                const highlightRects = [];
                 if (this.manifest.sequences && this.manifest.sequences[0].canvases) {
                     const resources = this.findResources(hit);
-                    for (const resource of resources) {
-                        canvasIndex = this.findSequenceIndex(resource);
-                        label = this.findLabel(canvasIndex);
+                    resources.forEach((resource, index) => {
+                        if (index === 0) {
+                            startCanvasIndex = this.findSequenceIndex(resource);
+                            label = this.findLabel(startCanvasIndex);
+                        }
+                        const canvasIndex = this.findSequenceIndex(resource);
                         const on = resource.on;
                         if (on) {
                             const scale = this.getScale(canvasIndex);
                             const coords = on.substring(on.indexOf('=') + 1).split(',');
-                            const rect = new Rect({
+                            const rect = new HighlightRect({
                                 x: this.scaleValue(coords[0], scale),
                                 y: this.scaleValue(coords[1], scale),
                                 width: this.scaleValue(coords[2], scale),
                                 height: this.scaleValue(coords[3], scale),
+                                canvasIndex
                             });
-                            rects.push(rect);
+                            highlightRects.push(rect);
                         }
-                    }
+                    });
                 }
                 searchResult.add(new Hit({
                     id: id,
-                    index: canvasIndex,
+                    index: startCanvasIndex,
                     label: label,
                     match: hit.match,
                     before: hit.before,
                     after: hit.after,
-                    rects: rects,
+                    highlightRects,
                 }));
             });
         }
@@ -3317,6 +2968,58 @@ IiifContentSearchService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: IiifContentSearchService, decorators: [{
             type: Injectable
         }], ctorParameters: function () { return [{ type: i2.HttpClient }]; } });
+
+class StyleService {
+    constructor(zone) {
+        this.zone = zone;
+        this.colorSubject = new ReplaySubject();
+    }
+    get onChange() {
+        return this.colorSubject.asObservable().pipe(filter((color) => color !== null), distinctUntilChanged());
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.zone.runOutsideAngular(() => {
+            this.subscriptions.add(interval(1000)
+                .pipe(tap(() => {
+                const previousRgbColor = this.currentRgbColor;
+                const currentRgbColor = this.getComputedBackgroundColor(1);
+                if (previousRgbColor !== currentRgbColor) {
+                    this.currentRgbColor = currentRgbColor;
+                    this.colorSubject.next(currentRgbColor);
+                }
+            }))
+                .subscribe());
+        });
+    }
+    destroy() {
+        this.subscriptions.unsubscribe();
+    }
+    convertToRgba(rgbColor, opacity) {
+        return rgbColor.replace(/rgb/i, 'rgba').replace(/\)/i, `,${opacity})`);
+    }
+    getComputedBackgroundColor(opacity) {
+        const matAppBackground = document.getElementsByClassName('mat-app-background');
+        const matSidenavContainer = document.getElementsByTagName('mat-sidenav-container');
+        if (matAppBackground.length > 0) {
+            return this.getComputedStyle(matAppBackground[0], 'background-color');
+        }
+        else if (matSidenavContainer.length > 0) {
+            return this.getComputedStyle(matSidenavContainer[0], 'background-color');
+        }
+        else {
+            return undefined;
+        }
+    }
+    getComputedStyle(el, property) {
+        return window.getComputedStyle(el, null).getPropertyValue(property);
+    }
+}
+StyleService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: StyleService, deps: [{ token: i0.NgZone }], target: i0.ɵɵFactoryTarget.Injectable });
+StyleService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: StyleService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: StyleService, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i0.NgZone }]; } });
 
 class StringsBuilder {
     withStringXml(stringXml) {
@@ -3799,6 +3502,8 @@ class ViewerService {
         this.currentSearch = null;
         this.rotation = new BehaviorSubject(0);
         this.dragStatus = false;
+        this.id = 'ngx-mime-mimeViewer';
+        this.openseadragonId = 'openseadragon';
         /**
          * Scroll-handler
          */
@@ -3887,6 +3592,8 @@ class ViewerService {
                 }
             }
         };
+        this.id = this.generateRandomId('ngx-mime-mimeViewer');
+        this.openseadragonId = this.generateRandomId('openseadragon');
     }
     get onRotationChange() {
         return this.rotation.asObservable().pipe(distinctUntilChanged());
@@ -3903,6 +3610,9 @@ class ViewerService {
     initialize() {
         this.unsubscribe();
         this.subscriptions = new Subscription();
+    }
+    setConfig(config) {
+        this.config = config;
     }
     getViewer() {
         return this.viewer;
@@ -3957,37 +3667,37 @@ class ViewerService {
             }
             const rotation = this.rotation.getValue();
             for (const hit of searchResult.hits) {
-                for (const rect of hit.rects) {
-                    const canvasRect = this.canvasService.getCanvasRect(hit.index);
+                for (const highlightRect of hit.highlightRects) {
+                    const canvasRect = this.canvasService.getCanvasRect(highlightRect.canvasIndex);
                     if (canvasRect) {
                         const currentHitStrokeOffset = 8;
-                        let width = rect.width + currentHitStrokeOffset;
-                        let height = rect.height + currentHitStrokeOffset;
+                        let width = highlightRect.width + currentHitStrokeOffset;
+                        let height = highlightRect.height + currentHitStrokeOffset;
                         let x = canvasRect.x - currentHitStrokeOffset / 2;
                         let y = canvasRect.y - currentHitStrokeOffset / 2;
                         /* hit rect are relative to each unrotated page canvasRect so x,y must be adjusted by the remaining space */
                         switch (rotation) {
                             case 0:
-                                x += rect.x;
-                                y += rect.y;
+                                x += highlightRect.x;
+                                y += highlightRect.y;
                                 break;
                             case 90:
-                                x += canvasRect.width - rect.y - rect.height;
-                                y += rect.x;
+                                x += canvasRect.width - highlightRect.y - highlightRect.height;
+                                y += highlightRect.x;
                                 /* Flip height & width */
-                                width = rect.height + currentHitStrokeOffset;
-                                height = rect.width + currentHitStrokeOffset;
+                                width = highlightRect.height + currentHitStrokeOffset;
+                                height = highlightRect.width + currentHitStrokeOffset;
                                 break;
                             case 180:
-                                x += canvasRect.width - (rect.x + rect.width);
-                                y += canvasRect.height - (rect.y + rect.height);
+                                x += canvasRect.width - (highlightRect.x + highlightRect.width);
+                                y += canvasRect.height - (highlightRect.y + highlightRect.height);
                                 break;
                             case 270:
-                                x += rect.y;
-                                y += canvasRect.height - rect.x - rect.width;
+                                x += highlightRect.y;
+                                y += canvasRect.height - highlightRect.x - highlightRect.width;
                                 /* Flip height & width */
-                                width = rect.height + currentHitStrokeOffset;
-                                height = rect.width + currentHitStrokeOffset;
+                                width = highlightRect.height + currentHitStrokeOffset;
+                                height = highlightRect.width + currentHitStrokeOffset;
                                 break;
                         }
                         const currentOverlay = this.svgNode
@@ -4024,7 +3734,7 @@ class ViewerService {
             this.zone.runOutsideAngular(() => {
                 this.manifest = manifest;
                 this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
-                this.viewer = new OpenSeadragon.Viewer(OptionsFactory.create(this.config));
+                this.viewer = new OpenSeadragon.Viewer(OptionsFactory.create(this.openseadragonId, this.config));
                 createSvgOverlay();
                 this.zoomStrategy = new DefaultZoomStrategy(this.viewer, this.canvasService, this.modeService, this.viewerLayoutService);
                 this.goToCanvasGroupStrategy = new DefaultGoToCanvasGroupStrategy(this.viewer, this.zoomStrategy, this.canvasService, this.modeService, this.config, this.manifest.viewingDirection);
@@ -4244,6 +3954,10 @@ class ViewerService {
             this.viewer.panVertical = true;
             this.resetKeyDownHandler();
         }
+    }
+    generateRandomId(prefix) {
+        const randomString = Math.random().toString(16).slice(2);
+        return `${prefix}-${randomString}`;
     }
     /**
      * Switches to DASHBOARD-mode, repositions canvas group and removes max-width on viewer
@@ -4589,8 +4303,232 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
             type: Injectable
         }], ctorParameters: function () { return [{ type: i0.NgZone }, { type: ClickService }, { type: CanvasService }, { type: ModeService }, { type: ViewerLayoutService }, { type: IiifContentSearchService }, { type: StyleService }, { type: AltoService }, { type: i8.MatSnackBar }, { type: MimeViewerIntl }]; } });
 
+class MimeDomHelper {
+    constructor(fullscreen, viewerService) {
+        this.fullscreen = fullscreen;
+        this.viewerService = viewerService;
+    }
+    getBoundingClientRect(el) {
+        try {
+            if (this.isDocumentInFullScreenMode() &&
+                el.nativeElement.nodeName === 'MIME-VIEWER') {
+                return this.createFullscreenDimensions(el);
+            }
+            else {
+                return this.createDimensions(el);
+            }
+        }
+        catch (e) {
+            return new Dimensions();
+        }
+    }
+    isDocumentInFullScreenMode() {
+        return this.fullscreen.isFullscreen();
+    }
+    toggleFullscreen() {
+        const el = this.getViewerElement();
+        if (el && this.fullscreen.isEnabled()) {
+            this.fullscreen.toggle(el);
+        }
+    }
+    setFocusOnViewer() {
+        const el = this.getViewerElement();
+        if (el) {
+            el.focus();
+        }
+    }
+    getViewerElement() {
+        return document.querySelector(`#${this.viewerService.id}`);
+    }
+    createFullscreenDimensions(el) {
+        const dimensions = el.nativeElement.getBoundingClientRect();
+        const width = this.getFullscreenWidth();
+        const height = this.getFullscreenHeight();
+        return new Dimensions(Object.assign(Object.assign({}, dimensions), { top: 0, bottom: height, width: width, height: height, left: 0, right: width }));
+    }
+    createDimensions(el) {
+        const dimensions = el.nativeElement.getBoundingClientRect();
+        return new Dimensions({
+            top: dimensions.top,
+            bottom: dimensions.bottom,
+            width: dimensions.width,
+            height: dimensions.height,
+            left: dimensions.left,
+            right: dimensions.right,
+        });
+    }
+    getFullscreenWidth() {
+        return (window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth);
+    }
+    getFullscreenHeight() {
+        return (window.innerHeight ||
+            document.documentElement.clientHeight ||
+            document.body.clientHeight);
+    }
+}
+MimeDomHelper.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeDomHelper, deps: [{ token: FullscreenService }, { token: ViewerService }], target: i0.ɵɵFactoryTarget.Injectable });
+MimeDomHelper.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeDomHelper });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeDomHelper, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: FullscreenService }, { type: ViewerService }]; } });
+
+class AttributionDialogResizeService {
+    constructor(mimeDomHelper) {
+        this.mimeDomHelper = mimeDomHelper;
+        this._el = null;
+        this.resizeSubject = new ReplaySubject();
+        this.dimensions = new Dimensions();
+    }
+    set el(el) {
+        this._el = el;
+    }
+    get el() {
+        return this._el;
+    }
+    get onResize() {
+        return this.resizeSubject.asObservable();
+    }
+    markForCheck() {
+        if (this.el) {
+            const dimensions = this.mimeDomHelper.getBoundingClientRect(this.el);
+            if (this.dimensions.bottom !== dimensions.bottom ||
+                this.dimensions.height !== dimensions.height ||
+                this.dimensions.left !== dimensions.left ||
+                this.dimensions.right !== dimensions.right ||
+                this.dimensions.top !== dimensions.top ||
+                this.dimensions.width !== dimensions.width) {
+                this.dimensions = dimensions;
+                this.resizeSubject.next(Object.assign({}, this.dimensions));
+            }
+        }
+    }
+}
+AttributionDialogResizeService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogResizeService, deps: [{ token: MimeDomHelper }], target: i0.ɵɵFactoryTarget.Injectable });
+AttributionDialogResizeService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogResizeService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogResizeService, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: MimeDomHelper }]; } });
+
+class AccessKeys {
+    constructor(event) {
+        this.altKey = false;
+        this.shiftKey = false;
+        this.ctrlkey = false;
+        this.metaKey = false;
+        this.event = event;
+        this.keyCode = event.keyCode;
+        this.altKey = event.altKey;
+        this.shiftKey = event.shiftKey;
+        this.ctrlkey = event.ctrlKey;
+        this.metaKey = event.metaKey;
+    }
+    isArrowRightKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWRIGHT);
+    }
+    isArrowLeftKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.ARROWLEFT);
+    }
+    isPageUpKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEUP);
+    }
+    isPageDownKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.PAGEDOWN);
+    }
+    isFirstCanvasGroupKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.firstCanvasGroupCodes));
+    }
+    isLastCanvasGroupKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.lastCanvasGroupCodes));
+    }
+    isSliderKeys() {
+        return (this.isArrowLeftKeys() ||
+            this.isArrowRightKeys() ||
+            this.isPageDownKeys() ||
+            this.isPageUpKeys() ||
+            this.isFirstCanvasGroupKeys() ||
+            this.isLastCanvasGroupKeys());
+    }
+    isZoomInKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomInCodes));
+    }
+    isZoomOutKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomOutCodes));
+    }
+    isZoomHomeKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.zoomHomeCodes));
+    }
+    isNextHitKeys() {
+        return !this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.nextHit);
+    }
+    isPreviousHitKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.previousHit));
+    }
+    isSearchDialogKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleSearchDialogCodes));
+    }
+    isInformationDialogKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleInformationDialogCodes));
+    }
+    isFullscreenKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.toggleFullscreenCodes));
+    }
+    isResetSearchKeys() {
+        return (!this.isMetaPressed() &&
+            this.isShiftPressed() &&
+            this.arrayContainsKeys(AccessKeys.resetSearch));
+    }
+    isRotateKeys() {
+        return (!this.isMultiKeys() && this.arrayContainsKeys(AccessKeys.rotateCwCodes));
+    }
+    isRecognizedTextContentKeys() {
+        return (!this.isMultiKeys() &&
+            this.arrayContainsKeys(AccessKeys.recognizedTextContentCodes));
+    }
+    execute(fn) {
+        this.event.preventDefault();
+        fn();
+    }
+    isMultiKeys() {
+        return this.altKey || this.shiftKey || this.ctrlkey;
+    }
+    arrayContainsKeys(keys) {
+        return keys.indexOf(this.keyCode) > -1;
+    }
+    isShiftPressed() {
+        return this.shiftKey;
+    }
+    isMetaPressed() {
+        return this.metaKey;
+    }
+}
+AccessKeys.PAGEDOWN = [34];
+AccessKeys.PAGEUP = [33];
+AccessKeys.ARROWRIGHT = [39];
+AccessKeys.ARROWLEFT = [37];
+AccessKeys.firstCanvasGroupCodes = [36]; // Home
+AccessKeys.lastCanvasGroupCodes = [35]; // End
+AccessKeys.zoomInCodes = [107, 187, 171]; // +, numpad and standard position, Firefox uses 171 for standard position
+AccessKeys.zoomOutCodes = [109, 189, 173]; // -, numpad and standard position, Firefox uses 173 for standard position
+AccessKeys.zoomHomeCodes = [96, 48]; // 0
+AccessKeys.nextHit = [78]; // n
+AccessKeys.previousHit = [80]; // p
+AccessKeys.toggleSearchDialogCodes = [83]; // s
+AccessKeys.toggleInformationDialogCodes = [67]; // C
+AccessKeys.toggleFullscreenCodes = [70]; // f
+AccessKeys.resetSearch = [83]; // s
+AccessKeys.rotateCwCodes = [82]; // r
+AccessKeys.recognizedTextContentCodes = [84]; // t
+
 class MimeResizeService {
-    constructor() {
+    constructor(viewerService) {
+        this.viewerService = viewerService;
         this.resizeSubject = new ReplaySubject();
     }
     set el(el) {
@@ -4617,7 +4555,7 @@ class MimeResizeService {
                 this.resizeSubject.next(entry.contentRect);
             }
         });
-        const el = this.el.nativeElement.querySelector('#ngx-mime-mimeViewer');
+        const el = this.el.nativeElement.querySelector(`#${this.viewerService.id}`);
         this.observer.observe(el);
     }
     destroy() {
@@ -4626,11 +4564,11 @@ class MimeResizeService {
         }
     }
 }
-MimeResizeService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeResizeService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+MimeResizeService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeResizeService, deps: [{ token: ViewerService }], target: i0.ɵɵFactoryTarget.Injectable });
 MimeResizeService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeResizeService });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeResizeService, decorators: [{
             type: Injectable
-        }] });
+        }], ctorParameters: function () { return [{ type: ViewerService }]; } });
 
 class ContentSearchNavigationService {
     constructor(canvasService, iiifContentSearchService) {
@@ -4650,6 +4588,7 @@ class ContentSearchNavigationService {
         this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((result) => {
             this.searchResult = result;
             this.currentHit = null;
+            this.update(this.canvasService.currentCanvasGroupIndex);
         }));
     }
     destroy() {
@@ -4665,19 +4604,6 @@ class ContentSearchNavigationService {
     }
     get currentHitCounter() {
         return this._currentHitCounter$.pipe(distinctUntilChanged());
-    }
-    updateCurrentHitCounter() {
-        if (this.isCurrentHitOnCurrentCanvasGroup()) {
-            if (this.currentHit) {
-                return this.currentHit.id;
-            }
-        }
-        if (this.isHitOnActiveCanvasGroup) {
-            return this.currentIndex;
-        }
-        else {
-            return this.lastHitIndex;
-        }
     }
     getHitOnActiveCanvasGroup() {
         return this.isHitOnActiveCanvasGroup;
@@ -4703,6 +4629,19 @@ class ContentSearchNavigationService {
         this._currentHitCounter$.next(this.currentHit.id);
         this.currentIndex = this.currentHit.index;
         this.iiifContentSearchService.selected(hit);
+    }
+    updateCurrentHitCounter() {
+        if (this.isCurrentHitOnCurrentCanvasGroup()) {
+            if (this.currentHit) {
+                return this.currentHit.id;
+            }
+        }
+        if (this.isHitOnActiveCanvasGroup) {
+            return this.currentIndex;
+        }
+        else {
+            return this.lastHitIndex;
+        }
     }
     goToNextCurrentCanvasHit() {
         if (this.searchResult && this.currentHit) {
@@ -4754,34 +4693,37 @@ class ContentSearchNavigationService {
         }
     }
     findHitOnActiveCanvasGroup() {
+        var _a;
         if (!this.searchResult) {
             return false;
         }
-        return (this.canvasesPerCanvasGroup.indexOf(this.searchResult.get(this.currentIndex).index) >= 0);
+        return (((_a = this.canvasesPerCanvasGroup) === null || _a === void 0 ? void 0 : _a.indexOf(this.searchResult.get(this.currentIndex).index)) >= 0);
     }
     findCurrentHitIndex(canvasGroupIndexes) {
         if (!this.searchResult) {
             return -1;
         }
-        for (let i = 0; i < this.searchResult.size(); i++) {
-            const hit = this.searchResult.get(i);
-            if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
-                return i;
-            }
-            if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
-                if (i === 0) {
-                    return -1;
+        if (canvasGroupIndexes) {
+            for (let i = 0; i < this.searchResult.size(); i++) {
+                const hit = this.searchResult.get(i);
+                if (canvasGroupIndexes.indexOf(hit.index) >= 0) {
+                    return i;
                 }
-                else {
-                    const phit = this.searchResult.get(i - 1);
-                    return this.searchResult.hits.findIndex((sr) => sr.index === phit.index);
+                if (hit.index >= canvasGroupIndexes[canvasGroupIndexes.length - 1]) {
+                    if (i === 0) {
+                        return -1;
+                    }
+                    else {
+                        const phit = this.searchResult.get(i - 1);
+                        return this.searchResult.hits.findIndex((sr) => sr.index === phit.index);
+                    }
                 }
             }
         }
         return this.searchResult.size() - 1;
     }
     findLastHitIndex(canvasGroupIndexes) {
-        if (!this.searchResult) {
+        if (!this.searchResult || !canvasGroupIndexes) {
             return -1;
         }
         const hits = this.searchResult.hits.filter((hit) => hit.index < canvasGroupIndexes[0]);
@@ -4947,15 +4889,15 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
             }] } });
 
 class MobileContentSearchDialogConfigStrategy {
-    getConfig(elementRef) {
+    getConfig(elementRef, viewContainerRef) {
         return {
             hasBackdrop: false,
-            disableClose: false,
             autoFocus: false,
             width: '100%',
             height: '100%',
             maxWidth: '100% !important',
             panelClass: 'content-search-panel',
+            viewContainerRef: viewContainerRef,
         };
     }
 }
@@ -4963,11 +4905,10 @@ class DesktopContentSearchDialogConfigStrategy {
     constructor(mimeDomHelper) {
         this.mimeDomHelper = mimeDomHelper;
     }
-    getConfig(el) {
+    getConfig(el, viewContainerRef) {
         const dimensions = this.getPosition(el);
         return {
             hasBackdrop: false,
-            disableClose: false,
             autoFocus: false,
             width: `${DesktopContentSearchDialogConfigStrategy.dialogWidth}px`,
             position: {
@@ -4976,6 +4917,7 @@ class DesktopContentSearchDialogConfigStrategy {
             },
             maxWidth: '100% !important',
             panelClass: 'content-search-panel',
+            viewContainerRef: viewContainerRef,
         };
     }
     getPosition(el) {
@@ -5013,7 +4955,6 @@ class ContentSearchDialogService {
         this.dialog = dialog;
         this.contentSearchDialogConfigStrategyFactory = contentSearchDialogConfigStrategyFactory;
         this.mimeResizeService = mimeResizeService;
-        this._el = null;
     }
     initialize() {
         this.subscriptions = new Subscription();
@@ -5032,6 +4973,9 @@ class ContentSearchDialogService {
     }
     set el(el) {
         this._el = el;
+    }
+    set viewContainerRef(viewContainerRef) {
+        this._viewContainerRef = viewContainerRef;
     }
     open() {
         if (!this.isOpen()) {
@@ -5053,9 +4997,12 @@ class ContentSearchDialogService {
         return ((_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.getState()) === 0 /* MatDialogState.OPEN */;
     }
     getDialogConfig() {
+        if (!this._el || !this._viewContainerRef) {
+            throw new Error('No element or viewContainerRef');
+        }
         return this.contentSearchDialogConfigStrategyFactory
             .create()
-            .getConfig(this._el);
+            .getConfig(this._el, this._viewContainerRef);
     }
     unsubscribe() {
         if (this.subscriptions) {
@@ -5192,21 +5139,21 @@ class InformationDialogComponent {
     }
 }
 InformationDialogComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: InformationDialogComponent, deps: [{ token: MimeViewerIntl }, { token: i1.MediaObserver }, { token: i0.ChangeDetectorRef }, { token: i1$1.MatDialogRef }, { token: i0.ChangeDetectorRef }, { token: IiifManifestService }, { token: MimeResizeService }], target: i0.ɵɵFactoryTarget.Component });
-InformationDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: InformationDialogComponent, selector: "mime-information", ngImport: i0, template: "<div class=\"information-container\">\n  <ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <ng-container *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\" data-test-id=\"mobile-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n    <ng-container *ngSwitchDefault>\n      <mat-toolbar data-test-id=\"desktop-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n  </ng-container>\n  <div mat-dialog-content>\n    <mat-tab-group [(selectedIndex)]=\"selectedIndex\">\n      <mat-tab [label]=\"intl.metadataLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-metadata></mime-metadata>\n        </div>\n      </mat-tab>\n      <mat-tab *ngIf=\"showToc\" [label]=\"intl.tocLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-toc (canvasChanged)=\"onCanvasChanged()\"></mime-toc>\n        </div>\n      </mat-tab>\n    </mat-tab-group>\n  </div>\n</div>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}::ng-deep .information-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}::ng-deep .information-container>div>div>.mat-toolbar{padding:0!important}.tab-container{overflow:auto;padding:8px 16px}.mat-mdc-dialog-content{max-height:none;padding:0}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i6$1.NgStyle, selector: "[ngStyle]", inputs: ["ngStyle"] }, { kind: "directive", type: i6$1.NgSwitch, selector: "[ngSwitch]", inputs: ["ngSwitch"] }, { kind: "directive", type: i6$1.NgSwitchCase, selector: "[ngSwitchCase]", inputs: ["ngSwitchCase"] }, { kind: "directive", type: i6$1.NgSwitchDefault, selector: "[ngSwitchDefault]" }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "directive", type: i9.DefaultStyleDirective, selector: "  [ngStyle],  [ngStyle.xs], [ngStyle.sm], [ngStyle.md], [ngStyle.lg], [ngStyle.xl],  [ngStyle.lt-sm], [ngStyle.lt-md], [ngStyle.lt-lg], [ngStyle.lt-xl],  [ngStyle.gt-xs], [ngStyle.gt-sm], [ngStyle.gt-md], [ngStyle.gt-lg]", inputs: ["ngStyle", "ngStyle.xs", "ngStyle.sm", "ngStyle.md", "ngStyle.lg", "ngStyle.xl", "ngStyle.lt-sm", "ngStyle.lt-md", "ngStyle.lt-lg", "ngStyle.lt-xl", "ngStyle.gt-xs", "ngStyle.gt-sm", "ngStyle.gt-md", "ngStyle.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }, { kind: "directive", type: i1$1.MatDialogClose, selector: "[mat-dialog-close], [matDialogClose]", inputs: ["aria-label", "type", "mat-dialog-close", "matDialogClose"], exportAs: ["matDialogClose"] }, { kind: "directive", type: i1$1.MatDialogTitle, selector: "[mat-dialog-title], [matDialogTitle]", inputs: ["id"], exportAs: ["matDialogTitle"] }, { kind: "directive", type: i1$1.MatDialogContent, selector: "[mat-dialog-content], mat-dialog-content, [matDialogContent]" }, { kind: "component", type: i13.MatTab, selector: "mat-tab", inputs: ["disabled"], exportAs: ["matTab"] }, { kind: "component", type: i13.MatTabGroup, selector: "mat-tab-group", inputs: ["color", "disableRipple", "fitInkBarToContent", "mat-stretch-tabs"], exportAs: ["matTabGroup"] }, { kind: "component", type: MetadataComponent, selector: "mime-metadata" }, { kind: "component", type: TocComponent, selector: "mime-toc", outputs: ["canvasChanged"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+InformationDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: InformationDialogComponent, selector: "mime-information", ngImport: i0, template: "<div class=\"information-container\">\n  <ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <ng-container *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\" data-testid=\"mobile-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n    <ng-container *ngSwitchDefault>\n      <mat-toolbar data-testid=\"desktop-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n  </ng-container>\n  <div mat-dialog-content>\n    <mat-tab-group [(selectedIndex)]=\"selectedIndex\">\n      <mat-tab [label]=\"intl.metadataLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-metadata></mime-metadata>\n        </div>\n      </mat-tab>\n      <mat-tab *ngIf=\"showToc\" [label]=\"intl.tocLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-toc (canvasChanged)=\"onCanvasChanged()\"></mime-toc>\n        </div>\n      </mat-tab>\n    </mat-tab-group>\n  </div>\n</div>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}::ng-deep .information-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}::ng-deep .information-container>div>div>.mat-toolbar{padding:0!important}.tab-container{overflow:auto;padding:8px 16px}.mat-mdc-dialog-content{max-height:none;padding:0}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i6$1.NgStyle, selector: "[ngStyle]", inputs: ["ngStyle"] }, { kind: "directive", type: i6$1.NgSwitch, selector: "[ngSwitch]", inputs: ["ngSwitch"] }, { kind: "directive", type: i6$1.NgSwitchCase, selector: "[ngSwitchCase]", inputs: ["ngSwitchCase"] }, { kind: "directive", type: i6$1.NgSwitchDefault, selector: "[ngSwitchDefault]" }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "directive", type: i9.DefaultStyleDirective, selector: "  [ngStyle],  [ngStyle.xs], [ngStyle.sm], [ngStyle.md], [ngStyle.lg], [ngStyle.xl],  [ngStyle.lt-sm], [ngStyle.lt-md], [ngStyle.lt-lg], [ngStyle.lt-xl],  [ngStyle.gt-xs], [ngStyle.gt-sm], [ngStyle.gt-md], [ngStyle.gt-lg]", inputs: ["ngStyle", "ngStyle.xs", "ngStyle.sm", "ngStyle.md", "ngStyle.lg", "ngStyle.xl", "ngStyle.lt-sm", "ngStyle.lt-md", "ngStyle.lt-lg", "ngStyle.lt-xl", "ngStyle.gt-xs", "ngStyle.gt-sm", "ngStyle.gt-md", "ngStyle.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }, { kind: "directive", type: i1$1.MatDialogClose, selector: "[mat-dialog-close], [matDialogClose]", inputs: ["aria-label", "type", "mat-dialog-close", "matDialogClose"], exportAs: ["matDialogClose"] }, { kind: "directive", type: i1$1.MatDialogTitle, selector: "[mat-dialog-title], [matDialogTitle]", inputs: ["id"], exportAs: ["matDialogTitle"] }, { kind: "directive", type: i1$1.MatDialogContent, selector: "[mat-dialog-content], mat-dialog-content, [matDialogContent]" }, { kind: "component", type: i13.MatTab, selector: "mat-tab", inputs: ["disabled"], exportAs: ["matTab"] }, { kind: "component", type: i13.MatTabGroup, selector: "mat-tab-group", inputs: ["color", "disableRipple", "fitInkBarToContent", "mat-stretch-tabs"], exportAs: ["matTabGroup"] }, { kind: "component", type: MetadataComponent, selector: "mime-metadata" }, { kind: "component", type: TocComponent, selector: "mime-toc", outputs: ["canvasChanged"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: InformationDialogComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-information', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div class=\"information-container\">\n  <ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <ng-container *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\" data-test-id=\"mobile-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n    <ng-container *ngSwitchDefault>\n      <mat-toolbar data-test-id=\"desktop-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n  </ng-container>\n  <div mat-dialog-content>\n    <mat-tab-group [(selectedIndex)]=\"selectedIndex\">\n      <mat-tab [label]=\"intl.metadataLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-metadata></mime-metadata>\n        </div>\n      </mat-tab>\n      <mat-tab *ngIf=\"showToc\" [label]=\"intl.tocLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-toc (canvasChanged)=\"onCanvasChanged()\"></mime-toc>\n        </div>\n      </mat-tab>\n    </mat-tab-group>\n  </div>\n</div>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}::ng-deep .information-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}::ng-deep .information-container>div>div>.mat-toolbar{padding:0!important}.tab-container{overflow:auto;padding:8px 16px}.mat-mdc-dialog-content{max-height:none;padding:0}\n"] }]
+            args: [{ selector: 'mime-information', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div class=\"information-container\">\n  <ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <ng-container *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\" data-testid=\"mobile-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n    <ng-container *ngSwitchDefault>\n      <mat-toolbar data-testid=\"desktop-toolbar\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.closeLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </ng-container>\n  </ng-container>\n  <div mat-dialog-content>\n    <mat-tab-group [(selectedIndex)]=\"selectedIndex\">\n      <mat-tab [label]=\"intl.metadataLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-metadata></mime-metadata>\n        </div>\n      </mat-tab>\n      <mat-tab *ngIf=\"showToc\" [label]=\"intl.tocLabel\">\n        <div class=\"tab-container\" [ngStyle]=\"tabHeight\">\n          <mime-toc (canvasChanged)=\"onCanvasChanged()\"></mime-toc>\n        </div>\n      </mat-tab>\n    </mat-tab-group>\n  </div>\n</div>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}::ng-deep .information-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}::ng-deep .information-container>div>div>.mat-toolbar{padding:0!important}.tab-container{overflow:auto;padding:8px 16px}.mat-mdc-dialog-content{max-height:none;padding:0}\n"] }]
         }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i1.MediaObserver }, { type: i0.ChangeDetectorRef }, { type: i1$1.MatDialogRef }, { type: i0.ChangeDetectorRef }, { type: IiifManifestService }, { type: MimeResizeService }]; } });
 
 class MobileInformationDialogConfigStrategy {
-    getConfig(elementRef) {
+    getConfig(elementRef, viewContainerRef) {
         return {
             hasBackdrop: false,
-            disableClose: false,
             width: '100%',
             height: '100%',
             maxWidth: '100% !important',
             panelClass: 'information-panel',
+            viewContainerRef: viewContainerRef,
         };
     }
 }
@@ -5214,11 +5161,10 @@ class DesktopInformationDialogConfigStrategy {
     constructor(mimeDomHelper) {
         this.mimeDomHelper = mimeDomHelper;
     }
-    getConfig(el) {
+    getConfig(el, viewContainerRef) {
         const dimensions = this.getPosition(el);
         return {
             hasBackdrop: false,
-            disableClose: false,
             width: `${DesktopInformationDialogConfigStrategy.dialogWidth}px`,
             position: {
                 top: dimensions.top + 'px',
@@ -5226,6 +5172,7 @@ class DesktopInformationDialogConfigStrategy {
             },
             maxWidth: '100% !important',
             panelClass: 'information-panel',
+            viewContainerRef: viewContainerRef,
         };
     }
     getPosition(el) {
@@ -5263,7 +5210,6 @@ class InformationDialogService {
         this.dialog = dialog;
         this.informationDialogConfigStrategyFactory = informationDialogConfigStrategyFactory;
         this.mimeResizeService = mimeResizeService;
-        this._el = null;
     }
     initialize() {
         this.subscriptions = new Subscription();
@@ -5282,6 +5228,9 @@ class InformationDialogService {
     }
     set el(el) {
         this._el = el;
+    }
+    set viewContainerRef(viewContainerRef) {
+        this._viewContainerRef = viewContainerRef;
     }
     open(selectedIndex) {
         if (!this.isOpen()) {
@@ -5310,12 +5259,12 @@ class InformationDialogService {
         return (_c = (_b = (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.componentInstance) === null || _b === void 0 ? void 0 : _b.selectedIndex) !== null && _c !== void 0 ? _c : 0;
     }
     getDialogConfig() {
-        if (!this._el) {
-            throw new Error('No element');
+        if (!this._el || !this._viewContainerRef) {
+            throw new Error('No element or viewContainerRef');
         }
         return this.informationDialogConfigStrategyFactory
             .create()
-            .getConfig(this._el);
+            .getConfig(this._el, this._viewContainerRef);
     }
     unsubscribe() {
         if (this.subscriptions) {
@@ -5335,10 +5284,10 @@ class IconComponent {
     }
 }
 IconComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: IconComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
-IconComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: IconComponent, selector: "mime-icon", inputs: { iconName: "iconName" }, ngImport: i0, template: "<div class=\"mat-icon\">\n  <ng-container *ngIf=\"iconName === 'single_page_display'\">\n    <div class=\"single-page-display\">\n      <svg\n        version=\"1.1\"\n        id=\"Layer_1\"\n        xmlns=\"http://www.w3.org/2000/svg\"\n        xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n        viewBox=\"0 0 90 90\"\n        preserveAspectRatio=\"xMidYMin slice\"\n      >\n        <style type=\"text/css\">\n          .st0 {\n            clip-path: url(#SVGID_2_);\n          }\n        </style>\n        <g>\n          <defs><rect id=\"SVGID_1_\" width=\"100%\" height=\"100%\" /></defs>\n          <clipPath id=\"SVGID_2_\">\n            <use xlink:href=\"#SVGID_1_\" style=\"overflow: visible\" />\n          </clipPath>\n          <path\n            class=\"st0\"\n            d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M26.1,31.8H4V4.1h13.6v8.4h8.5V31.8z M30,31.6\n          V11.4L18.7,0H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n          />\n        </g>\n      </svg>\n    </div>\n  </ng-container>\n  <ng-container *ngIf=\"iconName === 'two_page_display'\">\n    <svg\n      version=\"1.1\"\n      id=\"Layer_2\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n      viewBox=\"0 0 90 90\"\n      preserveAspectRatio=\"xMidYMin slice\"\n    >\n      <style type=\"text/css\">\n        .st0 {\n          clip-path: url(#SVGID_2_);\n        }\n      </style>\n      <g>\n        <defs><rect id=\"SVGID_3_\" width=\"100%\" height=\"100%\" /></defs>\n        <clipPath id=\"SVGID_4_\">\n          <use xlink:href=\"#SVGID_3_\" style=\"overflow: visible\" />\n        </clipPath>\n        <path\n          class=\"st0\"\n          d=\"M52.5,25.2H39.1v2.7h13.4V25.2z M52.5,18.1H39.1v2.7h13.4V18.1z M56.8,31.8H34.7V4.1h13.6v8.4h8.5V31.8z\n        M60.8,31.6V11.4L49.4,0H35c0,0-4.3,0-4.3,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C56.6,35.9,60.8,35.9,60.8,31.6\"\n        />\n        <path\n          class=\"st0\"\n          d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M21.7,11.1H8.3v2.7h13.4V11.1z M26.1,31.8H4V4.1\n       h22.1V31.8z M30,31.6V4.3c0,0,0-4.3-4.3-4.3H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n        />\n      </g>\n    </svg>\n  </ng-container>\n</div>\n", styles: [".mat-icon{vertical-align:middle}.single-page-display{margin-left:5px}svg{height:40px;width:40px}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+IconComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: IconComponent, selector: "mime-icon", inputs: { iconName: "iconName" }, ngImport: i0, template: "<div class=\"mat-icon\">\n  <ng-container *ngIf=\"iconName === 'single_page_display'\">\n    <div class=\"single-page-display\">\n      <svg\n        version=\"1.1\"\n        xmlns=\"http://www.w3.org/2000/svg\"\n        xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n        viewBox=\"0 0 90 90\"\n        preserveAspectRatio=\"xMidYMin slice\"\n      >\n        <style type=\"text/css\">\n          .st0 {\n            clip-path: url(#SVGID_2_);\n          }\n        </style>\n        <g>\n          <defs><rect width=\"100%\" height=\"100%\" /></defs>\n          <clipPath>\n            <use xlink:href=\"#SVGID_1_\" style=\"overflow: visible\" />\n          </clipPath>\n          <path\n            class=\"st0\"\n            d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M26.1,31.8H4V4.1h13.6v8.4h8.5V31.8z M30,31.6\n          V11.4L18.7,0H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n          />\n        </g>\n      </svg>\n    </div>\n  </ng-container>\n  <ng-container *ngIf=\"iconName === 'two_page_display'\">\n    <svg\n      version=\"1.1\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n      viewBox=\"0 0 90 90\"\n      preserveAspectRatio=\"xMidYMin slice\"\n    >\n      <style type=\"text/css\">\n        .st0 {\n          clip-path: url(#SVGID_2_);\n        }\n      </style>\n      <g>\n        <defs><rect width=\"100%\" height=\"100%\" /></defs>\n        <clipPath>\n          <use xlink:href=\"#SVGID_3_\" style=\"overflow: visible\" />\n        </clipPath>\n        <path\n          class=\"st0\"\n          d=\"M52.5,25.2H39.1v2.7h13.4V25.2z M52.5,18.1H39.1v2.7h13.4V18.1z M56.8,31.8H34.7V4.1h13.6v8.4h8.5V31.8z\n        M60.8,31.6V11.4L49.4,0H35c0,0-4.3,0-4.3,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C56.6,35.9,60.8,35.9,60.8,31.6\"\n        />\n        <path\n          class=\"st0\"\n          d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M21.7,11.1H8.3v2.7h13.4V11.1z M26.1,31.8H4V4.1\n       h22.1V31.8z M30,31.6V4.3c0,0,0-4.3-4.3-4.3H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n        />\n      </g>\n    </svg>\n  </ng-container>\n</div>\n", styles: [".mat-icon{vertical-align:middle}.single-page-display{margin-left:5px}svg{height:40px;width:40px}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: IconComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-icon', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div class=\"mat-icon\">\n  <ng-container *ngIf=\"iconName === 'single_page_display'\">\n    <div class=\"single-page-display\">\n      <svg\n        version=\"1.1\"\n        id=\"Layer_1\"\n        xmlns=\"http://www.w3.org/2000/svg\"\n        xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n        viewBox=\"0 0 90 90\"\n        preserveAspectRatio=\"xMidYMin slice\"\n      >\n        <style type=\"text/css\">\n          .st0 {\n            clip-path: url(#SVGID_2_);\n          }\n        </style>\n        <g>\n          <defs><rect id=\"SVGID_1_\" width=\"100%\" height=\"100%\" /></defs>\n          <clipPath id=\"SVGID_2_\">\n            <use xlink:href=\"#SVGID_1_\" style=\"overflow: visible\" />\n          </clipPath>\n          <path\n            class=\"st0\"\n            d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M26.1,31.8H4V4.1h13.6v8.4h8.5V31.8z M30,31.6\n          V11.4L18.7,0H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n          />\n        </g>\n      </svg>\n    </div>\n  </ng-container>\n  <ng-container *ngIf=\"iconName === 'two_page_display'\">\n    <svg\n      version=\"1.1\"\n      id=\"Layer_2\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n      viewBox=\"0 0 90 90\"\n      preserveAspectRatio=\"xMidYMin slice\"\n    >\n      <style type=\"text/css\">\n        .st0 {\n          clip-path: url(#SVGID_2_);\n        }\n      </style>\n      <g>\n        <defs><rect id=\"SVGID_3_\" width=\"100%\" height=\"100%\" /></defs>\n        <clipPath id=\"SVGID_4_\">\n          <use xlink:href=\"#SVGID_3_\" style=\"overflow: visible\" />\n        </clipPath>\n        <path\n          class=\"st0\"\n          d=\"M52.5,25.2H39.1v2.7h13.4V25.2z M52.5,18.1H39.1v2.7h13.4V18.1z M56.8,31.8H34.7V4.1h13.6v8.4h8.5V31.8z\n        M60.8,31.6V11.4L49.4,0H35c0,0-4.3,0-4.3,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C56.6,35.9,60.8,35.9,60.8,31.6\"\n        />\n        <path\n          class=\"st0\"\n          d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M21.7,11.1H8.3v2.7h13.4V11.1z M26.1,31.8H4V4.1\n       h22.1V31.8z M30,31.6V4.3c0,0,0-4.3-4.3-4.3H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n        />\n      </g>\n    </svg>\n  </ng-container>\n</div>\n", styles: [".mat-icon{vertical-align:middle}.single-page-display{margin-left:5px}svg{height:40px;width:40px}\n"] }]
+            args: [{ selector: 'mime-icon', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div class=\"mat-icon\">\n  <ng-container *ngIf=\"iconName === 'single_page_display'\">\n    <div class=\"single-page-display\">\n      <svg\n        version=\"1.1\"\n        xmlns=\"http://www.w3.org/2000/svg\"\n        xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n        viewBox=\"0 0 90 90\"\n        preserveAspectRatio=\"xMidYMin slice\"\n      >\n        <style type=\"text/css\">\n          .st0 {\n            clip-path: url(#SVGID_2_);\n          }\n        </style>\n        <g>\n          <defs><rect width=\"100%\" height=\"100%\" /></defs>\n          <clipPath>\n            <use xlink:href=\"#SVGID_1_\" style=\"overflow: visible\" />\n          </clipPath>\n          <path\n            class=\"st0\"\n            d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M26.1,31.8H4V4.1h13.6v8.4h8.5V31.8z M30,31.6\n          V11.4L18.7,0H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n          />\n        </g>\n      </svg>\n    </div>\n  </ng-container>\n  <ng-container *ngIf=\"iconName === 'two_page_display'\">\n    <svg\n      version=\"1.1\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n      viewBox=\"0 0 90 90\"\n      preserveAspectRatio=\"xMidYMin slice\"\n    >\n      <style type=\"text/css\">\n        .st0 {\n          clip-path: url(#SVGID_2_);\n        }\n      </style>\n      <g>\n        <defs><rect width=\"100%\" height=\"100%\" /></defs>\n        <clipPath>\n          <use xlink:href=\"#SVGID_3_\" style=\"overflow: visible\" />\n        </clipPath>\n        <path\n          class=\"st0\"\n          d=\"M52.5,25.2H39.1v2.7h13.4V25.2z M52.5,18.1H39.1v2.7h13.4V18.1z M56.8,31.8H34.7V4.1h13.6v8.4h8.5V31.8z\n        M60.8,31.6V11.4L49.4,0H35c0,0-4.3,0-4.3,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C56.6,35.9,60.8,35.9,60.8,31.6\"\n        />\n        <path\n          class=\"st0\"\n          d=\"M21.7,25.2H8.3v2.7h13.4V25.2z M21.7,18.1H8.3v2.7h13.4V18.1z M21.7,11.1H8.3v2.7h13.4V11.1z M26.1,31.8H4V4.1\n       h22.1V31.8z M30,31.6V4.3c0,0,0-4.3-4.3-4.3H4.3C4.3,0,0,0,0,4.3v27.4c0,0,0,4.3,4.3,4.3h21.5C25.8,35.9,30,35.9,30,31.6\"\n        />\n      </g>\n    </svg>\n  </ng-container>\n</div>\n", styles: [".mat-icon{vertical-align:middle}.single-page-display{margin-left:5px}svg{height:40px;width:40px}\n"] }]
         }], propDecorators: { iconName: [{
                 type: Input
             }] } });
@@ -5409,22 +5358,22 @@ class ViewDialogComponent {
     }
 }
 ViewDialogComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogComponent, deps: [{ token: i1.MediaObserver }, { token: MimeViewerIntl }, { token: i0.ChangeDetectorRef }, { token: ViewerLayoutService }, { token: IiifManifestService }, { token: AltoService }, { token: MimeResizeService }], target: i0.ɵɵFactoryTarget.Component });
-ViewDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ViewDialogComponent, selector: "mime-view-dialog", ngImport: i0, template: "<ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n  <ng-container *ngSwitchCase=\"true\">\n    <mat-toolbar color=\"primary\" data-test-id=\"mobile-toolbar\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n        <button\n          data-test-id=\"ngx-mime-view-dialog-close-button\"\n          mat-icon-button\n          [aria-label]=\"intl.closeLabel\"\n          [matTooltip]=\"intl.closeLabel\"\n          [matDialogClose]=\"true\"\n        >\n          <mat-icon>close</mat-icon>\n        </button>\n        <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>\n      </div>\n    </mat-toolbar>\n  </ng-container>\n  <ng-container *ngSwitchDefault>\n    <mat-toolbar data-test-id=\"desktop-toolbar\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n        <h1 mat-dialog-title data-test-id=\"ngx-mime-heading-desktop\">{{\n          intl.layoutMenuLabel\n        }}</h1>\n        <button\n          data-test-id=\"ngx-mime-view-dialog-close-button\"\n          mat-icon-button\n          [aria-label]=\"intl.closeLabel\"\n          [matTooltip]=\"intl.closeLabel\"\n          [matDialogClose]=\"true\"\n        >\n          <mat-icon>close</mat-icon>\n        </button>\n      </div>\n    </mat-toolbar>\n  </ng-container>\n</ng-container>\n<mat-dialog-content [ngStyle]=\"contentStyle\">\n  <ng-container *ngIf=\"isPagedManifest\">\n    <section data-test-id=\"page-layout\">\n      <h2>{{ intl.pageLayoutLabel }}</h2>\n      <div\n        fxLayout=\"column\"\n        fxLayoutGap=\"8px\"\n        role=\"group\"\n        [attr.aria-label]=\"intl.pageLayoutLabel\"\n      >\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-single-page-view-button\"\n            [aria-label]=\"intl.singlePageViewLabel\"\n            [value]=\"ViewerLayout.ONE_PAGE\"\n            [checked]=\"viewerLayout === ViewerLayout.ONE_PAGE\"\n            (click)=\"setLayoutOnePage()\"\n          >\n            <mime-icon [iconName]=\"'single_page_display'\"> </mime-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.singlePageViewLabel }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-two-page-view-button\"\n            [aria-label]=\"intl.twoPageViewLabel\"\n            [value]=\"ViewerLayout.TWO_PAGE\"\n            [checked]=\"viewerLayout === ViewerLayout.TWO_PAGE\"\n            (click)=\"setLayoutTwoPage()\"\n          >\n            <mime-icon [iconName]=\"'two_page_display'\"> </mime-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.twoPageViewLabel }}</div>\n        </div>\n      </div>\n    </section>\n  </ng-container>\n  <ng-container *ngIf=\"hasRecognizedTextContent\">\n    <mat-divider></mat-divider>\n    <section data-test-id=\"recognized-text-content\">\n      <h2>{{ intl.digitalTextLabel }}</h2>\n      <div\n        fxLayout=\"column\"\n        fxLayoutGap=\"8px\"\n        role=\"group\"\n        [attr.aria-label]=\"intl.digitalTextLabel\"\n      >\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-recognized-text-content-close-button\"\n            [aria-label]=\"intl.recognizedTextContentCloseLabel\"\n            [value]=\"RecognizedTextMode.NONE\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.NONE\"\n            (click)=\"closeRecognizedTextContent()\"\n          >\n            <mat-icon>hide_source</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.recognizedTextContentCloseLabel }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-recognized-text-content-split-view-button\"\n            [aria-label]=\"intl.recognizedTextContentInSplitViewLabel\"\n            [value]=\"RecognizedTextMode.SPLIT\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.SPLIT\"\n            (click)=\"showRecognizedTextContentInSplitView()\"\n          >\n            <mat-icon>view_sidebar</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{\n            intl.recognizedTextContentInSplitViewLabel\n          }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-recognized-text-content-only-button\"\n            [aria-label]=\"intl.showRecognizedTextContentLabel\"\n            [value]=\"RecognizedTextMode.ONLY\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.ONLY\"\n            (click)=\"showRecognizedTextContentOnly()\"\n          >\n            <mat-icon>article</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.showRecognizedTextContentLabel }}</div>\n        </div>\n      </div>\n    </section>\n  </ng-container>\n</mat-dialog-content>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}::ng-deep .view-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}section{padding:16px 0}.label{margin-left:16px}.mat-mdc-dialog-content{margin:0;padding:0 16px}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i6$1.NgStyle, selector: "[ngStyle]", inputs: ["ngStyle"] }, { kind: "directive", type: i6$1.NgSwitch, selector: "[ngSwitch]", inputs: ["ngSwitch"] }, { kind: "directive", type: i6$1.NgSwitchCase, selector: "[ngSwitchCase]", inputs: ["ngSwitchCase"] }, { kind: "directive", type: i6$1.NgSwitchDefault, selector: "[ngSwitchDefault]" }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutGapDirective, selector: "  [fxLayoutGap], [fxLayoutGap.xs], [fxLayoutGap.sm], [fxLayoutGap.md],  [fxLayoutGap.lg], [fxLayoutGap.xl], [fxLayoutGap.lt-sm], [fxLayoutGap.lt-md],  [fxLayoutGap.lt-lg], [fxLayoutGap.lt-xl], [fxLayoutGap.gt-xs], [fxLayoutGap.gt-sm],  [fxLayoutGap.gt-md], [fxLayoutGap.gt-lg]", inputs: ["fxLayoutGap", "fxLayoutGap.xs", "fxLayoutGap.sm", "fxLayoutGap.md", "fxLayoutGap.lg", "fxLayoutGap.xl", "fxLayoutGap.lt-sm", "fxLayoutGap.lt-md", "fxLayoutGap.lt-lg", "fxLayoutGap.lt-xl", "fxLayoutGap.gt-xs", "fxLayoutGap.gt-sm", "fxLayoutGap.gt-md", "fxLayoutGap.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "directive", type: i9.DefaultStyleDirective, selector: "  [ngStyle],  [ngStyle.xs], [ngStyle.sm], [ngStyle.md], [ngStyle.lg], [ngStyle.xl],  [ngStyle.lt-sm], [ngStyle.lt-md], [ngStyle.lt-lg], [ngStyle.lt-xl],  [ngStyle.gt-xs], [ngStyle.gt-sm], [ngStyle.gt-md], [ngStyle.gt-lg]", inputs: ["ngStyle", "ngStyle.xs", "ngStyle.sm", "ngStyle.md", "ngStyle.lg", "ngStyle.xl", "ngStyle.lt-sm", "ngStyle.lt-md", "ngStyle.lt-lg", "ngStyle.lt-xl", "ngStyle.gt-xs", "ngStyle.gt-sm", "ngStyle.gt-md", "ngStyle.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i12$1.MatButtonToggle, selector: "mat-button-toggle", inputs: ["disableRipple", "aria-label", "aria-labelledby", "id", "name", "value", "tabIndex", "appearance", "checked", "disabled"], outputs: ["change"], exportAs: ["matButtonToggle"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }, { kind: "directive", type: i1$1.MatDialogClose, selector: "[mat-dialog-close], [matDialogClose]", inputs: ["aria-label", "type", "mat-dialog-close", "matDialogClose"], exportAs: ["matDialogClose"] }, { kind: "directive", type: i1$1.MatDialogTitle, selector: "[mat-dialog-title], [matDialogTitle]", inputs: ["id"], exportAs: ["matDialogTitle"] }, { kind: "directive", type: i1$1.MatDialogContent, selector: "[mat-dialog-content], mat-dialog-content, [matDialogContent]" }, { kind: "component", type: i16.MatDivider, selector: "mat-divider", inputs: ["vertical", "inset"] }, { kind: "component", type: IconComponent, selector: "mime-icon", inputs: ["iconName"] }] });
+ViewDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ViewDialogComponent, selector: "mime-view-dialog", ngImport: i0, template: "<ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n  <ng-container *ngSwitchCase=\"true\">\n    <mat-toolbar color=\"primary\" data-testid=\"mobile-toolbar\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n        <button\n          data-testid=\"ngx-mime-view-dialog-close-button\"\n          mat-icon-button\n          [aria-label]=\"intl.closeLabel\"\n          [matTooltip]=\"intl.closeLabel\"\n          [matDialogClose]=\"true\"\n        >\n          <mat-icon>close</mat-icon>\n        </button>\n        <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>\n      </div>\n    </mat-toolbar>\n  </ng-container>\n  <ng-container *ngSwitchDefault>\n    <mat-toolbar data-testid=\"desktop-toolbar\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n        <h1 mat-dialog-title data-testid=\"ngx-mime-heading-desktop\">{{\n          intl.layoutMenuLabel\n        }}</h1>\n        <button\n          data-testid=\"ngx-mime-view-dialog-close-button\"\n          mat-icon-button\n          [aria-label]=\"intl.closeLabel\"\n          [matTooltip]=\"intl.closeLabel\"\n          [matDialogClose]=\"true\"\n        >\n          <mat-icon>close</mat-icon>\n        </button>\n      </div>\n    </mat-toolbar>\n  </ng-container>\n</ng-container>\n<mat-dialog-content [ngStyle]=\"contentStyle\">\n  <ng-container *ngIf=\"isPagedManifest\">\n    <section data-testid=\"page-layout\">\n      <h2>{{ intl.pageLayoutLabel }}</h2>\n      <div\n        fxLayout=\"column\"\n        fxLayoutGap=\"8px\"\n        role=\"group\"\n        [attr.aria-label]=\"intl.pageLayoutLabel\"\n      >\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-single-page-view-button\"\n            [aria-label]=\"intl.singlePageViewLabel\"\n            [value]=\"ViewerLayout.ONE_PAGE\"\n            [checked]=\"viewerLayout === ViewerLayout.ONE_PAGE\"\n            (click)=\"setLayoutOnePage()\"\n          >\n            <mime-icon [iconName]=\"'single_page_display'\"> </mime-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.singlePageViewLabel }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-two-page-view-button\"\n            [aria-label]=\"intl.twoPageViewLabel\"\n            [value]=\"ViewerLayout.TWO_PAGE\"\n            [checked]=\"viewerLayout === ViewerLayout.TWO_PAGE\"\n            (click)=\"setLayoutTwoPage()\"\n          >\n            <mime-icon [iconName]=\"'two_page_display'\"> </mime-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.twoPageViewLabel }}</div>\n        </div>\n      </div>\n    </section>\n  </ng-container>\n  <ng-container *ngIf=\"hasRecognizedTextContent\">\n    <mat-divider></mat-divider>\n    <section data-testid=\"recognized-text-content\">\n      <h2>{{ intl.digitalTextLabel }}</h2>\n      <div\n        fxLayout=\"column\"\n        fxLayoutGap=\"8px\"\n        role=\"group\"\n        [attr.aria-label]=\"intl.digitalTextLabel\"\n      >\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-recognized-text-content-close-button\"\n            [aria-label]=\"intl.recognizedTextContentCloseLabel\"\n            [value]=\"RecognizedTextMode.NONE\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.NONE\"\n            (click)=\"closeRecognizedTextContent()\"\n          >\n            <mat-icon>hide_source</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.recognizedTextContentCloseLabel }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-recognized-text-content-split-view-button\"\n            [aria-label]=\"intl.recognizedTextContentInSplitViewLabel\"\n            [value]=\"RecognizedTextMode.SPLIT\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.SPLIT\"\n            (click)=\"showRecognizedTextContentInSplitView()\"\n          >\n            <mat-icon>view_sidebar</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{\n            intl.recognizedTextContentInSplitViewLabel\n          }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-recognized-text-content-only-button\"\n            [aria-label]=\"intl.showRecognizedTextContentLabel\"\n            [value]=\"RecognizedTextMode.ONLY\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.ONLY\"\n            (click)=\"showRecognizedTextContentOnly()\"\n          >\n            <mat-icon>article</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.showRecognizedTextContentLabel }}</div>\n        </div>\n      </div>\n    </section>\n  </ng-container>\n</mat-dialog-content>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}::ng-deep .view-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}section{padding:16px 0}.label{margin-left:16px}.mat-mdc-dialog-content{margin:0;padding:0 16px}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i6$1.NgStyle, selector: "[ngStyle]", inputs: ["ngStyle"] }, { kind: "directive", type: i6$1.NgSwitch, selector: "[ngSwitch]", inputs: ["ngSwitch"] }, { kind: "directive", type: i6$1.NgSwitchCase, selector: "[ngSwitchCase]", inputs: ["ngSwitchCase"] }, { kind: "directive", type: i6$1.NgSwitchDefault, selector: "[ngSwitchDefault]" }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutGapDirective, selector: "  [fxLayoutGap], [fxLayoutGap.xs], [fxLayoutGap.sm], [fxLayoutGap.md],  [fxLayoutGap.lg], [fxLayoutGap.xl], [fxLayoutGap.lt-sm], [fxLayoutGap.lt-md],  [fxLayoutGap.lt-lg], [fxLayoutGap.lt-xl], [fxLayoutGap.gt-xs], [fxLayoutGap.gt-sm],  [fxLayoutGap.gt-md], [fxLayoutGap.gt-lg]", inputs: ["fxLayoutGap", "fxLayoutGap.xs", "fxLayoutGap.sm", "fxLayoutGap.md", "fxLayoutGap.lg", "fxLayoutGap.xl", "fxLayoutGap.lt-sm", "fxLayoutGap.lt-md", "fxLayoutGap.lt-lg", "fxLayoutGap.lt-xl", "fxLayoutGap.gt-xs", "fxLayoutGap.gt-sm", "fxLayoutGap.gt-md", "fxLayoutGap.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "directive", type: i9.DefaultStyleDirective, selector: "  [ngStyle],  [ngStyle.xs], [ngStyle.sm], [ngStyle.md], [ngStyle.lg], [ngStyle.xl],  [ngStyle.lt-sm], [ngStyle.lt-md], [ngStyle.lt-lg], [ngStyle.lt-xl],  [ngStyle.gt-xs], [ngStyle.gt-sm], [ngStyle.gt-md], [ngStyle.gt-lg]", inputs: ["ngStyle", "ngStyle.xs", "ngStyle.sm", "ngStyle.md", "ngStyle.lg", "ngStyle.xl", "ngStyle.lt-sm", "ngStyle.lt-md", "ngStyle.lt-lg", "ngStyle.lt-xl", "ngStyle.gt-xs", "ngStyle.gt-sm", "ngStyle.gt-md", "ngStyle.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i12$1.MatButtonToggle, selector: "mat-button-toggle", inputs: ["disableRipple", "aria-label", "aria-labelledby", "id", "name", "value", "tabIndex", "appearance", "checked", "disabled"], outputs: ["change"], exportAs: ["matButtonToggle"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }, { kind: "directive", type: i1$1.MatDialogClose, selector: "[mat-dialog-close], [matDialogClose]", inputs: ["aria-label", "type", "mat-dialog-close", "matDialogClose"], exportAs: ["matDialogClose"] }, { kind: "directive", type: i1$1.MatDialogTitle, selector: "[mat-dialog-title], [matDialogTitle]", inputs: ["id"], exportAs: ["matDialogTitle"] }, { kind: "directive", type: i1$1.MatDialogContent, selector: "[mat-dialog-content], mat-dialog-content, [matDialogContent]" }, { kind: "component", type: i16.MatDivider, selector: "mat-divider", inputs: ["vertical", "inset"] }, { kind: "component", type: IconComponent, selector: "mime-icon", inputs: ["iconName"] }] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-view-dialog', template: "<ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n  <ng-container *ngSwitchCase=\"true\">\n    <mat-toolbar color=\"primary\" data-test-id=\"mobile-toolbar\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n        <button\n          data-test-id=\"ngx-mime-view-dialog-close-button\"\n          mat-icon-button\n          [aria-label]=\"intl.closeLabel\"\n          [matTooltip]=\"intl.closeLabel\"\n          [matDialogClose]=\"true\"\n        >\n          <mat-icon>close</mat-icon>\n        </button>\n        <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>\n      </div>\n    </mat-toolbar>\n  </ng-container>\n  <ng-container *ngSwitchDefault>\n    <mat-toolbar data-test-id=\"desktop-toolbar\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n        <h1 mat-dialog-title data-test-id=\"ngx-mime-heading-desktop\">{{\n          intl.layoutMenuLabel\n        }}</h1>\n        <button\n          data-test-id=\"ngx-mime-view-dialog-close-button\"\n          mat-icon-button\n          [aria-label]=\"intl.closeLabel\"\n          [matTooltip]=\"intl.closeLabel\"\n          [matDialogClose]=\"true\"\n        >\n          <mat-icon>close</mat-icon>\n        </button>\n      </div>\n    </mat-toolbar>\n  </ng-container>\n</ng-container>\n<mat-dialog-content [ngStyle]=\"contentStyle\">\n  <ng-container *ngIf=\"isPagedManifest\">\n    <section data-test-id=\"page-layout\">\n      <h2>{{ intl.pageLayoutLabel }}</h2>\n      <div\n        fxLayout=\"column\"\n        fxLayoutGap=\"8px\"\n        role=\"group\"\n        [attr.aria-label]=\"intl.pageLayoutLabel\"\n      >\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-single-page-view-button\"\n            [aria-label]=\"intl.singlePageViewLabel\"\n            [value]=\"ViewerLayout.ONE_PAGE\"\n            [checked]=\"viewerLayout === ViewerLayout.ONE_PAGE\"\n            (click)=\"setLayoutOnePage()\"\n          >\n            <mime-icon [iconName]=\"'single_page_display'\"> </mime-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.singlePageViewLabel }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-two-page-view-button\"\n            [aria-label]=\"intl.twoPageViewLabel\"\n            [value]=\"ViewerLayout.TWO_PAGE\"\n            [checked]=\"viewerLayout === ViewerLayout.TWO_PAGE\"\n            (click)=\"setLayoutTwoPage()\"\n          >\n            <mime-icon [iconName]=\"'two_page_display'\"> </mime-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.twoPageViewLabel }}</div>\n        </div>\n      </div>\n    </section>\n  </ng-container>\n  <ng-container *ngIf=\"hasRecognizedTextContent\">\n    <mat-divider></mat-divider>\n    <section data-test-id=\"recognized-text-content\">\n      <h2>{{ intl.digitalTextLabel }}</h2>\n      <div\n        fxLayout=\"column\"\n        fxLayoutGap=\"8px\"\n        role=\"group\"\n        [attr.aria-label]=\"intl.digitalTextLabel\"\n      >\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-recognized-text-content-close-button\"\n            [aria-label]=\"intl.recognizedTextContentCloseLabel\"\n            [value]=\"RecognizedTextMode.NONE\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.NONE\"\n            (click)=\"closeRecognizedTextContent()\"\n          >\n            <mat-icon>hide_source</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.recognizedTextContentCloseLabel }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-recognized-text-content-split-view-button\"\n            [aria-label]=\"intl.recognizedTextContentInSplitViewLabel\"\n            [value]=\"RecognizedTextMode.SPLIT\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.SPLIT\"\n            (click)=\"showRecognizedTextContentInSplitView()\"\n          >\n            <mat-icon>view_sidebar</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{\n            intl.recognizedTextContentInSplitViewLabel\n          }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-test-id=\"ngx-mime-recognized-text-content-only-button\"\n            [aria-label]=\"intl.showRecognizedTextContentLabel\"\n            [value]=\"RecognizedTextMode.ONLY\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.ONLY\"\n            (click)=\"showRecognizedTextContentOnly()\"\n          >\n            <mat-icon>article</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.showRecognizedTextContentLabel }}</div>\n        </div>\n      </div>\n    </section>\n  </ng-container>\n</mat-dialog-content>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}::ng-deep .view-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}section{padding:16px 0}.label{margin-left:16px}.mat-mdc-dialog-content{margin:0;padding:0 16px}\n"] }]
+            args: [{ selector: 'mime-view-dialog', template: "<ng-container [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n  <ng-container *ngSwitchCase=\"true\">\n    <mat-toolbar color=\"primary\" data-testid=\"mobile-toolbar\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n        <button\n          data-testid=\"ngx-mime-view-dialog-close-button\"\n          mat-icon-button\n          [aria-label]=\"intl.closeLabel\"\n          [matTooltip]=\"intl.closeLabel\"\n          [matDialogClose]=\"true\"\n        >\n          <mat-icon>close</mat-icon>\n        </button>\n        <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>\n      </div>\n    </mat-toolbar>\n  </ng-container>\n  <ng-container *ngSwitchDefault>\n    <mat-toolbar data-testid=\"desktop-toolbar\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n        <h1 mat-dialog-title data-testid=\"ngx-mime-heading-desktop\">{{\n          intl.layoutMenuLabel\n        }}</h1>\n        <button\n          data-testid=\"ngx-mime-view-dialog-close-button\"\n          mat-icon-button\n          [aria-label]=\"intl.closeLabel\"\n          [matTooltip]=\"intl.closeLabel\"\n          [matDialogClose]=\"true\"\n        >\n          <mat-icon>close</mat-icon>\n        </button>\n      </div>\n    </mat-toolbar>\n  </ng-container>\n</ng-container>\n<mat-dialog-content [ngStyle]=\"contentStyle\">\n  <ng-container *ngIf=\"isPagedManifest\">\n    <section data-testid=\"page-layout\">\n      <h2>{{ intl.pageLayoutLabel }}</h2>\n      <div\n        fxLayout=\"column\"\n        fxLayoutGap=\"8px\"\n        role=\"group\"\n        [attr.aria-label]=\"intl.pageLayoutLabel\"\n      >\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-single-page-view-button\"\n            [aria-label]=\"intl.singlePageViewLabel\"\n            [value]=\"ViewerLayout.ONE_PAGE\"\n            [checked]=\"viewerLayout === ViewerLayout.ONE_PAGE\"\n            (click)=\"setLayoutOnePage()\"\n          >\n            <mime-icon [iconName]=\"'single_page_display'\"> </mime-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.singlePageViewLabel }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-two-page-view-button\"\n            [aria-label]=\"intl.twoPageViewLabel\"\n            [value]=\"ViewerLayout.TWO_PAGE\"\n            [checked]=\"viewerLayout === ViewerLayout.TWO_PAGE\"\n            (click)=\"setLayoutTwoPage()\"\n          >\n            <mime-icon [iconName]=\"'two_page_display'\"> </mime-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.twoPageViewLabel }}</div>\n        </div>\n      </div>\n    </section>\n  </ng-container>\n  <ng-container *ngIf=\"hasRecognizedTextContent\">\n    <mat-divider></mat-divider>\n    <section data-testid=\"recognized-text-content\">\n      <h2>{{ intl.digitalTextLabel }}</h2>\n      <div\n        fxLayout=\"column\"\n        fxLayoutGap=\"8px\"\n        role=\"group\"\n        [attr.aria-label]=\"intl.digitalTextLabel\"\n      >\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-recognized-text-content-close-button\"\n            [aria-label]=\"intl.recognizedTextContentCloseLabel\"\n            [value]=\"RecognizedTextMode.NONE\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.NONE\"\n            (click)=\"closeRecognizedTextContent()\"\n          >\n            <mat-icon>hide_source</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.recognizedTextContentCloseLabel }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-recognized-text-content-split-view-button\"\n            [aria-label]=\"intl.recognizedTextContentInSplitViewLabel\"\n            [value]=\"RecognizedTextMode.SPLIT\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.SPLIT\"\n            (click)=\"showRecognizedTextContentInSplitView()\"\n          >\n            <mat-icon>view_sidebar</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{\n            intl.recognizedTextContentInSplitViewLabel\n          }}</div>\n        </div>\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <mat-button-toggle\n            data-testid=\"ngx-mime-recognized-text-content-only-button\"\n            [aria-label]=\"intl.showRecognizedTextContentLabel\"\n            [value]=\"RecognizedTextMode.ONLY\"\n            [checked]=\"recognizedTextMode === RecognizedTextMode.ONLY\"\n            (click)=\"showRecognizedTextContentOnly()\"\n          >\n            <mat-icon>article</mat-icon>\n          </mat-button-toggle>\n          <div class=\"label\">{{ intl.showRecognizedTextContentLabel }}</div>\n        </div>\n      </div>\n    </section>\n  </ng-container>\n</mat-dialog-content>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}::ng-deep .view-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}section{padding:16px 0}.label{margin-left:16px}.mat-mdc-dialog-content{margin:0;padding:0 16px}\n"] }]
         }], ctorParameters: function () { return [{ type: i1.MediaObserver }, { type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: ViewerLayoutService }, { type: IiifManifestService }, { type: AltoService }, { type: MimeResizeService }]; } });
 
 class MobileViewDialogConfigStrategy {
-    getConfig(elementRef) {
+    getConfig(elementRef, viewContainerRef) {
         return {
             hasBackdrop: false,
-            disableClose: false,
             autoFocus: false,
             width: '100%',
             height: '100%',
             maxWidth: '100% !important',
             panelClass: 'view-panel',
+            viewContainerRef: viewContainerRef,
         };
     }
 }
@@ -5432,11 +5381,10 @@ class DesktopViewDialogConfigStrategy {
     constructor(mimeDomHelper) {
         this.mimeDomHelper = mimeDomHelper;
     }
-    getConfig(el) {
+    getConfig(el, viewContainerRef) {
         const dimensions = this.getPosition(el);
         return {
             hasBackdrop: false,
-            disableClose: false,
             autoFocus: true,
             width: `${DesktopViewDialogConfigStrategy.dialogWidth}px`,
             position: {
@@ -5445,6 +5393,7 @@ class DesktopViewDialogConfigStrategy {
             },
             panelClass: 'view-panel',
             maxWidth: '100% !important',
+            viewContainerRef: viewContainerRef,
         };
     }
     getPosition(el) {
@@ -5482,7 +5431,6 @@ class ViewDialogService {
         this.dialog = dialog;
         this.viewDialogConfigStrategyFactory = viewDialogConfigStrategyFactory;
         this.mimeResizeService = mimeResizeService;
-        this._el = null;
     }
     initialize() {
         this.subscriptions = new Subscription();
@@ -5501,6 +5449,9 @@ class ViewDialogService {
     }
     set el(el) {
         this._el = el;
+    }
+    set viewContainerRef(viewContainerRef) {
+        this._viewContainerRef = viewContainerRef;
     }
     open() {
         if (!this.isOpen()) {
@@ -5522,7 +5473,12 @@ class ViewDialogService {
         return ((_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.getState()) === 0 /* MatDialogState.OPEN */;
     }
     getDialogConfig() {
-        return this.viewDialogConfigStrategyFactory.create().getConfig(this._el);
+        if (!this._el || !this._viewContainerRef) {
+            throw new Error('No element or viewContainerRef');
+        }
+        return this.viewDialogConfigStrategyFactory
+            .create()
+            .getConfig(this._el, this._viewContainerRef);
     }
     unsubscribe() {
         if (this.subscriptions) {
@@ -5852,134 +5808,6 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
                 args: ['window:resize', ['$event']]
             }] } });
 
-class AttributionDialogService {
-    constructor(dialog, mimeResizeService, attributionDialogResizeService, mimeDomHelper) {
-        this.dialog = dialog;
-        this.mimeResizeService = mimeResizeService;
-        this.attributionDialogResizeService = attributionDialogResizeService;
-        this.mimeDomHelper = mimeDomHelper;
-        this._el = null;
-        this.attributionDialogHeight = 0;
-    }
-    initialize() {
-        this.subscriptions = new Subscription();
-        this.subscriptions.add(this.mimeResizeService.onResize.subscribe(() => {
-            var _a;
-            if (this.isOpen()) {
-                const config = this.getDialogConfig();
-                (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.updatePosition(config.position);
-            }
-        }));
-        this.subscriptions.add(this.attributionDialogResizeService.onResize.subscribe((dimensions) => {
-            var _a;
-            if (this.isOpen()) {
-                this.attributionDialogHeight = dimensions.height;
-                const config = this.getDialogConfig();
-                (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.updatePosition(config.position);
-            }
-        }));
-    }
-    destroy() {
-        this.close();
-        this.unsubscribe();
-    }
-    set el(el) {
-        this._el = el;
-    }
-    open(timeout) {
-        if (!this.isOpen()) {
-            const config = this.getDialogConfig();
-            this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
-            this.dialogRef
-                .afterClosed()
-                .pipe(take(1))
-                .subscribe(() => {
-                this.mimeDomHelper.setFocusOnViewer();
-            });
-            this.closeDialogAfter(timeout);
-        }
-    }
-    close() {
-        var _a;
-        if (this.isOpen()) {
-            (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.close();
-        }
-    }
-    toggle() {
-        this.isOpen() ? this.close() : this.open();
-    }
-    isOpen() {
-        var _a;
-        return ((_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.getState()) === 0 /* MatDialogState.OPEN */;
-    }
-    closeDialogAfter(seconds) {
-        if (seconds && seconds > 0) {
-            interval(seconds * 1000)
-                .pipe(take(1))
-                .subscribe(() => {
-                this.close();
-            });
-        }
-    }
-    getDialogConfig() {
-        const dimensions = this.getPosition();
-        return {
-            hasBackdrop: false,
-            width: '180px',
-            panelClass: 'attribution-panel',
-            position: {
-                top: dimensions.top + 'px',
-                left: dimensions.left + 'px',
-            },
-            autoFocus: true,
-            restoreFocus: false,
-        };
-    }
-    getPosition() {
-        if (!this._el) {
-            throw new Error(`Could not find position because element is missing`);
-        }
-        const padding = 20;
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(this._el);
-        return new Dimensions({
-            top: dimensions.top + dimensions.height - this.attributionDialogHeight - 68,
-            left: dimensions.left + padding,
-        });
-    }
-    unsubscribe() {
-        if (this.subscriptions) {
-            this.subscriptions.unsubscribe();
-        }
-    }
-}
-AttributionDialogService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogService, deps: [{ token: i1$1.MatDialog }, { token: MimeResizeService }, { token: AttributionDialogResizeService }, { token: MimeDomHelper }], target: i0.ɵɵFactoryTarget.Injectable });
-AttributionDialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogService, decorators: [{
-            type: Injectable
-        }], ctorParameters: function () { return [{ type: i1$1.MatDialog }, { type: MimeResizeService }, { type: AttributionDialogResizeService }, { type: MimeDomHelper }]; } });
-
-class AttributionDialogModule {
-}
-AttributionDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-AttributionDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogModule, declarations: [AttributionDialogComponent], imports: [SharedModule] });
-AttributionDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogModule, providers: [
-        AttributionDialogService,
-        AttributionDialogResizeService,
-        MimeDomHelper,
-    ], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    imports: [SharedModule],
-                    declarations: [AttributionDialogComponent],
-                    providers: [
-                        AttributionDialogService,
-                        AttributionDialogResizeService,
-                        MimeDomHelper,
-                    ],
-                }]
-        }] });
-
 class CanvasGroupDialogComponent {
     constructor(dialogRef, fb, viewerService, canvasService, intl, changeDetectorRef) {
         this.dialogRef = dialogRef;
@@ -6024,167 +5852,6 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
             args: [{ changeDetection: ChangeDetectionStrategy.OnPush, template: "<div fxLayout=\"column\">\n  <h1 class=\"canvas-group-dialog-title\" mat-dialog-title>{{\n    intl.goToPageLabel\n  }}</h1>\n  <div mat-dialog-content>\n    <form\n      [formGroup]=\"canvasGroupForm\"\n      (ngSubmit)=\"onSubmit()\"\n      novalidate\n      autocomplete=\"off\"\n    >\n      <mat-form-field [floatLabel]=\"'always'\">\n        <mat-label>{{ intl.enterPageNumber }}</mat-label>\n        <input\n          class=\"go-to-canvas-group-input\"\n          type=\"number\"\n          matInput\n          min=\"1\"\n          formControlName=\"canvasGroupControl\"\n        />\n        <mat-error *ngIf=\"canvasGroupControl?.errors?.['max']\">{{\n          intl.pageDoesNotExists\n        }}</mat-error>\n      </mat-form-field>\n      <div fxLayout=\"row\" fxLayoutAlign=\"end center\">\n        <button type=\"button\" mat-button matDialogClose> CANCEL </button>\n        <button\n          type=\"submit\"\n          mat-button\n          [disabled]=\"canvasGroupForm.pristine || canvasGroupForm.invalid\"\n        >\n          OK\n        </button>\n      </div>\n    </form>\n  </div>\n</div>\n", styles: [".canvas-group-dialog-title{margin:0 0 20px;display:block}\n"] }]
         }], ctorParameters: function () { return [{ type: i1$1.MatDialogRef }, { type: i2$1.FormBuilder }, { type: ViewerService }, { type: CanvasService }, { type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }]; } });
 
-class CanvasGroupDialogService {
-    constructor(dialog) {
-        this.dialog = dialog;
-    }
-    initialize() { }
-    destroy() {
-        this.close();
-    }
-    open() {
-        if (!this.isOpen()) {
-            const config = this.getDialogConfig();
-            this.dialogRef = this.dialog.open(CanvasGroupDialogComponent, config);
-        }
-    }
-    close() {
-        var _a;
-        if (this.isOpen()) {
-            (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.close();
-        }
-    }
-    toggle() {
-        this.isOpen() ? this.close() : this.open();
-    }
-    isOpen() {
-        var _a;
-        return ((_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.getState()) === 0 /* MatDialogState.OPEN */;
-    }
-    getDialogConfig() {
-        return {
-            hasBackdrop: false,
-            disableClose: true,
-            panelClass: 'canvas-group-panel',
-        };
-    }
-}
-CanvasGroupDialogService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogService, deps: [{ token: i1$1.MatDialog }], target: i0.ɵɵFactoryTarget.Injectable });
-CanvasGroupDialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogService, decorators: [{
-            type: Injectable
-        }], ctorParameters: function () { return [{ type: i1$1.MatDialog }]; } });
-
-class CanvasGroupDialogModule {
-}
-CanvasGroupDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-CanvasGroupDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogModule, declarations: [CanvasGroupDialogComponent], imports: [SharedModule] });
-CanvasGroupDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogModule, providers: [CanvasGroupDialogService], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    imports: [SharedModule],
-                    declarations: [CanvasGroupDialogComponent],
-                    providers: [CanvasGroupDialogService],
-                }]
-        }] });
-
-class ContentSearchDialogModule {
-}
-ContentSearchDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ContentSearchDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-ContentSearchDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: ContentSearchDialogModule, declarations: [ContentSearchDialogComponent], imports: [SharedModule] });
-ContentSearchDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ContentSearchDialogModule, providers: [
-        ContentSearchDialogService,
-        ContentSearchDialogConfigStrategyFactory,
-        MimeDomHelper,
-    ], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ContentSearchDialogModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    imports: [SharedModule],
-                    declarations: [ContentSearchDialogComponent],
-                    providers: [
-                        ContentSearchDialogService,
-                        ContentSearchDialogConfigStrategyFactory,
-                        MimeDomHelper,
-                    ],
-                }]
-        }] });
-
-class InformationDialogModule {
-}
-InformationDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: InformationDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-InformationDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: InformationDialogModule, declarations: [InformationDialogComponent, MetadataComponent, TocComponent], imports: [SharedModule] });
-InformationDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: InformationDialogModule, providers: [InformationDialogService, InformationDialogConfigStrategyFactory], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: InformationDialogModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    imports: [SharedModule],
-                    declarations: [InformationDialogComponent, MetadataComponent, TocComponent],
-                    providers: [InformationDialogService, InformationDialogConfigStrategyFactory],
-                }]
-        }] });
-
-class ViewDialogModule {
-}
-ViewDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-ViewDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogModule, declarations: [ViewDialogComponent, IconComponent], imports: [SharedModule] });
-ViewDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogModule, providers: [
-        ViewDialogService,
-        ViewDialogConfigStrategyFactory,
-        MimeDomHelper,
-    ], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewDialogModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    imports: [SharedModule],
-                    declarations: [ViewDialogComponent, IconComponent],
-                    providers: [
-                        ViewDialogService,
-                        ViewDialogConfigStrategyFactory,
-                        MimeDomHelper,
-                    ],
-                }]
-        }] });
-
-class CoreModule {
-}
-CoreModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CoreModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-CoreModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: CoreModule });
-CoreModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CoreModule, providers: [
-        MimeViewerIntl,
-        IiifManifestService,
-        IiifContentSearchService,
-        MimeResizeService,
-        FullscreenService,
-        ViewerService,
-        ClickService,
-        CanvasService,
-        ModeService,
-        SpinnerService,
-        AccessKeysService,
-        ViewerLayoutService,
-        ContentSearchNavigationService,
-        StyleService,
-        AltoService,
-        ViewDialogModule,
-        HighlightService,
-    ] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CoreModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    providers: [
-                        MimeViewerIntl,
-                        IiifManifestService,
-                        IiifContentSearchService,
-                        MimeResizeService,
-                        FullscreenService,
-                        ViewerService,
-                        ClickService,
-                        CanvasService,
-                        ModeService,
-                        SpinnerService,
-                        AccessKeysService,
-                        ViewerLayoutService,
-                        ContentSearchNavigationService,
-                        StyleService,
-                        AltoService,
-                        ViewDialogModule,
-                        HighlightService,
-                    ],
-                }]
-        }] });
-
 class HelpDialogComponent {
     constructor(mediaObserver, intl, cdr, mimeResizeService) {
         this.mediaObserver = mediaObserver;
@@ -6228,138 +5895,85 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
             args: [{ selector: 'mime-help', template: "<div class=\"help-container\">\n  <div [ngSwitch]=\"mediaObserver.isActive('lt-md')\">\n    <div *ngSwitchCase=\"true\">\n      <mat-toolbar color=\"primary\">\n        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.helpCloseAriaLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>\n        </div>\n      </mat-toolbar>\n    </div>\n    <div *ngSwitchDefault>\n      <mat-toolbar>\n        <div fxLayout=\"row\" fxLayoutAlign=\"space-between center\" fxFlex>\n          <h1 class=\"heading-desktop\" mat-dialog-title>{{\n            intl.help.helpLabel\n          }}</h1>\n          <button\n            mat-icon-button\n            [aria-label]=\"intl.helpCloseAriaLabel\"\n            [matTooltip]=\"intl.closeLabel\"\n            [matDialogClose]=\"true\"\n          >\n            <mat-icon>close</mat-icon>\n          </button>\n        </div>\n      </mat-toolbar>\n    </div>\n  </div>\n  <mat-dialog-content [ngStyle]=\"tabHeight\" class=\"help-content\" tabindex=\"0\">\n    <p [innerHTML]=\"intl.help.line1\"></p>\n    <p [innerHTML]=\"intl.help.line2\"></p>\n    <p [innerHTML]=\"intl.help.line3\"></p>\n    <p [innerHTML]=\"intl.help.line4\"></p>\n    <p [innerHTML]=\"intl.help.line5\"></p>\n    <p [innerHTML]=\"intl.help.line6\"></p>\n    <p [innerHTML]=\"intl.help.line12\"></p>\n    <p [innerHTML]=\"intl.help.line7\"></p>\n    <p [innerHTML]=\"intl.help.line8\"></p>\n    <p [innerHTML]=\"intl.help.line9\"></p>\n    <p [innerHTML]=\"intl.help.line10\"></p>\n    <p [innerHTML]=\"intl.help.line11\"></p>\n  </mat-dialog-content>\n</div>\n", styles: [".mat-mdc-dialog-title{color:inherit;padding:0 2px 16px}.help-container{font-family:Roboto,Helvetica Neue,sans-serif;font-size:14px}.help-content{padding:16px;overflow:auto}::ng-deep .help-panel>.mat-mdc-dialog-container{padding:0!important;overflow:initial}\n"] }]
         }], ctorParameters: function () { return [{ type: i1.MediaObserver }, { type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: MimeResizeService }]; } });
 
-class MobileHelpDialogConfigStrategy {
-    getConfig(elementRef) {
-        return {
-            hasBackdrop: false,
-            disableClose: false,
-            width: '100%',
-            height: '100%',
-            maxWidth: '100% !important',
-            panelClass: 'help-panel',
-        };
-    }
+class MimeMaterialModule {
 }
-class DesktopHelpDialogConfigStrategy {
-    constructor(mimeDomHelper) {
-        this.mimeDomHelper = mimeDomHelper;
-    }
-    getConfig(el) {
-        const dimensions = this.getPosition(el);
-        return {
-            hasBackdrop: false,
-            disableClose: false,
-            width: `${DesktopHelpDialogConfigStrategy.dialogWidth}px`,
-            position: {
-                top: dimensions.top + 'px',
-                left: dimensions.left + 'px',
-            },
-            panelClass: 'help-panel',
-            maxWidth: '100% !important',
-        };
-    }
-    getPosition(el) {
-        const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
-        return new Dimensions({
-            top: dimensions.top + 64,
-            left: dimensions.right -
-                DesktopHelpDialogConfigStrategy.dialogWidth -
-                DesktopHelpDialogConfigStrategy.paddingRight,
-        });
-    }
-}
-DesktopHelpDialogConfigStrategy.dialogWidth = 350;
-DesktopHelpDialogConfigStrategy.paddingRight = 20;
-
-class HelpDialogConfigStrategyFactory {
-    constructor(mediaObserver, mimeDomHelper) {
-        this.mediaObserver = mediaObserver;
-        this.mimeDomHelper = mimeDomHelper;
-    }
-    create() {
-        return this.mediaObserver.isActive('lt-md')
-            ? new MobileHelpDialogConfigStrategy()
-            : new DesktopHelpDialogConfigStrategy(this.mimeDomHelper);
-    }
-}
-HelpDialogConfigStrategyFactory.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogConfigStrategyFactory, deps: [{ token: i1.MediaObserver }, { token: MimeDomHelper }], target: i0.ɵɵFactoryTarget.Injectable });
-HelpDialogConfigStrategyFactory.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogConfigStrategyFactory });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogConfigStrategyFactory, decorators: [{
-            type: Injectable
-        }], ctorParameters: function () { return [{ type: i1.MediaObserver }, { type: MimeDomHelper }]; } });
-
-class HelpDialogService {
-    constructor(dialog, helpDialogConfigStrategyFactory, mimeResizeService) {
-        this.dialog = dialog;
-        this.helpDialogConfigStrategyFactory = helpDialogConfigStrategyFactory;
-        this.mimeResizeService = mimeResizeService;
-        this._el = null;
-    }
-    initialize() {
-        this.subscriptions = new Subscription();
-        this.subscriptions.add(this.mimeResizeService.onResize.subscribe(() => {
-            var _a, _b;
-            if (this.isOpen()) {
-                const config = this.getDialogConfig();
-                (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.updatePosition(config.position);
-                (_b = this.dialogRef) === null || _b === void 0 ? void 0 : _b.updateSize(config.width, config.height);
-            }
-        }));
-    }
-    destroy() {
-        this.close();
-        this.unsubscribe();
-    }
-    set el(el) {
-        this._el = el;
-    }
-    open() {
-        if (!this.isOpen()) {
-            const config = this.getDialogConfig();
-            this.dialogRef = this.dialog.open(HelpDialogComponent, config);
-        }
-    }
-    close() {
-        var _a;
-        if (this.isOpen()) {
-            (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.close();
-        }
-    }
-    toggle() {
-        this.isOpen() ? this.close() : this.open();
-    }
-    isOpen() {
-        var _a;
-        return ((_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.getState()) === 0 /* MatDialogState.OPEN */;
-    }
-    getDialogConfig() {
-        return this._el
-            ? this.helpDialogConfigStrategyFactory.create().getConfig(this._el)
-            : {};
-    }
-    unsubscribe() {
-        if (this.subscriptions) {
-            this.subscriptions.unsubscribe();
-        }
-    }
-}
-HelpDialogService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogService, deps: [{ token: i1$1.MatDialog }, { token: HelpDialogConfigStrategyFactory }, { token: MimeResizeService }], target: i0.ɵɵFactoryTarget.Injectable });
-HelpDialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogService, decorators: [{
-            type: Injectable
-        }], ctorParameters: function () { return [{ type: i1$1.MatDialog }, { type: HelpDialogConfigStrategyFactory }, { type: MimeResizeService }]; } });
-
-class HelpDialogModule {
-}
-HelpDialogModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-HelpDialogModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogModule, declarations: [HelpDialogComponent], imports: [SharedModule] });
-HelpDialogModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogModule, providers: [HelpDialogService, HelpDialogConfigStrategyFactory], imports: [SharedModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogModule, decorators: [{
+MimeMaterialModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeMaterialModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+MimeMaterialModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: MimeMaterialModule, exports: [MatToolbarModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatTabsModule,
+        MatListModule,
+        MatSliderModule,
+        MatProgressSpinnerModule,
+        MatInputModule,
+        MatProgressBarModule,
+        MatCardModule,
+        MatSnackBarModule,
+        MatSidenavModule] });
+MimeMaterialModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeMaterialModule, imports: [MatToolbarModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatTabsModule,
+        MatListModule,
+        MatSliderModule,
+        MatProgressSpinnerModule,
+        MatInputModule,
+        MatProgressBarModule,
+        MatCardModule,
+        MatSnackBarModule,
+        MatSidenavModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeMaterialModule, decorators: [{
             type: NgModule,
             args: [{
-                    imports: [SharedModule],
-                    declarations: [HelpDialogComponent],
-                    providers: [HelpDialogService, HelpDialogConfigStrategyFactory],
+                    exports: [
+                        MatToolbarModule,
+                        MatButtonModule,
+                        MatButtonToggleModule,
+                        MatIconModule,
+                        MatTooltipModule,
+                        MatDialogModule,
+                        MatTabsModule,
+                        MatListModule,
+                        MatSliderModule,
+                        MatProgressSpinnerModule,
+                        MatInputModule,
+                        MatProgressBarModule,
+                        MatCardModule,
+                        MatSnackBarModule,
+                        MatSidenavModule,
+                    ],
+                }]
+        }] });
+
+class SharedModule {
+}
+SharedModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+SharedModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, exports: [CommonModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MimeMaterialModule] });
+SharedModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, imports: [CommonModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MimeMaterialModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: SharedModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    exports: [
+                        CommonModule,
+                        FlexLayoutModule,
+                        FormsModule,
+                        ReactiveFormsModule,
+                        MimeMaterialModule,
+                    ],
                 }]
         }] });
 
@@ -6442,7 +6056,7 @@ class OsdToolbarComponent {
     }
 }
 OsdToolbarComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: OsdToolbarComponent, deps: [{ token: MimeViewerIntl }, { token: i0.Renderer2 }, { token: i0.ChangeDetectorRef }, { token: MimeResizeService }, { token: ViewerService }, { token: CanvasService }, { token: StyleService }, { token: IiifManifestService }], target: i0.ɵɵFactoryTarget.Component });
-OsdToolbarComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: OsdToolbarComponent, selector: "mime-osd-toolbar", host: { properties: { "@osdToolbarState": "this.osdToolbarState" } }, viewQueries: [{ propertyName: "container", first: true, predicate: ["container"], descendants: true, static: true }], ngImport: i0, template: "<div #container class=\"osd-toolbar\" [ngStyle]=\"osdToolbarStyle\">\n  <div fxHide fxShow.gt-sm=\"true\">\n    <div\n      class=\"osd-toolbar-container\"\n      fxLayout=\"column\"\n      fxLayoutAlign=\"center center\"\n    >\n      <div class=\"osd-toolbar-row\"> </div>\n      <div class=\"osd-toolbar-row\">\n        <ng-container *ngIf=\"invert\">\n          <button\n            id=\"navigateBeforeButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.previousPageLabel\"\n            [matTooltip]=\"intl.previousPageLabel\"\n            [disabled]=\"isFirstCanvasGroup\"\n            (click)=\"goToPreviousCanvasGroup()\"\n          >\n            <mat-icon>navigate_before</mat-icon>\n          </button>\n        </ng-container>\n        <ng-container *ngIf=\"!invert\">\n          <button\n            id=\"navigateNextButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.nextPageLabel\"\n            [matTooltip]=\"intl.nextPageLabel\"\n            [disabled]=\"isLastCanvasGroup\"\n            (click)=\"goToNextCanvasGroup()\"\n          >\n            <mat-icon>navigate_before</mat-icon>\n          </button>\n        </ng-container>\n        <button\n          (click)=\"home()\"\n          id=\"homeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.homeLabel\"\n          [matTooltip]=\"intl.homeLabel\"\n        >\n          <mat-icon>home</mat-icon>\n        </button>\n        <ng-container *ngIf=\"invert\">\n          <button\n            id=\"navigateNextButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.nextPageLabel\"\n            [matTooltip]=\"intl.nextPageLabel\"\n            [disabled]=\"isLastCanvasGroup\"\n            (click)=\"goToNextCanvasGroup()\"\n          >\n            <mat-icon>navigate_next</mat-icon>\n          </button>\n        </ng-container>\n        <ng-container *ngIf=\"!invert\">\n          <button\n            id=\"navigateBeforeButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.previousPageLabel\"\n            [matTooltip]=\"intl.previousPageLabel\"\n            [disabled]=\"isFirstCanvasGroup\"\n            (click)=\"goToPreviousCanvasGroup()\"\n          >\n            <mat-icon>navigate_next</mat-icon>\n          </button>\n        </ng-container>\n      </div>\n\n      <div class=\"osd-toolbar-row\">\n        <button\n          (click)=\"zoomIn()\"\n          id=\"zoomInButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.zoomInLabel\"\n          [matTooltip]=\"intl.zoomInLabel\"\n        >\n          <mat-icon>zoom_in</mat-icon>\n        </button>\n\n        <button\n          (click)=\"rotate()\"\n          id=\"rotateButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.rotateCwLabel\"\n          [matTooltip]=\"intl.rotateCwLabel\"\n        >\n          <mat-icon>rotate_right</mat-icon>\n        </button>\n        <button\n          (click)=\"zoomOut()\"\n          id=\"zoomOutButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.zoomOutLabel\"\n          [matTooltip]=\"intl.zoomOutLabel\"\n        >\n          <mat-icon>zoom_out</mat-icon>\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n", styles: [":host{z-index:2}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;background:transparent;width:auto;border-radius:8px;margin-left:16px}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i6$1.NgStyle, selector: "[ngStyle]", inputs: ["ngStyle"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i9.DefaultShowHideDirective, selector: "  [fxShow], [fxShow.print],  [fxShow.xs], [fxShow.sm], [fxShow.md], [fxShow.lg], [fxShow.xl],  [fxShow.lt-sm], [fxShow.lt-md], [fxShow.lt-lg], [fxShow.lt-xl],  [fxShow.gt-xs], [fxShow.gt-sm], [fxShow.gt-md], [fxShow.gt-lg],  [fxHide], [fxHide.print],  [fxHide.xs], [fxHide.sm], [fxHide.md], [fxHide.lg], [fxHide.xl],  [fxHide.lt-sm], [fxHide.lt-md], [fxHide.lt-lg], [fxHide.lt-xl],  [fxHide.gt-xs], [fxHide.gt-sm], [fxHide.gt-md], [fxHide.gt-lg]", inputs: ["fxShow", "fxShow.print", "fxShow.xs", "fxShow.sm", "fxShow.md", "fxShow.lg", "fxShow.xl", "fxShow.lt-sm", "fxShow.lt-md", "fxShow.lt-lg", "fxShow.lt-xl", "fxShow.gt-xs", "fxShow.gt-sm", "fxShow.gt-md", "fxShow.gt-lg", "fxHide", "fxHide.print", "fxHide.xs", "fxHide.sm", "fxHide.md", "fxHide.lg", "fxHide.xl", "fxHide.lt-sm", "fxHide.lt-md", "fxHide.lt-lg", "fxHide.lt-xl", "fxHide.gt-xs", "fxHide.gt-sm", "fxHide.gt-md", "fxHide.gt-lg"] }, { kind: "directive", type: i9.DefaultStyleDirective, selector: "  [ngStyle],  [ngStyle.xs], [ngStyle.sm], [ngStyle.md], [ngStyle.lg], [ngStyle.xl],  [ngStyle.lt-sm], [ngStyle.lt-md], [ngStyle.lt-lg], [ngStyle.lt-xl],  [ngStyle.gt-xs], [ngStyle.gt-sm], [ngStyle.gt-md], [ngStyle.gt-lg]", inputs: ["ngStyle", "ngStyle.xs", "ngStyle.sm", "ngStyle.md", "ngStyle.lg", "ngStyle.xl", "ngStyle.lt-sm", "ngStyle.lt-md", "ngStyle.lt-lg", "ngStyle.lt-xl", "ngStyle.gt-xs", "ngStyle.gt-sm", "ngStyle.gt-md", "ngStyle.gt-lg"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }], animations: [
+OsdToolbarComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: OsdToolbarComponent, selector: "mime-osd-toolbar", host: { properties: { "@osdToolbarState": "this.osdToolbarState" } }, viewQueries: [{ propertyName: "container", first: true, predicate: ["container"], descendants: true, static: true }], ngImport: i0, template: "<div #container class=\"osd-toolbar\" [ngStyle]=\"osdToolbarStyle\">\n  <div fxHide fxShow.gt-sm=\"true\">\n    <div\n      class=\"osd-toolbar-container\"\n      fxLayout=\"column\"\n      fxLayoutAlign=\"center center\"\n    >\n      <div class=\"osd-toolbar-row\"> </div>\n      <div class=\"osd-toolbar-row\">\n        <ng-container *ngIf=\"invert\">\n          <button\n            data-testid=\"navigateBeforeButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.previousPageLabel\"\n            [matTooltip]=\"intl.previousPageLabel\"\n            [disabled]=\"isFirstCanvasGroup\"\n            (click)=\"goToPreviousCanvasGroup()\"\n          >\n            <mat-icon>navigate_before</mat-icon>\n          </button>\n        </ng-container>\n        <ng-container *ngIf=\"!invert\">\n          <button\n            data-testid=\"navigateNextButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.nextPageLabel\"\n            [matTooltip]=\"intl.nextPageLabel\"\n            [disabled]=\"isLastCanvasGroup\"\n            (click)=\"goToNextCanvasGroup()\"\n          >\n            <mat-icon>navigate_before</mat-icon>\n          </button>\n        </ng-container>\n        <button\n          (click)=\"home()\"\n          data-testid=\"homeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.homeLabel\"\n          [matTooltip]=\"intl.homeLabel\"\n        >\n          <mat-icon>home</mat-icon>\n        </button>\n        <ng-container *ngIf=\"invert\">\n          <button\n            data-testid=\"navigateNextButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.nextPageLabel\"\n            [matTooltip]=\"intl.nextPageLabel\"\n            [disabled]=\"isLastCanvasGroup\"\n            (click)=\"goToNextCanvasGroup()\"\n          >\n            <mat-icon>navigate_next</mat-icon>\n          </button>\n        </ng-container>\n        <ng-container *ngIf=\"!invert\">\n          <button\n            data-testid=\"navigateBeforeButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.previousPageLabel\"\n            [matTooltip]=\"intl.previousPageLabel\"\n            [disabled]=\"isFirstCanvasGroup\"\n            (click)=\"goToPreviousCanvasGroup()\"\n          >\n            <mat-icon>navigate_next</mat-icon>\n          </button>\n        </ng-container>\n      </div>\n\n      <div class=\"osd-toolbar-row\">\n        <button\n          (click)=\"zoomIn()\"\n          data-testid=\"zoomInButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.zoomInLabel\"\n          [matTooltip]=\"intl.zoomInLabel\"\n        >\n          <mat-icon>zoom_in</mat-icon>\n        </button>\n\n        <button\n          (click)=\"rotate()\"\n          data-testid=\"rotateButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.rotateCwLabel\"\n          [matTooltip]=\"intl.rotateCwLabel\"\n        >\n          <mat-icon>rotate_right</mat-icon>\n        </button>\n        <button\n          (click)=\"zoomOut()\"\n          data-testid=\"zoomOutButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.zoomOutLabel\"\n          [matTooltip]=\"intl.zoomOutLabel\"\n        >\n          <mat-icon>zoom_out</mat-icon>\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n", styles: [":host{z-index:2}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;background:transparent;width:auto;border-radius:8px;margin-left:16px}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i6$1.NgStyle, selector: "[ngStyle]", inputs: ["ngStyle"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i9.DefaultShowHideDirective, selector: "  [fxShow], [fxShow.print],  [fxShow.xs], [fxShow.sm], [fxShow.md], [fxShow.lg], [fxShow.xl],  [fxShow.lt-sm], [fxShow.lt-md], [fxShow.lt-lg], [fxShow.lt-xl],  [fxShow.gt-xs], [fxShow.gt-sm], [fxShow.gt-md], [fxShow.gt-lg],  [fxHide], [fxHide.print],  [fxHide.xs], [fxHide.sm], [fxHide.md], [fxHide.lg], [fxHide.xl],  [fxHide.lt-sm], [fxHide.lt-md], [fxHide.lt-lg], [fxHide.lt-xl],  [fxHide.gt-xs], [fxHide.gt-sm], [fxHide.gt-md], [fxHide.gt-lg]", inputs: ["fxShow", "fxShow.print", "fxShow.xs", "fxShow.sm", "fxShow.md", "fxShow.lg", "fxShow.xl", "fxShow.lt-sm", "fxShow.lt-md", "fxShow.lt-lg", "fxShow.lt-xl", "fxShow.gt-xs", "fxShow.gt-sm", "fxShow.gt-md", "fxShow.gt-lg", "fxHide", "fxHide.print", "fxHide.xs", "fxHide.sm", "fxHide.md", "fxHide.lg", "fxHide.xl", "fxHide.lt-sm", "fxHide.lt-md", "fxHide.lt-lg", "fxHide.lt-xl", "fxHide.gt-xs", "fxHide.gt-sm", "fxHide.gt-md", "fxHide.gt-lg"] }, { kind: "directive", type: i9.DefaultStyleDirective, selector: "  [ngStyle],  [ngStyle.xs], [ngStyle.sm], [ngStyle.md], [ngStyle.lg], [ngStyle.xl],  [ngStyle.lt-sm], [ngStyle.lt-md], [ngStyle.lt-lg], [ngStyle.lt-xl],  [ngStyle.gt-xs], [ngStyle.gt-sm], [ngStyle.gt-md], [ngStyle.gt-lg]", inputs: ["ngStyle", "ngStyle.xs", "ngStyle.sm", "ngStyle.md", "ngStyle.lg", "ngStyle.xl", "ngStyle.lt-sm", "ngStyle.lt-md", "ngStyle.lt-lg", "ngStyle.lt-xl", "ngStyle.gt-xs", "ngStyle.gt-sm", "ngStyle.gt-md", "ngStyle.gt-lg"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }], animations: [
         trigger('osdToolbarState', [
             state('hide', style({
                 transform: 'translate(-120px, 0)',
@@ -6481,7 +6095,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
                             ]),
                             transition('show => hide', animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)),
                         ]),
-                    ], template: "<div #container class=\"osd-toolbar\" [ngStyle]=\"osdToolbarStyle\">\n  <div fxHide fxShow.gt-sm=\"true\">\n    <div\n      class=\"osd-toolbar-container\"\n      fxLayout=\"column\"\n      fxLayoutAlign=\"center center\"\n    >\n      <div class=\"osd-toolbar-row\"> </div>\n      <div class=\"osd-toolbar-row\">\n        <ng-container *ngIf=\"invert\">\n          <button\n            id=\"navigateBeforeButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.previousPageLabel\"\n            [matTooltip]=\"intl.previousPageLabel\"\n            [disabled]=\"isFirstCanvasGroup\"\n            (click)=\"goToPreviousCanvasGroup()\"\n          >\n            <mat-icon>navigate_before</mat-icon>\n          </button>\n        </ng-container>\n        <ng-container *ngIf=\"!invert\">\n          <button\n            id=\"navigateNextButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.nextPageLabel\"\n            [matTooltip]=\"intl.nextPageLabel\"\n            [disabled]=\"isLastCanvasGroup\"\n            (click)=\"goToNextCanvasGroup()\"\n          >\n            <mat-icon>navigate_before</mat-icon>\n          </button>\n        </ng-container>\n        <button\n          (click)=\"home()\"\n          id=\"homeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.homeLabel\"\n          [matTooltip]=\"intl.homeLabel\"\n        >\n          <mat-icon>home</mat-icon>\n        </button>\n        <ng-container *ngIf=\"invert\">\n          <button\n            id=\"navigateNextButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.nextPageLabel\"\n            [matTooltip]=\"intl.nextPageLabel\"\n            [disabled]=\"isLastCanvasGroup\"\n            (click)=\"goToNextCanvasGroup()\"\n          >\n            <mat-icon>navigate_next</mat-icon>\n          </button>\n        </ng-container>\n        <ng-container *ngIf=\"!invert\">\n          <button\n            id=\"navigateBeforeButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.previousPageLabel\"\n            [matTooltip]=\"intl.previousPageLabel\"\n            [disabled]=\"isFirstCanvasGroup\"\n            (click)=\"goToPreviousCanvasGroup()\"\n          >\n            <mat-icon>navigate_next</mat-icon>\n          </button>\n        </ng-container>\n      </div>\n\n      <div class=\"osd-toolbar-row\">\n        <button\n          (click)=\"zoomIn()\"\n          id=\"zoomInButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.zoomInLabel\"\n          [matTooltip]=\"intl.zoomInLabel\"\n        >\n          <mat-icon>zoom_in</mat-icon>\n        </button>\n\n        <button\n          (click)=\"rotate()\"\n          id=\"rotateButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.rotateCwLabel\"\n          [matTooltip]=\"intl.rotateCwLabel\"\n        >\n          <mat-icon>rotate_right</mat-icon>\n        </button>\n        <button\n          (click)=\"zoomOut()\"\n          id=\"zoomOutButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.zoomOutLabel\"\n          [matTooltip]=\"intl.zoomOutLabel\"\n        >\n          <mat-icon>zoom_out</mat-icon>\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n", styles: [":host{z-index:2}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;background:transparent;width:auto;border-radius:8px;margin-left:16px}\n"] }]
+                    ], template: "<div #container class=\"osd-toolbar\" [ngStyle]=\"osdToolbarStyle\">\n  <div fxHide fxShow.gt-sm=\"true\">\n    <div\n      class=\"osd-toolbar-container\"\n      fxLayout=\"column\"\n      fxLayoutAlign=\"center center\"\n    >\n      <div class=\"osd-toolbar-row\"> </div>\n      <div class=\"osd-toolbar-row\">\n        <ng-container *ngIf=\"invert\">\n          <button\n            data-testid=\"navigateBeforeButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.previousPageLabel\"\n            [matTooltip]=\"intl.previousPageLabel\"\n            [disabled]=\"isFirstCanvasGroup\"\n            (click)=\"goToPreviousCanvasGroup()\"\n          >\n            <mat-icon>navigate_before</mat-icon>\n          </button>\n        </ng-container>\n        <ng-container *ngIf=\"!invert\">\n          <button\n            data-testid=\"navigateNextButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.nextPageLabel\"\n            [matTooltip]=\"intl.nextPageLabel\"\n            [disabled]=\"isLastCanvasGroup\"\n            (click)=\"goToNextCanvasGroup()\"\n          >\n            <mat-icon>navigate_before</mat-icon>\n          </button>\n        </ng-container>\n        <button\n          (click)=\"home()\"\n          data-testid=\"homeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.homeLabel\"\n          [matTooltip]=\"intl.homeLabel\"\n        >\n          <mat-icon>home</mat-icon>\n        </button>\n        <ng-container *ngIf=\"invert\">\n          <button\n            data-testid=\"navigateNextButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.nextPageLabel\"\n            [matTooltip]=\"intl.nextPageLabel\"\n            [disabled]=\"isLastCanvasGroup\"\n            (click)=\"goToNextCanvasGroup()\"\n          >\n            <mat-icon>navigate_next</mat-icon>\n          </button>\n        </ng-container>\n        <ng-container *ngIf=\"!invert\">\n          <button\n            data-testid=\"navigateBeforeButton\"\n            mat-icon-button\n            [attr.aria-label]=\"intl.previousPageLabel\"\n            [matTooltip]=\"intl.previousPageLabel\"\n            [disabled]=\"isFirstCanvasGroup\"\n            (click)=\"goToPreviousCanvasGroup()\"\n          >\n            <mat-icon>navigate_next</mat-icon>\n          </button>\n        </ng-container>\n      </div>\n\n      <div class=\"osd-toolbar-row\">\n        <button\n          (click)=\"zoomIn()\"\n          data-testid=\"zoomInButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.zoomInLabel\"\n          [matTooltip]=\"intl.zoomInLabel\"\n        >\n          <mat-icon>zoom_in</mat-icon>\n        </button>\n\n        <button\n          (click)=\"rotate()\"\n          data-testid=\"rotateButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.rotateCwLabel\"\n          [matTooltip]=\"intl.rotateCwLabel\"\n        >\n          <mat-icon>rotate_right</mat-icon>\n        </button>\n        <button\n          (click)=\"zoomOut()\"\n          data-testid=\"zoomOutButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.zoomOutLabel\"\n          [matTooltip]=\"intl.zoomOutLabel\"\n        >\n          <mat-icon>zoom_out</mat-icon>\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n", styles: [":host{z-index:2}::ng-deep .osd-toolbar-row>.mat-toolbar-row{height:40px}.osd-toolbar{position:absolute;background:transparent;width:auto;border-radius:8px;margin-left:16px}\n"] }]
         }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i0.Renderer2 }, { type: i0.ChangeDetectorRef }, { type: MimeResizeService }, { type: ViewerService }, { type: CanvasService }, { type: StyleService }, { type: IiifManifestService }]; }, propDecorators: { container: [{
                 type: ViewChild,
                 args: ['container', { static: true }]
@@ -6562,22 +6176,65 @@ class RecognizedTextContentComponent {
     }
 }
 RecognizedTextContentComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: RecognizedTextContentComponent, deps: [{ token: MimeViewerIntl }, { token: i0.ChangeDetectorRef }, { token: CanvasService }, { token: AltoService }, { token: IiifManifestService }, { token: IiifContentSearchService }, { token: HighlightService }], target: i0.ɵɵFactoryTarget.Component });
-RecognizedTextContentComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content", viewQueries: [{ propertyName: "recognizedTextContentContainer", first: true, predicate: ["recognizedTextContentContainer"], descendants: true, read: ElementRef }], ngImport: i0, template: "<div\n  #recognizedTextContentContainer\n  class=\"recognized-text-content-container\"\n  aria-live=\"polite\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"start center\"\n>\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <ng-container *ngIf=\"!isLoading\">\n    <div\n      *ngIf=\"firstCanvasRecognizedTextContent\"\n      class=\"content\"\n      data-test-id=\"firstCanvasRecognizedTextContent\"\n      [innerHTML]=\"firstCanvasRecognizedTextContent\"\n    >\n    </div>\n    <div\n      *ngIf=\"secondCanvasRecognizedTextContent\"\n      class=\"content\"\n      data-test-id=\"secondCanvasRecognizedTextContent\"\n      [innerHTML]=\"secondCanvasRecognizedTextContent\"\n    >\n    </div>\n  </ng-container>\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}::ng-deep .selectedHit{background:rgba(255,137,0,.61);outline:2px solid rgb(97,52,0)}::ng-deep mark{background:rgba(255,255,0,.61)}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+RecognizedTextContentComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content", viewQueries: [{ propertyName: "recognizedTextContentContainer", first: true, predicate: ["recognizedTextContentContainer"], descendants: true, read: ElementRef }], ngImport: i0, template: "<div\n  #recognizedTextContentContainer\n  class=\"recognized-text-content-container\"\n  aria-live=\"polite\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"start center\"\n>\n  <div *ngIf=\"error\" data-testid=\"error\">{{ error }}</div>\n  <ng-container *ngIf=\"!isLoading\">\n    <div\n      *ngIf=\"firstCanvasRecognizedTextContent\"\n      class=\"content\"\n      data-testid=\"firstCanvasRecognizedTextContent\"\n      [innerHTML]=\"firstCanvasRecognizedTextContent\"\n    >\n    </div>\n    <div\n      *ngIf=\"secondCanvasRecognizedTextContent\"\n      class=\"content\"\n      data-testid=\"secondCanvasRecognizedTextContent\"\n      [innerHTML]=\"secondCanvasRecognizedTextContent\"\n    >\n    </div>\n  </ng-container>\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}::ng-deep .selectedHit{background:rgba(255,137,0,.61);outline:2px solid rgb(97,52,0)}::ng-deep mark{background:rgba(255,255,0,.61)}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: RecognizedTextContentComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-recognized-text-content', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div\n  #recognizedTextContentContainer\n  class=\"recognized-text-content-container\"\n  aria-live=\"polite\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"start center\"\n>\n  <div *ngIf=\"error\" data-test-id=\"error\">{{ error }}</div>\n  <ng-container *ngIf=\"!isLoading\">\n    <div\n      *ngIf=\"firstCanvasRecognizedTextContent\"\n      class=\"content\"\n      data-test-id=\"firstCanvasRecognizedTextContent\"\n      [innerHTML]=\"firstCanvasRecognizedTextContent\"\n    >\n    </div>\n    <div\n      *ngIf=\"secondCanvasRecognizedTextContent\"\n      class=\"content\"\n      data-test-id=\"secondCanvasRecognizedTextContent\"\n      [innerHTML]=\"secondCanvasRecognizedTextContent\"\n    >\n    </div>\n  </ng-container>\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}::ng-deep .selectedHit{background:rgba(255,137,0,.61);outline:2px solid rgb(97,52,0)}::ng-deep mark{background:rgba(255,255,0,.61)}\n"] }]
+            args: [{ selector: 'mime-recognized-text-content', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div\n  #recognizedTextContentContainer\n  class=\"recognized-text-content-container\"\n  aria-live=\"polite\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"start center\"\n>\n  <div *ngIf=\"error\" data-testid=\"error\">{{ error }}</div>\n  <ng-container *ngIf=\"!isLoading\">\n    <div\n      *ngIf=\"firstCanvasRecognizedTextContent\"\n      class=\"content\"\n      data-testid=\"firstCanvasRecognizedTextContent\"\n      [innerHTML]=\"firstCanvasRecognizedTextContent\"\n    >\n    </div>\n    <div\n      *ngIf=\"secondCanvasRecognizedTextContent\"\n      class=\"content\"\n      data-testid=\"secondCanvasRecognizedTextContent\"\n      [innerHTML]=\"secondCanvasRecognizedTextContent\"\n    >\n    </div>\n  </ng-container>\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}::ng-deep .selectedHit{background:rgba(255,137,0,.61);outline:2px solid rgb(97,52,0)}::ng-deep mark{background:rgba(255,255,0,.61)}\n"] }]
         }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: CanvasService }, { type: AltoService }, { type: IiifManifestService }, { type: IiifContentSearchService }, { type: HighlightService }]; }, propDecorators: { recognizedTextContentContainer: [{
                 type: ViewChild,
                 args: ['recognizedTextContentContainer', { read: ElementRef }]
             }] } });
 
+class CanvasGroupDialogService {
+    constructor(dialog) {
+        this.dialog = dialog;
+    }
+    set viewContainerRef(viewContainerRef) {
+        this._viewContainerRef = viewContainerRef;
+    }
+    initialize() { }
+    destroy() {
+        this.close();
+    }
+    open() {
+        if (!this.isOpen()) {
+            const config = this.getDialogConfig();
+            this.dialogRef = this.dialog.open(CanvasGroupDialogComponent, config);
+        }
+    }
+    close() {
+        var _a;
+        if (this.isOpen()) {
+            (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.close();
+        }
+    }
+    toggle() {
+        this.isOpen() ? this.close() : this.open();
+    }
+    isOpen() {
+        var _a;
+        return ((_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.getState()) === 0 /* MatDialogState.OPEN */;
+    }
+    getDialogConfig() {
+        return {
+            panelClass: 'canvas-group-panel',
+            viewContainerRef: this._viewContainerRef,
+        };
+    }
+}
+CanvasGroupDialogService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogService, deps: [{ token: i1$1.MatDialog }], target: i0.ɵɵFactoryTarget.Injectable });
+CanvasGroupDialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupDialogService, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i1$1.MatDialog }]; } });
+
 class CanvasGroupNavigatorComponent {
-    constructor(intl, changeDetectorRef, viewerService, canvasService, pageDialogService, iiifManifestService) {
+    constructor(intl, changeDetectorRef, viewerService, canvasService, canvasGroupDialogService, iiifManifestService) {
         this.intl = intl;
         this.changeDetectorRef = changeDetectorRef;
         this.viewerService = viewerService;
         this.canvasService = canvasService;
-        this.pageDialogService = pageDialogService;
+        this.canvasGroupDialogService = canvasGroupDialogService;
         this.iiifManifestService = iiifManifestService;
         this.numberOfCanvases = 0;
         this.canvasGroupLabel = '';
@@ -6648,7 +6305,7 @@ class CanvasGroupNavigatorComponent {
         }
     }
     openCanvasGroupDialog() {
-        this.pageDialogService.toggle();
+        this.canvasGroupDialogService.toggle();
     }
     isOnFirstCanvasGroup(currentCanvasGroupIndex) {
         return currentCanvasGroupIndex === 0;
@@ -6658,10 +6315,10 @@ class CanvasGroupNavigatorComponent {
     }
 }
 CanvasGroupNavigatorComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupNavigatorComponent, deps: [{ token: MimeViewerIntl }, { token: i0.ChangeDetectorRef }, { token: ViewerService }, { token: CanvasService }, { token: CanvasGroupDialogService }, { token: IiifManifestService }], target: i0.ɵɵFactoryTarget.Component });
-CanvasGroupNavigatorComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: CanvasGroupNavigatorComponent, selector: "mime-page-navigator", inputs: { searchResult: "searchResult" }, ngImport: i0, template: "<mat-toolbar>\n  <div fxLayout=\"row\" fxFlex fxLayoutAlign=\"start center\">\n    <div fxFlex data-test-id=\"navigation-slider-container\" [dir]=\"currentViewingDirection\">\n      <mat-slider\n        class=\"navigation-slider\"\n        [max]=\"numberOfCanvasGroups - 1\"\n        [attr.aria-label]=\"intl.currentPageLabel\"\n        (keydown)=\"onSliderHotKey($event)\"\n        fxFlex\n      >\n        <input\n          matSliderThumb\n          [(ngModel)]=\"currentCanvasGroupIndex\"\n          (valueChange)=\"onSliderChange($event)\"\n      /></mat-slider>\n    </div>\n    <button mat-button class=\"canvasGroups\" (click)=\"openCanvasGroupDialog()\">\n      <div fxLayout=\"row\" fxLayoutGap=\"1px\">\n        <span id=\"currentCanvasGroupLabel\">{{ canvasGroupLabel }}</span\n        ><span>/</span\n        ><span id=\"numOfCanvasGroups\">{{ numberOfCanvases }}</span>\n      </div>\n    </button>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"currentViewingDirection === ViewingDirection.LTR\">\n        <button\n          id=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"currentViewingDirection === ViewingDirection.RTL\">\n        <button\n          id=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n", styles: [".canvasGroups{font-size:13px;text-align:center;cursor:pointer}.navigation-slider{width:100%}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutGapDirective, selector: "  [fxLayoutGap], [fxLayoutGap.xs], [fxLayoutGap.sm], [fxLayoutGap.md],  [fxLayoutGap.lg], [fxLayoutGap.xl], [fxLayoutGap.lt-sm], [fxLayoutGap.lt-md],  [fxLayoutGap.lt-lg], [fxLayoutGap.lt-xl], [fxLayoutGap.gt-xs], [fxLayoutGap.gt-sm],  [fxLayoutGap.gt-md], [fxLayoutGap.gt-lg]", inputs: ["fxLayoutGap", "fxLayoutGap.xs", "fxLayoutGap.sm", "fxLayoutGap.md", "fxLayoutGap.lg", "fxLayoutGap.xl", "fxLayoutGap.lt-sm", "fxLayoutGap.lt-md", "fxLayoutGap.lt-lg", "fxLayoutGap.lt-xl", "fxLayoutGap.gt-xs", "fxLayoutGap.gt-sm", "fxLayoutGap.gt-md", "fxLayoutGap.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "directive", type: i2$1.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i2$1.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i2$1.NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: ["name", "disabled", "ngModel", "ngModelOptions"], outputs: ["ngModelChange"], exportAs: ["ngModel"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "directive", type: i10.Dir, selector: "[dir]", inputs: ["dir"], outputs: ["dirChange"], exportAs: ["dir"] }, { kind: "component", type: i8$1.MatButton, selector: "    button[mat-button], button[mat-raised-button], button[mat-flat-button],    button[mat-stroked-button]  ", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }, { kind: "component", type: i14.MatSlider, selector: "mat-slider", inputs: ["color", "disableRipple", "disabled", "discrete", "showTickMarks", "min", "max", "step", "displayWith"], exportAs: ["matSlider"] }, { kind: "directive", type: i14.MatSliderThumb, selector: "input[matSliderThumb]", inputs: ["value"], outputs: ["valueChange", "dragStart", "dragEnd"], exportAs: ["matSliderThumb"] }] });
+CanvasGroupNavigatorComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: CanvasGroupNavigatorComponent, selector: "mime-page-navigator", inputs: { searchResult: "searchResult" }, ngImport: i0, template: "<mat-toolbar>\n  <div fxLayout=\"row\" fxFlex fxLayoutAlign=\"start center\">\n    <div\n      fxFlex\n      data-testid=\"navigation-slider-container\"\n      [dir]=\"currentViewingDirection\"\n    >\n      <mat-slider\n        class=\"navigation-slider\"\n        [max]=\"numberOfCanvasGroups - 1\"\n        [attr.aria-label]=\"intl.currentPageLabel\"\n        (keydown)=\"onSliderHotKey($event)\"\n        fxFlex\n      >\n        <input\n          matSliderThumb\n          [(ngModel)]=\"currentCanvasGroupIndex\"\n          (valueChange)=\"onSliderChange($event)\"\n      /></mat-slider>\n    </div>\n    <button mat-button data-testid=\"canvasGroupDialogButton\" class=\"canvasGroups\" (click)=\"openCanvasGroupDialog()\">\n      <div fxLayout=\"row\" fxLayoutGap=\"1px\">\n        <span data-testid=\"currentCanvasGroupLabel\">{{ canvasGroupLabel }}</span\n        ><span>/</span\n        ><span data-testid=\"numOfCanvasGroups\">{{ numberOfCanvases }}</span>\n      </div>\n    </button>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"currentViewingDirection === ViewingDirection.LTR\">\n        <button\n          data-testid=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          data-testid=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"currentViewingDirection === ViewingDirection.RTL\">\n        <button\n          data-testid=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          data-testid=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n", styles: [".canvasGroups{font-size:13px;text-align:center;cursor:pointer}.navigation-slider{width:100%}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutGapDirective, selector: "  [fxLayoutGap], [fxLayoutGap.xs], [fxLayoutGap.sm], [fxLayoutGap.md],  [fxLayoutGap.lg], [fxLayoutGap.xl], [fxLayoutGap.lt-sm], [fxLayoutGap.lt-md],  [fxLayoutGap.lt-lg], [fxLayoutGap.lt-xl], [fxLayoutGap.gt-xs], [fxLayoutGap.gt-sm],  [fxLayoutGap.gt-md], [fxLayoutGap.gt-lg]", inputs: ["fxLayoutGap", "fxLayoutGap.xs", "fxLayoutGap.sm", "fxLayoutGap.md", "fxLayoutGap.lg", "fxLayoutGap.xl", "fxLayoutGap.lt-sm", "fxLayoutGap.lt-md", "fxLayoutGap.lt-lg", "fxLayoutGap.lt-xl", "fxLayoutGap.gt-xs", "fxLayoutGap.gt-sm", "fxLayoutGap.gt-md", "fxLayoutGap.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "directive", type: i2$1.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i2$1.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i2$1.NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: ["name", "disabled", "ngModel", "ngModelOptions"], outputs: ["ngModelChange"], exportAs: ["ngModel"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "directive", type: i10.Dir, selector: "[dir]", inputs: ["dir"], outputs: ["dirChange"], exportAs: ["dir"] }, { kind: "component", type: i8$1.MatButton, selector: "    button[mat-button], button[mat-raised-button], button[mat-flat-button],    button[mat-stroked-button]  ", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }, { kind: "component", type: i14.MatSlider, selector: "mat-slider", inputs: ["color", "disableRipple", "disabled", "discrete", "showTickMarks", "min", "max", "step", "displayWith"], exportAs: ["matSlider"] }, { kind: "directive", type: i14.MatSliderThumb, selector: "input[matSliderThumb]", inputs: ["value"], outputs: ["valueChange", "dragStart", "dragEnd"], exportAs: ["matSliderThumb"] }] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CanvasGroupNavigatorComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-page-navigator', template: "<mat-toolbar>\n  <div fxLayout=\"row\" fxFlex fxLayoutAlign=\"start center\">\n    <div fxFlex data-test-id=\"navigation-slider-container\" [dir]=\"currentViewingDirection\">\n      <mat-slider\n        class=\"navigation-slider\"\n        [max]=\"numberOfCanvasGroups - 1\"\n        [attr.aria-label]=\"intl.currentPageLabel\"\n        (keydown)=\"onSliderHotKey($event)\"\n        fxFlex\n      >\n        <input\n          matSliderThumb\n          [(ngModel)]=\"currentCanvasGroupIndex\"\n          (valueChange)=\"onSliderChange($event)\"\n      /></mat-slider>\n    </div>\n    <button mat-button class=\"canvasGroups\" (click)=\"openCanvasGroupDialog()\">\n      <div fxLayout=\"row\" fxLayoutGap=\"1px\">\n        <span id=\"currentCanvasGroupLabel\">{{ canvasGroupLabel }}</span\n        ><span>/</span\n        ><span id=\"numOfCanvasGroups\">{{ numberOfCanvases }}</span>\n      </div>\n    </button>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"currentViewingDirection === ViewingDirection.LTR\">\n        <button\n          id=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"currentViewingDirection === ViewingDirection.RTL\">\n        <button\n          id=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n", styles: [".canvasGroups{font-size:13px;text-align:center;cursor:pointer}.navigation-slider{width:100%}\n"] }]
+            args: [{ selector: 'mime-page-navigator', template: "<mat-toolbar>\n  <div fxLayout=\"row\" fxFlex fxLayoutAlign=\"start center\">\n    <div\n      fxFlex\n      data-testid=\"navigation-slider-container\"\n      [dir]=\"currentViewingDirection\"\n    >\n      <mat-slider\n        class=\"navigation-slider\"\n        [max]=\"numberOfCanvasGroups - 1\"\n        [attr.aria-label]=\"intl.currentPageLabel\"\n        (keydown)=\"onSliderHotKey($event)\"\n        fxFlex\n      >\n        <input\n          matSliderThumb\n          [(ngModel)]=\"currentCanvasGroupIndex\"\n          (valueChange)=\"onSliderChange($event)\"\n      /></mat-slider>\n    </div>\n    <button mat-button data-testid=\"canvasGroupDialogButton\" class=\"canvasGroups\" (click)=\"openCanvasGroupDialog()\">\n      <div fxLayout=\"row\" fxLayoutGap=\"1px\">\n        <span data-testid=\"currentCanvasGroupLabel\">{{ canvasGroupLabel }}</span\n        ><span>/</span\n        ><span data-testid=\"numOfCanvasGroups\">{{ numberOfCanvases }}</span>\n      </div>\n    </button>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"currentViewingDirection === ViewingDirection.LTR\">\n        <button\n          data-testid=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          data-testid=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"currentViewingDirection === ViewingDirection.RTL\">\n        <button\n          data-testid=\"footerNavigateNextButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextPageLabel\"\n          [matTooltip]=\"intl.nextPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastCanvasGroup\"\n          (click)=\"goToNextCanvasGroup()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          data-testid=\"footerNavigateBeforeButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousPageLabel\"\n          [matTooltip]=\"intl.previousPageLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstCanvasGroup\"\n          (click)=\"goToPreviousCanvasGroup()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n", styles: [".canvasGroups{font-size:13px;text-align:center;cursor:pointer}.navigation-slider{width:100%}\n"] }]
         }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: ViewerService }, { type: CanvasService }, { type: CanvasGroupDialogService }, { type: IiifManifestService }]; }, propDecorators: { searchResult: [{
                 type: Input
             }] } });
@@ -6717,10 +6374,10 @@ class ContentSearchNavigatorComponent {
     }
 }
 ContentSearchNavigatorComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ContentSearchNavigatorComponent, deps: [{ token: MimeViewerIntl }, { token: i0.ChangeDetectorRef }, { token: CanvasService }, { token: IiifContentSearchService }, { token: ContentSearchNavigationService }, { token: IiifManifestService }], target: i0.ɵɵFactoryTarget.Component });
-ContentSearchNavigatorComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ContentSearchNavigatorComponent, selector: "mime-content-search-navigator", inputs: { searchResult: "searchResult" }, ngImport: i0, template: "<mat-toolbar class=\"content-search-navigator-toolbar\" color=\"primary\">\n  <div\n    *ngIf=\"searchResult\"\n    fxLayout=\"row\"\n    fxFlex\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div>\n      <button\n        id=\"footerNavigateCloseHitsButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.closeLabel\"\n        [matTooltip]=\"intl.closeLabel\"\n        matTooltipPosition=\"above\"\n        (click)=\"clear()\"\n      >\n        <mat-icon>close</mat-icon>\n      </button>\n    </div>\n    <div\n      fxFlex\n      class=\"current-hit-label\"\n      [ngClass]=\"{ 'not-on-page': !isHitOnActiveCanvasGroup }\"\n      [innerHTML]=\"intl.currentHitLabel(currentHit + 1, searchResult.size())\"\n    ></div>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"invert\">\n        <button\n          id=\"footerNavigatePreviousHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousHitLabel\"\n          [matTooltip]=\"intl.previousHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstHit\"\n          (click)=\"goToPreviousHit()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateNextHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextHitLabel\"\n          [matTooltip]=\"intl.nextHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastHit\"\n          (click)=\"goToNextHit()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"!invert\">\n        <button\n          id=\"footerNavigateNextHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextHitLabel\"\n          [matTooltip]=\"intl.nextHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastHit\"\n          (click)=\"goToNextHit()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigatePreviousHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousHitLabel\"\n          [matTooltip]=\"intl.previousHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstHit\"\n          (click)=\"goToPreviousHit()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n", styles: [".current-hit-label{font-size:13px;text-align:center}.not-on-page{opacity:.6}\n"], dependencies: [{ kind: "directive", type: i6$1.NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "directive", type: i9.DefaultClassDirective, selector: "  [ngClass], [ngClass.xs], [ngClass.sm], [ngClass.md], [ngClass.lg], [ngClass.xl],  [ngClass.lt-sm], [ngClass.lt-md], [ngClass.lt-lg], [ngClass.lt-xl],  [ngClass.gt-xs], [ngClass.gt-sm], [ngClass.gt-md], [ngClass.gt-lg]", inputs: ["ngClass", "ngClass.xs", "ngClass.sm", "ngClass.md", "ngClass.lg", "ngClass.xl", "ngClass.lt-sm", "ngClass.lt-md", "ngClass.lt-lg", "ngClass.lt-xl", "ngClass.gt-xs", "ngClass.gt-sm", "ngClass.gt-md", "ngClass.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+ContentSearchNavigatorComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ContentSearchNavigatorComponent, selector: "mime-content-search-navigator", inputs: { searchResult: "searchResult" }, ngImport: i0, template: "<mat-toolbar class=\"content-search-navigator-toolbar\" color=\"primary\">\n  <div\n    *ngIf=\"searchResult\"\n    fxLayout=\"row\"\n    fxFlex\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div>\n      <button\n        data-testid=\"footerNavigateCloseHitsButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.closeLabel\"\n        [matTooltip]=\"intl.closeLabel\"\n        matTooltipPosition=\"above\"\n        (click)=\"clear()\"\n      >\n        <mat-icon>close</mat-icon>\n      </button>\n    </div>\n    <div\n      fxFlex\n      class=\"current-hit-label\"\n      [ngClass]=\"{ 'not-on-page': !isHitOnActiveCanvasGroup }\"\n      [innerHTML]=\"intl.currentHitLabel(currentHit + 1, searchResult.size())\"\n    ></div>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"invert\">\n        <button\n          data-testid=\"footerNavigatePreviousHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousHitLabel\"\n          [matTooltip]=\"intl.previousHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstHit\"\n          (click)=\"goToPreviousHit()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          data-testid=\"footerNavigateNextHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextHitLabel\"\n          [matTooltip]=\"intl.nextHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastHit\"\n          (click)=\"goToNextHit()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"!invert\">\n        <button\n          data-testid=\"footerNavigateNextHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextHitLabel\"\n          [matTooltip]=\"intl.nextHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastHit\"\n          (click)=\"goToNextHit()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          data-testid=\"footerNavigatePreviousHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousHitLabel\"\n          [matTooltip]=\"intl.previousHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstHit\"\n          (click)=\"goToPreviousHit()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n", styles: [".current-hit-label{font-size:13px;text-align:center}.not-on-page{opacity:.6}\n"], dependencies: [{ kind: "directive", type: i6$1.NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "directive", type: i9.DefaultClassDirective, selector: "  [ngClass], [ngClass.xs], [ngClass.sm], [ngClass.md], [ngClass.lg], [ngClass.xl],  [ngClass.lt-sm], [ngClass.lt-md], [ngClass.lt-lg], [ngClass.lt-xl],  [ngClass.gt-xs], [ngClass.gt-sm], [ngClass.gt-md], [ngClass.gt-lg]", inputs: ["ngClass", "ngClass.xs", "ngClass.sm", "ngClass.md", "ngClass.lg", "ngClass.xl", "ngClass.lt-sm", "ngClass.lt-md", "ngClass.lt-lg", "ngClass.lt-xl", "ngClass.gt-xs", "ngClass.gt-sm", "ngClass.gt-md", "ngClass.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ContentSearchNavigatorComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-content-search-navigator', changeDetection: ChangeDetectionStrategy.OnPush, template: "<mat-toolbar class=\"content-search-navigator-toolbar\" color=\"primary\">\n  <div\n    *ngIf=\"searchResult\"\n    fxLayout=\"row\"\n    fxFlex\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div>\n      <button\n        id=\"footerNavigateCloseHitsButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.closeLabel\"\n        [matTooltip]=\"intl.closeLabel\"\n        matTooltipPosition=\"above\"\n        (click)=\"clear()\"\n      >\n        <mat-icon>close</mat-icon>\n      </button>\n    </div>\n    <div\n      fxFlex\n      class=\"current-hit-label\"\n      [ngClass]=\"{ 'not-on-page': !isHitOnActiveCanvasGroup }\"\n      [innerHTML]=\"intl.currentHitLabel(currentHit + 1, searchResult.size())\"\n    ></div>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"invert\">\n        <button\n          id=\"footerNavigatePreviousHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousHitLabel\"\n          [matTooltip]=\"intl.previousHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstHit\"\n          (click)=\"goToPreviousHit()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigateNextHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextHitLabel\"\n          [matTooltip]=\"intl.nextHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastHit\"\n          (click)=\"goToNextHit()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"!invert\">\n        <button\n          id=\"footerNavigateNextHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextHitLabel\"\n          [matTooltip]=\"intl.nextHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastHit\"\n          (click)=\"goToNextHit()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          id=\"footerNavigatePreviousHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousHitLabel\"\n          [matTooltip]=\"intl.previousHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstHit\"\n          (click)=\"goToPreviousHit()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n", styles: [".current-hit-label{font-size:13px;text-align:center}.not-on-page{opacity:.6}\n"] }]
+            args: [{ selector: 'mime-content-search-navigator', changeDetection: ChangeDetectionStrategy.OnPush, template: "<mat-toolbar class=\"content-search-navigator-toolbar\" color=\"primary\">\n  <div\n    *ngIf=\"searchResult\"\n    fxLayout=\"row\"\n    fxFlex\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div>\n      <button\n        data-testid=\"footerNavigateCloseHitsButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.closeLabel\"\n        [matTooltip]=\"intl.closeLabel\"\n        matTooltipPosition=\"above\"\n        (click)=\"clear()\"\n      >\n        <mat-icon>close</mat-icon>\n      </button>\n    </div>\n    <div\n      fxFlex\n      class=\"current-hit-label\"\n      [ngClass]=\"{ 'not-on-page': !isHitOnActiveCanvasGroup }\"\n      [innerHTML]=\"intl.currentHitLabel(currentHit + 1, searchResult.size())\"\n    ></div>\n    <div class=\"navigation-buttons\">\n      <ng-container *ngIf=\"invert\">\n        <button\n          data-testid=\"footerNavigatePreviousHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousHitLabel\"\n          [matTooltip]=\"intl.previousHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstHit\"\n          (click)=\"goToPreviousHit()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          data-testid=\"footerNavigateNextHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextHitLabel\"\n          [matTooltip]=\"intl.nextHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastHit\"\n          (click)=\"goToNextHit()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n      <ng-container *ngIf=\"!invert\">\n        <button\n          data-testid=\"footerNavigateNextHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.nextHitLabel\"\n          [matTooltip]=\"intl.nextHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isLastHit\"\n          (click)=\"goToNextHit()\"\n        >\n          <mat-icon>navigate_before</mat-icon>\n        </button>\n        <button\n          data-testid=\"footerNavigatePreviousHitButton\"\n          mat-icon-button\n          [attr.aria-label]=\"intl.previousHitLabel\"\n          [matTooltip]=\"intl.previousHitLabel\"\n          matTooltipPosition=\"above\"\n          [disabled]=\"isFirstHit\"\n          (click)=\"goToPreviousHit()\"\n        >\n          <mat-icon>navigate_next</mat-icon>\n        </button>\n      </ng-container>\n    </div>\n  </div>\n</mat-toolbar>\n", styles: [".current-hit-label{font-size:13px;text-align:center}.not-on-page{opacity:.6}\n"] }]
         }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: CanvasService }, { type: IiifContentSearchService }, { type: ContentSearchNavigationService }, { type: IiifManifestService }]; }, propDecorators: { searchResult: [{
                 type: Input
             }] } });
@@ -6762,7 +6419,7 @@ class ViewerFooterComponent {
     }
 }
 ViewerFooterComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewerFooterComponent, deps: [{ token: IiifContentSearchService }, { token: i1.MediaObserver }, { token: i0.ChangeDetectorRef }], target: i0.ɵɵFactoryTarget.Component });
-ViewerFooterComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ViewerFooterComponent, selector: "mime-viewer-footer", host: { properties: { "@footerState": "this.footerState" } }, viewQueries: [{ propertyName: "mimeFooterBefore", first: true, predicate: ["mimeFooterBefore"], descendants: true, read: ViewContainerRef, static: true }, { propertyName: "mimeFooterAfter", first: true, predicate: ["mimeFooterAfter"], descendants: true, read: ViewContainerRef, static: true }], ngImport: i0, template: "<mat-toolbar class=\"footer-toolbar\">\n  <div fxLayout=\"row\" fxFlex fxLayoutAlign=\"start center\">\n    <div><ng-template #mimeFooterBefore></ng-template></div>\n    <div fxFlex=\"250px\" fxFlex.lt-md=\"100%\" *ngIf=\"searchResult.size() > 0\">\n      <mime-content-search-navigator\n        *ngIf=\"showContentSearchNavigator\"\n        [searchResult]=\"searchResult\"\n      ></mime-content-search-navigator>\n    </div>\n    <div fxFlex [hidden]=\"!showPageNavigator\">\n      <mime-page-navigator [searchResult]=\"searchResult\"></mime-page-navigator>\n    </div>\n  </div>\n  <div><ng-template #mimeFooterAfter></ng-template></div>\n</mat-toolbar>\n", styles: [":host{display:block;width:100%;-webkit-user-select:none;user-select:none}.footer-toolbar{padding:0}[hidden]{display:none}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: ContentSearchNavigatorComponent, selector: "mime-content-search-navigator", inputs: ["searchResult"] }, { kind: "component", type: CanvasGroupNavigatorComponent, selector: "mime-page-navigator", inputs: ["searchResult"] }], animations: [
+ViewerFooterComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ViewerFooterComponent, selector: "mime-viewer-footer", host: { properties: { "@footerState": "this.footerState" } }, viewQueries: [{ propertyName: "mimeFooterBefore", first: true, predicate: ["mimeFooterBefore"], descendants: true, read: ViewContainerRef, static: true }, { propertyName: "mimeFooterAfter", first: true, predicate: ["mimeFooterAfter"], descendants: true, read: ViewContainerRef, static: true }], ngImport: i0, template: "<mat-toolbar class=\"footer-toolbar\">\n  <div fxLayout=\"row\" fxFlex fxLayoutAlign=\"start center\">\n    <div><ng-template #mimeFooterBefore></ng-template></div>\n    <div fxFlex=\"250px\" fxFlex.lt-md=\"100%\" *ngIf=\"searchResult.size() > 0\">\n      <mime-content-search-navigator\n        *ngIf=\"showContentSearchNavigator\"\n        [searchResult]=\"searchResult\"\n      ></mime-content-search-navigator>\n    </div>\n    <div fxFlex [hidden]=\"!showPageNavigator\">\n      <mime-page-navigator [searchResult]=\"searchResult\"></mime-page-navigator>\n    </div>\n  </div>\n  <div><ng-template #mimeFooterAfter></ng-template></div>\n</mat-toolbar>\n", styles: [":host{display:block;width:100%;-webkit-user-select:none;user-select:none}.footer-toolbar{padding:0}[hidden]{display:none}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: CanvasGroupNavigatorComponent, selector: "mime-page-navigator", inputs: ["searchResult"] }, { kind: "component", type: ContentSearchNavigatorComponent, selector: "mime-content-search-navigator", inputs: ["searchResult"] }], animations: [
         trigger('footerState', [
             state('hide', style({
                 transform: 'translate(0, 100%)',
@@ -6799,8 +6456,136 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
                 args: ['@footerState']
             }] } });
 
+class MobileHelpDialogConfigStrategy {
+    getConfig(elementRef, viewContainerRef) {
+        return {
+            hasBackdrop: false,
+            width: '100%',
+            height: '100%',
+            maxWidth: '100% !important',
+            panelClass: 'help-panel',
+            viewContainerRef: viewContainerRef,
+        };
+    }
+}
+class DesktopHelpDialogConfigStrategy {
+    constructor(mimeDomHelper) {
+        this.mimeDomHelper = mimeDomHelper;
+    }
+    getConfig(el, viewContainerRef) {
+        const dimensions = this.getPosition(el);
+        return {
+            hasBackdrop: false,
+            width: `${DesktopHelpDialogConfigStrategy.dialogWidth}px`,
+            position: {
+                top: dimensions.top + 'px',
+                left: dimensions.left + 'px',
+            },
+            panelClass: 'help-panel',
+            maxWidth: '100% !important',
+            viewContainerRef: viewContainerRef,
+        };
+    }
+    getPosition(el) {
+        const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+        return new Dimensions({
+            top: dimensions.top + 64,
+            left: dimensions.right -
+                DesktopHelpDialogConfigStrategy.dialogWidth -
+                DesktopHelpDialogConfigStrategy.paddingRight,
+        });
+    }
+}
+DesktopHelpDialogConfigStrategy.dialogWidth = 350;
+DesktopHelpDialogConfigStrategy.paddingRight = 20;
+
+class HelpDialogConfigStrategyFactory {
+    constructor(mediaObserver, mimeDomHelper) {
+        this.mediaObserver = mediaObserver;
+        this.mimeDomHelper = mimeDomHelper;
+    }
+    create() {
+        return this.mediaObserver.isActive('lt-md')
+            ? new MobileHelpDialogConfigStrategy()
+            : new DesktopHelpDialogConfigStrategy(this.mimeDomHelper);
+    }
+}
+HelpDialogConfigStrategyFactory.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogConfigStrategyFactory, deps: [{ token: i1.MediaObserver }, { token: MimeDomHelper }], target: i0.ɵɵFactoryTarget.Injectable });
+HelpDialogConfigStrategyFactory.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogConfigStrategyFactory });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogConfigStrategyFactory, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i1.MediaObserver }, { type: MimeDomHelper }]; } });
+
+class HelpDialogService {
+    constructor(dialog, helpDialogConfigStrategyFactory, mimeResizeService) {
+        this.dialog = dialog;
+        this.helpDialogConfigStrategyFactory = helpDialogConfigStrategyFactory;
+        this.mimeResizeService = mimeResizeService;
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.mimeResizeService.onResize.subscribe(() => {
+            var _a, _b;
+            if (this.isOpen()) {
+                const config = this.getDialogConfig();
+                (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.updatePosition(config.position);
+                (_b = this.dialogRef) === null || _b === void 0 ? void 0 : _b.updateSize(config.width, config.height);
+            }
+        }));
+    }
+    destroy() {
+        this.close();
+        this.unsubscribe();
+    }
+    set el(el) {
+        this._el = el;
+    }
+    set viewContainerRef(viewContainerRef) {
+        this._viewContainerRef = viewContainerRef;
+    }
+    open() {
+        if (!this.isOpen()) {
+            const config = this.getDialogConfig();
+            this.dialogRef = this.dialog.open(HelpDialogComponent, config);
+        }
+    }
+    close() {
+        var _a;
+        if (this.isOpen()) {
+            (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.close();
+        }
+    }
+    toggle() {
+        this.isOpen() ? this.close() : this.open();
+    }
+    isOpen() {
+        var _a;
+        return ((_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.getState()) === 0 /* MatDialogState.OPEN */;
+    }
+    getDialogConfig() {
+        if (!this._el || !this._viewContainerRef) {
+            throw new Error('No element or viewContainerRef');
+        }
+        return this._el
+            ? this.helpDialogConfigStrategyFactory
+                .create()
+                .getConfig(this._el, this._viewContainerRef)
+            : {};
+    }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
+    }
+}
+HelpDialogService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogService, deps: [{ token: i1$1.MatDialog }, { token: HelpDialogConfigStrategyFactory }, { token: MimeResizeService }], target: i0.ɵɵFactoryTarget.Injectable });
+HelpDialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: HelpDialogService, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i1$1.MatDialog }, { type: HelpDialogConfigStrategyFactory }, { type: MimeResizeService }]; } });
+
 class ViewerHeaderComponent {
-    constructor(intl, changeDetectorRef, informationDialogService, contentSearchDialogService, viewDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper, el) {
+    constructor(intl, changeDetectorRef, informationDialogService, contentSearchDialogService, viewDialogService, helpDialogService, iiifManifestService, fullscreenService, mimeDomHelper) {
         this.intl = intl;
         this.changeDetectorRef = changeDetectorRef;
         this.informationDialogService = informationDialogService;
@@ -6819,10 +6604,6 @@ class ViewerHeaderComponent {
         this.isPagedManifest = false;
         this.hasRecognizedTextContent = false;
         this.subscriptions = new Subscription();
-        informationDialogService.el = el;
-        contentSearchDialogService.el = el;
-        helpDialogService.el = el;
-        viewDialogService.el = el;
     }
     get headerState() {
         return this.state;
@@ -6884,8 +6665,8 @@ class ViewerHeaderComponent {
         return this.fullscreenService.isFullscreen();
     }
 }
-ViewerHeaderComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewerHeaderComponent, deps: [{ token: MimeViewerIntl }, { token: i0.ChangeDetectorRef }, { token: InformationDialogService }, { token: ContentSearchDialogService }, { token: ViewDialogService }, { token: HelpDialogService }, { token: IiifManifestService }, { token: FullscreenService }, { token: MimeDomHelper }, { token: i0.ElementRef }], target: i0.ɵɵFactoryTarget.Component });
-ViewerHeaderComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ViewerHeaderComponent, selector: "mime-viewer-header", host: { properties: { "@headerState": "this.headerState" } }, viewQueries: [{ propertyName: "mimeHeaderBefore", first: true, predicate: ["mimeHeaderBefore"], descendants: true, read: ViewContainerRef, static: true }, { propertyName: "mimeHeaderAfter", first: true, predicate: ["mimeHeaderAfter"], descendants: true, read: ViewContainerRef, static: true }, { propertyName: "viewMenu", first: true, predicate: ["viewMenu"], descendants: true, read: ElementRef, static: true }], ngImport: i0, template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div\n      *ngIf=\"manifest\"\n      fxFlexOffset=\"16px\"\n      class=\"label\"\n      [matTooltip]=\"manifest.label\"\n      >{{ manifest.label }}</div\n    >\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest || hasRecognizedTextContent\"\n        data-test-id=\"ngx-mime-view-menu-button\"\n        #viewMenu\n        mat-icon-button\n        [attr.aria-label]=\"intl.layoutMenuLabel\"\n        [matTooltip]=\"intl.layoutMenuLabel\"\n        (click)=\"toggleView()\"\n        ><mat-icon aria-hidden=\"true\">view_module</mat-icon></button\n      >\n      <button\n        id=\"ngx-mimeInformationDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.informationLabel\"\n        [matTooltip]=\"intl.informationLabel\"\n        (click)=\"toggleInformationDialog()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n", styles: [":host{max-height:64px}.header-container{width:100%}.label{font-size:17px;overflow:hidden;text-overflow:ellipsis}mat-toolbar{padding:0}.buttons-container{padding:0 16px}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexOffsetDirective, selector: "  [fxFlexOffset], [fxFlexOffset.xs], [fxFlexOffset.sm], [fxFlexOffset.md],  [fxFlexOffset.lg], [fxFlexOffset.xl], [fxFlexOffset.lt-sm], [fxFlexOffset.lt-md],  [fxFlexOffset.lt-lg], [fxFlexOffset.lt-xl], [fxFlexOffset.gt-xs], [fxFlexOffset.gt-sm],  [fxFlexOffset.gt-md], [fxFlexOffset.gt-lg]", inputs: ["fxFlexOffset", "fxFlexOffset.xs", "fxFlexOffset.sm", "fxFlexOffset.md", "fxFlexOffset.lg", "fxFlexOffset.xl", "fxFlexOffset.lt-sm", "fxFlexOffset.lt-md", "fxFlexOffset.lt-lg", "fxFlexOffset.lt-xl", "fxFlexOffset.gt-xs", "fxFlexOffset.gt-sm", "fxFlexOffset.gt-md", "fxFlexOffset.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }], animations: [
+ViewerHeaderComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewerHeaderComponent, deps: [{ token: MimeViewerIntl }, { token: i0.ChangeDetectorRef }, { token: InformationDialogService }, { token: ContentSearchDialogService }, { token: ViewDialogService }, { token: HelpDialogService }, { token: IiifManifestService }, { token: FullscreenService }, { token: MimeDomHelper }], target: i0.ɵɵFactoryTarget.Component });
+ViewerHeaderComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ViewerHeaderComponent, selector: "mime-viewer-header", host: { properties: { "@headerState": "this.headerState" } }, viewQueries: [{ propertyName: "mimeHeaderBefore", first: true, predicate: ["mimeHeaderBefore"], descendants: true, read: ViewContainerRef, static: true }, { propertyName: "mimeHeaderAfter", first: true, predicate: ["mimeHeaderAfter"], descendants: true, read: ViewContainerRef, static: true }, { propertyName: "viewMenu", first: true, predicate: ["viewMenu"], descendants: true, read: ElementRef, static: true }], ngImport: i0, template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div\n      *ngIf=\"manifest\"\n      fxFlexOffset=\"16px\"\n      class=\"label\"\n      [matTooltip]=\"manifest.label\"\n      >{{ manifest.label }}</div\n    >\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest || hasRecognizedTextContent\"\n        data-testid=\"ngx-mime-view-menu-button\"\n        #viewMenu\n        mat-icon-button\n        [attr.aria-label]=\"intl.layoutMenuLabel\"\n        [matTooltip]=\"intl.layoutMenuLabel\"\n        (click)=\"toggleView()\"\n        ><mat-icon aria-hidden=\"true\">view_module</mat-icon></button\n      >\n      <button\n        data-testid=\"ngx-mimeInformationDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.informationLabel\"\n        [matTooltip]=\"intl.informationLabel\"\n        (click)=\"toggleInformationDialog()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        data-testid=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        data-testid=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        data-testid=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n", styles: [":host{max-height:64px}.header-container{width:100%}.label{font-size:17px;overflow:hidden;text-overflow:ellipsis}mat-toolbar{padding:0}.buttons-container{padding:0 16px}\n"], dependencies: [{ kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexOffsetDirective, selector: "  [fxFlexOffset], [fxFlexOffset.xs], [fxFlexOffset.sm], [fxFlexOffset.md],  [fxFlexOffset.lg], [fxFlexOffset.xl], [fxFlexOffset.lt-sm], [fxFlexOffset.lt-md],  [fxFlexOffset.lt-lg], [fxFlexOffset.lt-xl], [fxFlexOffset.gt-xs], [fxFlexOffset.gt-sm],  [fxFlexOffset.gt-md], [fxFlexOffset.gt-lg]", inputs: ["fxFlexOffset", "fxFlexOffset.xs", "fxFlexOffset.sm", "fxFlexOffset.md", "fxFlexOffset.lg", "fxFlexOffset.xl", "fxFlexOffset.lt-sm", "fxFlexOffset.lt-md", "fxFlexOffset.lt-lg", "fxFlexOffset.lt-xl", "fxFlexOffset.gt-xs", "fxFlexOffset.gt-sm", "fxFlexOffset.gt-md", "fxFlexOffset.gt-lg"] }, { kind: "directive", type: i7.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { kind: "component", type: i9$1.MatToolbar, selector: "mat-toolbar", inputs: ["color"], exportAs: ["matToolbar"] }, { kind: "component", type: i8$1.MatIconButton, selector: "button[mat-icon-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }, { kind: "component", type: i11.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { kind: "directive", type: i12.MatTooltip, selector: "[matTooltip]", exportAs: ["matTooltip"] }], animations: [
         trigger('headerState', [
             state('hide', style({
                 transform: 'translate(0, -100%)',
@@ -6910,8 +6691,8 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
                             transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
                             transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
                         ]),
-                    ], template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div\n      *ngIf=\"manifest\"\n      fxFlexOffset=\"16px\"\n      class=\"label\"\n      [matTooltip]=\"manifest.label\"\n      >{{ manifest.label }}</div\n    >\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest || hasRecognizedTextContent\"\n        data-test-id=\"ngx-mime-view-menu-button\"\n        #viewMenu\n        mat-icon-button\n        [attr.aria-label]=\"intl.layoutMenuLabel\"\n        [matTooltip]=\"intl.layoutMenuLabel\"\n        (click)=\"toggleView()\"\n        ><mat-icon aria-hidden=\"true\">view_module</mat-icon></button\n      >\n      <button\n        id=\"ngx-mimeInformationDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.informationLabel\"\n        [matTooltip]=\"intl.informationLabel\"\n        (click)=\"toggleInformationDialog()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        id=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        id=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n", styles: [":host{max-height:64px}.header-container{width:100%}.label{font-size:17px;overflow:hidden;text-overflow:ellipsis}mat-toolbar{padding:0}.buttons-container{padding:0 16px}\n"] }]
-        }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: InformationDialogService }, { type: ContentSearchDialogService }, { type: ViewDialogService }, { type: HelpDialogService }, { type: IiifManifestService }, { type: FullscreenService }, { type: MimeDomHelper }, { type: i0.ElementRef }]; }, propDecorators: { mimeHeaderBefore: [{
+                    ], template: "<mat-toolbar>\n  <div\n    class=\"header-container\"\n    fxLayout=\"row\"\n    fxLayoutAlign=\"space-between center\"\n  >\n    <div><ng-template #mimeHeaderBefore></ng-template></div>\n    <div\n      *ngIf=\"manifest\"\n      fxFlexOffset=\"16px\"\n      class=\"label\"\n      [matTooltip]=\"manifest.label\"\n      >{{ manifest.label }}</div\n    >\n    <div\n      fxFlex=\"noshrink\"\n      fxLayout=\"row\"\n      fxLayoutAlign=\"end center\"\n      class=\"buttons-container\"\n    >\n      <button\n        *ngIf=\"isPagedManifest || hasRecognizedTextContent\"\n        data-testid=\"ngx-mime-view-menu-button\"\n        #viewMenu\n        mat-icon-button\n        [attr.aria-label]=\"intl.layoutMenuLabel\"\n        [matTooltip]=\"intl.layoutMenuLabel\"\n        (click)=\"toggleView()\"\n        ><mat-icon aria-hidden=\"true\">view_module</mat-icon></button\n      >\n      <button\n        data-testid=\"ngx-mimeInformationDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.informationLabel\"\n        [matTooltip]=\"intl.informationLabel\"\n        (click)=\"toggleInformationDialog()\"\n      >\n        <mat-icon aria-hidden=\"true\">list</mat-icon>\n      </button>\n      <button\n        data-testid=\"ngx-mimeContentSearchDialogButton\"\n        *ngIf=\"isContentSearchEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.searchLabel\"\n        [matTooltip]=\"intl.searchLabel\"\n        (click)=\"toggleSearch()\"\n      >\n        <mat-icon aria-hidden=\"true\">search</mat-icon>\n      </button>\n      <button\n        data-testid=\"ngx-mimeHelpDialogButton\"\n        mat-icon-button\n        [attr.aria-label]=\"intl.help.helpLabel\"\n        [matTooltip]=\"intl.help.helpLabel\"\n        (click)=\"toggleHelp()\"\n      >\n        <mat-icon aria-hidden=\"true\">help</mat-icon>\n      </button>\n\n      <button\n        data-testid=\"ngx-mimeFullscreenButton\"\n        *ngIf=\"isFullscreenEnabled\"\n        mat-icon-button\n        [attr.aria-label]=\"fullscreenLabel\"\n        [matTooltip]=\"fullscreenLabel\"\n        (click)=\"toggleFullscreen()\"\n      >\n        <mat-icon *ngIf=\"isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen_exit</mat-icon\n        >\n        <mat-icon *ngIf=\"!isInFullScreen\" aria-hidden=\"true\"\n          >fullscreen</mat-icon\n        >\n      </button>\n    </div>\n    <div><ng-template #mimeHeaderAfter></ng-template></div>\n  </div>\n</mat-toolbar>\n", styles: [":host{max-height:64px}.header-container{width:100%}.label{font-size:17px;overflow:hidden;text-overflow:ellipsis}mat-toolbar{padding:0}.buttons-container{padding:0 16px}\n"] }]
+        }], ctorParameters: function () { return [{ type: MimeViewerIntl }, { type: i0.ChangeDetectorRef }, { type: InformationDialogService }, { type: ContentSearchDialogService }, { type: ViewDialogService }, { type: HelpDialogService }, { type: IiifManifestService }, { type: FullscreenService }, { type: MimeDomHelper }]; }, propDecorators: { mimeHeaderBefore: [{
                 type: ViewChild,
                 args: ['mimeHeaderBefore', { read: ViewContainerRef, static: true }]
             }], mimeHeaderAfter: [{
@@ -7013,11 +6794,154 @@ class ViewerState {
     }
 }
 
+class AttributionDialogService {
+    constructor(dialog, mimeResizeService, attributionDialogResizeService, mimeDomHelper) {
+        this.dialog = dialog;
+        this.mimeResizeService = mimeResizeService;
+        this.attributionDialogResizeService = attributionDialogResizeService;
+        this.mimeDomHelper = mimeDomHelper;
+        this._el = null;
+        this.attributionDialogHeight = 0;
+    }
+    initialize() {
+        this.subscriptions = new Subscription();
+        this.subscriptions.add(this.mimeResizeService.onResize.subscribe(() => {
+            var _a;
+            if (this.isOpen()) {
+                const config = this.getDialogConfig();
+                (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.updatePosition(config.position);
+            }
+        }));
+        this.subscriptions.add(this.attributionDialogResizeService.onResize.subscribe((dimensions) => {
+            var _a;
+            if (this.isOpen()) {
+                this.attributionDialogHeight = dimensions.height;
+                const config = this.getDialogConfig();
+                (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.updatePosition(config.position);
+            }
+        }));
+    }
+    destroy() {
+        this.close();
+        this.unsubscribe();
+    }
+    set el(el) {
+        this._el = el;
+    }
+    set viewContainerRef(viewContainerRef) {
+        this._viewContainerRef = viewContainerRef;
+    }
+    open(timeout) {
+        if (!this.isOpen()) {
+            const config = this.getDialogConfig();
+            this.dialogRef = this.dialog.open(AttributionDialogComponent, config);
+            this.dialogRef
+                .afterClosed()
+                .pipe(take(1))
+                .subscribe(() => {
+                this.mimeDomHelper.setFocusOnViewer();
+            });
+            this.closeDialogAfter(timeout);
+        }
+    }
+    close() {
+        var _a;
+        if (this.isOpen()) {
+            (_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.close();
+        }
+    }
+    toggle() {
+        this.isOpen() ? this.close() : this.open();
+    }
+    isOpen() {
+        var _a;
+        return ((_a = this.dialogRef) === null || _a === void 0 ? void 0 : _a.getState()) === 0 /* MatDialogState.OPEN */;
+    }
+    closeDialogAfter(seconds) {
+        if (seconds && seconds > 0) {
+            interval(seconds * 1000)
+                .pipe(take(1))
+                .subscribe(() => {
+                this.close();
+            });
+        }
+    }
+    getDialogConfig() {
+        if (!this._viewContainerRef) {
+            throw new Error('No viewContainerRef');
+        }
+        const dimensions = this.getPosition();
+        return {
+            hasBackdrop: false,
+            width: '180px',
+            panelClass: 'attribution-panel',
+            position: {
+                top: dimensions.top + 'px',
+                left: dimensions.left + 'px',
+            },
+            autoFocus: true,
+            restoreFocus: false,
+            viewContainerRef: this._viewContainerRef,
+        };
+    }
+    getPosition() {
+        if (!this._el) {
+            throw new Error(`Could not find position because element is missing`);
+        }
+        const padding = 20;
+        const dimensions = this.mimeDomHelper.getBoundingClientRect(this._el);
+        return new Dimensions({
+            top: dimensions.top + dimensions.height - this.attributionDialogHeight - 68,
+            left: dimensions.left + padding,
+        });
+    }
+    unsubscribe() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
+    }
+}
+AttributionDialogService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogService, deps: [{ token: i1$1.MatDialog }, { token: MimeResizeService }, { token: AttributionDialogResizeService }, { token: MimeDomHelper }], target: i0.ɵɵFactoryTarget.Injectable });
+AttributionDialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: AttributionDialogService, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i1$1.MatDialog }, { type: MimeResizeService }, { type: AttributionDialogResizeService }, { type: MimeDomHelper }]; } });
+
+const VIEWER_PROVIDERS = [
+    AccessKeysService,
+    AltoService,
+    AttributionDialogResizeService,
+    AttributionDialogService,
+    CanvasGroupDialogService,
+    CanvasService,
+    ClickService,
+    ContentSearchDialogConfigStrategyFactory,
+    ContentSearchDialogService,
+    ContentSearchNavigationService,
+    FullscreenService,
+    HelpDialogConfigStrategyFactory,
+    HelpDialogService,
+    HighlightService,
+    IiifContentSearchService,
+    IiifManifestService,
+    InformationDialogConfigStrategyFactory,
+    InformationDialogService,
+    MimeDomHelper,
+    MimeResizeService,
+    MimeViewerIntl,
+    ModeService,
+    SpinnerService,
+    StyleService,
+    ViewDialogConfigStrategyFactory,
+    ViewDialogService,
+    ViewerLayoutService,
+    ViewerService,
+];
+
 class ViewerComponent {
-    constructor(snackBar, intl, el, iiifManifestService, viewDialogService, informationDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, resizeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, altoService, zone, platform) {
+    constructor(snackBar, intl, iiifManifestService, viewDialogService, informationDialogService, attributionDialogService, contentSearchDialogService, helpDialogService, viewerService, resizeService, changeDetectorRef, modeService, iiifContentSearchService, accessKeysHandlerService, canvasService, viewerLayoutService, styleService, altoService, zone, platform, canvasGroupDialogService, el, viewContainerRef) {
         this.snackBar = snackBar;
         this.intl = intl;
-        this.el = el;
         this.iiifManifestService = iiifManifestService;
         this.viewDialogService = viewDialogService;
         this.informationDialogService = informationDialogService;
@@ -7045,6 +6969,8 @@ class ViewerComponent {
         this.manifestChanged = new EventEmitter();
         this.recognizedTextContentModeChanged = new EventEmitter();
         this.recognizedTextMode = RecognizedTextMode;
+        this.id = 'ngx-mime-mimeViewer';
+        this.openseadragonId = 'openseadragon';
         this.subscriptions = new Subscription();
         this.isCanvasPressed = false;
         this.viewerLayout = null;
@@ -7052,11 +6978,19 @@ class ViewerComponent {
         this.recognizedTextContentMode = RecognizedTextMode.NONE;
         this.showHeaderAndFooterState = 'hide';
         this.errorMessage = null;
+        this.id = this.viewerService.id;
+        this.openseadragonId = this.viewerService.openseadragonId;
         informationDialogService.el = el;
+        informationDialogService.viewContainerRef = viewContainerRef;
         attributionDialogService.el = el;
+        attributionDialogService.viewContainerRef = viewContainerRef;
         viewDialogService.el = el;
+        viewDialogService.viewContainerRef = viewContainerRef;
         contentSearchDialogService.el = el;
+        contentSearchDialogService.viewContainerRef = viewContainerRef;
         helpDialogService.el = el;
+        helpDialogService.viewContainerRef = viewContainerRef;
+        canvasGroupDialogService.viewContainerRef = viewContainerRef;
         resizeService.el = el;
     }
     get mimeHeaderBeforeRef() {
@@ -7183,6 +7117,7 @@ class ViewerComponent {
     }
     ngOnChanges(changes) {
         if (changes['config']) {
+            this.viewerService.setConfig(this.config);
             this.iiifContentSearchService.setConfig(this.config);
             this.altoService.setConfig(this.config);
             this.modeService.setConfig(this.config);
@@ -7336,12 +7271,12 @@ class ViewerComponent {
         };
     }
 }
-ViewerComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewerComponent, deps: [{ token: i8.MatSnackBar }, { token: MimeViewerIntl }, { token: i0.ElementRef }, { token: IiifManifestService }, { token: ViewDialogService }, { token: InformationDialogService }, { token: AttributionDialogService }, { token: ContentSearchDialogService }, { token: HelpDialogService }, { token: ViewerService }, { token: MimeResizeService }, { token: i0.ChangeDetectorRef }, { token: ModeService }, { token: IiifContentSearchService }, { token: AccessKeysService }, { token: CanvasService }, { token: ViewerLayoutService }, { token: StyleService }, { token: AltoService }, { token: i0.NgZone }, { token: i18$1.Platform }], target: i0.ɵɵFactoryTarget.Component });
-ViewerComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ViewerComponent, selector: "mime-viewer", inputs: { manifestUri: "manifestUri", q: "q", canvasIndex: "canvasIndex", config: "config", tabIndex: "tabIndex" }, outputs: { viewerModeChanged: "viewerModeChanged", canvasChanged: "canvasChanged", qChanged: "qChanged", manifestChanged: "manifestChanged", recognizedTextContentModeChanged: "recognizedTextContentModeChanged" }, host: { listeners: { "keydown": "handleKeys($event)", "drop": "onDrop($event)", "dragover": "onDragOver($event)", "dragleave": "onDragLeave($event)" } }, viewQueries: [{ propertyName: "header", first: true, predicate: ["mimeHeader"], descendants: true, static: true }, { propertyName: "footer", first: true, predicate: ["mimeFooter"], descendants: true, static: true }, { propertyName: "osdToolbar", first: true, predicate: ["mimeOsdToolbar"], descendants: true }], usesOnChanges: true, ngImport: i0, template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-test-id=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState === 'show'\n      }\"\n      ><mime-recognized-text-content\n        *ngIf=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      ></mime-recognized-text-content\n    ></mat-drawer>\n    <mat-drawer-content>\n      <div id=\"openseadragon\" #openseadragon></div>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width: 599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width: 599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"], dependencies: [{ kind: "directive", type: i6$1.NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i9.DefaultClassDirective, selector: "  [ngClass], [ngClass.xs], [ngClass.sm], [ngClass.md], [ngClass.lg], [ngClass.xl],  [ngClass.lt-sm], [ngClass.lt-md], [ngClass.lt-lg], [ngClass.lt-xl],  [ngClass.gt-xs], [ngClass.gt-sm], [ngClass.gt-md], [ngClass.gt-lg]", inputs: ["ngClass", "ngClass.xs", "ngClass.sm", "ngClass.md", "ngClass.lg", "ngClass.xl", "ngClass.lt-sm", "ngClass.lt-md", "ngClass.lt-lg", "ngClass.lt-xl", "ngClass.gt-xs", "ngClass.gt-sm", "ngClass.gt-md", "ngClass.gt-lg"] }, { kind: "component", type: i22.MatDrawer, selector: "mat-drawer", inputs: ["position", "mode", "disableClose", "autoFocus", "opened"], outputs: ["openedChange", "opened", "openedStart", "closed", "closedStart", "positionChanged"], exportAs: ["matDrawer"] }, { kind: "component", type: i22.MatDrawerContainer, selector: "mat-drawer-container", inputs: ["autosize", "hasBackdrop"], outputs: ["backdropClick"], exportAs: ["matDrawerContainer"] }, { kind: "component", type: i22.MatDrawerContent, selector: "mat-drawer-content" }, { kind: "component", type: ViewerHeaderComponent, selector: "mime-viewer-header" }, { kind: "component", type: ViewerFooterComponent, selector: "mime-viewer-footer" }, { kind: "component", type: OsdToolbarComponent, selector: "mime-osd-toolbar" }, { kind: "component", type: ViewerSpinnerComponent, selector: "mime-spinner" }, { kind: "component", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content" }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+ViewerComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewerComponent, deps: [{ token: i8.MatSnackBar }, { token: MimeViewerIntl }, { token: IiifManifestService }, { token: ViewDialogService }, { token: InformationDialogService }, { token: AttributionDialogService }, { token: ContentSearchDialogService }, { token: HelpDialogService }, { token: ViewerService }, { token: MimeResizeService }, { token: i0.ChangeDetectorRef }, { token: ModeService }, { token: IiifContentSearchService }, { token: AccessKeysService }, { token: CanvasService }, { token: ViewerLayoutService }, { token: StyleService }, { token: AltoService }, { token: i0.NgZone }, { token: i18$1.Platform }, { token: CanvasGroupDialogService }, { token: i0.ElementRef }, { token: i0.ViewContainerRef }], target: i0.ɵɵFactoryTarget.Component });
+ViewerComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ViewerComponent, selector: "mime-viewer", inputs: { manifestUri: "manifestUri", q: "q", canvasIndex: "canvasIndex", config: "config", tabIndex: "tabIndex" }, outputs: { viewerModeChanged: "viewerModeChanged", canvasChanged: "canvasChanged", qChanged: "qChanged", manifestChanged: "manifestChanged", recognizedTextContentModeChanged: "recognizedTextContentModeChanged" }, host: { listeners: { "keydown": "handleKeys($event)", "drop": "onDrop($event)", "dragover": "onDragOver($event)", "dragleave": "onDragLeave($event)" } }, providers: VIEWER_PROVIDERS, viewQueries: [{ propertyName: "header", first: true, predicate: ["mimeHeader"], descendants: true, static: true }, { propertyName: "footer", first: true, predicate: ["mimeFooter"], descendants: true, static: true }, { propertyName: "osdToolbar", first: true, predicate: ["mimeOsdToolbar"], descendants: true }], usesOnChanges: true, ngImport: i0, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState === 'show'\n      }\"\n      ><mime-recognized-text-content\n        *ngIf=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      ></mime-recognized-text-content\n    ></mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width: 599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width: 599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"], dependencies: [{ kind: "directive", type: i6$1.NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { kind: "directive", type: i6$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i7.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { kind: "directive", type: i7.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { kind: "directive", type: i9.DefaultClassDirective, selector: "  [ngClass], [ngClass.xs], [ngClass.sm], [ngClass.md], [ngClass.lg], [ngClass.xl],  [ngClass.lt-sm], [ngClass.lt-md], [ngClass.lt-lg], [ngClass.lt-xl],  [ngClass.gt-xs], [ngClass.gt-sm], [ngClass.gt-md], [ngClass.gt-lg]", inputs: ["ngClass", "ngClass.xs", "ngClass.sm", "ngClass.md", "ngClass.lg", "ngClass.xl", "ngClass.lt-sm", "ngClass.lt-md", "ngClass.lt-lg", "ngClass.lt-xl", "ngClass.gt-xs", "ngClass.gt-sm", "ngClass.gt-md", "ngClass.gt-lg"] }, { kind: "component", type: i23.MatDrawer, selector: "mat-drawer", inputs: ["position", "mode", "disableClose", "autoFocus", "opened"], outputs: ["openedChange", "opened", "openedStart", "closed", "closedStart", "positionChanged"], exportAs: ["matDrawer"] }, { kind: "component", type: i23.MatDrawerContainer, selector: "mat-drawer-container", inputs: ["autosize", "hasBackdrop"], outputs: ["backdropClick"], exportAs: ["matDrawerContainer"] }, { kind: "component", type: i23.MatDrawerContent, selector: "mat-drawer-content" }, { kind: "component", type: OsdToolbarComponent, selector: "mime-osd-toolbar" }, { kind: "component", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content" }, { kind: "component", type: ViewerFooterComponent, selector: "mime-viewer-footer" }, { kind: "component", type: ViewerHeaderComponent, selector: "mime-viewer-header" }, { kind: "component", type: ViewerSpinnerComponent, selector: "mime-spinner" }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ViewerComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-viewer', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div\n  id=\"ngx-mime-mimeViewer\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-test-id=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState === 'show'\n      }\"\n      ><mime-recognized-text-content\n        *ngIf=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      ></mime-recognized-text-content\n    ></mat-drawer>\n    <mat-drawer-content>\n      <div id=\"openseadragon\" #openseadragon></div>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}#openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width: 599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width: 599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"] }]
-        }], ctorParameters: function () { return [{ type: i8.MatSnackBar }, { type: MimeViewerIntl }, { type: i0.ElementRef }, { type: IiifManifestService }, { type: ViewDialogService }, { type: InformationDialogService }, { type: AttributionDialogService }, { type: ContentSearchDialogService }, { type: HelpDialogService }, { type: ViewerService }, { type: MimeResizeService }, { type: i0.ChangeDetectorRef }, { type: ModeService }, { type: IiifContentSearchService }, { type: AccessKeysService }, { type: CanvasService }, { type: ViewerLayoutService }, { type: StyleService }, { type: AltoService }, { type: i0.NgZone }, { type: i18$1.Platform }]; }, propDecorators: { manifestUri: [{
+            args: [{ selector: 'mime-viewer', changeDetection: ChangeDetectionStrategy.OnPush, providers: VIEWER_PROVIDERS, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n  ></mime-viewer-header>\n  <mime-osd-toolbar\n    *ngIf=\"config?.navigationControlEnabled\"\n    #mimeOsdToolbar\n  ></mime-osd-toolbar>\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState === 'show'\n      }\"\n      ><mime-recognized-text-content\n        *ngIf=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      ></mime-recognized-text-content\n    ></mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n  ></mime-viewer-footer>\n</div>\n\n<div\n  class=\"error-container\"\n  *ngIf=\"errorMessage\"\n  fxLayout=\"column\"\n  fxLayoutAlign=\"center center\"\n>\n  <span>{{ intl.somethingHasGoneWrongLabel }}</span>\n</div>\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width: 599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width: 599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"] }]
+        }], ctorParameters: function () { return [{ type: i8.MatSnackBar }, { type: MimeViewerIntl }, { type: IiifManifestService }, { type: ViewDialogService }, { type: InformationDialogService }, { type: AttributionDialogService }, { type: ContentSearchDialogService }, { type: HelpDialogService }, { type: ViewerService }, { type: MimeResizeService }, { type: i0.ChangeDetectorRef }, { type: ModeService }, { type: IiifContentSearchService }, { type: AccessKeysService }, { type: CanvasService }, { type: ViewerLayoutService }, { type: StyleService }, { type: AltoService }, { type: i0.NgZone }, { type: i18$1.Platform }, { type: CanvasGroupDialogService }, { type: i0.ElementRef }, { type: i0.ViewContainerRef }]; }, propDecorators: { manifestUri: [{
                 type: Input
             }], q: [{
                 type: Input
@@ -7387,52 +7322,47 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
 class MimeModule {
 }
 MimeModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-MimeModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, declarations: [ViewerComponent,
-        ViewerHeaderComponent,
-        ViewerFooterComponent,
-        OsdToolbarComponent,
-        ContentSearchNavigatorComponent,
+MimeModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, declarations: [AttributionDialogComponent,
+        CanvasGroupDialogComponent,
         CanvasGroupNavigatorComponent,
-        ViewerSpinnerComponent,
-        RecognizedTextContentComponent], imports: [CoreModule,
-        SharedModule,
-        InformationDialogModule,
-        ViewDialogModule,
-        AttributionDialogModule,
-        HelpDialogModule,
-        ContentSearchDialogModule,
-        CanvasGroupDialogModule], exports: [ViewerComponent] });
-MimeModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, imports: [CoreModule,
-        SharedModule,
-        InformationDialogModule,
-        ViewDialogModule,
-        AttributionDialogModule,
-        HelpDialogModule,
-        ContentSearchDialogModule,
-        CanvasGroupDialogModule] });
+        ContentSearchDialogComponent,
+        ContentSearchNavigatorComponent,
+        HelpDialogComponent,
+        IconComponent,
+        InformationDialogComponent,
+        MetadataComponent,
+        OsdToolbarComponent,
+        RecognizedTextContentComponent,
+        TocComponent,
+        ViewDialogComponent,
+        ViewerComponent,
+        ViewerFooterComponent,
+        ViewerHeaderComponent,
+        ViewerSpinnerComponent], imports: [SharedModule], exports: [ViewerComponent] });
+MimeModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, imports: [SharedModule] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: [
-                        ViewerComponent,
-                        ViewerHeaderComponent,
-                        ViewerFooterComponent,
-                        OsdToolbarComponent,
-                        ContentSearchNavigatorComponent,
+                        AttributionDialogComponent,
+                        CanvasGroupDialogComponent,
                         CanvasGroupNavigatorComponent,
-                        ViewerSpinnerComponent,
+                        ContentSearchDialogComponent,
+                        ContentSearchNavigatorComponent,
+                        HelpDialogComponent,
+                        IconComponent,
+                        InformationDialogComponent,
+                        MetadataComponent,
+                        OsdToolbarComponent,
                         RecognizedTextContentComponent,
+                        TocComponent,
+                        ViewDialogComponent,
+                        ViewerComponent,
+                        ViewerFooterComponent,
+                        ViewerHeaderComponent,
+                        ViewerSpinnerComponent,
                     ],
-                    imports: [
-                        CoreModule,
-                        SharedModule,
-                        InformationDialogModule,
-                        ViewDialogModule,
-                        AttributionDialogModule,
-                        HelpDialogModule,
-                        ContentSearchDialogModule,
-                        CanvasGroupDialogModule,
-                    ],
+                    imports: [SharedModule],
                     exports: [ViewerComponent],
                 }]
         }] });

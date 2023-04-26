@@ -13,7 +13,7 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     private changeDetectorRef;
     private viewerService;
     private canvasService;
-    private pageDialogService;
+    private canvasGroupDialogService;
     private iiifManifestService;
     searchResult: SearchResult;
     numberOfCanvases: number;
@@ -26,7 +26,7 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     currentViewingDirection: Direction;
     private currentSliderCanvasGroupIndex;
     private subscriptions;
-    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, viewerService: ViewerService, canvasService: CanvasService, pageDialogService: CanvasGroupDialogService, iiifManifestService: IiifManifestService);
+    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, viewerService: ViewerService, canvasService: CanvasService, canvasGroupDialogService: CanvasGroupDialogService, iiifManifestService: IiifManifestService);
     ngOnInit(): void;
     ngOnDestroy(): void;
     goToPreviousCanvasGroup(): void;

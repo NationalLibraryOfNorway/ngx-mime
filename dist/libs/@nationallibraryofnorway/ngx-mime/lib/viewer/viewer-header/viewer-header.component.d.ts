@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, ElementRef, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
+import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
-import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
@@ -31,7 +31,7 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     isPagedManifest: boolean;
     hasRecognizedTextContent: boolean;
     private subscriptions;
-    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, informationDialogService: InformationDialogService, contentSearchDialogService: ContentSearchDialogService, viewDialogService: ViewDialogService, helpDialogService: HelpDialogService, iiifManifestService: IiifManifestService, fullscreenService: FullscreenService, mimeDomHelper: MimeDomHelper, el: ElementRef);
+    constructor(intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef, informationDialogService: InformationDialogService, contentSearchDialogService: ContentSearchDialogService, viewDialogService: ViewDialogService, helpDialogService: HelpDialogService, iiifManifestService: IiifManifestService, fullscreenService: FullscreenService, mimeDomHelper: MimeDomHelper);
     get headerState(): string;
     ngOnInit(): void;
     ngOnDestroy(): void;

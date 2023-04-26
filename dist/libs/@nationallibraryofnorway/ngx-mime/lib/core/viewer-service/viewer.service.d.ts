@@ -26,10 +26,10 @@ export declare class ViewerService {
     private altoService;
     private snackBar;
     private intl;
+    config: MimeViewerConfig;
     private viewer?;
     private svgOverlay;
     private svgNode;
-    private config;
     private overlays;
     private tileSources;
     private subscriptions;
@@ -50,12 +50,15 @@ export declare class ViewerService {
     private goToCanvasGroupStrategy;
     private rotation;
     private dragStatus;
+    id: string;
+    openseadragonId: string;
     constructor(zone: NgZone, clickService: ClickService, canvasService: CanvasService, modeService: ModeService, viewerLayoutService: ViewerLayoutService, iiifContentSearchService: IiifContentSearchService, styleService: StyleService, altoService: AltoService, snackBar: MatSnackBar, intl: MimeViewerIntl);
     get onRotationChange(): Observable<number>;
     get onCenterChange(): Observable<Point>;
     get onCanvasGroupIndexChange(): Observable<number>;
     get onOsdReadyChange(): Observable<boolean>;
     initialize(): void;
+    setConfig(config: MimeViewerConfig): void;
     getViewer(): any;
     getTilesources(): Resource[];
     getOverlays(): SVGRectElement[];
@@ -94,6 +97,7 @@ export declare class ViewerService {
      * @param mode ViewerMode
      */
     modeChanged(mode: ModeChanges): void;
+    private generateRandomId;
     /**
      * Switches to DASHBOARD-mode, repositions canvas group and removes max-width on viewer
      */

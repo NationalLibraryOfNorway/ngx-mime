@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
@@ -11,12 +11,14 @@ export declare class AttributionDialogService {
     private mimeDomHelper;
     private dialogRef?;
     private _el;
+    private _viewContainerRef;
     private attributionDialogHeight;
     private subscriptions;
     constructor(dialog: MatDialog, mimeResizeService: MimeResizeService, attributionDialogResizeService: AttributionDialogResizeService, mimeDomHelper: MimeDomHelper);
     initialize(): void;
     destroy(): void;
     set el(el: ElementRef);
+    set viewContainerRef(viewContainerRef: ViewContainerRef);
     open(timeout?: number): void;
     close(): void;
     toggle(): void;
