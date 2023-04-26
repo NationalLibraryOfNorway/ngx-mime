@@ -19,6 +19,7 @@ import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.comp
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer/viewer.component';
+import { MimeViewerIntl } from './core/intl';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ViewerComponent } from './viewer/viewer.component';
     ViewerSpinnerComponent,
   ],
   imports: [SharedModule],
+  providers: [MimeViewerIntl],
   exports: [ViewerComponent],
 })
 export class MimeModule {}
