@@ -3,8 +3,10 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../../../core/canvas-service/canvas-service';
@@ -22,7 +24,9 @@ import { ContentSearchNavigationService } from '../../../core/navigation/content
   styleUrls: ['./content-search-navigator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
+export class ContentSearchNavigatorComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   @Input() searchResult!: SearchResult;
   isHitOnActiveCanvasGroup = false;
   isFirstHit = false;
@@ -30,7 +34,6 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
   currentHit = 0;
   invert = false;
   private subscriptions = new Subscription();
-
 
   constructor(
     public intl: MimeViewerIntl,
@@ -45,9 +48,8 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
     this.contentSearchNavigationService.initialize();
     this.subscriptions.add(
       this.contentSearchNavigationService.currentHitCounter.subscribe((n) => {
-        this.isFirstHit = n <= 0;
-        this.isLastHit = n === this.searchResult.size() - 1;
         this.currentHit = n;
+        this.updateHitStatus();
       })
     );
     this.subscriptions.add(
@@ -77,6 +79,10 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.updateHitStatus();
+  }
+
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
     this.contentSearchNavigationService.destroy();
@@ -92,5 +98,10 @@ export class ContentSearchNavigatorComponent implements OnInit, OnDestroy {
 
   goToPreviousHit() {
     this.contentSearchNavigationService.goToPreviousHit();
+  }
+
+  private updateHitStatus() {
+    this.isFirstHit = this.currentHit <= 0;
+    this.isLastHit = this.currentHit === this.searchResult.size() - 1;
   }
 }
