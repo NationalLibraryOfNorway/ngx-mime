@@ -6,7 +6,7 @@
   "prefix": "nationallibraryofnorway",
   "targets": {
     "build": {
-      "executor": "ngx-build-plus:browser",
+      "executor": "@angular-devkit/build-angular:browser",
       "options": {
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
         "outputPath": "dist/apps/elements",
@@ -15,10 +15,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/elements/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/elements/src/favicon.ico",
-          "apps/elements/src/assets"
-        ],
+        "assets": ["apps/elements/src/favicon.ico", "apps/elements/src/assets"],
         "styles": [
           "apps/elements/src/styles.scss",
           "apps/elements/src/theme.scss"
@@ -29,19 +26,6 @@
       },
       "configurations": {
         "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/elements/src/environments/environment.ts",
-              "with": "apps/elements/src/environments/environment.prod.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "namedChunks": false,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
           "budgets": [
             {
               "type": "initial",
@@ -50,15 +34,30 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "6kb",
-              "maximumError": "10kb"
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/elements/src/environments/environment.ts",
+              "with": "apps/elements/src/environments/environment.prod.ts"
             }
           ]
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
         }
-      }
+      },
+      "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "ngx-build-plus:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
         "browserTarget": "elements:build"
       },
@@ -85,7 +84,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "ngx-build-plus:karma",
+      "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "tsConfig": "apps/elements/tsconfig.spec.json",
         "karmaConfig": "apps/elements/karma.conf.js",
@@ -94,10 +93,7 @@
         "scripts": [
           "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
         ],
-        "assets": [
-          "apps/elements/src/favicon.ico",
-          "apps/elements/src/assets"
-        ]
+        "assets": ["apps/elements/src/favicon.ico", "apps/elements/src/assets"]
       }
     }
   },

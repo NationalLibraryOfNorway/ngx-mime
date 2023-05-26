@@ -7,16 +7,19 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "tsConfig": "libs/ngx-mime/tsconfig.lib.json",
-        "project": "libs/ngx-mime/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies"
+        "project": "libs/ngx-mime/ng-package.json"
       },
       "configurations": {
         "production": {
-          "project": "libs/ngx-mime/ng-package.prod.json"
+          "tsConfig": "libs/ngx-mime/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/ngx-mime/tsconfig.lib.json"
         }
-      }
+      },
+      "defaultConfiguration": "production"
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -31,7 +34,8 @@
       "outputs": ["{workspaceRoot}/coverage/libs/ngx-mime"]
     },
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/ngx-mime/**/*.ts", "libs/ngx-mime/**/*.html"]
       }
