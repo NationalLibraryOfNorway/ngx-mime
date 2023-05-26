@@ -115,7 +115,8 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     this.viewerService.goToNextCanvasGroup();
   }
 
-  onSliderChange(value: number): void {
+  onSliderChange(event: Event): void {
+    const value = parseInt((event.target as HTMLInputElement).value);
     this.currentSliderCanvasGroupIndex = value;
     this.currentCanvasGroupIndex = value;
     if (this.currentCanvasGroupIndex !== null) {
