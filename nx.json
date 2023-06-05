@@ -36,9 +36,9 @@
       "e2eTestRunner": "cucumber"
     },
     "@nrwl/angular:library": {
-      "style": "scss",
       "linter": "eslint",
-      "unitTestRunner": "karma"
+      "unitTestRunner": "karma",
+      "style": "scss"
     },
     "@nrwl/angular:component": {
       "style": "scss"

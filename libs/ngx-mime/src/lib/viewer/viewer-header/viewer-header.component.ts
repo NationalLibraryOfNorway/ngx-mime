@@ -102,13 +102,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.fullscreenService.onChange.subscribe(() => {
-        this.isInFullscreen = this.fullscreenService.isFullscreen();
-        this.fullscreenLabel = this.isInFullscreen
-          ? this.intl.exitFullScreenLabel
-          : this.intl.fullScreenLabel;
-        this.changeDetectorRef.detectChanges();
-      })
+      this.fullscreenService.onChange.subscribe(() => this.onFullscreenChange())
     );
 
     this.subscriptions.add(
@@ -127,6 +121,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    this.onFullscreenChange();
   }
 
   ngOnDestroy() {
@@ -167,5 +163,13 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public isInFullScreen(): boolean {
     return this.fullscreenService.isFullscreen();
+  }
+
+  private onFullscreenChange() {
+    this.isInFullscreen = this.fullscreenService.isFullscreen();
+    this.fullscreenLabel = this.isInFullscreen
+      ? this.intl.exitFullScreenLabel
+      : this.intl.fullScreenLabel;
+    this.changeDetectorRef.detectChanges();
   }
 }

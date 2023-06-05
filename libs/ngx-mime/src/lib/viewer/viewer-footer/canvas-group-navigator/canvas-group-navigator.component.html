@@ -8,17 +8,22 @@
       <mat-slider
         class="navigation-slider"
         [max]="numberOfCanvasGroups - 1"
-        [attr.aria-label]="intl.currentPageLabel"
         (keydown)="onSliderHotKey($event)"
         fxFlex
       >
         <input
           matSliderThumb
+          [attr.aria-label]="intl.currentPageLabel"
           [(ngModel)]="currentCanvasGroupIndex"
-          (valueChange)="onSliderChange($event)"
+          (input)="onSliderChange($event)"
       /></mat-slider>
     </div>
-    <button mat-button data-testid="canvasGroupDialogButton" class="canvasGroups" (click)="openCanvasGroupDialog()">
+    <button
+      mat-button
+      data-testid="canvasGroupDialogButton"
+      class="canvasGroups"
+      (click)="openCanvasGroupDialog()"
+    >
       <div fxLayout="row" fxLayoutGap="1px">
         <span data-testid="currentCanvasGroupLabel">{{ canvasGroupLabel }}</span
         ><span>/</span
