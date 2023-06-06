@@ -6936,7 +6936,6 @@ const VIEWER_PROVIDERS = [
     InformationDialogService,
     MimeDomHelper,
     MimeResizeService,
-    MimeViewerIntl,
     ModeService,
     SpinnerService,
     StyleService,
@@ -7346,7 +7345,7 @@ MimeModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15
         ViewerFooterComponent,
         ViewerHeaderComponent,
         ViewerSpinnerComponent], imports: [SharedModule], exports: [ViewerComponent] });
-MimeModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, imports: [SharedModule] });
+MimeModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, providers: [MimeViewerIntl], imports: [SharedModule] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: MimeModule, decorators: [{
             type: NgModule,
             args: [{
@@ -7370,6 +7369,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
                         ViewerSpinnerComponent,
                     ],
                     imports: [SharedModule],
+                    providers: [MimeViewerIntl],
                     exports: [ViewerComponent],
                 }]
         }] });

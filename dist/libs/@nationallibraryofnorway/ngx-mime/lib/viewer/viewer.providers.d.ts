@@ -11,7 +11,6 @@ import { FullscreenService } from '../core/fullscreen-service/fullscreen.service
 import { HighlightService } from '../core/highlight-service/highlight.service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ModeService } from '../core/mode-service/mode.service';
@@ -26,4 +25,4 @@ import { InformationDialogConfigStrategyFactory } from '../information-dialog/in
 import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { ViewDialogConfigStrategyFactory } from '../view-dialog/view-dialog-config-strategy-factory';
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
-export declare const VIEWER_PROVIDERS: (typeof MimeViewerIntl | typeof ModeService | typeof CanvasService | typeof HighlightService | typeof SpinnerService | typeof IiifManifestService | typeof AltoService | typeof ClickService | typeof IiifContentSearchService | typeof StyleService | typeof ViewerLayoutService | typeof ViewerService | typeof MimeResizeService | typeof FullscreenService | typeof MimeDomHelper | typeof ContentSearchDialogConfigStrategyFactory | typeof ContentSearchNavigationService | typeof ContentSearchDialogService | typeof InformationDialogConfigStrategyFactory | typeof InformationDialogService | typeof ViewDialogConfigStrategyFactory | typeof ViewDialogService | typeof AccessKeysService | typeof AttributionDialogResizeService | typeof CanvasGroupDialogService | typeof HelpDialogConfigStrategyFactory | typeof HelpDialogService | typeof AttributionDialogService)[];
+export declare const VIEWER_PROVIDERS: (typeof ModeService | typeof CanvasService | typeof HighlightService | typeof SpinnerService | typeof IiifManifestService | typeof AltoService | typeof ClickService | typeof IiifContentSearchService | typeof StyleService | typeof ViewerLayoutService | typeof ViewerService | typeof MimeResizeService | typeof FullscreenService | typeof MimeDomHelper | typeof ContentSearchDialogConfigStrategyFactory | typeof ContentSearchNavigationService | typeof ContentSearchDialogService | typeof InformationDialogConfigStrategyFactory | typeof InformationDialogService | typeof ViewDialogConfigStrategyFactory | typeof ViewDialogService | typeof AccessKeysService | typeof AttributionDialogResizeService | typeof CanvasGroupDialogService | typeof HelpDialogConfigStrategyFactory | typeof HelpDialogService | typeof AttributionDialogService)[];

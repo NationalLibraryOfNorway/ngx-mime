@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.5](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.4...v15.1.5) (2023-06-06)
+
+
+### Bug Fixes
+
+* update hit status when searchResult changes ([#457](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/457)) ([64288b0](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/64288b009d55f12365183f79760202890e1b3be3))
+
 ### [15.1.4](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.3...v15.1.4) (2023-04-26)
 
 
