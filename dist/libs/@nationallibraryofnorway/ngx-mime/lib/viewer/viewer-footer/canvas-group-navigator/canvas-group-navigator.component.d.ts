@@ -31,7 +31,7 @@ export declare class CanvasGroupNavigatorComponent implements OnInit, OnDestroy 
     ngOnDestroy(): void;
     goToPreviousCanvasGroup(): void;
     goToNextCanvasGroup(): void;
-    onSliderChange(value: number): void;
+    onSliderChange(event: Event): void;
     onSliderHotKey(event: KeyboardEvent): void;
     openCanvasGroupDialog(): void;
     private isOnFirstCanvasGroup;

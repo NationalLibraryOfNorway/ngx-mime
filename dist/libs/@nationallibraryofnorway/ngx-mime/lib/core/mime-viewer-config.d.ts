@@ -1,9 +1,9 @@
 import { RecognizedTextMode, ViewerMode } from './models';
 import { ViewerLayout } from './models/viewer-layout';
 export declare class MimeViewerConfig {
-    attributionDialogEnabled?: boolean;
-    attributionDialogHideTimeout?: number;
-    navigationControlEnabled?: boolean;
+    attributionDialogEnabled?: boolean | undefined;
+    attributionDialogHideTimeout?: number | undefined;
+    navigationControlEnabled?: boolean | undefined;
     initViewerMode: ViewerMode;
     initViewerLayout: ViewerLayout;
     withCredentials: boolean;

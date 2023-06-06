@@ -41,6 +41,7 @@ export declare class ViewerHeaderComponent implements OnInit, OnDestroy {
     toggleHelp(): void;
     toggleFullscreen(): void;
     isInFullScreen(): boolean;
+    private onFullscreenChange;
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewerHeaderComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ViewerHeaderComponent, "mime-viewer-header", never, {}, {}, never, never, false, never>;
 }

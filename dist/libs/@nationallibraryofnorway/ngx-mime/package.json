@@ -1,6 +1,6 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "15.1.5",
+  "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": ">=15.0.0 <16.0.0",
     "@angular/core": ">=15.0.0 <16.0.0",
@@ -12,6 +12,10 @@
     "stream": ">=0.0.2 <1.0.0",
     "timers": ">=0.1.1 <1.0.0"
   },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
   "module": "fesm2015/nationallibraryofnorway-ngx-mime.mjs",
   "es2020": "fesm2020/nationallibraryofnorway-ngx-mime.mjs",
   "esm2020": "esm2020/nationallibraryofnorway-ngx-mime.mjs",
@@ -30,9 +34,5 @@
       "node": "./fesm2015/nationallibraryofnorway-ngx-mime.mjs",
       "default": "./fesm2020/nationallibraryofnorway-ngx-mime.mjs"
     }
-  },
-  "sideEffects": false,
-  "dependencies": {
-    "tslib": "^2.3.0"
   }
 }

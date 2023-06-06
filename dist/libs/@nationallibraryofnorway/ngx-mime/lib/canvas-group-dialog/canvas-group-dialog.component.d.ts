@@ -18,7 +18,7 @@ export declare class CanvasGroupDialogComponent implements OnInit, OnDestroy {
     }>;
     private subscriptions;
     constructor(dialogRef: MatDialogRef<CanvasGroupDialogComponent>, fb: FormBuilder, viewerService: ViewerService, canvasService: CanvasService, intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef);
-    get canvasGroupControl(): import("@angular/forms").AbstractControl<number, number>;
+    get canvasGroupControl(): import("@angular/forms").AbstractControl<number | null, number | null> | null;
     ngOnInit(): void;
     ngOnDestroy(): void;
     onSubmit(): void;
