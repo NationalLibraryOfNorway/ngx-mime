@@ -18,7 +18,7 @@
     "start:elements": "yarn start  --port 8080 --project=elements",
     "prestart:integration": "yarn build:integration",
     "start:integration": "angular-http-server --path dist/apps/integration/ --config angular-http-server.config.js --useProxy true --silent",
-    "build": "ng build",
+    "build": "ng build --skip-nx-cache",
     "prebuild:libs": "yarn install --check-files && yarn clean",
     "build:libs": "yarn build --project=ngx-mime",
     "build:elements": "yarn build --project elements",
