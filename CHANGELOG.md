@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.6](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.5...v15.1.6) (2023-06-06)
+
 ### [15.1.5](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.4...v15.1.5) (2023-06-06)
 
 
