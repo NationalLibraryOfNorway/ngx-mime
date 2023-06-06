@@ -25,6 +25,7 @@ npm version $CURRENT_VERSION
 cd ../../../..
 
 git add -f dist
+git commit -m "chore(release): $CURRENT_VERSION"
 git push --follow-tags origin main
 
 npm login
