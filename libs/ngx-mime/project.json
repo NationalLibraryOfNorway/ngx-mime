@@ -9,8 +9,7 @@
       "executor": "@nrwl/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "libs/ngx-mime/ng-package.json",
-        "tailwindConfig": "libs/ngx-mime/tailwind.config.js"
+        "project": "libs/ngx-mime/ng-package.json"
       },
       "configurations": {
         "production": {
