@@ -1,16 +1,15 @@
-<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center">
+<mat-toolbar color="primary">
   <div>
     <button mat-icon-button (click)="toggle()" aria-label="Menu">
       <mat-icon class="mat-24">menu</mat-icon>
     </button>
   </div>
-  <div fxFlex="grow" fxFlex.gt-sm="500px">
+  <div class="grow max-w-[800px]">
     <form (ngSubmit)="onSubmit()" #form="ngForm">
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <div class="flex flex-row gap-2">
         <h1 class="cdk-visually-hidden">DemoWeb</h1>
         <input
-          fxFlex
-          class="manifest-uri"
+          class="manifest-uri grow"
           aria-label="Paste the URL of a IIIF manifest here"
           placeholder="Paste the URL of a IIIF manifest here"
           autocomplete="off"
@@ -21,7 +20,7 @@
       </div>
     </form>
   </div>
-  <div fxFlex="grow" class="theme-picker">
+  <div class="theme-picker grow">
     <demo-theme-picker></demo-theme-picker>
   </div>
 </mat-toolbar>
