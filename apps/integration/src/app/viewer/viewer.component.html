@@ -1,4 +1,4 @@
-<div class="viewer-container" fxLayout="column" fxFill>
+<div class="viewer-container w-full h-full flex flex-col">
   <div *ngFor="let manifestUri of manifestUris" [fxFlex]="viewerHeight">
     <app-components-viewer
       *ngIf="isComponent"
