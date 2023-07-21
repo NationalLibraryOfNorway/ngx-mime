@@ -11,7 +11,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   isComponent = false;
   manifestUris: string[] = [];
   canvasIndex = 0;
-  viewerHeight = 100;
   private subscriptions = new Subscription();
 
   constructor(private route: ActivatedRoute) {}
@@ -42,7 +41,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
         'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
       ];
     }
-    this.viewerHeight = 100 / this.manifestUris.length;
 
     if (params.has('canvasIndex')) {
       const canvasIndexValue = params.get('canvasIndex');
