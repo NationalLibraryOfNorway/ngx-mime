@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image:  cimg/node:20.2.0-browsers
+      - image:  cimg/node:20.4.0-browsers
     resource_class: large
     environment:
       LOGS_DIR: /tmp/ngx-mime-build/logs
@@ -12,7 +12,6 @@ jobs:
     steps:
       - checkout
       - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
       - run: 'mkdir -p $LOGS_DIR'
       - run: 'chmod +x ./scripts/ci/build-and-test.sh'
       - run: 'chmod +x ./scripts/lambdatest/start-tunnel.sh'
