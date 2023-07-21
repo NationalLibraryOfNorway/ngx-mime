@@ -24,9 +24,6 @@
       },
       "library": {
         "linter": "eslint"
-      },
-      "storybook-configuration": {
-        "linter": "eslint"
       }
     },
     "@nrwl/angular:application": {
