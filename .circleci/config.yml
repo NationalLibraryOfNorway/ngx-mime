@@ -12,7 +12,6 @@ jobs:
     steps:
       - checkout
       - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
       - run: 'mkdir -p $LOGS_DIR'
       - run: 'chmod +x ./scripts/ci/build-and-test.sh'
       - run: 'chmod +x ./scripts/lambdatest/start-tunnel.sh'
