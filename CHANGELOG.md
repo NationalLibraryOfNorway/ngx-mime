@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.7](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.6...v15.1.7) (2023-07-26)
+
+
+### Bug Fixes
+
+* handle ResizeObserver not supported ([dacfa40](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/dacfa403796844274bf0e3b19c1145778f9af0eb))
+
 ### [15.1.6](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.5...v15.1.6) (2023-06-06)
 
 ### [15.1.5](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.4...v15.1.5) (2023-06-06)

@@ -4550,18 +4550,31 @@ class MimeResizeService {
         }));
     }
     initialize() {
+        if (this.isResizeObserverSupported()) {
+            this.initializeResizeObserver();
+        }
+    }
+    destroy() {
+        var _a;
+        (_a = this.observer) === null || _a === void 0 ? void 0 : _a.disconnect();
+    }
+    isResizeObserverSupported() {
+        return 'ResizeObserver' in window;
+    }
+    initializeResizeObserver() {
+        var _a;
         this.observer = new ResizeObserver((entries) => {
             for (const entry of entries) {
-                this.resizeSubject.next(entry.contentRect);
+                this.handleResizeEntry(entry);
             }
         });
         const el = this.el.nativeElement.querySelector(`#${this.viewerService.id}`);
-        this.observer.observe(el);
-    }
-    destroy() {
-        if (this.observer) {
-            this.observer.disconnect();
+        if (el) {
+            (_a = this.observer) === null || _a === void 0 ? void 0 : _a.observe(el);
         }
+    }
+    handleResizeEntry(entry) {
+        this.resizeSubject.next(entry.contentRect);
     }
 }
 MimeResizeService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.2.9", ngImport: i0, type: MimeResizeService, deps: [{ token: ViewerService }], target: i0.ɵɵFactoryTarget.Injectable });

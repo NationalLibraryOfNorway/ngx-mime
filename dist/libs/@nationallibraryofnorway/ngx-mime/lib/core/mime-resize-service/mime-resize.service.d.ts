@@ -14,6 +14,9 @@ export declare class MimeResizeService {
     get onResize(): Observable<Dimensions>;
     initialize(): void;
     destroy(): void;
+    private isResizeObserverSupported;
+    private initializeResizeObserver;
+    private handleResizeEntry;
     static ɵfac: i0.ɵɵFactoryDeclaration<MimeResizeService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<MimeResizeService>;
 }

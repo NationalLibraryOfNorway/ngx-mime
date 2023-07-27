@@ -36,22 +36,36 @@ export class MimeResizeService {
   }
 
   initialize() {
-    this.observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        this.resizeSubject.next(entry.contentRect);
-      }
-    });
-
-    const el: Element = this.el.nativeElement.querySelector(
-      `#${this.viewerService.id}`
-    );
-
-    this.observer.observe(el);
+    if (this.isResizeObserverSupported()) {
+      this.initializeResizeObserver();
+    }
   }
 
   destroy() {
-    if (this.observer) {
-      this.observer.disconnect();
+    this.observer?.disconnect();
+  }
+
+  private isResizeObserverSupported(): boolean {
+    return 'ResizeObserver' in window;
+  }
+
+  private initializeResizeObserver(): void {
+    this.observer = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+      for (const entry of entries) {
+        this.handleResizeEntry(entry);
+      }
+    });
+
+    const el: Element | null = this.el.nativeElement.querySelector(
+      `#${this.viewerService.id}`
+    );
+
+    if (el) {
+      this.observer?.observe(el);
     }
+  }
+
+  private handleResizeEntry(entry: ResizeObserverEntry): void {
+    this.resizeSubject.next(entry.contentRect);
   }
 }
