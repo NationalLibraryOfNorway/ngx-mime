@@ -1,6 +1,10 @@
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import {
@@ -20,19 +24,20 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    private mediaObserver: MediaObserver,
+    private breakpointObserver: BreakpointObserver,
     private overlayContainer: OverlayContainer,
     private themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
-        this.layout();
-      })
+      this.breakpointObserver
+        .observe([Breakpoints.XSmall])
+        .subscribe((result: BreakpointState) => {
+          this.layout(result.matches);
+        })
     );
 
-    this.layout();
     this.setTheme(this.themeService.getStoredTheme().name);
     this.overlayContainer
       .getContainerElement()
@@ -48,8 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private layout() {
-    if (this.mediaObserver.isActive('lt-md')) {
+  private layout(isMobile: boolean) {
+    if (isMobile) {
       this.sidenavMode = 'over';
       this.sidenavIsOpen = false;
     } else {

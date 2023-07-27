@@ -14,7 +14,6 @@ import { ManifestService } from './../core/manifest-service/manifest.service';
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   manifestUris: string[] = [];
-  viewerHeight = 100;
   config = new MimeViewerConfig({
     attributionDialogEnabled: true,
     attributionDialogHideTimeout: -1,
@@ -49,7 +48,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.iiifVersion = iiifVersionQueryParam || this.iiifVersion;
 
     this.manifestUris = params.getAll('manifestUri');
-    this.viewerHeight = 100 / this.manifestUris.length;
 
     if (this.manifestUris.length === 0) {
       this.redirectToFirstManifest();

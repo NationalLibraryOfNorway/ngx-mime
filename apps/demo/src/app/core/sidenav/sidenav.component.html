@@ -1,5 +1,5 @@
 <h1>Manifest</h1>
-<div class="api-format" fxLayout="column" fxLayoutAlign="space-around start">
+<div class="api-format">
   <label>IIIF Presentation API</label>
   <mat-radio-group
     [(ngModel)]="iiifVersion"
@@ -27,22 +27,26 @@
         href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest"
         target="_blank"
       >
-        <img
-          src="assets/logo-iiif.png"
-          alt="IIIF Drag-n-drop"
-          class="logo-iiif"
-        /><span>Drag and drop</span>
+        <div class="flex flex-row items-center">
+          <img
+            src="assets/logo-iiif.png"
+            alt="IIIF Drag-n-drop"
+            class="logo-iiif"
+          /><div>DnD</div>
+        </div>
       </a>
       <a
         mat-list-item
         href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest&canvas=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/canvas/URN:NBN:no-nb_digibok_2011070412003_0020"
         target="_blank"
       >
-        <img
-          src="assets/logo-iiif.png"
-          alt="IIIF Drag-n-drop"
-          class="logo-iiif"
-        /><span>Drag and drop with canvas</span>
+        <div class="flex flex-row items-center">
+          <img
+            src="assets/logo-iiif.png"
+            alt="IIIF Drag-n-drop"
+            class="logo-iiif"
+          /><div>DnD with canvas</div>
+        </div>
       </a>
     </ng-container>
     <ng-container *ngSwitchDefault
@@ -51,22 +55,26 @@
         href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v3/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest"
         target="_blank"
       >
-        <img
-          src="assets/logo-iiif.png"
-          alt="IIIF Drag-n-drop"
-          class="logo-iiif"
-        /><span>Drag and drop</span>
+        <div class="flex flex-row items-center">
+          <img
+            src="assets/logo-iiif.png"
+            alt="IIIF Drag-n-drop"
+            class="logo-iiif"
+          /><div>DnD</div>
+        </div>
       </a>
       <a
         mat-list-item
         href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v3/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest&canvas=https://api.nb.no/catalog/v3/iiif/f080d07ddce0f9ebd2615c44e040197d/canvas/URN:NBN:no-nb_digibok_2011070412003_0020"
         target="_blank"
       >
-        <img
-          src="assets/logo-iiif.png"
-          alt="IIIF Drag-n-drop"
-          class="logo-iiif"
-        /><span>Drag and drop with canvas</span>
+        <div class="flex flex-row items-center">
+          <img
+            src="assets/logo-iiif.png"
+            alt="IIIF Drag-n-drop"
+            class="logo-iiif"
+          /><div>DnD with canvas</div>
+        </div>
       </a>
     </ng-container>
   </ng-container>

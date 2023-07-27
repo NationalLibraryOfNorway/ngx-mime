@@ -1,8 +1,7 @@
-<div class="viewer-container" fxLayout="column" fxFill>
+<div class="viewer-container" class="w-full h-full grid grid-cols-1">
   <mime-viewer
     *ngFor="let manifestUri of manifestUris"
-    fxLayoutAlign="space-around stretch"
-    [fxFlex]="viewerHeight"
+    class="m-1 border-2 border-solid"
     [manifestUri]="manifestUri"
     [config]="config"
   ></mime-viewer>
