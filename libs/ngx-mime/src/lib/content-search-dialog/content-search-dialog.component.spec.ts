@@ -1,9 +1,9 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
@@ -35,7 +35,7 @@ describe('ContentSearchDialogComponent', () => {
 
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
-  let mediaObserver: any;
+  let breakpointObserver: any;
   let dialogRef: any;
 
   beforeEach(waitForAsync(() => {
@@ -66,7 +66,7 @@ describe('ContentSearchDialogComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
     iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
-    mediaObserver = TestBed.inject(MediaObserver);
+    breakpointObserver = TestBed.inject(BreakpointObserver);
     dialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
   });
@@ -76,7 +76,7 @@ describe('ContentSearchDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(false);
+    spyOn(breakpointObserver, 'isMatched').and.returnValue(false);
 
     fixture.detectChanges();
 
@@ -87,7 +87,7 @@ describe('ContentSearchDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+    spyOn(breakpointObserver, 'isMatched').and.returnValue(true);
 
     fixture.detectChanges();
 
@@ -98,7 +98,7 @@ describe('ContentSearchDialogComponent', () => {
   });
 
   it('should go to hit and close dialog when selected on mobile', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+    spyOn(breakpointObserver, 'isMatched').and.returnValue(true);
     spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
     spyOn(dialogRef, 'close').and.callThrough();
     component.currentSearch = 'dummysearch';
@@ -120,7 +120,7 @@ describe('ContentSearchDialogComponent', () => {
   });
 
   it('should go to hit and when selected on desktop', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(false);
+    spyOn(breakpointObserver, 'isMatched').and.returnValue(false);
     spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
     spyOn(dialogRef, 'close').and.callThrough();
     component.currentSearch = 'dummysearch';
