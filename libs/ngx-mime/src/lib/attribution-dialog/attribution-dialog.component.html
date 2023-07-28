@@ -1,16 +1,16 @@
 <div #container class="attribution-container">
-  <mat-toolbar class="attribution-toolbar">
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-      <h1 mat-dialog-title>{{ intl.attributionLabel }}</h1>
-      <button
-        mat-icon-button
-        [aria-label]="intl.attributonCloseAriaLabel"
-        [matTooltip]="intl.closeLabel"
-        [matDialogClose]="true"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+  <mat-toolbar
+    class="attribution-toolbar flex justify-between items-center flex-grow"
+  >
+    <h1 mat-dialog-title>{{ intl.attributionLabel }}</h1>
+    <button
+      mat-icon-button
+      [aria-label]="intl.attributonCloseAriaLabel"
+      [matTooltip]="intl.closeLabel"
+      [matDialogClose]="true"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-toolbar>
   <p mat-dialog-content [innerHTML]="manifest?.attribution"> </p>
 </div>
