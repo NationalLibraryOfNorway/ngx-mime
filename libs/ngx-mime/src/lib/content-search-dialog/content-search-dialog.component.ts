@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -9,7 +10,6 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -50,7 +50,7 @@ export class ContentSearchDialogComponent
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
     public intl: MimeViewerIntl,
-    public mediaObserver: MediaObserver,
+    private breakpointObserver: BreakpointObserver,
     private cdr: ChangeDetectorRef,
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
@@ -118,6 +118,10 @@ export class ContentSearchDialogComponent
     this.subscriptions.unsubscribe();
   }
 
+  isLtMd(): boolean {
+    return this.breakpointObserver.isMatched('(max-width: 959px)');
+  }
+
   onSubmit(event: KeyboardEvent) {
     event.preventDefault();
     this.search();
@@ -131,7 +135,7 @@ export class ContentSearchDialogComponent
   goToHit(hit: Hit): void {
     this.currentHit = hit;
     this.contentSearchNavigationService.selected(hit);
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isLtMd()) {
       this.dialogRef.close();
     }
   }
@@ -146,7 +150,7 @@ export class ContentSearchDialogComponent
   private resizeTabHeight(): void {
     let height = this.mimeHeight;
 
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isLtMd()) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };
