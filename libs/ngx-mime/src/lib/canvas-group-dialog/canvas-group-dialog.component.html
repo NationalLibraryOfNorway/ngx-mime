@@ -22,15 +22,14 @@
           intl.pageDoesNotExists
         }}</mat-error>
       </mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="end center">
-        <button type="button" mat-button matDialogClose> CANCEL </button>
+      <div [align]="'end'">
+        <button type="button" mat-button matDialogClose>CANCEL</button>
         <button
           type="submit"
           mat-button
           [disabled]="canvasGroupForm.pristine || canvasGroupForm.invalid"
+          >OK</button
         >
-          OK
-        </button>
       </div>
     </form>
   </div>
