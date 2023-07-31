@@ -1,5 +1,5 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
@@ -16,10 +16,10 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    public mediaObserver: MediaObserver,
     public intl: MimeViewerIntl,
     private cdr: ChangeDetectorRef,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
   private resizeTabHeight() {
     let height = this.mimeHeight;
 
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isLtMd()) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };
@@ -51,5 +51,9 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
       };
     }
     this.cdr.detectChanges();
+  }
+
+  isLtMd(): boolean {
+    return this.breakpointObserver.isMatched('(max-width: 959px)');
   }
 }

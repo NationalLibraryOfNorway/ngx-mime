@@ -1,38 +1,30 @@
 <div class="help-container">
-  <div [ngSwitch]="mediaObserver.isActive('lt-md')">
-    <div *ngSwitchCase="true">
-      <mat-toolbar color="primary">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <button
-            mat-icon-button
-            [aria-label]="intl.helpCloseAriaLabel"
-            [matTooltip]="intl.closeLabel"
-            [matDialogClose]="true"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-          <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>
-        </div>
-      </mat-toolbar>
-    </div>
-    <div *ngSwitchDefault>
-      <mat-toolbar>
-        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <h1 class="heading-desktop" mat-dialog-title>{{
-            intl.help.helpLabel
-          }}</h1>
-          <button
-            mat-icon-button
-            [aria-label]="intl.helpCloseAriaLabel"
-            [matTooltip]="intl.closeLabel"
-            [matDialogClose]="true"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-      </mat-toolbar>
-    </div>
-  </div>
+  <ng-container [ngSwitch]="isLtMd()">
+    <mat-toolbar *ngSwitchCase="true" color="primary">
+      <button
+        mat-icon-button
+        [aria-label]="intl.helpCloseAriaLabel"
+        [matTooltip]="intl.closeLabel"
+        [matDialogClose]="true"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>
+    </mat-toolbar>
+    <mat-toolbar *ngSwitchDefault class="justify-between">
+      <h1 class="heading-desktop" mat-dialog-title>{{
+        intl.help.helpLabel
+      }}</h1>
+      <button
+        mat-icon-button
+        [aria-label]="intl.helpCloseAriaLabel"
+        [matTooltip]="intl.closeLabel"
+        [matDialogClose]="true"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+  </ng-container>
   <mat-dialog-content [ngStyle]="tabHeight" class="help-content" tabindex="0">
     <p [innerHTML]="intl.help.line1"></p>
     <p [innerHTML]="intl.help.line2"></p>

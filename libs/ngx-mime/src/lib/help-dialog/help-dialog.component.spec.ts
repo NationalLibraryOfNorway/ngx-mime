@@ -1,8 +1,9 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MediaObserver } from '@angular/flex-layout';
 import { By } from '@angular/platform-browser';
-import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
+import { Spy, provideAutoSpy } from 'jasmine-auto-spies';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { SharedModule } from '../shared/shared.module';
@@ -11,7 +12,7 @@ import { HelpDialogComponent } from './help-dialog.component';
 describe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
   let fixture: ComponentFixture<HelpDialogComponent>;
-  let mediaObserverSpy: Spy<MediaObserver>;
+  let breakpointObserverSpy: Spy<BreakpointObserver>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -30,7 +31,7 @@ describe('HelpDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);
     component = fixture.componentInstance;
-    mediaObserverSpy = TestBed.inject<any>(MediaObserver);
+    breakpointObserverSpy = TestBed.inject<any>(BreakpointObserver);
   });
 
   it('should be created', () => {
@@ -38,7 +39,7 @@ describe('HelpDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    mediaObserverSpy.isActive.and.returnValue(false);
+    spyOn(breakpointObserverSpy, 'isMatched').and.returnValue(false);
 
     fixture.detectChanges();
 
@@ -49,7 +50,7 @@ describe('HelpDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    mediaObserverSpy.isActive.and.returnValue(true);
+    spyOn(breakpointObserverSpy, 'isMatched').and.returnValue(true);
 
     fixture.detectChanges();
 
