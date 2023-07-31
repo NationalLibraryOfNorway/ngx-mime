@@ -1,50 +1,49 @@
-<ng-container [ngSwitch]="mediaObserver.isActive('lt-md')">
-  <ng-container *ngSwitchCase="true">
-    <mat-toolbar color="primary" data-testid="mobile-toolbar">
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <button
-          data-testid="ngx-mime-view-dialog-close-button"
-          mat-icon-button
-          [aria-label]="intl.closeLabel"
-          [matTooltip]="intl.closeLabel"
-          [matDialogClose]="true"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>
-      </div>
-    </mat-toolbar>
-  </ng-container>
-  <ng-container *ngSwitchDefault>
-    <mat-toolbar data-testid="desktop-toolbar">
-      <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-        <h1 mat-dialog-title data-testid="ngx-mime-heading-desktop">{{
-          intl.layoutMenuLabel
-        }}</h1>
-        <button
-          data-testid="ngx-mime-view-dialog-close-button"
-          mat-icon-button
-          [aria-label]="intl.closeLabel"
-          [matTooltip]="intl.closeLabel"
-          [matDialogClose]="true"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-    </mat-toolbar>
-  </ng-container>
+<ng-container [ngSwitch]="isLtMd()">
+  <mat-toolbar
+    *ngSwitchCase="true"
+    color="primary"
+    data-testid="mobile-toolbar"
+  >
+    <button
+      data-testid="ngx-mime-view-dialog-close-button"
+      mat-icon-button
+      [aria-label]="intl.closeLabel"
+      [matTooltip]="intl.closeLabel"
+      [matDialogClose]="true"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>
+  </mat-toolbar>
+  <mat-toolbar
+    *ngSwitchDefault
+    class="justify-between"
+    data-testid="desktop-toolbar"
+  >
+    <h1 mat-dialog-title data-testid="ngx-mime-heading-desktop">{{
+      intl.layoutMenuLabel
+    }}</h1>
+    <button
+      data-testid="ngx-mime-view-dialog-close-button"
+      mat-icon-button
+      [aria-label]="intl.closeLabel"
+      [matTooltip]="intl.closeLabel"
+      [matDialogClose]="true"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
 </ng-container>
 <mat-dialog-content [ngStyle]="contentStyle">
   <ng-container *ngIf="isPagedManifest">
     <section data-testid="page-layout">
       <h2>{{ intl.pageLayoutLabel }}</h2>
       <div
-        fxLayout="column"
-        fxLayoutGap="8px"
+        class="flex flex-col gap-y-2"
         role="group"
         [attr.aria-label]="intl.pageLayoutLabel"
       >
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-single-page-view-button"
             [aria-label]="intl.singlePageViewLabel"
@@ -56,7 +55,7 @@
           </mat-button-toggle>
           <div class="label">{{ intl.singlePageViewLabel }}</div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-two-page-view-button"
             [aria-label]="intl.twoPageViewLabel"
@@ -76,12 +75,11 @@
     <section data-testid="recognized-text-content">
       <h2>{{ intl.digitalTextLabel }}</h2>
       <div
-        fxLayout="column"
-        fxLayoutGap="8px"
+        class="flex flex-col gap-y-2"
         role="group"
         [attr.aria-label]="intl.digitalTextLabel"
       >
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-recognized-text-content-close-button"
             [aria-label]="intl.recognizedTextContentCloseLabel"
@@ -93,7 +91,7 @@
           </mat-button-toggle>
           <div class="label">{{ intl.recognizedTextContentCloseLabel }}</div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-recognized-text-content-split-view-button"
             [aria-label]="intl.recognizedTextContentInSplitViewLabel"
@@ -107,7 +105,7 @@
             intl.recognizedTextContentInSplitViewLabel
           }}</div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-recognized-text-content-only-button"
             [aria-label]="intl.showRecognizedTextContentLabel"

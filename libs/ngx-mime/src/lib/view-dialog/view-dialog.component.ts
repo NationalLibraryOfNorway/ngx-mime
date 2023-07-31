@@ -1,5 +1,5 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../core/alto-service/alto.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -28,13 +28,13 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    public mediaObserver: MediaObserver,
     public intl: MimeViewerIntl,
     private cdr: ChangeDetectorRef,
     private viewerLayoutService: ViewerLayoutService,
     private iiifManifestService: IiifManifestService,
     private altoService: AltoService,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +75,10 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  isLtMd(): boolean {
+    return this.breakpointObserver.isMatched('(max-width: 959px)');
+  }
+
   setLayoutOnePage(): void {
     this.viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
   }
@@ -97,7 +101,7 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
 
   private resizeHeight(rect: Dimensions): void {
     let maxHeight = rect.height - 192 + 'px';
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isLtMd()) {
       maxHeight = rect.height + 'px';
     }
     this.contentStyle = {
