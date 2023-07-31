@@ -1,9 +1,7 @@
 <div
   #recognizedTextContentContainer
-  class="recognized-text-content-container"
+  class="recognized-text-content-container flex flex-col"
   aria-live="polite"
-  fxLayout="column"
-  fxLayoutAlign="start center"
 >
   <div *ngIf="error" data-testid="error">{{ error }}</div>
   <ng-container *ngIf="!isLoading">
