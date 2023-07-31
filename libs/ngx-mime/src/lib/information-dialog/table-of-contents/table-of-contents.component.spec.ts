@@ -1,7 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MediaObserver } from '@angular/flex-layout';
 import { By } from '@angular/platform-browser';
 import { injectedStub } from '../../../testing/injected-stub';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -20,7 +19,6 @@ describe('TocComponent', () => {
   let component: TocComponent;
   let fixture: ComponentFixture<TocComponent>;
   let iiifManifestService: IiifManifestServiceStub;
-  let mediaObserver: any;
   let viewerService: ViewerService;
 
   beforeEach(waitForAsync(() => {
@@ -76,7 +74,6 @@ describe('TocComponent', () => {
         ],
       })
     );
-    mediaObserver = TestBed.inject(MediaObserver);
 
     fixture.detectChanges();
   });

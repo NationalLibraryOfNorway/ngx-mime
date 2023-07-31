@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -30,20 +30,12 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     public intl: MimeViewerIntl,
-    public mediaObserver: MediaObserver,
-    private cdr: ChangeDetectorRef,
     private dialogRef: MatDialogRef<InformationDialogComponent>,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    mimeResizeService: MimeResizeService
-  ) {
-    this.subscriptions.add(
-      mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-        this.mimeHeight = dimensions.height;
-        this.resizeTabHeight();
-      })
-    );
-  }
+    private breakpointObserver: BreakpointObserver,
+    private mimeResizeService: MimeResizeService
+  ) {}
 
   ngOnInit() {
     this.subscriptions.add(
@@ -57,6 +49,12 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
         }
       )
     );
+    this.subscriptions.add(
+      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+        this.mimeHeight = dimensions.height;
+        this.resizeTabHeight();
+      })
+    );
 
     this.resizeTabHeight();
   }
@@ -65,8 +63,12 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  isLtMd(): boolean {
+    return this.breakpointObserver.isMatched('(max-width: 959px)');
+  }
+
   onCanvasChanged() {
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isLtMd()) {
       this.dialogRef.close();
     }
   }
@@ -74,7 +76,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   private resizeTabHeight(): void {
     let height = this.mimeHeight;
 
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isLtMd()) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };

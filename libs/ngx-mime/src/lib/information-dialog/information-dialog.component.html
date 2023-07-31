@@ -1,35 +1,35 @@
 <div class="information-container">
-  <ng-container [ngSwitch]="mediaObserver.isActive('lt-md')">
-    <ng-container *ngSwitchCase="true">
-      <mat-toolbar color="primary" data-testid="mobile-toolbar">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <button
-            mat-icon-button
-            [aria-label]="intl.closeLabel"
-            [matTooltip]="intl.closeLabel"
-            [matDialogClose]="true"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
-        </div>
-      </mat-toolbar>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-      <mat-toolbar data-testid="desktop-toolbar">
-        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
-          <button
-            mat-icon-button
-            [aria-label]="intl.closeLabel"
-            [matTooltip]="intl.closeLabel"
-            [matDialogClose]="true"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-      </mat-toolbar>
-    </ng-container>
+  <ng-container [ngSwitch]="isLtMd()">
+    <mat-toolbar
+      *ngSwitchCase="true"
+      color="primary"
+      data-testid="mobile-toolbar"
+    >
+      <button
+        mat-icon-button
+        [aria-label]="intl.closeLabel"
+        [matTooltip]="intl.closeLabel"
+        [matDialogClose]="true"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
+    </mat-toolbar>
+    <mat-toolbar
+      *ngSwitchDefault
+      data-testid="desktop-toolbar"
+      class="justify-between"
+    >
+      <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
+      <button
+        mat-icon-button
+        [aria-label]="intl.closeLabel"
+        [matTooltip]="intl.closeLabel"
+        [matDialogClose]="true"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
   </ng-container>
   <div mat-dialog-content>
     <mat-tab-group [(selectedIndex)]="selectedIndex">
