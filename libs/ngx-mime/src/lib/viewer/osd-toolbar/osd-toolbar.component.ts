@@ -6,6 +6,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -81,6 +82,7 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     private renderer: Renderer2,
+    private breakpointObserver: BreakpointObserver,
     private changeDetectorRef: ChangeDetectorRef,
     private mimeService: MimeResizeService,
     private viewerService: ViewerService,
@@ -146,6 +148,10 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     );
+  }
+
+  isGtSm(): boolean {
+    return this.breakpointObserver.isMatched('(min-width: 600px)');
   }
 
   zoomIn(): void {
