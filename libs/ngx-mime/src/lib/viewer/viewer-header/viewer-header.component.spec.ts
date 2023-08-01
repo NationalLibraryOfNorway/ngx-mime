@@ -263,7 +263,7 @@ describe('ViewerHeaderComponent', () => {
       testHostFixture.detectChanges();
 
       const label = testHostFixture.debugElement.query(
-        By.css('.header-container .label')
+        By.css('[data-testid="ngx-mime-manifest-label"].label')
       ).nativeElement;
 
       expect(label.innerHTML).toBe('Testlabel');

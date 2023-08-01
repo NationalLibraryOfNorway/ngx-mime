@@ -1,78 +1,63 @@
 <mat-toolbar>
+  <ng-template #mimeHeaderBefore></ng-template>
   <div
-    class="header-container"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
+    *ngIf="manifest"
+    data-testid="ngx-mime-manifest-label"
+    class="label w-full"
+    [matTooltip]="manifest.label"
+    >{{ manifest.label }}</div
   >
-    <div><ng-template #mimeHeaderBefore></ng-template></div>
-    <div
-      *ngIf="manifest"
-      fxFlexOffset="16px"
-      class="label"
-      [matTooltip]="manifest.label"
-      >{{ manifest.label }}</div
-    >
-    <div
-      fxFlex="noshrink"
-      fxLayout="row"
-      fxLayoutAlign="end center"
-      class="buttons-container"
-    >
-      <button
-        *ngIf="isPagedManifest || hasRecognizedTextContent"
-        data-testid="ngx-mime-view-menu-button"
-        #viewMenu
-        mat-icon-button
-        [attr.aria-label]="intl.layoutMenuLabel"
-        [matTooltip]="intl.layoutMenuLabel"
-        (click)="toggleView()"
-        ><mat-icon aria-hidden="true">view_module</mat-icon></button
-      >
-      <button
-        data-testid="ngx-mimeInformationDialogButton"
-        mat-icon-button
-        [attr.aria-label]="intl.informationLabel"
-        [matTooltip]="intl.informationLabel"
-        (click)="toggleInformationDialog()"
-      >
-        <mat-icon aria-hidden="true">list</mat-icon>
-      </button>
-      <button
-        data-testid="ngx-mimeContentSearchDialogButton"
-        *ngIf="isContentSearchEnabled"
-        mat-icon-button
-        [attr.aria-label]="intl.searchLabel"
-        [matTooltip]="intl.searchLabel"
-        (click)="toggleSearch()"
-      >
-        <mat-icon aria-hidden="true">search</mat-icon>
-      </button>
-      <button
-        data-testid="ngx-mimeHelpDialogButton"
-        mat-icon-button
-        [attr.aria-label]="intl.help.helpLabel"
-        [matTooltip]="intl.help.helpLabel"
-        (click)="toggleHelp()"
-      >
-        <mat-icon aria-hidden="true">help</mat-icon>
-      </button>
+  <button
+    *ngIf="isPagedManifest || hasRecognizedTextContent"
+    data-testid="ngx-mime-view-menu-button"
+    #viewMenu
+    mat-icon-button
+    [attr.aria-label]="intl.layoutMenuLabel"
+    [matTooltip]="intl.layoutMenuLabel"
+    (click)="toggleView()"
+    ><mat-icon aria-hidden="true">view_module</mat-icon></button
+  >
+  <button
+    data-testid="ngx-mimeInformationDialogButton"
+    mat-icon-button
+    [attr.aria-label]="intl.informationLabel"
+    [matTooltip]="intl.informationLabel"
+    (click)="toggleInformationDialog()"
+  >
+    <mat-icon aria-hidden="true">list</mat-icon>
+  </button>
+  <button
+    data-testid="ngx-mimeContentSearchDialogButton"
+    *ngIf="isContentSearchEnabled"
+    mat-icon-button
+    [attr.aria-label]="intl.searchLabel"
+    [matTooltip]="intl.searchLabel"
+    (click)="toggleSearch()"
+  >
+    <mat-icon aria-hidden="true">search</mat-icon>
+  </button>
+  <button
+    data-testid="ngx-mimeHelpDialogButton"
+    mat-icon-button
+    [attr.aria-label]="intl.help.helpLabel"
+    [matTooltip]="intl.help.helpLabel"
+    (click)="toggleHelp()"
+  >
+    <mat-icon aria-hidden="true">help</mat-icon>
+  </button>
 
-      <button
-        data-testid="ngx-mimeFullscreenButton"
-        *ngIf="isFullscreenEnabled"
-        mat-icon-button
-        [attr.aria-label]="fullscreenLabel"
-        [matTooltip]="fullscreenLabel"
-        (click)="toggleFullscreen()"
-      >
-        <mat-icon *ngIf="isInFullScreen" aria-hidden="true"
-          >fullscreen_exit</mat-icon
-        >
-        <mat-icon *ngIf="!isInFullScreen" aria-hidden="true"
-          >fullscreen</mat-icon
-        >
-      </button>
-    </div>
-    <div><ng-template #mimeHeaderAfter></ng-template></div>
-  </div>
+  <button
+    data-testid="ngx-mimeFullscreenButton"
+    *ngIf="isFullscreenEnabled"
+    mat-icon-button
+    [attr.aria-label]="fullscreenLabel"
+    [matTooltip]="fullscreenLabel"
+    (click)="toggleFullscreen()"
+  >
+    <mat-icon *ngIf="isInFullScreen" aria-hidden="true"
+      >fullscreen_exit</mat-icon
+    >
+    <mat-icon *ngIf="!isInFullScreen" aria-hidden="true">fullscreen</mat-icon>
+  </button>
+  <ng-template #mimeHeaderAfter></ng-template>
 </mat-toolbar>
