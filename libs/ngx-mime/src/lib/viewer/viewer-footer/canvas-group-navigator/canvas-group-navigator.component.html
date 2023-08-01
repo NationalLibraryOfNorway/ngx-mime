@@ -1,84 +1,80 @@
 <mat-toolbar>
-  <div fxLayout="row" fxFlex fxLayoutAlign="start center">
-    <div
+  <div
+    class="w-full"
+    data-testid="navigation-slider-container"
+    [dir]="currentViewingDirection"
+  >
+    <mat-slider
+      class="navigation-slider"
+      [max]="numberOfCanvasGroups - 1"
+      (keydown)="onSliderHotKey($event)"
       fxFlex
-      data-testid="navigation-slider-container"
-      [dir]="currentViewingDirection"
     >
-      <mat-slider
-        class="navigation-slider"
-        [max]="numberOfCanvasGroups - 1"
-        (keydown)="onSliderHotKey($event)"
-        fxFlex
+      <input
+        matSliderThumb
+        [attr.aria-label]="intl.currentPageLabel"
+        [(ngModel)]="currentCanvasGroupIndex"
+        (input)="onSliderChange($event)"
+    /></mat-slider>
+  </div>
+  <button
+    mat-button
+    data-testid="canvasGroupDialogButton"
+    class="canvasGroups"
+    (click)="openCanvasGroupDialog()"
+  >
+    <span data-testid="currentCanvasGroupLabel">{{ canvasGroupLabel }}</span
+    ><span>/</span
+    ><span data-testid="numOfCanvasGroups">{{ numberOfCanvases }}</span>
+  </button>
+  <div class="navigation-buttons">
+    <ng-container *ngIf="currentViewingDirection === ViewingDirection.LTR">
+      <button
+        data-testid="footerNavigateBeforeButton"
+        mat-icon-button
+        [attr.aria-label]="intl.previousPageLabel"
+        [matTooltip]="intl.previousPageLabel"
+        matTooltipPosition="above"
+        [disabled]="isFirstCanvasGroup"
+        (click)="goToPreviousCanvasGroup()"
       >
-        <input
-          matSliderThumb
-          [attr.aria-label]="intl.currentPageLabel"
-          [(ngModel)]="currentCanvasGroupIndex"
-          (input)="onSliderChange($event)"
-      /></mat-slider>
-    </div>
-    <button
-      mat-button
-      data-testid="canvasGroupDialogButton"
-      class="canvasGroups"
-      (click)="openCanvasGroupDialog()"
-    >
-      <div fxLayout="row" fxLayoutGap="1px">
-        <span data-testid="currentCanvasGroupLabel">{{ canvasGroupLabel }}</span
-        ><span>/</span
-        ><span data-testid="numOfCanvasGroups">{{ numberOfCanvases }}</span>
-      </div>
-    </button>
-    <div class="navigation-buttons">
-      <ng-container *ngIf="currentViewingDirection === ViewingDirection.LTR">
-        <button
-          data-testid="footerNavigateBeforeButton"
-          mat-icon-button
-          [attr.aria-label]="intl.previousPageLabel"
-          [matTooltip]="intl.previousPageLabel"
-          matTooltipPosition="above"
-          [disabled]="isFirstCanvasGroup"
-          (click)="goToPreviousCanvasGroup()"
-        >
-          <mat-icon>navigate_before</mat-icon>
-        </button>
-        <button
-          data-testid="footerNavigateNextButton"
-          mat-icon-button
-          [attr.aria-label]="intl.nextPageLabel"
-          [matTooltip]="intl.nextPageLabel"
-          matTooltipPosition="above"
-          [disabled]="isLastCanvasGroup"
-          (click)="goToNextCanvasGroup()"
-        >
-          <mat-icon>navigate_next</mat-icon>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="currentViewingDirection === ViewingDirection.RTL">
-        <button
-          data-testid="footerNavigateNextButton"
-          mat-icon-button
-          [attr.aria-label]="intl.nextPageLabel"
-          [matTooltip]="intl.nextPageLabel"
-          matTooltipPosition="above"
-          [disabled]="isLastCanvasGroup"
-          (click)="goToNextCanvasGroup()"
-        >
-          <mat-icon>navigate_before</mat-icon>
-        </button>
-        <button
-          data-testid="footerNavigateBeforeButton"
-          mat-icon-button
-          [attr.aria-label]="intl.previousPageLabel"
-          [matTooltip]="intl.previousPageLabel"
-          matTooltipPosition="above"
-          [disabled]="isFirstCanvasGroup"
-          (click)="goToPreviousCanvasGroup()"
-        >
-          <mat-icon>navigate_next</mat-icon>
-        </button>
-      </ng-container>
-    </div>
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <button
+        data-testid="footerNavigateNextButton"
+        mat-icon-button
+        [attr.aria-label]="intl.nextPageLabel"
+        [matTooltip]="intl.nextPageLabel"
+        matTooltipPosition="above"
+        [disabled]="isLastCanvasGroup"
+        (click)="goToNextCanvasGroup()"
+      >
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="currentViewingDirection === ViewingDirection.RTL">
+      <button
+        data-testid="footerNavigateNextButton"
+        mat-icon-button
+        [attr.aria-label]="intl.nextPageLabel"
+        [matTooltip]="intl.nextPageLabel"
+        matTooltipPosition="above"
+        [disabled]="isLastCanvasGroup"
+        (click)="goToNextCanvasGroup()"
+      >
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <button
+        data-testid="footerNavigateBeforeButton"
+        mat-icon-button
+        [attr.aria-label]="intl.previousPageLabel"
+        [matTooltip]="intl.previousPageLabel"
+        matTooltipPosition="above"
+        [disabled]="isFirstCanvasGroup"
+        (click)="goToPreviousCanvasGroup()"
+      >
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </ng-container>
   </div>
 </mat-toolbar>
