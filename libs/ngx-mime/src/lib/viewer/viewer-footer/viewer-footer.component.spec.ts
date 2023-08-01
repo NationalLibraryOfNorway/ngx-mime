@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { injectedStub } from '../../../testing/injected-stub';
-import { MockBreakpointObserver } from '../../test/media-observer-stub';
+import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { Hit } from './../../core/models/hit';
 import { SearchResult } from './../../core/models/search-result';

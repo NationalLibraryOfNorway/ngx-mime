@@ -1,4 +1,4 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../core/alto-service/alto.service';
@@ -75,8 +75,11 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  isLtMd(): boolean {
-    return this.breakpointObserver.isMatched('(max-width: 959px)');
+  isHandsetOrTabletInPortrait(): boolean {
+    return this.breakpointObserver.isMatched([
+      Breakpoints.Handset,
+      Breakpoints.TabletPortrait,
+    ]);
   }
 
   setLayoutOnePage(): void {
@@ -101,7 +104,7 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
 
   private resizeHeight(rect: Dimensions): void {
     let maxHeight = rect.height - 192 + 'px';
-    if (this.isLtMd()) {
+    if (this.isHandsetOrTabletInPortrait()) {
       maxHeight = rect.height + 'px';
     }
     this.contentStyle = {

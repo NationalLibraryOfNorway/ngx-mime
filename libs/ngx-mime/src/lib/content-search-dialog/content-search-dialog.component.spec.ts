@@ -8,11 +8,11 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Spy } from 'jasmine-auto-spies';
 import { injectedStub } from '../../testing/injected-stub';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { Hit } from '../core/models/hit';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
@@ -36,7 +36,7 @@ describe('ContentSearchDialogComponent', () => {
 
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
-  let breakpointObserverSpy: Spy<BreakpointObserver>;
+  let breakpointObserver: MockBreakpointObserver;
   let dialogRef: any;
 
   beforeEach(waitForAsync(() => {
@@ -57,6 +57,7 @@ describe('ContentSearchDialogComponent', () => {
           provide: IiifContentSearchService,
           useClass: IiifContentSearchServiceStub,
         },
+        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
       ],
     }).compileComponents();
   }));
@@ -67,7 +68,7 @@ describe('ContentSearchDialogComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
     iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
-    breakpointObserverSpy = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = injectedStub(BreakpointObserver);
     dialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
   });
@@ -77,7 +78,7 @@ describe('ContentSearchDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    spyOn(breakpointObserverSpy, 'isMatched').and.returnValue(false);
+    breakpointObserver.setMatches(false);
 
     fixture.detectChanges();
 
@@ -88,7 +89,7 @@ describe('ContentSearchDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    spyOn(breakpointObserverSpy, 'isMatched').and.returnValue(true);
+    breakpointObserver.setMatches(true);
 
     fixture.detectChanges();
 
@@ -99,7 +100,7 @@ describe('ContentSearchDialogComponent', () => {
   });
 
   it('should go to hit and close dialog when selected on mobile', () => {
-    spyOn(breakpointObserverSpy, 'isMatched').and.returnValue(true);
+    breakpointObserver.setMatches(true);
     spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
     spyOn(dialogRef, 'close').and.callThrough();
     component.currentSearch = 'dummysearch';
@@ -121,7 +122,7 @@ describe('ContentSearchDialogComponent', () => {
   });
 
   it('should go to hit and when selected on desktop', () => {
-    spyOn(breakpointObserverSpy, 'isMatched').and.returnValue(false);
+    breakpointObserver.setMatches(false);
     spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
     spyOn(dialogRef, 'close').and.callThrough();
     component.currentSearch = 'dummysearch';

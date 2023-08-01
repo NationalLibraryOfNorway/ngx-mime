@@ -1,5 +1,5 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { MimeViewerConfig } from '../mime-viewer-config';
@@ -11,13 +11,14 @@ export class ViewerLayoutService {
   private _layout!: ViewerLayout;
   private subject: BehaviorSubject<ViewerLayout> =
     new BehaviorSubject<ViewerLayout>(this.mimeConfig.initViewerLayout);
-  constructor(private mediaObserver: MediaObserver) {}
+
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
   init(isPagedManifest?: boolean): void {
     if (
       this.mimeConfig.initViewerLayout === ViewerLayout.TWO_PAGE &&
       isPagedManifest &&
-      !this.isMobile()
+      !this.isHandsetOrTabletInPortrait()
     ) {
       this._layout = ViewerLayout.TWO_PAGE;
       this.change();
@@ -52,7 +53,10 @@ export class ViewerLayoutService {
     this.subject.next(this._layout);
   }
 
-  private isMobile(): boolean {
-    return this.mediaObserver.isActive('lt-md');
+  private isHandsetOrTabletInPortrait(): boolean {
+    return this.breakpointObserver.isMatched([
+      Breakpoints.Handset,
+      Breakpoints.TabletPortrait,
+    ]);
   }
 }

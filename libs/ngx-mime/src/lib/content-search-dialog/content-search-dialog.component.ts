@@ -1,4 +1,4 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -118,8 +118,11 @@ export class ContentSearchDialogComponent
     this.subscriptions.unsubscribe();
   }
 
-  isLtMd(): boolean {
-    return this.breakpointObserver.isMatched('(max-width: 959px)');
+  isHandsetOrTabletInPortrait(): boolean {
+    return this.breakpointObserver.isMatched([
+      Breakpoints.Handset,
+      Breakpoints.TabletPortrait,
+    ]);
   }
 
   onSubmit(event: KeyboardEvent) {
@@ -135,7 +138,7 @@ export class ContentSearchDialogComponent
   goToHit(hit: Hit): void {
     this.currentHit = hit;
     this.contentSearchNavigationService.selected(hit);
-    if (this.isLtMd()) {
+    if (this.isHandsetOrTabletInPortrait()) {
       this.dialogRef.close();
     }
   }
@@ -150,7 +153,7 @@ export class ContentSearchDialogComponent
   private resizeTabHeight(): void {
     let height = this.mimeHeight;
 
-    if (this.isLtMd()) {
+    if (this.isHandsetOrTabletInPortrait()) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };

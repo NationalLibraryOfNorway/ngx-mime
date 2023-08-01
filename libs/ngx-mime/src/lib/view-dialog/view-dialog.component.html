@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="isLtMd()">
+<ng-container [ngSwitch]="isHandsetOrTabletInPortrait()">
   <mat-toolbar
     *ngSwitchCase="true"
     color="primary"

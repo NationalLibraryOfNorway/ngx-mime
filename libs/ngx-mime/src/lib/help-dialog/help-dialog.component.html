@@ -1,5 +1,5 @@
 <div class="help-container">
-  <ng-container [ngSwitch]="isLtMd()">
+  <ng-container [ngSwitch]="isHandsetOrTabletInPortrait()">
     <mat-toolbar *ngSwitchCase="true" color="primary">
       <button
         mat-icon-button

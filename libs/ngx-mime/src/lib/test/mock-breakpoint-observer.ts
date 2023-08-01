@@ -1,6 +1,8 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+@Injectable()
 export class MockBreakpointObserver extends BreakpointObserver {
   private breakpoints = new BehaviorSubject<BreakpointState>({
     matches: false,

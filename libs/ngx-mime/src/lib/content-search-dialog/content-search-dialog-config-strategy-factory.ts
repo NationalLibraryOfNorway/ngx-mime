@@ -1,5 +1,5 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import {
   ContentSearchDialogConfigStrategy,
@@ -10,12 +10,15 @@ import {
 @Injectable()
 export class ContentSearchDialogConfigStrategyFactory {
   constructor(
-    private mediaObserver: MediaObserver,
+    private breakpointObserver: BreakpointObserver,
     private mimeDomHelper: MimeDomHelper
   ) {}
 
   public create(): ContentSearchDialogConfigStrategy {
-    return this.mediaObserver.isActive('lt-md')
+    return this.breakpointObserver.isMatched([
+      Breakpoints.Handset,
+      Breakpoints.TabletPortrait,
+    ])
       ? new MobileContentSearchDialogConfigStrategy()
       : new DesktopContentSearchDialogConfigStrategy(this.mimeDomHelper);
   }

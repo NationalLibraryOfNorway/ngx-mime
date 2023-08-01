@@ -6,7 +6,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -150,8 +150,8 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  isGtSm(): boolean {
-    return this.breakpointObserver.isMatched('(min-width: 600px)');
+  isWeb(): boolean {
+    return this.breakpointObserver.isMatched(Breakpoints.Web);
   }
 
   zoomIn(): void {

@@ -1,4 +1,4 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -63,12 +63,15 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  isLtMd(): boolean {
-    return this.breakpointObserver.isMatched('(max-width: 959px)');
+  isHandsetOrTabletInPortrait(): boolean {
+    return this.breakpointObserver.isMatched([
+      Breakpoints.Handset,
+      Breakpoints.TabletPortrait,
+    ]);
   }
 
   onCanvasChanged() {
-    if (this.isLtMd()) {
+    if (this.isHandsetOrTabletInPortrait()) {
       this.dialogRef.close();
     }
   }
@@ -76,7 +79,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   private resizeTabHeight(): void {
     let height = this.mimeHeight;
 
-    if (this.isLtMd()) {
+    if (this.isHandsetOrTabletInPortrait()) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };

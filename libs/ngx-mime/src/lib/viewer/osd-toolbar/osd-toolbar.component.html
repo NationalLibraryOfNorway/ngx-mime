@@ -1,5 +1,5 @@
 <div #container class="osd-toolbar" [ngStyle]="osdToolbarStyle">
-  <div *ngIf="isGtSm()" class="osd-toolbar-container flex-col">
+  <div *ngIf="isWeb()" class="osd-toolbar-container flex-col">
     <div class="osd-toolbar-row">
       <ng-container *ngIf="invert">
         <button

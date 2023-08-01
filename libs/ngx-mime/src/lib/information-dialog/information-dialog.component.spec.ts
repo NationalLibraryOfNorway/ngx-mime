@@ -27,6 +27,7 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { SharedModule } from '../shared/shared.module';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
+import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { InformationDialogComponent } from './information-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
@@ -36,7 +37,7 @@ describe('InformationDialogComponent', () => {
   let component: InformationDialogComponent;
   let fixture: ComponentFixture<InformationDialogComponent>;
   let loader: HarnessLoader;
-  let breakpointObserver: BreakpointObserver;
+  let breakpointObserver: MockBreakpointObserver;
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
   let dialogRef: MatDialogRef<InformationDialogComponent>;
@@ -67,6 +68,7 @@ describe('InformationDialogComponent', () => {
         { provide: AltoService, useClass: AltoServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: MatDialogRef, useClass: MatDialogRefStub },
+        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
       ],
     }).compileComponents();
   }));
@@ -75,7 +77,7 @@ describe('InformationDialogComponent', () => {
     fixture = TestBed.createComponent(InformationDialogComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
-    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = injectedStub(BreakpointObserver);
     viewerService = TestBed.inject(ViewerService);
     iiifManifestService = injectedStub(IiifManifestService);
     intl = TestBed.inject(MimeViewerIntl);
@@ -87,7 +89,7 @@ describe('InformationDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    spyOn(breakpointObserver, 'isMatched').and.returnValue(false);
+    breakpointObserver.setMatches(false);
 
     fixture.detectChanges();
 
@@ -98,7 +100,7 @@ describe('InformationDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    spyOn(breakpointObserver, 'isMatched').and.returnValue(true);
+    breakpointObserver.setMatches(true);
 
     fixture.detectChanges();
 
@@ -144,9 +146,9 @@ describe('InformationDialogComponent', () => {
   }));
 
   it('should close information dialog when selecting a canvas group in TOC when on mobile', async () => {
-    spyOn(breakpointObserver, 'isMatched').and.returnValue(true);
     spyOn(viewerService, 'goToCanvas');
     spyOn(dialogRef, 'close').and.callThrough();
+    breakpointObserver.setMatches(true);
 
     iiifManifestService._currentManifest.next(
       new Manifest({
