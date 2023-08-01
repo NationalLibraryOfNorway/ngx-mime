@@ -1,77 +1,71 @@
-<mat-toolbar class="content-search-navigator-toolbar" color="primary">
-  <div
-    *ngIf="searchResult"
-    fxLayout="row"
-    fxFlex
-    fxLayoutAlign="space-between center"
+<mat-toolbar
+  *ngIf="searchResult"
+  class="content-search-navigator-toolbar flex"
+  color="primary"
+>
+  <button
+    data-testid="footerNavigateCloseHitsButton"
+    mat-icon-button
+    [attr.aria-label]="intl.closeLabel"
+    [matTooltip]="intl.closeLabel"
+    matTooltipPosition="above"
+    (click)="clear()"
   >
-    <div>
+    <mat-icon>close</mat-icon>
+  </button>
+  <div
+    class="current-hit-label"
+    [ngClass]="{ 'not-on-page': !isHitOnActiveCanvasGroup }"
+    [innerHTML]="intl.currentHitLabel(currentHit + 1, searchResult.size())"
+  ></div>
+  <div class="navigation-buttons">
+    <ng-container *ngIf="invert">
       <button
-        data-testid="footerNavigateCloseHitsButton"
+        data-testid="footerNavigatePreviousHitButton"
         mat-icon-button
-        [attr.aria-label]="intl.closeLabel"
-        [matTooltip]="intl.closeLabel"
+        [attr.aria-label]="intl.previousHitLabel"
+        [matTooltip]="intl.previousHitLabel"
         matTooltipPosition="above"
-        (click)="clear()"
+        [disabled]="isFirstHit"
+        (click)="goToPreviousHit()"
       >
-        <mat-icon>close</mat-icon>
+        <mat-icon>navigate_before</mat-icon>
       </button>
-    </div>
-    <div
-      fxFlex
-      class="current-hit-label"
-      [ngClass]="{ 'not-on-page': !isHitOnActiveCanvasGroup }"
-      [innerHTML]="intl.currentHitLabel(currentHit + 1, searchResult.size())"
-    ></div>
-    <div class="navigation-buttons">
-      <ng-container *ngIf="invert">
-        <button
-          data-testid="footerNavigatePreviousHitButton"
-          mat-icon-button
-          [attr.aria-label]="intl.previousHitLabel"
-          [matTooltip]="intl.previousHitLabel"
-          matTooltipPosition="above"
-          [disabled]="isFirstHit"
-          (click)="goToPreviousHit()"
-        >
-          <mat-icon>navigate_before</mat-icon>
-        </button>
-        <button
-          data-testid="footerNavigateNextHitButton"
-          mat-icon-button
-          [attr.aria-label]="intl.nextHitLabel"
-          [matTooltip]="intl.nextHitLabel"
-          matTooltipPosition="above"
-          [disabled]="isLastHit"
-          (click)="goToNextHit()"
-        >
-          <mat-icon>navigate_next</mat-icon>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="!invert">
-        <button
-          data-testid="footerNavigateNextHitButton"
-          mat-icon-button
-          [attr.aria-label]="intl.nextHitLabel"
-          [matTooltip]="intl.nextHitLabel"
-          matTooltipPosition="above"
-          [disabled]="isLastHit"
-          (click)="goToNextHit()"
-        >
-          <mat-icon>navigate_before</mat-icon>
-        </button>
-        <button
-          data-testid="footerNavigatePreviousHitButton"
-          mat-icon-button
-          [attr.aria-label]="intl.previousHitLabel"
-          [matTooltip]="intl.previousHitLabel"
-          matTooltipPosition="above"
-          [disabled]="isFirstHit"
-          (click)="goToPreviousHit()"
-        >
-          <mat-icon>navigate_next</mat-icon>
-        </button>
-      </ng-container>
-    </div>
+      <button
+        data-testid="footerNavigateNextHitButton"
+        mat-icon-button
+        [attr.aria-label]="intl.nextHitLabel"
+        [matTooltip]="intl.nextHitLabel"
+        matTooltipPosition="above"
+        [disabled]="isLastHit"
+        (click)="goToNextHit()"
+      >
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!invert">
+      <button
+        data-testid="footerNavigateNextHitButton"
+        mat-icon-button
+        [attr.aria-label]="intl.nextHitLabel"
+        [matTooltip]="intl.nextHitLabel"
+        matTooltipPosition="above"
+        [disabled]="isLastHit"
+        (click)="goToNextHit()"
+      >
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <button
+        data-testid="footerNavigatePreviousHitButton"
+        mat-icon-button
+        [attr.aria-label]="intl.previousHitLabel"
+        [matTooltip]="intl.previousHitLabel"
+        matTooltipPosition="above"
+        [disabled]="isFirstHit"
+        (click)="goToPreviousHit()"
+      >
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </ng-container>
   </div>
 </mat-toolbar>
