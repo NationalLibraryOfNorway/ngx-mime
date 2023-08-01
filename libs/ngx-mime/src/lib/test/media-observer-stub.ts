@@ -1,22 +1,24 @@
-import { MediaChange } from '@angular/flex-layout';
-import { Subject, Subscription, Observable } from 'rxjs';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { BehaviorSubject } from 'rxjs';
 
-export class MediaObserverStub {
-  _onChange = new Subject<MediaChange[]>();
+export class MockBreakpointObserver extends BreakpointObserver {
+  private breakpoints = new BehaviorSubject<BreakpointState>({
+    matches: false,
+    breakpoints: {},
+  });
 
-  isActive(m: string) {
-    return false;
+  constructor() {
+    super(null as any, null as any);
   }
 
-  asObservable(): Observable<MediaChange[]> {
-    return this._onChange.asObservable();
+  setMatches(matches: boolean): void {
+    this.breakpoints.next({ matches, breakpoints: {} });
+  }
+  override observe(value: string | readonly string[]): any {
+    return this.breakpoints.asObservable();
   }
 
-  subscribe(
-    next?: (value: MediaChange[]) => void,
-    error?: (error: any) => void,
-    complete?: () => void
-  ): Subscription {
-    return this._onChange.subscribe(next, error, complete);
+  override isMatched(query: string): boolean {
+    return this.breakpoints.value.matches;
   }
 }

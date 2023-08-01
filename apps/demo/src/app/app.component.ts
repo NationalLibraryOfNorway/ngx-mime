@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.add(
       this.breakpointObserver
-        .observe([Breakpoints.XSmall])
+        .observe([Breakpoints.XSmall, Breakpoints.Small])
         .subscribe((result: BreakpointState) => {
           this.layout(result.matches);
         })
