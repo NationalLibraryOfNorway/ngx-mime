@@ -14,7 +14,7 @@
     <mat-icon>close</mat-icon>
   </button>
   <div
-    class="current-hit-label"
+    class="current-hit-label grow"
     [ngClass]="{ 'not-on-page': !isHitOnActiveCanvasGroup }"
     [innerHTML]="intl.currentHitLabel(currentHit + 1, searchResult.size())"
   ></div>

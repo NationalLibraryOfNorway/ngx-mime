@@ -6,8 +6,8 @@
     [searchResult]="searchResult"
   ></mime-content-search-navigator>
   <mime-page-navigator
-    *ngIf="showPageNavigator"
     class="w-full"
+    [hidden]="!showPageNavigator"
     [searchResult]="searchResult"
   ></mime-page-navigator>
   <ng-template #mimeFooterAfter></ng-template>
