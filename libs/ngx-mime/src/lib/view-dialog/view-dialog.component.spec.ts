@@ -3,7 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Spy } from 'jasmine-auto-spies';
 import { injectedStub } from '../../testing/injected-stub';
 import { TestManifests } from '../../testing/test-manifests';
 import { AltoService } from '../core/alto-service/alto.service';
@@ -19,6 +18,7 @@ import { AltoServiceStub } from '../test/alto-service-stub';
 import { IiifContentSearchServiceStub } from '../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
+import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
 import { ViewerServiceStub } from '../test/viewer-service-stub';
 import { ViewDialogComponent } from './view-dialog.component';
 
@@ -26,7 +26,7 @@ describe('ViewDialogComponent', () => {
   let component: ViewDialogComponent;
   let fixture: ComponentFixture<ViewDialogComponent>;
   let iiifManifestService: IiifManifestServiceStub;
-  let breakpointObserverSpy: Spy<BreakpointObserver>;
+  let breakpointObserver: MockBreakpointObserver;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -46,6 +46,7 @@ describe('ViewDialogComponent', () => {
           useClass: IiifContentSearchServiceStub,
         },
         { provide: MimeResizeService, useClass: MimeResizeServiceStub },
+        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
       ],
     }).compileComponents();
   }));
@@ -54,7 +55,7 @@ describe('ViewDialogComponent', () => {
     fixture = TestBed.createComponent(ViewDialogComponent);
     component = fixture.componentInstance;
     iiifManifestService = injectedStub(IiifManifestService);
-    breakpointObserverSpy = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = injectedStub(BreakpointObserver);
     fixture.detectChanges();
   });
 
@@ -63,7 +64,7 @@ describe('ViewDialogComponent', () => {
   });
 
   it('should display desktop toolbar', waitForAsync(() => {
-    spyOn(breakpointObserverSpy, 'isMatched').and.returnValue(false);
+    breakpointObserver.setMatches(false);
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -76,7 +77,7 @@ describe('ViewDialogComponent', () => {
   }));
 
   it('should display mobile toolbar', waitForAsync(() => {
-    spyOn(breakpointObserverSpy, 'isMatched').and.returnValue(true);
+    breakpointObserver.setMatches(true);
 
     fixture.whenStable().then(() => {
       fixture.detectChanges();

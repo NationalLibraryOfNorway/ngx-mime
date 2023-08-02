@@ -1,8 +1,8 @@
 <div class="ngx-mime-toc-container">
   <a
     *ngFor="let structure of manifest?.structures"
-    href=""
     class="flex justify-between toc-link"
+    href=""
     [class.currentCanvasGroup]="
       currentCanvasGroupIndex === structure.canvasIndex
     "

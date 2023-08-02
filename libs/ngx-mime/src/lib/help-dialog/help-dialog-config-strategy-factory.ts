@@ -15,10 +15,12 @@ export class HelpDialogConfigStrategyFactory {
   ) {}
 
   public create(): HelpDialogConfigStrategy {
-    return this.breakpointObserver.isMatched([
+    const isHandsetOrTabletInPortrait = this.breakpointObserver.isMatched([
       Breakpoints.Handset,
       Breakpoints.TabletPortrait,
-    ])
+    ]);
+
+    return isHandsetOrTabletInPortrait
       ? new MobileHelpDialogConfigStrategy()
       : new DesktopHelpDialogConfigStrategy(this.mimeDomHelper);
   }

@@ -15,10 +15,12 @@ export class InformationDialogConfigStrategyFactory {
   ) {}
 
   public create(): InformationDialogConfigStrategy {
-    return this.breakpointObserver.isMatched([
+    const isHandsetOrTabletInPortrait = this.breakpointObserver.isMatched([
       Breakpoints.Handset,
       Breakpoints.TabletPortrait,
-    ])
+    ]);
+
+    return isHandsetOrTabletInPortrait
       ? new MobileInformationDialogConfigStrategy()
       : new DesktopInformationDialogConfigStrategy(this.mimeDomHelper);
   }

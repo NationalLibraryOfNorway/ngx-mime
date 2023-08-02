@@ -30,10 +30,10 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     public intl: MimeViewerIntl,
+    private breakpointObserver: BreakpointObserver,
     private dialogRef: MatDialogRef<InformationDialogComponent>,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    private breakpointObserver: BreakpointObserver,
     private mimeResizeService: MimeResizeService
   ) {}
 

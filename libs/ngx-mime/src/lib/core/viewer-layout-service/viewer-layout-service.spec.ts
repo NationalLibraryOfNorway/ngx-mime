@@ -2,17 +2,14 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { TestBed } from '@angular/core/testing';
 import { injectedStub } from '../../../testing/injected-stub';
 import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
-import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerLayoutService } from './viewer-layout-service';
 
 describe('ViewerLayoutService', () => {
-  let config: MimeViewerConfig;
   let service: ViewerLayoutService;
   let breakpointObserver: MockBreakpointObserver;
 
   beforeEach(() => {
-    config = new MimeViewerConfig();
     TestBed.configureTestingModule({
       providers: [
         ViewerLayoutService,

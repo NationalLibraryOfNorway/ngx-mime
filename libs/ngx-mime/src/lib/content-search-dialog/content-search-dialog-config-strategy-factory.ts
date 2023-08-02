@@ -15,10 +15,12 @@ export class ContentSearchDialogConfigStrategyFactory {
   ) {}
 
   public create(): ContentSearchDialogConfigStrategy {
-    return this.breakpointObserver.isMatched([
+    const isHandsetOrTabletInPortrait = this.breakpointObserver.isMatched([
       Breakpoints.Handset,
       Breakpoints.TabletPortrait,
-    ])
+    ]);
+
+    return isHandsetOrTabletInPortrait
       ? new MobileContentSearchDialogConfigStrategy()
       : new DesktopContentSearchDialogConfigStrategy(this.mimeDomHelper);
   }

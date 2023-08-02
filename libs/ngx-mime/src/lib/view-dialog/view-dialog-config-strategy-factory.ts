@@ -15,10 +15,12 @@ export class ViewDialogConfigStrategyFactory {
   ) {}
 
   public create(): ViewDialogConfigStrategy {
-    return this.breakpointObserver.isMatched([
+    const isHandsetOrTabletInPortrait = this.breakpointObserver.isMatched([
       Breakpoints.Handset,
       Breakpoints.TabletPortrait,
-    ])
+    ]);
+
+    return isHandsetOrTabletInPortrait
       ? new MobileViewDialogConfigStrategy()
       : new DesktopViewDialogConfigStrategy(this.mimeDomHelper);
   }

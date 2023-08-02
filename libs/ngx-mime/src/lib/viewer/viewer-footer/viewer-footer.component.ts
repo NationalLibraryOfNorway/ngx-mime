@@ -113,10 +113,10 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
 
   private updateShowPageNavigator() {
     this.showPageNavigator =
-      this.searchResult.size() === 0 || !this.isScreenXSmall();
+      this.searchResult.size() === 0 || !this.isHandsetPortrait();
   }
 
-  private isScreenXSmall(): boolean {
-    return this.breakpointObserver.isMatched(Breakpoints.XSmall);
+  private isHandsetPortrait(): boolean {
+    return this.breakpointObserver.isMatched(Breakpoints.HandsetPortrait);
   }
 }

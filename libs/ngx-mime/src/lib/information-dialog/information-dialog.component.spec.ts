@@ -146,9 +146,9 @@ describe('InformationDialogComponent', () => {
   }));
 
   it('should close information dialog when selecting a canvas group in TOC when on mobile', async () => {
+    breakpointObserver.setMatches(true);
     spyOn(viewerService, 'goToCanvas');
     spyOn(dialogRef, 'close').and.callThrough();
-    breakpointObserver.setMatches(true);
 
     iiifManifestService._currentManifest.next(
       new Manifest({

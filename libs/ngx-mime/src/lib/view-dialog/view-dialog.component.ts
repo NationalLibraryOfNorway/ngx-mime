@@ -29,12 +29,12 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     public intl: MimeViewerIntl,
+    private breakpointObserver: BreakpointObserver,
     private cdr: ChangeDetectorRef,
     private viewerLayoutService: ViewerLayoutService,
     private iiifManifestService: IiifManifestService,
     private altoService: AltoService,
-    private mimeResizeService: MimeResizeService,
-    private breakpointObserver: BreakpointObserver
+    private mimeResizeService: MimeResizeService
   ) {}
 
   ngOnInit(): void {
