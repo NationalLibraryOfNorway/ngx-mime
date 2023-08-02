@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.add(
       this.breakpointObserver
-        .observe([Breakpoints.XSmall, Breakpoints.Small])
+        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
         .subscribe((result: BreakpointState) => {
           this.layout(result.matches);
         })
@@ -53,8 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private layout(isMobile: boolean) {
-    if (isMobile) {
+  private layout(isHandsetOrTabletInPortrait: boolean) {
+    if (isHandsetOrTabletInPortrait) {
       this.sidenavMode = 'over';
       this.sidenavIsOpen = false;
     } else {
