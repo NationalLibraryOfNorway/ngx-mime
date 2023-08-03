@@ -6,7 +6,11 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -77,6 +81,7 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isLastCanvasGroup = false;
   public state = 'hide';
   invert = false;
+  isWeb = false;
   private subscriptions = new Subscription();
 
   constructor(
@@ -130,6 +135,12 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.add(
       this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
     );
+
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.XSmall])
+        .subscribe((value: BreakpointState) => (this.isWeb = value.matches))
+    );
   }
 
   ngAfterViewInit() {
@@ -148,10 +159,6 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     );
-  }
-
-  isWeb(): boolean {
-    return this.breakpointObserver.isMatched(Breakpoints.Web);
   }
 
   zoomIn(): void {
