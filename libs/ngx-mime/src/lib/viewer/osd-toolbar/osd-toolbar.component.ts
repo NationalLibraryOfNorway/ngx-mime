@@ -98,6 +98,12 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.Web])
+        .subscribe((value: BreakpointState) => (this.isWeb = value.matches))
+    );
+
+    this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           if (manifest) {
@@ -134,12 +140,6 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscriptions.add(
       this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
-    );
-
-    this.subscriptions.add(
-      this.breakpointObserver
-        .observe([Breakpoints.XSmall])
-        .subscribe((value: BreakpointState) => (this.isWeb = value.matches))
     );
   }
 
