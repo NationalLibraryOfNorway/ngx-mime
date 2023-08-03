@@ -1,4 +1,8 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -38,6 +42,7 @@ export class ContentSearchDialogComponent
   public numberOfHits = 0;
   public isSearching = false;
   public tabHeight = { maxHeight: '100px' };
+  isHandsetOrTabletInPortrait = false;
   private manifest: Manifest | null = null;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
@@ -59,6 +64,15 @@ export class ContentSearchDialogComponent
   ) {}
 
   ngOnInit() {
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+        .subscribe(
+          (value: BreakpointState) =>
+            (this.isHandsetOrTabletInPortrait = value.matches)
+        )
+    );
+
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
@@ -118,13 +132,6 @@ export class ContentSearchDialogComponent
     this.subscriptions.unsubscribe();
   }
 
-  isHandsetOrTabletInPortrait(): boolean {
-    return this.breakpointObserver.isMatched([
-      Breakpoints.Handset,
-      Breakpoints.TabletPortrait,
-    ]);
-  }
-
   onSubmit(event: KeyboardEvent) {
     event.preventDefault();
     this.search();
@@ -138,7 +145,7 @@ export class ContentSearchDialogComponent
   goToHit(hit: Hit): void {
     this.currentHit = hit;
     this.contentSearchNavigationService.selected(hit);
-    if (this.isHandsetOrTabletInPortrait()) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.dialogRef.close();
     }
   }
@@ -153,7 +160,7 @@ export class ContentSearchDialogComponent
   private resizeTabHeight(): void {
     let height = this.mimeHeight;
 
-    if (this.isHandsetOrTabletInPortrait()) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };

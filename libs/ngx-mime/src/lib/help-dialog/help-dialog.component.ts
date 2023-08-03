@@ -1,4 +1,8 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MimeViewerIntl } from '../core/intl';
@@ -12,6 +16,7 @@ import { Dimensions } from '../core/models/dimensions';
 })
 export class HelpDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
+  isHandsetOrTabletInPortrait = false;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
 
@@ -30,6 +35,15 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
       })
     );
 
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+        .subscribe(
+          (value: BreakpointState) =>
+            (this.isHandsetOrTabletInPortrait = value.matches)
+        )
+    );
+
     this.resizeTabHeight();
   }
 
@@ -40,7 +54,7 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
   private resizeTabHeight() {
     let height = this.mimeHeight;
 
-    if (this.isHandsetOrTabletInPortrait()) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };
@@ -51,12 +65,5 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
       };
     }
     this.cdr.detectChanges();
-  }
-
-  isHandsetOrTabletInPortrait(): boolean {
-    return this.breakpointObserver.isMatched([
-      Breakpoints.Handset,
-      Breakpoints.TabletPortrait,
-    ]);
   }
 }

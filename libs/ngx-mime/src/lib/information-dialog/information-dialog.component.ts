@@ -1,4 +1,8 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -25,6 +29,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
   public showToc = false;
   public selectedIndex = 0;
+  isHandsetOrTabletInPortrait = false;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
 
@@ -38,6 +43,15 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+        .subscribe(
+          (value: BreakpointState) =>
+            (this.isHandsetOrTabletInPortrait = value.matches)
+        )
+    );
+
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
@@ -63,15 +77,8 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  isHandsetOrTabletInPortrait(): boolean {
-    return this.breakpointObserver.isMatched([
-      Breakpoints.Handset,
-      Breakpoints.TabletPortrait,
-    ]);
-  }
-
   onCanvasChanged() {
-    if (this.isHandsetOrTabletInPortrait()) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.dialogRef.close();
     }
   }
@@ -79,7 +86,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   private resizeTabHeight(): void {
     let height = this.mimeHeight;
 
-    if (this.isHandsetOrTabletInPortrait()) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };
