@@ -63,6 +63,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
         }
       )
     );
+
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;

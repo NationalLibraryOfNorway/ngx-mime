@@ -29,19 +29,19 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-        this.mimeHeight = dimensions.height;
-        this.resizeTabHeight();
-      })
-    );
-
-    this.subscriptions.add(
       this.breakpointObserver
         .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
         .subscribe(
           (value: BreakpointState) =>
             (this.isHandsetOrTabletInPortrait = value.matches)
         )
+    );
+
+    this.subscriptions.add(
+      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+        this.mimeHeight = dimensions.height;
+        this.resizeTabHeight();
+      })
     );
 
     this.resizeTabHeight();
