@@ -7,6 +7,11 @@ import {
   trigger,
 } from '@angular/animations';
 import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
+import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -76,11 +81,13 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isLastCanvasGroup = false;
   public state = 'hide';
   invert = false;
+  isWeb = false;
   private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
     private renderer: Renderer2,
+    private breakpointObserver: BreakpointObserver,
     private changeDetectorRef: ChangeDetectorRef,
     private mimeService: MimeResizeService,
     private viewerService: ViewerService,
@@ -90,6 +97,12 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.Web])
+        .subscribe((value: BreakpointState) => (this.isWeb = value.matches))
+    );
+
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {

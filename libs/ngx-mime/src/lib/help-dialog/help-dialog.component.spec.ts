@@ -1,17 +1,19 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MediaObserver } from '@angular/flex-layout';
 import { By } from '@angular/platform-browser';
-import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
+import { provideAutoSpy } from 'jasmine-auto-spies';
+import { injectedStub } from '../../testing/injected-stub';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { SharedModule } from '../shared/shared.module';
+import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
 import { HelpDialogComponent } from './help-dialog.component';
 
 describe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
   let fixture: ComponentFixture<HelpDialogComponent>;
-  let mediaObserverSpy: Spy<MediaObserver>;
+  let breakpointObserver: MockBreakpointObserver;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -22,7 +24,7 @@ describe('HelpDialogComponent', () => {
         provideAutoSpy(MimeResizeService, {
           observablePropsToSpyOn: ['onResize'],
         }),
-        provideAutoSpy(MediaObserver),
+        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
       ],
     }).compileComponents();
   }));
@@ -30,7 +32,7 @@ describe('HelpDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);
     component = fixture.componentInstance;
-    mediaObserverSpy = TestBed.inject<any>(MediaObserver);
+    breakpointObserver = injectedStub(BreakpointObserver);
   });
 
   it('should be created', () => {
@@ -38,7 +40,7 @@ describe('HelpDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    mediaObserverSpy.isActive.and.returnValue(false);
+    breakpointObserver.setMatches(false);
 
     fixture.detectChanges();
 
@@ -49,7 +51,7 @@ describe('HelpDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    mediaObserverSpy.isActive.and.returnValue(true);
+    breakpointObserver.setMatches(true);
 
     fixture.detectChanges();
 

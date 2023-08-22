@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,6 +15,7 @@ import { StyleService } from '../../core/style-service/style.service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
+import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { CanvasServiceStub } from './../../test/canvas-service-stub';
 import { ViewerServiceStub } from './../../test/viewer-service-stub';
 import { OsdToolbarComponent } from './osd-toolbar.component';
@@ -22,6 +24,7 @@ describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
   let fixture: ComponentFixture<OsdToolbarComponent>;
   let spy: any;
+  let breakpointObserver: MockBreakpointObserver;
   let intl: MimeViewerIntl;
   let canvasService: CanvasServiceStub;
   let viewerService: ViewerServiceStub;
@@ -36,6 +39,7 @@ describe('OsdToolbarComponent', () => {
         { provide: ViewerService, useClass: ViewerServiceStub },
         { provide: CanvasService, useClass: CanvasServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
         ClickService,
         CanvasService,
         ModeService,
@@ -49,9 +53,13 @@ describe('OsdToolbarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
     intl = TestBed.inject(MimeViewerIntl);
+    breakpointObserver = injectedStub(BreakpointObserver);
     canvasService = injectedStub(CanvasService);
     viewerService = injectedStub(ViewerService);
     component = fixture.componentInstance;
+
+    breakpointObserver.setMatches(true);
+
     fixture.detectChanges();
   });
 

@@ -328,6 +328,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {
       this.viewerService.setConfig(this.config);
+      this.viewerLayoutService.setConfig(this.config);
       this.iiifContentSearchService.setConfig(this.config);
       this.altoService.setConfig(this.config);
       this.modeService.setConfig(this.config);

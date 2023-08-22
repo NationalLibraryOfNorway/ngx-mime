@@ -1,11 +1,15 @@
 import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -25,27 +29,29 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};
   public showToc = false;
   public selectedIndex = 0;
+  isHandsetOrTabletInPortrait = false;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
-    public mediaObserver: MediaObserver,
-    private cdr: ChangeDetectorRef,
+    private breakpointObserver: BreakpointObserver,
     private dialogRef: MatDialogRef<InformationDialogComponent>,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    mimeResizeService: MimeResizeService
-  ) {
-    this.subscriptions.add(
-      mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-        this.mimeHeight = dimensions.height;
-        this.resizeTabHeight();
-      })
-    );
-  }
+    private mimeResizeService: MimeResizeService
+  ) {}
 
   ngOnInit() {
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+        .subscribe(
+          (value: BreakpointState) =>
+            (this.isHandsetOrTabletInPortrait = value.matches)
+        )
+    );
+
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
@@ -58,6 +64,13 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
       )
     );
 
+    this.subscriptions.add(
+      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+        this.mimeHeight = dimensions.height;
+        this.resizeTabHeight();
+      })
+    );
+
     this.resizeTabHeight();
   }
 
@@ -66,7 +79,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   }
 
   onCanvasChanged() {
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.dialogRef.close();
     }
   }
@@ -74,7 +87,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   private resizeTabHeight(): void {
     let height = this.mimeHeight;
 
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };

@@ -6,6 +6,11 @@ import {
   trigger,
 } from '@angular/animations';
 import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
+import {
   ChangeDetectorRef,
   Component,
   HostBinding,
@@ -14,7 +19,6 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
@@ -54,17 +58,19 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   mimeFooterBefore!: ViewContainerRef;
   @ViewChild('mimeFooterAfter', { read: ViewContainerRef, static: true })
   mimeFooterAfter!: ViewContainerRef;
+
   public state = 'hide';
   public showNavigationToolbar = true;
   public searchResult: SearchResult = new SearchResult();
   public showPageNavigator = true;
   public showContentSearchNavigator = false;
+
   private subscriptions = new Subscription();
 
   constructor(
-    private iiifContentSearchService: IiifContentSearchService,
-    public mediaObserver: MediaObserver,
-    private changeDetectorRef: ChangeDetectorRef
+    private breakpointObserver: BreakpointObserver,
+    private changeDetectorRef: ChangeDetectorRef,
+    private iiifContentSearchService: IiifContentSearchService
   ) {}
 
   @HostBinding('@footerState')
@@ -73,30 +79,44 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.add(
-      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-        this.searchResult = sr;
-        this.showContentSearchNavigator = this.searchResult.size() > 0;
-        this.showPageNavigator =
-          this.searchResult.size() === 0 || !this.isMobile();
-        this.changeDetectorRef.detectChanges();
-      })
-    );
-
-    this.subscriptions.add(
-      this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
-        this.showPageNavigator =
-          this.searchResult.size() === 0 || !this.isMobile();
-        this.changeDetectorRef.detectChanges();
-      })
-    );
+    this.setupContentSearchObserver();
+    this.setupBreakpointObserver();
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
-  private isMobile(): boolean {
-    return this.mediaObserver.isActive('lt-md');
+  private setupContentSearchObserver() {
+    this.subscriptions.add(
+      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+        this.searchResult = sr;
+        this.showContentSearchNavigator = this.searchResult.size() > 0;
+        this.updateShowPageNavigator();
+        this.changeDetectorRef.detectChanges();
+      })
+    );
+  }
+
+  private setupBreakpointObserver() {
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.XSmall])
+        .subscribe((value: BreakpointState) => {
+          this.showPageNavigator = value.matches
+            ? this.searchResult.size() === 0
+            : true;
+          this.changeDetectorRef.detectChanges();
+        })
+    );
+  }
+
+  private updateShowPageNavigator() {
+    this.showPageNavigator =
+      this.searchResult.size() === 0 || !this.isHandsetPortrait();
+  }
+
+  private isHandsetPortrait(): boolean {
+    return this.breakpointObserver.isMatched(Breakpoints.HandsetPortrait);
   }
 }

@@ -1,101 +1,94 @@
 <div #container class="osd-toolbar" [ngStyle]="osdToolbarStyle">
-  <div fxHide fxShow.gt-sm="true">
-    <div
-      class="osd-toolbar-container"
-      fxLayout="column"
-      fxLayoutAlign="center center"
-    >
-      <div class="osd-toolbar-row"> </div>
-      <div class="osd-toolbar-row">
-        <ng-container *ngIf="invert">
-          <button
-            data-testid="navigateBeforeButton"
-            mat-icon-button
-            [attr.aria-label]="intl.previousPageLabel"
-            [matTooltip]="intl.previousPageLabel"
-            [disabled]="isFirstCanvasGroup"
-            (click)="goToPreviousCanvasGroup()"
-          >
-            <mat-icon>navigate_before</mat-icon>
-          </button>
-        </ng-container>
-        <ng-container *ngIf="!invert">
-          <button
-            data-testid="navigateNextButton"
-            mat-icon-button
-            [attr.aria-label]="intl.nextPageLabel"
-            [matTooltip]="intl.nextPageLabel"
-            [disabled]="isLastCanvasGroup"
-            (click)="goToNextCanvasGroup()"
-          >
-            <mat-icon>navigate_before</mat-icon>
-          </button>
-        </ng-container>
+  <div *ngIf="isWeb" class="osd-toolbar-container flex-col">
+    <div class="osd-toolbar-row">
+      <ng-container *ngIf="invert">
         <button
-          (click)="home()"
-          data-testid="homeButton"
+          data-testid="navigateBeforeButton"
           mat-icon-button
-          [attr.aria-label]="intl.homeLabel"
-          [matTooltip]="intl.homeLabel"
+          [attr.aria-label]="intl.previousPageLabel"
+          [matTooltip]="intl.previousPageLabel"
+          [disabled]="isFirstCanvasGroup"
+          (click)="goToPreviousCanvasGroup()"
         >
-          <mat-icon>home</mat-icon>
+          <mat-icon>navigate_before</mat-icon>
         </button>
-        <ng-container *ngIf="invert">
-          <button
-            data-testid="navigateNextButton"
-            mat-icon-button
-            [attr.aria-label]="intl.nextPageLabel"
-            [matTooltip]="intl.nextPageLabel"
-            [disabled]="isLastCanvasGroup"
-            (click)="goToNextCanvasGroup()"
-          >
-            <mat-icon>navigate_next</mat-icon>
-          </button>
-        </ng-container>
-        <ng-container *ngIf="!invert">
-          <button
-            data-testid="navigateBeforeButton"
-            mat-icon-button
-            [attr.aria-label]="intl.previousPageLabel"
-            [matTooltip]="intl.previousPageLabel"
-            [disabled]="isFirstCanvasGroup"
-            (click)="goToPreviousCanvasGroup()"
-          >
-            <mat-icon>navigate_next</mat-icon>
-          </button>
-        </ng-container>
-      </div>
+      </ng-container>
+      <ng-container *ngIf="!invert">
+        <button
+          data-testid="navigateNextButton"
+          mat-icon-button
+          [attr.aria-label]="intl.nextPageLabel"
+          [matTooltip]="intl.nextPageLabel"
+          [disabled]="isLastCanvasGroup"
+          (click)="goToNextCanvasGroup()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </ng-container>
+      <button
+        (click)="home()"
+        data-testid="homeButton"
+        mat-icon-button
+        [attr.aria-label]="intl.homeLabel"
+        [matTooltip]="intl.homeLabel"
+      >
+        <mat-icon>home</mat-icon>
+      </button>
+      <ng-container *ngIf="invert">
+        <button
+          data-testid="navigateNextButton"
+          mat-icon-button
+          [attr.aria-label]="intl.nextPageLabel"
+          [matTooltip]="intl.nextPageLabel"
+          [disabled]="isLastCanvasGroup"
+          (click)="goToNextCanvasGroup()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!invert">
+        <button
+          data-testid="navigateBeforeButton"
+          mat-icon-button
+          [attr.aria-label]="intl.previousPageLabel"
+          [matTooltip]="intl.previousPageLabel"
+          [disabled]="isFirstCanvasGroup"
+          (click)="goToPreviousCanvasGroup()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </ng-container>
+    </div>
 
-      <div class="osd-toolbar-row">
-        <button
-          (click)="zoomIn()"
-          data-testid="zoomInButton"
-          mat-icon-button
-          [attr.aria-label]="intl.zoomInLabel"
-          [matTooltip]="intl.zoomInLabel"
-        >
-          <mat-icon>zoom_in</mat-icon>
-        </button>
+    <div class="osd-toolbar-row">
+      <button
+        (click)="zoomIn()"
+        data-testid="zoomInButton"
+        mat-icon-button
+        [attr.aria-label]="intl.zoomInLabel"
+        [matTooltip]="intl.zoomInLabel"
+      >
+        <mat-icon>zoom_in</mat-icon>
+      </button>
 
-        <button
-          (click)="rotate()"
-          data-testid="rotateButton"
-          mat-icon-button
-          [attr.aria-label]="intl.rotateCwLabel"
-          [matTooltip]="intl.rotateCwLabel"
-        >
-          <mat-icon>rotate_right</mat-icon>
-        </button>
-        <button
-          (click)="zoomOut()"
-          data-testid="zoomOutButton"
-          mat-icon-button
-          [attr.aria-label]="intl.zoomOutLabel"
-          [matTooltip]="intl.zoomOutLabel"
-        >
-          <mat-icon>zoom_out</mat-icon>
-        </button>
-      </div>
+      <button
+        (click)="rotate()"
+        data-testid="rotateButton"
+        mat-icon-button
+        [attr.aria-label]="intl.rotateCwLabel"
+        [matTooltip]="intl.rotateCwLabel"
+      >
+        <mat-icon>rotate_right</mat-icon>
+      </button>
+      <button
+        (click)="zoomOut()"
+        data-testid="zoomOutButton"
+        mat-icon-button
+        [attr.aria-label]="intl.zoomOutLabel"
+        [matTooltip]="intl.zoomOutLabel"
+      >
+        <mat-icon>zoom_out</mat-icon>
+      </button>
     </div>
   </div>
 </div>

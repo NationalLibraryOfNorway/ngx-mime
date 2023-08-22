@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
@@ -8,7 +9,6 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
@@ -35,6 +35,7 @@ import { InformationDialogConfigStrategyFactory } from '../../information-dialog
 import { InformationDialogComponent } from '../../information-dialog/information-dialog.component';
 import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { SharedModule } from '../../shared/shared.module';
+import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { ViewDialogConfigStrategyFactory } from '../../view-dialog/view-dialog-config-strategy-factory';
 import { ViewDialogComponent } from '../../view-dialog/view-dialog.component';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
@@ -62,7 +63,7 @@ describe('ViewerHeaderComponent', () => {
   let fullscreenServiceSpy: Spy<FullscreenService>;
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
-  let mediaObserverSpy: Spy<MediaObserver>;
+  let breakpointObserver: MockBreakpointObserver;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -88,7 +89,6 @@ describe('ViewerHeaderComponent', () => {
         HelpDialogConfigStrategyFactory,
         HelpDialogService,
         provideAutoSpy(ElementRef),
-        provideAutoSpy(MediaObserver),
         provideAutoSpy(FullscreenService, {
           observablePropsToSpyOn: ['onChange'],
         }),
@@ -106,6 +106,7 @@ describe('ViewerHeaderComponent', () => {
           observablePropsToSpyOn: ['onChange', 'isSearching', 'onSelected'],
         }),
         provideAutoSpy(ContentSearchNavigationService),
+        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
       ],
     }).compileComponents();
   }));
@@ -117,8 +118,8 @@ describe('ViewerHeaderComponent', () => {
     fullscreenServiceSpy = TestBed.inject<any>(FullscreenService);
     intl = TestBed.inject(MimeViewerIntl);
     iiifManifestServiceStub = injectedStub(IiifManifestService);
-    mediaObserverSpy = TestBed.inject<any>(MediaObserver);
-    mediaObserverSpy.isActive.and.returnValue(true);
+    breakpointObserver = injectedStub(BreakpointObserver);
+    breakpointObserver.setMatches(true);
 
     setupViewDialogService();
     setupInformationDialogService();
@@ -263,7 +264,7 @@ describe('ViewerHeaderComponent', () => {
       testHostFixture.detectChanges();
 
       const label = testHostFixture.debugElement.query(
-        By.css('.header-container .label')
+        By.css('[data-testid="ngx-mime-manifest-label"].label')
       ).nativeElement;
 
       expect(label.innerHTML).toBe('Testlabel');

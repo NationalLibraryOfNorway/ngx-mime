@@ -1,5 +1,9 @@
+import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../core/alto-service/alto.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -18,6 +22,7 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
   styleUrls: ['./view-dialog.component.scss'],
 })
 export class ViewDialogComponent implements OnInit, OnDestroy {
+  isHandsetOrTabletInPortrait = false;
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
   ViewerLayout: typeof ViewerLayout = ViewerLayout;
   isPagedManifest = false;
@@ -28,8 +33,8 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    public mediaObserver: MediaObserver,
     public intl: MimeViewerIntl,
+    private breakpointObserver: BreakpointObserver,
     private cdr: ChangeDetectorRef,
     private viewerLayoutService: ViewerLayoutService,
     private iiifManifestService: IiifManifestService,
@@ -38,6 +43,15 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+        .subscribe(
+          (value: BreakpointState) =>
+            (this.isHandsetOrTabletInPortrait = value.matches)
+        )
+    );
+
     this.subscriptions.add(
       this.viewerLayoutService.onChange.subscribe(
         (viewerLayout: ViewerLayout) => {
@@ -97,7 +111,7 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
 
   private resizeHeight(rect: Dimensions): void {
     let maxHeight = rect.height - 192 + 'px';
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isHandsetOrTabletInPortrait) {
       maxHeight = rect.height + 'px';
     }
     this.contentStyle = {

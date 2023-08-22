@@ -1,37 +1,34 @@
-<div fxLayout="column">
-  <h1 class="canvas-group-dialog-title" mat-dialog-title>{{
-    intl.goToPageLabel
-  }}</h1>
+<h1 class="canvas-group-dialog-title" mat-dialog-title>{{
+  intl.goToPageLabel
+}}</h1>
+<form
+  [formGroup]="canvasGroupForm"
+  (ngSubmit)="onSubmit()"
+  novalidate
+  autocomplete="off"
+>
   <div mat-dialog-content>
-    <form
-      [formGroup]="canvasGroupForm"
-      (ngSubmit)="onSubmit()"
-      novalidate
-      autocomplete="off"
-    >
-      <mat-form-field [floatLabel]="'always'">
-        <mat-label>{{ intl.enterPageNumber }}</mat-label>
-        <input
-          class="go-to-canvas-group-input"
-          type="number"
-          matInput
-          min="1"
-          formControlName="canvasGroupControl"
-        />
-        <mat-error *ngIf="canvasGroupControl?.errors?.['max']">{{
-          intl.pageDoesNotExists
-        }}</mat-error>
-      </mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="end center">
-        <button type="button" mat-button matDialogClose> CANCEL </button>
-        <button
-          type="submit"
-          mat-button
-          [disabled]="canvasGroupForm.pristine || canvasGroupForm.invalid"
-        >
-          OK
-        </button>
-      </div>
-    </form>
+    <mat-form-field [floatLabel]="'always'">
+      <mat-label>{{ intl.enterPageNumber }}</mat-label>
+      <input
+        class="go-to-canvas-group-input"
+        type="number"
+        matInput
+        min="1"
+        formControlName="canvasGroupControl"
+      />
+      <mat-error *ngIf="canvasGroupControl?.errors?.['max']">{{
+        intl.pageDoesNotExists
+      }}</mat-error>
+    </mat-form-field>
   </div>
-</div>
+  <div mat-dialog-actions [align]="'end'">
+    <button type="button" mat-button matDialogClose>CANCEL</button>
+    <button
+      type="submit"
+      mat-button
+      [disabled]="canvasGroupForm.pristine || canvasGroupForm.invalid"
+      >OK</button
+    >
+  </div>
+</form>

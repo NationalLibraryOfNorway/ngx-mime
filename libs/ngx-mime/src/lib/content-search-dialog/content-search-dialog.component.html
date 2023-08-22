@@ -1,117 +1,111 @@
 <div class="content-search-container">
-  <div [ngSwitch]="mediaObserver.isActive('lt-md')">
-    <div *ngSwitchCase="true">
-      <mat-toolbar color="primary">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <button
-            mat-icon-button
-            class="close-content-search-dialog-button"
-            [aria-label]="intl.closeLabel"
-            [matTooltip]="intl.closeLabel"
-            [matDialogClose]="true"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-          <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
-        </div>
-      </mat-toolbar>
-    </div>
-    <div *ngSwitchDefault>
-      <mat-toolbar>
-        <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
-          <h1 mat-dialog-title class="heading heading-desktop">{{
-            intl.searchLabel
-          }}</h1>
-          <button
-            mat-icon-button
-            class="close-content-search-dialog-button"
-            [aria-label]="intl.closeLabel"
-            [matTooltip]="intl.closeLabel"
-            [matDialogClose]="true"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-      </mat-toolbar>
-    </div>
-  </div>
-  <mat-dialog-content>
-    <div class="content-search-form">
-      <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
-        <mat-form-field class="content-search-box">
-          <button
-            type="submit"
-            matPrefix
-            mat-icon-button
-            [attr.aria-label]="intl.searchLabel"
-            [matTooltip]="intl.searchLabel"
-          >
-            <mat-icon class="icon">search</mat-icon>
-          </button>
-          <input
-            #query
-            cdkFocusInitial
-            matInput
-            class="content-search-input"
-            [(ngModel)]="q"
-            [attr.aria-label]="intl.searchLabel"
-            name="q"
-            autocomplete="off"
-          />
-          <button
-            *ngIf="q"
-            type="button"
-            class="clearSearchButton"
-            matSuffix
-            mat-icon-button
-            [attr.aria-label]="intl.clearSearchLabel"
-            [matTooltip]="intl.clearSearchLabel"
-            [disabled]="isSearching"
-            (click)="clear()"
-          >
-            <mat-icon class="icon">clear</mat-icon>
-          </button>
-        </mat-form-field>
-      </form>
-    </div>
+  <ng-container [ngSwitch]="isHandsetOrTabletInPortrait">
+    <mat-toolbar *ngSwitchCase="true" color="primary">
+      <button
+        mat-icon-button
+        class="close-content-search-dialog-button"
+        [aria-label]="intl.closeLabel"
+        [matTooltip]="intl.closeLabel"
+        [matDialogClose]="true"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
+    </mat-toolbar>
+    <mat-toolbar *ngSwitchDefault class="justify-between">
+      <h1 mat-dialog-title class="heading heading-desktop">{{
+        intl.searchLabel
+      }}</h1>
+      <button
+        mat-icon-button
+        class="close-content-search-dialog-button"
+        [aria-label]="intl.closeLabel"
+        [matTooltip]="intl.closeLabel"
+        [matDialogClose]="true"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+  </ng-container>
+  <mat-dialog-content class="content-search-form">
+    <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
+      <mat-form-field class="content-search-box">
+        <button
+          type="submit"
+          matPrefix
+          mat-icon-button
+          [attr.aria-label]="intl.searchLabel"
+          [matTooltip]="intl.searchLabel"
+        >
+          <mat-icon class="icon">search</mat-icon>
+        </button>
+        <input
+          #query
+          cdkFocusInitial
+          matInput
+          class="content-search-input"
+          [(ngModel)]="q"
+          [attr.aria-label]="intl.searchLabel"
+          name="q"
+          autocomplete="off"
+        />
+        <button
+          *ngIf="q"
+          type="button"
+          class="clearSearchButton"
+          matSuffix
+          mat-icon-button
+          [attr.aria-label]="intl.clearSearchLabel"
+          [matTooltip]="intl.clearSearchLabel"
+          [disabled]="isSearching"
+          (click)="clear()"
+        >
+          <mat-icon class="icon">clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
     <div
       #contentSearchResult
       class="content-search-result-container"
       [ngStyle]="tabHeight"
     >
-      <div *ngIf="!isSearching" class="content-search-result" fxLayout="column">
-        <input type="hidden" class="numberOfHits" [value]="numberOfHits" />
-        <div *ngIf="currentSearch && currentSearch.length > 0">
-          <div
-            *ngIf="numberOfHits > 0"
-            [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"
-          ></div>
-          <div
-            *ngIf="numberOfHits === 0"
-            [innerHTML]="intl.noResultsFoundLabel(currentSearch)"
-          ></div>
-        </div>
-        <ng-container *ngFor="let hit of hits; let last = last">
-          <button
-            #hitButton
-            mat-button
-            [color]="currentHit && hit.id === currentHit.id ? 'accent' : null"
-            [ngClass]="'hit'"
-            (click)="goToHit(hit)"
-            (keydown.enter)="goToHit(hit)"
-          >
-            <div fxLayout="row" fxLayoutAlign="space-between start">
-              <div fxFlex class="summary">
-                {{ hit.before }} <em>{{ hit.match }}</em> {{ hit.after }}
+      <div class="content-search-result">
+        <ng-container *ngIf="!isSearching">
+          <input type="hidden" class="numberOfHits" [value]="numberOfHits" />
+          <ng-container *ngIf="currentSearch && currentSearch.length > 0">
+            <div
+              *ngIf="numberOfHits > 0"
+              [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"
+            ></div>
+            <div
+              *ngIf="numberOfHits === 0"
+              [innerHTML]="intl.noResultsFoundLabel(currentSearch)"
+            ></div>
+          </ng-container>
+          <ng-container *ngFor="let hit of hits; let last = last">
+            <button
+              #hitButton
+              mat-button
+              [color]="currentHit && hit.id === currentHit.id ? 'accent' : null"
+              [ngClass]="'hit'"
+              (click)="goToHit(hit)"
+              (keydown.enter)="goToHit(hit)"
+            >
+              <div class="flex justify-between items-start">
+                <div class="summary"
+                  >{{ hit.before }} <em>{{ hit.match }}</em>
+                  {{ hit.after }}</div
+                >
+                <div class="canvasGroup ml-2">{{ hit.index + 1 }}</div>
               </div>
-              <div fxFlex="40px" class="canvasGroup">{{ hit.index + 1 }}</div>
-            </div>
-          </button>
-          <mat-divider *ngIf="!last"></mat-divider>
+            </button>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
         </ng-container>
-      </div>
-      <div *ngIf="isSearching" class="content-search-result" fxLayout="column">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <mat-progress-bar
+          *ngIf="isSearching"
+          mode="indeterminate"
+        ></mat-progress-bar>
       </div>
     </div>
   </mat-dialog-content>

@@ -43,10 +43,8 @@
 </div>
 
 <div
-  class="error-container"
   *ngIf="errorMessage"
-  fxLayout="column"
-  fxLayoutAlign="center center"
+  class="error-container flex items-center justify-center"
 >
-  <span>{{ intl.somethingHasGoneWrongLabel }}</span>
+  {{ intl.somethingHasGoneWrongLabel }}
 </div>

@@ -1,9 +1,9 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTabGroupHarness } from '@angular/material/tabs/testing';
 import { By } from '@angular/platform-browser';
@@ -27,7 +27,7 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { SharedModule } from '../shared/shared.module';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
-import { MediaObserverStub } from '../test/media-observer-stub';
+import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { InformationDialogComponent } from './information-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
@@ -37,7 +37,7 @@ describe('InformationDialogComponent', () => {
   let component: InformationDialogComponent;
   let fixture: ComponentFixture<InformationDialogComponent>;
   let loader: HarnessLoader;
-  let mediaObserver: MediaObserver;
+  let breakpointObserver: MockBreakpointObserver;
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
   let dialogRef: MatDialogRef<InformationDialogComponent>;
@@ -68,7 +68,7 @@ describe('InformationDialogComponent', () => {
         { provide: AltoService, useClass: AltoServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: MediaObserver, useClass: MediaObserverStub },
+        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
       ],
     }).compileComponents();
   }));
@@ -77,7 +77,7 @@ describe('InformationDialogComponent', () => {
     fixture = TestBed.createComponent(InformationDialogComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
-    mediaObserver = TestBed.inject(MediaObserver);
+    breakpointObserver = injectedStub(BreakpointObserver);
     viewerService = TestBed.inject(ViewerService);
     iiifManifestService = injectedStub(IiifManifestService);
     intl = TestBed.inject(MimeViewerIntl);
@@ -89,7 +89,7 @@ describe('InformationDialogComponent', () => {
   });
 
   it('should display desktop toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(false);
+    breakpointObserver.setMatches(false);
 
     fixture.detectChanges();
 
@@ -100,7 +100,7 @@ describe('InformationDialogComponent', () => {
   });
 
   it('should display mobile toolbar', () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+    breakpointObserver.setMatches(true);
 
     fixture.detectChanges();
 
@@ -146,7 +146,7 @@ describe('InformationDialogComponent', () => {
   }));
 
   it('should close information dialog when selecting a canvas group in TOC when on mobile', async () => {
-    spyOn(mediaObserver, 'isActive').and.returnValue(true);
+    breakpointObserver.setMatches(true);
     spyOn(viewerService, 'goToCanvas');
     spyOn(dialogRef, 'close').and.callThrough();
 

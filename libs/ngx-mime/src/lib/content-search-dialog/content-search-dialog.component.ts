@@ -1,4 +1,9 @@
 import {
+  BreakpointObserver,
+  BreakpointState,
+  Breakpoints,
+} from '@angular/cdk/layout';
+import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
@@ -9,7 +14,6 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -38,6 +42,7 @@ export class ContentSearchDialogComponent
   public numberOfHits = 0;
   public isSearching = false;
   public tabHeight = { maxHeight: '100px' };
+  isHandsetOrTabletInPortrait = false;
   private manifest: Manifest | null = null;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
@@ -50,7 +55,7 @@ export class ContentSearchDialogComponent
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
     public intl: MimeViewerIntl,
-    public mediaObserver: MediaObserver,
+    private breakpointObserver: BreakpointObserver,
     private cdr: ChangeDetectorRef,
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
@@ -59,6 +64,15 @@ export class ContentSearchDialogComponent
   ) {}
 
   ngOnInit() {
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+        .subscribe(
+          (value: BreakpointState) =>
+            (this.isHandsetOrTabletInPortrait = value.matches)
+        )
+    );
+
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
@@ -131,7 +145,7 @@ export class ContentSearchDialogComponent
   goToHit(hit: Hit): void {
     this.currentHit = hit;
     this.contentSearchNavigationService.selected(hit);
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.dialogRef.close();
     }
   }
@@ -146,7 +160,7 @@ export class ContentSearchDialogComponent
   private resizeTabHeight(): void {
     let height = this.mimeHeight;
 
-    if (this.mediaObserver.isActive('lt-md')) {
+    if (this.isHandsetOrTabletInPortrait) {
       this.tabHeight = {
         maxHeight: window.innerHeight - 128 + 'px',
       };

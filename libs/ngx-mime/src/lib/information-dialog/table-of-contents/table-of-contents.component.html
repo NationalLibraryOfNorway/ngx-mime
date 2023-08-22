@@ -1,17 +1,14 @@
 <div class="ngx-mime-toc-container">
-  <div *ngFor="let structure of manifest?.structures">
-    <a
-      href=""
-      class="toc-link"
-      [class.currentCanvasGroup]="
-        currentCanvasGroupIndex === structure.canvasIndex
-      "
-      (click)="goToCanvas($event, structure.canvasIndex)"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
-    >
-      <span class="label">{{ structure.label }}</span>
-      <span class="canvasGroupIndex">{{ structure.canvasIndex + 1 }}</span>
-    </a>
-  </div>
+  <a
+    *ngFor="let structure of manifest?.structures"
+    class="flex justify-between toc-link"
+    href=""
+    [class.currentCanvasGroup]="
+      currentCanvasGroupIndex === structure.canvasIndex
+    "
+    (click)="goToCanvas($event, structure.canvasIndex)"
+  >
+    <span class="label">{{ structure.label }}</span>
+    <span class="canvasGroupIndex">{{ structure.canvasIndex + 1 }}</span>
+  </a>
 </div>
