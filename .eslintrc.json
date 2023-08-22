@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nrwl/nx", "tailwindcss"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -39,6 +39,20 @@
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.html"],
+      "extends": ["plugin:tailwindcss/recommended"],
+      "rules": {
+        "@angular-eslint/template/attributes-order": [
+          "error",
+          {
+            "alphabetical": true
+          }
+        ],
+        "tailwindcss/no-custom-classname": "off",
+        "tailwindcss/classnames-order": ["error"]
+      }
     }
   ]
 }
