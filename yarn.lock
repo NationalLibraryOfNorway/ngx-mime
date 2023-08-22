@@ -216,7 +216,7 @@
     strip-json-comments "3.1.1"
     tmp "0.2.1"
 
-"@angular-eslint/template-parser@15.2.1":
+"@angular-eslint/template-parser@^15.2.1":
   version "15.2.1"
   resolved "https://registry.yarnpkg.com/@angular-eslint/template-parser/-/template-parser-15.2.1.tgz#dbe4978afdcea81b9d5cac3d672c20de5821dc54"
   integrity sha512-ViCi79gC2aKJecmYLkOT+QlT5WMRNXeYz0Dr9Pr8qXzIbY0oAWE7nOT5jkXwQ9oUk+ybtGCWHma5JVJWVJsIog==

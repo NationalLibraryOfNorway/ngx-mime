@@ -41,15 +41,13 @@
       "rules": {}
     },
     {
-      "files": ["*.ts", "*.html"],
-      "extends": ["plugin:tailwindcss/recommended"],
+      "files": ["*.html"],
+      "parser": "@angular-eslint/template-parser",
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:tailwindcss/recommended"
+      ],
       "rules": {
-        "@angular-eslint/template/attributes-order": [
-          "error",
-          {
-            "alphabetical": true
-          }
-        ],
         "tailwindcss/no-custom-classname": "off",
         "tailwindcss/classnames-order": ["error"]
       }
