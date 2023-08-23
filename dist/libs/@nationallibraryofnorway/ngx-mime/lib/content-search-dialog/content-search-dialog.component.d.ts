@@ -1,5 +1,5 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit, QueryList } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
@@ -11,7 +11,7 @@ import * as i0 from "@angular/core";
 export declare class ContentSearchDialogComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef: MatDialogRef<ContentSearchDialogComponent>;
     intl: MimeViewerIntl;
-    mediaObserver: MediaObserver;
+    private breakpointObserver;
     private cdr;
     private mimeResizeService;
     private iiifManifestService;
@@ -26,13 +26,14 @@ export declare class ContentSearchDialogComponent implements OnInit, AfterViewIn
     tabHeight: {
         maxHeight: string;
     };
+    isHandsetOrTabletInPortrait: boolean;
     private manifest;
     private mimeHeight;
     private subscriptions;
     resultContainer: ElementRef;
     qEl: ElementRef;
     hitList: QueryList<ElementRef>;
-    constructor(dialogRef: MatDialogRef<ContentSearchDialogComponent>, intl: MimeViewerIntl, mediaObserver: MediaObserver, cdr: ChangeDetectorRef, mimeResizeService: MimeResizeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchNavigationService: ContentSearchNavigationService);
+    constructor(dialogRef: MatDialogRef<ContentSearchDialogComponent>, intl: MimeViewerIntl, breakpointObserver: BreakpointObserver, cdr: ChangeDetectorRef, mimeResizeService: MimeResizeService, iiifManifestService: IiifManifestService, iiifContentSearchService: IiifContentSearchService, contentSearchNavigationService: ContentSearchNavigationService);
     ngOnInit(): void;
     ngAfterViewInit(): void;
     ngOnDestroy(): void;

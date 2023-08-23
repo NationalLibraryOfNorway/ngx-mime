@@ -1,5 +1,5 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { AltoService } from '../core/alto-service/alto.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
@@ -9,13 +9,14 @@ import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import * as i0 from "@angular/core";
 export declare class ViewDialogComponent implements OnInit, OnDestroy {
-    mediaObserver: MediaObserver;
     intl: MimeViewerIntl;
+    private breakpointObserver;
     private cdr;
     private viewerLayoutService;
     private iiifManifestService;
     private altoService;
     private mimeResizeService;
+    isHandsetOrTabletInPortrait: boolean;
     viewerLayout: ViewerLayout;
     ViewerLayout: typeof ViewerLayout;
     isPagedManifest: boolean;
@@ -24,7 +25,7 @@ export declare class ViewDialogComponent implements OnInit, OnDestroy {
     RecognizedTextMode: typeof RecognizedTextMode;
     contentStyle: any;
     private subscriptions;
-    constructor(mediaObserver: MediaObserver, intl: MimeViewerIntl, cdr: ChangeDetectorRef, viewerLayoutService: ViewerLayoutService, iiifManifestService: IiifManifestService, altoService: AltoService, mimeResizeService: MimeResizeService);
+    constructor(intl: MimeViewerIntl, breakpointObserver: BreakpointObserver, cdr: ChangeDetectorRef, viewerLayoutService: ViewerLayoutService, iiifManifestService: IiifManifestService, altoService: AltoService, mimeResizeService: MimeResizeService);
     ngOnInit(): void;
     ngOnDestroy(): void;
     setLayoutOnePage(): void;

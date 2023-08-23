@@ -1,17 +1,18 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
-import { MediaObserver } from '@angular/flex-layout';
 import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import * as i0 from "@angular/core";
 export declare class HelpDialogComponent implements OnInit, OnDestroy {
-    mediaObserver: MediaObserver;
     intl: MimeViewerIntl;
     private cdr;
     private mimeResizeService;
+    private breakpointObserver;
     tabHeight: {};
+    isHandsetOrTabletInPortrait: boolean;
     private mimeHeight;
     private subscriptions;
-    constructor(mediaObserver: MediaObserver, intl: MimeViewerIntl, cdr: ChangeDetectorRef, mimeResizeService: MimeResizeService);
+    constructor(intl: MimeViewerIntl, cdr: ChangeDetectorRef, mimeResizeService: MimeResizeService, breakpointObserver: BreakpointObserver);
     ngOnInit(): void;
     ngOnDestroy(): void;
     private resizeTabHeight;
