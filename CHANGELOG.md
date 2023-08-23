@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.7...v15.2.0) (2023-08-23)
+
+
+### Features
+
+* replaced FlexLayout with Tailwind in demo, elements and integration ([#462](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/462)) ([9b41df9](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/9b41df9e5d15c81a84dccfd3ff90858c63533faf))
+* replaced FlexLayout with Tailwind in libs ([#466](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/466)) ([04b0c3a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/04b0c3ab71c8d5f38a7e5e7c98648e238f84c9a6))
+
+
+### Bug Fixes
+
+* adding tailwindcss eslint rules and tailwind prettier plugin ([a880e7a](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a880e7a25617a735b1293e640c0f8a949fa46d3e))
+* wider content search navigator toolbar ([458a275](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/458a2751f9dd8104a19c3f9a5e49a02d1fcee394))
+
 ### [15.1.7](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.6...v15.1.7) (2023-07-26)
 
 
