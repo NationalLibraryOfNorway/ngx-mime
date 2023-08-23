@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.2.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.2.0...v15.2.1) (2023-08-23)
+
+
+### Bug Fixes
+
+* ensure proper text centering for recognized text content ([ad0ef0d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/ad0ef0d18e5d3442a0e712b78d8819899ea572d3))
+
 ## [15.2.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.1.7...v15.2.0) (2023-08-23)
 
 
