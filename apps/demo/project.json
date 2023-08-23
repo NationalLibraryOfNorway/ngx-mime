@@ -6,7 +6,7 @@
   "prefix": "nationallibraryofnorway",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:browser-esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
@@ -47,10 +47,8 @@
         "development": {
           "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
-          "sourceMap": true,
-          "namedChunks": true
+          "sourceMap": true
         }
       },
       "defaultConfiguration": "production"
@@ -58,7 +56,9 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "demo:build"
+        "browserTarget": "demo:build",
+        "host": "0.0.0.0",
+        "disableHostCheck": true
       },
       "configurations": {
         "production": {
@@ -90,7 +90,7 @@
       "outputs": ["{workspaceRoot}/coverage/apps/demo/"]
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": ["apps/demo/src/**/*.ts", "apps/demo/src/**/*.html"]
       },

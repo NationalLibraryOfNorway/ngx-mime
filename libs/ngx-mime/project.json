@@ -6,7 +6,7 @@
   "prefix": "nationallibraryofnorway",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "project": "libs/ngx-mime/ng-package.json"
@@ -34,10 +34,14 @@
       "outputs": ["{workspaceRoot}/coverage/libs/ngx-mime"]
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/ngx-mime/**/*.ts", "libs/ngx-mime/**/*.html"]
+        "lintFilePatterns": [
+          "libs/ngx-mime/**/*.ts",
+          "libs/ngx-mime/**/*.html",
+          "libs/ngx-mime/package.json"
+        ]
       }
     }
   },
