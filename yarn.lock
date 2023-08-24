@@ -33,7 +33,7 @@
     "@angular-devkit/core" "16.2.0"
     rxjs "7.8.1"
 
-"@angular-devkit/build-angular@16.2.0":
+"@angular-devkit/build-angular@16.2.0", "@angular-devkit/build-angular@^16.0.0":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-16.2.0.tgz#196c66813e15ff53c7f89cfef7662593cdc1d6b4"
   integrity sha512-miylwjOqvlKmYrzS84bjRaJrecZxOXH9xsPVvQE8VBe8UKePJjRAL6yyOqXUOGtzlch2YmT98RAnuni7y0FEAw==
@@ -4448,7 +4448,7 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
-"@schematics/angular@16.2.0", "@schematics/angular@^16.2.0":
+"@schematics/angular@16.2.0", "@schematics/angular@^16.0.0", "@schematics/angular@^16.2.0":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-16.2.0.tgz#53c373054127e6838c8ec390f5ea51054c09a401"
   integrity sha512-Ib0/ZCkjWt7a5p3209JVwEWwf41v03K3ylvlxLIEo1ZGijAZAlrBj4GrA5YQ+TmPm2hRyt+owss7x91/x+i0Gw==
@@ -11848,6 +11848,15 @@ ng-packagr@16.2.0:
   optionalDependencies:
     esbuild "^0.19.0"
 
+ngx-build-plus@^16.0.0:
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-build-plus/-/ngx-build-plus-16.0.0.tgz#49b240c7504931233603fd0813eaea7cf886894b"
+  integrity sha512-AXqBJoQGyptbHTK09yfuxS2Gm2+YnVCBnPWyORq79wbC2gdbkYLR34eLA5wi8HZbqWNXdaYdGc75MFAZmkho4Q==
+  dependencies:
+    "@angular-devkit/build-angular" "^16.0.0"
+    "@schematics/angular" "^16.0.0"
+    webpack-merge "^5.0.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
@@ -15466,7 +15475,7 @@ webpack-dev-server@4.15.1, webpack-dev-server@^4.9.3:
     webpack-dev-middleware "^5.3.1"
     ws "^8.13.0"
 
-webpack-merge@5.9.0, webpack-merge@^5.8.0:
+webpack-merge@5.9.0, webpack-merge@^5.0.0, webpack-merge@^5.8.0:
   version "5.9.0"
   resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-5.9.0.tgz#dc160a1c4cf512ceca515cc231669e9ddb133826"
   integrity sha512-6NbRQw4+Sy50vYNTw7EyOn41OZItPiXB8GNv3INSoe3PSFaHJEz3SHTrYVaRm2LilNGnFUzh0FAwqPEmU/CwDg==

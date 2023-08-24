@@ -16,8 +16,11 @@ function finish {
     teardown_tunnel
 }
 
+rm -rf dist
+
 yarn build
 yarn build:libs
+yarn build:elements
 
 yarn affected:lint
 yarn affected:test

@@ -1,14 +1,14 @@
 const fs = require('fs');
 const args = require('yargs').argv;
 const reportDir = '.tmp/report/';
+const mode = process.env['MODE'];
 
 const createFormat = () => {
   createReportDirectory();
-  return [`progress-bar`, `html:${reportDir}/cucumber-report.html`];
+  return [`progress-bar`, `html:${reportDir}/cucumber-report-${mode}.html`];
 };
 
 const createTags = () => {
-  const mode = process.env['MODE'];
   let tags = '';
   const profile = args.p;
 
@@ -27,6 +27,9 @@ const createTags = () => {
         if (!profile || profile !== 'ci') {
           tags = `${tags} and not @fullscreen`;
         }
+        break;
+      case 'elements':
+        tags = '@elements and not @fullscreen';
         break;
       default:
         tags = '@desktop and not @fullscreen';
