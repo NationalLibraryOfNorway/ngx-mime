@@ -29,7 +29,7 @@ const createTags = () => {
         }
         break;
       case 'elements':
-        tags = '@elements and not @fullscreen';
+        tags = '@elements';
         break;
       default:
         tags = '@desktop and not @fullscreen';
