@@ -6,7 +6,7 @@
   "prefix": "nationallibraryofnorway",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:browser-esbuild",
       "options": {
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
         "aot": true,
