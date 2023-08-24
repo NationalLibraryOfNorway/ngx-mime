@@ -5,7 +5,7 @@ const mode = process.env['MODE'];
 
 const createFormat = () => {
   createReportDirectory();
-  return [`progress-bar`, `html:${reportDir}/cucumber-report-${mode}.html`];
+  return [`progress`, `html:${reportDir}/cucumber-report-${mode}.html`];
 };
 
 const createTags = () => {
@@ -57,7 +57,6 @@ const common = {
     './apps/integration-e2e/src/step-definitions/**/*.ts',
   ],
   paths: ['./apps/integration-e2e/src/features/**/*.feature'],
-  publishQuiet: true,
   parallel: 10,
   failFast: false,
   format: createFormat(),
