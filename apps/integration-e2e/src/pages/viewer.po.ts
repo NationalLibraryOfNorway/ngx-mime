@@ -135,7 +135,7 @@ export class ViewerPage {
     this.modeDashboard = this.page.locator('.mode-dashboard');
     this.modePage = this.page.locator('.mode-page');
     this.openseadragonCanvas = this.page.locator(
-      '.openseadragon-canvas > canvas>>nth=0'
+      '.openseadragon-canvas>>nth=0'
     );
     this.firstCanvasRecognizedTextContent = this.page.getByTestId(
       'firstCanvasRecognizedTextContent'
