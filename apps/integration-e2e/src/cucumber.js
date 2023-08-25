@@ -2,15 +2,20 @@ const fs = require('fs');
 const args = require('yargs').argv;
 const reportDir = '.tmp/report/';
 const mode = process.env['MODE'];
+const profile = args.p;
 
 const createFormat = () => {
-  createReportDirectory();
-  return [`progress`, `html:${reportDir}/cucumber-report-${mode}.html`];
+  const format = ['progress'];
+  if (profile !== 'ci') {
+    createReportDirectory();
+    format.push(`html:${reportDir}/cucumber-report-${mode}.html`);
+  }
+
+  return format;
 };
 
 const createTags = () => {
   let tags = '';
-  const profile = args.p;
 
   if (args.tags) {
     tags = args.tags;
