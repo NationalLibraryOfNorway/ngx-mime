@@ -62,7 +62,7 @@ import { VIEWER_PROVIDERS } from './viewer.providers';
   providers: VIEWER_PROVIDERS,
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() public manifestUri!: string;
+  @Input() public manifestUri: string | null = null;
   @Input() public q!: string;
   @Input() public canvasIndex = 0;
   @Input() public config: MimeViewerConfig = new MimeViewerConfig();

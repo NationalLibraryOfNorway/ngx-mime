@@ -15,7 +15,7 @@ export class OnePageCalculatePagePositionStrategy
 
   calculateCanvasGroupPosition(
     criteria: CanvasGroupPositionCriteria,
-    rotation: number = 0
+    rotation = 0
   ): Rect {
     let x: number;
     if (!criteria.canvasGroupIndex) {

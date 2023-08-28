@@ -1,16 +1,21 @@
 const fs = require('fs');
 const args = require('yargs').argv;
 const reportDir = '.tmp/report/';
+const mode = process.env['MODE'];
+const profile = args.p;
 
 const createFormat = () => {
-  createReportDirectory();
-  return [`progress-bar`, `html:${reportDir}/cucumber-report.html`];
+  const format = ['progress'];
+  if (profile !== 'ci') {
+    createReportDirectory();
+    format.push(`html:${reportDir}/cucumber-report-${mode}.html`);
+  }
+
+  return format;
 };
 
 const createTags = () => {
-  const mode = process.env['MODE'];
   let tags = '';
-  const profile = args.p;
 
   if (args.tags) {
     tags = args.tags;
@@ -27,6 +32,9 @@ const createTags = () => {
         if (!profile || profile !== 'ci') {
           tags = `${tags} and not @fullscreen`;
         }
+        break;
+      case 'elements':
+        tags = '@elements';
         break;
       default:
         tags = '@desktop and not @fullscreen';
@@ -54,7 +62,6 @@ const common = {
     './apps/integration-e2e/src/step-definitions/**/*.ts',
   ],
   paths: ['./apps/integration-e2e/src/features/**/*.feature'],
-  publishQuiet: true,
   parallel: 10,
   failFast: false,
   format: createFormat(),

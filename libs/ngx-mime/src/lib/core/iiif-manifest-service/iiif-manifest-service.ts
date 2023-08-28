@@ -27,9 +27,9 @@ export class IiifManifestService {
     return this._errorMessage.asObservable();
   }
 
-  load(manifestUri: string): Observable<boolean> {
+  load(manifestUri: string | null): Observable<boolean> {
     return new Observable((observer) => {
-      if (manifestUri.length === 0) {
+      if (!manifestUri || manifestUri.length === 0) {
         this._errorMessage.next(this.intl.manifestUriMissingLabel);
         observer.next(false);
       } else {
