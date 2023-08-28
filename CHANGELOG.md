@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [16.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.2.1...v16.0.0) (2023-08-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* Angular 16
+
+### Features
+
+* angular v16 ([#471](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/471)) ([69cd981](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/69cd98187b807beb51c1156b3587b2397c2076d1))
+
 ### [15.2.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.2.0...v15.2.1) (2023-08-23)
 
 
