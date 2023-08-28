@@ -67,6 +67,7 @@ THE SOFTWARE.
 MIT
 
 @nationallibraryofnorway/ngx-mime
+MIT
 
 base64-js
 MIT

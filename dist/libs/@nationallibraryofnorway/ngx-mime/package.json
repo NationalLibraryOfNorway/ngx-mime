@@ -1,26 +1,24 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "15.2.1",
+  "version": "16.0.0",
+  "license": "MIT",
   "peerDependencies": {
-    "@angular/common": ">=15.0.0 <16.0.0",
-    "@angular/core": ">=15.0.0 <16.0.0",
-    "@angular/material": ">=15.0.0 <16.0.0",
+    "@angular/animations": ">=16.0.0 <17.0.0",
+    "@angular/cdk": ">=16.0.0 <17.0.0",
+    "@angular/common": ">=16.0.0 <17.0.0",
+    "@angular/core": ">=16.0.0 <17.0.0",
+    "@angular/forms": ">=16.0.0 <17.0.0",
+    "@angular/material": ">=16.0.0 <17.0.0",
+    "@angular/platform-browser": ">=16.0.0 <17.0.0",
+    "rxjs": ">=7.0.0 <8.0.0",
     "d3": ">=5.7.0 <8.0.0",
     "openseadragon": ">=4.0.0 <5.0.0",
     "xml2js": ">=0.4.0 <1.0.0",
     "stream": ">=0.0.2 <1.0.0",
-    "tailwindcss": ">=3.0.0 <4.0.0",
     "timers": ">=0.1.1 <1.0.0"
   },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
   "sideEffects": false,
-  "module": "fesm2015/nationallibraryofnorway-ngx-mime.mjs",
-  "es2020": "fesm2020/nationallibraryofnorway-ngx-mime.mjs",
-  "esm2020": "esm2020/nationallibraryofnorway-ngx-mime.mjs",
-  "fesm2020": "fesm2020/nationallibraryofnorway-ngx-mime.mjs",
-  "fesm2015": "fesm2015/nationallibraryofnorway-ngx-mime.mjs",
+  "module": "fesm2022/nationallibraryofnorway-ngx-mime.mjs",
   "typings": "index.d.ts",
   "exports": {
     "./package.json": {
@@ -28,11 +26,12 @@
     },
     ".": {
       "types": "./index.d.ts",
-      "esm2020": "./esm2020/nationallibraryofnorway-ngx-mime.mjs",
-      "es2020": "./fesm2020/nationallibraryofnorway-ngx-mime.mjs",
-      "es2015": "./fesm2015/nationallibraryofnorway-ngx-mime.mjs",
-      "node": "./fesm2015/nationallibraryofnorway-ngx-mime.mjs",
-      "default": "./fesm2020/nationallibraryofnorway-ngx-mime.mjs"
+      "esm2022": "./esm2022/nationallibraryofnorway-ngx-mime.mjs",
+      "esm": "./esm2022/nationallibraryofnorway-ngx-mime.mjs",
+      "default": "./fesm2022/nationallibraryofnorway-ngx-mime.mjs"
     }
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
   }
 }

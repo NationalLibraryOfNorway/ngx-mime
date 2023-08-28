@@ -13,7 +13,7 @@ export declare class IiifManifestService {
     constructor(intl: MimeViewerIntl, http: HttpClient, spinnerService: SpinnerService);
     get currentManifest(): Observable<Manifest | null>;
     get errorMessage(): Observable<string | null>;
-    load(manifestUri: string): Observable<boolean>;
+    load(manifestUri: string | null): Observable<boolean>;
     destroy(): void;
     private resetCurrentManifest;
     private resetErrorMessage;
