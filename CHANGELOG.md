@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [16.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.0.0...v16.0.1) (2023-10-30)
+
+
+### Bug Fixes
+
+* remove tileOverlap workaround ([#475](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/475)) ([7ca0db2](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/7ca0db2dad6c4100877172353413c02f5b8cfbb4))
+
 ## [16.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v15.2.1...v16.0.0) (2023-08-28)
 
 
