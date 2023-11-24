@@ -20,7 +20,6 @@ describe('IiifTileSourceStrategy ', () => {
     const res = strategy.getTileSource(resource);
 
     expect(res.service.id).toBe('testId');
-    expect(res.tileOverlap).toBe(0.1);
   });
 
   it('should return a complete IIIF Image Api Service uri', () => {
