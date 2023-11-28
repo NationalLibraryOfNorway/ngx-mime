@@ -3,7 +3,7 @@
 set -e
 
 echo ""
-echo "Building sources and running tests"
+echo "Building sources, linting and running tests"
 echo ""
 export TUNNEL_IDENTIFIER="ngx-mime-${CIRCLE_BUILD_NUM}"
 
@@ -18,15 +18,16 @@ function finish {
 
 rm -rf dist
 
+yarn format:check
+yarn affected --base=$NX_BASE --head=$NX_HEAD -t lint,test --parallel=4
+
 yarn build
 yarn build:libs
 yarn build:elements
 
-yarn affected:lint
-yarn affected:test
 
 trap finish EXIT
 start_tunnel &
 wait_for_tunnel
 
-yarn e2e:ci
+yarn affected --base=$NX_BASE --head=$NX_HEAD -t e2e:ci
