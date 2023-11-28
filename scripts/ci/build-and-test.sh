@@ -30,4 +30,4 @@ trap finish EXIT
 start_tunnel &
 wait_for_tunnel
 
-yarn e2e:ci
+yarn affected --base=$NX_BASE --head=$NX_HEAD -t e2e:ci
