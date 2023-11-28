@@ -25,4 +25,5 @@ jobs:
       - run: 'chmod +x ./scripts/ci/wait-on.sh'
       - run:
           name: Build and test
+          no_output_timeout: 60m
           command: './scripts/ci/build-and-test.sh'
