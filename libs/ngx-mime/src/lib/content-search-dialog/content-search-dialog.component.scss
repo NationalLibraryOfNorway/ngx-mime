@@ -16,7 +16,6 @@
 }
 
 .content-search-result-container {
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
   overflow: auto;
   margin-bottom: 8px;
 }
@@ -58,10 +57,6 @@ em {
 ::ng-deep .content-search-container > .mat-mdc-dialog-container {
   padding: 0px !important;
   overflow: initial;
-}
-
-input {
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .icon {
