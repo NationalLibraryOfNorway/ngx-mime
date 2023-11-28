@@ -3,7 +3,7 @@
 set -e
 
 echo ""
-echo "Building sources and running tests"
+echo "Building sources, linting and running tests"
 echo ""
 export TUNNEL_IDENTIFIER="ngx-mime-${CIRCLE_BUILD_NUM}"
 
