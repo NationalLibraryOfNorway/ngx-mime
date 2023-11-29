@@ -3,10 +3,10 @@
 
 @import '../../../libs/ngx-mime/ngx-mime.theme.scss';
 
-$my-typography: mat.define-typography-config(
+$mime-typography: mat.define-typography-config(
   $font-family: 'DM Sans',
 );
-@include mat.all-component-typographies($my-typography);
+@include mat.all-component-typographies($mime-typography);
 
 $brown-primary: mat.define-palette(mat.$brown-palette, 700, 500, 900);
 $brown-accent: mat.define-palette(mat.$blue-grey-palette, A200, A100, A400);
@@ -16,7 +16,7 @@ $brown-theme: mat.define-light-theme(
       primary: $brown-primary,
       accent: $brown-accent,
     ),
-    typography: $my-typography,
+    typography: $mime-typography,
   )
 );
 @include ngx-mime-theme($brown-theme);
