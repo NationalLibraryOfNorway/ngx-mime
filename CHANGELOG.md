@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [16.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.0.1...v16.0.2) (2023-11-30)
+
+
+### Bug Fixes
+
+* remove expect on property that was removed in https://github.com/NationalLibraryOfNorway/ngx-mime/pull/475 ([#477](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/477)) ([a3149b8](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/a3149b82fd7fa9d9f940f0ab6a62a304477d4410))
+* remove override of font-family ([#476](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/476)) ([5ee48bb](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/5ee48bb935efd69d9dcae1482fc570eba828dfd5))
+
 ### [16.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.0.0...v16.0.1) (2023-10-30)
 
 
