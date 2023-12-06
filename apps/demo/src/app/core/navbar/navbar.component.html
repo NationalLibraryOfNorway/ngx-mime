@@ -9,14 +9,16 @@
       class="flex w-full items-center gap-2"
     >
       <h1 class="cdk-visually-hidden">DemoWeb</h1>
-      <input
-        class="manifest-uri max-w-[800px] grow"
-        aria-label="Paste the URL of a IIIF manifest here"
-        placeholder="Paste the URL of a IIIF manifest here"
-        autocomplete="off"
-        [(ngModel)]="manifestUri"
-        name="manifestUri"
-      />
+      <mat-form-field subscriptSizing="dynamic" class="max-w-[800px] grow">
+        <input
+          matInput
+          aria-label="Paste the URL of a IIIF manifest here"
+          placeholder="Paste the URL of a IIIF manifest here"
+          autocomplete="off"
+          name="manifestUri"
+          [(ngModel)]="manifestUri"
+        />
+      </mat-form-field>
       <button type="submit" mat-raised-button color="accent">VIEW</button>
     </form>
   </div>

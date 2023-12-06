@@ -1,64 +1,66 @@
-.mat-mdc-dialog-title {
-  color: inherit;
-  padding: 0 2px 16px;
-}
+.content-search-container {
+  .mat-mdc-dialog-title {
+    color: inherit;
+    padding: 0 2px 16px;
+  }
 
-::ng-deep mat-form-field .mdc-text-field {
-  background: transparent !important;
-}
+  ::ng-deep mat-form-field .mdc-text-field {
+    background: transparent !important;
+  }
 
-.content-search-box {
-  width: 100%;
-}
+  .content-search-box {
+    width: 100%;
+  }
 
-.content-search-input {
-  font-size: 20px;
-}
+  .content-search-input {
+    font-size: 20px;
+  }
 
-.content-search-result-container {
-  overflow: auto;
-  margin-bottom: 8px;
-}
+  .content-search-result-container {
+    overflow: auto;
+    margin-bottom: 8px;
+  }
 
-.content-search-result {
-  padding: 8px 16px;
-}
+  .content-search-result {
+    padding: 8px 16px;
+  }
 
-.content-search-result .mat-mdc-button {
-  line-height: initial;
-  height: auto;
-  white-space: initial;
-  word-wrap: initial;
-  max-width: none;
-  padding: 8px 0;
-  text-align: left;
-  font-size: 14px;
-}
+  .content-search-result .mat-mdc-button {
+    line-height: initial;
+    height: auto;
+    white-space: initial;
+    word-wrap: initial;
+    max-width: none;
+    padding: 8px 0;
+    text-align: left;
+    font-size: 14px;
+  }
 
-::ng-deep .content-search-container .current-content-search {
-  font-weight: 700;
-}
+  ::ng-deep .current-content-search {
+    font-weight: 700;
+  }
 
-em {
-  font-weight: 700;
-}
+  em {
+    font-weight: 700;
+  }
 
-.canvasGroupLabel {
-  text-align: right;
-  opacity: 0.54;
-}
+  .canvasGroupLabel {
+    text-align: right;
+    opacity: 0.54;
+  }
 
-.mat-mdc-dialog-content {
-  max-height: none;
-  padding: 8px;
-  margin: 0px;
-}
+  .mat-mdc-dialog-content {
+    max-height: none;
+    padding: 8px;
+    margin: 0px;
+  }
 
-::ng-deep .content-search-container > .mat-mdc-dialog-container {
-  padding: 0px !important;
-  overflow: initial;
-}
+  ::ng-deep .mat-mdc-dialog-container {
+    padding: 0px !important;
+    overflow: initial;
+  }
 
-.icon {
-  font-size: 22px !important;
+  .icon {
+    font-size: 22px !important;
+  }
 }
