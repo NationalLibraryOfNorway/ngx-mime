@@ -115,15 +115,6 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.mimeService.onResize.subscribe((dimensions: Dimensions) => {
-        this.osdToolbarStyle = {
-          top: dimensions.top + 110 + 'px',
-        };
-        this.changeDetectorRef.detectChanges();
-      })
-    );
-
-    this.subscriptions.add(
       this.viewerService.onCanvasGroupIndexChange.subscribe(
         (currentCanvasGroupIndex: number) => {
           this.numberOfCanvasGroups = this.canvasService.numberOfCanvasGroups;
