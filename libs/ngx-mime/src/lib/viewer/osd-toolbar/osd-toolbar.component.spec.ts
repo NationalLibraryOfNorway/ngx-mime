@@ -1,7 +1,10 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatButtonHarness } from '@angular/material/button/testing';
+
 import { injectedStub } from '../../../testing/injected-stub';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
@@ -19,11 +22,8 @@ import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { CanvasServiceStub } from './../../test/canvas-service-stub';
 import { ViewerServiceStub } from './../../test/viewer-service-stub';
 import { OsdToolbarComponent } from './osd-toolbar.component';
-import { HarnessLoader } from '@angular/cdk/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatButtonHarness } from '@angular/material/button/testing';
 
-fdescribe('OsdToolbarComponent', () => {
+describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
   let fixture: ComponentFixture<OsdToolbarComponent>;
   let spy: any;
@@ -31,7 +31,7 @@ fdescribe('OsdToolbarComponent', () => {
   let intl: MimeViewerIntl;
   let canvasService: CanvasServiceStub;
   let viewerService: ViewerServiceStub;
-  let harnessLoader: HarnessLoader
+  let harnessLoader: HarnessLoader;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -148,9 +148,11 @@ fdescribe('OsdToolbarComponent', () => {
     });
 
     it('should disable next button when viewer is on last canvas group', waitForAsync(async () => {
-      spyOnProperty(canvasService, 'numberOfCanvasGroups', 'get').and.returnValue(
-        10
-      );
+      spyOnProperty(
+        canvasService,
+        'numberOfCanvasGroups',
+        'get'
+      ).and.returnValue(10);
 
       viewerService.setCanvasGroupIndexChange(9);
       fixture.detectChanges();
@@ -194,25 +196,48 @@ fdescribe('OsdToolbarComponent', () => {
 
       expect(await homeButton.isDisabled()).toBeTrue();
     });
+
+    it('should enable home zoom button when page is zoomed in', async () => {
+      await toggleOsdMenu();
+
+      const zoomInButton = await getZoomInButton();
+      await zoomInButton.click();
+
+      const homeButton = await getHomeButton();
+      expect(await homeButton.isDisabled()).toBeTrue();
+    });
   });
 
-  const toggleOsdMenu = async (): Promise<void> => await (await getButtonByTestId('fabButton')).click()
+  const toggleOsdMenu = async (): Promise<void> =>
+    await (await getButtonByTestId('fabButton')).click();
 
-  const getHomeButton = (): Promise<MatButtonHarness> => getButtonByTestId('homeButton')
+  const getHomeButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('homeButton');
 
-  const getPreviousButton = (): Promise<MatButtonHarness> => getButtonByTestId('navigateBeforeButton');
+  const getPreviousButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('navigateBeforeButton');
 
-  const getNextButton = (): Promise<MatButtonHarness> => getButtonByTestId('navigateNextButton')
+  const getNextButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('navigateNextButton');
+
+  const getZoomInButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('zoomInButton');
 
   const getButtonByTestId = (id: string): Promise<MatButtonHarness> =>
-    harnessLoader.getHarness(MatButtonHarness.with({ selector: `[data-testid="${id}"]` }));
+    harnessLoader.getHarness(
+      MatButtonHarness.with({ selector: `[data-testid="${id}"]` })
+    );
 
   const expectFabButtonToBeVisible = () => {
-    expect(fixture.debugElement.nativeElement.style.transform).toBe('translate(0px, 0px)');
+    expect(fixture.debugElement.nativeElement.style.transform).toBe(
+      'translate(0px, 0px)'
+    );
   };
 
   const expectFabButtonToBeHidden = () => {
-    expect(fixture.debugElement.nativeElement.style.transform).toBe('translate(-100%, 0px)');
+    expect(fixture.debugElement.nativeElement.style.transform).toBe(
+      'translate(-100%, 0px)'
+    );
   };
 
   const expectOsdControlsTobeVisible = async () => {
@@ -226,6 +251,8 @@ fdescribe('OsdToolbarComponent', () => {
   };
 
   const getMiniFabButtons = (): Promise<MatButtonHarness[]> => {
-    return harnessLoader.getAllHarnesses(MatButtonHarness.with({variant: 'mini-fab'}));
-  }
+    return harnessLoader.getAllHarnesses(
+      MatButtonHarness.with({ variant: 'mini-fab' })
+    );
+  };
 });

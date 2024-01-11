@@ -94,6 +94,7 @@
         data-testid="homeButton"
         mat-mini-fab
         [attr.aria-label]="intl.homeLabel"
+        [disabled]='!isZoomed'
         [matTooltip]="intl.homeLabel"
         [@OsdControlsState]="{
           value: '',

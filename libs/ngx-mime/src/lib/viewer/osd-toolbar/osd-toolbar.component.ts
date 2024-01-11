@@ -28,6 +28,7 @@ import { ViewingDirection } from '../../core/models/viewing-direction';
 import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
+import { ModeService } from './../../core/mode-service/mode.service';
 
 @Component({
   selector: 'mime-osd-toolbar',
@@ -62,11 +63,11 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
     trigger('fabOpenState', [
       transition('closed => open', [
         style({ transform: 'rotate(-45deg)', opacity: 0 }),
-        animate('200ms')
+        animate('200ms'),
       ]),
       transition('open => closed', [
         style({ transform: 'rotate(45deg)', opacity: 0 }),
-        animate('200ms')
+        animate('200ms'),
       ]),
     ]),
     trigger('OsdControlsState', [
@@ -96,6 +97,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   fabIcon = 'menu';
   showControls = false;
   baseDelay = 20;
+  isZoomed = true;
   private subscriptions = new Subscription();
 
   constructor(
@@ -104,10 +106,18 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private viewerService: ViewerService,
     private canvasService: CanvasService,
-    private iiifManifestService: IiifManifestService
+    private iiifManifestService: IiifManifestService,
+    private modeService: ModeService
   ) {}
 
   ngOnInit() {
+    this.subscriptions.add(
+      this.modeService.onChange.subscribe(() => {
+        this.isZoomed = this.modeService.isPageZoomed();
+        this.changeDetectorRef.markForCheck();
+      })
+    );
+
     this.subscriptions.add(
       this.breakpointObserver
         .observe([Breakpoints.Web])
