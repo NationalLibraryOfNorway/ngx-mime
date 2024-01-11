@@ -1,6 +1,5 @@
 import {
   animate,
-  group,
   state,
   style,
   transition,
@@ -8,11 +7,10 @@ import {
 } from '@angular/animations';
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -20,7 +18,6 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -28,11 +25,8 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { Manifest } from '../../core/models/manifest';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { ViewingDirection } from '../../core/models/viewing-direction';
-import { StyleService } from '../../core/style-service/style.service';
 import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../core/intl';
-import { MimeResizeService } from './../../core/mime-resize-service/mime-resize.service';
-import { Dimensions } from './../../core/models/dimensions';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 
 @Component({
@@ -41,11 +35,11 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
   styleUrls: ['./osd-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger('osdToolbarState', [
+    trigger('osdFabState', [
       state(
         'hide',
         style({
-          transform: 'translate(-120px, 0)',
+          transform: 'translate(-100%, 0)',
           display: 'none',
         })
       ),
@@ -56,43 +50,59 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
           display: 'block',
         })
       ),
-      transition('hide => show', [
-        group([
-          style({ display: 'block' }),
-          animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`),
-        ]),
-      ]),
+      transition(
+        'hide => show',
+        animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
+      ),
       transition(
         'show => hide',
         animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)
       ),
     ]),
+    trigger('fabOpenState', [
+      transition('menu => clear', [
+        style({ transform: 'rotate(-45deg)', opacity: 0 }),
+        animate('200ms')
+      ]),
+      transition('clear => menu', [
+        style({ transform: 'rotate(45deg)', opacity: 0 }),
+        animate('200ms')
+      ]),
+    ]),
+    trigger('OsdControlsState', [
+      state('void', style({ transform: 'scale(0)' })),
+      transition(':enter', animate(`1ms {{delayEnter}}ms ease-out`), {
+        params: { delayEnter: 0 },
+      }),
+      transition(':leave', animate(`1ms {{delayLeave}}ms ease-in`), {
+        params: { delayLeave: 0 },
+      }),
+    ]),
   ],
 })
-export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
+export class OsdToolbarComponent implements OnInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
-  @HostBinding('@osdToolbarState')
-  get osdToolbarState() {
+  @HostBinding('@osdFabState')
+  get osdFabState() {
     return this.state;
   }
-  public osdToolbarStyle = {};
   public numberOfCanvasGroups = 0;
   public isFirstCanvasGroup = false;
   public isLastCanvasGroup = false;
   public state = 'hide';
   invert = false;
   isWeb = false;
+  fabOpenState = 'menu';
+  showControls = false;
+  baseDelay = 20;
   private subscriptions = new Subscription();
 
   constructor(
     public intl: MimeViewerIntl,
-    private renderer: Renderer2,
     private breakpointObserver: BreakpointObserver,
     private changeDetectorRef: ChangeDetectorRef,
-    private mimeService: MimeResizeService,
     private viewerService: ViewerService,
     private canvasService: CanvasService,
-    private styleService: StyleService,
     private iiifManifestService: IiifManifestService
   ) {}
 
@@ -134,22 +144,9 @@ export class OsdToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngAfterViewInit() {
-    this.subscriptions.add(
-      this.styleService.onChange.subscribe((color: string | undefined) => {
-        if (color) {
-          const backgroundRgbaColor = this.styleService.convertToRgba(
-            color,
-            0.3
-          );
-          this.renderer.setStyle(
-            this.container.nativeElement,
-            'background-color',
-            backgroundRgbaColor
-          );
-        }
-      })
-    );
+  onFabClick(): void {
+    this.showControls = !this.showControls;
+    this.fabOpenState = this.fabOpenState === 'menu' ? 'clear' : 'menu';
   }
 
   zoomIn(): void {
