@@ -29,7 +29,7 @@ export class MimeViewerIntl {
   zoomOutLabel = 'Zoom out';
   previousPageLabel = 'Previous Page';
   nextPageLabel = 'Next Page';
-  homeLabel = 'Go Home';
+  homeLabel = 'Zoom Home';
   rotateCwLabel = 'Rotate 90°';
   searchLabel = 'Search';
   clearSearchLabel = 'Clear';
