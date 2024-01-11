@@ -1,89 +1,135 @@
-<div #container class="osd-toolbar" [ngStyle]="osdToolbarStyle">
-  <div *ngIf="isWeb" class="flex-col">
-    <ng-container *ngIf="invert">
-      <button
-        data-testid="navigateBeforeButton"
-        mat-icon-button
-        [attr.aria-label]="intl.previousPageLabel"
-        [matTooltip]="intl.previousPageLabel"
-        [disabled]="isFirstCanvasGroup"
-        (click)="goToPreviousCanvasGroup()"
-      >
-        <mat-icon>navigate_before</mat-icon>
+<div #container class="osd-toolbar">
+  <div *ngIf="isWeb" class="flex gap-2">
+    <div class="flex flex-col gap-2">
+      <button mat-fab (click)="onFabClick()">
+        <mat-icon [@fabOpenState]="fabOpenState">{{ fabOpenState }}</mat-icon>
       </button>
-    </ng-container>
-    <ng-container *ngIf="!invert">
+    </div>
+    <div class="flex items-center gap-2">
+      <ng-container *ngIf="invert">
+        <button
+          *ngIf="showControls"
+          data-testid="navigateBeforeButton"
+          mat-mini-fab
+          [attr.aria-label]="intl.previousPageLabel"
+          [matTooltip]="intl.previousPageLabel"
+          [disabled]="isFirstCanvasGroup"
+          [@OsdControlsState]="{
+            value: '',
+            params: { delayEnter: 0, delayLeave: baseDelay * 5 }
+          }"
+          (click)="goToPreviousCanvasGroup()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!invert">
+        <button
+          *ngIf="showControls"
+          data-testid="navigateNextButton"
+          mat-mini-fab
+          [attr.aria-label]="intl.nextPageLabel"
+          [matTooltip]="intl.nextPageLabel"
+          [disabled]="isLastCanvasGroup"
+          [@OsdControlsState]="{
+            value: '',
+            params: { delayEnter: 0, delayLeave: baseDelay * 5 }
+          }"
+          (click)="goToNextCanvasGroup()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="invert">
+        <button
+          *ngIf="showControls"
+          data-testid="navigateNextButton"
+          mat-mini-fab
+          [attr.aria-label]="intl.nextPageLabel"
+          [matTooltip]="intl.nextPageLabel"
+          [disabled]="isLastCanvasGroup"
+          [@OsdControlsState]="{
+            value: '',
+            params: { delayEnter: baseDelay, delayLeave: baseDelay * 4 }
+          }"
+          (click)="goToNextCanvasGroup()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!invert">
+        <button
+          *ngIf="showControls"
+          data-testid="navigateBeforeButton"
+          mat-mini-fab
+          [attr.aria-label]="intl.previousPageLabel"
+          [matTooltip]="intl.previousPageLabel"
+          [disabled]="isFirstCanvasGroup"
+          [@OsdControlsState]="{
+            value: '',
+            params: { delayEnter: baseDelay, delayLeave: baseDelay * 4 }
+          }"
+          (click)="goToPreviousCanvasGroup()"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </ng-container>
       <button
-        data-testid="navigateNextButton"
-        mat-icon-button
-        [attr.aria-label]="intl.nextPageLabel"
-        [matTooltip]="intl.nextPageLabel"
-        [disabled]="isLastCanvasGroup"
-        (click)="goToNextCanvasGroup()"
+        *ngIf="showControls"
+        (click)="zoomIn()"
+        data-testid="zoomInButton"
+        mat-mini-fab
+        [attr.aria-label]="intl.zoomInLabel"
+        [matTooltip]="intl.zoomInLabel"
+        [@OsdControlsState]="{
+          value: '',
+          params: { delayEnter: baseDelay * 2, delayLeave: baseDelay * 3 }
+        }"
       >
-        <mat-icon>navigate_before</mat-icon>
+        <mat-icon>zoom_in</mat-icon>
       </button>
-    </ng-container>
-    <button
-      (click)="home()"
-      data-testid="homeButton"
-      mat-icon-button
-      [attr.aria-label]="intl.homeLabel"
-      [matTooltip]="intl.homeLabel"
-    >
-      <mat-icon>home</mat-icon>
-    </button>
-    <ng-container *ngIf="invert">
       <button
-        data-testid="navigateNextButton"
-        mat-icon-button
-        [attr.aria-label]="intl.nextPageLabel"
-        [matTooltip]="intl.nextPageLabel"
-        [disabled]="isLastCanvasGroup"
-        (click)="goToNextCanvasGroup()"
+        *ngIf="showControls"
+        (click)="home()"
+        data-testid="homeButton"
+        mat-mini-fab
+        [attr.aria-label]="intl.homeLabel"
+        [matTooltip]="intl.homeLabel"
+        [@OsdControlsState]="{
+          value: '',
+          params: { delayEnter: baseDelay * 3, delayLeave: baseDelay * 2 }
+        }"
       >
-        <mat-icon>navigate_next</mat-icon>
+        <mat-icon>home</mat-icon>
       </button>
-    </ng-container>
-    <ng-container *ngIf="!invert">
       <button
-        data-testid="navigateBeforeButton"
-        mat-icon-button
-        [attr.aria-label]="intl.previousPageLabel"
-        [matTooltip]="intl.previousPageLabel"
-        [disabled]="isFirstCanvasGroup"
-        (click)="goToPreviousCanvasGroup()"
+        *ngIf="showControls"
+        (click)="zoomOut()"
+        data-testid="zoomOutButton"
+        mat-mini-fab
+        [attr.aria-label]="intl.zoomOutLabel"
+        [matTooltip]="intl.zoomOutLabel"
+        [@OsdControlsState]="{
+          value: '',
+          params: { delayEnter: baseDelay * 4, delayLeave: baseDelay }
+        }"
       >
-        <mat-icon>navigate_next</mat-icon>
+        <mat-icon>zoom_out</mat-icon>
       </button>
-    </ng-container>
-    <button
-      (click)="zoomIn()"
-      data-testid="zoomInButton"
-      mat-icon-button
-      [attr.aria-label]="intl.zoomInLabel"
-      [matTooltip]="intl.zoomInLabel"
-    >
-      <mat-icon>zoom_in</mat-icon>
-    </button>
-
-    <button
-      (click)="rotate()"
-      data-testid="rotateButton"
-      mat-icon-button
-      [attr.aria-label]="intl.rotateCwLabel"
-      [matTooltip]="intl.rotateCwLabel"
-    >
-      <mat-icon>rotate_right</mat-icon>
-    </button>
-    <button
-      (click)="zoomOut()"
-      data-testid="zoomOutButton"
-      mat-icon-button
-      [attr.aria-label]="intl.zoomOutLabel"
-      [matTooltip]="intl.zoomOutLabel"
-    >
-      <mat-icon>zoom_out</mat-icon>
-    </button>
+      <button
+        *ngIf="showControls"
+        (click)="rotate()"
+        data-testid="rotateButton"
+        mat-mini-fab
+        [attr.aria-label]="intl.rotateCwLabel"
+        [matTooltip]="intl.rotateCwLabel"
+        [@OsdControlsState]="{
+          value: '',
+          params: { delayEnter: baseDelay * 5, delayLeave: 0 }
+        }"
+      >
+        <mat-icon>rotate_right</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
