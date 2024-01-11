@@ -60,11 +60,11 @@ import { ViewerService } from './../../core/viewer-service/viewer.service';
       ),
     ]),
     trigger('fabOpenState', [
-      transition('menu => clear', [
+      transition('closed => open', [
         style({ transform: 'rotate(-45deg)', opacity: 0 }),
         animate('200ms')
       ]),
-      transition('clear => menu', [
+      transition('open => closed', [
         style({ transform: 'rotate(45deg)', opacity: 0 }),
         animate('200ms')
       ]),
@@ -92,7 +92,8 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   public state = 'hide';
   invert = false;
   isWeb = false;
-  fabOpenState = 'menu';
+  fabState = 'closed';
+  fabIcon = 'menu';
   showControls = false;
   baseDelay = 20;
   private subscriptions = new Subscription();
@@ -146,7 +147,8 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
 
   onFabClick(): void {
     this.showControls = !this.showControls;
-    this.fabOpenState = this.fabOpenState === 'menu' ? 'clear' : 'menu';
+    this.fabState = this.fabState === 'closed' ? 'open' : 'closed';
+    this.fabIcon = this.fabState === 'closed' ? 'menu' : 'clear';
   }
 
   zoomIn(): void {

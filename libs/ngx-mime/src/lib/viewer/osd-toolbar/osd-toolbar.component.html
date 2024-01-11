@@ -1,8 +1,8 @@
 <div #container class="osd-toolbar">
   <div *ngIf="isWeb" class="flex gap-2">
     <div class="flex flex-col gap-2">
-      <button mat-fab (click)="onFabClick()">
-        <mat-icon [@fabOpenState]="fabOpenState">{{ fabOpenState }}</mat-icon>
+      <button mat-fab (click)="onFabClick()" data-testid="fabButton">
+        <mat-icon [@fabOpenState]="fabState">{{ fabIcon }}</mat-icon>
       </button>
     </div>
     <div class="flex items-center gap-2">
