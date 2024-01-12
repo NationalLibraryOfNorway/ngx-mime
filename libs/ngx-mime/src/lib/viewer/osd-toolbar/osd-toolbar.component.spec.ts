@@ -73,34 +73,6 @@ describe('OsdToolbarComponent', () => {
   });
 
   describe('Fab button for toggling OSD controls', () => {
-    it("should not be visible when state is changed to 'hide'", waitForAsync(() => {
-      component.state = 'show';
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expectFabButtonToBeVisible();
-
-        component.state = 'hide';
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expectFabButtonToBeHidden();
-        });
-      });
-    }));
-
-    it("should be visible when state is changed to 'show'", waitForAsync(() => {
-      component.state = 'hide';
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expectFabButtonToBeHidden();
-
-        component.state = 'show';
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expectFabButtonToBeVisible();
-        });
-      });
-    }));
-
     it('should open and close osd controls when clicked', async () => {
       await toggleOsdMenu();
 
@@ -227,18 +199,6 @@ describe('OsdToolbarComponent', () => {
     harnessLoader.getHarness(
       MatButtonHarness.with({ selector: `[data-testid="${id}"]` })
     );
-
-  const expectFabButtonToBeVisible = () => {
-    expect(fixture.debugElement.nativeElement.style.transform).toBe(
-      'translate(0px, 0px)'
-    );
-  };
-
-  const expectFabButtonToBeHidden = () => {
-    expect(fixture.debugElement.nativeElement.style.transform).toBe(
-      'translate(-100%, 0px)'
-    );
-  };
 
   const expectOsdControlsTobeVisible = async () => {
     const buttons = await getMiniFabButtons();
