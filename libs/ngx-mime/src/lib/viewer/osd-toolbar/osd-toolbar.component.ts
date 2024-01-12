@@ -8,7 +8,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostBinding,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -24,7 +23,6 @@ import { ModeService } from './../../core/mode-service/mode.service';
 import {
   easeInWithDelay,
   rotate45,
-  slideInLeft,
 } from './../../viewer/osd-toolbar/animations';
 
 @Component({
@@ -32,18 +30,13 @@ import {
   templateUrl: './osd-toolbar.component.html',
   styleUrls: ['./osd-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [slideInLeft, rotate45, easeInWithDelay],
+  animations: [rotate45, easeInWithDelay],
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
-  @HostBinding('@slideInLeft')
-  get osdFabState() {
-    return this.state;
-  }
   public numberOfCanvasGroups = 0;
   public isFirstCanvasGroup = false;
   public isLastCanvasGroup = false;
-  public state = 'hide';
   invert = false;
   isWeb = false;
   fabState = 'closed';
