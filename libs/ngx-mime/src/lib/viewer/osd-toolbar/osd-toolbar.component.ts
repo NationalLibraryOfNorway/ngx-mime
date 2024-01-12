@@ -1,11 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   BreakpointObserver,
   Breakpoints,
   BreakpointState,
@@ -23,67 +16,27 @@ import {
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from '../../core/models/manifest';
-import { ViewerOptions } from '../../core/models/viewer-options';
 import { ViewingDirection } from '../../core/models/viewing-direction';
 import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { ModeService } from './../../core/mode-service/mode.service';
+import {
+  easeInWithDelay,
+  rotate45,
+  slideInLeft,
+} from './../../viewer/osd-toolbar/animations';
 
 @Component({
   selector: 'mime-osd-toolbar',
   templateUrl: './osd-toolbar.component.html',
   styleUrls: ['./osd-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('osdFabState', [
-      state(
-        'hide',
-        style({
-          transform: 'translate(-100%, 0)',
-          display: 'none',
-        })
-      ),
-      state(
-        'show',
-        style({
-          transform: 'translate(0px, 0px)',
-          display: 'block',
-        })
-      ),
-      transition(
-        'hide => show',
-        animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
-      ),
-      transition(
-        'show => hide',
-        animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)
-      ),
-    ]),
-    trigger('fabOpenState', [
-      transition('closed => open', [
-        style({ transform: 'rotate(-45deg)', opacity: 0 }),
-        animate('200ms'),
-      ]),
-      transition('open => closed', [
-        style({ transform: 'rotate(45deg)', opacity: 0 }),
-        animate('200ms'),
-      ]),
-    ]),
-    trigger('OsdControlsState', [
-      state('void', style({ transform: 'scale(0)' })),
-      transition(':enter', animate(`1ms {{delayEnter}}ms ease-out`), {
-        params: { delayEnter: 0 },
-      }),
-      transition(':leave', animate(`1ms {{delayLeave}}ms ease-in`), {
-        params: { delayLeave: 0 },
-      }),
-    ]),
-  ],
+  animations: [slideInLeft, rotate45, easeInWithDelay],
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
-  @HostBinding('@osdFabState')
+  @HostBinding('@osdComponentState')
   get osdFabState() {
     return this.state;
   }
@@ -95,8 +48,8 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   isWeb = false;
   fabState = 'closed';
   fabIcon = 'menu';
-  showControls = false;
-  baseDelay = 20;
+  showControlButtons = false;
+  baseAnimationDelay = 20;
   isZoomed = true;
   private subscriptions = new Subscription();
 
@@ -156,7 +109,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   }
 
   onFabClick(): void {
-    this.showControls = !this.showControls;
+    this.showControlButtons = !this.showControlButtons;
     this.fabState = this.fabState === 'closed' ? 'open' : 'closed';
     this.fabIcon = this.fabState === 'closed' ? 'menu' : 'clear';
   }

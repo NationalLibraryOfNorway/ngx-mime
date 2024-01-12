@@ -8,7 +8,7 @@
     <div class="flex items-center gap-2">
       <ng-container *ngIf="invert">
         <button
-          *ngIf="showControls"
+          *ngIf="showControlButtons"
           data-testid="navigateBeforeButton"
           mat-mini-fab
           [attr.aria-label]="intl.previousPageLabel"
@@ -16,7 +16,7 @@
           [disabled]="isFirstCanvasGroup"
           [@OsdControlsState]="{
             value: '',
-            params: { delayEnter: 0, delayLeave: baseDelay * 5 }
+            params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 }
           }"
           (click)="goToPreviousCanvasGroup()"
         >
@@ -25,7 +25,7 @@
       </ng-container>
       <ng-container *ngIf="!invert">
         <button
-          *ngIf="showControls"
+          *ngIf="showControlButtons"
           data-testid="navigateNextButton"
           mat-mini-fab
           [attr.aria-label]="intl.nextPageLabel"
@@ -33,7 +33,7 @@
           [disabled]="isLastCanvasGroup"
           [@OsdControlsState]="{
             value: '',
-            params: { delayEnter: 0, delayLeave: baseDelay * 5 }
+            params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 }
           }"
           (click)="goToNextCanvasGroup()"
         >
@@ -42,7 +42,7 @@
       </ng-container>
       <ng-container *ngIf="invert">
         <button
-          *ngIf="showControls"
+          *ngIf="showControlButtons"
           data-testid="navigateNextButton"
           mat-mini-fab
           [attr.aria-label]="intl.nextPageLabel"
@@ -50,7 +50,7 @@
           [disabled]="isLastCanvasGroup"
           [@OsdControlsState]="{
             value: '',
-            params: { delayEnter: baseDelay, delayLeave: baseDelay * 4 }
+            params: { delayEnter: baseAnimationDelay, delayLeave: baseAnimationDelay * 4 }
           }"
           (click)="goToNextCanvasGroup()"
         >
@@ -59,7 +59,7 @@
       </ng-container>
       <ng-container *ngIf="!invert">
         <button
-          *ngIf="showControls"
+          *ngIf="showControlButtons"
           data-testid="navigateBeforeButton"
           mat-mini-fab
           [attr.aria-label]="intl.previousPageLabel"
@@ -67,7 +67,7 @@
           [disabled]="isFirstCanvasGroup"
           [@OsdControlsState]="{
             value: '',
-            params: { delayEnter: baseDelay, delayLeave: baseDelay * 4 }
+            params: { delayEnter: baseAnimationDelay, delayLeave: baseAnimationDelay * 4 }
           }"
           (click)="goToPreviousCanvasGroup()"
         >
@@ -75,7 +75,7 @@
         </button>
       </ng-container>
       <button
-        *ngIf="showControls"
+        *ngIf="showControlButtons"
         (click)="zoomIn()"
         data-testid="zoomInButton"
         mat-mini-fab
@@ -83,13 +83,13 @@
         [matTooltip]="intl.zoomInLabel"
         [@OsdControlsState]="{
           value: '',
-          params: { delayEnter: baseDelay * 2, delayLeave: baseDelay * 3 }
+          params: { delayEnter: baseAnimationDelay * 2, delayLeave: baseAnimationDelay * 3 }
         }"
       >
         <mat-icon>zoom_in</mat-icon>
       </button>
       <button
-        *ngIf="showControls"
+        *ngIf="showControlButtons"
         (click)="home()"
         data-testid="homeButton"
         mat-mini-fab
@@ -98,13 +98,13 @@
         [matTooltip]="intl.homeLabel"
         [@OsdControlsState]="{
           value: '',
-          params: { delayEnter: baseDelay * 3, delayLeave: baseDelay * 2 }
+          params: { delayEnter: baseAnimationDelay * 3, delayLeave: baseAnimationDelay * 2 }
         }"
       >
         <mat-icon>home</mat-icon>
       </button>
       <button
-        *ngIf="showControls"
+        *ngIf="showControlButtons"
         (click)="zoomOut()"
         data-testid="zoomOutButton"
         mat-mini-fab
@@ -112,13 +112,13 @@
         [matTooltip]="intl.zoomOutLabel"
         [@OsdControlsState]="{
           value: '',
-          params: { delayEnter: baseDelay * 4, delayLeave: baseDelay }
+          params: { delayEnter: baseAnimationDelay * 4, delayLeave: baseAnimationDelay }
         }"
       >
         <mat-icon>zoom_out</mat-icon>
       </button>
       <button
-        *ngIf="showControls"
+        *ngIf="showControlButtons"
         (click)="rotate()"
         data-testid="rotateButton"
         mat-mini-fab
@@ -126,7 +126,7 @@
         [matTooltip]="intl.rotateCwLabel"
         [@OsdControlsState]="{
           value: '',
-          params: { delayEnter: baseDelay * 5, delayLeave: 0 }
+          params: { delayEnter: baseAnimationDelay * 5, delayLeave: 0 }
         }"
       >
         <mat-icon>rotate_right</mat-icon>
