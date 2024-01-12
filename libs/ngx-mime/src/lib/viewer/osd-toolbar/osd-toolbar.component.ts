@@ -36,7 +36,7 @@ import {
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
-  @HostBinding('@osdComponentState')
+  @HostBinding('@slideInLeft')
   get osdFabState() {
     return this.state;
   }

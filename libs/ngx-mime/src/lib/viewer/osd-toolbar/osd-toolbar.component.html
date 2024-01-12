@@ -2,7 +2,7 @@
   <div *ngIf="isWeb" class="flex gap-2">
     <div class="flex flex-col gap-2">
       <button mat-fab (click)="onFabClick()" data-testid="fabButton">
-        <mat-icon [@fabOpenState]="fabState">{{ fabIcon }}</mat-icon>
+        <mat-icon [@rotate45]="fabState">{{ fabIcon }}</mat-icon>
       </button>
     </div>
     <div class="flex items-center gap-2">
@@ -14,7 +14,7 @@
           [attr.aria-label]="intl.previousPageLabel"
           [matTooltip]="intl.previousPageLabel"
           [disabled]="isFirstCanvasGroup"
-          [@OsdControlsState]="{
+          [@easeInWithDelay]="{
             value: '',
             params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 }
           }"
@@ -31,7 +31,7 @@
           [attr.aria-label]="intl.nextPageLabel"
           [matTooltip]="intl.nextPageLabel"
           [disabled]="isLastCanvasGroup"
-          [@OsdControlsState]="{
+          [@easeInWithDelay]="{
             value: '',
             params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 }
           }"
@@ -48,7 +48,7 @@
           [attr.aria-label]="intl.nextPageLabel"
           [matTooltip]="intl.nextPageLabel"
           [disabled]="isLastCanvasGroup"
-          [@OsdControlsState]="{
+          [@easeInWithDelay]="{
             value: '',
             params: { delayEnter: baseAnimationDelay, delayLeave: baseAnimationDelay * 4 }
           }"
@@ -65,7 +65,7 @@
           [attr.aria-label]="intl.previousPageLabel"
           [matTooltip]="intl.previousPageLabel"
           [disabled]="isFirstCanvasGroup"
-          [@OsdControlsState]="{
+          [@easeInWithDelay]="{
             value: '',
             params: { delayEnter: baseAnimationDelay, delayLeave: baseAnimationDelay * 4 }
           }"
@@ -81,7 +81,7 @@
         mat-mini-fab
         [attr.aria-label]="intl.zoomInLabel"
         [matTooltip]="intl.zoomInLabel"
-        [@OsdControlsState]="{
+        [@easeInWithDelay]="{
           value: '',
           params: { delayEnter: baseAnimationDelay * 2, delayLeave: baseAnimationDelay * 3 }
         }"
@@ -96,7 +96,7 @@
         [attr.aria-label]="intl.homeLabel"
         [disabled]='!isZoomed'
         [matTooltip]="intl.homeLabel"
-        [@OsdControlsState]="{
+        [@easeInWithDelay]="{
           value: '',
           params: { delayEnter: baseAnimationDelay * 3, delayLeave: baseAnimationDelay * 2 }
         }"
@@ -110,7 +110,7 @@
         mat-mini-fab
         [attr.aria-label]="intl.zoomOutLabel"
         [matTooltip]="intl.zoomOutLabel"
-        [@OsdControlsState]="{
+        [@easeInWithDelay]="{
           value: '',
           params: { delayEnter: baseAnimationDelay * 4, delayLeave: baseAnimationDelay }
         }"
@@ -124,7 +124,7 @@
         mat-mini-fab
         [attr.aria-label]="intl.rotateCwLabel"
         [matTooltip]="intl.rotateCwLabel"
-        [@OsdControlsState]="{
+        [@easeInWithDelay]="{
           value: '',
           params: { delayEnter: baseAnimationDelay * 5, delayLeave: 0 }
         }"

@@ -7,7 +7,7 @@ import {
 } from '@angular/animations';
 import { ViewerOptions } from './../../core/models/viewer-options';
 
-export const slideInLeft = trigger('osdComponentState', [
+export const slideInLeft = trigger('slideInLeft', [
   state(
     'hide',
     style({
@@ -32,7 +32,7 @@ export const slideInLeft = trigger('osdComponentState', [
   ),
 ]);
 
-export const rotate45 = trigger('fabOpenState', [
+export const rotate45 = trigger('rotate45', [
   transition('closed => open', [
     style({ transform: 'rotate(-45deg)', opacity: 0 }),
     animate(`100ms`),
@@ -43,7 +43,7 @@ export const rotate45 = trigger('fabOpenState', [
   ]),
 ]);
 
-export const easeInWithDelay = trigger('OsdControlsState', [
+export const easeInWithDelay = trigger('easeInWithDelay', [
   state('void', style({ transform: 'scale(0)' })),
   transition(':enter', animate(`1ms {{delayEnter}}ms ease-out`), {
     params: { delayEnter: 0 },
