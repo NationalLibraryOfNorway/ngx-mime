@@ -16,6 +16,7 @@ Given('the view is all zoomed out', async function (this: CustomWorld) {
 });
 
 Given('the view is zoomed in', async function (this: CustomWorld) {
+  await this.viewerPage.openOsdControls();
   await this.viewerPage.clickZoomInButton();
   await this.animations.waitFor();
   previousZoomLevel = await this.viewerPage.getZoomLevel();
@@ -35,12 +36,14 @@ When('the user pinch in', async function (this: CustomWorld) {
 
 When('the user click zoom in button', async function (this: CustomWorld) {
   previousZoomLevel = await this.viewerPage.getZoomLevel();
+  await this.viewerPage.openOsdControls();
   await this.viewerPage.clickZoomInButton();
   await this.animations.waitFor();
 });
 
 When('the user click zoom out button', async function (this: CustomWorld) {
   previousZoomLevel = await this.viewerPage.getZoomLevel();
+  await this.viewerPage.openOsdControls();
   await this.viewerPage.clickZoomOutButton();
   await this.animations.waitFor();
 });

@@ -505,16 +505,24 @@ export class ViewerPage {
     //   });
   }
 
+  async openOsdControls(): Promise<void> {
+    const buttonText = await this.page.getByTestId('fabButton').innerText();
+    if (buttonText === 'menu') {
+      await this.clickButtonByTestId('fabButton');
+      await this.animations.waitFor();
+    }
+  }
+
   async clickZoomInButton(): Promise<void> {
-    await this.clickNavigationButton('zoomInButton');
+    await this.clickButtonByTestId('zoomInButton');
   }
 
   async clickZoomOutButton(): Promise<void> {
-    await this.clickNavigationButton('zoomOutButton');
+    await this.clickButtonByTestId('zoomOutButton');
   }
 
   async clickZoomHomeButton(): Promise<void> {
-    await this.clickNavigationButton('homeButton');
+    await this.clickButtonByTestId('homeButton');
   }
 
   async clickNextButton(): Promise<void> {
@@ -527,11 +535,12 @@ export class ViewerPage {
     await this.animations.waitFor(500);
   }
 
-  async clickNavigationButton(buttonId: string): Promise<void> {
-    await this.page.getByTestId(buttonId).click();
+  async clickButtonByTestId(testId: string): Promise<void> {
+    await this.page.getByTestId(testId).click();
   }
 
   async clickDisableableNavigationButton(buttonId: string): Promise<void> {
+    await this.openOsdControls();
     const button: Locator = this.page.getByTestId(buttonId);
 
     if (await button.isEnabled()) {
