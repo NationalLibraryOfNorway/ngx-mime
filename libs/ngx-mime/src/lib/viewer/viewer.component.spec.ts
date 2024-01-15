@@ -500,8 +500,8 @@ describe('ViewerComponent', function () {
         testHostFixture.detectChanges();
         testHostFixture.whenStable().then(() => {
           expectOsdToolbarToBeHidden();
+          done();
         });
-        done();
       }, osdAnimationTime);
     });
 
@@ -509,16 +509,17 @@ describe('ViewerComponent', function () {
       setTimeout(() => {
         comp.osdToolbarState = 'hide';
         testHostFixture.detectChanges();
+
         testHostFixture.whenStable().then(() => {
           expectOsdToolbarToBeHidden();
-        });
 
-        comp.osdToolbarState = 'show';
-        testHostFixture.detectChanges();
-        testHostFixture.whenStable().then(() => {
-          expectOsdToolbarToBeVisible();
+          comp.osdToolbarState = 'show';
+          testHostFixture.detectChanges();
+          testHostFixture.whenStable().then(() => {
+            expectOsdToolbarToBeVisible();
+          });
+          done();
         });
-        done();
       }, osdAnimationTime);
     });
   });
