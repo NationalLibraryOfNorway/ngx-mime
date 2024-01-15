@@ -60,7 +60,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.modeService.onChange.subscribe(() => {
         this.isZoomed = this.modeService.isPageZoomed();
-        this.changeDetectorRef.markForCheck();
+        this.changeDetectorRef.detectChanges();
       })
     );
 
