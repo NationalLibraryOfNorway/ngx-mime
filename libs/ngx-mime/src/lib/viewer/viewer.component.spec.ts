@@ -532,8 +532,9 @@ describe('ViewerComponent', function () {
   };
 
   const getOsdToolbar = () => {
-    return testHostFixture.debugElement.query(By.css('mime-osd-toolbar')).nativeElement;
-  }
+    return testHostFixture.debugElement.query(By.css('mime-osd-toolbar'))
+      .nativeElement;
+  };
 
   function pinchOut() {
     viewerService

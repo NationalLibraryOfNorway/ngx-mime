@@ -50,7 +50,10 @@
           [disabled]="isLastCanvasGroup"
           [@easeInWithDelay]="{
             value: '',
-            params: { delayEnter: baseAnimationDelay, delayLeave: baseAnimationDelay * 4 }
+            params: {
+              delayEnter: baseAnimationDelay,
+              delayLeave: baseAnimationDelay * 4
+            }
           }"
           (click)="goToNextCanvasGroup()"
         >
@@ -67,7 +70,10 @@
           [disabled]="isFirstCanvasGroup"
           [@easeInWithDelay]="{
             value: '',
-            params: { delayEnter: baseAnimationDelay, delayLeave: baseAnimationDelay * 4 }
+            params: {
+              delayEnter: baseAnimationDelay,
+              delayLeave: baseAnimationDelay * 4
+            }
           }"
           (click)="goToPreviousCanvasGroup()"
         >
@@ -83,7 +89,10 @@
         [matTooltip]="intl.zoomInLabel"
         [@easeInWithDelay]="{
           value: '',
-          params: { delayEnter: baseAnimationDelay * 2, delayLeave: baseAnimationDelay * 3 }
+          params: {
+            delayEnter: baseAnimationDelay * 2,
+            delayLeave: baseAnimationDelay * 3
+          }
         }"
       >
         <mat-icon>zoom_in</mat-icon>
@@ -94,11 +103,14 @@
         data-testid="homeButton"
         mat-mini-fab
         [attr.aria-label]="intl.homeLabel"
-        [disabled]='!isZoomed'
+        [disabled]="!isZoomed"
         [matTooltip]="intl.homeLabel"
         [@easeInWithDelay]="{
           value: '',
-          params: { delayEnter: baseAnimationDelay * 3, delayLeave: baseAnimationDelay * 2 }
+          params: {
+            delayEnter: baseAnimationDelay * 3,
+            delayLeave: baseAnimationDelay * 2
+          }
         }"
       >
         <mat-icon>home</mat-icon>
@@ -112,7 +124,10 @@
         [matTooltip]="intl.zoomOutLabel"
         [@easeInWithDelay]="{
           value: '',
-          params: { delayEnter: baseAnimationDelay * 4, delayLeave: baseAnimationDelay }
+          params: {
+            delayEnter: baseAnimationDelay * 4,
+            delayLeave: baseAnimationDelay
+          }
         }"
       >
         <mat-icon>zoom_out</mat-icon>

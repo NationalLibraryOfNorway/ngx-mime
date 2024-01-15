@@ -4,7 +4,8 @@
   $accent: map-get($theme, accent);
 
   .osd-toolbar {
-    .mat-mdc-fab, .mat-mdc-mini-fab {
+    .mat-mdc-fab,
+    .mat-mdc-mini-fab {
       background-color: mat.get-color-from-palette($accent, 0.5);
     }
   }
