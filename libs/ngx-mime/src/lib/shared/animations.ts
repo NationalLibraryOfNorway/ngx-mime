@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ViewerOptions } from './../../core/models/viewer-options';
+import { ViewerOptions } from './../core/models/viewer-options';
 
 export const slideInLeft = trigger('slideInLeft', [
   state(

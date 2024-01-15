@@ -52,7 +52,7 @@ import { SearchResult } from './../core/models/search-result';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { VIEWER_PROVIDERS } from './viewer.providers';
-import { slideInLeft } from './osd-toolbar/animations';
+import { slideInLeft } from './../shared/animations';
 
 @Component({
   selector: 'mime-viewer',

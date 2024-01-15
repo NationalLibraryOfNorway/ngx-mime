@@ -20,10 +20,7 @@ import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { ModeService } from './../../core/mode-service/mode.service';
-import {
-  easeInWithDelay,
-  rotate45,
-} from './../../viewer/osd-toolbar/animations';
+import { easeInWithDelay, rotate45 } from './../../shared/animations';
 
 @Component({
   selector: 'mime-osd-toolbar',
