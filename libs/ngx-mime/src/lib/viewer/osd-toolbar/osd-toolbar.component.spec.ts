@@ -83,7 +83,7 @@ describe('OsdToolbarComponent', () => {
       await expectFabButtonToHaveAriaExpanded('true');
     });
 
-    it('should toggle OSD controls when FAB button is clicked', async () => {
+    it('should toggle OSD controls when clicked', async () => {
       await toggleOsdControls();
 
       await expectOsdControlsTobeVisible();
