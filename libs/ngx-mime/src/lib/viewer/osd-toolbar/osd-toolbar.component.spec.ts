@@ -72,14 +72,26 @@ describe('OsdToolbarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should toggle OSD controls when FAB button is clicked', async () => {
-    await toggleOsdControls();
+  describe('FAB button', () => {
+    it('should have aria-expanded false when closed', async () => {
+      await expectFabButtonToHaveAriaExpanded('false');
+    });
 
-    await expectOsdControlsTobeVisible();
+    it('should have aria-expanded true when open', async () => {
+      await toggleOsdControls();
 
-    await toggleOsdControls();
+      await expectFabButtonToHaveAriaExpanded('true');
+    });
 
-    await expectOsdControlsTobeHidden();
+    it('should toggle OSD controls when FAB button is clicked', async () => {
+      await toggleOsdControls();
+
+      await expectOsdControlsTobeVisible();
+
+      await toggleOsdControls();
+
+      await expectOsdControlsTobeHidden();
+    });
   });
 
   describe('OSD controls', () => {
@@ -179,7 +191,10 @@ describe('OsdToolbarComponent', () => {
   });
 
   const toggleOsdControls = async (): Promise<void> =>
-    await (await getButtonByTestId('fabButton')).click();
+    await (await getFabButton()).click();
+
+  const getFabButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('fabButton');
 
   const getHomeButton = (): Promise<MatButtonHarness> =>
     getButtonByTestId('homeButton');
@@ -197,6 +212,11 @@ describe('OsdToolbarComponent', () => {
     harnessLoader.getHarness(
       MatButtonHarness.with({ selector: `[data-testid="${id}"]` })
     );
+
+  const expectFabButtonToHaveAriaExpanded = async (expected: string): Promise<void> => {
+    const fabButton = await (await getFabButton()).host();
+    expect(await fabButton.getAttribute('aria-expanded')).toEqual(expected);
+  }
 
   const expectOsdControlsTobeVisible = async () => {
     const buttons = await getMiniFabButtons();
