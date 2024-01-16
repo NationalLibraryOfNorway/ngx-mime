@@ -6,6 +6,7 @@
         aria-controls="osdControls"
         data-testid="fabButton"
         [attr.aria-expanded]="fabState === 'open'"
+        [attr.aria-label]='intl.osdControlsAriaLabel'
         (click)="onFabClick()"
       >
         <mat-icon [@rotate45]="fabState">{{ fabIcon }}</mat-icon>
@@ -108,9 +109,9 @@
         (click)="home()"
         data-testid="homeButton"
         mat-mini-fab
-        [attr.aria-label]="intl.homeLabel"
+        [attr.aria-label]="intl.zoomHomeLabel"
         [disabled]="!isZoomed"
-        [matTooltip]="intl.homeLabel"
+        [matTooltip]="intl.zoomHomeLabel"
         [@easeInWithDelay]="{
           value: '',
           params: {
