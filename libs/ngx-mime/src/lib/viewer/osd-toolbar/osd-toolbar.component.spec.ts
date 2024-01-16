@@ -213,10 +213,12 @@ describe('OsdToolbarComponent', () => {
       MatButtonHarness.with({ selector: `[data-testid="${id}"]` })
     );
 
-  const expectFabButtonToHaveAriaExpanded = async (expected: string): Promise<void> => {
+  const expectFabButtonToHaveAriaExpanded = async (
+    expected: string
+  ): Promise<void> => {
     const fabButton = await (await getFabButton()).host();
     expect(await fabButton.getAttribute('aria-expanded')).toEqual(expected);
-  }
+  };
 
   const expectOsdControlsTobeVisible = async () => {
     const buttons = await getMiniFabButtons();
