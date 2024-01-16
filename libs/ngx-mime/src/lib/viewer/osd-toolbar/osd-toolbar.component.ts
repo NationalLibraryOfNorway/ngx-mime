@@ -101,7 +101,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     );
   }
 
-  onFabClick(): void {
+  toggleFab(): void {
     this.showControlButtons = !this.showControlButtons;
     this.fabState = this.fabState === 'closed' ? 'open' : 'closed';
     this.fabIcon = this.fabState === 'closed' ? 'menu' : 'clear';

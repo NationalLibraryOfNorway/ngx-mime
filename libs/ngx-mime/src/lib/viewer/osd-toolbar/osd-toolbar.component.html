@@ -7,7 +7,7 @@
         data-testid="fabButton"
         [attr.aria-expanded]="fabState === 'open'"
         [attr.aria-label]="intl.osdControlsAriaLabel"
-        (click)="onFabClick()"
+        (click)="toggleFab()"
       >
         <mat-icon [@rotate45]="fabState">{{ fabIcon }}</mat-icon>
       </button>
