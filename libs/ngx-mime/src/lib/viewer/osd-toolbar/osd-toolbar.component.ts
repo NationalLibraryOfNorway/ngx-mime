@@ -65,7 +65,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
       this.breakpointObserver
         .observe([Breakpoints.Web])
         .subscribe((value: BreakpointState) => {
-          (this.isWeb = value.matches)
+          this.isWeb = value.matches;
           this.changeDetectorRef.detectChanges();
         })
     );
