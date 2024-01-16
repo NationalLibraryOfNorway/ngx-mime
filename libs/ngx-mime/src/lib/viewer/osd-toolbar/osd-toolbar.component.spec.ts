@@ -72,21 +72,19 @@ describe('OsdToolbarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Fab button for toggling OSD controls', () => {
-    it('should open and close osd controls when clicked', async () => {
-      await toggleOsdMenu();
+  it('should toggle OSD controls when FAB button is clicked', async () => {
+    await toggleOsdControls();
 
-      await expectOsdControlsTobeVisible();
+    await expectOsdControlsTobeVisible();
 
-      await toggleOsdMenu();
+    await toggleOsdControls();
 
-      await expectOsdControlsTobeHidden();
-    });
+    await expectOsdControlsTobeHidden();
   });
 
-  describe('Osd controls', () => {
+  describe('OSD controls', () => {
     it('should re-render when the i18n labels have changed', async () => {
-      await toggleOsdMenu();
+      await toggleOsdControls();
       const homeButton = await getHomeButton();
       intl.homeLabel = 'Go home button';
 
@@ -102,7 +100,7 @@ describe('OsdToolbarComponent', () => {
       viewerService.setCanvasGroupIndexChange(0);
       fixture.detectChanges();
 
-      await toggleOsdMenu();
+      await toggleOsdControls();
       const previousButton = await getPreviousButton();
       expect(await previousButton.isDisabled()).toBeTrue();
     });
@@ -111,7 +109,7 @@ describe('OsdToolbarComponent', () => {
       viewerService.setCanvasGroupIndexChange(1);
       fixture.detectChanges();
 
-      await toggleOsdMenu();
+      await toggleOsdControls();
       const previousButton = await getPreviousButton();
       const nextButton = await getNextButton();
 
@@ -130,7 +128,7 @@ describe('OsdToolbarComponent', () => {
       fixture.detectChanges();
 
       fixture.whenStable().then(async () => {
-        await toggleOsdMenu();
+        await toggleOsdControls();
         const nextButton = await getNextButton();
         expect(await nextButton.isDisabled()).toBeTrue();
       });
@@ -139,7 +137,7 @@ describe('OsdToolbarComponent', () => {
     it('should display next canvas group', waitForAsync(async () => {
       spy = spyOn(viewerService, 'goToNextCanvasGroup');
 
-      await toggleOsdMenu();
+      await toggleOsdControls();
       const nextButton = await getNextButton();
       await nextButton.click();
 
@@ -152,7 +150,7 @@ describe('OsdToolbarComponent', () => {
     it('should display previous canvas group', waitForAsync(async () => {
       spy = spyOn(component, 'goToPreviousCanvasGroup');
 
-      await toggleOsdMenu();
+      await toggleOsdControls();
       const previousButton = await getPreviousButton();
       await previousButton.click();
 
@@ -163,14 +161,14 @@ describe('OsdToolbarComponent', () => {
     }));
 
     it('should disable home zoom button when zoom level is home', async () => {
-      await toggleOsdMenu();
+      await toggleOsdControls();
       const homeButton = await getHomeButton();
 
       expect(await homeButton.isDisabled()).toBeTrue();
     });
 
     it('should enable home zoom button when page is zoomed in', async () => {
-      await toggleOsdMenu();
+      await toggleOsdControls();
 
       const zoomInButton = await getZoomInButton();
       await zoomInButton.click();
@@ -180,7 +178,7 @@ describe('OsdToolbarComponent', () => {
     });
   });
 
-  const toggleOsdMenu = async (): Promise<void> =>
+  const toggleOsdControls = async (): Promise<void> =>
     await (await getButtonByTestId('fabButton')).click();
 
   const getHomeButton = (): Promise<MatButtonHarness> =>
