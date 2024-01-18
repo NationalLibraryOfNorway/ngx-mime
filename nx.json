@@ -3,16 +3,11 @@
   "affected": {
     "defaultBase": "main"
   },
-  "npmScope": "nationallibraryofnorway",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": ["lint", "test", "e2e"],
-        "accessToken": "OWM5NWUwMGItMWI2NS00OWU0LTkwZjgtYmZlNjQwMWY5YWI0fHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
-        "showUsageWarnings": true,
-        "parallel": 1
+        "showUsageWarnings": true
       }
     }
   },
@@ -50,13 +45,16 @@
         "^production",
         "{workspaceRoot}/jest.preset.js",
         "{workspaceRoot}/karma.conf.js"
-      ]
+      ],
+      "cache": true
     },
     "e2e": {
-      "inputs": ["default", "^production"]
+      "inputs": ["default", "^production"],
+      "cache": true
     },
     "lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
+      "cache": true
     }
   },
   "namedInputs": {
@@ -72,5 +70,7 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ],
     "sharedGlobals": []
-  }
+  },
+  "nxCloudAccessToken": "OWM5NWUwMGItMWI2NS00OWU0LTkwZjgtYmZlNjQwMWY5YWI0fHJlYWQtd3JpdGU=",
+  "parallel": 1
 }

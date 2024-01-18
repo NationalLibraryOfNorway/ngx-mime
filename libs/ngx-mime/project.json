@@ -34,15 +34,8 @@
       "outputs": ["{workspaceRoot}/coverage/libs/ngx-mime"]
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/ngx-mime/**/*.ts",
-          "libs/ngx-mime/**/*.html",
-          "libs/ngx-mime/package.json"
-        ]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": []
