@@ -1,15 +1,5 @@
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "target": "es2022",
-    "useDefineForClassFields": false,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
-  },
   "files": [],
   "include": [],
   "references": [
@@ -23,17 +13,26 @@
       "path": "./tsconfig.editor.json"
     }
   ],
-
-  "baseUrl": ".",
-  "paths": {
-    "@nationallibraryofnorway/ngx-mime": [
-      "../../dist/libs/@nationallibraryofnorway/ngx-mime"
-    ]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es2022",
+    "useDefineForClassFields": false,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@nationallibraryofnorway/ngx-mime": [
+        "../../dist/libs/@nationallibraryofnorway/ngx-mime",
+      ],
+    },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "strictTemplates": true,
+  },
 }
