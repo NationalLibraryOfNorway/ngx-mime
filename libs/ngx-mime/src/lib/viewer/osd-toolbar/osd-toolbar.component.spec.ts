@@ -98,7 +98,7 @@ describe('OsdToolbarComponent', () => {
     it('should re-render when the i18n labels have changed', async () => {
       await toggleOsdControls();
       const homeButton = await getHomeButton();
-      intl.zoomHomeLabel = 'Go home button';
+      intl.resetZoomLabel = 'Go home button';
 
       intl.changes.next();
       fixture.detectChanges();

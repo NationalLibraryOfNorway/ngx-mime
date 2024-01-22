@@ -6,7 +6,16 @@
         aria-controls="osdControls"
         data-testid="fabButton"
         [attr.aria-expanded]="fabState === 'open'"
-        [attr.aria-label]="intl.osdControlsAriaLabel"
+        [attr.aria-label]="
+          fabState === 'open'
+            ? intl.closeOsdControlPanelAriaLabel
+            : intl.openOsdControlPanelAriaLabel
+        "
+        [matTooltip]="
+          fabState === 'open'
+            ? intl.closeOsdControlPanelAriaLabel
+            : intl.openOsdControlPanelAriaLabel
+        "
         (click)="toggleFab()"
       >
         <mat-icon [@rotate45]="fabState">{{ fabIcon }}</mat-icon>
@@ -109,9 +118,9 @@
         (click)="home()"
         data-testid="homeButton"
         mat-mini-fab
-        [attr.aria-label]="intl.zoomHomeLabel"
+        [attr.aria-label]="intl.resetZoomLabel"
         [disabled]="!isZoomed"
-        [matTooltip]="intl.zoomHomeLabel"
+        [matTooltip]="intl.resetZoomLabel"
         [@easeInWithDelay]="{
           value: '',
           params: {
