@@ -23,8 +23,8 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override tocLabel = 'Innholdsfortegnelse';
   override fullScreenLabel = 'Fullskjerm';
   override exitFullScreenLabel = 'Avslutt fullskjerm';
-  override openOsdControlPanelAriaLabel = 'Åpne kontrollpanel';
-  override closeOsdControlPanelAriaLabel = 'Lukk kontrollpanel';
+  override openOsdControlPanelLabel = 'Åpne kontrollpanel';
+  override closeOsdControlPanelLabel = 'Lukk kontrollpanel';
   override zoomInLabel = 'Zoom inn';
   override zoomOutLabel = 'Zoom ut';
   override resetZoomLabel = 'Nullstill zoom';

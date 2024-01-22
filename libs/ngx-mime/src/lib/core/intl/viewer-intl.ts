@@ -25,8 +25,8 @@ export class MimeViewerIntl {
   tocLabel = 'Table of Contents';
   fullScreenLabel = 'Full screen';
   exitFullScreenLabel = 'Exit full screen';
-  openOsdControlPanelAriaLabel = 'Open control panel';
-  closeOsdControlPanelAriaLabel = 'Close control panel';
+  openOsdControlPanelLabel = 'Open control panel';
+  closeOsdControlPanelLabel = 'Close control panel';
   zoomInLabel = 'Zoom in';
   zoomOutLabel = 'Zoom out';
   resetZoomLabel = 'Reset zoom';

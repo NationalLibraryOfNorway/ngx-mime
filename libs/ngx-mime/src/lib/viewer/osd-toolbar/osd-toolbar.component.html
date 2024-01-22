@@ -8,13 +8,13 @@
         [attr.aria-expanded]="fabState === 'open'"
         [attr.aria-label]="
           fabState === 'open'
-            ? intl.closeOsdControlPanelAriaLabel
-            : intl.openOsdControlPanelAriaLabel
+            ? intl.closeOsdControlPanelLabel
+            : intl.openOsdControlPanelLabel
         "
         [matTooltip]="
           fabState === 'open'
-            ? intl.closeOsdControlPanelAriaLabel
-            : intl.openOsdControlPanelAriaLabel
+            ? intl.closeOsdControlPanelLabel
+            : intl.openOsdControlPanelLabel
         "
         (click)="toggleFab()"
       >
