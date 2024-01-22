@@ -12,7 +12,7 @@
   ></mime-viewer-header>
   <mime-osd-toolbar
     *ngIf="config?.navigationControlEnabled"
-    #mimeOsdToolbar
+    [@slideInLeft]="osdToolbarState"
   ></mime-osd-toolbar>
 
   <mat-drawer-container class="viewer-drawer-container" autosize>

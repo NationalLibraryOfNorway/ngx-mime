@@ -25,11 +25,13 @@ export class MimeViewerIntl {
   tocLabel = 'Table of Contents';
   fullScreenLabel = 'Full screen';
   exitFullScreenLabel = 'Exit full screen';
+  openOsdControlPanelLabel = 'Open control panel';
+  closeOsdControlPanelLabel = 'Close control panel';
   zoomInLabel = 'Zoom in';
   zoomOutLabel = 'Zoom out';
+  resetZoomLabel = 'Reset zoom';
   previousPageLabel = 'Previous Page';
   nextPageLabel = 'Next Page';
-  homeLabel = 'Go Home';
   rotateCwLabel = 'Rotate 90°';
   searchLabel = 'Search';
   clearSearchLabel = 'Clear';

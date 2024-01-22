@@ -23,11 +23,13 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override tocLabel = 'Innholdsfortegnelse';
   override fullScreenLabel = 'Fullskjerm';
   override exitFullScreenLabel = 'Avslutt fullskjerm';
+  override openOsdControlPanelLabel = 'Åpne kontrollpanel';
+  override closeOsdControlPanelLabel = 'Lukk kontrollpanel';
   override zoomInLabel = 'Zoom inn';
   override zoomOutLabel = 'Zoom ut';
+  override resetZoomLabel = 'Nullstill zoom';
   override previousPageLabel = 'Forrige side';
   override nextPageLabel = 'Neste side';
-  override homeLabel = 'Hjem';
   override rotateCwLabel = 'Rotér 90°';
   override searchLabel = 'Søk';
   override clearSearchLabel = 'Tøm';
@@ -45,7 +47,8 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override manifestUriMissingLabel = 'Lenke til manifest mangler';
   override manifestNotValidLabel = 'Manifestet er ikke gyldig';
   override pageDoesNotExists = 'Beklager, men den siden finnes ikke';
-  override textContentErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
+  override textContentErrorLabel =
+    'Beklager, men jeg finner ikke teksten for deg';
 
   override noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;
