@@ -4,9 +4,11 @@
   "license": "MIT",
   "peerDependencies": {
     "@angular/animations": ">=17.0.0 <18.0.0",
+    "@angular/cdk": ">=17.0.0 <18.0.0",
     "@angular/common": ">=17.0.0 <18.0.0",
     "@angular/core": ">=17.0.0 <18.0.0",
     "@angular/forms": ">=17.0.0 <18.0.0",
+    "@angular/material": ">=17.0.0 <18.0.0",
     "@angular/platform-browser": ">=17.0.0 <18.0.0",
     "rxjs": ">=7.0.0 <8.0.0",
     "d3": ">=5.7.0 <8.0.0",
