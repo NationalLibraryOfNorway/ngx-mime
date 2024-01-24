@@ -2,14 +2,10 @@
   z-index: 2;
 }
 
-::ng-deep .osd-toolbar-row > .mat-toolbar-row {
-  height: 40px;
-}
-
 .osd-toolbar {
   position: absolute;
   background: transparent;
   width: auto;
   border-radius: 8px;
-  margin-left: 16px;
+  margin: 8px 0 0 8px;
 }

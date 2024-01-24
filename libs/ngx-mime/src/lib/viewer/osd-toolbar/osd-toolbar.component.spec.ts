@@ -1,7 +1,10 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatButtonHarness } from '@angular/material/button/testing';
+
 import { injectedStub } from '../../../testing/injected-stub';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
@@ -28,6 +31,7 @@ describe('OsdToolbarComponent', () => {
   let intl: MimeViewerIntl;
   let canvasService: CanvasServiceStub;
   let viewerService: ViewerServiceStub;
+  let harnessLoader: HarnessLoader;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -52,6 +56,7 @@ describe('OsdToolbarComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
+    harnessLoader = TestbedHarnessEnvironment.loader(fixture);
     intl = TestBed.inject(MimeViewerIntl);
     breakpointObserver = injectedStub(BreakpointObserver);
     canvasService = injectedStub(CanvasService);
@@ -67,117 +72,167 @@ describe('OsdToolbarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should re-render when the i18n labels have changed', () => {
-    const homeButton = getHomeButton();
-    intl.homeLabel = 'Go home button';
+  describe('FAB button', () => {
+    it('should have aria-expanded false when closed', async () => {
+      await expectFabButtonToHaveAriaExpanded('false');
+    });
 
-    intl.changes.next();
-    fixture.detectChanges();
+    it('should have aria-expanded true when open', async () => {
+      await toggleOsdControls();
 
-    expect(homeButton.nativeElement.getAttribute('aria-label')).toBe(
-      'Go home button'
-    );
+      await expectFabButtonToHaveAriaExpanded('true');
+    });
+
+    it('should toggle OSD controls when clicked', async () => {
+      await toggleOsdControls();
+
+      await expectOsdControlsTobeVisible();
+
+      await toggleOsdControls();
+
+      await expectOsdControlsTobeHidden();
+    });
   });
 
-  it("should not be visible when state is changed to 'hide'", waitForAsync(() => {
-    component.state = 'show';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+  describe('OSD controls', () => {
+    it('should re-render when the i18n labels have changed', async () => {
+      await toggleOsdControls();
+      const homeButton = await getHomeButton();
+      intl.resetZoomLabel = 'Go home button';
 
-      component.state = 'hide';
+      intl.changes.next();
+      fixture.detectChanges();
+
+      expect(await (await homeButton.host())?.getAttribute('aria-label')).toBe(
+        'Go home button'
+      );
+    });
+
+    it('should disable previous button when viewer is on first canvas group', async () => {
+      viewerService.setCanvasGroupIndexChange(0);
+      fixture.detectChanges();
+
+      await toggleOsdControls();
+      const previousButton = await getPreviousButton();
+      expect(await previousButton.isDisabled()).toBeTrue();
+    });
+
+    it('should enable both navigation buttons when viewer is on second canvas group', async () => {
+      viewerService.setCanvasGroupIndexChange(1);
+      fixture.detectChanges();
+
+      await toggleOsdControls();
+      const previousButton = await getPreviousButton();
+      const nextButton = await getNextButton();
+
+      expect(await previousButton.isDisabled()).toBeFalse();
+      expect(await nextButton.isDisabled()).toBeFalse();
+    });
+
+    it('should disable next button when viewer is on last canvas group', waitForAsync(async () => {
+      spyOnProperty(
+        canvasService,
+        'numberOfCanvasGroups',
+        'get'
+      ).and.returnValue(10);
+
+      viewerService.setCanvasGroupIndexChange(9);
+      fixture.detectChanges();
+
+      fixture.whenStable().then(async () => {
+        await toggleOsdControls();
+        const nextButton = await getNextButton();
+        expect(await nextButton.isDisabled()).toBeTrue();
+      });
+    }));
+
+    it('should display next canvas group', waitForAsync(async () => {
+      spy = spyOn(viewerService, 'goToNextCanvasGroup');
+
+      await toggleOsdControls();
+      const nextButton = await getNextButton();
+      await nextButton.click();
+
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+        expect(spy.calls.count()).toEqual(1);
       });
-    });
-  }));
+    }));
 
-  it("should be visible when state is changed to 'show'", waitForAsync(() => {
-    component.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expectOSDToolbarToBeHidden(fixture.debugElement.nativeElement);
+    it('should display previous canvas group', waitForAsync(async () => {
+      spy = spyOn(component, 'goToPreviousCanvasGroup');
 
-      component.state = 'show';
+      await toggleOsdControls();
+      const previousButton = await getPreviousButton();
+      await previousButton.click();
+
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expectOSDToolbarToShow(fixture.debugElement.nativeElement);
+        expect(spy.calls.count()).toEqual(1);
       });
+    }));
+
+    it('should disable home zoom button when zoom level is home', async () => {
+      await toggleOsdControls();
+      const homeButton = await getHomeButton();
+
+      expect(await homeButton.isDisabled()).toBeTrue();
     });
-  }));
 
-  it('should enable both navigation buttons when viewer is on second canvas group', () => {
-    viewerService.setCanvasGroupIndexChange(1);
-    fixture.detectChanges();
+    it('should enable home zoom button when page is zoomed in', async () => {
+      await toggleOsdControls();
 
-    const previousButton = getPreviousButton();
-    const nextButton = getNextButton();
-    expect(previousButton.nativeElement.disabled).toBeFalsy();
-    expect(nextButton.nativeElement.disabled).toBeFalsy();
+      const zoomInButton = await getZoomInButton();
+      await zoomInButton.click();
+
+      const homeButton = await getHomeButton();
+      expect(await homeButton.isDisabled()).toBeTrue();
+    });
   });
 
-  it('should disable previous button when viewer is on first canvas group', () => {
-    viewerService.setCanvasGroupIndexChange(0);
-    fixture.detectChanges();
+  const toggleOsdControls = async (): Promise<void> =>
+    await (await getFabButton()).click();
 
-    const previousButton = getPreviousButton();
-    expect(previousButton.nativeElement.disabled).toBeTruthy();
-  });
+  const getFabButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('fabButton');
 
-  it('should disable next button when viewer is on last canvas group', waitForAsync(() => {
-    spyOnProperty(canvasService, 'numberOfCanvasGroups', 'get').and.returnValue(
-      10
+  const getHomeButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('homeButton');
+
+  const getPreviousButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('navigateBeforeButton');
+
+  const getNextButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('navigateNextButton');
+
+  const getZoomInButton = (): Promise<MatButtonHarness> =>
+    getButtonByTestId('zoomInButton');
+
+  const getButtonByTestId = (id: string): Promise<MatButtonHarness> =>
+    harnessLoader.getHarness(
+      MatButtonHarness.with({ selector: `[data-testid="${id}"]` })
     );
 
-    viewerService.setCanvasGroupIndexChange(9);
-    fixture.detectChanges();
-
-    fixture.whenStable().then(() => {
-      const nextButton = getNextButton();
-      expect(nextButton.nativeElement.disabled).toBeTruthy();
-    });
-  }));
-
-  it('should display next canvas group', waitForAsync(() => {
-    spy = spyOn(viewerService, 'goToNextCanvasGroup');
-
-    const nextButton = getNextButton();
-    nextButton.nativeElement.click();
-
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(spy.calls.count()).toEqual(1);
-    });
-  }));
-
-  it('should display previous canvas group', waitForAsync(() => {
-    spy = spyOn(component, 'goToPreviousCanvasGroup');
-
-    const previousButton = getPreviousButton();
-    previousButton.nativeElement.click();
-
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(spy.calls.count()).toEqual(1);
-    });
-  }));
-
-  const getHomeButton = () =>
-    fixture.debugElement.query(By.css('[data-testid="homeButton"]'));
-
-  const getPreviousButton = () =>
-    fixture.debugElement.query(By.css('[data-testid="navigateBeforeButton"]'));
-
-  const getNextButton = () =>
-    fixture.debugElement.query(By.css('[data-testid="navigateNextButton"]'));
-
-  const expectOSDToolbarToShow = (element: any) => {
-    expect(element.style.transform).toBe('translate(0px, 0px)');
+  const expectFabButtonToHaveAriaExpanded = async (
+    expected: string
+  ): Promise<void> => {
+    const fabButton = await (await getFabButton()).host();
+    expect(await fabButton.getAttribute('aria-expanded')).toEqual(expected);
   };
 
-  const expectOSDToolbarToBeHidden = (element: any) => {
-    expect(element.style.transform).toBe('translate(-120px, 0px)');
+  const expectOsdControlsTobeVisible = async () => {
+    const buttons = await getMiniFabButtons();
+    expect(buttons.length).toBe(6);
+  };
+
+  const expectOsdControlsTobeHidden = async () => {
+    const buttons = await getMiniFabButtons();
+    expect(buttons.length).toBe(0);
+  };
+
+  const getMiniFabButtons = (): Promise<MatButtonHarness[]> => {
+    return harnessLoader.getAllHarnesses(
+      MatButtonHarness.with({ variant: 'mini-fab' })
+    );
   };
 });

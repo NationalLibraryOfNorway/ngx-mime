@@ -1,46 +1,76 @@
-<div #container class="osd-toolbar" [ngStyle]="osdToolbarStyle">
-  <div *ngIf="isWeb" class="osd-toolbar-container flex-col">
-    <div class="osd-toolbar-row">
-      <ng-container *ngIf="invert">
-        <button
-          data-testid="navigateBeforeButton"
-          mat-icon-button
-          [attr.aria-label]="intl.previousPageLabel"
-          [matTooltip]="intl.previousPageLabel"
-          [disabled]="isFirstCanvasGroup"
-          (click)="goToPreviousCanvasGroup()"
-        >
-          <mat-icon>navigate_before</mat-icon>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="!invert">
-        <button
-          data-testid="navigateNextButton"
-          mat-icon-button
-          [attr.aria-label]="intl.nextPageLabel"
-          [matTooltip]="intl.nextPageLabel"
-          [disabled]="isLastCanvasGroup"
-          (click)="goToNextCanvasGroup()"
-        >
-          <mat-icon>navigate_before</mat-icon>
-        </button>
-      </ng-container>
+<div #container class="osd-toolbar">
+  <div *ngIf="isWeb" class="flex gap-2">
+    <div class="flex flex-col gap-2">
       <button
-        (click)="home()"
-        data-testid="homeButton"
-        mat-icon-button
-        [attr.aria-label]="intl.homeLabel"
-        [matTooltip]="intl.homeLabel"
+        mat-fab
+        aria-controls="osdControls"
+        data-testid="fabButton"
+        [attr.aria-expanded]="fabState === 'open'"
+        [attr.aria-label]="
+          fabState === 'open'
+            ? intl.closeOsdControlPanelLabel
+            : intl.openOsdControlPanelLabel
+        "
+        [matTooltip]="
+          fabState === 'open'
+            ? intl.closeOsdControlPanelLabel
+            : intl.openOsdControlPanelLabel
+        "
+        (click)="toggleFab()"
       >
-        <mat-icon>home</mat-icon>
+        <mat-icon [@rotate45]="fabState">{{ fabIcon }}</mat-icon>
       </button>
+    </div>
+    <div id="osdControls" class="flex items-center gap-2">
       <ng-container *ngIf="invert">
         <button
+          *ngIf="showControlButtons"
+          data-testid="navigateBeforeButton"
+          mat-mini-fab
+          [attr.aria-label]="intl.previousPageLabel"
+          [matTooltip]="intl.previousPageLabel"
+          [disabled]="isFirstCanvasGroup"
+          [@easeInWithDelay]="{
+            value: '',
+            params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 }
+          }"
+          (click)="goToPreviousCanvasGroup()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!invert">
+        <button
+          *ngIf="showControlButtons"
           data-testid="navigateNextButton"
-          mat-icon-button
+          mat-mini-fab
           [attr.aria-label]="intl.nextPageLabel"
           [matTooltip]="intl.nextPageLabel"
           [disabled]="isLastCanvasGroup"
+          [@easeInWithDelay]="{
+            value: '',
+            params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 }
+          }"
+          (click)="goToNextCanvasGroup()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="invert">
+        <button
+          *ngIf="showControlButtons"
+          data-testid="navigateNextButton"
+          mat-mini-fab
+          [attr.aria-label]="intl.nextPageLabel"
+          [matTooltip]="intl.nextPageLabel"
+          [disabled]="isLastCanvasGroup"
+          [@easeInWithDelay]="{
+            value: '',
+            params: {
+              delayEnter: baseAnimationDelay,
+              delayLeave: baseAnimationDelay * 4
+            }
+          }"
           (click)="goToNextCanvasGroup()"
         >
           <mat-icon>navigate_next</mat-icon>
@@ -48,46 +78,89 @@
       </ng-container>
       <ng-container *ngIf="!invert">
         <button
+          *ngIf="showControlButtons"
           data-testid="navigateBeforeButton"
-          mat-icon-button
+          mat-mini-fab
           [attr.aria-label]="intl.previousPageLabel"
           [matTooltip]="intl.previousPageLabel"
           [disabled]="isFirstCanvasGroup"
+          [@easeInWithDelay]="{
+            value: '',
+            params: {
+              delayEnter: baseAnimationDelay,
+              delayLeave: baseAnimationDelay * 4
+            }
+          }"
           (click)="goToPreviousCanvasGroup()"
         >
           <mat-icon>navigate_next</mat-icon>
         </button>
       </ng-container>
-    </div>
-
-    <div class="osd-toolbar-row">
       <button
+        *ngIf="showControlButtons"
         (click)="zoomIn()"
         data-testid="zoomInButton"
-        mat-icon-button
+        mat-mini-fab
         [attr.aria-label]="intl.zoomInLabel"
         [matTooltip]="intl.zoomInLabel"
+        [@easeInWithDelay]="{
+          value: '',
+          params: {
+            delayEnter: baseAnimationDelay * 2,
+            delayLeave: baseAnimationDelay * 3
+          }
+        }"
       >
         <mat-icon>zoom_in</mat-icon>
       </button>
-
       <button
-        (click)="rotate()"
-        data-testid="rotateButton"
-        mat-icon-button
-        [attr.aria-label]="intl.rotateCwLabel"
-        [matTooltip]="intl.rotateCwLabel"
+        *ngIf="showControlButtons"
+        (click)="home()"
+        data-testid="homeButton"
+        mat-mini-fab
+        [attr.aria-label]="intl.resetZoomLabel"
+        [disabled]="!isZoomed"
+        [matTooltip]="intl.resetZoomLabel"
+        [@easeInWithDelay]="{
+          value: '',
+          params: {
+            delayEnter: baseAnimationDelay * 3,
+            delayLeave: baseAnimationDelay * 2
+          }
+        }"
       >
-        <mat-icon>rotate_right</mat-icon>
+        <mat-icon>home</mat-icon>
       </button>
       <button
+        *ngIf="showControlButtons"
         (click)="zoomOut()"
         data-testid="zoomOutButton"
-        mat-icon-button
+        mat-mini-fab
         [attr.aria-label]="intl.zoomOutLabel"
         [matTooltip]="intl.zoomOutLabel"
+        [@easeInWithDelay]="{
+          value: '',
+          params: {
+            delayEnter: baseAnimationDelay * 4,
+            delayLeave: baseAnimationDelay
+          }
+        }"
       >
         <mat-icon>zoom_out</mat-icon>
+      </button>
+      <button
+        *ngIf="showControlButtons"
+        (click)="rotate()"
+        data-testid="rotateButton"
+        mat-mini-fab
+        [attr.aria-label]="intl.rotateCwLabel"
+        [matTooltip]="intl.rotateCwLabel"
+        [@easeInWithDelay]="{
+          value: '',
+          params: { delayEnter: baseAnimationDelay * 5, delayLeave: 0 }
+        }"
+      >
+        <mat-icon>rotate_right</mat-icon>
       </button>
     </div>
   </div>

@@ -23,11 +23,13 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   override tocLabel = 'Turinys';
   override fullScreenLabel = 'Pilno ekrano režimas';
   override exitFullScreenLabel = 'Išeiti iš pilno ekrano režimo';
+  override openOsdControlPanelLabel = 'Atidarykite valdymo skydelį';
+  override closeOsdControlPanelLabel = 'Uždarykite valdymo skydelį';
   override zoomInLabel = 'Priartinti';
   override zoomOutLabel = 'Atitolinti';
+  override resetZoomLabel = 'iš naujo nustatykite skalę';
   override previousPageLabel = 'Buvęs puslapis';
   override nextPageLabel = 'Kitas puslapis';
-  override homeLabel = 'Grįžti į pradžią';
   override rotateCwLabel = 'Pasukti 90°';
   override searchLabel = 'Paieška';
   override clearSearchLabel = 'Išvalyti';

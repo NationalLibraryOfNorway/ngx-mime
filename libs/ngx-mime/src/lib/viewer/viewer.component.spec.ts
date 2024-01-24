@@ -491,6 +491,52 @@ describe('ViewerComponent', function () {
     });
   });
 
+  describe('Fab button for toggling OSD controls', () => {
+    it("should not be visible when state is changed to 'hide'", (done) => {
+      setTimeout(() => {
+        expectOsdToolbarToBeVisible();
+
+        comp.osdToolbarState = 'hide';
+        testHostFixture.detectChanges();
+        testHostFixture.whenStable().then(() => {
+          expectOsdToolbarToBeHidden();
+          done();
+        });
+      }, osdAnimationTime);
+    });
+
+    it("should be visible when state is changed to 'show'", (done) => {
+      setTimeout(() => {
+        comp.osdToolbarState = 'hide';
+        testHostFixture.detectChanges();
+
+        testHostFixture.whenStable().then(() => {
+          expectOsdToolbarToBeHidden();
+
+          comp.osdToolbarState = 'show';
+          testHostFixture.detectChanges();
+          testHostFixture.whenStable().then(() => {
+            expectOsdToolbarToBeVisible();
+          });
+          done();
+        });
+      }, osdAnimationTime);
+    });
+  });
+
+  const expectOsdToolbarToBeVisible = () => {
+    expect(getOsdToolbar().style.transform).toBe('translate(0px, 0px)');
+  };
+
+  const expectOsdToolbarToBeHidden = () => {
+    expect(getOsdToolbar().style.transform).toBe('translate(-100%, 0px)');
+  };
+
+  const getOsdToolbar = () => {
+    return testHostFixture.debugElement.query(By.css('mime-osd-toolbar'))
+      .nativeElement;
+  };
+
   function pinchOut() {
     viewerService
       .getViewer()
