@@ -18,13 +18,12 @@ function finish {
 
 rm -rf dist
 
-yarn format:check
-yarn affected --base=$NX_BASE --head=$NX_HEAD -t lint,test --parallel=4
-
 yarn build
 yarn build:libs
 yarn build:elements
 
+yarn format:check
+yarn affected --base=$NX_BASE --head=$NX_HEAD -t lint,test --parallel=4
 
 trap finish EXIT
 start_tunnel &
