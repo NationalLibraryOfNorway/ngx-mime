@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [16.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.0.2...v16.1.0) (2024-01-30)
+
+
+### Features
+
+* new layout and behavior for OSD toolbar ([31048bd](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/31048bdeae00b0b84a95fa55a230c8e09e8a9ce5))
+
+
+### Bug Fixes
+
+* incorrect formatting in CHANGELOG.md ([f97d346](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f97d3464f19ec77a55a4bd85c6542a78e3d4d69c))
+
 ### [16.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.0.1...v16.0.2) (2023-11-30)
 
 ### Bug Fixes
