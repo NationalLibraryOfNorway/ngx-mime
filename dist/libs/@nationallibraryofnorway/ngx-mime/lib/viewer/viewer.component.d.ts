@@ -63,10 +63,10 @@ export declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private viewerState;
     recognizedTextContentMode: RecognizedTextMode;
     showHeaderAndFooterState: string;
+    osdToolbarState: string;
     errorMessage: string | null;
     private header;
     private footer;
-    private osdToolbar;
     constructor(snackBar: MatSnackBar, intl: MimeViewerIntl, iiifManifestService: IiifManifestService, viewDialogService: ViewDialogService, informationDialogService: InformationDialogService, attributionDialogService: AttributionDialogService, contentSearchDialogService: ContentSearchDialogService, helpDialogService: HelpDialogService, viewerService: ViewerService, resizeService: MimeResizeService, changeDetectorRef: ChangeDetectorRef, modeService: ModeService, iiifContentSearchService: IiifContentSearchService, accessKeysHandlerService: AccessKeysService, canvasService: CanvasService, viewerLayoutService: ViewerLayoutService, styleService: StyleService, altoService: AltoService, zone: NgZone, platform: Platform, canvasGroupDialogService: CanvasGroupDialogService, el: ElementRef, viewContainerRef: ViewContainerRef);
     get mimeHeaderBeforeRef(): ViewContainerRef;
     get mimeHeaderAfterRef(): ViewContainerRef;

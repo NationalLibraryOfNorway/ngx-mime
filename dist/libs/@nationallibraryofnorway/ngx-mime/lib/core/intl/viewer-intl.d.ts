@@ -22,11 +22,13 @@ export declare class MimeViewerIntl {
     tocLabel: string;
     fullScreenLabel: string;
     exitFullScreenLabel: string;
+    openOsdControlPanelLabel: string;
+    closeOsdControlPanelLabel: string;
     zoomInLabel: string;
     zoomOutLabel: string;
+    resetZoomLabel: string;
     previousPageLabel: string;
     nextPageLabel: string;
-    homeLabel: string;
     rotateCwLabel: string;
     searchLabel: string;
     clearSearchLabel: string;
