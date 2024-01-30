@@ -40,6 +40,7 @@ describe('AttributionDialogComponent', () => {
     fixture = TestBed.createComponent(AttributionDialogComponent);
     component = fixture.componentInstance;
     iiifManifestServiceSpy = TestBed.inject<any>(IiifManifestService);
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
