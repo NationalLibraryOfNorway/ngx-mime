@@ -26,7 +26,7 @@ export class AttributionDialogComponent
 {
   public manifest: Manifest | null = null;
   private subscriptions = new Subscription();
-  @ViewChild('container', { static: true }) container?: ElementRef;
+  @ViewChild('container', { static: true }) container!: ElementRef;
 
   constructor(
     public intl: MimeViewerIntl,
@@ -38,9 +38,7 @@ export class AttributionDialogComponent
   ) {}
 
   ngOnInit() {
-    if (this.container) {
-      this.attributionDialogResizeService.el = this.container;
-    }
+    this.attributionDialogResizeService.el = this.container;
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
