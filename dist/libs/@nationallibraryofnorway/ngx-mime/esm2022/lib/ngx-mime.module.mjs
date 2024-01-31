@@ -22,8 +22,8 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { MimeViewerIntl } from './core/intl';
 import * as i0 from "@angular/core";
 export class MimeModule {
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.1", ngImport: i0, type: MimeModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
-    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.2.1", ngImport: i0, type: MimeModule, declarations: [AttributionDialogComponent,
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: MimeModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "17.1.0", ngImport: i0, type: MimeModule, declarations: [AttributionDialogComponent,
             CanvasGroupDialogComponent,
             CanvasGroupNavigatorComponent,
             ContentSearchDialogComponent,
@@ -40,9 +40,9 @@ export class MimeModule {
             ViewerFooterComponent,
             ViewerHeaderComponent,
             ViewerSpinnerComponent], imports: [SharedModule], exports: [ViewerComponent] }); }
-    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.2.1", ngImport: i0, type: MimeModule, providers: [MimeViewerIntl], imports: [SharedModule] }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: MimeModule, providers: [MimeViewerIntl], imports: [SharedModule] }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.1", ngImport: i0, type: MimeModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: MimeModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: [

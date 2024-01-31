@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
@@ -9,16 +9,14 @@ import * as i0 from "@angular/core";
 export declare class AttributionDialogComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
     intl: MimeViewerIntl;
     private renderer;
-    private el;
-    private changeDetectorRef;
     private iiifManifestService;
     private attributionDialogResizeService;
     private styleService;
     private accessKeysHandlerService;
     manifest: Manifest | null;
     private subscriptions;
-    container?: ElementRef;
-    constructor(intl: MimeViewerIntl, renderer: Renderer2, el: ElementRef, changeDetectorRef: ChangeDetectorRef, iiifManifestService: IiifManifestService, attributionDialogResizeService: AttributionDialogResizeService, styleService: StyleService, accessKeysHandlerService: AccessKeysService);
+    container: ElementRef;
+    constructor(intl: MimeViewerIntl, renderer: Renderer2, iiifManifestService: IiifManifestService, attributionDialogResizeService: AttributionDialogResizeService, styleService: StyleService, accessKeysHandlerService: AccessKeysService);
     ngOnInit(): void;
     ngAfterViewInit(): void;
     ngOnDestroy(): void;

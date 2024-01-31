@@ -16,8 +16,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import * as i0 from "@angular/core";
 export class MimeMaterialModule {
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.1", ngImport: i0, type: MimeMaterialModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
-    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "16.2.1", ngImport: i0, type: MimeMaterialModule, exports: [MatToolbarModule,
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: MimeMaterialModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "17.1.0", ngImport: i0, type: MimeMaterialModule, exports: [MatToolbarModule,
             MatButtonModule,
             MatButtonToggleModule,
             MatIconModule,
@@ -32,7 +32,7 @@ export class MimeMaterialModule {
             MatCardModule,
             MatSnackBarModule,
             MatSidenavModule] }); }
-    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "16.2.1", ngImport: i0, type: MimeMaterialModule, imports: [MatToolbarModule,
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: MimeMaterialModule, imports: [MatToolbarModule,
             MatButtonModule,
             MatButtonToggleModule,
             MatIconModule,
@@ -48,7 +48,7 @@ export class MimeMaterialModule {
             MatSnackBarModule,
             MatSidenavModule] }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.1", ngImport: i0, type: MimeMaterialModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: MimeMaterialModule, decorators: [{
             type: NgModule,
             args: [{
                     exports: [
