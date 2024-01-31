@@ -1,8 +1,6 @@
 import {
   AfterViewChecked,
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -22,36 +20,32 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
 @Component({
   templateUrl: './attribution-dialog.component.html',
   styleUrls: ['./attribution-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked
 {
   public manifest: Manifest | null = null;
   private subscriptions = new Subscription();
-  @ViewChild('container', { static: true }) container?: ElementRef;
+  @ViewChild('container', { static: true }) container!: ElementRef;
 
   constructor(
     public intl: MimeViewerIntl,
     private renderer: Renderer2,
-    private el: ElementRef,
-    private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private attributionDialogResizeService: AttributionDialogResizeService,
     private styleService: StyleService,
-    private accessKeysHandlerService: AccessKeysService
-  ) {
-    attributionDialogResizeService.el = el;
-  }
+    private accessKeysHandlerService: AccessKeysService,
+  ) {}
 
   ngOnInit() {
+    this.attributionDialogResizeService.el = this.container;
+
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           this.manifest = manifest;
-          this.changeDetectorRef.markForCheck();
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -61,15 +55,15 @@ export class AttributionDialogComponent
         if (color) {
           const backgroundRgbaColor = this.styleService.convertToRgba(
             color,
-            0.3
+            0.3,
           );
           this.renderer.setStyle(
             this.container?.nativeElement,
             'background-color',
-            backgroundRgbaColor
+            backgroundRgbaColor,
           );
         }
-      })
+      }),
     );
   }
 

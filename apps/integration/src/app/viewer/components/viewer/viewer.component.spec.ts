@@ -1,8 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MimeModule } from '@nationallibraryofnorway/ngx-mime/src';
 import { ViewerComponent } from './viewer.component';
+import { ComponentsModule } from '../components.module';
 
 describe('ViewerComponent', () => {
   let component: ViewerComponent;
@@ -10,8 +10,11 @@ describe('ViewerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MimeModule, HttpClientTestingModule, NoopAnimationsModule],
-      declarations: [ViewerComponent],
+      imports: [
+        ComponentsModule,
+        HttpClientTestingModule,
+        NoopAnimationsModule,
+      ],
     }).compileComponents();
   }));
 

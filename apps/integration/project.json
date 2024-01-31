@@ -65,21 +65,21 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "integration:build",
         "proxyConfig": "apps/integration/src/proxy.conf.json",
         "host": "0.0.0.0",
-        "disableHostCheck": true
+        "disableHostCheck": true,
+        "buildTarget": "integration:build"
       },
       "configurations": {
         "production": {
-          "browserTarget": "integration:build:production"
+          "buildTarget": "integration:build:production"
         }
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "integration:build"
+        "buildTarget": "integration:build"
       }
     },
     "test": {
@@ -100,13 +100,7 @@
       "outputs": ["{workspaceRoot}/coverage/apps/integration/"]
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/integration/src/**/*.ts",
-          "apps/integration/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
   },

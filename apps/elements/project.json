@@ -59,31 +59,25 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "elements:build",
         "host": "0.0.0.0",
         "port": 8080,
-        "disableHostCheck": true
+        "disableHostCheck": true,
+        "buildTarget": "elements:build"
       },
       "configurations": {
         "production": {
-          "browserTarget": "elements:build:production"
+          "buildTarget": "elements:build:production"
         }
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "elements:build"
+        "buildTarget": "elements:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/elements/src/**/*.ts",
-          "apps/elements/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "test": {

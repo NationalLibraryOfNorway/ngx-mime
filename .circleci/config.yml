@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/node:20.4.0-browsers
+      - image: cimg/node:20.11.0-browsers
     resource_class: large
     environment:
       LOGS_DIR: /tmp/ngx-mime-build/logs

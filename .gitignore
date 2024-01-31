@@ -45,3 +45,5 @@ mb.pid
 libs/**/.ng_pkg_build/
 
 .angular
+
+.nx/cache

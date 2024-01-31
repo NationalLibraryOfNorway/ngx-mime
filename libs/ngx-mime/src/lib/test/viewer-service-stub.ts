@@ -18,4 +18,6 @@ export class ViewerServiceStub {
   public goToCanvas(index: number): void {}
 
   public setCurrentHit(hit: Hit): void {}
+
+  zoomIn(): void {}
 }

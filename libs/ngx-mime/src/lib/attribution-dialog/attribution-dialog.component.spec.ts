@@ -40,6 +40,7 @@ describe('AttributionDialogComponent', () => {
     fixture = TestBed.createComponent(AttributionDialogComponent);
     component = fixture.componentInstance;
     iiifManifestServiceSpy = TestBed.inject<any>(IiifManifestService);
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
@@ -50,16 +51,16 @@ describe('AttributionDialogComponent', () => {
     iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         attribution: 'This is a test attribution',
-      })
+      }),
     );
 
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(
-      By.css('.mat-mdc-dialog-content')
+      By.css('.mat-mdc-dialog-content'),
     );
     expect(attribution.nativeElement.innerText).toBe(
-      'This is a test attribution'
+      'This is a test attribution',
     );
   });
 });
