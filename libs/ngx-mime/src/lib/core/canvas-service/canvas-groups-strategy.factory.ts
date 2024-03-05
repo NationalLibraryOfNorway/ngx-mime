@@ -5,11 +5,20 @@ import {
 } from './canvas-group.strategy';
 
 export class CanvasGroupStrategyFactory {
-  public static create(layout: ViewerLayout) {
+  public static create(
+    layout: ViewerLayout,
+    config: any,
+    viewingDirection: any,
+    rotation: any,
+  ) {
     if (layout === ViewerLayout.ONE_PAGE) {
       return new OneCanvasPerCanvasGroupStrategy();
     } else {
-      return new TwoCanvasPerCanvasGroupStrategy();
+      return new TwoCanvasPerCanvasGroupStrategy(
+        config,
+        viewingDirection,
+        rotation,
+      );
     }
   }
 }
