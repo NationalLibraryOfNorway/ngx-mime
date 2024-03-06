@@ -1,3 +1,4 @@
+import { OnePageCalculatePagePositionStrategy } from '../canvas-group-position/one-page-calculate-page-position-strategy';
 import { TwoPageCalculateCanvasGroupPositionStrategy } from '../canvas-group-position/two-page-calculate-page-position-strategy';
 import { CanvasGroups } from './../models/canvas-groups';
 import { Rect } from './../models/rect';
@@ -10,19 +11,51 @@ export interface AbstractCanvasGroupStrategy {
 export class OneCanvasPerCanvasGroupStrategy
   implements AbstractCanvasGroupStrategy
 {
-  addAll = (canvasRects: ReadonlyArray<CanvasGroup>) => {
+  constructor(
+    private config: any,
+    private viewingDirection: any,
+    private rotation: any,
+  ) {}
+
+  addAll = (tileSources: ReadonlyArray<any>) => {
     const canvasGroups = new CanvasGroups();
-    canvasGroups.addRange(canvasRects);
-    canvasGroups.canvasRects = canvasRects.map((canvasRect) => {
-      return {
-        tileSource: canvasRect.canvases[0].tileSource,
-        rect: canvasRect.canvases[0].rect,
+    //canvasGroups.addRange(tileSources);
+
+    const positionStrategy = new OnePageCalculatePagePositionStrategy(
+      this.config,
+    );
+
+    tileSources.forEach((tileSource, i) => {
+      const prev =
+        i === 0
+          ? undefined
+          : canvasGroups.canvasGroupRects[
+              canvasGroups.canvasGroupRects.length - 1
+            ];
+
+      const position = positionStrategy.calculateCanvasGroupPosition(
+        {
+          canvasGroupIndex: i,
+          canvasSource: tileSource,
+          previousCanvasGroupPosition: prev ? prev.rect : new Rect(),
+          viewingDirection: this.viewingDirection,
+        },
+        this.rotation,
+      );
+
+      const thisRect: TileSourceAndRect = {
+        tileSource: tileSource,
+        rect: position,
       };
+
+      const gr: CanvasGroup = {
+        canvases: [thisRect],
+        rect: position,
+      };
+      canvasGroups.add(gr);
+      canvasGroups.canvasesPerCanvasGroup.push([i]);
     });
 
-    for (let i = 0; i < canvasRects.length; i++) {
-      canvasGroups.canvasesPerCanvasGroup.push([i]);
-    }
     return canvasGroups;
   };
 }

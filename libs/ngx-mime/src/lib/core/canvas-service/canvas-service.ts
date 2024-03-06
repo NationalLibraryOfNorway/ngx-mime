@@ -245,7 +245,6 @@ export class CanvasService {
     }
 
     this.viewer?.addTiledImage({
-      index: i,
       tileSource:
         TileSourceStrategyFactory.create(tileSource).getTileSource(tileSource),
       fitBounds: bounds,

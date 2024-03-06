@@ -16,7 +16,7 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
     collectionTileMargin: 80,
   };
   const zoomStrategy: any = {};
-  const canvasService: CanvasService = new CanvasService();
+  let canvasService: CanvasService;
   const modeService = new ModeService();
   const config: any = {};
   let spy: any;

@@ -133,6 +133,10 @@ export class ViewerService {
     return this.tileSources;
   }
 
+  public getOverlays(): ReadonlyArray<SVGRectElement> {
+    return this.canvasService.overlays;
+  }
+
   public getZoom(): number {
     return this.zoomStrategy.getZoom();
   }

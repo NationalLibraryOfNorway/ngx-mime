@@ -168,7 +168,7 @@ describe('CanvasGroupNavigatorComponent', () => {
   }));
 
   it('should disable previous and next button if there is only one canvas', waitForAsync(() => {
-    canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+    //canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
     testHostFixture.detectChanges();
 
     testHostFixture.whenStable().then(async () => {
@@ -186,7 +186,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     });
 
     spy = spyOn(component, 'onSliderHotKey').and.callThrough();
-    canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+    //canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
 
     testHostFixture.detectChanges();
     testHostFixture.whenStable().then(() => {

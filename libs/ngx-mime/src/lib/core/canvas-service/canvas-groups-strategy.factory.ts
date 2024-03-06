@@ -12,7 +12,11 @@ export class CanvasGroupStrategyFactory {
     rotation: any,
   ) {
     if (layout === ViewerLayout.ONE_PAGE) {
-      return new OneCanvasPerCanvasGroupStrategy();
+      return new OneCanvasPerCanvasGroupStrategy(
+        config,
+        viewingDirection,
+        rotation,
+      );
     } else {
       return new TwoCanvasPerCanvasGroupStrategy(
         config,

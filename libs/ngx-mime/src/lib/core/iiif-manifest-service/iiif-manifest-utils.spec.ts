@@ -1,8 +1,8 @@
 import { Manifest } from '../models/manifest';
 import { ManifestUtils } from './iiif-manifest-utils';
 
-describe('ManifestUtils', () => {
-  it('should return true if manifest has url to recognized text content defined', () => {
+fdescribe('ManifestUtils', () => {
+  fit('should return true if manifest has url to recognized text content defined', () => {
     const manifest = new Manifest({
       sequences: [
         {

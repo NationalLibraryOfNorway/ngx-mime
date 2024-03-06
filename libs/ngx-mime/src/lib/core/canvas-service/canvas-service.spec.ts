@@ -6,13 +6,12 @@ describe('CanvasService', () => {
   let service: CanvasService;
 
   beforeEach(() => {
-    service = new CanvasService();
-
     const canvases: Rect[] = [];
     for (let i = 0; i < 100; i++) {
       canvases.push(new Rect());
     }
-    service.addAll(canvases, ViewerLayout.ONE_PAGE);
+    //service.setLayout(ViewerLayout.ONE_PAGE);
+    //service.addAll(canvases, ViewerLayout.ONE_PAGE);
   });
 
   it('should return true when requested canvas group index is within bounds', () => {

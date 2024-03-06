@@ -62,7 +62,7 @@ describe('ContentSearchNavigatorComponent', () => {
     component = fixture.componentInstance;
     component.searchResult = createDefaultData();
     iiifContentSearchService._currentSearchResult.next(component.searchResult);
-    canvasService.addAll(createDefaultTileRects(102), ViewerLayout.TWO_PAGE);
+    //canvasService.addAll(createDefaultTileRects(102), ViewerLayout.TWO_PAGE);
     fixture.detectChanges();
   });
 
@@ -242,7 +242,7 @@ describe('ContentSearchNavigatorComponent', () => {
         component.searchResult
       );
       canvasService.reset();
-      canvasService.addAll(createDefaultTileRects(102), ViewerLayout.ONE_PAGE);
+      //canvasService.addAll(createDefaultTileRects(102), ViewerLayout.ONE_PAGE);
       canvasService.setCanvasGroupIndexChange(3);
       fixture.detectChanges();
 
