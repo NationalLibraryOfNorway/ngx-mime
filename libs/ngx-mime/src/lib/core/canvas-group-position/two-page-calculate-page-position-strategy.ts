@@ -15,7 +15,7 @@ export class TwoPageCalculateCanvasGroupPositionStrategy
 
   calculateCanvasGroupPosition(
     criteria: CanvasGroupPositionCriteria,
-    rotation = 0,
+    rotation = 0
   ): Rect {
     let x: number;
 
@@ -40,7 +40,7 @@ export class TwoPageCalculateCanvasGroupPositionStrategy
       rotation,
       criteria,
       x,
-      this.config.ignorePhysicalScale,
+      this.config.ignorePhysicalScale
     );
   }
 
