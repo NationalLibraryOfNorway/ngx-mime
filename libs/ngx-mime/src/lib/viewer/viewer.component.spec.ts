@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import 'openseadragon';
-import { injectedStub } from '../../testing/injected-stub';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
@@ -35,7 +34,6 @@ describe('ViewerComponent', function () {
   let comp: ViewerComponent;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
-  let originalTimeout: number;
   let viewerService: ViewerService;
   let canvasService: CanvasService;
   let modeService: ModeService;
@@ -84,24 +82,22 @@ describe('ViewerComponent', function () {
     viewerService = TestBed.inject(ViewerService);
     canvasService = TestBed.inject(CanvasService);
     modeService = TestBed.inject(ModeService);
-    mimeResizeServiceStub = injectedStub(MimeResizeService);
-    iiifManifestServiceStub = injectedStub(IiifManifestService);
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    mimeResizeServiceStub = TestBed.inject<any>(MimeResizeService);
+    iiifManifestServiceStub = TestBed.inject<any>(IiifManifestService);
+    iiifContentSearchServiceStub = TestBed.inject<any>(
+      IiifContentSearchService,
+    );
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
-
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
   afterEach(function () {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     viewerService.destroy();
   });
 
   it('should create component', () => expect(comp).toBeDefined());
 
   it('should cleanup when manifestUri changes', () => {
-    spyOn(testHostComponent.viewerComponent, 'cleanup').and.callThrough();
+    jest.spyOn(testHostComponent.viewerComponent, 'cleanup');
     testHostComponent.manifestUri = 'dummyURI2';
     testHostFixture.detectChanges();
 
@@ -117,7 +113,7 @@ describe('ViewerComponent', function () {
     testHostFixture.detectChanges();
 
     const viewerDe = testHostFixture.debugElement.query(
-      By.css('.viewer-container')
+      By.css('.viewer-container'),
     );
     expect(viewerDe.nativeElement.getAttribute('tabindex')).toBe('1');
   });
@@ -126,7 +122,7 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should change mode to initial-mode when changing manifest', (done) => {
+  it('should change mode to initial-mode when changing manifest', done => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
@@ -140,7 +136,7 @@ describe('ViewerComponent', function () {
           testHostComponent.manifestUri = 'dummyURI3';
           testHostFixture.detectChanges();
           expect(modeService.mode.valueOf()).toBe(
-            config.initViewerMode.valueOf()
+            config.initViewerMode.valueOf(),
           );
           done();
         }, osdAnimationTime);
@@ -151,7 +147,7 @@ describe('ViewerComponent', function () {
   it('should close all dialogs when manifestUri changes', () => {
     testHostComponent.manifestUri = 'dummyURI2';
 
-    spyOn(testHostComponent.viewerComponent, 'cleanup').and.callThrough();
+    jest.spyOn(testHostComponent.viewerComponent, 'cleanup');
     testHostFixture.detectChanges();
 
     expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
@@ -167,11 +163,11 @@ describe('ViewerComponent', function () {
 
   it('should create overlays-array with same size as tilesources-array', () => {
     expect(viewerService.getTilesources().length).toEqual(
-      viewerService.getOverlays().length
+      viewerService.getOverlays().length,
     );
   });
 
-  it('should return to home zoom', (done: any) => {
+  it('should return to home zoom', done => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
@@ -192,7 +188,7 @@ describe('ViewerComponent', function () {
           const overlayHeight = Math.round(overlay.height.baseVal.value);
           const overlayWidth = Math.round(overlay.width.baseVal.value);
           expect(
-            overlayHeight === viewportHeight || overlayWidth === viewportWidth
+            overlayHeight === viewportHeight || overlayWidth === viewportWidth,
           ).toEqual(true);
 
           done();
@@ -201,11 +197,11 @@ describe('ViewerComponent', function () {
     });
   });
 
-  it('should return to home after resize', (done: any) => {
+  it('should return to home after resize', done => {
     const viewer = viewerService.getViewer();
     const overlay = viewerService.getOverlays()[0];
     const openseadragonDE = testHostFixture.debugElement.query(
-      By.css('.openseadragon')
+      By.css('.openseadragon'),
     );
     const element = openseadragonDE.nativeElement;
     let viewportHeight, viewportWidth, overlayHeight, overlayWidth;
@@ -221,7 +217,7 @@ describe('ViewerComponent', function () {
 
           // Starting out at home
           expect(
-            overlayHeight === viewportHeight || overlayWidth === viewportWidth
+            overlayHeight === viewportHeight || overlayWidth === viewportWidth,
           ).toEqual(true);
 
           // Resize OSD
@@ -236,7 +232,8 @@ describe('ViewerComponent', function () {
             overlayWidth = Math.round(overlay.width.baseVal.value);
 
             expect(
-              overlayHeight !== viewportHeight && overlayWidth !== viewportWidth
+              overlayHeight !== viewportHeight &&
+                overlayWidth !== viewportWidth,
             ).toEqual(true);
 
             // Return to home
@@ -255,7 +252,7 @@ describe('ViewerComponent', function () {
               // Returned to home
               expect(
                 overlayHeight === viewportHeight ||
-                  overlayWidth === viewportWidth
+                  overlayWidth === viewportWidth,
               ).toEqual(true);
 
               done();
@@ -360,17 +357,17 @@ describe('ViewerComponent', function () {
   it('should emit when canvas group mode changes', () => {
     let selectedMode: ViewerMode | undefined;
     comp.viewerModeChanged.subscribe(
-      (mode: ViewerMode) => (selectedMode = mode)
+      (mode: ViewerMode) => (selectedMode = mode),
     );
 
     modeService.mode = ViewerMode.DASHBOARD;
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should emit when canvas group number changes', (done) => {
+  it('should emit when canvas group number changes', done => {
     let currentCanvasIndex: number;
     comp.canvasChanged.subscribe(
-      (canvasIndex: number) => (currentCanvasIndex = canvasIndex)
+      (canvasIndex: number) => (currentCanvasIndex = canvasIndex),
     );
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
@@ -386,7 +383,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  it('should stay on same tile after a ViewerLayout change', (done: DoneFn) => {
+  it('should stay on same tile after a ViewerLayout change', done => {
     // Need to set canvasIndex on input of component to trigger previous occuring bug
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
     testHostComponent.canvasIndex = 3;
@@ -412,17 +409,17 @@ describe('ViewerComponent', function () {
 
   it('should emit when manifest changes', () => {
     comp.manifestChanged.subscribe((m: Manifest) =>
-      expect(m.id).toEqual('dummyid')
+      expect(m.id).toEqual('dummyid'),
     );
 
     iiifManifestServiceStub._currentManifest.next(
       new Manifest({
         id: 'dummyid',
-      })
+      }),
     );
   });
 
-  it('should open viewer on canvas index if present', (done) => {
+  it('should open viewer on canvas index if present', done => {
     let currentCanvasIndex: number;
     comp.canvasChanged.subscribe((canvasIndex: number) => {
       currentCanvasIndex = canvasIndex;
@@ -440,7 +437,7 @@ describe('ViewerComponent', function () {
     testHostComponent.addComponentToStartOfHeader();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component')
+      By.css('#test-dynamic-component'),
     );
     expect(button).not.toBeNull();
   });
@@ -449,7 +446,7 @@ describe('ViewerComponent', function () {
     testHostComponent.addComponentToEndOfHeader();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component')
+      By.css('#test-dynamic-component'),
     );
     expect(button).not.toBeNull();
   });
@@ -458,7 +455,7 @@ describe('ViewerComponent', function () {
     testHostComponent.addComponentToStartOfFooter();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component')
+      By.css('#test-dynamic-component'),
     );
     expect(button).not.toBeNull();
   });
@@ -467,21 +464,21 @@ describe('ViewerComponent', function () {
     testHostComponent.addComponentToEndOfFooter();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component')
+      By.css('#test-dynamic-component'),
     );
     expect(button).not.toBeNull();
   });
 
   // By.css() query does not find SVG elements https://github.com/angular/angular/pull/15372
-  xit('should add a mask around the canvas group', (done: any) => {
+  xit('should add a mask around the canvas group', done => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
           const leftCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('[data-testid="mime-left-page-mask"]')
+            By.css('[data-testid="mime-left-page-mask"]'),
           );
           const rightCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('[data-testid="mime-right-page-mask"]')
+            By.css('[data-testid="mime-right-page-mask"]'),
           );
           expect(leftCanvasGroupMask).not.toBeNull();
           expect(rightCanvasGroupMask).not.toBeNull();
@@ -492,7 +489,7 @@ describe('ViewerComponent', function () {
   });
 
   describe('Fab button for toggling OSD controls', () => {
-    it("should not be visible when state is changed to 'hide'", (done) => {
+    it("should not be visible when state is changed to 'hide'", done => {
       setTimeout(() => {
         expectOsdToolbarToBeVisible();
 
@@ -505,7 +502,7 @@ describe('ViewerComponent', function () {
       }, osdAnimationTime);
     });
 
-    it("should be visible when state is changed to 'show'", (done) => {
+    it("should be visible when state is changed to 'show'", done => {
       setTimeout(() => {
         comp.osdToolbarState = 'hide';
         testHostFixture.detectChanges();
@@ -521,7 +518,7 @@ describe('ViewerComponent', function () {
           done();
         });
       }, osdAnimationTime);
-    });
+    }, 5000);
   });
 
   const expectOsdToolbarToBeVisible = () => {

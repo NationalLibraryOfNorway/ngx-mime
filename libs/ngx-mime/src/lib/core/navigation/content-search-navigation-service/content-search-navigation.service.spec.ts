@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { injectedStub } from '../../../../testing/injected-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../../test/testManifest';
@@ -12,7 +11,6 @@ import { MimeViewerIntl } from '../../intl';
 import { Hit } from '../../models/hit';
 import { Rect } from '../../models/rect';
 import { SearchResult } from '../../models/search-result';
-import { ViewerLayout } from '../../models/viewer-layout';
 import { ViewerService } from '../../viewer-service/viewer.service';
 import { ContentSearchNavigationService } from './content-search-navigation.service';
 
@@ -40,16 +38,18 @@ describe('ContentSearchNavigationService', () => {
   });
 
   beforeEach(() => {
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-    iiifManifestServiceStub = injectedStub(IiifManifestService);
+    iiifContentSearchServiceStub = TestBed.inject<any>(
+      IiifContentSearchService,
+    );
+    iiifManifestServiceStub = TestBed.inject<any>(IiifManifestService);
     iiifManifestServiceStub._currentManifest.next(testManifest);
     iiifContentSearchServiceStub._currentSearchResult.next(
-      createSearchResult()
+      createSearchResult(),
     );
     const canvasService = TestBed.inject(CanvasService);
     //canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
     contentSearchNavigationService = TestBed.inject(
-      ContentSearchNavigationService
+      ContentSearchNavigationService,
     );
   });
 
@@ -110,7 +110,7 @@ describe('ContentSearchNavigationService', () => {
   }));
 
   it('should call update function when searchresult changes', () => {
-    spyOn(contentSearchNavigationService, 'update');
+    jest.spyOn(contentSearchNavigationService, 'update');
     const updatedSearchResult = createSearchResult();
     updatedSearchResult.add(new Hit({ id: 7, index: 20 }));
 

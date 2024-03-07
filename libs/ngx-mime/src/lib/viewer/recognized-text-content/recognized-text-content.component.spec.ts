@@ -2,7 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { cold, getTestScheduler } from 'jasmine-marbles';
+import { cold } from 'jest-marbles';
+import { when } from 'jest-when';
 import { of } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -23,23 +24,21 @@ describe('RecognizedTextContentComponent', () => {
   let highlightService: any;
   let iiifContentSearchService: any;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [RecognizedTextContentComponent],
-        providers: [
-          MimeViewerIntl,
-          CanvasService,
-          AltoService,
-          MimeViewerIntl,
-          HighlightService,
-          IiifContentSearchService,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [RecognizedTextContentComponent],
+      providers: [
+        MimeViewerIntl,
+        CanvasService,
+        AltoService,
+        MimeViewerIntl,
+        HighlightService,
+        IiifContentSearchService,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RecognizedTextContentComponent);
@@ -56,95 +55,90 @@ describe('RecognizedTextContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show recognized text', (done: DoneFn) => {
+  it('should show recognized text', (done) => {
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
     const secondCanvasRecognizedTextContent =
       '<p>fakeSecondRecognizedTextContent</p>';
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1]);
-    spyOn(altoService, 'getHtml')
-      .withArgs(0)
-      .and.returnValue(firstCanvasRecognizedTextContent)
-      .withArgs(1)
-      .and.returnValue(secondCanvasRecognizedTextContent)
-      .and.callThrough();
-    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
-      cold('x|')
-    );
+    when(canvasService.getCanvasesPerCanvasGroup)
+      .calledWith(0)
+      .mockReturnValue([0, 1]);
+
+    when(altoService.getHtml)
+      .calledWith(0)
+      .mockReturnValue(firstCanvasRecognizedTextContent)
+      .calledWith(1)
+      .mockReturnValue(secondCanvasRecognizedTextContent);
+
+    const stream$ = jest
+      .spyOn(altoService, 'onTextContentReady', 'get')
+      .mockReturnValue(cold('x|'));
 
     fixture.detectChanges();
-    getTestScheduler().flush();
 
-    fixture.whenStable().then(() => {
+    expect(stream$).toSatisfyOnFlush(() => {
       const firstCanvasRecognizedTextContentDe: DebugElement =
         fixture.debugElement.query(
-          By.css('div[data-testid="firstCanvasRecognizedTextContent"]')
+          By.css('div[data-testid="firstCanvasRecognizedTextContent"]'),
         );
       const secondCanvasRecognizedTextContentDe: DebugElement =
         fixture.debugElement.query(
-          By.css('div[data-testid="secondCanvasRecognizedTextContent"]')
+          By.css('div[data-testid="secondCanvasRecognizedTextContent"]'),
         );
 
       expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
-        firstCanvasRecognizedTextContent
+        firstCanvasRecognizedTextContent,
       );
       expect(secondCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
-        secondCanvasRecognizedTextContent
+        secondCanvasRecognizedTextContent,
       );
       done();
     });
   });
 
   it('should show error message', () => {
-    spyOnProperty(altoService, 'hasErrors$').and.returnValue(
-      cold('x|', { x: 'fakeError' })
-    );
+    const stream$ = jest
+      .spyOn(altoService, 'hasErrors$', 'get')
+      .mockReturnValue(cold('x|', { x: 'fakeError' }));
 
     fixture.detectChanges();
-    getTestScheduler().flush();
 
-    const error: DebugElement = fixture.debugElement.query(
-      By.css('div[data-testid="error"]')
-    );
-    expect(error.nativeElement.innerHTML).toBe('fakeError');
+    expect(stream$).toSatisfyOnFlush(() => {
+      const error: DebugElement = fixture.debugElement.query(
+        By.css('div[data-testid="error"]'),
+      );
+      expect(error.nativeElement.innerHTML).toBe('fakeError');
+    });
   });
 
   it('should call highlightSelectedHit in onSelected subscribe', () => {
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1]);
-    spyOnProperty(iiifContentSearchService, 'onSelected').and.returnValue(
-      of(createMockHit(1, 'test '))
-    );
-    const spy = spyOn(
-      highlightService,
-      'highlightSelectedHit'
-    ).and.callThrough();
+    when(canvasService.getCanvasesPerCanvasGroup)
+      .calledWith(0)
+      .mockReturnValue([0, 1]);
+    jest
+      .spyOn(iiifContentSearchService, 'onSelected', 'get')
+      .mockReturnValue(of(createMockHit(1, 'test ')));
+    const spy = jest.spyOn(highlightService, 'highlightSelectedHit');
 
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should call highlightSelectedHit in updateRecognizedText method', (done: DoneFn) => {
+  it('should call highlightSelectedHit in updateRecognizedText method', (done) => {
     component.selectedHit = 1;
-    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
-      cold('x|')
-    );
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1]);
-    const spy = spyOn(
-      highlightService,
-      'highlightSelectedHit'
-    ).and.callThrough();
+    const stream$ = jest
+      .spyOn(altoService, 'onTextContentReady$', 'get')
+      .mockReturnValue(cold('x|'));
+    when(canvasService.getCanvasesPerCanvasGroup)
+      .calledWith(0)
+      .mockReturnValue([0, 1]);
+
+    const spy = jest.spyOn(highlightService, 'highlightSelectedHit');
 
     fixture.detectChanges();
-    getTestScheduler().flush();
 
-    fixture.whenStable().then(() => {
+    expect(stream$).toSatisfyOnFlush(() => {
       expect(spy).toHaveBeenCalled();
       done();
     });

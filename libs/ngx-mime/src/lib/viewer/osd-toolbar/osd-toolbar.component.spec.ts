@@ -1,11 +1,10 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { injectedStub } from '../../../testing/injected-stub';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
@@ -58,9 +57,9 @@ describe('OsdToolbarComponent', () => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
     harnessLoader = TestbedHarnessEnvironment.loader(fixture);
     intl = TestBed.inject(MimeViewerIntl);
-    breakpointObserver = injectedStub(BreakpointObserver);
-    canvasService = injectedStub(CanvasService);
-    viewerService = injectedStub(ViewerService);
+    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    canvasService = TestBed.inject<any>(CanvasService);
+    viewerService = TestBed.inject<any>(ViewerService);
     component = fixture.componentInstance;
 
     breakpointObserver.setMatches(true);
@@ -104,7 +103,7 @@ describe('OsdToolbarComponent', () => {
       fixture.detectChanges();
 
       expect(await (await homeButton.host())?.getAttribute('aria-label')).toBe(
-        'Go home button'
+        'Go home button',
       );
     });
 
@@ -114,7 +113,7 @@ describe('OsdToolbarComponent', () => {
 
       await toggleOsdControls();
       const previousButton = await getPreviousButton();
-      expect(await previousButton.isDisabled()).toBeTrue();
+      expect(await previousButton.isDisabled()).toBe(true);
     });
 
     it('should enable both navigation buttons when viewer is on second canvas group', async () => {
@@ -125,16 +124,14 @@ describe('OsdToolbarComponent', () => {
       const previousButton = await getPreviousButton();
       const nextButton = await getNextButton();
 
-      expect(await previousButton.isDisabled()).toBeFalse();
-      expect(await nextButton.isDisabled()).toBeFalse();
+      expect(await previousButton.isDisabled()).toBe(false);
+      expect(await nextButton.isDisabled()).toBe(false);
     });
 
     it('should disable next button when viewer is on last canvas group', waitForAsync(async () => {
-      spyOnProperty(
-        canvasService,
-        'numberOfCanvasGroups',
-        'get'
-      ).and.returnValue(10);
+      jest
+        .spyOn(canvasService, 'numberOfCanvasGroups', 'get')
+        .mockReturnValue(10);
 
       viewerService.setCanvasGroupIndexChange(9);
       fixture.detectChanges();
@@ -142,12 +139,12 @@ describe('OsdToolbarComponent', () => {
       fixture.whenStable().then(async () => {
         await toggleOsdControls();
         const nextButton = await getNextButton();
-        expect(await nextButton.isDisabled()).toBeTrue();
+        expect(await nextButton.isDisabled()).toBe(true);
       });
     }));
 
     it('should display next canvas group', waitForAsync(async () => {
-      spy = spyOn(viewerService, 'goToNextCanvasGroup');
+      spy = jest.spyOn(viewerService, 'goToNextCanvasGroup');
 
       await toggleOsdControls();
       const nextButton = await getNextButton();
@@ -160,7 +157,7 @@ describe('OsdToolbarComponent', () => {
     }));
 
     it('should display previous canvas group', waitForAsync(async () => {
-      spy = spyOn(component, 'goToPreviousCanvasGroup');
+      spy = jest.spyOn(component, 'goToPreviousCanvasGroup');
 
       await toggleOsdControls();
       const previousButton = await getPreviousButton();
@@ -176,7 +173,7 @@ describe('OsdToolbarComponent', () => {
       await toggleOsdControls();
       const homeButton = await getHomeButton();
 
-      expect(await homeButton.isDisabled()).toBeTrue();
+      expect(await homeButton.isDisabled()).toBe(true);
     });
 
     it('should enable home zoom button when page is zoomed in', async () => {
@@ -186,7 +183,7 @@ describe('OsdToolbarComponent', () => {
       await zoomInButton.click();
 
       const homeButton = await getHomeButton();
-      expect(await homeButton.isDisabled()).toBeTrue();
+      expect(await homeButton.isDisabled()).toBe(true);
     });
   });
 
@@ -210,11 +207,11 @@ describe('OsdToolbarComponent', () => {
 
   const getButtonByTestId = (id: string): Promise<MatButtonHarness> =>
     harnessLoader.getHarness(
-      MatButtonHarness.with({ selector: `[data-testid="${id}"]` })
+      MatButtonHarness.with({ selector: `[data-testid="${id}"]` }),
     );
 
   const expectFabButtonToHaveAriaExpanded = async (
-    expected: string
+    expected: string,
   ): Promise<void> => {
     const fabButton = await (await getFabButton()).host();
     expect(await fabButton.getAttribute('aria-expanded')).toEqual(expected);
@@ -232,7 +229,7 @@ describe('OsdToolbarComponent', () => {
 
   const getMiniFabButtons = (): Promise<MatButtonHarness[]> => {
     return harnessLoader.getAllHarnesses(
-      MatButtonHarness.with({ variant: 'mini-fab' })
+      MatButtonHarness.with({ variant: 'mini-fab' }),
     );
   };
 });

@@ -8,10 +8,11 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { injectedStub } from '../../testing/injected-stub';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { Hit } from '../core/models/hit';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
 import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
@@ -58,6 +59,7 @@ describe('ContentSearchDialogComponent', () => {
           useClass: IiifContentSearchServiceStub,
         },
         { provide: BreakpointObserver, useClass: MockBreakpointObserver },
+        provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
   }));
@@ -66,9 +68,11 @@ describe('ContentSearchDialogComponent', () => {
     fixture = TestBed.createComponent(ContentSearchDialogComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
-    iiifManifestServiceStub = injectedStub(IiifManifestService);
-    breakpointObserver = injectedStub(BreakpointObserver);
+    iiifContentSearchServiceStub = TestBed.inject<any>(
+      IiifContentSearchService,
+    );
+    iiifManifestServiceStub = TestBed.inject<any>(IiifManifestService);
+    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
     dialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
   });
@@ -83,7 +87,7 @@ describe('ContentSearchDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
+      By.css('.heading-desktop'),
     );
     expect(heading).not.toBeNull();
   });
@@ -94,7 +98,7 @@ describe('ContentSearchDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
+      By.css('.heading-desktop'),
     );
     expect(heading).toBeNull();
   });
@@ -145,10 +149,10 @@ describe('ContentSearchDialogComponent', () => {
 
   it('should remain in search input if content search return zero hits', () => {
     const searchInput = fixture.debugElement.query(
-      By.css('.content-search-input')
+      By.css('.content-search-input'),
     );
     const searchResultContainer = fixture.debugElement.query(
-      By.css('.content-search-result-container')
+      By.css('.content-search-result-container'),
     );
     const spy = spyOn(searchResultContainer.nativeElement, 'focus');
     iiifManifestServiceStub._currentManifest.next(testManifest);
@@ -168,10 +172,10 @@ describe('ContentSearchDialogComponent', () => {
 
   it('should set focus on search result if content search return hits', () => {
     const searchInput = fixture.debugElement.query(
-      By.css('.content-search-input')
+      By.css('.content-search-input'),
     );
     const searchResultContainer = fixture.debugElement.query(
-      By.css('.content-search-result-container')
+      By.css('.content-search-result-container'),
     );
     const spy = spyOn(searchResultContainer.nativeElement, 'focus');
     iiifManifestServiceStub._currentManifest.next(testManifest);
@@ -185,7 +189,7 @@ describe('ContentSearchDialogComponent', () => {
     iiifContentSearchServiceStub._currentSearchResult.next(
       new SearchResult({
         hits: [new Hit(), new Hit()],
-      })
+      }),
     );
 
     fixture.detectChanges();
@@ -195,7 +199,7 @@ describe('ContentSearchDialogComponent', () => {
 
   it('should only show clear button on input', async () => {
     const searchInput: DebugElement = fixture.debugElement.query(
-      By.css('.content-search-input')
+      By.css('.content-search-input'),
     );
 
     expect(await getButtonCount()).toEqual(2);

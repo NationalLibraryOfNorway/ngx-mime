@@ -81,16 +81,10 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "tsConfig": "apps/elements/tsconfig.spec.json",
-        "karmaConfig": "apps/elements/karma.conf.js",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "styles": ["apps/elements/src/styles.scss"],
-        "scripts": [
-          "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-        ],
-        "assets": ["apps/elements/src/favicon.ico", "apps/elements/src/assets"]
+        "jestConfig": "apps/elements/jest.config.ts"
       }
     }
   },

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
+import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 

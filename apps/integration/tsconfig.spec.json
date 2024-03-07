@@ -2,9 +2,21 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": ["jasmine", "node"],
-    "target": "ES2022",
-    "useDefineForClassFields": false
+    "types": ["jest", "node"],
+    "target": "es2016",
+    "module": "commonjs",
+    "useDefineForClassFields": false,
+    "esModuleInterop": true,
+    "paths": {
+      "@nationallibraryofnorway/*": ["../../libs/*"],
+      "@nationallibraryofnorway/ngx-mime": ["../../libs/ngx-mime/src/index.ts"]
+    }
   },
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
+  "files": ["src/test-setup.ts"],
+  "include": [
+    "jest.config.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
 }

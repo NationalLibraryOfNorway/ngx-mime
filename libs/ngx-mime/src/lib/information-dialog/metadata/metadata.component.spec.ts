@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Spy, provideAutoSpy } from 'jasmine-auto-spies';
+import { Spy, provideAutoSpy } from 'jest-auto-spies';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl';
 import { Manifest, Metadata } from '../../core/models/manifest';
