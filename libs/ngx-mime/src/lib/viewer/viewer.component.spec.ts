@@ -28,7 +28,7 @@ import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.componen
 import { ViewerComponent } from './viewer.component';
 import { VIEWER_PROVIDERS } from './viewer.providers';
 
-describe('ViewerComponent', function () {
+describe('ViewerComponent', () => {
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
   let comp: ViewerComponent;
@@ -90,7 +90,7 @@ describe('ViewerComponent', function () {
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     viewerService.destroy();
   });
 
@@ -122,7 +122,7 @@ describe('ViewerComponent', function () {
     expect(modeService.mode).toBe(config.initViewerMode);
   });
 
-  it('should change mode to initial-mode when changing manifest', done => {
+  it('should change mode to initial-mode when changing manifest', (done) => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
@@ -167,7 +167,7 @@ describe('ViewerComponent', function () {
     );
   });
 
-  it('should return to home zoom', done => {
+  it('should return to home zoom', (done) => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
@@ -197,7 +197,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  it('should return to home after resize', done => {
+  it('should return to home after resize', (done) => {
     const viewer = viewerService.getViewer();
     const overlay = viewerService.getOverlays()[0];
     const openseadragonDE = testHostFixture.debugElement.query(
@@ -288,71 +288,66 @@ describe('ViewerComponent', function () {
     expect(index).toBe(-1);
   });
 
-  it('should increase zoom level when pinching out', () => {
-    // comp.ngOnInit();
-    //
-    // pinchOut(viewerService);
-    //
-    // expect(viewerService.getZoom()).toBeGreaterThan(viewerService.getHomeZoom());
-    pending('Set to pending until we find a way to perform pinch event');
-  });
+  // @TODO Set to pending until we find a way to perform pinch event
+  // comp.ngOnInit();
+  //
+  // pinchOut(viewerService);
+  //
+  // expect(viewerService.getZoom()).toBeGreaterThan(viewerService.getHomeZoom());
+  it.todo('should increase zoom level when pinching out');
 
-  it('should decrease zoom level when is zoomed in and pinching in', () => {
-    // comp.ngOnInit();
-    // const previousZoom = 1;
-    // viewerService.zoomTo(previousZoom);
-    //
-    // pinchIn(viewerService);
-    //
-    // expect(viewerService.getZoom()).toBeLessThan(previousZoom);
-    pending('Set to pending until we find a way to perform pinch event');
-  });
+  // @TODO Set to pending until we find a way to perform pinch event
+  // comp.ngOnInit();
+  // const previousZoom = 1;
+  // viewerService.zoomTo(previousZoom);
+  //
+  // pinchIn(viewerService);
+  //
+  // expect(viewerService.getZoom()).toBeLessThan(previousZoom);
+  it.todo('should decrease zoom level when is zoomed in and pinching in');
 
-  it('should not decrease zoom level when zoom level is home and pinching in', () => {
-    // comp.ngOnInit();
-    // viewerService.zoomHome();
-    //
-    // pinchIn(viewerService);
-    //
-    // expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
-    pending('Set to pending until we find a way to perform pinch event');
-  });
+  // @TODO Set to pending until we find a way to perform pinch event
+  // comp.ngOnInit();
+  // viewerService.zoomHome();
+  //
+  // pinchIn(viewerService);
+  //
+  // expect(viewerService.getZoom()).toEqual(viewerService.getHomeZoom());
+  it.todo(
+    'should not decrease zoom level when zoom level is home and pinching in',
+  );
 
-  it('should return true if canvas group is at minimum zoom level', () => {
-    pending('');
-  });
+  it.todo('should return true if canvas group is at minimum zoom level');
 
-  it('should move image inside the view when user is panning', () => {
-    // comp.ngOnInit();
-    // viewerService.zoomTo(2);
-    // const viewer = viewerService.getViewer();
-    // const previousCenter = viewer.viewport.getCenter(false);
-    //
-    // viewer.raiseEvent('pan', {x: 150, y: 150});
-    //
-    // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
-    pending('Set to pending until we find a way to perform pan event');
-  });
+  // @TODO Set to pending until we find a way to perform pan event
+  // comp.ngOnInit();
+  // viewerService.zoomTo(2);
+  // const viewer = viewerService.getViewer();
+  // const previousCenter = viewer.viewport.getCenter(false);
+  //
+  // viewer.raiseEvent('pan', {x: 150, y: 150});
+  //
+  // expect(viewerService.getCenter().x).toBeGreaterThan(previousCenter.x);
+  it.todo('should move image inside the view when user is panning');
 
-  it('should change canvas group when swipeing to left', () => {
-    // modeService.mode = ViewerMode.DASHBOARD;
-    // tick();
-    // const viewer = viewerService.getViewer();
-    // viewer.raiseEvent('canvas-press', {position: {
-    //   x: 1450, y: 150}
-    // });
-    // tick(1);
-    // viewer.raiseEvent('canvas-drag-end', {position: {
-    //   x: 150, y: 150}
-    // });
-    // let pageNumber = 0;
-    // viewerService.onPageChange.subscribe(p => {
-    //   pageNumber = p;
-    // });
-    // tick(100);
-    // expect(pageNumber).toBe(10);
-    pending('Set to pending until we find a way to perform swipe event');
-  });
+  // @TODO Set to pending until we find a way to perform swipe event
+  // modeService.mode = ViewerMode.DASHBOARD;
+  // tick();
+  // const viewer = viewerService.getViewer();
+  // viewer.raiseEvent('canvas-press', {position: {
+  //   x: 1450, y: 150}
+  // });
+  // tick(1);
+  // viewer.raiseEvent('canvas-drag-end', {position: {
+  //   x: 150, y: 150}
+  // });
+  // let pageNumber = 0;
+  // viewerService.onPageChange.subscribe(p => {
+  //   pageNumber = p;
+  // });
+  // tick(100);
+  // expect(pageNumber).toBe(10);
+  it.todo('should change canvas group when swipeing to left');
 
   it('should emit when canvas group mode changes', () => {
     let selectedMode: ViewerMode | undefined;
@@ -364,7 +359,7 @@ describe('ViewerComponent', function () {
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should emit when canvas group number changes', done => {
+  it('should emit when canvas group number changes', (done) => {
     let currentCanvasIndex: number;
     comp.canvasChanged.subscribe(
       (canvasIndex: number) => (currentCanvasIndex = canvasIndex),
@@ -383,7 +378,7 @@ describe('ViewerComponent', function () {
     });
   });
 
-  it('should stay on same tile after a ViewerLayout change', done => {
+  it('should stay on same tile after a ViewerLayout change', (done) => {
     // Need to set canvasIndex on input of component to trigger previous occuring bug
     viewerLayoutService.setLayout(ViewerLayout.ONE_PAGE);
     testHostComponent.canvasIndex = 3;
@@ -419,7 +414,7 @@ describe('ViewerComponent', function () {
     );
   });
 
-  it('should open viewer on canvas index if present', done => {
+  it('should open viewer on canvas index if present', (done) => {
     let currentCanvasIndex: number;
     comp.canvasChanged.subscribe((canvasIndex: number) => {
       currentCanvasIndex = canvasIndex;
@@ -470,7 +465,7 @@ describe('ViewerComponent', function () {
   });
 
   // By.css() query does not find SVG elements https://github.com/angular/angular/pull/15372
-  xit('should add a mask around the canvas group', done => {
+  xit('should add a mask around the canvas group', (done) => {
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
         setTimeout(() => {
@@ -489,7 +484,7 @@ describe('ViewerComponent', function () {
   });
 
   describe('Fab button for toggling OSD controls', () => {
-    it("should not be visible when state is changed to 'hide'", done => {
+    it("should not be visible when state is changed to 'hide'", (done) => {
       setTimeout(() => {
         expectOsdToolbarToBeVisible();
 
@@ -502,7 +497,7 @@ describe('ViewerComponent', function () {
       }, osdAnimationTime);
     });
 
-    it("should be visible when state is changed to 'show'", done => {
+    it("should be visible when state is changed to 'show'", (done) => {
       setTimeout(() => {
         comp.osdToolbarState = 'hide';
         testHostFixture.detectChanges();

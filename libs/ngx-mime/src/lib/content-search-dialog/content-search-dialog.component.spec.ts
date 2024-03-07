@@ -105,8 +105,8 @@ describe('ContentSearchDialogComponent', () => {
 
   it('should go to hit and close dialog when selected on mobile', () => {
     breakpointObserver.setMatches(true);
-    spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
-    spyOn(dialogRef, 'close').and.callThrough();
+    jest.spyOn(iiifContentSearchServiceStub, 'selected');
+    jest.spyOn(dialogRef, 'close');
     component.currentSearch = 'dummysearch';
     component.hits = [
       new Hit({
@@ -127,8 +127,8 @@ describe('ContentSearchDialogComponent', () => {
 
   it('should go to hit and when selected on desktop', () => {
     breakpointObserver.setMatches(false);
-    spyOn(iiifContentSearchServiceStub, 'selected').and.callThrough();
-    spyOn(dialogRef, 'close').and.callThrough();
+    jest.spyOn(iiifContentSearchServiceStub, 'selected');
+    jest.spyOn(dialogRef, 'close');
     component.currentSearch = 'dummysearch';
     component.hits = [
       new Hit({
@@ -154,7 +154,7 @@ describe('ContentSearchDialogComponent', () => {
     const searchResultContainer = fixture.debugElement.query(
       By.css('.content-search-result-container'),
     );
-    const spy = spyOn(searchResultContainer.nativeElement, 'focus');
+    const spy = jest.spyOn(searchResultContainer.nativeElement, 'focus');
     iiifManifestServiceStub._currentManifest.next(testManifest);
 
     fixture.detectChanges();
@@ -177,7 +177,7 @@ describe('ContentSearchDialogComponent', () => {
     const searchResultContainer = fixture.debugElement.query(
       By.css('.content-search-result-container'),
     );
-    const spy = spyOn(searchResultContainer.nativeElement, 'focus');
+    const spy = jest.spyOn(searchResultContainer.nativeElement, 'focus');
     iiifManifestServiceStub._currentManifest.next(testManifest);
 
     fixture.detectChanges();

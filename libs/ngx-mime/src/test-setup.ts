@@ -6,3 +6,7 @@ globalThis.ngJest = {
   },
 };
 import 'jest-preset-angular/setup-jest';
+
+import OpenSeadragon from 'openseadragon';
+
+global.OpenSeadragon = OpenSeadragon;

@@ -22,6 +22,8 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { SharedModule } from './../../../shared/shared.module';
 import { ViewerServiceStub } from './../../../test/viewer-service-stub';
 import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
+import { provideAutoSpy } from 'jest-auto-spies';
+import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
@@ -45,6 +47,7 @@ describe('ContentSearchNavigatorComponent', () => {
         },
         { provide: CanvasService, useClass: CanvasServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
   }));

@@ -118,5 +118,5 @@ function expectFooterToShow(element: any) {
 }
 
 function expectFooterToBeHidden(element: any) {
-  expect(element.style.transform).toBe('translate(0px, 100%)');
+  expect(element.style.transform).toBe('translate(0, 100%)');
 }

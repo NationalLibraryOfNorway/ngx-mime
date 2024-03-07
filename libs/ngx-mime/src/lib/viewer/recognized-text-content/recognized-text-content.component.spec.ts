@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { cold } from 'jest-marbles';
 import { when } from 'jest-when';
 import { of } from 'rxjs';
@@ -13,6 +14,7 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { MimeViewerConfig } from '../../core/mime-viewer-config';
 import { Hit } from '../../core/models/hit';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
 
@@ -36,6 +38,7 @@ describe('RecognizedTextContentComponent', () => {
         HighlightService,
         IiifContentSearchService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
   }));
