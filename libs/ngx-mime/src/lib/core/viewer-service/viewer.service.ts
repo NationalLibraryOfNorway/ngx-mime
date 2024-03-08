@@ -11,6 +11,7 @@ import {
 import { distinctUntilChanged, sample } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { AltoService } from '../alto-service/alto.service';
+import { CalculateCanvasGroupPositionFactory } from '../canvas-group-position/calculate-canvas-group-position-factory';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
 import { createSvgOverlay } from '../ext/svg-overlay';
@@ -45,6 +46,7 @@ import {
 import { OptionsFactory } from './options.factory';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
+import { TileSourceStrategyFactory } from './tile-source-strategy-factory';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 
 declare const OpenSeadragon: any;
@@ -56,11 +58,12 @@ export class ViewerService {
   private svgOverlay: any;
   private svgNode: any;
 
+  private overlays: Array<SVGRectElement> = [];
   private tileSources: Array<Resource> = [];
   private subscriptions!: Subscription;
 
   public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(
-    false,
+    false
   );
 
   private currentCenter: Subject<Point> = new Subject();
@@ -94,7 +97,7 @@ export class ViewerService {
     private styleService: StyleService,
     private altoService: AltoService,
     private snackBar: MatSnackBar,
-    private intl: MimeViewerIntl,
+    private intl: MimeViewerIntl
   ) {
     this.id = this.generateRandomId('ngx-mime-mimeViewer');
     this.openseadragonId = this.generateRandomId('openseadragon');
@@ -133,8 +136,8 @@ export class ViewerService {
     return this.tileSources;
   }
 
-  public getOverlays(): ReadonlyArray<SVGRectElement> {
-    return this.canvasService.overlays;
+  public getOverlays(): SVGRectElement[] {
+    return this.overlays;
   }
 
   public getZoom(): number {
@@ -162,13 +165,13 @@ export class ViewerService {
 
   public goToPreviousCanvasGroup(): void {
     this.goToCanvasGroupStrategy.goToPreviousCanvasGroup(
-      this.currentCanvasIndex.getValue(),
+      this.currentCanvasIndex.getValue()
     );
   }
 
   public goToNextCanvasGroup(): void {
     this.goToCanvasGroupStrategy.goToNextCanvasGroup(
-      this.currentCanvasIndex.getValue(),
+      this.currentCanvasIndex.getValue()
     );
   }
 
@@ -199,9 +202,7 @@ export class ViewerService {
 
       for (const hit of searchResult.hits) {
         for (const highlightRect of hit.highlightRects) {
-          const canvasRect = this.canvasService.getCanvasRect(
-            highlightRect.canvasIndex,
-          );
+          const canvasRect = this.canvasService.getCanvasRect(highlightRect.canvasIndex);
           if (canvasRect) {
             const currentHitStrokeOffset = 8;
             let width = highlightRect.width + currentHitStrokeOffset;
@@ -226,8 +227,7 @@ export class ViewerService {
 
               case 180:
                 x += canvasRect.width - (highlightRect.x + highlightRect.width);
-                y +=
-                  canvasRect.height - (highlightRect.y + highlightRect.height);
+                y += canvasRect.height - (highlightRect.y + highlightRect.height);
                 break;
 
               case 270:
@@ -271,25 +271,21 @@ export class ViewerService {
 
   setUpViewer(manifest: Manifest, config: MimeViewerConfig) {
     this.config = config;
-    this.canvasService.setConfig(config);
 
     if (manifest && manifest.tileSource) {
       this.tileSources = manifest.tileSource;
-      this.canvasService.addTileSources(this.tileSources);
-
       this.zone.runOutsideAngular(() => {
         this.manifest = manifest;
         this.isManifestPaged = ManifestUtils.isManifestPaged(this.manifest);
         this.viewer = new OpenSeadragon.Viewer(
-          OptionsFactory.create(this.openseadragonId, this.config),
+          OptionsFactory.create(this.openseadragonId, this.config)
         );
-
         createSvgOverlay();
         this.zoomStrategy = new DefaultZoomStrategy(
           this.viewer,
           this.canvasService,
           this.modeService,
-          this.viewerLayoutService,
+          this.viewerLayoutService
         );
         this.goToCanvasGroupStrategy = new DefaultGoToCanvasGroupStrategy(
           this.viewer,
@@ -297,7 +293,7 @@ export class ViewerService {
           this.canvasService,
           this.modeService,
           this.config,
-          this.manifest.viewingDirection,
+          this.manifest.viewingDirection
         );
 
         /*
@@ -311,7 +307,7 @@ export class ViewerService {
         this.canvasService.reset();
         this.canvasGroupMask = new CanvasGroupMask(
           this.viewer,
-          this.styleService,
+          this.styleService
         );
       });
 
@@ -328,7 +324,7 @@ export class ViewerService {
     this.subscriptions.add(
       this.modeService.onChange.subscribe((mode: ModeChanges) => {
         this.modeChanged(mode);
-      }),
+      })
     );
 
     this.zone.runOutsideAngular(() => {
@@ -340,7 +336,7 @@ export class ViewerService {
             if (center && center !== null) {
               this.osdIsReady.next(true);
             }
-          }),
+          })
       );
     });
 
@@ -350,7 +346,7 @@ export class ViewerService {
           this.swipeDragEndCounter.reset();
           if (canvasGroupIndex !== -1) {
             this.canvasGroupMask.changeCanvasGroup(
-              this.canvasService.getCanvasGroupRect(canvasGroupIndex),
+              this.canvasService.getCanvasGroupRect(canvasGroupIndex)
             );
             if (
               this.modeService.mode === ViewerMode.PAGE ||
@@ -359,8 +355,8 @@ export class ViewerService {
               this.zoomStrategy.goToHomeZoom();
             }
           }
-        },
-      ),
+        }
+      )
     );
 
     this.subscriptions.add(
@@ -369,13 +365,13 @@ export class ViewerService {
           this.initialCanvasGroupLoaded();
           this.currentCenter.next(this.viewer?.viewport.getCenter(true));
         }
-      }),
+      })
     );
 
     this.subscriptions.add(
       this.viewerLayoutService.onChange.subscribe((state: ViewerLayout) => {
         this.layoutPages();
-      }),
+      })
     );
 
     this.subscriptions.add(
@@ -385,13 +381,13 @@ export class ViewerService {
           this.highlightCurrentHit();
           this.goToCanvas(hit.index, false);
         }
-      }),
+      })
     );
 
     this.subscriptions.add(
       this.onRotationChange.subscribe((rotation: number) => {
         this.layoutPages();
-      }),
+      })
     );
 
     this.subscriptions.add(
@@ -418,8 +414,8 @@ export class ViewerService {
               this.home();
             }, ViewerOptions.transitions.OSDAnimationTime);
           }
-        },
-      ),
+        }
+      )
     );
   }
 
@@ -481,6 +477,7 @@ export class ViewerService {
       this.viewer.destroy();
       this.viewer = null;
     }
+    this.overlays = [];
     this.canvasService.reset();
     if (this.canvasGroupMask) {
       this.canvasGroupMask.destroy();
@@ -506,7 +503,7 @@ export class ViewerService {
     this.viewer.addHandler('canvas-click', this.clickService.click);
     this.viewer.addHandler(
       'canvas-double-click',
-      (e: any) => (e.preventDefaultAction = true),
+      (e: any) => (e.preventDefaultAction = true)
     );
     this.viewer.addHandler('canvas-press', (e: any) => {
       this.pinchStatus.active = false;
@@ -514,7 +511,7 @@ export class ViewerService {
       this.isCanvasPressed.next(true);
     });
     this.viewer.addHandler('canvas-release', () =>
-      this.isCanvasPressed.next(false),
+      this.isCanvasPressed.next(false)
     );
     this.viewer.addHandler('canvas-scroll', this.scrollHandler);
     this.viewer.addHandler('canvas-pinch', this.pinchHandler);
@@ -750,7 +747,7 @@ export class ViewerService {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
       this.zoomStrategy.zoomIn(
         ViewerOptions.zoom.dblClickZoomFactor,
-        event.position,
+        event.position
       );
     } else {
       this.modeService.mode = ViewerMode.PAGE;
@@ -778,11 +775,110 @@ export class ViewerService {
    * Creates svg clickable overlays for each tile
    */
   createOverlays(): void {
-    this.canvasService.setViewer(this.viewer);
-    this.canvasService.setSvgNode(this.svgNode);
-    this.canvasService.setViewingDirection(this.manifest.viewingDirection);
-    this.canvasService.setRotation(this.rotation.getValue());
-    this.canvasService.updateViewer();
+    this.overlays = [];
+    const canvasRects: Rect[] = [];
+    const calculateCanvasGroupPositionStrategy =
+      CalculateCanvasGroupPositionFactory.create(
+        this.viewerLayoutService.layout,
+        this.isManifestPaged,
+        this.config
+      );
+
+    const isTwoPageView: boolean =
+      this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE;
+    const rotation = this.rotation.getValue();
+    let group: any = this.svgNode.append('g').attr('class', 'page-group');
+
+    this.tileSources.forEach((tile, i) => {
+      const position =
+        calculateCanvasGroupPositionStrategy.calculateCanvasGroupPosition(
+          {
+            canvasGroupIndex: i,
+            canvasSource: tile,
+            previousCanvasGroupPosition: canvasRects[i - 1],
+            viewingDirection: this.manifest.viewingDirection,
+          },
+          rotation
+        );
+
+      canvasRects.push(position);
+
+      const tileSourceStrategy = TileSourceStrategyFactory.create(tile);
+      const tileSource = tileSourceStrategy.getTileSource(tile);
+
+      this.zone.runOutsideAngular(() => {
+        const rotated = rotation === 90 || rotation === 270;
+
+        let bounds;
+
+        /* Because image scaling is performed before rotation,
+         * we must invert width & height and translate position so that tile rotation ends up correct
+         */
+        if (rotated) {
+          bounds = new OpenSeadragon.Rect(
+            position.x + (position.width - position.height) / 2,
+            position.y - (position.width - position.height) / 2,
+            position.height,
+            position.width
+          );
+        } else {
+          bounds = new OpenSeadragon.Rect(
+            position.x,
+            position.y,
+            position.width,
+            position.height
+          );
+        }
+
+        this.viewer.addTiledImage({
+          index: i,
+          tileSource: tileSource,
+          fitBounds: bounds,
+          degrees: rotation,
+        });
+      });
+
+      if (isTwoPageView && i % 2 !== 0) {
+        group = this.svgNode.append('g').attr('class', 'page-group');
+      }
+
+      const currentOverlay = group
+        .append('rect')
+        .attr('x', position.x)
+        .attr('y', position.y)
+        .attr('width', position.width)
+        .attr('height', position.height)
+        .attr('class', 'tile');
+
+      // Make custom borders if current layout is two-paged
+      if (isTwoPageView) {
+        if (i % 2 === 0 && i !== 0) {
+          const noLeftStrokeStyle =
+            Number(position.width * 2 + position.height) +
+            ', ' +
+            position.width * 2;
+          currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
+        } else if (i % 2 !== 0 && i !== 0) {
+          const noRightStrokeStyle =
+            position.width +
+            ', ' +
+            position.height +
+            ', ' +
+            Number(position.width * 2 + position.height);
+          currentOverlay.style('stroke-dasharray', noRightStrokeStyle);
+        }
+      }
+
+      const currentOverlayNode: SVGRectElement = currentOverlay.node();
+      this.overlays[i] = currentOverlayNode;
+    });
+
+    const layout =
+      this.viewerLayoutService.layout === ViewerLayout.ONE_PAGE ||
+      !this.isManifestPaged
+        ? ViewerLayout.ONE_PAGE
+        : ViewerLayout.TWO_PAGE;
+    this.canvasService.addAll(canvasRects, layout);
   }
 
   /**
@@ -792,7 +888,7 @@ export class ViewerService {
     this.home();
     this.canvasGroupMask.initialize(
       this.canvasService.getCurrentCanvasGroupRect(),
-      this.modeService.mode !== ViewerMode.DASHBOARD,
+      this.modeService.mode !== ViewerMode.DASHBOARD
     );
     if (this.viewer) {
       d3.select(this.viewer.container.parentNode)
@@ -809,9 +905,7 @@ export class ViewerService {
   getOverlayIndexFromClickEvent(event: any) {
     const target = this.getOriginalTarget(event);
     if (this.isCanvasGroupHit(target)) {
-      const requestedCanvasGroup: number =
-        this.canvasService.overlays.indexOf(target);
-
+      const requestedCanvasGroup: number = this.overlays.indexOf(target);
       if (requestedCanvasGroup >= 0) {
         return requestedCanvasGroup;
       }
@@ -836,7 +930,7 @@ export class ViewerService {
       const pannedPastCanvasGroup =
         SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
           canvasGroupRect,
-          vpBounds,
+          vpBounds
         );
       const direction: number = e.direction;
       if (
@@ -857,7 +951,7 @@ export class ViewerService {
       this.isCanvasOutsideViewport(viewportBounds, currentCanvasBounds)
         ? this.constraintCanvasOutsideViewport(
             viewportBounds,
-            currentCanvasBounds,
+            currentCanvasBounds
           )
         : this.constraintCanvasInsideViewport(viewportBounds);
     }
@@ -871,14 +965,14 @@ export class ViewerService {
 
   private isCanvasOutsideViewport(
     viewportBounds: Rect,
-    canvasBounds: Rect,
+    canvasBounds: Rect
   ): boolean {
     return viewportBounds.height < canvasBounds.height;
   }
 
   private constraintCanvasOutsideViewport(
     viewportBounds: Rect,
-    canvasBounds: Rect,
+    canvasBounds: Rect
   ): void {
     let rect: Rect | undefined = undefined;
     if (this.isCanvasBelowViewportTop(viewportBounds, canvasBounds)) {
@@ -897,7 +991,7 @@ export class ViewerService {
 
   private constraintCanvasInsideViewport(viewportBounds: Rect): void {
     const canvasGroupRect = this.canvasService.getCanvasGroupRect(
-      this.canvasService.currentCanvasGroupIndex,
+      this.canvasService.currentCanvasGroupIndex
     );
     const rect = new Rect({
       x: viewportBounds.x + viewportBounds.width / 2,
@@ -908,14 +1002,14 @@ export class ViewerService {
 
   private isCanvasBelowViewportTop(
     viewportBounds: Rect,
-    canvasBounds: Rect,
+    canvasBounds: Rect
   ): boolean {
     return viewportBounds.y < canvasBounds.y;
   }
 
   private isCanvasAboveViewportBottom(
     viewportBounds: Rect,
-    canvasBounds: Rect,
+    canvasBounds: Rect
   ): boolean {
     return (
       canvasBounds.y + canvasBounds.height <
@@ -939,7 +1033,7 @@ export class ViewerService {
     const direction: Direction = SwipeUtils.getSwipeDirection(
       this.dragStartPosition,
       dragEndPosision,
-      this.modeService.isPageZoomed(),
+      this.modeService.isPageZoomed()
     );
 
     const currentCanvasGroupIndex: number =
@@ -952,7 +1046,7 @@ export class ViewerService {
     if (this.modeService.isPageZoomed()) {
       pannedPastSide = SwipeUtils.getSideIfPanningPastEndOfCanvasGroup(
         canvasGroupRect,
-        viewportBounds,
+        viewportBounds
       );
       this.swipeDragEndCounter.addHit(pannedPastSide, direction);
       canvasGroupEndHitCountReached =
@@ -967,7 +1061,7 @@ export class ViewerService {
         currentCanvasGroupIndex: currentCanvasGroupIndex,
         canvasGroupEndHitCountReached: canvasGroupEndHitCountReached,
         viewingDirection: this.manifest.viewingDirection,
-      }),
+      })
     );
     if (
       this.modeService.mode === ViewerMode.DASHBOARD ||
@@ -999,7 +1093,7 @@ export class ViewerService {
           x: rect.x,
           y: rect.y,
         },
-        immediately,
+        immediately
       );
     }
   }

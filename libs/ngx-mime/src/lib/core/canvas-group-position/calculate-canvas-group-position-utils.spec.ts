@@ -8,7 +8,6 @@ describe('canvasRectFromCriteria', () => {
   const canvasGroupsPositionCriteria: CanvasGroupPositionCriteria = {
     canvasGroupIndex: 0,
     canvasSource: new Resource({
-      id: 'fakeId',
       width: 100,
       height: 200,
       service: new Service({
@@ -28,11 +27,11 @@ describe('canvasRectFromCriteria', () => {
         0,
         canvasGroupsPositionCriteria,
         10,
-        false,
+        false
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -100, width: 100, height: 200 }),
+        new Rect({ x: 10, y: -100, width: 100, height: 200 })
       );
     });
 
@@ -41,11 +40,11 @@ describe('canvasRectFromCriteria', () => {
         90,
         canvasGroupsPositionCriteria,
         10,
-        false,
+        false
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -50, width: 200, height: 100 }),
+        new Rect({ x: 10, y: -50, width: 200, height: 100 })
       );
     });
 
@@ -54,11 +53,11 @@ describe('canvasRectFromCriteria', () => {
         180,
         canvasGroupsPositionCriteria,
         10,
-        false,
+        false
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -100, width: 100, height: 200 }),
+        new Rect({ x: 10, y: -100, width: 100, height: 200 })
       );
     });
 
@@ -67,11 +66,11 @@ describe('canvasRectFromCriteria', () => {
         270,
         canvasGroupsPositionCriteria,
         10,
-        false,
+        false
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -50, width: 200, height: 100 }),
+        new Rect({ x: 10, y: -50, width: 200, height: 100 })
       );
     });
     it('should rotate 360 degrees', () => {
@@ -79,11 +78,11 @@ describe('canvasRectFromCriteria', () => {
         360,
         canvasGroupsPositionCriteria,
         10,
-        false,
+        false
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -100, width: 100, height: 200 }),
+        new Rect({ x: 10, y: -100, width: 100, height: 200 })
       );
     });
   });
@@ -93,11 +92,11 @@ describe('canvasRectFromCriteria', () => {
         0,
         canvasGroupsPositionCriteria,
         10,
-        true,
+        true
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -100, width: 100, height: 200 }),
+        new Rect({ x: 10, y: -100, width: 100, height: 200 })
       );
     });
 
@@ -106,11 +105,11 @@ describe('canvasRectFromCriteria', () => {
         90,
         canvasGroupsPositionCriteria,
         10,
-        true,
+        true
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -50, width: 200, height: 100 }),
+        new Rect({ x: 10, y: -50, width: 200, height: 100 })
       );
     });
 
@@ -119,11 +118,11 @@ describe('canvasRectFromCriteria', () => {
         180,
         canvasGroupsPositionCriteria,
         10,
-        true,
+        true
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -100, width: 100, height: 200 }),
+        new Rect({ x: 10, y: -100, width: 100, height: 200 })
       );
     });
 
@@ -132,11 +131,11 @@ describe('canvasRectFromCriteria', () => {
         270,
         canvasGroupsPositionCriteria,
         10,
-        true,
+        true
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -50, width: 200, height: 100 }),
+        new Rect({ x: 10, y: -50, width: 200, height: 100 })
       );
     });
     it('should rotate 360 degrees', () => {
@@ -144,11 +143,11 @@ describe('canvasRectFromCriteria', () => {
         360,
         canvasGroupsPositionCriteria,
         10,
-        true,
+        true
       );
 
       expect(canvasRect).toEqual(
-        new Rect({ x: 10, y: -100, width: 100, height: 200 }),
+        new Rect({ x: 10, y: -100, width: 100, height: 200 })
       );
     });
   });

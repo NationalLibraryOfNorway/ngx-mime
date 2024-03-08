@@ -1,29 +1,20 @@
-import {
-  CanvasGroup,
-  TileSourceAndRect,
-} from '../canvas-service/tile-source-and-rect.model';
 import { Point } from './point';
+import { Rect } from './rect';
 
 export class CanvasGroups {
-  canvasGroupRects: CanvasGroup[] = [];
-  canvasRects: TileSourceAndRect[] = [];
+  canvasGroupRects: Rect[] = [];
+  canvasRects: Rect[] = [];
   canvasesPerCanvasGroup: number[][] = [];
 
-  public add(rect: CanvasGroup): void {
+  public add(rect: Rect): void {
     this.canvasGroupRects.push(rect);
-
-    if (rect.canvases) {
-      rect.canvases.forEach((rect: TileSourceAndRect, i: number) => {
-        this.canvasRects.push(rect);
-      });
-    }
   }
 
-  public addRange(rects: ReadonlyArray<CanvasGroup>): void {
-    this.canvasGroupRects = [...rects];
+  public addRange(rects: Rect[]): void {
+    this.canvasGroupRects = rects;
   }
 
-  public get(index: number): CanvasGroup {
+  public get(index: number): Rect {
     return { ...this.canvasGroupRects[index] };
   }
 
@@ -34,8 +25,8 @@ export class CanvasGroups {
     if (point === null) {
       return -1;
     }
-    this.canvasGroupRects.some(function (rect: CanvasGroup, index: number) {
-      const delta = Math.abs(point.x - rect.rect.centerX);
+    this.canvasGroupRects.some(function (rect: Rect, index: number) {
+      const delta = Math.abs(point.x - rect.centerX);
       if (delta >= lastDelta) {
         return true;
       }

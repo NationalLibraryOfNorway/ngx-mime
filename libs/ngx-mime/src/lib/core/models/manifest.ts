@@ -52,10 +52,7 @@ export class Manifest {
 }
 
 export class Metadata {
-  constructor(
-    public label: string,
-    public value: string | number,
-  ) {}
+  constructor(public label: string, public value: string | number) {}
 }
 
 export class Sequence {
@@ -140,7 +137,7 @@ export class Images {
 }
 
 export class Resource {
-  public id!: string;
+  public id?: string;
   public type?: string;
   public format?: string;
   public service?: Service;
@@ -149,7 +146,7 @@ export class Resource {
   public tileOverlap = 0;
 
   constructor(fields?: {
-    id: string;
+    id?: string;
     type?: string;
     format?: string;
     service?: Service;
@@ -158,7 +155,7 @@ export class Resource {
     tileOverlap?: number;
   }) {
     if (fields) {
-      this.id = fields.id;
+      this.id = fields.id || this.id;
       this.type = fields.type || this.type;
       this.format = fields.format || this.format;
       this.service = fields.service || this.service;
@@ -212,10 +209,7 @@ export class Service {
 }
 
 export class Size {
-  constructor(
-    public width: number,
-    public height: number,
-  ) {}
+  constructor(public width: number, public height: number) {}
 }
 
 export class Tile {

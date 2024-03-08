@@ -5,24 +5,11 @@ import {
 } from './canvas-group.strategy';
 
 export class CanvasGroupStrategyFactory {
-  public static create(
-    layout: ViewerLayout,
-    config: any,
-    viewingDirection: any,
-    rotation: any,
-  ) {
+  public static create(layout: ViewerLayout) {
     if (layout === ViewerLayout.ONE_PAGE) {
-      return new OneCanvasPerCanvasGroupStrategy(
-        config,
-        viewingDirection,
-        rotation,
-      );
+      return new OneCanvasPerCanvasGroupStrategy();
     } else {
-      return new TwoCanvasPerCanvasGroupStrategy(
-        config,
-        viewingDirection,
-        rotation,
-      );
+      return new TwoCanvasPerCanvasGroupStrategy();
     }
   }
 }
