@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { provideAutoSpy } from 'jest-auto-spies';
 import { Rect } from '../models/rect';
-import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
+import { ViewerLayout } from '../models/viewer-layout';
 import { CanvasService } from './canvas-service';
 
 describe('CanvasService', () => {
@@ -14,9 +13,10 @@ describe('CanvasService', () => {
     }
 
     TestBed.configureTestingModule({
-      providers: [CanvasService, provideAutoSpy(ViewerLayoutService)],
+      providers: [CanvasService],
     });
     service = TestBed.inject(CanvasService);
+    service.addAll(canvases, ViewerLayout.ONE_PAGE);
   });
 
   it('should return true when requested canvas group index is within bounds', () => {

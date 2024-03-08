@@ -7,16 +7,16 @@ import { DefaultGoToCanvasGroupStrategy } from './go-to-canvas-group-strategy';
 describe('DefaultGoToCanvasGroupStrategy ', () => {
   let strategy: DefaultGoToCanvasGroupStrategy;
   const viewport: any = {
-    getCenter: {},
-    getBounds: {},
-    panTo: {},
+    getCenter: () => {},
+    getBounds: () => {},
+    panTo: () => {},
   };
   const viewer: any = {
     viewport: viewport,
     collectionTileMargin: 80,
   };
   const zoomStrategy: any = {};
-  let canvasService: CanvasService;
+  const canvasService: CanvasService = new CanvasService();
   const modeService = new ModeService();
   const config: any = {};
   let spy: any;
@@ -68,7 +68,7 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
           immediately: false,
         });
 
-        const args = viewport.panTo.calls.mostRecent().args;
+        const args = spy.mock.calls.pop();
         expect(args[0].x).toEqual(50);
         expect(args[0].y).toEqual(-30);
       });
@@ -107,7 +107,7 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
           immediately: false,
         });
 
-        const args = viewport.panTo.calls.mostRecent().args;
+        const args = spy.mock.calls.pop();
         expect(args[0].x).toEqual(150);
         expect(args[0].y).toEqual(-30);
       });

@@ -45,12 +45,12 @@ describe('MetadataComponent', () => {
           new Metadata('label1', 'value1'),
           new Metadata('label2', 'value2'),
         ],
-      })
+      }),
     );
     fixture.detectChanges();
 
     const metadatas: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.metadata')
+      By.css('.metadata'),
     );
     expect(metadatas.length).toEqual(2);
   });
@@ -59,31 +59,27 @@ describe('MetadataComponent', () => {
     iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         attribution: 'This is a test attribution',
-      })
+      }),
     );
     fixture.detectChanges();
 
-    const attribution: DebugElement = fixture.debugElement.query(
-      By.css('.attribution')
-    );
-    expect(attribution.nativeElement.innerText).toBe(
-      'This is a test attribution'
-    );
+    const attribution: HTMLElement =
+      fixture.nativeElement.querySelector('.attribution');
+    expect(attribution.textContent).toBe('This is a test attribution');
   });
 
   it('should display license', () => {
     iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         license: 'https://wiki.creativecommons.org/wiki/CC0',
-      })
+      }),
     );
     fixture.detectChanges();
 
-    const attribution: DebugElement = fixture.debugElement.query(
-      By.css('.license')
-    );
-    expect(attribution.nativeElement.innerText).toBe(
-      'https://wiki.creativecommons.org/wiki/CC0'
+    const attribution: HTMLElement =
+      fixture.nativeElement.querySelector('.license');
+    expect(attribution.textContent).toBe(
+      'https://wiki.creativecommons.org/wiki/CC0',
     );
   });
 
@@ -91,15 +87,15 @@ describe('MetadataComponent', () => {
     iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         logo: 'http://example.com/dummylogo.jpg',
-      })
+      }),
     );
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(
-      By.css('.logo')
+      By.css('.logo'),
     );
     expect(attribution.nativeElement.getAttribute('src')).toBe(
-      'http://example.com/dummylogo.jpg'
+      'http://example.com/dummylogo.jpg',
     );
   });
 });

@@ -146,7 +146,7 @@ describe('InformationDialogComponent', () => {
 
   it('should close information dialog when selecting a canvas group in TOC when on mobile', async () => {
     breakpointObserver.setMatches(true);
-    jest.spyOn(viewerService, 'goToCanvas');
+    jest.spyOn(viewerService, 'goToCanvas').mockImplementation(() => {});
     jest.spyOn(dialogRef, 'close');
 
     iiifManifestService._currentManifest.next(

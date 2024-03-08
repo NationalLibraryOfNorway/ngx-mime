@@ -16,13 +16,13 @@ describe('ManifestBuilder', () => {
   it('should test manifest content after build', () => {
     expect(manifest.type).toBe('Manifest');
     expect(manifest.id).toBe(
-      'https://api.nb.no/catalog/v3/iiif/0266d0da8f0d064a7725048aacf19872/manifest',
+      'https://api.nb.no/catalog/v3/iiif/0266d0da8f0d064a7725048aacf19872/manifest'
     );
     expect(manifest.label).toBe('Fjellkongen Ludvig "Ludden"');
     expect(manifest.metadata?.length).toBe(15);
     expect(manifest.license).toBe('https://www.nb.no/lisens/stromming');
     expect(manifest.service?.id).toBe(
-      'http://example.org/services/identifier/search',
+      'http://example.org/services/identifier/search'
     );
   });
 
@@ -30,7 +30,7 @@ describe('ManifestBuilder', () => {
     expect(manifest.sequences?.length).toBe(1);
     manifest.sequences?.forEach((sequence: Sequence) => {
       expect(sequence.id).toBe(
-        'https://api.nb.no/catalog/v3/iiif/0266d0da8f0d064a7725048aacf19872/manifest',
+        'https://api.nb.no/catalog/v3/iiif/0266d0da8f0d064a7725048aacf19872/manifest'
       );
     });
   });

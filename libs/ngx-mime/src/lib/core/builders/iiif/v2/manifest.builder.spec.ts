@@ -16,13 +16,13 @@ describe('ManifestBuilder', () => {
   it('should test manifest content after build', () => {
     expect(manifest.type).toBe('sc:Manifest');
     expect(manifest.id).toBe(
-      'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/manifest',
+      'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/manifest'
     );
     expect(manifest.label).toBe('Fjellkongen Ludvig "Ludden"');
     expect(manifest.metadata?.length).toBe(10);
     expect(manifest.license).toBe('https://beta.nb.no/lisens/copyright');
     expect(manifest.service?.id).toBe(
-      'http://example.org/services/identifier/search',
+      'http://example.org/services/identifier/search'
     );
   });
 
@@ -30,7 +30,7 @@ describe('ManifestBuilder', () => {
     expect(manifest.sequences?.length).toBe(1);
     manifest.sequences?.forEach((sequence: Sequence) => {
       expect(sequence.id).toBe(
-        'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/sequence/normal',
+        'https://api.nb.no/catalog/v1/iiif/0266d0da8f0d064a7725048aacf19872/sequence/normal'
       );
       expect(sequence.type).toBe('sc:Sequence');
     });
@@ -71,10 +71,10 @@ describe('ManifestBuilder', () => {
           const service = image.resource?.service;
           expect(service).toBeTruthy();
           expect(service?.context).toBe(
-            'http://iiif.io/api/image/2/context.json',
+            'http://iiif.io/api/image/2/context.json'
           );
           expect(service?.id).toBe(
-            'https://www.nb.no/services/image/resolver/' + image.resource?.id,
+            'https://www.nb.no/services/image/resolver/' + image.resource?.id
           );
           expect(service?.service).toBeDefined();
         });

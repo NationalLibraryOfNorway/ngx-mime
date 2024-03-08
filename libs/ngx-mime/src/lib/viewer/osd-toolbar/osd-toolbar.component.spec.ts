@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { provideAutoSpy } from 'jest-auto-spies';
+import { injectedStub } from '../../../testing/injected-stub';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
@@ -15,7 +15,6 @@ import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { StyleService } from '../../core/style-service/style.service';
-import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
@@ -51,7 +50,6 @@ describe('OsdToolbarComponent', () => {
         MimeDomHelper,
         FullscreenService,
         StyleService,
-        provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
   }));
@@ -106,7 +104,7 @@ describe('OsdToolbarComponent', () => {
       fixture.detectChanges();
 
       expect(await (await homeButton.host())?.getAttribute('aria-label')).toBe(
-        'Go home button',
+        'Go home button'
       );
     });
 
@@ -210,11 +208,11 @@ describe('OsdToolbarComponent', () => {
 
   const getButtonByTestId = (id: string): Promise<MatButtonHarness> =>
     harnessLoader.getHarness(
-      MatButtonHarness.with({ selector: `[data-testid="${id}"]` }),
+      MatButtonHarness.with({ selector: `[data-testid="${id}"]` })
     );
 
   const expectFabButtonToHaveAriaExpanded = async (
-    expected: string,
+    expected: string
   ): Promise<void> => {
     const fabButton = await (await getFabButton()).host();
     expect(await fabButton.getAttribute('aria-expanded')).toEqual(expected);
@@ -232,7 +230,7 @@ describe('OsdToolbarComponent', () => {
 
   const getMiniFabButtons = (): Promise<MatButtonHarness[]> => {
     return harnessLoader.getAllHarnesses(
-      MatButtonHarness.with({ variant: 'mini-fab' }),
+      MatButtonHarness.with({ variant: 'mini-fab' })
     );
   };
 });

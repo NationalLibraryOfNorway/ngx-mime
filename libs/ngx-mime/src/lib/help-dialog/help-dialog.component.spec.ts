@@ -44,7 +44,7 @@ describe('HelpDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop'),
+      By.css('.heading-desktop')
     );
     expect(heading).not.toBeNull();
   });
@@ -55,7 +55,7 @@ describe('HelpDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop'),
+      By.css('.heading-desktop')
     );
     expect(heading).toBeNull();
   });

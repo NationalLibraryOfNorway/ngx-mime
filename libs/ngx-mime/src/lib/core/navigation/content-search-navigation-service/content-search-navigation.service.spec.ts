@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { provideAutoSpy } from 'jest-auto-spies';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../../test/testManifest';
@@ -12,7 +11,7 @@ import { MimeViewerIntl } from '../../intl';
 import { Hit } from '../../models/hit';
 import { Rect } from '../../models/rect';
 import { SearchResult } from '../../models/search-result';
-import { ViewerLayoutService } from '../../viewer-layout-service/viewer-layout-service';
+import { ViewerLayout } from '../../models/viewer-layout';
 import { ViewerService } from '../../viewer-service/viewer.service';
 import { ContentSearchNavigationService } from './content-search-navigation.service';
 
@@ -35,7 +34,6 @@ describe('ContentSearchNavigationService', () => {
           provide: IiifContentSearchService,
           useClass: IiifContentSearchServiceStub,
         },
-        provideAutoSpy(ViewerLayoutService),
       ],
     });
   });
@@ -50,9 +48,9 @@ describe('ContentSearchNavigationService', () => {
       createSearchResult(),
     );
     const canvasService = TestBed.inject(CanvasService);
-    //canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
+    canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
     contentSearchNavigationService = TestBed.inject(
-      ContentSearchNavigationService,
+      ContentSearchNavigationService
     );
   });
 

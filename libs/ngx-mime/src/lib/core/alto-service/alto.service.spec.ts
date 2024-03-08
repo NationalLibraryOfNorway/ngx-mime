@@ -2,8 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { provideAutoSpy } from 'jest-auto-spies';
+import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { cold } from 'jest-marbles';
 import { when } from 'jest-when';
 import { CanvasServiceStub } from '../../test/canvas-service-stub';
@@ -13,7 +12,6 @@ import { HighlightService } from '../highlight-service/highlight.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
 import { RecognizedTextMode } from '../models';
-import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { testAlto } from './../../test/testAltos';
 import { AltoService } from './alto.service';
 
@@ -34,7 +32,6 @@ describe('AltoService', () => {
         HighlightService,
         { provide: CanvasService, useClass: CanvasServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        provideAutoSpy(ViewerLayoutService),
       ],
     });
     service = TestBed.inject(AltoService);
@@ -47,7 +44,6 @@ describe('AltoService', () => {
 
   afterEach(() => {
     httpTestingController.verify();
-    service.destroy();
   });
 
   it('should be created', () => {
@@ -147,7 +143,8 @@ describe('AltoService', () => {
   });
 
   const setUpSpy = () => {
-    when(canvasService.getCanvasesPerCanvasGroup)
+    const spy = jest.spyOn(canvasService, 'getCanvasesPerCanvasGroup');
+    when(spy)
       .calledWith(0)
       .mockReturnValue([0, 1])
       .calledWith(1)

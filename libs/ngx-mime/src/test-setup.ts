@@ -10,3 +10,4 @@ import 'jest-preset-angular/setup-jest';
 import OpenSeadragon from 'openseadragon';
 
 global.OpenSeadragon = OpenSeadragon;
+window['SVGPathElement'] = {} as any;

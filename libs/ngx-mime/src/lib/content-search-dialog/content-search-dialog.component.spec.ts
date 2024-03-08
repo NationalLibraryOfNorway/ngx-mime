@@ -87,7 +87,7 @@ describe('ContentSearchDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop'),
+      By.css('.heading-desktop')
     );
     expect(heading).not.toBeNull();
   });
@@ -149,10 +149,10 @@ describe('ContentSearchDialogComponent', () => {
 
   it('should remain in search input if content search return zero hits', () => {
     const searchInput = fixture.debugElement.query(
-      By.css('.content-search-input'),
+      By.css('.content-search-input')
     );
     const searchResultContainer = fixture.debugElement.query(
-      By.css('.content-search-result-container'),
+      By.css('.content-search-result-container')
     );
     const spy = jest.spyOn(searchResultContainer.nativeElement, 'focus');
     iiifManifestServiceStub._currentManifest.next(testManifest);
@@ -172,10 +172,10 @@ describe('ContentSearchDialogComponent', () => {
 
   it('should set focus on search result if content search return hits', () => {
     const searchInput = fixture.debugElement.query(
-      By.css('.content-search-input'),
+      By.css('.content-search-input')
     );
     const searchResultContainer = fixture.debugElement.query(
-      By.css('.content-search-result-container'),
+      By.css('.content-search-result-container')
     );
     const spy = jest.spyOn(searchResultContainer.nativeElement, 'focus');
     iiifManifestServiceStub._currentManifest.next(testManifest);
@@ -189,7 +189,7 @@ describe('ContentSearchDialogComponent', () => {
     iiifContentSearchServiceStub._currentSearchResult.next(
       new SearchResult({
         hits: [new Hit(), new Hit()],
-      }),
+      })
     );
 
     fixture.detectChanges();
@@ -199,7 +199,7 @@ describe('ContentSearchDialogComponent', () => {
 
   it('should only show clear button on input', async () => {
     const searchInput: DebugElement = fixture.debugElement.query(
-      By.css('.content-search-input'),
+      By.css('.content-search-input')
     );
 
     expect(await getButtonCount()).toEqual(2);

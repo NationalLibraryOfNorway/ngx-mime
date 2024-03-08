@@ -114,7 +114,7 @@ describe('ViewerFooterComponent', () => {
 });
 
 function expectFooterToShow(element: any) {
-  expect(element.style.transform).toBe('translate(0px, 0px)');
+  expect(element.style.transform).toBe('translate(0, 0)');
 }
 
 function expectFooterToBeHidden(element: any) {

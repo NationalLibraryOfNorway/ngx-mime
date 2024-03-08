@@ -1,11 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideAutoSpy } from 'jest-auto-spies';
-import { cold } from 'jest-marbles';
-import { when } from 'jest-when';
-import { of } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
@@ -14,7 +11,6 @@ import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manif
 import { MimeViewerIntl } from '../../core/intl/viewer-intl';
 import { MimeViewerConfig } from '../../core/mime-viewer-config';
 import { Hit } from '../../core/models/hit';
-import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { RecognizedTextContentComponent } from './recognized-text-content.component';
 
@@ -26,22 +22,30 @@ describe('RecognizedTextContentComponent', () => {
   let highlightService: any;
   let iiifContentSearchService: any;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [RecognizedTextContentComponent],
       providers: [
         MimeViewerIntl,
-        CanvasService,
-        AltoService,
         MimeViewerIntl,
-        HighlightService,
-        IiifContentSearchService,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        provideAutoSpy(ViewerLayoutService),
+        provideAutoSpy(CanvasService),
+        provideAutoSpy(AltoService, {
+          methodsToSpyOn: ['getHtml'],
+          observablePropsToSpyOn: [
+            'onTextContentReady$',
+            'isLoading$',
+            'hasErrors$',
+          ],
+        }),
+        provideAutoSpy(IiifContentSearchService, {
+          observablePropsToSpyOn: ['onChange', 'onSelected'],
+        }),
+        provideAutoSpy(HighlightService, ['highlightSelectedHit']),
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RecognizedTextContentComponent);
@@ -58,93 +62,69 @@ describe('RecognizedTextContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show recognized text', (done) => {
+  it('should show recognized text', () => {
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
     const secondCanvasRecognizedTextContent =
       '<p>fakeSecondRecognizedTextContent</p>';
-    when(canvasService.getCanvasesPerCanvasGroup)
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0, 1]);
+    altoService.getHtml
       .calledWith(0)
-      .mockReturnValue([0, 1]);
-
-    when(altoService.getHtml)
-      .calledWith(0)
-      .mockReturnValue(firstCanvasRecognizedTextContent)
+      .mockReturnValue(firstCanvasRecognizedTextContent);
+    altoService.getHtml
       .calledWith(1)
       .mockReturnValue(secondCanvasRecognizedTextContent);
-
-    const stream$ = jest
-      .spyOn(altoService, 'onTextContentReady', 'get')
-      .mockReturnValue(cold('x|'));
+    altoService.onTextContentReady$.nextWith(true);
+    altoService.isLoading$.nextWith(false);
 
     fixture.detectChanges();
 
-    expect(stream$).toSatisfyOnFlush(() => {
-      const firstCanvasRecognizedTextContentDe: DebugElement =
-        fixture.debugElement.query(
-          By.css('div[data-testid="firstCanvasRecognizedTextContent"]'),
-        );
-      const secondCanvasRecognizedTextContentDe: DebugElement =
-        fixture.debugElement.query(
-          By.css('div[data-testid="secondCanvasRecognizedTextContent"]'),
-        );
-
-      expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
-        firstCanvasRecognizedTextContent,
+    const firstCanvasRecognizedTextContentEl: HTMLElement =
+      fixture.nativeElement.querySelector(
+        'div[data-testid="firstCanvasRecognizedTextContent"]',
       );
-      expect(secondCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
-        secondCanvasRecognizedTextContent,
+    const secondCanvasRecognizedTextContentEl: HTMLElement =
+      fixture.nativeElement.querySelector(
+        'div[data-testid="secondCanvasRecognizedTextContent"]',
       );
-      done();
-    });
+    expect(firstCanvasRecognizedTextContentEl.innerHTML).toBe(
+      firstCanvasRecognizedTextContent,
+    );
+    expect(secondCanvasRecognizedTextContentEl.innerHTML).toBe(
+      secondCanvasRecognizedTextContent,
+    );
   });
 
   it('should show error message', () => {
-    const stream$ = jest
-      .spyOn(altoService, 'hasErrors$', 'get')
-      .mockReturnValue(cold('x|', { x: 'fakeError' }));
+    altoService.hasErrors$.nextWith('fakeError');
 
     fixture.detectChanges();
 
-    expect(stream$).toSatisfyOnFlush(() => {
-      const error: DebugElement = fixture.debugElement.query(
-        By.css('div[data-testid="error"]'),
-      );
-      expect(error.nativeElement.innerHTML).toBe('fakeError');
-    });
+    const error: DebugElement = fixture.debugElement.query(
+      By.css('div[data-testid="error"]'),
+    );
+    expect(error.nativeElement.innerHTML).toBe('fakeError');
   });
 
   it('should call highlightSelectedHit in onSelected subscribe', () => {
-    when(canvasService.getCanvasesPerCanvasGroup)
-      .calledWith(0)
-      .mockReturnValue([0, 1]);
-    jest
-      .spyOn(iiifContentSearchService, 'onSelected', 'get')
-      .mockReturnValue(of(createMockHit(1, 'test ')));
-    const spy = jest.spyOn(highlightService, 'highlightSelectedHit');
+    canvasService.getCanvasesPerCanvasGroup.calledWith(0).nextWith([0, 1]);
+    iiifContentSearchService.onSelected.nextWith(createMockHit(1, 'test '));
 
     fixture.detectChanges();
 
-    expect(spy).toHaveBeenCalled();
+    expect(highlightService.highlightSelectedHit).toHaveBeenCalled();
   });
 
-  it('should call highlightSelectedHit in updateRecognizedText method', (done) => {
+  it('should call highlightSelectedHit in onTextContentReady subscribe', async () => {
     component.selectedHit = 1;
-    const stream$ = jest
-      .spyOn(altoService, 'onTextContentReady$', 'get')
-      .mockReturnValue(cold('x|'));
-    when(canvasService.getCanvasesPerCanvasGroup)
-      .calledWith(0)
-      .mockReturnValue([0, 1]);
-
-    const spy = jest.spyOn(highlightService, 'highlightSelectedHit');
+    altoService.onTextContentReady$.nextWith(true);
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0]);
+    altoService.getHtml.calledWith(0).mockReturnValue('fakeTextContent');
 
     fixture.detectChanges();
 
-    expect(stream$).toSatisfyOnFlush(() => {
-      expect(spy).toHaveBeenCalled();
-      done();
-    });
+    await fixture.whenStable();
+    expect(highlightService.highlightSelectedHit).toHaveBeenCalled();
   });
 
   function createMockHit(id: number, match: string): Hit {

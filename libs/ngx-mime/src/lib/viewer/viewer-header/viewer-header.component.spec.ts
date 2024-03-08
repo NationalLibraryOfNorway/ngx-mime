@@ -177,7 +177,7 @@ describe('ViewerHeaderComponent', () => {
       testHostFixture.detectChanges();
       expect(testHostComponent.viewerHeaderComponent.state).toEqual('hide');
       expectHeaderToBeHidden(
-        testHostComponent.viewerHeaderElementRef.nativeElement,
+        testHostComponent.viewerHeaderElementRef.nativeElement
       );
     });
   }));
@@ -190,7 +190,7 @@ describe('ViewerHeaderComponent', () => {
       testHostFixture.detectChanges();
       expect(testHostComponent.viewerHeaderComponent.state).toEqual('hide');
       expectHeaderToBeHidden(
-        testHostComponent.viewerHeaderElementRef.nativeElement,
+        testHostComponent.viewerHeaderElementRef.nativeElement
       );
     });
   }));
@@ -201,14 +201,14 @@ describe('ViewerHeaderComponent', () => {
 
     testHostFixture.whenStable().then(() => {
       expectHeaderToBeHidden(
-        testHostComponent.viewerHeaderElementRef.nativeElement,
+        testHostComponent.viewerHeaderElementRef.nativeElement
       );
 
       testHostComponent.viewerHeaderComponent.state = 'show';
       testHostFixture.detectChanges();
       testHostFixture.whenStable().then(() => {
         expectHeaderToShow(
-          testHostComponent.viewerHeaderElementRef.nativeElement,
+          testHostComponent.viewerHeaderElementRef.nativeElement
         );
       });
     });
@@ -263,7 +263,7 @@ describe('ViewerHeaderComponent', () => {
       testHostFixture.detectChanges();
 
       const label = testHostFixture.debugElement.query(
-        By.css('[data-testid="ngx-mime-manifest-label"].label'),
+        By.css('[data-testid="ngx-mime-manifest-label"].label')
       ).nativeElement;
 
       expect(label.innerHTML).toBe('Testlabel');
@@ -328,7 +328,7 @@ describe('ViewerHeaderComponent', () => {
 
   const setupContentSearchDialogService = () => {
     const contentSearchDialogService = TestBed.inject(
-      ContentSearchDialogService,
+      ContentSearchDialogService
     );
     contentSearchDialogService.el = TestBed.inject(ElementRef);
     contentSearchDialogService.viewContainerRef =
@@ -356,35 +356,35 @@ describe('ViewerHeaderComponent', () => {
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mime-view-menu-button"]',
-      }),
+      })
     );
 
   const getInformationDialogButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeInformationDialogButton"]',
-      }),
+      })
     );
 
   const getContentSearchDialogButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeContentSearchDialogButton"]',
-      }),
+      })
     );
 
   const getHelpDialogButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeHelpDialogButton"]',
-      }),
+      })
     );
 
   const getFullscreenButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeFullscreenButton"]',
-      }),
+      })
     );
 
   const getAriaLabel = async (buttonHarness: MatButtonHarness | null) => {

@@ -69,7 +69,7 @@ describe('CanvasGroupDialogComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
 
     intl = TestBed.inject(MimeViewerIntl);
-    canvasService = TestBed.inject(CanvasService) as CanvasServiceStub;
+    canvasService = TestBed.inject<any>(CanvasService);
     fixture.detectChanges();
   });
 
@@ -79,7 +79,7 @@ describe('CanvasGroupDialogComponent', () => {
 
   it('should re-render when the i18n labels have changed', () => {
     const title = fixture.debugElement.query(
-      By.css('.canvas-group-dialog-title'),
+      By.css('.canvas-group-dialog-title')
     );
 
     intl.goToPageLabel = 'Testlabel';

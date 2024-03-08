@@ -12,11 +12,11 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasGroupDialogComponent } from '../../../canvas-group-dialog/canvas-group-dialog.component';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
-import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
+import { Rect } from '../../../core/models/rect';
+import { ViewerLayout } from '../../../core/models/viewer-layout';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { ViewerServiceStub } from '../../../test/viewer-service-stub';
@@ -63,7 +63,6 @@ describe('CanvasGroupNavigatorComponent', () => {
         { provide: ViewerService, useClass: ViewerServiceStub },
         { provide: CanvasService, useClass: CanvasServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
   }));
@@ -168,7 +167,7 @@ describe('CanvasGroupNavigatorComponent', () => {
   }));
 
   it('should disable previous and next button if there is only one canvas', waitForAsync(() => {
-    //canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+    canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
     testHostFixture.detectChanges();
 
     testHostFixture.whenStable().then(async () => {
@@ -186,12 +185,12 @@ describe('CanvasGroupNavigatorComponent', () => {
     });
 
     spy = jest.spyOn(component, 'onSliderHotKey');
-    //canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+    canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
 
     testHostFixture.detectChanges();
     testHostFixture.whenStable().then(() => {
       const slider = testHostFixture.debugElement.query(
-        By.css('.navigation-slider'),
+        By.css('.navigation-slider')
       );
       slider.nativeElement.dispatchEvent(event);
       testHostFixture.detectChanges();
@@ -203,21 +202,21 @@ describe('CanvasGroupNavigatorComponent', () => {
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="canvasGroupDialogButton"]',
-      }),
+      })
     );
 
   const getPreviousButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="footerNavigateBeforeButton"]',
-      }),
+      })
     );
 
   const getNextButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="footerNavigateNextButton"]',
-      }),
+      })
     );
 
   const getAriaLabel = async (buttonHarness: MatButtonHarness | null) => {

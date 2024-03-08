@@ -124,7 +124,7 @@ describe('ViewerService', () => {
     });
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      config,
+      config
     );
 
     let subscription: Subscription;
@@ -142,7 +142,7 @@ describe('ViewerService', () => {
   it('should set viewer to null on destroy', (done) => {
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      config,
+      config
     );
 
     let subscription: Subscription;
@@ -161,7 +161,7 @@ describe('ViewerService', () => {
       const openSpy = jest.spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
-        config,
+        config
       );
 
       viewerService.onOsdReadyChange.subscribe((state) => {
@@ -182,7 +182,7 @@ describe('ViewerService', () => {
       const openSpy = jest.spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
-        config,
+        config
       );
       const viewer = viewerService.getViewer();
       viewer.useCanvas = false;
