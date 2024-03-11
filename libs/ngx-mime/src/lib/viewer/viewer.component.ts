@@ -119,7 +119,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private platform: Platform,
     canvasGroupDialogService: CanvasGroupDialogService,
     el: ElementRef,
-    viewContainerRef: ViewContainerRef,
+    viewContainerRef: ViewContainerRef
   ) {
     this.id = this.viewerService.id;
     this.openseadragonId = this.viewerService.openseadragonId;
