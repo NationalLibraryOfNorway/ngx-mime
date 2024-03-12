@@ -26,6 +26,8 @@
       },
       "configurations": {
         "production": {
+          "outputHashing": "none",
+          "singleBundle": true,
           "budgets": [
             {
               "type": "initial",
