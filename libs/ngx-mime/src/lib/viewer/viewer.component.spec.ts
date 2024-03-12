@@ -536,7 +536,6 @@ describe('ViewerComponent', () => {
     it("should not be visible when state is changed to 'hide'", async () => {
       testHostFixture.detectChanges();
       await testHostFixture.whenStable();
-
       expectOsdToolbarToBeVisible();
 
       comp.osdToolbarState = 'hide';
@@ -545,12 +544,10 @@ describe('ViewerComponent', () => {
       expectOsdToolbarToBeHidden();
     });
 
-    fit("should be visible when state is changed to 'show'", waitForAsync(async () => {
-      testHostFixture.detectChanges();
-      await testHostFixture.whenStable();
-      expectOsdToolbarToBeVisible();
-
-      comp.osdToolbarState = 'hide';
+    it("should be visible when state is changed to 'show'", async () => {
+      testHostComponent.config = new MimeViewerConfig({
+        initViewerMode: ViewerMode.DASHBOARD,
+      });
       testHostFixture.detectChanges();
       await testHostFixture.whenStable();
       expectOsdToolbarToBeHidden();
@@ -560,7 +557,7 @@ describe('ViewerComponent', () => {
       await testHostFixture.whenStable();
 
       expectOsdToolbarToBeVisible();
-    }));
+    });
   });
 
   const expectOsdToolbarToBeVisible = () => {
