@@ -114,10 +114,14 @@ describe('ViewerHeaderComponent', () => {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(testHostFixture);
-    fullscreenServiceSpy = TestBed.inject<any>(FullscreenService);
+    fullscreenServiceSpy = TestBed.inject(
+      FullscreenService,
+    ) as Spy<FullscreenService>;
     intl = TestBed.inject(MimeViewerIntl);
     iiifManifestServiceStub = TestBed.inject<any>(IiifManifestService);
-    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
     breakpointObserver.setMatches(true);
 
     setupViewDialogService();

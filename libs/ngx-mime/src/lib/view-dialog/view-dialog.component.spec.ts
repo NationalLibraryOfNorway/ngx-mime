@@ -54,7 +54,9 @@ describe('ViewDialogComponent', () => {
     fixture = TestBed.createComponent(ViewDialogComponent);
     component = fixture.componentInstance;
     iiifManifestService = TestBed.inject<any>(IiifManifestService);
-    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
     fixture.detectChanges();
   });
 

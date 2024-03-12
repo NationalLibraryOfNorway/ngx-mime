@@ -57,7 +57,9 @@ describe('OsdToolbarComponent', () => {
     fixture = TestBed.createComponent(OsdToolbarComponent);
     harnessLoader = TestbedHarnessEnvironment.loader(fixture);
     intl = TestBed.inject(MimeViewerIntl);
-    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
     canvasService = TestBed.inject<any>(CanvasService);
     viewerService = TestBed.inject<any>(ViewerService);
     component = fixture.componentInstance;

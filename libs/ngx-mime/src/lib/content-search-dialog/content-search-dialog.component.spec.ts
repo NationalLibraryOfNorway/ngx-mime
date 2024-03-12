@@ -72,7 +72,9 @@ describe('ContentSearchDialogComponent', () => {
       IiifContentSearchService,
     );
     iiifManifestServiceStub = TestBed.inject<any>(IiifManifestService);
-    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
     dialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
   });

@@ -69,7 +69,7 @@ describe('CanvasGroupDialogComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
 
     intl = TestBed.inject(MimeViewerIntl);
-    canvasService = TestBed.inject<any>(CanvasService);
+    canvasService = TestBed.inject(CanvasService) as CanvasServiceStub;
     fixture.detectChanges();
   });
 

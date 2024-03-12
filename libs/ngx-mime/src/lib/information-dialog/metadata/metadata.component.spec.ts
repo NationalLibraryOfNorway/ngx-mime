@@ -30,7 +30,9 @@ describe('MetadataComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MetadataComponent);
     component = fixture.componentInstance;
-    iiifManifestServiceSpy = TestBed.inject<any>(IiifManifestService);
+    iiifManifestServiceSpy = TestBed.inject(
+      IiifManifestService,
+    ) as Spy<IiifManifestService>;
     fixture.detectChanges();
   });
 

@@ -16,7 +16,9 @@ describe('ViewerLayoutService', () => {
       ],
     });
     service = TestBed.inject(ViewerLayoutService);
-    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
   });
 
   it('should be created', () => {

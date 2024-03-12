@@ -76,7 +76,9 @@ describe('InformationDialogComponent', () => {
     fixture = TestBed.createComponent(InformationDialogComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
-    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
     viewerService = TestBed.inject(ViewerService);
     iiifManifestService = TestBed.inject<any>(IiifManifestService);
     intl = TestBed.inject(MimeViewerIntl);

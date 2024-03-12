@@ -33,7 +33,9 @@ describe('ViewerFooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
     cmp = fixture.componentInstance;
-    breakpointObserver = TestBed.inject<any>(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
     iiifContentSearchServiceStub = TestBed.inject<any>(
       IiifContentSearchService,
     );

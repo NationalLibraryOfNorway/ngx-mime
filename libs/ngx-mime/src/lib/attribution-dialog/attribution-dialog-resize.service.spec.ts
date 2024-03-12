@@ -13,7 +13,9 @@ describe('AttributionDialogResizeService', () => {
         provideAutoSpy(MimeDomHelper),
       ],
     });
-    service = TestBed.inject<any>(AttributionDialogResizeService);
+    service = TestBed.inject(
+      AttributionDialogResizeService,
+    ) as Spy<AttributionDialogResizeService>;
   });
 
   it('should be created', () => {
