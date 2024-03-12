@@ -382,7 +382,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
     let selectedMode: ViewerMode | undefined;
     comp.viewerModeChanged.subscribe(
-      (mode: ViewerMode) => (selectedMode = mode),
+      (mode: ViewerMode) => (selectedMode = mode)
     );
 
     modeService.mode = ViewerMode.DASHBOARD;
@@ -393,7 +393,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
     let currentCanvasIndex: number;
     comp.canvasChanged.subscribe(
-      (canvasIndex: number) => (currentCanvasIndex = canvasIndex),
+      (canvasIndex: number) => (currentCanvasIndex = canvasIndex)
     );
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
@@ -488,7 +488,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component'),
+      By.css('#test-dynamic-component')
     );
     expect(button).not.toBeNull();
   });
