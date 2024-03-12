@@ -45,7 +45,7 @@ describe('AttributionDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display attribution', async () => {
+  it('should display attribution', () => {
     iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         attribution: 'This is a test attribution',

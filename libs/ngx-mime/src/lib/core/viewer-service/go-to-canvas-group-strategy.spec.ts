@@ -28,7 +28,7 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
       canvasService,
       modeService,
       config,
-      ViewingDirection.LTR,
+      ViewingDirection.LTR
     );
   });
 

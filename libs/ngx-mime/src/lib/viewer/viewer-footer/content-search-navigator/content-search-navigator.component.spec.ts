@@ -361,7 +361,7 @@ describe('ContentSearchNavigatorComponent', () => {
       new Hit({
         id: 1,
         index: 2,
-      }),
+      })
     );
 
     return searchResult;

@@ -28,7 +28,6 @@
         "jestConfig": "libs/ngx-mime/jest.config.ts"
       }
     },
-
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]

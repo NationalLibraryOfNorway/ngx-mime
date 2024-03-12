@@ -119,7 +119,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const viewerDe = testHostFixture.debugElement.query(
-      By.css('.viewer-container'),
+      By.css('.viewer-container')
     );
     expect(viewerDe.nativeElement.getAttribute('tabindex')).toBe('1');
   });
@@ -146,7 +146,7 @@ describe('ViewerComponent', () => {
           testHostComponent.manifestUri = 'dummyURI3';
           testHostFixture.detectChanges();
           expect(modeService.mode.valueOf()).toBe(
-            config.initViewerMode.valueOf(),
+            config.initViewerMode.valueOf()
           );
           done();
         }, osdAnimationTime);
@@ -201,16 +201,12 @@ describe('ViewerComponent', () => {
           // Return to home
           viewerService.home();
 
-          const overlayWidth = Math.round(
-            parseInt(overlay.getAttribute('width') || '0', 10),
-          );
-          const overlayHeight = Math.round(
-            parseInt(overlay.getAttribute('height') || '0', 10),
-          );
+          const overlayWidth = getAttributeAsInt(overlay, 'width');
+          const overlayHeight = getAttributeAsInt(overlay, 'height');
           const viewportHeight = Math.round(viewer.viewport.getBounds().height);
           const viewportWidth = Math.round(viewer.viewport.getBounds().width);
           expect(
-            overlayHeight === viewportHeight || overlayWidth === viewportWidth,
+            overlayHeight === viewportHeight || overlayWidth === viewportWidth
           ).toEqual(true);
 
           done();
@@ -237,15 +233,9 @@ describe('ViewerComponent', () => {
           const startMinZoomLevel = viewer.viewport.minZoomLevel;
           viewportHeight = Math.round(viewer.viewport.getBounds().height);
           viewportWidth = Math.round(viewer.viewport.getBounds().width);
-          console.log('viewportHeight', viewportHeight);
-          console.log('viewportWidth', viewportWidth);
 
-          const overlayWidth = Math.round(
-            parseInt(overlay.getAttribute('width') || '0', 10),
-          );
-          const overlayHeight = Math.round(
-            parseInt(overlay.getAttribute('height') || '0', 10),
-          );
+          const overlayWidth = getAttributeAsInt(overlay, 'width');
+          const overlayHeight = getAttributeAsInt(overlay, 'height');
 
           // Starting out at home
           expect(
@@ -457,7 +447,7 @@ describe('ViewerComponent', () => {
     iiifManifestServiceStub._currentManifest.next(
       new Manifest({
         id: 'dummyid',
-      }),
+      })
     );
   });
 
@@ -478,7 +468,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component'),
+      By.css('#test-dynamic-component')
     );
     expect(button).not.toBeNull();
   });
@@ -488,7 +478,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component'),
+      By.css('#test-dynamic-component')
     );
     expect(button).not.toBeNull();
   });
@@ -508,7 +498,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component'),
+      By.css('#test-dynamic-component')
     );
     expect(button).not.toBeNull();
   });
@@ -519,10 +509,10 @@ describe('ViewerComponent', () => {
       if (state) {
         setTimeout(() => {
           const leftCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('[data-testid="mime-left-page-mask"]'),
+            By.css('[data-testid="mime-left-page-mask"]')
           );
           const rightCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('[data-testid="mime-right-page-mask"]'),
+            By.css('[data-testid="mime-right-page-mask"]')
           );
           expect(leftCanvasGroupMask).not.toBeNull();
           expect(rightCanvasGroupMask).not.toBeNull();
@@ -613,5 +603,9 @@ describe('ViewerComponent', () => {
     viewerService
       .getViewer()
       .raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
+  }
+
+  function getAttributeAsInt(element: any, attribute: string, radix = 10): number {
+    return Math.round(parseInt(element.getAttribute(attribute) || '0', radix));
   }
 });

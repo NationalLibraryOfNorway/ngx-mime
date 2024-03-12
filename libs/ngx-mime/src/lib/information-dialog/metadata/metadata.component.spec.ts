@@ -45,12 +45,12 @@ describe('MetadataComponent', () => {
           new Metadata('label1', 'value1'),
           new Metadata('label2', 'value2'),
         ],
-      }),
+      })
     );
     fixture.detectChanges();
 
     const metadatas: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.metadata'),
+      By.css('.metadata')
     );
     expect(metadatas.length).toEqual(2);
   });
@@ -59,7 +59,7 @@ describe('MetadataComponent', () => {
     iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         attribution: 'This is a test attribution',
-      }),
+      })
     );
     fixture.detectChanges();
 
@@ -72,7 +72,7 @@ describe('MetadataComponent', () => {
     iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         license: 'https://wiki.creativecommons.org/wiki/CC0',
-      }),
+      })
     );
     fixture.detectChanges();
 
@@ -87,15 +87,15 @@ describe('MetadataComponent', () => {
     iiifManifestServiceSpy.currentManifest.nextWith(
       new Manifest({
         logo: 'http://example.com/dummylogo.jpg',
-      }),
+      })
     );
     fixture.detectChanges();
 
     const attribution: DebugElement = fixture.debugElement.query(
-      By.css('.logo'),
+      By.css('.logo')
     );
     expect(attribution.nativeElement.getAttribute('src')).toBe(
-      'http://example.com/dummylogo.jpg',
+      'http://example.com/dummylogo.jpg'
     );
   });
 });

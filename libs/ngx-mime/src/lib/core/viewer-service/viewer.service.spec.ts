@@ -102,7 +102,7 @@ describe('ViewerService', () => {
     });
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      config,
+      config
     );
 
     let subscription: Subscription;

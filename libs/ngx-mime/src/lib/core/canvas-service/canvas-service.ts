@@ -117,7 +117,7 @@ export class CanvasService {
 
   findCanvasGroupByCanvasIndex(canvasIndex: number): number {
     return this.canvasGroups.canvasesPerCanvasGroup.findIndex(function (
-      canvasForCanvasGroup: number[],
+      canvasForCanvasGroup: number[]
     ) {
       return canvasForCanvasGroup.indexOf(canvasIndex) >= 0;
     });
