@@ -71,7 +71,7 @@ describe('TocComponent', () => {
             canvasIndex: 4,
           }),
         ],
-      })
+      }),
     );
 
     fixture.detectChanges();
@@ -85,14 +85,14 @@ describe('TocComponent', () => {
     fixture.detectChanges();
 
     const structures: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.toc-link')
+      By.css('.toc-link'),
     );
     expect(structures.length).toEqual(3);
   });
 
   it('should display the correct label', () => {
     const labels: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.label')
+      By.css('.label'),
     );
     expect(labels[0].nativeElement.textContent).toEqual('Forside');
     expect(labels[1].nativeElement.textContent).toEqual('Tittelside');
@@ -101,7 +101,7 @@ describe('TocComponent', () => {
 
   it('should display the correct canvas group index', () => {
     const canvasGroupNumbers: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.canvasGroupIndex')
+      By.css('.canvasGroupIndex'),
     );
     expect(canvasGroupNumbers[0].nativeElement.textContent).toEqual('1');
     expect(canvasGroupNumbers[1].nativeElement.textContent).toEqual('2');
@@ -112,7 +112,7 @@ describe('TocComponent', () => {
     jest.spyOn(viewerService, 'goToCanvas');
 
     const divs: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.toc-link')
+      By.css('.toc-link'),
     );
     divs[2].triggerEventHandler('click', new Event('fakeEvent'));
 

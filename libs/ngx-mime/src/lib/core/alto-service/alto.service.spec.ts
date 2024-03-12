@@ -94,7 +94,7 @@ describe('AltoService', () => {
       waitForDebounce();
       let errorMessage: string | undefined;
       service.hasErrors$.subscribe(
-        (err: string | undefined) => (errorMessage = err)
+        (err: string | undefined) => (errorMessage = err),
       );
 
       mockFailedAltoRequest();
@@ -118,7 +118,7 @@ describe('AltoService', () => {
 
     expectOnRecognizedTextContentModeChangeToBe(
       RecognizedTextMode.NONE,
-      RecognizedTextMode.SPLIT
+      RecognizedTextMode.SPLIT,
     );
   });
 
@@ -127,7 +127,7 @@ describe('AltoService', () => {
 
     expectOnRecognizedTextContentModeChangeToBe(
       RecognizedTextMode.NONE,
-      RecognizedTextMode.ONLY
+      RecognizedTextMode.ONLY,
     );
   });
 
@@ -138,7 +138,7 @@ describe('AltoService', () => {
 
     expectOnRecognizedTextContentModeChangeToBe(
       RecognizedTextMode.ONLY,
-      RecognizedTextMode.NONE
+      RecognizedTextMode.NONE,
     );
   });
 
@@ -179,25 +179,25 @@ describe('AltoService', () => {
 
   const coverTestRequest = () => {
     return httpTestingController.expectOne(
-      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1`
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1`,
     );
   };
 
   const insideTestRequest = () => {
     return httpTestingController.expectOne(
-      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1`
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1`,
     );
   };
 
   const firstPageTestRequest = () => {
     return httpTestingController.expectOne(
-      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_001`
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_001`,
     );
   };
 
   const secondPageTestRequest = () => {
     return httpTestingController.expectOne(
-      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_002`
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_002`,
     );
   };
 
@@ -213,12 +213,12 @@ describe('AltoService', () => {
 
   const expectOnRecognizedTextContentModeChangeToBe = (
     previousValue: RecognizedTextMode,
-    currentValue: RecognizedTextMode
+    currentValue: RecognizedTextMode,
   ) => {
     expect(service.onRecognizedTextContentModeChange$).toBeObservable(
       cold('a', {
         a: { currentValue: currentValue, previousValue: previousValue },
-      })
+      }),
     );
   };
 });

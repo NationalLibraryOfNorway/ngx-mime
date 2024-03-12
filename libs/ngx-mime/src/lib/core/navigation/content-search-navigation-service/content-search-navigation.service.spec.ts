@@ -50,7 +50,7 @@ describe('ContentSearchNavigationService', () => {
     const canvasService = TestBed.inject(CanvasService);
     canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
     contentSearchNavigationService = TestBed.inject(
-      ContentSearchNavigationService
+      ContentSearchNavigationService,
     );
   });
 

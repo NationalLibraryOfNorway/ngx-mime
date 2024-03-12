@@ -190,7 +190,7 @@ describe('CanvasGroupNavigatorComponent', () => {
     testHostFixture.detectChanges();
     testHostFixture.whenStable().then(() => {
       const slider = testHostFixture.debugElement.query(
-        By.css('.navigation-slider')
+        By.css('.navigation-slider'),
       );
       slider.nativeElement.dispatchEvent(event);
       testHostFixture.detectChanges();
@@ -202,21 +202,21 @@ describe('CanvasGroupNavigatorComponent', () => {
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="canvasGroupDialogButton"]',
-      })
+      }),
     );
 
   const getPreviousButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="footerNavigateBeforeButton"]',
-      })
+      }),
     );
 
   const getNextButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="footerNavigateNextButton"]',
-      })
+      }),
     );
 
   const getAriaLabel = async (buttonHarness: MatButtonHarness | null) => {

@@ -119,7 +119,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const viewerDe = testHostFixture.debugElement.query(
-      By.css('.viewer-container')
+      By.css('.viewer-container'),
     );
     expect(viewerDe.nativeElement.getAttribute('tabindex')).toBe('1');
   });
@@ -146,7 +146,7 @@ describe('ViewerComponent', () => {
           testHostComponent.manifestUri = 'dummyURI3';
           testHostFixture.detectChanges();
           expect(modeService.mode.valueOf()).toBe(
-            config.initViewerMode.valueOf()
+            config.initViewerMode.valueOf(),
           );
           done();
         }, osdAnimationTime);
@@ -206,7 +206,7 @@ describe('ViewerComponent', () => {
           const viewportHeight = Math.round(viewer.viewport.getBounds().height);
           const viewportWidth = Math.round(viewer.viewport.getBounds().width);
           expect(
-            overlayHeight === viewportHeight || overlayWidth === viewportWidth
+            overlayHeight === viewportHeight || overlayWidth === viewportWidth,
           ).toEqual(true);
 
           done();
@@ -382,7 +382,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
     let selectedMode: ViewerMode | undefined;
     comp.viewerModeChanged.subscribe(
-      (mode: ViewerMode) => (selectedMode = mode)
+      (mode: ViewerMode) => (selectedMode = mode),
     );
 
     modeService.mode = ViewerMode.DASHBOARD;
@@ -393,7 +393,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
     let currentCanvasIndex: number;
     comp.canvasChanged.subscribe(
-      (canvasIndex: number) => (currentCanvasIndex = canvasIndex)
+      (canvasIndex: number) => (currentCanvasIndex = canvasIndex),
     );
     viewerService.onOsdReadyChange.subscribe((state: boolean) => {
       if (state) {
@@ -447,7 +447,7 @@ describe('ViewerComponent', () => {
     iiifManifestServiceStub._currentManifest.next(
       new Manifest({
         id: 'dummyid',
-      })
+      }),
     );
   });
 
@@ -468,7 +468,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component')
+      By.css('#test-dynamic-component'),
     );
     expect(button).not.toBeNull();
   });
@@ -478,7 +478,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component')
+      By.css('#test-dynamic-component'),
     );
     expect(button).not.toBeNull();
   });
@@ -488,7 +488,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component')
+      By.css('#test-dynamic-component'),
     );
     expect(button).not.toBeNull();
   });
@@ -498,7 +498,7 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component')
+      By.css('#test-dynamic-component'),
     );
     expect(button).not.toBeNull();
   });
@@ -509,10 +509,10 @@ describe('ViewerComponent', () => {
       if (state) {
         setTimeout(() => {
           const leftCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('[data-testid="mime-left-page-mask"]')
+            By.css('[data-testid="mime-left-page-mask"]'),
           );
           const rightCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('[data-testid="mime-right-page-mask"]')
+            By.css('[data-testid="mime-right-page-mask"]'),
           );
           expect(leftCanvasGroupMask).not.toBeNull();
           expect(rightCanvasGroupMask).not.toBeNull();
@@ -605,7 +605,11 @@ describe('ViewerComponent', () => {
       .raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
   }
 
-  function getAttributeAsInt(element: any, attribute: string, radix = 10): number {
+  function getAttributeAsInt(
+    element: any,
+    attribute: string,
+    radix = 10,
+  ): number {
     return Math.round(parseInt(element.getAttribute(attribute) || '0', radix));
   }
 });

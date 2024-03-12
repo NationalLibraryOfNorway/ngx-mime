@@ -6,7 +6,7 @@
     "declarationMap": true,
     "inlineSources": true,
     "esModuleInterop": true,
-    "types": [],
+    "types": []
   },
   "exclude": ["src/**/*.spec.ts", "src/**/test-*.ts", "src/**/,mock-*.ts"],
   "include": ["src/**/*.ts"]

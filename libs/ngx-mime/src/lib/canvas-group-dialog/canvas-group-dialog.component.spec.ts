@@ -79,7 +79,7 @@ describe('CanvasGroupDialogComponent', () => {
 
   it('should re-render when the i18n labels have changed', () => {
     const title = fixture.debugElement.query(
-      By.css('.canvas-group-dialog-title')
+      By.css('.canvas-group-dialog-title'),
     );
 
     intl.goToPageLabel = 'Testlabel';

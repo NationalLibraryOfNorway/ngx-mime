@@ -54,7 +54,7 @@ describe('ContentSearchNavigatorComponent', () => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
     iiifContentSearchService = TestBed.inject<any>(IiifContentSearchService);
     contentSearchNavigationService = TestBed.inject(
-      ContentSearchNavigationService
+      ContentSearchNavigationService,
     );
     canvasService = TestBed.inject<any>(CanvasService);
 
@@ -73,19 +73,19 @@ describe('ContentSearchNavigatorComponent', () => {
     [MimeViewerIntl],
     (intl: MimeViewerIntl) => {
       const text = fixture.debugElement.query(
-        By.css('[data-testid="footerNavigateNextHitButton"]')
+        By.css('[data-testid="footerNavigateNextHitButton"]'),
       );
       expect(text.nativeElement.getAttribute('aria-label')).toContain(
-        `Next Hit`
+        `Next Hit`,
       );
 
       intl.nextHitLabel = 'New test string';
       intl.changes.next();
       fixture.detectChanges();
       expect(text.nativeElement.getAttribute('aria-label')).toContain(
-        'New test string'
+        'New test string',
       );
-    }
+    },
   ));
 
   describe('Two page display', () => {
@@ -97,12 +97,12 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         component.goToPreviousHit();
         expect(
-          contentSearchNavigationService.goToPreviousHit
+          contentSearchNavigationService.goToPreviousHit,
         ).toHaveBeenCalledTimes(1);
         contentSearchNavigationService.currentHitCounter.subscribe(
           (hitIndex) => {
             expect(hitIndex).toBe(0);
-          }
+          },
         );
       });
     }));
@@ -115,12 +115,12 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         component.goToNextHit();
         expect(
-          contentSearchNavigationService.goToNextHit
+          contentSearchNavigationService.goToNextHit,
         ).toHaveBeenCalledTimes(1);
         contentSearchNavigationService.currentHitCounter.subscribe(
           (hitIndex) => {
             expect(hitIndex).toBe(0);
-          }
+          },
         );
       });
     }));
@@ -130,7 +130,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const button = fixture.debugElement.query(
-          By.css('[data-testid="footerNavigatePreviousHitButton"]')
+          By.css('[data-testid="footerNavigatePreviousHitButton"]'),
         );
         expect(button.nativeElement.disabled).toBeTruthy();
       });
@@ -141,7 +141,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const button = fixture.debugElement.query(
-          By.css('[data-testid="footerNavigateNextHitButton"]')
+          By.css('[data-testid="footerNavigateNextHitButton"]'),
         );
         expect(button.nativeElement.disabled).toBeTruthy();
       });
@@ -152,7 +152,7 @@ describe('ContentSearchNavigatorComponent', () => {
 
       component.searchResult = createLeftPageHit();
       iiifContentSearchService._currentSearchResult.next(
-        component.searchResult
+        component.searchResult,
       );
       canvasService.setCanvasGroupIndexChange(2);
       fixture.detectChanges();
@@ -160,7 +160,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         component.goToPreviousHit();
         expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 2, index: 2 })
+          new Hit({ id: 2, index: 2 }),
         );
       });
     }));
@@ -173,7 +173,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         component.goToNextHit();
         expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 1, index: 8 })
+          new Hit({ id: 1, index: 8 }),
         );
       });
     }));
@@ -186,7 +186,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         component.goToPreviousHit();
         expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 1, index: 8 })
+          new Hit({ id: 1, index: 8 }),
         );
       });
     }));
@@ -196,7 +196,7 @@ describe('ContentSearchNavigatorComponent', () => {
 
       component.searchResult = createSinglePageHit();
       iiifContentSearchService._currentSearchResult.next(
-        component.searchResult
+        component.searchResult,
       );
       canvasService.setCanvasGroupIndexChange(1);
       contentSearchNavigationService.selected(component.searchResult.get(0));
@@ -205,7 +205,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         component.goToNextHit();
         expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 1, index: 2 })
+          new Hit({ id: 1, index: 2 }),
         );
       });
     }));
@@ -215,7 +215,7 @@ describe('ContentSearchNavigatorComponent', () => {
 
       component.searchResult = createSinglePageHit();
       iiifContentSearchService._currentSearchResult.next(
-        component.searchResult
+        component.searchResult,
       );
       canvasService.setCanvasGroupIndexChange(1);
       contentSearchNavigationService.selected(component.searchResult.get(1));
@@ -224,7 +224,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         component.goToPreviousHit();
         expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 0, index: 2 })
+          new Hit({ id: 0, index: 2 }),
         );
       });
     }));
@@ -235,7 +235,7 @@ describe('ContentSearchNavigatorComponent', () => {
       jest.spyOn(iiifContentSearchService, 'selected');
       component.searchResult = createSinglePageHit();
       iiifContentSearchService._currentSearchResult.next(
-        component.searchResult
+        component.searchResult,
       );
       canvasService.reset();
       canvasService.addAll(createDefaultTileRects(102), ViewerLayout.ONE_PAGE);
@@ -245,7 +245,7 @@ describe('ContentSearchNavigatorComponent', () => {
       fixture.whenStable().then(() => {
         component.goToPreviousHit();
         expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 1, index: 2 })
+          new Hit({ id: 1, index: 2 }),
         );
       });
     }));
@@ -258,7 +258,7 @@ describe('ContentSearchNavigatorComponent', () => {
         fixture.detectChanges();
         component.goToNextHit();
         expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 0, index: 1 })
+          new Hit({ id: 0, index: 1 }),
         );
       });
     }));
@@ -278,49 +278,49 @@ describe('ContentSearchNavigatorComponent', () => {
       new Hit({
         id: 0,
         index: 1,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 1,
         index: 8,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 2,
         index: 10,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 3,
         index: 10,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 4,
         index: 20,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 5,
         index: 30,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 6,
         index: 40,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 7,
         index: 100,
-      })
+      }),
     );
     return searchResult;
   }
@@ -331,19 +331,19 @@ describe('ContentSearchNavigatorComponent', () => {
       new Hit({
         id: 0,
         index: 1,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 1,
         index: 1,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 2,
         index: 2,
-      })
+      }),
     );
 
     return searchResult;
@@ -355,13 +355,13 @@ describe('ContentSearchNavigatorComponent', () => {
       new Hit({
         id: 0,
         index: 2,
-      })
+      }),
     );
     searchResult.add(
       new Hit({
         id: 1,
         index: 2,
-      })
+      }),
     );
 
     return searchResult;

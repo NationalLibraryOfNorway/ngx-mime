@@ -103,7 +103,7 @@ describe('OsdToolbarComponent', () => {
       fixture.detectChanges();
 
       expect(await (await homeButton.host())?.getAttribute('aria-label')).toBe(
-        'Go home button'
+        'Go home button',
       );
     });
 
@@ -207,11 +207,11 @@ describe('OsdToolbarComponent', () => {
 
   const getButtonByTestId = (id: string): Promise<MatButtonHarness> =>
     harnessLoader.getHarness(
-      MatButtonHarness.with({ selector: `[data-testid="${id}"]` })
+      MatButtonHarness.with({ selector: `[data-testid="${id}"]` }),
     );
 
   const expectFabButtonToHaveAriaExpanded = async (
-    expected: string
+    expected: string,
   ): Promise<void> => {
     const fabButton = await (await getFabButton()).host();
     expect(await fabButton.getAttribute('aria-expanded')).toEqual(expected);
@@ -229,7 +229,7 @@ describe('OsdToolbarComponent', () => {
 
   const getMiniFabButtons = (): Promise<MatButtonHarness[]> => {
     return harnessLoader.getAllHarnesses(
-      MatButtonHarness.with({ variant: 'mini-fab' })
+      MatButtonHarness.with({ variant: 'mini-fab' }),
     );
   };
 });
