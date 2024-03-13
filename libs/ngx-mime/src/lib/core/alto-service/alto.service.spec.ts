@@ -2,8 +2,9 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { cold } from 'jasmine-marbles';
+import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { cold } from 'jest-marbles';
+import { when } from 'jest-when';
 import { CanvasServiceStub } from '../../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -43,7 +44,6 @@ describe('AltoService', () => {
 
   afterEach(() => {
     httpTestingController.verify();
-    service.destroy();
   });
 
   it('should be created', () => {
@@ -94,7 +94,7 @@ describe('AltoService', () => {
       waitForDebounce();
       let errorMessage: string | undefined;
       service.hasErrors$.subscribe(
-        (err: string | undefined) => (errorMessage = err)
+        (err: string | undefined) => (errorMessage = err),
       );
 
       mockFailedAltoRequest();
@@ -118,7 +118,7 @@ describe('AltoService', () => {
 
     expectOnRecognizedTextContentModeChangeToBe(
       RecognizedTextMode.NONE,
-      RecognizedTextMode.SPLIT
+      RecognizedTextMode.SPLIT,
     );
   });
 
@@ -127,7 +127,7 @@ describe('AltoService', () => {
 
     expectOnRecognizedTextContentModeChangeToBe(
       RecognizedTextMode.NONE,
-      RecognizedTextMode.ONLY
+      RecognizedTextMode.ONLY,
     );
   });
 
@@ -138,16 +138,17 @@ describe('AltoService', () => {
 
     expectOnRecognizedTextContentModeChangeToBe(
       RecognizedTextMode.ONLY,
-      RecognizedTextMode.NONE
+      RecognizedTextMode.NONE,
     );
   });
 
   const setUpSpy = () => {
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1])
-      .withArgs(1)
-      .and.returnValue([2, 3]);
+    const spy = jest.spyOn(canvasService, 'getCanvasesPerCanvasGroup');
+    when(spy)
+      .calledWith(0)
+      .mockReturnValue([0, 1])
+      .calledWith(1)
+      .mockReturnValue([2, 3]);
   };
 
   const mockFirstCanvasGroupRequest = () => {
@@ -178,25 +179,25 @@ describe('AltoService', () => {
 
   const coverTestRequest = () => {
     return httpTestingController.expectOne(
-      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1`
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1`,
     );
   };
 
   const insideTestRequest = () => {
     return httpTestingController.expectOne(
-      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1`
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1`,
     );
   };
 
   const firstPageTestRequest = () => {
     return httpTestingController.expectOne(
-      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_001`
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_001`,
     );
   };
 
   const secondPageTestRequest = () => {
     return httpTestingController.expectOne(
-      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_002`
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_002`,
     );
   };
 
@@ -212,12 +213,12 @@ describe('AltoService', () => {
 
   const expectOnRecognizedTextContentModeChangeToBe = (
     previousValue: RecognizedTextMode,
-    currentValue: RecognizedTextMode
+    currentValue: RecognizedTextMode,
   ) => {
     expect(service.onRecognizedTextContentModeChange$).toBeObservable(
       cold('a', {
         a: { currentValue: currentValue, previousValue: previousValue },
-      })
+      }),
     );
   };
 });

@@ -13,8 +13,7 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Spy, provideAutoSpy } from 'jasmine-auto-spies';
-import { injectedStub } from '../../../testing/injected-stub';
+import { Spy, provideAutoSpy } from 'jest-auto-spies';
 import { TestManifests } from '../../../testing/test-manifests';
 import { ContentSearchDialogConfigStrategyFactory } from '../../content-search-dialog/content-search-dialog-config-strategy-factory';
 import { ContentSearchDialogComponent } from '../../content-search-dialog/content-search-dialog.component';
@@ -115,10 +114,14 @@ describe('ViewerHeaderComponent', () => {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(testHostFixture);
-    fullscreenServiceSpy = TestBed.inject<any>(FullscreenService);
+    fullscreenServiceSpy = TestBed.inject(
+      FullscreenService,
+    ) as Spy<FullscreenService>;
     intl = TestBed.inject(MimeViewerIntl);
-    iiifManifestServiceStub = injectedStub(IiifManifestService);
-    breakpointObserver = injectedStub(BreakpointObserver);
+    iiifManifestServiceStub = TestBed.inject<any>(IiifManifestService);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
     breakpointObserver.setMatches(true);
 
     setupViewDialogService();
@@ -178,7 +181,7 @@ describe('ViewerHeaderComponent', () => {
       testHostFixture.detectChanges();
       expect(testHostComponent.viewerHeaderComponent.state).toEqual('hide');
       expectHeaderToBeHidden(
-        testHostComponent.viewerHeaderElementRef.nativeElement
+        testHostComponent.viewerHeaderElementRef.nativeElement,
       );
     });
   }));
@@ -191,7 +194,7 @@ describe('ViewerHeaderComponent', () => {
       testHostFixture.detectChanges();
       expect(testHostComponent.viewerHeaderComponent.state).toEqual('hide');
       expectHeaderToBeHidden(
-        testHostComponent.viewerHeaderElementRef.nativeElement
+        testHostComponent.viewerHeaderElementRef.nativeElement,
       );
     });
   }));
@@ -202,28 +205,28 @@ describe('ViewerHeaderComponent', () => {
 
     testHostFixture.whenStable().then(() => {
       expectHeaderToBeHidden(
-        testHostComponent.viewerHeaderElementRef.nativeElement
+        testHostComponent.viewerHeaderElementRef.nativeElement,
       );
 
       testHostComponent.viewerHeaderComponent.state = 'show';
       testHostFixture.detectChanges();
       testHostFixture.whenStable().then(() => {
         expectHeaderToShow(
-          testHostComponent.viewerHeaderElementRef.nativeElement
+          testHostComponent.viewerHeaderElementRef.nativeElement,
         );
       });
     });
   }));
 
   it('should show fullscreen button if fullscreen mode is supported', async () => {
-    fullscreenServiceSpy.isEnabled.and.returnValue(true);
+    fullscreenServiceSpy.isEnabled.mockReturnValue(true);
     testHostFixture.detectChanges();
 
     expect(await getFullscreenButton()).not.toBeNull();
   });
 
   it('should hide fullscreen button if fullscreen mode is unsupported', async () => {
-    fullscreenServiceSpy.isEnabled.and.returnValue(false);
+    fullscreenServiceSpy.isEnabled.mockReturnValue(false);
     testHostFixture.detectChanges();
 
     expect(await getFullscreenButton()).toBeNull();
@@ -264,7 +267,7 @@ describe('ViewerHeaderComponent', () => {
       testHostFixture.detectChanges();
 
       const label = testHostFixture.debugElement.query(
-        By.css('[data-testid="ngx-mime-manifest-label"].label')
+        By.css('[data-testid="ngx-mime-manifest-label"].label'),
       ).nativeElement;
 
       expect(label.innerHTML).toBe('Testlabel');
@@ -329,7 +332,7 @@ describe('ViewerHeaderComponent', () => {
 
   const setupContentSearchDialogService = () => {
     const contentSearchDialogService = TestBed.inject(
-      ContentSearchDialogService
+      ContentSearchDialogService,
     );
     contentSearchDialogService.el = TestBed.inject(ElementRef);
     contentSearchDialogService.viewContainerRef =
@@ -357,35 +360,35 @@ describe('ViewerHeaderComponent', () => {
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mime-view-menu-button"]',
-      })
+      }),
     );
 
   const getInformationDialogButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeInformationDialogButton"]',
-      })
+      }),
     );
 
   const getContentSearchDialogButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeContentSearchDialogButton"]',
-      })
+      }),
     );
 
   const getHelpDialogButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeHelpDialogButton"]',
-      })
+      }),
     );
 
   const getFullscreenButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="ngx-mimeFullscreenButton"]',
-      })
+      }),
     );
 
   const getAriaLabel = async (buttonHarness: MatButtonHarness | null) => {
@@ -403,6 +406,6 @@ describe('ViewerHeaderComponent', () => {
   };
 
   const expectHeaderToBeHidden = async (element: any) => {
-    expect(element.style.transform).toBe('translate(0px, -100%)');
+    expect(element.style.transform).toBe('translate(0, -100%)');
   };
 });

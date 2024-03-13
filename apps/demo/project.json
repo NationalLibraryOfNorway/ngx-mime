@@ -77,17 +77,11 @@
       }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "tsConfig": "apps/demo/tsconfig.spec.json",
-        "karmaConfig": "apps/demo/karma.conf.js",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "scripts": [
-          "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-        ],
-        "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"]
-      },
-      "outputs": ["{workspaceRoot}/coverage/apps/demo/"]
+        "jestConfig": "apps/demo/jest.config.ts"
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint",

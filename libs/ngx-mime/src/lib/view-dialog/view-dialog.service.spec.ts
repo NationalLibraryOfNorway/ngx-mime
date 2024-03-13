@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideAutoSpy } from 'jasmine-auto-spies';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { SharedModule } from '../shared/shared.module';
