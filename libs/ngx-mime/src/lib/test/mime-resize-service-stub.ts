@@ -29,7 +29,7 @@ export class MimeResizeServiceStub {
     if (dimensions) {
       this.resizeSubject.next(dimensions);
     } else {
-      this.resizeSubject.next(new DOMRectReadOnly());
+      this.resizeSubject.next(new Dimensions());
     }
   }
 }

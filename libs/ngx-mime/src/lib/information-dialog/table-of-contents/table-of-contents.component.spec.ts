@@ -2,7 +2,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { injectedStub } from '../../../testing/injected-stub';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
@@ -39,7 +38,7 @@ describe('TocComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TocComponent);
     component = fixture.componentInstance;
-    iiifManifestService = injectedStub(IiifManifestService);
+    iiifManifestService = TestBed.inject<any>(IiifManifestService);
     viewerService = TestBed.inject(ViewerService);
 
     iiifManifestService._currentManifest.next(
@@ -72,7 +71,7 @@ describe('TocComponent', () => {
             canvasIndex: 4,
           }),
         ],
-      })
+      }),
     );
 
     fixture.detectChanges();
@@ -86,34 +85,34 @@ describe('TocComponent', () => {
     fixture.detectChanges();
 
     const structures: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.toc-link')
+      By.css('.toc-link'),
     );
     expect(structures.length).toEqual(3);
   });
 
   it('should display the correct label', () => {
     const labels: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.label')
+      By.css('.label'),
     );
-    expect(labels[0].nativeElement.innerText).toEqual('Forside');
-    expect(labels[1].nativeElement.innerText).toEqual('Tittelside');
-    expect(labels[2].nativeElement.innerText).toEqual('Bakside');
+    expect(labels[0].nativeElement.textContent).toEqual('Forside');
+    expect(labels[1].nativeElement.textContent).toEqual('Tittelside');
+    expect(labels[2].nativeElement.textContent).toEqual('Bakside');
   });
 
   it('should display the correct canvas group index', () => {
     const canvasGroupNumbers: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.canvasGroupIndex')
+      By.css('.canvasGroupIndex'),
     );
-    expect(canvasGroupNumbers[0].nativeElement.innerText).toEqual('1');
-    expect(canvasGroupNumbers[1].nativeElement.innerText).toEqual('2');
-    expect(canvasGroupNumbers[2].nativeElement.innerText).toEqual('5');
+    expect(canvasGroupNumbers[0].nativeElement.textContent).toEqual('1');
+    expect(canvasGroupNumbers[1].nativeElement.textContent).toEqual('2');
+    expect(canvasGroupNumbers[2].nativeElement.textContent).toEqual('5');
   });
 
   it('should go to canvas group when selecting a canvas group in TOC', () => {
-    spyOn(viewerService, 'goToCanvas').and.callThrough();
+    jest.spyOn(viewerService, 'goToCanvas');
 
     const divs: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.toc-link')
+      By.css('.toc-link'),
     );
     divs[2].triggerEventHandler('click', new Event('fakeEvent'));
 

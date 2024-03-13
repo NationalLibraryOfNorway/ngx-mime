@@ -1,6 +1,7 @@
-import { CanvasService } from './canvas-service';
+import { TestBed } from '@angular/core/testing';
 import { Rect } from '../models/rect';
 import { ViewerLayout } from '../models/viewer-layout';
+import { CanvasService } from './canvas-service';
 
 describe('CanvasService', () => {
   let service: CanvasService;
@@ -10,8 +11,12 @@ describe('CanvasService', () => {
     for (let i = 0; i < 100; i++) {
       canvases.push(new Rect());
     }
-    //service.setLayout(ViewerLayout.ONE_PAGE);
-    //service.addAll(canvases, ViewerLayout.ONE_PAGE);
+
+    TestBed.configureTestingModule({
+      providers: [CanvasService],
+    });
+    service = TestBed.inject(CanvasService);
+    service.addAll(canvases, ViewerLayout.ONE_PAGE);
   });
 
   it('should return true when requested canvas group index is within bounds', () => {

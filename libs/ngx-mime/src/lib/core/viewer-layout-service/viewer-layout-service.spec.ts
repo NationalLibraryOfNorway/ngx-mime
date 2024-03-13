@@ -1,6 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { TestBed } from '@angular/core/testing';
-import { injectedStub } from '../../../testing/injected-stub';
 import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerLayoutService } from './viewer-layout-service';
@@ -17,7 +16,9 @@ describe('ViewerLayoutService', () => {
       ],
     });
     service = TestBed.inject(ViewerLayoutService);
-    breakpointObserver = injectedStub(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
   });
 
   it('should be created', () => {

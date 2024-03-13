@@ -1,9 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
+import { Spy, provideAutoSpy } from 'jest-auto-spies';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
@@ -39,7 +37,9 @@ describe('AttributionDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AttributionDialogComponent);
     component = fixture.componentInstance;
-    iiifManifestServiceSpy = TestBed.inject<any>(IiifManifestService);
+    iiifManifestServiceSpy = TestBed.inject(
+      IiifManifestService,
+    ) as Spy<IiifManifestService>;
     fixture.detectChanges();
   });
 
@@ -56,11 +56,8 @@ describe('AttributionDialogComponent', () => {
 
     fixture.detectChanges();
 
-    const attribution: DebugElement = fixture.debugElement.query(
-      By.css('.mat-mdc-dialog-content'),
-    );
-    expect(attribution.nativeElement.innerText).toBe(
-      'This is a test attribution',
-    );
+    const attributionEl: HTMLElement =
+      fixture.debugElement.nativeElement.querySelector('p');
+    expect(attributionEl?.textContent).toEqual('This is a test attribution');
   });
 });

@@ -1,9 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { cold, getTestScheduler } from 'jasmine-marbles';
-import { of } from 'rxjs';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
@@ -23,23 +22,30 @@ describe('RecognizedTextContentComponent', () => {
   let highlightService: any;
   let iiifContentSearchService: any;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [RecognizedTextContentComponent],
-        providers: [
-          MimeViewerIntl,
-          CanvasService,
-          AltoService,
-          MimeViewerIntl,
-          HighlightService,
-          IiifContentSearchService,
-          { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [RecognizedTextContentComponent],
+      providers: [
+        MimeViewerIntl,
+        MimeViewerIntl,
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        provideAutoSpy(CanvasService),
+        provideAutoSpy(AltoService, {
+          methodsToSpyOn: ['getHtml'],
+          observablePropsToSpyOn: [
+            'onTextContentReady$',
+            'isLoading$',
+            'hasErrors$',
+          ],
+        }),
+        provideAutoSpy(IiifContentSearchService, {
+          observablePropsToSpyOn: ['onChange', 'onSelected'],
+        }),
+        provideAutoSpy(HighlightService, ['highlightSelectedHit']),
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RecognizedTextContentComponent);
@@ -56,98 +62,69 @@ describe('RecognizedTextContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show recognized text', (done: DoneFn) => {
+  it('should show recognized text', () => {
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
     const secondCanvasRecognizedTextContent =
       '<p>fakeSecondRecognizedTextContent</p>';
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1]);
-    spyOn(altoService, 'getHtml')
-      .withArgs(0)
-      .and.returnValue(firstCanvasRecognizedTextContent)
-      .withArgs(1)
-      .and.returnValue(secondCanvasRecognizedTextContent)
-      .and.callThrough();
-    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
-      cold('x|')
-    );
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0, 1]);
+    altoService.getHtml
+      .calledWith(0)
+      .mockReturnValue(firstCanvasRecognizedTextContent);
+    altoService.getHtml
+      .calledWith(1)
+      .mockReturnValue(secondCanvasRecognizedTextContent);
+    altoService.onTextContentReady$.nextWith(true);
+    altoService.isLoading$.nextWith(false);
 
     fixture.detectChanges();
-    getTestScheduler().flush();
 
-    fixture.whenStable().then(() => {
-      const firstCanvasRecognizedTextContentDe: DebugElement =
-        fixture.debugElement.query(
-          By.css('div[data-testid="firstCanvasRecognizedTextContent"]')
-        );
-      const secondCanvasRecognizedTextContentDe: DebugElement =
-        fixture.debugElement.query(
-          By.css('div[data-testid="secondCanvasRecognizedTextContent"]')
-        );
-
-      expect(firstCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
-        firstCanvasRecognizedTextContent
+    const firstCanvasRecognizedTextContentEl: HTMLElement =
+      fixture.nativeElement.querySelector(
+        'div[data-testid="firstCanvasRecognizedTextContent"]',
       );
-      expect(secondCanvasRecognizedTextContentDe.nativeElement.innerHTML).toBe(
-        secondCanvasRecognizedTextContent
+    const secondCanvasRecognizedTextContentEl: HTMLElement =
+      fixture.nativeElement.querySelector(
+        'div[data-testid="secondCanvasRecognizedTextContent"]',
       );
-      done();
-    });
+    expect(firstCanvasRecognizedTextContentEl.innerHTML).toBe(
+      firstCanvasRecognizedTextContent,
+    );
+    expect(secondCanvasRecognizedTextContentEl.innerHTML).toBe(
+      secondCanvasRecognizedTextContent,
+    );
   });
 
   it('should show error message', () => {
-    spyOnProperty(altoService, 'hasErrors$').and.returnValue(
-      cold('x|', { x: 'fakeError' })
-    );
+    altoService.hasErrors$.nextWith('fakeError');
 
     fixture.detectChanges();
-    getTestScheduler().flush();
 
     const error: DebugElement = fixture.debugElement.query(
-      By.css('div[data-testid="error"]')
+      By.css('div[data-testid="error"]'),
     );
     expect(error.nativeElement.innerHTML).toBe('fakeError');
   });
 
   it('should call highlightSelectedHit in onSelected subscribe', () => {
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1]);
-    spyOnProperty(iiifContentSearchService, 'onSelected').and.returnValue(
-      of(createMockHit(1, 'test '))
-    );
-    const spy = spyOn(
-      highlightService,
-      'highlightSelectedHit'
-    ).and.callThrough();
+    canvasService.getCanvasesPerCanvasGroup.calledWith(0).nextWith([0, 1]);
+    iiifContentSearchService.onSelected.nextWith(createMockHit(1, 'test '));
 
     fixture.detectChanges();
 
-    expect(spy).toHaveBeenCalled();
+    expect(highlightService.highlightSelectedHit).toHaveBeenCalled();
   });
 
-  it('should call highlightSelectedHit in updateRecognizedText method', (done: DoneFn) => {
+  it('should call highlightSelectedHit in onTextContentReady subscribe', async () => {
     component.selectedHit = 1;
-    spyOnProperty(altoService, 'onTextContentReady$').and.returnValue(
-      cold('x|')
-    );
-    spyOn(canvasService, 'getCanvasesPerCanvasGroup')
-      .withArgs(0)
-      .and.returnValue([0, 1]);
-    const spy = spyOn(
-      highlightService,
-      'highlightSelectedHit'
-    ).and.callThrough();
+    altoService.onTextContentReady$.nextWith(true);
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0]);
+    altoService.getHtml.calledWith(0).mockReturnValue('fakeTextContent');
 
     fixture.detectChanges();
-    getTestScheduler().flush();
 
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalled();
-      done();
-    });
+    await fixture.whenStable();
+    expect(highlightService.highlightSelectedHit).toHaveBeenCalled();
   });
 
   function createMockHit(id: number, match: string): Hit {

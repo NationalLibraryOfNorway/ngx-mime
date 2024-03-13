@@ -16,13 +16,13 @@ describe('ManifestBuilder', () => {
   it('should test manifest content after build', () => {
     expect(manifest.type).toBe('Manifest');
     expect(manifest.id).toBe(
-      'https://api.nb.no/catalog/v3/iiif/0266d0da8f0d064a7725048aacf19872/manifest'
+      'https://api.nb.no/catalog/v3/iiif/0266d0da8f0d064a7725048aacf19872/manifest',
     );
     expect(manifest.label).toBe('Fjellkongen Ludvig "Ludden"');
     expect(manifest.metadata?.length).toBe(15);
     expect(manifest.license).toBe('https://www.nb.no/lisens/stromming');
     expect(manifest.service?.id).toBe(
-      'http://example.org/services/identifier/search'
+      'http://example.org/services/identifier/search',
     );
   });
 
@@ -30,7 +30,7 @@ describe('ManifestBuilder', () => {
     expect(manifest.sequences?.length).toBe(1);
     manifest.sequences?.forEach((sequence: Sequence) => {
       expect(sequence.id).toBe(
-        'https://api.nb.no/catalog/v3/iiif/0266d0da8f0d064a7725048aacf19872/manifest'
+        'https://api.nb.no/catalog/v3/iiif/0266d0da8f0d064a7725048aacf19872/manifest',
       );
     });
   });
@@ -46,9 +46,7 @@ describe('ManifestBuilder', () => {
       const firstSequence = manifest.sequences[0];
       if (firstSequence.canvases && firstSequence.canvases.length > 0) {
         const firstCanvas = firstSequence.canvases[0];
-        expect(firstCanvas.altoUrl).toBeDefined(
-          'First canvas should have altoUrl'
-        );
+        expect(firstCanvas.altoUrl).toBeDefined();
       }
     }
   });
@@ -57,7 +55,7 @@ describe('ManifestBuilder', () => {
     manifest.sequences?.forEach((sequence: Sequence) => {
       sequence.canvases?.forEach((canvas: Canvas) => {
         canvas.images?.forEach((image: Images) => {
-          expect(image.id).toBeDefined('Image should have id');
+          expect(image.id).toBeDefined();
           expect(image.type).toBe('Annotation');
           expect(image.motivation).toBe('painting');
         });
