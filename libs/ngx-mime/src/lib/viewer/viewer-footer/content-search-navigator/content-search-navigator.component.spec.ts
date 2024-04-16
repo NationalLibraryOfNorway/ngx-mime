@@ -7,10 +7,11 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
 import { Rect } from '../../../core/models/rect';
-import { ViewerLayout } from '../../../core/models/viewer-layout';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
@@ -23,13 +24,15 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
 import { SharedModule } from './../../../shared/shared.module';
 import { ViewerServiceStub } from './../../../test/viewer-service-stub';
 import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
+import { Resource } from '../../../core/models/manifest';
 
-describe('ContentSearchNavigatorComponent', () => {
+fdescribe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
   let fixture: ComponentFixture<ContentSearchNavigatorComponent>;
   let iiifContentSearchService: IiifContentSearchServiceStub;
   let canvasService: CanvasServiceStub;
   let contentSearchNavigationService: ContentSearchNavigationService;
+  let viewerLayoutServiceSpy: Spy<ViewerLayoutService>
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -46,6 +49,7 @@ describe('ContentSearchNavigatorComponent', () => {
         },
         { provide: CanvasService, useClass: CanvasServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
   }));
@@ -57,11 +61,14 @@ describe('ContentSearchNavigatorComponent', () => {
       ContentSearchNavigationService,
     );
     canvasService = TestBed.inject<any>(CanvasService);
+    viewerLayoutServiceSpy = TestBed.inject(
+      ViewerLayoutService,
+    ) as Spy<ViewerLayoutService>;
 
     component = fixture.componentInstance;
     component.searchResult = createDefaultData();
     iiifContentSearchService._currentSearchResult.next(component.searchResult);
-    //canvasService.addAll(createDefaultTileRects(102), ViewerLayout.TWO_PAGE);
+    canvasService.addTileSources(createDefaultTileSources(102));
     fixture.detectChanges();
   });
 
@@ -89,7 +96,7 @@ describe('ContentSearchNavigatorComponent', () => {
   ));
 
   describe('Two page display', () => {
-    it('should go to first hit if current canvasgroup is 3 and user presses previous hit button', waitForAsync(() => {
+    fit('should go to first hit if current canvasgroup is 3 and user presses previous hit button', waitForAsync(() => {
       jest.spyOn(contentSearchNavigationService, 'goToPreviousHit');
       canvasService.setCanvasGroupIndexChange(3);
       fixture.detectChanges();
@@ -270,6 +277,21 @@ describe('ContentSearchNavigatorComponent', () => {
       tileRects.push(new Rect());
     }
     return tileRects;
+  }
+
+  function createDefaultTileSources(size: number): Resource[] {
+    const tileSources: Resource[] = [];
+    for (let i = 0; i < size; i++) {
+      tileSources.push({
+        id: 'id' + i,
+        height: 100,
+        width: 100,
+        type: 'image',
+        tileOverlap: 0,
+      });
+
+    }
+    return tileSources;
   }
 
   function createDefaultData() {

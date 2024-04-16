@@ -117,6 +117,8 @@ export class CanvasService {
   }
 
   isWithinBounds(canvasGroupIndex: number): boolean {
+    console.log(this.numberOfCanvasGroups - 1);
+
     return (
       canvasGroupIndex > -1 && canvasGroupIndex <= this.numberOfCanvasGroups - 1
     );

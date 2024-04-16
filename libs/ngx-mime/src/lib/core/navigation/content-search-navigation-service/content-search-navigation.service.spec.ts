@@ -1,24 +1,21 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { Spy, provideAutoSpy } from 'jest-auto-spies';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../../test/testManifest';
-import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../intl';
 import { Hit } from '../../models/hit';
-import { Rect } from '../../models/rect';
 import { SearchResult } from '../../models/search-result';
-import { ViewerLayout } from '../../models/viewer-layout';
-import { ViewerService } from '../../viewer-service/viewer.service';
 import { ContentSearchNavigationService } from './content-search-navigation.service';
 
 describe('ContentSearchNavigationService', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let contentSearchNavigationService: ContentSearchNavigationService;
+  let canvasServiceSpy: Spy<CanvasService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,9 +23,7 @@ describe('ContentSearchNavigationService', () => {
       declarations: [],
       providers: [
         ContentSearchNavigationService,
-        MimeViewerIntl,
-        CanvasService,
-        { provide: ViewerService, useClass: ViewerServiceStub },
+        provideAutoSpy(CanvasService),
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         {
           provide: IiifContentSearchService,
@@ -47,11 +42,11 @@ describe('ContentSearchNavigationService', () => {
     iiifContentSearchServiceStub._currentSearchResult.next(
       createSearchResult(),
     );
-    const canvasService = TestBed.inject(CanvasService);
-    //canvasService.addAll(createCanvasGroups(), ViewerLayout.ONE_PAGE);
+    canvasServiceSpy = <any>TestBed.inject(CanvasService);
     contentSearchNavigationService = TestBed.inject(
       ContentSearchNavigationService,
     );
+    canvasServiceSpy.findCanvasGroupByCanvasIndex.mockReturnValue(1);
   });
 
   it('should create', () => {
@@ -59,6 +54,7 @@ describe('ContentSearchNavigationService', () => {
   });
 
   it('should go to next hit', waitForAsync(() => {
+    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([6]);
     contentSearchNavigationService.update(6);
 
     contentSearchNavigationService.currentHitCounter.subscribe((hitId) => {
@@ -69,6 +65,7 @@ describe('ContentSearchNavigationService', () => {
   }));
 
   it('should go to previous hit', waitForAsync(() => {
+    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([6]);
     contentSearchNavigationService.update(6);
 
     contentSearchNavigationService.currentHitCounter.subscribe((index) => {
@@ -87,6 +84,8 @@ describe('ContentSearchNavigationService', () => {
   }));
 
   it('should return 0 if canvasIndex is on first hit', waitForAsync(() => {
+    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([1]);
+
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(0);
     });
@@ -95,6 +94,8 @@ describe('ContentSearchNavigationService', () => {
   }));
 
   it('should return 5 if canvasIndex is between 5th and 6th hit', waitForAsync(() => {
+    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([6]);
+
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(5);
     });
@@ -103,6 +104,8 @@ describe('ContentSearchNavigationService', () => {
   }));
 
   it('should return 6 if canvasIndex is after last', waitForAsync(() => {
+    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([10]);
+
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(6);
     });
@@ -119,14 +122,6 @@ describe('ContentSearchNavigationService', () => {
 
     expect(contentSearchNavigationService.update).toHaveBeenCalledTimes(1);
   });
-
-  function createCanvasGroups(): Rect[] {
-    const canvasGroups: Rect[] = [];
-    for (let i = 0; i < 100; i++) {
-      canvasGroups.push(new Rect());
-    }
-    return canvasGroups;
-  }
 
   function createSearchResult(): SearchResult {
     return new SearchResult({
