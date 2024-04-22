@@ -5,7 +5,6 @@ import { CanvasService } from './canvas-service';
 import { Spy, provideAutoSpy } from 'jest-auto-spies';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { Resource } from '../models/manifest';
-import { MimeViewerConfig } from '../mime-viewer-config';
 
 describe('CanvasService', () => {
   let service: CanvasService;
