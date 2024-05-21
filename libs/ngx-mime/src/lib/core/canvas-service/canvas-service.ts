@@ -117,8 +117,6 @@ export class CanvasService {
   }
 
   isWithinBounds(canvasGroupIndex: number): boolean {
-    console.log(this.numberOfCanvasGroups - 1);
-
     return (
       canvasGroupIndex > -1 && canvasGroupIndex <= this.numberOfCanvasGroups - 1
     );
@@ -246,9 +244,10 @@ export class CanvasService {
       );
     }
 
+    let strat = TileSourceStrategyFactory.create(tileSource);
+    let ts = strat.getTileSource(tileSource);
     this.viewer?.addTiledImage({
-      tileSource:
-        TileSourceStrategyFactory.create(tileSource).getTileSource(tileSource),
+      tileSource: ts,
       fitBounds: bounds,
       degrees: this.rotation,
     });
