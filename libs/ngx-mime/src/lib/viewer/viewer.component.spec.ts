@@ -87,11 +87,6 @@ describe('ViewerComponent', () => {
       IiifContentSearchService,
     );
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
-    jest.setTimeout(10000);
-  });
-
-  afterEach(function () {
-    jest.setTimeout(5000);
   });
 
   it('should create component', () => {
