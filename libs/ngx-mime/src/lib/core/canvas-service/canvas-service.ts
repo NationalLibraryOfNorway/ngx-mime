@@ -109,7 +109,7 @@ export class CanvasService {
     let index = 0;
     this.canvasGroups.canvasGroupRects.forEach((canvasGroup) => {
       canvasGroup.canvases.forEach((canvas) => {
-        this.createTile(canvas, index);
+        this.createTile(canvas);
         this.createOverlay(canvas, index);
         index++;
       });
@@ -218,7 +218,7 @@ export class CanvasService {
     this.canvasGroups = new CanvasGroups();
   }
 
-  private createTile(tile: TileSourceAndRect, i: number): void {
+  private createTile(tile: TileSourceAndRect): void {
     const tileSource = tile.tileSource;
     const position = tile.rect;
     const rotated = this.rotation === 90 || this.rotation === 270;
