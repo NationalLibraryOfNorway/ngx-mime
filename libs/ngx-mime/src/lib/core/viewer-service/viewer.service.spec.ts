@@ -155,7 +155,6 @@ describe('ViewerService', () => {
 
   describe('rotate', () => {
     it('should rotate if using canvas', (done) => {
-      const openSpy = jest.spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
         config,
