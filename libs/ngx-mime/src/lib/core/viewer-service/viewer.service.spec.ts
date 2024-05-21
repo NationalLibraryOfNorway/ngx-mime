@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAutoSpy } from 'jest-auto-spies';
-import { Subscription } from 'rxjs';
 import { testManifest } from '../../test/testManifest';
 import { AltoService } from '../alto-service/alto.service';
 import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
@@ -72,6 +71,10 @@ describe('ViewerService', () => {
     hostFixture.detectChanges();
   });
 
+  afterEach(() => {
+    viewerService.destroy();
+  });
+
   it('should be created', () => {
     expect(viewerService).toBeTruthy();
   });
@@ -105,10 +108,8 @@ describe('ViewerService', () => {
       config,
     );
 
-    let subscription: Subscription;
-    subscription = viewerService.onOsdReadyChange.subscribe((state) => {
+    viewerService.onOsdReadyChange.subscribe((state) => {
       if (state) {
-        subscription.unsubscribe();
         viewerService.rotate();
         viewerService.destroy(true);
         expect(rotation).toEqual(90);
@@ -127,10 +128,8 @@ describe('ViewerService', () => {
       config,
     );
 
-    let subscription: Subscription;
-    subscription = viewerService.onOsdReadyChange.subscribe((state) => {
+    viewerService.onOsdReadyChange.subscribe((state) => {
       if (state) {
-        subscription.unsubscribe();
         viewerService.rotate();
         viewerService.destroy(false);
         expect(rotation).toEqual(0);
@@ -145,10 +144,8 @@ describe('ViewerService', () => {
       config,
     );
 
-    let subscription: Subscription;
-    subscription = viewerService.onOsdReadyChange.subscribe((state) => {
+    viewerService.onOsdReadyChange.subscribe((state) => {
       if (state) {
-        subscription.unsubscribe();
         viewerService.destroy(false);
         expect(viewerService.getViewer()).toBeNull();
         done();
