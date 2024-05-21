@@ -19,7 +19,6 @@ export class OneCanvasPerCanvasGroupStrategy
 
   addAll = (tileSources: ReadonlyArray<any>) => {
     const canvasGroups = new CanvasGroups();
-    //canvasGroups.addRange(tileSources);
 
     const positionStrategy = new OnePageCalculatePagePositionStrategy(
       this.config,
