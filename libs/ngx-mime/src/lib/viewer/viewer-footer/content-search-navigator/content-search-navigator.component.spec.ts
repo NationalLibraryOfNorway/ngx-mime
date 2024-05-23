@@ -15,14 +15,13 @@ import { SearchResult } from '../../../core/models/search-result';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
 import { SharedModule } from '../../../shared/shared.module';
-import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
   let fixture: ComponentFixture<ContentSearchNavigatorComponent>;
-  let iiifContentSearchService: IiifContentSearchServiceStub;
+  let iiifContentSearchServiceSpy: Spy<IiifContentSearchService>;
   let canvasServiceSpy: Spy<CanvasService>;
   let contentSearchNavigationServiceSpy: Spy<ContentSearchNavigationService>;
   let viewerLayoutServiceSpy: Spy<ViewerLayoutService>;
@@ -38,10 +37,9 @@ describe('ContentSearchNavigatorComponent', () => {
       declarations: [ContentSearchNavigatorComponent],
       providers: [
         MimeViewerIntl,
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub,
-        },
+        provideAutoSpy(IiifContentSearchService, {
+          observablePropsToSpyOn: ['onChange'],
+        }),
         provideAutoSpy(ContentSearchNavigationService, {
           observablePropsToSpyOn: ['currentHitCounter'],
         }),
@@ -59,7 +57,9 @@ describe('ContentSearchNavigatorComponent', () => {
   beforeEach(async () => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
     loader = TestbedHarnessEnvironment.loader(fixture);
-    iiifContentSearchService = TestBed.inject<any>(IiifContentSearchService);
+    iiifContentSearchServiceSpy = TestBed.inject(
+      IiifContentSearchService,
+    ) as Spy<IiifContentSearchService>;
     intl = TestBed.inject(MimeViewerIntl);
     contentSearchNavigationServiceSpy = TestBed.inject(
       ContentSearchNavigationService,
@@ -71,7 +71,7 @@ describe('ContentSearchNavigatorComponent', () => {
 
     component = fixture.componentInstance;
     component.searchResult = createDefaultData();
-    iiifContentSearchService._currentSearchResult.next(component.searchResult);
+    iiifContentSearchServiceSpy.onChange.nextWith(component.searchResult);
     fixture.detectChanges();
 
     nextButton = await loader.getHarness(
