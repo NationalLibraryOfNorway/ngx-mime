@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Spy, provideAutoSpy } from 'jest-auto-spies';
-import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../../test/testManifest';
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
@@ -11,10 +10,10 @@ import { SearchResult } from '../../models/search-result';
 import { ContentSearchNavigationService } from './content-search-navigation.service';
 
 describe('ContentSearchNavigationService', () => {
-  let iiifContentSearchServiceSpy: Spy<IiifContentSearchService>;
-  let iiifManifestServiceStub: IiifManifestServiceStub;
   let contentSearchNavigationService: ContentSearchNavigationService;
   let canvasServiceSpy: Spy<CanvasService>;
+  let iiifContentSearchServiceSpy: Spy<IiifContentSearchService>;
+  let iiifManifestServiceSpy: Spy<IiifManifestService>;
   let defaultSearchResult = createSearchResult();
 
   beforeEach(() => {
@@ -24,7 +23,9 @@ describe('ContentSearchNavigationService', () => {
       providers: [
         ContentSearchNavigationService,
         provideAutoSpy(CanvasService),
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        provideAutoSpy(IiifManifestService, {
+          observablePropsToSpyOn: ['currentManifest'],
+        }),
         provideAutoSpy(IiifContentSearchService, {
           observablePropsToSpyOn: ['onChange'],
         }),
@@ -34,8 +35,10 @@ describe('ContentSearchNavigationService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    iiifManifestServiceStub = TestBed.inject<any>(IiifManifestService);
-    iiifManifestServiceStub._currentManifest.next(testManifest);
+    iiifManifestServiceSpy = TestBed.inject(
+      IiifManifestService,
+    ) as Spy<IiifManifestService>;
+    iiifManifestServiceSpy.currentManifest.nextWith(testManifest);
     iiifContentSearchServiceSpy = TestBed.inject<any>(IiifContentSearchService);
     iiifContentSearchServiceSpy.onChange.nextWith(defaultSearchResult);
     canvasServiceSpy = <any>TestBed.inject(CanvasService);
