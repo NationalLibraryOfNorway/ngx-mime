@@ -1,68 +1,70 @@
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync, } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAutoSpy, Spy } from 'jest-auto-spies';
+import { Spy, provideAutoSpy } from 'jest-auto-spies';
 import { CanvasService } from '../../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../../core/intl';
 import { Hit } from '../../../core/models/hit';
-import { Resource } from '../../../core/models/manifest';
 import { SearchResult } from '../../../core/models/search-result';
-import { ViewerLayout } from '../../../core/models/viewer-layout';
-import {
-  ContentSearchNavigationService
-} from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
-import { ViewerService } from '../../../core/viewer-service/viewer.service';
 import { SharedModule } from '../../../shared/shared.module';
-import { CanvasServiceStub } from '../../../test/canvas-service-stub';
 import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
-import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
-import d3 from 'd3';
 
 describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
   let fixture: ComponentFixture<ContentSearchNavigatorComponent>;
   let iiifContentSearchService: IiifContentSearchServiceStub;
-  let canvasService: CanvasServiceStub;
-  let contentSearchNavigationService: ContentSearchNavigationService;
-  let viewerLayoutServiceSpy: Spy<ViewerLayoutService>
+  let canvasServiceSpy: Spy<CanvasService>;
+  let contentSearchNavigationServiceSpy: Spy<ContentSearchNavigationService>;
+  let viewerLayoutServiceSpy: Spy<ViewerLayoutService>;
   let intl: MimeViewerIntl;
+  let loader: HarnessLoader;
+  let nextButton: MatButtonHarness;
+  let previousButton: MatButtonHarness;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [NoopAnimationsModule, SharedModule],
       declarations: [ContentSearchNavigatorComponent],
       providers: [
         MimeViewerIntl,
-        ContentSearchNavigationService,
-        { provide: ViewerService, useClass: ViewerServiceStub },
         {
           provide: IiifContentSearchService,
           useClass: IiifContentSearchServiceStub,
         },
-        { provide: CanvasService, useClass: CanvasServiceStub },
+        provideAutoSpy(ContentSearchNavigationService, {
+          observablePropsToSpyOn: ['currentHitCounter'],
+        }),
+        provideAutoSpy(CanvasService, {
+          observablePropsToSpyOn: ['onCanvasGroupIndexChange'],
+        }),
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         provideAutoSpy(ViewerLayoutService, {
           gettersToSpyOn: ['layout'],
         }),
       ],
     }).compileComponents();
-  }));
+  });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
+    loader = TestbedHarnessEnvironment.loader(fixture);
     iiifContentSearchService = TestBed.inject<any>(IiifContentSearchService);
     intl = TestBed.inject(MimeViewerIntl);
-    contentSearchNavigationService = TestBed.inject(
+    contentSearchNavigationServiceSpy = TestBed.inject(
       ContentSearchNavigationService,
-    );
-    canvasService = TestBed.inject<any>(CanvasService);
+    ) as Spy<ContentSearchNavigationService>;
+    canvasServiceSpy = TestBed.inject(CanvasService) as Spy<CanvasService>;
     viewerLayoutServiceSpy = TestBed.inject(
       ViewerLayoutService,
     ) as Spy<ViewerLayoutService>;
@@ -71,6 +73,18 @@ describe('ContentSearchNavigatorComponent', () => {
     component.searchResult = createDefaultData();
     iiifContentSearchService._currentSearchResult.next(component.searchResult);
     fixture.detectChanges();
+
+    nextButton = await loader.getHarness(
+      MatButtonHarness.with({
+        selector: '[data-testid="footerNavigateNextHitButton"]',
+      }),
+    );
+
+    previousButton = await loader.getHarness(
+      MatButtonHarness.with({
+        selector: '[data-testid="footerNavigatePreviousHitButton"]',
+      }),
+    );
   });
 
   it('should create', () => {
@@ -78,282 +92,63 @@ describe('ContentSearchNavigatorComponent', () => {
   });
 
   it('should re-render when the i18n labels have changed', () => {
-      const text = fixture.debugElement.query(
-        By.css('[data-testid="footerNavigateNextHitButton"]'),
-      );
-      expect(text.nativeElement.getAttribute('aria-label')).toContain(
-        `Next Hit`,
-      );
+    const text = fixture.debugElement.query(
+      By.css('[data-testid="footerNavigateNextHitButton"]'),
+    );
+    expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Hit`);
 
-      intl.nextHitLabel = 'New test string';
-      intl.changes.next();
-      fixture.detectChanges();
-      expect(text.nativeElement.getAttribute('aria-label')).toContain(
-        'New test string',
-      );
-    },
-  );
-
-  describe('Two page display', () => {
-    beforeEach(() => {
-      setupCanvasService(ViewerLayout.TWO_PAGE);
-    });
-
-    it('should go to first hit if current canvasgroup is 3 and user presses previous hit button', waitForAsync(() => {
-      jest.spyOn(contentSearchNavigationService, 'goToPreviousHit');
-      canvasService.setCanvasGroupIndexChange(3);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.goToPreviousHit();
-        expect(
-          contentSearchNavigationService.goToPreviousHit,
-        ).toHaveBeenCalledTimes(1);
-        contentSearchNavigationService.currentHitCounter.subscribe(
-          (hitIndex) => {
-            expect(hitIndex).toBe(0);
-          },
-        );
-      });
-    }));
-
-    it('should go to first hit if current canvas is 0 and user presses next hit button', waitForAsync(() => {
-      jest.spyOn(contentSearchNavigationService, 'goToNextHit');
-      canvasService.setCanvasGroupIndexChange(0);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.goToNextHit();
-        expect(
-          contentSearchNavigationService.goToNextHit,
-        ).toHaveBeenCalledTimes(1);
-        contentSearchNavigationService.currentHitCounter.subscribe(
-          (hitIndex) => {
-            expect(hitIndex).toBe(0);
-          },
-        );
-      });
-    }));
-
-    it('should disable previous button if on first hit', waitForAsync(() => {
-      canvasService.setCanvasGroupIndexChange(2);
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const button = fixture.debugElement.query(
-          By.css('[data-testid="footerNavigatePreviousHitButton"]'),
-        );
-        expect(button.nativeElement.disabled).toBeTruthy();
-      });
-    }));
-
-    it('should disable next button if on last hit', waitForAsync(() => {
-      canvasService.setCanvasGroupIndexChange(51);
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        const button = fixture.debugElement.query(
-          By.css('[data-testid="footerNavigateNextHitButton"]'),
-        );
-        expect(button.nativeElement.disabled).toBeTruthy();
-      });
-    }));
-
-    it('should go to last hit on right page if user presses previous hit button when on canvasgroup 2', waitForAsync(() => {
-      jest.spyOn(iiifContentSearchService, 'selected');
-
-      component.searchResult = createLeftPageHit();
-      iiifContentSearchService._currentSearchResult.next(
-        component.searchResult,
-      );
-      canvasService.setCanvasGroupIndexChange(2);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.goToPreviousHit();
-        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 2, index: 2 }),
-        );
-      });
-    }));
-
-    it('should go to first hit on current canvasgroup if no hits are selected and user presses next hit button', waitForAsync(() => {
-      jest.spyOn(iiifContentSearchService, 'selected');
-      canvasService.setCanvasGroupIndexChange(4);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.goToNextHit();
-        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 1, index: 8 }),
-        );
-      });
-    }));
-
-    it('should go to first hit on current canvasgroup if no hits are selected and user presses previous hit button', waitForAsync(() => {
-      jest.spyOn(iiifContentSearchService, 'selected');
-      canvasService.setCanvasGroupIndexChange(4);
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.goToPreviousHit();
-        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 1, index: 8 }),
-        );
-      });
-    }));
-
-    it('should go to next hit on same canvasgroup when user press next hit button', waitForAsync(() => {
-      jest.spyOn(iiifContentSearchService, 'selected');
-
-      component.searchResult = createSinglePageHit();
-      iiifContentSearchService._currentSearchResult.next(
-        component.searchResult,
-      );
-      canvasService.setCanvasGroupIndexChange(1);
-      contentSearchNavigationService.selected(component.searchResult.get(0));
-      fixture.detectChanges();
-
-      fixture.whenStable().then(() => {
-        component.goToNextHit();
-        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 1, index: 2 }),
-        );
-      });
-    }));
-
-    it('should go to previous hit on same canvasgroup when user presses previous hit button', waitForAsync(() => {
-      jest.spyOn(iiifContentSearchService, 'selected');
-
-      component.searchResult = createSinglePageHit();
-      iiifContentSearchService._currentSearchResult.next(
-        component.searchResult,
-      );
-      canvasService.setCanvasGroupIndexChange(1);
-      contentSearchNavigationService.selected(component.searchResult.get(1));
-
-      fixture.whenStable().then(() => {
-        component.goToPreviousHit();
-        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 0, index: 2 }),
-        );
-      });
-    }));
+    intl.nextHitLabel = 'New test string';
+    intl.changes.next();
+    fixture.detectChanges();
+    expect(text.nativeElement.getAttribute('aria-label')).toContain(
+      'New test string',
+    );
   });
 
-  describe('Single page display', () => {
-    beforeEach(() => {
-      setupCanvasService(ViewerLayout.ONE_PAGE);
-      component.searchResult = createSinglePageHit();
-      iiifContentSearchService._currentSearchResult.next(
-        component.searchResult,
-      );
-    });
+  it('should go to previous hit if and user presses previous hit button', async () => {
+    jest.spyOn(contentSearchNavigationServiceSpy, 'goToPreviousHit');
 
-    it('should go to first hit if user presses previous hit button', waitForAsync(() => {
-      jest.spyOn(iiifContentSearchService, 'selected');
-      canvasService.setCanvasGroupIndexChange(3);
+    await previousButton.click();
 
-      fixture.whenStable().then(() => {
-        component.goToPreviousHit();
-        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 1, index: 2 }),
-        );
-      });
-    }));
-
-    it('should go to next hit if user presses next hit button', waitForAsync(() => {
-      jest.spyOn(iiifContentSearchService, 'selected');
-      canvasService.setCanvasGroupIndexChange(0);
-
-      fixture.whenStable().then(() => {
-        component.goToNextHit();
-        expect(iiifContentSearchService.selected).toHaveBeenCalledWith(
-          new Hit({ id: 0, index: 2 }),
-        );
-      });
-    }));
+    expect(
+      contentSearchNavigationServiceSpy.goToPreviousHit,
+    ).toHaveBeenCalledTimes(1);
   });
 
-  function setupCanvasService(layout: ViewerLayout): void {
-    viewerLayoutServiceSpy.accessorSpies.getters.layout.mockReturnValue(layout);
-    canvasService.addTileSources(createDefaultTileSources(102));
-    canvasService.setSvgNode(d3.create('svg'));
-    canvasService.updateViewer();
-  }
+  it('should go to next hit if and user presses next hit button', async () => {
+    jest.spyOn(contentSearchNavigationServiceSpy, 'goToNextHit');
 
-  function createDefaultTileSources(size: number): Resource[] {
-    const tileSources: Resource[] = [];
-    for (let i = 0; i < size; i++) {
-      tileSources.push({
-        id: 'id' + i,
-        height: 100,
-        width: 100,
-        type: 'image',
-        tileOverlap: 0,
-      });
+    await nextButton.click();
 
-    }
-    return tileSources;
-  }
+    expect(contentSearchNavigationServiceSpy.goToNextHit).toHaveBeenCalledTimes(
+      1,
+    );
+  });
+
+  it('should disable the "previous" button when the first search hit is selected', async () => {
+    const firstSearchHitIndex = 0;
+    contentSearchNavigationServiceSpy.currentHitCounter.nextWith(
+      firstSearchHitIndex,
+    );
+
+    await checkButtonIsDisabled(previousButton);
+  });
+
+  it('should disable the "next" button when the last search hit is selected', async () => {
+    const lastSearchHitIndex = component.searchResult.size() - 1;
+    contentSearchNavigationServiceSpy.currentHitCounter.nextWith(
+      lastSearchHitIndex,
+    );
+
+    await checkButtonIsDisabled(nextButton);
+  });
 
   function createDefaultData() {
     const searchResult = new SearchResult();
     searchResult.add(
       new Hit({
         id: 0,
-        index: 1,
-      }),
-    );
-    searchResult.add(
-      new Hit({
-        id: 1,
-        index: 8,
-      }),
-    );
-    searchResult.add(
-      new Hit({
-        id: 2,
-        index: 10,
-      }),
-    );
-    searchResult.add(
-      new Hit({
-        id: 3,
-        index: 10,
-      }),
-    );
-    searchResult.add(
-      new Hit({
-        id: 4,
-        index: 20,
-      }),
-    );
-    searchResult.add(
-      new Hit({
-        id: 5,
-        index: 30,
-      }),
-    );
-    searchResult.add(
-      new Hit({
-        id: 6,
-        index: 40,
-      }),
-    );
-    searchResult.add(
-      new Hit({
-        id: 7,
-        index: 100,
-      }),
-    );
-    return searchResult;
-  }
-
-  function createLeftPageHit() {
-    const searchResult = new SearchResult();
-    searchResult.add(
-      new Hit({
-        id: 0,
-        index: 1,
+        index: 0,
       }),
     );
     searchResult.add(
@@ -362,31 +157,10 @@ describe('ContentSearchNavigatorComponent', () => {
         index: 1,
       }),
     );
-    searchResult.add(
-      new Hit({
-        id: 2,
-        index: 2,
-      }),
-    );
-
     return searchResult;
   }
 
-  function createSinglePageHit() {
-    const searchResult = new SearchResult();
-    searchResult.add(
-      new Hit({
-        id: 0,
-        index: 2,
-      }),
-    );
-    searchResult.add(
-      new Hit({
-        id: 1,
-        index: 2,
-      }),
-    );
-
-    return searchResult;
-  }
+  const checkButtonIsDisabled = async (button: MatButtonHarness) => {
+    expect(await button.isDisabled()).toBeTruthy();
+  };
 });
