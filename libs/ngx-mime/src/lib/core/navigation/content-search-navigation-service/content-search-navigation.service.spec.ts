@@ -1,8 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Spy, provideAutoSpy } from 'jest-auto-spies';
-import { IiifContentSearchServiceStub } from '../../../test/iiif-content-search-service-stub';
-import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { testManifest } from '../../../test/testManifest';
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
@@ -12,10 +10,11 @@ import { SearchResult } from '../../models/search-result';
 import { ContentSearchNavigationService } from './content-search-navigation.service';
 
 describe('ContentSearchNavigationService', () => {
-  let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
-  let iiifManifestServiceStub: IiifManifestServiceStub;
   let contentSearchNavigationService: ContentSearchNavigationService;
   let canvasServiceSpy: Spy<CanvasService>;
+  let iiifContentSearchServiceSpy: Spy<IiifContentSearchService>;
+  let iiifManifestServiceSpy: Spy<IiifManifestService>;
+  let defaultSearchResult = createSearchResult();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,62 +23,43 @@ describe('ContentSearchNavigationService', () => {
       providers: [
         ContentSearchNavigationService,
         provideAutoSpy(CanvasService),
-        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        {
-          provide: IiifContentSearchService,
-          useClass: IiifContentSearchServiceStub,
-        },
+        provideAutoSpy(IiifManifestService, {
+          observablePropsToSpyOn: ['currentManifest'],
+        }),
+        provideAutoSpy(IiifContentSearchService, {
+          observablePropsToSpyOn: ['onChange'],
+        }),
       ],
     });
   });
 
   beforeEach(() => {
-    iiifContentSearchServiceStub = TestBed.inject<any>(
-      IiifContentSearchService,
-    );
-    iiifManifestServiceStub = TestBed.inject<any>(IiifManifestService);
-    iiifManifestServiceStub._currentManifest.next(testManifest);
-    iiifContentSearchServiceStub._currentSearchResult.next(
-      createSearchResult(),
-    );
+    jest.clearAllMocks();
+    iiifManifestServiceSpy = TestBed.inject(
+      IiifManifestService,
+    ) as Spy<IiifManifestService>;
+    iiifManifestServiceSpy.currentManifest.nextWith(testManifest);
+    iiifContentSearchServiceSpy = TestBed.inject<any>(IiifContentSearchService);
+    iiifContentSearchServiceSpy.onChange.nextWith(defaultSearchResult);
     canvasServiceSpy = <any>TestBed.inject(CanvasService);
     contentSearchNavigationService = TestBed.inject(
       ContentSearchNavigationService,
     );
     canvasServiceSpy.findCanvasGroupByCanvasIndex.mockReturnValue(1);
+    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([1, 2]);
+    contentSearchNavigationService.update(0);
   });
 
   it('should create', () => {
     expect(contentSearchNavigationService).toBeTruthy();
   });
 
-  it('should go to next hit', waitForAsync(() => {
-    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([6]);
-    contentSearchNavigationService.update(6);
-
-    contentSearchNavigationService.currentHitCounter.subscribe((hitId) => {
-      expect(hitId).toBe(6);
-    });
-
-    contentSearchNavigationService.goToNextHit();
-  }));
-
-  it('should go to previous hit', waitForAsync(() => {
-    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([6]);
-    contentSearchNavigationService.update(6);
-
-    contentSearchNavigationService.currentHitCounter.subscribe((index) => {
-      expect(index).toBe(5);
-    });
-
-    contentSearchNavigationService.goToPreviousHit();
-  }));
-
   it('should return -1 if canvasIndex is before first hit', waitForAsync(() => {
     contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
       expect(hit).toBe(-1);
     });
 
+    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([0]);
     contentSearchNavigationService.update(0);
   }));
 
@@ -118,9 +98,47 @@ describe('ContentSearchNavigationService', () => {
     const updatedSearchResult = createSearchResult();
     updatedSearchResult.add(new Hit({ id: 7, index: 20 }));
 
-    iiifContentSearchServiceStub._currentSearchResult.next(updatedSearchResult);
+    iiifContentSearchServiceSpy.onChange.nextWith(updatedSearchResult);
 
     expect(contentSearchNavigationService.update).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate backwards through all search hits when goToPreviousHit is called', async () => {
+    canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([10]);
+    contentSearchNavigationService.update(10);
+    const reverseSearchResult = [...defaultSearchResult.hits].reverse();
+
+    reverseSearchResult.forEach((searchHit) => {
+      contentSearchNavigationService.goToPreviousHit();
+      canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([
+        searchHit.index,
+      ]);
+    });
+
+    const selectedIndexes = iiifContentSearchServiceSpy.selected.mock.calls.map(
+      (call) => call[0].index,
+    );
+    const expectedIndexes = [...defaultSearchResult.hits]
+      .map((searchHit) => searchHit.index)
+      .reverse();
+    expect(selectedIndexes).toEqual(expectedIndexes);
+  });
+
+  it('should navigate through all search hits when goToNextHit is called', async () => {
+    defaultSearchResult.hits.forEach((searchHit) => {
+      contentSearchNavigationService.goToNextHit();
+      canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([
+        searchHit.index,
+      ]);
+    });
+
+    const selectedIndexes = iiifContentSearchServiceSpy.selected.mock.calls.map(
+      (call) => call[0].index,
+    );
+    const expectedIndexes = defaultSearchResult.hits.map(
+      (searchHit) => searchHit.index,
+    );
+    expect(selectedIndexes).toEqual(expectedIndexes);
   });
 
   function createSearchResult(): SearchResult {
