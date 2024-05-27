@@ -28,8 +28,8 @@ export class OneCanvasPerCanvasGroupStrategy
       const prev =
         i === 0
           ? undefined
-          : canvasGroups.canvasGroupRects[
-              canvasGroups.canvasGroupRects.length - 1
+          : canvasGroups.canvasGroups[
+              canvasGroups.canvasGroups.length - 1
             ];
 
       const position = positionStrategy.calculateCanvasGroupPosition(
@@ -48,7 +48,7 @@ export class OneCanvasPerCanvasGroupStrategy
       };
 
       const canvasGroup: CanvasGroup = {
-        canvases: [thisRect],
+        tileSourceAndRects: [thisRect],
         rect: position,
       };
       canvasGroups.add(canvasGroup);
@@ -90,7 +90,7 @@ export class TwoCanvasPerCanvasGroupStrategy
       rect: position,
     };
     const canvasGroup: CanvasGroup = {
-      canvases: [first],
+      tileSourceAndRects: [first],
       rect: position,
     };
 
@@ -101,8 +101,8 @@ export class TwoCanvasPerCanvasGroupStrategy
       if (i + 1 < tileSources.length) {
         // Paired pages
         const prev =
-          canvasGroups.canvasGroupRects[
-            canvasGroups.canvasGroupRects.length - 1
+          canvasGroups.canvasGroups[
+            canvasGroups.canvasGroups.length - 1
           ];
 
         const thisRect: TileSourceAndRect = {
@@ -132,7 +132,7 @@ export class TwoCanvasPerCanvasGroupStrategy
         };
 
         const groupedRect: CanvasGroup = {
-          canvases: [thisRect, nextRect],
+          tileSourceAndRects: [thisRect, nextRect],
           rect: new Rect({
             x: Math.min(thisRect.rect.x, nextRect.rect.x),
             y: Math.min(thisRect.rect.y, nextRect.rect.y),
@@ -146,8 +146,8 @@ export class TwoCanvasPerCanvasGroupStrategy
       } else {
         // Single last page, if applicable
         const prev =
-          canvasGroups.canvasGroupRects[
-            canvasGroups.canvasGroupRects.length - 1
+          canvasGroups.canvasGroups[
+            canvasGroups.canvasGroups.length - 1
           ];
 
         const position = positionStrategy.calculateCanvasGroupPosition(
@@ -165,12 +165,12 @@ export class TwoCanvasPerCanvasGroupStrategy
           rect: position,
         };
 
-        const gr: CanvasGroup = {
-          canvases: [last],
+        const canvasGroup: CanvasGroup = {
+          tileSourceAndRects: [last],
           rect: position,
         };
 
-        canvasGroups.add(gr);
+        canvasGroups.add(canvasGroup);
         canvasGroups.canvasesPerCanvasGroup.push([i]);
       }
     }

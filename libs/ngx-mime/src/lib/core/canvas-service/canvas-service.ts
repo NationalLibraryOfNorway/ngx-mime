@@ -21,10 +21,8 @@ export class CanvasService {
     new BehaviorSubject(0);
   protected _currentCanvasGroupIndex: BehaviorSubject<number> =
     new BehaviorSubject(0);
-
   protected canvasGroups: CanvasGroups = new CanvasGroups();
   protected _numberOfCanvases = 0;
-
   private config = new MimeViewerConfig();
   private tileSources: any[] = [];
   private viewer: Viewer | undefined = undefined;
@@ -167,7 +165,7 @@ export class CanvasService {
 
   getCanvasGroupLabel(canvasGroupIndex: number): string {
     if (
-      !this.canvasGroups.canvasGroupRects ||
+      !this.canvasGroups.canvasGroups ||
       this.canvasGroups.canvasesPerCanvasGroup.length === 0
     ) {
       return '1';
@@ -186,13 +184,13 @@ export class CanvasService {
   }
 
   getCanvasesPerCanvasGroup(canvasIndex: number): number[] {
-    return !this.canvasGroups.canvasGroupRects
+    return !this.canvasGroups.canvasGroups
       ? [0]
       : this.canvasGroups.canvasesPerCanvasGroup[canvasIndex];
   }
 
   getCanvasRect(canvasIndex: number): Rect {
-    return this.canvasGroups.canvasRects[canvasIndex].rect;
+    return this.canvasGroups.tileSourceAndRects[canvasIndex].rect;
   }
 
   getCurrentCanvasGroupRect(): Rect {
@@ -249,11 +247,11 @@ export class CanvasService {
 
   private createAndAppendCanvasGroups(): void {
     let index = 0;
-    this.canvasGroups.canvasGroupRects.forEach((canvasGroup) => {
+    this.canvasGroups.canvasGroups.forEach((canvasGroup) => {
       const group: any = this.appendPageGroup();
-      canvasGroup.canvases.forEach((canvas) => {
-        this.createTile(canvas);
-        this.createOverlay(group, canvas, index);
+      canvasGroup.tileSourceAndRects.forEach((tileSourceAndRect) => {
+        this.createTile(tileSourceAndRect);
+        this.createOverlay(group, tileSourceAndRect, index);
         index++;
       });
     });

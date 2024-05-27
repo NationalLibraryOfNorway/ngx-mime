@@ -2,7 +2,7 @@ import { Rect } from '../models/rect';
 
 export interface CanvasGroup {
   rect: Rect;
-  canvases: TileSourceAndRect[];
+  tileSourceAndRects: TileSourceAndRect[];
 }
 
 export interface TileSourceAndRect {

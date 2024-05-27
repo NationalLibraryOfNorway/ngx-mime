@@ -23,7 +23,7 @@ describe('CanvasGroups', () => {
   function createGroup(rect: Rect): CanvasGroup {
     return {
       rect: rect,
-      canvases: [],
+      tileSourceAndRects: [],
     };
   }
 });
