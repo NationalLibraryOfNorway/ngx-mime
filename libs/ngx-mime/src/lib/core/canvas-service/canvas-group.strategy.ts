@@ -25,7 +25,7 @@ export class OneCanvasPerCanvasGroupStrategy
     );
 
     tileSources.forEach((tileSource, i) => {
-      const prev =
+      const previousTileSourceAndRect =
         i === 0
           ? undefined
           : canvasGroups.canvasGroups[
@@ -36,22 +36,22 @@ export class OneCanvasPerCanvasGroupStrategy
         {
           canvasGroupIndex: i,
           canvasSource: tileSource,
-          previousCanvasGroupPosition: prev ? prev.rect : new Rect(),
+          previousCanvasGroupPosition: previousTileSourceAndRect ? previousTileSourceAndRect.rect : new Rect(),
           viewingDirection: this.viewingDirection,
         },
         this.rotation,
       );
 
-      const thisRect: TileSourceAndRect = {
+      const currentTleSourceAndRect: TileSourceAndRect = {
         tileSource: tileSource,
         rect: position,
       };
 
-      const canvasGroup: CanvasGroup = {
-        tileSourceAndRects: [thisRect],
+      const newCanvasGroup: CanvasGroup = {
+        tileSourceAndRects: [currentTleSourceAndRect],
         rect: position,
       };
-      canvasGroups.add(canvasGroup);
+      canvasGroups.add(newCanvasGroup);
       canvasGroups.canvasesPerCanvasGroup.push([i]);
     });
 
@@ -85,67 +85,67 @@ export class TwoCanvasPerCanvasGroupStrategy
       this.rotation,
     );
 
-    const first: TileSourceAndRect = {
+    const firstTileSourceAndRect: TileSourceAndRect = {
       tileSource: tileSources[0],
       rect: position,
     };
-    const canvasGroup: CanvasGroup = {
-      tileSourceAndRects: [first],
+    const newCanvasGroup: CanvasGroup = {
+      tileSourceAndRects: [firstTileSourceAndRect],
       rect: position,
     };
 
-    canvasGroups.add(canvasGroup);
+    canvasGroups.add(newCanvasGroup);
     canvasGroups.canvasesPerCanvasGroup.push([0]);
 
     for (let i = 1; i < tileSources.length; i = i + 2) {
       if (i + 1 < tileSources.length) {
         // Paired pages
-        const prev =
+        const previousCanvasGroup =
           canvasGroups.canvasGroups[
             canvasGroups.canvasGroups.length - 1
           ];
 
-        const thisRect: TileSourceAndRect = {
+        const currentTileSourceAndRect: TileSourceAndRect = {
           tileSource: tileSources[i],
           rect: positionStrategy.calculateCanvasGroupPosition(
             {
               canvasGroupIndex: i,
               canvasSource: tileSources[i],
-              previousCanvasGroupPosition: prev.rect,
+              previousCanvasGroupPosition: previousCanvasGroup.rect,
               viewingDirection: this.viewingDirection,
             },
             this.rotation,
           ),
         };
 
-        const nextRect: TileSourceAndRect = {
+        const nextTileSourceAndRect: TileSourceAndRect = {
           tileSource: tileSources[i + 1],
           rect: positionStrategy.calculateCanvasGroupPosition(
             {
               canvasGroupIndex: i + 1,
               canvasSource: tileSources[i + 1],
-              previousCanvasGroupPosition: thisRect.rect,
+              previousCanvasGroupPosition: currentTileSourceAndRect.rect,
               viewingDirection: this.viewingDirection,
             },
             this.rotation,
           ),
         };
 
-        const groupedRect: CanvasGroup = {
-          tileSourceAndRects: [thisRect, nextRect],
+        const newCanvasGroup: CanvasGroup = {
+          tileSourceAndRects: [currentTileSourceAndRect, nextTileSourceAndRect],
           rect: new Rect({
-            x: Math.min(thisRect.rect.x, nextRect.rect.x),
-            y: Math.min(thisRect.rect.y, nextRect.rect.y),
-            height: Math.max(thisRect.rect.height, nextRect.rect.height),
-            width: thisRect.rect.width + nextRect.rect.width,
+            x: Math.min(currentTileSourceAndRect.rect.x, nextTileSourceAndRect.rect.x),
+            y: Math.min(currentTileSourceAndRect.rect.y, nextTileSourceAndRect.rect.y),
+            height: Math.max(currentTileSourceAndRect.rect.height, nextTileSourceAndRect.rect.height),
+            width: currentTileSourceAndRect.rect.width + nextTileSourceAndRect.rect.width,
           }),
         };
 
-        canvasGroups.add(groupedRect);
+        canvasGroups.add(newCanvasGroup);
         canvasGroups.canvasesPerCanvasGroup.push([i, i + 1]);
       } else {
         // Single last page, if applicable
-        const prev =
+        const previousCanvasGroup =
           canvasGroups.canvasGroups[
             canvasGroups.canvasGroups.length - 1
           ];
@@ -154,23 +154,23 @@ export class TwoCanvasPerCanvasGroupStrategy
           {
             canvasGroupIndex: i,
             canvasSource: tileSources[i],
-            previousCanvasGroupPosition: prev.rect,
+            previousCanvasGroupPosition: previousCanvasGroup.rect,
             viewingDirection: this.viewingDirection,
           },
           this.rotation,
         );
 
-        const last: TileSourceAndRect = {
+        const lastTileSourceAndRect: TileSourceAndRect = {
           tileSource: tileSources[i],
           rect: position,
         };
 
-        const canvasGroup: CanvasGroup = {
-          tileSourceAndRects: [last],
+        const newCanvasGroup: CanvasGroup = {
+          tileSourceAndRects: [lastTileSourceAndRect],
           rect: position,
         };
 
-        canvasGroups.add(canvasGroup);
+        canvasGroups.add(newCanvasGroup);
         canvasGroups.canvasesPerCanvasGroup.push([i]);
       }
     }
