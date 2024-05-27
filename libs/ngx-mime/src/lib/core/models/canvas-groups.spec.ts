@@ -1,9 +1,6 @@
+import { CanvasGroup } from '../canvas-service/tile-source-and-rect.model';
 import { CanvasGroups } from './canvas-groups';
 import { Rect } from './rect';
-import {
-  CanvasGroup,
-  TileSourceAndRect,
-} from '../canvas-service/tile-source-and-rect.model';
 
 describe('CanvasGroups', () => {
   it('should return closest index', () => {
