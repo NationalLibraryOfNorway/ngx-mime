@@ -36,8 +36,8 @@ export class CanvasGroups {
     if (point === null) {
       return -1;
     }
-    this.canvasGroups.some(function (rect: CanvasGroup, index: number) {
-      const delta = Math.abs(point.x - rect.rect.centerX);
+    this.canvasGroups.some(function (canvasGroup: CanvasGroup, index: number) {
+      const delta = Math.abs(point.x - canvasGroup.rect.centerX);
       if (delta >= lastDelta) {
         return true;
       }
