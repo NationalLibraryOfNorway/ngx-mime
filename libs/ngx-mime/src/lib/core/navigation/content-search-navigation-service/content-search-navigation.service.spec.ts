@@ -115,13 +115,13 @@ describe('ContentSearchNavigationService', () => {
       ]);
     });
 
-    const selectedIndexes = iiifContentSearchServiceSpy.selected.mock.calls.map(
-      (call) => call[0].index,
+    const selectedIds = iiifContentSearchServiceSpy.selected.mock.calls.map(
+      (call) => call[0].id,
     );
-    const expectedIndexes = [...defaultSearchResult.hits]
-      .map((searchHit) => searchHit.index)
+    const expectedIds = [...defaultSearchResult.hits]
+      .map((searchHit) => searchHit.id)
       .reverse();
-    expect(selectedIndexes).toEqual(expectedIndexes);
+    expect(selectedIds).toEqual(expectedIds);
   });
 
   it('should navigate through all search hits when goToNextHit is called', async () => {
@@ -132,13 +132,15 @@ describe('ContentSearchNavigationService', () => {
       ]);
     });
 
-    const selectedIndexes = iiifContentSearchServiceSpy.selected.mock.calls.map(
-      (call) => call[0].index,
+    const selectedIds = iiifContentSearchServiceSpy.selected.mock.calls.map(
+      (call) => call[0].id,
     );
-    const expectedIndexes = defaultSearchResult.hits.map(
-      (searchHit) => searchHit.index,
+    const expectedIds = defaultSearchResult.hits.map(
+      (searchHit) => searchHit.id,
     );
-    expect(selectedIndexes).toEqual(expectedIndexes);
+    console.log(selectedIds);
+
+    expect(selectedIds).toEqual(expectedIds);
   });
 
   function createSearchResult(): SearchResult {
