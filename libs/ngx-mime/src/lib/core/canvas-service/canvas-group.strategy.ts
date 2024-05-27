@@ -47,11 +47,11 @@ export class OneCanvasPerCanvasGroupStrategy
         rect: position,
       };
 
-      const gr: CanvasGroup = {
+      const canvasGroup: CanvasGroup = {
         canvases: [thisRect],
         rect: position,
       };
-      canvasGroups.add(gr);
+      canvasGroups.add(canvasGroup);
       canvasGroups.canvasesPerCanvasGroup.push([i]);
     });
 
@@ -89,18 +89,17 @@ export class TwoCanvasPerCanvasGroupStrategy
       tileSource: tileSources[0],
       rect: position,
     };
-    const gr: CanvasGroup = {
+    const canvasGroup: CanvasGroup = {
       canvases: [first],
       rect: position,
     };
 
-    canvasGroups.add(gr);
+    canvasGroups.add(canvasGroup);
     canvasGroups.canvasesPerCanvasGroup.push([0]);
 
     for (let i = 1; i < tileSources.length; i = i + 2) {
       if (i + 1 < tileSources.length) {
         // Paired pages
-
         const prev =
           canvasGroups.canvasGroupRects[
             canvasGroups.canvasGroupRects.length - 1
