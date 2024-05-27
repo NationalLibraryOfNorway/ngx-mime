@@ -106,14 +106,7 @@ export class CanvasService {
 
   updateViewer(): void {
     this.createCanvasGroups();
-    let index = 0;
-    this.canvasGroups.canvasGroupRects.forEach((canvasGroup) => {
-      canvasGroup.canvases.forEach((canvas) => {
-        this.createTile(canvas);
-        this.createOverlay(canvas, index);
-        index++;
-      });
-    });
+    this.createAndAppendCanvasGroups();
   }
 
   isWithinBounds(canvasGroupIndex: number): boolean {
@@ -219,7 +212,6 @@ export class CanvasService {
   }
 
   private createTile(tile: TileSourceAndRect): void {
-    const tileSource = tile.tileSource;
     const position = tile.rect;
     const rotated = this.rotation === 90 || this.rotation === 270;
 
@@ -244,51 +236,40 @@ export class CanvasService {
       );
     }
 
-    let strat = TileSourceStrategyFactory.create(tileSource);
-    let ts = strat.getTileSource(tileSource);
+    const tileSourcesStrategy = TileSourceStrategyFactory.create(
+      tile.tileSource,
+    );
+    const tileSource = tileSourcesStrategy.getTileSource(tile.tileSource);
     this.viewer?.addTiledImage({
-      tileSource: ts,
+      tileSource: tileSource,
       fitBounds: bounds,
       degrees: this.rotation,
     });
   }
 
-  private createOverlay(tile: TileSourceAndRect, i: number): void {
+  private createAndAppendCanvasGroups(): void {
+    let index = 0;
+    this.canvasGroups.canvasGroupRects.forEach((canvasGroup) => {
+      const group: any = this.appendPageGroup();
+      canvasGroup.canvases.forEach((canvas) => {
+        this.createTile(canvas);
+        this.createOverlay(group, canvas, index);
+        index++;
+      });
+    });
+  }
+
+  private appendPageGroup(): any {
+    return this.svgNode.append('g').attr('class', 'page-group');
+  }
+
+  private createOverlay(group: any, tile: TileSourceAndRect, i: number): void {
     const position = tile.rect;
-    let group: any = this.svgNode.append('g').attr('class', 'page-group');
-
-    if (
-      this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE &&
-      i % 2 !== 0
-    ) {
-      group = this.svgNode.append('g').attr('class', 'page-group');
-    }
-
-    const currentOverlay = group
-      .append('rect')
-      .attr('x', position.x)
-      .attr('y', position.y)
-      .attr('width', position.width)
-      .attr('height', position.height)
-      .attr('class', 'tile');
+    const currentOverlay = this.createRectangle(group, position);
 
     // Make custom borders if current layout is two-paged
     if (this.viewerLayoutService.layout === ViewerLayout.TWO_PAGE) {
-      if (i % 2 === 0 && i !== 0) {
-        const noLeftStrokeStyle =
-          Number(position.width * 2 + position.height) +
-          ', ' +
-          position.width * 2;
-        currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
-      } else if (i % 2 !== 0 && i !== 0) {
-        const noRightStrokeStyle =
-          position.width +
-          ', ' +
-          position.height +
-          ', ' +
-          Number(position.width * 2 + position.height);
-        currentOverlay.style('stroke-dasharray', noRightStrokeStyle);
-      }
+      this.applyCustomBorders(i, position, currentOverlay);
     }
 
     const currentOverlayNode: SVGRectElement = currentOverlay.node();
@@ -305,5 +286,37 @@ export class CanvasService {
     );
     this.canvasGroups = canvasGroupStrategy.addAll(this.tileSources);
     this._currentNumberOfCanvasGroups.next(this.canvasGroups.length());
+  }
+
+  private applyCustomBorders(
+    i: number,
+    position: any,
+    currentOverlay: any,
+  ): void {
+    if (i % 2 === 0 && i !== 0) {
+      const noLeftStrokeStyle =
+        Number(position.width * 2 + position.height) +
+        ', ' +
+        position.width * 2;
+      currentOverlay.style('stroke-dasharray', noLeftStrokeStyle);
+    } else if (i % 2 !== 0 && i !== 0) {
+      const noRightStrokeStyle =
+        position.width +
+        ', ' +
+        position.height +
+        ', ' +
+        Number(position.width * 2 + position.height);
+      currentOverlay.style('stroke-dasharray', noRightStrokeStyle);
+    }
+  }
+
+  private createRectangle(group: any, position: Rect): any {
+    return group
+      .append('rect')
+      .attr('x', position.x)
+      .attr('y', position.y)
+      .attr('width', position.width)
+      .attr('height', position.height)
+      .attr('class', 'tile');
   }
 }

@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import d3 from 'd3';
+import { Spy, provideAutoSpy } from 'jest-auto-spies';
+import { Resource } from '../models/manifest';
 import { Rect } from '../models/rect';
 import { ViewerLayout } from '../models/viewer-layout';
-import { CanvasService } from './canvas-service';
-import { Spy, provideAutoSpy } from 'jest-auto-spies';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
-import { Resource } from '../models/manifest';
+import { CanvasService } from './canvas-service';
 
 describe('CanvasService', () => {
   let service: CanvasService;
@@ -42,6 +43,7 @@ describe('CanvasService', () => {
       ViewerLayout.ONE_PAGE,
     );
 
+    service.setSvgNode(d3.create('svg'));
     service.addTileSources(tileSources);
     service.updateViewer();
   });
