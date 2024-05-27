@@ -5,7 +5,7 @@ import { Rect } from './../models/rect';
 import { CanvasGroup, TileSourceAndRect } from './tile-source-and-rect.model';
 
 export interface AbstractCanvasGroupStrategy {
-  addAll(canvasRects: CanvasGroup[]): CanvasGroups;
+  addAll(tileSources: ReadonlyArray<any>): CanvasGroups;
 }
 
 export class OneCanvasPerCanvasGroupStrategy
