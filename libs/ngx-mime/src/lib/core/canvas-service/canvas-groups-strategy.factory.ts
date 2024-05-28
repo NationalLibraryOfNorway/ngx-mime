@@ -1,8 +1,6 @@
 import { ViewerLayout } from '../models/viewer-layout';
-import {
-  OneCanvasPerCanvasGroupStrategy,
-  TwoCanvasPerCanvasGroupStrategy,
-} from './canvas-group.strategy';
+import { OneCanvasPerCanvasGroupStrategy } from './one-canvas-per-canvas-group-strategy';
+import { TwoCanvasPerCanvasGroupStrategy } from './two-canvas-per-canvas-group-strategy';
 
 export class CanvasGroupStrategyFactory {
   public static create(

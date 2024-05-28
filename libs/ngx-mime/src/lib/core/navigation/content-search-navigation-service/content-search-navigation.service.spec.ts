@@ -138,8 +138,6 @@ describe('ContentSearchNavigationService', () => {
     const expectedIds = defaultSearchResult.hits.map(
       (searchHit) => searchHit.id,
     );
-    console.log(selectedIds);
-
     expect(selectedIds).toEqual(expectedIds);
   });
 
