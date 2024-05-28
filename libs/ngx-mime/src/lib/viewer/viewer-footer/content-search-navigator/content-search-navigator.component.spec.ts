@@ -105,7 +105,7 @@ describe('ContentSearchNavigatorComponent', () => {
     );
   });
 
-  it('should go to previous hit if and user presses previous hit button', async () => {
+  it('should go to previous hit when user presses "previous" button', async () => {
     jest.spyOn(contentSearchNavigationServiceSpy, 'goToPreviousHit');
 
     await previousButton.click();
@@ -115,7 +115,7 @@ describe('ContentSearchNavigatorComponent', () => {
     ).toHaveBeenCalledTimes(1);
   });
 
-  it('should go to next hit if and user presses next hit button', async () => {
+  it('should go to next hit when user presses "next" button', async () => {
     jest.spyOn(contentSearchNavigationServiceSpy, 'goToNextHit');
 
     await nextButton.click();
@@ -125,7 +125,7 @@ describe('ContentSearchNavigatorComponent', () => {
     );
   });
 
-  it('should disable the "previous" button when the first search hit is selected', async () => {
+  it('should disable the "previous" button when the first search result is selected', async () => {
     const firstSearchHitIndex = 0;
     contentSearchNavigationServiceSpy.currentHitCounter.nextWith(
       firstSearchHitIndex,
@@ -134,7 +134,7 @@ describe('ContentSearchNavigatorComponent', () => {
     await checkButtonIsDisabled(previousButton);
   });
 
-  it('should disable the "next" button when the last search hit is selected', async () => {
+  it('should disable the "next" button when the last search result is selected', async () => {
     const lastSearchHitIndex = component.searchResult.size() - 1;
     contentSearchNavigationServiceSpy.currentHitCounter.nextWith(
       lastSearchHitIndex,
