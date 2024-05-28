@@ -1,6 +1,8 @@
 import { TwoPageCalculateCanvasGroupPositionStrategy } from '../canvas-group-position/two-page-calculate-page-position-strategy';
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { CanvasGroups } from '../models/canvas-groups';
 import { Rect } from '../models/rect';
+import { ViewingDirection } from '../models/viewing-direction';
 import { AbstractCanvasGroupStrategy } from './canvas-group.strategy';
 import { CanvasGroup, TileSourceAndRect } from './tile-source-and-rect.model';
 
@@ -10,9 +12,9 @@ export class TwoCanvasPerCanvasGroupStrategy
   private positionStrategy: TwoPageCalculateCanvasGroupPositionStrategy;
 
   constructor(
-    private config: any,
-    private viewingDirection: any,
-    private rotation: any,
+    private config: MimeViewerConfig,
+    private viewingDirection: ViewingDirection,
+    private rotation: number,
   ) {
     this.positionStrategy = new TwoPageCalculateCanvasGroupPositionStrategy(
       this.config,
@@ -87,10 +89,7 @@ export class TwoCanvasPerCanvasGroupStrategy
     canvasGroups.canvasesPerCanvasGroup.push([index, index + 1]);
   }
 
-  private hasNextPage(
-    tileSources: ReadonlyArray<any>,
-    index: number,
-  ): boolean {
+  private hasNextPage(tileSources: ReadonlyArray<any>, index: number): boolean {
     return index + 1 < tileSources.length;
   }
 

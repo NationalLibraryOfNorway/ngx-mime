@@ -1,6 +1,8 @@
 import { OnePageCalculatePagePositionStrategy } from '../canvas-group-position/one-page-calculate-page-position-strategy';
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { CanvasGroups } from '../models/canvas-groups';
 import { Rect } from '../models/rect';
+import { ViewingDirection } from '../models/viewing-direction';
 import { AbstractCanvasGroupStrategy } from './canvas-group.strategy';
 import { CanvasGroup, TileSourceAndRect } from './tile-source-and-rect.model';
 
@@ -10,9 +12,9 @@ export class OneCanvasPerCanvasGroupStrategy
   private positionStrategy: OnePageCalculatePagePositionStrategy;
 
   constructor(
-    private config: any,
-    private viewingDirection: any,
-    private rotation: any,
+    private config: MimeViewerConfig,
+    private viewingDirection: ViewingDirection,
+    private rotation: number,
   ) {
     this.positionStrategy = new OnePageCalculatePagePositionStrategy(
       this.config,
