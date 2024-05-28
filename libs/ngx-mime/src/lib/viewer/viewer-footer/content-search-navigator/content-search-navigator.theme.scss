@@ -1,0 +1,11 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin content-search-navigator-theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  $primary: map.get($color-config, 'primary');
+
+  .content-search-navigator-toolbar {
+    border-right-color: mat.get-color-from-palette($primary);
+  }
+}
