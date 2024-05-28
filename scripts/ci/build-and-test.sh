@@ -23,7 +23,7 @@ yarn build:libs
 yarn build:elements
 
 yarn format:check
-yarn affected --base=$NX_BASE --head=$NX_HEAD -t lint,test
+yarn affected --base=$NX_BASE --head=$NX_HEAD --parallel=1 -t lint,test
 
 trap finish EXIT
 start_tunnel &
