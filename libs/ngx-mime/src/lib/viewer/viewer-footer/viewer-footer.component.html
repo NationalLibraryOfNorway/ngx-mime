@@ -5,6 +5,11 @@
     [ngClass]="{ 'w-full': !showPageNavigator }"
     [searchResult]="searchResult"
   ></mime-content-search-navigator>
+  <mat-divider
+    *ngIf="showContentSearchNavigator"
+    class="h-full"
+    vertical
+  ></mat-divider>
   <mime-page-navigator
     class="w-full"
     [hidden]="!showPageNavigator"
