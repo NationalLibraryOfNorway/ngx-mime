@@ -94,6 +94,7 @@ describe('ContentSearchNavigatorComponent', () => {
     intl.nextHitLabel = 'New test string';
     intl.changes.next();
     fixture.detectChanges();
+
     expect(text.nativeElement.getAttribute('aria-label')).toContain(
       'New test string',
     );
