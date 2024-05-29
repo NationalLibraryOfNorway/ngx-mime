@@ -1,5 +1,5 @@
 import { Given, Then, When } from '@cucumber/cucumber';
-import { expect, Locator } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
 
 let selectedHitIndex: number;
@@ -12,28 +12,33 @@ Given(
   'the user has search for the word {string}',
   async function (this: CustomWorld, term: string) {
     await this.contentSearchPage.search(term);
-  }
+  },
 );
 
 Given(
   'the user has selected the {word} hit',
   async function (this: CustomWorld, hit: string) {
     selectedHitIndex = await this.contentSearchPage.selectHit(hit);
-  }
+  },
 );
 
 When(
   'the user search for the word {string}',
   async function (this: CustomWorld, term: string) {
     await this.contentSearchPage.search(term);
-  }
+    await expect(
+      this.contentSearchPage.resultsFoundLabel.or(
+        this.contentSearchPage.nothingFoundLabel,
+      ),
+    ).toBeVisible();
+  },
 );
 
 When(
   'the user selects the {word} hit',
   async function (this: CustomWorld, hit: string) {
     selectedHitIndex = await this.contentSearchPage.selectHit(hit);
-  }
+  },
 );
 
 When(
@@ -49,7 +54,7 @@ When(
     }
     await button.click();
     await this.animations.waitFor();
-  }
+  },
 );
 
 When('the user closes the search dialog', async function (this: CustomWorld) {
@@ -65,7 +70,7 @@ When(
   async function (this: CustomWorld) {
     await this.contentSearchPage.clearSearchButton.click();
     await this.animations.waitFor();
-  }
+  },
 );
 
 Then(
@@ -73,7 +78,7 @@ Then(
   async function (this: CustomWorld, numberOfHits: string) {
     const expected = numberOfHits === 'no' ? '0' : numberOfHits;
     await expect(this.contentSearchPage.numberOfHits).toHaveValue(expected);
-  }
+  },
 );
 
 Then(
@@ -81,7 +86,7 @@ Then(
   async function (this: CustomWorld, term: string) {
     const firstHit = this.contentSearchPage.hits.nth(0);
     await expect(firstHit.locator('em')).toContainText(term);
-  }
+  },
 );
 
 Then(
@@ -97,7 +102,7 @@ Then(
     } else if (hit === '5' || hit === '6') {
       expect(currentPageString.includes('38')).toBeTruthy();
     }
-  }
+  },
 );
 
 Then(
@@ -105,7 +110,7 @@ Then(
   async function (this: CustomWorld, hit: number) {
     const hitIndex = hit - 1;
     expect(await this.contentSearchPage.isSelected(hitIndex)).toBeTruthy();
-  }
+  },
 );
 
 Then('all highlighting should be removed', async function (this: CustomWorld) {
@@ -116,7 +121,7 @@ Then(
   'the search result toolbar should be removed',
   async function (this: CustomWorld) {
     await expect(this.contentSearchPage.navigatorToolbar).toBeHidden();
-  }
+  },
 );
 
 Then(
@@ -125,13 +130,12 @@ Then(
     state === 'closed'
       ? await expect(this.contentSearchPage.container).toBeHidden()
       : await expect(this.contentSearchPage.container).toBeVisible();
-  }
+  },
 );
 
 Then('the hit should be marked', async function (this: CustomWorld) {
-  const isSelected: boolean = await this.contentSearchPage.hitIsSelected(
-    selectedHitIndex
-  );
+  const isSelected: boolean =
+    await this.contentSearchPage.hitIsSelected(selectedHitIndex);
   expect(isSelected).toBeTruthy();
 });
 
