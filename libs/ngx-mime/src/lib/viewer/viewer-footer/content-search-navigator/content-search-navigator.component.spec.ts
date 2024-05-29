@@ -68,17 +68,8 @@ describe('ContentSearchNavigatorComponent', () => {
     iiifContentSearchServiceSpy.onChange.nextWith(component.searchResult);
     fixture.detectChanges();
 
-    nextButton = await loader.getHarness(
-      MatButtonHarness.with({
-        selector: '[data-testid="footerNavigateNextHitButton"]',
-      }),
-    );
-
-    previousButton = await loader.getHarness(
-      MatButtonHarness.with({
-        selector: '[data-testid="footerNavigatePreviousHitButton"]',
-      }),
-    );
+    nextButton = await getButtonHarness('footerNavigateNextHitButton');
+    previousButton = await getButtonHarness('footerNavigatePreviousHitButton');
   });
 
   it('should create', () => {
@@ -157,5 +148,15 @@ describe('ContentSearchNavigatorComponent', () => {
 
   const checkButtonIsDisabled = async (button: MatButtonHarness) => {
     expect(await button.isDisabled()).toBeTruthy();
+  };
+
+  const getButtonHarness = async (
+    testId: string,
+  ): Promise<MatButtonHarness> => {
+    return await loader.getHarness(
+      MatButtonHarness.with({
+        selector: `[data-testid="${testId}"]`,
+      }),
+    );
   };
 });
