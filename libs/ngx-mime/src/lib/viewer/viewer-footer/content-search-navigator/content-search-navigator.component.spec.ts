@@ -22,9 +22,7 @@ describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
   let fixture: ComponentFixture<ContentSearchNavigatorComponent>;
   let iiifContentSearchServiceSpy: Spy<IiifContentSearchService>;
-  let canvasServiceSpy: Spy<CanvasService>;
   let contentSearchNavigationServiceSpy: Spy<ContentSearchNavigationService>;
-  let viewerLayoutServiceSpy: Spy<ViewerLayoutService>;
   let intl: MimeViewerIntl;
   let loader: HarnessLoader;
   let nextButton: MatButtonHarness;
@@ -64,10 +62,6 @@ describe('ContentSearchNavigatorComponent', () => {
     contentSearchNavigationServiceSpy = TestBed.inject(
       ContentSearchNavigationService,
     ) as Spy<ContentSearchNavigationService>;
-    canvasServiceSpy = TestBed.inject(CanvasService) as Spy<CanvasService>;
-    viewerLayoutServiceSpy = TestBed.inject(
-      ViewerLayoutService,
-    ) as Spy<ViewerLayoutService>;
 
     component = fixture.componentInstance;
     component.searchResult = createDefaultData();
