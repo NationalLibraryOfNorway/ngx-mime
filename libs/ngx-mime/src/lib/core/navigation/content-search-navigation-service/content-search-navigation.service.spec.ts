@@ -39,9 +39,11 @@ describe('ContentSearchNavigationService', () => {
       IiifManifestService,
     ) as Spy<IiifManifestService>;
     iiifManifestServiceSpy.currentManifest.nextWith(testManifest);
-    iiifContentSearchServiceSpy = TestBed.inject<any>(IiifContentSearchService);
+    iiifContentSearchServiceSpy = TestBed.inject(
+      IiifContentSearchService,
+    ) as Spy<IiifContentSearchService>;
     iiifContentSearchServiceSpy.onChange.nextWith(defaultSearchResult);
-    canvasServiceSpy = <any>TestBed.inject(CanvasService);
+    canvasServiceSpy = TestBed.inject(CanvasService) as Spy<CanvasService>;
     contentSearchNavigationService = TestBed.inject(
       ContentSearchNavigationService,
     );
