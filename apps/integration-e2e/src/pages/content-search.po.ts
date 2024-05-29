@@ -18,11 +18,10 @@ export class ContentSearchPage {
   readonly resultsFoundLabel: Locator;
   readonly nothingFoundLabel: Locator;
 
-
   constructor(
     private page: Page,
     private viewerPage: ViewerPage,
-    private animations: Animations
+    private animations: Animations,
   ) {
     this.searchInput = page.locator('input.content-search-input');
     this.closeButton = page.locator('.close-content-search-dialog-button');
@@ -31,13 +30,13 @@ export class ContentSearchPage {
     this.navigatorToolbar = page.locator('.content-search-navigator-toolbar');
     this.clearSearchButton = page.locator('.clearSearchButton');
     this.navigateCloseHitsButton = page.getByTestId(
-      'footerNavigateCloseHitsButton'
+      'footerNavigateCloseHitsButton',
     );
     this.navigatePreviousHitButton = page.getByTestId(
-      'footerNavigatePreviousHitButton'
+      'footerNavigatePreviousHitButton',
     );
     this.navigateNextHitButton = page.getByTestId(
-      'footerNavigateNextHitButton'
+      'footerNavigateNextHitButton',
     );
     this.container = page.locator('.content-search-container');
     this.hits = page.locator('.content-search-container .hit');
