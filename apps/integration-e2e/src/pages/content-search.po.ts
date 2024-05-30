@@ -15,11 +15,13 @@ export class ContentSearchPage {
   readonly container: Locator;
   readonly hits: Locator;
   readonly highlighted: Locator;
+  readonly resultsFoundLabel: Locator;
+  readonly noResultsFoundLabel: Locator;
 
   constructor(
     private page: Page,
     private viewerPage: ViewerPage,
-    private animations: Animations
+    private animations: Animations,
   ) {
     this.searchInput = page.locator('input.content-search-input');
     this.closeButton = page.locator('.close-content-search-dialog-button');
@@ -28,17 +30,19 @@ export class ContentSearchPage {
     this.navigatorToolbar = page.locator('.content-search-navigator-toolbar');
     this.clearSearchButton = page.locator('.clearSearchButton');
     this.navigateCloseHitsButton = page.getByTestId(
-      'footerNavigateCloseHitsButton'
+      'footerNavigateCloseHitsButton',
     );
     this.navigatePreviousHitButton = page.getByTestId(
-      'footerNavigatePreviousHitButton'
+      'footerNavigatePreviousHitButton',
     );
     this.navigateNextHitButton = page.getByTestId(
-      'footerNavigateNextHitButton'
+      'footerNavigateNextHitButton',
     );
     this.container = page.locator('.content-search-container');
     this.hits = page.locator('.content-search-container .hit');
     this.highlighted = page.locator('.openseadragon-canvas .hit');
+    this.resultsFoundLabel = page.getByTestId('resultsFoundLabel');
+    this.noResultsFoundLabel = page.getByTestId('noResultsFoundLabel');
   }
 
   async setSearchTerm(term: string): Promise<void> {
