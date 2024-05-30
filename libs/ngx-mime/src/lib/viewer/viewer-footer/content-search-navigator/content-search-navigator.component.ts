@@ -41,7 +41,7 @@ export class ContentSearchNavigatorComponent
     private canvasService: CanvasService,
     private iiifContentSearchService: IiifContentSearchService,
     private contentSearchNavigationService: ContentSearchNavigationService,
-    private iiifManifestService: IiifManifestService
+    private iiifManifestService: IiifManifestService,
   ) {}
 
   ngOnInit() {
@@ -50,21 +50,22 @@ export class ContentSearchNavigatorComponent
       this.contentSearchNavigationService.currentHitCounter.subscribe((n) => {
         this.currentHit = n;
         this.updateHitStatus();
-      })
+        this.changeDetectorRef.detectChanges();
+      }),
     );
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           if (manifest) {
-            this.invert = manifest.viewingDirection === ViewingDirection.LTR;
+            this.invert = manifest.viewingDirection !== ViewingDirection.LTR;
             this.changeDetectorRef.detectChanges();
           }
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
-      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
+      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()),
     );
 
     this.subscriptions.add(
@@ -74,8 +75,8 @@ export class ContentSearchNavigatorComponent
           this.isHitOnActiveCanvasGroup =
             this.contentSearchNavigationService.getHitOnActiveCanvasGroup();
           this.changeDetectorRef.detectChanges();
-        }
-      )
+        },
+      ),
     );
   }
 

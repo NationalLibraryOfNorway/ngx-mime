@@ -18,7 +18,7 @@
     [innerHTML]="intl.currentHitLabel(currentHit + 1, searchResult.size())"
   ></div>
   <div class="navigation-buttons">
-    <ng-container *ngIf="invert">
+    <ng-container *ngIf="!invert">
       <button
         data-testid="footerNavigatePreviousHitButton"
         mat-icon-button
@@ -42,7 +42,7 @@
         <mat-icon>navigate_next</mat-icon>
       </button>
     </ng-container>
-    <ng-container *ngIf="!invert">
+    <ng-container *ngIf="invert">
       <button
         data-testid="footerNavigateNextHitButton"
         mat-icon-button

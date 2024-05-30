@@ -87,11 +87,6 @@ describe('ViewerComponent', () => {
       IiifContentSearchService,
     );
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
-    jest.setTimeout(10000);
-  });
-
-  afterEach(function () {
-    jest.setTimeout(5000);
   });
 
   it('should create component', () => {
@@ -409,7 +404,7 @@ describe('ViewerComponent', () => {
     });
   });
 
-  it('should stay on same tile after a ViewerLayout change', async () => {
+  it('should stay on same tile after a ViewerLayout change', (done) => {
     // Need to set canvasIndex on input of component to trigger previous occuring bug
     testHostComponent.canvasIndex = 3;
     testHostComponent.config = new MimeViewerConfig({
@@ -418,15 +413,19 @@ describe('ViewerComponent', () => {
 
     testHostFixture.detectChanges();
 
-    await testHostFixture.whenStable();
-    expect(canvasService.currentCanvasIndex).toEqual(3);
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        expect(canvasService.currentCanvasIndex).toEqual(3);
 
-    viewerService.goToCanvas(7, false);
-    expect(canvasService.currentCanvasIndex).toEqual(7);
+        viewerService.goToCanvas(7, false);
+        expect(canvasService.currentCanvasIndex).toEqual(7);
 
-    viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
+        viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
 
-    expect(canvasService.currentCanvasIndex).toEqual(7);
+        expect(canvasService.currentCanvasIndex).toEqual(7);
+        done();
+      }
+    });
   });
 
   it('should emit when q changes', () => {
@@ -451,7 +450,7 @@ describe('ViewerComponent', () => {
     );
   });
 
-  it('should open viewer on canvas index if present', async () => {
+  it('should open viewer on canvas index if present', (done) => {
     testHostComponent.canvasIndex = 12;
     testHostComponent.config = new MimeViewerConfig({
       initViewerLayout: ViewerLayout.ONE_PAGE,
@@ -459,8 +458,12 @@ describe('ViewerComponent', () => {
 
     testHostFixture.detectChanges();
 
-    await testHostFixture.whenStable();
-    expect(canvasService.currentCanvasIndex).toEqual(12);
+    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
+      if (state) {
+        expect(canvasService.currentCanvasIndex).toEqual(12);
+        done();
+      }
+    });
   });
 
   it('should create dynamic component to start of header', () => {
@@ -523,30 +526,37 @@ describe('ViewerComponent', () => {
   });
 
   describe('Fab button for toggling OSD controls', () => {
-    it("should not be visible when state is changed to 'hide'", async () => {
+    it("should not be visible when state is changed to 'hide'", (done) => {
       testHostFixture.detectChanges();
-      await testHostFixture.whenStable();
-      expectOsdToolbarToBeVisible();
 
-      comp.osdToolbarState = 'hide';
-      testHostFixture.detectChanges();
-      await testHostFixture.whenStable();
-      expectOsdToolbarToBeHidden();
+      setTimeout(() => {
+        expectOsdToolbarToBeVisible();
+        comp.osdToolbarState = 'hide';
+        testHostFixture.detectChanges();
+
+        setTimeout(() => {
+          expectOsdToolbarToBeHidden();
+          done();
+        }, 0);
+      }, 0);
     });
 
-    it("should be visible when state is changed to 'show'", async () => {
+    it("should be visible when state is changed to 'show'", (done) => {
       testHostComponent.config = new MimeViewerConfig({
         initViewerMode: ViewerMode.DASHBOARD,
       });
       testHostFixture.detectChanges();
-      await testHostFixture.whenStable();
-      expectOsdToolbarToBeHidden();
 
-      comp.osdToolbarState = 'show';
-      testHostFixture.detectChanges();
-      await testHostFixture.whenStable();
+      setTimeout(() => {
+        expectOsdToolbarToBeHidden();
+        comp.osdToolbarState = 'show';
+        testHostFixture.detectChanges();
 
-      expectOsdToolbarToBeVisible();
+        setTimeout(() => {
+          expectOsdToolbarToBeVisible();
+          done();
+        }, 0);
+      }, 0);
     });
   });
 

@@ -4,7 +4,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
 import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
@@ -14,6 +14,7 @@ import { MimeDomHelper } from '../../core/mime-dom-helper';
 import { MimeResizeService } from '../../core/mime-resize-service/mime-resize.service';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { StyleService } from '../../core/style-service/style.service';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
@@ -49,6 +50,7 @@ describe('OsdToolbarComponent', () => {
         MimeDomHelper,
         FullscreenService,
         StyleService,
+        provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
   }));

@@ -19,7 +19,7 @@ export class ContentSearchNavigationService {
 
   constructor(
     private canvasService: CanvasService,
-    private iiifContentSearchService: IiifContentSearchService
+    private iiifContentSearchService: IiifContentSearchService,
   ) {
     this.initialize();
   }
@@ -32,8 +32,8 @@ export class ContentSearchNavigationService {
           this.searchResult = result;
           this.currentHit = null;
           this.update(this.canvasService.currentCanvasGroupIndex);
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -120,20 +120,20 @@ export class ContentSearchNavigationService {
       } else {
         if (this.isHitOnActiveCanvasGroup) {
           nextHit = this.searchResult.hits.find(
-            (hit) => hit.id === this.currentIndex
+            (hit) => hit.id === this.currentIndex,
           );
         } else {
           const current = this.searchResult.get(this.currentIndex);
           const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(
-            current.index
+            current.index,
           );
           const canvasesPerCanvasGroup =
             this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);
           const lastCanvasGroupIndex = this.getLastCanvasGroupIndex(
-            canvasesPerCanvasGroup
+            canvasesPerCanvasGroup,
           );
           nextHit = this.searchResult.hits.find(
-            (h) => h.index > lastCanvasGroupIndex
+            (h) => h.index > lastCanvasGroupIndex,
           );
         }
       }
@@ -154,12 +154,12 @@ export class ContentSearchNavigationService {
   }
 
   private findHitOnActiveCanvasGroup(): boolean {
-    if (!this.searchResult) {
+    if (!this.searchResult || this.currentIndex === -1) {
       return false;
     }
     return (
       this.canvasesPerCanvasGroup?.indexOf(
-        this.searchResult.get(this.currentIndex).index
+        this.searchResult.get(this.currentIndex).index,
       ) >= 0
     );
   }
@@ -181,7 +181,7 @@ export class ContentSearchNavigationService {
           } else {
             const phit = this.searchResult.get(i - 1);
             return this.searchResult.hits.findIndex(
-              (sr) => sr.index === phit.index
+              (sr) => sr.index === phit.index,
             );
           }
         }
@@ -195,7 +195,7 @@ export class ContentSearchNavigationService {
       return -1;
     }
     const hits = this.searchResult.hits.filter(
-      (hit) => hit.index < canvasGroupIndexes[0]
+      (hit) => hit.index < canvasGroupIndexes[0],
     );
     return hits.length > 0 ? hits[hits.length - 1].id : -1;
   }
@@ -209,7 +209,7 @@ export class ContentSearchNavigationService {
   private isCurrentHitOnCurrentCanvasGroup(): boolean {
     if (this.currentHit) {
       const canvasGroup = this.canvasService.findCanvasGroupByCanvasIndex(
-        this.canvasService.currentCanvasIndex
+        this.canvasService.currentCanvasIndex,
       );
       const canvasesPerCanvasGroup =
         this.canvasService.getCanvasesPerCanvasGroup(canvasGroup);

@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
@@ -26,7 +27,7 @@ describe('TocComponent', () => {
       declarations: [TocComponent],
       providers: [
         ClickService,
-        CanvasService,
+        provideAutoSpy(CanvasService),
         ModeService,
         MimeViewerIntl,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
