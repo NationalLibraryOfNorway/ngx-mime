@@ -26,6 +26,7 @@ When(
   'the user search for the word {string}',
   async function (this: CustomWorld, term: string) {
     await this.contentSearchPage.search(term);
+
     await expect(
       this.contentSearchPage.resultsFoundLabel.or(
         this.contentSearchPage.noResultsFoundLabel,
