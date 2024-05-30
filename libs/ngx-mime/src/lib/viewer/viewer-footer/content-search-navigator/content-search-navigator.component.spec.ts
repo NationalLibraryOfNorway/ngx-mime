@@ -153,7 +153,7 @@ describe('ContentSearchNavigatorComponent', () => {
   const getButtonHarness = async (
     testId: string,
   ): Promise<MatButtonHarness> => {
-    return await loader.getHarness(
+    return loader.getHarness(
       MatButtonHarness.with({
         selector: `[data-testid="${testId}"]`,
       }),
