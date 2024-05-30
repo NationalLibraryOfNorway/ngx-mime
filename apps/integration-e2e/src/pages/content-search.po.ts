@@ -16,7 +16,7 @@ export class ContentSearchPage {
   readonly hits: Locator;
   readonly highlighted: Locator;
   readonly resultsFoundLabel: Locator;
-  readonly nothingFoundLabel: Locator;
+  readonly noResultsFoundLabel: Locator;
 
   constructor(
     private page: Page,
@@ -42,7 +42,7 @@ export class ContentSearchPage {
     this.hits = page.locator('.content-search-container .hit');
     this.highlighted = page.locator('.openseadragon-canvas .hit');
     this.resultsFoundLabel = page.getByTestId('resultsFoundLabel');
-    this.nothingFoundLabel = page.getByTestId('nothingFoundLabel');
+    this.noResultsFoundLabel = page.getByTestId('noResultsFoundLabel');
   }
 
   async setSearchTerm(term: string): Promise<void> {

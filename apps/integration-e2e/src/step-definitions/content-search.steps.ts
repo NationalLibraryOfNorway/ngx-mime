@@ -28,7 +28,7 @@ When(
     await this.contentSearchPage.search(term);
     await expect(
       this.contentSearchPage.resultsFoundLabel.or(
-        this.contentSearchPage.nothingFoundLabel,
+        this.contentSearchPage.noResultsFoundLabel,
       ),
     ).toBeVisible();
   },
