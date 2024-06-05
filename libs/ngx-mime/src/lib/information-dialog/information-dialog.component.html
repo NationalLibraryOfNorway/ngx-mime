@@ -1,10 +1,6 @@
 <div class="information-container">
-  <ng-container [ngSwitch]="isHandsetOrTabletInPortrait">
-    <mat-toolbar
-      *ngSwitchCase="true"
-      color="primary"
-      data-testid="mobile-toolbar"
-    >
+  @if (isHandsetOrTabletInPortrait) {
+    <mat-toolbar color="primary" data-testid="mobile-toolbar">
       <button
         mat-icon-button
         [aria-label]="intl.closeLabel"
@@ -15,11 +11,8 @@
       </button>
       <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
     </mat-toolbar>
-    <mat-toolbar
-      *ngSwitchDefault
-      data-testid="desktop-toolbar"
-      class="justify-between"
-    >
+  } @else {
+    <mat-toolbar data-testid="desktop-toolbar" class="justify-between">
       <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
       <button
         mat-icon-button
@@ -30,7 +23,7 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-toolbar>
-  </ng-container>
+  }
   <div mat-dialog-content>
     <mat-tab-group [(selectedIndex)]="selectedIndex">
       <mat-tab [label]="intl.metadataLabel">
@@ -38,11 +31,13 @@
           <mime-metadata></mime-metadata>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="showToc" [label]="intl.tocLabel">
-        <div class="tab-container" [ngStyle]="tabHeight">
-          <mime-toc (canvasChanged)="onCanvasChanged()"></mime-toc>
-        </div>
-      </mat-tab>
+      @if (showToc) {
+        <mat-tab [label]="intl.tocLabel">
+          <div class="tab-container" [ngStyle]="tabHeight">
+            <mime-toc (canvasChanged)="onCanvasChanged()"></mime-toc>
+          </div>
+        </mat-tab>
+      }
     </mat-tab-group>
   </div>
 </div>

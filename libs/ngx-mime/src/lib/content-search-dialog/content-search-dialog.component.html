@@ -1,32 +1,36 @@
 <div class="content-search-container">
-  <ng-container [ngSwitch]="isHandsetOrTabletInPortrait">
-    <mat-toolbar *ngSwitchCase="true" color="primary">
-      <button
-        mat-icon-button
-        class="close-content-search-dialog-button"
-        [aria-label]="intl.closeLabel"
-        [matTooltip]="intl.closeLabel"
-        [matDialogClose]="true"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-      <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
-    </mat-toolbar>
-    <mat-toolbar *ngSwitchDefault class="justify-between">
-      <h1 mat-dialog-title class="heading heading-desktop">{{
-        intl.searchLabel
-      }}</h1>
-      <button
-        mat-icon-button
-        class="close-content-search-dialog-button"
-        [aria-label]="intl.closeLabel"
-        [matTooltip]="intl.closeLabel"
-        [matDialogClose]="true"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-toolbar>
-  </ng-container>
+  @switch (isHandsetOrTabletInPortrait) {
+    @case (true) {
+      <mat-toolbar color="primary">
+        <button
+          mat-icon-button
+          class="close-content-search-dialog-button"
+          [aria-label]="intl.closeLabel"
+          [matTooltip]="intl.closeLabel"
+          [matDialogClose]="true"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
+      </mat-toolbar>
+    }
+    @default {
+      <mat-toolbar class="justify-between">
+        <h1 mat-dialog-title class="heading heading-desktop">{{
+          intl.searchLabel
+        }}</h1>
+        <button
+          mat-icon-button
+          class="close-content-search-dialog-button"
+          [aria-label]="intl.closeLabel"
+          [matTooltip]="intl.closeLabel"
+          [matDialogClose]="true"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-toolbar>
+    }
+  }
   <mat-dialog-content class="content-search-form">
     <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
       <mat-form-field class="content-search-box">
@@ -49,19 +53,20 @@
           name="q"
           autocomplete="off"
         />
-        <button
-          *ngIf="q"
-          type="button"
-          class="clearSearchButton"
-          matSuffix
-          mat-icon-button
-          [attr.aria-label]="intl.clearSearchLabel"
-          [matTooltip]="intl.clearSearchLabel"
-          [disabled]="isSearching"
-          (click)="clear()"
-        >
-          <mat-icon class="icon">clear</mat-icon>
-        </button>
+        @if (q) {
+          <button
+            type="button"
+            class="clearSearchButton"
+            matSuffix
+            mat-icon-button
+            [attr.aria-label]="intl.clearSearchLabel"
+            [matTooltip]="intl.clearSearchLabel"
+            [disabled]="isSearching"
+            (click)="clear()"
+          >
+            <mat-icon class="icon">clear</mat-icon>
+          </button>
+        }
       </mat-form-field>
     </form>
     <div
@@ -70,21 +75,24 @@
       [ngStyle]="tabHeight"
     >
       <div class="content-search-result">
-        <ng-container *ngIf="!isSearching">
+        @if (!isSearching) {
           <input type="hidden" class="numberOfHits" [value]="numberOfHits" />
-          <ng-container *ngIf="currentSearch && currentSearch.length > 0">
-            <div
-              *ngIf="numberOfHits > 0"
-              data-testid="resultsFoundLabel"
-              [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"
-            ></div>
-            <div
-              *ngIf="numberOfHits === 0"
-              data-testid="noResultsFoundLabel"
-              [innerHTML]="intl.noResultsFoundLabel(currentSearch)"
-            ></div>
-          </ng-container>
-          <ng-container *ngFor="let hit of hits; let last = last">
+          @if (currentSearch && currentSearch.length > 0) {
+            @if (numberOfHits > 0) {
+              <div
+                data-testid="resultsFoundLabel"
+                [innerHTML]="
+                  intl.resultsFoundLabel(numberOfHits, currentSearch)
+                "
+              ></div>
+            } @else {
+              <div
+                data-testid="noResultsFoundLabel"
+                [innerHTML]="intl.noResultsFoundLabel(currentSearch)"
+              ></div>
+            }
+          }
+          @for (hit of hits; track hit.id; let last = $last) {
             <button
               #hitButton
               mat-button
@@ -101,13 +109,14 @@
                 <div class="canvasGroup ml-2">{{ hit.index + 1 }}</div>
               </div>
             </button>
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </ng-container>
-        <mat-progress-bar
-          *ngIf="isSearching"
-          mode="indeterminate"
-        ></mat-progress-bar>
+            @if (!last) {
+              <mat-divider></mat-divider>
+            }
+          }
+        }
+        @if (isSearching) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
       </div>
     </div>
   </mat-dialog-content>

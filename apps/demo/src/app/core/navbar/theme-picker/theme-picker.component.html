@@ -14,20 +14,20 @@
   hasBackdrop="false"
 >
   <mat-grid-list cols="2">
-    <mat-grid-tile *ngFor="let theme of themes">
-      <div mat-menu-item (click)="installTheme(theme)">
-        <div class="docs-theme-picker-swatch">
-          <mat-icon
-            class="docs-theme-chosen-icon"
-            *ngIf="currentTheme.name === theme.name"
-            >check_circle</mat-icon
-          >
-          <div
-            class="docs-theme-picker-primary"
-            [style.background]="theme.primary"
-          ></div>
+    @for (theme of themes; track theme.name) {
+      <mat-grid-tile>
+        <div mat-menu-item (click)="installTheme(theme)">
+          <div class="docs-theme-picker-swatch">
+            @if (currentTheme.name === theme.name) {
+              <mat-icon class="docs-theme-chosen-icon">check_circle</mat-icon>
+            }
+            <div
+              class="docs-theme-picker-primary"
+              [style.background]="theme.primary"
+            ></div>
+          </div>
         </div>
-      </div>
-    </mat-grid-tile>
+      </mat-grid-tile>
+    }
   </mat-grid-list>
 </mat-menu>

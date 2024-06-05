@@ -10,18 +10,19 @@
   </mat-radio-group>
 </div>
 <mat-nav-list aria-label="Sample manifests">
-  <a
-    *ngFor="let manifest of manifests"
-    mat-list-item
-    [routerLink]="['demo']"
-    [queryParams]="{ manifestUri: manifest.uri, v: manifest.iiifVersion }"
-    routerLinkActive="active"
-    (click)="close(manifest.label)"
-  >
-    {{ manifest.label }}
-  </a>
-  <ng-container [ngSwitch]="iiifVersion">
-    <ng-container *ngSwitchCase="'2'">
+  @for (manifest of manifests; track manifest.uri) {
+    <a
+      mat-list-item
+      [routerLink]="['demo']"
+      [queryParams]="{ manifestUri: manifest.uri, v: manifest.iiifVersion }"
+      routerLinkActive="active"
+      (click)="close(manifest.label)"
+    >
+      {{ manifest.label }}
+    </a>
+  }
+  @switch (iiifVersion) {
+    @case ('2') {
       <a
         mat-list-item
         href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v1/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest"
@@ -48,9 +49,9 @@
           /><div>DnD with canvas</div>
         </div>
       </a>
-    </ng-container>
-    <ng-container *ngSwitchDefault
-      ><a
+    }
+    @default {
+      <a
         mat-list-item
         href="https://www.nb.no/items/f080d07ddce0f9ebd2615c44e040197d?manifest=https://api.nb.no/catalog/v3/iiif/f080d07ddce0f9ebd2615c44e040197d/manifest"
         target="_blank"
@@ -76,6 +77,6 @@
           /><div>DnD with canvas</div>
         </div>
       </a>
-    </ng-container>
-  </ng-container>
+    }
+  }
 </mat-nav-list>

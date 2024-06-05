@@ -40,21 +40,21 @@ import { Manifest } from './../../core/models/manifest';
         'hide',
         style({
           transform: 'translate(0, -100%)',
-        })
+        }),
       ),
       state(
         'show',
         style({
           transform: 'translate(0px, 0px)',
-        })
+        }),
       ),
       transition(
         'hide => show',
-        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')
+        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'),
       ),
       transition(
         'show => hide',
-        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')
+        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'),
       ),
     ]),
   ],
@@ -86,7 +86,7 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     private helpDialogService: HelpDialogService,
     private iiifManifestService: IiifManifestService,
     private fullscreenService: FullscreenService,
-    private mimeDomHelper: MimeDomHelper
+    private mimeDomHelper: MimeDomHelper,
   ) {}
 
   @HostBinding('@headerState')
@@ -98,11 +98,13 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();
 
     this.subscriptions.add(
-      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
+      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()),
     );
 
     this.subscriptions.add(
-      this.fullscreenService.onChange.subscribe(() => this.onFullscreenChange())
+      this.fullscreenService.onChange.subscribe(() =>
+        this.onFullscreenChange(),
+      ),
     );
 
     this.subscriptions.add(
@@ -118,8 +120,8 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
             ? ManifestUtils.hasRecognizedTextContent(manifest)
             : false;
           this.changeDetectorRef.detectChanges();
-        }
-      )
+        },
+      ),
     );
 
     this.onFullscreenChange();
@@ -159,10 +161,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
 
   public toggleFullscreen(): void {
     return this.mimeDomHelper.toggleFullscreen();
-  }
-
-  public isInFullScreen(): boolean {
-    return this.fullscreenService.isFullscreen();
   }
 
   private onFullscreenChange() {

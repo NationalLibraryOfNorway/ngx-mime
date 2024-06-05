@@ -10,10 +10,9 @@
     class="navbar navbar-header"
     #mimeHeader
   ></mime-viewer-header>
-  <mime-osd-toolbar
-    *ngIf="config?.navigationControlEnabled"
-    [@slideInLeft]="osdToolbarState"
-  ></mime-osd-toolbar>
+  @if (config.navigationControlEnabled) {
+    <mime-osd-toolbar [@slideInLeft]="osdToolbarState"></mime-osd-toolbar>
+  }
 
   <mat-drawer-container class="viewer-drawer-container" autosize>
     <mat-drawer
@@ -27,10 +26,11 @@
         split: recognizedTextContentMode === recognizedTextMode.SPLIT,
         open: showHeaderAndFooterState === 'show'
       }"
-      ><mime-recognized-text-content
-        *ngIf="recognizedTextContentMode !== recognizedTextMode.NONE"
-      ></mime-recognized-text-content
-    ></mat-drawer>
+    >
+      @if (recognizedTextContentMode !== recognizedTextMode.NONE) {
+        <mime-recognized-text-content></mime-recognized-text-content>
+      }
+    </mat-drawer>
     <mat-drawer-content>
       <div [id]="openseadragonId" class="openseadragon"></div>
     </mat-drawer-content>
@@ -42,9 +42,8 @@
   ></mime-viewer-footer>
 </div>
 
-<div
-  *ngIf="errorMessage"
-  class="error-container flex items-center justify-center"
->
-  {{ intl.somethingHasGoneWrongLabel }}
-</div>
+@if (errorMessage) {
+  <div class="error-container flex items-center justify-center">
+    {{ intl.somethingHasGoneWrongLabel }}
+  </div>
+}

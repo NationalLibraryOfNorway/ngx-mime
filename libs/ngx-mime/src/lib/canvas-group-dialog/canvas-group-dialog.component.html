@@ -17,9 +17,9 @@
         min="1"
         formControlName="canvasGroupControl"
       />
-      <mat-error *ngIf="canvasGroupControl?.errors?.['max']">{{
-        intl.pageDoesNotExists
-      }}</mat-error>
+      @if (canvasGroupControl?.errors?.['max']) {
+        <mat-error>{{ intl.pageDoesNotExists }}</mat-error>
+      }
     </mat-form-field>
   </div>
   <div mat-dialog-actions [align]="'end'">
