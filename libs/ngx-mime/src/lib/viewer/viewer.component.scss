@@ -7,6 +7,10 @@
   display: flex;
   flex-direction: column;
 
+  .openseadragon {
+    user-select: none;
+  }
+
   &.mode-page-zoomed::ng-deep.tile:hover {
     cursor: -webkit-grab;
   }
@@ -37,6 +41,7 @@
         mix-blend-mode: unset !important;
         fill: #ffff0099;
       }
+
       .selected {
         fill: #ff890099;
       }
@@ -47,17 +52,21 @@
     .openseadragon-container {
       flex-grow: 1;
     }
+
     .openseadragon-canvas:focus {
       outline: none;
     }
+
     .tile {
       cursor: pointer;
       fill-opacity: 0;
     }
+
     .hit {
       mix-blend-mode: multiply;
       fill: #ffff00;
     }
+
     .selected {
       fill: #ff8900;
       stroke: rgb(97, 52, 0);
