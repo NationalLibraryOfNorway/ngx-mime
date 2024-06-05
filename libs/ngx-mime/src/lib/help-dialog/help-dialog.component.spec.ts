@@ -2,8 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideAutoSpy } from 'jasmine-auto-spies';
-import { injectedStub } from '../../testing/injected-stub';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { SharedModule } from '../shared/shared.module';
@@ -32,7 +31,9 @@ describe('HelpDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HelpDialogComponent);
     component = fixture.componentInstance;
-    breakpointObserver = injectedStub(BreakpointObserver);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
   });
 
   it('should be created', () => {
@@ -45,7 +46,7 @@ describe('HelpDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
+      By.css('.heading-desktop'),
     );
     expect(heading).not.toBeNull();
   });
@@ -56,7 +57,7 @@ describe('HelpDialogComponent', () => {
     fixture.detectChanges();
 
     const heading: DebugElement = fixture.debugElement.query(
-      By.css('.heading-desktop')
+      By.css('.heading-desktop'),
     );
     expect(heading).toBeNull();
   });

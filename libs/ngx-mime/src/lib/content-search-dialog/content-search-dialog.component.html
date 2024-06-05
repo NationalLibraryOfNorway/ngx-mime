@@ -75,10 +75,12 @@
           <ng-container *ngIf="currentSearch && currentSearch.length > 0">
             <div
               *ngIf="numberOfHits > 0"
+              data-testid="resultsFoundLabel"
               [innerHTML]="intl.resultsFoundLabel(numberOfHits, currentSearch)"
             ></div>
             <div
               *ngIf="numberOfHits === 0"
+              data-testid="noResultsFoundLabel"
               [innerHTML]="intl.noResultsFoundLabel(currentSearch)"
             ></div>
           </ng-container>

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { provideAutoSpy } from 'jasmine-auto-spies';
-import { Subscription } from 'rxjs';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { testManifest } from '../../test/testManifest';
 import { AltoService } from '../alto-service/alto.service';
 import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
@@ -32,11 +32,10 @@ describe('ViewerService', () => {
   let hostFixture: ComponentFixture<TestHostComponent>;
   let viewerLayoutService: ViewerLayoutService;
   let viewerService: ViewerService;
-  let originalTimeout: number;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [MatSnackBarModule],
+      imports: [NoopAnimationsModule, MatSnackBarModule],
       declarations: [TestHostComponent],
       providers: [
         ViewerService,
@@ -70,13 +69,10 @@ describe('ViewerService', () => {
     hostFixture.componentInstance.openseadragonId =
       viewerService.openseadragonId;
     hostFixture.detectChanges();
-
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
-  afterEach(function () {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+  afterEach(() => {
+    viewerService.destroy();
   });
 
   it('should be created', () => {
@@ -109,13 +105,11 @@ describe('ViewerService', () => {
     });
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      config
+      config,
     );
 
-    let subscription: Subscription;
-    subscription = viewerService.onOsdReadyChange.subscribe((state) => {
+    viewerService.onOsdReadyChange.subscribe((state) => {
       if (state) {
-        subscription.unsubscribe();
         viewerService.rotate();
         viewerService.destroy(true);
         expect(rotation).toEqual(90);
@@ -131,13 +125,11 @@ describe('ViewerService', () => {
     });
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      config
+      config,
     );
 
-    let subscription: Subscription;
-    subscription = viewerService.onOsdReadyChange.subscribe((state) => {
+    viewerService.onOsdReadyChange.subscribe((state) => {
       if (state) {
-        subscription.unsubscribe();
         viewerService.rotate();
         viewerService.destroy(false);
         expect(rotation).toEqual(0);
@@ -149,13 +141,11 @@ describe('ViewerService', () => {
   it('should set viewer to null on destroy', (done) => {
     viewerService.setUpViewer(
       new ManifestBuilder(testManifest).build(),
-      config
+      config,
     );
 
-    let subscription: Subscription;
-    subscription = viewerService.onOsdReadyChange.subscribe((state) => {
+    viewerService.onOsdReadyChange.subscribe((state) => {
       if (state) {
-        subscription.unsubscribe();
         viewerService.destroy(false);
         expect(viewerService.getViewer()).toBeNull();
         done();
@@ -165,10 +155,9 @@ describe('ViewerService', () => {
 
   describe('rotate', () => {
     it('should rotate if using canvas', (done) => {
-      const openSpy = spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
-        config
+        config,
       );
 
       viewerService.onOsdReadyChange.subscribe((state) => {
@@ -186,10 +175,10 @@ describe('ViewerService', () => {
     });
 
     it('should show error message if not using canvas', (done) => {
-      const openSpy = spyOn(snackBar, 'open');
+      const openSpy = jest.spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
-        config
+        config,
       );
       const viewer = viewerService.getViewer();
       viewer.useCanvas = false;

@@ -10,6 +10,7 @@ describe('IiifTileSourceStrategy ', () => {
 
   it('should return a IIIF Image Api Service', () => {
     const resource = new Resource({
+      id: 'fakeId',
       service: new Service({
         service: new Service({
           id: 'testId',
@@ -27,13 +28,14 @@ describe('IiifTileSourceStrategy ', () => {
     service['@id'] =
       'https://http://example.com/eb7d1d9c4b553001549d32573658c844/annotation/URN:NBN:no-nb_digibok_2009061611001_C1';
     const resource = new Resource({
+      id: 'fakeId',
       service: service,
     });
 
     const res = strategy.getTileSource(resource);
 
     expect(res).toBe(
-      'https://http://example.com/eb7d1d9c4b553001549d32573658c844/annotation/URN:NBN:no-nb_digibok_2009061611001_C1/info.json'
+      'https://http://example.com/eb7d1d9c4b553001549d32573658c844/annotation/URN:NBN:no-nb_digibok_2009061611001_C1/info.json',
     );
   });
 });

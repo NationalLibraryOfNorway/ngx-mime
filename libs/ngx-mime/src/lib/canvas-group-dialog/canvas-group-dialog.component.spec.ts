@@ -12,7 +12,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { injectedStub } from '../../testing/injected-stub';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
@@ -70,7 +69,7 @@ describe('CanvasGroupDialogComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
 
     intl = TestBed.inject(MimeViewerIntl);
-    canvasService = injectedStub(CanvasService);
+    canvasService = TestBed.inject(CanvasService) as CanvasServiceStub;
     fixture.detectChanges();
   });
 
@@ -80,7 +79,7 @@ describe('CanvasGroupDialogComponent', () => {
 
   it('should re-render when the i18n labels have changed', () => {
     const title = fixture.debugElement.query(
-      By.css('.canvas-group-dialog-title')
+      By.css('.canvas-group-dialog-title'),
     );
 
     intl.goToPageLabel = 'Testlabel';
@@ -100,10 +99,9 @@ describe('CanvasGroupDialogComponent', () => {
       fixture.detectChanges();
       flush();
 
-      const canvasGroupDoesNotExistsError = await loader.getHarness(
-        MatFormFieldHarness
-      );
-      expect(await canvasGroupDoesNotExistsError.hasErrors()).toBeTrue();
+      const canvasGroupDoesNotExistsError =
+        await loader.getHarness(MatFormFieldHarness);
+      expect(await canvasGroupDoesNotExistsError.hasErrors()).toBe(true);
     }));
   });
 });

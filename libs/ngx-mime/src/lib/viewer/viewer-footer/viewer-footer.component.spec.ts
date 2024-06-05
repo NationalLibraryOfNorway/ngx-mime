@@ -2,7 +2,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { injectedStub } from '../../../testing/injected-stub';
 import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { Hit } from './../../core/models/hit';
@@ -34,8 +33,12 @@ describe('ViewerFooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
     cmp = fixture.componentInstance;
-    breakpointObserver = injectedStub(BreakpointObserver);
-    iiifContentSearchServiceStub = injectedStub(IiifContentSearchService);
+    breakpointObserver = TestBed.inject(
+      BreakpointObserver,
+    ) as MockBreakpointObserver;
+    iiifContentSearchServiceStub = TestBed.inject<any>(
+      IiifContentSearchService,
+    );
     fixture.detectChanges();
   });
 
@@ -113,9 +116,9 @@ describe('ViewerFooterComponent', () => {
 });
 
 function expectFooterToShow(element: any) {
-  expect(element.style.transform).toBe('translate(0px, 0px)');
+  expect(element.style.transform).toBe('translate(0, 0)');
 }
 
 function expectFooterToBeHidden(element: any) {
-  expect(element.style.transform).toBe('translate(0px, 100%)');
+  expect(element.style.transform).toBe('translate(0, 100%)');
 }

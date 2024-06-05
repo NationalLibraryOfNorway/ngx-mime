@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideAutoSpy } from 'jasmine-auto-spies';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
 import { SharedModule } from '../shared/shared.module';

@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { provideAutoSpy } from 'jasmine-auto-spies';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { MimeResizeService } from './mime-resize.service';
 
 describe('MimeResizeService', () => {

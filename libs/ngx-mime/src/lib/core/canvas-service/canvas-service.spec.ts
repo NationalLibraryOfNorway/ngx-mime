@@ -1,18 +1,51 @@
-import { CanvasService } from './canvas-service';
+import { TestBed } from '@angular/core/testing';
+import d3 from 'd3';
+import { Spy, provideAutoSpy } from 'jest-auto-spies';
+import { Resource } from '../models/manifest';
 import { Rect } from '../models/rect';
 import { ViewerLayout } from '../models/viewer-layout';
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
+import { CanvasService } from './canvas-service';
 
 describe('CanvasService', () => {
   let service: CanvasService;
+  let viewerLayoutServiceSpy: Spy<ViewerLayoutService>;
 
   beforeEach(() => {
-    service = new CanvasService();
-
     const canvases: Rect[] = [];
+    const tileSources: Resource[] = [];
     for (let i = 0; i < 100; i++) {
       canvases.push(new Rect());
+      tileSources.push({
+        id: 'id' + i,
+        height: 100,
+        width: 100,
+        type: 'image',
+        tileOverlap: 0,
+      });
     }
-    service.addAll(canvases, ViewerLayout.ONE_PAGE);
+
+    TestBed.configureTestingModule({
+      providers: [
+        CanvasService,
+        provideAutoSpy(ViewerLayoutService, {
+          gettersToSpyOn: ['layout'],
+        }),
+      ],
+    });
+    service = TestBed.inject(CanvasService);
+    viewerLayoutServiceSpy = TestBed.inject(
+      ViewerLayoutService,
+    ) as Spy<ViewerLayoutService>;
+
+    jest.spyOn(service as any, 'createOverlay').mockImplementation();
+    viewerLayoutServiceSpy.accessorSpies.getters.layout.mockReturnValue(
+      ViewerLayout.ONE_PAGE,
+    );
+
+    service.setSvgNode(d3.create('svg'));
+    service.addTileSources(tileSources);
+    service.updateViewer();
   });
 
   it('should return true when requested canvas group index is within bounds', () => {

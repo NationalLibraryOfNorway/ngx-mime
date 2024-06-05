@@ -12,12 +12,11 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { injectedStub } from '../../../../testing/injected-stub';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasGroupDialogComponent } from '../../../canvas-group-dialog/canvas-group-dialog.component';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
-import { Rect } from '../../../core/models/rect';
-import { ViewerLayout } from '../../../core/models/viewer-layout';
+import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
 import { CanvasServiceStub } from '../../../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { ViewerServiceStub } from '../../../test/viewer-service-stub';
@@ -64,6 +63,7 @@ describe('CanvasGroupNavigatorComponent', () => {
         { provide: ViewerService, useClass: ViewerServiceStub },
         { provide: CanvasService, useClass: CanvasServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
+        provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
   }));
@@ -72,8 +72,8 @@ describe('CanvasGroupNavigatorComponent', () => {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(testHostFixture);
-    canvasService = injectedStub(CanvasService);
-    viewerService = injectedStub(ViewerService);
+    canvasService = TestBed.inject<any>(CanvasService);
+    viewerService = TestBed.inject<any>(ViewerService);
     intl = TestBed.inject(MimeViewerIntl);
     testHostFixture.detectChanges();
     component = testHostComponent.canvasGroupNavigatorComponent;
@@ -138,19 +138,19 @@ describe('CanvasGroupNavigatorComponent', () => {
   }));
 
   it('should display next canvas group', waitForAsync(() => {
-    spy = spyOn(viewerService, 'goToNextCanvasGroup').and.stub();
+    spy = jest.spyOn(viewerService, 'goToNextCanvasGroup').mockImplementation();
     testHostFixture.whenStable().then(async () => {
       const nextButton = await getNextButton();
 
       await nextButton?.click();
 
       testHostFixture.detectChanges();
-      expect(spy.calls.count()).toEqual(1);
+      expect(spy).toBeCalledTimes(1);
     });
   }));
 
   it('should display previous canvas group', waitForAsync(() => {
-    spy = spyOn(viewerService, 'goToPreviousCanvasGroup');
+    spy = jest.spyOn(viewerService, 'goToPreviousCanvasGroup');
 
     canvasService._currentCanvasGroupIndex.next(9);
 
@@ -162,21 +162,21 @@ describe('CanvasGroupNavigatorComponent', () => {
 
       testHostFixture.detectChanges();
       testHostFixture.whenStable().then(() => {
-        expect(spy.calls.count()).toEqual(1);
+        expect(spy).toBeCalledTimes(1);
       });
     });
   }));
 
   it('should disable previous and next button if there is only one canvas', waitForAsync(() => {
-    canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+    canvasService._currentNumberOfCanvasGroups.next(1);
     testHostFixture.detectChanges();
 
     testHostFixture.whenStable().then(async () => {
       const previousButton = await getPreviousButton();
       const nextButton = await getNextButton();
 
-      expect(await nextButton?.isDisabled()).toBeTrue();
-      expect(await previousButton?.isDisabled()).toBeTrue();
+      expect(await nextButton?.isDisabled()).toBe(true);
+      expect(await previousButton?.isDisabled()).toBe(true);
     });
   }));
 
@@ -184,14 +184,12 @@ describe('CanvasGroupNavigatorComponent', () => {
     const event: KeyboardEvent = new KeyboardEvent('keydown', {
       code: '70', // 'f'
     });
-
-    spy = spyOn(component, 'onSliderHotKey').and.callThrough();
-    canvasService.addAll([new Rect()], ViewerLayout.ONE_PAGE);
+    spy = jest.spyOn(component, 'onSliderHotKey');
 
     testHostFixture.detectChanges();
     testHostFixture.whenStable().then(() => {
       const slider = testHostFixture.debugElement.query(
-        By.css('.navigation-slider')
+        By.css('.navigation-slider'),
       );
       slider.nativeElement.dispatchEvent(event);
       testHostFixture.detectChanges();
@@ -203,21 +201,21 @@ describe('CanvasGroupNavigatorComponent', () => {
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="canvasGroupDialogButton"]',
-      })
+      }),
     );
 
   const getPreviousButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="footerNavigateBeforeButton"]',
-      })
+      }),
     );
 
   const getNextButton = async () =>
     rootLoader.getHarnessOrNull(
       MatButtonHarness.with({
         selector: '[data-testid="footerNavigateNextButton"]',
-      })
+      }),
     );
 
   const getAriaLabel = async (buttonHarness: MatButtonHarness | null) => {
