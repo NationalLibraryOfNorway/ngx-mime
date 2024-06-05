@@ -1,35 +1,32 @@
 <div class="content-search-container">
-  @switch (isHandsetOrTabletInPortrait) {
-    @case (true) {
-      <mat-toolbar color="primary">
-        <button
-          mat-icon-button
-          class="close-content-search-dialog-button"
-          [aria-label]="intl.closeLabel"
-          [matTooltip]="intl.closeLabel"
-          [matDialogClose]="true"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
-      </mat-toolbar>
-    }
-    @default {
-      <mat-toolbar class="justify-between">
-        <h1 mat-dialog-title class="heading heading-desktop">{{
-          intl.searchLabel
-        }}</h1>
-        <button
-          mat-icon-button
-          class="close-content-search-dialog-button"
-          [aria-label]="intl.closeLabel"
-          [matTooltip]="intl.closeLabel"
-          [matDialogClose]="true"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-toolbar>
-    }
+  @if (isHandsetOrTabletInPortrait) {
+    <mat-toolbar color="primary">
+      <button
+        mat-icon-button
+        class="close-content-search-dialog-button"
+        [aria-label]="intl.closeLabel"
+        [matTooltip]="intl.closeLabel"
+        [matDialogClose]="true"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
+    </mat-toolbar>
+  } @else {
+    <mat-toolbar class="justify-between">
+      <h1 mat-dialog-title class="heading heading-desktop">{{
+        intl.searchLabel
+      }}</h1>
+      <button
+        mat-icon-button
+        class="close-content-search-dialog-button"
+        [aria-label]="intl.closeLabel"
+        [matTooltip]="intl.closeLabel"
+        [matDialogClose]="true"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
   }
   <mat-dialog-content class="content-search-form">
     <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
