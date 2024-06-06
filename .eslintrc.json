@@ -51,6 +51,7 @@
         "plugin:tailwindcss/recommended"
       ],
       "rules": {
+        "@angular-eslint/template/prefer-control-flow": "error",
         "tailwindcss/no-custom-classname": "off",
         "tailwindcss/classnames-order": ["error"]
       }
