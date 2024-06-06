@@ -7,28 +7,22 @@
       </div>
     }
     @if (manifest.attribution) {
-      <div>
-        <div class="title">{{ intl.attributionLabel }}</div>
-        <span
-          class="content attribution"
-          [innerHTML]="manifest.attribution"
-        ></span>
-      </div>
+      <div class="title">{{ intl.attributionLabel }}</div>
+      <span
+        class="content attribution"
+        [innerHTML]="manifest.attribution"
+      ></span>
     }
     @if (manifest.license) {
-      <div>
-        <div class="title">{{ intl.licenseLabel }}</div>
-        <span class="content license"
-          ><a [href]="manifest.license" target="_blank">{{
-            manifest.license
-          }}</a></span
-        >
-      </div>
+      <div class="title">{{ intl.licenseLabel }}</div>
+      <span class="content license"
+        ><a [href]="manifest.license" target="_blank">{{
+          manifest.license
+        }}</a></span
+      >
     }
     @if (manifest.logo) {
-      <div aria-hidden="true">
-        <span><img class="content logo" [src]="manifest.logo" /></span>
-      </div>
+      <img aria-hidden="true" class="content logo" [src]="manifest.logo" />
     }
   </div>
 }
