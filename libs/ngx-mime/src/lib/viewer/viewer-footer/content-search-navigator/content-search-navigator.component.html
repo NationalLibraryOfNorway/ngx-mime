@@ -16,18 +16,7 @@
       [innerHTML]="intl.currentHitLabel(currentHit + 1, searchResult.size())"
     ></div>
     <div class="navigation-buttons">
-      @if (!invert) {
-        <button
-          data-testid="footerNavigatePreviousHitButton"
-          mat-icon-button
-          [attr.aria-label]="intl.previousHitLabel"
-          [matTooltip]="intl.previousHitLabel"
-          matTooltipPosition="above"
-          [disabled]="isFirstHit"
-          (click)="goToPreviousHit()"
-        >
-          <mat-icon>navigate_before</mat-icon>
-        </button>
+      @if (invert) {
         <button
           data-testid="footerNavigateNextHitButton"
           mat-icon-button
@@ -36,22 +25,22 @@
           matTooltipPosition="above"
           [disabled]="isLastHit"
           (click)="goToNextHit()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button
+          data-testid="footerNavigatePreviousHitButton"
+          mat-icon-button
+          [attr.aria-label]="intl.previousHitLabel"
+          [matTooltip]="intl.previousHitLabel"
+          matTooltipPosition="above"
+          [disabled]="isFirstHit"
+          (click)="goToPreviousHit()"
         >
           <mat-icon>navigate_next</mat-icon>
         </button>
       } @else {
         <button
-          data-testid="footerNavigateNextHitButton"
-          mat-icon-button
-          [attr.aria-label]="intl.nextHitLabel"
-          [matTooltip]="intl.nextHitLabel"
-          matTooltipPosition="above"
-          [disabled]="isLastHit"
-          (click)="goToNextHit()"
-        >
-          <mat-icon>navigate_before</mat-icon>
-        </button>
-        <button
           data-testid="footerNavigatePreviousHitButton"
           mat-icon-button
           [attr.aria-label]="intl.previousHitLabel"
@@ -59,6 +48,17 @@
           matTooltipPosition="above"
           [disabled]="isFirstHit"
           (click)="goToPreviousHit()"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button
+          data-testid="footerNavigateNextHitButton"
+          mat-icon-button
+          [attr.aria-label]="intl.nextHitLabel"
+          [matTooltip]="intl.nextHitLabel"
+          matTooltipPosition="above"
+          [disabled]="isLastHit"
+          (click)="goToNextHit()"
         >
           <mat-icon>navigate_next</mat-icon>
         </button>
