@@ -1,9 +1,5 @@
-<ng-container [ngSwitch]="isHandsetOrTabletInPortrait">
-  <mat-toolbar
-    *ngSwitchCase="true"
-    color="primary"
-    data-testid="mobile-toolbar"
-  >
+@if (isHandsetOrTabletInPortrait) {
+  <mat-toolbar color="primary" data-testid="mobile-toolbar">
     <button
       data-testid="ngx-mime-view-dialog-close-button"
       mat-icon-button
@@ -15,11 +11,8 @@
     </button>
     <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>
   </mat-toolbar>
-  <mat-toolbar
-    *ngSwitchDefault
-    class="justify-between"
-    data-testid="desktop-toolbar"
-  >
+} @else {
+  <mat-toolbar class="justify-between" data-testid="desktop-toolbar">
     <h1 mat-dialog-title data-testid="ngx-mime-heading-desktop">{{
       intl.layoutMenuLabel
     }}</h1>
@@ -33,9 +26,9 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-toolbar>
-</ng-container>
+}
 <mat-dialog-content [ngStyle]="contentStyle">
-  <ng-container *ngIf="isPagedManifest">
+  @if (isPagedManifest) {
     <section data-testid="page-layout">
       <h2>{{ intl.pageLayoutLabel }}</h2>
       <div
@@ -69,8 +62,8 @@
         </div>
       </div>
     </section>
-  </ng-container>
-  <ng-container *ngIf="hasRecognizedTextContent">
+  }
+  @if (hasRecognizedTextContent) {
     <mat-divider></mat-divider>
     <section data-testid="recognized-text-content">
       <h2>{{ intl.digitalTextLabel }}</h2>
@@ -119,5 +112,5 @@
         </div>
       </div>
     </section>
-  </ng-container>
+  }
 </mat-dialog-content>

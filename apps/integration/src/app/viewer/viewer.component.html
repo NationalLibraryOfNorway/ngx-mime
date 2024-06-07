@@ -1,13 +1,12 @@
 <div class="viewer-container grid size-full grid-cols-1">
-  <ng-container *ngFor="let manifestUri of manifestUris">
-    <app-components-viewer
-      *ngIf="isComponent"
-      [manifestUri]="manifestUri"
-      [canvasIndex]="canvasIndex"
-    ></app-components-viewer>
-    <app-elements-viewer
-      *ngIf="!isComponent"
-      [manifestUri]="manifestUri"
-    ></app-elements-viewer>
-  </ng-container>
+  @for (manifestUri of manifestUris; track manifestUri) {
+    @if (isComponent) {
+      <app-components-viewer
+        [manifestUri]="manifestUri"
+        [canvasIndex]="canvasIndex"
+      ></app-components-viewer>
+    } @else {
+      <app-elements-viewer [manifestUri]="manifestUri"></app-elements-viewer>
+    }
+  }
 </div>

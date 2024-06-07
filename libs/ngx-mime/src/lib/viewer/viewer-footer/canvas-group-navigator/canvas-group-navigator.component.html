@@ -27,7 +27,7 @@
     ><span data-testid="numOfCanvasGroups">{{ numberOfCanvases }}</span>
   </button>
   <div class="navigation-buttons">
-    <ng-container *ngIf="currentViewingDirection === ViewingDirection.LTR">
+    @if (currentViewingDirection === ViewingDirection.LTR) {
       <button
         data-testid="footerNavigateBeforeButton"
         mat-icon-button
@@ -50,8 +50,7 @@
       >
         <mat-icon>navigate_next</mat-icon>
       </button>
-    </ng-container>
-    <ng-container *ngIf="currentViewingDirection === ViewingDirection.RTL">
+    } @else {
       <button
         data-testid="footerNavigateNextButton"
         mat-icon-button
@@ -74,6 +73,6 @@
       >
         <mat-icon>navigate_next</mat-icon>
       </button>
-    </ng-container>
+    }
   </div>
 </mat-toolbar>

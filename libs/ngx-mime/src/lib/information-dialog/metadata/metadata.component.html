@@ -1,21 +1,28 @@
-<div *ngIf="manifest" class="ngx-mime-metadata-container">
-  <div *ngFor="let metadata of manifest.metadata" class="metadata">
-    <div class="title">{{ metadata.label }}</div>
-    <span class="content" [innerHTML]="metadata.value"></span>
+@if (manifest) {
+  <div class="ngx-mime-metadata-container">
+    @for (metadata of manifest.metadata; track metadata.label) {
+      <div class="metadata">
+        <div class="title">{{ metadata.label }}</div>
+        <span class="content" [innerHTML]="metadata.value"></span>
+      </div>
+    }
+    @if (manifest.attribution) {
+      <div class="title">{{ intl.attributionLabel }}</div>
+      <span
+        class="content attribution"
+        [innerHTML]="manifest.attribution"
+      ></span>
+    }
+    @if (manifest.license) {
+      <div class="title">{{ intl.licenseLabel }}</div>
+      <span class="content license"
+        ><a [href]="manifest.license" target="_blank">{{
+          manifest.license
+        }}</a></span
+      >
+    }
+    @if (manifest.logo) {
+      <img aria-hidden="true" class="content logo" [src]="manifest.logo" />
+    }
   </div>
-  <div *ngIf="manifest.attribution">
-    <div class="title">{{ intl.attributionLabel }}</div>
-    <span class="content attribution" [innerHTML]="manifest.attribution"></span>
-  </div>
-  <div *ngIf="manifest.license">
-    <div class="title">{{ intl.licenseLabel }}</div>
-    <span class="content license"
-      ><a [href]="manifest.license" target="_blank">{{
-        manifest.license
-      }}</a></span
-    >
-  </div>
-  <div *ngIf="manifest.logo" aria-hidden="true">
-    <span><img class="content logo" [src]="manifest.logo" /></span>
-  </div>
-</div>
+}

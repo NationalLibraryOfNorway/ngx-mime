@@ -1,5 +1,5 @@
 <div class="mat-icon">
-  <ng-container *ngIf="iconName === 'single_page_display'">
+  @if (iconName === 'single_page_display') {
     <div class="single-page-display">
       <svg
         version="1.1"
@@ -26,8 +26,7 @@
         </g>
       </svg>
     </div>
-  </ng-container>
-  <ng-container *ngIf="iconName === 'two_page_display'">
+  } @else if (iconName === 'two_page_display') {
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -57,5 +56,5 @@
         />
       </g>
     </svg>
-  </ng-container>
+  }
 </div>

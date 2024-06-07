@@ -1,6 +1,6 @@
 <div class="help-container">
-  <ng-container [ngSwitch]="isHandsetOrTabletInPortrait">
-    <mat-toolbar *ngSwitchCase="true" color="primary">
+  @if (isHandsetOrTabletInPortrait) {
+    <mat-toolbar color="primary">
       <button
         mat-icon-button
         [aria-label]="intl.helpCloseAriaLabel"
@@ -11,7 +11,8 @@
       </button>
       <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>
     </mat-toolbar>
-    <mat-toolbar *ngSwitchDefault class="justify-between">
+  } @else {
+    <mat-toolbar class="justify-between">
       <h1 class="heading-desktop" mat-dialog-title>{{
         intl.help.helpLabel
       }}</h1>
@@ -24,7 +25,7 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-toolbar>
-  </ng-container>
+  }
   <mat-dialog-content [ngStyle]="tabHeight" class="help-content" tabindex="0">
     <p [innerHTML]="intl.help.line1"></p>
     <p [innerHTML]="intl.help.line2"></p>
