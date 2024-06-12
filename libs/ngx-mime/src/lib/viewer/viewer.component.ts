@@ -487,7 +487,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   goToHomeZoom(): void {
     if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
-      this.viewerService.goToHomeZoom();
+      this.viewerService.home();
     }
   }
 

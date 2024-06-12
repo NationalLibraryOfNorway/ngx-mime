@@ -356,7 +356,7 @@ export class ViewerService {
               this.modeService.mode === ViewerMode.PAGE ||
               this.modeService.mode === ViewerMode.DASHBOARD
             ) {
-              this.zoomStrategy.goToHomeZoom();
+              this.home();
             }
           }
         },
@@ -596,8 +596,7 @@ export class ViewerService {
 
     this.canvasGroupMask.hide();
 
-    this.zoomStrategy.setMinZoom(ViewerMode.DASHBOARD);
-    this.zoomStrategy.goToHomeZoom();
+    this.home();
   }
 
   /**
@@ -614,8 +613,7 @@ export class ViewerService {
 
     this.canvasGroupMask.show();
 
-    this.zoomStrategy.setMinZoom(ViewerMode.PAGE);
-    this.zoomStrategy.goToHomeZoom();
+    this.home();
   }
 
   /**
@@ -715,10 +713,6 @@ export class ViewerService {
       }
       this.pinchStatus.previousGestureId = gestureId;
     }
-  }
-
-  goToHomeZoom(): void {
-    this.zoomStrategy.goToHomeZoom();
   }
 
   /**
