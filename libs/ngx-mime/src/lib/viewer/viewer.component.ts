@@ -119,7 +119,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private platform: Platform,
     canvasGroupDialogService: CanvasGroupDialogService,
     el: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ) {
     this.id = this.viewerService.id;
     this.openseadragonId = this.viewerService.openseadragonId;
@@ -164,7 +164,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.currentManifest = manifest;
             this.manifestChanged.next(manifest);
             this.viewerLayoutService.init(
-              ManifestUtils.isManifestPaged(manifest)
+              ManifestUtils.isManifestPaged(manifest),
             );
             this.recognizedTextContentMode =
               this.altoService.recognizedTextContentMode;
@@ -172,7 +172,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             this.viewerService.setUpViewer(manifest, this.config);
             if (this.config.attributionDialogEnabled && manifest.attribution) {
               this.attributionDialogService.open(
-                this.config.attributionDialogHideTimeout
+                this.config.attributionDialogHideTimeout,
               );
             }
 
@@ -180,8 +180,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
               this.iiifContentSearchService.search(manifest, this.q);
             }
           }
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -194,7 +194,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         ) {
           this.viewerService.goToCanvas(this.canvasIndex, false);
         }
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -203,27 +203,27 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           this.resetCurrentManifest();
           this.errorMessage = error;
           this.changeDetectorRef.detectChanges();
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
       this.iiifContentSearchService.onQChange.subscribe((q: string) => {
         this.qChanged.emit(q);
-      })
+      }),
     );
 
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
         this.viewerService.highlight(sr);
-      })
+      }),
     );
 
     this.subscriptions.add(
       this.viewerService.isCanvasPressed.subscribe((value: boolean) => {
         this.isCanvasPressed = value;
         this.changeDetectorRef.detectChanges();
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -259,7 +259,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
             }
             if (this.viewerState.contentDialogState.isOpen) {
               this.informationDialogService.open(
-                this.viewerState.contentDialogState.selectedIndex
+                this.viewerState.contentDialogState.selectedIndex,
               );
             }
             if (this.viewerState.contentsSearchDialogState.isOpen) {
@@ -273,7 +273,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         this.zone.run(() => {
           this.viewerModeChanged.emit(mode.currentValue);
         });
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -284,31 +284,31 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           if (canvasIndex !== -1) {
             this.canvasChanged.emit(canvasIndex);
           }
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
       this.resizeService.onResize
         .pipe(
           throttle((val) =>
-            interval(ViewerOptions.transitions.OSDAnimationTime)
-          )
+            interval(ViewerOptions.transitions.OSDAnimationTime),
+          ),
         )
         .subscribe(() => {
           setTimeout(() => {
             this.viewerService.home();
             this.changeDetectorRef.markForCheck();
           }, ViewerOptions.transitions.OSDAnimationTime);
-        })
+        }),
     );
 
     this.subscriptions.add(
       this.viewerLayoutService.onChange.subscribe(
         (viewerLayout: ViewerLayout) => {
           this.viewerLayout = viewerLayout;
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -317,11 +317,11 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           this.recognizedTextContentMode =
             recognizedTextModeChanges.currentValue;
           this.recognizedTextContentModeChanged.emit(
-            this.recognizedTextContentMode
+            this.recognizedTextContentMode,
           );
           this.changeDetectorRef.markForCheck();
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -381,7 +381,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
           this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
             const canvasIndex = manifest.sequences
               ? manifest.sequences[0]?.canvases?.findIndex(
-                  (c) => c.id === startCanvasId
+                  (c) => c.id === startCanvasId,
                 )
               : -1;
             if (canvasIndex && canvasIndex !== -1) {
@@ -487,7 +487,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   goToHomeZoom(): void {
     if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
-      this.viewerService.goToHomeZoom();
+      this.viewerService.home();
     }
   }
 
