@@ -30,7 +30,6 @@ export declare class ViewerService {
     private viewer?;
     private svgOverlay;
     private svgNode;
-    private overlays;
     private tileSources;
     private subscriptions;
     isCanvasPressed: Subject<boolean>;
@@ -61,7 +60,7 @@ export declare class ViewerService {
     setConfig(config: MimeViewerConfig): void;
     getViewer(): any;
     getTilesources(): Resource[];
-    getOverlays(): SVGRectElement[];
+    getOverlays(): ReadonlyArray<SVGRectElement>;
     getZoom(): number;
     getMinZoom(): number;
     getMaxZoom(): number;
@@ -137,7 +136,6 @@ export declare class ViewerService {
      * @param event from pinch gesture
      */
     zoomOutPinchGesture(event: any, zoomFactor: number): void;
-    goToHomeZoom(): void;
     /**
      * Single-click-handler
      * Single-click toggles between page/dashboard-mode if a page is hit

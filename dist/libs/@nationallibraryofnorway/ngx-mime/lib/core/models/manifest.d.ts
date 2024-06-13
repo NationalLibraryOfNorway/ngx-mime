@@ -85,7 +85,7 @@ export declare class Images {
     });
 }
 export declare class Resource {
-    id?: string;
+    id: string;
     type?: string;
     format?: string;
     service?: Service;
@@ -93,7 +93,7 @@ export declare class Resource {
     width: number;
     tileOverlap: number;
     constructor(fields?: {
-        id?: string;
+        id: string;
         type?: string;
         format?: string;
         service?: Service;

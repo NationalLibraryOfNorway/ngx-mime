@@ -1,12 +1,12 @@
+import { CanvasGroup, TileSourceAndRect } from '../canvas-service/tile-source-and-rect.model';
 import { Point } from './point';
-import { Rect } from './rect';
 export declare class CanvasGroups {
-    canvasGroupRects: Rect[];
-    canvasRects: Rect[];
+    canvasGroups: CanvasGroup[];
+    tileSourceAndRects: TileSourceAndRect[];
     canvasesPerCanvasGroup: number[][];
-    add(rect: Rect): void;
-    addRange(rects: Rect[]): void;
-    get(index: number): Rect;
+    add(canvasGroup: CanvasGroup): void;
+    addRange(canvasGroups: ReadonlyArray<CanvasGroup>): void;
+    get(index: number): CanvasGroup;
     findClosestIndex(point: Point): number;
     length(): number;
 }

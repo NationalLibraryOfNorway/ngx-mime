@@ -1,6 +1,6 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "17.0.0",
+  "version": "17.1.0",
   "license": "MIT",
   "peerDependencies": {
     "@angular/animations": ">=17.0.0 <18.0.0",
