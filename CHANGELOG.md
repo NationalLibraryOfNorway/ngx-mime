@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [17.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v17.0.0...v17.1.0) (2024-06-13)
+
+
+### Features
+
+* changed test runner from Karma to Jest ([#486](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/486)) ([0b9bd8b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0b9bd8b078c53a96268f93babc3c46c26ae3e4d1))
+
+
+### Bug Fixes
+
+* ensure proper page zoom on swipe ([1406b2f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1406b2f7899ddfb7fa524dbae88f874b0b505e6a))
+* improve a11y and UI for content-search-navigator ([#488](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/488)) ([d32aded](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d32aded2e49e905c655a6d806acfcf14c2b40a0c))
+* Prevent OpenSeadragon canvas from being selected on iOS devices ([#491](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/491)) ([6fd107f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6fd107f055a05967daf4dcfe28c3925f25675317))
+
 ## [17.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.1.0...v17.0.0) (2024-01-31)
 
 
