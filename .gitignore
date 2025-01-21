@@ -47,3 +47,4 @@ libs/**/.ng_pkg_build/
 .angular
 
 .nx/cache
+.nx/workspace-data
