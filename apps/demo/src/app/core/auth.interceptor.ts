@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const withCredentials = this.useWithCredentials(req.url);
     const authReq = req.clone({ withCredentials: withCredentials });
@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private useWithCredentials(url: string): boolean {
     return AuthInterceptor.withCredentialsSites.some(
-      (s) => url.indexOf(s) !== -1
+      (s) => url.indexOf(s) !== -1,
     );
   }
 }

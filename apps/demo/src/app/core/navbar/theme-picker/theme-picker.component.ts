@@ -12,10 +12,12 @@ export class ThemePickerComponent {
 
   themes: SiteTheme[];
 
-  constructor(private themeService: ThemeService) {
+  constructor(private readonly themeService: ThemeService) {
     this.themes = themeService.getAllThemes();
     this.currentTheme = themeService.getStoredTheme();
     if (this.currentTheme) {
+      console.log('ThemePickerComponent', this.currentTheme);
+
       this.installTheme(this.currentTheme);
     }
   }
@@ -24,6 +26,8 @@ export class ThemePickerComponent {
     this.currentTheme = theme;
 
     if (this.currentTheme) {
+      console.log('ThemePickerComponent.installTheme', this.currentTheme);
+
       this.themeService.storeTheme(this.currentTheme);
     }
   }

@@ -20,19 +20,19 @@ export class SidenavComponent implements OnDestroy {
   constructor(
     private manifestService: ManifestService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {
     this.subscriptions.add(
       this.route.queryParamMap.subscribe((params) => {
         this.iiifVersion = params.get('v') || this.iiifVersion;
         this.manifests = this.manifestService.getManifests(this.iiifVersion);
         const manifest = this.manifests.find(
-          (m) => m.uri === params.getAll('manifestUri')
+          (m) => m.uri === params.getAll('manifestUri'),
         );
         if (manifest) {
           this.selectedManifest = manifest.label;
         }
-      })
+      }),
     );
   }
 
@@ -41,7 +41,7 @@ export class SidenavComponent implements OnDestroy {
     this.manifests = this.manifestService.getManifests(this.iiifVersion);
     if (this.selectedManifest) {
       const manifest = this.manifests.find(
-        (m) => m.label === this.selectedManifest
+        (m) => m.label === this.selectedManifest,
       );
       if (manifest?.uri) {
         this.router.navigate(['demo'], {

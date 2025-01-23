@@ -6,7 +6,7 @@ import { Dimensions } from './../core/models/dimensions';
 export interface ContentSearchDialogConfigStrategy {
   getConfig(
     elementRef: ElementRef | null,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig;
 }
 
@@ -15,7 +15,7 @@ export class MobileContentSearchDialogConfigStrategy
 {
   public getConfig(
     elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     return {
       hasBackdrop: false,
@@ -23,7 +23,7 @@ export class MobileContentSearchDialogConfigStrategy
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
-      panelClass: 'content-search-panel',
+      panelClass: ['mime-dialog', 'content-search-panel'],
       viewContainerRef: viewContainerRef,
     };
   }
@@ -42,7 +42,7 @@ export class DesktopContentSearchDialogConfigStrategy
 
   public getConfig(
     el: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     const dimensions = this.getPosition(el);
     return {
@@ -54,7 +54,7 @@ export class DesktopContentSearchDialogConfigStrategy
         left: dimensions.left + 'px',
       },
       maxWidth: '100% !important',
-      panelClass: 'content-search-panel',
+      panelClass: ['mime-dialog', 'content-search-panel'],
       viewContainerRef: viewContainerRef,
     };
   }
@@ -62,7 +62,7 @@ export class DesktopContentSearchDialogConfigStrategy
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
-      top: dimensions.top + 64,
+      top: dimensions.top + 72,
       left:
         dimensions.right -
         DesktopContentSearchDialogConfigStrategy.dialogWidth -

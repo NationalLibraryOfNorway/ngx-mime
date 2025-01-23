@@ -5,11 +5,11 @@
 
   .ngx-mime-toc-container {
     .canvasGroupIndex {
-      color: mat.get-color-from-palette($foreground, text);
+      color: mat.get-theme-color($theme, primary);
     }
 
     .toc-link {
-      color: mat.get-color-from-palette($foreground, text);
+      color: mat.get-theme-color($theme, primary);
     }
   }
 }

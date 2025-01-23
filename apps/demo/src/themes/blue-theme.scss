@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+@use './theming.scss';
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: (
+      brand-family: 'DM Sans',
+    ),
+  )
+);
+
+body {
+  @include theming.components-colors($theme);
+}

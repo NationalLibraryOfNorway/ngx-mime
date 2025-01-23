@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+@use './theming.scss' as theming;
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$spring-green-palette,
+    ),
+    typography: (
+      brand-family: 'DM Sans',
+    ),
+  )
+);
+
+body {
+  @include theming.components-colors($theme);
+}

@@ -1,22 +1,8 @@
-mat-icon {
-  color: white;
-}
-
-.mat-menu-content {
-  padding: 8px;
-}
-
-[mat-menu-item] {
-  flex: 0 0 auto;
-  padding: 0;
-  overflow: hidden;
-}
-
 .docs-theme-picker-swatch {
   position: relative;
   width: 36px;
   height: 36px;
-  margin: 6px;
+  margin: 3px;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -43,11 +29,4 @@ mat-icon {
 .docs-theme-picker-primary {
   width: 100%;
   height: 100%;
-}
-
-.docs-theme-picker-accent {
-  position: absolute;
-  bottom: 6px;
-  width: 100%;
-  height: 6px;
 }

@@ -6,7 +6,7 @@ import { Dimensions } from '../core/models/dimensions';
 export interface HelpDialogConfigStrategy {
   getConfig(
     elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig;
 }
 
@@ -15,14 +15,14 @@ export class MobileHelpDialogConfigStrategy
 {
   public getConfig(
     elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     return {
       hasBackdrop: false,
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
-      panelClass: 'help-panel',
+      panelClass: ['mime-dialog', 'help-panel'],
       viewContainerRef: viewContainerRef,
     };
   }
@@ -41,7 +41,7 @@ export class DesktopHelpDialogConfigStrategy
 
   public getConfig(
     el: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     const dimensions = this.getPosition(el);
     return {
@@ -51,7 +51,7 @@ export class DesktopHelpDialogConfigStrategy
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
       },
-      panelClass: 'help-panel',
+      panelClass: ['mime-dialog', 'help-panel'],
       maxWidth: '100% !important',
       viewContainerRef: viewContainerRef,
     };
@@ -60,7 +60,7 @@ export class DesktopHelpDialogConfigStrategy
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
-      top: dimensions.top + 64,
+      top: dimensions.top + 72,
       left:
         dimensions.right -
         DesktopHelpDialogConfigStrategy.dialogWidth -

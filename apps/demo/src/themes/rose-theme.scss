@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+@use './theming.scss';
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$rose-palette,
+    ),
+    typography: (
+      brand-family: 'DM Sans',
+    ),
+  )
+);
+
+body {
+  @include theming.components-colors($theme);
+}

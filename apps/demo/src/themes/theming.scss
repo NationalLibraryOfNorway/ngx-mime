@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+@use '../app/_app.component-theme' as app;
+@use '../../../../libs/ngx-mime/ngx-mime.theme.scss' as ngx-mime;
+
+@mixin components-theme($theme) {
+  @include mat.all-component-themes($theme);
+  @include mat.typography-hierarchy($theme);
+  @include ngx-mime.ngx-mime-theme($theme);
+
+  @include app.theme($theme);
+}
+
+@mixin components-colors($theme) {
+  @include mat.all-component-colors($theme);
+  @include ngx-mime.ngx-mime-theme($theme);
+
+  @include app.theme($theme);
+}

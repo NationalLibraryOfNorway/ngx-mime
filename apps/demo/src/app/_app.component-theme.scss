@@ -1,0 +1,23 @@
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  .demo-root {
+    mat-sidenav {
+      background: mat.get-theme-color($theme, surface-container);
+      color: mat.get-theme-color($theme, on-primary-container);
+    }
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+
+  @if mat.theme-has($theme, typography) {
+    @include typography($theme);
+  }
+}

@@ -4,11 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MimeMaterialModule } from './mime-material.module';
 import * as i0 from "@angular/core";
 export class SharedModule {
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: SharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
-    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "17.1.0", ngImport: i0, type: SharedModule, exports: [CommonModule, FormsModule, ReactiveFormsModule, MimeMaterialModule] }); }
-    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: SharedModule, imports: [CommonModule, FormsModule, ReactiveFormsModule, MimeMaterialModule] }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.9", ngImport: i0, type: SharedModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "18.2.9", ngImport: i0, type: SharedModule, exports: [CommonModule, FormsModule, ReactiveFormsModule, MimeMaterialModule] }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "18.2.9", ngImport: i0, type: SharedModule, imports: [CommonModule, FormsModule, ReactiveFormsModule, MimeMaterialModule] }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.1.0", ngImport: i0, type: SharedModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.9", ngImport: i0, type: SharedModule, decorators: [{
             type: NgModule,
             args: [{
                     exports: [CommonModule, FormsModule, ReactiveFormsModule, MimeMaterialModule],

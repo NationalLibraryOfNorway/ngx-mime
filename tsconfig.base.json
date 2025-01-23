@@ -10,14 +10,24 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "es2022",
-    "lib": ["es2022", "dom"],
+    "lib": [
+      "es2022",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nationallibraryofnorway/*": ["libs/*"],
-      "@nationallibraryofnorway/ngx-mime": ["libs/ngx-mime/src/index.ts"]
+      "@nationallibraryofnorway/*": [
+        "libs/*"
+      ],
+      "@nationallibraryofnorway/ngx-mime": [
+        "libs/ngx-mime/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

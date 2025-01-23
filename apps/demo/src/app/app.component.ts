@@ -20,13 +20,12 @@ import {
 export class AppComponent implements OnInit, OnDestroy {
   sidenavMode: MatDrawerMode = 'side';
   sidenavIsOpen = false;
-  currentTheme = 'blue-theme';
-  private subscriptions = new Subscription();
+  private readonly subscriptions = new Subscription();
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
-    private overlayContainer: OverlayContainer,
-    private themeService: ThemeService
+    private readonly breakpointObserver: BreakpointObserver,
+    private readonly overlayContainer: OverlayContainer,
+    private readonly themeService: ThemeService,
   ) {}
 
   ngOnInit(): void {
@@ -35,17 +34,14 @@ export class AppComponent implements OnInit, OnDestroy {
         .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
         .subscribe((result: BreakpointState) => {
           this.layout(result.matches);
-        })
+        }),
     );
 
     this.setTheme(this.themeService.getStoredTheme().name);
-    this.overlayContainer
-      .getContainerElement()
-      .classList.add(this.currentTheme);
     this.subscriptions.add(
       this.themeService.onThemeUpdate.subscribe((theme: SiteTheme) => {
         this.setTheme(theme.name);
-      })
+      }),
     );
   }
 
@@ -64,10 +60,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private setTheme(name: string) {
-    this.overlayContainer
-      .getContainerElement()
-      .classList.remove(this.currentTheme);
-    this.currentTheme = name;
     this.overlayContainer.getContainerElement().classList.add(name);
   }
 }

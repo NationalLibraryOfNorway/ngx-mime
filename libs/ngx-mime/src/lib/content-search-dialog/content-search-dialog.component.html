@@ -1,6 +1,6 @@
 <div class="content-search-container">
   @if (isHandsetOrTabletInPortrait) {
-    <mat-toolbar color="primary">
+    <mat-toolbar class="secondary-toolbar">
       <button
         mat-icon-button
         class="close-content-search-dialog-button"
@@ -13,7 +13,7 @@
       <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
     </mat-toolbar>
   } @else {
-    <mat-toolbar class="justify-between">
+    <mat-toolbar class="justify-between secondary-toolbar">
       <h1 mat-dialog-title class="heading heading-desktop">{{
         intl.searchLabel
       }}</h1>

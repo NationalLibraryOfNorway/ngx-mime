@@ -47,7 +47,7 @@ export class CanvasGroupDialogService {
 
   private getDialogConfig(): MatDialogConfig {
     return {
-      panelClass: 'canvas-group-panel',
+      panelClass: ['mime-dialog', 'canvas-group-panel'],
       viewContainerRef: this._viewContainerRef,
     };
   }

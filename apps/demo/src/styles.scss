@@ -1,6 +1,14 @@
+@use '@angular/material' as mat;
+@use 'themes/cyan-theme' as theme;
+@use './themes/theming.scss' as theming;
+
 @tailwind utilities;
 
-@import './theme.scss';
+@include mat.core();
+
+body {
+  @include theming.components-theme(theme.$theme);
+}
 
 html,
 body,
@@ -10,4 +18,8 @@ mat-sidenav-container,
   margin: 0;
   width: 100%;
   height: 100%;
+}
+
+.docs-theme-picker-menu {
+  overflow: hidden !important;
 }
