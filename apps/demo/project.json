@@ -33,11 +33,6 @@
             "input": "apps/demo/src/themes/spring-green-theme.scss",
             "inject": false,
             "bundleName": "spring-green-theme"
-          },
-          {
-            "input": "apps/demo/src/themes/cyan-theme.scss",
-            "inject": false,
-            "bundleName": "cyan-theme"
           }
         ],
         "scripts": [

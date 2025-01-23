@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use 'themes/cyan-theme' as theme;
+@use 'themes/default-theme' as defaultTheme;
 @use './themes/theming.scss' as theming;
 
 @tailwind utilities;
@@ -7,7 +7,7 @@
 @include mat.core();
 
 body {
-  @include theming.components-theme(theme.$theme);
+  @include theming.components-theme(defaultTheme.$theme);
 }
 
 html,

@@ -14,6 +14,3 @@ $theme: mat.define-theme(
   )
 );
 
-body {
-  @include theming.components-colors($theme);
-}
