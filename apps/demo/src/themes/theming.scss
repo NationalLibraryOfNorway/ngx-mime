@@ -4,7 +4,6 @@
 
 @mixin components-theme($theme) {
   @include mat.all-component-themes($theme);
-  @include mat.typography-hierarchy($theme);
   @include ngx-mime.ngx-mime-theme($theme);
 
   @include app.theme($theme);

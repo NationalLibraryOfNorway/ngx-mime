@@ -9,8 +9,8 @@ $theme: mat.define-theme(
       primary: mat.$cyan-palette,
     ),
     typography: (
-      brand-family: 'DM Sans',
+      brand-family: DM Sans,
+      plain-family: DM Sans,
     ),
   )
 );
-
