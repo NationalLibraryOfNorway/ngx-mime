@@ -22,7 +22,7 @@ export class MobileInformationDialogConfigStrategy
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
-      panelClass: ['mime-dialog', 'information-panel'],
+      panelClass: ['mime-mobile-dialog', 'mime-dialog', 'information-panel'],
       viewContainerRef: viewContainerRef,
     };
   }
@@ -59,7 +59,7 @@ export class DesktopInformationDialogConfigStrategy
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
-      top: dimensions.top + 72,
+      top: dimensions.top + 84,
       left:
         dimensions.right -
         DesktopInformationDialogConfigStrategy.dialogWidth -

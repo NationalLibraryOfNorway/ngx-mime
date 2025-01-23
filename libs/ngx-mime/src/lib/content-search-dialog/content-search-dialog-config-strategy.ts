@@ -23,7 +23,7 @@ export class MobileContentSearchDialogConfigStrategy
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
-      panelClass: ['mime-dialog', 'content-search-panel'],
+      panelClass: ['mime-mobile-dialog', 'mime-dialog', 'content-search-panel'],
       viewContainerRef: viewContainerRef,
     };
   }
@@ -62,7 +62,7 @@ export class DesktopContentSearchDialogConfigStrategy
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
-      top: dimensions.top + 72,
+      top: dimensions.top + 84,
       left:
         dimensions.right -
         DesktopContentSearchDialogConfigStrategy.dialogWidth -
