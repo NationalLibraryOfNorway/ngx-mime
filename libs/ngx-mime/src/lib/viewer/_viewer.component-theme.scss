@@ -1,11 +1,12 @@
 @use '@angular/material' as mat;
 
 @mixin color($theme) {
-  .demo-root {
-    mat-sidenav {
-      background: mat.get-theme-color($theme, surface-container);
+  .viewer-container {
+    .recognized-text-content-container {
+      background: mat.get-theme-color($theme, surface-container-low);
       color: mat.get-theme-color($theme, on-surface-variant);
     }
+
   }
 }
 

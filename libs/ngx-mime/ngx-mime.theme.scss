@@ -2,12 +2,14 @@
 
 @use 'src/lib/attribution-dialog/_attribution-dialog.component-theme.scss' as attribution;
 @use 'src/lib/information-dialog/metadata/_metadata.component.theme.scss' as metadata;
+@use 'src/lib/viewer/_viewer.component-theme.scss' as viewer;
 @import 'src/lib/information-dialog/table-of-contents/table-of-contents.component.theme.scss';
 @import 'src/lib/viewer/osd-toolbar/osd-toolbar.component.theme';
 
 @mixin ngx-mime-theme($theme) {
   @include attribution.theme($theme);
   @include metadata.theme($theme);
+  @include viewer.theme($theme);
   @include table-of-contents-theme($theme);
   @include osd-toolbar-component-theme($theme);
 
