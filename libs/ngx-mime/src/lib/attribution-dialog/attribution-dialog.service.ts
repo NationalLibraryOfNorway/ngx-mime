@@ -130,7 +130,7 @@ export class AttributionDialogService {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this._el);
     return new Dimensions({
       top:
-        dimensions.top + dimensions.height - this.attributionDialogHeight - 68,
+        dimensions.top + dimensions.height - this.attributionDialogHeight - 80,
       left: dimensions.left + padding,
     });
   }

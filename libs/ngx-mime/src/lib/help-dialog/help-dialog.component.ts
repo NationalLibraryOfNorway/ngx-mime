@@ -59,7 +59,7 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
         maxHeight: window.innerHeight - 128 + 'px',
       };
     } else {
-      height -= 272;
+      height -= 220;
       this.tabHeight = {
         maxHeight: height + 'px',
       };

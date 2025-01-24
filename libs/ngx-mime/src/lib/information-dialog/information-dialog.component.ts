@@ -92,7 +92,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
         maxHeight: window.innerHeight - 128 + 'px',
       };
     } else {
-      height -= 278;
+      height -= 288;
       this.tabHeight = {
         maxHeight: height + 'px',
       };

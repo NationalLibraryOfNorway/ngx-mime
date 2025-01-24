@@ -165,7 +165,7 @@ export class ContentSearchDialogComponent
         maxHeight: window.innerHeight - 128 + 'px',
       };
     } else {
-      height -= 272;
+      height -= 320;
       this.tabHeight = {
         maxHeight: height + 'px',
       };
