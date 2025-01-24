@@ -30,7 +30,7 @@ describe('HtmlFormatter', () => {
     const result = new HtmlFormatter().altoToHtml(alto);
 
     expect(result).toBe(
-      '<p style="font-weight: bold">fakeString1<p/><p>fakeString2<p/>'
+      '<p style="font-weight: bold">fakeString1<p/><p>fakeString2<p/>',
     );
   });
 });

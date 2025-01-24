@@ -13,6 +13,6 @@ describe('SpinnerService', () => {
     [SpinnerService],
     (service: SpinnerService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 });

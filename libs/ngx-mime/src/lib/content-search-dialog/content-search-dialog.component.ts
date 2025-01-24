@@ -60,7 +60,7 @@ export class ContentSearchDialogComponent
     private mimeResizeService: MimeResizeService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
-    private contentSearchNavigationService: ContentSearchNavigationService
+    private contentSearchNavigationService: ContentSearchNavigationService,
   ) {}
 
   ngOnInit() {
@@ -69,23 +69,23 @@ export class ContentSearchDialogComponent
         .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
         .subscribe(
           (value: BreakpointState) =>
-            (this.isHandsetOrTabletInPortrait = value.matches)
-        )
+            (this.isHandsetOrTabletInPortrait = value.matches),
+        ),
     );
 
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
         this.resizeTabHeight();
-      })
+      }),
     );
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           this.manifest = manifest;
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -99,13 +99,13 @@ export class ContentSearchDialogComponent
         } else if (this.q.length === 0 || this.numberOfHits === 0) {
           this.qEl.nativeElement.focus();
         }
-      })
+      }),
     );
 
     this.subscriptions.add(
       this.iiifContentSearchService.isSearching.subscribe((s: boolean) => {
         this.isSearching = s;
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -118,7 +118,7 @@ export class ContentSearchDialogComponent
             this.scrollCurrentHitIntoView();
           }
         }
-      })
+      }),
     );
 
     this.resizeTabHeight();
@@ -189,7 +189,7 @@ export class ContentSearchDialogComponent
   private findSelected(selectedHit: Hit): ElementRef | null {
     if (this.hitList) {
       const selectedList = this.hitList.filter(
-        (item: ElementRef, index: number) => index === selectedHit.id
+        (item: ElementRef, index: number) => index === selectedHit.id,
       );
       return selectedList.length > 0 ? selectedList[0] : null;
     } else {

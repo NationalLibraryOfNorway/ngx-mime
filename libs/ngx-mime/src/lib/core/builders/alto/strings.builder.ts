@@ -13,7 +13,7 @@ export class StringsBuilder {
       ? this.stringXml
           .filter(
             (string: any) =>
-              !string.$.SUBS_CONTENT || string.$.SUBS_TYPE === 'HypPart1'
+              !string.$.SUBS_CONTENT || string.$.SUBS_TYPE === 'HypPart1',
           )
           .map((string: any) => {
             return { content: string.$.SUBS_CONTENT || string.$.CONTENT };

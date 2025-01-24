@@ -100,24 +100,27 @@ export let testSearchResultOverMultiplePages: any = {
   ],
   hits: [
     {
-      "@type": "search:Hit",
-      "annotations": [
-        "https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/annotation/URN:NBN:no-nb_digibok_2012062906086_0001#xywh=1406,2735,178,47",
-        "https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/annotation/URN:NBN:no-nb_digibok_2012062906086_0002#xywh=375,239,231,61"
+      '@type': 'search:Hit',
+      annotations: [
+        'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/annotation/URN:NBN:no-nb_digibok_2012062906086_0001#xywh=1406,2735,178,47',
+        'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/annotation/URN:NBN:no-nb_digibok_2012062906086_0002#xywh=375,239,231,61',
       ],
-      "match": "lastebilkøyraren ",
-      "before": "jern sette den tunge maskina seg i rørsle. - Ein liten tanke til denne kanten, ropa 14 ",
-      "after": " og gjorde på nytt eit teikn, men bare ein liten tanke! Olav Kås nikka, han hadde skjøna. "
+      match: 'lastebilkøyraren ',
+      before:
+        'jern sette den tunge maskina seg i rørsle. - Ein liten tanke til denne kanten, ropa 14 ',
+      after:
+        ' og gjorde på nytt eit teikn, men bare ein liten tanke! Olav Kås nikka, han hadde skjøna. ',
     },
     {
-      "@type": "search:Hit",
-      "annotations": [
-        "https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/annotation/URN:NBN:no-nb_digibok_2012062906086_0002#xywh=873,822,409,64"
+      '@type': 'search:Hit',
+      annotations: [
+        'https://api.dev.nb.no/catalog/v1/iiif/ac21c8b1011362c2191a96584affd83b/annotation/URN:NBN:no-nb_digibok_2012062906086_0002#xywh=873,822,409,64',
       ],
-      "match": "lastebilkøyraren ",
-      "before": "på tverke og slo beltet mot lastekarmen og reiv han opp så flisane fauk. - Stans! skreik ",
-      "after": " og strekte båe armane i været og riste kraftig på hovudet mot Olav Kås og sette i "
-    }
+      match: 'lastebilkøyraren ',
+      before:
+        'på tverke og slo beltet mot lastekarmen og reiv han opp så flisane fauk. - Stans! skreik ',
+      after:
+        ' og strekte båe armane i været og riste kraftig på hovudet mot Olav Kås og sette i ',
+    },
   ],
 };
-

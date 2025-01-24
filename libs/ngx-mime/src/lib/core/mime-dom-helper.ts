@@ -7,7 +7,7 @@ import { ViewerService } from './viewer-service/viewer.service';
 export class MimeDomHelper {
   constructor(
     private fullscreen: FullscreenService,
-    private viewerService: ViewerService
+    private viewerService: ViewerService,
   ) {}
 
   public getBoundingClientRect(el: ElementRef): Dimensions {

@@ -11,7 +11,7 @@ import {
 export class ContentSearchDialogConfigStrategyFactory {
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private mimeDomHelper: MimeDomHelper
+    private mimeDomHelper: MimeDomHelper,
   ) {}
 
   public create(): ContentSearchDialogConfigStrategy {

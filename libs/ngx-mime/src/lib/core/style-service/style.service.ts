@@ -13,7 +13,7 @@ export class StyleService {
   get onChange(): Observable<string | undefined> {
     return this.colorSubject.asObservable().pipe(
       filter((color: string | undefined) => color !== null),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
@@ -30,9 +30,9 @@ export class StyleService {
                 this.currentRgbColor = currentRgbColor;
                 this.colorSubject.next(currentRgbColor);
               }
-            })
+            }),
           )
-          .subscribe()
+          .subscribe(),
       );
     });
   }
@@ -49,7 +49,7 @@ export class StyleService {
     const matAppBackground =
       document.getElementsByClassName('mat-app-background');
     const matSidenavContainer = document.getElementsByTagName(
-      'mat-sidenav-container'
+      'mat-sidenav-container',
     );
 
     if (matAppBackground.length > 0) {

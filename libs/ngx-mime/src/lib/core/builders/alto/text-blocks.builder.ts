@@ -12,7 +12,7 @@ export class TextBlocksBuilder {
   }
 
   withTextStyles(
-    textStyles: Map<string, TextStyle> | undefined
+    textStyles: Map<string, TextStyle> | undefined,
   ): TextBlocksBuilder {
     this.textStyles = textStyles;
     return this;

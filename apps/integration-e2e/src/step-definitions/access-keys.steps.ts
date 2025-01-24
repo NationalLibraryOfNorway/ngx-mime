@@ -8,7 +8,7 @@ Given(
   /^the viewer is on page (.*)$/,
   async function (this: CustomWorld, canvasGroupIndex: number) {
     await this.viewerPage.goToCanvasGroup(canvasGroupIndex);
-  }
+  },
 );
 
 When(
@@ -18,14 +18,14 @@ When(
       await this.viewerPage.getCurrentCanvasGroupLabel();
     await this.viewerPage.sendKeyboardEvent(key);
     await this.animations.waitFor();
-  }
+  },
 );
 
 Given(
   /^the content search dialog is open$/,
   async function (this: CustomWorld) {
     await this.viewerPage.sendKeyboardEvent('s');
-  }
+  },
 );
 
 Given(/^the information dialog is open$/, async function (this: CustomWorld) {
@@ -34,7 +34,7 @@ Given(/^the information dialog is open$/, async function (this: CustomWorld) {
 
 Then(/^the viewer should go to next page$/, async function (this: CustomWorld) {
   expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
-    `${parseInt(previousCanvasGroupLabel, 10) + 1}`
+    `${parseInt(previousCanvasGroupLabel, 10) + 1}`,
   );
 });
 
@@ -42,14 +42,14 @@ Then(
   /^the viewer should go to previous page$/,
   async function (this: CustomWorld) {
     expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
-      `${parseInt(previousCanvasGroupLabel, 10) - 1}`
+      `${parseInt(previousCanvasGroupLabel, 10) - 1}`,
     );
-  }
+  },
 );
 
 Then(/^the viewer should go to last page$/, async function (this: CustomWorld) {
   expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
-    `${await this.viewerPage.getNumberOfCanvasGroups()}`
+    `${await this.viewerPage.getNumberOfCanvasGroups()}`,
   );
 });
 
@@ -57,12 +57,12 @@ Then(
   /^the viewer should go to first page$/,
   async function (this: CustomWorld) {
     expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual('1');
-  }
+  },
 );
 
 Then(/^the viewer should not change page$/, async function (this: CustomWorld) {
   expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
-    previousCanvasGroupLabel
+    previousCanvasGroupLabel,
   );
 });
 
@@ -70,20 +70,26 @@ Then(
   /^the content search dialog should open$/,
   async function (this: CustomWorld) {
     await expect(this.contentSearchPage.container).toBeVisible();
-  }
+  },
 );
 
 Then(
   /^the content search dialog should close$/,
   async function (this: CustomWorld) {
     await expect(this.contentSearchPage.container).toBeHidden();
-  }
+  },
 );
 
-Then(/^the information dialog should open$/, async function (this: CustomWorld) {
-  await expect(this.informationDialogPage.container).toBeVisible();
-});
+Then(
+  /^the information dialog should open$/,
+  async function (this: CustomWorld) {
+    await expect(this.informationDialogPage.container).toBeVisible();
+  },
+);
 
-Then(/^the information dialog should close$/, async function (this: CustomWorld) {
-  await expect(this.informationDialogPage.container).toBeHidden();
-});
+Then(
+  /^the information dialog should close$/,
+  async function (this: CustomWorld) {
+    await expect(this.informationDialogPage.container).toBeHidden();
+  },
+);

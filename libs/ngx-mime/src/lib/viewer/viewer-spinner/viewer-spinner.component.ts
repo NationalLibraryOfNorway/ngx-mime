@@ -16,7 +16,7 @@ export class ViewerSpinnerComponent implements OnDestroy, OnInit {
 
   constructor(
     private spinnerService: SpinnerService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class ViewerSpinnerComponent implements OnDestroy, OnInit {
       this.spinnerService.spinnerState.subscribe((state: SpinnerState) => {
         this.visible = state.show;
         this.changeDetectorRef.detectChanges();
-      })
+      }),
     );
   }
 

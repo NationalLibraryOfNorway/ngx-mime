@@ -15,7 +15,7 @@ export class OnePageCalculatePagePositionStrategy
 
   calculateCanvasGroupPosition(
     criteria: CanvasGroupPositionCriteria,
-    rotation = 0
+    rotation = 0,
   ): Rect {
     let x: number;
     if (!criteria.canvasGroupIndex) {
@@ -34,7 +34,7 @@ export class OnePageCalculatePagePositionStrategy
       rotation,
       criteria,
       x,
-      this.config.ignorePhysicalScale
+      this.config.ignorePhysicalScale,
     );
   }
 

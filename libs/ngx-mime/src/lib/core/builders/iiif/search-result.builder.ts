@@ -15,7 +15,7 @@ export class SearchResultBuilder {
     private q: string,
     private manifest: Manifest,
     private iiifSearchResult: IiifSearchResult,
-    private config: MimeViewerConfig
+    private config: MimeViewerConfig,
   ) {}
 
   public build(): SearchResult {
@@ -44,7 +44,7 @@ export class SearchResultBuilder {
                 y: this.scaleValue(coords[1], scale),
                 width: this.scaleValue(coords[2], scale),
                 height: this.scaleValue(coords[3], scale),
-                canvasIndex
+                canvasIndex,
               });
               highlightRects.push(rect);
             }
@@ -60,7 +60,7 @@ export class SearchResultBuilder {
             before: hit.before,
             after: hit.after,
             highlightRects,
-          })
+          }),
         );
       });
     }
@@ -73,7 +73,7 @@ export class SearchResultBuilder {
       for (const annotation of hit.annotations) {
         if (this.iiifSearchResult.resources) {
           const res = this.iiifSearchResult.resources.find(
-            (r: IiifResource) => r['@id'] === annotation
+            (r: IiifResource) => r['@id'] === annotation,
           );
           if (res) {
             resources.push(res);
@@ -122,7 +122,7 @@ export class SearchResultBuilder {
     const physicalScale = this.getPhysicalScale(index);
     return Utils.getScaleFactor(
       physicalScale,
-      this.config?.ignorePhysicalScale
+      this.config?.ignorePhysicalScale,
     );
   }
 

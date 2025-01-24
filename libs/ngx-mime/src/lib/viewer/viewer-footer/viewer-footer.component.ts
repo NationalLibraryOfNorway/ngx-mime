@@ -34,21 +34,21 @@ import { SearchResult } from './../../core/models/search-result';
         'hide',
         style({
           transform: 'translate(0, 100%)',
-        })
+        }),
       ),
       state(
         'show',
         style({
           transform: 'translate(0, 0)',
-        })
+        }),
       ),
       transition(
         'hide => show',
-        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')
+        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'),
       ),
       transition(
         'show => hide',
-        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')
+        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'),
       ),
     ]),
   ],
@@ -70,7 +70,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private changeDetectorRef: ChangeDetectorRef,
-    private iiifContentSearchService: IiifContentSearchService
+    private iiifContentSearchService: IiifContentSearchService,
   ) {}
 
   @HostBinding('@footerState')
@@ -94,7 +94,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
         this.showContentSearchNavigator = this.searchResult.size() > 0;
         this.updateShowPageNavigator();
         this.changeDetectorRef.detectChanges();
-      })
+      }),
     );
   }
 
@@ -107,7 +107,7 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
             ? this.searchResult.size() === 0
             : true;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
     );
   }
 

@@ -19,13 +19,13 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.route.params.subscribe((params) => {
         this.isComponent = params['id'] === 'components';
-      })
+      }),
     );
 
     this.subscriptions.add(
       this.route.queryParamMap.subscribe((params) => {
         this.handleQueryParams(params);
-      })
+      }),
     );
   }
 

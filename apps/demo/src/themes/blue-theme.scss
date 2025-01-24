@@ -10,7 +10,8 @@ $theme: mat.define-theme(
       tertiary: mat.$blue-palette,
     ),
     typography: (
-      brand-family: 'DM Sans',
+      brand-family: DM Sans,
+      plain-family: DM Sans,
     ),
   )
 );

@@ -42,21 +42,21 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     private altoService: AltoService,
     private iiifManifestService: IiifManifestService,
     private iiifContentSearchService: IiifContentSearchService,
-    private highlightService: HighlightService
+    private highlightService: HighlightService,
   ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
         this.altoService.initialize(sr.hits);
-      })
+      }),
     );
 
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(() => {
         this.clearRecognizedText();
         this.cdr.detectChanges();
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -65,7 +65,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
           this.selectedHit = hit.id;
           this.highlightService.highlightSelectedHit(this.selectedHit);
         }
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -74,19 +74,19 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
         this.scrollToTop();
         await this.updateRecognizedText();
         this.cdr.detectChanges();
-      })
+      }),
     );
     this.subscriptions.add(
       this.altoService.isLoading$.subscribe((isLoading: boolean) => {
         this.isLoading = isLoading;
         this.cdr.detectChanges();
-      })
+      }),
     );
     this.subscriptions.add(
       this.altoService.hasErrors$.subscribe((error: string | undefined) => {
         this.error = error;
         this.cdr.detectChanges();
-      })
+      }),
     );
   }
 
@@ -106,7 +106,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
 
   private async updateRecognizedText() {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
-      this.canvasService.currentCanvasGroupIndex
+      this.canvasService.currentCanvasGroupIndex,
     );
     await this.updateCanvases(canvases);
     if (this.selectedHit !== undefined) {
@@ -116,12 +116,12 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
 
   async updateCanvases(canvases: number[]) {
     this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
-      canvases[0]
+      canvases[0],
     );
 
     if (canvases.length === 2) {
       this.secondCanvasRecognizedTextContent = this.altoService.getHtml(
-        canvases[1]
+        canvases[1],
       );
     }
   }

@@ -3,7 +3,10 @@ import {
   a400dpiManifest,
   searchHitsOverMultiplePagesManifest,
 } from '../../../test/testManifest';
-import { testSearchResult, testSearchResultOverMultiplePages } from '../../../test/testSearchResult';
+import {
+  testSearchResult,
+  testSearchResultOverMultiplePages,
+} from '../../../test/testSearchResult';
 import { MimeViewerConfig } from '../../mime-viewer-config';
 import { IiifSearchResult } from '../../models/iiif-search-result';
 import { Manifest } from '../../models/manifest';
@@ -25,7 +28,7 @@ describe('SearchResultBuilder', () => {
       q,
       manifest,
       iiifSearchResult,
-      config
+      config,
     ).build();
     expect(searchResult).not.toBeNull();
   });
@@ -37,7 +40,7 @@ describe('SearchResultBuilder', () => {
       q,
       manifest,
       testSearchResult,
-      config
+      config,
     ).build();
 
     expect(searchResult.hits.length).toEqual(2);
@@ -58,7 +61,7 @@ describe('SearchResultBuilder', () => {
       q,
       manifest,
       testSearchResult,
-      config
+      config,
     ).build();
 
     expect(searchResult.hits.length).toEqual(2);
@@ -74,12 +77,14 @@ describe('SearchResultBuilder', () => {
 
   it('should return search result with hits over multiple pages', () => {
     const q = 'lastebilkøyraren';
-    const manifest = new ManifestBuilder(searchHitsOverMultiplePagesManifest).build();
+    const manifest = new ManifestBuilder(
+      searchHitsOverMultiplePagesManifest,
+    ).build();
     const searchResult = new SearchResultBuilder(
       q,
       manifest,
       testSearchResultOverMultiplePages,
-      config
+      config,
     ).build();
 
     expect(searchResult.hits.length).toEqual(2);

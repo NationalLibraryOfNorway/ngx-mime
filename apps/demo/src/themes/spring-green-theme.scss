@@ -9,7 +9,8 @@ $theme: mat.define-theme(
       primary: mat.$spring-green-palette,
     ),
     typography: (
-      brand-family: 'DM Sans',
+      brand-family: DM Sans,
+      plain-family: DM Sans,
     ),
   )
 );

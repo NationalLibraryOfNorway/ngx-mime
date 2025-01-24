@@ -39,7 +39,7 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     private viewerLayoutService: ViewerLayoutService,
     private iiifManifestService: IiifManifestService,
     private altoService: AltoService,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
   ) {}
 
   ngOnInit(): void {
@@ -48,23 +48,23 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
         .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
         .subscribe(
           (value: BreakpointState) =>
-            (this.isHandsetOrTabletInPortrait = value.matches)
-        )
+            (this.isHandsetOrTabletInPortrait = value.matches),
+        ),
     );
 
     this.subscriptions.add(
       this.viewerLayoutService.onChange.subscribe(
         (viewerLayout: ViewerLayout) => {
           this.viewerLayout = viewerLayout;
-        }
-      )
+        },
+      ),
     );
     this.subscriptions.add(
       this.altoService.onRecognizedTextContentModeChange$.subscribe(
         (recognizedTextModeChanges: RecognizedTextModeChanges) => {
           this.recognizedTextMode = recognizedTextModeChanges.currentValue;
-        }
-      )
+        },
+      ),
     );
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -75,13 +75,13 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
           this.hasRecognizedTextContent = manifest
             ? ManifestUtils.hasRecognizedTextContent(manifest)
             : false;
-        }
-      )
+        },
+      ),
     );
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((rect) => {
         this.resizeHeight(rect);
-      })
+      }),
     );
   }
 

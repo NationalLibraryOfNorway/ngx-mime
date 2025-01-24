@@ -26,7 +26,7 @@ export class BuilderUtils {
     let index = -1;
     if (sequences[0] && sequences[0].canvases && canvases[0]) {
       index = sequences[0].canvases.findIndex(
-        (canvas: Canvas) => canvas.id === canvases[0]
+        (canvas: Canvas) => canvas.id === canvases[0],
       );
     }
     return index;

@@ -33,7 +33,7 @@ export class BuilderUtils {
     let index = -1;
     if (canvases[0]) {
       index = sequences[0].canvases.findIndex(
-        (canvas: Canvas) => canvas.id === canvases[0].id
+        (canvas: Canvas) => canvas.id === canvases[0].id,
       );
     }
     return index;
@@ -49,7 +49,7 @@ export class BuilderUtils {
 
   static extractLanguageValue(
     data: Record<string, string[]>,
-    preferredLanguage?: string
+    preferredLanguage?: string,
   ): string {
     if (!data) {
       return '';

@@ -19,7 +19,7 @@ export class ImagesBuilder {
                 resource: new ResourceBuilder(image.body).build(),
                 motivation: image.motivation,
                 on: image.target,
-              })
+              }),
             );
           });
         }

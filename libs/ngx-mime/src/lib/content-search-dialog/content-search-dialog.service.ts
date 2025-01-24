@@ -20,7 +20,7 @@ export class ContentSearchDialogService {
   constructor(
     private dialog: MatDialog,
     private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
   ) {}
 
   public initialize(): void {
@@ -32,7 +32,7 @@ export class ContentSearchDialogService {
           this.dialogRef?.updatePosition(config.position);
           this.dialogRef?.updateSize(config.width, config.height);
         }
-      })
+      }),
     );
   }
 

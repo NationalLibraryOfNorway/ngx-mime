@@ -27,7 +27,7 @@ Then(
   'the viewer should change to page view',
   async function (this: CustomWorld) {
     expect(await this.viewerPage.isPageMode()).toBeTruthy();
-  }
+  },
 );
 
 Given('the viewer should be in page view', async function (this: CustomWorld) {
@@ -38,5 +38,5 @@ Then(
   'the viewer should change to dashboard view',
   async function (this: CustomWorld) {
     expect(await this.viewerPage.isDashboardMode()).toBeTruthy();
-  }
+  },
 );

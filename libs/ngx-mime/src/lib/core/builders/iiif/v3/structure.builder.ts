@@ -2,7 +2,10 @@ import { Sequence, Structure } from '../../../models/manifest';
 import { BuilderUtils } from './builder-utils';
 
 export class StructureBuilder {
-  constructor(private structures: any[], private sequences: Sequence[]) {}
+  constructor(
+    private structures: any[],
+    private sequences: Sequence[],
+  ) {}
 
   build(): Structure[] {
     const structures: Structure[] = [];
@@ -17,9 +20,9 @@ export class StructureBuilder {
             canvases: structure.items,
             canvasIndex: BuilderUtils.findCanvasIndex(
               structure.items,
-              this.sequences
+              this.sequences,
             ),
-          })
+          }),
         );
       }
     }

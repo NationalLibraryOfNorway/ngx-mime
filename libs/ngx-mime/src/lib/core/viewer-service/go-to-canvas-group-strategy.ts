@@ -30,7 +30,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     private canvasService: CanvasService,
     private modeService: ModeService,
     private config: MimeViewerConfig,
-    private viewingDirection: ViewingDirection
+    private viewingDirection: ViewingDirection,
   ) {}
 
   goToCanvasGroup(canvasGroup: CanvasGroup) {
@@ -38,7 +38,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
     this.canvasService.currentCanvasGroupIndex =
       this.canvasService.constrainToRange(canvasGroup.canvasGroupIndex);
     const newCanvasGroup = this.canvasService.getCanvasGroupRect(
-      this.canvasService.currentCanvasGroupIndex
+      this.canvasService.currentCanvasGroupIndex,
     );
     if (
       this.modeService.isPageZoomed() &&
@@ -50,7 +50,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
         if (this.config.startOnTopOnCanvasGroupChange) {
           const canvasGroupIndexes =
             this.canvasService.getCanvasesPerCanvasGroup(
-              canvasGroup.canvasGroupIndex
+              canvasGroup.canvasGroupIndex,
             );
           const previousCanvasIndex =
             canvasGroupIndexes[canvasGroupIndexes.length - 1];
@@ -146,7 +146,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
   public centerCurrentCanvas(): void {
     const currentCanvasGroupIndex = this.canvasService.currentCanvasGroupIndex;
     const currentCanvasGroupCenter = this.canvasService.getCanvasGroupRect(
-      currentCanvasGroupIndex
+      currentCanvasGroupIndex,
     );
     this.panToCenter(currentCanvasGroupCenter, false);
   }
@@ -169,7 +169,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
         x: x,
         y: y,
       },
-      immediately
+      immediately,
     );
   }
 

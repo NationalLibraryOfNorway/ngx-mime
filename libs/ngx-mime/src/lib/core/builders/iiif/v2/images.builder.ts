@@ -17,7 +17,7 @@ export class ImagesBuilder {
             motivation: image.motivation,
             resource: new ResourceBuilder(image.resource).build(),
             on: image.on,
-          })
+          }),
         );
       }
     }

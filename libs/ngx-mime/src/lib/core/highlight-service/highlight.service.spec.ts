@@ -31,13 +31,13 @@ describe('HighlightService', () => {
     expect(
       highlightService.highlight('this "is" a test.', 0, [
         createMockHit(1, '"is" '),
-      ])
+      ]),
     ).toEqual('this "<mark data-id="1">is" </mark>a test.');
   });
 
   it('should not highlight when no hits', () => {
     expect(highlightService.highlight('this is a test.', 0, undefined)).toEqual(
-      'this is a test.'
+      'this is a test.',
     );
   });
 
@@ -45,7 +45,7 @@ describe('HighlightService', () => {
     expect(
       highlightService.highlight('2) this is a test.', 0, [
         createMockHit(1, '2) '),
-      ])
+      ]),
     ).toEqual('<mark data-id="1">2) </mark>this is a test.');
   });
 
@@ -53,7 +53,7 @@ describe('HighlightService', () => {
     expect(
       highlightService.highlight('this is a test today.', 0, [
         createMockHit(1, 'a '),
-      ])
+      ]),
     ).toEqual('this is <mark data-id="1">a </mark>test today.');
   });
 
@@ -65,7 +65,7 @@ describe('HighlightService', () => {
     ];
 
     expect(highlightService.highlight('this is a test.', 0, hits)).toEqual(
-      '<mark data-id="1">this </mark><mark data-id="2">is </mark><mark data-id="3">a </mark>test.'
+      '<mark data-id="1">this </mark><mark data-id="2">is </mark><mark data-id="3">a </mark>test.',
     );
   });
 
@@ -73,7 +73,7 @@ describe('HighlightService', () => {
     highlightService.highlightSelectedHit(1);
 
     const mark: DebugElement = fixture.debugElement.query(
-      By.css('mark[data-id="1"]')
+      By.css('mark[data-id="1"]'),
     );
     expect(mark.nativeElement.innerHTML).toBe('this ');
   });

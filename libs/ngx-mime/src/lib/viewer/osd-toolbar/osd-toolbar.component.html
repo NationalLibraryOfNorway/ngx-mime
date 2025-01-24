@@ -33,7 +33,7 @@
               [disabled]="isFirstCanvasGroup"
               [@easeInWithDelay]="{
                 value: '',
-                params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 }
+                params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 },
               }"
               (click)="goToPreviousCanvasGroup()"
             >
@@ -50,7 +50,7 @@
               [disabled]="isLastCanvasGroup"
               [@easeInWithDelay]="{
                 value: '',
-                params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 }
+                params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 },
               }"
               (click)="goToNextCanvasGroup()"
             >
@@ -70,8 +70,8 @@
                 value: '',
                 params: {
                   delayEnter: baseAnimationDelay,
-                  delayLeave: baseAnimationDelay * 4
-                }
+                  delayLeave: baseAnimationDelay * 4,
+                },
               }"
               (click)="goToNextCanvasGroup()"
             >
@@ -90,8 +90,8 @@
                 value: '',
                 params: {
                   delayEnter: baseAnimationDelay,
-                  delayLeave: baseAnimationDelay * 4
-                }
+                  delayLeave: baseAnimationDelay * 4,
+                },
               }"
               (click)="goToPreviousCanvasGroup()"
             >
@@ -110,8 +110,8 @@
               value: '',
               params: {
                 delayEnter: baseAnimationDelay * 2,
-                delayLeave: baseAnimationDelay * 3
-              }
+                delayLeave: baseAnimationDelay * 3,
+              },
             }"
           >
             <mat-icon>zoom_in</mat-icon>
@@ -127,8 +127,8 @@
               value: '',
               params: {
                 delayEnter: baseAnimationDelay * 3,
-                delayLeave: baseAnimationDelay * 2
-              }
+                delayLeave: baseAnimationDelay * 2,
+              },
             }"
           >
             <mat-icon>home</mat-icon>
@@ -143,8 +143,8 @@
               value: '',
               params: {
                 delayEnter: baseAnimationDelay * 4,
-                delayLeave: baseAnimationDelay
-              }
+                delayLeave: baseAnimationDelay,
+              },
             }"
           >
             <mat-icon>zoom_out</mat-icon>
@@ -157,7 +157,7 @@
             [matTooltip]="intl.rotateCwLabel"
             [@easeInWithDelay]="{
               value: '',
-              params: { delayEnter: baseAnimationDelay * 5, delayLeave: 0 }
+              params: { delayEnter: baseAnimationDelay * 5, delayLeave: 0 },
             }"
           >
             <mat-icon>rotate_right</mat-icon>

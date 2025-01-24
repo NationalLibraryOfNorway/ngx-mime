@@ -49,7 +49,7 @@ export class AltoService {
     private iiifManifestService: IiifManifestService,
     private highlightService: HighlightService,
     private canvasService: CanvasService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
   ) {}
 
   get onRecognizedTextContentModeChange$(): Observable<RecognizedTextModeChanges> {
@@ -90,8 +90,8 @@ export class AltoService {
         (manifest: Manifest | null) => {
           this.manifest = manifest;
           this.clearCache();
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -102,7 +102,7 @@ export class AltoService {
           const sources: Observable<void>[] = [];
 
           const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
-            currentCanvasGroupIndex
+            currentCanvasGroupIndex,
           );
 
           if (!canvasGroup || canvasGroup.length === 0) {
@@ -116,10 +116,10 @@ export class AltoService {
           forkJoin(sources)
             .pipe(
               take(1),
-              finalize(() => this.isLoading.next(false))
+              finalize(() => this.isLoading.next(false)),
             )
             .subscribe();
-        })
+        }),
     );
   }
 
@@ -151,7 +151,7 @@ export class AltoService {
   getHtml(index: number): SafeHtml | undefined {
     return this.altos && this.altos.length >= index + 1
       ? this.sanitizer.bypassSecurityTrustHtml(
-          this.highlightService.highlight(this.altos[index], index, this.hits)
+          this.highlightService.highlight(this.altos[index], index, this.hits),
         )
       : undefined;
   }
@@ -194,7 +194,7 @@ export class AltoService {
       })
       .pipe(
         take(1),
-        catchError((err) => of({ isError: true, error: err }))
+        catchError((err) => of({ isError: true, error: err })),
       )
       .subscribe((data: Alto | any) => {
         try {
@@ -206,7 +206,7 @@ export class AltoService {
                 const alto = this.altoBuilder.withAltoXml(result.alto).build();
                 this.addToCache(index, alto);
                 this.done(observer);
-              }
+              },
             );
           } else {
             throw data.err;

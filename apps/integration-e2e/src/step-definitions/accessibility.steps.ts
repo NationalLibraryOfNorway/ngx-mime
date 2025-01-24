@@ -9,5 +9,5 @@ Then(
 
     // Alle Scenarios is checked in After hook
     expect(true).toBeTruthy();
-  }
+  },
 );

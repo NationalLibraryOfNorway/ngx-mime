@@ -9,9 +9,6 @@
     .content {
       color: mat.get-theme-color($theme, on-surface-variant);
     }
-    a {
-      color: mat.get-theme-color($theme, tertiary);
-    }
   }
 }
 

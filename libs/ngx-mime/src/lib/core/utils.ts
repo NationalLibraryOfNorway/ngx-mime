@@ -2,7 +2,7 @@ export class Utils {
   static numbersAreClose(
     thing: number,
     realThing: number,
-    epsilon: number
+    epsilon: number,
   ): boolean {
     return Math.abs(thing - realThing) <= epsilon;
   }
@@ -13,7 +13,7 @@ export class Utils {
 
   static getScaleFactor(
     physicalScale: number | undefined,
-    ignorePhysicalScale = false
+    ignorePhysicalScale = false,
   ): number {
     return ignorePhysicalScale ? 1 : (physicalScale ? physicalScale : 1) * 400;
   }

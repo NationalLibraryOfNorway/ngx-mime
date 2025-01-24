@@ -29,5 +29,5 @@ Then(
   'the image is not moved inside the view',
   async function (this: CustomWorld) {
     expect((await this.viewerPage.getCenter()).y).toEqual(previousCenter.y);
-  }
+  },
 );

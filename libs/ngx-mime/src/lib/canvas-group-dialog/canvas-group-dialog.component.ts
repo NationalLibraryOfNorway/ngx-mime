@@ -35,7 +35,7 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
     private viewerService: ViewerService,
     private canvasService: CanvasService,
     public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.numberOfCanvases = this.canvasService.numberOfCanvases;
     this.canvasGroupForm = this.fb.group({
@@ -53,7 +53,7 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.add(
-      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
+      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()),
     );
   }
 
@@ -67,7 +67,7 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
       if (pageNumber !== null && pageNumber !== undefined)
         this.viewerService.goToCanvasGroup(
           this.canvasService.findCanvasGroupByCanvasIndex(pageNumber - 1),
-          false
+          false,
         );
       this.dialogRef.close();
     }

@@ -41,7 +41,7 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     private viewerService: ViewerService,
     private canvasService: CanvasService,
     private canvasGroupDialogService: CanvasGroupDialogService,
-    private iiifManifestService: IiifManifestService
+    private iiifManifestService: IiifManifestService,
   ) {}
 
   ngOnInit() {
@@ -55,8 +55,8 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
                 : ViewingDirection.RTL;
             this.changeDetectorRef.detectChanges();
           }
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -70,18 +70,18 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
           } else if (this.currentSliderCanvasGroupIndex === -1) {
             this.currentCanvasGroupIndex = currentCanvasGroupIndex;
             this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(
-              this.currentCanvasGroupIndex
+              this.currentCanvasGroupIndex,
             );
           }
           this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
-            currentCanvasGroupIndex
+            currentCanvasGroupIndex,
           );
           this.isLastCanvasGroup = this.isOnLastCanvasGroup(
-            currentCanvasGroupIndex
+            currentCanvasGroupIndex,
           );
           this.changeDetectorRef.detectChanges();
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -91,15 +91,15 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
           this.numberOfCanvases = this.canvasService.numberOfCanvases;
           if (this.currentCanvasGroupIndex !== null) {
             this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
-              this.currentCanvasGroupIndex
+              this.currentCanvasGroupIndex,
             );
             this.isLastCanvasGroup = this.isOnLastCanvasGroup(
-              this.currentCanvasGroupIndex
+              this.currentCanvasGroupIndex,
             );
           }
           this.changeDetectorRef.detectChanges();
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -121,7 +121,7 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
     this.currentCanvasGroupIndex = value;
     if (this.currentCanvasGroupIndex !== null) {
       this.canvasGroupLabel = this.canvasService.getCanvasGroupLabel(
-        this.currentCanvasGroupIndex
+        this.currentCanvasGroupIndex,
       );
       this.viewerService.goToCanvasGroup(this.currentCanvasGroupIndex, false);
     }

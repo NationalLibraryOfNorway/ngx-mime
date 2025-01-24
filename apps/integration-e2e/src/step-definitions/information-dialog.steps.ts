@@ -11,7 +11,7 @@ Given(
   async function (this: CustomWorld) {
     await this.viewerPage.openInformationDialog();
     await this.viewerPage.openTableOfContentsTab();
-  }
+  },
 );
 
 When('the user selects "Tittelside"', async function (this: CustomWorld) {
@@ -23,14 +23,14 @@ Then(
   'descriptive metadata are displayed to the user',
   async function (this: CustomWorld) {
     await expect(this.metadataPage.metadata).toHaveCount(7);
-  }
+  },
 );
 
 Then(
   'table of contents are displayed to the user',
   async function (this: CustomWorld) {
     await expect(this.tocPage.tocLink).toHaveCount(3);
-  }
+  },
 );
 
 Then(
@@ -39,7 +39,7 @@ Then(
     const currentCanvasGroupString =
       await this.viewerPage.getCurrentCanvasGroupLabel();
     expect(currentCanvasGroupString.includes(pageNumber)).toBeTruthy();
-  }
+  },
 );
 
 Then(
@@ -50,5 +50,5 @@ Then(
     } else {
       await expect(this.informationDialogPage.container).toBeVisible();
     }
-  }
+  },
 );

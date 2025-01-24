@@ -23,6 +23,10 @@
 
   .viewer-container,
   .mime-dialog {
+    a {
+      color: mat.get-theme-color($theme, tertiary);
+    }
+
     .secondary-toolbar {
       background: mat.get-theme-color($theme, secondary-container);
       color: mat.get-theme-color($theme, on-secondary-container);

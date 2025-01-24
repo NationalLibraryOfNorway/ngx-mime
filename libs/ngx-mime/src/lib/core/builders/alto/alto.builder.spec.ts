@@ -25,7 +25,7 @@ describe('AltoBuilder', () => {
           expect(firstTextBlock.textLines[0].strings[0].content).toBe('Brann-');
           expect(secondTextBlock.textStyle?.fontStyle).toBe('bold');
         }
-      }
+      },
     );
   });
 
@@ -40,10 +40,10 @@ describe('AltoBuilder', () => {
         expect(textBlocks).toBeDefined();
         if (textBlocks) {
           expect(textBlocks[0].textLines[1].strings[5].content).toBe(
-            'politicians.'
+            'politicians.',
           );
         }
-      }
+      },
     );
   });
 
@@ -59,7 +59,7 @@ describe('AltoBuilder', () => {
         if (textBlocks) {
           expect(textBlocks[0].textLines[0].strings[5].content).toBe('Tvivl');
         }
-      }
+      },
     );
   });
 });

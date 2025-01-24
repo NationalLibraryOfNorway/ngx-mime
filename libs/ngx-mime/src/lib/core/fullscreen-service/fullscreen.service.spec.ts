@@ -13,6 +13,6 @@ describe('FullscreenService', () => {
     [FullscreenService],
     (service: FullscreenService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 });

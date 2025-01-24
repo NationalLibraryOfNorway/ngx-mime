@@ -8,7 +8,7 @@ export class ElementsPage {
   constructor(
     private parameters: ParameterType,
     private page: Page,
-    private viewerPage: ViewerPage
+    private viewerPage: ViewerPage,
   ) {
     this.page = page;
     this.parameters = parameters;
@@ -27,13 +27,13 @@ export class ElementsPage {
 
   async setDarkMode() {
     await this.page.evaluate(
-      `return document.body.classList.add("${ElementsPage.DARK_THEME_CLASS}");`
+      `return document.body.classList.add("${ElementsPage.DARK_THEME_CLASS}");`,
     );
   }
 
   async setLightMode() {
     await this.page.evaluate(
-      `return document.body.classList.remove("${ElementsPage.DARK_THEME_CLASS}");`
+      `return document.body.classList.remove("${ElementsPage.DARK_THEME_CLASS}");`,
     );
   }
 }

@@ -1,4 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use '../../../libs/ngx-mime/ngx-mime.theme.scss' as ngx-mime;
+@use 'themes/palettes' as palettes;
+
+@tailwind utilities;
+
+@include mat.core();
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$blue-palette,
+    ),
+  )
+);
+
+html {
+  @include mat.all-component-themes($theme);
+  @include ngx-mime.ngx-mime-theme($theme);
+}
+
 html,
 body {
   box-sizing: border-box;

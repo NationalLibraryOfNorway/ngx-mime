@@ -69,14 +69,14 @@ describe('IiifContentSearchService', () => {
     let currentSelected!: Hit | null;
     service.search(TestManifests.withContentSearchService(), 'fakeQuery');
     service.isSearching.subscribe(
-      (isSearching: boolean) => (currentIsSearching = isSearching)
+      (isSearching: boolean) => (currentIsSearching = isSearching),
     );
     service.onQChange.subscribe((q: string) => (currentQ = q));
     service.onChange.subscribe(
-      (searchResult: SearchResult) => (currentSearchResult = searchResult)
+      (searchResult: SearchResult) => (currentSearchResult = searchResult),
     );
     service.onSelected.subscribe(
-      (selected: Hit | null) => (currentSelected = selected)
+      (selected: Hit | null) => (currentSelected = selected),
     );
     httpTestingController
       .expectOne(`dummyUrl?q=fakeQuery`)
