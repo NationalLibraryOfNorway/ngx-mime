@@ -4,7 +4,9 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
+      "rules": {
+        "playwright/no-standalone-expect": "off"
+      }
     },
     {
       "files": ["src/plugins/index.js"],
