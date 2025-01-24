@@ -3,7 +3,7 @@
 @mixin color($theme) {
   .attribution-container {
     background: rgba(
-      mat.get-theme-color($theme, tertiary-container),
+      mat.get-theme-color($theme, surface-container-highest),
       0.3
     ) !important;
 
