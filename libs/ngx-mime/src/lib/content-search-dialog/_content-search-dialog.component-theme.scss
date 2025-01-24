@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  .content-search-container {
+    mat-card {
+      background: mat.get-theme-color($theme, surface-container-low);
+      color: mat.get-theme-color($theme, on-surface-variant);
+    }
+    mat-card:hover {
+      background: rgba(mat.get-theme-color($theme, on-surface-variant), 0.08);
+    }
+    mat-card.selected {
+      background: mat.get-theme-color($theme, secondary-container);
+      color: mat.get-theme-color($theme, on-secondary-container);
+    }
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+
+  @if mat.theme-has($theme, typography) {
+    @include typography($theme);
+  }
+}
