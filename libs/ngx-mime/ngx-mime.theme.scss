@@ -7,16 +7,14 @@
 @use 'src/lib/viewer/_viewer.component-theme.scss' as viewer;
 @use 'src/lib/content-search-dialog/_content-search-dialog.component-theme.scss'
   as content-search-dialog;
-@import 'src/lib/information-dialog/table-of-contents/table-of-contents.component.theme.scss';
-@import 'src/lib/viewer/osd-toolbar/osd-toolbar.component.theme';
+@use 'src/lib/viewer/osd-toolbar/osd-toolbar.component.theme' as osd-toolbar;
 
 @mixin ngx-mime-theme($theme) {
   @include attribution.theme($theme);
   @include metadata.theme($theme);
   @include viewer.theme($theme);
   @include content-search-dialog.theme($theme);
-  @include table-of-contents-theme($theme);
-  @include osd-toolbar-component-theme($theme);
+  @include osd-toolbar.theme($theme);
 
   .mime-dialog {
     .mat-mdc-dialog-surface {
