@@ -27,15 +27,15 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   canvasGroupForm: FormGroup<{
     canvasGroupControl: FormControl<number | null>;
   }>;
-  private subscriptions = new Subscription();
+  private readonly subscriptions = new Subscription();
 
   constructor(
-    private dialogRef: MatDialogRef<CanvasGroupDialogComponent>,
-    private fb: FormBuilder,
-    private viewerService: ViewerService,
-    private canvasService: CanvasService,
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
+    private readonly dialogRef: MatDialogRef<CanvasGroupDialogComponent>,
+    private readonly fb: FormBuilder,
+    private readonly viewerService: ViewerService,
+    private readonly canvasService: CanvasService,
+    public readonly intl: MimeViewerIntl,
+    private readonly changeDetectorRef: ChangeDetectorRef,
   ) {
     this.numberOfCanvases = this.canvasService.numberOfCanvases;
     this.canvasGroupForm = this.fb.group({

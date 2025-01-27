@@ -12,7 +12,7 @@ export class CanvasGroupDialogService {
   private dialogRef?: MatDialogRef<CanvasGroupDialogComponent>;
   private _viewContainerRef: ViewContainerRef | undefined;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private readonly dialog: MatDialog) {}
 
   set viewContainerRef(viewContainerRef: ViewContainerRef) {
     this._viewContainerRef = viewContainerRef;

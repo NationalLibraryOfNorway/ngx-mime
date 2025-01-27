@@ -18,9 +18,9 @@ export class ContentSearchDialogService {
   private subscriptions!: Subscription;
 
   constructor(
-    private dialog: MatDialog,
-    private contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService,
+    private readonly dialog: MatDialog,
+    private readonly contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
+    private readonly mimeResizeService: MimeResizeService,
   ) {}
 
   public initialize(): void {

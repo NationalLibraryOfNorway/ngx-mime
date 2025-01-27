@@ -10,8 +10,8 @@ import {
 @Injectable()
 export class ContentSearchDialogConfigStrategyFactory {
   constructor(
-    private breakpointObserver: BreakpointObserver,
-    private mimeDomHelper: MimeDomHelper,
+    private readonly breakpointObserver: BreakpointObserver,
+    private readonly mimeDomHelper: MimeDomHelper,
   ) {}
 
   public create(): ContentSearchDialogConfigStrategy {

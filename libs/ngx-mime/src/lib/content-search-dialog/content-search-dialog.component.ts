@@ -45,7 +45,7 @@ export class ContentSearchDialogComponent
   isHandsetOrTabletInPortrait = false;
   private manifest: Manifest | null = null;
   private mimeHeight = 0;
-  private subscriptions = new Subscription();
+  private readonly subscriptions = new Subscription();
   @ViewChild('contentSearchResult', { static: true })
   resultContainer!: ElementRef;
   @ViewChild('query', { static: true }) qEl!: ElementRef;
@@ -55,12 +55,12 @@ export class ContentSearchDialogComponent
   constructor(
     public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
     public intl: MimeViewerIntl,
-    private breakpointObserver: BreakpointObserver,
-    private cdr: ChangeDetectorRef,
-    private mimeResizeService: MimeResizeService,
-    private iiifManifestService: IiifManifestService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private contentSearchNavigationService: ContentSearchNavigationService,
+    private readonly breakpointObserver: BreakpointObserver,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly mimeResizeService: MimeResizeService,
+    private readonly iiifManifestService: IiifManifestService,
+    private readonly iiifContentSearchService: IiifContentSearchService,
+    private readonly contentSearchNavigationService: ContentSearchNavigationService,
   ) {}
 
   ngOnInit() {
