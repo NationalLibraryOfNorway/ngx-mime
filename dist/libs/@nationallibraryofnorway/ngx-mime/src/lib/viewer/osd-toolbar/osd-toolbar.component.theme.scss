@@ -6,7 +6,7 @@
   .osd-toolbar {
     .mat-mdc-fab,
     .mat-mdc-mini-fab {
-      color: mat.get-theme-color($theme, primary);
+      background-color: mat.get-color-from-palette($accent, 0.5);
     }
   }
 }

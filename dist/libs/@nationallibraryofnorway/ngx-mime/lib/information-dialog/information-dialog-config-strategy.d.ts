@@ -9,7 +9,7 @@ export declare class MobileInformationDialogConfigStrategy implements Informatio
 }
 export declare class DesktopInformationDialogConfigStrategy implements InformationDialogConfigStrategy {
     static readonly dialogWidth = 350;
-    static readonly paddingRight = 16;
+    static readonly paddingRight = 20;
     private mimeDomHelper;
     constructor(mimeDomHelper: MimeDomHelper);
     getConfig(el: ElementRef, viewContainerRef: ViewContainerRef): MatDialogConfig;
