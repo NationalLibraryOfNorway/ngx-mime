@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
-@use '../../../libs/ngx-mime/ngx-mime.theme.scss' as ngx-mime;
 @use 'themes/palettes' as palettes;
+@use '../../../libs/ngx-mime/ngx-mime.theme.scss' as ngx-mime;
 
-@tailwind utilities;
+@import "tailwindcss";
 
 @include mat.core();
 
@@ -16,9 +16,23 @@ $theme: mat.define-theme(
   )
 );
 
+$dark-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$blue-palette,
+    ),
+  )
+);
+
 html {
   @include mat.all-component-themes($theme);
   @include ngx-mime.ngx-mime-theme($theme);
+
+  .ngx-mime-dark-theme {
+    @include ngx-mime.ngx-mime-theme($dark-theme);
+    @include mat.all-component-colors($dark-theme);
+  }
 }
 
 html,
