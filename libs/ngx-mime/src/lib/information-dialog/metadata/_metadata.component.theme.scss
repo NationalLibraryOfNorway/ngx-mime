@@ -3,7 +3,7 @@
 @mixin color($theme) {
   .ngx-mime-metadata-container {
     .title {
-      color: mat.get-theme-color($theme, on-secondary-container);
+      color: mat.get-theme-color($theme, on-surface);
     }
 
     .content {

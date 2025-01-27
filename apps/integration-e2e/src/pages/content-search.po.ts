@@ -39,7 +39,7 @@ export class ContentSearchPage {
       'footerNavigateNextHitButton',
     );
     this.container = page.locator('.content-search-container');
-    this.hits = page.locator('.content-search-container .hit');
+    this.hits = page.locator('.content-search-container a[data-testid="hit"]');
     this.highlighted = page.locator('.openseadragon-canvas .hit');
     this.resultsFoundLabel = page.getByTestId('resultsFoundLabel');
     this.noResultsFoundLabel = page.getByTestId('noResultsFoundLabel');
