@@ -3,7 +3,7 @@
 @use 'themes/palettes' as palettes;
 @use '../../../libs/ngx-mime/ngx-mime.theme.scss' as ngx-mime;
 
-@import "tailwindcss";
+@tailwind utilities;
 
 @include mat.core();
 
