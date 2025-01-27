@@ -119,7 +119,7 @@ describe('ContentSearchDialogComponent', () => {
     component.numberOfHits = 1;
     fixture.detectChanges();
 
-    const hits = fixture.debugElement.queryAll(By.css('.hit'));
+    const hits = fixture.debugElement.queryAll(By.css('a[data-testid="hit"]'));
     hits[0].triggerEventHandler('click', null);
 
     fixture.detectChanges();
@@ -141,7 +141,7 @@ describe('ContentSearchDialogComponent', () => {
     component.numberOfHits = 1;
     fixture.detectChanges();
 
-    const hits = fixture.debugElement.queryAll(By.css('.hit'));
+    const hits = fixture.debugElement.queryAll(By.css('a[data-testid="hit"]'));
     hits[0].triggerEventHandler('click', null);
 
     fixture.detectChanges();

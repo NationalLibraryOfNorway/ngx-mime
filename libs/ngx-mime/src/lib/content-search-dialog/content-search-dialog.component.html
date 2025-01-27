@@ -93,6 +93,7 @@
             @for (hit of hits; track hit.id; let last = $last) {
               <a
                 href="javascript: void(0);"
+                data-testid="hit"
                 (click)="goToHit(hit)"
                 (keydown.enter)="goToHit(hit)"
               >
