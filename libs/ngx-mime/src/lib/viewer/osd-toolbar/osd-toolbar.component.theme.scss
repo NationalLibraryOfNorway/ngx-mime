@@ -3,8 +3,9 @@
 @mixin color($theme) {
   .osd-toolbar {
     .mat-mdc-fab,
-    .mat-mdc-mini-fab {
-      color: mat.get-theme-color($theme, primary);
+    .mat-mdc-mini-fab:not([disabled]) {
+      background-color: rgba(mat.get-theme-color($theme, tertiary), 0.5);
+      color: mat.get-theme-color($theme, on-tertiary);
     }
   }
 }
