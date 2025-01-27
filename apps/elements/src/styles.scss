@@ -27,15 +27,20 @@ $theme: mat.define-theme(
   )
 );
 
-
 $_dark-rest: (
   secondary: map.get(palettes.$light-blue-mint-palette, secondary),
   neutral: map.get(palettes.$light-blue-mint-palette, neutral),
   neutral-variant: map.get(palettes.$light-blue-mint-palette, neutral-variant),
   error: map.get(palettes.$light-blue-mint-palette, error),
 );
-$_dark-primary: map.merge(map.get(palettes.$light-blue-mint-palette, primary), $_dark-rest);
-$_dark-tertiary: map.merge(map.get(palettes.$light-blue-mint-palette, tertiary), $_dark-rest);
+$_dark-primary: map.merge(
+  map.get(palettes.$light-blue-mint-palette, primary),
+  $_dark-rest
+);
+$_dark-tertiary: map.merge(
+  map.get(palettes.$light-blue-mint-palette, tertiary),
+  $_dark-rest
+);
 
 $dark-theme: mat.define-theme(
   (
