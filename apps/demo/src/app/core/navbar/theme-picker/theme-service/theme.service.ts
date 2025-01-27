@@ -28,7 +28,7 @@ export class ThemeService {
     },
     {
       name: 'blue-theme',
-      primary: '#0277bd',
+      primary: '#4470e5',
       isDark: false,
     },
     {
