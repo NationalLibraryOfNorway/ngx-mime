@@ -11,12 +11,12 @@ import * as i0 from "@angular/core";
 export declare class ContentSearchDialogComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef: MatDialogRef<ContentSearchDialogComponent>;
     intl: MimeViewerIntl;
-    private breakpointObserver;
-    private cdr;
-    private mimeResizeService;
-    private iiifManifestService;
-    private iiifContentSearchService;
-    private contentSearchNavigationService;
+    private readonly breakpointObserver;
+    private readonly cdr;
+    private readonly mimeResizeService;
+    private readonly iiifManifestService;
+    private readonly iiifContentSearchService;
+    private readonly contentSearchNavigationService;
     q: string;
     hits: Hit[];
     currentHit: Hit | null;
@@ -29,7 +29,7 @@ export declare class ContentSearchDialogComponent implements OnInit, AfterViewIn
     isHandsetOrTabletInPortrait: boolean;
     private manifest;
     private mimeHeight;
-    private subscriptions;
+    private readonly subscriptions;
     resultContainer: ElementRef;
     qEl: ElementRef;
     hitList: QueryList<ElementRef>;

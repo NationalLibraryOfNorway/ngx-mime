@@ -1,11 +1,13 @@
 @use '@angular/material' as mat;
 
 @mixin color($theme) {
-  .osd-toolbar {
-    .mat-mdc-fab,
-    .mat-mdc-mini-fab:not([disabled]) {
-      background-color: rgba(mat.get-theme-color($theme, tertiary), 0.5);
-      color: mat.get-theme-color($theme, on-tertiary);
+  .ngx-mime-metadata-container {
+    .title {
+      color: mat.get-theme-color($theme, on-surface);
+    }
+
+    .content {
+      color: mat.get-theme-color($theme, on-surface-variant);
     }
   }
 }

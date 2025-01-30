@@ -2,7 +2,7 @@ import { ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as i0 from "@angular/core";
 export declare class CanvasGroupDialogService {
-    private dialog;
+    private readonly dialog;
     private dialogRef?;
     private _viewContainerRef;
     constructor(dialog: MatDialog);

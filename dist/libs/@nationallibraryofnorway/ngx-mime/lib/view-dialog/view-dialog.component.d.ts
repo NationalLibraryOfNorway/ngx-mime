@@ -16,6 +16,7 @@ export declare class ViewDialogComponent implements OnInit, OnDestroy {
     private iiifManifestService;
     private altoService;
     private mimeResizeService;
+    tabHeight: {};
     isHandsetOrTabletInPortrait: boolean;
     viewerLayout: ViewerLayout;
     ViewerLayout: typeof ViewerLayout;
@@ -23,7 +24,7 @@ export declare class ViewDialogComponent implements OnInit, OnDestroy {
     hasRecognizedTextContent: boolean;
     recognizedTextMode: RecognizedTextMode;
     RecognizedTextMode: typeof RecognizedTextMode;
-    contentStyle: any;
+    private mimeHeight;
     private subscriptions;
     constructor(intl: MimeViewerIntl, breakpointObserver: BreakpointObserver, cdr: ChangeDetectorRef, viewerLayoutService: ViewerLayoutService, iiifManifestService: IiifManifestService, altoService: AltoService, mimeResizeService: MimeResizeService);
     ngOnInit(): void;
@@ -33,7 +34,7 @@ export declare class ViewDialogComponent implements OnInit, OnDestroy {
     closeRecognizedTextContent(): void;
     showRecognizedTextContentInSplitView(): void;
     showRecognizedTextContentOnly(): void;
-    private resizeHeight;
+    private resizeTabHeight;
     static ɵfac: i0.ɵɵFactoryDeclaration<ViewDialogComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ViewDialogComponent, "mime-view-dialog", never, {}, {}, never, never, false, never>;
 }

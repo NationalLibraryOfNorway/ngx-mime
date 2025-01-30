@@ -9,7 +9,7 @@ export declare class MobileContentSearchDialogConfigStrategy implements ContentS
 }
 export declare class DesktopContentSearchDialogConfigStrategy implements ContentSearchDialogConfigStrategy {
     static readonly dialogWidth = 350;
-    static readonly paddingRight = 20;
+    static readonly paddingRight = 16;
     private mimeDomHelper;
     constructor(mimeDomHelper: MimeDomHelper);
     getConfig(el: ElementRef, viewContainerRef: ViewContainerRef): MatDialogConfig;

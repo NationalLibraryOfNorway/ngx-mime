@@ -4,9 +4,9 @@ import { MimeResizeService } from './../core/mime-resize-service/mime-resize.ser
 import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialog-config-strategy-factory';
 import * as i0 from "@angular/core";
 export declare class ContentSearchDialogService {
-    private dialog;
-    private contentSearchDialogConfigStrategyFactory;
-    private mimeResizeService;
+    private readonly dialog;
+    private readonly contentSearchDialogConfigStrategyFactory;
+    private readonly mimeResizeService;
     private _el;
     private _viewContainerRef;
     private dialogRef?;

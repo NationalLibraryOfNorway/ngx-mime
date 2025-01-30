@@ -6,17 +6,17 @@ import { MimeViewerIntl } from '../core/intl';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import * as i0 from "@angular/core";
 export declare class CanvasGroupDialogComponent implements OnInit, OnDestroy {
-    private dialogRef;
-    private fb;
-    private viewerService;
-    private canvasService;
-    intl: MimeViewerIntl;
-    private changeDetectorRef;
+    private readonly dialogRef;
+    private readonly fb;
+    private readonly viewerService;
+    private readonly canvasService;
+    readonly intl: MimeViewerIntl;
+    private readonly changeDetectorRef;
     numberOfCanvases: number;
     canvasGroupForm: FormGroup<{
         canvasGroupControl: FormControl<number | null>;
     }>;
-    private subscriptions;
+    private readonly subscriptions;
     constructor(dialogRef: MatDialogRef<CanvasGroupDialogComponent>, fb: FormBuilder, viewerService: ViewerService, canvasService: CanvasService, intl: MimeViewerIntl, changeDetectorRef: ChangeDetectorRef);
     get canvasGroupControl(): import("@angular/forms").AbstractControl<number | null, number | null> | null;
     ngOnInit(): void;
