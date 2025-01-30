@@ -190,7 +190,7 @@ describe('ContentSearchDialogComponent', () => {
 
     iiifContentSearchServiceStub._currentSearchResult.next(
       new SearchResult({
-        hits: [new Hit(), new Hit()],
+        hits: [new Hit({ id: 1 }), new Hit({ id: 2 })],
       }),
     );
 
