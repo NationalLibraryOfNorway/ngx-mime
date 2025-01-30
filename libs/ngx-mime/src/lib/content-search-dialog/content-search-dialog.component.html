@@ -90,7 +90,7 @@
             }
           }
           <div class="grid grid-cols-1 gap-y-2">
-            @for (hit of hits; track hit.id; let last = $last) {
+            @for (hit of hits; track hit.id) {
               <a
                 href="javascript: void(0);"
                 data-testid="hit"
