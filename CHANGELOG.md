@@ -6,40 +6,35 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [17.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v17.0.0...v17.1.0) (2024-06-13)
 
-
 ### Features
 
-* changed test runner from Karma to Jest ([#486](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/486)) ([0b9bd8b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0b9bd8b078c53a96268f93babc3c46c26ae3e4d1))
-
+- changed test runner from Karma to Jest ([#486](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/486)) ([0b9bd8b](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/0b9bd8b078c53a96268f93babc3c46c26ae3e4d1))
 
 ### Bug Fixes
 
-* ensure proper page zoom on swipe ([1406b2f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1406b2f7899ddfb7fa524dbae88f874b0b505e6a))
-* improve a11y and UI for content-search-navigator ([#488](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/488)) ([d32aded](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d32aded2e49e905c655a6d806acfcf14c2b40a0c))
-* Prevent OpenSeadragon canvas from being selected on iOS devices ([#491](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/491)) ([6fd107f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6fd107f055a05967daf4dcfe28c3925f25675317))
+- ensure proper page zoom on swipe ([1406b2f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/1406b2f7899ddfb7fa524dbae88f874b0b505e6a))
+- improve a11y and UI for content-search-navigator ([#488](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/488)) ([d32aded](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/d32aded2e49e905c655a6d806acfcf14c2b40a0c))
+- Prevent OpenSeadragon canvas from being selected on iOS devices ([#491](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/491)) ([6fd107f](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6fd107f055a05967daf4dcfe28c3925f25675317))
 
 ## [17.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.1.0...v17.0.0) (2024-01-31)
 
-
 ### ⚠ BREAKING CHANGES
 
-* Angularv 17
+- Angularv 17
 
 ### Features
 
-* angular v17 ([#484](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/484)) ([0136026](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/013602622e54c31542590c6ec7bb62c0bfdc38dc))
+- angular v17 ([#484](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/484)) ([0136026](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/013602622e54c31542590c6ec7bb62c0bfdc38dc))
 
 ## [16.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.0.2...v16.1.0) (2024-01-30)
 
-
 ### Features
 
-* new layout and behavior for OSD toolbar ([31048bd](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/31048bdeae00b0b84a95fa55a230c8e09e8a9ce5))
-
+- new layout and behavior for OSD toolbar ([31048bd](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/31048bdeae00b0b84a95fa55a230c8e09e8a9ce5))
 
 ### Bug Fixes
 
-* incorrect formatting in CHANGELOG.md ([f97d346](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f97d3464f19ec77a55a4bd85c6542a78e3d4d69c))
+- incorrect formatting in CHANGELOG.md ([f97d346](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/f97d3464f19ec77a55a4bd85c6542a78e3d4d69c))
 
 ### [16.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v16.0.1...v16.0.2) (2023-11-30)
 

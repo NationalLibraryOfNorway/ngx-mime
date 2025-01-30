@@ -16,5 +16,5 @@ Then(
     state === 'closed'
       ? await expect(this.helpDialogPage.container).toBeHidden()
       : await expect(this.helpDialogPage.container).toBeVisible();
-  }
+  },
 );

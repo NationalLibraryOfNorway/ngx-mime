@@ -90,7 +90,7 @@ const getDeviceDescriptor = () => {
 };
 
 const connectToTestingCloud = async (
-  scenario: ITestCaseHookParameter
+  scenario: ITestCaseHookParameter,
 ): Promise<Browser | undefined> => {
   let browserName = 'Chrome';
   let platform = 'Windows 11';
@@ -129,8 +129,8 @@ const connectToTestingCloud = async (
     try {
       browser = await chromium.connect(
         `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(
-          JSON.stringify(capabilities)
-        )}`
+          JSON.stringify(capabilities),
+        )}`,
       );
       break;
     } catch (e) {
@@ -176,7 +176,7 @@ const stopTracing = async (_this: IWorld<CustomWorld>, name: string) => {
 const a11yAnalyze = async (
   _this: IWorld<CustomWorld>,
   remark: string | undefined,
-  status: TestStepResultStatus | undefined
+  status: TestStepResultStatus | undefined,
 ): Promise<RemarkAndStatus> => {
   const results = await new AxeBuilder({ page: _this.page })
     .disableRules('landmark-one-main')
@@ -197,7 +197,7 @@ const a11yAnalyze = async (
 const setStatus = async (
   _this: IWorld<CustomWorld>,
   status: TestStepResultStatus | undefined,
-  remark: string | undefined
+  remark: string | undefined,
 ): Promise<void> => {
   try {
     if (status !== Status.PASSED) {
@@ -206,8 +206,10 @@ const setStatus = async (
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    await _this.page.evaluate(() => {},
-    `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status, remark } })}`);
+    await _this.page.evaluate(
+      () => {},
+      `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status, remark } })}`,
+    );
   } catch (e) {
     console.warn('Could not send test result', e);
   }

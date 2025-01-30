@@ -39,7 +39,7 @@ export class ContentSearchPage {
       'footerNavigateNextHitButton',
     );
     this.container = page.locator('.content-search-container');
-    this.hits = page.locator('.content-search-container .hit');
+    this.hits = page.locator('.content-search-container a[data-testid="hit"]');
     this.highlighted = page.locator('.openseadragon-canvas .hit');
     this.resultsFoundLabel = page.getByTestId('resultsFoundLabel');
     this.noResultsFoundLabel = page.getByTestId('noResultsFoundLabel');
@@ -62,9 +62,9 @@ export class ContentSearchPage {
   }
 
   async hitIsSelected(index: number): Promise<boolean> {
-    const el: Locator = this.hits.nth(index);
+    const el: Locator = this.hits.nth(index).locator('mat-card');
     const classes = await el.getAttribute('class');
-    return classes ? classes.indexOf('mat-accent') !== -1 : false;
+    return classes ? classes.indexOf('selected') !== -1 : false;
   }
 
   async search(term: string) {

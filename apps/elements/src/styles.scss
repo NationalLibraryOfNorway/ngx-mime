@@ -1,4 +1,67 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use 'themes/palettes' as palettes;
+@use '../../../libs/ngx-mime/ngx-mime.theme.scss' as ngx-mime;
+
+@tailwind utilities;
+
+@include mat.core();
+
+$_rest: (
+  secondary: map.get(palettes.$blue-green-palette, secondary),
+  neutral: map.get(palettes.$blue-green-palette, neutral),
+  neutral-variant: map.get(palettes.$blue-green-palette, neutral-variant),
+  error: map.get(palettes.$blue-green-palette, error),
+);
+$_primary: map.merge(map.get(palettes.$blue-green-palette, primary), $_rest);
+$_tertiary: map.merge(map.get(palettes.$blue-green-palette, tertiary), $_rest);
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: $_primary,
+      tertiary: $_tertiary,
+    ),
+  )
+);
+
+$_dark-rest: (
+  secondary: map.get(palettes.$light-blue-mint-palette, secondary),
+  neutral: map.get(palettes.$light-blue-mint-palette, neutral),
+  neutral-variant: map.get(palettes.$light-blue-mint-palette, neutral-variant),
+  error: map.get(palettes.$light-blue-mint-palette, error),
+);
+$_dark-primary: map.merge(
+  map.get(palettes.$light-blue-mint-palette, primary),
+  $_dark-rest
+);
+$_dark-tertiary: map.merge(
+  map.get(palettes.$light-blue-mint-palette, tertiary),
+  $_dark-rest
+);
+
+$dark-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: $_dark-primary,
+      tertiary: $_dark-tertiary,
+    ),
+  )
+);
+
+html {
+  @include mat.all-component-themes($theme);
+  @include ngx-mime.ngx-mime-theme($theme);
+
+  .ngx-mime-dark-theme {
+    @include ngx-mime.ngx-mime-theme($dark-theme);
+    @include mat.all-component-colors($dark-theme);
+  }
+}
+
 html,
 body {
   box-sizing: border-box;

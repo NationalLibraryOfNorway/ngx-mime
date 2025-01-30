@@ -170,16 +170,19 @@ describe('InformationDialogComponent', () => {
         ],
         structures: [
           new Structure({
+            id: 'fakeId1',
             label: 'Forside',
             canvases: ['canvas1'],
             canvasIndex: 0,
           }),
           new Structure({
+            id: 'fakeId2',
             label: 'Tittelside',
             canvases: ['canvas2'],
             canvasIndex: 1,
           }),
           new Structure({
+            id: 'fakeId3',
             label: 'Bakside',
             canvases: ['canvas5'],
             canvasIndex: 4,

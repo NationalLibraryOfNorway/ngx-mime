@@ -8,7 +8,7 @@ When(
     this: CustomWorld,
     direction: string,
     velocityStart: number,
-    velocityEnd: number
+    velocityEnd: number,
   ) {
     if (direction === 'left-to-right') {
       const start = {
@@ -21,35 +21,35 @@ When(
       };
       await this.viewerPage.swipe(start, end);
     }
-  }
+  },
 );
 
 When(
   'the user swipe {word} and the velocity is equal or greater than {int}',
   async function (this: CustomWorld, direction: string, velocity: number) {
     return 'pending';
-  }
+  },
 );
 
 When(
   'the user swipe {word} but the velocity is less than {int}',
   async function (this: CustomWorld, direction: string, velocity: number) {
     return 'pending';
-  }
+  },
 );
 
 When(
   'the user drags the page slider to page {int}',
   async function (this: CustomWorld, canvasGroupIndex: number) {
     await this.viewerPage.slideToCanvasGroup(canvasGroupIndex - 1);
-  }
+  },
 );
 
 When(
   'the user enters {int} in the page dialog',
   async function (this: CustomWorld, canvasGroupIndex: number) {
     await this.viewerPage.goToCanvasGroupWithDialog(canvasGroupIndex);
-  }
+  },
 );
 
 Then(
@@ -58,7 +58,7 @@ Then(
     const currentCanvasGroupString =
       await this.viewerPage.getCurrentCanvasGroupLabel();
     expect(currentCanvasGroupString.includes(canvasGroupIndex)).toBeTruthy();
-  }
+  },
 );
 
 When(
@@ -67,5 +67,5 @@ When(
     navigationButton === 'next'
       ? await this.viewerPage.clickNextButton()
       : await this.viewerPage.clickPreviousButton();
-  }
+  },
 );

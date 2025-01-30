@@ -16,7 +16,7 @@ export class IiifManifestService {
   constructor(
     public intl: MimeViewerIntl,
     private http: HttpClient,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
   ) {}
 
   get currentManifest(): Observable<Manifest | null> {
@@ -38,7 +38,7 @@ export class IiifManifestService {
           .get<Response>(manifestUri)
           .pipe(
             finalize(() => this.spinnerService.hide()),
-            take(1)
+            take(1),
           )
           .subscribe(
             (response: Response) => {
@@ -54,7 +54,7 @@ export class IiifManifestService {
             (err: HttpErrorResponse) => {
               this._errorMessage.next(this.handleError(err));
               observer.next(false);
-            }
+            },
           );
       }
     });

@@ -19,7 +19,7 @@ export class HelpDialogService {
   constructor(
     private dialog: MatDialog,
     private helpDialogConfigStrategyFactory: HelpDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
   ) {}
 
   public initialize(): void {
@@ -31,7 +31,7 @@ export class HelpDialogService {
           this.dialogRef?.updatePosition(config.position);
           this.dialogRef?.updateSize(config.width, config.height);
         }
-      })
+      }),
     );
   }
 

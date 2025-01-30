@@ -12,7 +12,7 @@ export class ThemePickerComponent {
 
   themes: SiteTheme[];
 
-  constructor(private themeService: ThemeService) {
+  constructor(private readonly themeService: ThemeService) {
     this.themes = themeService.getAllThemes();
     this.currentTheme = themeService.getStoredTheme();
     if (this.currentTheme) {

@@ -13,22 +13,22 @@ export const slideInLeft = trigger('slideInLeft', [
     style({
       transform: 'translate(-100%, 0)',
       display: 'none',
-    })
+    }),
   ),
   state(
     'show',
     style({
       transform: 'translate(0px, 0px)',
       display: 'block',
-    })
+    }),
   ),
   transition(
     'hide => show',
-    animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`)
+    animate(`${ViewerOptions.transitions.toolbarsEaseInTime}ms ease-out`),
   ),
   transition(
     'show => hide',
-    animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`)
+    animate(`${ViewerOptions.transitions.toolbarsEaseOutTime}ms ease-in`),
   ),
 ]);
 

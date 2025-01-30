@@ -6,35 +6,35 @@ Given(
   'the viewer is opened with a publication with recognized text content',
   async function (this: CustomWorld) {
     await this.viewerPage.open(['a-recognized-text-book']);
-  }
+  },
 );
 
 Given(
   'the user has enabled recognized text content only',
   async function (this: CustomWorld) {
     await this.viewerPage.showOnlyRecognizedTextContent();
-  }
+  },
 );
 
 When(
   'the user enables recognized text content in split view',
   async function (this: CustomWorld) {
     await this.viewerPage.showRecognizedTextContentInSplitView();
-  }
+  },
 );
 
 When(
   'the user enables recognized text content only',
   async function (this: CustomWorld) {
     await this.viewerPage.showOnlyRecognizedTextContent();
-  }
+  },
 );
 
 When(
   'the user closes the recognized text content',
   async function (this: CustomWorld) {
     await this.viewerPage.closeRecognizedTextContent();
-  }
+  },
 );
 
 Then(
@@ -43,9 +43,9 @@ Then(
     await this.viewerPage.openViewMenu();
 
     expect(
-      await this.viewerPage.isRecognizedTextContentButtonsPresent()
+      await this.viewerPage.isRecognizedTextContentButtonsPresent(),
     ).toBeTruthy();
-  }
+  },
 );
 
 Then(
@@ -58,7 +58,7 @@ Then(
 
     expect(isRecognizedTextContentInSplitView).toBeTruthy();
     expect(recognizedTextContent.length).toBeGreaterThan(0);
-  }
+  },
 );
 
 Then(
@@ -71,7 +71,7 @@ Then(
 
     expect(isRecognizedTextContentOnly).toBeTruthy();
     expect(recognizedTextContent.length).toBeGreaterThan(0);
-  }
+  },
 );
 
 Then(
@@ -81,7 +81,7 @@ Then(
       await this.viewerPage.getRecognizedTextContent();
 
     expect(recognizedTextContent).toBeFalsy();
-  }
+  },
 );
 
 Then(
@@ -89,5 +89,5 @@ Then(
   async function (this: CustomWorld, term: string) {
     const firstHit = await this.viewerPage.getRecognizedContentHit(0);
     expect(firstHit).toContain(`${term}`);
-  }
+  },
 );

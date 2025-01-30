@@ -30,12 +30,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private manifestService: ManifestService
+    private manifestService: ManifestService,
   ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.route.queryParamMap.subscribe(this.handleQueryParamMap.bind(this))
+      this.route.queryParamMap.subscribe(this.handleQueryParamMap.bind(this)),
     );
   }
 
@@ -56,7 +56,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   private redirectToFirstManifest(): void {
     const firstManifestUri = this.manifestService.getManifests(
-      this.iiifVersion
+      this.iiifVersion,
     )[0].uri;
     this.router.navigate(['demo'], {
       queryParams: {

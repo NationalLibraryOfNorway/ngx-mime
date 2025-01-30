@@ -1,6 +1,6 @@
 <div class="content-search-container">
   @if (isHandsetOrTabletInPortrait) {
-    <mat-toolbar color="primary">
+    <mat-toolbar class="secondary-toolbar">
       <button
         mat-icon-button
         class="close-content-search-dialog-button"
@@ -13,7 +13,7 @@
       <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
     </mat-toolbar>
   } @else {
-    <mat-toolbar class="justify-between">
+    <mat-toolbar class="secondary-toolbar justify-between">
       <h1 mat-dialog-title class="heading heading-desktop">{{
         intl.searchLabel
       }}</h1>
@@ -71,7 +71,7 @@
       class="content-search-result-container"
       [ngStyle]="tabHeight"
     >
-      <div class="content-search-result">
+      <div class="content-search-result grid grid-cols-1 gap-y-2">
         @if (!isSearching) {
           <input type="hidden" class="numberOfHits" [value]="numberOfHits" />
           @if (currentSearch && currentSearch.length > 0) {
@@ -89,27 +89,31 @@
               ></div>
             }
           }
-          @for (hit of hits; track hit.id; let last = $last) {
-            <button
-              #hitButton
-              mat-button
-              [color]="currentHit && hit.id === currentHit.id ? 'accent' : null"
-              [ngClass]="'hit'"
-              (click)="goToHit(hit)"
-              (keydown.enter)="goToHit(hit)"
-            >
-              <div class="flex items-start justify-between">
-                <div class="summary"
-                  >{{ hit.before }} <em>{{ hit.match }}</em>
-                  {{ hit.after }}</div
+          <div class="grid grid-cols-1 gap-y-2">
+            @for (hit of hits; track hit.id) {
+              <a
+                href="javascript: void(0);"
+                data-testid="hit"
+                (click)="goToHit(hit)"
+                (keydown.enter)="goToHit(hit)"
+              >
+                <mat-card
+                  appearance="outlined"
+                  [class.selected]="currentHit && hit.id === currentHit.id"
                 >
-                <div class="canvasGroup ml-2">{{ hit.index + 1 }}</div>
-              </div>
-            </button>
-            @if (!last) {
-              <mat-divider></mat-divider>
+                  <mat-card-content>
+                    <div class="flex items-start justify-between">
+                      <div class="summary"
+                        >{{ hit.before }} <em>{{ hit.match }}</em>
+                        {{ hit.after }}</div
+                      >
+                      <div class="canvasGroup ml-2">{{ hit.index + 1 }}</div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </a>
             }
-          }
+          </div>
         }
         @if (isSearching) {
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>

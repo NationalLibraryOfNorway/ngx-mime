@@ -74,7 +74,7 @@ export function createSvgOverlay() {
 
       const p = this._viewer.viewport.pixelFromPoint(
         new OpenSeadragon.Point(0, 0),
-        true
+        true,
       );
       const zoom = this._viewer.viewport.getZoom(true);
       const rotation = this._viewer.viewport.getRotation();
@@ -90,7 +90,7 @@ export function createSvgOverlay() {
           scale +
           ') rotate(' +
           rotation +
-          ')'
+          ')',
       );
     }
 

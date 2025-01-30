@@ -6,7 +6,7 @@ import { Dimensions } from './../core/models/dimensions';
 export interface InformationDialogConfigStrategy {
   getConfig(
     elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig;
 }
 
@@ -15,14 +15,14 @@ export class MobileInformationDialogConfigStrategy
 {
   public getConfig(
     elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     return {
       hasBackdrop: false,
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
-      panelClass: 'information-panel',
+      panelClass: ['mime-mobile-dialog', 'mime-dialog', 'information-panel'],
       viewContainerRef: viewContainerRef,
     };
   }
@@ -32,7 +32,7 @@ export class DesktopInformationDialogConfigStrategy
   implements InformationDialogConfigStrategy
 {
   public static readonly dialogWidth = 350;
-  public static readonly paddingRight = 20;
+  public static readonly paddingRight = 16;
   private mimeDomHelper: MimeDomHelper;
 
   constructor(mimeDomHelper: MimeDomHelper) {
@@ -41,7 +41,7 @@ export class DesktopInformationDialogConfigStrategy
 
   public getConfig(
     el: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     const dimensions = this.getPosition(el);
     return {
@@ -52,14 +52,14 @@ export class DesktopInformationDialogConfigStrategy
         left: dimensions.left + 'px',
       },
       maxWidth: '100% !important',
-      panelClass: 'information-panel',
+      panelClass: ['mime-dialog', 'information-panel'],
       viewContainerRef: viewContainerRef,
     };
   }
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
-      top: dimensions.top + 64,
+      top: dimensions.top + 80,
       left:
         dimensions.right -
         DesktopInformationDialogConfigStrategy.dialogWidth -

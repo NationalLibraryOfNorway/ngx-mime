@@ -31,7 +31,7 @@ export class MimeResizeService {
           top: contentRect.top,
           width: contentRect.width,
         };
-      })
+      }),
     );
   }
 
@@ -57,7 +57,7 @@ export class MimeResizeService {
     });
 
     const el: Element | null = this.el.nativeElement.querySelector(
-      `#${this.viewerService.id}`
+      `#${this.viewerService.id}`,
     );
 
     if (el) {

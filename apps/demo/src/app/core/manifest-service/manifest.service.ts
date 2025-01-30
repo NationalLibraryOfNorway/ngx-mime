@@ -126,7 +126,7 @@ export class ManifestService {
 
   getManifests(iiifVersion = '3'): ManifestMenuItem[] {
     return ManifestService.manifests.filter(
-      (m) => m.iiifVersion === iiifVersion
+      (m) => m.iiifVersion === iiifVersion,
     );
   }
 }

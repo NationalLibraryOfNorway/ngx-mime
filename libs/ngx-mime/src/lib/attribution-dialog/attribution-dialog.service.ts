@@ -25,7 +25,7 @@ export class AttributionDialogService {
     private dialog: MatDialog,
     private mimeResizeService: MimeResizeService,
     private attributionDialogResizeService: AttributionDialogResizeService,
-    private mimeDomHelper: MimeDomHelper
+    private mimeDomHelper: MimeDomHelper,
   ) {}
 
   public initialize(): void {
@@ -36,7 +36,7 @@ export class AttributionDialogService {
           const config = this.getDialogConfig();
           this.dialogRef?.updatePosition(config.position);
         }
-      })
+      }),
     );
     this.subscriptions.add(
       this.attributionDialogResizeService.onResize.subscribe(
@@ -46,8 +46,8 @@ export class AttributionDialogService {
             const config = this.getDialogConfig();
             this.dialogRef?.updatePosition(config.position);
           }
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -111,7 +111,7 @@ export class AttributionDialogService {
     return {
       hasBackdrop: false,
       width: '180px',
-      panelClass: 'attribution-panel',
+      panelClass: ['mime-dialog', 'attribution-panel'],
       position: {
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
@@ -130,7 +130,7 @@ export class AttributionDialogService {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(this._el);
     return new Dimensions({
       top:
-        dimensions.top + dimensions.height - this.attributionDialogHeight - 68,
+        dimensions.top + dimensions.height - this.attributionDialogHeight - 80,
       left: dimensions.left + padding,
     });
   }

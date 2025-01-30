@@ -21,7 +21,7 @@ export class StyleManagerService {
 
   private getExistingLinkElementByKey(key: string) {
     return document.head.querySelector(
-      `link[rel="stylesheet"].${this.getClassNameForKey(key)}`
+      `link[rel="stylesheet"].${this.getClassNameForKey(key)}`,
     );
   }
 

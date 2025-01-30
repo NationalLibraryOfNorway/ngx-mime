@@ -17,7 +17,7 @@ export class SequenceBuilder {
             label: seq.label,
             viewingHint: seq.viewingHint,
             canvases: new CanvasBuilder(seq.canvases).build(),
-          })
+          }),
         );
       }
     }

@@ -19,7 +19,10 @@ export class CanvasGroupMask {
   backgroundColor!: string;
   private subscriptions!: Subscription;
 
-  constructor(viewer: any, private styleService: StyleService) {
+  constructor(
+    viewer: any,
+    private styleService: StyleService,
+  ) {
     this.viewer = viewer;
   }
 
@@ -38,7 +41,7 @@ export class CanvasGroupMask {
             this.rightMask.style('fill', this.backgroundColor);
           }
         }
-      })
+      }),
     );
 
     this.canvasGroupRect = pageBounds;
@@ -99,7 +102,7 @@ export class CanvasGroupMask {
     this.viewer.removeHandler('canvas-drag', this.canvasGroupDragHandler);
     this.viewer.removeHandler(
       'canvas-drag-end',
-      this.canvasGroupDragEndHandler
+      this.canvasGroupDragEndHandler,
     );
   }
 
@@ -150,7 +153,7 @@ export class CanvasGroupMask {
   private setCenter(): void {
     this.center = new OpenSeadragon.Point(
       this.viewer.viewport._containerInnerSize.x / 2,
-      this.viewer.viewport._containerInnerSize.y / 2
+      this.viewer.viewport._containerInnerSize.y / 2,
     );
   }
 
@@ -172,10 +175,10 @@ export class CanvasGroupMask {
       this.canvasGroupRect.x,
       this.canvasGroupRect.y,
       this.canvasGroupRect.width,
-      this.canvasGroupRect.height
+      this.canvasGroupRect.height,
     );
     const topLeft = this.viewer.viewport.viewportToViewerElementCoordinates(
-      imgBounds.getTopLeft()
+      imgBounds.getTopLeft(),
     );
     let width = topLeft.x - ViewerOptions.overlays.canvasGroupMarginInPageView;
 
@@ -194,10 +197,10 @@ export class CanvasGroupMask {
       this.canvasGroupRect.x,
       this.canvasGroupRect.y,
       this.canvasGroupRect.width,
-      this.canvasGroupRect.height
+      this.canvasGroupRect.height,
     );
     const topRight = this.viewer.viewport.viewportToViewerElementCoordinates(
-      imgBounds.getTopRight()
+      imgBounds.getTopRight(),
     );
     let width = this.viewer.viewport._containerInnerSize.x - topRight.x;
     const x =

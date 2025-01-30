@@ -54,7 +54,7 @@ describe('SwipeUtils ', () => {
     });
 
     expect(
-      SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)
+      SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds),
     ).toBe(true);
   });
 
@@ -74,7 +74,7 @@ describe('SwipeUtils ', () => {
     });
 
     expect(
-      SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)
+      SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds),
     ).toBe(true);
   });
 
@@ -89,7 +89,7 @@ describe('SwipeUtils ', () => {
     });
 
     expect(
-      SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds)
+      SwipeUtils.isPanningOutsideCanvasGroup(pageBounds, viewportBounds),
     ).toBe(false);
   });
 

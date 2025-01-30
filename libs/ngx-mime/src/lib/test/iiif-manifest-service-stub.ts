@@ -5,7 +5,7 @@ import { testManifest } from './testManifest';
 
 export class IiifManifestServiceStub {
   public _currentManifest = new BehaviorSubject<Manifest | null>(
-    new Manifest()
+    new Manifest(),
   );
   public _errorMessage = new Subject<string | null>();
 

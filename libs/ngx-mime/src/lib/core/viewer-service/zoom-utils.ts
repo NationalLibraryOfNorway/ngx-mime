@@ -9,7 +9,7 @@ export class ZoomUtils {
    */
   static constrainPositionToCanvasGroup(
     point: Point,
-    canvasGroupBounds: Rect
+    canvasGroupBounds: Rect,
   ): Point {
     if (point.x < canvasGroupBounds.x) {
       point.x = canvasGroupBounds.x;
@@ -22,7 +22,7 @@ export class ZoomUtils {
   static constraintZoomFactor(
     zoomFactor: number,
     currentZoom: number,
-    maxZoom: number
+    maxZoom: number,
   ): number {
     const target = currentZoom * zoomFactor;
     return target > maxZoom ? (maxZoom / target) * zoomFactor : zoomFactor;

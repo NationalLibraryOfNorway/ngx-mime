@@ -23,7 +23,7 @@ export class MetadataComponent implements OnInit, OnDestroy {
   constructor(
     public intl: MimeViewerIntl,
     private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService
+    private iiifManifestService: IiifManifestService,
   ) {}
 
   ngOnInit() {
@@ -32,8 +32,8 @@ export class MetadataComponent implements OnInit, OnDestroy {
         (manifest: Manifest | null) => {
           this.manifest = manifest;
           this.changeDetectorRef.markForCheck();
-        }
-      )
+        },
+      ),
     );
   }
 

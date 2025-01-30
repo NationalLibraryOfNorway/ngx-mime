@@ -41,7 +41,7 @@ describe('IiifManifestService', () => {
     request.flush(new ManifestBuilder(testManifest).build());
 
     svc.currentManifest.subscribe(
-      (manifest: Manifest | null) => (result = manifest)
+      (manifest: Manifest | null) => (result = manifest),
     );
 
     svc.errorMessage.subscribe((err: string | null) => (error = err));
@@ -80,7 +80,7 @@ describe('IiifManifestService', () => {
     let error: string | null = null;
 
     svc.currentManifest.subscribe(
-      (manifest: Manifest | null) => (result = manifest)
+      (manifest: Manifest | null) => (result = manifest),
     );
 
     svc.errorMessage.subscribe((err: string | null) => (error = err));

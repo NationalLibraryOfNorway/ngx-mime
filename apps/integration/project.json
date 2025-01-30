@@ -28,7 +28,6 @@
         ],
         "styles": [
           "apps/integration/src/styles.scss",
-          "apps/integration/src/theme.scss",
           "dist/apps/elements/styles.css"
         ],
         "scripts": [

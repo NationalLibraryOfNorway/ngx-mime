@@ -20,7 +20,7 @@ export class ViewDialogService {
   constructor(
     private dialog: MatDialog,
     private viewDialogConfigStrategyFactory: ViewDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
   ) {}
 
   public initialize(): void {
@@ -32,7 +32,7 @@ export class ViewDialogService {
           this.dialogRef?.updatePosition(config.position);
           this.dialogRef?.updateSize(config.width, config.height);
         }
-      })
+      }),
     );
   }
 

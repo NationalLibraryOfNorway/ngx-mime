@@ -1,5 +1,5 @@
 <div #container class="attribution-container">
-  <mat-toolbar class="attribution-toolbar justify-between">
+  <div class="attribution-toolbar mr-4 flex items-center justify-between">
     <h1 mat-dialog-title>{{ intl.attributionLabel }}</h1>
     <button
       mat-icon-button
@@ -9,6 +9,6 @@
     >
       <mat-icon>close</mat-icon>
     </button>
-  </mat-toolbar>
+  </div>
   <p mat-dialog-content [innerHTML]="manifest?.attribution"> </p>
 </div>

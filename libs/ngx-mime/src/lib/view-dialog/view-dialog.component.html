@@ -1,5 +1,5 @@
 @if (isHandsetOrTabletInPortrait) {
-  <mat-toolbar color="primary" data-testid="mobile-toolbar">
+  <mat-toolbar class="secondary-toolbar" data-testid="mobile-toolbar">
     <button
       data-testid="ngx-mime-view-dialog-close-button"
       mat-icon-button
@@ -12,7 +12,10 @@
     <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>
   </mat-toolbar>
 } @else {
-  <mat-toolbar class="justify-between" data-testid="desktop-toolbar">
+  <mat-toolbar
+    class="secondary-toolbar justify-between"
+    data-testid="desktop-toolbar"
+  >
     <h1 mat-dialog-title data-testid="ngx-mime-heading-desktop">{{
       intl.layoutMenuLabel
     }}</h1>
@@ -27,7 +30,7 @@
     </button>
   </mat-toolbar>
 }
-<mat-dialog-content [ngStyle]="contentStyle">
+<mat-dialog-content [ngStyle]="tabHeight">
   @if (isPagedManifest) {
     <section data-testid="page-layout">
       <h2>{{ intl.pageLayoutLabel }}</h2>

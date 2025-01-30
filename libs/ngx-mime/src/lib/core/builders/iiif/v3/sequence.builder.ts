@@ -15,7 +15,7 @@ export class SequenceBuilder {
           label: 'Current Page Order',
           viewingHint: BuilderUtils.extractViewingHint(this.data.behavior),
           canvases: new CanvasBuilder(this.data.items).build(),
-        })
+        }),
       );
     }
 

@@ -11,7 +11,7 @@ export class PrintSpaceBuilder {
   }
 
   withTextStyles(
-    textStyles: Map<string, TextStyle> | undefined
+    textStyles: Map<string, TextStyle> | undefined,
   ): PrintSpaceBuilder {
     this.textStyles = textStyles;
     return this;

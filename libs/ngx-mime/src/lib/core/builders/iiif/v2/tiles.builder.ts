@@ -12,7 +12,7 @@ export class TilesBuilder {
           new Tile({
             width: tile.width,
             scaleFactors: tile.scaleFactors,
-          })
+          }),
         );
       }
     }

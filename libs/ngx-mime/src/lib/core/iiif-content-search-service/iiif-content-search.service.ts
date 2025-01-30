@@ -68,11 +68,11 @@ export class IiifContentSearchService {
         take(1),
         switchMap((res: IiifSearchResult) => {
           return of(this.extractData(q, manifest, res));
-        })
+        }),
       )
       .subscribe(
         (res: SearchResult) => this._currentSearchResult.next(res),
-        (err: HttpErrorResponse) => this.handleError
+        (err: HttpErrorResponse) => this.handleError,
       );
   }
 
@@ -87,13 +87,13 @@ export class IiifContentSearchService {
   private extractData(
     q: string,
     manifest: Manifest,
-    iiifSearchResult: IiifSearchResult
+    iiifSearchResult: IiifSearchResult,
   ): SearchResult {
     return new SearchResultBuilder(
       q,
       manifest,
       iiifSearchResult,
-      this.config
+      this.config,
     ).build();
   }
 

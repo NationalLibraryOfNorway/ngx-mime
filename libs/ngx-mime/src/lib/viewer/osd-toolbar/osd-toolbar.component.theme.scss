@@ -1,12 +1,24 @@
 @use '@angular/material' as mat;
 
-@mixin osd-toolbar-component-theme($theme) {
-  $accent: map-get($theme, accent);
-
+@mixin color($theme) {
   .osd-toolbar {
     .mat-mdc-fab,
-    .mat-mdc-mini-fab {
-      background-color: mat.get-color-from-palette($accent, 0.5);
+    .mat-mdc-mini-fab:not([disabled]) {
+      background-color: rgba(mat.get-theme-color($theme, tertiary), 0.5);
+      color: mat.get-theme-color($theme, on-tertiary);
     }
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+
+  @if mat.theme-has($theme, typography) {
+    @include typography($theme);
   }
 }

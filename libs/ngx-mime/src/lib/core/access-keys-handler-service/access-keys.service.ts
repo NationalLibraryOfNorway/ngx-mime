@@ -36,7 +36,7 @@ export class AccessKeysService {
     private viewDialogService: ViewDialogService,
     private mimeDomHelper: MimeDomHelper,
     private contentSearchNavigationService: ContentSearchNavigationService,
-    private altoService: AltoService
+    private altoService: AltoService,
   ) {}
 
   initialize() {
@@ -48,16 +48,16 @@ export class AccessKeysService {
             this.isSearchable = this.isManifestSearchable(manifest);
             this.invert = manifest.viewingDirection === ViewingDirection.RTL;
           }
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe(
         (result: SearchResult) => {
           this.hasHits = result.hits.length > 0;
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -131,7 +131,7 @@ export class AccessKeysService {
   private goToLastCanvasGroup() {
     this.viewerService.goToCanvasGroup(
       this.canvasService.numberOfCanvasGroups - 1,
-      false
+      false,
     );
   }
 

@@ -24,7 +24,7 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
     public intl: MimeViewerIntl,
     private cdr: ChangeDetectorRef,
     private mimeResizeService: MimeResizeService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
   ) {}
 
   ngOnInit(): void {
@@ -33,15 +33,15 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
         .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
         .subscribe(
           (value: BreakpointState) =>
-            (this.isHandsetOrTabletInPortrait = value.matches)
-        )
+            (this.isHandsetOrTabletInPortrait = value.matches),
+        ),
     );
 
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
         this.resizeTabHeight();
-      })
+      }),
     );
 
     this.resizeTabHeight();
@@ -59,7 +59,7 @@ export class HelpDialogComponent implements OnInit, OnDestroy {
         maxHeight: window.innerHeight - 128 + 'px',
       };
     } else {
-      height -= 272;
+      height -= 220;
       this.tabHeight = {
         maxHeight: height + 'px',
       };

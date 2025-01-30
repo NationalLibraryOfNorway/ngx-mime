@@ -10,7 +10,7 @@ export class LayoutBuilder {
   }
 
   withTextStyles(
-    textStyles: Map<string, TextStyle> | undefined
+    textStyles: Map<string, TextStyle> | undefined,
   ): LayoutBuilder {
     this.pageBuilder.withTextStyles(textStyles);
     return this;

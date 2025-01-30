@@ -1,8 +1,8 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { EventEmitter, inject, Injectable } from '@angular/core';
+import { StyleManagerService } from './../style-manager/style-manager.service';
 
 export interface SiteTheme {
   name: string;
-  accent: string;
   primary: string;
   isDark?: boolean;
   isDefault?: boolean;
@@ -10,33 +10,32 @@ export interface SiteTheme {
 
 @Injectable()
 export class ThemeService {
-  static storageKey = 'docs-theme-storage-current';
+  private readonly styleManagerService = inject(StyleManagerService);
+  static readonly storageKey = 'docs-theme-storage-current';
   onThemeUpdate: EventEmitter<SiteTheme> = new EventEmitter<SiteTheme>();
-  private themes: SiteTheme[] = [
+  private readonly themes: SiteTheme[] = [
     {
-      primary: '#5d4037',
-      accent: '#b0bec5',
-      name: 'brown-theme',
-      isDark: false,
+      name: 'cyan-theme',
+      primary: '#008585',
+      isDark: true,
       isDefault: true,
     },
     {
-      primary: '#0277bd',
-      accent: '#01579b',
+      name: 'rose-theme',
+      primary: '#e80074',
+      isDark: true,
+      isDefault: false,
+    },
+    {
       name: 'blue-theme',
+      primary: '#4470e5',
       isDark: false,
     },
     {
-      primary: '#18ffff',
-      accent: '#b2ff59',
-      name: 'cyan-theme',
-      isDark: true,
-    },
-    {
-      primary: '#673ab7',
-      accent: '#ffd740',
-      name: 'purple-theme',
-      isDark: true,
+      name: 'spring-green-theme',
+      primary: '#008942',
+      isDark: false,
+      isDefault: false,
     },
   ];
 
@@ -47,6 +46,12 @@ export class ThemeService {
   storeTheme(theme: SiteTheme) {
     try {
       window.localStorage[ThemeService.storageKey] = JSON.stringify(theme);
+      this.themes
+        .filter((theme) => !theme.isDefault)
+        .forEach((theme) => this.styleManagerService.removeStyle(theme.name));
+      if (!theme.isDefault) {
+        this.styleManagerService.setStyle(theme.name, `${theme.name}.css`);
+      }
     } catch (e) {}
 
     this.onThemeUpdate.emit(theme);
@@ -55,7 +60,7 @@ export class ThemeService {
   getStoredTheme(): SiteTheme {
     try {
       return JSON.parse(
-        window.localStorage[ThemeService.storageKey] || this.getDefaultTheme()
+        window.localStorage[ThemeService.storageKey] || this.getDefaultTheme(),
       );
     } catch (e) {
       return this.getDefaultTheme();

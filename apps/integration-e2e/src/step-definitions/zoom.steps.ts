@@ -6,7 +6,7 @@ let previousZoomLevel = 0;
 
 Given('the zoom level is home', async function (this: CustomWorld) {
   expect(
-    await this.viewerPage.isCurrentCanvasGroupFittedViewport()
+    await this.viewerPage.isCurrentCanvasGroupFittedViewport(),
   ).toBeTruthy();
 });
 
@@ -64,23 +64,23 @@ Then(
   'the current zoom level has increased',
   async function (this: CustomWorld) {
     expect(await this.viewerPage.getZoomLevel()).toBeGreaterThan(
-      previousZoomLevel
+      previousZoomLevel,
     );
-  }
+  },
 );
 
 Then(
   'the current zoom level has decreased',
   async function (this: CustomWorld) {
     expect(await this.viewerPage.getZoomLevel()).toBeLessThan(
-      previousZoomLevel
+      previousZoomLevel,
     );
-  }
+  },
 );
 
 Then('the view should be all zoomed out', async function (this: CustomWorld) {
   expect(await this.viewerPage.getZoomLevel()).toEqual(
-    await this.viewerPage.getMinZoom()
+    await this.viewerPage.getMinZoom(),
   );
 });
 
@@ -88,11 +88,11 @@ Then(
   'the view should be vertically centered',
   async function (this: CustomWorld) {
     expect(await this.viewerPage.isVerticallyCentered()).toBeTruthy();
-  }
+  },
 );
 
 Then('the current zoom level is home', async function (this: CustomWorld) {
   expect(
-    await this.viewerPage.isCurrentCanvasGroupFittedViewport()
+    await this.viewerPage.isCurrentCanvasGroupFittedViewport(),
   ).toBeTruthy();
 });

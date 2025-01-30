@@ -11,7 +11,7 @@ export class ManifestBuilder {
 
   build(): Manifest {
     const sequences: Sequence[] = new SequenceBuilder(
-      this.data.sequences
+      this.data.sequences,
     ).build();
 
     return new Manifest({

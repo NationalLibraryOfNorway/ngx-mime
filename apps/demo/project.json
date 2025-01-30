@@ -17,7 +17,24 @@
         "tsConfig": "apps/demo/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"],
-        "styles": ["apps/demo/src/styles.scss", "apps/demo/src/theme.scss"],
+        "styles": [
+          "apps/demo/src/styles.scss",
+          {
+            "input": "apps/demo/src/themes/blue-theme.scss",
+            "inject": false,
+            "bundleName": "blue-theme"
+          },
+          {
+            "input": "apps/demo/src/themes/rose-theme.scss",
+            "inject": false,
+            "bundleName": "rose-theme"
+          },
+          {
+            "input": "apps/demo/src/themes/spring-green-theme.scss",
+            "inject": false,
+            "bundleName": "spring-green-theme"
+          }
+        ],
         "scripts": [
           "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
         ]
@@ -27,8 +44,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "1mb",
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",

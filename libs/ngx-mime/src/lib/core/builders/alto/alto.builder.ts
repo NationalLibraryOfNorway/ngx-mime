@@ -14,7 +14,7 @@ export class AltoBuilder {
   build(): Alto {
     if (this.altoXml.Styles) {
       this.layoutBuilder.withTextStyles(
-        new StylesBuilder(this.altoXml.Styles[0]).build()
+        new StylesBuilder(this.altoXml.Styles[0]).build(),
       );
     }
     this.layoutBuilder.withLayoutXml(this.altoXml.Layout[0]);

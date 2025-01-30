@@ -6,12 +6,12 @@ export const canvasRectFromCriteria = (
   rotation: number,
   criteria: CanvasGroupPositionCriteria,
   x: number,
-  ignorePhysicalScale: boolean
+  ignorePhysicalScale: boolean,
 ) => {
   let rect = {};
   const scale = Utils.getScaleFactor(
     criteria.canvasSource.service?.service?.physicalScale,
-    ignorePhysicalScale
+    ignorePhysicalScale,
   );
   if (rotation === 90 || rotation === 270) {
     rect = {

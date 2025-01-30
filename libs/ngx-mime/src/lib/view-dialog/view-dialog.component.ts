@@ -22,6 +22,7 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
   styleUrls: ['./view-dialog.component.scss'],
 })
 export class ViewDialogComponent implements OnInit, OnDestroy {
+  tabHeight = {};
   isHandsetOrTabletInPortrait = false;
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
   ViewerLayout: typeof ViewerLayout = ViewerLayout;
@@ -29,7 +30,7 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   hasRecognizedTextContent = false;
   recognizedTextMode = RecognizedTextMode.NONE;
   RecognizedTextMode: typeof RecognizedTextMode = RecognizedTextMode;
-  contentStyle: any;
+  private mimeHeight = 0;
   private subscriptions = new Subscription();
 
   constructor(
@@ -39,7 +40,7 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     private viewerLayoutService: ViewerLayoutService,
     private iiifManifestService: IiifManifestService,
     private altoService: AltoService,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
   ) {}
 
   ngOnInit(): void {
@@ -48,23 +49,23 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
         .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
         .subscribe(
           (value: BreakpointState) =>
-            (this.isHandsetOrTabletInPortrait = value.matches)
-        )
+            (this.isHandsetOrTabletInPortrait = value.matches),
+        ),
     );
 
     this.subscriptions.add(
       this.viewerLayoutService.onChange.subscribe(
         (viewerLayout: ViewerLayout) => {
           this.viewerLayout = viewerLayout;
-        }
-      )
+        },
+      ),
     );
     this.subscriptions.add(
       this.altoService.onRecognizedTextContentModeChange$.subscribe(
         (recognizedTextModeChanges: RecognizedTextModeChanges) => {
           this.recognizedTextMode = recognizedTextModeChanges.currentValue;
-        }
-      )
+        },
+      ),
     );
     this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
@@ -75,13 +76,14 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
           this.hasRecognizedTextContent = manifest
             ? ManifestUtils.hasRecognizedTextContent(manifest)
             : false;
-        }
-      )
+        },
+      ),
     );
     this.subscriptions.add(
-      this.mimeResizeService.onResize.subscribe((rect) => {
-        this.resizeHeight(rect);
-      })
+      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
+        this.mimeHeight = dimensions.height;
+        this.resizeTabHeight();
+      }),
     );
   }
 
@@ -109,14 +111,19 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
     this.altoService.showRecognizedTextContentOnly();
   }
 
-  private resizeHeight(rect: Dimensions): void {
-    let maxHeight = rect.height - 192 + 'px';
+  private resizeTabHeight() {
+    let height = this.mimeHeight;
+
     if (this.isHandsetOrTabletInPortrait) {
-      maxHeight = rect.height + 'px';
+      this.tabHeight = {
+        maxHeight: window.innerHeight - 128 + 'px',
+      };
+    } else {
+      height -= 220;
+      this.tabHeight = {
+        maxHeight: height + 'px',
+      };
     }
-    this.contentStyle = {
-      maxHeight,
-    };
     this.cdr.detectChanges();
   }
 }

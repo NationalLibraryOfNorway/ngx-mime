@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@use './theming.scss';
+@use './palettes.scss';
+
+$_rest: (
+  secondary: map.get(palettes.$blue-green-palette, secondary),
+  neutral: map.get(palettes.$blue-green-palette, neutral),
+  neutral-variant: map.get(palettes.$blue-green-palette, neutral-variant),
+  error: map.get(palettes.$blue-green-palette, error),
+);
+$_primary: map.merge(map.get(palettes.$blue-green-palette, primary), $_rest);
+$_tertiary: map.merge(map.get(palettes.$blue-green-palette, tertiary), $_rest);
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: $_primary,
+      tertiary: $_tertiary,
+    ),
+    typography: (
+      brand-family: DM Sans,
+      plain-family: DM Sans,
+    ),
+  )
+);
+
+body {
+  @include theming.components-colors($theme);
+}

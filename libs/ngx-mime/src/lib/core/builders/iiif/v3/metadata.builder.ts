@@ -12,8 +12,8 @@ export class MetadataBuilder {
         metadatas.push(
           new Metadata(
             BuilderUtils.extractLanguageValue(data.label),
-            BuilderUtils.extractLanguageValue(data.value)
-          )
+            BuilderUtils.extractLanguageValue(data.value),
+          ),
         );
       }
     }

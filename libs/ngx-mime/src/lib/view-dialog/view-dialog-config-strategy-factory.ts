@@ -11,7 +11,7 @@ import {
 export class ViewDialogConfigStrategyFactory {
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private mimeDomHelper: MimeDomHelper
+    private mimeDomHelper: MimeDomHelper,
   ) {}
 
   public create(): ViewDialogConfigStrategy {

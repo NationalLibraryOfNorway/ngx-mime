@@ -25,7 +25,7 @@ export class CanvasBuilder {
             width: canvas.width,
             images: new ImagesBuilder(canvas.images).build(),
             altoUrl: this.extractAltoUrl(seeAlso),
-          })
+          }),
         );
       }
     }
@@ -38,7 +38,7 @@ export class CanvasBuilder {
     }
 
     const altoService = seeAlso.find(
-      (s: any) => s.format === 'application/alto+xml'
+      (s: any) => s.format === 'application/alto+xml',
     );
     return altoService ? BuilderUtils.extractId(altoService) : undefined;
   }

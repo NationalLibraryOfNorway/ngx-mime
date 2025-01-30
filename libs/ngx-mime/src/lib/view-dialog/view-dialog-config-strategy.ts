@@ -6,7 +6,7 @@ import { Dimensions } from '../core/models/dimensions';
 export interface ViewDialogConfigStrategy {
   getConfig(
     elementRef: ElementRef | null,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig;
 }
 
@@ -15,7 +15,7 @@ export class MobileViewDialogConfigStrategy
 {
   public getConfig(
     elementRef: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     return {
       hasBackdrop: false,
@@ -23,7 +23,7 @@ export class MobileViewDialogConfigStrategy
       width: '100%',
       height: '100%',
       maxWidth: '100% !important',
-      panelClass: 'view-panel',
+      panelClass: ['mime-mobile-dialog', 'mime-dialog', 'view-panel'],
       viewContainerRef: viewContainerRef,
     };
   }
@@ -32,8 +32,8 @@ export class MobileViewDialogConfigStrategy
 export class DesktopViewDialogConfigStrategy
   implements ViewDialogConfigStrategy
 {
-  public static readonly dialogWidth = 250;
-  public static readonly paddingRight = 20;
+  public static readonly dialogWidth = 350;
+  public static readonly paddingRight = 16;
   private mimeDomHelper: MimeDomHelper;
 
   constructor(mimeDomHelper: MimeDomHelper) {
@@ -42,7 +42,7 @@ export class DesktopViewDialogConfigStrategy
 
   public getConfig(
     el: ElementRef,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     const dimensions = this.getPosition(el);
     return {
@@ -53,7 +53,7 @@ export class DesktopViewDialogConfigStrategy
         top: dimensions.top + 'px',
         left: dimensions.left + 'px',
       },
-      panelClass: 'view-panel',
+      panelClass: ['mime-dialog', 'view-panel'],
       maxWidth: '100% !important',
       viewContainerRef: viewContainerRef,
     };
@@ -62,7 +62,7 @@ export class DesktopViewDialogConfigStrategy
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
     return new Dimensions({
-      top: dimensions.top + 64,
+      top: dimensions.top + 80,
       left:
         dimensions.right -
         DesktopViewDialogConfigStrategy.dialogWidth -

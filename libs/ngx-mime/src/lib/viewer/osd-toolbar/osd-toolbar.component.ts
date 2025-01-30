@@ -50,7 +50,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     private viewerService: ViewerService,
     private canvasService: CanvasService,
     private iiifManifestService: IiifManifestService,
-    private modeService: ModeService
+    private modeService: ModeService,
   ) {}
 
   ngOnInit() {
@@ -58,7 +58,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
       this.modeService.onChange.subscribe(() => {
         this.isZoomed = this.modeService.isPageZoomed();
         this.changeDetectorRef.detectChanges();
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -67,7 +67,7 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
         .subscribe((value: BreakpointState) => {
           this.isWeb = value.matches;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
     );
 
     this.subscriptions.add(
@@ -77,8 +77,8 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
             this.invert = manifest.viewingDirection === ViewingDirection.LTR;
             this.changeDetectorRef.detectChanges();
           }
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -86,18 +86,18 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
         (currentCanvasGroupIndex: number) => {
           this.numberOfCanvasGroups = this.canvasService.numberOfCanvasGroups;
           this.isFirstCanvasGroup = this.isOnFirstCanvasGroup(
-            currentCanvasGroupIndex
+            currentCanvasGroupIndex,
           );
           this.isLastCanvasGroup = this.isOnLastCanvasGroup(
-            currentCanvasGroupIndex
+            currentCanvasGroupIndex,
           );
           this.changeDetectorRef.detectChanges();
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
-      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck())
+      this.intl.changes.subscribe(() => this.changeDetectorRef.markForCheck()),
     );
   }
 

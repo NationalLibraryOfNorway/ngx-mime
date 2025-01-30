@@ -26,19 +26,19 @@ export class CustomWorld extends World {
     this.viewerPage = new ViewerPage(
       this.parameters,
       this.page,
-      this.animations
+      this.animations,
     );
     this.elementsPage = new ElementsPage(
       this.parameters,
       this.page,
-      this.viewerPage
+      this.viewerPage,
     );
     this.metadataPage = new MetadataPage(this.page);
     this.tocPage = new TableOfContentsPage(this.page);
     this.contentSearchPage = new ContentSearchPage(
       this.page,
       this.viewerPage,
-      this.animations
+      this.animations,
     );
     this.helpDialogPage = new HelpDialogPage(this.page);
   }

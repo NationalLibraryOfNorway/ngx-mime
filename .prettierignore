@@ -3,3 +3,5 @@ dist
 .tmp
 
 /.nx/cache
+/.nx/workspace-data
+CHANGELOG.md

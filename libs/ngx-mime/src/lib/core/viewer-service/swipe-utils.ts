@@ -8,7 +8,7 @@ export class SwipeUtils {
   static getSwipeDirection(
     start: Point,
     end: Point,
-    useThreshold?: boolean
+    useThreshold?: boolean,
   ): Direction {
     let deltaX = Math.abs(start.x - end.x);
     const deltaY = Math.abs(start.y - end.y);
@@ -27,7 +27,7 @@ export class SwipeUtils {
 
   static getSideIfPanningPastEndOfCanvasGroup(
     canvasGroupRect: Rect,
-    vpBounds: Rect
+    vpBounds: Rect,
   ): Side | null {
     if (this.isPanningOutsideLeft(canvasGroupRect, vpBounds)) {
       return Side.LEFT;
@@ -40,7 +40,7 @@ export class SwipeUtils {
 
   static isPanningOutsideCanvasGroup(
     canvasGroupRect: Rect,
-    vpBounds: Rect
+    vpBounds: Rect,
   ): boolean {
     return (
       this.isPanningOutsideLeft(canvasGroupRect, vpBounds) ||

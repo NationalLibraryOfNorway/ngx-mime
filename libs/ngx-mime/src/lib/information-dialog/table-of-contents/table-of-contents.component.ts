@@ -32,7 +32,7 @@ export class TocComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
     private viewerService: ViewerService,
-    private canvasService: CanvasService
+    private canvasService: CanvasService,
   ) {}
 
   ngOnInit() {
@@ -43,8 +43,8 @@ export class TocComponent implements OnInit, OnDestroy {
           this.currentCanvasGroupIndex =
             this.canvasService.currentCanvasGroupIndex;
           this.changeDetectorRef.detectChanges();
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -52,8 +52,8 @@ export class TocComponent implements OnInit, OnDestroy {
         (canvasGroupIndex: number) => {
           this.currentCanvasGroupIndex = canvasGroupIndex;
           this.changeDetectorRef.detectChanges();
-        }
-      )
+        },
+      ),
     );
   }
 

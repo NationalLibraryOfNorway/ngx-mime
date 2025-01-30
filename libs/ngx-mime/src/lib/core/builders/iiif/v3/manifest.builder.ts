@@ -22,7 +22,7 @@ export class ManifestBuilder {
       license: this.data.rights,
       logo: BuilderUtils.extractLogo(this.data.provider),
       attribution: BuilderUtils.extractLanguageValue(
-        this.data.requiredStatement?.value
+        this.data.requiredStatement?.value,
       ),
       service: new ServiceBuilder(this.data.service).build(),
       sequences: sequences,

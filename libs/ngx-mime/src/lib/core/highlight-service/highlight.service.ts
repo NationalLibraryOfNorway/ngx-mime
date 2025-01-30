@@ -13,7 +13,7 @@ export class HighlightService {
   highlight(
     html: string,
     currentIndex: number,
-    hits?: Hit[] | undefined
+    hits?: Hit[] | undefined,
   ): string {
     if (hits && hits.length > 0) {
       for (const hit of hits) {
@@ -29,9 +29,9 @@ export class HighlightService {
     const wordBoundary = '\\b';
     return html?.replace(
       new RegExp(
-        wordBoundary + this.escapeSpecialCharacters(pattern) + '(?!<)'
+        wordBoundary + this.escapeSpecialCharacters(pattern) + '(?!<)',
       ),
-      `<mark data-id="${id}">$&</mark>`
+      `<mark data-id="${id}">$&</mark>`,
     );
   }
 

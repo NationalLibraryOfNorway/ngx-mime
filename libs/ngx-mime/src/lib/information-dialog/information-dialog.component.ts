@@ -39,7 +39,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<InformationDialogComponent>,
     private changeDetectorRef: ChangeDetectorRef,
     private iiifManifestService: IiifManifestService,
-    private mimeResizeService: MimeResizeService
+    private mimeResizeService: MimeResizeService,
   ) {}
 
   ngOnInit() {
@@ -48,8 +48,8 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
         .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
         .subscribe(
           (value: BreakpointState) =>
-            (this.isHandsetOrTabletInPortrait = value.matches)
-        )
+            (this.isHandsetOrTabletInPortrait = value.matches),
+        ),
     );
 
     this.subscriptions.add(
@@ -60,15 +60,15 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
             this.manifest !== null &&
             this.manifest.structures !== undefined &&
             this.manifest.structures.length > 0;
-        }
-      )
+        },
+      ),
     );
 
     this.subscriptions.add(
       this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
         this.mimeHeight = dimensions.height;
         this.resizeTabHeight();
-      })
+      }),
     );
 
     this.resizeTabHeight();
@@ -92,7 +92,7 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
         maxHeight: window.innerHeight - 128 + 'px',
       };
     } else {
-      height -= 278;
+      height -= 288;
       this.tabHeight = {
         maxHeight: height + 'px',
       };

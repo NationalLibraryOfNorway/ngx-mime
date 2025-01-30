@@ -1,6 +1,6 @@
 <div class="help-container">
   @if (isHandsetOrTabletInPortrait) {
-    <mat-toolbar color="primary">
+    <mat-toolbar class="secondary-toolbar">
       <button
         mat-icon-button
         [aria-label]="intl.helpCloseAriaLabel"
@@ -12,7 +12,7 @@
       <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>
     </mat-toolbar>
   } @else {
-    <mat-toolbar class="justify-between">
+    <mat-toolbar class="secondary-toolbar justify-between">
       <h1 class="heading-desktop" mat-dialog-title>{{
         intl.help.helpLabel
       }}</h1>
