@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [18.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v17.1.1...v18.0.0) (2025-01-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Applications using this library must be updated to Angular 18 to
+maintain compatibility.
+- Require adjustments to align with Material Design 3.
+
+### Features
+
+* upgrade to Angular 18 with Material Design 3 ([#500](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/500)) ([6481761](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/64817618bf3fb43ea09d36f3209bc166c8be5f7d))
+
 ### [17.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v17.1.0...v17.1.1) (2024-06-13)
 
 ## [17.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v17.0.0...v17.1.0) (2024-06-13)
