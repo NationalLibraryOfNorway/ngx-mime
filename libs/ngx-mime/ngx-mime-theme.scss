@@ -1,15 +1,14 @@
 @use '@angular/material' as mat;
 
-@use 'src/lib/attribution-dialog/_attribution-dialog.component-theme.scss' as
+@use 'src/lib/attribution-dialog/_attribution-dialog-component-theme' as
   attribution;
-@use 'src/lib/information-dialog/metadata/_metadata.component.theme.scss' as
-  metadata;
-@use 'src/lib/viewer/_viewer.component-theme.scss' as viewer;
-@use 'src/lib/content-search-dialog/_content-search-dialog.component-theme.scss'
-  as content-search-dialog;
-@use 'src/lib/viewer/osd-toolbar/osd-toolbar.component.theme' as osd-toolbar;
+@use 'src/lib/information-dialog/metadata/_metadata-component-theme' as metadata;
+@use 'src/lib/viewer/_viewer-component-theme' as viewer;
+@use 'src/lib/content-search-dialog/_content-search-dialog-component-theme' as
+  content-search-dialog;
+@use 'src/lib/viewer/osd-toolbar/_osd-toolbar-component-theme' as osd-toolbar;
 
-@mixin ngx-mime-theme($theme) {
+@mixin color($theme) {
   @include attribution.theme($theme);
   @include metadata.theme($theme);
   @include viewer.theme($theme);
@@ -45,5 +44,18 @@
       border-radius: unset;
     }
     max-width: 100% !important;
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+
+  @if mat.theme-has($theme, typography) {
+    @include typography($theme);
   }
 }
