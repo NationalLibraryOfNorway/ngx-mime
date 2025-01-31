@@ -2,7 +2,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 @use 'themes/palettes' as palettes;
-@use '../../../libs/ngx-mime/ngx-mime.theme.scss' as ngx-mime;
+@use '../../../libs/ngx-mime/ngx-mime-theme' as ngx-mime;
 
 @tailwind utilities;
 
@@ -54,10 +54,10 @@ $dark-theme: mat.define-theme(
 
 html {
   @include mat.all-component-themes($theme);
-  @include ngx-mime.ngx-mime-theme($theme);
+  @include ngx-mime.theme($theme);
 
   .ngx-mime-dark-theme {
-    @include ngx-mime.ngx-mime-theme($dark-theme);
+    @include ngx-mime.theme($dark-theme);
     @include mat.all-component-colors($dark-theme);
   }
 }

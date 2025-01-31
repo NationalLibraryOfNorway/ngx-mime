@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
-@use '../../../libs/ngx-mime/ngx-mime.theme.scss' as ngx-mime;
+@use '../../../libs/ngx-mime/ngx-mime-theme' as ngx-mime;
 
 @tailwind utilities;
 
@@ -17,7 +17,7 @@ $theme: mat.define-theme(
 
 html {
   @include mat.all-component-themes($theme);
-  @include ngx-mime.ngx-mime-theme($theme);
+  @include ngx-mime.theme($theme);
 }
 
 html,
