@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [18.0.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v18.0.0...v18.0.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* **theme:** ensure all theme files are included in release ([#502](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/502)) ([18f433d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/18f433d98aa185fc844b6bc34ff38da0d7bef70a))
+* update ngx-mime theme import paths and remove unused theme file ([#503](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/503)) ([074d681](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/074d681885566ff3cd96327dc3c295cbf5b93696))
+
 ## [18.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v17.1.1...v18.0.0) (2025-01-30)
 
 
