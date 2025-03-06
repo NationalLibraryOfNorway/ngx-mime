@@ -17,15 +17,14 @@
 
   .mime-dialog {
     .mat-mdc-dialog-surface {
-      background: mat.get-theme-color($theme, surface-container-low);
+      background: mat.get-theme-color($theme, surface-container-high);
     }
   }
 
   .viewer-container,
   .mime-dialog {
     a {
-      color: mat.get-theme-color($theme, tertiary);
-      text-decoration: none;
+      color: mat.get-theme-color($theme, primary);
     }
 
     .secondary-toolbar {
