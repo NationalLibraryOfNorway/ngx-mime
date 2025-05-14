@@ -154,7 +154,7 @@ describe('ViewerService', () => {
   });
 
   describe('rotate', () => {
-    it('should rotate if using canvas', (done) => {
+    it('should rotate if using webgl', (done) => {
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
         config,
@@ -174,7 +174,8 @@ describe('ViewerService', () => {
       });
     });
 
-    it('should show error message if not using canvas', (done) => {
+    it('should show error message if using html', (done) => {
+      mockIOSPlatform();
       const openSpy = jest.spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
@@ -194,3 +195,10 @@ describe('ViewerService', () => {
     });
   });
 });
+
+function mockIOSPlatform() {
+  Object.defineProperty(navigator, 'userAgentData', {
+    value: { platform: 'iOS' },
+    configurable: true,
+  });
+}

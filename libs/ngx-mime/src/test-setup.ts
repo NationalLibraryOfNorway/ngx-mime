@@ -6,6 +6,7 @@ globalThis.ngJest = {
   },
 };
 import 'jest-preset-angular/setup-jest';
+import 'jest-webgl-canvas-mock';
 
 import OpenSeadragon from 'openseadragon';
 
