@@ -1,10 +1,6 @@
 // get-canvas-draw-type.spec.ts
-import { getCanvasDrawType } from './drawer-utils';
-import {
-  mockIOS, mockLinux, mockMacDesktop,
-  mockMacTouch,
-  mockWindows
-} from '../../test/navigator-mocks';
+import { CanvasRenderer, getCanvasRenderType } from './drawer-utils';
+import { mockIOS, mockLinux, mockMacDesktop, mockMacTouch, mockWindows } from '../../test/navigator-mocks';
 
 describe('getCanvasDrawType', () => {
   afterEach(() => {
@@ -13,26 +9,35 @@ describe('getCanvasDrawType', () => {
 
   it('should return html for iOS device (userAgent)', () => {
     mockIOS();
-    expect(getCanvasDrawType()).toBe('html');
+
+    expectCanvasDrawTypeToBe(CanvasRenderer.HTML);
   });
 
   it('should return html for iOS via MacIntel + touch', () => {
     mockMacTouch();
-    expect(getCanvasDrawType()).toBe('html');
+
+    expectCanvasDrawTypeToBe(CanvasRenderer.HTML);
   });
 
   it('should return canvas for macOS desktop (no touch)', () => {
     mockMacDesktop();
-    expect(getCanvasDrawType()).toBe('canvas');
+
+    expectCanvasDrawTypeToBe(CanvasRenderer.CANVAS);
   });
 
   it('should return webgl for Linux platform', () => {
     mockLinux();
-    expect(getCanvasDrawType()).toBe('webgl');
+
+    expectCanvasDrawTypeToBe(CanvasRenderer.WEBGL);
   });
 
   it('should return webgl for Windows', () => {
     mockWindows();
-    expect(getCanvasDrawType()).toBe('webgl');
+
+    expectCanvasDrawTypeToBe(CanvasRenderer.WEBGL);
   });
 });
+
+function expectCanvasDrawTypeToBe(platform: string) {
+  expect(getCanvasRenderType()).toBe(platform);
+}

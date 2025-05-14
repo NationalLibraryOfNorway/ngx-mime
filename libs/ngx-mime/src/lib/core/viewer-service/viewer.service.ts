@@ -33,7 +33,7 @@ import { OptionsFactory } from './options.factory';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
-import { getCanvasDrawType } from './drawer-utils';
+import { CanvasRenderer, getCanvasRenderType } from './drawer-utils';
 
 declare const OpenSeadragon: any;
 
@@ -533,7 +533,7 @@ export class ViewerService {
 
   rotate(): void {
     if (this.osdIsReady.getValue()) {
-      if (getCanvasDrawType() === 'html') {
+      if (getCanvasRenderType() === CanvasRenderer.HTML) {
         this.showRotationIsNotSupportetMessage();
       } else {
         this.rotateToRight();
