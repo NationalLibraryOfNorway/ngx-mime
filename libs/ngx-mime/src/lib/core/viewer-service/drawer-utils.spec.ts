@@ -37,6 +37,6 @@ describe('getCanvasDrawType', () => {
   });
 });
 
-function expectCanvasRenderTypeToBe(platform: string) {
-  expect(getCanvasRenderType()).toBe(platform);
+function expectCanvasRenderTypeToBe(canvasRenderType: string) {
+  expect(getCanvasRenderType()).toBe(canvasRenderType);
 }
