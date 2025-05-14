@@ -33,7 +33,7 @@ import { OptionsFactory } from './options.factory';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
-import { getCanvasDrawType } from '@nationallibraryofnorway/ngx-mime/src/lib/core/viewer-service/drawer-utils';
+import { getCanvasDrawType } from './drawer-utils';
 
 declare const OpenSeadragon: any;
 
