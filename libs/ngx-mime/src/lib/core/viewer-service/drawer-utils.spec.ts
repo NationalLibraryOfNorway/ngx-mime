@@ -1,4 +1,3 @@
-// get-canvas-draw-type.spec.ts
 import { CanvasRenderer, getCanvasRenderType } from './drawer-utils';
 import { mockIOS, mockLinux, mockMacDesktop, mockMacTouch, mockWindows } from '../../test/navigator-mocks';
 
