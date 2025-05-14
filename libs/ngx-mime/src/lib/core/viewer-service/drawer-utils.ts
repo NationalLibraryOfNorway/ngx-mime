@@ -14,6 +14,7 @@ export function getCanvasDrawType(): string {
   const isMac =
     platform.includes('macOS') ||
     (platform === 'MacIntel' && !isTouchDevice);
+
   if (isIOS) return 'html';
   if (isMac) return 'canvas';
   return 'webgl';
