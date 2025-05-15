@@ -1,6 +1,7 @@
 import * as OpenSeadragon from 'openseadragon';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerOptions } from '../models/viewer-options';
+import { getDrawerType } from './drawer-utils';
 
 export class OptionsFactory {
   public static create(
@@ -9,11 +10,11 @@ export class OptionsFactory {
   ): OpenSeadragon.Options {
     let options: OpenSeadragon.Options = OpenSeadragon.DEFAULT_SETTINGS;
 
-    return {
+    return <any>{
       ...options,
       id: id,
-      useCanvas: this.canUseCanvas(),
       panVertical: true,
+      drawer: getDrawerType(),
       minZoomImageRatio: 1,
       maxZoomPixelRatio: 5,
       smoothTileEdgesMinZoom: 1,
@@ -48,14 +49,5 @@ export class OptionsFactory {
         flickEnabled: false,
       },
     };
-  }
-
-  private static canUseCanvas() {
-    const isHandheldIOS =
-      /iPad|iPhone|iPod/.test(navigator.platform ?? '') ||
-      (navigator.platform === 'MacIntel' &&
-        typeof (navigator as any).standalone !== 'undefined');
-
-    return !isHandheldIOS;
   }
 }

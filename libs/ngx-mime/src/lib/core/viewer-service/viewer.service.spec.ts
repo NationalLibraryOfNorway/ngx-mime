@@ -18,6 +18,7 @@ import { ViewerLayout } from '../models/viewer-layout';
 import { StyleService } from '../style-service/style.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { ViewerService } from './viewer.service';
+import { mockIOS } from '../../test/navigator-mocks';
 
 @Component({
   template: ` <div [id]="openseadragonId"></div> `,
@@ -154,7 +155,7 @@ describe('ViewerService', () => {
   });
 
   describe('rotate', () => {
-    it('should rotate if using canvas', (done) => {
+    it('should rotate if using webgl', (done) => {
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
         config,
@@ -174,7 +175,8 @@ describe('ViewerService', () => {
       });
     });
 
-    it('should show error message if not using canvas', (done) => {
+    it('should show error message if using html', (done) => {
+      mockIOS();
       const openSpy = jest.spyOn(snackBar, 'open');
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),

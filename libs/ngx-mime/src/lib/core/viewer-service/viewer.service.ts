@@ -3,10 +3,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as d3 from 'd3';
 import {
   BehaviorSubject,
+  interval,
   Observable,
   Subject,
   Subscription,
-  interval,
 } from 'rxjs';
 import { distinctUntilChanged, sample } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
@@ -545,7 +545,7 @@ export class ViewerService {
 
   rotate(): void {
     if (this.osdIsReady.getValue()) {
-      if (this.viewer.useCanvas) {
+      if (this.viewer.drawer.canRotate()) {
         this.rotateToRight();
         this.highlightCurrentHit();
       } else {
