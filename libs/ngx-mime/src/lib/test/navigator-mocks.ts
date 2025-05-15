@@ -5,25 +5,6 @@ type NavigatorMockProps = {
   maxTouchPoints?: number;
 };
 
-function overrideNavigator({ platform, userAgent = '', userAgentData = undefined, maxTouchPoints = 0 }: NavigatorMockProps) {
-  Object.defineProperty(navigator, 'platform', {
-    value: platform,
-    configurable: true,
-  });
-  Object.defineProperty(navigator, 'userAgent', {
-    value: userAgent,
-    configurable: true,
-  });
-  Object.defineProperty(navigator, 'userAgentData', {
-    value: userAgentData,
-    configurable: true,
-  });
-  Object.defineProperty(navigator, 'maxTouchPoints', {
-    value: maxTouchPoints,
-    configurable: true,
-  });
-}
-
 export function mockIOS() {
   overrideNavigator({
     platform: 'iPhone',
@@ -57,5 +38,24 @@ export function mockWindows() {
   overrideNavigator({
     platform: 'Win32',
     userAgentData: { platform: 'Windows' },
+  });
+}
+
+function overrideNavigator({ platform, userAgent = '', userAgentData = undefined, maxTouchPoints = 0 }: NavigatorMockProps) {
+  Object.defineProperty(navigator, 'platform', {
+    value: platform,
+    configurable: true,
+  });
+  Object.defineProperty(navigator, 'userAgent', {
+    value: userAgent,
+    configurable: true,
+  });
+  Object.defineProperty(navigator, 'userAgentData', {
+    value: userAgentData,
+    configurable: true,
+  });
+  Object.defineProperty(navigator, 'maxTouchPoints', {
+    value: maxTouchPoints,
+    configurable: true,
   });
 }
