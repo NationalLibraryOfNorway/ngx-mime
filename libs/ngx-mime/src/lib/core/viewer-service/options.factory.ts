@@ -1,7 +1,7 @@
 import * as OpenSeadragon from 'openseadragon';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerOptions } from '../models/viewer-options';
-import { getCanvasRenderType } from './drawer-utils';
+import { getDrawerType } from './drawer-utils';
 
 export class OptionsFactory {
   public static create(
@@ -14,7 +14,7 @@ export class OptionsFactory {
       ...options,
       id: id,
       panVertical: true,
-      drawer: getCanvasRenderType(),
+      drawer: getDrawerType(),
       minZoomImageRatio: 1,
       maxZoomPixelRatio: 5,
       smoothTileEdgesMinZoom: 1,

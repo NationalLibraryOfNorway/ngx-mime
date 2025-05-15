@@ -1,10 +1,10 @@
-export enum CanvasRenderer {
+export enum DrawerType {
   HTML = 'html',
   CANVAS = 'canvas',
   WEBGL = 'webgl',
 }
 
-export function getCanvasRenderType(): string {
+export function getDrawerType(): string {
   const userAgent = navigator.userAgent || '';
   const userAgentData = (navigator as any).userAgentData;
 
@@ -21,7 +21,7 @@ export function getCanvasRenderType(): string {
     platform.includes('macOS') ||
     (platform === 'MacIntel' && !isTouchDevice);
 
-  if (isIOS) return CanvasRenderer.HTML;
-  if (isMac) return CanvasRenderer.CANVAS;
-  return CanvasRenderer.WEBGL;
+  if (isIOS) return DrawerType.HTML;
+  if (isMac) return DrawerType.CANVAS;
+  return DrawerType.WEBGL;
   }

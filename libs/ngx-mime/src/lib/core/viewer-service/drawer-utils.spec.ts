@@ -1,42 +1,31 @@
-import { CanvasRenderer, getCanvasRenderType } from './drawer-utils';
-import { mockIOS, mockLinux, mockMacDesktop, mockMacTouch, mockWindows } from '../../test/navigator-mocks';
+import { DrawerType, getDrawerType } from './drawer-utils';
+import {
+  mockIOS,
+  mockLinux,
+  mockMacDesktop,
+  mockMacTouch,
+  mockWindows,
+} from '../../test/navigator-mocks';
 
-describe('getCanvasDrawType', () => {
-  afterEach(() => {
-    mockWindows();
-  });
+const RENDERER_CASES: [string, () => void, DrawerType][] = [
+  ['iOS device (userAgent)', mockIOS, DrawerType.HTML],
+  ['iOS via MacIntel + touch', mockMacTouch, DrawerType.HTML],
+  ['macOS desktop (no touch)', mockMacDesktop, DrawerType.CANVAS],
+  ['Linux platform', mockLinux, DrawerType.WEBGL],
+  ['Windows platform', mockWindows, DrawerType.WEBGL],
+];
 
-  it('should return html for iOS device (userAgent)', () => {
-    mockIOS();
+describe('getDrawerType', () => {
+  afterEach(mockWindows);
 
-    expectCanvasRenderTypeToBe(CanvasRenderer.HTML);
-  });
+  it.each(RENDERER_CASES)(
+    'should return correct renderer for %s',
+    (_description, setupMock, expected) => {
+      setupMock();
 
-  it('should return html for iOS via MacIntel + touch', () => {
-    mockMacTouch();
+      const drawerType = getDrawerType();
 
-    expectCanvasRenderTypeToBe(CanvasRenderer.HTML);
-  });
-
-  it('should return canvas for macOS desktop (no touch)', () => {
-    mockMacDesktop();
-
-    expectCanvasRenderTypeToBe(CanvasRenderer.CANVAS);
-  });
-
-  it('should return webgl for Linux platform', () => {
-    mockLinux();
-
-    expectCanvasRenderTypeToBe(CanvasRenderer.WEBGL);
-  });
-
-  it('should return webgl for Windows', () => {
-    mockWindows();
-
-    expectCanvasRenderTypeToBe(CanvasRenderer.WEBGL);
-  });
+      expect(drawerType).toBe(expected);
+    },
+  );
 });
-
-function expectCanvasRenderTypeToBe(canvasRenderType: string) {
-  expect(getCanvasRenderType()).toBe(canvasRenderType);
-}
