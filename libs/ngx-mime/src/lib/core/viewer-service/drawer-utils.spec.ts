@@ -15,7 +15,7 @@ const RENDERER_CASES: [string, () => void, DrawerType][] = [
   ['Windows platform', mockWindows, DrawerType.WEBGL],
 ];
 
-describe('getDrawerType', () => {
+describe('drawer-utils', () => {
   afterEach(mockWindows);
 
   it.each(RENDERER_CASES)(
