@@ -4,24 +4,33 @@ export enum DrawerType {
   WEBGL = 'webgl',
 }
 
-export function getDrawerType(): string {
-  const userAgent = navigator.userAgent || '';
-  const userAgentData = (navigator as any).userAgentData;
+export function getDrawerType(): DrawerType {
+  const userAgent = navigator.userAgent ?? '';
+  const platform =
+    (navigator as any).userAgentData?.platform ?? navigator.platform ?? '';
+  const touch = isTouchDevice();
 
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 1;
+  if (isIOS(userAgent, platform, touch)) {
+    return DrawerType.HTML;
+  } else if (isMacDesktop(platform, touch)) {
+    return DrawerType.CANVAS;
+  } else {
+    return DrawerType.WEBGL;
+  }
+}
 
-  const platform = (userAgentData?.platform ?? navigator.platform ?? '');
+function isTouchDevice(): boolean {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 1;
+}
 
-  const isIOS =
+function isIOS(userAgent: string, platform: string, touch: boolean): boolean {
+  return (
     /iPhone|iPad|iPod/.test(userAgent) ||
     platform.includes('iOS') ||
-    (platform === 'MacIntel' && isTouchDevice);
+    (platform === 'MacIntel' && touch)
+  );
+}
 
-  const isMac =
-    platform.includes('macOS') ||
-    (platform === 'MacIntel' && !isTouchDevice);
-
-  if (isIOS) return DrawerType.HTML;
-  if (isMac) return DrawerType.CANVAS;
-  return DrawerType.WEBGL;
-  }
+function isMacDesktop(platform: string, touch: boolean): boolean {
+  return platform.includes('macOS') || (platform === 'MacIntel' && !touch);
+}
