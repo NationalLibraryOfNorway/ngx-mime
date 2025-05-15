@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [18.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v18.0.2...v18.1.0) (2025-05-15)
+
+
+### Features
+
+* **ngx-mime:** upgrade OpenSeadragon to v5 and default to WebGL drawer with macOS/iOS fallbacks ([#505](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/505)) ([6897a5d](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/6897a5db863702501641e7e91e02faa01f67ee1c)), closes [#2720](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/2720)
+
 ### [18.0.2](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v18.0.1...v18.0.2) (2025-03-06)
 
 
