@@ -46,7 +46,6 @@ import { OptionsFactory } from './options.factory';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';
 import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
-import { DrawerType, getDrawerType } from './drawer-utils';
 
 declare const OpenSeadragon: any;
 
