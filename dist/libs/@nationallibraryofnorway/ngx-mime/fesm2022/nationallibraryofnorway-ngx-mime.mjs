@@ -3278,14 +3278,46 @@ class DefaultGoToCanvasGroupStrategy {
     }
 }
 
+var DrawerType;
+(function (DrawerType) {
+    DrawerType["HTML"] = "html";
+    DrawerType["CANVAS"] = "canvas";
+    DrawerType["WEBGL"] = "webgl";
+})(DrawerType || (DrawerType = {}));
+function getDrawerType() {
+    const userAgent = navigator.userAgent ?? '';
+    const platform = navigator.userAgentData?.platform ?? navigator.platform ?? '';
+    const touch = isTouchDevice();
+    if (isIOS(userAgent, platform, touch)) {
+        return DrawerType.HTML;
+    }
+    else if (isMacDesktop(platform, touch)) {
+        return DrawerType.CANVAS;
+    }
+    else {
+        return DrawerType.WEBGL;
+    }
+}
+function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 1;
+}
+function isIOS(userAgent, platform, touch) {
+    return (/iPhone|iPad|iPod/.test(userAgent) ||
+        platform.includes('iOS') ||
+        (platform === 'MacIntel' && touch));
+}
+function isMacDesktop(platform, touch) {
+    return platform.includes('macOS') || (platform === 'MacIntel' && !touch);
+}
+
 class OptionsFactory {
     static create(id, mimeViewerConfig) {
         let options = OpenSeadragon$1.DEFAULT_SETTINGS;
         return {
             ...options,
             id: id,
-            useCanvas: this.canUseCanvas(),
             panVertical: true,
+            drawer: getDrawerType(),
             minZoomImageRatio: 1,
             maxZoomPixelRatio: 5,
             smoothTileEdgesMinZoom: 1,
@@ -3320,12 +3352,6 @@ class OptionsFactory {
                 flickEnabled: false,
             },
         };
-    }
-    static canUseCanvas() {
-        const isHandheldIOS = /iPad|iPhone|iPod/.test(navigator.platform ?? '') ||
-            (navigator.platform === 'MacIntel' &&
-                typeof navigator.standalone !== 'undefined');
-        return !isHandheldIOS;
     }
 }
 
@@ -4049,7 +4075,7 @@ class ViewerService {
     }
     rotate() {
         if (this.osdIsReady.getValue()) {
-            if (this.viewer.useCanvas) {
+            if (this.viewer.drawer.canRotate()) {
                 this.rotateToRight();
                 this.highlightCurrentHit();
             }
