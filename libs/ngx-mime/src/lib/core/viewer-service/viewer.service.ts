@@ -1,7 +1,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as d3 from 'd3';
-import { BehaviorSubject, interval, Observable, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  interval,
+  Observable,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { distinctUntilChanged, sample } from 'rxjs/operators';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { AltoService } from '../alto-service/alto.service';
@@ -12,7 +18,11 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
-import { ModeChanges, RecognizedTextMode, RecognizedTextModeChanges } from '../models';
+import {
+  ModeChanges,
+  RecognizedTextMode,
+  RecognizedTextModeChanges,
+} from '../models';
 import { Direction } from '../models/direction';
 import { Manifest, Resource } from '../models/manifest';
 import { PinchStatus } from '../models/pinchStatus';
@@ -28,7 +38,10 @@ import { Rect } from './../models/rect';
 import { SearchResult } from './../models/search-result';
 import { CalculateNextCanvasGroupFactory } from './calculate-next-canvas-group-factory';
 import { CanvasGroupMask } from './canvas-group-mask';
-import { DefaultGoToCanvasGroupStrategy, GoToCanvasGroupStrategy } from './go-to-canvas-group-strategy';
+import {
+  DefaultGoToCanvasGroupStrategy,
+  GoToCanvasGroupStrategy,
+} from './go-to-canvas-group-strategy';
 import { OptionsFactory } from './options.factory';
 import { SwipeDragEndCounter } from './swipe-drag-end-counter';
 import { SwipeUtils } from './swipe-utils';

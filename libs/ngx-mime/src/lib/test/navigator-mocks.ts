@@ -41,7 +41,12 @@ export function mockWindows() {
   });
 }
 
-function overrideNavigator({ platform, userAgent = '', userAgentData = undefined, maxTouchPoints = 0 }: NavigatorMockProps) {
+function overrideNavigator({
+  platform,
+  userAgent = '',
+  userAgentData = undefined,
+  maxTouchPoints = 0,
+}: NavigatorMockProps) {
   Object.defineProperty(navigator, 'platform', {
     value: platform,
     configurable: true,
