@@ -533,11 +533,11 @@ export class ViewerService {
 
   rotate(): void {
     if (this.osdIsReady.getValue()) {
-      if (getDrawerType() === DrawerType.HTML) {
-        this.showRotationIsNotSupportetMessage();
-      } else {
+      if (this.viewer.drawer.canRotate()) {
         this.rotateToRight();
         this.highlightCurrentHit();
+      } else {
+        this.showRotationIsNotSupportetMessage();
       }
     }
   }
