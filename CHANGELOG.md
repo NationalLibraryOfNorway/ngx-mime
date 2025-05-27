@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [18.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v18.1.0...v18.1.1) (2025-05-27)
+
+
+### Bug Fixes
+
+* **ngx-mime:** change default drawer type to CANVAS ([#506](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/506)) ([7cd948e](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/7cd948e437330d5aebd14759f63c41eddf6cda85))
+
 ## [18.1.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v18.0.2...v18.1.0) (2025-05-15)
 
 
