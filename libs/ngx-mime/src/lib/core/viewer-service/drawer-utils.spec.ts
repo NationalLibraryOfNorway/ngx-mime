@@ -11,8 +11,8 @@ const RENDERER_CASES: [string, () => void, DrawerType][] = [
   ['iOS device (userAgent)', mockIOS, DrawerType.HTML],
   ['iOS via MacIntel + touch', mockMacTouch, DrawerType.HTML],
   ['macOS desktop (no touch)', mockMacDesktop, DrawerType.CANVAS],
-  ['Linux platform', mockLinux, DrawerType.WEBGL],
-  ['Windows platform', mockWindows, DrawerType.WEBGL],
+  ['Linux platform', mockLinux, DrawerType.CANVAS],
+  ['Windows platform', mockWindows, DrawerType.CANVAS],
 ];
 
 describe('drawer-utils', () => {
