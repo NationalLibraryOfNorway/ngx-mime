@@ -3295,7 +3295,9 @@ function getDrawerType() {
         return DrawerType.CANVAS;
     }
     else {
-        return DrawerType.WEBGL;
+        // Temporary workaround: force Canvas rendering until OpenSeadragon has full WebGL support.
+        // See: https://github.com/openseadragon/openseadragon/issues/2604
+        return DrawerType.CANVAS;
     }
 }
 function isTouchDevice() {
