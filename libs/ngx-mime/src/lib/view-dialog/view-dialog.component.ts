@@ -17,9 +17,10 @@ import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 
 @Component({
-  selector: 'mime-view-dialog',
-  templateUrl: './view-dialog.component.html',
-  styleUrls: ['./view-dialog.component.scss'],
+    selector: 'mime-view-dialog',
+    templateUrl: './view-dialog.component.html',
+    styleUrls: ['./view-dialog.component.scss'],
+    standalone: false
 })
 export class ViewDialogComponent implements OnInit, OnDestroy {
   tabHeight = {};

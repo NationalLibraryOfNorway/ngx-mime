@@ -28,9 +28,10 @@ import { Manifest } from './../core/models/manifest';
 import { SearchResult } from './../core/models/search-result';
 
 @Component({
-  selector: 'mime-search',
-  templateUrl: './content-search-dialog.component.html',
-  styleUrls: ['./content-search-dialog.component.scss'],
+    selector: 'mime-search',
+    templateUrl: './content-search-dialog.component.html',
+    styleUrls: ['./content-search-dialog.component.scss'],
+    standalone: false
 })
 export class ContentSearchDialogComponent
   implements OnInit, AfterViewInit, OnDestroy

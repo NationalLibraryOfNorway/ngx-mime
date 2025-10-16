@@ -78,5 +78,6 @@
   },
   "nxCloudAccessToken": "OWM5NWUwMGItMWI2NS00OWU0LTkwZjgtYmZlNjQwMWY5YWI0fHJlYWQtd3JpdGU=",
   "parallel": 1,
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "useLegacyCache": true
 }

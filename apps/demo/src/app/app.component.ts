@@ -13,9 +13,10 @@ import {
 } from './core/navbar/theme-picker/theme-service/theme.service';
 
 @Component({
-  selector: 'demo-app',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'demo-app',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
   sidenavMode: MatDrawerMode = 'side';

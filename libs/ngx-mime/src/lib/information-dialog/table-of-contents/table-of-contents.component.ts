@@ -15,10 +15,11 @@ import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 
 @Component({
-  selector: 'mime-toc',
-  templateUrl: './table-of-contents.component.html',
-  styleUrls: ['./table-of-contents.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mime-toc',
+    templateUrl: './table-of-contents.component.html',
+    styleUrls: ['./table-of-contents.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TocComponent implements OnInit, OnDestroy {
   @Output()

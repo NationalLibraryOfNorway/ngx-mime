@@ -10,9 +10,10 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { Dimensions } from '../core/models/dimensions';
 
 @Component({
-  selector: 'mime-help',
-  templateUrl: './help-dialog.component.html',
-  styleUrls: ['./help-dialog.component.scss'],
+    selector: 'mime-help',
+    templateUrl: './help-dialog.component.html',
+    styleUrls: ['./help-dialog.component.scss'],
+    standalone: false
 })
 export class HelpDialogComponent implements OnInit, OnDestroy {
   public tabHeight = {};

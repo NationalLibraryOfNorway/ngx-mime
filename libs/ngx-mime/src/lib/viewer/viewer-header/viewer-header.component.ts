@@ -30,34 +30,23 @@ import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
 
 @Component({
-  selector: 'mime-viewer-header',
-  templateUrl: './viewer-header.component.html',
-  styleUrls: ['./viewer-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
-  animations: [
-    trigger('headerState', [
-      state(
-        'hide',
-        style({
-          transform: 'translate(0, -100%)',
-        }),
-      ),
-      state(
-        'show',
-        style({
-          transform: 'translate(0px, 0px)',
-        }),
-      ),
-      transition(
-        'hide => show',
-        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'),
-      ),
-      transition(
-        'show => hide',
-        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'),
-      ),
-    ]),
-  ],
+    selector: 'mime-viewer-header',
+    templateUrl: './viewer-header.component.html',
+    styleUrls: ['./viewer-header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Default,
+    animations: [
+        trigger('headerState', [
+            state('hide', style({
+                transform: 'translate(0, -100%)',
+            })),
+            state('show', style({
+                transform: 'translate(0px, 0px)',
+            })),
+            transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+            transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
+        ]),
+    ],
+    standalone: false
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('mimeHeaderBefore', { read: ViewContainerRef, static: true })

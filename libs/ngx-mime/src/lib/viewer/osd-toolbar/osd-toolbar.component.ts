@@ -23,11 +23,12 @@ import { ModeService } from './../../core/mode-service/mode.service';
 import { easeInWithDelay, rotate45 } from './../../shared/animations';
 
 @Component({
-  selector: 'mime-osd-toolbar',
-  templateUrl: './osd-toolbar.component.html',
-  styleUrls: ['./osd-toolbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [rotate45, easeInWithDelay],
+    selector: 'mime-osd-toolbar',
+    templateUrl: './osd-toolbar.component.html',
+    styleUrls: ['./osd-toolbar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [rotate45, easeInWithDelay],
+    standalone: false
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;

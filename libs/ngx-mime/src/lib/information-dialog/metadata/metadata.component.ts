@@ -11,10 +11,11 @@ import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
 
 @Component({
-  selector: 'mime-metadata',
-  templateUrl: './metadata.component.html',
-  styleUrls: ['./metadata.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mime-metadata',
+    templateUrl: './metadata.component.html',
+    styleUrls: ['./metadata.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class MetadataComponent implements OnInit, OnDestroy {
   public manifest: Manifest | null = null;

@@ -25,33 +25,22 @@ import { IiifContentSearchService } from './../../core/iiif-content-search-servi
 import { SearchResult } from './../../core/models/search-result';
 
 @Component({
-  selector: 'mime-viewer-footer',
-  templateUrl: './viewer-footer.component.html',
-  styleUrls: ['./viewer-footer.component.scss'],
-  animations: [
-    trigger('footerState', [
-      state(
-        'hide',
-        style({
-          transform: 'translate(0, 100%)',
-        }),
-      ),
-      state(
-        'show',
-        style({
-          transform: 'translate(0, 0)',
-        }),
-      ),
-      transition(
-        'hide => show',
-        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'),
-      ),
-      transition(
-        'show => hide',
-        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'),
-      ),
-    ]),
-  ],
+    selector: 'mime-viewer-footer',
+    templateUrl: './viewer-footer.component.html',
+    styleUrls: ['./viewer-footer.component.scss'],
+    animations: [
+        trigger('footerState', [
+            state('hide', style({
+                transform: 'translate(0, 100%)',
+            })),
+            state('show', style({
+                transform: 'translate(0, 0)',
+            })),
+            transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
+            transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
+        ]),
+    ],
+    standalone: false
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
   @ViewChild('mimeFooterBefore', { read: ViewContainerRef, static: true })

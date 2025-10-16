@@ -18,8 +18,9 @@ import { StyleService } from '../core/style-service/style.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 
 @Component({
-  templateUrl: './attribution-dialog.component.html',
-  styleUrls: ['./attribution-dialog.component.scss'],
+    templateUrl: './attribution-dialog.component.html',
+    styleUrls: ['./attribution-dialog.component.scss'],
+    standalone: false
 })
 export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked

@@ -18,9 +18,10 @@ import { SearchResult } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 
 @Component({
-  selector: 'mime-page-navigator',
-  templateUrl: './canvas-group-navigator.component.html',
-  styleUrls: ['./canvas-group-navigator.component.scss'],
+    selector: 'mime-page-navigator',
+    templateUrl: './canvas-group-navigator.component.html',
+    styleUrls: ['./canvas-group-navigator.component.scss'],
+    standalone: false
 })
 export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   @Input() public searchResult!: SearchResult;

@@ -9,8 +9,9 @@ import { Subscription } from 'rxjs';
 import { ManifestService } from './../core/manifest-service/manifest.service';
 
 @Component({
-  templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss'],
+    templateUrl: './viewer.component.html',
+    styleUrls: ['./viewer.component.scss'],
+    standalone: false
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   manifestUris: string[] = [];

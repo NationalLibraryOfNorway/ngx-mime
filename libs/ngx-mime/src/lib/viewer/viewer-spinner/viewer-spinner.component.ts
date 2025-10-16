@@ -6,9 +6,10 @@ import {
 } from '../../core/spinner-service/spinner.service';
 
 @Component({
-  selector: 'mime-spinner',
-  templateUrl: './viewer-spinner.component.html',
-  styleUrls: ['./viewer-spinner.component.scss'],
+    selector: 'mime-spinner',
+    templateUrl: './viewer-spinner.component.html',
+    styleUrls: ['./viewer-spinner.component.scss'],
+    standalone: false
 })
 export class ViewerSpinnerComponent implements OnDestroy, OnInit {
   public visible = false;

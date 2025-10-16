@@ -19,10 +19,11 @@ import { MimeViewerIntl } from '../../core/intl';
 import { SearchResult } from '../../core/models/search-result';
 
 @Component({
-  selector: 'mime-recognized-text-content',
-  templateUrl: './recognized-text-content.component.html',
-  styleUrls: ['./recognized-text-content.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mime-recognized-text-content',
+    templateUrl: './recognized-text-content.component.html',
+    styleUrls: ['./recognized-text-content.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   @ViewChild('recognizedTextContentContainer', { read: ElementRef })

@@ -19,10 +19,11 @@ import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from './../core/models/manifest';
 
 @Component({
-  selector: 'mime-information',
-  templateUrl: './information-dialog.component.html',
-  styleUrls: ['./information-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mime-information',
+    templateUrl: './information-dialog.component.html',
+    styleUrls: ['./information-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class InformationDialogComponent implements OnInit, OnDestroy {
   public manifest: Manifest | null = null;

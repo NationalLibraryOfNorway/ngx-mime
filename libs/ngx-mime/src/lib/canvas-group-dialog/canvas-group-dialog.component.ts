@@ -18,9 +18,10 @@ import { MimeViewerIntl } from '../core/intl';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 
 @Component({
-  templateUrl: './canvas-group-dialog.component.html',
-  styleUrls: ['./canvas-group-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './canvas-group-dialog.component.html',
+    styleUrls: ['./canvas-group-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   numberOfCanvases: number;

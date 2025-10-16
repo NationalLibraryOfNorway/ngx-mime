@@ -55,12 +55,13 @@ import { VIEWER_PROVIDERS } from './viewer.providers';
 import { slideInLeft } from './../shared/animations';
 
 @Component({
-  selector: 'mime-viewer',
-  templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss'],
-  animations: [slideInLeft],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: VIEWER_PROVIDERS,
+    selector: 'mime-viewer',
+    templateUrl: './viewer.component.html',
+    styleUrls: ['./viewer.component.scss'],
+    animations: [slideInLeft],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: VIEWER_PROVIDERS,
+    standalone: false
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string | null = null;

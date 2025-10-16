@@ -19,10 +19,11 @@ import { ViewingDirection } from '../../../core/models/viewing-direction';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 
 @Component({
-  selector: 'mime-content-search-navigator',
-  templateUrl: './content-search-navigator.component.html',
-  styleUrls: ['./content-search-navigator.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mime-content-search-navigator',
+    templateUrl: './content-search-navigator.component.html',
+    styleUrls: ['./content-search-navigator.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ContentSearchNavigatorComponent
   implements OnInit, OnDestroy, OnChanges

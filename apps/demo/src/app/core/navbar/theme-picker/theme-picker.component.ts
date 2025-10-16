@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SiteTheme, ThemeService } from './theme-service/theme.service';
 
 @Component({
-  selector: 'demo-theme-picker',
-  templateUrl: './theme-picker.component.html',
-  styleUrls: ['./theme-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'demo-theme-picker',
+    templateUrl: './theme-picker.component.html',
+    styleUrls: ['./theme-picker.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ThemePickerComponent {
   currentTheme: SiteTheme;
