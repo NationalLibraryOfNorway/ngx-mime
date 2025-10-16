@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/elements/src",
   "prefix": "nationallibraryofnorway",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "ngx-build-plus:browser",
@@ -86,6 +87,5 @@
         "jestConfig": "apps/elements/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

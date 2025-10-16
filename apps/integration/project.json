@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/integration/src",
   "prefix": "nationallibraryofnorway",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser-esbuild",
@@ -92,6 +93,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": []
+  }
 }

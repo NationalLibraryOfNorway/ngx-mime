@@ -98,6 +98,8 @@
     "@cucumber/html-formatter": "^21.2.0",
     "@cucumber/messages": "^24.0.1",
     "@cucumber/pretty-formatter": "^1.0.0",
+    "@eslint/eslintrc": "^2.1.1",
+    "@eslint/js": "~8.57.0",
     "@ngrx/schematics": "19.2.1",
     "@ngrx/store-devtools": "19.2.1",
     "@nx/cypress": "20.5.0",
@@ -115,8 +117,6 @@
     "@types/node": "^20.11.5",
     "@types/openseadragon": "^4.1.0",
     "@types/xml2js": "^0.4.11",
-    "@typescript-eslint/eslint-plugin": "7.18.0",
-    "@typescript-eslint/parser": "7.18.0",
     "@typescript-eslint/utils": "^7.16.0",
     "angular-http-server": "^1.11.1",
     "autoprefixer": "^10.4.0",
@@ -159,6 +159,7 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "5.7.3",
+    "typescript-eslint": "^8.19.0",
     "webpack": "^5.89.0"
   }
 }
