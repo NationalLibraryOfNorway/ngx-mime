@@ -54,6 +54,12 @@ export default [
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/no-this-alias': 'off',
+        '@typescript-eslint/no-unused-expressions': [
+          'error',
+          {
+            allowTernary: true,
+          },
+        ],
         'no-async-promise-executor': 'off',
         'no-empty': 'off',
         'prefer-const': 'off',
