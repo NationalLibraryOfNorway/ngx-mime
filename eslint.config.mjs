@@ -58,8 +58,6 @@ export default [
         'no-empty': 'off',
         'prefer-const': 'off',
         'prefer-spread': 'off',
-        '@typescript-eslint/no-extra-semi': 'error',
-        'no-extra-semi': 'off',
       },
     })),
   ...compat
@@ -71,8 +69,6 @@ export default [
       files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
       rules: {
         ...config.rules,
-        '@typescript-eslint/no-extra-semi': 'error',
-        'no-extra-semi': 'off',
       },
     })),
   ...compat
