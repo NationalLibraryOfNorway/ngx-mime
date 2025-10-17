@@ -15,6 +15,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
@@ -30,25 +31,47 @@ import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
 
 @Component({
-    selector: 'mime-viewer-header',
-    templateUrl: './viewer-header.component.html',
-    styleUrls: ['./viewer-header.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Default,
-    animations: [
-        trigger('headerState', [
-            state('hide', style({
-                transform: 'translate(0, -100%)',
-            })),
-            state('show', style({
-                transform: 'translate(0px, 0px)',
-            })),
-            transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
-            transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
-        ]),
-    ],
-    standalone: false
+  selector: 'mime-viewer-header',
+  templateUrl: './viewer-header.component.html',
+  styleUrls: ['./viewer-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('headerState', [
+      state(
+        'hide',
+        style({
+          transform: 'translate(0, -100%)',
+        }),
+      ),
+      state(
+        'show',
+        style({
+          transform: 'translate(0px, 0px)',
+        }),
+      ),
+      transition(
+        'hide => show',
+        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'),
+      ),
+      transition(
+        'show => hide',
+        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'),
+      ),
+    ]),
+  ],
+  standalone: false,
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
+  intl = inject(MimeViewerIntl);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private informationDialogService = inject(InformationDialogService);
+  private contentSearchDialogService = inject(ContentSearchDialogService);
+  private viewDialogService = inject(ViewDialogService);
+  private helpDialogService = inject(HelpDialogService);
+  private iiifManifestService = inject(IiifManifestService);
+  private fullscreenService = inject(FullscreenService);
+  private mimeDomHelper = inject(MimeDomHelper);
+
   @ViewChild('mimeHeaderBefore', { read: ViewContainerRef, static: true })
   mimeHeaderBefore!: ViewContainerRef;
   @ViewChild('mimeHeaderAfter', { read: ViewContainerRef, static: true })
@@ -65,18 +88,6 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   hasRecognizedTextContent = false;
 
   private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private informationDialogService: InformationDialogService,
-    private contentSearchDialogService: ContentSearchDialogService,
-    private viewDialogService: ViewDialogService,
-    private helpDialogService: HelpDialogService,
-    private iiifManifestService: IiifManifestService,
-    private fullscreenService: FullscreenService,
-    private mimeDomHelper: MimeDomHelper,
-  ) {}
 
   @HostBinding('@headerState')
   get headerState() {

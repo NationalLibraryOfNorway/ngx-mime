@@ -15,6 +15,7 @@ import {
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval, Subscription } from 'rxjs';
@@ -55,15 +56,36 @@ import { VIEWER_PROVIDERS } from './viewer.providers';
 import { slideInLeft } from './../shared/animations';
 
 @Component({
-    selector: 'mime-viewer',
-    templateUrl: './viewer.component.html',
-    styleUrls: ['./viewer.component.scss'],
-    animations: [slideInLeft],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: VIEWER_PROVIDERS,
-    standalone: false
+  selector: 'mime-viewer',
+  templateUrl: './viewer.component.html',
+  styleUrls: ['./viewer.component.scss'],
+  animations: [slideInLeft],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: VIEWER_PROVIDERS,
+  standalone: false,
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
+  snackBar = inject(MatSnackBar);
+  intl = inject(MimeViewerIntl);
+  private iiifManifestService = inject(IiifManifestService);
+  private viewDialogService = inject(ViewDialogService);
+  private informationDialogService = inject(InformationDialogService);
+  private attributionDialogService = inject(AttributionDialogService);
+  private contentSearchDialogService = inject(ContentSearchDialogService);
+  private helpDialogService = inject(HelpDialogService);
+  private viewerService = inject(ViewerService);
+  private resizeService = inject(MimeResizeService);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private modeService = inject(ModeService);
+  private iiifContentSearchService = inject(IiifContentSearchService);
+  private accessKeysHandlerService = inject(AccessKeysService);
+  private canvasService = inject(CanvasService);
+  private viewerLayoutService = inject(ViewerLayoutService);
+  private styleService = inject(StyleService);
+  private altoService = inject(AltoService);
+  private zone = inject(NgZone);
+  private platform = inject(Platform);
+
   @Input() public manifestUri: string | null = null;
   @Input() public q!: string;
   @Input() public canvasIndex = 0;
@@ -97,31 +119,17 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('mimeFooter', { static: true })
   private footer!: ViewerFooterComponent;
 
-  constructor(
-    public snackBar: MatSnackBar,
-    public intl: MimeViewerIntl,
-    private iiifManifestService: IiifManifestService,
-    private viewDialogService: ViewDialogService,
-    private informationDialogService: InformationDialogService,
-    private attributionDialogService: AttributionDialogService,
-    private contentSearchDialogService: ContentSearchDialogService,
-    private helpDialogService: HelpDialogService,
-    private viewerService: ViewerService,
-    private resizeService: MimeResizeService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private modeService: ModeService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private accessKeysHandlerService: AccessKeysService,
-    private canvasService: CanvasService,
-    private viewerLayoutService: ViewerLayoutService,
-    private styleService: StyleService,
-    private altoService: AltoService,
-    private zone: NgZone,
-    private platform: Platform,
-    canvasGroupDialogService: CanvasGroupDialogService,
-    el: ElementRef,
-    viewContainerRef: ViewContainerRef,
-  ) {
+  constructor() {
+    const viewDialogService = this.viewDialogService;
+    const informationDialogService = this.informationDialogService;
+    const attributionDialogService = this.attributionDialogService;
+    const contentSearchDialogService = this.contentSearchDialogService;
+    const helpDialogService = this.helpDialogService;
+    const resizeService = this.resizeService;
+    const canvasGroupDialogService = inject(CanvasGroupDialogService);
+    const el = inject(ElementRef);
+    const viewContainerRef = inject(ViewContainerRef);
+
     this.id = this.viewerService.id;
     this.openseadragonId = this.viewerService.openseadragonId;
     informationDialogService.el = el;

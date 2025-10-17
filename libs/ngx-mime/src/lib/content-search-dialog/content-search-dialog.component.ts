@@ -13,6 +13,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -28,14 +29,25 @@ import { Manifest } from './../core/models/manifest';
 import { SearchResult } from './../core/models/search-result';
 
 @Component({
-    selector: 'mime-search',
-    templateUrl: './content-search-dialog.component.html',
-    styleUrls: ['./content-search-dialog.component.scss'],
-    standalone: false
+  selector: 'mime-search',
+  templateUrl: './content-search-dialog.component.html',
+  styleUrls: ['./content-search-dialog.component.scss'],
+  standalone: false,
 })
 export class ContentSearchDialogComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  dialogRef = inject<MatDialogRef<ContentSearchDialogComponent>>(MatDialogRef);
+  intl = inject(MimeViewerIntl);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly mimeResizeService = inject(MimeResizeService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly contentSearchNavigationService = inject(
+    ContentSearchNavigationService,
+  );
+
   public q = '';
   public hits: Hit[] = [];
   public currentHit: Hit | null = null;
@@ -52,17 +64,6 @@ export class ContentSearchDialogComponent
   @ViewChild('query', { static: true }) qEl!: ElementRef;
   @ViewChildren('hitButton', { read: ElementRef })
   hitList!: QueryList<ElementRef>;
-
-  constructor(
-    public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
-    public intl: MimeViewerIntl,
-    private readonly breakpointObserver: BreakpointObserver,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly mimeResizeService: MimeResizeService,
-    private readonly iiifManifestService: IiifManifestService,
-    private readonly iiifContentSearchService: IiifContentSearchService,
-    private readonly contentSearchNavigationService: ContentSearchNavigationService,
-  ) {}
 
   ngOnInit() {
     this.subscriptions.add(

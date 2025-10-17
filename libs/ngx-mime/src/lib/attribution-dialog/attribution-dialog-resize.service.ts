@@ -1,4 +1,4 @@
-import { Injectable, ElementRef } from '@angular/core';
+import { Injectable, ElementRef, inject } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
 import { MimeDomHelper } from './../core/mime-dom-helper';
@@ -6,11 +6,10 @@ import { Dimensions } from './../core/models/dimensions';
 
 @Injectable()
 export class AttributionDialogResizeService {
+  private mimeDomHelper = inject(MimeDomHelper);
   private _el: ElementRef | null = null;
   private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
   private dimensions = new Dimensions();
-
-  constructor(private mimeDomHelper: MimeDomHelper) {}
 
   set el(el: ElementRef | null) {
     this._el = el;

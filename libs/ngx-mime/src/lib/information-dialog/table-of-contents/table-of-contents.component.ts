@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -15,26 +16,24 @@ import { Manifest } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 
 @Component({
-    selector: 'mime-toc',
-    templateUrl: './table-of-contents.component.html',
-    styleUrls: ['./table-of-contents.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'mime-toc',
+  templateUrl: './table-of-contents.component.html',
+  styleUrls: ['./table-of-contents.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TocComponent implements OnInit, OnDestroy {
+  intl = inject(MimeViewerIntl);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private iiifManifestService = inject(IiifManifestService);
+  private viewerService = inject(ViewerService);
+  private canvasService = inject(CanvasService);
+
   @Output()
   canvasChanged: EventEmitter<number> = new EventEmitter();
   public manifest: Manifest | null = null;
   public currentCanvasGroupIndex = 0;
   private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService,
-    private viewerService: ViewerService,
-    private canvasService: CanvasService,
-  ) {}
 
   ngOnInit() {
     this.subscriptions.add(

@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -18,26 +19,27 @@ import { MimeViewerIntl } from '../core/intl';
 import { ViewerService } from '../core/viewer-service/viewer.service';
 
 @Component({
-    templateUrl: './canvas-group-dialog.component.html',
-    styleUrls: ['./canvas-group-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  templateUrl: './canvas-group-dialog.component.html',
+  styleUrls: ['./canvas-group-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
+  private readonly dialogRef =
+    inject<MatDialogRef<CanvasGroupDialogComponent>>(MatDialogRef);
+  private readonly fb = inject(FormBuilder);
+  private readonly viewerService = inject(ViewerService);
+  private readonly canvasService = inject(CanvasService);
+  readonly intl = inject(MimeViewerIntl);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   numberOfCanvases: number;
   canvasGroupForm: FormGroup<{
     canvasGroupControl: FormControl<number | null>;
   }>;
   private readonly subscriptions = new Subscription();
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<CanvasGroupDialogComponent>,
-    private readonly fb: FormBuilder,
-    private readonly viewerService: ViewerService,
-    private readonly canvasService: CanvasService,
-    public readonly intl: MimeViewerIntl,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-  ) {
+  constructor() {
     this.numberOfCanvases = this.canvasService.numberOfCanvases;
     this.canvasGroupForm = this.fb.group({
       canvasGroupControl: new FormControl<number | null>(null, [

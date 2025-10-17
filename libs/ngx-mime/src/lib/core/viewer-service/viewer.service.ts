@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as d3 from 'd3';
 import {
@@ -51,6 +51,17 @@ declare const OpenSeadragon: any;
 
 @Injectable()
 export class ViewerService {
+  private zone = inject(NgZone);
+  private clickService = inject(ClickService);
+  private canvasService = inject(CanvasService);
+  private modeService = inject(ModeService);
+  private viewerLayoutService = inject(ViewerLayoutService);
+  private iiifContentSearchService = inject(IiifContentSearchService);
+  private styleService = inject(StyleService);
+  private altoService = inject(AltoService);
+  private snackBar = inject(MatSnackBar);
+  private intl = inject(MimeViewerIntl);
+
   config!: MimeViewerConfig;
   private viewer?: any;
   private svgOverlay: any;
@@ -84,18 +95,7 @@ export class ViewerService {
   public id = 'ngx-mime-mimeViewer';
   public openseadragonId = 'openseadragon';
 
-  constructor(
-    private zone: NgZone,
-    private clickService: ClickService,
-    private canvasService: CanvasService,
-    private modeService: ModeService,
-    private viewerLayoutService: ViewerLayoutService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private styleService: StyleService,
-    private altoService: AltoService,
-    private snackBar: MatSnackBar,
-    private intl: MimeViewerIntl,
-  ) {
+  constructor() {
     this.id = this.generateRandomId('ngx-mime-mimeViewer');
     this.openseadragonId = this.generateRandomId('openseadragon');
   }

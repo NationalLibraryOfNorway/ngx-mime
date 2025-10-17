@@ -8,6 +8,7 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
@@ -18,25 +19,25 @@ import { StyleService } from '../core/style-service/style.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 
 @Component({
-    templateUrl: './attribution-dialog.component.html',
-    styleUrls: ['./attribution-dialog.component.scss'],
-    standalone: false
+  templateUrl: './attribution-dialog.component.html',
+  styleUrls: ['./attribution-dialog.component.scss'],
+  standalone: false,
 })
 export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked
 {
+  intl = inject(MimeViewerIntl);
+  private renderer = inject(Renderer2);
+  private iiifManifestService = inject(IiifManifestService);
+  private attributionDialogResizeService = inject(
+    AttributionDialogResizeService,
+  );
+  private styleService = inject(StyleService);
+  private accessKeysHandlerService = inject(AccessKeysService);
+
   public manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   @ViewChild('container', { static: true }) container!: ElementRef;
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private renderer: Renderer2,
-    private iiifManifestService: IiifManifestService,
-    private attributionDialogResizeService: AttributionDialogResizeService,
-    private styleService: StyleService,
-    private accessKeysHandlerService: AccessKeysService,
-  ) {}
 
   ngOnInit() {
     this.attributionDialogResizeService.el = this.container;

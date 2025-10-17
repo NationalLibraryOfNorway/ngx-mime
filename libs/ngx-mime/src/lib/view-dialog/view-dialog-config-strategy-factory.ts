@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import {
   DesktopViewDialogConfigStrategy,
@@ -9,10 +9,8 @@ import {
 
 @Injectable()
 export class ViewDialogConfigStrategyFactory {
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private mimeDomHelper: MimeDomHelper,
-  ) {}
+  private breakpointObserver = inject(BreakpointObserver);
+  private mimeDomHelper = inject(MimeDomHelper);
 
   public create(): ViewDialogConfigStrategy {
     const isHandsetOrTabletInPortrait = this.breakpointObserver.isMatched([

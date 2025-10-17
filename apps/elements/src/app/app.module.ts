@@ -3,7 +3,7 @@ import {
   OverlayContainer,
 } from '@angular/cdk/overlay';
 import { HttpClientModule } from '@angular/common/http';
-import { DoBootstrap, Injector, NgModule } from '@angular/core';
+import { DoBootstrap, Injector, NgModule, inject } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,9 +24,8 @@ import { AppComponent } from './app.component';
   ],
 })
 export class AppModule implements DoBootstrap {
+  private injector = inject(Injector);
   private readonly name = 'app-mime-viewer';
-
-  constructor(private injector: Injector) {}
 
   ngDoBootstrap() {
     if (!customElements.get(this.name)) {

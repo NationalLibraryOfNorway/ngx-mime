@@ -1,18 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'demo-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.scss'],
-    standalone: false
+  selector: 'demo-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
+  standalone: false,
 })
 export class NavbarComponent {
+  private router = inject(Router);
+
   @Input() sidenav!: MatSidenav;
   public manifestUri = '';
-
-  constructor(private router: Router) {}
 
   toggle() {
     this.sidenav.toggle();

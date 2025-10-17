@@ -18,6 +18,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ViewerOptions } from '../../core/models/viewer-options';
@@ -25,24 +26,40 @@ import { IiifContentSearchService } from './../../core/iiif-content-search-servi
 import { SearchResult } from './../../core/models/search-result';
 
 @Component({
-    selector: 'mime-viewer-footer',
-    templateUrl: './viewer-footer.component.html',
-    styleUrls: ['./viewer-footer.component.scss'],
-    animations: [
-        trigger('footerState', [
-            state('hide', style({
-                transform: 'translate(0, 100%)',
-            })),
-            state('show', style({
-                transform: 'translate(0, 0)',
-            })),
-            transition('hide => show', animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in')),
-            transition('show => hide', animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out')),
-        ]),
-    ],
-    standalone: false
+  selector: 'mime-viewer-footer',
+  templateUrl: './viewer-footer.component.html',
+  styleUrls: ['./viewer-footer.component.scss'],
+  animations: [
+    trigger('footerState', [
+      state(
+        'hide',
+        style({
+          transform: 'translate(0, 100%)',
+        }),
+      ),
+      state(
+        'show',
+        style({
+          transform: 'translate(0, 0)',
+        }),
+      ),
+      transition(
+        'hide => show',
+        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'),
+      ),
+      transition(
+        'show => hide',
+        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'),
+      ),
+    ]),
+  ],
+  standalone: false,
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
+  private breakpointObserver = inject(BreakpointObserver);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private iiifContentSearchService = inject(IiifContentSearchService);
+
   @ViewChild('mimeFooterBefore', { read: ViewContainerRef, static: true })
   mimeFooterBefore!: ViewContainerRef;
   @ViewChild('mimeFooterAfter', { read: ViewContainerRef, static: true })
@@ -55,12 +72,6 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   public showContentSearchNavigator = false;
 
   private subscriptions = new Subscription();
-
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private changeDetectorRef: ChangeDetectorRef,
-    private iiifContentSearchService: IiifContentSearchService,
-  ) {}
 
   @HostBinding('@footerState')
   get footerState() {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import * as OpenSeadragon from 'openseadragon';
 import { Viewer } from 'openseadragon';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -17,6 +17,7 @@ import { TileSourceAndRect } from './tile-source-and-rect.model';
 
 @Injectable()
 export class CanvasService {
+  private viewerLayoutService = inject(ViewerLayoutService);
   protected _currentNumberOfCanvasGroups: BehaviorSubject<number> =
     new BehaviorSubject(0);
   protected _currentCanvasGroupIndex: BehaviorSubject<number> =
@@ -30,8 +31,6 @@ export class CanvasService {
   private viewingDirection = ViewingDirection.LTR;
   private svgNode: any;
   private _overlays: SVGRectElement[] = [];
-
-  constructor(private viewerLayoutService: ViewerLayoutService) {}
 
   get overlays(): ReadonlyArray<SVGRectElement> {
     return this._overlays;

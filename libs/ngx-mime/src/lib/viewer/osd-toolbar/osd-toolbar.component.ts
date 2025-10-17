@@ -11,6 +11,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
@@ -23,14 +24,22 @@ import { ModeService } from './../../core/mode-service/mode.service';
 import { easeInWithDelay, rotate45 } from './../../shared/animations';
 
 @Component({
-    selector: 'mime-osd-toolbar',
-    templateUrl: './osd-toolbar.component.html',
-    styleUrls: ['./osd-toolbar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [rotate45, easeInWithDelay],
-    standalone: false
+  selector: 'mime-osd-toolbar',
+  templateUrl: './osd-toolbar.component.html',
+  styleUrls: ['./osd-toolbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [rotate45, easeInWithDelay],
+  standalone: false,
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
+  intl = inject(MimeViewerIntl);
+  private breakpointObserver = inject(BreakpointObserver);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private viewerService = inject(ViewerService);
+  private canvasService = inject(CanvasService);
+  private iiifManifestService = inject(IiifManifestService);
+  private modeService = inject(ModeService);
+
   @ViewChild('container', { static: true }) container!: ElementRef;
   public numberOfCanvasGroups = 0;
   public isFirstCanvasGroup = false;
@@ -43,16 +52,6 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   baseAnimationDelay = 20;
   isZoomed = true;
   private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private breakpointObserver: BreakpointObserver,
-    private changeDetectorRef: ChangeDetectorRef,
-    private viewerService: ViewerService,
-    private canvasService: CanvasService,
-    private iiifManifestService: IiifManifestService,
-    private modeService: ModeService,
-  ) {}
 
   ngOnInit() {
     this.subscriptions.add(

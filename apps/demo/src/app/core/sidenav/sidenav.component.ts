@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -6,23 +6,23 @@ import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
 import { ManifestService } from './../manifest-service/manifest.service';
 
 @Component({
-    selector: 'demo-sidenav',
-    templateUrl: './sidenav.component.html',
-    styleUrls: ['./sidenav.component.scss'],
-    standalone: false
+  selector: 'demo-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss'],
+  standalone: false,
 })
 export class SidenavComponent implements OnDestroy {
+  private manifestService = inject(ManifestService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
   @Input() sidenav!: MatSidenav;
   iiifVersion = '3';
   manifests: ManifestMenuItem[] = [];
   selectedManifest: string | undefined;
   private subscriptions = new Subscription();
 
-  constructor(
-    private manifestService: ManifestService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {
+  constructor() {
     this.subscriptions.add(
       this.route.queryParamMap.subscribe((params) => {
         this.iiifVersion = params.get('v') || this.iiifVersion;

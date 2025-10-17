@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
@@ -18,12 +19,19 @@ import { SearchResult } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
 
 @Component({
-    selector: 'mime-page-navigator',
-    templateUrl: './canvas-group-navigator.component.html',
-    styleUrls: ['./canvas-group-navigator.component.scss'],
-    standalone: false
+  selector: 'mime-page-navigator',
+  templateUrl: './canvas-group-navigator.component.html',
+  styleUrls: ['./canvas-group-navigator.component.scss'],
+  standalone: false,
 })
 export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
+  intl = inject(MimeViewerIntl);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private viewerService = inject(ViewerService);
+  private canvasService = inject(CanvasService);
+  private canvasGroupDialogService = inject(CanvasGroupDialogService);
+  private iiifManifestService = inject(IiifManifestService);
+
   @Input() public searchResult!: SearchResult;
   public numberOfCanvases = 0;
   public canvasGroupLabel = '';
@@ -35,15 +43,6 @@ export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   currentViewingDirection: Direction = ViewingDirection.LTR;
   private currentSliderCanvasGroupIndex: number | null = -1;
   private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private viewerService: ViewerService,
-    private canvasService: CanvasService,
-    private canvasGroupDialogService: CanvasGroupDialogService,
-    private iiifManifestService: IiifManifestService,
-  ) {}
 
   ngOnInit() {
     this.subscriptions.add(

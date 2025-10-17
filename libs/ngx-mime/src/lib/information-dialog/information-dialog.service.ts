@@ -1,4 +1,9 @@
-import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -12,16 +17,15 @@ import { InformationDialogComponent } from './information-dialog.component';
 
 @Injectable()
 export class InformationDialogService {
+  private dialog = inject(MatDialog);
+  private informationDialogConfigStrategyFactory = inject(
+    InformationDialogConfigStrategyFactory,
+  );
+  private mimeResizeService = inject(MimeResizeService);
   private _el: ElementRef | undefined;
   private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<InformationDialogComponent>;
   private subscriptions!: Subscription;
-
-  constructor(
-    private dialog: MatDialog,
-    private informationDialogConfigStrategyFactory: InformationDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService,
-  ) {}
 
   public initialize(): void {
     this.subscriptions = new Subscription();

@@ -74,7 +74,8 @@
         "production": {
           "buildTarget": "integration:build:production"
         }
-      }
+      },
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -86,7 +87,8 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/integration/jest.config.ts"
+        "jestConfig": "apps/integration/jest.config.ts",
+        "tsConfig": "apps/integration/tsconfig.spec.json"
       }
     },
     "lint": {

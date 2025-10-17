@@ -7,6 +7,7 @@ import {
   ElementRef,
   ViewChild,
   ViewContainerRef,
+  inject as inject_1,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -47,12 +48,12 @@ import { ViewerHeaderComponent } from './viewer-header.component';
   template: `<mime-viewer-header #viewer></mime-viewer-header>`,
 })
 export class TestHostComponent {
+  viewContainerRef = inject_1(ViewContainerRef);
+
   @ViewChild('viewer', { static: false })
   viewerHeaderComponent!: ViewerHeaderComponent;
   @ViewChild('viewer', { read: ElementRef })
   viewerHeaderElementRef!: ElementRef;
-
-  constructor(public viewContainerRef: ViewContainerRef) {}
 }
 
 describe('ViewerHeaderComponent', () => {

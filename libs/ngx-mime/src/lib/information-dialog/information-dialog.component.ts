@@ -9,6 +9,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -19,13 +20,20 @@ import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from './../core/models/manifest';
 
 @Component({
-    selector: 'mime-information',
-    templateUrl: './information-dialog.component.html',
-    styleUrls: ['./information-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'mime-information',
+  templateUrl: './information-dialog.component.html',
+  styleUrls: ['./information-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class InformationDialogComponent implements OnInit, OnDestroy {
+  intl = inject(MimeViewerIntl);
+  private breakpointObserver = inject(BreakpointObserver);
+  private dialogRef =
+    inject<MatDialogRef<InformationDialogComponent>>(MatDialogRef);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private iiifManifestService = inject(IiifManifestService);
+  private mimeResizeService = inject(MimeResizeService);
   public manifest: Manifest | null = null;
   public tabHeight = {};
   public showToc = false;
@@ -33,15 +41,6 @@ export class InformationDialogComponent implements OnInit, OnDestroy {
   isHandsetOrTabletInPortrait = false;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private breakpointObserver: BreakpointObserver,
-    private dialogRef: MatDialogRef<InformationDialogComponent>,
-    private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService,
-    private mimeResizeService: MimeResizeService,
-  ) {}
 
   ngOnInit() {
     this.subscriptions.add(

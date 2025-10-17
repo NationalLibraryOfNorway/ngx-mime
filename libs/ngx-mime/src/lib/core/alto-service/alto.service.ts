@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   BehaviorSubject,
@@ -26,6 +26,13 @@ import { HtmlFormatter } from './html.formatter';
 
 @Injectable()
 export class AltoService {
+  intl = inject(MimeViewerIntl);
+  private http = inject(HttpClient);
+  private iiifManifestService = inject(IiifManifestService);
+  private highlightService = inject(HighlightService);
+  private canvasService = inject(CanvasService);
+  private sanitizer = inject(DomSanitizer);
+
   private config!: MimeViewerConfig;
   private altos: string[] = [];
   private isLoading = new BehaviorSubject(false);
@@ -42,15 +49,6 @@ export class AltoService {
       currentValue: RecognizedTextMode.NONE,
     });
   private previousRecognizedTextMode = RecognizedTextMode.NONE;
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private http: HttpClient,
-    private iiifManifestService: IiifManifestService,
-    private highlightService: HighlightService,
-    private canvasService: CanvasService,
-    private sanitizer: DomSanitizer,
-  ) {}
 
   get onRecognizedTextContentModeChange$(): Observable<RecognizedTextModeChanges> {
     return this._recognizedTextContentModeChanges.asObservable();

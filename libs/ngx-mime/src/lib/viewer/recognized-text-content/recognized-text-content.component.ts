@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -19,13 +20,21 @@ import { MimeViewerIntl } from '../../core/intl';
 import { SearchResult } from '../../core/models/search-result';
 
 @Component({
-    selector: 'mime-recognized-text-content',
-    templateUrl: './recognized-text-content.component.html',
-    styleUrls: ['./recognized-text-content.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'mime-recognized-text-content',
+  templateUrl: './recognized-text-content.component.html',
+  styleUrls: ['./recognized-text-content.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RecognizedTextContentComponent implements OnInit, OnDestroy {
+  intl = inject(MimeViewerIntl);
+  private cdr = inject(ChangeDetectorRef);
+  private canvasService = inject(CanvasService);
+  private altoService = inject(AltoService);
+  private iiifManifestService = inject(IiifManifestService);
+  private iiifContentSearchService = inject(IiifContentSearchService);
+  private highlightService = inject(HighlightService);
+
   @ViewChild('recognizedTextContentContainer', { read: ElementRef })
   recognizedTextContentContainer!: ElementRef;
   firstCanvasRecognizedTextContent: SafeHtml | undefined;
@@ -35,16 +44,6 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   selectedHit: number | undefined;
 
   private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private cdr: ChangeDetectorRef,
-    private canvasService: CanvasService,
-    private altoService: AltoService,
-    private iiifManifestService: IiifManifestService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private highlightService: HighlightService,
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

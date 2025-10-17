@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -17,6 +17,7 @@ import { SearchResult } from './../models/search-result';
 
 @Injectable()
 export class IiifContentSearchService {
+  private http = inject(HttpClient);
   protected _currentSearchResult: Subject<SearchResult> =
     new BehaviorSubject<SearchResult>(new SearchResult({}));
   protected _searching = new BehaviorSubject<boolean>(false);
@@ -24,7 +25,6 @@ export class IiifContentSearchService {
   protected _selected = new BehaviorSubject<Hit | null>(null);
 
   private config!: MimeViewerConfig;
-  constructor(private http: HttpClient) {}
 
   destroy() {
     this._currentSearchResult.next(new SearchResult({}));

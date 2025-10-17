@@ -6,7 +6,8 @@
     "declarationMap": true,
     "inlineSources": true,
     "esModuleInterop": true,
-    "types": []
+    "types": [],
+    "moduleResolution": "bundler"
   },
   "exclude": ["src/**/*.spec.ts", "src/**/test-*.ts", "src/**/,mock-*.ts"],
   "include": ["src/**/*.ts"]

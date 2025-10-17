@@ -6,6 +6,7 @@ import {
   ElementRef,
   ViewChild,
   ViewContainerRef,
+  inject as inject_1,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -30,12 +31,11 @@ import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.componen
   template: `<mime-page-navigator #navigator></mime-page-navigator>`,
 })
 export class TestHostComponent {
+  viewContainerRef = inject_1(ViewContainerRef);
   @ViewChild('navigator', { static: false })
   canvasGroupNavigatorComponent!: CanvasGroupNavigatorComponent;
   @ViewChild('navigator', { read: ElementRef })
   canvasGroupNavigatorElementRef!: ElementRef;
-
-  constructor(public viewContainerRef: ViewContainerRef) {}
 }
 
 describe('CanvasGroupNavigatorComponent', () => {

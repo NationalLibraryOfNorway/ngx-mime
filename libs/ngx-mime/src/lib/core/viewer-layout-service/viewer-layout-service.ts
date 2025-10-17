@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { MimeViewerConfig } from '../mime-viewer-config';
@@ -7,12 +7,11 @@ import { ViewerLayout } from '../models/viewer-layout';
 
 @Injectable()
 export class ViewerLayoutService {
+  private breakpointObserver = inject(BreakpointObserver);
   private config = new MimeViewerConfig();
   private _layout!: ViewerLayout;
   private subject: BehaviorSubject<ViewerLayout> =
     new BehaviorSubject<ViewerLayout>(this.config.initViewerLayout);
-
-  constructor(private breakpointObserver: BreakpointObserver) {}
 
   init(isPagedManifest?: boolean): void {
     if (

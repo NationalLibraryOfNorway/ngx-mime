@@ -1,14 +1,13 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { interval, ReplaySubject, Observable, Subscription } from 'rxjs';
 import { switchMap, tap, distinctUntilChanged, filter } from 'rxjs/operators';
 
 @Injectable()
 export class StyleService {
+  private zone = inject(NgZone);
   private currentRgbColor: string | undefined;
   private colorSubject: ReplaySubject<string | undefined> = new ReplaySubject();
   private subscriptions!: Subscription;
-
-  constructor(private zone: NgZone) {}
 
   get onChange(): Observable<string | undefined> {
     return this.colorSubject.asObservable().pipe(

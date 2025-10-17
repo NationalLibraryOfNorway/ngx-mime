@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CanvasService } from '../../canvas-service/canvas-service';
@@ -8,6 +8,8 @@ import { SearchResult } from '../../models/search-result';
 
 @Injectable()
 export class ContentSearchNavigationService {
+  private canvasService = inject(CanvasService);
+  private iiifContentSearchService = inject(IiifContentSearchService);
   private currentIndex = 0;
   private lastHitIndex = 0;
   private isHitOnActiveCanvasGroup = false;
@@ -17,10 +19,7 @@ export class ContentSearchNavigationService {
   private subscriptions!: Subscription;
   private _currentHitCounter$: Subject<number> = new Subject<number>();
 
-  constructor(
-    private canvasService: CanvasService,
-    private iiifContentSearchService: IiifContentSearchService,
-  ) {
+  constructor() {
     this.initialize();
   }
 

@@ -4,7 +4,7 @@ import {
   Breakpoints,
 } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import {
@@ -13,21 +13,19 @@ import {
 } from './core/navbar/theme-picker/theme-service/theme.service';
 
 @Component({
-    selector: 'demo-app',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'demo-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly overlayContainer = inject(OverlayContainer);
+  private readonly themeService = inject(ThemeService);
+
   sidenavMode: MatDrawerMode = 'side';
   sidenavIsOpen = false;
   private readonly subscriptions = new Subscription();
-
-  constructor(
-    private readonly breakpointObserver: BreakpointObserver,
-    private readonly overlayContainer: OverlayContainer,
-    private readonly themeService: ThemeService,
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

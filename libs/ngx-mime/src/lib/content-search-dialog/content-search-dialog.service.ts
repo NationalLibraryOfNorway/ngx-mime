@@ -1,4 +1,9 @@
-import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -12,16 +17,15 @@ import { ContentSearchDialogComponent } from './content-search-dialog.component'
 
 @Injectable()
 export class ContentSearchDialogService {
+  private readonly dialog = inject(MatDialog);
+  private readonly contentSearchDialogConfigStrategyFactory = inject(
+    ContentSearchDialogConfigStrategyFactory,
+  );
+  private readonly mimeResizeService = inject(MimeResizeService);
   private _el: ElementRef | undefined;
   private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<ContentSearchDialogComponent>;
   private subscriptions!: Subscription;
-
-  constructor(
-    private readonly dialog: MatDialog,
-    private readonly contentSearchDialogConfigStrategyFactory: ContentSearchDialogConfigStrategyFactory,
-    private readonly mimeResizeService: MimeResizeService,
-  ) {}
 
   public initialize(): void {
     this.subscriptions = new Subscription();

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   MimeViewerConfig,
@@ -9,11 +9,14 @@ import { Subscription } from 'rxjs';
 import { ManifestService } from './../core/manifest-service/manifest.service';
 
 @Component({
-    templateUrl: './viewer.component.html',
-    styleUrls: ['./viewer.component.scss'],
-    standalone: false
+  templateUrl: './viewer.component.html',
+  styleUrls: ['./viewer.component.scss'],
+  standalone: false,
 })
 export class ViewerComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private manifestService = inject(ManifestService);
   manifestUris: string[] = [];
   config = new MimeViewerConfig({
     attributionDialogEnabled: true,
@@ -27,12 +30,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   });
   private iiifVersion = '3';
   private subscriptions: Subscription = new Subscription();
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private manifestService: ManifestService,
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

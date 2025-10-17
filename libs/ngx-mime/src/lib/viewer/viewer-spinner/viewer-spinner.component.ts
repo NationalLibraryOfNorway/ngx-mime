@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import {
   SpinnerService,
@@ -6,19 +12,16 @@ import {
 } from '../../core/spinner-service/spinner.service';
 
 @Component({
-    selector: 'mime-spinner',
-    templateUrl: './viewer-spinner.component.html',
-    styleUrls: ['./viewer-spinner.component.scss'],
-    standalone: false
+  selector: 'mime-spinner',
+  templateUrl: './viewer-spinner.component.html',
+  styleUrls: ['./viewer-spinner.component.scss'],
+  standalone: false,
 })
 export class ViewerSpinnerComponent implements OnDestroy, OnInit {
+  private spinnerService = inject(SpinnerService);
+  private changeDetectorRef = inject(ChangeDetectorRef);
   public visible = false;
   private subscriptions = new Subscription();
-
-  constructor(
-    private spinnerService: SpinnerService,
-    private changeDetectorRef: ChangeDetectorRef,
-  ) {}
 
   ngOnInit() {
     this.subscriptions.add(

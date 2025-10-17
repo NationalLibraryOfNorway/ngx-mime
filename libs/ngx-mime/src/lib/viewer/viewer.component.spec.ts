@@ -59,14 +59,18 @@ describe('ViewerComponent', () => {
     });
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [HttpClientTestingModule, NoopAnimationsModule, SharedModule],
+      imports: [
+        HttpClientTestingModule,
+        NoopAnimationsModule,
+        SharedModule,
+        TestHostComponent,
+        TestDynamicComponent,
+      ],
       declarations: [
         ViewerComponent,
         ViewerSpinnerComponent,
-        TestHostComponent,
         ViewerHeaderComponent,
         ViewerFooterComponent,
-        TestDynamicComponent,
       ],
       providers: [VIEWER_PROVIDERS, MimeViewerIntl],
     }).compileComponents();

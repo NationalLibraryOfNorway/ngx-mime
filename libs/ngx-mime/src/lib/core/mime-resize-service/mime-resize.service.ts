@@ -1,15 +1,14 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 import { Observable, ReplaySubject, debounceTime, map } from 'rxjs';
 import { Dimensions } from '../models/dimensions';
 import { ViewerService } from '../viewer-service/viewer.service';
 
 @Injectable()
 export class MimeResizeService {
+  private viewerService = inject(ViewerService);
   private _el!: ElementRef;
   private resizeSubject: ReplaySubject<DOMRectReadOnly> = new ReplaySubject();
   private observer!: ResizeObserver;
-
-  constructor(private viewerService: ViewerService) {}
 
   set el(el: ElementRef) {
     this._el = el;

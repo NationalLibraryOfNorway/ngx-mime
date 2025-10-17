@@ -3,30 +3,33 @@ import {
   BreakpointState,
   Breakpoints,
 } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Dimensions } from '../core/models/dimensions';
 
 @Component({
-    selector: 'mime-help',
-    templateUrl: './help-dialog.component.html',
-    styleUrls: ['./help-dialog.component.scss'],
-    standalone: false
+  selector: 'mime-help',
+  templateUrl: './help-dialog.component.html',
+  styleUrls: ['./help-dialog.component.scss'],
+  standalone: false,
 })
 export class HelpDialogComponent implements OnInit, OnDestroy {
+  intl = inject(MimeViewerIntl);
+  private cdr = inject(ChangeDetectorRef);
+  private mimeResizeService = inject(MimeResizeService);
+  private breakpointObserver = inject(BreakpointObserver);
   public tabHeight = {};
   isHandsetOrTabletInPortrait = false;
   private mimeHeight = 0;
   private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private cdr: ChangeDetectorRef,
-    private mimeResizeService: MimeResizeService,
-    private breakpointObserver: BreakpointObserver,
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

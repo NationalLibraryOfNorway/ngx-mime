@@ -1,4 +1,9 @@
-import { Component, ComponentFactoryResolver, ViewChild } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { TestDynamicComponent } from './test-dynamic.component';
 import { ViewerComponent } from './viewer.component';
@@ -14,6 +19,8 @@ import { ViewerComponent } from './viewer.component';
   `,
 })
 export class TestHostComponent {
+  private r = inject(ComponentFactoryResolver);
+
   @ViewChild(ViewerComponent, { static: true })
   public viewerComponent: any;
   public manifestUri: string | null = null;
@@ -22,8 +29,6 @@ export class TestHostComponent {
   public config = new MimeViewerConfig({
     attributionDialogHideTimeout: -1,
   });
-
-  constructor(private r: ComponentFactoryResolver) {}
 
   addComponentToStartOfHeader() {
     const factory = this.r.resolveComponentFactory(TestDynamicComponent);

@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../../../core/canvas-service/canvas-service';
@@ -19,15 +20,24 @@ import { ViewingDirection } from '../../../core/models/viewing-direction';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 
 @Component({
-    selector: 'mime-content-search-navigator',
-    templateUrl: './content-search-navigator.component.html',
-    styleUrls: ['./content-search-navigator.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'mime-content-search-navigator',
+  templateUrl: './content-search-navigator.component.html',
+  styleUrls: ['./content-search-navigator.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ContentSearchNavigatorComponent
   implements OnInit, OnDestroy, OnChanges
 {
+  intl = inject(MimeViewerIntl);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private canvasService = inject(CanvasService);
+  private iiifContentSearchService = inject(IiifContentSearchService);
+  private contentSearchNavigationService = inject(
+    ContentSearchNavigationService,
+  );
+  private iiifManifestService = inject(IiifManifestService);
+
   @Input() searchResult!: SearchResult;
   isHitOnActiveCanvasGroup = false;
   isFirstHit = false;
@@ -35,15 +45,6 @@ export class ContentSearchNavigatorComponent
   currentHit = 0;
   invert = false;
   private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private canvasService: CanvasService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private contentSearchNavigationService: ContentSearchNavigationService,
-    private iiifManifestService: IiifManifestService,
-  ) {}
 
   ngOnInit() {
     this.contentSearchNavigationService.initialize();

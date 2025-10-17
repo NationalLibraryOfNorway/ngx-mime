@@ -88,7 +88,7 @@
     "@angular-eslint/eslint-plugin-template": "20.4.0",
     "@angular-eslint/schematics": "20.4.0",
     "@angular-eslint/template-parser": "20.4.0",
-    "@angular/cli": "~19.2.0",
+    "@angular/cli": "~20.3.0",
     "@angular/compiler-cli": "20.3.5",
     "@angular/language-service": "20.3.5",
     "@axe-core/playwright": "^4.8.3",
@@ -117,7 +117,7 @@
     "@types/node": "^22.18.10",
     "@types/openseadragon": "^4.1.0",
     "@types/xml2js": "^0.4.11",
-    "@typescript-eslint/utils": "^7.16.0",
+    "@typescript-eslint/utils": "^8.33.1",
     "angular-http-server": "^1.11.1",
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
@@ -129,7 +129,7 @@
     "cypress": "14.5.4",
     "dotenv": "8.2.0",
     "esbuild": "^0.19.11",
-    "eslint": "~9.8.0",
+    "eslint": "^9.28.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-playwright": "^2.0.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -159,7 +159,7 @@
     "ts-jest": "29.4.5",
     "ts-node": "^10.9.2",
     "typescript": "5.9.3",
-    "typescript-eslint": "^8.19.0",
+    "typescript-eslint": "^8.33.1",
     "webpack": "^5.89.0"
   }
 }
