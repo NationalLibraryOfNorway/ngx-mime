@@ -4,8 +4,8 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [AppComponent],
     }).compileComponents();
   }));
 
