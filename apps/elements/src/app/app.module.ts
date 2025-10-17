@@ -3,13 +3,13 @@ import {
   OverlayContainer,
 } from '@angular/cdk/overlay';
 import { HttpClientModule } from '@angular/common/http';
-import { DoBootstrap, Injector, NgModule, inject } from '@angular/core';
+import { DoBootstrap, inject, Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
-import 'openseadragon';
 import { AppComponent } from './app.component';
+import 'openseadragon';
 
 @NgModule({
   imports: [
