@@ -24,8 +24,7 @@ describe('RecognizedTextContentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [RecognizedTextContentComponent],
+      imports: [HttpClientTestingModule, RecognizedTextContentComponent],
       providers: [
         MimeViewerIntl,
         MimeViewerIntl,

@@ -4,7 +4,6 @@ import { Component, Input } from '@angular/core';
   selector: 'app-elements-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  standalone: false,
 })
 export class ViewerComponent {
   @Input()

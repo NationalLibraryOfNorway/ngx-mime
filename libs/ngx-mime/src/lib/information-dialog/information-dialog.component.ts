@@ -1,30 +1,56 @@
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
-  inject,
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from './../core/models/manifest';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { NgStyle } from '@angular/common';
+import { MetadataComponent } from './metadata/metadata.component';
+import { TocComponent } from './table-of-contents/table-of-contents.component';
 
 @Component({
   selector: 'mime-information',
   templateUrl: './information-dialog.component.html',
   styleUrls: ['./information-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogTitle,
+    MatDialogContent,
+    MatTabGroup,
+    MatTab,
+    NgStyle,
+    MetadataComponent,
+    TocComponent,
+  ],
 })
 export class InformationDialogComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);

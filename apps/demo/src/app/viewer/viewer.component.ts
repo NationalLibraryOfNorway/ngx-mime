@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  MimeModule,
   MimeViewerConfig,
   MimeViewerMode,
   RecognizedTextMode,
@@ -11,7 +12,7 @@ import { ManifestService } from './../core/manifest-service/manifest.service';
 @Component({
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  standalone: false,
+  imports: [MimeModule],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);

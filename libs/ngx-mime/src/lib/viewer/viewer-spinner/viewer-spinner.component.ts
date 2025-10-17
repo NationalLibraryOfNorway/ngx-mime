@@ -10,12 +10,13 @@ import {
   SpinnerService,
   SpinnerState,
 } from '../../core/spinner-service/spinner.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'mime-spinner',
   templateUrl: './viewer-spinner.component.html',
   styleUrls: ['./viewer-spinner.component.scss'],
-  standalone: false,
+  imports: [MatProgressSpinner],
 })
 export class ViewerSpinnerComponent implements OnDestroy, OnInit {
   private spinnerService = inject(SpinnerService);

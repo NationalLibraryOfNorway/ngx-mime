@@ -22,7 +22,8 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { MimeViewerIntl } from './core/intl';
 
 @NgModule({
-  declarations: [
+  imports: [
+    SharedModule,
     AttributionDialogComponent,
     CanvasGroupDialogComponent,
     CanvasGroupNavigatorComponent,
@@ -41,7 +42,6 @@ import { MimeViewerIntl } from './core/intl';
     ViewerHeaderComponent,
     ViewerSpinnerComponent,
   ],
-  imports: [SharedModule],
   providers: [MimeViewerIntl],
   exports: [ViewerComponent],
 })

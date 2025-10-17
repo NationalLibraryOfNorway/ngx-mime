@@ -9,8 +9,7 @@ describe('ViewerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ElementsModule, RouterTestingModule],
-      declarations: [ViewerComponent],
+      imports: [ElementsModule, RouterTestingModule, ViewerComponent],
     }).compileComponents();
   }));
 

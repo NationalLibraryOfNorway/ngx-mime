@@ -22,11 +22,12 @@ import { ViewerComponent } from './viewer/viewer.component';
     AppRoutingModule,
     CoreModule,
     SharedModule,
+    ViewerComponent,
   ],
   providers: [
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
   ],
-  declarations: [AppComponent, ViewerComponent],
+  declarations: [AppComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -18,8 +18,12 @@ describe('AttributionDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [AttributionDialogComponent],
+      imports: [
+        NoopAnimationsModule,
+        SharedModule,
+        HttpClientTestingModule,
+        AttributionDialogComponent,
+      ],
       providers: [
         MimeViewerIntl,
         provideAutoSpy(IiifManifestService, {

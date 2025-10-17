@@ -41,8 +41,12 @@ describe('CanvasGroupDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, HttpClientTestingModule, SharedModule],
-      declarations: [CanvasGroupDialogComponent],
+      imports: [
+        NoopAnimationsModule,
+        HttpClientTestingModule,
+        SharedModule,
+        CanvasGroupDialogComponent,
+      ],
       providers: [
         ViewerService,
         ClickService,

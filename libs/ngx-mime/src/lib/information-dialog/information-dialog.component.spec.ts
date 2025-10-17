@@ -45,8 +45,10 @@ describe('InformationDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [
+      imports: [
+        NoopAnimationsModule,
+        SharedModule,
+        HttpClientTestingModule,
         InformationDialogComponent,
         MetadataComponent,
         TocComponent,

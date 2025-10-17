@@ -54,6 +54,15 @@ import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { VIEWER_PROVIDERS } from './viewer.providers';
 import { slideInLeft } from './../shared/animations';
+import { NgClass } from '@angular/common';
+import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
+import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
+import {
+  MatDrawerContainer,
+  MatDrawer,
+  MatDrawerContent,
+} from '@angular/material/sidenav';
+import { RecognizedTextContentComponent } from './recognized-text-content/recognized-text-content.component';
 
 @Component({
   selector: 'mime-viewer',
@@ -62,7 +71,17 @@ import { slideInLeft } from './../shared/animations';
   animations: [slideInLeft],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: VIEWER_PROVIDERS,
-  standalone: false,
+  imports: [
+    NgClass,
+    ViewerSpinnerComponent,
+    ViewerHeaderComponent,
+    OsdToolbarComponent,
+    MatDrawerContainer,
+    MatDrawer,
+    RecognizedTextContentComponent,
+    MatDrawerContent,
+    ViewerFooterComponent,
+  ],
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   snackBar = inject(MatSnackBar);

@@ -22,6 +22,9 @@ import { MimeViewerIntl } from './../../core/intl';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { ModeService } from './../../core/mode-service/mode.service';
 import { easeInWithDelay, rotate45 } from './../../shared/animations';
+import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'mime-osd-toolbar',
@@ -29,7 +32,7 @@ import { easeInWithDelay, rotate45 } from './../../shared/animations';
   styleUrls: ['./osd-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [rotate45, easeInWithDelay],
-  standalone: false,
+  imports: [MatFabButton, MatTooltip, MatIcon, MatMiniFabButton],
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);

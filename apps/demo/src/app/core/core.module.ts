@@ -11,8 +11,13 @@ import { ThemeService } from './navbar/theme-picker/theme-service/theme.service'
 import { SidenavComponent } from './sidenav/sidenav.component';
 
 @NgModule({
-  imports: [SharedModule, RouterModule],
-  declarations: [SidenavComponent, NavbarComponent, ThemePickerComponent],
+  imports: [
+    SharedModule,
+    RouterModule,
+    SidenavComponent,
+    NavbarComponent,
+    ThemePickerComponent,
+  ],
   exports: [SidenavComponent, NavbarComponent],
   providers: [
     ManifestService,

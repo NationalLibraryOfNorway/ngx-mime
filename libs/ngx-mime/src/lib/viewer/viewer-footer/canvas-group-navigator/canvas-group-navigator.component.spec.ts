@@ -29,6 +29,7 @@ import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.componen
 
 @Component({
   template: `<mime-page-navigator #navigator></mime-page-navigator>`,
+  imports: [SharedModule],
 })
 export class TestHostComponent {
   viewContainerRef = inject_1(ViewContainerRef);
@@ -51,8 +52,9 @@ describe('CanvasGroupNavigatorComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [
+      imports: [
+        NoopAnimationsModule,
+        SharedModule,
         TestHostComponent,
         CanvasGroupNavigatorComponent,
         CanvasGroupDialogComponent,

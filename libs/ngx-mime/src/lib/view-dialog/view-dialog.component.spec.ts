@@ -30,8 +30,7 @@ describe('ViewDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [HttpClientTestingModule],
-      declarations: [ViewDialogComponent],
+      imports: [HttpClientTestingModule, ViewDialogComponent],
       providers: [
         MimeViewerIntl,
         ViewerLayoutService,

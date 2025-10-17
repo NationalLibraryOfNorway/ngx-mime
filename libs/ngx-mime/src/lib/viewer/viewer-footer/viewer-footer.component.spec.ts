@@ -18,8 +18,7 @@ describe('ViewerFooterComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [NoopAnimationsModule],
-      declarations: [ViewerFooterComponent],
+      imports: [NoopAnimationsModule, ViewerFooterComponent],
       providers: [
         {
           provide: IiifContentSearchService,

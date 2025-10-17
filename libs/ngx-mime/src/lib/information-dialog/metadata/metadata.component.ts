@@ -16,7 +16,6 @@ import { Manifest } from './../../core/models/manifest';
   templateUrl: './metadata.component.html',
   styleUrls: ['./metadata.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
 })
 export class MetadataComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);

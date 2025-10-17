@@ -2,27 +2,54 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
-  inject,
 } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from '../core/intl';
 import { ViewerService } from '../core/viewer-service/viewer.service';
+import {
+  MatError,
+  MatFormField,
+  MatInput,
+  MatLabel,
+} from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   templateUrl: './canvas-group-dialog.component.html',
   styleUrls: ['./canvas-group-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    MatDialogTitle,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogContent,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+  ],
 })
 export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   private readonly dialogRef =

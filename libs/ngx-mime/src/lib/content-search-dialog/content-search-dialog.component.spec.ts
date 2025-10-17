@@ -42,8 +42,12 @@ describe('ContentSearchDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [ContentSearchDialogComponent],
+      imports: [
+        NoopAnimationsModule,
+        SharedModule,
+        HttpClientTestingModule,
+        ContentSearchDialogComponent,
+      ],
       providers: [
         MimeViewerIntl,
         MimeResizeService,

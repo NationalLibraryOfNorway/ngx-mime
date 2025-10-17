@@ -1,4 +1,4 @@
-import { Direction } from '@angular/cdk/bidi';
+import { Direction, Dir } from '@angular/cdk/bidi';
 import {
   ChangeDetectorRef,
   Component,
@@ -17,12 +17,28 @@ import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../../core/intl';
 import { SearchResult } from './../../../core/models/search-result';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatSlider, MatSliderThumb } from '@angular/material/slider';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'mime-page-navigator',
   templateUrl: './canvas-group-navigator.component.html',
   styleUrls: ['./canvas-group-navigator.component.scss'],
-  standalone: false,
+  imports: [
+    MatToolbar,
+    Dir,
+    MatSlider,
+    MatSliderThumb,
+    FormsModule,
+    MatButton,
+    MatIconButton,
+    MatTooltip,
+    MatIcon,
+  ],
 })
 export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);

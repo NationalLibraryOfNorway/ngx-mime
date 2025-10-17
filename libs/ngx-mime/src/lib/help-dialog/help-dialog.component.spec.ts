@@ -16,8 +16,7 @@ describe('HelpDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
-      declarations: [HelpDialogComponent],
+      imports: [SharedModule, HelpDialogComponent],
       providers: [
         MimeViewerIntl,
         provideAutoSpy(MimeResizeService, {

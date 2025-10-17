@@ -1,25 +1,44 @@
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
 import {
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
-  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Dimensions } from '../core/models/dimensions';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'mime-help',
   templateUrl: './help-dialog.component.html',
   styleUrls: ['./help-dialog.component.scss'],
-  standalone: false,
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogTitle,
+    MatDialogContent,
+    NgStyle,
+  ],
 })
 export class HelpDialogComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);

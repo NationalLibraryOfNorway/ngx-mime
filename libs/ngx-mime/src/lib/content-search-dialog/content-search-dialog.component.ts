@@ -15,7 +15,12 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MatDialogClose,
+  MatDialogTitle,
+  MatDialogContent,
+} from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
@@ -27,12 +32,45 @@ import { Dimensions } from './../core/models/dimensions';
 import { Hit } from './../core/models/hit';
 import { Manifest } from './../core/models/manifest';
 import { SearchResult } from './../core/models/search-result';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FormsModule } from '@angular/forms';
+import {
+  MatFormField,
+  MatPrefix,
+  MatInput,
+  MatSuffix,
+} from '@angular/material/input';
+import { NgStyle } from '@angular/common';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'mime-search',
   templateUrl: './content-search-dialog.component.html',
   styleUrls: ['./content-search-dialog.component.scss'],
-  standalone: false,
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    FormsModule,
+    MatFormField,
+    MatPrefix,
+    MatInput,
+    MatSuffix,
+    NgStyle,
+    MatCard,
+    MatCardContent,
+    MatProgressBar,
+  ],
 })
 export class ContentSearchDialogComponent
   implements OnInit, AfterViewInit, OnDestroy

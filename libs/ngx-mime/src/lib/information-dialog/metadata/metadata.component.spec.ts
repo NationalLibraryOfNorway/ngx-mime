@@ -16,8 +16,7 @@ describe('MetadataComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientModule],
-      declarations: [MetadataComponent],
+      imports: [SharedModule, HttpClientModule, MetadataComponent],
       providers: [
         MimeViewerIntl,
         provideAutoSpy(IiifManifestService, {

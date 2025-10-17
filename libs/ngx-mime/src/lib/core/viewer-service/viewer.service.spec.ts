@@ -36,8 +36,7 @@ describe('ViewerService', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, MatSnackBarModule],
-      declarations: [TestHostComponent],
+      imports: [NoopAnimationsModule, MatSnackBarModule, TestHostComponent],
       providers: [
         ViewerService,
         MimeViewerIntl,

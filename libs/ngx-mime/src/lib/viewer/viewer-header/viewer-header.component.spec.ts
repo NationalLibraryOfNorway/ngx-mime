@@ -2,19 +2,19 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
-  CUSTOM_ELEMENTS_SCHEMA,
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
+  inject,
   ViewChild,
   ViewContainerRef,
-  inject as inject_1,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Spy, provideAutoSpy } from 'jest-auto-spies';
+import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { TestManifests } from '../../../testing/test-manifests';
 import { ContentSearchDialogConfigStrategyFactory } from '../../content-search-dialog/content-search-dialog-config-strategy-factory';
 import { ContentSearchDialogComponent } from '../../content-search-dialog/content-search-dialog.component';
@@ -46,9 +46,10 @@ import { ViewerHeaderComponent } from './viewer-header.component';
 
 @Component({
   template: `<mime-viewer-header #viewer></mime-viewer-header>`,
+  imports: [ViewerHeaderComponent],
 })
 export class TestHostComponent {
-  viewContainerRef = inject_1(ViewContainerRef);
+  viewContainerRef = inject(ViewContainerRef);
 
   @ViewChild('viewer', { static: false })
   viewerHeaderComponent!: ViewerHeaderComponent;
@@ -68,8 +69,9 @@ describe('ViewerHeaderComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [
+      imports: [
+        NoopAnimationsModule,
+        SharedModule,
         TestHostComponent,
         ViewerHeaderComponent,
         ViewDialogComponent,

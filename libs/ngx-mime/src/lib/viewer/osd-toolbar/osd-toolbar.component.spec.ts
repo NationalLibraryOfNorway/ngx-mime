@@ -35,8 +35,7 @@ describe('OsdToolbarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [OsdToolbarComponent],
+      imports: [NoopAnimationsModule, SharedModule, OsdToolbarComponent],
       providers: [
         MimeResizeService,
         MimeViewerIntl,

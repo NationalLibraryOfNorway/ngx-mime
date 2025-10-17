@@ -4,11 +4,11 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
@@ -17,11 +17,26 @@ import { MimeViewerIntl } from '../core/intl';
 import { Manifest } from '../core/models/manifest';
 import { StyleService } from '../core/style-service/style.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   templateUrl: './attribution-dialog.component.html',
   styleUrls: ['./attribution-dialog.component.scss'],
-  standalone: false,
+  imports: [
+    MatDialogTitle,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogContent,
+  ],
 })
 export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked

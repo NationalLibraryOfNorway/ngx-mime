@@ -65,8 +65,6 @@ describe('ViewerComponent', () => {
         SharedModule,
         TestHostComponent,
         TestDynamicComponent,
-      ],
-      declarations: [
         ViewerComponent,
         ViewerSpinnerComponent,
         ViewerHeaderComponent,

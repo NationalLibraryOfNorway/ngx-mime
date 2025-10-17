@@ -23,8 +23,7 @@ describe('TocComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientModule],
-      declarations: [TocComponent],
+      imports: [SharedModule, HttpClientModule, TocComponent],
       providers: [
         ClickService,
         provideAutoSpy(CanvasService),

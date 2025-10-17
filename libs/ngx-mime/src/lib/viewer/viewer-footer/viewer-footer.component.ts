@@ -24,6 +24,11 @@ import { Subscription } from 'rxjs';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';
+import { MatDivider } from '@angular/material/list';
+import { MatToolbar } from '@angular/material/toolbar';
+import { ContentSearchNavigatorComponent } from './content-search-navigator/content-search-navigator.component';
+import { NgClass } from '@angular/common';
+import { CanvasGroupNavigatorComponent } from './canvas-group-navigator/canvas-group-navigator.component';
 
 @Component({
   selector: 'mime-viewer-footer',
@@ -53,7 +58,13 @@ import { SearchResult } from './../../core/models/search-result';
       ),
     ]),
   ],
-  standalone: false,
+  imports: [
+    MatDivider,
+    MatToolbar,
+    ContentSearchNavigatorComponent,
+    NgClass,
+    CanvasGroupNavigatorComponent,
+  ],
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
   private breakpointObserver = inject(BreakpointObserver);

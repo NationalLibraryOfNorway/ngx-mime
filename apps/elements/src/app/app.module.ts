@@ -12,12 +12,12 @@ import 'openseadragon';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     MimeModule,
+    AppComponent,
   ],
   providers: [
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },

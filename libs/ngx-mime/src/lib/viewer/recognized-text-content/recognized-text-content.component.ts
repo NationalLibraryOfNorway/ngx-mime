@@ -24,7 +24,6 @@ import { SearchResult } from '../../core/models/search-result';
   templateUrl: './recognized-text-content.component.html',
   styleUrls: ['./recognized-text-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
 })
 export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);
