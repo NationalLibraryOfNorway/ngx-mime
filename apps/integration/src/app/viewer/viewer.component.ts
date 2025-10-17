@@ -1,14 +1,14 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ComponentsModule } from './components/components.module';
-import { ElementsModule } from './elements/elements.module';
+import { ViewerComponent as ComponentViewerComponent } from './components/viewer/viewer.component';
+import { ViewerComponent as ElementsViewerComponent } from './elements/viewer/viewer.component';
 
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  imports: [ComponentsModule, ElementsModule],
+  imports: [ComponentViewerComponent, ElementsViewerComponent],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);

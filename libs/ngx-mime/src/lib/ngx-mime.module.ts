@@ -8,7 +8,6 @@ import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { InformationDialogComponent } from './information-dialog/information-dialog.component';
 import { MetadataComponent } from './information-dialog/metadata/metadata.component';
 import { TocComponent } from './information-dialog/table-of-contents/table-of-contents.component';
-import { SharedModule } from './shared/shared.module';
 import { IconComponent } from './view-dialog/icon/icon.component';
 import { ViewDialogComponent } from './view-dialog/view-dialog.component';
 import { OsdToolbarComponent } from './viewer/osd-toolbar/osd-toolbar.component';
@@ -23,7 +22,6 @@ import { MimeViewerIntl } from './core/intl';
 
 @NgModule({
   imports: [
-    SharedModule,
     AttributionDialogComponent,
     CanvasGroupDialogComponent,
     CanvasGroupNavigatorComponent,

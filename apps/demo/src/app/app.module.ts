@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { ViewerComponent } from './viewer/viewer.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ViewerComponent } from './viewer/viewer.component';
     CoreModule,
     SharedModule,
     ViewerComponent,
+    MatSidenavModule,
   ],
   providers: [
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
