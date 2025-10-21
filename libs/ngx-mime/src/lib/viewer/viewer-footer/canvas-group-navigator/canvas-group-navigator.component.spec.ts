@@ -145,7 +145,7 @@ describe('CanvasGroupNavigatorComponent', () => {
       await nextButton?.click();
 
       testHostFixture.detectChanges();
-      expect(spy).toBeCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   }));
 
@@ -162,7 +162,7 @@ describe('CanvasGroupNavigatorComponent', () => {
 
       testHostFixture.detectChanges();
       testHostFixture.whenStable().then(() => {
-        expect(spy).toBeCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
     });
   }));

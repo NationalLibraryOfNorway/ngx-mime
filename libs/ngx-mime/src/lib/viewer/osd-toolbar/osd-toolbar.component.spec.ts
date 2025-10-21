@@ -154,7 +154,7 @@ describe('OsdToolbarComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(spy).toBeCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
     }));
 
@@ -167,7 +167,7 @@ describe('OsdToolbarComponent', () => {
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(spy).toBeCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
     }));
 
