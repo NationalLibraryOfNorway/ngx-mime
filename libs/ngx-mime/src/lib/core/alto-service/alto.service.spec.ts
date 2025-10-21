@@ -1,8 +1,9 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { cold } from 'jest-marbles';
 import { when } from 'jest-when';
@@ -27,8 +28,9 @@ describe('AltoService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         AltoService,
         MimeViewerIntl,
         HighlightService,

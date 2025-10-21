@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { TestManifests } from '../../../testing/test-manifests';
@@ -17,8 +18,11 @@ describe('IiifContentSearchService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [IiifContentSearchService],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        IiifContentSearchService,
+      ],
     });
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(IiifContentSearchService);

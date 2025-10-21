@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -73,7 +73,6 @@ describe('ViewerComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        HttpClientTestingModule,
         NoopAnimationsModule,
         TestHostComponent,
         TestDynamicComponent,
@@ -83,6 +82,7 @@ describe('ViewerComponent', () => {
         ViewerFooterComponent,
       ],
       providers: [
+        provideHttpClient(),
         VIEWER_PROVIDERS,
         MimeViewerIntl,
         {

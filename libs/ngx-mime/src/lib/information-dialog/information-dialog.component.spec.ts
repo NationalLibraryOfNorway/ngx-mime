@@ -1,7 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -46,12 +46,12 @@ describe('InformationDialogComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
         NoopAnimationsModule,
-        HttpClientTestingModule,
         InformationDialogComponent,
         MetadataComponent,
         TocComponent,
       ],
       providers: [
+        provideHttpClient(),
         ViewerService,
         ClickService,
         MimeViewerIntl,
