@@ -3,7 +3,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { createSpyFromClass } from 'jest-auto-spies';
 import 'openseadragon';
+import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
@@ -15,7 +19,10 @@ import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
+import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
+import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
@@ -40,6 +47,13 @@ describe('ViewerComponent', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
+  let accessKeysService: AccessKeysService;
+  let attributionDialogService: AttributionDialogService;
+  let viewDialogService: ViewDialogService;
+  let informationDialogService: InformationDialogService;
+  let contentSearchDialogService: ContentSearchDialogService;
+  let helpDialogService: HelpDialogService;
+  let resizeService: MimeResizeService;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(ViewerComponent, {
@@ -68,7 +82,34 @@ describe('ViewerComponent', () => {
         ViewerHeaderComponent,
         ViewerFooterComponent,
       ],
-      providers: [VIEWER_PROVIDERS, MimeViewerIntl],
+      providers: [
+        VIEWER_PROVIDERS,
+        MimeViewerIntl,
+        {
+          provide: AccessKeysService,
+          useValue: createSpyFromClass(AccessKeysService),
+        },
+        {
+          provide: AttributionDialogService,
+          useValue: createSpyFromClass(AttributionDialogService),
+        },
+        {
+          provide: ViewDialogService,
+          useValue: createSpyFromClass(ViewDialogService),
+        },
+        {
+          provide: InformationDialogService,
+          useValue: createSpyFromClass(InformationDialogService),
+        },
+        {
+          provide: ContentSearchDialogService,
+          useValue: createSpyFromClass(ContentSearchDialogService),
+        },
+        {
+          provide: HelpDialogService,
+          useValue: createSpyFromClass(HelpDialogService),
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -87,6 +128,13 @@ describe('ViewerComponent', () => {
       IiifContentSearchService,
     );
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
+    accessKeysService = TestBed.inject(AccessKeysService);
+    attributionDialogService = TestBed.inject(AttributionDialogService);
+    viewDialogService = TestBed.inject(ViewDialogService);
+    informationDialogService = TestBed.inject(InformationDialogService);
+    contentSearchDialogService = TestBed.inject(ContentSearchDialogService);
+    helpDialogService = TestBed.inject(HelpDialogService);
+    resizeService = TestBed.inject(MimeResizeService);
   });
 
   it('should create component', () => {
@@ -95,13 +143,23 @@ describe('ViewerComponent', () => {
     expect(comp).toBeDefined();
   });
 
-  // it('should cleanup when manifestUri changes', () => {
-  //   jest.spyOn(testHostComponent.viewerComponent, 'cleanup');
-  //   testHostComponent.manifestUri = 'dummyURI2';
-  //   testHostFixture.detectChanges();
-  //
-  //   expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
-  // });
+  it('should cleanup when manifestUri changes', () => {
+    jest.spyOn(viewerService, 'destroy').mockImplementation();
+    jest.spyOn(resizeService, 'destroy').mockImplementation();
+    testHostComponent.manifestUri = 'dummyURI2';
+
+    testHostFixture.detectChanges();
+
+    expect(accessKeysService.destroy).toHaveBeenCalled();
+    expect(attributionDialogService.destroy).toHaveBeenCalled();
+    expect(viewDialogService.destroy).toHaveBeenCalled();
+    expect(informationDialogService.destroy).toHaveBeenCalled();
+    expect(contentSearchDialogService.destroy).toHaveBeenCalled();
+    expect(helpDialogService.destroy).toHaveBeenCalled();
+    expect(viewerService.destroy).toHaveBeenCalled();
+    expect(resizeService.destroy).toHaveBeenCalled();
+    expect(comp.errorMessage).toBeNull();
+  });
 
   it('should create viewer', () => {
     testHostFixture.detectChanges();
@@ -148,15 +206,6 @@ describe('ViewerComponent', () => {
       }
     });
   });
-
-  // it('should close all dialogs when manifestUri changes', () => {
-  //   testHostComponent.manifestUri = 'dummyURI2';
-  //
-  //   jest.spyOn(testHostComponent.viewerComponent, 'cleanup');
-  //   testHostFixture.detectChanges();
-  //
-  //   expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
-  // });
 
   it('svgOverlay-plugin should be defined', () => {
     testHostFixture.detectChanges();
