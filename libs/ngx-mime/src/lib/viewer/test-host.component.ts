@@ -1,12 +1,8 @@
-import {
-  Component,
-  ComponentFactoryResolver,
-  inject,
-  ViewChild,
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { TestDynamicComponent } from './test-dynamic.component';
 import { ViewerComponent } from './viewer.component';
+import { MimeModule } from '../ngx-mime.module';
 
 @Component({
   template: `
@@ -17,6 +13,7 @@ import { ViewerComponent } from './viewer.component';
       [tabIndex]="tabIndex"
     ></mime-viewer>
   `,
+  imports: [MimeModule],
 })
 export class TestHostComponent {
   private r = inject(ComponentFactoryResolver);

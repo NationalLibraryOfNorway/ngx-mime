@@ -7,18 +7,18 @@ import {
 } from '@angular/animations';
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
 import {
   ChangeDetectorRef,
   Component,
   HostBinding,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ViewerOptions } from '../../core/models/viewer-options';

@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { provideAutoSpy } from 'jest-auto-spies';
-import { SharedModule } from '../shared/shared.module';
 import { AttributionDialogService } from './attribution-dialog.service';
 
 describe('AttributionDialogService', () => {
@@ -8,7 +7,6 @@ describe('AttributionDialogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
       providers: [provideAutoSpy(AttributionDialogService)],
     });
   });

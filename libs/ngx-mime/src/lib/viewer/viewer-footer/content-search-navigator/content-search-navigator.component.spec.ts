@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Spy, provideAutoSpy } from 'jest-auto-spies';
+import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { CanvasService } from '../../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
@@ -14,7 +14,6 @@ import { Hit } from '../../../core/models/hit';
 import { SearchResult } from '../../../core/models/search-result';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
-import { SharedModule } from '../../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
 
@@ -31,11 +30,7 @@ describe('ContentSearchNavigatorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        ContentSearchNavigatorComponent,
-      ],
+      imports: [NoopAnimationsModule, ContentSearchNavigatorComponent],
       providers: [
         MimeViewerIntl,
         provideAutoSpy(IiifContentSearchService, {

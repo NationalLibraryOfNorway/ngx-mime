@@ -8,6 +8,16 @@ import { Hit } from './../../core/models/hit';
 import { SearchResult } from './../../core/models/search-result';
 import { IiifContentSearchServiceStub } from './../../test/iiif-content-search-service-stub';
 import { ViewerFooterComponent } from './viewer-footer.component';
+import { MimeViewerIntl } from '../../core/intl';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { CanvasGroupDialogService } from '../../canvas-group-dialog/canvas-group-dialog.service';
+import { ContentSearchNavigationService } from '../../core/navigation/content-search-navigation-service/content-search-navigation.service';
+import { ViewerServiceStub } from '../../test/viewer-service-stub';
+import { CanvasServiceStub } from '../../test/canvas-service-stub';
+import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
@@ -20,6 +30,22 @@ describe('ViewerFooterComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [NoopAnimationsModule, ViewerFooterComponent],
       providers: [
+        MimeViewerIntl,
+        {
+          provide: ViewerService,
+          useClass: ViewerServiceStub,
+        },
+        {
+          provide: CanvasService,
+          useClass: CanvasServiceStub,
+        },
+        {
+          provide: IiifManifestService,
+          useClass: IiifManifestServiceStub,
+        },
+        ViewerLayoutService,
+        CanvasGroupDialogService,
+        ContentSearchNavigationService,
         {
           provide: IiifContentSearchService,
           useClass: IiifContentSearchServiceStub,

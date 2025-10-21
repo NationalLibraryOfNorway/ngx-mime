@@ -16,7 +16,6 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { StyleService } from '../../core/style-service/style.service';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
-import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { CanvasServiceStub } from './../../test/canvas-service-stub';
@@ -35,7 +34,7 @@ describe('OsdToolbarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, OsdToolbarComponent],
+      imports: [NoopAnimationsModule, OsdToolbarComponent],
       providers: [
         MimeResizeService,
         MimeViewerIntl,

@@ -23,7 +23,6 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { SharedModule } from '../shared/shared.module';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { CanvasServiceStub } from '../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
@@ -44,7 +43,6 @@ describe('CanvasGroupDialogComponent', () => {
       imports: [
         NoopAnimationsModule,
         HttpClientTestingModule,
-        SharedModule,
         CanvasGroupDialogComponent,
       ],
       providers: [

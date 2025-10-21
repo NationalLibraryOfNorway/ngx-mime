@@ -16,6 +16,7 @@ import {
   ViewChild,
   ViewContainerRef,
   inject,
+  ViewRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';

@@ -23,7 +23,6 @@ import { Manifest, Metadata, Structure } from '../core/models/manifest';
 import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { SharedModule } from '../shared/shared.module';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
@@ -47,7 +46,6 @@ describe('InformationDialogComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
         NoopAnimationsModule,
-        SharedModule,
         HttpClientTestingModule,
         InformationDialogComponent,
         MetadataComponent,

@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   NgZone,
   OnChanges,
@@ -15,7 +16,6 @@ import {
   SimpleChanges,
   ViewChild,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval, Subscription } from 'rxjs';
@@ -58,8 +58,8 @@ import { NgClass } from '@angular/common';
 import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import {
-  MatDrawerContainer,
   MatDrawer,
+  MatDrawerContainer,
   MatDrawerContent,
 } from '@angular/material/sidenav';
 import { RecognizedTextContentComponent } from './recognized-text-content/recognized-text-content.component';

@@ -2,11 +2,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Spy, provideAutoSpy } from 'jest-auto-spies';
+import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl';
 import { Manifest, Metadata } from '../../core/models/manifest';
-import { SharedModule } from '../../shared/shared.module';
 import { MetadataComponent } from './metadata.component';
 
 describe('MetadataComponent', () => {
@@ -16,7 +15,7 @@ describe('MetadataComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientModule, MetadataComponent],
+      imports: [HttpClientModule, MetadataComponent],
       providers: [
         MimeViewerIntl,
         provideAutoSpy(IiifManifestService, {

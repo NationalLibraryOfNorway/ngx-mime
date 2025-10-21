@@ -34,7 +34,6 @@ import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 import { InformationDialogConfigStrategyFactory } from '../../information-dialog/information-dialog-config-strategy-factory';
 import { InformationDialogComponent } from '../../information-dialog/information-dialog.component';
 import { InformationDialogService } from '../../information-dialog/information-dialog.service';
-import { SharedModule } from '../../shared/shared.module';
 import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { ViewDialogConfigStrategyFactory } from '../../view-dialog/view-dialog-config-strategy-factory';
 import { ViewDialogComponent } from '../../view-dialog/view-dialog.component';
@@ -71,7 +70,6 @@ describe('ViewerHeaderComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         NoopAnimationsModule,
-        SharedModule,
         TestHostComponent,
         ViewerHeaderComponent,
         ViewDialogComponent,

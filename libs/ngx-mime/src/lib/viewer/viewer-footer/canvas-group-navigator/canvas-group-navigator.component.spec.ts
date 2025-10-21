@@ -1,12 +1,12 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
-  CUSTOM_ELEMENTS_SCHEMA,
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
+  inject,
   ViewChild,
   ViewContainerRef,
-  inject as inject_1,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -24,15 +24,14 @@ import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../../core/intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
-import { SharedModule } from './../../../shared/shared.module';
 import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.component';
 
 @Component({
   template: `<mime-page-navigator #navigator></mime-page-navigator>`,
-  imports: [SharedModule],
+  imports: [CanvasGroupNavigatorComponent],
 })
 export class TestHostComponent {
-  viewContainerRef = inject_1(ViewContainerRef);
+  viewContainerRef = inject(ViewContainerRef);
   @ViewChild('navigator', { static: false })
   canvasGroupNavigatorComponent!: CanvasGroupNavigatorComponent;
   @ViewChild('navigator', { read: ElementRef })
@@ -54,7 +53,6 @@ describe('CanvasGroupNavigatorComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         NoopAnimationsModule,
-        SharedModule,
         TestHostComponent,
         CanvasGroupNavigatorComponent,
         CanvasGroupDialogComponent,

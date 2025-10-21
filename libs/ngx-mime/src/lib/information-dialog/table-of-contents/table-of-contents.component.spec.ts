@@ -10,7 +10,6 @@ import { MimeViewerIntl } from '../../core/intl';
 import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest, Structure } from '../../core/models/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
-import { SharedModule } from '../../shared/shared.module';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { ViewerServiceStub } from './../../test/viewer-service-stub';
 import { TocComponent } from './table-of-contents.component';
@@ -23,7 +22,7 @@ describe('TocComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientModule, TocComponent],
+      imports: [HttpClientModule, TocComponent],
       providers: [
         ClickService,
         provideAutoSpy(CanvasService),

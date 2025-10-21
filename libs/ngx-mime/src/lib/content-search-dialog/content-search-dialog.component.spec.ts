@@ -22,7 +22,6 @@ import { MimeDomHelper } from './../core/mime-dom-helper';
 import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
 import { SearchResult } from './../core/models/search-result';
 import { ViewerService } from './../core/viewer-service/viewer.service';
-import { SharedModule } from './../shared/shared.module';
 import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from './../test/mat-dialog-ref-stub';
@@ -44,7 +43,6 @@ describe('ContentSearchDialogComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
-        SharedModule,
         HttpClientTestingModule,
         ContentSearchDialogComponent,
       ],
