@@ -10,6 +10,14 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -17,14 +25,6 @@ import { MimeViewerIntl } from '../core/intl';
 import { Manifest } from '../core/models/manifest';
 import { StyleService } from '../core/style-service/style.service';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
-import {
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-import { MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
   templateUrl: './attribution-dialog.component.html',

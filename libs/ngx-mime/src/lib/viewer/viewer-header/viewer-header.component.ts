@@ -18,6 +18,10 @@ import {
   inject,
   ViewRef,
 } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
@@ -30,10 +34,6 @@ import { FullscreenService } from './../../core/fullscreen-service/fullscreen.se
 import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { Manifest } from './../../core/models/manifest';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'mime-viewer-header',

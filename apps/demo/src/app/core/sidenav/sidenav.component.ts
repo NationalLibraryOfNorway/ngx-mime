@@ -1,4 +1,7 @@
 import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatNavList, MatListItem } from '@angular/material/list';
+import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
 import { MatSidenav } from '@angular/material/sidenav';
 import {
   ActivatedRoute,
@@ -9,9 +12,6 @@ import {
 import { Subscription } from 'rxjs';
 import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
 import { ManifestService } from './../manifest-service/manifest.service';
-import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
-import { FormsModule } from '@angular/forms';
-import { MatNavList, MatListItem } from '@angular/material/list';
 
 @Component({
   selector: 'demo-sidenav',

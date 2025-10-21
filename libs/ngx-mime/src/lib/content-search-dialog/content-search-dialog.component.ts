@@ -3,6 +3,8 @@ import {
   BreakpointState,
   Breakpoints,
 } from '@angular/cdk/layout';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -15,12 +17,25 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
 import {
   MatDialogRef,
   MatDialogClose,
   MatDialogTitle,
   MatDialogContent,
 } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import {
+  MatFormField,
+  MatPrefix,
+  MatInput,
+  MatSuffix,
+} from '@angular/material/input';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
@@ -32,21 +47,6 @@ import { Dimensions } from './../core/models/dimensions';
 import { Hit } from './../core/models/hit';
 import { Manifest } from './../core/models/manifest';
 import { SearchResult } from './../core/models/search-result';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatIcon } from '@angular/material/icon';
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { FormsModule } from '@angular/forms';
-import {
-  MatFormField,
-  MatPrefix,
-  MatInput,
-  MatSuffix,
-} from '@angular/material/input';
-import { NgStyle } from '@angular/common';
-import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'mime-search',

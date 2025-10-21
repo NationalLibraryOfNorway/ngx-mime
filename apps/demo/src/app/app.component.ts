@@ -10,14 +10,14 @@ import {
   MatSidenavContainer,
   MatSidenav,
 } from '@angular/material/sidenav';
+import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { NavbarComponent } from './core/navbar/navbar.component';
 import {
   SiteTheme,
   ThemeService,
 } from './core/navbar/theme-picker/theme-service/theme.service';
 import { SidenavComponent } from './core/sidenav/sidenav.component';
-import { NavbarComponent } from './core/navbar/navbar.component';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'demo-app',

@@ -1,7 +1,7 @@
 import { FlatCompat } from '@eslint/eslintrc';
+import js from '@eslint/js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import js from '@eslint/js';
 import baseConfig from '../../eslint.config.mjs';
 
 const compat = new FlatCompat({

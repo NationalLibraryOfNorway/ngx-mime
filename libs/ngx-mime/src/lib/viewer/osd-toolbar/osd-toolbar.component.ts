@@ -13,18 +13,18 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
 import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../core/intl';
-import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { ModeService } from './../../core/mode-service/mode.service';
+import { ViewerService } from './../../core/viewer-service/viewer.service';
 import { easeInWithDelay, rotate45 } from './../../shared/animations';
-import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'mime-osd-toolbar',

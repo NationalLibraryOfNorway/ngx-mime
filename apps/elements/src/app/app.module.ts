@@ -8,8 +8,8 @@ import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
-import { AppComponent } from './app.component';
 import 'openseadragon';
+import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [

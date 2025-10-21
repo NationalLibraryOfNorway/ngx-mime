@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import {
   MatDialogActions,
   MatDialogClose,
@@ -21,17 +22,16 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
-import { CanvasService } from '../core/canvas-service/canvas-service';
-import { MimeViewerIntl } from '../core/intl';
-import { ViewerService } from '../core/viewer-service/viewer.service';
 import {
   MatError,
   MatFormField,
   MatInput,
   MatLabel,
 } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
+import { Subscription } from 'rxjs';
+import { CanvasService } from '../core/canvas-service/canvas-service';
+import { MimeViewerIntl } from '../core/intl';
+import { ViewerService } from '../core/viewer-service/viewer.service';
 
 @Component({
   templateUrl: './canvas-group-dialog.component.html',

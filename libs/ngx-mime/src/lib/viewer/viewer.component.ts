@@ -1,4 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,6 +18,11 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import {
+  MatDrawer,
+  MatDrawerContainer,
+  MatDrawerContent,
+} from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
@@ -50,19 +56,13 @@ import { InformationDialogService } from '../information-dialog/information-dial
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../core/models/search-result';
+import { slideInLeft } from './../shared/animations';
+import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
+import { RecognizedTextContentComponent } from './recognized-text-content/recognized-text-content.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
-import { VIEWER_PROVIDERS } from './viewer.providers';
-import { slideInLeft } from './../shared/animations';
-import { NgClass } from '@angular/common';
 import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
-import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
-import {
-  MatDrawer,
-  MatDrawerContainer,
-  MatDrawerContent,
-} from '@angular/material/sidenav';
-import { RecognizedTextContentComponent } from './recognized-text-content/recognized-text-content.component';
+import { VIEWER_PROVIDERS } from './viewer.providers';
 
 @Component({
   selector: 'mime-viewer',

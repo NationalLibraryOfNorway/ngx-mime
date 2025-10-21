@@ -1,6 +1,5 @@
 import { Injectable, ElementRef, inject } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-
 import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 

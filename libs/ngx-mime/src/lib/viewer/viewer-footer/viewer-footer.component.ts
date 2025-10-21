@@ -10,6 +10,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from '@angular/cdk/layout';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -20,15 +21,14 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { MatDivider } from '@angular/material/list';
+import { MatToolbar } from '@angular/material/toolbar';
 import { Subscription } from 'rxjs';
 import { ViewerOptions } from '../../core/models/viewer-options';
 import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
 import { SearchResult } from './../../core/models/search-result';
-import { MatDivider } from '@angular/material/list';
-import { MatToolbar } from '@angular/material/toolbar';
-import { ContentSearchNavigatorComponent } from './content-search-navigator/content-search-navigator.component';
-import { NgClass } from '@angular/common';
 import { CanvasGroupNavigatorComponent } from './canvas-group-navigator/canvas-group-navigator.component';
+import { ContentSearchNavigatorComponent } from './content-search-navigator/content-search-navigator.component';
 
 @Component({
   selector: 'mime-viewer-footer',

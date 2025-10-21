@@ -5,12 +5,12 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
 import {
   SpinnerService,
   SpinnerState,
 } from '../../core/spinner-service/spinner.service';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'mime-spinner',

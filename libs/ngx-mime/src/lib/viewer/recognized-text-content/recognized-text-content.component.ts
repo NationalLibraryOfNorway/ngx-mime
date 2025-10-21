@@ -12,11 +12,11 @@ import { SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
-import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
-import { Hit } from '../../core/models/hit';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl';
+import { Hit } from '../../core/models/hit';
 import { SearchResult } from '../../core/models/search-result';
 
 @Component({

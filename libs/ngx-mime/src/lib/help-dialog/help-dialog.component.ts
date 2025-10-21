@@ -3,6 +3,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from '@angular/cdk/layout';
+import { NgStyle } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -10,20 +11,19 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { MimeViewerIntl } from '../core/intl';
-import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { Dimensions } from '../core/models/dimensions';
-import { MatToolbar } from '@angular/material/toolbar';
 import { MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
 import {
   MatDialogClose,
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { NgStyle } from '@angular/common';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Subscription } from 'rxjs';
+import { MimeViewerIntl } from '../core/intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { Dimensions } from '../core/models/dimensions';
 
 @Component({
   selector: 'mime-help',

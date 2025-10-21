@@ -4,6 +4,7 @@ import 'openseadragon';
 import { AttributionDialogComponent } from './attribution-dialog/attribution-dialog.component';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog/canvas-group-dialog.component';
 import { ContentSearchDialogComponent } from './content-search-dialog/content-search-dialog.component';
+import { MimeViewerIntl } from './core/intl';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { InformationDialogComponent } from './information-dialog/information-dialog.component';
 import { MetadataComponent } from './information-dialog/metadata/metadata.component';
@@ -18,7 +19,6 @@ import { ViewerFooterComponent } from './viewer/viewer-footer/viewer-footer.comp
 import { ViewerHeaderComponent } from './viewer/viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer/viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer/viewer.component';
-import { MimeViewerIntl } from './core/intl';
 
 @NgModule({
   imports: [

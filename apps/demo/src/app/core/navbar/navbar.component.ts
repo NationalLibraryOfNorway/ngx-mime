@@ -1,11 +1,11 @@
 import { Component, Input, inject } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
-import { MatToolbar } from '@angular/material/toolbar';
+import { FormsModule } from '@angular/forms';
 import { MatIconButton, MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
 import { MatFormField, MatInput } from '@angular/material/input';
+import { MatSidenav } from '@angular/material/sidenav';
+import { MatToolbar } from '@angular/material/toolbar';
+import { Router } from '@angular/router';
 import { ThemePickerComponent } from './theme-picker/theme-picker.component';
 
 @Component({
