@@ -8,7 +8,7 @@ import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../../core/intl';
 import { MimeViewerConfig } from '../../core/mime-viewer-config';
 import { Hit } from '../../core/models/hit';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';

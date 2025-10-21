@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { TestManifests } from '../../testing/test-manifests';
+import { TestManifests } from '../../testing';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { HighlightService } from '../core/highlight-service/highlight.service';

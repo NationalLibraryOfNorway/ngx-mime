@@ -25,9 +25,9 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { CanvasServiceStub } from '../test/canvas-service-stub';
+import { IiifContentSearchServiceStub } from '../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
-import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 
 describe('CanvasGroupDialogComponent', () => {
