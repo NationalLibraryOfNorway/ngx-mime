@@ -16,10 +16,8 @@ import { MimeModule } from '../ngx-mime.module';
   imports: [MimeModule],
 })
 export class TestHostComponent {
-  private r = inject(ComponentFactoryResolver);
-
   @ViewChild(ViewerComponent, { static: true })
-  public viewerComponent: any;
+  public viewerComponent!: ViewerComponent;
   public manifestUri: string | null = null;
   public canvasIndex = 0;
   public tabIndex = 0;
@@ -28,22 +26,26 @@ export class TestHostComponent {
   });
 
   addComponentToStartOfHeader() {
-    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
-    this.viewerComponent.mimeHeaderBeforeRef.createComponent(factory);
+    this.viewerComponent.mimeHeaderBeforeRef.createComponent(
+      TestDynamicComponent,
+    );
   }
 
   addComponentToEndOfHeader() {
-    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
-    this.viewerComponent.mimeHeaderAfterRef.createComponent(factory);
+    this.viewerComponent.mimeHeaderAfterRef.createComponent(
+      TestDynamicComponent,
+    );
   }
 
   addComponentToStartOfFooter() {
-    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
-    this.viewerComponent.mimeFooterBeforeRef.createComponent(factory);
+    this.viewerComponent.mimeFooterBeforeRef.createComponent(
+      TestDynamicComponent,
+    );
   }
 
   addComponentToEndOfFooter() {
-    const factory = this.r.resolveComponentFactory(TestDynamicComponent);
-    this.viewerComponent.mimeFooterAfterRef.createComponent(factory);
+    this.viewerComponent.mimeFooterAfterRef.createComponent(
+      TestDynamicComponent,
+    );
   }
 }
