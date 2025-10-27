@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltip } from '@angular/material/tooltip';
 import { SiteTheme, ThemeService } from './theme-service/theme.service';
 
@@ -28,10 +28,8 @@ export class ThemePickerComponent {
   themes: SiteTheme[];
 
   constructor() {
-    const themeService = this.themeService;
-
-    this.themes = themeService.getAllThemes();
-    this.currentTheme = themeService.getStoredTheme();
+    this.themes = this.themeService.getAllThemes();
+    this.currentTheme = this.themeService.getStoredTheme();
     if (this.currentTheme) {
       this.installTheme(this.currentTheme);
     }
