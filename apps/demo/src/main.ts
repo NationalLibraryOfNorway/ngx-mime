@@ -34,7 +34,7 @@ const appRoutes: Routes = [
   { path: 'demo', component: ViewerComponent },
 ];
 
-await bootstrapApplication(AppComponent, {
+bootstrapApplication(AppComponent, {
   providers: [
     provideAnimations(),
     provideHttpClient(),

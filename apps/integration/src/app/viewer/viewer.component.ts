@@ -11,11 +11,11 @@ import { ViewerComponent as ElementsViewerComponent } from './elements/viewer/vi
   imports: [ComponentViewerComponent, ElementsViewerComponent],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  private route = inject(ActivatedRoute);
   isComponent = false;
   manifestUris: string[] = [];
   canvasIndex = 0;
-  private subscriptions = new Subscription();
+  private readonly route = inject(ActivatedRoute);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

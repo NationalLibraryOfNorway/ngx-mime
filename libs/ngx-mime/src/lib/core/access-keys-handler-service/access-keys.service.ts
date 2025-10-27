@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { InformationDialogService } from '../../information-dialog/information-dialog.service';
@@ -19,20 +19,21 @@ import { ViewerService } from '../viewer-service/viewer.service';
 
 @Injectable()
 export class AccessKeysService {
-  private viewerService = inject(ViewerService);
-  private canvasService = inject(CanvasService);
-  private modeService = inject(ModeService);
-  private iiifManifestService = inject(IiifManifestService);
-  private iiifContentSearchService = inject(IiifContentSearchService);
-  private contentSearchDialogService = inject(ContentSearchDialogService);
-  private informationDialogService = inject(InformationDialogService);
-  private viewDialogService = inject(ViewDialogService);
-  private mimeDomHelper = inject(MimeDomHelper);
-  private contentSearchNavigationService = inject(
+  private readonly viewerService = inject(ViewerService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly modeService = inject(ModeService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly contentSearchDialogService = inject(
+    ContentSearchDialogService,
+  );
+  private readonly informationDialogService = inject(InformationDialogService);
+  private readonly viewDialogService = inject(ViewDialogService);
+  private readonly mimeDomHelper = inject(MimeDomHelper);
+  private readonly contentSearchNavigationService = inject(
     ContentSearchNavigationService,
   );
-  private altoService = inject(AltoService);
-
+  private readonly altoService = inject(AltoService);
   private isSearchable = false;
   private hasHits = false;
   private disabledKeys: number[] = [];

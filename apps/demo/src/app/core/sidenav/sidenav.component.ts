@@ -1,17 +1,17 @@
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, inject, Input, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatNavList, MatListItem } from '@angular/material/list';
-import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
+import { MatListItem, MatNavList } from '@angular/material/list';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { MatSidenav } from '@angular/material/sidenav';
 import {
   ActivatedRoute,
   Router,
-  RouterLinkActive,
   RouterLink,
+  RouterLinkActive,
 } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
-import { ManifestService } from './../manifest-service/manifest.service';
+import { ManifestMenuItem } from '../../models/manifest-menu-item.model';
+import { ManifestService } from '../manifest-service/manifest.service';
 
 @Component({
   selector: 'demo-sidenav',
@@ -28,15 +28,14 @@ import { ManifestService } from './../manifest-service/manifest.service';
   ],
 })
 export class SidenavComponent implements OnDestroy {
-  private manifestService = inject(ManifestService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-
   @Input() sidenav!: MatSidenav;
   iiifVersion = '3';
   manifests: ManifestMenuItem[] = [];
   selectedManifest: string | undefined;
-  private subscriptions = new Subscription();
+  private readonly manifestService = inject(ManifestService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly subscriptions = new Subscription();
 
   constructor() {
     this.subscriptions.add(

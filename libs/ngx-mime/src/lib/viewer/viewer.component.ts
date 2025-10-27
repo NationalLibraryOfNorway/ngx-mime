@@ -32,6 +32,7 @@ import { ContentSearchDialogService } from '../content-search-dialog/content-sea
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../core/intl';
@@ -45,6 +46,7 @@ import {
   ViewerMode,
 } from '../core/models';
 import { Manifest } from '../core/models/manifest';
+import { SearchResult } from '../core/models/search-result';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { ViewerState } from '../core/models/viewerState';
@@ -53,10 +55,8 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
 import { InformationDialogService } from '../information-dialog/information-dialog.service';
+import { slideInLeft } from '../shared/animations';
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from './../core/models/search-result';
-import { slideInLeft } from './../shared/animations';
 import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import { RecognizedTextContentComponent } from './recognized-text-content/recognized-text-content.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
@@ -84,27 +84,6 @@ import { VIEWER_PROVIDERS } from './viewer.providers';
   ],
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
-  snackBar = inject(MatSnackBar);
-  intl = inject(MimeViewerIntl);
-  private iiifManifestService = inject(IiifManifestService);
-  private viewDialogService = inject(ViewDialogService);
-  private informationDialogService = inject(InformationDialogService);
-  private attributionDialogService = inject(AttributionDialogService);
-  private contentSearchDialogService = inject(ContentSearchDialogService);
-  private helpDialogService = inject(HelpDialogService);
-  private viewerService = inject(ViewerService);
-  private resizeService = inject(MimeResizeService);
-  private changeDetectorRef = inject(ChangeDetectorRef);
-  private modeService = inject(ModeService);
-  private iiifContentSearchService = inject(IiifContentSearchService);
-  private accessKeysHandlerService = inject(AccessKeysService);
-  private canvasService = inject(CanvasService);
-  private viewerLayoutService = inject(ViewerLayoutService);
-  private styleService = inject(StyleService);
-  private altoService = inject(AltoService);
-  private zone = inject(NgZone);
-  private platform = inject(Platform);
-
   @Input() public manifestUri: string | null = null;
   @Input() public q!: string;
   @Input() public canvasIndex = 0;
@@ -117,11 +96,36 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Output()
   recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> =
     new EventEmitter();
+  snackBar = inject(MatSnackBar);
+  intl = inject(MimeViewerIntl);
   recognizedTextMode = RecognizedTextMode;
   id = 'ngx-mime-mimeViewer';
   openseadragonId = 'openseadragon';
 
-  private subscriptions = new Subscription();
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly viewDialogService = inject(ViewDialogService);
+  private readonly informationDialogService = inject(InformationDialogService);
+  private readonly attributionDialogService = inject(AttributionDialogService);
+  private readonly contentSearchDialogService = inject(
+    ContentSearchDialogService,
+  );
+  private readonly helpDialogService = inject(HelpDialogService);
+  private readonly viewerService = inject(ViewerService);
+  private readonly resizeService = inject(MimeResizeService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly modeService = inject(ModeService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly accessKeysHandlerService = inject(AccessKeysService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
+  private readonly styleService = inject(StyleService);
+  private readonly altoService = inject(AltoService);
+  private readonly canvasGroupDialogService = inject(CanvasGroupDialogService);
+  private readonly el = inject(ElementRef);
+  private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly zone = inject(NgZone);
+  private readonly platform = inject(Platform);
+  private readonly subscriptions = new Subscription();
   private isCanvasPressed = false;
   private currentManifest!: Manifest | null;
   private viewerLayout: ViewerLayout | null = null;
@@ -139,30 +143,20 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private footer!: ViewerFooterComponent;
 
   constructor() {
-    const viewDialogService = this.viewDialogService;
-    const informationDialogService = this.informationDialogService;
-    const attributionDialogService = this.attributionDialogService;
-    const contentSearchDialogService = this.contentSearchDialogService;
-    const helpDialogService = this.helpDialogService;
-    const resizeService = this.resizeService;
-    const canvasGroupDialogService = inject(CanvasGroupDialogService);
-    const el = inject(ElementRef);
-    const viewContainerRef = inject(ViewContainerRef);
-
     this.id = this.viewerService.id;
     this.openseadragonId = this.viewerService.openseadragonId;
-    informationDialogService.el = el;
-    informationDialogService.viewContainerRef = viewContainerRef;
-    attributionDialogService.el = el;
-    attributionDialogService.viewContainerRef = viewContainerRef;
-    viewDialogService.el = el;
-    viewDialogService.viewContainerRef = viewContainerRef;
-    contentSearchDialogService.el = el;
-    contentSearchDialogService.viewContainerRef = viewContainerRef;
-    helpDialogService.el = el;
-    helpDialogService.viewContainerRef = viewContainerRef;
-    canvasGroupDialogService.viewContainerRef = viewContainerRef;
-    resizeService.el = el;
+    this.informationDialogService.el = this.el;
+    this.informationDialogService.viewContainerRef = this.viewContainerRef;
+    this.attributionDialogService.el = this.el;
+    this.attributionDialogService.viewContainerRef = this.viewContainerRef;
+    this.viewDialogService.el = this.el;
+    this.viewDialogService.viewContainerRef = this.viewContainerRef;
+    this.contentSearchDialogService.el = this.el;
+    this.contentSearchDialogService.viewContainerRef = this.viewContainerRef;
+    this.helpDialogService.el = this.el;
+    this.helpDialogService.viewContainerRef = this.viewContainerRef;
+    this.canvasGroupDialogService.viewContainerRef = this.viewContainerRef;
+    this.resizeService.el = this.el;
   }
 
   get mimeHeaderBeforeRef(): ViewContainerRef {

@@ -44,7 +44,7 @@ const appRoutes: Routes = [
   },
 ];
 
-await bootstrapApplication(AppComponent, {
+bootstrapApplication(AppComponent, {
   providers: [
     provideNoopAnimations(),
     provideHttpClient(),

@@ -1,4 +1,4 @@
-import { Injectable, NgZone, inject } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as d3 from 'd3';
 import {
@@ -9,7 +9,6 @@ import {
   Subscription,
 } from 'rxjs';
 import { distinctUntilChanged, sample } from 'rxjs/operators';
-import { ModeService } from '../../core/mode-service/mode.service';
 import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
@@ -18,24 +17,25 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import { ModeService } from '../mode-service/mode.service';
 import {
   ModeChanges,
   RecognizedTextMode,
   RecognizedTextModeChanges,
+  ViewerMode,
 } from '../models';
 import { Direction } from '../models/direction';
+import { Hit } from '../models/hit';
 import { Manifest, Resource } from '../models/manifest';
 import { PinchStatus } from '../models/pinchStatus';
+import { Point } from '../models/point';
+import { Rect } from '../models/rect';
+import { SearchResult } from '../models/search-result';
 import { Side } from '../models/side';
 import { ViewerLayout } from '../models/viewer-layout';
-import { ViewerMode } from '../models/viewer-mode';
 import { ViewerOptions } from '../models/viewer-options';
 import { StyleService } from '../style-service/style.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
-import { Hit } from './../models/hit';
-import { Point } from './../models/point';
-import { Rect } from './../models/rect';
-import { SearchResult } from './../models/search-result';
 import { CalculateNextCanvasGroupFactory } from './calculate-next-canvas-group-factory';
 import { CanvasGroupMask } from './canvas-group-mask';
 import {
@@ -51,16 +51,16 @@ declare const OpenSeadragon: any;
 
 @Injectable()
 export class ViewerService {
-  private zone = inject(NgZone);
-  private clickService = inject(ClickService);
-  private canvasService = inject(CanvasService);
-  private modeService = inject(ModeService);
-  private viewerLayoutService = inject(ViewerLayoutService);
-  private iiifContentSearchService = inject(IiifContentSearchService);
-  private styleService = inject(StyleService);
-  private altoService = inject(AltoService);
-  private snackBar = inject(MatSnackBar);
-  private intl = inject(MimeViewerIntl);
+  private readonly zone = inject(NgZone);
+  private readonly clickService = inject(ClickService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly modeService = inject(ModeService);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly styleService = inject(StyleService);
+  private readonly altoService = inject(AltoService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly intl = inject(MimeViewerIntl);
 
   config!: MimeViewerConfig;
   private viewer?: any;
@@ -74,13 +74,14 @@ export class ViewerService {
     false,
   );
 
-  private currentCenter: Subject<Point> = new Subject();
-  private currentCanvasIndex: BehaviorSubject<number> = new BehaviorSubject(0);
+  private readonly currentCenter: Subject<Point> = new Subject();
+  private readonly currentCanvasIndex: BehaviorSubject<number> =
+    new BehaviorSubject(0);
   private currentHit: Hit | null = null;
-  private osdIsReady = new BehaviorSubject<boolean>(false);
-  private swipeDragEndCounter = new SwipeDragEndCounter();
+  private readonly osdIsReady = new BehaviorSubject<boolean>(false);
+  private readonly swipeDragEndCounter = new SwipeDragEndCounter();
   private canvasGroupMask!: CanvasGroupMask;
-  private pinchStatus = new PinchStatus();
+  private readonly pinchStatus = new PinchStatus();
   private dragStartPosition: any;
   private manifest!: Manifest;
   private isManifestPaged = false;
@@ -90,7 +91,7 @@ export class ViewerService {
   private zoomStrategy!: ZoomStrategy;
   private goToCanvasGroupStrategy!: GoToCanvasGroupStrategy;
 
-  private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
+  private readonly rotation: BehaviorSubject<number> = new BehaviorSubject(0);
   private dragStatus = false;
   public id = 'ngx-mime-mimeViewer';
   public openseadragonId = 'openseadragon';

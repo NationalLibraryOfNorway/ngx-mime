@@ -42,17 +42,17 @@ export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked
 {
   intl = inject(MimeViewerIntl);
-  private renderer = inject(Renderer2);
-  private iiifManifestService = inject(IiifManifestService);
-  private attributionDialogResizeService = inject(
-    AttributionDialogResizeService,
-  );
-  private styleService = inject(StyleService);
-  private accessKeysHandlerService = inject(AccessKeysService);
 
   public manifest: Manifest | null = null;
-  private subscriptions = new Subscription();
   @ViewChild('container', { static: true }) container!: ElementRef;
+  private readonly renderer = inject(Renderer2);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly attributionDialogResizeService = inject(
+    AttributionDialogResizeService,
+  );
+  private readonly styleService = inject(StyleService);
+  private readonly accessKeysHandlerService = inject(AccessKeysService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.attributionDialogResizeService.el = this.container;

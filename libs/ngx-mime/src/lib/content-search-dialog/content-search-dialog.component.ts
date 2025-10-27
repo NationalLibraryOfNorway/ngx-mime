@@ -1,36 +1,35 @@
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
-import { CdkScrollable } from '@angular/cdk/scrolling';
 import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
-  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import {
-  MatDialogRef,
   MatDialogClose,
-  MatDialogTitle,
   MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import {
   MatFormField,
-  MatPrefix,
   MatInput,
+  MatPrefix,
   MatSuffix,
 } from '@angular/material/input';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -38,15 +37,15 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { Dimensions } from '../core/models/dimensions';
+import { Hit } from '../core/models/hit';
+import { Manifest } from '../core/models/manifest';
+import { SearchResult } from '../core/models/search-result';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../core/intl';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { Dimensions } from './../core/models/dimensions';
-import { Hit } from './../core/models/hit';
-import { Manifest } from './../core/models/manifest';
-import { SearchResult } from './../core/models/search-result';
 
 @Component({
   selector: 'mime-search',
@@ -59,7 +58,6 @@ import { SearchResult } from './../core/models/search-result';
     MatDialogClose,
     MatIcon,
     MatDialogTitle,
-    CdkScrollable,
     MatDialogContent,
     FormsModule,
     MatFormField,

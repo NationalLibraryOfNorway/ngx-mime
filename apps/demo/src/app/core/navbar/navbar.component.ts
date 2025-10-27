@@ -1,6 +1,6 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatFormField, MatInput } from '@angular/material/input';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -24,7 +24,7 @@ import { ThemePickerComponent } from './theme-picker/theme-picker.component';
   ],
 })
 export class NavbarComponent {
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   @Input() sidenav!: MatSidenav;
   public manifestUri = '';

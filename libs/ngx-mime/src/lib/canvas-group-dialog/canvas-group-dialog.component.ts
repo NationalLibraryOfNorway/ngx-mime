@@ -57,8 +57,8 @@ export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly viewerService = inject(ViewerService);
   private readonly canvasService = inject(CanvasService);
-  readonly intl = inject(MimeViewerIntl);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  readonly intl = inject(MimeViewerIntl);
 
   numberOfCanvases: number;
   canvasGroupForm: FormGroup<{

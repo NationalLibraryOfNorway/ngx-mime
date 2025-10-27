@@ -7,7 +7,7 @@ import {
   RecognizedTextMode,
 } from '@nationallibraryofnorway/ngx-mime';
 import { Subscription } from 'rxjs';
-import { ManifestService } from './../core/manifest-service/manifest.service';
+import { ManifestService } from '../core/manifest-service/manifest.service';
 
 @Component({
   templateUrl: './viewer.component.html',
@@ -15,9 +15,6 @@ import { ManifestService } from './../core/manifest-service/manifest.service';
   imports: [MimeModule],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private manifestService = inject(ManifestService);
   manifestUris: string[] = [];
   config = new MimeViewerConfig({
     attributionDialogEnabled: true,
@@ -29,8 +26,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     initViewerMode: MimeViewerMode.PAGE,
     initRecognizedTextContentMode: RecognizedTextMode.NONE,
   });
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly manifestService = inject(ManifestService);
+  private readonly subscriptions: Subscription = new Subscription();
   private iiifVersion = '3';
-  private subscriptions: Subscription = new Subscription();
 
   ngOnInit(): void {
     this.subscriptions.add(
