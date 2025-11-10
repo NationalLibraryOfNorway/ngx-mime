@@ -55,13 +55,6 @@ import { IconComponent } from './icon/icon.component';
 })
 export class ViewDialogComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);
-  private breakpointObserver = inject(BreakpointObserver);
-  private cdr = inject(ChangeDetectorRef);
-  private viewerLayoutService = inject(ViewerLayoutService);
-  private iiifManifestService = inject(IiifManifestService);
-  private altoService = inject(AltoService);
-  private mimeResizeService = inject(MimeResizeService);
-
   tabHeight = {};
   isHandsetOrTabletInPortrait = false;
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
@@ -70,8 +63,14 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   hasRecognizedTextContent = false;
   recognizedTextMode = RecognizedTextMode.NONE;
   RecognizedTextMode: typeof RecognizedTextMode = RecognizedTextMode;
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly altoService = inject(AltoService);
+  private readonly mimeResizeService = inject(MimeResizeService);
   private mimeHeight = 0;
-  private subscriptions = new Subscription();
+  private readonly subscriptions = new Subscription();
 
   ngOnInit(): void {
     this.subscriptions.add(

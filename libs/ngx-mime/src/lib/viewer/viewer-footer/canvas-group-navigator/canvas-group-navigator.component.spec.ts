@@ -31,11 +31,11 @@ import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.componen
   imports: [CanvasGroupNavigatorComponent],
 })
 export class TestHostComponent {
-  viewContainerRef = inject(ViewContainerRef);
   @ViewChild('navigator', { static: false })
   canvasGroupNavigatorComponent!: CanvasGroupNavigatorComponent;
   @ViewChild('navigator', { read: ElementRef })
   canvasGroupNavigatorElementRef!: ElementRef;
+  viewContainerRef = inject(ViewContainerRef);
 }
 
 describe('CanvasGroupNavigatorComponent', () => {

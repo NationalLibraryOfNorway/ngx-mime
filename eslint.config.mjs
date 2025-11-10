@@ -23,6 +23,7 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
+      '@typescript-eslint/member-ordering': ['error'],
       '@nx/enforce-module-boundaries': [
         'error',
         {

@@ -54,19 +54,19 @@ import { TocComponent } from './table-of-contents/table-of-contents.component';
 })
 export class InformationDialogComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);
-  private breakpointObserver = inject(BreakpointObserver);
-  private dialogRef =
-    inject<MatDialogRef<InformationDialogComponent>>(MatDialogRef);
-  private changeDetectorRef = inject(ChangeDetectorRef);
-  private iiifManifestService = inject(IiifManifestService);
-  private mimeResizeService = inject(MimeResizeService);
-  public manifest: Manifest | null = null;
-  public tabHeight = {};
-  public showToc = false;
-  public selectedIndex = 0;
+  manifest: Manifest | null = null;
+  tabHeight = {};
+  showToc = false;
+  selectedIndex = 0;
   isHandsetOrTabletInPortrait = false;
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly dialogRef =
+    inject<MatDialogRef<InformationDialogComponent>>(MatDialogRef);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly mimeResizeService = inject(MimeResizeService);
   private mimeHeight = 0;
-  private subscriptions = new Subscription();
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

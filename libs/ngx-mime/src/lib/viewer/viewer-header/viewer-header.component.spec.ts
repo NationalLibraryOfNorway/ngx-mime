@@ -48,12 +48,11 @@ import { ViewerHeaderComponent } from './viewer-header.component';
   imports: [ViewerHeaderComponent],
 })
 export class TestHostComponent {
-  viewContainerRef = inject(ViewContainerRef);
-
   @ViewChild('viewer', { static: false })
   viewerHeaderComponent!: ViewerHeaderComponent;
   @ViewChild('viewer', { read: ElementRef })
   viewerHeaderElementRef!: ElementRef;
+  viewContainerRef = inject(ViewContainerRef);
 }
 
 describe('ViewerHeaderComponent', () => {

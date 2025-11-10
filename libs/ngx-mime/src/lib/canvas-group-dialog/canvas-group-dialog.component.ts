@@ -52,18 +52,17 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
   ],
 })
 export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
+  readonly intl = inject(MimeViewerIntl);
+  numberOfCanvases: number;
+  canvasGroupForm: FormGroup<{
+    canvasGroupControl: FormControl<number | null>;
+  }>;
   private readonly dialogRef =
     inject<MatDialogRef<CanvasGroupDialogComponent>>(MatDialogRef);
   private readonly fb = inject(FormBuilder);
   private readonly viewerService = inject(ViewerService);
   private readonly canvasService = inject(CanvasService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
-  readonly intl = inject(MimeViewerIntl);
-
-  numberOfCanvases: number;
-  canvasGroupForm: FormGroup<{
-    canvasGroupControl: FormControl<number | null>;
-  }>;
   private readonly subscriptions = new Subscription();
 
   constructor() {

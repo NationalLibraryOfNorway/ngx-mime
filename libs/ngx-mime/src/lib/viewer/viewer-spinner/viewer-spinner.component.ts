@@ -1,9 +1,9 @@
 import {
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
-  inject,
 } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
@@ -19,10 +19,10 @@ import {
   imports: [MatProgressSpinner],
 })
 export class ViewerSpinnerComponent implements OnDestroy, OnInit {
-  private spinnerService = inject(SpinnerService);
-  private changeDetectorRef = inject(ChangeDetectorRef);
   public visible = false;
-  private subscriptions = new Subscription();
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

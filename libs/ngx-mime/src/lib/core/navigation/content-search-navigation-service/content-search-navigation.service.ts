@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CanvasService } from '../../canvas-service/canvas-service';
@@ -8,8 +8,8 @@ import { SearchResult } from '../../models/search-result';
 
 @Injectable()
 export class ContentSearchNavigationService {
-  private canvasService = inject(CanvasService);
-  private iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
   private currentIndex = 0;
   private lastHitIndex = 0;
   private isHitOnActiveCanvasGroup = false;
@@ -17,10 +17,14 @@ export class ContentSearchNavigationService {
   private canvasesPerCanvasGroup = [-1];
   private searchResult: SearchResult | null = null;
   private subscriptions!: Subscription;
-  private _currentHitCounter$: Subject<number> = new Subject<number>();
+  private readonly _currentHitCounter$: Subject<number> = new Subject<number>();
 
   constructor() {
     this.initialize();
+  }
+
+  get currentHitCounter(): Observable<number> {
+    return this._currentHitCounter$.pipe(distinctUntilChanged());
   }
 
   initialize() {
@@ -47,10 +51,6 @@ export class ContentSearchNavigationService {
     this.lastHitIndex = this.findLastHitIndex(this.canvasesPerCanvasGroup);
     this.isHitOnActiveCanvasGroup = this.findHitOnActiveCanvasGroup();
     this._currentHitCounter$.next(this.updateCurrentHitCounter());
-  }
-
-  get currentHitCounter(): Observable<number> {
-    return this._currentHitCounter$.pipe(distinctUntilChanged());
   }
 
   getHitOnActiveCanvasGroup(): boolean {

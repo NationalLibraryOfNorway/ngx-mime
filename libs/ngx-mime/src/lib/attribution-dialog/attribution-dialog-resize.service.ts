@@ -1,25 +1,26 @@
-import { Injectable, ElementRef, inject } from '@angular/core';
+import { ElementRef, inject, Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
 @Injectable()
 export class AttributionDialogResizeService {
-  private mimeDomHelper = inject(MimeDomHelper);
+  private readonly mimeDomHelper = inject(MimeDomHelper);
   private _el: ElementRef | null = null;
-  private resizeSubject: ReplaySubject<Dimensions> = new ReplaySubject();
+  private readonly resizeSubject: ReplaySubject<Dimensions> =
+    new ReplaySubject();
   private dimensions = new Dimensions();
 
-  set el(el: ElementRef | null) {
-    this._el = el;
+  get onResize(): Observable<Dimensions> {
+    return this.resizeSubject.asObservable();
   }
 
   get el(): ElementRef | null {
     return this._el;
   }
 
-  get onResize(): Observable<Dimensions> {
-    return this.resizeSubject.asObservable();
+  set el(el: ElementRef | null) {
+    this._el = el;
   }
 
   markForCheck() {

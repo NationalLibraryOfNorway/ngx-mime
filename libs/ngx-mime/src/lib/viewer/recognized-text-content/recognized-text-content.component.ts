@@ -3,10 +3,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -26,23 +26,21 @@ import { SearchResult } from '../../core/models/search-result';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecognizedTextContentComponent implements OnInit, OnDestroy {
-  intl = inject(MimeViewerIntl);
-  private cdr = inject(ChangeDetectorRef);
-  private canvasService = inject(CanvasService);
-  private altoService = inject(AltoService);
-  private iiifManifestService = inject(IiifManifestService);
-  private iiifContentSearchService = inject(IiifContentSearchService);
-  private highlightService = inject(HighlightService);
-
   @ViewChild('recognizedTextContentContainer', { read: ElementRef })
   recognizedTextContentContainer!: ElementRef;
+  intl = inject(MimeViewerIntl);
   firstCanvasRecognizedTextContent: SafeHtml | undefined;
   secondCanvasRecognizedTextContent: SafeHtml | undefined;
   isLoading = false;
   error: string | undefined = undefined;
   selectedHit: number | undefined;
-
-  private subscriptions = new Subscription();
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly canvasService = inject(CanvasService);
+  private readonly altoService = inject(AltoService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly highlightService = inject(HighlightService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -113,7 +111,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  async updateCanvases(canvases: number[]) {
+  private async updateCanvases(canvases: number[]) {
     this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
       canvases[0],
     );

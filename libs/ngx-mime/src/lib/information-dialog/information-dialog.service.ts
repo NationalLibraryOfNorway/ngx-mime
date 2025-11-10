@@ -1,8 +1,8 @@
 import {
   ElementRef,
+  inject,
   Injectable,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import {
   MatDialog,
@@ -17,15 +17,23 @@ import { InformationDialogComponent } from './information-dialog.component';
 
 @Injectable()
 export class InformationDialogService {
-  private dialog = inject(MatDialog);
-  private informationDialogConfigStrategyFactory = inject(
+  private readonly dialog = inject(MatDialog);
+  private readonly informationDialogConfigStrategyFactory = inject(
     InformationDialogConfigStrategyFactory,
   );
-  private mimeResizeService = inject(MimeResizeService);
+  private readonly mimeResizeService = inject(MimeResizeService);
   private _el: ElementRef | undefined;
   private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<InformationDialogComponent>;
   private subscriptions!: Subscription;
+
+  set el(el: ElementRef) {
+    this._el = el;
+  }
+
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
 
   public initialize(): void {
     this.subscriptions = new Subscription();
@@ -43,14 +51,6 @@ export class InformationDialogService {
   public destroy() {
     this.close();
     this.unsubscribe();
-  }
-
-  set el(el: ElementRef) {
-    this._el = el;
-  }
-
-  set viewContainerRef(viewContainerRef: ViewContainerRef) {
-    this._viewContainerRef = viewContainerRef;
   }
 
   public open(selectedIndex?: number): void {

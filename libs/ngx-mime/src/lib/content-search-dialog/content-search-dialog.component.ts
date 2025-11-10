@@ -73,8 +73,21 @@ import { ContentSearchNavigationService } from '../core/navigation/content-searc
 export class ContentSearchDialogComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  @ViewChild('contentSearchResult', { static: true })
+  resultContainer!: ElementRef;
+  @ViewChild('query', { static: true }) qEl!: ElementRef;
+  @ViewChildren('hitButton', { read: ElementRef })
+  hitList!: QueryList<ElementRef>;
   dialogRef = inject<MatDialogRef<ContentSearchDialogComponent>>(MatDialogRef);
   intl = inject(MimeViewerIntl);
+  q = '';
+  hits: Hit[] = [];
+  currentHit: Hit | null = null;
+  currentSearch: string | null = null;
+  numberOfHits = 0;
+  isSearching = false;
+  tabHeight = { maxHeight: '100px' };
+  isHandsetOrTabletInPortrait = false;
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly mimeResizeService = inject(MimeResizeService);
@@ -83,23 +96,9 @@ export class ContentSearchDialogComponent
   private readonly contentSearchNavigationService = inject(
     ContentSearchNavigationService,
   );
-
-  public q = '';
-  public hits: Hit[] = [];
-  public currentHit: Hit | null = null;
-  public currentSearch: string | null = null;
-  public numberOfHits = 0;
-  public isSearching = false;
-  public tabHeight = { maxHeight: '100px' };
-  isHandsetOrTabletInPortrait = false;
   private manifest: Manifest | null = null;
   private mimeHeight = 0;
   private readonly subscriptions = new Subscription();
-  @ViewChild('contentSearchResult', { static: true })
-  resultContainer!: ElementRef;
-  @ViewChild('query', { static: true }) qEl!: ElementRef;
-  @ViewChildren('hitButton', { read: ElementRef })
-  hitList!: QueryList<ElementRef>;
 
   ngOnInit() {
     this.subscriptions.add(

@@ -1,8 +1,8 @@
 import {
   ElementRef,
+  inject,
   Injectable,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import {
   MatDialog,
@@ -27,6 +27,14 @@ export class ContentSearchDialogService {
   private dialogRef?: MatDialogRef<ContentSearchDialogComponent>;
   private subscriptions!: Subscription;
 
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
+
+  set el(el: ElementRef) {
+    this._el = el;
+  }
+
   public initialize(): void {
     this.subscriptions = new Subscription();
     this.subscriptions.add(
@@ -43,14 +51,6 @@ export class ContentSearchDialogService {
   public destroy(): void {
     this.close();
     this.unsubscribe();
-  }
-
-  set el(el: ElementRef) {
-    this._el = el;
-  }
-
-  set viewContainerRef(viewContainerRef: ViewContainerRef) {
-    this._viewContainerRef = viewContainerRef;
   }
 
   public open(): void {

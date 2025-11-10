@@ -41,10 +41,9 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
 export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked
 {
-  intl = inject(MimeViewerIntl);
-
-  public manifest: Manifest | null = null;
   @ViewChild('container', { static: true }) container!: ElementRef;
+  intl = inject(MimeViewerIntl);
+  manifest: Manifest | null = null;
   private readonly renderer = inject(Renderer2);
   private readonly iiifManifestService = inject(IiifManifestService);
   private readonly attributionDialogResizeService = inject(
@@ -53,6 +52,16 @@ export class AttributionDialogComponent
   private readonly styleService = inject(StyleService);
   private readonly accessKeysHandlerService = inject(AccessKeysService);
   private readonly subscriptions = new Subscription();
+
+  @HostListener('keydown', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.attributionDialogResizeService.markForCheck();
+  }
 
   ngOnInit() {
     this.attributionDialogResizeService.el = this.container;
@@ -86,16 +95,6 @@ export class AttributionDialogComponent
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-  }
-
-  @HostListener('keydown', ['$event'])
-  handleKeys(event: KeyboardEvent) {
-    this.accessKeysHandlerService.handleKeyEvents(event);
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.attributionDialogResizeService.markForCheck();
   }
 
   ngAfterViewChecked() {

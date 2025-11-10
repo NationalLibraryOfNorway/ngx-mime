@@ -11,12 +11,11 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
-  inject,
-  ViewRef,
 } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -67,32 +66,32 @@ import { Manifest } from './../../core/models/manifest';
   imports: [MatToolbar, MatTooltip, MatIconButton, MatIcon],
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
-  intl = inject(MimeViewerIntl);
-  private changeDetectorRef = inject(ChangeDetectorRef);
-  private informationDialogService = inject(InformationDialogService);
-  private contentSearchDialogService = inject(ContentSearchDialogService);
-  private viewDialogService = inject(ViewDialogService);
-  private helpDialogService = inject(HelpDialogService);
-  private iiifManifestService = inject(IiifManifestService);
-  private fullscreenService = inject(FullscreenService);
-  private mimeDomHelper = inject(MimeDomHelper);
-
   @ViewChild('mimeHeaderBefore', { read: ViewContainerRef, static: true })
   mimeHeaderBefore!: ViewContainerRef;
   @ViewChild('mimeHeaderAfter', { read: ViewContainerRef, static: true })
   mimeHeaderAfter!: ViewContainerRef;
   @ViewChild('viewMenu', { read: ElementRef, static: true })
   viewMenu!: ElementRef;
-  public manifest: Manifest | null = null;
-  public state = 'hide';
+  intl = inject(MimeViewerIntl);
+  manifest: Manifest | null = null;
+  state = 'hide';
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
   isInFullscreen = false;
   fullscreenLabel = '';
   isPagedManifest = false;
   hasRecognizedTextContent = false;
-
-  private subscriptions = new Subscription();
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly informationDialogService = inject(InformationDialogService);
+  private readonly contentSearchDialogService = inject(
+    ContentSearchDialogService,
+  );
+  private readonly viewDialogService = inject(ViewDialogService);
+  private readonly helpDialogService = inject(HelpDialogService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly fullscreenService = inject(FullscreenService);
+  private readonly mimeDomHelper = inject(MimeDomHelper);
+  private readonly subscriptions = new Subscription();
 
   @HostBinding('@headerState')
   get headerState() {

@@ -3,12 +3,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChanges,
-  inject,
 } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -34,22 +34,21 @@ import { ContentSearchNavigationService } from '../../../core/navigation/content
 export class ContentSearchNavigatorComponent
   implements OnInit, OnDestroy, OnChanges
 {
-  intl = inject(MimeViewerIntl);
-  private changeDetectorRef = inject(ChangeDetectorRef);
-  private canvasService = inject(CanvasService);
-  private iiifContentSearchService = inject(IiifContentSearchService);
-  private contentSearchNavigationService = inject(
-    ContentSearchNavigationService,
-  );
-  private iiifManifestService = inject(IiifManifestService);
-
   @Input() searchResult!: SearchResult;
+  intl = inject(MimeViewerIntl);
   isHitOnActiveCanvasGroup = false;
   isFirstHit = false;
   isLastHit = false;
   currentHit = 0;
   invert = false;
-  private subscriptions = new Subscription();
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly canvasService = inject(CanvasService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly contentSearchNavigationService = inject(
+    ContentSearchNavigationService,
+  );
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.contentSearchNavigationService.initialize();

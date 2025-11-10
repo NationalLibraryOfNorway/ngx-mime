@@ -291,7 +291,7 @@ export class AccessKeysService {
     return this.disabledKeys.indexOf(keyCode) > -1;
   }
 
-  unsubscribe(): void {
+  private unsubscribe(): void {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();
     }

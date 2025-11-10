@@ -20,7 +20,7 @@ import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { CanvasServiceStub } from './../../test/canvas-service-stub';
 import { ViewerServiceStub } from './../../test/viewer-service-stub';
-import { OsdToolbarComponent } from './osd-toolbar.component';
+import OsdToolbarComponent from './osd-toolbar.component';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;

@@ -8,10 +8,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -35,18 +35,11 @@ import { easeInWithDelay, rotate45 } from './../../shared/animations';
   imports: [MatFabButton, MatTooltip, MatIcon, MatMiniFabButton],
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
-  intl = inject(MimeViewerIntl);
-  private breakpointObserver = inject(BreakpointObserver);
-  private changeDetectorRef = inject(ChangeDetectorRef);
-  private viewerService = inject(ViewerService);
-  private canvasService = inject(CanvasService);
-  private iiifManifestService = inject(IiifManifestService);
-  private modeService = inject(ModeService);
-
   @ViewChild('container', { static: true }) container!: ElementRef;
-  public numberOfCanvasGroups = 0;
-  public isFirstCanvasGroup = false;
-  public isLastCanvasGroup = false;
+  intl = inject(MimeViewerIntl);
+  numberOfCanvasGroups = 0;
+  isFirstCanvasGroup = false;
+  isLastCanvasGroup = false;
   invert = false;
   isWeb = false;
   fabState = 'closed';
@@ -54,7 +47,13 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   showControlButtons = false;
   baseAnimationDelay = 20;
   isZoomed = true;
-  private subscriptions = new Subscription();
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly viewerService = inject(ViewerService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly modeService = inject(ModeService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(
@@ -146,3 +145,5 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     return currentCanvasGroupIndex === this.numberOfCanvasGroups - 1;
   }
 }
+
+export default OsdToolbarComponent;

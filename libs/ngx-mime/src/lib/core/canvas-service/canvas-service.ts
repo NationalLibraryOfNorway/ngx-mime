@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import * as OpenSeadragon from 'openseadragon';
 import { Viewer } from 'openseadragon';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -17,13 +17,13 @@ import { TileSourceAndRect } from './tile-source-and-rect.model';
 
 @Injectable()
 export class CanvasService {
-  private viewerLayoutService = inject(ViewerLayoutService);
   protected _currentNumberOfCanvasGroups: BehaviorSubject<number> =
     new BehaviorSubject(0);
   protected _currentCanvasGroupIndex: BehaviorSubject<number> =
     new BehaviorSubject(0);
   protected canvasGroups: CanvasGroups = new CanvasGroups();
   protected _numberOfCanvases = 0;
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
   private config = new MimeViewerConfig();
   private tileSources: any[] = [];
   private viewer: Viewer | undefined = undefined;
@@ -48,25 +48,6 @@ export class CanvasService {
       .pipe(distinctUntilChanged());
   }
 
-  set currentCanvasGroupIndex(currentCanvasGroupIndex: number) {
-    if (!this.isWithinBounds(currentCanvasGroupIndex)) {
-      return;
-    }
-    this._currentCanvasGroupIndex.next(currentCanvasGroupIndex);
-  }
-
-  get currentCanvasGroupIndex(): number {
-    return this._currentCanvasGroupIndex.value;
-  }
-
-  get numberOfCanvases(): number {
-    return this._numberOfCanvases;
-  }
-
-  set numberOfCanvases(numberOfCanvases: number) {
-    this._numberOfCanvases = numberOfCanvases;
-  }
-
   get numberOfCanvasGroups(): number {
     return this.canvasGroups.length();
   }
@@ -75,6 +56,26 @@ export class CanvasService {
     const canvases =
       this.canvasGroups.canvasesPerCanvasGroup[this.currentCanvasGroupIndex];
     return canvases && canvases.length >= 1 ? canvases[0] : 0;
+  }
+
+  get currentCanvasGroupIndex(): number {
+    return this._currentCanvasGroupIndex.value;
+  }
+
+  set currentCanvasGroupIndex(currentCanvasGroupIndex: number) {
+    if (!this.isWithinBounds(currentCanvasGroupIndex)) {
+      return;
+    }
+    this._currentCanvasGroupIndex.next(currentCanvasGroupIndex);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  get numberOfCanvases(): number {
+    return this._numberOfCanvases;
+  }
+
+  set numberOfCanvases(numberOfCanvases: number) {
+    this._numberOfCanvases = numberOfCanvases;
   }
 
   setViewer(viewer: any): void {

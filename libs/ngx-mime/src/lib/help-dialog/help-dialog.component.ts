@@ -42,13 +42,13 @@ import { Dimensions } from '../core/models/dimensions';
 })
 export class HelpDialogComponent implements OnInit, OnDestroy {
   intl = inject(MimeViewerIntl);
-  private cdr = inject(ChangeDetectorRef);
-  private mimeResizeService = inject(MimeResizeService);
-  private breakpointObserver = inject(BreakpointObserver);
-  public tabHeight = {};
+  tabHeight = {};
   isHandsetOrTabletInPortrait = false;
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly mimeResizeService = inject(MimeResizeService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private mimeHeight = 0;
-  private subscriptions = new Subscription();
+  private readonly subscriptions = new Subscription();
 
   ngOnInit(): void {
     this.subscriptions.add(

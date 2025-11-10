@@ -3,10 +3,10 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   OnDestroy,
   OnInit,
   Output,
-  inject,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -22,17 +22,16 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TocComponent implements OnInit, OnDestroy {
-  intl = inject(MimeViewerIntl);
-  private changeDetectorRef = inject(ChangeDetectorRef);
-  private iiifManifestService = inject(IiifManifestService);
-  private viewerService = inject(ViewerService);
-  private canvasService = inject(CanvasService);
-
   @Output()
   canvasChanged: EventEmitter<number> = new EventEmitter();
-  public manifest: Manifest | null = null;
-  public currentCanvasGroupIndex = 0;
-  private subscriptions = new Subscription();
+  intl = inject(MimeViewerIntl);
+  manifest: Manifest | null = null;
+  currentCanvasGroupIndex = 0;
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly viewerService = inject(ViewerService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

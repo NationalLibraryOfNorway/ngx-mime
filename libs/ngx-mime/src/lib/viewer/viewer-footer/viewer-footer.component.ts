@@ -67,22 +67,18 @@ import { ContentSearchNavigatorComponent } from './content-search-navigator/cont
   ],
 })
 export class ViewerFooterComponent implements OnInit, OnDestroy {
-  private breakpointObserver = inject(BreakpointObserver);
-  private changeDetectorRef = inject(ChangeDetectorRef);
-  private iiifContentSearchService = inject(IiifContentSearchService);
-
   @ViewChild('mimeFooterBefore', { read: ViewContainerRef, static: true })
   mimeFooterBefore!: ViewContainerRef;
   @ViewChild('mimeFooterAfter', { read: ViewContainerRef, static: true })
   mimeFooterAfter!: ViewContainerRef;
-
-  public state = 'hide';
-  public showNavigationToolbar = true;
-  public searchResult: SearchResult = new SearchResult();
-  public showPageNavigator = true;
-  public showContentSearchNavigator = false;
-
-  private subscriptions = new Subscription();
+  state = 'hide';
+  searchResult: SearchResult = new SearchResult();
+  showPageNavigator = true;
+  showContentSearchNavigator = false;
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly subscriptions = new Subscription();
 
   @HostBinding('@footerState')
   get footerState() {

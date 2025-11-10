@@ -57,7 +57,7 @@ import { HelpDialogService } from '../help-dialog/help-dialog.service';
 import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { slideInLeft } from '../shared/animations';
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
-import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
+import OsdToolbarComponent from './osd-toolbar/osd-toolbar.component';
 import { RecognizedTextContentComponent } from './recognized-text-content/recognized-text-content.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
@@ -93,15 +93,22 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Output() canvasChanged: EventEmitter<number> = new EventEmitter();
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
-  @Output()
-  recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> =
+  @Output() recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> =
     new EventEmitter();
+  // Viewchilds
+  @ViewChild('mimeHeader', { static: true })
+  private readonly header!: ViewerHeaderComponent;
+  @ViewChild('mimeFooter', { static: true })
+  private readonly footer!: ViewerFooterComponent;
   snackBar = inject(MatSnackBar);
   intl = inject(MimeViewerIntl);
   recognizedTextMode = RecognizedTextMode;
   id = 'ngx-mime-mimeViewer';
   openseadragonId = 'openseadragon';
-
+  recognizedTextContentMode: RecognizedTextMode = RecognizedTextMode.NONE;
+  showHeaderAndFooterState = 'hide';
+  osdToolbarState = 'hide';
+  errorMessage: string | null = null;
   private readonly iiifManifestService = inject(IiifManifestService);
   private readonly viewDialogService = inject(ViewDialogService);
   private readonly informationDialogService = inject(InformationDialogService);
@@ -130,17 +137,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   private currentManifest!: Manifest | null;
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
-
-  recognizedTextContentMode: RecognizedTextMode = RecognizedTextMode.NONE;
-  showHeaderAndFooterState = 'hide';
-  osdToolbarState = 'hide';
-  public errorMessage: string | null = null;
-
-  // Viewchilds
-  @ViewChild('mimeHeader', { static: true })
-  private header!: ViewerHeaderComponent;
-  @ViewChild('mimeFooter', { static: true })
-  private footer!: ViewerFooterComponent;
 
   constructor() {
     this.id = this.viewerService.id;
@@ -173,6 +169,60 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   get mimeFooterAfterRef(): ViewContainerRef {
     return this.footer.mimeFooterAfter;
+  }
+
+  @HostListener('keydown', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
+  }
+
+  @HostListener('drop', ['$event'])
+  public onDrop(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.config.isDropEnabled) {
+      const url = event.dataTransfer.getData('URL');
+      const params = new URL(url).searchParams;
+      const manifestUri = params.get('manifest');
+      const startCanvasId = params.get('canvas');
+      if (manifestUri) {
+        this.manifestUri = manifestUri.startsWith('//')
+          ? `${location.protocol}${manifestUri}`
+          : manifestUri;
+        this.cleanup();
+        this.loadManifest();
+        if (startCanvasId) {
+          this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
+            const canvasIndex = manifest.sequences
+              ? manifest.sequences[0]?.canvases?.findIndex(
+                  (c) => c.id === startCanvasId,
+                )
+              : -1;
+            if (canvasIndex && canvasIndex !== -1) {
+              setTimeout(() => {
+                this.viewerService.goToCanvas(canvasIndex, true);
+              }, 0);
+            }
+          });
+        }
+      }
+    } else {
+      this.snackBar.open(this.intl.dropDisabled, undefined, {
+        duration: 3000,
+      });
+    }
+  }
+
+  @HostListener('dragover', ['$event'])
+  public onDragOver(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  @HostListener('dragleave', ['$event'])
+  public onDragLeave(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   ngOnInit(): void {
@@ -379,60 +429,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  @HostListener('keydown', ['$event'])
-  handleKeys(event: KeyboardEvent) {
-    this.accessKeysHandlerService.handleKeyEvents(event);
-  }
-
-  @HostListener('drop', ['$event'])
-  public onDrop(event: any) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (this.config.isDropEnabled) {
-      const url = event.dataTransfer.getData('URL');
-      const params = new URL(url).searchParams;
-      const manifestUri = params.get('manifest');
-      const startCanvasId = params.get('canvas');
-      if (manifestUri) {
-        this.manifestUri = manifestUri.startsWith('//')
-          ? `${location.protocol}${manifestUri}`
-          : manifestUri;
-        this.cleanup();
-        this.loadManifest();
-        if (startCanvasId) {
-          this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
-            const canvasIndex = manifest.sequences
-              ? manifest.sequences[0]?.canvases?.findIndex(
-                  (c) => c.id === startCanvasId,
-                )
-              : -1;
-            if (canvasIndex && canvasIndex !== -1) {
-              setTimeout(() => {
-                this.viewerService.goToCanvas(canvasIndex, true);
-              }, 0);
-            }
-          });
-        }
-      }
-    } else {
-      this.snackBar.open(this.intl.dropDisabled, undefined, {
-        duration: 3000,
-      });
-    }
-  }
-
-  @HostListener('dragover', ['$event'])
-  public onDragOver(event: any) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  @HostListener('dragleave', ['$event'])
-  public onDragLeave(event: any) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.cleanup();
@@ -465,6 +461,24 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.changeDetectorRef.detectChanges();
     }
+  }
+
+  goToHomeZoom(): void {
+    if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
+      this.viewerService.home();
+    }
+  }
+
+  setClasses() {
+    return {
+      'mode-page': this.modeService.mode === ViewerMode.PAGE,
+      'mode-page-zoomed': this.modeService.isPageZoomed(),
+      'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
+      'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
+      'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
+      'canvas-pressed': this.isCanvasPressed,
+      'broken-mix-blend-mode': !this.hasMixBlendModeSupport(),
+    };
   }
 
   private loadManifest(): void {
@@ -505,23 +519,5 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   private hasMixBlendModeSupport(): boolean {
     return !(this.platform.FIREFOX || this.platform.SAFARI);
-  }
-
-  goToHomeZoom(): void {
-    if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
-      this.viewerService.home();
-    }
-  }
-
-  setClasses() {
-    return {
-      'mode-page': this.modeService.mode === ViewerMode.PAGE,
-      'mode-page-zoomed': this.modeService.isPageZoomed(),
-      'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
-      'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
-      'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
-      'canvas-pressed': this.isCanvasPressed,
-      'broken-mix-blend-mode': !this.hasMixBlendModeSupport(),
-    };
   }
 }
