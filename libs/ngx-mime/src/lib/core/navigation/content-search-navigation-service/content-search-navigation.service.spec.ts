@@ -1,4 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { testManifest } from '../../../test/testManifest';
@@ -21,6 +22,7 @@ describe('ContentSearchNavigationService', () => {
       declarations: [],
       providers: [
         provideHttpClient(),
+        provideHttpClientTesting(),
         ContentSearchNavigationService,
         provideAutoSpy(CanvasService),
         provideAutoSpy(IiifManifestService, {

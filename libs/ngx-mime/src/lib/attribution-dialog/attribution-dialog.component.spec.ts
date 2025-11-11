@@ -1,4 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAutoSpy, Spy } from 'jest-auto-spies';
@@ -20,6 +21,7 @@ describe('AttributionDialogComponent', () => {
       imports: [NoopAnimationsModule, AttributionDialogComponent],
       providers: [
         provideHttpClient(),
+        provideHttpClientTesting(),
         MimeViewerIntl,
         provideAutoSpy(IiifManifestService, {
           observablePropsToSpyOn: ['currentManifest'],

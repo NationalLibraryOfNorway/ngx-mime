@@ -2,6 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -44,6 +45,7 @@ describe('ContentSearchDialogComponent', () => {
       imports: [NoopAnimationsModule, ContentSearchDialogComponent],
       providers: [
         provideHttpClient(),
+        provideHttpClientTesting(),
         MimeViewerIntl,
         MimeResizeService,
         MimeDomHelper,

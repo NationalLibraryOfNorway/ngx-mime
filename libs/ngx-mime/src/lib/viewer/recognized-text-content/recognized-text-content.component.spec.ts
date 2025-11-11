@@ -1,4 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -27,6 +28,7 @@ describe('RecognizedTextContentComponent', () => {
       imports: [RecognizedTextContentComponent],
       providers: [
         provideHttpClient(),
+        provideHttpClientTesting(),
         MimeViewerIntl,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         provideAutoSpy(CanvasService),

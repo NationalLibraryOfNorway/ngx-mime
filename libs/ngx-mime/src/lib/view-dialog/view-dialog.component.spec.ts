@@ -1,5 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -33,6 +34,7 @@ describe('ViewDialogComponent', () => {
       imports: [ViewDialogComponent],
       providers: [
         provideHttpClient(),
+        provideHttpClientTesting(),
         MimeViewerIntl,
         ViewerLayoutService,
         CanvasService,

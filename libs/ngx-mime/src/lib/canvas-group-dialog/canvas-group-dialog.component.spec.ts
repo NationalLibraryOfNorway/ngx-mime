@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import {
   ComponentFixture,
   fakeAsync,
@@ -43,6 +44,7 @@ describe('CanvasGroupDialogComponent', () => {
       imports: [NoopAnimationsModule, CanvasGroupDialogComponent],
       providers: [
         provideHttpClient(),
+        provideHttpClientTesting(),
         ViewerService,
         ClickService,
         ModeService,
