@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class CanvasServiceStub extends CanvasService {
   override _currentNumberOfCanvasGroups: BehaviorSubject<number> =
     new BehaviorSubject(10);

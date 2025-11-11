@@ -2,7 +2,7 @@ import { ElementRef, Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Dimensions } from '../core/models/dimensions';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class MimeResizeServiceStub {
   private _el!: ElementRef;
   private readonly resizeSubject: ReplaySubject<Dimensions> =

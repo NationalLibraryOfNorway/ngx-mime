@@ -6,7 +6,7 @@ import { IiifContentSearchService } from '../../iiif-content-search-service/iiif
 import { Hit } from '../../models/hit';
 import { SearchResult } from '../../models/search-result';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ContentSearchNavigationService {
   private readonly canvasService = inject(CanvasService);
   private readonly iiifContentSearchService = inject(IiifContentSearchService);

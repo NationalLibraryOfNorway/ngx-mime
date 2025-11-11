@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HelpIntl } from './help-intl';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class MimeViewerIntl {
   changes: Subject<void> = new Subject<void>();
 
