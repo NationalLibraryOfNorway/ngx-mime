@@ -23,9 +23,9 @@ import { SiteTheme, ThemeService } from './theme-service/theme.service';
   ],
 })
 export class ThemePickerComponent {
-  private readonly themeService = inject(ThemeService);
   currentTheme: SiteTheme;
   themes: SiteTheme[];
+  private readonly themeService = inject(ThemeService);
 
   constructor() {
     this.themes = this.themeService.getAllThemes();

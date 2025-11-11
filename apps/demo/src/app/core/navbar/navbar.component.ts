@@ -24,10 +24,9 @@ import { ThemePickerComponent } from './theme-picker/theme-picker.component';
   ],
 })
 export class NavbarComponent {
-  private readonly router = inject(Router);
-
   @Input() sidenav!: MatSidenav;
-  public manifestUri = '';
+  manifestUri = '';
+  private readonly router = inject(Router);
 
   toggle() {
     this.sidenav.toggle();
