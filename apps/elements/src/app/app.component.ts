@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  MimeViewerComponent,
   MimeViewerConfig,
-  MimeModule,
 } from '@nationallibraryofnorway/ngx-mime';
 
 @Component({
   selector: 'nationallibraryofnorway-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [MimeModule],
+  imports: [MimeViewerComponent],
 })
 export class AppComponent implements OnInit {
   @Input() manifestUri!: string;

@@ -3,11 +3,10 @@ import {
   OverlayContainer,
 } from '@angular/cdk/overlay';
 import { provideHttpClient } from '@angular/common/http';
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { BrowserModule, createApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 
@@ -22,7 +21,6 @@ if (environment.production) {
       BrowserModule,
       provideAnimations(),
       provideHttpClient(),
-      importProvidersFrom(MimeModule),
       { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     ],
   });

@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
+import { MimeViewerComponent } from '@nationallibraryofnorway/ngx-mime';
 
 @Component({
   selector: 'app-components-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  imports: [MimeModule],
+  imports: [MimeViewerComponent],
 })
 export class ViewerComponent {
   @Input()

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
+import { MimeViewerComponent } from '../../index';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
-import { MimeModule } from '../ngx-mime.module';
 import { TestDynamicComponent } from './test-dynamic.component';
 import { ViewerComponent } from './viewer.component';
 
@@ -13,7 +13,7 @@ import { ViewerComponent } from './viewer.component';
       [tabIndex]="tabIndex"
     ></mime-viewer>
   `,
-  imports: [MimeModule],
+  imports: [MimeViewerComponent],
 })
 export class TestHostComponent {
   @ViewChild(ViewerComponent, { static: true })
