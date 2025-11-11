@@ -7,7 +7,7 @@ import {
   MobileContentSearchDialogConfigStrategy,
 } from './content-search-dialog-config-strategy';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ContentSearchDialogConfigStrategyFactory {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly mimeDomHelper = inject(MimeDomHelper);

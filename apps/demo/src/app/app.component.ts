@@ -7,8 +7,8 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   MatDrawerMode,
-  MatSidenavContainer,
   MatSidenav,
+  MatSidenavContainer,
 } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -32,12 +32,11 @@ import { SidenavComponent } from './core/sidenav/sidenav.component';
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  sidenavMode: MatDrawerMode = 'side';
+  sidenavIsOpen = false;
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly overlayContainer = inject(OverlayContainer);
   private readonly themeService = inject(ThemeService);
-
-  sidenavMode: MatDrawerMode = 'side';
-  sidenavIsOpen = false;
   private readonly subscriptions = new Subscription();
 
   ngOnInit(): void {

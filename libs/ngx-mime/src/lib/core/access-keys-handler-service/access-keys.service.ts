@@ -17,7 +17,7 @@ import { ViewingDirection } from '../models/viewing-direction';
 import { ContentSearchNavigationService } from '../navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerService } from '../viewer-service/viewer.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AccessKeysService {
   private readonly viewerService = inject(ViewerService);
   private readonly canvasService = inject(CanvasService);

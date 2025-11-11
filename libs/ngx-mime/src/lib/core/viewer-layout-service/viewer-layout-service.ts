@@ -5,7 +5,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ViewerLayout } from '../models/viewer-layout';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ViewerLayoutService {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private config = new MimeViewerConfig();

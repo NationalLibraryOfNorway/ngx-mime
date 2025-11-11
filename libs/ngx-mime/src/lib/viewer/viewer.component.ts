@@ -62,7 +62,6 @@ import { RecognizedTextContentComponent } from './recognized-text-content/recogn
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
-import { VIEWER_PROVIDERS } from './viewer.providers';
 
 @Component({
   selector: 'mime-viewer',
@@ -70,7 +69,6 @@ import { VIEWER_PROVIDERS } from './viewer.providers';
   styleUrls: ['./viewer.component.scss'],
   animations: [slideInLeft],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: VIEWER_PROVIDERS,
   imports: [
     NgClass,
     ViewerSpinnerComponent,

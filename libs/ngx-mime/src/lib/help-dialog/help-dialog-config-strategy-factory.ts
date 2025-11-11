@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import {
   DesktopHelpDialogConfigStrategy,
@@ -7,10 +7,10 @@ import {
   MobileHelpDialogConfigStrategy,
 } from './help-dialog-config-strategy';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HelpDialogConfigStrategyFactory {
-  private breakpointObserver = inject(BreakpointObserver);
-  private mimeDomHelper = inject(MimeDomHelper);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly mimeDomHelper = inject(MimeDomHelper);
 
   public create(): HelpDialogConfigStrategy {
     const isHandsetOrTabletInPortrait = this.breakpointObserver.isMatched([

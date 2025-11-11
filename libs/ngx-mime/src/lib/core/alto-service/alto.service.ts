@@ -24,7 +24,7 @@ import { Manifest } from '../models/manifest';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AltoService {
   intl = inject(MimeViewerIntl);
   private readonly http = inject(HttpClient);

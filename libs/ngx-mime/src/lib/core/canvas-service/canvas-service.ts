@@ -15,7 +15,7 @@ import { Rect } from './../models/rect';
 import { CanvasGroupStrategyFactory } from './canvas-groups-strategy.factory';
 import { TileSourceAndRect } from './tile-source-and-rect.model';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CanvasService {
   protected _currentNumberOfCanvasGroups: BehaviorSubject<number> =
     new BehaviorSubject(0);

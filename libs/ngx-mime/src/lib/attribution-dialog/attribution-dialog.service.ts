@@ -18,7 +18,7 @@ import { Dimensions } from '../core/models/dimensions';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 import { AttributionDialogComponent } from './attribution-dialog.component';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AttributionDialogService {
   private readonly dialog = inject(MatDialog);
   private readonly mimeResizeService = inject(MimeResizeService);

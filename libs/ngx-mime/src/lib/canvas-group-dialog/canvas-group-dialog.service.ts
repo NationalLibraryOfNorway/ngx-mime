@@ -7,7 +7,7 @@ import {
 } from '@angular/material/dialog';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CanvasGroupDialogService {
   private readonly dialog = inject(MatDialog);
   private dialogRef?: MatDialogRef<CanvasGroupDialogComponent>;

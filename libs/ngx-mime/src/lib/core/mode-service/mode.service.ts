@@ -4,7 +4,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ModeChanges, ViewerMode } from '../models';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ModeService {
   private config!: MimeViewerConfig;
   private _mode!: ViewerMode;
