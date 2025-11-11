@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ElementsModule } from '../elements.module';
 import { ViewerComponent } from './viewer.component';
 
 describe('ViewerComponent', () => {
@@ -8,7 +7,7 @@ describe('ViewerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ElementsModule, ViewerComponent],
+      imports: [ViewerComponent],
     }).compileComponents();
   }));
 

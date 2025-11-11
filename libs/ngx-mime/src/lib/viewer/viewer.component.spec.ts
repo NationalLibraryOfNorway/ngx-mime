@@ -1,9 +1,10 @@
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { createSpyFromClass } from 'jest-auto-spies';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideAutoSpy } from 'jest-auto-spies';
 import 'openseadragon';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
@@ -32,7 +33,6 @@ import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer.component';
-import { VIEWER_PROVIDERS } from './viewer.providers';
 
 describe('ViewerComponent', () => {
   const config: MimeViewerConfig = new MimeViewerConfig();
@@ -73,7 +73,6 @@ describe('ViewerComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        NoopAnimationsModule,
         TestHostComponent,
         TestDynamicComponent,
         ViewerComponent,
@@ -83,32 +82,15 @@ describe('ViewerComponent', () => {
       ],
       providers: [
         provideHttpClient(),
-        VIEWER_PROVIDERS,
+        provideHttpClientTesting(),
+        provideNoopAnimations(),
         MimeViewerIntl,
-        {
-          provide: AccessKeysService,
-          useValue: createSpyFromClass(AccessKeysService),
-        },
-        {
-          provide: AttributionDialogService,
-          useValue: createSpyFromClass(AttributionDialogService),
-        },
-        {
-          provide: ViewDialogService,
-          useValue: createSpyFromClass(ViewDialogService),
-        },
-        {
-          provide: InformationDialogService,
-          useValue: createSpyFromClass(InformationDialogService),
-        },
-        {
-          provide: ContentSearchDialogService,
-          useValue: createSpyFromClass(ContentSearchDialogService),
-        },
-        {
-          provide: HelpDialogService,
-          useValue: createSpyFromClass(HelpDialogService),
-        },
+        provideAutoSpy(AccessKeysService),
+        provideAutoSpy(AttributionDialogService),
+        provideAutoSpy(ViewDialogService),
+        provideAutoSpy(InformationDialogService),
+        provideAutoSpy(ContentSearchDialogService),
+        provideAutoSpy(HelpDialogService),
       ],
     }).compileComponents();
   }));
