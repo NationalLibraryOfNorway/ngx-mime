@@ -48,3 +48,9 @@ libs/**/.ng_pkg_build/
 
 .nx/cache
 .nx/workspace-data
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/patches

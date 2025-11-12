@@ -160,5 +160,6 @@
     "ts-node": "^10.9.2",
     "typescript": "5.5.4",
     "webpack": "^5.89.0"
-  }
+  },
+  "packageManager": "yarn@4.11.0"
 }
