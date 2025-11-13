@@ -1,4 +1,4 @@
-<div #container class="osd-toolbar">
+<div #container class="osd-toolbar" [class.open]="fabState === 'open'">
   @if (isWeb) {
     <div class="flex gap-2">
       <div class="flex flex-col gap-2">
@@ -24,145 +24,104 @@
       </div>
       <div id="osdControls" class="flex items-center gap-2">
         @if (invert) {
-          @if (showControlButtons) {
-            <button
-              data-testid="navigateBeforeButton"
-              mat-mini-fab
-              [attr.aria-label]="intl.previousPageLabel"
-              [matTooltip]="intl.previousPageLabel"
-              [disabled]="isFirstCanvasGroup"
-              [@easeInWithDelay]="{
-                value: '',
-                params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 },
-              }"
-              (click)="goToPreviousCanvasGroup()"
-            >
-              <mat-icon>navigate_before</mat-icon>
-            </button>
-          }
+          <button
+            data-testid="navigateBeforeButton"
+            mat-mini-fab
+            [style.--delayEnter]="0"
+            [style.--delayLeave]="baseAnimationDelay * 5"
+            [attr.aria-label]="intl.previousPageLabel"
+            [matTooltip]="intl.previousPageLabel"
+            [disabled]="isFirstCanvasGroup"
+            (click)="goToPreviousCanvasGroup()"
+          >
+            <mat-icon>navigate_before</mat-icon>
+          </button>
         } @else {
-          @if (showControlButtons) {
-            <button
-              data-testid="navigateNextButton"
-              mat-mini-fab
-              [attr.aria-label]="intl.nextPageLabel"
-              [matTooltip]="intl.nextPageLabel"
-              [disabled]="isLastCanvasGroup"
-              [@easeInWithDelay]="{
-                value: '',
-                params: { delayEnter: 0, delayLeave: baseAnimationDelay * 5 },
-              }"
-              (click)="goToNextCanvasGroup()"
-            >
-              <mat-icon>navigate_before</mat-icon>
-            </button>
-          }
+          <button
+            data-testid="navigateNextButton"
+            mat-mini-fab
+            [style.--delayEnter]="0"
+            [style.--delayLeave]="baseAnimationDelay * 5"
+            [attr.aria-label]="intl.nextPageLabel"
+            [matTooltip]="intl.nextPageLabel"
+            [disabled]="isLastCanvasGroup"
+            (click)="goToNextCanvasGroup()"
+          >
+            <mat-icon>navigate_before</mat-icon>
+          </button>
         }
         @if (invert) {
-          @if (showControlButtons) {
-            <button
-              data-testid="navigateNextButton"
-              mat-mini-fab
-              [attr.aria-label]="intl.nextPageLabel"
-              [matTooltip]="intl.nextPageLabel"
-              [disabled]="isLastCanvasGroup"
-              [@easeInWithDelay]="{
-                value: '',
-                params: {
-                  delayEnter: baseAnimationDelay,
-                  delayLeave: baseAnimationDelay * 4,
-                },
-              }"
-              (click)="goToNextCanvasGroup()"
-            >
-              <mat-icon>navigate_next</mat-icon>
-            </button>
-          }
+          <button
+            data-testid="navigateNextButton"
+            mat-mini-fab
+            [style.--delayEnter]="baseAnimationDelay"
+            [style.--delayLeave]="baseAnimationDelay * 4"
+            [attr.aria-label]="intl.nextPageLabel"
+            [matTooltip]="intl.nextPageLabel"
+            [disabled]="isLastCanvasGroup"
+            (click)="goToNextCanvasGroup()"
+          >
+            <mat-icon>navigate_next</mat-icon>
+          </button>
         } @else {
-          @if (showControlButtons) {
-            <button
-              data-testid="navigateBeforeButton"
-              mat-mini-fab
-              [attr.aria-label]="intl.previousPageLabel"
-              [matTooltip]="intl.previousPageLabel"
-              [disabled]="isFirstCanvasGroup"
-              [@easeInWithDelay]="{
-                value: '',
-                params: {
-                  delayEnter: baseAnimationDelay,
-                  delayLeave: baseAnimationDelay * 4,
-                },
-              }"
-              (click)="goToPreviousCanvasGroup()"
-            >
-              <mat-icon>navigate_next</mat-icon>
-            </button>
-          }
-        }
-        @if (showControlButtons) {
           <button
-            (click)="zoomIn()"
-            data-testid="zoomInButton"
+            data-testid="navigateBeforeButton"
             mat-mini-fab
-            [attr.aria-label]="intl.zoomInLabel"
-            [matTooltip]="intl.zoomInLabel"
-            [@easeInWithDelay]="{
-              value: '',
-              params: {
-                delayEnter: baseAnimationDelay * 2,
-                delayLeave: baseAnimationDelay * 3,
-              },
-            }"
+            [style.--delayEnter]="baseAnimationDelay"
+            [style.--delayLeave]="baseAnimationDelay * 4"
+            [attr.aria-label]="intl.previousPageLabel"
+            [matTooltip]="intl.previousPageLabel"
+            [disabled]="isFirstCanvasGroup"
+            (click)="goToPreviousCanvasGroup()"
           >
-            <mat-icon>zoom_in</mat-icon>
-          </button>
-          <button
-            (click)="home()"
-            data-testid="homeButton"
-            mat-mini-fab
-            [attr.aria-label]="intl.resetZoomLabel"
-            [disabled]="!isZoomed"
-            [matTooltip]="intl.resetZoomLabel"
-            [@easeInWithDelay]="{
-              value: '',
-              params: {
-                delayEnter: baseAnimationDelay * 3,
-                delayLeave: baseAnimationDelay * 2,
-              },
-            }"
-          >
-            <mat-icon>home</mat-icon>
-          </button>
-          <button
-            (click)="zoomOut()"
-            data-testid="zoomOutButton"
-            mat-mini-fab
-            [attr.aria-label]="intl.zoomOutLabel"
-            [matTooltip]="intl.zoomOutLabel"
-            [@easeInWithDelay]="{
-              value: '',
-              params: {
-                delayEnter: baseAnimationDelay * 4,
-                delayLeave: baseAnimationDelay,
-              },
-            }"
-          >
-            <mat-icon>zoom_out</mat-icon>
-          </button>
-          <button
-            (click)="rotate()"
-            data-testid="rotateButton"
-            mat-mini-fab
-            [attr.aria-label]="intl.rotateCwLabel"
-            [matTooltip]="intl.rotateCwLabel"
-            [@easeInWithDelay]="{
-              value: '',
-              params: { delayEnter: baseAnimationDelay * 5, delayLeave: 0 },
-            }"
-          >
-            <mat-icon>rotate_right</mat-icon>
+            <mat-icon>navigate_next</mat-icon>
           </button>
         }
+        <button
+          (click)="zoomIn()"
+          data-testid="zoomInButton"
+          mat-mini-fab
+          [style.--delayEnter]="baseAnimationDelay * 2"
+          [style.--delayLeave]="baseAnimationDelay * 3"
+          [attr.aria-label]="intl.zoomInLabel"
+          [matTooltip]="intl.zoomInLabel"
+        >
+          <mat-icon>zoom_in</mat-icon>
+        </button>
+        <button
+          (click)="home()"
+          data-testid="homeButton"
+          mat-mini-fab
+          [style.--delayEnter]="baseAnimationDelay * 3"
+          [style.--delayLeave]="baseAnimationDelay * 2"
+          [attr.aria-label]="intl.resetZoomLabel"
+          [disabled]="!isZoomed"
+          [matTooltip]="intl.resetZoomLabel"
+        >
+          <mat-icon>home</mat-icon>
+        </button>
+        <button
+          (click)="zoomOut()"
+          data-testid="zoomOutButton"
+          mat-mini-fab
+          [style.--delayEnter]="baseAnimationDelay * 4"
+          [style.--delayLeave]="baseAnimationDelay"
+          [attr.aria-label]="intl.zoomOutLabel"
+          [matTooltip]="intl.zoomOutLabel"
+        >
+          <mat-icon>zoom_out</mat-icon>
+        </button>
+        <button
+          (click)="rotate()"
+          data-testid="rotateButton"
+          mat-mini-fab
+          [style.--delayEnter]="baseAnimationDelay * 5"
+          [style.--delayLeave]="0"
+          [attr.aria-label]="intl.rotateCwLabel"
+          [matTooltip]="intl.rotateCwLabel"
+        >
+          <mat-icon>rotate_right</mat-icon>
+        </button>
       </div>
     </div>
   }

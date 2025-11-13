@@ -8,4 +8,22 @@
   width: auto;
   border-radius: 8px;
   margin: 8px 0 0 8px;
+
+  [mat-mini-fab] {
+    --delay: calc(var(--delayLeave, 0ms) * 1ms);
+    opacity: 0;
+    scale: 0;
+    transition:
+      opacity 1ms var(--delay, 0ms) ease-in,
+      scale 1ms var(--delay, 0ms) ease-in;
+  }
+
+  &.open [mat-mini-fab] {
+    --delay: calc(var(--delayEnter, 0ms) * 1ms);
+    opacity: 1;
+    scale: 1;
+    transition:
+      opacity 1ms var(--delay, 0ms) ease-out,
+      scale 1ms var(--delay, 0ms) ease-out;
+  }
 }

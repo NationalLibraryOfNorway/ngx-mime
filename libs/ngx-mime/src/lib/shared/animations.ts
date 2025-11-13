@@ -42,13 +42,3 @@ export const rotate45 = trigger('rotate45', [
     animate(`100ms`),
   ]),
 ]);
-
-export const easeInWithDelay = trigger('easeInWithDelay', [
-  state('void', style({ transform: 'scale(0)' })),
-  transition(':enter', animate(`1ms {{delayEnter}}ms ease-out`), {
-    params: { delayEnter: 0 },
-  }),
-  transition(':leave', animate(`1ms {{delayLeave}}ms ease-in`), {
-    params: { delayLeave: 0 },
-  }),
-]);

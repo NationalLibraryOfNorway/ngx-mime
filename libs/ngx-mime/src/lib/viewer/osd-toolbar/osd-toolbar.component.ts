@@ -20,18 +20,18 @@ import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { Manifest } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
+import { rotate45 } from '../../shared/animations';
 import { CanvasService } from './../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../core/intl';
 import { ModeService } from './../../core/mode-service/mode.service';
 import { ViewerService } from './../../core/viewer-service/viewer.service';
-import { easeInWithDelay, rotate45 } from './../../shared/animations';
 
 @Component({
   selector: 'mime-osd-toolbar',
   templateUrl: './osd-toolbar.component.html',
   styleUrls: ['./osd-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [rotate45, easeInWithDelay],
+  animations: [rotate45],
   imports: [MatFabButton, MatTooltip, MatIcon, MatMiniFabButton],
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
@@ -44,7 +44,6 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   isWeb = false;
   fabState = 'closed';
   fabIcon = 'menu';
-  showControlButtons = false;
   baseAnimationDelay = 20;
   isZoomed = true;
   private readonly breakpointObserver = inject(BreakpointObserver);
@@ -104,7 +103,6 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   }
 
   toggleFab(): void {
-    this.showControlButtons = !this.showControlButtons;
     this.fabState = this.fabState === 'closed' ? 'open' : 'closed';
     this.fabIcon = this.fabState === 'closed' ? 'menu' : 'clear';
   }
