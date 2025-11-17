@@ -17,21 +17,19 @@ import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl';
+import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
-import { rotate45 } from '../../shared/animations';
-import { CanvasService } from './../../core/canvas-service/canvas-service';
-import { MimeViewerIntl } from './../../core/intl';
-import { ModeService } from './../../core/mode-service/mode.service';
-import { ViewerService } from './../../core/viewer-service/viewer.service';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
 
 @Component({
   selector: 'mime-osd-toolbar',
   templateUrl: './osd-toolbar.component.html',
   styleUrls: ['./osd-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [rotate45],
   imports: [MatFabButton, MatTooltip, MatIcon, MatMiniFabButton],
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
@@ -143,5 +141,3 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
     return currentCanvasGroupIndex === this.numberOfCanvasGroups - 1;
   }
 }
-
-export default OsdToolbarComponent;

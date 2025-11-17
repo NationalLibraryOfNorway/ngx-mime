@@ -3,7 +3,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { ClickService } from '../../core/click-service/click.service';
@@ -16,11 +16,11 @@ import { ModeService } from '../../core/mode-service/mode.service';
 import { StyleService } from '../../core/style-service/style.service';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { CanvasServiceStub } from '../../test/canvas-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
-import { CanvasServiceStub } from './../../test/canvas-service-stub';
-import { ViewerServiceStub } from './../../test/viewer-service-stub';
-import OsdToolbarComponent from './osd-toolbar.component';
+import { ViewerServiceStub } from '../../test/viewer-service-stub';
+import { OsdToolbarComponent } from './osd-toolbar.component';
 
 describe('OsdToolbarComponent', () => {
   let component: OsdToolbarComponent;
@@ -34,7 +34,7 @@ describe('OsdToolbarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, OsdToolbarComponent],
+      imports: [OsdToolbarComponent],
       providers: [
         MimeResizeService,
         MimeViewerIntl,
@@ -87,11 +87,11 @@ describe('OsdToolbarComponent', () => {
     it('should toggle OSD controls when clicked', async () => {
       await toggleOsdControls();
 
-      await expectOsdControlsTobeVisible();
+      expectOsdToolbarToBeVisible();
 
       await toggleOsdControls();
 
-      await expectOsdControlsTobeHidden();
+      expectOsdToolbarToBeHidden();
     });
   });
 
@@ -219,19 +219,17 @@ describe('OsdToolbarComponent', () => {
     expect(await fabButton.getAttribute('aria-expanded')).toEqual(expected);
   };
 
-  const expectOsdControlsTobeVisible = async () => {
-    const buttons = await getMiniFabButtons();
-    expect(buttons.length).toBe(6);
+  const expectOsdToolbarToBeVisible = () => {
+    expect(component.fabState).toEqual('open');
+    expect(getOsdToolbar().getAttribute('class')).toContain('open');
   };
 
-  const expectOsdControlsTobeHidden = async () => {
-    const buttons = await getMiniFabButtons();
-    expect(buttons.length).toBe(0);
+  const expectOsdToolbarToBeHidden = () => {
+    expect(component.fabState).toEqual('closed');
+    expect(getOsdToolbar().getAttribute('class')).not.toContain('open');
   };
 
-  const getMiniFabButtons = (): Promise<MatButtonHarness[]> => {
-    return harnessLoader.getAllHarnesses(
-      MatButtonHarness.with({ variant: 'mini-fab' }),
-    );
+  const getOsdToolbar = () => {
+    return fixture.debugElement.query(By.css('.osd-toolbar')).nativeElement;
   };
 });

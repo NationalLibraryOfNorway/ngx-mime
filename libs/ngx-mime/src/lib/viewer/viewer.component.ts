@@ -55,9 +55,8 @@ import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout
 import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
 import { InformationDialogService } from '../information-dialog/information-dialog.service';
-import { slideInLeft } from '../shared/animations';
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
-import OsdToolbarComponent from './osd-toolbar/osd-toolbar.component';
+import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
 import { RecognizedTextContentComponent } from './recognized-text-content/recognized-text-content.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
@@ -67,7 +66,6 @@ import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.componen
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  animations: [slideInLeft],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgClass,
@@ -104,8 +102,8 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   id = 'ngx-mime-mimeViewer';
   openseadragonId = 'openseadragon';
   recognizedTextContentMode: RecognizedTextMode = RecognizedTextMode.NONE;
-  showHeaderAndFooterState = 'hide';
-  osdToolbarState = 'hide';
+  showHeaderAndFooterState = false;
+  osdToolbarState = false;
   errorMessage: string | null = null;
   private readonly iiifManifestService = inject(IiifManifestService);
   private readonly viewDialogService = inject(ViewDialogService);
@@ -439,21 +437,15 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (this.header && this.footer) {
       switch (mode) {
         case ViewerMode.DASHBOARD:
-          this.showHeaderAndFooterState =
-            this.header.state =
-            this.footer.state =
-              'show';
-          if (this.config.navigationControlEnabled && this.osdToolbarState) {
-            this.osdToolbarState = 'hide';
+          this.showHeaderAndFooterState = true;
+          if (this.config.navigationControlEnabled) {
+            this.osdToolbarState = false;
           }
           break;
         case ViewerMode.PAGE:
-          this.showHeaderAndFooterState =
-            this.header.state =
-            this.footer.state =
-              'hide';
-          if (this.config.navigationControlEnabled && this.osdToolbarState) {
-            this.osdToolbarState = 'show';
+          this.showHeaderAndFooterState = false;
+          if (this.config.navigationControlEnabled) {
+            this.osdToolbarState = true;
           }
           break;
       }

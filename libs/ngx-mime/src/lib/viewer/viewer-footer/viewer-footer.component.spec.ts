@@ -1,22 +1,21 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasGroupDialogService } from '../../canvas-group-dialog/canvas-group-dialog.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl';
+import { Hit } from '../../core/models/hit';
+import { SearchResult } from '../../core/models/search-result';
 import { ContentSearchNavigationService } from '../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { CanvasServiceStub } from '../../test/canvas-service-stub';
+import { IiifContentSearchServiceStub } from '../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
 import { ViewerServiceStub } from '../../test/viewer-service-stub';
-import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
-import { Hit } from './../../core/models/hit';
-import { SearchResult } from './../../core/models/search-result';
-import { IiifContentSearchServiceStub } from './../../test/iiif-content-search-service-stub';
 import { ViewerFooterComponent } from './viewer-footer.component';
 
 describe('ViewerFooterComponent', () => {
@@ -28,7 +27,7 @@ describe('ViewerFooterComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [NoopAnimationsModule, ViewerFooterComponent],
+      imports: [ViewerFooterComponent],
       providers: [
         MimeViewerIntl,
         {
@@ -71,34 +70,6 @@ describe('ViewerFooterComponent', () => {
     expect(cmp).toBeTruthy();
   });
 
-  it('should start in hidden mode', waitForAsync(() => {
-    expect(cmp.state).toBe('hide');
-    expectFooterToBeHidden(fixture.debugElement.nativeElement);
-  }));
-
-  it("should not be visible when state is changed to 'hide'", waitForAsync(() => {
-    cmp.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expectFooterToBeHidden(fixture.debugElement.nativeElement);
-    });
-  }));
-
-  it("should be visible when state is changed to 'show'", waitForAsync(() => {
-    cmp.state = 'hide';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expectFooterToBeHidden(fixture.debugElement.nativeElement);
-
-      cmp.state = 'show';
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expectFooterToShow(fixture.debugElement.nativeElement);
-      });
-    });
-  }));
-
   it('should always show pageNavigator in desktop size', waitForAsync(() => {
     cmp.showPageNavigator = false;
 
@@ -139,11 +110,3 @@ describe('ViewerFooterComponent', () => {
     });
   }));
 });
-
-function expectFooterToShow(element: any) {
-  expect(element.style.transform).toBe('translate(0, 0)');
-}
-
-function expectFooterToBeHidden(element: any) {
-  expect(element.style.transform).toBe('translate(0, 100%)');
-}

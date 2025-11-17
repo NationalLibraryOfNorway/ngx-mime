@@ -1,11 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   BreakpointObserver,
   Breakpoints,
   BreakpointState,
@@ -14,7 +7,6 @@ import { NgClass } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
-  HostBinding,
   inject,
   OnDestroy,
   OnInit,
@@ -24,9 +16,8 @@ import {
 import { MatDivider } from '@angular/material/list';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Subscription } from 'rxjs';
-import { ViewerOptions } from '../../core/models/viewer-options';
-import { IiifContentSearchService } from './../../core/iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from './../../core/models/search-result';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
+import { SearchResult } from '../../core/models/search-result';
 import { CanvasGroupNavigatorComponent } from './canvas-group-navigator/canvas-group-navigator.component';
 import { ContentSearchNavigatorComponent } from './content-search-navigator/content-search-navigator.component';
 
@@ -34,30 +25,6 @@ import { ContentSearchNavigatorComponent } from './content-search-navigator/cont
   selector: 'mime-viewer-footer',
   templateUrl: './viewer-footer.component.html',
   styleUrls: ['./viewer-footer.component.scss'],
-  animations: [
-    trigger('footerState', [
-      state(
-        'hide',
-        style({
-          transform: 'translate(0, 100%)',
-        }),
-      ),
-      state(
-        'show',
-        style({
-          transform: 'translate(0, 0)',
-        }),
-      ),
-      transition(
-        'hide => show',
-        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'),
-      ),
-      transition(
-        'show => hide',
-        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'),
-      ),
-    ]),
-  ],
   imports: [
     MatDivider,
     MatToolbar,
@@ -71,7 +38,6 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   mimeFooterBefore!: ViewContainerRef;
   @ViewChild('mimeFooterAfter', { read: ViewContainerRef, static: true })
   mimeFooterAfter!: ViewContainerRef;
-  state = 'hide';
   searchResult: SearchResult = new SearchResult();
   showPageNavigator = true;
   showContentSearchNavigator = false;
@@ -79,11 +45,6 @@ export class ViewerFooterComponent implements OnInit, OnDestroy {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly iiifContentSearchService = inject(IiifContentSearchService);
   private readonly subscriptions = new Subscription();
-
-  @HostBinding('@footerState')
-  get footerState() {
-    return this.state;
-  }
 
   ngOnInit() {
     this.setupContentSearchObserver();
