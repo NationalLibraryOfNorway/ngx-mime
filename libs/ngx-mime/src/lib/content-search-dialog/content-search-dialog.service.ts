@@ -15,7 +15,7 @@ import { MimeResizeService } from './../core/mime-resize-service/mime-resize.ser
 import { ContentSearchDialogConfigStrategyFactory } from './content-search-dialog-config-strategy-factory';
 import { ContentSearchDialogComponent } from './content-search-dialog.component';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ContentSearchDialogService {
   private readonly dialog = inject(MatDialog);
   private readonly contentSearchDialogConfigStrategyFactory = inject(

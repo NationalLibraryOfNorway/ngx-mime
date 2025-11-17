@@ -5,7 +5,7 @@ export interface SpinnerState {
   show: boolean;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class SpinnerService {
   private readonly spinnerSubject = new Subject<SpinnerState>();
 

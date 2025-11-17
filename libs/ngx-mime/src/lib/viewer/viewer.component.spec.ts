@@ -11,7 +11,6 @@ import { AccessKeysService } from '../core/access-keys-handler-service/access-ke
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
@@ -32,6 +31,7 @@ import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
 import { ViewerComponent } from './viewer.component';
+import { VIEWER_PROVIDERS } from './viewer.providers';
 
 describe('ViewerComponent', () => {
   const config: MimeViewerConfig = new MimeViewerConfig();
@@ -82,7 +82,7 @@ describe('ViewerComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        MimeViewerIntl,
+        VIEWER_PROVIDERS,
         provideAutoSpy(AccessKeysService),
         provideAutoSpy(AttributionDialogService),
         provideAutoSpy(ViewDialogService),

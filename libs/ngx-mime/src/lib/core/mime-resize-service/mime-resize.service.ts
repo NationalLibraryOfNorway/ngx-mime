@@ -3,7 +3,7 @@ import { debounceTime, map, Observable, ReplaySubject } from 'rxjs';
 import { Dimensions } from '../models/dimensions';
 import { ViewerService } from '../viewer-service/viewer.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class MimeResizeService {
   private readonly viewerService = inject(ViewerService);
   private _el!: ElementRef;

@@ -14,7 +14,7 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { HelpDialogConfigStrategyFactory } from './help-dialog-config-strategy-factory';
 import { HelpDialogComponent } from './help-dialog.component';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class HelpDialogService {
   private readonly dialog = inject(MatDialog);
   private readonly helpDialogConfigStrategyFactory = inject(

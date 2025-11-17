@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Hit } from './../../core/models/hit';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class HighlightService {
   highlightSelectedHit(id: number): void {
     document.querySelector('.selectedHit')?.removeAttribute('class');

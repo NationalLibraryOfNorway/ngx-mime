@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HelpIntlNoNb } from './help-intl.no_nb';
 import { MimeViewerIntl } from './viewer-intl';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override help = new HelpIntlNoNb();
   override closeLabel = 'Lukk';

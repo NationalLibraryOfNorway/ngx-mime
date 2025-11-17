@@ -7,7 +7,7 @@ import {
   MobileInformationDialogConfigStrategy,
 } from './information-dialog-config-strategy';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class InformationDialogConfigStrategyFactory {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly mimeDomHelper = inject(MimeDomHelper);

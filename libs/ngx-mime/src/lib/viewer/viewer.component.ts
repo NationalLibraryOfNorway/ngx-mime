@@ -61,6 +61,7 @@ import { RecognizedTextContentComponent } from './recognized-text-content/recogn
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
 import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
+import { VIEWER_PROVIDERS } from './viewer.providers';
 
 @Component({
   selector: 'mime-viewer',
@@ -78,6 +79,7 @@ import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.componen
     MatDrawerContent,
     ViewerFooterComponent,
   ],
+  providers: VIEWER_PROVIDERS,
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public manifestUri: string | null = null;

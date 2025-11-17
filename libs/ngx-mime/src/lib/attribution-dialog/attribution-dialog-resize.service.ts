@@ -3,7 +3,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { MimeDomHelper } from './../core/mime-dom-helper';
 import { Dimensions } from './../core/models/dimensions';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AttributionDialogResizeService {
   private readonly mimeDomHelper = inject(MimeDomHelper);
   private _el: ElementRef | null = null;

@@ -15,7 +15,7 @@ import { MimeResizeService } from '../core/mime-resize-service/mime-resize.servi
 import { ViewDialogConfigStrategyFactory } from './view-dialog-config-strategy-factory';
 import { ViewDialogComponent } from './view-dialog.component';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ViewDialogService {
   private readonly dialog = inject(MatDialog);
   private readonly viewDialogConfigStrategyFactory = inject(

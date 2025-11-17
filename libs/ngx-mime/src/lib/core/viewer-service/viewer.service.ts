@@ -49,7 +49,7 @@ import { DefaultZoomStrategy, ZoomStrategy } from './zoom-strategy';
 
 declare const OpenSeadragon: any;
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ViewerService {
   config!: MimeViewerConfig;
   isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);

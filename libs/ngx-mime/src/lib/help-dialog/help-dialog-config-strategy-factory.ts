@@ -7,7 +7,7 @@ import {
   MobileHelpDialogConfigStrategy,
 } from './help-dialog-config-strategy';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class HelpDialogConfigStrategyFactory {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly mimeDomHelper = inject(MimeDomHelper);

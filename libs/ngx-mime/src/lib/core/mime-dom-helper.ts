@@ -3,7 +3,7 @@ import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { Dimensions } from './models/dimensions';
 import { ViewerService } from './viewer-service/viewer.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class MimeDomHelper {
   private readonly fullscreen = inject(FullscreenService);
   private readonly viewerService = inject(ViewerService);

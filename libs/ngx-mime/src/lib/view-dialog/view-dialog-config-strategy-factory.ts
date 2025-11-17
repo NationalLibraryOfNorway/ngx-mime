@@ -7,7 +7,7 @@ import {
   ViewDialogConfigStrategy,
 } from './view-dialog-config-strategy';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ViewDialogConfigStrategyFactory {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly mimeDomHelper = inject(MimeDomHelper);
