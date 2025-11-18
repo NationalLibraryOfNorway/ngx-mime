@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { mockIOS } from '../../test/navigator-mocks';
 import { testManifest } from '../../test/testManifest';
@@ -36,7 +35,7 @@ describe('ViewerService', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, MatSnackBarModule, TestHostComponent],
+      imports: [MatSnackBarModule, TestHostComponent],
       providers: [
         ViewerService,
         MimeViewerIntl,

@@ -8,7 +8,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
@@ -42,7 +41,7 @@ describe('ContentSearchDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, ContentSearchDialogComponent],
+      imports: [ContentSearchDialogComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

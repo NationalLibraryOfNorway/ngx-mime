@@ -12,7 +12,6 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
@@ -41,7 +40,7 @@ describe('CanvasGroupDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, CanvasGroupDialogComponent],
+      imports: [CanvasGroupDialogComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

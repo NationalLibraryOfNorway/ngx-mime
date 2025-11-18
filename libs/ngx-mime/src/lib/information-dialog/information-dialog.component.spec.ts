@@ -4,11 +4,15 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTabGroupHarness } from '@angular/material/tabs/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
@@ -45,12 +49,7 @@ describe('InformationDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [
-        NoopAnimationsModule,
-        InformationDialogComponent,
-        MetadataComponent,
-        TocComponent,
-      ],
+      imports: [InformationDialogComponent, MetadataComponent, TocComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -148,7 +147,7 @@ describe('InformationDialogComponent', () => {
     });
   }));
 
-  it('should close information dialog when selecting a canvas group in TOC when on mobile', async () => {
+  it('should close information dialog when selecting a canvas group in TOC when on mobile', fakeAsync(async () => {
     breakpointObserver.setMatches(true);
     jest.spyOn(viewerService, 'goToCanvas').mockImplementation(() => {});
     jest.spyOn(dialogRef, 'close');
@@ -204,5 +203,5 @@ describe('InformationDialogComponent', () => {
     divs[2].triggerEventHandler('click', new Event('fakeEvent'));
 
     expect(dialogRef.close).toHaveBeenCalled();
-  });
+  }));
 });
