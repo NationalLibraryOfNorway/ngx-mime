@@ -18,11 +18,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  MatDrawer,
-  MatDrawerContainer,
-  MatDrawerContent,
-} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
@@ -70,13 +66,11 @@ import { VIEWER_PROVIDERS } from './viewer.providers';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgClass,
+    MatSidenavModule,
     ViewerSpinnerComponent,
     ViewerHeaderComponent,
     OsdToolbarComponent,
-    MatDrawerContainer,
-    MatDrawer,
     RecognizedTextContentComponent,
-    MatDrawerContent,
     ViewerFooterComponent,
   ],
   providers: VIEWER_PROVIDERS,

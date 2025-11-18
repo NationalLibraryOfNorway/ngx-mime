@@ -5,11 +5,7 @@ import {
 } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import {
-  MatDrawerMode,
-  MatSidenav,
-  MatSidenavContainer,
-} from '@angular/material/sidenav';
+import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NavbarComponent } from './core/navbar/navbar.component';
@@ -23,13 +19,7 @@ import { SidenavComponent } from './core/sidenav/sidenav.component';
   selector: 'demo-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [
-    MatSidenavContainer,
-    MatSidenav,
-    SidenavComponent,
-    NavbarComponent,
-    RouterOutlet,
-  ],
+  imports: [MatSidenavModule, SidenavComponent, NavbarComponent, RouterOutlet],
 })
 export class AppComponent implements OnInit, OnDestroy {
   sidenavMode: MatDrawerMode = 'side';
