@@ -13,7 +13,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { MatDivider } from '@angular/material/list';
+import { MatDivider } from '@angular/material/divider';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Subscription } from 'rxjs';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
