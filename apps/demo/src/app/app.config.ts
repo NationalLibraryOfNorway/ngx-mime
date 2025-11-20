@@ -4,7 +4,6 @@ import {
 } from '@angular/cdk/overlay';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, Provider } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   PreloadAllModules,
   provideRouter,
@@ -14,7 +13,6 @@ import { appRoutes } from './app.routes';
 import { AuthInterceptor } from './core/auth.interceptor';
 
 const providers: Provider = [
-  provideAnimations(),
   provideHttpClient(),
   provideRouter(appRoutes, withPreloading(PreloadAllModules)),
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
