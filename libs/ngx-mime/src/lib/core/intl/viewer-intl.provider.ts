@@ -4,12 +4,13 @@ import {
   Provider,
   Type,
 } from '@angular/core';
+import { Locales } from './locales.enum';
 import { MimeViewerIntl } from './viewer-intl';
 import { MimeViewerIntlLt } from './viewer-intl.lt';
 import { MimeViewerIntlNoNb } from './viewer-intl.no_nb';
 
 export const provideMimeViewerIntl = (options?: {
-  locale?: string;
+  locale?: Locales;
 }): EnvironmentProviders => {
   const providers: Provider[] = [
     {
@@ -22,13 +23,15 @@ export const provideMimeViewerIntl = (options?: {
 };
 
 const getMimeViewerIntl = (
-  locale: string | undefined,
+  locale: Locales | undefined,
 ): Type<MimeViewerIntl | MimeViewerIntlNoNb | MimeViewerIntlLt> => {
   switch (locale) {
-    case 'lt':
-      return MimeViewerIntlLt;
-    case 'nb':
+    case Locales.NORWEGIAN:
       return MimeViewerIntlNoNb;
+    case Locales.LITHUANIAN:
+      return MimeViewerIntlLt;
+    case Locales.ENGLISH:
+      return MimeViewerIntl;
     default:
       return MimeViewerIntl;
   }
