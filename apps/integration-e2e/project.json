@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/integration-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["integration"],
   "targets": {
     "e2e": {
       "command": "yarn e2e"
@@ -14,7 +16,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["integration"]
+  }
 }

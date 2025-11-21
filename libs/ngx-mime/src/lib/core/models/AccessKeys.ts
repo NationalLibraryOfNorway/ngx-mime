@@ -143,7 +143,7 @@ export class AccessKeys {
     );
   }
 
-  execute(fn: Function): void {
+  execute(fn: () => void): void {
     this.event.preventDefault();
     fn();
   }

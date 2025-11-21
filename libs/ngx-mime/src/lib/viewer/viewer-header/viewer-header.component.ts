@@ -1,63 +1,36 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostBinding,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
+import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
+import { FullscreenService } from '../../core/fullscreen-service/fullscreen.service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
+import { MimeViewerIntl } from '../../core/intl';
 import { MimeDomHelper } from '../../core/mime-dom-helper';
-import { ViewerOptions } from '../../core/models/viewer-options';
+import { Manifest } from '../../core/models/manifest';
 import { HelpDialogService } from '../../help-dialog/help-dialog.service';
 import { InformationDialogService } from '../../information-dialog/information-dialog.service';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
-import { ContentSearchDialogService } from './../../content-search-dialog/content-search-dialog.service';
-import { FullscreenService } from './../../core/fullscreen-service/fullscreen.service';
-import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl';
-import { Manifest } from './../../core/models/manifest';
 
 @Component({
   selector: 'mime-viewer-header',
   templateUrl: './viewer-header.component.html',
   styleUrls: ['./viewer-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
-  animations: [
-    trigger('headerState', [
-      state(
-        'hide',
-        style({
-          transform: 'translate(0, -100%)',
-        }),
-      ),
-      state(
-        'show',
-        style({
-          transform: 'translate(0px, 0px)',
-        }),
-      ),
-      transition(
-        'hide => show',
-        animate(ViewerOptions.transitions.toolbarsEaseInTime + 'ms ease-in'),
-      ),
-      transition(
-        'show => hide',
-        animate(ViewerOptions.transitions.toolbarsEaseOutTime + 'ms ease-out'),
-      ),
-    ]),
-  ],
+  imports: [MatToolbar, MatTooltip, MatIconButton, MatIcon],
 })
 export class ViewerHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('mimeHeaderBefore', { read: ViewContainerRef, static: true })
@@ -66,33 +39,25 @@ export class ViewerHeaderComponent implements OnInit, OnDestroy {
   mimeHeaderAfter!: ViewContainerRef;
   @ViewChild('viewMenu', { read: ElementRef, static: true })
   viewMenu!: ElementRef;
-  public manifest: Manifest | null = null;
-  public state = 'hide';
+  intl = inject(MimeViewerIntl);
+  manifest: Manifest | null = null;
   isContentSearchEnabled = false;
   isFullscreenEnabled = false;
   isInFullscreen = false;
   fullscreenLabel = '';
   isPagedManifest = false;
   hasRecognizedTextContent = false;
-
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private informationDialogService: InformationDialogService,
-    private contentSearchDialogService: ContentSearchDialogService,
-    private viewDialogService: ViewDialogService,
-    private helpDialogService: HelpDialogService,
-    private iiifManifestService: IiifManifestService,
-    private fullscreenService: FullscreenService,
-    private mimeDomHelper: MimeDomHelper,
-  ) {}
-
-  @HostBinding('@headerState')
-  get headerState() {
-    return this.state;
-  }
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly informationDialogService = inject(InformationDialogService);
+  private readonly contentSearchDialogService = inject(
+    ContentSearchDialogService,
+  );
+  private readonly viewDialogService = inject(ViewDialogService);
+  private readonly helpDialogService = inject(HelpDialogService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly fullscreenService = inject(FullscreenService);
+  private readonly mimeDomHelper = inject(MimeDomHelper);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.isFullscreenEnabled = this.fullscreenService.isEnabled();

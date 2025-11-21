@@ -1,10 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
   finalize,
-  map,
   switchMap,
   take,
 } from 'rxjs/operators';
@@ -22,16 +21,8 @@ export class IiifContentSearchService {
   protected _searching = new BehaviorSubject<boolean>(false);
   protected _currentQ = new BehaviorSubject<string>('');
   protected _selected = new BehaviorSubject<Hit | null>(null);
-
+  private readonly http = inject(HttpClient);
   private config!: MimeViewerConfig;
-  constructor(private http: HttpClient) {}
-
-  destroy() {
-    this._currentSearchResult.next(new SearchResult({}));
-    this._searching.next(false);
-    this._currentQ.next('');
-    this._selected.next(null);
-  }
 
   get onQChange(): Observable<string> {
     return this._currentQ.asObservable().pipe(distinctUntilChanged());
@@ -47,6 +38,13 @@ export class IiifContentSearchService {
 
   get onSelected(): Observable<Hit | null> {
     return this._selected.asObservable();
+  }
+
+  destroy() {
+    this._currentSearchResult.next(new SearchResult({}));
+    this._searching.next(false);
+    this._currentQ.next('');
+    this._selected.next(null);
   }
 
   public search(manifest: Manifest, q: string): void {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'ngx-mime',
   preset: '../../jest.preset.js',

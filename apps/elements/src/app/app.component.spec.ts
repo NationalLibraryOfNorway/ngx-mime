@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -9,8 +11,9 @@ describe('AppComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [AppComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [AppComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   }));
 

@@ -15,9 +15,9 @@ describe('ViewerSpinnerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [ViewerSpinnerComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [SpinnerService],
-      declarations: [ViewerSpinnerComponent],
     }).compileComponents();
   }));
 

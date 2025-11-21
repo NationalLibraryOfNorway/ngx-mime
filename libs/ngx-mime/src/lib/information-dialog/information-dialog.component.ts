@@ -1,46 +1,72 @@
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
+import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatIconButton } from '@angular/material/button';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from './../core/models/manifest';
+import { MetadataComponent } from './metadata/metadata.component';
+import { TocComponent } from './table-of-contents/table-of-contents.component';
 
 @Component({
   selector: 'mime-information',
   templateUrl: './information-dialog.component.html',
   styleUrls: ['./information-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogTitle,
+    MatDialogContent,
+    MatTabGroup,
+    MatTab,
+    NgStyle,
+    MetadataComponent,
+    TocComponent,
+  ],
 })
 export class InformationDialogComponent implements OnInit, OnDestroy {
-  public manifest: Manifest | null = null;
-  public tabHeight = {};
-  public showToc = false;
-  public selectedIndex = 0;
+  intl = inject(MimeViewerIntl);
+  manifest: Manifest | null = null;
+  tabHeight = {};
+  showToc = false;
+  selectedIndex = 0;
   isHandsetOrTabletInPortrait = false;
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly dialogRef =
+    inject<MatDialogRef<InformationDialogComponent>>(MatDialogRef);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly mimeResizeService = inject(MimeResizeService);
   private mimeHeight = 0;
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private breakpointObserver: BreakpointObserver,
-    private dialogRef: MatDialogRef<InformationDialogComponent>,
-    private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService,
-    private mimeResizeService: MimeResizeService,
-  ) {}
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

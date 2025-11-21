@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ManifestMenuItem } from './../../models/manifest-menu-item.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ManifestService {
   static readonly manifests: ManifestMenuItem[] = [
     {

@@ -3,7 +3,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class FullscreenService {
-  private changeSubject: ReplaySubject<boolean> = new ReplaySubject();
+  private readonly changeSubject: ReplaySubject<boolean> = new ReplaySubject();
 
   constructor() {
     this.onchange();

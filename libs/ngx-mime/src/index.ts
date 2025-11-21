@@ -1,8 +1,4 @@
-export {
-  MimeViewerIntl,
-  MimeViewerIntlLt,
-  MimeViewerIntlNoNb,
-} from './lib/core/intl';
+export * from './lib/core/intl';
 export { MimeViewerConfig } from './lib/core/mime-viewer-config';
 export { RecognizedTextMode } from './lib/core/models';
 export { Manifest as MimeManifest } from './lib/core/models/manifest';

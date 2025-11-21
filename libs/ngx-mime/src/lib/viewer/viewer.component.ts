@@ -1,4 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,6 +7,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   NgZone,
   OnChanges,
@@ -16,6 +18,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval, Subscription } from 'rxjs';
 import { take, throttle } from 'rxjs/operators';
@@ -25,6 +28,7 @@ import { ContentSearchDialogService } from '../content-search-dialog/content-sea
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../core/intl';
@@ -38,6 +42,7 @@ import {
   ViewerMode,
 } from '../core/models';
 import { Manifest } from '../core/models/manifest';
+import { SearchResult } from '../core/models/search-result';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerOptions } from '../core/models/viewer-options';
 import { ViewerState } from '../core/models/viewerState';
@@ -47,19 +52,27 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { HelpDialogService } from '../help-dialog/help-dialog.service';
 import { InformationDialogService } from '../information-dialog/information-dialog.service';
 import { ViewDialogService } from '../view-dialog/view-dialog.service';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from './../core/models/search-result';
+import { OsdToolbarComponent } from './osd-toolbar/osd-toolbar.component';
+import { RecognizedTextContentComponent } from './recognized-text-content/recognized-text-content.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
 import { ViewerHeaderComponent } from './viewer-header/viewer-header.component';
+import { ViewerSpinnerComponent } from './viewer-spinner/viewer-spinner.component';
 import { VIEWER_PROVIDERS } from './viewer.providers';
-import { slideInLeft } from './../shared/animations';
 
 @Component({
   selector: 'mime-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
-  animations: [slideInLeft],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgClass,
+    MatSidenavModule,
+    ViewerSpinnerComponent,
+    ViewerHeaderComponent,
+    OsdToolbarComponent,
+    RecognizedTextContentComponent,
+    ViewerFooterComponent,
+  ],
   providers: VIEWER_PROVIDERS,
 })
 export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
@@ -72,69 +85,66 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
   @Output() canvasChanged: EventEmitter<number> = new EventEmitter();
   @Output() qChanged: EventEmitter<string> = new EventEmitter();
   @Output() manifestChanged: EventEmitter<Manifest> = new EventEmitter();
-  @Output()
-  recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> =
+  @Output() recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode> =
     new EventEmitter();
+  // Viewchilds
+  @ViewChild('mimeHeader', { static: true })
+  private readonly header!: ViewerHeaderComponent;
+  @ViewChild('mimeFooter', { static: true })
+  private readonly footer!: ViewerFooterComponent;
+  snackBar = inject(MatSnackBar);
+  intl = inject(MimeViewerIntl);
   recognizedTextMode = RecognizedTextMode;
   id = 'ngx-mime-mimeViewer';
   openseadragonId = 'openseadragon';
-
-  private subscriptions = new Subscription();
+  recognizedTextContentMode: RecognizedTextMode = RecognizedTextMode.NONE;
+  showHeaderAndFooterState = false;
+  osdToolbarState = false;
+  errorMessage: string | null = null;
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly viewDialogService = inject(ViewDialogService);
+  private readonly informationDialogService = inject(InformationDialogService);
+  private readonly attributionDialogService = inject(AttributionDialogService);
+  private readonly contentSearchDialogService = inject(
+    ContentSearchDialogService,
+  );
+  private readonly helpDialogService = inject(HelpDialogService);
+  private readonly viewerService = inject(ViewerService);
+  private readonly resizeService = inject(MimeResizeService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly modeService = inject(ModeService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly accessKeysHandlerService = inject(AccessKeysService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
+  private readonly styleService = inject(StyleService);
+  private readonly altoService = inject(AltoService);
+  private readonly canvasGroupDialogService = inject(CanvasGroupDialogService);
+  private readonly el = inject(ElementRef);
+  private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly zone = inject(NgZone);
+  private readonly platform = inject(Platform);
+  private readonly subscriptions = new Subscription();
   private isCanvasPressed = false;
   private currentManifest!: Manifest | null;
   private viewerLayout: ViewerLayout | null = null;
   private viewerState = new ViewerState();
 
-  recognizedTextContentMode: RecognizedTextMode = RecognizedTextMode.NONE;
-  showHeaderAndFooterState = 'hide';
-  osdToolbarState = 'hide';
-  public errorMessage: string | null = null;
-
-  // Viewchilds
-  @ViewChild('mimeHeader', { static: true })
-  private header!: ViewerHeaderComponent;
-  @ViewChild('mimeFooter', { static: true })
-  private footer!: ViewerFooterComponent;
-
-  constructor(
-    public snackBar: MatSnackBar,
-    public intl: MimeViewerIntl,
-    private iiifManifestService: IiifManifestService,
-    private viewDialogService: ViewDialogService,
-    private informationDialogService: InformationDialogService,
-    private attributionDialogService: AttributionDialogService,
-    private contentSearchDialogService: ContentSearchDialogService,
-    private helpDialogService: HelpDialogService,
-    private viewerService: ViewerService,
-    private resizeService: MimeResizeService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private modeService: ModeService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private accessKeysHandlerService: AccessKeysService,
-    private canvasService: CanvasService,
-    private viewerLayoutService: ViewerLayoutService,
-    private styleService: StyleService,
-    private altoService: AltoService,
-    private zone: NgZone,
-    private platform: Platform,
-    canvasGroupDialogService: CanvasGroupDialogService,
-    el: ElementRef,
-    viewContainerRef: ViewContainerRef,
-  ) {
+  constructor() {
     this.id = this.viewerService.id;
     this.openseadragonId = this.viewerService.openseadragonId;
-    informationDialogService.el = el;
-    informationDialogService.viewContainerRef = viewContainerRef;
-    attributionDialogService.el = el;
-    attributionDialogService.viewContainerRef = viewContainerRef;
-    viewDialogService.el = el;
-    viewDialogService.viewContainerRef = viewContainerRef;
-    contentSearchDialogService.el = el;
-    contentSearchDialogService.viewContainerRef = viewContainerRef;
-    helpDialogService.el = el;
-    helpDialogService.viewContainerRef = viewContainerRef;
-    canvasGroupDialogService.viewContainerRef = viewContainerRef;
-    resizeService.el = el;
+    this.informationDialogService.el = this.el;
+    this.informationDialogService.viewContainerRef = this.viewContainerRef;
+    this.attributionDialogService.el = this.el;
+    this.attributionDialogService.viewContainerRef = this.viewContainerRef;
+    this.viewDialogService.el = this.el;
+    this.viewDialogService.viewContainerRef = this.viewContainerRef;
+    this.contentSearchDialogService.el = this.el;
+    this.contentSearchDialogService.viewContainerRef = this.viewContainerRef;
+    this.helpDialogService.el = this.el;
+    this.helpDialogService.viewContainerRef = this.viewContainerRef;
+    this.canvasGroupDialogService.viewContainerRef = this.viewContainerRef;
+    this.resizeService.el = this.el;
   }
 
   get mimeHeaderBeforeRef(): ViewContainerRef {
@@ -151,6 +161,60 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   get mimeFooterAfterRef(): ViewContainerRef {
     return this.footer.mimeFooterAfter;
+  }
+
+  @HostListener('keydown', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
+  }
+
+  @HostListener('drop', ['$event'])
+  public onDrop(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.config.isDropEnabled) {
+      const url = event.dataTransfer.getData('URL');
+      const params = new URL(url).searchParams;
+      const manifestUri = params.get('manifest');
+      const startCanvasId = params.get('canvas');
+      if (manifestUri) {
+        this.manifestUri = manifestUri.startsWith('//')
+          ? `${location.protocol}${manifestUri}`
+          : manifestUri;
+        this.cleanup();
+        this.loadManifest();
+        if (startCanvasId) {
+          this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
+            const canvasIndex = manifest.sequences
+              ? manifest.sequences[0]?.canvases?.findIndex(
+                  (c) => c.id === startCanvasId,
+                )
+              : -1;
+            if (canvasIndex && canvasIndex !== -1) {
+              setTimeout(() => {
+                this.viewerService.goToCanvas(canvasIndex, true);
+              }, 0);
+            }
+          });
+        }
+      }
+    } else {
+      this.snackBar.open(this.intl.dropDisabled, undefined, {
+        duration: 3000,
+      });
+    }
+  }
+
+  @HostListener('dragover', ['$event'])
+  public onDragOver(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  @HostListener('dragleave', ['$event'])
+  public onDragLeave(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   ngOnInit(): void {
@@ -357,60 +421,6 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  @HostListener('keydown', ['$event'])
-  handleKeys(event: KeyboardEvent) {
-    this.accessKeysHandlerService.handleKeyEvents(event);
-  }
-
-  @HostListener('drop', ['$event'])
-  public onDrop(event: any) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (this.config.isDropEnabled) {
-      const url = event.dataTransfer.getData('URL');
-      const params = new URL(url).searchParams;
-      const manifestUri = params.get('manifest');
-      const startCanvasId = params.get('canvas');
-      if (manifestUri) {
-        this.manifestUri = manifestUri.startsWith('//')
-          ? `${location.protocol}${manifestUri}`
-          : manifestUri;
-        this.cleanup();
-        this.loadManifest();
-        if (startCanvasId) {
-          this.manifestChanged.pipe(take(1)).subscribe((manifest) => {
-            const canvasIndex = manifest.sequences
-              ? manifest.sequences[0]?.canvases?.findIndex(
-                  (c) => c.id === startCanvasId,
-                )
-              : -1;
-            if (canvasIndex && canvasIndex !== -1) {
-              setTimeout(() => {
-                this.viewerService.goToCanvas(canvasIndex, true);
-              }, 0);
-            }
-          });
-        }
-      }
-    } else {
-      this.snackBar.open(this.intl.dropDisabled, undefined, {
-        duration: 3000,
-      });
-    }
-  }
-
-  @HostListener('dragover', ['$event'])
-  public onDragOver(event: any) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  @HostListener('dragleave', ['$event'])
-  public onDragLeave(event: any) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.cleanup();
@@ -423,26 +433,38 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     if (this.header && this.footer) {
       switch (mode) {
         case ViewerMode.DASHBOARD:
-          this.showHeaderAndFooterState =
-            this.header.state =
-            this.footer.state =
-              'show';
-          if (this.config.navigationControlEnabled && this.osdToolbarState) {
-            this.osdToolbarState = 'hide';
+          this.showHeaderAndFooterState = true;
+          if (this.config.navigationControlEnabled) {
+            this.osdToolbarState = false;
           }
           break;
         case ViewerMode.PAGE:
-          this.showHeaderAndFooterState =
-            this.header.state =
-            this.footer.state =
-              'hide';
-          if (this.config.navigationControlEnabled && this.osdToolbarState) {
-            this.osdToolbarState = 'show';
+          this.showHeaderAndFooterState = false;
+          if (this.config.navigationControlEnabled) {
+            this.osdToolbarState = true;
           }
           break;
       }
       this.changeDetectorRef.detectChanges();
     }
+  }
+
+  goToHomeZoom(): void {
+    if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
+      this.viewerService.home();
+    }
+  }
+
+  setClasses() {
+    return {
+      'mode-page': this.modeService.mode === ViewerMode.PAGE,
+      'mode-page-zoomed': this.modeService.isPageZoomed(),
+      'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
+      'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
+      'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
+      'canvas-pressed': this.isCanvasPressed,
+      'broken-mix-blend-mode': !this.hasMixBlendModeSupport(),
+    };
   }
 
   private loadManifest(): void {
@@ -483,23 +505,5 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
   private hasMixBlendModeSupport(): boolean {
     return !(this.platform.FIREFOX || this.platform.SAFARI);
-  }
-
-  goToHomeZoom(): void {
-    if (this.recognizedTextContentMode !== this.recognizedTextMode.ONLY) {
-      this.viewerService.home();
-    }
-  }
-
-  setClasses() {
-    return {
-      'mode-page': this.modeService.mode === ViewerMode.PAGE,
-      'mode-page-zoomed': this.modeService.isPageZoomed(),
-      'mode-dashboard': this.modeService.mode === ViewerMode.DASHBOARD,
-      'layout-one-page': this.viewerLayout === ViewerLayout.ONE_PAGE,
-      'layout-two-page': this.viewerLayout === ViewerLayout.TWO_PAGE,
-      'canvas-pressed': this.isCanvasPressed,
-      'broken-mix-blend-mode': !this.hasMixBlendModeSupport(),
-    };
   }
 }

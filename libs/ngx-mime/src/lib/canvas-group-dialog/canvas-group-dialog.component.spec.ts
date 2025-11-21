@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import {
   ComponentFixture,
   fakeAsync,
@@ -11,7 +12,6 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
@@ -23,12 +23,11 @@ import { ModeService } from '../core/mode-service/mode.service';
 import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { SharedModule } from '../shared/shared.module';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { CanvasServiceStub } from '../test/canvas-service-stub';
+import { IiifContentSearchServiceStub } from '../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
-import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
 import { CanvasGroupDialogComponent } from './canvas-group-dialog.component';
 
 describe('CanvasGroupDialogComponent', () => {
@@ -41,9 +40,10 @@ describe('CanvasGroupDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, HttpClientTestingModule, SharedModule],
-      declarations: [CanvasGroupDialogComponent],
+      imports: [CanvasGroupDialogComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         ViewerService,
         ClickService,
         ModeService,

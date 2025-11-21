@@ -1,13 +1,18 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTabGroupHarness } from '@angular/material/tabs/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { ClickService } from '../core/click-service/click.service';
@@ -23,11 +28,10 @@ import { Manifest, Metadata, Structure } from '../core/models/manifest';
 import { StyleService } from '../core/style-service/style.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { SharedModule } from '../shared/shared.module';
 import { AltoServiceStub } from '../test/alto-service-stub';
+import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
-import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
 import { InformationDialogComponent } from './information-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
@@ -45,13 +49,10 @@ describe('InformationDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [
-        InformationDialogComponent,
-        MetadataComponent,
-        TocComponent,
-      ],
+      imports: [InformationDialogComponent, MetadataComponent, TocComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         ViewerService,
         ClickService,
         MimeViewerIntl,
@@ -146,7 +147,7 @@ describe('InformationDialogComponent', () => {
     });
   }));
 
-  it('should close information dialog when selecting a canvas group in TOC when on mobile', async () => {
+  it('should close information dialog when selecting a canvas group in TOC when on mobile', fakeAsync(async () => {
     breakpointObserver.setMatches(true);
     jest.spyOn(viewerService, 'goToCanvas').mockImplementation(() => {});
     jest.spyOn(dialogRef, 'close');
@@ -202,5 +203,5 @@ describe('InformationDialogComponent', () => {
     divs[2].triggerEventHandler('click', new Event('fakeEvent'));
 
     expect(dialogRef.close).toHaveBeenCalled();
-  });
+  }));
 });

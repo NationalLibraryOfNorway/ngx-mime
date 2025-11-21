@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAutoSpy } from 'jest-auto-spies';
+import { mockIOS } from '../../test/navigator-mocks';
 import { testManifest } from '../../test/testManifest';
 import { AltoService } from '../alto-service/alto.service';
 import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
@@ -18,7 +18,6 @@ import { ViewerLayout } from '../models/viewer-layout';
 import { StyleService } from '../style-service/style.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { ViewerService } from './viewer.service';
-import { mockIOS } from '../../test/navigator-mocks';
 
 @Component({
   template: ` <div [id]="openseadragonId"></div> `,
@@ -36,8 +35,7 @@ describe('ViewerService', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, MatSnackBarModule],
-      declarations: [TestHostComponent],
+      imports: [MatSnackBarModule, TestHostComponent],
       providers: [
         ViewerService,
         MimeViewerIntl,

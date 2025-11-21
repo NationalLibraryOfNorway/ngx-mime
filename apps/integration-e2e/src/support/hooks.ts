@@ -16,7 +16,6 @@ import {
   devices,
   test,
 } from '@playwright/test';
-
 // eslint-disable-next-line
 // @ts-ignore
 import withMessage from 'jest-expect-message/dist/withMessage';
@@ -202,10 +201,11 @@ const setStatus = async (
   try {
     if (status !== Status.PASSED) {
       const image = await _this.page?.screenshot();
-      image && (await _this.attach(image, 'image/png'));
+      if (image) {
+        _this.attach(image, 'image/png');
+      }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     await _this.page.evaluate(
       () => {},
       `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status, remark } })}`,

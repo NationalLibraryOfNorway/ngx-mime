@@ -1,9 +1,10 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
-  CUSTOM_ELEMENTS_SCHEMA,
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
+  inject,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -11,7 +12,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasGroupDialogComponent } from '../../../canvas-group-dialog/canvas-group-dialog.component';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
@@ -23,19 +23,18 @@ import { ViewerServiceStub } from '../../../test/viewer-service-stub';
 import { CanvasService } from './../../../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from './../../../core/intl';
 import { ViewerService } from './../../../core/viewer-service/viewer.service';
-import { SharedModule } from './../../../shared/shared.module';
 import { CanvasGroupNavigatorComponent } from './canvas-group-navigator.component';
 
 @Component({
   template: `<mime-page-navigator #navigator></mime-page-navigator>`,
+  imports: [CanvasGroupNavigatorComponent],
 })
 export class TestHostComponent {
   @ViewChild('navigator', { static: false })
   canvasGroupNavigatorComponent!: CanvasGroupNavigatorComponent;
   @ViewChild('navigator', { read: ElementRef })
   canvasGroupNavigatorElementRef!: ElementRef;
-
-  constructor(public viewContainerRef: ViewContainerRef) {}
+  viewContainerRef = inject(ViewContainerRef);
 }
 
 describe('CanvasGroupNavigatorComponent', () => {
@@ -51,8 +50,7 @@ describe('CanvasGroupNavigatorComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [NoopAnimationsModule, SharedModule],
-      declarations: [
+      imports: [
         TestHostComponent,
         CanvasGroupNavigatorComponent,
         CanvasGroupDialogComponent,
@@ -145,7 +143,7 @@ describe('CanvasGroupNavigatorComponent', () => {
       await nextButton?.click();
 
       testHostFixture.detectChanges();
-      expect(spy).toBeCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   }));
 
@@ -162,7 +160,7 @@ describe('CanvasGroupNavigatorComponent', () => {
 
       testHostFixture.detectChanges();
       testHostFixture.whenStable().then(() => {
-        expect(spy).toBeCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
       });
     });
   }));

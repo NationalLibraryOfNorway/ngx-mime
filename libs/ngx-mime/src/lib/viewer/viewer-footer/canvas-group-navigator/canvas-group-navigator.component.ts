@@ -1,11 +1,18 @@
-import { Direction } from '@angular/cdk/bidi';
+import { Dir, Direction } from '@angular/cdk/bidi';
 import {
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSlider, MatSliderThumb } from '@angular/material/slider';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
 import { IiifManifestService } from '../../../core/iiif-manifest-service/iiif-manifest-service';
@@ -21,28 +28,36 @@ import { ViewerService } from './../../../core/viewer-service/viewer.service';
   selector: 'mime-page-navigator',
   templateUrl: './canvas-group-navigator.component.html',
   styleUrls: ['./canvas-group-navigator.component.scss'],
+  imports: [
+    MatToolbar,
+    Dir,
+    MatSlider,
+    MatSliderThumb,
+    FormsModule,
+    MatButton,
+    MatIconButton,
+    MatTooltip,
+    MatIcon,
+  ],
 })
 export class CanvasGroupNavigatorComponent implements OnInit, OnDestroy {
   @Input() public searchResult!: SearchResult;
-  public numberOfCanvases = 0;
-  public canvasGroupLabel = '';
-  public numberOfCanvasGroups = 0;
-  public currentCanvasGroupIndex: number | null = -1;
-  public isFirstCanvasGroup = false;
-  public isLastCanvasGroup = false;
+  intl = inject(MimeViewerIntl);
+  numberOfCanvases = 0;
+  canvasGroupLabel = '';
+  numberOfCanvasGroups = 0;
+  currentCanvasGroupIndex: number | null = -1;
+  isFirstCanvasGroup = false;
+  isLastCanvasGroup = false;
   readonly ViewingDirection = ViewingDirection;
   currentViewingDirection: Direction = ViewingDirection.LTR;
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly viewerService = inject(ViewerService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly canvasGroupDialogService = inject(CanvasGroupDialogService);
+  private readonly iiifManifestService = inject(IiifManifestService);
   private currentSliderCanvasGroupIndex: number | null = -1;
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private viewerService: ViewerService,
-    private canvasService: CanvasService,
-    private canvasGroupDialogService: CanvasGroupDialogService,
-    private iiifManifestService: IiifManifestService,
-  ) {}
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

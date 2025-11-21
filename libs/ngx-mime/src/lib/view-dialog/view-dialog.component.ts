@@ -1,9 +1,27 @@
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { NgStyle } from '@angular/common';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatButtonToggle } from '@angular/material/button-toggle';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../core/alto-service/alto.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -15,13 +33,28 @@ import { Dimensions } from '../core/models/dimensions';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { IconComponent } from './icon/icon.component';
 
 @Component({
   selector: 'mime-view-dialog',
   templateUrl: './view-dialog.component.html',
   styleUrls: ['./view-dialog.component.scss'],
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogTitle,
+    MatDialogContent,
+    NgStyle,
+    MatButtonToggle,
+    IconComponent,
+    MatDivider,
+  ],
 })
 export class ViewDialogComponent implements OnInit, OnDestroy {
+  intl = inject(MimeViewerIntl);
   tabHeight = {};
   isHandsetOrTabletInPortrait = false;
   viewerLayout: ViewerLayout = ViewerLayout.ONE_PAGE;
@@ -30,18 +63,14 @@ export class ViewDialogComponent implements OnInit, OnDestroy {
   hasRecognizedTextContent = false;
   recognizedTextMode = RecognizedTextMode.NONE;
   RecognizedTextMode: typeof RecognizedTextMode = RecognizedTextMode;
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly altoService = inject(AltoService);
+  private readonly mimeResizeService = inject(MimeResizeService);
   private mimeHeight = 0;
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private breakpointObserver: BreakpointObserver,
-    private cdr: ChangeDetectorRef,
-    private viewerLayoutService: ViewerLayoutService,
-    private iiifManifestService: IiifManifestService,
-    private altoService: AltoService,
-    private mimeResizeService: MimeResizeService,
-  ) {}
+  private readonly subscriptions = new Subscription();
 
   ngOnInit(): void {
     this.subscriptions.add(

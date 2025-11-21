@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, finalize, take } from 'rxjs/operators';
 import { ManifestBuilder as IiifV2ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
@@ -10,14 +10,11 @@ import { SpinnerService } from '../spinner-service/spinner.service';
 
 @Injectable()
 export class IiifManifestService {
+  intl = inject(MimeViewerIntl);
   protected _currentManifest = new BehaviorSubject<Manifest | null>(null);
   protected _errorMessage = new BehaviorSubject<string | null>(null);
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private http: HttpClient,
-    private spinnerService: SpinnerService,
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly spinnerService = inject(SpinnerService);
 
   get currentManifest(): Observable<Manifest | null> {
     return this._currentManifest.asObservable().pipe(distinctUntilChanged());

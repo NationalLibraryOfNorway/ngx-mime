@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
-
 import { CanvasService } from '../core/canvas-service/canvas-service';
 
 @Injectable()

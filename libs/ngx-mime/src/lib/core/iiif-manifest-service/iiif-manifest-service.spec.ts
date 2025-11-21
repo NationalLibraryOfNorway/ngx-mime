@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed } from '@angular/core/testing';
 import { testManifest } from '../../test/testManifest';
@@ -16,8 +17,13 @@ describe('IiifManifestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [MimeViewerIntl, IiifManifestService, SpinnerService],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        MimeViewerIntl,
+        IiifManifestService,
+        SpinnerService,
+      ],
     });
     svc = TestBed.inject(IiifManifestService);
     httpTestingController = TestBed.inject(HttpTestingController);

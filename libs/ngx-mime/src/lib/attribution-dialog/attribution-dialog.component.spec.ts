@@ -1,13 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Spy, provideAutoSpy } from 'jest-auto-spies';
+import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
 import { Manifest } from '../core/models/manifest';
 import { StyleService } from '../core/style-service/style.service';
-import { SharedModule } from '../shared/shared.module';
 import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 import { AttributionDialogComponent } from './attribution-dialog.component';
 
@@ -18,9 +17,10 @@ describe('AttributionDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [AttributionDialogComponent],
+      imports: [AttributionDialogComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         MimeViewerIntl,
         provideAutoSpy(IiifManifestService, {
           observablePropsToSpyOn: ['currentManifest'],

@@ -9,9 +9,10 @@
   <mime-viewer-header
     class="navbar navbar-header"
     #mimeHeader
+    [class.show]="showHeaderAndFooterState"
   ></mime-viewer-header>
   @if (config.navigationControlEnabled) {
-    <mime-osd-toolbar [@slideInLeft]="osdToolbarState"></mime-osd-toolbar>
+    <mime-osd-toolbar [class.show]="osdToolbarState"></mime-osd-toolbar>
   }
 
   <mat-drawer-container class="viewer-drawer-container" autosize>
@@ -24,7 +25,7 @@
       [ngClass]="{
         only: recognizedTextContentMode === recognizedTextMode.ONLY,
         split: recognizedTextContentMode === recognizedTextMode.SPLIT,
-        open: showHeaderAndFooterState === 'show',
+        open: showHeaderAndFooterState,
       }"
     >
       @if (recognizedTextContentMode !== recognizedTextMode.NONE) {
@@ -39,6 +40,7 @@
   <mime-viewer-footer
     class="navbar navbar-footer"
     #mimeFooter
+    [class.show]="showHeaderAndFooterState"
   ></mime-viewer-footer>
 </div>
 

@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { InformationDialogService } from '../../information-dialog/information-dialog.service';
-import { SharedModule } from '../../shared/shared.module';
 import { ViewDialogService } from '../../view-dialog/view-dialog.service';
 import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -19,7 +18,6 @@ describe('AccessKeysService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
       providers: [
         AccessKeysService,
         provideAutoSpy(ViewerService),

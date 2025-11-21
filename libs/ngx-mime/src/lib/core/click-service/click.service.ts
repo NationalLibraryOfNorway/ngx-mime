@@ -22,18 +22,6 @@ export class ClickService {
     this.doubleClickHandlers.push(doubleClickHandler);
   }
 
-  private triggerSingleClick(event: any) {
-    this.singleClickHandlers.forEach((handler: any) => {
-      handler(event);
-    });
-  }
-
-  private triggerDoubleClick(event: any) {
-    this.doubleClickHandlers.forEach((handler: any) => {
-      handler(event);
-    });
-  }
-
   click = (event: any) => {
     event.preventDefaultAction = true;
     if (event.quick) {
@@ -50,4 +38,16 @@ export class ClickService {
       }
     }
   };
+
+  private triggerSingleClick(event: any) {
+    this.singleClickHandlers.forEach((handler: any) => {
+      handler(event);
+    });
+  }
+
+  private triggerDoubleClick(event: any) {
+    this.doubleClickHandlers.forEach((handler: any) => {
+      handler(event);
+    });
+  }
 }

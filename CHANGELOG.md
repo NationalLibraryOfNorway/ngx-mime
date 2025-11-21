@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [20.0.0](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v18.1.1...v20.0.0) (2025-11-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Requires Node.js 18+ (per Angular 20 engine requirements)
+- Removed deprecated APIs and operators replaced with Angular 20 equivalents
+- Updated TypeScript to the version required by Angular 20
+- Build and test configurations updated to match Angular v20 schema
+
+### Features
+
+* upgrade to Angular to v20 ([#507](https://github.com/NationalLibraryOfNorway/ngx-mime/issues/507)) ([fa12775](https://github.com/NationalLibraryOfNorway/ngx-mime/commit/fa127753643b1b68aa6d2ee61dbcf807ca74fb10))
+
 ### [18.1.1](https://github.com/NationalLibraryOfNorway/ngx-mime/compare/v18.1.0...v18.1.1) (2025-05-27)
 
 
