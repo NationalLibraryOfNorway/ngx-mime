@@ -1,19 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ViewerComponent as ComponentViewerComponent } from './components/viewer/viewer.component';
+import { ViewerComponent as ElementsViewerComponent } from './elements/viewer/viewer.component';
 
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
+  imports: [ComponentViewerComponent, ElementsViewerComponent],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   isComponent = false;
   manifestUris: string[] = [];
   canvasIndex = 0;
-  private subscriptions = new Subscription();
-
-  constructor(private route: ActivatedRoute) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

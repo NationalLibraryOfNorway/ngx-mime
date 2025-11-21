@@ -1,32 +1,33 @@
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDrawerMode } from '@angular/material/sidenav';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
+import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { NavbarComponent } from './core/navbar/navbar.component';
 import {
   SiteTheme,
   ThemeService,
 } from './core/navbar/theme-picker/theme-service/theme.service';
+import { SidenavComponent } from './core/sidenav/sidenav.component';
 
 @Component({
   selector: 'demo-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  imports: [MatSidenavModule, SidenavComponent, NavbarComponent, RouterOutlet],
 })
 export class AppComponent implements OnInit, OnDestroy {
   sidenavMode: MatDrawerMode = 'side';
   sidenavIsOpen = false;
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly overlayContainer = inject(OverlayContainer);
+  private readonly themeService = inject(ThemeService);
   private readonly subscriptions = new Subscription();
-
-  constructor(
-    private readonly breakpointObserver: BreakpointObserver,
-    private readonly overlayContainer: OverlayContainer,
-    private readonly themeService: ThemeService,
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

@@ -1,16 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  MimeModule,
   MimeViewerConfig,
   MimeViewerMode,
   RecognizedTextMode,
 } from '@nationallibraryofnorway/ngx-mime';
 import { Subscription } from 'rxjs';
-import { ManifestService } from './../core/manifest-service/manifest.service';
+import { ManifestService } from '../core/manifest-service/manifest.service';
 
 @Component({
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
+  imports: [MimeModule],
 })
 export class ViewerComponent implements OnInit, OnDestroy {
   manifestUris: string[] = [];
@@ -24,14 +26,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
     initViewerMode: MimeViewerMode.PAGE,
     initRecognizedTextContentMode: RecognizedTextMode.NONE,
   });
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly manifestService = inject(ManifestService);
+  private readonly subscriptions: Subscription = new Subscription();
   private iiifVersion = '3';
-  private subscriptions: Subscription = new Subscription();
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private manifestService: ManifestService,
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

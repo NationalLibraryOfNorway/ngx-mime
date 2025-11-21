@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -8,7 +9,7 @@ import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import { MimeViewerIntl } from '../../core/intl';
 import { MimeViewerConfig } from '../../core/mime-viewer-config';
 import { Hit } from '../../core/models/hit';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
@@ -24,10 +25,10 @@ describe('RecognizedTextContentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [RecognizedTextContentComponent],
+      imports: [RecognizedTextContentComponent],
       providers: [
-        MimeViewerIntl,
+        provideHttpClient(),
+        provideHttpClientTesting(),
         MimeViewerIntl,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         provideAutoSpy(CanvasService),

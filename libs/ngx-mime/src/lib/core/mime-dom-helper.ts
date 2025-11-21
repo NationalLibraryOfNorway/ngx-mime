@@ -1,14 +1,12 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, inject, Injectable } from '@angular/core';
 import { FullscreenService } from './fullscreen-service/fullscreen.service';
 import { Dimensions } from './models/dimensions';
 import { ViewerService } from './viewer-service/viewer.service';
 
 @Injectable()
 export class MimeDomHelper {
-  constructor(
-    private fullscreen: FullscreenService,
-    private viewerService: ViewerService,
-  ) {}
+  private readonly fullscreen = inject(FullscreenService);
+  private readonly viewerService = inject(ViewerService);
 
   public getBoundingClientRect(el: ElementRef): Dimensions {
     try {

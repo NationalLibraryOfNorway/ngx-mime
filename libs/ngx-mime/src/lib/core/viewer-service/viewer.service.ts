@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as d3 from 'd3';
 import {
@@ -9,7 +9,6 @@ import {
   Subscription,
 } from 'rxjs';
 import { distinctUntilChanged, sample } from 'rxjs/operators';
-import { ModeService } from '../../core/mode-service/mode.service';
 import { AltoService } from '../alto-service/alto.service';
 import { CanvasService } from '../canvas-service/canvas-service';
 import { ClickService } from '../click-service/click.service';
@@ -18,24 +17,25 @@ import { IiifContentSearchService } from '../iiif-content-search-service/iiif-co
 import { ManifestUtils } from '../iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
+import { ModeService } from '../mode-service/mode.service';
 import {
   ModeChanges,
   RecognizedTextMode,
   RecognizedTextModeChanges,
+  ViewerMode,
 } from '../models';
 import { Direction } from '../models/direction';
+import { Hit } from '../models/hit';
 import { Manifest, Resource } from '../models/manifest';
 import { PinchStatus } from '../models/pinchStatus';
+import { Point } from '../models/point';
+import { Rect } from '../models/rect';
+import { SearchResult } from '../models/search-result';
 import { Side } from '../models/side';
 import { ViewerLayout } from '../models/viewer-layout';
-import { ViewerMode } from '../models/viewer-mode';
 import { ViewerOptions } from '../models/viewer-options';
 import { StyleService } from '../style-service/style.service';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
-import { Hit } from './../models/hit';
-import { Point } from './../models/point';
-import { Rect } from './../models/rect';
-import { SearchResult } from './../models/search-result';
 import { CalculateNextCanvasGroupFactory } from './calculate-next-canvas-group-factory';
 import { CanvasGroupMask } from './canvas-group-mask';
 import {
@@ -52,50 +52,43 @@ declare const OpenSeadragon: any;
 @Injectable()
 export class ViewerService {
   config!: MimeViewerConfig;
+  isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(false);
+  currentSearch: SearchResult | null = null;
+  id = 'ngx-mime-mimeViewer';
+  openseadragonId = 'openseadragon';
+  private readonly zone = inject(NgZone);
+  private readonly clickService = inject(ClickService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly modeService = inject(ModeService);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly styleService = inject(StyleService);
+  private readonly altoService = inject(AltoService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly intl = inject(MimeViewerIntl);
   private viewer?: any;
   private svgOverlay: any;
   private svgNode: any;
-
   private tileSources: Array<Resource> = [];
   private subscriptions!: Subscription;
-
-  public isCanvasPressed: Subject<boolean> = new BehaviorSubject<boolean>(
-    false,
-  );
-
-  private currentCenter: Subject<Point> = new Subject();
-  private currentCanvasIndex: BehaviorSubject<number> = new BehaviorSubject(0);
+  private readonly currentCenter: Subject<Point> = new Subject();
+  private readonly currentCanvasIndex: BehaviorSubject<number> =
+    new BehaviorSubject(0);
   private currentHit: Hit | null = null;
-  private osdIsReady = new BehaviorSubject<boolean>(false);
-  private swipeDragEndCounter = new SwipeDragEndCounter();
+  private readonly osdIsReady = new BehaviorSubject<boolean>(false);
+  private readonly swipeDragEndCounter = new SwipeDragEndCounter();
   private canvasGroupMask!: CanvasGroupMask;
-  private pinchStatus = new PinchStatus();
+  private readonly pinchStatus = new PinchStatus();
   private dragStartPosition: any;
   private manifest!: Manifest;
   private isManifestPaged = false;
   private defaultKeyDownHandler: any;
-
-  public currentSearch: SearchResult | null = null;
   private zoomStrategy!: ZoomStrategy;
   private goToCanvasGroupStrategy!: GoToCanvasGroupStrategy;
-
-  private rotation: BehaviorSubject<number> = new BehaviorSubject(0);
+  private readonly rotation: BehaviorSubject<number> = new BehaviorSubject(0);
   private dragStatus = false;
-  public id = 'ngx-mime-mimeViewer';
-  public openseadragonId = 'openseadragon';
 
-  constructor(
-    private zone: NgZone,
-    private clickService: ClickService,
-    private canvasService: CanvasService,
-    private modeService: ModeService,
-    private viewerLayoutService: ViewerLayoutService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private styleService: StyleService,
-    private altoService: AltoService,
-    private snackBar: MatSnackBar,
-    private intl: MimeViewerIntl,
-  ) {
+  constructor() {
     this.id = this.generateRandomId('ngx-mime-mimeViewer');
     this.openseadragonId = this.generateRandomId('openseadragon');
   }
@@ -250,15 +243,6 @@ export class ViewerService {
           }
         }
       }
-    }
-  }
-
-  private highlightCurrentHit() {
-    if (this.currentHit) {
-      this.svgNode.selectAll(`g > rect.selected`).attr('class', 'hit');
-      this.svgNode
-        .selectAll(`g > rect[mimeHitIndex='${this.currentHit.id}']`)
-        .attr('class', 'hit selected');
     }
   }
 
@@ -577,6 +561,40 @@ export class ViewerService {
     }
   }
 
+  /**
+   * Checks if hit element is a <rect>-element
+   * @param target
+   */
+  isCanvasGroupHit(target: HTMLElement): boolean {
+    return target instanceof SVGRectElement;
+  }
+
+  /**
+   * Returns overlay-index for click-event if hit
+   * @param target hit <rect>
+   */
+  getOverlayIndexFromClickEvent(event: any) {
+    const target = this.getOriginalTarget(event);
+    if (this.isCanvasGroupHit(target)) {
+      const requestedCanvasGroup: number =
+        this.canvasService.overlays.indexOf(target);
+
+      if (requestedCanvasGroup >= 0) {
+        return requestedCanvasGroup;
+      }
+    }
+    return -1;
+  }
+
+  private highlightCurrentHit() {
+    if (this.currentHit) {
+      this.svgNode.selectAll(`g > rect.selected`).attr('class', 'hit');
+      this.svgNode
+        .selectAll(`g > rect[mimeHitIndex='${this.currentHit.id}']`)
+        .attr('class', 'hit selected');
+    }
+  }
+
   private generateRandomId(prefix: string): string {
     const randomString = Math.random().toString(16).slice(2);
     return `${prefix}-${randomString}`;
@@ -619,7 +637,7 @@ export class ViewerService {
   /**
    * Scroll-handler
    */
-  scrollHandler = (event: any) => {
+  private scrollHandler = (event: any) => {
     const zoomFactor = Math.pow(ViewerOptions.zoom.zoomFactor, event.scroll);
     // Scrolling up
     if (event.scroll > 0) {
@@ -633,7 +651,7 @@ export class ViewerService {
   /**
    * Pinch-handler
    */
-  pinchHandler = (event: any) => {
+  private pinchHandler = (event: any) => {
     this.pinchStatus.active = true;
     const zoomFactor = event.distance / event.lastDistance;
     // Pinch Out
@@ -655,7 +673,7 @@ export class ViewerService {
    *
    * @param point to zoom to. If not set, the viewer will zoom to center
    */
-  zoomInGesture(position: Point, zoomFactor?: number): void {
+  private zoomInGesture(position: Point, zoomFactor?: number): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
@@ -667,7 +685,7 @@ export class ViewerService {
     }
   }
 
-  zoomOutGesture(position: Point, zoomFactor?: number): void {
+  private zoomOutGesture(position: Point, zoomFactor?: number): void {
     if (this.modeService.isPageZoomed()) {
       this.zoomStrategy.zoomOut(zoomFactor, position);
     } else if (this.modeService.mode === ViewerMode.PAGE) {
@@ -682,7 +700,7 @@ export class ViewerService {
    *
    * @param event from pinch gesture
    */
-  zoomInPinchGesture(event: any, zoomFactor: number): void {
+  private zoomInPinchGesture(event: any, zoomFactor: number): void {
     if (this.modeService.mode === ViewerMode.DASHBOARD) {
       this.modeService.mode = ViewerMode.PAGE;
     } else {
@@ -698,7 +716,7 @@ export class ViewerService {
    *
    * @param event from pinch gesture
    */
-  zoomOutPinchGesture(event: any, zoomFactor: number): void {
+  private zoomOutPinchGesture(event: any, zoomFactor: number): void {
     const gestureId = event.gesturePoints[0].id;
     if (this.modeService.isPageZoomed()) {
       this.pinchStatus.shouldStop = true;
@@ -719,7 +737,7 @@ export class ViewerService {
    * Single-click-handler
    * Single-click toggles between page/dashboard-mode if a page is hit
    */
-  singleClickHandler = (event: any) => {
+  private singleClickHandler = (event: any) => {
     const tileIndex = this.getOverlayIndexFromClickEvent(event);
     const requestedCanvasGroupIndex =
       this.canvasService.findCanvasGroupByCanvasIndex(tileIndex);
@@ -738,7 +756,7 @@ export class ViewerService {
    *    a) Zoom in if page is fitted vertically, or
    *    b) Fit vertically if page is already zoomed in
    */
-  dblClickHandler = (event: any) => {
+  private dblClickHandler = (event: any) => {
     // Page is fitted vertically, so dbl-click zooms in
     if (this.modeService.mode === ViewerMode.PAGE) {
       this.modeService.mode = ViewerMode.PAGE_ZOOMED;
@@ -760,18 +778,10 @@ export class ViewerService {
   };
 
   /**
-   * Checks if hit element is a <rect>-element
-   * @param target
-   */
-  isCanvasGroupHit(target: HTMLElement): boolean {
-    return target instanceof SVGRectElement;
-  }
-
-  /**
    * Iterates tilesources and adds them to viewer
    * Creates svg clickable overlays for each tile
    */
-  createOverlays(): void {
+  private createOverlays(): void {
     this.canvasService.setViewer(this.viewer);
     this.canvasService.setSvgNode(this.svgNode);
     this.canvasService.setViewingDirection(this.manifest.viewingDirection);
@@ -794,23 +804,6 @@ export class ViewerService {
         .duration(ViewerOptions.transitions.OSDAnimationTime)
         .style('opacity', '1');
     }
-  }
-
-  /**
-   * Returns overlay-index for click-event if hit
-   * @param target hit <rect>
-   */
-  getOverlayIndexFromClickEvent(event: any) {
-    const target = this.getOriginalTarget(event);
-    if (this.isCanvasGroupHit(target)) {
-      const requestedCanvasGroup: number =
-        this.canvasService.overlays.indexOf(target);
-
-      if (requestedCanvasGroup >= 0) {
-        return requestedCanvasGroup;
-      }
-    }
-    return -1;
   }
 
   private calculateCurrentCanvasGroup(center: Point) {

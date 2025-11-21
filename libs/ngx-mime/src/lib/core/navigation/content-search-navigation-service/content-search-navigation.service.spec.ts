@@ -1,6 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { Spy, provideAutoSpy } from 'jest-auto-spies';
+import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { testManifest } from '../../../test/testManifest';
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
@@ -18,9 +19,10 @@ describe('ContentSearchNavigationService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       declarations: [],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         ContentSearchNavigationService,
         provideAutoSpy(CanvasService),
         provideAutoSpy(IiifManifestService, {

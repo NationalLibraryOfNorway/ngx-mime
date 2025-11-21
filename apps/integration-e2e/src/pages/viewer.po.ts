@@ -624,7 +624,7 @@ export class ViewerPage {
     return this.animations.waitFor();
   }
 
-  async visibleCanvasGroups(): Promise<Boolean[]> {
+  async visibleCanvasGroups(): Promise<boolean[]> {
     const canvasGroupsArray = this.getAllCanvasGroupOverlays();
 
     const [leftCanvasGroupMask, rightCanvasGroupMask] = await Promise.all([

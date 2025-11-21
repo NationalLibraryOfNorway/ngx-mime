@@ -2,13 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IiifManifestService } from './../../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../../core/intl';
-import { Manifest } from './../../core/models/manifest';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl';
+import { Manifest } from '../../core/models/manifest';
 
 @Component({
   selector: 'mime-metadata',
@@ -17,14 +18,11 @@ import { Manifest } from './../../core/models/manifest';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MetadataComponent implements OnInit, OnDestroy {
-  public manifest: Manifest | null = null;
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService,
-  ) {}
+  intl = inject(MimeViewerIntl);
+  manifest: Manifest | null = null;
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

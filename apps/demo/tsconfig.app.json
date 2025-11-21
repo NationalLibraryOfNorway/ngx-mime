@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "types": [],
-    "target": "ES2022"
+    "target": "ES2022",
+    "moduleResolution": "bundler"
   },
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts"],

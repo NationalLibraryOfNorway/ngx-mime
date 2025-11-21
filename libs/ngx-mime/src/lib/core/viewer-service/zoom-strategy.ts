@@ -67,31 +67,6 @@ export class ZoomStrategy {
     }
   }
 
-  private getHomeZoomLevel(mode: ViewerMode): number {
-    if (!this.viewer || !this.canvasService || !this.viewer.container) {
-      return 1;
-    }
-
-    let currentCanvasHeight: number;
-    let currentCanvasWidth: number;
-    let viewportBounds: any;
-
-    const currentCanvasGroupRect =
-      this.canvasService.getCurrentCanvasGroupRect();
-    currentCanvasHeight = currentCanvasGroupRect.height;
-    currentCanvasWidth = currentCanvasGroupRect.width;
-    viewportBounds =
-      mode === ViewerMode.DASHBOARD
-        ? this.getDashboardViewportBounds()
-        : this.viewer.viewport.getBounds();
-
-    return this.getFittedZoomLevel(
-      viewportBounds,
-      currentCanvasHeight,
-      currentCanvasWidth,
-    );
-  }
-
   zoomIn(zoomFactor?: number, position?: Point): void {
     if (!zoomFactor) {
       zoomFactor = ViewerOptions.zoom.zoomFactor;
@@ -134,6 +109,31 @@ export class ZoomStrategy {
     } else {
       this.zoomBy(zoomFactor, position);
     }
+  }
+
+  private getHomeZoomLevel(mode: ViewerMode): number {
+    if (!this.viewer || !this.canvasService || !this.viewer.container) {
+      return 1;
+    }
+
+    let currentCanvasHeight: number;
+    let currentCanvasWidth: number;
+    let viewportBounds: any;
+
+    const currentCanvasGroupRect =
+      this.canvasService.getCurrentCanvasGroupRect();
+    currentCanvasHeight = currentCanvasGroupRect.height;
+    currentCanvasWidth = currentCanvasGroupRect.width;
+    viewportBounds =
+      mode === ViewerMode.DASHBOARD
+        ? this.getDashboardViewportBounds()
+        : this.viewer.viewport.getBounds();
+
+    return this.getFittedZoomLevel(
+      viewportBounds,
+      currentCanvasHeight,
+      currentCanvasWidth,
+    );
   }
 
   private getDashboardViewportBounds(): any {

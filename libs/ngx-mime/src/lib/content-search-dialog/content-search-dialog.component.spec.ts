@@ -1,33 +1,32 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasService } from '../core/canvas-service/canvas-service';
+import { FullscreenService } from '../core/fullscreen-service/fullscreen.service';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/intl';
+import { MimeDomHelper } from '../core/mime-dom-helper';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { Hit } from '../core/models/hit';
+import { SearchResult } from '../core/models/search-result';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
+import { ViewerService } from '../core/viewer-service/viewer.service';
+import { IiifContentSearchServiceStub } from '../test/iiif-content-search-service-stub';
+import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
+import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
 import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
-import { FullscreenService } from './../core/fullscreen-service/fullscreen.service';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../core/intl';
-import { MimeDomHelper } from './../core/mime-dom-helper';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { SearchResult } from './../core/models/search-result';
-import { ViewerService } from './../core/viewer-service/viewer.service';
-import { SharedModule } from './../shared/shared.module';
-import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
-import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
-import { MatDialogRefStub } from './../test/mat-dialog-ref-stub';
-import { testManifest } from './../test/testManifest';
-import { ViewerServiceStub } from './../test/viewer-service-stub';
+import { testManifest } from '../test/testManifest';
+import { ViewerServiceStub } from '../test/viewer-service-stub';
 import { ContentSearchDialogComponent } from './content-search-dialog.component';
 
 describe('ContentSearchDialogComponent', () => {
@@ -42,9 +41,10 @@ describe('ContentSearchDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SharedModule, HttpClientTestingModule],
-      declarations: [ContentSearchDialogComponent],
+      imports: [ContentSearchDialogComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         MimeViewerIntl,
         MimeResizeService,
         MimeDomHelper,

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -9,9 +10,24 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import {
+  MatError,
+  MatFormField,
+  MatInput,
+  MatLabel,
+} from '@angular/material/input';
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { MimeViewerIntl } from '../core/intl';
@@ -21,22 +37,35 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
   templateUrl: './canvas-group-dialog.component.html',
   styleUrls: ['./canvas-group-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatDialogTitle,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogContent,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+  ],
 })
 export class CanvasGroupDialogComponent implements OnInit, OnDestroy {
+  readonly intl = inject(MimeViewerIntl);
   numberOfCanvases: number;
   canvasGroupForm: FormGroup<{
     canvasGroupControl: FormControl<number | null>;
   }>;
+  private readonly dialogRef =
+    inject<MatDialogRef<CanvasGroupDialogComponent>>(MatDialogRef);
+  private readonly fb = inject(FormBuilder);
+  private readonly viewerService = inject(ViewerService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly subscriptions = new Subscription();
 
-  constructor(
-    private readonly dialogRef: MatDialogRef<CanvasGroupDialogComponent>,
-    private readonly fb: FormBuilder,
-    private readonly viewerService: ViewerService,
-    private readonly canvasService: CanvasService,
-    public readonly intl: MimeViewerIntl,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-  ) {
+  constructor() {
     this.numberOfCanvases = this.canvasService.numberOfCanvases;
     this.canvasGroupForm = this.fb.group({
       canvasGroupControl: new FormControl<number | null>(null, [

@@ -1,4 +1,9 @@
-import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  ElementRef,
+  inject,
+  Injectable,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -11,16 +16,23 @@ import { HelpDialogComponent } from './help-dialog.component';
 
 @Injectable()
 export class HelpDialogService {
+  private readonly dialog = inject(MatDialog);
+  private readonly helpDialogConfigStrategyFactory = inject(
+    HelpDialogConfigStrategyFactory,
+  );
+  private readonly mimeResizeService = inject(MimeResizeService);
   private _el: ElementRef | undefined;
   private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<HelpDialogComponent>;
   private subscriptions!: Subscription;
 
-  constructor(
-    private dialog: MatDialog,
-    private helpDialogConfigStrategyFactory: HelpDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService,
-  ) {}
+  set el(el: ElementRef) {
+    this._el = el;
+  }
+
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
 
   public initialize(): void {
     this.subscriptions = new Subscription();
@@ -38,14 +50,6 @@ export class HelpDialogService {
   public destroy(): void {
     this.close();
     this.unsubscribe();
-  }
-
-  set el(el: ElementRef) {
-    this._el = el;
-  }
-
-  set viewContainerRef(viewContainerRef: ViewContainerRef) {
-    this._viewContainerRef = viewContainerRef;
   }
 
   public open(): void {

@@ -1,4 +1,9 @@
-import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  ElementRef,
+  inject,
+  Injectable,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -15,18 +20,25 @@ import { AttributionDialogComponent } from './attribution-dialog.component';
 
 @Injectable()
 export class AttributionDialogService {
+  private readonly dialog = inject(MatDialog);
+  private readonly mimeResizeService = inject(MimeResizeService);
+  private readonly attributionDialogResizeService = inject(
+    AttributionDialogResizeService,
+  );
+  private readonly mimeDomHelper = inject(MimeDomHelper);
   private dialogRef?: MatDialogRef<AttributionDialogComponent>;
   private _el: ElementRef | null = null;
   private _viewContainerRef: ViewContainerRef | undefined;
   private attributionDialogHeight = 0;
   private subscriptions!: Subscription;
 
-  constructor(
-    private dialog: MatDialog,
-    private mimeResizeService: MimeResizeService,
-    private attributionDialogResizeService: AttributionDialogResizeService,
-    private mimeDomHelper: MimeDomHelper,
-  ) {}
+  set el(el: ElementRef) {
+    this._el = el;
+  }
+
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
 
   public initialize(): void {
     this.subscriptions = new Subscription();
@@ -54,14 +66,6 @@ export class AttributionDialogService {
   public destroy(): void {
     this.close();
     this.unsubscribe();
-  }
-
-  set el(el: ElementRef) {
-    this._el = el;
-  }
-
-  set viewContainerRef(viewContainerRef: ViewContainerRef) {
-    this._viewContainerRef = viewContainerRef;
   }
 
   public open(timeout?: number): void {

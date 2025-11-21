@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   OnDestroy,
   OnInit,
   Output,
@@ -23,17 +24,14 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
 export class TocComponent implements OnInit, OnDestroy {
   @Output()
   canvasChanged: EventEmitter<number> = new EventEmitter();
-  public manifest: Manifest | null = null;
-  public currentCanvasGroupIndex = 0;
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private iiifManifestService: IiifManifestService,
-    private viewerService: ViewerService,
-    private canvasService: CanvasService,
-  ) {}
+  intl = inject(MimeViewerIntl);
+  manifest: Manifest | null = null;
+  currentCanvasGroupIndex = 0;
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly viewerService = inject(ViewerService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

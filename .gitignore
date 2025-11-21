@@ -48,3 +48,4 @@ libs/**/.ng_pkg_build/
 
 .nx/cache
 .nx/workspace-data
+.github/instructions/nx.instructions.md

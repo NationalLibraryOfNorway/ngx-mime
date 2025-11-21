@@ -1,25 +1,30 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAutoSpy } from 'jest-auto-spies';
 import 'openseadragon';
+import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
+import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
+import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
+import { ViewerMode } from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { ViewerLayout } from '../core/models/viewer-layout';
-import { ViewerMode } from '../core/models/viewer-mode';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
-import { SharedModule } from '../shared/shared.module';
+import { HelpDialogService } from '../help-dialog/help-dialog.service';
+import { InformationDialogService } from '../information-dialog/information-dialog.service';
+import { IiifContentSearchServiceStub } from '../test/iiif-content-search-service-stub';
+import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
-import { IiifContentSearchServiceStub } from './../test/iiif-content-search-service-stub';
-import { IiifManifestServiceStub } from './../test/iiif-manifest-service-stub';
+import { ViewDialogService } from '../view-dialog/view-dialog.service';
 import { TestDynamicComponent } from './test-dynamic.component';
 import { TestHostComponent } from './test-host.component';
 import { ViewerFooterComponent } from './viewer-footer/viewer-footer.component';
@@ -41,6 +46,13 @@ describe('ViewerComponent', () => {
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let iiifManifestServiceStub: IiifManifestServiceStub;
   let viewerLayoutService: ViewerLayoutService;
+  let accessKeysService: AccessKeysService;
+  let attributionDialogService: AttributionDialogService;
+  let viewDialogService: ViewDialogService;
+  let informationDialogService: InformationDialogService;
+  let contentSearchDialogService: ContentSearchDialogService;
+  let helpDialogService: HelpDialogService;
+  let resizeService: MimeResizeService;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(ViewerComponent, {
@@ -59,16 +71,25 @@ describe('ViewerComponent', () => {
     });
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [HttpClientTestingModule, NoopAnimationsModule, SharedModule],
-      declarations: [
+      imports: [
+        TestHostComponent,
+        TestDynamicComponent,
         ViewerComponent,
         ViewerSpinnerComponent,
-        TestHostComponent,
         ViewerHeaderComponent,
         ViewerFooterComponent,
-        TestDynamicComponent,
       ],
-      providers: [VIEWER_PROVIDERS, MimeViewerIntl],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        VIEWER_PROVIDERS,
+        provideAutoSpy(AccessKeysService),
+        provideAutoSpy(AttributionDialogService),
+        provideAutoSpy(ViewDialogService),
+        provideAutoSpy(InformationDialogService),
+        provideAutoSpy(ContentSearchDialogService),
+        provideAutoSpy(HelpDialogService),
+      ],
     }).compileComponents();
   }));
 
@@ -87,6 +108,13 @@ describe('ViewerComponent', () => {
       IiifContentSearchService,
     );
     viewerLayoutService = TestBed.inject(ViewerLayoutService);
+    accessKeysService = TestBed.inject(AccessKeysService);
+    attributionDialogService = TestBed.inject(AttributionDialogService);
+    viewDialogService = TestBed.inject(ViewDialogService);
+    informationDialogService = TestBed.inject(InformationDialogService);
+    contentSearchDialogService = TestBed.inject(ContentSearchDialogService);
+    helpDialogService = TestBed.inject(HelpDialogService);
+    resizeService = TestBed.inject(MimeResizeService);
   });
 
   it('should create component', () => {
@@ -96,11 +124,21 @@ describe('ViewerComponent', () => {
   });
 
   it('should cleanup when manifestUri changes', () => {
-    jest.spyOn(testHostComponent.viewerComponent, 'cleanup');
+    jest.spyOn(viewerService, 'destroy').mockImplementation();
+    jest.spyOn(resizeService, 'destroy').mockImplementation();
     testHostComponent.manifestUri = 'dummyURI2';
+
     testHostFixture.detectChanges();
 
-    expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
+    expect(accessKeysService.destroy).toHaveBeenCalled();
+    expect(attributionDialogService.destroy).toHaveBeenCalled();
+    expect(viewDialogService.destroy).toHaveBeenCalled();
+    expect(informationDialogService.destroy).toHaveBeenCalled();
+    expect(contentSearchDialogService.destroy).toHaveBeenCalled();
+    expect(helpDialogService.destroy).toHaveBeenCalled();
+    expect(viewerService.destroy).toHaveBeenCalled();
+    expect(resizeService.destroy).toHaveBeenCalled();
+    expect(comp.errorMessage).toBeNull();
   });
 
   it('should create viewer', () => {
@@ -147,15 +185,6 @@ describe('ViewerComponent', () => {
         }, osdAnimationTime);
       }
     });
-  });
-
-  it('should close all dialogs when manifestUri changes', () => {
-    testHostComponent.manifestUri = 'dummyURI2';
-
-    jest.spyOn(testHostComponent.viewerComponent, 'cleanup');
-    testHostFixture.detectChanges();
-
-    expect(testHostComponent.viewerComponent.cleanup).toHaveBeenCalled();
   });
 
   it('svgOverlay-plugin should be defined', () => {
@@ -466,44 +495,108 @@ describe('ViewerComponent', () => {
     });
   });
 
-  it('should create dynamic component to start of header', () => {
-    testHostComponent.addComponentToStartOfHeader();
-    testHostFixture.detectChanges();
+  describe('header', () => {
+    it('should start in hidden mode', (done) => {
+      testHostFixture.detectChanges();
 
-    const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component'),
-    );
-    expect(button).not.toBeNull();
+      expectHeaderToBeHidden();
+      done();
+    });
+
+    it('should not be visible when state is changed to hide', (done) => {
+      testHostComponent.config = new MimeViewerConfig({
+        initViewerMode: ViewerMode.DASHBOARD,
+      });
+      testHostFixture.detectChanges();
+      expectHeaderToBeVisible();
+
+      modeService.toggleMode();
+
+      expectHeaderToBeHidden();
+      done();
+    });
+
+    it('should be visible when state is changed to show', (done) => {
+      testHostFixture.detectChanges();
+      expectHeaderToBeHidden();
+
+      modeService.toggleMode();
+
+      expectHeaderToBeVisible();
+      done();
+    });
+
+    it('should create dynamic component to start of header', () => {
+      testHostComponent.addComponentToStartOfHeader();
+      testHostFixture.detectChanges();
+
+      const button = testHostFixture.debugElement.query(
+        By.css('#test-dynamic-component'),
+      );
+      expect(button).not.toBeNull();
+    });
+
+    it('should create dynamic component to end of header', () => {
+      testHostComponent.addComponentToEndOfHeader();
+      testHostFixture.detectChanges();
+
+      const button = testHostFixture.debugElement.query(
+        By.css('#test-dynamic-component'),
+      );
+      expect(button).not.toBeNull();
+    });
   });
 
-  it('should create dynamic component to end of header', () => {
-    testHostComponent.addComponentToEndOfHeader();
-    testHostFixture.detectChanges();
+  describe('footer', () => {
+    it('should start in hidden mode', (done) => {
+      testHostFixture.detectChanges();
 
-    const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component'),
-    );
-    expect(button).not.toBeNull();
-  });
+      expectFooterToBeHidden();
+      done();
+    });
 
-  it('should create dynamic component to start of footer', () => {
-    testHostComponent.addComponentToStartOfFooter();
-    testHostFixture.detectChanges();
+    it('should not be visible when state is changed to hide', (done) => {
+      testHostComponent.config = new MimeViewerConfig({
+        initViewerMode: ViewerMode.DASHBOARD,
+      });
+      testHostFixture.detectChanges();
+      expectFooterToBeVisible();
 
-    const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component'),
-    );
-    expect(button).not.toBeNull();
-  });
+      modeService.toggleMode();
 
-  it('should create dynamic component to end of footer', () => {
-    testHostComponent.addComponentToEndOfFooter();
-    testHostFixture.detectChanges();
+      expectFooterToBeHidden();
+      done();
+    });
 
-    const button = testHostFixture.debugElement.query(
-      By.css('#test-dynamic-component'),
-    );
-    expect(button).not.toBeNull();
+    it('should be visible when state is changed to show', (done) => {
+      testHostFixture.detectChanges();
+      expectFooterToBeHidden();
+
+      modeService.toggleMode();
+
+      expectFooterToBeVisible();
+      done();
+    });
+
+    it('should create dynamic component to start of footer', () => {
+      testHostComponent.addComponentToStartOfFooter();
+      testHostFixture.detectChanges();
+
+      const button = testHostFixture.debugElement.query(
+        By.css('#test-dynamic-component'),
+      );
+      expect(button).not.toBeNull();
+    });
+
+    it('should create dynamic component to end of footer', () => {
+      testHostComponent.addComponentToEndOfFooter();
+      testHostFixture.detectChanges();
+
+      const button = testHostFixture.debugElement.query(
+        By.css('#test-dynamic-component'),
+      );
+      expect(button).not.toBeNull();
+    });
   });
 
   // By.css() query does not find SVG elements https://github.com/angular/angular/pull/15372
@@ -528,17 +621,12 @@ describe('ViewerComponent', () => {
   describe('Fab button for toggling OSD controls', () => {
     it("should not be visible when state is changed to 'hide'", (done) => {
       testHostFixture.detectChanges();
+      expectOsdToolbarToBeVisible();
 
-      setTimeout(() => {
-        expectOsdToolbarToBeVisible();
-        comp.osdToolbarState = 'hide';
-        testHostFixture.detectChanges();
+      modeService.toggleMode();
 
-        setTimeout(() => {
-          expectOsdToolbarToBeHidden();
-          done();
-        }, 0);
-      }, 0);
+      expectOsdToolbarToBeHidden();
+      done();
     });
 
     it("should be visible when state is changed to 'show'", (done) => {
@@ -546,26 +634,53 @@ describe('ViewerComponent', () => {
         initViewerMode: ViewerMode.DASHBOARD,
       });
       testHostFixture.detectChanges();
+      expectOsdToolbarToBeHidden();
 
-      setTimeout(() => {
-        expectOsdToolbarToBeHidden();
-        comp.osdToolbarState = 'show';
-        testHostFixture.detectChanges();
+      modeService.toggleMode();
 
-        setTimeout(() => {
-          expectOsdToolbarToBeVisible();
-          done();
-        }, 0);
-      }, 0);
+      expectOsdToolbarToBeVisible();
+      done();
     });
   });
 
+  const expectHeaderToBeVisible = () => {
+    expect(comp.showHeaderAndFooterState).toBeTruthy();
+    expect(getHeader().getAttribute('class')).toContain('show');
+  };
+
+  const expectHeaderToBeHidden = () => {
+    expect(comp.showHeaderAndFooterState).toBeFalsy();
+    expect(getHeader().getAttribute('class')).not.toContain('hide');
+  };
+
+  const expectFooterToBeVisible = () => {
+    expect(comp.showHeaderAndFooterState).toBeTruthy();
+    expect(getFooter().getAttribute('class')).not.toContain('hide');
+  };
+
+  const expectFooterToBeHidden = () => {
+    expect(comp.showHeaderAndFooterState).toBeFalsy();
+    expect(getFooter().getAttribute('class')).not.toContain('hide');
+  };
+
   const expectOsdToolbarToBeVisible = () => {
-    expect(getOsdToolbar().style.transform).toBe('translate(0px, 0px)');
+    expect(comp.osdToolbarState).toBeTruthy();
+    expect(getOsdToolbar().getAttribute('class')).toBe('show');
   };
 
   const expectOsdToolbarToBeHidden = () => {
-    expect(getOsdToolbar().style.transform).toBe('translate(-100%, 0)');
+    expect(comp.osdToolbarState).toBeFalsy();
+    expect(getOsdToolbar().getAttribute('class')).toBeFalsy();
+  };
+
+  const getHeader = () => {
+    return testHostFixture.debugElement.query(By.css('mime-viewer-header'))
+      .nativeElement;
+  };
+
+  const getFooter = () => {
+    return testHostFixture.debugElement.query(By.css('mime-viewer-footer'))
+      .nativeElement;
   };
 
   const getOsdToolbar = () => {

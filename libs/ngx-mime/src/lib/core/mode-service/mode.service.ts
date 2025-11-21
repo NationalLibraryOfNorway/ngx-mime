@@ -8,8 +8,8 @@ import { ModeChanges, ViewerMode } from '../models';
 export class ModeService {
   private config!: MimeViewerConfig;
   private _mode!: ViewerMode;
-  private toggleModeSubject: BehaviorSubject<ModeChanges>;
-  private modeChanges = new ModeChanges();
+  private readonly toggleModeSubject: BehaviorSubject<ModeChanges>;
+  private readonly modeChanges = new ModeChanges();
 
   constructor() {
     this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
@@ -19,13 +19,13 @@ export class ModeService {
     return this.toggleModeSubject.asObservable().pipe(distinctUntilChanged());
   }
 
+  get mode(): ViewerMode {
+    return this._mode;
+  }
+
   set mode(mode: ViewerMode) {
     this._mode = mode;
     this.change();
-  }
-
-  get mode(): ViewerMode {
-    return this._mode;
   }
 
   initialize(): void {
