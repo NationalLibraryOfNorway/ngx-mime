@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   BehaviorSubject,
@@ -19,38 +19,35 @@ import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-serv
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { RecognizedTextMode, RecognizedTextModeChanges } from '../models';
+import { Hit } from '../models/hit';
 import { Manifest } from '../models/manifest';
-import { Hit } from './../../core/models/hit';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
 @Injectable()
 export class AltoService {
+  intl = inject(MimeViewerIntl);
+  private readonly http = inject(HttpClient);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly highlightService = inject(HighlightService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly sanitizer = inject(DomSanitizer);
   private config!: MimeViewerConfig;
   private altos: string[] = [];
-  private isLoading = new BehaviorSubject(false);
-  private textContentReady = new Subject<void>();
-  private textError = new Subject<string | undefined>();
+  private readonly isLoading = new BehaviorSubject(false);
+  private readonly textContentReady = new Subject<void>();
+  private readonly textError = new Subject<string | undefined>();
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
-  private altoBuilder = new AltoBuilder();
+  private readonly altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
   private hits: Hit[] | undefined;
-  private _recognizedTextContentModeChanges =
+  private readonly _recognizedTextContentModeChanges =
     new BehaviorSubject<RecognizedTextModeChanges>({
       previousValue: RecognizedTextMode.NONE,
       currentValue: RecognizedTextMode.NONE,
     });
   private previousRecognizedTextMode = RecognizedTextMode.NONE;
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private http: HttpClient,
-    private iiifManifestService: IiifManifestService,
-    private highlightService: HighlightService,
-    private canvasService: CanvasService,
-    private sanitizer: DomSanitizer,
-  ) {}
 
   get onRecognizedTextContentModeChange$(): Observable<RecognizedTextModeChanges> {
     return this._recognizedTextContentModeChanges.asObservable();

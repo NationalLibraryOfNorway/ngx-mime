@@ -1,23 +1,15 @@
-import { ElementRef, Injectable } from '@angular/core';
-import { Observable, ReplaySubject, debounceTime, map } from 'rxjs';
+import { ElementRef, inject, Injectable } from '@angular/core';
+import { debounceTime, map, Observable, ReplaySubject } from 'rxjs';
 import { Dimensions } from '../models/dimensions';
 import { ViewerService } from '../viewer-service/viewer.service';
 
 @Injectable()
 export class MimeResizeService {
+  private readonly viewerService = inject(ViewerService);
   private _el!: ElementRef;
-  private resizeSubject: ReplaySubject<DOMRectReadOnly> = new ReplaySubject();
+  private readonly resizeSubject: ReplaySubject<DOMRectReadOnly> =
+    new ReplaySubject();
   private observer!: ResizeObserver;
-
-  constructor(private viewerService: ViewerService) {}
-
-  set el(el: ElementRef) {
-    this._el = el;
-  }
-
-  get el() {
-    return this._el;
-  }
 
   get onResize(): Observable<Dimensions> {
     return this.resizeSubject.pipe(
@@ -33,6 +25,14 @@ export class MimeResizeService {
         };
       }),
     );
+  }
+
+  get el() {
+    return this._el;
+  }
+
+  set el(el: ElementRef) {
+    this._el = el;
   }
 
   initialize() {

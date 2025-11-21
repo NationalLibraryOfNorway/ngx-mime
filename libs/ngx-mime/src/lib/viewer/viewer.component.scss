@@ -7,6 +7,36 @@
   display: flex;
   flex-direction: column;
 
+  mime-viewer-header {
+    transform: translate(0, -100%);
+    transition: transform 500ms ease-out;
+
+    &.show {
+      transform: translate(0, 0);
+      transition: transform 400ms ease-in;
+    }
+  }
+
+  mime-osd-toolbar {
+    transform: translate(-100%, 0);
+    transition: transform 500ms ease-in;
+
+    &.show {
+      transform: translate(0, 0);
+      transition: transform 400ms ease-out;
+    }
+  }
+
+  mime-viewer-footer {
+    transform: translate(0, 100%);
+    transition: transform 500ms ease-out;
+
+    &.show {
+      transform: translate(0, 0);
+      transition: transform 400ms ease-in;
+    }
+  }
+
   .openseadragon {
     user-select: none;
   }

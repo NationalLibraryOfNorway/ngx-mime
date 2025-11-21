@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { SharedModule } from '../shared/shared.module';
 import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
 import { HelpDialogComponent } from './help-dialog.component';
 
@@ -16,8 +15,7 @@ describe('HelpDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
-      declarations: [HelpDialogComponent],
+      imports: [HelpDialogComponent],
       providers: [
         MimeViewerIntl,
         provideAutoSpy(MimeResizeService, {

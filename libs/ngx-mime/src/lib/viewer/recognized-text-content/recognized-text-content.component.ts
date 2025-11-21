@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -11,11 +12,11 @@ import { SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
-import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
-import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
-import { Hit } from '../../core/models/hit';
+import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl';
+import { Hit } from '../../core/models/hit';
 import { SearchResult } from '../../core/models/search-result';
 
 @Component({
@@ -27,23 +28,19 @@ import { SearchResult } from '../../core/models/search-result';
 export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   @ViewChild('recognizedTextContentContainer', { read: ElementRef })
   recognizedTextContentContainer!: ElementRef;
+  intl = inject(MimeViewerIntl);
   firstCanvasRecognizedTextContent: SafeHtml | undefined;
   secondCanvasRecognizedTextContent: SafeHtml | undefined;
   isLoading = false;
   error: string | undefined = undefined;
   selectedHit: number | undefined;
-
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private cdr: ChangeDetectorRef,
-    private canvasService: CanvasService,
-    private altoService: AltoService,
-    private iiifManifestService: IiifManifestService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private highlightService: HighlightService,
-  ) {}
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly canvasService = inject(CanvasService);
+  private readonly altoService = inject(AltoService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly highlightService = inject(HighlightService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -114,7 +111,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  async updateCanvases(canvases: number[]) {
+  private async updateCanvases(canvases: number[]) {
     this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
       canvases[0],
     );

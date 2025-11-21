@@ -1,13 +1,19 @@
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { CanvasService } from '../../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../../core/iiif-content-search-service/iiif-content-search.service';
@@ -23,26 +29,26 @@ import { ContentSearchNavigationService } from '../../../core/navigation/content
   templateUrl: './content-search-navigator.component.html',
   styleUrls: ['./content-search-navigator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatToolbar, MatIconButton, MatTooltip, MatIcon, NgClass],
 })
 export class ContentSearchNavigatorComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @Input() searchResult!: SearchResult;
+  intl = inject(MimeViewerIntl);
   isHitOnActiveCanvasGroup = false;
   isFirstHit = false;
   isLastHit = false;
   currentHit = 0;
   invert = false;
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private canvasService: CanvasService,
-    private iiifContentSearchService: IiifContentSearchService,
-    private contentSearchNavigationService: ContentSearchNavigationService,
-    private iiifManifestService: IiifManifestService,
-  ) {}
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly canvasService = inject(CanvasService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly contentSearchNavigationService = inject(
+    ContentSearchNavigationService,
+  );
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.contentSearchNavigationService.initialize();

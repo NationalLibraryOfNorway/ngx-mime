@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MimeDomHelper } from '../core/mime-dom-helper';
 import {
   ContentSearchDialogConfigStrategy,
@@ -9,10 +9,8 @@ import {
 
 @Injectable()
 export class ContentSearchDialogConfigStrategyFactory {
-  constructor(
-    private readonly breakpointObserver: BreakpointObserver,
-    private readonly mimeDomHelper: MimeDomHelper,
-  ) {}
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly mimeDomHelper = inject(MimeDomHelper);
 
   public create(): ContentSearchDialogConfigStrategy {
     const isHandsetOrTabletInPortrait = this.breakpointObserver.isMatched([

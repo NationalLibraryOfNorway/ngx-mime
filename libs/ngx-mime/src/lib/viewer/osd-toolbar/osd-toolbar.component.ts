@@ -8,50 +8,49 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
+import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../../core/intl';
+import { ModeService } from '../../core/mode-service/mode.service';
 import { Manifest } from '../../core/models/manifest';
 import { ViewingDirection } from '../../core/models/viewing-direction';
-import { CanvasService } from './../../core/canvas-service/canvas-service';
-import { MimeViewerIntl } from './../../core/intl';
-import { ViewerService } from './../../core/viewer-service/viewer.service';
-import { ModeService } from './../../core/mode-service/mode.service';
-import { easeInWithDelay, rotate45 } from './../../shared/animations';
+import { ViewerService } from '../../core/viewer-service/viewer.service';
 
 @Component({
   selector: 'mime-osd-toolbar',
   templateUrl: './osd-toolbar.component.html',
   styleUrls: ['./osd-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [rotate45, easeInWithDelay],
+  imports: [MatFabButton, MatTooltip, MatIcon, MatMiniFabButton],
 })
 export class OsdToolbarComponent implements OnInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef;
-  public numberOfCanvasGroups = 0;
-  public isFirstCanvasGroup = false;
-  public isLastCanvasGroup = false;
+  intl = inject(MimeViewerIntl);
+  numberOfCanvasGroups = 0;
+  isFirstCanvasGroup = false;
+  isLastCanvasGroup = false;
   invert = false;
   isWeb = false;
   fabState = 'closed';
   fabIcon = 'menu';
-  showControlButtons = false;
   baseAnimationDelay = 20;
   isZoomed = true;
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private breakpointObserver: BreakpointObserver,
-    private changeDetectorRef: ChangeDetectorRef,
-    private viewerService: ViewerService,
-    private canvasService: CanvasService,
-    private iiifManifestService: IiifManifestService,
-    private modeService: ModeService,
-  ) {}
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly viewerService = inject(ViewerService);
+  private readonly canvasService = inject(CanvasService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly modeService = inject(ModeService);
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(
@@ -102,7 +101,6 @@ export class OsdToolbarComponent implements OnInit, OnDestroy {
   }
 
   toggleFab(): void {
-    this.showControlButtons = !this.showControlButtons;
     this.fabState = this.fabState === 'closed' ? 'open' : 'closed';
     this.fabIcon = this.fabState === 'closed' ? 'menu' : 'clear';
   }

@@ -1,67 +1,104 @@
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
+import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import {
+  MatFormField,
+  MatInput,
+  MatPrefix,
+  MatSuffix,
+} from '@angular/material/input';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
+import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
+import { MimeViewerIntl } from '../core/intl';
+import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
+import { Dimensions } from '../core/models/dimensions';
+import { Hit } from '../core/models/hit';
+import { Manifest } from '../core/models/manifest';
+import { SearchResult } from '../core/models/search-result';
 import { ContentSearchNavigationService } from '../core/navigation/content-search-navigation-service/content-search-navigation.service';
-import { IiifContentSearchService } from './../core/iiif-content-search-service/iiif-content-search.service';
-import { IiifManifestService } from './../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from './../core/intl';
-import { MimeResizeService } from './../core/mime-resize-service/mime-resize.service';
-import { Dimensions } from './../core/models/dimensions';
-import { Hit } from './../core/models/hit';
-import { Manifest } from './../core/models/manifest';
-import { SearchResult } from './../core/models/search-result';
 
 @Component({
   selector: 'mime-search',
   templateUrl: './content-search-dialog.component.html',
   styleUrls: ['./content-search-dialog.component.scss'],
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogTitle,
+    MatDialogContent,
+    FormsModule,
+    MatFormField,
+    MatPrefix,
+    MatInput,
+    MatSuffix,
+    NgStyle,
+    MatCard,
+    MatCardContent,
+    MatProgressBar,
+  ],
 })
 export class ContentSearchDialogComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  public q = '';
-  public hits: Hit[] = [];
-  public currentHit: Hit | null = null;
-  public currentSearch: string | null = null;
-  public numberOfHits = 0;
-  public isSearching = false;
-  public tabHeight = { maxHeight: '100px' };
-  isHandsetOrTabletInPortrait = false;
-  private manifest: Manifest | null = null;
-  private mimeHeight = 0;
-  private readonly subscriptions = new Subscription();
   @ViewChild('contentSearchResult', { static: true })
   resultContainer!: ElementRef;
   @ViewChild('query', { static: true }) qEl!: ElementRef;
   @ViewChildren('hitButton', { read: ElementRef })
   hitList!: QueryList<ElementRef>;
-
-  constructor(
-    public dialogRef: MatDialogRef<ContentSearchDialogComponent>,
-    public intl: MimeViewerIntl,
-    private readonly breakpointObserver: BreakpointObserver,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly mimeResizeService: MimeResizeService,
-    private readonly iiifManifestService: IiifManifestService,
-    private readonly iiifContentSearchService: IiifContentSearchService,
-    private readonly contentSearchNavigationService: ContentSearchNavigationService,
-  ) {}
+  dialogRef = inject<MatDialogRef<ContentSearchDialogComponent>>(MatDialogRef);
+  intl = inject(MimeViewerIntl);
+  q = '';
+  hits: Hit[] = [];
+  currentHit: Hit | null = null;
+  currentSearch: string | null = null;
+  numberOfHits = 0;
+  isSearching = false;
+  tabHeight = { maxHeight: '100px' };
+  isHandsetOrTabletInPortrait = false;
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly mimeResizeService = inject(MimeResizeService);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly iiifContentSearchService = inject(IiifContentSearchService);
+  private readonly contentSearchNavigationService = inject(
+    ContentSearchNavigationService,
+  );
+  private manifest: Manifest | null = null;
+  private mimeHeight = 0;
+  private readonly subscriptions = new Subscription();
 
   ngOnInit() {
     this.subscriptions.add(

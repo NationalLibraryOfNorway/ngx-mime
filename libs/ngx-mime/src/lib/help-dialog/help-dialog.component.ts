@@ -1,9 +1,25 @@
 import {
   BreakpointObserver,
-  BreakpointState,
   Breakpoints,
+  BreakpointState,
 } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { NgStyle } from '@angular/common';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { MimeViewerIntl } from '../core/intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
@@ -13,19 +29,26 @@ import { Dimensions } from '../core/models/dimensions';
   selector: 'mime-help',
   templateUrl: './help-dialog.component.html',
   styleUrls: ['./help-dialog.component.scss'],
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogTitle,
+    MatDialogContent,
+    NgStyle,
+  ],
 })
 export class HelpDialogComponent implements OnInit, OnDestroy {
-  public tabHeight = {};
+  intl = inject(MimeViewerIntl);
+  tabHeight = {};
   isHandsetOrTabletInPortrait = false;
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly mimeResizeService = inject(MimeResizeService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private mimeHeight = 0;
-  private subscriptions = new Subscription();
-
-  constructor(
-    public intl: MimeViewerIntl,
-    private cdr: ChangeDetectorRef,
-    private mimeResizeService: MimeResizeService,
-    private breakpointObserver: BreakpointObserver,
-  ) {}
+  private readonly subscriptions = new Subscription();
 
   ngOnInit(): void {
     this.subscriptions.add(

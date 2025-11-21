@@ -54,3 +54,5 @@ libs/**/.ng_pkg_build/
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/patches
+
+.github/instructions/nx.instructions.md

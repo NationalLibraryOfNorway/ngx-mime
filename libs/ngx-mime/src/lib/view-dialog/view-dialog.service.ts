@@ -1,4 +1,9 @@
-import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  ElementRef,
+  inject,
+  Injectable,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -12,16 +17,23 @@ import { ViewDialogComponent } from './view-dialog.component';
 
 @Injectable()
 export class ViewDialogService {
+  private readonly dialog = inject(MatDialog);
+  private readonly viewDialogConfigStrategyFactory = inject(
+    ViewDialogConfigStrategyFactory,
+  );
+  private readonly mimeResizeService = inject(MimeResizeService);
   private _el: ElementRef | undefined;
   private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<ViewDialogComponent>;
   private subscriptions!: Subscription;
 
-  constructor(
-    private dialog: MatDialog,
-    private viewDialogConfigStrategyFactory: ViewDialogConfigStrategyFactory,
-    private mimeResizeService: MimeResizeService,
-  ) {}
+  set el(el: ElementRef) {
+    this._el = el;
+  }
+
+  set viewContainerRef(viewContainerRef: ViewContainerRef) {
+    this._viewContainerRef = viewContainerRef;
+  }
 
   public initialize(): void {
     this.subscriptions = new Subscription();
@@ -39,14 +51,6 @@ export class ViewDialogService {
   public destroy(): void {
     this.close();
     this.unsubscribe();
-  }
-
-  set el(el: ElementRef) {
-    this._el = el;
-  }
-
-  set viewContainerRef(viewContainerRef: ViewContainerRef) {
-    this._viewContainerRef = viewContainerRef;
   }
 
   public open(): void {

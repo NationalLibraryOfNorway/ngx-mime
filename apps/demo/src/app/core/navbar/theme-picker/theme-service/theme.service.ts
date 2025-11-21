@@ -8,11 +8,11 @@ export interface SiteTheme {
   isDefault?: boolean;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private readonly styleManagerService = inject(StyleManagerService);
   static readonly storageKey = 'docs-theme-storage-current';
   onThemeUpdate: EventEmitter<SiteTheme> = new EventEmitter<SiteTheme>();
+  private readonly styleManagerService = inject(StyleManagerService);
   private readonly themes: SiteTheme[] = [
     {
       name: 'cyan-theme',

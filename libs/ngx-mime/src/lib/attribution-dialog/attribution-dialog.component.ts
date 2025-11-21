@@ -4,11 +4,20 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import {
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -20,22 +29,39 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
 @Component({
   templateUrl: './attribution-dialog.component.html',
   styleUrls: ['./attribution-dialog.component.scss'],
+  imports: [
+    MatDialogTitle,
+    MatIconButton,
+    MatTooltip,
+    MatDialogClose,
+    MatIcon,
+    MatDialogContent,
+  ],
 })
 export class AttributionDialogComponent
   implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked
 {
-  public manifest: Manifest | null = null;
-  private subscriptions = new Subscription();
   @ViewChild('container', { static: true }) container!: ElementRef;
+  intl = inject(MimeViewerIntl);
+  manifest: Manifest | null = null;
+  private readonly renderer = inject(Renderer2);
+  private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly attributionDialogResizeService = inject(
+    AttributionDialogResizeService,
+  );
+  private readonly styleService = inject(StyleService);
+  private readonly accessKeysHandlerService = inject(AccessKeysService);
+  private readonly subscriptions = new Subscription();
 
-  constructor(
-    public intl: MimeViewerIntl,
-    private renderer: Renderer2,
-    private iiifManifestService: IiifManifestService,
-    private attributionDialogResizeService: AttributionDialogResizeService,
-    private styleService: StyleService,
-    private accessKeysHandlerService: AccessKeysService,
-  ) {}
+  @HostListener('keydown', ['$event'])
+  handleKeys(event: KeyboardEvent) {
+    this.accessKeysHandlerService.handleKeyEvents(event);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.attributionDialogResizeService.markForCheck();
+  }
 
   ngOnInit() {
     this.attributionDialogResizeService.el = this.container;
@@ -69,16 +95,6 @@ export class AttributionDialogComponent
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-  }
-
-  @HostListener('keydown', ['$event'])
-  handleKeys(event: KeyboardEvent) {
-    this.accessKeysHandlerService.handleKeyEvents(event);
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.attributionDialogResizeService.markForCheck();
   }
 
   ngAfterViewChecked() {

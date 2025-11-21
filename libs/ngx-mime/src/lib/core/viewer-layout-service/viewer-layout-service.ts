@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { MimeViewerConfig } from '../mime-viewer-config';
@@ -7,12 +7,19 @@ import { ViewerLayout } from '../models/viewer-layout';
 
 @Injectable()
 export class ViewerLayoutService {
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private config = new MimeViewerConfig();
   private _layout!: ViewerLayout;
-  private subject: BehaviorSubject<ViewerLayout> =
+  private readonly subject: BehaviorSubject<ViewerLayout> =
     new BehaviorSubject<ViewerLayout>(this.config.initViewerLayout);
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  get onChange(): Observable<ViewerLayout> {
+    return this.subject.asObservable().pipe(distinctUntilChanged());
+  }
+
+  get layout(): ViewerLayout {
+    return this._layout;
+  }
 
   init(isPagedManifest?: boolean): void {
     if (
@@ -26,14 +33,6 @@ export class ViewerLayoutService {
       this._layout = ViewerLayout.ONE_PAGE;
       this.change();
     }
-  }
-
-  get onChange(): Observable<ViewerLayout> {
-    return this.subject.asObservable().pipe(distinctUntilChanged());
-  }
-
-  get layout(): ViewerLayout {
-    return this._layout;
   }
 
   setConfig(config: MimeViewerConfig) {

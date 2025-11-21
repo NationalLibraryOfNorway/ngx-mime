@@ -4,7 +4,8 @@
 
 @tailwind utilities;
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 body {
   @include theming.components-theme(defaultTheme.$theme);

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatGridList, MatGridTile } from '@angular/material/grid-list';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
 import { SiteTheme, ThemeService } from './theme-service/theme.service';
 
 @Component({
@@ -6,15 +11,25 @@ import { SiteTheme, ThemeService } from './theme-service/theme.service';
   templateUrl: './theme-picker.component.html',
   styleUrls: ['./theme-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatIconButton,
+    MatTooltip,
+    MatMenuTrigger,
+    MatIcon,
+    MatMenu,
+    MatGridList,
+    MatGridTile,
+    MatMenuItem,
+  ],
 })
 export class ThemePickerComponent {
   currentTheme: SiteTheme;
-
   themes: SiteTheme[];
+  private readonly themeService = inject(ThemeService);
 
-  constructor(private readonly themeService: ThemeService) {
-    this.themes = themeService.getAllThemes();
-    this.currentTheme = themeService.getStoredTheme();
+  constructor() {
+    this.themes = this.themeService.getAllThemes();
+    this.currentTheme = this.themeService.getStoredTheme();
     if (this.currentTheme) {
       this.installTheme(this.currentTheme);
     }

@@ -1,13 +1,14 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { TestManifests } from '../../../testing/test-manifests';
+import { TestManifests } from '../../../testing';
 import { testSearchResult } from '../../test/testSearchResult';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Hit } from '../models/hit';
-import { SearchResult } from './../models/search-result';
+import { SearchResult } from '../models/search-result';
 import { IiifContentSearchService } from './iiif-content-search.service';
 
 describe('IiifContentSearchService', () => {
@@ -17,8 +18,11 @@ describe('IiifContentSearchService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [IiifContentSearchService],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        IiifContentSearchService,
+      ],
     });
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(IiifContentSearchService);
