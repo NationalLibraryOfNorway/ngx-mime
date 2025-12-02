@@ -56,3 +56,4 @@ libs/**/.ng_pkg_build/
 !.yarn/patches
 
 .github/instructions/nx.instructions.md
+migrations.json

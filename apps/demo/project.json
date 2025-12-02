@@ -7,13 +7,14 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser-esbuild",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
-        "outputPath": "dist/apps/demo",
+        "outputPath": {
+          "base": "dist/apps/demo"
+        },
         "index": "apps/demo/src/index.html",
-        "main": "apps/demo/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/demo/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -38,7 +39,8 @@
         ],
         "scripts": [
           "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-        ]
+        ],
+        "browser": "apps/demo/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -63,7 +65,6 @@
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true

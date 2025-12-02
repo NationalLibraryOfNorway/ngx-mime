@@ -7,13 +7,14 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser-esbuild",
+      "executor": "@angular/build:application",
       "options": {
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
         "aot": true,
-        "outputPath": "dist/apps/integration",
+        "outputPath": {
+          "base": "dist/apps/integration"
+        },
         "index": "apps/integration/src/index.html",
-        "main": "apps/integration/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/integration/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -34,7 +35,8 @@
         "scripts": [
           "dist/apps/elements/scripts.js",
           "dist/apps/elements/main.js"
-        ]
+        ],
+        "browser": "apps/integration/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -55,12 +57,10 @@
           "sourceMap": false,
           "namedChunks": false,
           "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true
+          "extractLicenses": true
         }
       },
-      "outputs": ["{options.outputPath}"]
+      "outputs": ["{options.outputPath.base}"]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
