@@ -78,6 +78,9 @@ export class AltoService {
   }
 
   initialize(hits?: Hit[]) {
+    this.subscriptions.unsubscribe();
+    this.subscriptions = new Subscription();
+
     this.hits = hits;
     this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
