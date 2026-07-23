@@ -52,6 +52,12 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override textContentErrorLabel =
     'Beklager, men jeg finner ikke teksten for deg';
 
+  override recognizedTextContentUpdatedLabel = (
+    pageLabel: string,
+    numberOfPages: number,
+  ) =>
+    `${numberOfPages === 1 ? 'Side' : 'Sidene'} ${pageLabel} er lastet. Digital tekst er oppdatert.`;
+
   override noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;
   };

@@ -22,6 +22,7 @@ describe('RecognizedTextContentComponent', () => {
   let canvasService: any;
   let highlightService: any;
   let iiifContentSearchService: any;
+  let intl: MimeViewerIntl;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,6 +56,7 @@ describe('RecognizedTextContentComponent', () => {
     canvasService = TestBed.inject(CanvasService);
     highlightService = TestBed.inject(HighlightService);
     iiifContentSearchService = TestBed.inject(IiifContentSearchService);
+    intl = TestBed.inject(MimeViewerIntl);
 
     altoService.setConfig(new MimeViewerConfig());
   });
@@ -71,6 +73,23 @@ describe('RecognizedTextContentComponent', () => {
     );
     expect(region.getAttribute('role')).toBe('region');
     expect(region.getAttribute('aria-label')).toBe('Digital text');
+    expect(region.getAttribute('aria-live')).toBeNull();
+
+    const status = region.querySelector('[role="status"]');
+    expect(status?.getAttribute('aria-live')).toBe('polite');
+  });
+
+  it('should update the region label when translations change', () => {
+    fixture.detectChanges();
+    intl.digitalTextLabel = 'Recognized text';
+
+    intl.changes.next();
+    fixture.detectChanges();
+
+    const region: HTMLElement = fixture.nativeElement.querySelector(
+      '.recognized-text-content-container',
+    );
+    expect(region.getAttribute('aria-label')).toBe('Recognized text');
   });
 
   it('should show recognized text', () => {
@@ -143,6 +162,38 @@ describe('RecognizedTextContentComponent', () => {
     );
     expect(message.textContent?.trim()).toBe(
       'Recognized text is not available for this item',
+    );
+  });
+
+  it('should announce when recognized text is updated', () => {
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([4]);
+    canvasService.getCanvasGroupLabel.mockReturnValue('5');
+    altoService.getHtml.calledWith(4).mockReturnValue('updatedTextContent');
+    altoService.onTextContentReady$.nextWith(true);
+
+    fixture.detectChanges();
+
+    const message: HTMLElement = fixture.nativeElement.querySelector(
+      '[data-testid="recognizedTextContentUpdated"]',
+    );
+    expect(message.textContent?.trim()).toBe(
+      'Page 5 loaded. Digital text updated.',
+    );
+  });
+
+  it('should announce when recognized text for two pages is updated', () => {
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([3, 4]);
+    canvasService.getCanvasGroupLabel.mockReturnValue('4-5');
+    altoService.getHtml.mockReturnValue('updatedTextContent');
+    altoService.onTextContentReady$.nextWith(true);
+
+    fixture.detectChanges();
+
+    const message: HTMLElement = fixture.nativeElement.querySelector(
+      '[data-testid="recognizedTextContentUpdated"]',
+    );
+    expect(message.textContent?.trim()).toBe(
+      'Pages 4–5 loaded. Digital text updated.',
     );
   });
 

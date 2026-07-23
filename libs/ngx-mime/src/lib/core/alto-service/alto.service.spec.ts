@@ -66,6 +66,21 @@ describe('AltoService', () => {
     });
   }));
 
+  it('should emit text content ready once per canvas group', fakeAsync(() => {
+    let readyCount = 0;
+    service.onTextContentReady$.subscribe(() => readyCount++);
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      coverTestRequest().flush(testAlto);
+      expect(readyCount).toBe(0);
+
+      insideTestRequest().flush(testAlto);
+      expect(readyCount).toBe(1);
+    });
+  }));
+
   it('should only initialize canvas loading once', fakeAsync(() => {
     service.initialize();
     service.initialize();
@@ -75,6 +90,21 @@ describe('AltoService', () => {
       mockFirstCanvasGroupRequest();
 
       expectAltoToBeDefined();
+    });
+  }));
+
+  it('should cancel pending alto loads on destroy', fakeAsync(() => {
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      const coverRequest = coverTestRequest();
+      const insideRequest = insideTestRequest();
+
+      service.destroy();
+
+      expect(coverRequest.cancelled).toBe(true);
+      expect(insideRequest.cancelled).toBe(true);
     });
   }));
 
@@ -199,8 +229,11 @@ describe('AltoService', () => {
   const mockFailedAltoRequest = () => {
     const emsg = 'deliberate 404 error';
     const body = { status: 404, statusText: 'Not Found' };
-    coverTestRequest().flush(emsg, body);
-    insideTestRequest().flush(emsg, body);
+    const coverRequest = coverTestRequest();
+    const insideRequest = insideTestRequest();
+
+    coverRequest.flush(emsg, body);
+    expect(insideRequest.cancelled).toBe(true);
   };
 
   const changeCanvasGroupIndex = (index: number) => {

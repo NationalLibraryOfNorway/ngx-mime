@@ -3,16 +3,28 @@
   class="recognized-text-content-container flex flex-col items-center"
   role="region"
   [attr.aria-label]="intl.digitalTextLabel"
-  aria-live="polite"
 >
-  @if (error) {
-    <div data-testid="error">{{ error }}</div>
-  }
-  @if (hasRecognizedTextContent === false) {
-    <p data-testid="recognizedTextContentUnavailable">
-      {{ intl.recognizedTextContentUnavailableLabel }}
-    </p>
-  }
+  <h2 class="cdk-visually-hidden">{{ intl.digitalTextLabel }}</h2>
+  <div role="status" aria-live="polite">
+    @if (error) {
+      <div data-testid="error">{{ error }}</div>
+    }
+    @if (hasRecognizedTextContent === false) {
+      <p data-testid="recognizedTextContentUnavailable">
+        {{ intl.recognizedTextContentUnavailableLabel }}
+      </p>
+    }
+    @if (updatedCanvasGroupLabel) {
+      <p data-testid="recognizedTextContentUpdated">
+        {{
+          intl.recognizedTextContentUpdatedLabel(
+            updatedCanvasGroupLabel,
+            updatedCanvasGroupPageCount
+          )
+        }}
+      </p>
+    }
+  </div>
   @if (!isLoading) {
     @if (firstCanvasRecognizedTextContent) {
       <div

@@ -53,6 +53,12 @@ export class MimeViewerIntl {
   pageDoesNotExists = 'Sorry, that page does not exist';
   textContentErrorLabel = `Oh dear, i can't find the text for you`;
 
+  recognizedTextContentUpdatedLabel = (
+    pageLabel: string,
+    numberOfPages: number,
+  ) =>
+    `${numberOfPages === 1 ? 'Page' : 'Pages'} ${pageLabel} loaded. Digital text updated.`;
+
   noResultsFoundLabel = (q: string) => {
     return `No results found for <em class="current-search">${q}</em>`;
   };

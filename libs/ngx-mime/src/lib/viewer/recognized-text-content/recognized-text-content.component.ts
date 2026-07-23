@@ -35,6 +35,8 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   isLoading = false;
   error: string | undefined = undefined;
   hasRecognizedTextContent: boolean | undefined;
+  updatedCanvasGroupLabel: string | undefined;
+  updatedCanvasGroupPageCount = 0;
   selectedHit: number | undefined;
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly canvasService = inject(CanvasService);
@@ -46,11 +48,17 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
+      this.intl.changes.subscribe(() => this.cdr.markForCheck()),
+    );
+
+    this.subscriptions.add(
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           this.hasRecognizedTextContent = manifest
             ? ManifestUtils.hasRecognizedTextContent(manifest)
             : undefined;
+          this.updatedCanvasGroupLabel = undefined;
+          this.updatedCanvasGroupPageCount = 0;
           this.clearRecognizedText();
           this.cdr.detectChanges();
         },
@@ -70,7 +78,12 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       this.altoService.onTextContentReady$.subscribe(() => {
         this.clearRecognizedText();
         this.scrollToTop();
-        this.updateRecognizedText();
+        this.updatedCanvasGroupPageCount = this.updateRecognizedText();
+        if (this.updatedCanvasGroupPageCount > 0) {
+          this.updatedCanvasGroupLabel = this.canvasService
+            .getCanvasGroupLabel(this.canvasService.currentCanvasGroupIndex)
+            ?.replace('-', '–');
+        }
         this.cdr.detectChanges();
       }),
     );
@@ -104,17 +117,18 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
   }
 
-  private updateRecognizedText() {
+  private updateRecognizedText(): number {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex,
     );
     if (!canvases?.length) {
-      return;
+      return 0;
     }
     this.updateCanvases(canvases);
     if (this.selectedHit !== undefined) {
       this.highlightService.highlightSelectedHit(this.selectedHit);
     }
+    return canvases.length;
   }
 
   private updateCanvases(canvases: number[]) {

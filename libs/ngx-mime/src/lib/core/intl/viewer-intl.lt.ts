@@ -52,6 +52,14 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   override pageDoesNotExists = 'Nepavyko rasti šio paslapio';
   override textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
 
+  override recognizedTextContentUpdatedLabel = (
+    pageLabel: string,
+    numberOfPages: number,
+  ) =>
+    `${numberOfPages === 1 ? 'Puslapis' : 'Puslapiai'} ${pageLabel} ${
+      numberOfPages === 1 ? 'įkeltas' : 'įkelti'
+    }. Skaitmeninis tekstas atnaujintas.`;
+
   override noResultsFoundLabel = (q: string) => {
     return `Objekte nerasta atitikmenų <em class="current-search">${q}</em>`;
   };

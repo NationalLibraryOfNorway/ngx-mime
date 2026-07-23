@@ -78,9 +78,7 @@ export class AltoService {
     this.previousRecognizedTextMode = value;
   }
 
-  initialize(hits?: Hit[]) {
-    this.hits = hits;
-
+  initialize() {
     if (this.initialized) {
       return;
     }
@@ -117,14 +115,20 @@ export class AltoService {
             this.addAltoSource(canvasGroup[1], sources);
           }
           this.isLoading.next(true);
-          forkJoin(sources)
-            .pipe(
-              take(1),
-              finalize(() => this.isLoading.next(false)),
-            )
-            .subscribe();
+          this.subscriptions.add(
+            forkJoin(sources)
+              .pipe(
+                take(1),
+                finalize(() => this.isLoading.next(false)),
+              )
+              .subscribe(() => this.textContentReady.next()),
+          );
         }),
     );
+  }
+
+  setHits(hits?: Hit[]) {
+    this.hits = hits;
   }
 
   destroy() {
@@ -181,9 +185,9 @@ export class AltoService {
     return new Observable((observer) => {
       if (this.isInCache(index)) {
         this.done(observer);
-      } else {
-        this.load(observer, index, url);
+        return;
       }
+      return this.load(observer, index, url);
     });
   }
 
@@ -192,7 +196,7 @@ export class AltoService {
   }
 
   private load(observer: Subscriber<void>, index: number, url: string) {
-    this.http
+    return this.http
       .get(url, {
         headers: new HttpHeaders().set('Content-Type', 'text/xml'),
         responseType: 'text',
@@ -227,13 +231,12 @@ export class AltoService {
   }
 
   private done(observer: Subscriber<void>) {
-    this.textContentReady.next();
     this.complete(observer);
   }
 
   private error(observer: Subscriber<void>) {
     this.textError.next(this.intl.textContentErrorLabel);
-    this.complete(observer);
+    observer.complete();
   }
 
   private complete(observer: Subscriber<void>) {
