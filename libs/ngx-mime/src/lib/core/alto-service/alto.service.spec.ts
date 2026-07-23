@@ -81,6 +81,25 @@ describe('AltoService', () => {
     });
   }));
 
+  it('should report when the current canvas group has no alto source', fakeAsync(() => {
+    let hasTextSource: boolean | undefined;
+    service.currentCanvasGroupHasTextSource$.subscribe(
+      (value) => (hasTextSource = value),
+    );
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      const canvases =
+        iiifManifestService._currentManifest.value.sequences[0].canvases;
+      canvases[0].altoUrl = undefined;
+      canvases[1].altoUrl = undefined;
+
+      waitForDebounce();
+
+      expect(hasTextSource).toBe(false);
+    });
+  }));
+
   it('should only initialize canvas loading once', fakeAsync(() => {
     service.initialize();
     service.initialize();
@@ -186,6 +205,26 @@ describe('AltoService', () => {
       mockFailedAltoRequest();
 
       expect(errorMessage).toBe(intl.textContentErrorLabel);
+    });
+  }));
+
+  it('should replay and reset the current error', fakeAsync(() => {
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      mockFailedAltoRequest();
+      let errorMessage: string | undefined;
+
+      service.hasErrors$.subscribe((error) => (errorMessage = error));
+
+      expect(errorMessage).toBe(intl.textContentErrorLabel);
+
+      canvasService.setCanvasGroupIndexChange(1);
+      expect(errorMessage).toBeUndefined();
+
+      waitForDebounce();
+      mockSecondCanvasGroupRequest();
     });
   }));
 

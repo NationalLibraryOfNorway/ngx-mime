@@ -22,6 +22,8 @@ export class MimeViewerIntl {
   showRecognizedTextContentLabel = 'Digital text only';
   recognizedTextContentUnavailableLabel =
     'Recognized text is not available for this item';
+  recognizedTextContentUnavailableForCurrentViewLabel =
+    'Recognized text is not available for the current view';
   metadataLabel = 'Metadata';
   licenseLabel = 'License';
   tocLabel = 'Table of Contents';

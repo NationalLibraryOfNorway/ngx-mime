@@ -39,6 +39,7 @@ describe('RecognizedTextContentComponent', () => {
             'onTextContentReady$',
             'isLoading$',
             'hasErrors$',
+            'currentCanvasGroupHasTextSource$',
           ],
         }),
         provideAutoSpy(IiifContentSearchService, {
@@ -163,6 +164,26 @@ describe('RecognizedTextContentComponent', () => {
     expect(message.textContent?.trim()).toBe(
       'Recognized text is not available for this item',
     );
+  });
+
+  it('should announce when recognized text is unavailable for the current view', () => {
+    fixture.detectChanges();
+    component.hasRecognizedTextContent = true;
+
+    altoService.currentCanvasGroupHasTextSource$.nextWith(false);
+    fixture.detectChanges();
+
+    const message: HTMLElement = fixture.nativeElement.querySelector(
+      '[data-testid="recognizedTextContentUnavailableForCurrentView"]',
+    );
+    expect(message.textContent?.trim()).toBe(
+      'Recognized text is not available for the current view',
+    );
+    expect(
+      fixture.nativeElement.querySelector(
+        '[data-testid="recognizedTextContentUnavailable"]',
+      ),
+    ).toBeNull();
   });
 
   it('should announce when recognized text is updated', () => {

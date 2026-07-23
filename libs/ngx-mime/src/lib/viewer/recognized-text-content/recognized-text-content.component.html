@@ -13,6 +13,10 @@
       <p data-testid="recognizedTextContentUnavailable">
         {{ intl.recognizedTextContentUnavailableLabel }}
       </p>
+    } @else if (currentCanvasGroupHasTextSource === false) {
+      <p data-testid="recognizedTextContentUnavailableForCurrentView">
+        {{ intl.recognizedTextContentUnavailableForCurrentViewLabel }}
+      </p>
     }
     @if (updatedCanvasGroupLabel) {
       <p data-testid="recognizedTextContentUpdated">

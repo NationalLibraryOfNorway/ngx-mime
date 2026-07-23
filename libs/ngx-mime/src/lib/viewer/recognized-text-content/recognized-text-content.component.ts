@@ -35,6 +35,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   isLoading = false;
   error: string | undefined = undefined;
   hasRecognizedTextContent: boolean | undefined;
+  currentCanvasGroupHasTextSource: boolean | undefined;
   updatedCanvasGroupLabel: string | undefined;
   updatedCanvasGroupPageCount = 0;
   selectedHit: number | undefined;
@@ -101,6 +102,14 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
         this.error = error;
         this.cdr.detectChanges();
       }),
+    );
+    this.subscriptions.add(
+      this.altoService.currentCanvasGroupHasTextSource$.subscribe(
+        (hasTextSource: boolean | undefined) => {
+          this.currentCanvasGroupHasTextSource = hasTextSource;
+          this.cdr.detectChanges();
+        },
+      ),
     );
 
     this.updateRecognizedText();

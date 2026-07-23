@@ -38,7 +38,12 @@ export class AltoService {
   private altos: string[] = [];
   private readonly isLoading = new BehaviorSubject(false);
   private readonly textContentReady = new Subject<void>();
-  private readonly textError = new Subject<string | undefined>();
+  private readonly textError = new BehaviorSubject<string | undefined>(
+    undefined,
+  );
+  private readonly currentCanvasGroupHasTextSource = new BehaviorSubject<
+    boolean | undefined
+  >(undefined);
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private readonly altoBuilder = new AltoBuilder();
@@ -68,6 +73,10 @@ export class AltoService {
     return this.textError.asObservable();
   }
 
+  get currentCanvasGroupHasTextSource$(): Observable<boolean | undefined> {
+    return this.currentCanvasGroupHasTextSource.asObservable();
+  }
+
   get recognizedTextContentMode(): RecognizedTextMode {
     return this._recognizedTextContentModeChanges.value.currentValue;
   }
@@ -93,6 +102,8 @@ export class AltoService {
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           this.manifest = manifest;
+          this.textError.next(undefined);
+          this.currentCanvasGroupHasTextSource.next(undefined);
           this.clearCache();
         },
       ),
@@ -102,6 +113,8 @@ export class AltoService {
       this.canvasService.onCanvasGroupIndexChange
         .pipe(
           switchMap((currentCanvasGroupIndex: number) => {
+            this.textError.next(undefined);
+            this.currentCanvasGroupHasTextSource.next(undefined);
             this.isLoading.next(true);
             return timer(200).pipe(
               switchMap(() => this.loadCanvasGroup(currentCanvasGroupIndex)),
@@ -124,6 +137,8 @@ export class AltoService {
 
     this.subscriptions.unsubscribe();
     this.initialized = false;
+    this.textError.next(undefined);
+    this.currentCanvasGroupHasTextSource.next(undefined);
     this.clearCache();
   }
 
@@ -156,19 +171,20 @@ export class AltoService {
   }
 
   private loadCanvasGroup(currentCanvasGroupIndex: number): Observable<void> {
-    this.textError.next(undefined);
     const sources: Observable<void>[] = [];
     const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
       currentCanvasGroupIndex,
     );
 
     if (!canvasGroup || canvasGroup.length === 0) {
+      this.currentCanvasGroupHasTextSource.next(false);
       return EMPTY;
     }
     this.addAltoSource(canvasGroup[0], sources);
     if (canvasGroup.length === 2) {
       this.addAltoSource(canvasGroup[1], sources);
     }
+    this.currentCanvasGroupHasTextSource.next(sources.length > 0);
     return sources.length > 0
       ? forkJoin(sources).pipe(
           take(1),
