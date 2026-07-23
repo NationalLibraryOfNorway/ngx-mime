@@ -279,6 +279,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+        this.altoService.initialize(sr.hits);
         this.viewerService.highlight(sr);
       }),
     );

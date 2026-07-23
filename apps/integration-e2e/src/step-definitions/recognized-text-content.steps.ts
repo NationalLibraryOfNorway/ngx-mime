@@ -38,6 +38,16 @@ When(
 );
 
 Then(
+  'the recognized text should be accessible to screen readers without opening the view menu',
+  async function (this: CustomWorld) {
+    expect(await this.viewerPage.isViewDialogOpen()).toBeFalsy();
+    expect(
+      await this.viewerPage.getAssistiveRecognizedTextContent(),
+    ).toBeTruthy();
+  },
+);
+
+Then(
   'the user should be able to enable recognized text content',
   async function (this: CustomWorld) {
     await this.viewerPage.openViewMenu();

@@ -18,6 +18,8 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override recognizedTextContentCloseLabel = 'Ingen';
   override recognizedTextContentInSplitViewLabel = 'Delt';
   override showRecognizedTextContentLabel = 'Kun digital tekst';
+  override recognizedTextContentUnavailableLabel =
+    'Gjenkjent tekst er ikke tilgjengelig for dette objektet';
   override metadataLabel = 'Metadata';
   override licenseLabel = 'Lisens';
   override tocLabel = 'Innholdsfortegnelse';

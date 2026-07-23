@@ -63,6 +63,16 @@ describe('RecognizedTextContentComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should label recognized text as a region', () => {
+    fixture.detectChanges();
+
+    const region: HTMLElement = fixture.nativeElement.querySelector(
+      '.recognized-text-content-container',
+    );
+    expect(region.getAttribute('role')).toBe('region');
+    expect(region.getAttribute('aria-label')).toBe('Digital text');
+  });
+
   it('should show recognized text', () => {
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
@@ -96,6 +106,24 @@ describe('RecognizedTextContentComponent', () => {
     );
   });
 
+  it('should show recognized text that was loaded before initialization', () => {
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0]);
+    altoService.getHtml.calledWith(0).mockReturnValue('cachedTextContent');
+    altoService.isLoading$.nextWith(false);
+
+    fixture.detectChanges();
+
+    expect(component.firstCanvasRecognizedTextContent).toBe(
+      'cachedTextContent',
+    );
+    expect(component.isLoading).toBe(false);
+    const recognizedTextContentEl: HTMLElement =
+      fixture.nativeElement.querySelector(
+        'div[data-testid="firstCanvasRecognizedTextContent"]',
+      );
+    expect(recognizedTextContentEl.innerHTML).toBe('cachedTextContent');
+  });
+
   it('should show error message', () => {
     altoService.hasErrors$.nextWith('fakeError');
 
@@ -105,6 +133,17 @@ describe('RecognizedTextContentComponent', () => {
       By.css('div[data-testid="error"]'),
     );
     expect(error.nativeElement.innerHTML).toBe('fakeError');
+  });
+
+  it('should announce when recognized text is unavailable', () => {
+    fixture.detectChanges();
+
+    const message: HTMLElement = fixture.nativeElement.querySelector(
+      '[data-testid="recognizedTextContentUnavailable"]',
+    );
+    expect(message.textContent?.trim()).toBe(
+      'Recognized text is not available for this item',
+    );
   });
 
   it('should call highlightSelectedHit in onSelected subscribe', () => {

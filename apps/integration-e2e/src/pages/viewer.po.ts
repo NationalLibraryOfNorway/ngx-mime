@@ -215,6 +215,14 @@ export class ViewerPage {
     return this.containClass(this.recognizedTextContentContainer, 'only');
   }
 
+  async getAssistiveRecognizedTextContent(): Promise<string> {
+    const content = this.page
+      .locator('mime-recognized-text-content.cdk-visually-hidden')
+      .getByTestId('firstCanvasRecognizedTextContent');
+    await content.waitFor({ state: 'attached' });
+    return (await content.textContent()) ?? '';
+  }
+
   async setDashboardMode(): Promise<void> {
     const isDashboardMode = await this.isDashboardMode();
 

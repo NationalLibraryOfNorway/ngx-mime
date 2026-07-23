@@ -8,6 +8,7 @@ import 'openseadragon';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -39,6 +40,7 @@ describe('ViewerComponent', () => {
   let comp: ViewerComponent;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
+  let altoService: AltoService;
   let viewerService: ViewerService;
   let canvasService: CanvasService;
   let modeService: ModeService;
@@ -99,6 +101,7 @@ describe('ViewerComponent', () => {
     testHostComponent = testHostFixture.componentInstance;
     testHostComponent.manifestUri = 'dummyURI1';
 
+    altoService = TestBed.inject(AltoService);
     viewerService = TestBed.inject(ViewerService);
     canvasService = TestBed.inject(CanvasService);
     modeService = TestBed.inject(ModeService);
@@ -121,6 +124,20 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
 
     expect(comp).toBeDefined();
+  });
+
+  it('should expose only one recognized text region to screen readers', () => {
+    testHostFixture.detectChanges();
+    const hiddenContent = testHostFixture.debugElement.query(
+      By.css('mime-recognized-text-content.cdk-visually-hidden'),
+    ).nativeElement;
+
+    expect(hiddenContent.getAttribute('aria-hidden')).toBeNull();
+
+    altoService.showRecognizedTextContentInSplitView();
+    testHostFixture.detectChanges();
+
+    expect(hiddenContent.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('should cleanup when manifestUri changes', () => {

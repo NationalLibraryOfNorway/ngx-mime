@@ -9,6 +9,11 @@ Feature: Show recognized text content
     And the viewer is in dashboard view
     Then the user should be able to enable recognized text content
 
+  @accessibility
+  Scenario: Find recognized text without opening the view menu
+    Given the viewer is opened with a publication with recognized text content
+    Then the recognized text should be accessible to screen readers without opening the view menu
+
   Scenario: Show digital pages and recognized text content in split view
     Given the viewer is opened with a publication with recognized text content
     And the viewer is in dashboard view

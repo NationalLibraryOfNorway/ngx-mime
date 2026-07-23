@@ -42,6 +42,7 @@ export class AltoService {
   private readonly altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
   private hits: Hit[] | undefined;
+  private initialized = false;
   private readonly _recognizedTextContentModeChanges =
     new BehaviorSubject<RecognizedTextModeChanges>({
       previousValue: RecognizedTextMode.NONE,
@@ -79,6 +80,12 @@ export class AltoService {
 
   initialize(hits?: Hit[]) {
     this.hits = hits;
+
+    if (this.initialized) {
+      return;
+    }
+
+    this.initialized = true;
     this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
 
@@ -126,6 +133,7 @@ export class AltoService {
       : RecognizedTextMode.NONE;
 
     this.subscriptions.unsubscribe();
+    this.initialized = false;
     this.clearCache();
   }
 
@@ -180,7 +188,7 @@ export class AltoService {
   }
 
   private isInCache(index: number) {
-    return this.altos[index];
+    return this.altos[index] !== undefined;
   }
 
   private load(observer: Subscriber<void>, index: number, url: string) {

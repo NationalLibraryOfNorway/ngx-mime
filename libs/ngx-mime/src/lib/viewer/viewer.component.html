@@ -34,6 +34,12 @@
     </mat-drawer>
     <mat-drawer-content>
       <div [id]="openseadragonId" class="openseadragon"></div>
+      <mime-recognized-text-content
+        class="cdk-visually-hidden"
+        [attr.aria-hidden]="
+          recognizedTextContentMode !== recognizedTextMode.NONE ? 'true' : null
+        "
+      ></mime-recognized-text-content>
     </mat-drawer-content>
   </mat-drawer-container>
 

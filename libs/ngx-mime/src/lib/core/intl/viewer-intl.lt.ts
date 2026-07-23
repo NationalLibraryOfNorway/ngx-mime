@@ -18,6 +18,8 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   override recognizedTextContentCloseLabel = 'Nė vienas';
   override recognizedTextContentInSplitViewLabel = 'Suskaidytas';
   override showRecognizedTextContentLabel = 'Tik skaitmeninis tekstas';
+  override recognizedTextContentUnavailableLabel =
+    'Atpažintas tekstas šiam objektui nepasiekiamas';
   override metadataLabel = 'Metaduomenys';
   override licenseLabel = 'Licencija';
   override tocLabel = 'Turinys';

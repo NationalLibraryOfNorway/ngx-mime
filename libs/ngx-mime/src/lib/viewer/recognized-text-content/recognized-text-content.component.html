@@ -1,10 +1,17 @@
 <div
   #recognizedTextContentContainer
   class="recognized-text-content-container flex flex-col items-center"
+  role="region"
+  [attr.aria-label]="intl.digitalTextLabel"
   aria-live="polite"
 >
   @if (error) {
     <div data-testid="error">{{ error }}</div>
+  }
+  @if (hasRecognizedTextContent === false) {
+    <p data-testid="recognizedTextContentUnavailable">
+      {{ intl.recognizedTextContentUnavailableLabel }}
+    </p>
   }
   @if (!isLoading) {
     @if (firstCanvasRecognizedTextContent) {

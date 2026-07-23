@@ -15,9 +15,10 @@ import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
+import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
 import { MimeViewerIntl } from '../../core/intl';
 import { Hit } from '../../core/models/hit';
-import { SearchResult } from '../../core/models/search-result';
+import { Manifest } from '../../core/models/manifest';
 
 @Component({
   selector: 'mime-recognized-text-content',
@@ -33,6 +34,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   secondCanvasRecognizedTextContent: SafeHtml | undefined;
   isLoading = false;
   error: string | undefined = undefined;
+  hasRecognizedTextContent: boolean | undefined;
   selectedHit: number | undefined;
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly canvasService = inject(CanvasService);
@@ -44,16 +46,15 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-        this.altoService.initialize(sr.hits);
-      }),
-    );
-
-    this.subscriptions.add(
-      this.iiifManifestService.currentManifest.subscribe(() => {
-        this.clearRecognizedText();
-        this.cdr.detectChanges();
-      }),
+      this.iiifManifestService.currentManifest.subscribe(
+        (manifest: Manifest | null) => {
+          this.hasRecognizedTextContent = manifest
+            ? ManifestUtils.hasRecognizedTextContent(manifest)
+            : undefined;
+          this.clearRecognizedText();
+          this.cdr.detectChanges();
+        },
+      ),
     );
 
     this.subscriptions.add(
@@ -66,10 +67,10 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.altoService.onTextContentReady$.subscribe(async () => {
+      this.altoService.onTextContentReady$.subscribe(() => {
         this.clearRecognizedText();
         this.scrollToTop();
-        await this.updateRecognizedText();
+        this.updateRecognizedText();
         this.cdr.detectChanges();
       }),
     );
@@ -85,11 +86,13 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       }),
     );
+
+    this.updateRecognizedText();
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-    this.altoService.destroy();
   }
 
   private clearRecognizedText() {
@@ -101,17 +104,20 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
   }
 
-  private async updateRecognizedText() {
+  private updateRecognizedText() {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex,
     );
-    await this.updateCanvases(canvases);
+    if (!canvases?.length) {
+      return;
+    }
+    this.updateCanvases(canvases);
     if (this.selectedHit !== undefined) {
       this.highlightService.highlightSelectedHit(this.selectedHit);
     }
   }
 
-  private async updateCanvases(canvases: number[]) {
+  private updateCanvases(canvases: number[]) {
     this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
       canvases[0],
     );

@@ -17,6 +17,7 @@ import { MimeViewerIntl } from '../intl';
 import { RecognizedTextMode } from '../models';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { AltoService } from './alto.service';
+import { HtmlFormatter } from './html.formatter';
 
 describe('AltoService', () => {
   const debounceTime = 200;
@@ -65,6 +66,18 @@ describe('AltoService', () => {
     });
   }));
 
+  it('should only initialize canvas loading once', fakeAsync(() => {
+    service.initialize();
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      mockFirstCanvasGroupRequest();
+
+      expectAltoToBeDefined();
+    });
+  }));
+
   it('should load alto on canvas change', fakeAsync(() => {
     service.initialize();
     iiifManifestService.load('fakeUrl').subscribe(() => {
@@ -89,6 +102,23 @@ describe('AltoService', () => {
 
       changeCanvasGroupIndex(0);
 
+      expectAltoToBeDefined();
+    });
+  }));
+
+  it('should cache an alto page with no recognized text', fakeAsync(() => {
+    jest.spyOn(HtmlFormatter.prototype, 'altoToHtml').mockReturnValue('');
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      mockFirstCanvasGroupRequest();
+
+      changeCanvasGroupIndex(1);
+      mockSecondCanvasGroupRequest();
+
+      changeCanvasGroupIndex(0);
+      expectNoFirstCanvasGroupRequest();
       expectAltoToBeDefined();
     });
   }));
@@ -190,6 +220,15 @@ describe('AltoService', () => {
 
   const insideTestRequest = () => {
     return httpTestingController.expectOne(
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1`,
+    );
+  };
+
+  const expectNoFirstCanvasGroupRequest = () => {
+    httpTestingController.expectNone(
+      `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_C1`,
+    );
+    httpTestingController.expectNone(
       `https://api.nb.no:443/catalog/v1/metadata/0266d0da8f0d064a7725048aacf19872/altos/URN:NBN:no-nb_digibok_2008020404020_I1`,
     );
   };

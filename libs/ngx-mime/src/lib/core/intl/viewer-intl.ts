@@ -20,6 +20,8 @@ export class MimeViewerIntl {
   recognizedTextContentCloseLabel = 'None';
   recognizedTextContentInSplitViewLabel = 'Split';
   showRecognizedTextContentLabel = 'Digital text only';
+  recognizedTextContentUnavailableLabel =
+    'Recognized text is not available for this item';
   metadataLabel = 'Metadata';
   licenseLabel = 'License';
   tocLabel = 'Table of Contents';
