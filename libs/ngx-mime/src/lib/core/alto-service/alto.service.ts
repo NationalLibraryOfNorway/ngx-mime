@@ -3,14 +3,16 @@ import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   BehaviorSubject,
+  EMPTY,
   forkJoin,
   Observable,
   of,
   Subject,
   Subscriber,
   Subscription,
+  timer,
 } from 'rxjs';
-import { catchError, debounceTime, finalize, take } from 'rxjs/operators';
+import { catchError, finalize, map, switchMap, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -98,32 +100,16 @@ export class AltoService {
 
     this.subscriptions.add(
       this.canvasService.onCanvasGroupIndexChange
-        .pipe(debounceTime(200))
-        .subscribe((currentCanvasGroupIndex: number) => {
-          this.textError.next(undefined);
-          const sources: Observable<void>[] = [];
-
-          const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
-            currentCanvasGroupIndex,
-          );
-
-          if (!canvasGroup || canvasGroup.length === 0) {
-            return;
-          }
-          this.addAltoSource(canvasGroup[0], sources);
-          if (canvasGroup.length === 2) {
-            this.addAltoSource(canvasGroup[1], sources);
-          }
-          this.isLoading.next(true);
-          this.subscriptions.add(
-            forkJoin(sources)
-              .pipe(
-                take(1),
-                finalize(() => this.isLoading.next(false)),
-              )
-              .subscribe(() => this.textContentReady.next()),
-          );
-        }),
+        .pipe(
+          switchMap((currentCanvasGroupIndex: number) => {
+            this.isLoading.next(true);
+            return timer(200).pipe(
+              switchMap(() => this.loadCanvasGroup(currentCanvasGroupIndex)),
+              finalize(() => this.isLoading.next(false)),
+            );
+          }),
+        )
+        .subscribe(() => this.textContentReady.next()),
     );
   }
 
@@ -158,7 +144,7 @@ export class AltoService {
   }
 
   getHtml(index: number): SafeHtml | undefined {
-    return this.altos && this.altos.length >= index + 1
+    return this.isInCache(index)
       ? this.sanitizer.bypassSecurityTrustHtml(
           this.highlightService.highlight(this.altos[index], index, this.hits),
         )
@@ -167,6 +153,28 @@ export class AltoService {
 
   clearCache() {
     this.altos = [];
+  }
+
+  private loadCanvasGroup(currentCanvasGroupIndex: number): Observable<void> {
+    this.textError.next(undefined);
+    const sources: Observable<void>[] = [];
+    const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
+      currentCanvasGroupIndex,
+    );
+
+    if (!canvasGroup || canvasGroup.length === 0) {
+      return EMPTY;
+    }
+    this.addAltoSource(canvasGroup[0], sources);
+    if (canvasGroup.length === 2) {
+      this.addAltoSource(canvasGroup[1], sources);
+    }
+    return sources.length > 0
+      ? forkJoin(sources).pipe(
+          take(1),
+          map(() => undefined),
+        )
+      : EMPTY;
   }
 
   private addAltoSource(index: number, sources: Observable<void>[]) {
@@ -236,7 +244,7 @@ export class AltoService {
 
   private error(observer: Subscriber<void>) {
     this.textError.next(this.intl.textContentErrorLabel);
-    observer.complete();
+    this.complete(observer);
   }
 
   private complete(observer: Subscriber<void>) {

@@ -108,6 +108,27 @@ describe('AltoService', () => {
     });
   }));
 
+  it('should cancel pending alto loads on canvas change', fakeAsync(() => {
+    let readyCount = 0;
+    service.onTextContentReady$.subscribe(() => readyCount++);
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      const coverRequest = coverTestRequest();
+      const insideRequest = insideTestRequest();
+
+      canvasService.setCanvasGroupIndexChange(1);
+
+      expect(coverRequest.cancelled).toBe(true);
+      expect(insideRequest.cancelled).toBe(true);
+
+      waitForDebounce();
+      mockSecondCanvasGroupRequest();
+      expect(readyCount).toBe(1);
+    });
+  }));
+
   it('should load alto on canvas change', fakeAsync(() => {
     service.initialize();
     iiifManifestService.load('fakeUrl').subscribe(() => {
@@ -165,6 +186,29 @@ describe('AltoService', () => {
       mockFailedAltoRequest();
 
       expect(errorMessage).toBe(intl.textContentErrorLabel);
+    });
+  }));
+
+  it('should finish loading the other page if one page fails', fakeAsync(() => {
+    let readyCount = 0;
+    service.onTextContentReady$.subscribe(() => readyCount++);
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      const coverRequest = coverTestRequest();
+      const insideRequest = insideTestRequest();
+
+      coverRequest.flush('deliberate 404 error', {
+        status: 404,
+        statusText: 'Not Found',
+      });
+
+      expect(insideRequest.cancelled).toBe(false);
+      insideRequest.flush(testAlto);
+      expect(service.getHtml(0)).toBeUndefined();
+      expect(service.getHtml(1)).toBeDefined();
+      expect(readyCount).toBe(1);
     });
   }));
 
@@ -233,7 +277,8 @@ describe('AltoService', () => {
     const insideRequest = insideTestRequest();
 
     coverRequest.flush(emsg, body);
-    expect(insideRequest.cancelled).toBe(true);
+    expect(insideRequest.cancelled).toBe(false);
+    insideRequest.flush(emsg, body);
   };
 
   const changeCanvasGroupIndex = (index: number) => {

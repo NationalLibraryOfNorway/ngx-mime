@@ -197,6 +197,39 @@ describe('RecognizedTextContentComponent', () => {
     );
   });
 
+  it('should announce only the page whose recognized text loaded', () => {
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([3, 4]);
+    altoService.getHtml.calledWith(3).mockReturnValue(undefined);
+    altoService.getHtml.calledWith(4).mockReturnValue('updatedTextContent');
+    altoService.onTextContentReady$.nextWith(true);
+
+    fixture.detectChanges();
+
+    const message: HTMLElement = fixture.nativeElement.querySelector(
+      '[data-testid="recognizedTextContentUpdated"]',
+    );
+    expect(message.textContent?.trim()).toBe(
+      'Page 5 loaded. Digital text updated.',
+    );
+    expect(component.firstCanvasRecognizedTextContent).toBeUndefined();
+    expect(component.secondCanvasRecognizedTextContent).toBe(
+      'updatedTextContent',
+    );
+  });
+
+  it('should clear stale recognized text when loading starts', () => {
+    fixture.detectChanges();
+    component.firstCanvasRecognizedTextContent = 'previousTextContent';
+    component.updatedCanvasGroupLabel = '1';
+    component.updatedCanvasGroupPageCount = 1;
+
+    altoService.isLoading$.nextWith(true);
+
+    expect(component.firstCanvasRecognizedTextContent).toBe('');
+    expect(component.updatedCanvasGroupLabel).toBeUndefined();
+    expect(component.updatedCanvasGroupPageCount).toBe(0);
+  });
+
   it('should call highlightSelectedHit in onSelected subscribe', () => {
     canvasService.getCanvasesPerCanvasGroup.calledWith(0).nextWith([0, 1]);
     iiifContentSearchService.onSelected.nextWith(createMockHit(1, 'test '));

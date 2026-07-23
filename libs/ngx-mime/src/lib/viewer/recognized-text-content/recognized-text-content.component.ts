@@ -78,18 +78,21 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       this.altoService.onTextContentReady$.subscribe(() => {
         this.clearRecognizedText();
         this.scrollToTop();
-        this.updatedCanvasGroupPageCount = this.updateRecognizedText();
-        if (this.updatedCanvasGroupPageCount > 0) {
-          this.updatedCanvasGroupLabel = this.canvasService
-            .getCanvasGroupLabel(this.canvasService.currentCanvasGroupIndex)
-            ?.replace('-', '–');
-        }
+        const updatedCanvases = this.updateRecognizedText();
+        this.updatedCanvasGroupPageCount = updatedCanvases.length;
+        this.updatedCanvasGroupLabel =
+          this.getCanvasGroupLabel(updatedCanvases);
         this.cdr.detectChanges();
       }),
     );
     this.subscriptions.add(
       this.altoService.isLoading$.subscribe((isLoading: boolean) => {
         this.isLoading = isLoading;
+        if (isLoading) {
+          this.clearRecognizedText();
+          this.updatedCanvasGroupLabel = undefined;
+          this.updatedCanvasGroupPageCount = 0;
+        }
         this.cdr.detectChanges();
       }),
     );
@@ -117,29 +120,46 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
   }
 
-  private updateRecognizedText(): number {
+  private updateRecognizedText(): number[] {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex,
     );
     if (!canvases?.length) {
-      return 0;
+      return [];
     }
-    this.updateCanvases(canvases);
+    const updatedCanvases = this.updateCanvases(canvases);
     if (this.selectedHit !== undefined) {
       this.highlightService.highlightSelectedHit(this.selectedHit);
     }
-    return canvases.length;
+    return updatedCanvases;
   }
 
-  private updateCanvases(canvases: number[]) {
+  private updateCanvases(canvases: number[]): number[] {
+    const updatedCanvases: number[] = [];
     this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
       canvases[0],
     );
+    if (this.firstCanvasRecognizedTextContent !== undefined) {
+      updatedCanvases.push(canvases[0]);
+    }
 
     if (canvases.length === 2) {
       this.secondCanvasRecognizedTextContent = this.altoService.getHtml(
         canvases[1],
       );
+      if (this.secondCanvasRecognizedTextContent !== undefined) {
+        updatedCanvases.push(canvases[1]);
+      }
     }
+    return updatedCanvases;
+  }
+
+  private getCanvasGroupLabel(canvases: number[]): string | undefined {
+    if (canvases.length === 0) {
+      return undefined;
+    }
+    const firstPage = canvases[0] + 1;
+    const lastPage = canvases[canvases.length - 1] + 1;
+    return firstPage === lastPage ? `${firstPage}` : `${firstPage}–${lastPage}`;
   }
 }
