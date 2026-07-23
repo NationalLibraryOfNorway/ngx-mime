@@ -218,6 +218,7 @@ export class ViewerPage {
   async getAssistiveRecognizedTextSnapshot(): Promise<string> {
     const region = this.page.getByRole('region', { name: 'Digital text' });
     await region.waitFor({ state: 'attached' });
+
     return region.ariaSnapshot();
   }
 
