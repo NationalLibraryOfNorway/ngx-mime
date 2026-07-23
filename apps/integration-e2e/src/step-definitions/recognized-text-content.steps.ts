@@ -41,9 +41,9 @@ Then(
   'the recognized text should be accessible to screen readers without opening the view menu',
   async function (this: CustomWorld) {
     expect(await this.viewerPage.isViewDialogOpen()).toBeFalsy();
-    expect(
-      await this.viewerPage.getAssistiveRecognizedTextContent(),
-    ).toBeTruthy();
+    const accessibilitySnapshot =
+      await this.viewerPage.getAssistiveRecognizedTextSnapshot();
+    expect(accessibilitySnapshot).toContain('that');
   },
 );
 

@@ -215,12 +215,10 @@ export class ViewerPage {
     return this.containClass(this.recognizedTextContentContainer, 'only');
   }
 
-  async getAssistiveRecognizedTextContent(): Promise<string> {
-    const content = this.page
-      .locator('mime-recognized-text-content.cdk-visually-hidden')
-      .getByTestId('firstCanvasRecognizedTextContent');
-    await content.waitFor({ state: 'attached' });
-    return (await content.textContent()) ?? '';
+  async getAssistiveRecognizedTextSnapshot(): Promise<string> {
+    const region = this.page.getByRole('region', { name: 'Digital text' });
+    await region.waitFor({ state: 'attached' });
+    return region.ariaSnapshot();
   }
 
   async setDashboardMode(): Promise<void> {
