@@ -42,7 +42,9 @@ export class ViewerPage {
   readonly fullscreenButton: Locator;
   readonly openseadragonContainer: Locator;
   readonly attribution: Locator;
+  readonly recognizedTextContentRegion: Locator;
   private isElements = false;
+  private attributionCloseButton: Locator;
   private navigationSlider: Locator;
   private canvasGroupsButton: Locator;
   private canvasGroupInput: Locator;
@@ -110,6 +112,9 @@ export class ViewerPage {
     this.attribution = this.page.locator(
       '.attribution-container > .mat-mdc-dialog-content',
     );
+    this.attributionCloseButton = this.page.getByRole('button', {
+      name: 'Close attribution dialog',
+    });
     this.svg = this.page.locator('.openseadragon svg');
     this.canvasGroupOverlays = this.page.locator(
       '.openseadragon svg g.page-group rect',
@@ -135,6 +140,9 @@ export class ViewerPage {
     this.recognizedTextContentContainer = this.page.getByTestId(
       'ngx-mime-recognized-text-content-container',
     );
+    this.recognizedTextContentRegion = this.page.getByRole('region', {
+      name: 'Digital text',
+    });
     this.modeDashboard = this.page.locator('.mode-dashboard');
     this.modePage = this.page.locator('.mode-page');
     this.openseadragonCanvas = this.page.locator(
@@ -189,6 +197,10 @@ export class ViewerPage {
 
   async closeRecognizedTextContent(): Promise<void> {
     await this.checkViewMenuToggle(this.recognizedTextContentCloseButton);
+  }
+
+  async closeAttributionDialog(): Promise<void> {
+    await this.attributionCloseButton.click();
   }
 
   async getRecognizedTextContent(): Promise<string> {

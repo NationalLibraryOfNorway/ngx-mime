@@ -42,10 +42,11 @@ Then(
   async function (this: CustomWorld) {
     expect(await this.viewerPage.isViewDialogOpen()).toBeFalsy();
 
-    const region = this.page.getByRole('region', { name: 'Digital text' });
+    await this.viewerPage.closeAttributionDialog();
+
+    const region = this.viewerPage.recognizedTextContentRegion;
     await expect(region).toHaveCount(1);
-    await expect(region).toBeVisible();
-    await expect(region).toContainText('that');
+    await expect.poll(() => region.ariaSnapshot()).toContain('that');
   },
 );
 
