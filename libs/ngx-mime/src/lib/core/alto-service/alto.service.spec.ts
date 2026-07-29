@@ -56,6 +56,15 @@ describe('AltoService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should emit when text highlights change', () => {
+    let highlightChangeCount = 0;
+    service.onTextHighlightsChange$.subscribe(() => highlightChangeCount++);
+
+    service.setHits([]);
+
+    expect(highlightChangeCount).toBe(1);
+  });
+
   it('should load alto on load', fakeAsync(() => {
     service.initialize();
     iiifManifestService.load('fakeUrl').subscribe(() => {

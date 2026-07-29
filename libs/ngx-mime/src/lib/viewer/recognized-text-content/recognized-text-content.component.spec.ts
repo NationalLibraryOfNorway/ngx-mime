@@ -36,6 +36,7 @@ describe('RecognizedTextContentComponent', () => {
           methodsToSpyOn: ['getHtml'],
           observablePropsToSpyOn: [
             'onTextContentReady$',
+            'onTextHighlightsChange$',
             'isLoading$',
             'hasErrors$',
             'currentCanvasGroupHasTextSource$',
@@ -77,6 +78,7 @@ describe('RecognizedTextContentComponent', () => {
   });
 
   it('should show recognized text', () => {
+    fixture.detectChanges();
     const firstCanvasRecognizedTextContent =
       '<p>fakefirstCanvasRecognizedText</p>';
     const secondCanvasRecognizedTextContent =
@@ -125,6 +127,7 @@ describe('RecognizedTextContentComponent', () => {
   });
 
   it('should show error message', () => {
+    fixture.detectChanges();
     altoService.hasErrors$.nextWith('fakeError');
 
     fixture.detectChanges();
@@ -167,6 +170,7 @@ describe('RecognizedTextContentComponent', () => {
   });
 
   it('should announce when recognized text is updated', () => {
+    fixture.detectChanges();
     canvasService.getCanvasesPerCanvasGroup.mockReturnValue([4]);
     altoService.getHtml.calledWith(4).mockReturnValue('updatedTextContent');
     altoService.onTextContentReady$.nextWith(true);
@@ -182,6 +186,7 @@ describe('RecognizedTextContentComponent', () => {
   });
 
   it('should announce when recognized text for two pages is updated', () => {
+    fixture.detectChanges();
     canvasService.getCanvasesPerCanvasGroup.mockReturnValue([3, 4]);
     altoService.getHtml.mockReturnValue('updatedTextContent');
     altoService.onTextContentReady$.nextWith(true);
@@ -197,6 +202,7 @@ describe('RecognizedTextContentComponent', () => {
   });
 
   it('should announce only the page whose recognized text loaded', () => {
+    fixture.detectChanges();
     canvasService.getCanvasesPerCanvasGroup.mockReturnValue([3, 4]);
     altoService.getHtml.calledWith(3).mockReturnValue(undefined);
     altoService.getHtml.calledWith(4).mockReturnValue('updatedTextContent');
@@ -216,6 +222,24 @@ describe('RecognizedTextContentComponent', () => {
     );
   });
 
+  it('should refresh recognized text when highlights change', () => {
+    fixture.detectChanges();
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0]);
+    altoService.getHtml
+      .calledWith(0)
+      .mockReturnValue('<mark>updatedTextContent</mark>');
+
+    altoService.onTextHighlightsChange$.nextWith(true);
+
+    const recognizedTextContentEl: HTMLElement =
+      fixture.nativeElement.querySelector(
+        'div[data-testid="firstCanvasRecognizedTextContent"]',
+      );
+    expect(recognizedTextContentEl.innerHTML).toBe(
+      '<mark>updatedTextContent</mark>',
+    );
+  });
+
   it('should clear stale recognized text when loading starts', () => {
     fixture.detectChanges();
     component.firstCanvasRecognizedTextContent = 'previousTextContent';
@@ -230,6 +254,7 @@ describe('RecognizedTextContentComponent', () => {
   });
 
   it('should call highlightSelectedHit in onSelected subscribe', () => {
+    fixture.detectChanges();
     canvasService.getCanvasesPerCanvasGroup.calledWith(0).nextWith([0, 1]);
     iiifContentSearchService.onSelected.nextWith(createMockHit(1, 'test '));
 
@@ -239,10 +264,11 @@ describe('RecognizedTextContentComponent', () => {
   });
 
   it('should call highlightSelectedHit in onTextContentReady subscribe', () => {
+    fixture.detectChanges();
     component.selectedHit = 1;
-    altoService.onTextContentReady$.nextWith(true);
     canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0]);
     altoService.getHtml.calledWith(0).mockReturnValue('fakeTextContent');
+    altoService.onTextContentReady$.nextWith(true);
 
     fixture.detectChanges();
 

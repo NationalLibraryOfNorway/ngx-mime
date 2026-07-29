@@ -41,10 +41,11 @@ Then(
   'the recognized text should be accessible to screen readers without opening the view menu',
   async function (this: CustomWorld) {
     expect(await this.viewerPage.isViewDialogOpen()).toBeFalsy();
-    const expectedOcrText = 'that';
-    const accessibilitySnapshot =
-      await this.viewerPage.getAssistiveRecognizedTextSnapshot();
-    expect(accessibilitySnapshot).toContain(expectedOcrText);
+
+    const region = this.page.getByRole('region', { name: 'Digital text' });
+    await expect(region).toHaveCount(1);
+    await expect(region).toBeVisible();
+    await expect(region).toContainText('that');
   },
 );
 

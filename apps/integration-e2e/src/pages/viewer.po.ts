@@ -132,23 +132,26 @@ export class ViewerPage {
     this.recognizedTextContentCloseButton = this.page.getByTestId(
       'ngx-mime-recognized-text-content-close-button',
     );
+    this.recognizedTextContentContainer = this.page.getByTestId(
+      'ngx-mime-recognized-text-content-container',
+    );
     this.modeDashboard = this.page.locator('.mode-dashboard');
     this.modePage = this.page.locator('.mode-page');
     this.openseadragonCanvas = this.page.locator(
       '.openseadragon-canvas>>nth=0',
     );
-    this.firstCanvasRecognizedTextContent = this.page.getByTestId(
-      'firstCanvasRecognizedTextContent',
-    );
-    this.secondCanvasRecognizedTextContent = this.page.getByTestId(
-      'secondCanvasRecognizedTextContent',
-    );
-    this.recognizedTextContentHits = this.page.locator(
-      '.recognized-text-content-container mark',
-    );
-    this.recognizedTextContentContainer = this.page.getByTestId(
-      'ngx-mime-recognized-text-content-container',
-    );
+    this.firstCanvasRecognizedTextContent =
+      this.recognizedTextContentContainer.getByTestId(
+        'firstCanvasRecognizedTextContent',
+      );
+    this.secondCanvasRecognizedTextContent =
+      this.recognizedTextContentContainer.getByTestId(
+        'secondCanvasRecognizedTextContent',
+      );
+    this.recognizedTextContentHits =
+      this.recognizedTextContentContainer.locator(
+        '.recognized-text-content-container mark',
+      );
     this.viewMenuButton = this.page.getByTestId('ngx-mime-view-menu-button');
     this.viewMenuCloseButton = this.page.getByTestId(
       'ngx-mime-view-dialog-close-button',
@@ -213,13 +216,6 @@ export class ViewerPage {
 
   async isRecognizedTextContentOnly() {
     return this.containClass(this.recognizedTextContentContainer, 'only');
-  }
-
-  async getAssistiveRecognizedTextSnapshot(): Promise<string> {
-    const region = this.page.getByRole('region', { name: 'Digital text' });
-    await region.waitFor({ state: 'attached' });
-
-    return region.ariaSnapshot();
   }
 
   async setDashboardMode(): Promise<void> {
@@ -447,7 +443,7 @@ export class ViewerPage {
   }
 
   getRecognizedContentHit(index: number): Promise<string | null> {
-    return this.recognizedTextContentHits.first().innerHTML();
+    return this.recognizedTextContentHits.nth(index).innerHTML();
   }
 
   async swipe(startPoint: Point, endPoint: Point): Promise<void> {

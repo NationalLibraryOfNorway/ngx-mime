@@ -38,6 +38,7 @@ export class AltoService {
   private altos: string[] = [];
   private readonly isLoading = new BehaviorSubject(false);
   private readonly textContentReady = new Subject<void>();
+  private readonly textHighlightsChanged = new Subject<void>();
   private readonly textError = new BehaviorSubject<string | undefined>(
     undefined,
   );
@@ -63,6 +64,10 @@ export class AltoService {
 
   get onTextContentReady$(): Observable<void> {
     return this.textContentReady.asObservable();
+  }
+
+  get onTextHighlightsChange$(): Observable<void> {
+    return this.textHighlightsChanged.asObservable();
   }
 
   get isLoading$(): Observable<boolean> {
@@ -128,6 +133,7 @@ export class AltoService {
 
   setHits(hits?: Hit[]) {
     this.hits = hits;
+    this.textHighlightsChanged.next();
   }
 
   destroy() {

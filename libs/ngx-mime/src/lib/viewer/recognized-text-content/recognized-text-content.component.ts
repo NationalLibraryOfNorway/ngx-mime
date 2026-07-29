@@ -68,8 +68,8 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
-        if (hit) {
-          this.selectedHit = hit.id;
+        this.selectedHit = hit?.id;
+        if (this.selectedHit !== undefined) {
           this.highlightService.highlightSelectedHit(this.selectedHit);
         }
       }),
@@ -79,11 +79,12 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       this.altoService.onTextContentReady$.subscribe(() => {
         this.clearRecognizedText();
         this.scrollToTop();
-        const updatedCanvases = this.updateRecognizedText();
-        this.updatedCanvasGroupPageCount = updatedCanvases.length;
-        this.updatedCanvasGroupLabel =
-          this.getCanvasGroupLabel(updatedCanvases);
-        this.cdr.detectChanges();
+        this.refreshRecognizedText(true);
+      }),
+    );
+    this.subscriptions.add(
+      this.altoService.onTextHighlightsChange$.subscribe(() => {
+        this.refreshRecognizedText();
       }),
     );
     this.subscriptions.add(
@@ -112,8 +113,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    this.updateRecognizedText();
-    this.cdr.detectChanges();
+    this.refreshRecognizedText();
   }
 
   ngOnDestroy() {
@@ -129,6 +129,18 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
   }
 
+  private refreshRecognizedText(announceUpdate = false): void {
+    const updatedCanvases = this.updateRecognizedText();
+
+    if (announceUpdate) {
+      this.updatedCanvasGroupPageCount = updatedCanvases.length;
+      this.updatedCanvasGroupLabel = this.getCanvasGroupLabel(updatedCanvases);
+    }
+
+    this.cdr.detectChanges();
+    this.highlightSelectedHit();
+  }
+
   private updateRecognizedText(): number[] {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex,
@@ -136,11 +148,8 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     if (!canvases?.length) {
       return [];
     }
-    const updatedCanvases = this.updateCanvases(canvases);
-    if (this.selectedHit !== undefined) {
-      this.highlightService.highlightSelectedHit(this.selectedHit);
-    }
-    return updatedCanvases;
+
+    return this.updateCanvases(canvases);
   }
 
   private updateCanvases(canvases: number[]): number[] {
@@ -161,6 +170,12 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       }
     }
     return updatedCanvases;
+  }
+
+  private highlightSelectedHit(): void {
+    if (this.selectedHit !== undefined) {
+      this.highlightService.highlightSelectedHit(this.selectedHit);
+    }
   }
 
   private getCanvasGroupLabel(canvases: number[]): string | undefined {
