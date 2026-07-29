@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   inject,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -29,6 +30,7 @@ import { Manifest } from '../../core/models/manifest';
 export class RecognizedTextContentComponent implements OnInit, OnDestroy {
   @ViewChild('recognizedTextContentContainer', { read: ElementRef })
   recognizedTextContentContainer!: ElementRef;
+  @Input({ required: true }) viewerId!: string;
   intl = inject(MimeViewerIntl);
   firstCanvasRecognizedTextContent: SafeHtml | undefined;
   secondCanvasRecognizedTextContent: SafeHtml | undefined;
@@ -70,7 +72,10 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
         this.selectedHit = hit?.id;
         if (this.selectedHit !== undefined) {
-          this.highlightService.highlightSelectedHit(this.selectedHit);
+          this.highlightService.highlightSelectedHit(
+            this.viewerId,
+            this.selectedHit,
+          );
         }
       }),
     );
@@ -174,7 +179,10 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
 
   private highlightSelectedHit(): void {
     if (this.selectedHit !== undefined) {
-      this.highlightService.highlightSelectedHit(this.selectedHit);
+      this.highlightService.highlightSelectedHit(
+        this.viewerId,
+        this.selectedHit,
+      );
     }
   }
 

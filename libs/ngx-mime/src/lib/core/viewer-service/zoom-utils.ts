@@ -1,5 +1,5 @@
-import { Rect } from '../models/rect';
 import { Point } from '../models/point';
+import { Rect } from '../models/rect';
 
 export class ZoomUtils {
   /**

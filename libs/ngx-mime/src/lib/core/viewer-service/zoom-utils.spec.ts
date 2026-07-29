@@ -1,6 +1,6 @@
+import { Point } from '../models/point';
 import { Rect } from '../models/rect';
 import { ZoomUtils } from './zoom-utils';
-import { Point } from '../models/point';
 
 describe('ZoomUtils ', () => {
   it('should constrain position to canvasGroupRect', () => {

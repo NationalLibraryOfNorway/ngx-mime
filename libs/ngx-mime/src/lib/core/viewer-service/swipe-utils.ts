@@ -1,8 +1,9 @@
-import { Rect } from '../models/rect';
-import { Point } from '../models/point';
-import { Side } from '../models/side';
 import { Direction } from '../models/direction';
+import { Point } from '../models/point';
+import { Rect } from '../models/rect';
+import { Side } from '../models/side';
 import { ViewerOptions } from '../models/viewer-options';
+
 export class SwipeUtils {
   // Added threshold to prevent sensitive direction-calculation when zoomed in
   static getSwipeDirection(

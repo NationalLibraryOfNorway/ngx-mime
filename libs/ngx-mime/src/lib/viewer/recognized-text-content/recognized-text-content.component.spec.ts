@@ -52,6 +52,7 @@ describe('RecognizedTextContentComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RecognizedTextContentComponent);
+    fixture.componentRef.setInput('viewerId', 'test-viewer');
     component = fixture.componentInstance;
     altoService = TestBed.inject(AltoService);
     canvasService = TestBed.inject(CanvasService);
@@ -260,7 +261,10 @@ describe('RecognizedTextContentComponent', () => {
 
     fixture.detectChanges();
 
-    expect(highlightService.highlightSelectedHit).toHaveBeenCalled();
+    expect(highlightService.highlightSelectedHit).toHaveBeenCalledWith(
+      'test-viewer',
+      1,
+    );
   });
 
   it('should call highlightSelectedHit in onTextContentReady subscribe', () => {
@@ -272,7 +276,10 @@ describe('RecognizedTextContentComponent', () => {
 
     fixture.detectChanges();
 
-    expect(highlightService.highlightSelectedHit).toHaveBeenCalled();
+    expect(highlightService.highlightSelectedHit).toHaveBeenCalledWith(
+      'test-viewer',
+      1,
+    );
   });
 
   function createMockHit(id: number, match: string): Hit {
