@@ -6,6 +6,7 @@ import { cucumberReporter, defineBddProject } from 'playwright-bdd';
 const isCi = process.env['CI'] === 'true';
 const isRemoteExecution = process.env['E2E_EXECUTION'] === 'remote';
 const workspaceRoot = path.resolve(__dirname, '../..');
+const wiremockRoot = path.join(__dirname, 'src/wiremock');
 const customTags = process.env['BDD_TAGS'];
 
 if (isRemoteExecution && !process.env['TUNNEL_IDENTIFIER']) {
@@ -37,11 +38,16 @@ export default defineConfig({
 function createWebServers() {
   const servers = [
     {
-      command: 'npx nx run integration-e2e:mocks',
-      cwd: workspaceRoot,
-      url: 'http://127.0.0.1:4040/catalog/v1/iiif/a-ltr-book/manifest',
+      command:
+        'npx wiremock --disable-banner --enable-stub-cors --disable-request-logging --port 4040',
+      cwd: wiremockRoot,
+      url: 'http://127.0.0.1:4040/__admin/health',
       reuseExistingServer: !isCi,
       timeout: 300_000,
+      gracefulShutdown: {
+        signal: 'SIGTERM' as const,
+        timeout: 5_000,
+      },
     },
     {
       command: 'npx nx serve integration',

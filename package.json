@@ -95,7 +95,6 @@
     "jest-marbles": "^3.1.1",
     "jest-preset-angular": "15.0.3",
     "jest-when": "^3.7.0",
-    "mountebank": "^2.8.1",
     "ng-packagr": "20.3.0",
     "ngx-build-plus": "20.0.0",
     "nx": "23.0.1",
@@ -112,7 +111,8 @@
     "ts-node": "^10.9.2",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.33.1",
-    "webpack": "^5.89.0"
+    "webpack": "^5.89.0",
+    "wiremock": "^3.13.2"
   },
   "packageManager": "yarn@4.11.0"
 }

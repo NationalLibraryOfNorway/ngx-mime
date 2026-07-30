@@ -53,10 +53,10 @@
       "continuous": true
     },
     "mocks": {
-      "command": "mb --configfile src/templates/imposters.ejs --allowInjection --nologfile",
+      "command": "wiremock --disable-banner --enable-stub-cors --disable-request-logging --port 4040",
       "continuous": true,
       "options": {
-        "cwd": "{projectRoot}"
+        "cwd": "{projectRoot}/src/wiremock"
       }
     },
     "lint": {

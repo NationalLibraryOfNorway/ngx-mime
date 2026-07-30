@@ -79,7 +79,6 @@
         }
       ],
       "options": {
-        "proxyConfig": "apps/integration/src/proxy.conf.json",
         "host": "0.0.0.0",
         "port": 8080,
         "buildTarget": "integration:build"
