@@ -12,7 +12,7 @@ import {
 import { createBdd, test as base } from 'playwright-bdd';
 import { CustomWorld } from './custom-world';
 
-const isCi = process.env['CI'] === 'true';
+const isRemoteExecution = process.env['E2E_EXECUTION'] === 'remote';
 const reportsDir = '.tmp/report';
 
 type TestMode =
@@ -30,7 +30,7 @@ type Fixtures = {
 export const test = base.extend<Fixtures>({
   world: async ({ $testInfo: testInfo }, use) => {
     const mode = getMode(testInfo);
-    const browser = isCi
+    const browser = isRemoteExecution
       ? await connectToTestingCloud(testInfo, mode)
       : await launchChromium();
     const context = await createContext(browser, mode);

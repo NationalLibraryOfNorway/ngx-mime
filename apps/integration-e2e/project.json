@@ -14,10 +14,14 @@
       "outputs": ["{projectRoot}/.features-gen"],
       "defaultConfiguration": "local",
       "configurations": {
-        "local": {},
-        "ci": {
+        "local": {
           "env": {
-            "CI": "true"
+            "E2E_EXECUTION": "local"
+          }
+        },
+        "remote": {
+          "env": {
+            "E2E_EXECUTION": "remote"
           }
         }
       }
@@ -32,13 +36,21 @@
       ],
       "defaultConfiguration": "local",
       "configurations": {
-        "local": {},
-        "ci": {
+        "local": {
           "env": {
-            "CI": "true"
+            "E2E_EXECUTION": "local"
+          }
+        },
+        "remote": {
+          "env": {
+            "E2E_EXECUTION": "remote"
           }
         }
       }
+    },
+    "remote-tunnel": {
+      "command": "bash scripts/lambdatest/start-tunnel.sh",
+      "continuous": true
     },
     "mocks": {
       "command": "mb --configfile src/templates/imposters.ejs --allowInjection --nologfile",

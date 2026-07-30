@@ -18,11 +18,13 @@ jobs:
           name: Install dependencies
       - nx/set-shas
       - run: 'mkdir -p $LOGS_DIR'
-      - run: 'chmod +x ./scripts/ci/build-and-test.sh'
-      - run: 'chmod +x ./scripts/lambdatest/start-tunnel.sh'
-      - run: 'chmod +x ./scripts/lambdatest/wait-tunnel.sh'
-      - run: 'chmod +x ./scripts/lambdatest/stop-tunnel.sh'
       - run:
-          name: Build and test
+          name: Check formatting
+          command: npx nx format:check
+      - run:
+          name: Lint, test, and build affected projects
+          command: npx nx affected --base="$NX_BASE" --head="$NX_HEAD" -t lint,test,build --parallel=2
+      - run:
+          name: Run end-to-end tests
           no_output_timeout: 60m
-          command: './scripts/ci/build-and-test.sh'
+          command: npx nx e2e integration-e2e

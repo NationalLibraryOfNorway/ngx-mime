@@ -1,10 +1,16 @@
 import { defineConfig } from '@playwright/test';
+import { hostname } from 'node:os';
 import path from 'node:path';
 import { cucumberReporter, defineBddProject } from 'playwright-bdd';
 
 const isCi = process.env['CI'] === 'true';
+const isRemoteExecution = process.env['E2E_EXECUTION'] === 'remote';
 const workspaceRoot = path.resolve(__dirname, '../..');
 const customTags = process.env['BDD_TAGS'];
+
+if (isRemoteExecution && !process.env['TUNNEL_IDENTIFIER']) {
+  process.env['TUNNEL_IDENTIFIER'] = `${hostname()}-tunnel`;
+}
 
 export default defineConfig({
   outputDir: path.join(workspaceRoot, '.tmp/test-results'),
@@ -14,7 +20,22 @@ export default defineConfig({
   maxFailures: isCi ? 1 : 0,
   timeout: 120_000,
   projects: createProjects(),
-  webServer: [
+  webServer: createWebServers(),
+  reporter: isCi
+    ? [['line']]
+    : [
+        ['line'],
+        cucumberReporter('html', {
+          outputFile: path.join(
+            workspaceRoot,
+            '.tmp/report/cucumber-report.html',
+          ),
+        }),
+      ],
+});
+
+function createWebServers() {
+  const servers = [
     {
       command: 'npx nx run integration-e2e:mocks',
       cwd: workspaceRoot,
@@ -29,29 +50,37 @@ export default defineConfig({
       reuseExistingServer: !isCi,
       timeout: 300_000,
     },
-  ],
-  reporter: isCi
-    ? [['line']]
-    : [
-        ['line'],
-        cucumberReporter('html', {
-          outputFile: path.join(
-            workspaceRoot,
-            '.tmp/report/cucumber-report.html',
-          ),
-        }),
-      ],
-});
+  ];
+
+  return isRemoteExecution ? [...servers, createRemoteTunnel()] : servers;
+}
+
+function createRemoteTunnel() {
+  return {
+    command: 'npx nx run integration-e2e:remote-tunnel',
+    cwd: workspaceRoot,
+    url: 'http://127.0.0.1:15000/api/v1.0/info',
+    reuseExistingServer: !isCi,
+    timeout: 300_000,
+    gracefulShutdown: {
+      signal: 'SIGTERM' as const,
+      timeout: 5_000,
+    },
+  };
+}
 
 function createProjects() {
   const projects = [
-    createProject('chrome', isCi ? '@desktop' : '@desktop and not @fullscreen'),
+    createProject(
+      'chrome',
+      isRemoteExecution ? '@desktop' : '@desktop and not @fullscreen',
+    ),
     createProject('android', '@android and not @fullscreen'),
     createProject('iphone', '@iphone and not @fullscreen'),
     createProject('elements', '@elements'),
   ];
 
-  if (isCi) {
+  if (isRemoteExecution) {
     projects.splice(
       1,
       0,
