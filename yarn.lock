@@ -5839,6 +5839,7 @@ __metadata:
     eslint-plugin-playwright: "npm:^2.0.0"
     eslint-plugin-prettier: "npm:^5.2.1"
     eslint-plugin-tailwindcss: "npm:^4.2.0"
+    husky: "npm:^9.1.7"
     jest: "npm:30.2.0"
     jest-auto-spies: "npm:^3.0.1"
     jest-environment-jsdom: "npm:30.2.0"
@@ -14517,6 +14518,15 @@ __metadata:
   version: 2.1.0
   resolution: "human-signals@npm:2.1.0"
   checksum: 10c0/695edb3edfcfe9c8b52a76926cd31b36978782062c0ed9b1192b36bebc75c4c87c82e178dfcb0ed0fc27ca59d434198aac0bd0be18f5781ded775604db22304a
+  languageName: node
+  linkType: hard
+
+"husky@npm:^9.1.7":
+  version: 9.1.7
+  resolution: "husky@npm:9.1.7"
+  bin:
+    husky: bin.js
+  checksum: 10c0/35bb110a71086c48906aa7cd3ed4913fb913823715359d65e32e0b964cb1e255593b0ae8014a5005c66a68e6fa66c38dcfa8056dbbdfb8b0187c0ffe7ee3a58f
   languageName: node
   linkType: hard
 
