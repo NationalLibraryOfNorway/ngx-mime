@@ -1,23 +1,20 @@
 version: 2.1
 orbs:
-  browser-tools: circleci/browser-tools@1.4.1
-  nx: nrwl/nx@1.6.2
+  browser-tools: circleci/browser-tools@2.4.2
+  nx: nrwl/nx@1.7.0
 jobs:
   build:
     docker:
       - image: cimg/node:24.18-browsers
     resource_class: large
-    environment:
-      LOGS_DIR: /tmp/ngx-mime-build/logs
-      BROWSER_PROVIDER_READY_FILE: /tmp/ngx-mime-build/readyfile
     steps:
       - checkout
-      - browser-tools/install-chrome
+      - browser-tools/install_chrome
       - run:
           command: yarn install --immutable
           name: Install dependencies
-      - nx/set-shas
-      - run: 'mkdir -p $LOGS_DIR'
+      - nx/set-shas:
+          main-branch-name: main
       - run:
           name: Check formatting
           command: npx nx format:check
