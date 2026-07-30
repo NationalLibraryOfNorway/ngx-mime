@@ -1,6 +1,6 @@
-import { Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
+import { Then } from '../support/fixtures';
 
 Then('the attribution must be shown', async function (this: CustomWorld) {
   await expect(this.viewerPage.attribution).toContainText(

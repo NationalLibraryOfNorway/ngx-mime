@@ -4,8 +4,6 @@
 @use 'themes/palettes' as palettes;
 @use '../../../libs/ngx-mime/ngx-mime-theme' as ngx-mime;
 
-@tailwind utilities;
-
 @include mat.elevation-classes();
 @include mat.app-background();
 

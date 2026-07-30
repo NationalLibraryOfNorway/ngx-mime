@@ -5,3 +5,5 @@ dist
 /.nx/cache
 /.nx/workspace-data
 CHANGELOG.md
+
+.nx/self-healing

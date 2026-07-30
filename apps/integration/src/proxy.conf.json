@@ -5,5 +5,9 @@
     "pathRewrite": {
       "^/api": ""
     }
+  },
+  "/catalog": {
+    "target": "http://localhost:4040",
+    "secure": false
   }
 }

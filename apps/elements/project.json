@@ -17,7 +17,10 @@
         "tsConfig": "apps/elements/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/elements/src/favicon.ico", "apps/elements/src/assets"],
-        "styles": ["apps/elements/src/styles.scss"],
+        "styles": [
+          "apps/elements/src/tailwind.css",
+          "apps/elements/src/styles.scss"
+        ],
         "scripts": [
           "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
         ]

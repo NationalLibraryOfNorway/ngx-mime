@@ -1,8 +1,8 @@
 import { Component, DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { HighlightService } from './highlight.service';
 import { Hit } from './../../core/models/hit';
+import { HighlightService } from './highlight.service';
 
 @Component({
   template: `<mark data-id="1">this </mark>`,

@@ -8,7 +8,9 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/@nationallibraryofnorway/ngx-mime"
+      ],
       "options": {
         "project": "libs/ngx-mime/ng-package.json",
         "tsConfig": "libs/ngx-mime/tsconfig.lib.json"

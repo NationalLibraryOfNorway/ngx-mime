@@ -11,8 +11,7 @@ cd $(dirname $0)/../..
 
 git checkout main; git pull origin main
 rm -rf dist
-yarn build:libs
-yarn build:elements
+npx nx run-many -t build --projects=ngx-mime,elements --configuration=production
 
 cp README.md dist/libs/@nationallibraryofnorway/ngx-mime
 

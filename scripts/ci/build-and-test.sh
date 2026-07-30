@@ -16,17 +16,11 @@ function finish {
     teardown_tunnel
 }
 
-rm -rf dist
-
-yarn build
-yarn build:libs
-yarn build:elements
-
-yarn format:check
-yarn affected --base=$NX_BASE --head=$NX_HEAD -t lint,test  --maxWorkers=2
+npx nx format:check
+npx nx affected --base="$NX_BASE" --head="$NX_HEAD" -t lint,test,build --parallel=2
 
 trap finish EXIT
 start_tunnel &
 wait_for_tunnel
 
-yarn affected --base=$NX_BASE --head=$NX_HEAD -t e2e:ci
+npx nx affected --base="$NX_BASE" --head="$NX_HEAD" -t e2e --configuration=ci

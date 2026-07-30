@@ -1,5 +1,6 @@
 import { Direction } from '../models/direction';
 import { Side } from '../models/side';
+
 export class SwipeDragEndCounter {
   public leftCount = 0;
   public rightCount = 0;

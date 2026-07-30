@@ -1,6 +1,6 @@
-import { Given, Then, When } from '@cucumber/cucumber';
 import { Locator, expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
+import { Given, Then, When } from '../support/fixtures';
 
 let selectedHitIndex: number;
 

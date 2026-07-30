@@ -1,26 +1,30 @@
-import { IWorld, World } from '@cucumber/cucumber';
-import { Page } from 'playwright';
+import { Browser, BrowserContext, Page } from '@playwright/test';
 import { Animations } from '../helpers/animations';
 import { ContentSearchPage } from '../pages/content-search.po';
-import { InformationDialogPage } from '../pages/information-dialog.po';
 import { ElementsPage } from '../pages/elements.po';
 import { HelpDialogPage } from '../pages/help-dialog.po';
+import { InformationDialogPage } from '../pages/information-dialog.po';
 import { MetadataPage } from '../pages/metadata.po';
 import { TableOfContentsPage } from '../pages/table-of-contents.po';
 import { ViewerPage } from '../pages/viewer.po';
+import { ParameterType } from './ParameterType';
 
-export class CustomWorld extends World {
-  page!: Page;
-  informationDialogPage!: InformationDialogPage;
-  viewerPage!: ViewerPage;
-  elementsPage!: ElementsPage;
-  metadataPage!: MetadataPage;
-  tocPage!: TableOfContentsPage;
-  contentSearchPage!: ContentSearchPage;
-  helpDialogPage!: HelpDialogPage;
-  animations!: Animations;
+export class CustomWorld {
+  readonly informationDialogPage: InformationDialogPage;
+  readonly viewerPage: ViewerPage;
+  readonly elementsPage: ElementsPage;
+  readonly metadataPage: MetadataPage;
+  readonly tocPage: TableOfContentsPage;
+  readonly contentSearchPage: ContentSearchPage;
+  readonly helpDialogPage: HelpDialogPage;
+  readonly animations: Animations;
 
-  async init(this: IWorld): Promise<void> {
+  constructor(
+    readonly parameters: ParameterType,
+    readonly page: Page,
+    readonly browser: Browser,
+    readonly context: BrowserContext,
+  ) {
     this.animations = new Animations(this.page);
     this.informationDialogPage = new InformationDialogPage(this.page);
     this.viewerPage = new ViewerPage(

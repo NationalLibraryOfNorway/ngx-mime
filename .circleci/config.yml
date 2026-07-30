@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/node:22.0.0-browsers
+      - image: cimg/node:24.18-browsers
     resource_class: large
     environment:
       LOGS_DIR: /tmp/ngx-mime-build/logs
@@ -14,7 +14,7 @@ jobs:
       - checkout
       - browser-tools/install-chrome
       - run:
-          command: yarn install --frozen-lockfile
+          command: yarn install --immutable
           name: Install dependencies
       - nx/set-shas
       - run: 'mkdir -p $LOGS_DIR'
@@ -22,7 +22,6 @@ jobs:
       - run: 'chmod +x ./scripts/lambdatest/start-tunnel.sh'
       - run: 'chmod +x ./scripts/lambdatest/wait-tunnel.sh'
       - run: 'chmod +x ./scripts/lambdatest/stop-tunnel.sh'
-      - run: 'chmod +x ./scripts/ci/wait-on.sh'
       - run:
           name: Build and test
           no_output_timeout: 60m

@@ -40,6 +40,7 @@ testem.log
 Thumbs.db
 
 .tmp
+.features-gen
 mb.pid
 /**/*.log
 libs/**/.ng_pkg_build/
@@ -56,3 +57,8 @@ libs/**/.ng_pkg_build/
 !.yarn/patches
 
 .github/instructions/nx.instructions.md
+
+.claude/worktrees
+.nx/polygraph
+.nx/self-healing
+.nx/migrate-runs

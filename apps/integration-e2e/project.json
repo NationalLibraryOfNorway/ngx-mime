@@ -6,11 +6,46 @@
   "tags": [],
   "implicitDependencies": ["integration"],
   "targets": {
-    "e2e": {
-      "command": "yarn e2e"
+    "bddgen": {
+      "command": "bddgen --config playwright.config.ts",
+      "options": {
+        "cwd": "{projectRoot}"
+      },
+      "outputs": ["{projectRoot}/.features-gen"],
+      "defaultConfiguration": "local",
+      "configurations": {
+        "local": {},
+        "ci": {
+          "env": {
+            "CI": "true"
+          }
+        }
+      }
     },
-    "e2e:ci": {
-      "command": "yarn e2e:ci"
+    "e2e": {
+      "dependsOn": [
+        "bddgen",
+        {
+          "projects": ["integration"],
+          "target": "build"
+        }
+      ],
+      "defaultConfiguration": "local",
+      "configurations": {
+        "local": {},
+        "ci": {
+          "env": {
+            "CI": "true"
+          }
+        }
+      }
+    },
+    "mocks": {
+      "command": "mb --configfile src/templates/imposters.ejs --allowInjection --nologfile",
+      "continuous": true,
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint",

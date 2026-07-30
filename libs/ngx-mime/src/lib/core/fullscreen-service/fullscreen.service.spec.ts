@@ -1,5 +1,4 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { FullscreenService } from './fullscreen.service';
 
 describe('FullscreenService', () => {
