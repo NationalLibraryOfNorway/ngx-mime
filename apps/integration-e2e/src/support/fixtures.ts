@@ -127,7 +127,7 @@ async function connectToTestingCloud(
     browserVersion: 'latest',
     'LT:Options': {
       platform,
-      build: `ngx-mime-${process.env['CIRCLE_BUILD_NUM'] ?? 'local'}`,
+      build: `ngx-mime-${process.env['GITHUB_RUN_NUMBER'] ?? 'local'}`,
       name: testInfo.title,
       user: process.env['LT_USERNAME'],
       accessKey: process.env['LT_ACCESS_KEY'],
