@@ -93,6 +93,16 @@
       "typeSeparator": "."
     }
   },
+  "release": {
+    "projects": ["ngx-mime"],
+    "version": {
+      "conventionalCommits": true,
+      "preVersionCommand": "if [ \"$NX_DRY_RUN\" = \"true\" ]; then echo \"Skipping release build during dry run\"; else npx nx run ngx-mime:prepare-release --configuration=production; fi"
+    },
+    "git": {
+      "commitMessage": "chore(release): {version}"
+    }
+  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],

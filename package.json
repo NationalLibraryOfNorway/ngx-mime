@@ -10,8 +10,7 @@
     "url": "https://github.com/NationalLibraryOfNorway/ngx-mime.git"
   },
   "scripts": {
-    "postinstall": "husky",
-    "release": "sh scripts/release/release.sh"
+    "postinstall": "husky"
   },
   "private": true,
   "dependencies": {
@@ -106,7 +105,6 @@
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "pretty-quick": "^4.0.0",
-    "standard-version": "^9.5.0",
     "tailwindcss": "^4.3.3",
     "ts-jest": "29.4.5",
     "ts-node": "^10.9.2",
