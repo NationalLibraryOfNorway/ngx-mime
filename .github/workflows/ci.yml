@@ -44,4 +44,9 @@ jobs:
         run: npx playwright install --with-deps chrome
 
       - name: Run end-to-end tests
+        if: github.event_name == 'pull_request'
         run: npx nx e2e integration-e2e
+
+      - name: Run remote end-to-end tests
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx nx e2e integration-e2e -c remote
