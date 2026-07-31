@@ -6,11 +6,58 @@
   "tags": [],
   "implicitDependencies": ["integration"],
   "targets": {
-    "e2e": {
-      "command": "yarn e2e"
+    "bddgen": {
+      "command": "bddgen",
+      "options": {
+        "cwd": "{projectRoot}"
+      },
+      "outputs": ["{projectRoot}/.features-gen"],
+      "defaultConfiguration": "local",
+      "configurations": {
+        "local": {
+          "env": {
+            "E2E_EXECUTION": "local"
+          }
+        },
+        "remote": {
+          "env": {
+            "E2E_EXECUTION": "remote"
+          }
+        }
+      }
     },
-    "e2e:ci": {
-      "command": "yarn e2e:ci"
+    "e2e": {
+      "dependsOn": [
+        "bddgen",
+        {
+          "projects": ["integration"],
+          "target": "build"
+        }
+      ],
+      "defaultConfiguration": "local",
+      "configurations": {
+        "local": {
+          "env": {
+            "E2E_EXECUTION": "local"
+          }
+        },
+        "remote": {
+          "env": {
+            "E2E_EXECUTION": "remote"
+          }
+        }
+      }
+    },
+    "remote-tunnel": {
+      "command": "bash scripts/lambdatest/start-tunnel.sh",
+      "continuous": true
+    },
+    "mocks": {
+      "command": "wiremock --disable-banner --enable-stub-cors --disable-request-logging --port 4040",
+      "continuous": true,
+      "options": {
+        "cwd": "{projectRoot}/src/wiremock"
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint",

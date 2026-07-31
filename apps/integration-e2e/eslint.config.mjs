@@ -11,7 +11,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['**/dist'],
+    ignores: ['**/dist', '**/.features-gen/**'],
   },
   ...baseConfig,
   ...compat.extends('plugin:playwright/playwright-test'),

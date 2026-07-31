@@ -1,6 +1,6 @@
-import { Given, Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
+import { Given, Then, When } from '../support/fixtures';
 
 // 300ms is the time the animation is set up to use but we need some extra time
 const switchAnimationTime = 1700;

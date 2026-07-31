@@ -1,6 +1,6 @@
-import { Given, Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
+import { Given, Then, When } from '../support/fixtures';
 
 Given(
   'the viewer is opened with a publication with recognized text content',

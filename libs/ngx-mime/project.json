@@ -5,10 +5,22 @@
   "sourceRoot": "libs/ngx-mime/src",
   "prefix": "nationallibraryofnorway",
   "tags": [],
+  "release": {
+    "version": {
+      "manifestRootsToUpdate": [
+        "{projectRoot}",
+        "dist/libs/@nationallibraryofnorway/ngx-mime"
+      ],
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/@nationallibraryofnorway/ngx-mime"
+      ],
       "options": {
         "project": "libs/ngx-mime/ng-package.json",
         "tsConfig": "libs/ngx-mime/tsconfig.lib.json"
@@ -20,6 +32,26 @@
         "development": {}
       },
       "defaultConfiguration": "production"
+    },
+    "prepare-release": {
+      "command": "if [ \"$NX_DRY_RUN\" != \"true\" ]; then git add -f dist/apps/elements dist/libs/@nationallibraryofnorway/ngx-mime; fi",
+      "dependsOn": [
+        {
+          "projects": ["ngx-mime", "elements"],
+          "target": "build",
+          "params": "forward"
+        }
+      ],
+      "cache": false,
+      "options": {
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/libs/@nationallibraryofnorway/ngx-mime",
+        "access": "public"
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

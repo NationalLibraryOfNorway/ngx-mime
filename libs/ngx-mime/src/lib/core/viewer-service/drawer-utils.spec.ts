@@ -1,4 +1,3 @@
-import { DrawerType, getDrawerType } from './drawer-utils';
 import {
   mockIOS,
   mockLinux,
@@ -6,6 +5,7 @@ import {
   mockMacTouch,
   mockWindows,
 } from '../../test/navigator-mocks';
+import { DrawerType, getDrawerType } from './drawer-utils';
 
 const RENDERER_CASES: [string, () => void, DrawerType][] = [
   ['iOS device (userAgent)', mockIOS, DrawerType.HTML],

@@ -1,6 +1,6 @@
-import { Given, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
+import { Given, Then } from '../support/fixtures';
 
 Given('the help dialog is open', async function (this: CustomWorld) {
   await this.viewerPage.openHelpDialog();

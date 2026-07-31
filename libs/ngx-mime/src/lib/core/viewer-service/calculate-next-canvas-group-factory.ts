@@ -1,7 +1,7 @@
 import { ViewerMode } from '../models/viewer-mode';
-import { NavigatorCalculateNextCanvasGroupStrategy } from './navigator-calculate-next-canvas-group-strategy';
 import { CalculateNextCanvasGroupStrategy } from './calculate-next-canvas-group-strategy';
 import { DashboardModeCalculateNextCanvasGroupStrategy } from './dashboard-mode-calculate-next-canvas-group-strategy';
+import { NavigatorCalculateNextCanvasGroupStrategy } from './navigator-calculate-next-canvas-group-strategy';
 import { PageModeCalculateNextCanvasGroupStrategy } from './page-mode-calculate-next-canvas-group-strategy';
 import { PageZoomedModeCalculateNextCanvasGroupStrategy } from './page-zoomed-mode-calculate-next-canvas-group-strategy';
 

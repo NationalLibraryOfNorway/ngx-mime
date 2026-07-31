@@ -1,6 +1,6 @@
-import { Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
+import { Then, When } from '../support/fixtures';
 
 const zoomLevels = new Set();
 

@@ -1,6 +1,5 @@
 import { Locator, Page } from 'playwright';
 import { Animations } from '../helpers/animations';
-import { ParameterType } from '../support/ParameterType';
 
 const thumbStartPosition = <any>{ x: 600, y: 300 };
 const pointerPosition1 = <any>{ x: 650, y: 275 };
@@ -78,7 +77,6 @@ export class ViewerPage {
   private navigationSliderContainer: Locator;
 
   constructor(
-    private parameters: ParameterType,
     private page: Page,
     private animations: Animations,
   ) {
@@ -263,9 +261,7 @@ export class ViewerPage {
     }
 
     for (let i = 0; i < 5; i++) {
-      const url = `${this.parameters.appUrl}${uri}${
-        params.length > 0 ? `?${params.join('&')}` : ''
-      }`;
+      const url = `${uri}${params.length > 0 ? `?${params.join('&')}` : ''}`;
       try {
         await this.page.goto(url);
         break;

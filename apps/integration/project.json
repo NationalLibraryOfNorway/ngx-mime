@@ -8,6 +8,13 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser-esbuild",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["elements"],
+          "target": "build"
+        }
+      ],
       "options": {
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
         "aot": true,
@@ -28,6 +35,7 @@
           }
         ],
         "styles": [
+          "apps/integration/src/tailwind.css",
           "apps/integration/src/styles.scss",
           "dist/apps/elements/styles.css"
         ],
@@ -64,10 +72,15 @@
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
+      "dependsOn": [
+        {
+          "projects": ["elements"],
+          "target": "build"
+        }
+      ],
       "options": {
-        "proxyConfig": "apps/integration/src/proxy.conf.json",
         "host": "0.0.0.0",
-        "disableHostCheck": true,
+        "port": 8080,
         "buildTarget": "integration:build"
       },
       "configurations": {

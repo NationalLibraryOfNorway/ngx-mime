@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment:
+      name: ${{ github.event_name == 'push' && 'nx-cloud-protected' || 'nx-cloud-unprotected' }}
+      deployment: false
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          filter: tree:0
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - uses: nrwl/nx-set-shas@v5
+
+      - name: Check formatting
+        run: npx nx format:check
+
+      - name: Lint, test, and build affected projects
+        run: npx nx affected -t lint test build --parallel=2
+
+      - name: Install Chrome
+        run: npx playwright install --with-deps chrome
+
+      - name: Run end-to-end tests
+        if: github.event_name == 'pull_request'
+        run: npx nx e2e integration-e2e
+
+      - name: Run remote end-to-end tests
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+        run: npx nx e2e integration-e2e -c remote --skip-nx-cache

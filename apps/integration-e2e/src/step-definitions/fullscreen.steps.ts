@@ -1,6 +1,6 @@
-import { Given, Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
+import { Given, Then, When } from '../support/fixtures';
 
 Given('the viewer is in full screen mode', async function (this: CustomWorld) {
   await this.viewerPage.fullscreenButton.click();
