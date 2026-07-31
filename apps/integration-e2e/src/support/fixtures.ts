@@ -39,12 +39,7 @@ export const test = base.extend<Fixtures>({
     const page = await context.newPage();
     page.on('console', logBrowserError);
 
-    const world = new CustomWorld(
-      { appUrl: process.env['APP_URL'] ?? 'http://localhost:8080' },
-      page,
-      browser,
-      context,
-    );
+    const world = new CustomWorld(page, browser, context);
 
     let accessibilityError: unknown;
     try {
@@ -165,6 +160,7 @@ function createContext(
 ): Promise<BrowserContext> {
   return browser.newContext({
     ...getDeviceDescriptor(mode),
+    baseURL: process.env['BASE_URL'] ?? 'http://localhost:8080',
     recordVideo: process.env['PWVIDEO']
       ? { dir: `${reportsDir}/videos` }
       : undefined,
