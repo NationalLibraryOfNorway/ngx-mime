@@ -34,20 +34,31 @@ Before starting:
 
 1. Confirm that the latest CI run on `main` passed.
 2. Use Node.js 24 and the repository's Corepack-managed Yarn version.
-3. Use a clone with push access to the official repository.
+3. Use a clone whose `origin` remote points to the official repository and for
+   which you have push access.
 4. Authenticate to npm with an account that can publish the package.
 5. Start from an up-to-date, clean `main` branch with all tags available.
 
-Replace `<upstream-remote>` below with the remote for the official repository.
-Use `git remote -v` if you are unsure which remote that is.
+Nx Release uses the `origin` remote when generating repository and commit links
+for the changelog. Verify that it is the official repository before continuing:
+
+```bash
+git remote get-url origin
+```
+
+The result must be either
+`git@github.com:NationalLibraryOfNorway/ngx-mime.git` or
+`https://github.com/NationalLibraryOfNorway/ngx-mime.git`. If `origin` points to
+a personal fork, use a dedicated release clone or reconfigure the remotes before
+continuing.
 
 ```bash
 corepack enable
 yarn install --immutable
 npm whoami --registry=https://registry.npmjs.org
 git switch main
-git pull --ff-only <upstream-remote> main
-git fetch <upstream-remote> --tags
+git pull --ff-only origin main
+git fetch origin --tags
 git status --short
 ```
 
@@ -127,7 +138,7 @@ nx release publish --otp=<code>
 After publication succeeds, push the release commit and annotated tag:
 
 ```bash
-git push <upstream-remote> main --follow-tags
+git push origin main --follow-tags
 ```
 
 ## Verify the release
@@ -136,7 +147,7 @@ Confirm that npm and GitHub show the new version:
 
 ```bash
 npm view @nationallibraryofnorway/ngx-mime version
-git ls-remote --tags <upstream-remote> v<version>
+git ls-remote --tags origin v<version>
 ```
 
 Also verify that the changelog comparison links and the package installation
