@@ -44,13 +44,11 @@ Then(
 
     await this.viewerPage.closeAttributionDialog();
 
-    const region = this.viewerPage.recognizedTextContentRegion;
-    await expect(region).toHaveCount(1);
-    await expect
-      .poll(() => region.ariaSnapshot())
-      .toMatch(
-        /^- region "Digital text":\n[ ]{2}- heading "Digital text" \[level=2\][\s\S]*\n[ ]{2}- paragraph: [^\n]*The dear flowers you sent me brightened a day already happy/,
-      );
+    await expect(this.viewerPage.recognizedTextContentRegion)
+      .toMatchAriaSnapshot(`
+      - heading "Digital text" [level=2]
+      - paragraph: /The dear flowers you sent me brightened a day already happy/
+    `);
   },
 );
 
