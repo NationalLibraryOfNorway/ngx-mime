@@ -4,6 +4,7 @@
     "angular.ng-template",
     "esbenp.prettier-vscode",
     "firsttris.vscode-jest-runner",
-    "ms-playwright.playwright"
+    "ms-playwright.playwright",
+    "github.vscode-github-actions"
   ]
 }
