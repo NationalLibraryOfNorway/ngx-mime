@@ -34,7 +34,6 @@ export const test = base.extend<Fixtures>({
       ? await connectToTestingCloud(testInfo, mode)
       : await launchChromium();
     const context = await createContext(browser, mode);
-    await context.tracing.start({ screenshots: true, snapshots: true });
 
     const page = await context.newPage();
     page.on('console', logBrowserError);
@@ -55,7 +54,6 @@ export const test = base.extend<Fixtures>({
         await setTestingCloudStatus(page, failure);
       }
       await attachFailureScreenshot(page, testInfo, failure);
-      await stopTracing(context, testInfo);
       await closeBrowser(browser, context, page, testInfo);
     }
 
@@ -224,22 +222,6 @@ async function attachFailureScreenshot(
     });
   } catch (error) {
     console.warn('Could not capture failure screenshot', error);
-  }
-}
-
-async function stopTracing(
-  context: BrowserContext,
-  testInfo: TestInfo,
-): Promise<void> {
-  try {
-    const tracePath = testInfo.outputPath('trace.zip');
-    await context.tracing.stop({ path: tracePath });
-    await testInfo.attach('trace', {
-      path: tracePath,
-      contentType: 'application/zip',
-    });
-  } catch (error) {
-    console.warn('Could not save trace', error);
   }
 }
 

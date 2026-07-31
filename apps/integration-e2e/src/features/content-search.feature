@@ -74,7 +74,7 @@ Feature: Content search
     Then the hit should be marked
 
   @desktop
-  Scenario: Mark and scroll to current hit when reopening search dialog
+  Scenario: Mark and scroll to current hit when reopening search dialog on desktop
     Given the viewer is opened with a publication with the word "africa" 7 times inside
     And the viewer is in dashboard view
     And the user has search for the word "africa"
@@ -85,7 +85,7 @@ Feature: Content search
     And the hit should be visible
 
   @android @iphone
-  Scenario: Mark and scroll to current hit when reopening search dialog
+  Scenario: Mark and scroll to current hit when reopening search dialog on mobile
     Given the viewer is opened with a publication with the word "africa" 7 times inside
     And the viewer is in dashboard view
     And the user has search for the word "africa"

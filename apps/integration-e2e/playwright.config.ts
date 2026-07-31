@@ -1,12 +1,17 @@
 import { defineConfig } from '@playwright/test';
 import { hostname } from 'node:os';
 import path from 'node:path';
-import { cucumberReporter, defineBddProject } from 'playwright-bdd';
+import { cucumberReporter, defineBddConfig } from 'playwright-bdd';
 
 const isCi = process.env['CI'] === 'true';
 const isRemoteExecution = process.env['E2E_EXECUTION'] === 'remote';
 const workspaceRoot = path.resolve(__dirname, '../..');
 const wiremockRoot = path.join(__dirname, 'src/wiremock');
+const testDir = defineBddConfig({
+  features: './src/features/**/*.feature',
+  steps: ['./src/support/fixtures.ts', './src/step-definitions/**/*.steps.ts'],
+  tags: 'not @ignore',
+});
 
 if (isRemoteExecution && !process.env['TUNNEL_IDENTIFIER']) {
   process.env['TUNNEL_IDENTIFIER'] = `${hostname()}-tunnel`;
@@ -19,6 +24,9 @@ export default defineConfig({
   retries: isCi ? 2 : 0,
   maxFailures: isCi ? 1 : 0,
   timeout: 120_000,
+  use: {
+    trace: 'retain-on-failure',
+  },
   projects: createProjects(),
   webServer: createWebServers(),
   reporter: isCi
@@ -78,35 +86,31 @@ function createProjects() {
   const desktopProjects = [
     createProject(
       'chrome',
-      isRemoteExecution ? '@desktop' : '@desktop and not @fullscreen',
+      /@desktop/,
+      isRemoteExecution ? undefined : /@fullscreen/,
     ),
   ];
 
   if (isRemoteExecution) {
     desktopProjects.push(
-      createProject('edge', '@desktop and not @fullscreen'),
-      createProject('firefox', '@desktop and not @fullscreen'),
+      createProject('edge', /@desktop/, /@fullscreen/),
+      createProject('firefox', /@desktop/, /@fullscreen/),
     );
   }
 
   return [
     ...desktopProjects,
-    createProject('android', '@android and not @fullscreen'),
-    createProject('iphone', '@iphone and not @fullscreen'),
-    createProject('elements', '@elements'),
+    createProject('android', /@android/, /@fullscreen/),
+    createProject('iphone', /@iphone/, /@fullscreen/),
+    createProject('elements', /@elements/),
   ];
 }
 
-function createProject(name: string, tags: string) {
+function createProject(name: string, grep: RegExp, grepInvert?: RegExp) {
   return {
-    ...defineBddProject({
-      name,
-      features: './src/features/**/*.feature',
-      steps: [
-        './src/support/fixtures.ts',
-        './src/step-definitions/**/*.steps.ts',
-      ],
-      tags: `${tags} and not @ignore`,
-    }),
+    name,
+    testDir,
+    grep,
+    grepInvert,
   };
 }
