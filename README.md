@@ -78,6 +78,11 @@ The viewer is under active development. Before submitting a change, read the
 [contribution guidelines](CONTRIBUTING.md) and the
 [Developer Setup Guide](https://github.com/NationalLibraryOfNorway/ngx-mime/wiki/Developer-Setup).
 
+## Maintainer releases
+
+Maintainers publishing a new package version should follow the
+[release runbook](RELEASING.md).
+
 ## License
 
 Mime is available under the [MIT License](LICENSE).
