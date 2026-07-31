@@ -56,7 +56,9 @@ export const test = base.extend<Fixtures>({
       accessibilityError = error;
     } finally {
       const failure = accessibilityError ?? testInfo.error;
-      await setTestingCloudStatus(page, failure);
+      if (isRemoteExecution) {
+        await setTestingCloudStatus(page, failure);
+      }
       await attachFailureScreenshot(page, testInfo, failure);
       await stopTracing(context, testInfo);
       await closeBrowser(browser, context, page, testInfo);
