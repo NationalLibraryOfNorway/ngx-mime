@@ -14,6 +14,8 @@ jobs:
   main:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ github.event_name == 'push' && secrets.NX_CLOUD_ACCESS_TOKEN_READ_WRITE || secrets.NX_CLOUD_ACCESS_TOKEN_READ_ONLY }}
 
     steps:
       - uses: actions/checkout@v7
@@ -49,4 +51,4 @@ jobs:
 
       - name: Run remote end-to-end tests
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: npx nx e2e integration-e2e -c remote
+        run: npx nx e2e integration-e2e -c remote --skip-nx-cache
