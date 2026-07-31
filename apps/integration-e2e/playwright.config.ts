@@ -7,7 +7,6 @@ const isCi = process.env['CI'] === 'true';
 const isRemoteExecution = process.env['E2E_EXECUTION'] === 'remote';
 const workspaceRoot = path.resolve(__dirname, '../..');
 const wiremockRoot = path.join(__dirname, 'src/wiremock');
-const customTags = process.env['BDD_TAGS'];
 
 if (isRemoteExecution && !process.env['TUNNEL_IDENTIFIER']) {
   process.env['TUNNEL_IDENTIFIER'] = `${hostname()}-tunnel`;
@@ -107,7 +106,7 @@ function createProject(name: string, tags: string) {
         './src/support/fixtures.ts',
         './src/step-definitions/**/*.steps.ts',
       ],
-      tags: `${customTags ?? tags} and not @ignore`,
+      tags: `${tags} and not @ignore`,
     }),
   };
 }

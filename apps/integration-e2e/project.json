@@ -7,7 +7,7 @@
   "implicitDependencies": ["integration"],
   "targets": {
     "bddgen": {
-      "command": "bddgen --config playwright.config.ts",
+      "command": "bddgen",
       "options": {
         "cwd": "{projectRoot}"
       },

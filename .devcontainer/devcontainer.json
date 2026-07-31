@@ -11,7 +11,9 @@
   },
   "postCreateCommand": "yarn -v && npx -y playwright install-deps && npx -y playwright install chrome && yarn install",
   "features": {
-    "ghcr.io/devcontainers/features/desktop-lite:1": {},
+    "ghcr.io/devcontainers/features/desktop-lite:1": {
+      "webPort": "6082"
+    },
     "ghcr.io/devcontainers-extra/features/angular-cli:2": {},
     "ghcr.io/devcontainers-extra/features/nx-npm:1": {},
     "ghcr.io/devcontainers/features/java:1": {
