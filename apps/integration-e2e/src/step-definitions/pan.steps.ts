@@ -1,7 +1,7 @@
-import { Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { Point } from '../pages/viewer.po';
 import { CustomWorld } from '../support/custom-world';
+import { Then, When } from '../support/fixtures';
 
 let previousCenter: Point;
 

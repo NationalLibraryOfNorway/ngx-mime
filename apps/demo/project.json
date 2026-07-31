@@ -19,6 +19,7 @@
         "inlineStyleLanguage": "scss",
         "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"],
         "styles": [
+          "apps/demo/src/tailwind.css",
           "apps/demo/src/styles.scss",
           {
             "input": "apps/demo/src/themes/blue-theme.scss",

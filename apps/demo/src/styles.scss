@@ -2,8 +2,6 @@
 @use 'themes/default-theme' as defaultTheme;
 @use './themes/theming.scss' as theming;
 
-@tailwind utilities;
-
 @include mat.elevation-classes();
 @include mat.app-background();
 

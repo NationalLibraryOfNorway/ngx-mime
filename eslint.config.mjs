@@ -2,11 +2,13 @@ import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
 import eslintPluginTailwindcss from 'eslint-plugin-tailwindcss';
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
+const workspaceRoot = dirname(fileURLToPath(import.meta.url));
+
 const compat = new FlatCompat({
-  baseDirectory: dirname(fileURLToPath(import.meta.url)),
+  baseDirectory: workspaceRoot,
   recommendedConfig: js.configs.recommended,
 });
 
@@ -80,16 +82,24 @@ export default [
     })),
   ...compat
     .config({
-      extends: [
-        'plugin:@angular-eslint/template/recommended',
-        'plugin:tailwindcss/recommended',
-      ],
+      extends: ['plugin:@angular-eslint/template/recommended'],
     })
     .map((config) => ({
       ...config,
       files: ['**/*.html'],
+      settings: {
+        ...config.settings,
+        tailwindcss: {
+          ...eslintPluginTailwindcss.configs.recommended.settings.tailwindcss,
+          cssConfigPath: resolve(
+            workspaceRoot,
+            'apps/integration/src/tailwind.css',
+          ),
+        },
+      },
       rules: {
         ...config.rules,
+        ...eslintPluginTailwindcss.configs.recommended.rules,
         '@angular-eslint/template/prefer-control-flow': 'error',
         'tailwindcss/no-custom-classname': 'off',
         'tailwindcss/classnames-order': ['error'],

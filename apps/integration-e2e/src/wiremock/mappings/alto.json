@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/catalog/v1/metadata/10ca37a8595f4a63dd033dbfa4a130bc/altos/digimanus_14280_0001"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/xml"
+    },
+    "bodyFileName": "alto.xml"
+  }
+}

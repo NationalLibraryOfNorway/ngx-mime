@@ -1,7 +1,10 @@
 package.json
 dist
 .tmp
+apps/integration-e2e/src/wiremock/__files
 
 /.nx/cache
 /.nx/workspace-data
 CHANGELOG.md
+
+.nx/self-healing
