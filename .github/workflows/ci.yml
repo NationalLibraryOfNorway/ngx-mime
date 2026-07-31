@@ -51,4 +51,7 @@ jobs:
 
       - name: Run remote end-to-end tests
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
         run: npx nx e2e integration-e2e -c remote --skip-nx-cache
