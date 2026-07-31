@@ -113,6 +113,11 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
       this.altoService.currentCanvasGroupHasTextSource$.subscribe(
         (hasTextSource: boolean | undefined) => {
           this.currentCanvasGroupHasTextSource = hasTextSource;
+          if (hasTextSource === undefined) {
+            this.clearRecognizedText();
+            this.updatedCanvasGroupLabel = undefined;
+            this.updatedCanvasGroupPageCount = 0;
+          }
           this.cdr.detectChanges();
         },
       ),

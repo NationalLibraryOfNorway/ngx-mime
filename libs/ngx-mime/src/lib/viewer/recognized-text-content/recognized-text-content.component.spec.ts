@@ -254,6 +254,32 @@ describe('RecognizedTextContentComponent', () => {
     expect(component.updatedCanvasGroupPageCount).toBe(0);
   });
 
+  it('should clear rendered text when the current canvas group is reset', () => {
+    fixture.detectChanges();
+    component.firstCanvasRecognizedTextContent = 'previousFirstPage';
+    component.secondCanvasRecognizedTextContent = 'previousSecondPage';
+    component.updatedCanvasGroupLabel = '1–2';
+    component.updatedCanvasGroupPageCount = 2;
+    fixture.detectChanges();
+
+    altoService.currentCanvasGroupHasTextSource$.nextWith(undefined);
+
+    expect(component.firstCanvasRecognizedTextContent).toBe('');
+    expect(component.secondCanvasRecognizedTextContent).toBe('');
+    expect(component.updatedCanvasGroupLabel).toBeUndefined();
+    expect(component.updatedCanvasGroupPageCount).toBe(0);
+    expect(
+      fixture.nativeElement.querySelector(
+        '[data-testid="firstCanvasRecognizedTextContent"]',
+      ),
+    ).toBeNull();
+    expect(
+      fixture.nativeElement.querySelector(
+        '[data-testid="secondCanvasRecognizedTextContent"]',
+      ),
+    ).toBeNull();
+  });
+
   it('should call highlightSelectedHit in onSelected subscribe', () => {
     fixture.detectChanges();
     canvasService.getCanvasesPerCanvasGroup.calledWith(0).nextWith([0, 1]);
