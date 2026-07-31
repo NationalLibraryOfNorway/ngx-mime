@@ -76,26 +76,26 @@ function createRemoteTunnel() {
 }
 
 function createProjects() {
-  const projects = [
+  const desktopProjects = [
     createProject(
       'chrome',
       isRemoteExecution ? '@desktop' : '@desktop and not @fullscreen',
     ),
-    createProject('android', '@android and not @fullscreen'),
-    createProject('iphone', '@iphone and not @fullscreen'),
-    createProject('elements', '@elements'),
   ];
 
   if (isRemoteExecution) {
-    projects.splice(
-      1,
-      0,
+    desktopProjects.push(
       createProject('edge', '@desktop and not @fullscreen'),
       createProject('firefox', '@desktop and not @fullscreen'),
     );
   }
 
-  return projects;
+  return [
+    ...desktopProjects,
+    createProject('android', '@android and not @fullscreen'),
+    createProject('iphone', '@iphone and not @fullscreen'),
+    createProject('elements', '@elements'),
+  ];
 }
 
 function createProject(name: string, tags: string) {
