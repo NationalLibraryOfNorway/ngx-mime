@@ -15,6 +15,7 @@ import { HighlightService } from '../highlight-service/highlight.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
 import { RecognizedTextMode } from '../models';
+import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { AltoService } from './alto.service';
 import { HtmlFormatter } from './html.formatter';
@@ -25,6 +26,7 @@ describe('AltoService', () => {
   let httpTestingController: HttpTestingController;
   let iiifManifestService: any;
   let canvasService: any;
+  let viewerLayoutService: any;
   let intl: MimeViewerIntl;
 
   beforeEach(() => {
@@ -37,14 +39,18 @@ describe('AltoService', () => {
         HighlightService,
         { provide: CanvasService, useClass: CanvasServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        provideAutoSpy(ViewerLayoutService),
+        provideAutoSpy(ViewerLayoutService, {
+          observablePropsToSpyOn: ['onChange'],
+        }),
       ],
     });
     service = TestBed.inject(AltoService);
     httpTestingController = TestBed.inject(HttpTestingController);
     iiifManifestService = TestBed.inject(IiifManifestService);
     canvasService = TestBed.inject(CanvasService);
+    viewerLayoutService = TestBed.inject(ViewerLayoutService);
     intl = TestBed.inject(MimeViewerIntl);
+    viewerLayoutService.onChange.nextWith(ViewerLayout.ONE_PAGE);
     setUpSpy();
   });
 
@@ -167,6 +173,28 @@ describe('AltoService', () => {
       mockSecondCanvasGroupRequest();
 
       expectAltoToBeDefined();
+    });
+  }));
+
+  it('should reload the current canvas group when the layout changes', fakeAsync(() => {
+    let readyCount = 0;
+    service.onTextContentReady$.subscribe(() => readyCount++);
+    canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0]);
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      coverTestRequest().flush(testAlto);
+      expect(readyCount).toBe(1);
+
+      canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0, 1]);
+      viewerLayoutService.onChange.nextWith(ViewerLayout.TWO_PAGE);
+      waitForDebounce();
+      insideTestRequest().flush(testAlto);
+
+      expect(canvasService.currentCanvasGroupIndex).toBe(0);
+      expect(service.getHtml(1)).toBeDefined();
+      expect(readyCount).toBe(2);
     });
   }));
 

@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   BehaviorSubject,
+  combineLatest,
   EMPTY,
   forkJoin,
   Observable,
@@ -23,6 +24,7 @@ import { MimeViewerConfig } from '../mime-viewer-config';
 import { RecognizedTextMode, RecognizedTextModeChanges } from '../models';
 import { Hit } from '../models/hit';
 import { Manifest } from '../models/manifest';
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
@@ -33,6 +35,7 @@ export class AltoService {
   private readonly iiifManifestService = inject(IiifManifestService);
   private readonly highlightService = inject(HighlightService);
   private readonly canvasService = inject(CanvasService);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
   private readonly sanitizer = inject(DomSanitizer);
   private config!: MimeViewerConfig;
   private altos: string[] = [];
@@ -115,9 +118,12 @@ export class AltoService {
     );
 
     this.subscriptions.add(
-      this.canvasService.onCanvasGroupIndexChange
+      combineLatest([
+        this.canvasService.onCanvasGroupIndexChange,
+        this.viewerLayoutService.onChange,
+      ])
         .pipe(
-          switchMap((currentCanvasGroupIndex: number) => {
+          switchMap(([currentCanvasGroupIndex]) => {
             this.textError.next(undefined);
             this.currentCanvasGroupHasTextSource.next(undefined);
             this.isLoading.next(true);
