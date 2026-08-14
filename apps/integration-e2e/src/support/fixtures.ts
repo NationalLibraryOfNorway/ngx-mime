@@ -109,7 +109,7 @@ async function connectToTestingCloud(
   let browserName = 'Chrome';
   let platform = 'Windows 11';
   if (mode === 'iphone') {
-    platform = 'MacOS Ventura';
+    platform = 'MacOS Sequoia';
     browserName = 'pw-webkit';
   } else if (mode === 'firefox') {
     browserName = 'pw-firefox';
