@@ -5,7 +5,7 @@
   [attr.aria-label]="intl.digitalTextLabel"
 >
   <h2 class="cdk-visually-hidden">{{ intl.digitalTextLabel }}</h2>
-  <div role="status" aria-live="polite">
+  <div class="cdk-visually-hidden" role="status" aria-live="polite">
     @if (error) {
       <div data-testid="error">{{ error }}</div>
     }
