@@ -1,29 +1,128 @@
-# Mime IIIF Viewer for Angular
+# `@nationallibraryofnorway/ngx-mime`
 
 [![npm version](https://badge.fury.io/js/@nationallibraryofnorway%2Fngx-mime.svg)](https://badge.fury.io/js/@nationallibraryofnorway%2Fngx-mime)
-[![CircleCI](https://circleci.com/gh/NationalLibraryOfNorway/ngx-mime.svg?style=svg)](https://circleci.com/gh/NationalLibraryOfNorway/ngx-mime)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-<a href="https://www.lambdatest.com/hyperexecute" target="_blank"><img width="209" alt="HE Badge" src="https://user-images.githubusercontent.com/10496433/203929571-69077a63-1928-435e-b8ba-f4cdcb9d960b.png"></a>
+An Angular component library for displaying and navigating IIIF manifests.
 
-### Project status
+## Compatibility
 
-This viewer is under active development and hasn't yet reached its final form.
+The current major release supports Angular 20. See the package's peer
+dependencies for the complete compatibility requirements.
 
-If you'd like to contribute, you must follow our [contributing guidelines](https://github.com/NationalLibraryOfNorway/ngx-mime/blob/main/CONTRIBUTING.md).
+## Installation
 
-### Installation
+Install the package from npm:
 
-The latest release of Mime can be installed from npm
+```bash
+npm install @nationallibraryofnorway/ngx-mime
+```
 
-`npm i @nationallibraryofnorway/ngx-mime`
+## Application setup
 
-### Getting started
+Provide Angular's HTTP client in your application configuration:
 
-See our [Getting Started Guide](https://github.com/NationalLibraryOfNorway/ngx-mime/wiki/Getting-Started)
-if you're using Mime in your first project.
+```ts
+import { provideHttpClient } from '@angular/common/http';
+import { ApplicationConfig } from '@angular/core';
 
-### Developers
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient()],
+};
+```
 
-See our [Developer Setup Guide](https://github.com/NationalLibraryOfNorway/ngx-mime/wiki/Developer-Setup).
+Add OpenSeadragon to the application's `scripts` build option in
+`angular.json`:
+
+```json
+{
+  "scripts": ["node_modules/openseadragon/build/openseadragon/openseadragon.min.js"]
+}
+```
+
+## Display a manifest
+
+Import `MimeModule` in a standalone component and pass a IIIF manifest URL to
+`<mime-viewer>`:
+
+```ts
+import { Component } from '@angular/core';
+import { MimeModule, MimeViewerConfig, MimeViewerMode } from '@nationallibraryofnorway/ngx-mime';
+
+@Component({
+  selector: 'app-viewer',
+  imports: [MimeModule],
+  templateUrl: './viewer.component.html',
+  styleUrl: './viewer.component.scss',
+})
+export class ViewerComponent {
+  readonly manifestUri = 'https://example.org/iiif/manifest.json';
+  readonly config = new MimeViewerConfig({
+    initViewerMode: MimeViewerMode.PAGE,
+    navigationControlEnabled: true,
+  });
+
+  onCanvasChanged(canvasIndex: number): void {
+    console.log('Current canvas:', canvasIndex);
+  }
+}
+```
+
+```html
+<mime-viewer class="viewer" [manifestUri]="manifestUri" [config]="config" (canvasChanged)="onCanvasChanged($event)"></mime-viewer>
+```
+
+```scss
+.viewer {
+  display: block;
+  height: 100vh;
+}
+```
+
+## Theming
+
+Include the Mime theme mixin alongside your Angular Material theme:
+
+```scss
+@use '@nationallibraryofnorway/ngx-mime/ngx-mime-theme' as ngx-mime;
+
+@include ngx-mime.theme($theme);
+```
+
+The `$theme` value is an Angular Material theme created with
+`mat.define-theme`. See the
+[demo themes](https://github.com/NationalLibraryOfNorway/ngx-mime/tree/main/apps/demo/src/themes)
+for complete examples.
+
+## Viewer bindings
+
+Common inputs:
+
+| Input         | Description                                    |
+| ------------- | ---------------------------------------------- |
+| `manifestUri` | URL of the IIIF manifest to display            |
+| `config`      | Viewer options created with `MimeViewerConfig` |
+| `canvasIndex` | Initial or selected canvas index               |
+| `q`           | Search query                                   |
+| `tabIndex`    | Viewer tab order                               |
+
+Common outputs:
+
+| Output                             | Description                                 |
+| ---------------------------------- | ------------------------------------------- |
+| `canvasChanged`                    | Emits the current canvas index              |
+| `manifestChanged`                  | Emits the loaded manifest                   |
+| `viewerModeChanged`                | Emits when the viewer mode changes          |
+| `qChanged`                         | Emits when the search query changes         |
+| `recognizedTextContentModeChanged` | Emits when the recognized-text view changes |
+
+## More documentation
+
+- [Getting Started Guide](https://github.com/NationalLibraryOfNorway/ngx-mime/wiki/Getting-Started)
+- [Demo application source](https://github.com/NationalLibraryOfNorway/ngx-mime/tree/main/apps/demo)
+- [Issues and feature requests](https://github.com/NationalLibraryOfNorway/ngx-mime/issues)
+- [Repository and contribution guide](https://github.com/NationalLibraryOfNorway/ngx-mime)
+
+## License
+
+Mime is available under the
+[MIT License](https://github.com/NationalLibraryOfNorway/ngx-mime/blob/main/LICENSE).

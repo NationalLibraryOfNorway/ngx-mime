@@ -1,12 +1,12 @@
 import * as i0 from '@angular/core';
 import { Injectable, makeEnvironmentProviders, inject, NgZone, ChangeDetectorRef, ElementRef, ViewChildren, ViewChild, Component, ChangeDetectionStrategy, EventEmitter, Output, Input, Renderer2, HostListener, ViewContainerRef, NgModule } from '@angular/core';
-import { Subject, ReplaySubject, BehaviorSubject, Observable, Subscription, forkJoin, of, throwError, interval, debounceTime as debounceTime$1, map } from 'rxjs';
+import { Subject, ReplaySubject, BehaviorSubject, Observable, Subscription, combineLatest, timer, EMPTY, forkJoin, of, throwError, interval, debounceTime, map as map$1 } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
 import { NgStyle, NgClass } from '@angular/common';
 import * as i1$1 from '@angular/material/sidenav';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { distinctUntilChanged, finalize, take, debounceTime, catchError, switchMap, filter, tap, sample, throttle } from 'rxjs/operators';
+import { distinctUntilChanged, finalize, take, switchMap, map, catchError, filter, tap, sample, throttle } from 'rxjs/operators';
 import { MatDialogRef, MatDialogClose, MatDialogTitle, MatDialogContent, MatDialog, MatDialogState, MatDialogActions } from '@angular/material/dialog';
 import * as d3 from 'd3';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -72,6 +72,8 @@ class MimeViewerIntl {
         this.recognizedTextContentCloseLabel = 'None';
         this.recognizedTextContentInSplitViewLabel = 'Split';
         this.showRecognizedTextContentLabel = 'Digital text only';
+        this.recognizedTextContentUnavailableLabel = 'Recognized text is not available for this item';
+        this.recognizedTextContentUnavailableForCurrentViewLabel = 'Recognized text is not available for the current view';
         this.metadataLabel = 'Metadata';
         this.licenseLabel = 'License';
         this.tocLabel = 'Table of Contents';
@@ -101,6 +103,7 @@ class MimeViewerIntl {
         this.manifestNotValidLabel = 'Manifest is not valid';
         this.pageDoesNotExists = 'Sorry, that page does not exist';
         this.textContentErrorLabel = `Oh dear, i can't find the text for you`;
+        this.recognizedTextContentUpdatedLabel = (pageLabel, numberOfPages) => `${numberOfPages === 1 ? 'Page' : 'Pages'} ${pageLabel} loaded. Digital text updated.`;
         this.noResultsFoundLabel = (q) => {
             return `No results found for <em class="current-search">${q}</em>`;
         };
@@ -154,6 +157,8 @@ class MimeViewerIntlLt extends MimeViewerIntl {
         this.recognizedTextContentCloseLabel = 'Nė vienas';
         this.recognizedTextContentInSplitViewLabel = 'Suskaidytas';
         this.showRecognizedTextContentLabel = 'Tik skaitmeninis tekstas';
+        this.recognizedTextContentUnavailableLabel = 'Atpažintas tekstas šiam objektui nepasiekiamas';
+        this.recognizedTextContentUnavailableForCurrentViewLabel = 'Atpažintas tekstas dabartiniame rodinyje nepasiekiamas';
         this.metadataLabel = 'Metaduomenys';
         this.licenseLabel = 'Licencija';
         this.tocLabel = 'Turinys';
@@ -183,6 +188,7 @@ class MimeViewerIntlLt extends MimeViewerIntl {
         this.manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
         this.pageDoesNotExists = 'Nepavyko rasti šio paslapio';
         this.textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
+        this.recognizedTextContentUpdatedLabel = (pageLabel, numberOfPages) => `${numberOfPages === 1 ? 'Puslapis' : 'Puslapiai'} ${pageLabel} ${numberOfPages === 1 ? 'įkeltas' : 'įkelti'}. Skaitmeninis tekstas atnaujintas.`;
         this.noResultsFoundLabel = (q) => {
             return `Objekte nerasta atitikmenų <em class="current-search">${q}</em>`;
         };
@@ -236,6 +242,8 @@ class MimeViewerIntlNoNb extends MimeViewerIntl {
         this.recognizedTextContentCloseLabel = 'Ingen';
         this.recognizedTextContentInSplitViewLabel = 'Delt';
         this.showRecognizedTextContentLabel = 'Kun digital tekst';
+        this.recognizedTextContentUnavailableLabel = 'Gjenkjent tekst er ikke tilgjengelig for dette objektet';
+        this.recognizedTextContentUnavailableForCurrentViewLabel = 'Gjenkjent tekst er ikke tilgjengelig i denne visningen';
         this.metadataLabel = 'Metadata';
         this.licenseLabel = 'Lisens';
         this.tocLabel = 'Innholdsfortegnelse';
@@ -265,6 +273,7 @@ class MimeViewerIntlNoNb extends MimeViewerIntl {
         this.manifestNotValidLabel = 'Manifestet er ikke gyldig';
         this.pageDoesNotExists = 'Beklager, men den siden finnes ikke';
         this.textContentErrorLabel = 'Beklager, men jeg finner ikke teksten for deg';
+        this.recognizedTextContentUpdatedLabel = (pageLabel, numberOfPages) => `${numberOfPages === 1 ? 'Side' : 'Sidene'} ${pageLabel} er lastet. Digital tekst er oppdatert.`;
         this.noResultsFoundLabel = (q) => {
             return `Ingen treff funnet for <em class="current-search">${q}</em>`;
         };
@@ -1531,11 +1540,14 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.5", ngImpor
         }] });
 
 class HighlightService {
-    highlightSelectedHit(id) {
-        document.querySelector('.selectedHit')?.removeAttribute('class');
-        document
-            .querySelector(`mark[data-id='${id}']`)
-            ?.setAttribute('class', 'selectedHit');
+    highlightSelectedHit(viewerId, hitId) {
+        const viewer = document.getElementById(viewerId);
+        viewer
+            ?.querySelectorAll('.selectedHit')
+            .forEach((element) => element.classList.remove('selectedHit'));
+        viewer
+            ?.querySelectorAll(`mark[data-id='${hitId}']`)
+            .forEach((element) => element.classList.add('selectedHit'));
     }
     highlight(html, currentIndex, hits) {
         if (hits && hits.length > 0) {
@@ -2312,14 +2324,18 @@ class AltoService {
         this.iiifManifestService = inject(IiifManifestService);
         this.highlightService = inject(HighlightService);
         this.canvasService = inject(CanvasService);
+        this.viewerLayoutService = inject(ViewerLayoutService);
         this.sanitizer = inject(DomSanitizer);
         this.altos = [];
         this.isLoading = new BehaviorSubject(false);
         this.textContentReady = new Subject();
-        this.textError = new Subject();
+        this.textHighlightsChanged = new Subject();
+        this.textError = new BehaviorSubject(undefined);
+        this.currentCanvasGroupHasTextSource = new BehaviorSubject(undefined);
         this.manifest = null;
         this.subscriptions = new Subscription();
         this.altoBuilder = new AltoBuilder();
+        this.initialized = false;
         this._recognizedTextContentModeChanges = new BehaviorSubject({
             previousValue: RecognizedTextMode.NONE,
             currentValue: RecognizedTextMode.NONE,
@@ -2332,11 +2348,17 @@ class AltoService {
     get onTextContentReady$() {
         return this.textContentReady.asObservable();
     }
+    get onTextHighlightsChange$() {
+        return this.textHighlightsChanged.asObservable();
+    }
     get isLoading$() {
         return this.isLoading.asObservable();
     }
     get hasErrors$() {
         return this.textError.asObservable();
+    }
+    get currentCanvasGroupHasTextSource$() {
+        return this.currentCanvasGroupHasTextSource.asObservable();
     }
     get recognizedTextContentMode() {
         return this._recognizedTextContentModeChanges.value.currentValue;
@@ -2348,38 +2370,43 @@ class AltoService {
         });
         this.previousRecognizedTextMode = value;
     }
-    initialize(hits) {
-        this.hits = hits;
+    initialize() {
+        if (this.initialized) {
+            return;
+        }
+        this.initialized = true;
         this.htmlFormatter = new HtmlFormatter();
         this.subscriptions = new Subscription();
         this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
             this.manifest = manifest;
+            this.textError.next(undefined);
+            this.currentCanvasGroupHasTextSource.next(undefined);
             this.clearCache();
         }));
-        this.subscriptions.add(this.canvasService.onCanvasGroupIndexChange
-            .pipe(debounceTime(200))
-            .subscribe((currentCanvasGroupIndex) => {
+        this.subscriptions.add(combineLatest([
+            this.canvasService.onCanvasGroupIndexChange,
+            this.viewerLayoutService.onChange,
+        ])
+            .pipe(switchMap(([currentCanvasGroupIndex]) => {
             this.textError.next(undefined);
-            const sources = [];
-            const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(currentCanvasGroupIndex);
-            if (!canvasGroup || canvasGroup.length === 0) {
-                return;
-            }
-            this.addAltoSource(canvasGroup[0], sources);
-            if (canvasGroup.length === 2) {
-                this.addAltoSource(canvasGroup[1], sources);
-            }
+            this.currentCanvasGroupHasTextSource.next(undefined);
             this.isLoading.next(true);
-            forkJoin(sources)
-                .pipe(take(1), finalize(() => this.isLoading.next(false)))
-                .subscribe();
-        }));
+            return timer(200).pipe(switchMap(() => this.loadCanvasGroup(currentCanvasGroupIndex)), finalize(() => this.isLoading.next(false)));
+        }))
+            .subscribe(() => this.textContentReady.next()));
+    }
+    setHits(hits) {
+        this.hits = hits;
+        this.textHighlightsChanged.next();
     }
     destroy() {
         this.recognizedTextContentMode = this.config?.initRecognizedTextContentMode
             ? this.config?.initRecognizedTextContentMode
             : RecognizedTextMode.NONE;
         this.subscriptions.unsubscribe();
+        this.initialized = false;
+        this.textError.next(undefined);
+        this.currentCanvasGroupHasTextSource.next(undefined);
         this.clearCache();
     }
     setConfig(config) {
@@ -2395,12 +2422,28 @@ class AltoService {
         this.recognizedTextContentMode = RecognizedTextMode.NONE;
     }
     getHtml(index) {
-        return this.altos && this.altos.length >= index + 1
+        return this.isInCache(index)
             ? this.sanitizer.bypassSecurityTrustHtml(this.highlightService.highlight(this.altos[index], index, this.hits))
             : undefined;
     }
     clearCache() {
         this.altos = [];
+    }
+    loadCanvasGroup(currentCanvasGroupIndex) {
+        const sources = [];
+        const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(currentCanvasGroupIndex);
+        if (!canvasGroup || canvasGroup.length === 0) {
+            this.currentCanvasGroupHasTextSource.next(false);
+            return EMPTY;
+        }
+        this.addAltoSource(canvasGroup[0], sources);
+        if (canvasGroup.length === 2) {
+            this.addAltoSource(canvasGroup[1], sources);
+        }
+        this.currentCanvasGroupHasTextSource.next(sources.length > 0);
+        return sources.length > 0
+            ? forkJoin(sources).pipe(take(1), map(() => undefined))
+            : EMPTY;
     }
     addAltoSource(index, sources) {
         if (this.manifest && this.manifest.sequences) {
@@ -2417,17 +2460,16 @@ class AltoService {
         return new Observable((observer) => {
             if (this.isInCache(index)) {
                 this.done(observer);
+                return;
             }
-            else {
-                this.load(observer, index, url);
-            }
+            return this.load(observer, index, url);
         });
     }
     isInCache(index) {
-        return this.altos[index];
+        return this.altos[index] !== undefined;
     }
     load(observer, index, url) {
-        this.http
+        return this.http
             .get(url, {
             headers: new HttpHeaders().set('Content-Type', 'text/xml'),
             responseType: 'text',
@@ -2455,7 +2497,6 @@ class AltoService {
         this.altos[index] = this.htmlFormatter.altoToHtml(alto);
     }
     done(observer) {
-        this.textContentReady.next();
         this.complete(observer);
     }
     error(observer) {
@@ -3005,18 +3046,6 @@ var Direction;
     Direction[Direction["PREVIOUS"] = 6] = "PREVIOUS";
 })(Direction || (Direction = {}));
 
-class NavigatorCalculateNextCanvasGroupStrategy {
-    calculateNextCanvasGroup(criteria) {
-        const direction = criteria.direction;
-        const currentCanvasGroupIndex = criteria.currentCanvasGroupIndex;
-        let nextCanvasGroup = 1;
-        nextCanvasGroup =
-            direction === Direction.NEXT ? nextCanvasGroup : nextCanvasGroup * -1;
-        nextCanvasGroup = currentCanvasGroupIndex + nextCanvasGroup;
-        return nextCanvasGroup;
-    }
-}
-
 class DashboardModeCalculateNextCanvasGroupStrategy {
     calculateNextCanvasGroup(criteria) {
         const speed = criteria.speed;
@@ -3055,6 +3084,18 @@ class DashboardModeCalculateNextCanvasGroupStrategy {
             }
         }
         return canvasGroupsToGo;
+    }
+}
+
+class NavigatorCalculateNextCanvasGroupStrategy {
+    calculateNextCanvasGroup(criteria) {
+        const direction = criteria.direction;
+        const currentCanvasGroupIndex = criteria.currentCanvasGroupIndex;
+        let nextCanvasGroup = 1;
+        nextCanvasGroup =
+            direction === Direction.NEXT ? nextCanvasGroup : nextCanvasGroup * -1;
+        nextCanvasGroup = currentCanvasGroupIndex + nextCanvasGroup;
+        return nextCanvasGroup;
     }
 }
 
@@ -4563,7 +4604,7 @@ class MimeResizeService {
         this.resizeSubject = new ReplaySubject();
     }
     get onResize() {
-        return this.resizeSubject.pipe(debounceTime$1(200), map((contentRect) => {
+        return this.resizeSubject.pipe(debounceTime(200), map$1((contentRect) => {
             return {
                 bottom: contentRect.bottom,
                 height: contentRect.height,
@@ -6614,6 +6655,7 @@ class RecognizedTextContentComponent {
         this.intl = inject(MimeViewerIntl);
         this.isLoading = false;
         this.error = undefined;
+        this.updatedCanvasGroupPageCount = 0;
         this.cdr = inject(ChangeDetectorRef);
         this.canvasService = inject(CanvasService);
         this.altoService = inject(AltoService);
@@ -6623,37 +6665,56 @@ class RecognizedTextContentComponent {
         this.subscriptions = new Subscription();
     }
     ngOnInit() {
-        this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((sr) => {
-            this.altoService.initialize(sr.hits);
-        }));
-        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe(() => {
+        this.subscriptions.add(this.intl.changes.subscribe(() => this.cdr.markForCheck()));
+        this.subscriptions.add(this.iiifManifestService.currentManifest.subscribe((manifest) => {
+            this.hasRecognizedTextContent = manifest
+                ? ManifestUtils.hasRecognizedTextContent(manifest)
+                : undefined;
+            this.updatedCanvasGroupLabel = undefined;
+            this.updatedCanvasGroupPageCount = 0;
             this.clearRecognizedText();
             this.cdr.detectChanges();
         }));
         this.subscriptions.add(this.iiifContentSearchService.onSelected.subscribe((hit) => {
-            if (hit) {
-                this.selectedHit = hit.id;
-                this.highlightService.highlightSelectedHit(this.selectedHit);
+            this.selectedHit = hit?.id;
+            if (this.selectedHit !== undefined) {
+                this.highlightService.highlightSelectedHit(this.viewerId, this.selectedHit);
             }
         }));
-        this.subscriptions.add(this.altoService.onTextContentReady$.subscribe(async () => {
+        this.subscriptions.add(this.altoService.onTextContentReady$.subscribe(() => {
             this.clearRecognizedText();
             this.scrollToTop();
-            await this.updateRecognizedText();
-            this.cdr.detectChanges();
+            this.refreshRecognizedText(true);
+        }));
+        this.subscriptions.add(this.altoService.onTextHighlightsChange$.subscribe(() => {
+            this.refreshRecognizedText();
         }));
         this.subscriptions.add(this.altoService.isLoading$.subscribe((isLoading) => {
             this.isLoading = isLoading;
+            if (isLoading) {
+                this.clearRecognizedText();
+                this.updatedCanvasGroupLabel = undefined;
+                this.updatedCanvasGroupPageCount = 0;
+            }
             this.cdr.detectChanges();
         }));
         this.subscriptions.add(this.altoService.hasErrors$.subscribe((error) => {
             this.error = error;
             this.cdr.detectChanges();
         }));
+        this.subscriptions.add(this.altoService.currentCanvasGroupHasTextSource$.subscribe((hasTextSource) => {
+            this.currentCanvasGroupHasTextSource = hasTextSource;
+            if (hasTextSource === undefined) {
+                this.clearRecognizedText();
+                this.updatedCanvasGroupLabel = undefined;
+                this.updatedCanvasGroupPageCount = 0;
+            }
+            this.cdr.detectChanges();
+        }));
+        this.refreshRecognizedText();
     }
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
-        this.altoService.destroy();
     }
     clearRecognizedText() {
         this.firstCanvasRecognizedTextContent = '';
@@ -6662,28 +6723,61 @@ class RecognizedTextContentComponent {
     scrollToTop() {
         this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
     }
-    async updateRecognizedText() {
-        const canvases = this.canvasService.getCanvasesPerCanvasGroup(this.canvasService.currentCanvasGroupIndex);
-        await this.updateCanvases(canvases);
-        if (this.selectedHit !== undefined) {
-            this.highlightService.highlightSelectedHit(this.selectedHit);
+    refreshRecognizedText(announceUpdate = false) {
+        const updatedCanvases = this.updateRecognizedText();
+        if (announceUpdate) {
+            this.updatedCanvasGroupPageCount = updatedCanvases.length;
+            this.updatedCanvasGroupLabel = this.getCanvasGroupLabel(updatedCanvases);
         }
+        this.cdr.detectChanges();
+        this.highlightSelectedHit();
     }
-    async updateCanvases(canvases) {
+    updateRecognizedText() {
+        const canvases = this.canvasService.getCanvasesPerCanvasGroup(this.canvasService.currentCanvasGroupIndex);
+        if (!canvases?.length) {
+            return [];
+        }
+        return this.updateCanvases(canvases);
+    }
+    updateCanvases(canvases) {
+        const updatedCanvases = [];
         this.firstCanvasRecognizedTextContent = this.altoService.getHtml(canvases[0]);
+        if (this.firstCanvasRecognizedTextContent !== undefined) {
+            updatedCanvases.push(canvases[0]);
+        }
         if (canvases.length === 2) {
             this.secondCanvasRecognizedTextContent = this.altoService.getHtml(canvases[1]);
+            if (this.secondCanvasRecognizedTextContent !== undefined) {
+                updatedCanvases.push(canvases[1]);
+            }
+        }
+        return updatedCanvases;
+    }
+    highlightSelectedHit() {
+        if (this.selectedHit !== undefined) {
+            this.highlightService.highlightSelectedHit(this.viewerId, this.selectedHit);
         }
     }
+    getCanvasGroupLabel(canvases) {
+        if (canvases.length === 0) {
+            return undefined;
+        }
+        const firstPage = canvases[0] + 1;
+        const lastPage = canvases[canvases.length - 1] + 1;
+        return firstPage === lastPage ? `${firstPage}` : `${firstPage}–${lastPage}`;
+    }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.3.5", ngImport: i0, type: RecognizedTextContentComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.3.5", type: RecognizedTextContentComponent, isStandalone: true, selector: "mime-recognized-text-content", viewQueries: [{ propertyName: "recognizedTextContentContainer", first: true, predicate: ["recognizedTextContentContainer"], descendants: true, read: ElementRef }], ngImport: i0, template: "<div\n  #recognizedTextContentContainer\n  class=\"recognized-text-content-container flex flex-col items-center\"\n  aria-live=\"polite\"\n>\n  @if (error) {\n    <div data-testid=\"error\">{{ error }}</div>\n  }\n  @if (!isLoading) {\n    @if (firstCanvasRecognizedTextContent) {\n      <div\n        class=\"content\"\n        data-testid=\"firstCanvasRecognizedTextContent\"\n        [innerHTML]=\"firstCanvasRecognizedTextContent\"\n      >\n      </div>\n    }\n    @if (secondCanvasRecognizedTextContent) {\n      <div\n        class=\"content\"\n        data-testid=\"secondCanvasRecognizedTextContent\"\n        [innerHTML]=\"secondCanvasRecognizedTextContent\"\n      >\n      </div>\n    }\n  }\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}::ng-deep .selectedHit{background:#ff89009c;outline:2px solid rgb(97,52,0)}::ng-deep mark{background:#ffff009c}\n"], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.3.5", type: RecognizedTextContentComponent, isStandalone: true, selector: "mime-recognized-text-content", inputs: { viewerId: "viewerId" }, viewQueries: [{ propertyName: "recognizedTextContentContainer", first: true, predicate: ["recognizedTextContentContainer"], descendants: true, read: ElementRef }], ngImport: i0, template: "<div\n  #recognizedTextContentContainer\n  class=\"recognized-text-content-container flex flex-col items-center\"\n  role=\"region\"\n  [attr.aria-label]=\"intl.digitalTextLabel\"\n>\n  <h2 class=\"cdk-visually-hidden\">{{ intl.digitalTextLabel }}</h2>\n  <div class=\"cdk-visually-hidden\" role=\"status\" aria-live=\"polite\">\n    @if (error) {\n      <div data-testid=\"error\">{{ error }}</div>\n    }\n    @if (hasRecognizedTextContent === false) {\n      <p data-testid=\"recognizedTextContentUnavailable\">\n        {{ intl.recognizedTextContentUnavailableLabel }}\n      </p>\n    } @else if (currentCanvasGroupHasTextSource === false) {\n      <p data-testid=\"recognizedTextContentUnavailableForCurrentView\">\n        {{ intl.recognizedTextContentUnavailableForCurrentViewLabel }}\n      </p>\n    }\n    @if (updatedCanvasGroupLabel) {\n      <p data-testid=\"recognizedTextContentUpdated\">\n        {{\n          intl.recognizedTextContentUpdatedLabel(\n            updatedCanvasGroupLabel,\n            updatedCanvasGroupPageCount\n          )\n        }}\n      </p>\n    }\n  </div>\n  @if (!isLoading) {\n    @if (firstCanvasRecognizedTextContent) {\n      <div\n        class=\"content\"\n        data-testid=\"firstCanvasRecognizedTextContent\"\n        [innerHTML]=\"firstCanvasRecognizedTextContent\"\n      >\n      </div>\n    }\n    @if (secondCanvasRecognizedTextContent) {\n      <div\n        class=\"content\"\n        data-testid=\"secondCanvasRecognizedTextContent\"\n        [innerHTML]=\"secondCanvasRecognizedTextContent\"\n      >\n      </div>\n    }\n  }\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}:host(.cdk-visually-hidden) .recognized-text-content-container{height:auto;overflow:visible}::ng-deep .selectedHit{background:#ff89009c;outline:2px solid rgb(97,52,0)}::ng-deep mark{background:#ffff009c}\n"], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.5", ngImport: i0, type: RecognizedTextContentComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-recognized-text-content', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div\n  #recognizedTextContentContainer\n  class=\"recognized-text-content-container flex flex-col items-center\"\n  aria-live=\"polite\"\n>\n  @if (error) {\n    <div data-testid=\"error\">{{ error }}</div>\n  }\n  @if (!isLoading) {\n    @if (firstCanvasRecognizedTextContent) {\n      <div\n        class=\"content\"\n        data-testid=\"firstCanvasRecognizedTextContent\"\n        [innerHTML]=\"firstCanvasRecognizedTextContent\"\n      >\n      </div>\n    }\n    @if (secondCanvasRecognizedTextContent) {\n      <div\n        class=\"content\"\n        data-testid=\"secondCanvasRecognizedTextContent\"\n        [innerHTML]=\"secondCanvasRecognizedTextContent\"\n      >\n      </div>\n    }\n  }\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}::ng-deep .selectedHit{background:#ff89009c;outline:2px solid rgb(97,52,0)}::ng-deep mark{background:#ffff009c}\n"] }]
+            args: [{ selector: 'mime-recognized-text-content', changeDetection: ChangeDetectionStrategy.OnPush, template: "<div\n  #recognizedTextContentContainer\n  class=\"recognized-text-content-container flex flex-col items-center\"\n  role=\"region\"\n  [attr.aria-label]=\"intl.digitalTextLabel\"\n>\n  <h2 class=\"cdk-visually-hidden\">{{ intl.digitalTextLabel }}</h2>\n  <div class=\"cdk-visually-hidden\" role=\"status\" aria-live=\"polite\">\n    @if (error) {\n      <div data-testid=\"error\">{{ error }}</div>\n    }\n    @if (hasRecognizedTextContent === false) {\n      <p data-testid=\"recognizedTextContentUnavailable\">\n        {{ intl.recognizedTextContentUnavailableLabel }}\n      </p>\n    } @else if (currentCanvasGroupHasTextSource === false) {\n      <p data-testid=\"recognizedTextContentUnavailableForCurrentView\">\n        {{ intl.recognizedTextContentUnavailableForCurrentViewLabel }}\n      </p>\n    }\n    @if (updatedCanvasGroupLabel) {\n      <p data-testid=\"recognizedTextContentUpdated\">\n        {{\n          intl.recognizedTextContentUpdatedLabel(\n            updatedCanvasGroupLabel,\n            updatedCanvasGroupPageCount\n          )\n        }}\n      </p>\n    }\n  </div>\n  @if (!isLoading) {\n    @if (firstCanvasRecognizedTextContent) {\n      <div\n        class=\"content\"\n        data-testid=\"firstCanvasRecognizedTextContent\"\n        [innerHTML]=\"firstCanvasRecognizedTextContent\"\n      >\n      </div>\n    }\n    @if (secondCanvasRecognizedTextContent) {\n      <div\n        class=\"content\"\n        data-testid=\"secondCanvasRecognizedTextContent\"\n        [innerHTML]=\"secondCanvasRecognizedTextContent\"\n      >\n      </div>\n    }\n  }\n</div>\n", styles: [".recognized-text-content-container{height:100%;overflow:auto}.recognized-text-content-container>div{padding:1em}:host(.cdk-visually-hidden) .recognized-text-content-container{height:auto;overflow:visible}::ng-deep .selectedHit{background:#ff89009c;outline:2px solid rgb(97,52,0)}::ng-deep mark{background:#ffff009c}\n"] }]
         }], propDecorators: { recognizedTextContentContainer: [{
                 type: ViewChild,
                 args: ['recognizedTextContentContainer', { read: ElementRef }]
+            }], viewerId: [{
+                type: Input,
+                args: [{ required: true }]
             }] } });
 
 class CanvasGroupNavigatorComponent {
@@ -7195,6 +7289,7 @@ class ViewerComponent {
                     this.altoService.recognizedTextContentMode;
                 this.changeDetectorRef.detectChanges();
                 this.viewerService.setUpViewer(manifest, this.config);
+                this.altoService.initialize();
                 if (this.config.attributionDialogEnabled && manifest.attribution) {
                     this.attributionDialogService.open(this.config.attributionDialogHideTimeout);
                 }
@@ -7220,6 +7315,7 @@ class ViewerComponent {
             this.qChanged.emit(q);
         }));
         this.subscriptions.add(this.iiifContentSearchService.onChange.subscribe((sr) => {
+            this.altoService.setHits(sr.hits);
             this.viewerService.highlight(sr);
         }));
         this.subscriptions.add(this.viewerService.isCanvasPressed.subscribe((value) => {
@@ -7398,7 +7494,7 @@ class ViewerComponent {
         return !(this.platform.FIREFOX || this.platform.SAFARI);
     }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.3.5", ngImport: i0, type: ViewerComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.3.5", type: ViewerComponent, isStandalone: true, selector: "mime-viewer", inputs: { manifestUri: "manifestUri", q: "q", canvasIndex: "canvasIndex", config: "config", tabIndex: "tabIndex" }, outputs: { viewerModeChanged: "viewerModeChanged", canvasChanged: "canvasChanged", qChanged: "qChanged", manifestChanged: "manifestChanged", recognizedTextContentModeChanged: "recognizedTextContentModeChanged" }, host: { listeners: { "keydown": "handleKeys($event)", "drop": "onDrop($event)", "dragover": "onDragOver($event)", "dragleave": "onDragLeave($event)" } }, providers: VIEWER_PROVIDERS, viewQueries: [{ propertyName: "header", first: true, predicate: ["mimeHeader"], descendants: true, static: true }, { propertyName: "footer", first: true, predicate: ["mimeFooter"], descendants: true, static: true }], usesOnChanges: true, ngImport: i0, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n    [class.show]=\"showHeaderAndFooterState\"\n  ></mime-viewer-header>\n  @if (config.navigationControlEnabled) {\n    <mime-osd-toolbar [class.show]=\"osdToolbarState\"></mime-osd-toolbar>\n  }\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState,\n      }\"\n    >\n      @if (recognizedTextContentMode !== recognizedTextMode.NONE) {\n        <mime-recognized-text-content></mime-recognized-text-content>\n      }\n    </mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n    [class.show]=\"showHeaderAndFooterState\"\n  ></mime-viewer-footer>\n</div>\n\n@if (errorMessage) {\n  <div class=\"error-container flex items-center justify-center\">\n    {{ intl.somethingHasGoneWrongLabel }}\n  </div>\n}\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container mime-viewer-header{transform:translateY(-100%);transition:transform .5s ease-out}.viewer-container mime-viewer-header.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container mime-osd-toolbar{transform:translate(-100%);transition:transform .5s ease-in}.viewer-container mime-osd-toolbar.show{transform:translate(0);transition:transform .4s ease-out}.viewer-container mime-viewer-footer{transform:translateY(100%);transition:transform .5s ease-out}.viewer-container mime-viewer-footer.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container .openseadragon{-webkit-user-select:none;user-select:none}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width:599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"], dependencies: [{ kind: "directive", type: NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { kind: "ngmodule", type: MatSidenavModule }, { kind: "component", type: i1$1.MatDrawer, selector: "mat-drawer", inputs: ["position", "mode", "disableClose", "autoFocus", "opened"], outputs: ["openedChange", "opened", "openedStart", "closed", "closedStart", "positionChanged"], exportAs: ["matDrawer"] }, { kind: "component", type: i1$1.MatDrawerContainer, selector: "mat-drawer-container", inputs: ["autosize", "hasBackdrop"], outputs: ["backdropClick"], exportAs: ["matDrawerContainer"] }, { kind: "component", type: i1$1.MatDrawerContent, selector: "mat-drawer-content" }, { kind: "component", type: ViewerSpinnerComponent, selector: "mime-spinner" }, { kind: "component", type: ViewerHeaderComponent, selector: "mime-viewer-header" }, { kind: "component", type: OsdToolbarComponent, selector: "mime-osd-toolbar" }, { kind: "component", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content" }, { kind: "component", type: ViewerFooterComponent, selector: "mime-viewer-footer" }], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.3.5", type: ViewerComponent, isStandalone: true, selector: "mime-viewer", inputs: { manifestUri: "manifestUri", q: "q", canvasIndex: "canvasIndex", config: "config", tabIndex: "tabIndex" }, outputs: { viewerModeChanged: "viewerModeChanged", canvasChanged: "canvasChanged", qChanged: "qChanged", manifestChanged: "manifestChanged", recognizedTextContentModeChanged: "recognizedTextContentModeChanged" }, host: { listeners: { "keydown": "handleKeys($event)", "drop": "onDrop($event)", "dragover": "onDragOver($event)", "dragleave": "onDragLeave($event)" } }, providers: VIEWER_PROVIDERS, viewQueries: [{ propertyName: "header", first: true, predicate: ["mimeHeader"], descendants: true, static: true }, { propertyName: "footer", first: true, predicate: ["mimeFooter"], descendants: true, static: true }], usesOnChanges: true, ngImport: i0, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n    [class.show]=\"showHeaderAndFooterState\"\n  ></mime-viewer-header>\n  @if (config.navigationControlEnabled) {\n    <mime-osd-toolbar [class.show]=\"osdToolbarState\"></mime-osd-toolbar>\n  }\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState,\n      }\"\n    >\n      @if (recognizedTextContentMode !== recognizedTextMode.NONE) {\n        <mime-recognized-text-content\n          [viewerId]=\"id\"\n        ></mime-recognized-text-content>\n      }\n    </mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n      <mime-recognized-text-content\n        class=\"cdk-visually-hidden\"\n        [viewerId]=\"id\"\n        [attr.aria-hidden]=\"\n          recognizedTextContentMode !== recognizedTextMode.NONE ? 'true' : null\n        \"\n      ></mime-recognized-text-content>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n    [class.show]=\"showHeaderAndFooterState\"\n  ></mime-viewer-footer>\n</div>\n\n@if (errorMessage) {\n  <div class=\"error-container flex items-center justify-center\">\n    {{ intl.somethingHasGoneWrongLabel }}\n  </div>\n}\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container mime-viewer-header{transform:translateY(-100%);transition:transform .5s ease-out}.viewer-container mime-viewer-header.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container mime-osd-toolbar{transform:translate(-100%);transition:transform .5s ease-in}.viewer-container mime-osd-toolbar.show{transform:translate(0);transition:transform .4s ease-out}.viewer-container mime-viewer-footer{transform:translateY(100%);transition:transform .5s ease-out}.viewer-container mime-viewer-footer.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container .openseadragon{-webkit-user-select:none;user-select:none}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width:599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"], dependencies: [{ kind: "directive", type: NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { kind: "ngmodule", type: MatSidenavModule }, { kind: "component", type: i1$1.MatDrawer, selector: "mat-drawer", inputs: ["position", "mode", "disableClose", "autoFocus", "opened"], outputs: ["openedChange", "opened", "openedStart", "closed", "closedStart", "positionChanged"], exportAs: ["matDrawer"] }, { kind: "component", type: i1$1.MatDrawerContainer, selector: "mat-drawer-container", inputs: ["autosize", "hasBackdrop"], outputs: ["backdropClick"], exportAs: ["matDrawerContainer"] }, { kind: "component", type: i1$1.MatDrawerContent, selector: "mat-drawer-content" }, { kind: "component", type: ViewerSpinnerComponent, selector: "mime-spinner" }, { kind: "component", type: ViewerHeaderComponent, selector: "mime-viewer-header" }, { kind: "component", type: OsdToolbarComponent, selector: "mime-osd-toolbar" }, { kind: "component", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content", inputs: ["viewerId"] }, { kind: "component", type: ViewerFooterComponent, selector: "mime-viewer-footer" }], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.5", ngImport: i0, type: ViewerComponent, decorators: [{
             type: Component,
@@ -7410,7 +7506,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.5", ngImpor
                         OsdToolbarComponent,
                         RecognizedTextContentComponent,
                         ViewerFooterComponent,
-                    ], providers: VIEWER_PROVIDERS, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n    [class.show]=\"showHeaderAndFooterState\"\n  ></mime-viewer-header>\n  @if (config.navigationControlEnabled) {\n    <mime-osd-toolbar [class.show]=\"osdToolbarState\"></mime-osd-toolbar>\n  }\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState,\n      }\"\n    >\n      @if (recognizedTextContentMode !== recognizedTextMode.NONE) {\n        <mime-recognized-text-content></mime-recognized-text-content>\n      }\n    </mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n    [class.show]=\"showHeaderAndFooterState\"\n  ></mime-viewer-footer>\n</div>\n\n@if (errorMessage) {\n  <div class=\"error-container flex items-center justify-center\">\n    {{ intl.somethingHasGoneWrongLabel }}\n  </div>\n}\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container mime-viewer-header{transform:translateY(-100%);transition:transform .5s ease-out}.viewer-container mime-viewer-header.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container mime-osd-toolbar{transform:translate(-100%);transition:transform .5s ease-in}.viewer-container mime-osd-toolbar.show{transform:translate(0);transition:transform .4s ease-out}.viewer-container mime-viewer-footer{transform:translateY(100%);transition:transform .5s ease-out}.viewer-container mime-viewer-footer.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container .openseadragon{-webkit-user-select:none;user-select:none}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width:599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"] }]
+                    ], providers: VIEWER_PROVIDERS, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage !== null\"\n  [tabIndex]=\"tabIndex\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n    [class.show]=\"showHeaderAndFooterState\"\n  ></mime-viewer-header>\n  @if (config.navigationControlEnabled) {\n    <mime-osd-toolbar [class.show]=\"osdToolbarState\"></mime-osd-toolbar>\n  }\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState,\n      }\"\n    >\n      @if (recognizedTextContentMode !== recognizedTextMode.NONE) {\n        <mime-recognized-text-content\n          [viewerId]=\"id\"\n        ></mime-recognized-text-content>\n      }\n    </mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n      <mime-recognized-text-content\n        class=\"cdk-visually-hidden\"\n        [viewerId]=\"id\"\n        [attr.aria-hidden]=\"\n          recognizedTextContentMode !== recognizedTextMode.NONE ? 'true' : null\n        \"\n      ></mime-recognized-text-content>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n    [class.show]=\"showHeaderAndFooterState\"\n  ></mime-viewer-footer>\n</div>\n\n@if (errorMessage) {\n  <div class=\"error-container flex items-center justify-center\">\n    {{ intl.somethingHasGoneWrongLabel }}\n  </div>\n}\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container mime-viewer-header{transform:translateY(-100%);transition:transform .5s ease-out}.viewer-container mime-viewer-header.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container mime-osd-toolbar{transform:translate(-100%);transition:transform .5s ease-in}.viewer-container mime-osd-toolbar.show{transform:translate(0);transition:transform .4s ease-out}.viewer-container mime-viewer-footer{transform:translateY(100%);transition:transform .5s ease-out}.viewer-container mime-viewer-footer.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container .openseadragon{-webkit-user-select:none;user-select:none}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width:599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"] }]
         }], ctorParameters: () => [], propDecorators: { manifestUri: [{
                 type: Input
             }], q: [{

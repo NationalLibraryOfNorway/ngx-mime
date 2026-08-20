@@ -41,6 +41,8 @@ declare class MimeViewerIntl {
     recognizedTextContentCloseLabel: string;
     recognizedTextContentInSplitViewLabel: string;
     showRecognizedTextContentLabel: string;
+    recognizedTextContentUnavailableLabel: string;
+    recognizedTextContentUnavailableForCurrentViewLabel: string;
     metadataLabel: string;
     licenseLabel: string;
     tocLabel: string;
@@ -69,6 +71,7 @@ declare class MimeViewerIntl {
     manifestNotValidLabel: string;
     pageDoesNotExists: string;
     textContentErrorLabel: string;
+    recognizedTextContentUpdatedLabel: (pageLabel: string, numberOfPages: number) => string;
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
@@ -107,6 +110,8 @@ declare class MimeViewerIntlLt extends MimeViewerIntl {
     recognizedTextContentCloseLabel: string;
     recognizedTextContentInSplitViewLabel: string;
     showRecognizedTextContentLabel: string;
+    recognizedTextContentUnavailableLabel: string;
+    recognizedTextContentUnavailableForCurrentViewLabel: string;
     metadataLabel: string;
     licenseLabel: string;
     tocLabel: string;
@@ -135,6 +140,7 @@ declare class MimeViewerIntlLt extends MimeViewerIntl {
     manifestNotValidLabel: string;
     pageDoesNotExists: string;
     textContentErrorLabel: string;
+    recognizedTextContentUpdatedLabel: (pageLabel: string, numberOfPages: number) => string;
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
@@ -173,6 +179,8 @@ declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     recognizedTextContentCloseLabel: string;
     recognizedTextContentInSplitViewLabel: string;
     showRecognizedTextContentLabel: string;
+    recognizedTextContentUnavailableLabel: string;
+    recognizedTextContentUnavailableForCurrentViewLabel: string;
     metadataLabel: string;
     licenseLabel: string;
     tocLabel: string;
@@ -201,6 +209,7 @@ declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     manifestNotValidLabel: string;
     pageDoesNotExists: string;
     textContentErrorLabel: string;
+    recognizedTextContentUpdatedLabel: (pageLabel: string, numberOfPages: number) => string;
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
