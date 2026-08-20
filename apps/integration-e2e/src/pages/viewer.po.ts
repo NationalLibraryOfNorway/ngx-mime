@@ -41,7 +41,9 @@ export class ViewerPage {
   readonly fullscreenButton: Locator;
   readonly openseadragonContainer: Locator;
   readonly attribution: Locator;
+  readonly recognizedTextContentRegion: Locator;
   private isElements = false;
+  private attributionCloseButton: Locator;
   private navigationSlider: Locator;
   private canvasGroupsButton: Locator;
   private canvasGroupInput: Locator;
@@ -108,6 +110,9 @@ export class ViewerPage {
     this.attribution = this.page.locator(
       '.attribution-container > .mat-mdc-dialog-content',
     );
+    this.attributionCloseButton = this.page.getByRole('button', {
+      name: 'Close attribution dialog',
+    });
     this.svg = this.page.locator('.openseadragon svg');
     this.canvasGroupOverlays = this.page.locator(
       '.openseadragon svg g.page-group rect',
@@ -130,23 +135,29 @@ export class ViewerPage {
     this.recognizedTextContentCloseButton = this.page.getByTestId(
       'ngx-mime-recognized-text-content-close-button',
     );
+    this.recognizedTextContentContainer = this.page.getByTestId(
+      'ngx-mime-recognized-text-content-container',
+    );
+    this.recognizedTextContentRegion = this.page.getByRole('region', {
+      name: 'Digital text',
+    });
     this.modeDashboard = this.page.locator('.mode-dashboard');
     this.modePage = this.page.locator('.mode-page');
     this.openseadragonCanvas = this.page.locator(
       '.openseadragon-canvas>>nth=0',
     );
-    this.firstCanvasRecognizedTextContent = this.page.getByTestId(
-      'firstCanvasRecognizedTextContent',
-    );
-    this.secondCanvasRecognizedTextContent = this.page.getByTestId(
-      'secondCanvasRecognizedTextContent',
-    );
-    this.recognizedTextContentHits = this.page.locator(
-      '.recognized-text-content-container mark',
-    );
-    this.recognizedTextContentContainer = this.page.getByTestId(
-      'ngx-mime-recognized-text-content-container',
-    );
+    this.firstCanvasRecognizedTextContent =
+      this.recognizedTextContentContainer.getByTestId(
+        'firstCanvasRecognizedTextContent',
+      );
+    this.secondCanvasRecognizedTextContent =
+      this.recognizedTextContentContainer.getByTestId(
+        'secondCanvasRecognizedTextContent',
+      );
+    this.recognizedTextContentHits =
+      this.recognizedTextContentContainer.locator(
+        '.recognized-text-content-container mark',
+      );
     this.viewMenuButton = this.page.getByTestId('ngx-mime-view-menu-button');
     this.viewMenuCloseButton = this.page.getByTestId(
       'ngx-mime-view-dialog-close-button',
@@ -184,6 +195,10 @@ export class ViewerPage {
 
   async closeRecognizedTextContent(): Promise<void> {
     await this.checkViewMenuToggle(this.recognizedTextContentCloseButton);
+  }
+
+  async closeAttributionDialog(): Promise<void> {
+    await this.attributionCloseButton.click();
   }
 
   async getRecognizedTextContent(): Promise<string> {
@@ -436,7 +451,7 @@ export class ViewerPage {
   }
 
   getRecognizedContentHit(index: number): Promise<string | null> {
-    return this.recognizedTextContentHits.first().innerHTML();
+    return this.recognizedTextContentHits.nth(index).innerHTML();
   }
 
   async swipe(startPoint: Point, endPoint: Point): Promise<void> {

@@ -18,6 +18,10 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override recognizedTextContentCloseLabel = 'Ingen';
   override recognizedTextContentInSplitViewLabel = 'Delt';
   override showRecognizedTextContentLabel = 'Kun digital tekst';
+  override recognizedTextContentUnavailableLabel =
+    'Gjenkjent tekst er ikke tilgjengelig for dette objektet';
+  override recognizedTextContentUnavailableForCurrentViewLabel =
+    'Gjenkjent tekst er ikke tilgjengelig i denne visningen';
   override metadataLabel = 'Metadata';
   override licenseLabel = 'Lisens';
   override tocLabel = 'Innholdsfortegnelse';
@@ -49,6 +53,12 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override pageDoesNotExists = 'Beklager, men den siden finnes ikke';
   override textContentErrorLabel =
     'Beklager, men jeg finner ikke teksten for deg';
+
+  override recognizedTextContentUpdatedLabel = (
+    pageLabel: string,
+    numberOfPages: number,
+  ) =>
+    `${numberOfPages === 1 ? 'Side' : 'Sidene'} ${pageLabel} er lastet. Digital tekst er oppdatert.`;
 
   override noResultsFoundLabel = (q: string) => {
     return `Ingen treff funnet for <em class="current-search">${q}</em>`;

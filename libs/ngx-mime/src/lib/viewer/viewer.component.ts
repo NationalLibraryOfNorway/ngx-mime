@@ -234,6 +234,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
               this.altoService.recognizedTextContentMode;
             this.changeDetectorRef.detectChanges();
             this.viewerService.setUpViewer(manifest, this.config);
+            this.altoService.initialize();
             if (this.config.attributionDialogEnabled && manifest.attribution) {
               this.attributionDialogService.open(
                 this.config.attributionDialogHideTimeout,
@@ -279,6 +280,7 @@ export class ViewerComponent implements OnInit, OnDestroy, OnChanges {
 
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
+        this.altoService.setHits(sr.hits);
         this.viewerService.highlight(sr);
       }),
     );

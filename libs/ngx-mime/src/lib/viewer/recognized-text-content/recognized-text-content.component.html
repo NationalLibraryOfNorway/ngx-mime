@@ -1,11 +1,34 @@
 <div
   #recognizedTextContentContainer
   class="recognized-text-content-container flex flex-col items-center"
-  aria-live="polite"
+  role="region"
+  [attr.aria-label]="intl.digitalTextLabel"
 >
-  @if (error) {
-    <div data-testid="error">{{ error }}</div>
-  }
+  <h2 class="cdk-visually-hidden">{{ intl.digitalTextLabel }}</h2>
+  <div class="cdk-visually-hidden" role="status" aria-live="polite">
+    @if (error) {
+      <div data-testid="error">{{ error }}</div>
+    }
+    @if (hasRecognizedTextContent === false) {
+      <p data-testid="recognizedTextContentUnavailable">
+        {{ intl.recognizedTextContentUnavailableLabel }}
+      </p>
+    } @else if (currentCanvasGroupHasTextSource === false) {
+      <p data-testid="recognizedTextContentUnavailableForCurrentView">
+        {{ intl.recognizedTextContentUnavailableForCurrentViewLabel }}
+      </p>
+    }
+    @if (updatedCanvasGroupLabel) {
+      <p data-testid="recognizedTextContentUpdated">
+        {{
+          intl.recognizedTextContentUpdatedLabel(
+            updatedCanvasGroupLabel,
+            updatedCanvasGroupPageCount
+          )
+        }}
+      </p>
+    }
+  </div>
   @if (!isLoading) {
     @if (firstCanvasRecognizedTextContent) {
       <div

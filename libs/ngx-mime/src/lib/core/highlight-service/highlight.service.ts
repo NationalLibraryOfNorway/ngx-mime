@@ -3,11 +3,15 @@ import { Hit } from './../../core/models/hit';
 
 @Injectable()
 export class HighlightService {
-  highlightSelectedHit(id: number): void {
-    document.querySelector('.selectedHit')?.removeAttribute('class');
-    document
-      .querySelector(`mark[data-id='${id}']`)
-      ?.setAttribute('class', 'selectedHit');
+  highlightSelectedHit(viewerId: string, hitId: number): void {
+    const viewer = document.getElementById(viewerId);
+
+    viewer
+      ?.querySelectorAll('.selectedHit')
+      .forEach((element) => element.classList.remove('selectedHit'));
+    viewer
+      ?.querySelectorAll(`mark[data-id='${hitId}']`)
+      .forEach((element) => element.classList.add('selectedHit'));
   }
 
   highlight(

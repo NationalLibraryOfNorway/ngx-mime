@@ -38,6 +38,21 @@ When(
 );
 
 Then(
+  'the recognized text should be accessible to screen readers without opening the view menu',
+  async function (this: CustomWorld) {
+    expect(await this.viewerPage.isViewDialogOpen()).toBeFalsy();
+
+    await this.viewerPage.closeAttributionDialog();
+
+    await expect(this.viewerPage.recognizedTextContentRegion)
+      .toMatchAriaSnapshot(`
+      - heading "Digital text" [level=2]
+      - paragraph: /The dear flowers you sent me brightened a day already happy/
+    `);
+  },
+);
+
+Then(
   'the user should be able to enable recognized text content',
   async function (this: CustomWorld) {
     await this.viewerPage.openViewMenu();

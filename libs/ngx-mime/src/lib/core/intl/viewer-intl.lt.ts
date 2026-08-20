@@ -18,6 +18,10 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   override recognizedTextContentCloseLabel = 'Nė vienas';
   override recognizedTextContentInSplitViewLabel = 'Suskaidytas';
   override showRecognizedTextContentLabel = 'Tik skaitmeninis tekstas';
+  override recognizedTextContentUnavailableLabel =
+    'Atpažintas tekstas šiam objektui nepasiekiamas';
+  override recognizedTextContentUnavailableForCurrentViewLabel =
+    'Atpažintas tekstas dabartiniame rodinyje nepasiekiamas';
   override metadataLabel = 'Metaduomenys';
   override licenseLabel = 'Licencija';
   override tocLabel = 'Turinys';
@@ -49,6 +53,14 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   override manifestNotValidLabel = 'Netinkamas objektų sąrašas (Manifest)';
   override pageDoesNotExists = 'Nepavyko rasti šio paslapio';
   override textContentErrorLabel = 'Atsiprašau, bet nerandu jums teksto';
+
+  override recognizedTextContentUpdatedLabel = (
+    pageLabel: string,
+    numberOfPages: number,
+  ) =>
+    `${numberOfPages === 1 ? 'Puslapis' : 'Puslapiai'} ${pageLabel} ${
+      numberOfPages === 1 ? 'įkeltas' : 'įkelti'
+    }. Skaitmeninis tekstas atnaujintas.`;
 
   override noResultsFoundLabel = (q: string) => {
     return `Objekte nerasta atitikmenų <em class="current-search">${q}</em>`;

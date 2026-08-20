@@ -7,6 +7,11 @@
   }
 }
 
+:host(.cdk-visually-hidden) .recognized-text-content-container {
+  height: auto;
+  overflow: visible;
+}
+
 ::ng-deep .selectedHit {
   background: rgba(255, 137, 0, 0.61);
   outline: 2px solid rgb(97, 52, 0);

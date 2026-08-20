@@ -5,7 +5,17 @@ import { Hit } from './../../core/models/hit';
 import { HighlightService } from './highlight.service';
 
 @Component({
-  template: `<mark data-id="1">this </mark>`,
+  template: `
+    <div id="viewer-1">
+      <mark class="selectedHit" data-id="0">previous</mark>
+      <mark data-id="1">first copy</mark>
+      <mark data-id="1">second copy</mark>
+    </div>
+    <div id="viewer-2">
+      <mark class="selectedHit" data-id="0">other previous</mark>
+      <mark data-id="1">other viewer</mark>
+    </div>
+  `,
 })
 export class TestHostComponent {}
 
@@ -69,13 +79,28 @@ describe('HighlightService', () => {
     );
   });
 
-  it('should add selectedHit class to selected hit', () => {
-    highlightService.highlightSelectedHit(1);
+  it('should select all matching hits within the specified viewer', () => {
+    fixture.detectChanges();
 
-    const mark: DebugElement = fixture.debugElement.query(
-      By.css('mark[data-id="1"]'),
+    highlightService.highlightSelectedHit('viewer-1', 1);
+
+    const selectedMarks = fixture.debugElement.queryAll(
+      By.css('#viewer-1 mark.selectedHit[data-id="1"]'),
     );
-    expect(mark.nativeElement.innerHTML).toBe('this ');
+    const previousMark: DebugElement = fixture.debugElement.query(
+      By.css('#viewer-1 mark[data-id="0"]'),
+    );
+    const otherViewerPreviousMark: DebugElement = fixture.debugElement.query(
+      By.css('#viewer-2 mark.selectedHit[data-id="0"]'),
+    );
+    const otherViewerHit: DebugElement = fixture.debugElement.query(
+      By.css('#viewer-2 mark[data-id="1"]'),
+    );
+
+    expect(selectedMarks).toHaveLength(2);
+    expect(previousMark.nativeElement.classList).not.toContain('selectedHit');
+    expect(otherViewerPreviousMark).not.toBeNull();
+    expect(otherViewerHit.nativeElement.classList).not.toContain('selectedHit');
   });
 
   function createMockHit(id: number, match: string): Hit {

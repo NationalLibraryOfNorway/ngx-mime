@@ -3,14 +3,17 @@ import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
   BehaviorSubject,
+  combineLatest,
+  EMPTY,
   forkJoin,
   Observable,
   of,
   Subject,
   Subscriber,
   Subscription,
+  timer,
 } from 'rxjs';
-import { catchError, debounceTime, finalize, take } from 'rxjs/operators';
+import { catchError, finalize, map, switchMap, take } from 'rxjs/operators';
 import { parseString } from 'xml2js';
 import { AltoBuilder } from '../builders/alto';
 import { CanvasService } from '../canvas-service/canvas-service';
@@ -21,6 +24,7 @@ import { MimeViewerConfig } from '../mime-viewer-config';
 import { RecognizedTextMode, RecognizedTextModeChanges } from '../models';
 import { Hit } from '../models/hit';
 import { Manifest } from '../models/manifest';
+import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { Alto } from './alto.model';
 import { HtmlFormatter } from './html.formatter';
 
@@ -31,17 +35,25 @@ export class AltoService {
   private readonly iiifManifestService = inject(IiifManifestService);
   private readonly highlightService = inject(HighlightService);
   private readonly canvasService = inject(CanvasService);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
   private readonly sanitizer = inject(DomSanitizer);
   private config!: MimeViewerConfig;
   private altos: string[] = [];
   private readonly isLoading = new BehaviorSubject(false);
   private readonly textContentReady = new Subject<void>();
-  private readonly textError = new Subject<string | undefined>();
+  private readonly textHighlightsChanged = new Subject<void>();
+  private readonly textError = new BehaviorSubject<string | undefined>(
+    undefined,
+  );
+  private readonly currentCanvasGroupHasTextSource = new BehaviorSubject<
+    boolean | undefined
+  >(undefined);
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private readonly altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
   private hits: Hit[] | undefined;
+  private initialized = false;
   private readonly _recognizedTextContentModeChanges =
     new BehaviorSubject<RecognizedTextModeChanges>({
       previousValue: RecognizedTextMode.NONE,
@@ -57,12 +69,20 @@ export class AltoService {
     return this.textContentReady.asObservable();
   }
 
+  get onTextHighlightsChange$(): Observable<void> {
+    return this.textHighlightsChanged.asObservable();
+  }
+
   get isLoading$(): Observable<boolean> {
     return this.isLoading.asObservable();
   }
 
   get hasErrors$(): Observable<string | undefined> {
     return this.textError.asObservable();
+  }
+
+  get currentCanvasGroupHasTextSource$(): Observable<boolean | undefined> {
+    return this.currentCanvasGroupHasTextSource.asObservable();
   }
 
   get recognizedTextContentMode(): RecognizedTextMode {
@@ -77,8 +97,12 @@ export class AltoService {
     this.previousRecognizedTextMode = value;
   }
 
-  initialize(hits?: Hit[]) {
-    this.hits = hits;
+  initialize() {
+    if (this.initialized) {
+      return;
+    }
+
+    this.initialized = true;
     this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
 
@@ -86,38 +110,36 @@ export class AltoService {
       this.iiifManifestService.currentManifest.subscribe(
         (manifest: Manifest | null) => {
           this.manifest = manifest;
+          this.textError.next(undefined);
+          this.currentCanvasGroupHasTextSource.next(undefined);
           this.clearCache();
         },
       ),
     );
 
     this.subscriptions.add(
-      this.canvasService.onCanvasGroupIndexChange
-        .pipe(debounceTime(200))
-        .subscribe((currentCanvasGroupIndex: number) => {
-          this.textError.next(undefined);
-          const sources: Observable<void>[] = [];
-
-          const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
-            currentCanvasGroupIndex,
-          );
-
-          if (!canvasGroup || canvasGroup.length === 0) {
-            return;
-          }
-          this.addAltoSource(canvasGroup[0], sources);
-          if (canvasGroup.length === 2) {
-            this.addAltoSource(canvasGroup[1], sources);
-          }
-          this.isLoading.next(true);
-          forkJoin(sources)
-            .pipe(
-              take(1),
+      combineLatest([
+        this.canvasService.onCanvasGroupIndexChange,
+        this.viewerLayoutService.onChange,
+      ])
+        .pipe(
+          switchMap(([currentCanvasGroupIndex]) => {
+            this.textError.next(undefined);
+            this.currentCanvasGroupHasTextSource.next(undefined);
+            this.isLoading.next(true);
+            return timer(200).pipe(
+              switchMap(() => this.loadCanvasGroup(currentCanvasGroupIndex)),
               finalize(() => this.isLoading.next(false)),
-            )
-            .subscribe();
-        }),
+            );
+          }),
+        )
+        .subscribe(() => this.textContentReady.next()),
     );
+  }
+
+  setHits(hits?: Hit[]) {
+    this.hits = hits;
+    this.textHighlightsChanged.next();
   }
 
   destroy() {
@@ -126,6 +148,9 @@ export class AltoService {
       : RecognizedTextMode.NONE;
 
     this.subscriptions.unsubscribe();
+    this.initialized = false;
+    this.textError.next(undefined);
+    this.currentCanvasGroupHasTextSource.next(undefined);
     this.clearCache();
   }
 
@@ -146,7 +171,7 @@ export class AltoService {
   }
 
   getHtml(index: number): SafeHtml | undefined {
-    return this.altos && this.altos.length >= index + 1
+    return this.isInCache(index)
       ? this.sanitizer.bypassSecurityTrustHtml(
           this.highlightService.highlight(this.altos[index], index, this.hits),
         )
@@ -155,6 +180,29 @@ export class AltoService {
 
   clearCache() {
     this.altos = [];
+  }
+
+  private loadCanvasGroup(currentCanvasGroupIndex: number): Observable<void> {
+    const sources: Observable<void>[] = [];
+    const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
+      currentCanvasGroupIndex,
+    );
+
+    if (!canvasGroup || canvasGroup.length === 0) {
+      this.currentCanvasGroupHasTextSource.next(false);
+      return EMPTY;
+    }
+    this.addAltoSource(canvasGroup[0], sources);
+    if (canvasGroup.length === 2) {
+      this.addAltoSource(canvasGroup[1], sources);
+    }
+    this.currentCanvasGroupHasTextSource.next(sources.length > 0);
+    return sources.length > 0
+      ? forkJoin(sources).pipe(
+          take(1),
+          map(() => undefined),
+        )
+      : EMPTY;
   }
 
   private addAltoSource(index: number, sources: Observable<void>[]) {
@@ -173,18 +221,18 @@ export class AltoService {
     return new Observable((observer) => {
       if (this.isInCache(index)) {
         this.done(observer);
-      } else {
-        this.load(observer, index, url);
+        return;
       }
+      return this.load(observer, index, url);
     });
   }
 
   private isInCache(index: number) {
-    return this.altos[index];
+    return this.altos[index] !== undefined;
   }
 
   private load(observer: Subscriber<void>, index: number, url: string) {
-    this.http
+    return this.http
       .get(url, {
         headers: new HttpHeaders().set('Content-Type', 'text/xml'),
         responseType: 'text',
@@ -219,7 +267,6 @@ export class AltoService {
   }
 
   private done(observer: Subscriber<void>) {
-    this.textContentReady.next();
     this.complete(observer);
   }
 
