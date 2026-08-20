@@ -34,7 +34,7 @@
       "defaultConfiguration": "production"
     },
     "prepare-release": {
-      "command": "if [ \"$NX_DRY_RUN\" != \"true\" ]; then git add -f dist/apps/elements dist/libs/@nationallibraryofnorway/ngx-mime; fi",
+      "command": "if [ \"$NX_DRY_RUN\" != \"true\" ]; then git add dist/apps/elements dist/libs/@nationallibraryofnorway/ngx-mime; fi",
       "dependsOn": [
         {
           "projects": ["ngx-mime", "elements"],
