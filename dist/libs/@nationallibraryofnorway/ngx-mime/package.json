@@ -1,6 +1,6 @@
 {
   "name": "@nationallibraryofnorway/ngx-mime",
-  "version": "20.0.1",
+  "version": "20.1.0",
   "license": "MIT",
   "peerDependencies": {
     "@angular/cdk": ">=20.0 <21.0.0",

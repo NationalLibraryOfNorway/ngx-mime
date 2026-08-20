@@ -1,3 +1,7 @@
+## 20.1.0 (2026-08-20)
+
+This was a version bump only, there were no code changes.
+
 ## 20.0.1 (2026-08-20)
 
 ### 🚀 Features
